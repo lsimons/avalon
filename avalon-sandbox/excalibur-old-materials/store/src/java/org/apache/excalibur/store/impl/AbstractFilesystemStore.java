@@ -49,23 +49,12 @@
 */
 package org.apache.excalibur.store.impl;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
+import java.io.*;
 import java.util.BitSet;
 import java.util.Enumeration;
 
-import org.apache.avalon.framework.logger.AbstractLogEnabled;
+import EDU.oswego.cs.dl.util.concurrent.Sync;
+
 import org.apache.avalon.framework.thread.ThreadSafe;
 import org.apache.excalibur.store.Store;
 
@@ -76,10 +65,11 @@ import org.apache.excalibur.store.Store;
  *
  * @author ?
  * @author <a href="mailto:vgritsenko@apache.org">Vadim Gritsenko</a>
- * @version CVS $Id: AbstractFilesystemStore.java,v 1.10 2003/07/29 03:58:33 vgritsenko Exp $
+ * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
+ * @version CVS $Id: AbstractFilesystemStore.java,v 1.11 2003/08/25 09:50:56 cziegeler Exp $
  */
 public abstract class AbstractFilesystemStore
-extends AbstractLogEnabled
+extends AbstractReadWriteStore
 implements Store, ThreadSafe {
 
     /** The directory repository */
@@ -90,7 +80,8 @@ implements Store, ThreadSafe {
      * Sets the repository's location
      */
     public void setDirectory(final String directory)
-    throws IOException {
+    throws IOException 
+    {
         this.setDirectory(new File(directory));
     }
 
@@ -98,7 +89,8 @@ implements Store, ThreadSafe {
      * Sets the repository's location
      */
     public void setDirectory(final File directory)
-    throws IOException {
+    throws IOException 
+    {
         this.m_directoryFile = directory;
 
         /* Save directory path prefix */
@@ -106,21 +98,25 @@ implements Store, ThreadSafe {
         this.m_directoryPath += File.separator;
 
         /* Does directory exist? */
-        if (!this.m_directoryFile.exists()) {
+        if (!this.m_directoryFile.exists()) 
+        {
             /* Create it anew */
-            if (!this.m_directoryFile.mkdir()) {
+            if (!this.m_directoryFile.mkdir()) 
+            {
                 throw new IOException(
                 "Error creating store directory '" + this.m_directoryPath + "': ");
             }
         }
 
         /* Is given file actually a directory? */
-        if (!this.m_directoryFile.isDirectory()) {
+        if (!this.m_directoryFile.isDirectory()) 
+        {
             throw new IOException("'" + this.m_directoryPath + "' is not a directory");
         }
 
         /* Is directory readable and writable? */
-        if (!(this.m_directoryFile.canRead() && this.m_directoryFile.canWrite())) {
+        if (!(this.m_directoryFile.canRead() && this.m_directoryFile.canWrite())) 
+        {
             throw new IOException(
                 "Directory '" + this.m_directoryPath + "' is not readable/writable"
             );
@@ -130,27 +126,36 @@ implements Store, ThreadSafe {
     /**
      * Returns the repository's full pathname
      */
-    public String getDirectoryPath() {
+    public String getDirectoryPath() 
+    {
         return this.m_directoryPath;
     }
 
     /**
      * Get the File object associated with the given unique key name.
      */
-    public synchronized Object get(final Object key) {
+    protected Object doGet(final Object key) 
+    {
         final File file = fileFromKey(key);
 
-        if (file != null && file.exists()) {
-            if (getLogger().isDebugEnabled()) {
+        if (file != null && file.exists()) 
+        {
+            if (getLogger().isDebugEnabled()) 
+            {
                 getLogger().debug("Found file: " + key);
             }
-            try {
+            try 
+            {
                 return this.deserializeObject(file);
-            } catch (Exception any) {
+            } 
+            catch (Exception any) {
                 getLogger().error("Error during deseralization.", any);
             }
-        } else {
-            if (getLogger().isDebugEnabled()) {
+        } 
+        else 
+        {
+            if (getLogger().isDebugEnabled()) 
+            {
                 getLogger().debug("NOT Found file: " + key);
             }
         }
@@ -164,53 +169,52 @@ implements Store, ThreadSafe {
      * 2) String values are dumped to text files
      * 3) Object values are serialized
      */
-    public synchronized void store(final Object key, final Object value)
-    throws IOException {
+    protected void doStore(final Object key, final Object value)
+    throws IOException
+     {
         final File file = fileFromKey(key);
 
         /* Create subdirectories as needed */
         final File parent = file.getParentFile();
-        if (parent != null) {
+        if (parent != null) 
+        {
             parent.mkdirs();
         }
 
         /* Store object as file */
-        if (value == null) { /* Directory */
-            if (file.exists()) {
-                if (!file.delete()) { /* FAILURE */
+        if (value == null) 
+        { /* Directory */
+            if (file.exists()) 
+            {
+                if (!file.delete()) 
+                { /* FAILURE */
                     getLogger().error("File cannot be deleted: " + file.toString());
                     return;
                 }
             }
 
             file.mkdir();
-        } else if (value instanceof String) {
+        } 
+        else if (value instanceof String) 
+        {
             /* Text file */
             this.serializeString(file, (String) value);
-        } else {
+        } 
+        else 
+        {
             /* Serialized Object */
             this.serializeObject(file, value);
         }
     }
 
     /**
-     * Holds the given object in a volatile state.
-     */
-    public synchronized void hold(final Object key, final Object value)
-    throws IOException {
-        this.store(key, value);
-        final File file = (File) this.fileFromKey(key);
-        if (file != null) {
-          file.deleteOnExit();
-        }
-    }
-
-    /**
      * Remove the object associated to the given key.
      */
-    public synchronized void remove(final Object key) {
+    protected void doRemove(final Object key) 
+    {
         final File file = fileFromKey(key);
-        if (file != null) {
+        if (file != null) 
+        {
             file.delete();
         }
     }
@@ -218,23 +222,28 @@ implements Store, ThreadSafe {
     /**
      * Clear the Store of all elements 
      */
-    public synchronized void clear() {
-                Enumeration enum = this.keys();
-                while (enum.hasMoreElements()) {
-                    Object key = enum.nextElement();
-                    if (key == null) {
-                        continue;
-                    }
-                        this.remove(key);
-                 }
+    protected void doClear() 
+    {
+        Enumeration enum = this.keys();
+        while (enum.hasMoreElements()) 
+        {
+            Object key = enum.nextElement();
+            if (key == null) 
+            {
+                continue;
+            }
+            this.remove(key);
+        }
     }
 
     /**
      * Indicates if the given key is associated to a contained object.
      */
-    public synchronized boolean containsKey(final Object key) {
+    protected boolean doContainsKey(final Object key) 
+    {
         final File file = fileFromKey(key);
-        if (file == null) {
+        if (file == null) 
+        {
             return false;
         }
         return file.exists();
@@ -243,7 +252,8 @@ implements Store, ThreadSafe {
     /**
      * Returns the list of stored files as an Enumeration of Files
      */
-    public synchronized Enumeration keys() {
+    protected Enumeration doGetKeys() 
+    {
         final FSEnumeration enum = new FSEnumeration();
         this.addKeys(enum, this.m_directoryFile);
         return enum;
@@ -253,48 +263,63 @@ implements Store, ThreadSafe {
      * Returns count of the objects in the store, or -1 if could not be
      * obtained.
      */
-    public synchronized int size() {
+    protected int doGetSize() 
+    {
         return countKeys(this.m_directoryFile);
     }
 
-    protected void addKeys(FSEnumeration enum, File directory) {
+    protected void addKeys(FSEnumeration enum, File directory) 
+    {
         final int subStringBegin = this.m_directoryFile.getAbsolutePath().length() + 1;
         final File[] files = directory.listFiles();
-        for (int i=0; i<files.length; i++) {
-            if (files[i].isDirectory()) {
+        for (int i=0; i<files.length; i++)
+         {
+            if (files[i].isDirectory()) 
+            {
                 this.addKeys(enum, files[i]);
-            } else {
+            } 
+            else 
+            {
                 enum.add(this.decode(files[i].getAbsolutePath().substring(subStringBegin)));
             }
         }
     }
 
-    protected int countKeys(File directory) {
+    protected int countKeys(File directory) 
+    {
         int count = 0;
         final File[] files = directory.listFiles();
-        for (int i=0; i<files.length; i++) {
-            if (files[i].isDirectory()) {
+        for (int i=0; i<files.length; i++) 
+        {
+            if (files[i].isDirectory()) 
+            {
                 count += this.countKeys(files[i]);
-            } else {
+            } 
+            else 
+            {
                 count ++;
             }
         }
         return count;
     }
 
-    final class FSEnumeration implements Enumeration {
+    final class FSEnumeration implements Enumeration 
+    {
         private String[] array;
         private int      index;
         private int      length;
 
-        FSEnumeration() {
+        FSEnumeration() 
+        {
             this.array = new String[16];
             this.length = 0;
             this.index = 0;
         }
 
-        public void add(String key) {
-            if (this.length == array.length) {
+        public void add(String key) 
+        {
+            if (this.length == array.length) 
+            {
                 String[] newarray = new String[this.length + 16];
                 System.arraycopy(this.array, 0, newarray, 0, this.array.length);
                 this.array = newarray;
@@ -303,12 +328,15 @@ implements Store, ThreadSafe {
             this.length++;
         }
 
-        public boolean hasMoreElements() {
+        public boolean hasMoreElements() 
+        {
             return (this.index < this.length);
         }
 
-        public Object nextElement() {
-            if (this.hasMoreElements()) {
+        public Object nextElement() 
+        {
+            if (this.hasMoreElements()) 
+            {
                 this.index++;
                 return this.array[index-1];
             }
@@ -317,7 +345,8 @@ implements Store, ThreadSafe {
     }
 
     /* Utility Methods*/
-    protected File fileFromKey(final Object key) {
+    protected File fileFromKey(final Object key) 
+    {
         File file = new File(this.m_directoryFile, this.encode(key.toString()));
         File parent = file.getParentFile();
         if (parent != null) parent.mkdirs();
@@ -325,25 +354,53 @@ implements Store, ThreadSafe {
     }
 
     public String getString(final Object key)
-    throws IOException {
+    throws IOException 
+    {
         final File file = (File) this.fileFromKey(key);
-        if (file != null) {
+        if (file != null) 
+        {
             return this.deserializeString(file);
         }
 
         return null;
     }
 
-    public synchronized void free() {}
+    public void free() 
+    {
+        // if we ever implement this, we should implement doFree()
+    }
+
+    /* (non-Javadoc)
+     * @see org.apache.excalibur.store.impl.AbstractReadWriteStore#doFree()
+     */
+    protected void doFree() 
+    {
+    }
 
     public synchronized Object getObject(final Object key)
     throws IOException, ClassNotFoundException
     {
-        final File file = (File) this.fileFromKey(key);
-        if (file != null) {
-            return this.deserializeObject(file);
+        Object value = null;
+        Sync sync = this.lock.writeLock();
+        try
+        {
+            sync.acquire();
+            try 
+            {
+                final File file = (File) this.fileFromKey(key);
+                if (file != null) {
+                    return this.deserializeObject(file);
+                }
+            }
+            finally 
+            {
+                sync.release();
+            }
         }
-
+        catch (InterruptedException ignore)
+        {
+        } 
+        
         return null;
     }
 
@@ -357,7 +414,8 @@ implements Store, ThreadSafe {
     {
         // if the key is longer than 127 bytes a File.separator
         // is added each 127 bytes
-        if (filename.length() > 127) {
+        if (filename.length() > 127) 
+        {
             int c = filename.length() / 127;
             int pos = c * 127;
             StringBuffer out = new StringBuffer(filename);
@@ -407,7 +465,8 @@ implements Store, ThreadSafe {
      * it may normally happen). For this reason, it's highly recommended
      * (even if not mandated) that Strings be used as keys.
      */
-    protected String encode(String s) {
+    protected String encode(String s) 
+    {
         final StringBuffer out = new StringBuffer( s.length() );
         final ByteArrayOutputStream buf = new ByteArrayOutputStream( 32 );
         final OutputStreamWriter writer = new OutputStreamWriter( buf );
@@ -471,12 +530,16 @@ implements Store, ThreadSafe {
      * @exception IOException IO Error
      */
     public void serializeString(File file, String string)
-    throws IOException {
+    throws IOException 
+    {
         final Writer fw = new FileWriter(file);
-        try {
+        try 
+        {
             fw.write(string);
             fw.flush();
-        } finally {
+        } 
+        finally 
+        {
             if (fw != null) fw.close();
         }
     }
@@ -490,16 +553,21 @@ implements Store, ThreadSafe {
      * @exception IOException IO Error
      */
     public String deserializeString(File file)
-    throws IOException {
+    throws IOException 
+    {
         int len;
         char[] chr = new char[4096];
         final StringBuffer buffer = new StringBuffer();
         final FileReader reader = new FileReader(file);
-        try {
-            while ((len = reader.read(chr)) > 0) {
+        try 
+        {
+            while ((len = reader.read(chr)) > 0) 
+            {
                 buffer.append(chr, 0, len);
             }
-        } finally {
+        } 
+        finally 
+        {
             if (reader != null) reader.close();
         }
         return buffer.toString();
@@ -514,13 +582,17 @@ implements Store, ThreadSafe {
      */
 
     public void serializeObject(File file, Object object)
-    throws IOException {
+    throws IOException 
+    {
         FileOutputStream fos = new FileOutputStream(file);
-        try {
+        try 
+        {
             ObjectOutputStream oos = new ObjectOutputStream(new BufferedOutputStream(fos));
             oos.writeObject(object);
             oos.flush();
-        } finally {
+        } 
+        finally 
+        {
             if (fos != null) fos.close();
         }
     }
@@ -533,13 +605,17 @@ implements Store, ThreadSafe {
      * @exception IOException IOError
      */
     public Object deserializeObject(File file)
-    throws IOException, ClassNotFoundException {
+    throws IOException, ClassNotFoundException 
+    {
         FileInputStream fis = new FileInputStream(file);
         Object object = null;
-        try {
+        try 
+        {
             ObjectInputStream ois = new ObjectInputStream(new BufferedInputStream(fis));
             object = ois.readObject();
-        } finally {
+        } 
+        finally 
+        {
             if (fis != null) fis.close();
         }
         return object;
