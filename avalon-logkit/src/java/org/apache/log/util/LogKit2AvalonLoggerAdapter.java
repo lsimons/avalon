@@ -66,7 +66,7 @@ import org.apache.log.Priority;
  * components.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version CVS $Revision: 1.2 $ $Date: 2003/04/17 09:11:42 $
+ * @version CVS $Revision: 1.3 $ $Date: 2003/04/17 09:13:49 $
  * @since 4.1.4
  */
 public final class LogKit2AvalonLoggerAdapter
@@ -90,7 +90,7 @@ public final class LogKit2AvalonLoggerAdapter
         final org.apache.log.Logger logKitLogger = hierarchy.getLoggerFor( "" );
         final LogKit2AvalonLoggerAdapter target =
             new LogKit2AvalonLoggerAdapter( logger );
-        logKitLogger.setLogTargets( new LogTarget[ ] { target } );
+        logKitLogger.setLogTargets( new LogTarget[]{target} );
         return logKitLogger;
     }
 

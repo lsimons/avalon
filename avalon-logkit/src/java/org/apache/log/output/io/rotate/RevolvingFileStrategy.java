@@ -92,22 +92,22 @@ public class RevolvingFileStrategy
     ///the base file name.
     private File m_baseFile;
 
-   /**
-    * Creation of a new instane ofthe revolving file strategy.
-    * @param baseFile the base file
-    * @param maxRotations the maximum number of rotations ??
-    */
+    /**
+     * Creation of a new instane ofthe revolving file strategy.
+     * @param baseFile the base file
+     * @param maxRotations the maximum number of rotations ??
+     */
     public RevolvingFileStrategy( final File baseFile, final int maxRotations )
     {
         this( baseFile, -1, maxRotations );
     }
 
-   /**
-    * Creation of a new instane ofthe revolving file strategy.
-    * @param baseFile the base file
-    * @param initialRotation the number of initial rotations ??
-    * @param maxRotations the maximum number of rotations?? 
-    */
+    /**
+     * Creation of a new instane ofthe revolving file strategy.
+     * @param baseFile the base file
+     * @param initialRotation the number of initial rotations ??
+     * @param maxRotations the maximum number of rotations??
+     */
     public RevolvingFileStrategy( final File baseFile,
                                   final int initialRotation,
                                   final int maxRotations )
@@ -194,7 +194,7 @@ public class RevolvingFileStrategy
         int maxRotation = 0;
         for( int i = 0; i < rotations.length; i++ )
         {
-            final int rotation = rotations[i ];
+            final int rotation = rotations[ i ];
             if( rotation > maxRotation )
             {
                 maxRotation = rotation;

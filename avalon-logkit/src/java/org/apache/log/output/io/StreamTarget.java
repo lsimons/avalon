@@ -108,7 +108,7 @@ public class StreamTarget
         //  method, but it is not a standard API so we work around it by
         //  allowing encoding to be null.
         //    sun.io.Converters.getDefaultEncodingName();
-        
+
         this( outputStream, formatter, null );
     }
 
@@ -149,7 +149,7 @@ public class StreamTarget
         try
         {
             byte[] bytes;
-            if ( m_encoding == null )
+            if( m_encoding == null )
             {
                 bytes = data.getBytes();
             }

@@ -86,20 +86,20 @@ public class AsyncLogTarget
     private final int m_queueSize;
     private final LogTarget m_logTarget;
 
-   /**
-    * Creation of a new async log target.
-    * @param logTarget the underlying target
-    */
+    /**
+     * Creation of a new async log target.
+     * @param logTarget the underlying target
+     */
     public AsyncLogTarget( final LogTarget logTarget )
     {
         this( logTarget, 15 );
     }
 
-   /**
-    * Creation of a new async log target.
-    * @param logTarget the underlying target
-    * @param queueSize the queue size
-    */
+    /**
+     * Creation of a new async log target.
+     * @param logTarget the underlying target
+     * @param queueSize the queue size
+     */
     public AsyncLogTarget( final LogTarget logTarget, final int queueSize )
     {
         this( logTarget, queueSize, false );
@@ -115,7 +115,7 @@ public class AsyncLogTarget
     {
         this( logTarget, 15, closeTarget );
     }
-    
+
     /**
      * Creation of a new async log target.
      * @param logTarget the underlying target
@@ -131,7 +131,7 @@ public class AsyncLogTarget
         m_queueSize = queueSize;
         open();
     }
-    
+
     /**
      * Provide component with ErrorHandler.
      *
@@ -183,9 +183,9 @@ public class AsyncLogTarget
         }
     }
 
-   /**
-    * Thread startup.
-    */
+    /**
+     * Thread startup.
+     */
     public void run()
     {
         //set this variable when thread is interupted

@@ -66,9 +66,9 @@ public class Logger
 {
     private static final Logger[] EMPTY_SET = new Logger[ 0 ];
 
-   /**
-    * Separator character use to separate different categories
-    */
+    /**
+     * Separator character use to separate different categories
+     */
     public static final char CATEGORY_SEPARATOR = '.';
 
     // The ErrorHandler associated with Logger

@@ -82,32 +82,32 @@ public class UniqueFileStrategy
 
     private String m_suffix;
 
-   /**
-    * Creation of a new Unique File Strategy ??
-    * @param baseFile the base file 
-    */
+    /**
+     * Creation of a new Unique File Strategy ??
+     * @param baseFile the base file
+     */
     public UniqueFileStrategy( final File baseFile )
     {
         m_baseFile = baseFile;
     }
 
-   /**
-    * Creation of a new Unique File Strategy ??
-    * @param baseFile the base file 
-    * @param pattern the format pattern 
-    */
+    /**
+     * Creation of a new Unique File Strategy ??
+     * @param baseFile the base file
+     * @param pattern the format pattern
+     */
     public UniqueFileStrategy( final File baseFile, String pattern )
     {
         this( baseFile );
         m_formatter = new SimpleDateFormat( pattern );
     }
 
-   /**
-    * Creation of a new Unique File Strategy ??
-    * @param baseFile the base file 
-    * @param pattern the format pattern 
-    * @param suffix the suffix ?? 
-    */
+    /**
+     * Creation of a new Unique File Strategy ??
+     * @param baseFile the base file
+     * @param pattern the format pattern
+     * @param suffix the suffix ??
+     */
     public UniqueFileStrategy( final File baseFile, String pattern, String suffix )
     {
         this( baseFile, pattern );

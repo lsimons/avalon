@@ -77,12 +77,12 @@ public class DefaultJDBCTarget
 
     private PreparedStatement m_statement;
 
-   /**
-    * Creation of a new JDBC logging target.
-    * @param dataSource the JDBC datasource
-    * @param table the table
-    * @param columns a ColumnInfo array
-    */
+    /**
+     * Creation of a new JDBC logging target.
+     * @param dataSource the JDBC datasource
+     * @param table the table
+     * @param columns a ColumnInfo array
+     */
     public DefaultJDBCTarget( final DataSource dataSource,
                               final String table,
                               final ColumnInfo[] columns )
@@ -158,10 +158,10 @@ public class DefaultJDBCTarget
         }
     }
 
-   /**
-    * Return the SQL insert statement.
-    * @return the statement
-    */
+    /**
+     * Return the SQL insert statement.
+     * @return the statement
+     */
     protected String getStatementSQL()
     {
         final StringBuffer sb = new StringBuffer( "INSERT INTO " );
@@ -187,10 +187,10 @@ public class DefaultJDBCTarget
         return sb.toString();
     }
 
-   /**
-    * Test if the target is stale.
-    * @return TRUE if the target is stale else FALSE
-    */
+    /**
+     * Test if the target is stale.
+     * @return TRUE if the target is stale else FALSE
+     */
     protected boolean isStale()
     {
         return super.isStale();
@@ -232,8 +232,8 @@ public class DefaultJDBCTarget
     protected void specifyColumn( final PreparedStatement statement,
                                   final int index,
                                   final LogEvent event )
-        throws SQLException, 
-          IllegalStateException
+        throws SQLException,
+        IllegalStateException
     {
         final ColumnInfo info = m_columns[ index ];
 
@@ -277,20 +277,20 @@ public class DefaultJDBCTarget
         }
     }
 
-   /**
-    * Return the underlying table
-    * @return the table name
-    */
+    /**
+     * Return the underlying table
+     * @return the table name
+     */
     protected final String getTable()
     {
         return m_table;
     }
 
-   /**
-    * Return the column info for an supplied index.
-    * @param index the index
-    * @return the column info
-    */
+    /**
+     * Return the column info for an supplied index.
+     * @param index the index
+     * @return the column info
+     */
     protected final ColumnInfo getColumn( final int index )
     {
         return m_columns[ index ];
@@ -298,7 +298,7 @@ public class DefaultJDBCTarget
 
     private String getStackTrace( final Throwable throwable )
     {
-        if( null == throwable ) 
+        if( null == throwable )
         {
             return "";
         }

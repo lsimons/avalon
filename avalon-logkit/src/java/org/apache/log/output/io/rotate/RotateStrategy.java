@@ -73,7 +73,7 @@ public interface RotateStrategy
     /**
      * Check if a log rotation is neccessary at this time.
      *
-     * @param data the serialized version of the message about to be written 
+     * @param data the serialized version of the message about to be written
      *             to the log system
      * @param file the File that we are writing to
      * @return boolean return true if log rotation is neccessary, else false

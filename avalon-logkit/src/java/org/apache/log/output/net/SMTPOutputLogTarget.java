@@ -69,7 +69,7 @@ import org.apache.log.output.AbstractOutputTarget;
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: SMTPOutputLogTarget.java,v 1.6 2003/02/09 23:33:25 mcconnell Exp $
+ * @version CVS $Id: SMTPOutputLogTarget.java,v 1.7 2003/04/17 09:13:49 donaldp Exp $
  * @since 1.1.0
  */
 public class SMTPOutputLogTarget extends AbstractOutputTarget
@@ -143,7 +143,7 @@ public class SMTPOutputLogTarget extends AbstractOutputTarget
         try
         {
             // ensure we have a message object available
-            if ( m_message == null )
+            if( m_message == null )
             {
                 m_message = new MimeMessage( m_session );
                 m_message.setFrom( m_fromAddress );
@@ -160,12 +160,12 @@ public class SMTPOutputLogTarget extends AbstractOutputTarget
             ++m_msgSize;
 
             // send mail if message size has reached it's size limit
-            if ( m_msgSize >= m_maxMsgSize )
+            if( m_msgSize >= m_maxMsgSize )
             {
                 send();
             }
         }
-        catch ( MessagingException e )
+        catch( MessagingException e )
         {
             getErrorHandler().error( "Error creating message", e, null );
         }
@@ -198,14 +198,14 @@ public class SMTPOutputLogTarget extends AbstractOutputTarget
     {
         try
         {
-            if ( m_message != null && m_buffer != null )
+            if( m_message != null && m_buffer != null )
             {
                 m_message.setText( m_buffer.toString() );
                 Transport.send( m_message );
                 m_message = null;
             }
         }
-        catch ( MessagingException e )
+        catch( MessagingException e )
         {
             getErrorHandler().error( "Error sending message", e, null );
         }

@@ -68,13 +68,13 @@ import org.apache.log.LogEvent;
 public interface MessageBuilder
 {
 
-   /**
-    * Creation of a new message. 
-    * @param session the session against which the message will be created
-    * @param event the log event
-    * @return the message
-    * @exception JMSException if a messaging error occurs
-    */
+    /**
+     * Creation of a new message.
+     * @param session the session against which the message will be created
+     * @param event the log event
+     * @return the message
+     * @exception JMSException if a messaging error occurs
+     */
     Message buildMessage( Session session, LogEvent event )
         throws JMSException;
 }

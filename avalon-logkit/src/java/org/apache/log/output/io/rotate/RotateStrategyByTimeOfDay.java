@@ -68,7 +68,7 @@ public class RotateStrategyByTimeOfDay
 {
     /** Constant that stores the the number of ms in 24 hours. */
     private static final long TIME_24_HOURS = 24 * 3600 * 1000;
-    
+
     /** Time in ms that the current rotation started. */
     private long m_currentRotation;
 
@@ -95,9 +95,9 @@ public class RotateStrategyByTimeOfDay
         cal.set( Calendar.MINUTE, 0 );
         cal.set( Calendar.HOUR_OF_DAY, 0 );
         m_currentRotation = cal.getTimeInMillis() + time;
-        
+
         // Make sure that the current rotation time is in the past.
-        if ( m_currentRotation > System.currentTimeMillis() )
+        if( m_currentRotation > System.currentTimeMillis() )
         {
             m_currentRotation -= TIME_24_HOURS;
         }
@@ -109,10 +109,10 @@ public class RotateStrategyByTimeOfDay
     public void reset()
     {
         final long now = System.currentTimeMillis();
-        
+
         // Make sure the currentRotation time is set so that the current system
         //  time is within 24 hours.
-        while ( m_currentRotation + TIME_24_HOURS < now )
+        while( m_currentRotation + TIME_24_HOURS < now )
         {
             m_currentRotation += TIME_24_HOURS;
         }
@@ -130,7 +130,7 @@ public class RotateStrategyByTimeOfDay
     public boolean isRotationNeeded( final String data, final File file )
     {
         final long now = System.currentTimeMillis();
-        if ( m_currentRotation + TIME_24_HOURS < now )
+        if( m_currentRotation + TIME_24_HOURS < now )
         {
             // Needs to be rotated.
             return true;

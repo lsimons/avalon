@@ -75,10 +75,10 @@ public abstract class AbstractJDBCTarget
     ///Database connection
     private Connection m_connection;
 
-   /**
-    * Creation of a new instance of the AbstractJDBCTarget.
-    * @param dataSource the JDBC datasource
-    */
+    /**
+     * Creation of a new instance of the AbstractJDBCTarget.
+     * @param dataSource the JDBC datasource
+     */
     protected AbstractJDBCTarget( final DataSource dataSource )
     {
         m_dataSource = dataSource;
@@ -167,14 +167,14 @@ public abstract class AbstractJDBCTarget
      */
     protected synchronized boolean isStale()
     {
-        if( null == m_connection ) 
+        if( null == m_connection )
         {
             return true;
         }
 
         try
         {
-            if( m_connection.isClosed() ) 
+            if( m_connection.isClosed() )
             {
                 return true;
             }

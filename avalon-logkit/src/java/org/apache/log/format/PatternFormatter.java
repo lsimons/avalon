@@ -148,7 +148,7 @@ import org.apache.log.Priority;
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  * @author <a href="mailto:sylvain@apache.org">Sylvain Wallez</a>
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.38 $ $Date: 2003/02/09 23:33:22 $
+ * @version CVS $Revision: 1.39 $ $Date: 2003/04/17 09:13:47 $
  */
 public class PatternFormatter
     implements Formatter, org.apache.log.Formatter
@@ -209,10 +209,10 @@ public class PatternFormatter
     {
     }
 
-   /**
-    * Creation of a new patter formatter baseed on a supplied pattern.
-    * @param pattern the patter 
-    */
+    /**
+     * Creation of a new patter formatter baseed on a supplied pattern.
+     * @param pattern the patter
+     */
     public PatternFormatter( final String pattern )
     {
         parse( pattern );
@@ -274,14 +274,14 @@ public class PatternFormatter
 
         if( index >= pattern.length || '{' != pattern[ index ] )
         {
-            throw new IllegalArgumentException( 
-               "Badly formed pattern at character " + index );
+            throw new IllegalArgumentException(
+                "Badly formed pattern at character " + index );
         }
 
         int typeStart = index;
 
-        while( index < pattern.length 
-           && pattern[ index ] != ':' && pattern[ index ] != '}' )
+        while( index < pattern.length
+            && pattern[ index ] != ':' && pattern[ index ] != '}' )
         {
             index++;
         }
@@ -308,9 +308,9 @@ public class PatternFormatter
 
         if( index >= pattern.length || '}' != pattern[ index ] )
         {
-            throw new IllegalArgumentException( 
-              "Unterminated type in pattern at character "
-              + index );
+            throw new IllegalArgumentException(
+                "Unterminated type in pattern at character "
+                + index );
         }
 
         index++;
@@ -525,7 +525,7 @@ public class PatternFormatter
                 return getPriority( event.getPriority(), run.m_format );
 
             case TYPE_CONTEXT:
-                if( null == run.m_format 
+                if( null == run.m_format
                     || run.m_format.startsWith( "stack" ) )
                 {
                     //Print a warning out to stderr here
@@ -741,7 +741,7 @@ public class PatternFormatter
 
         while( index < size )
         {
-            if( pattern[ index ] == '%' 
+            if( pattern[ index ] == '%'
                 && !( index != size - 1 && pattern[ index + 1 ] == '%' ) )
             {
                 index += addPatternRun( stack, pattern, index );

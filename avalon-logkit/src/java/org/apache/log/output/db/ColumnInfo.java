@@ -71,12 +71,12 @@ public class ColumnInfo
     ///Auxilliary parameters (ie constant or sub-format)
     private final String m_aux; //may be null
 
-   /**
-    * Creation of a new column info instance.
-    * @param name the column name
-    * @param type the column type
-    * @param aux the auxillary value
-    */
+    /**
+     * Creation of a new column info instance.
+     * @param name the column name
+     * @param type the column type
+     * @param aux the auxillary value
+     */
     public ColumnInfo( final String name, final int type, final String aux )
     {
         m_name = name;
@@ -84,28 +84,28 @@ public class ColumnInfo
         m_aux = aux;
     }
 
-   /**
-    * Return the column name
-    * @return the name of the column
-    */
+    /**
+     * Return the column name
+     * @return the name of the column
+     */
     public String getName()
     {
         return m_name;
     }
 
-   /**
-    * Return the column type as an integer
-    * @return the type
-    */
+    /**
+     * Return the column type as an integer
+     * @return the type
+     */
     public int getType()
     {
         return m_type;
     }
 
-   /**
-    * Return the auxillary column information.
-    * @return the information
-    */
+    /**
+     * Return the auxillary column information.
+     * @return the information
+     */
     public String getAux()
     {
         return m_aux;
