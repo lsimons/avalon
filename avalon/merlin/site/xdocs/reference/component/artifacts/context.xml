@@ -108,11 +108,47 @@ Both standard and custom context entry dependencies may be declared using the <a
       </subsection>
 
       <subsection name="Context Casting">
-        <p>IN PREP</p>
-      </subsection>
-
-      <subsection name="Custom Delivery Strategies">
-        <p>IN PREP</p>
+        <p>
+        While the context interface provides the mechanisms to 
+        access any object type via key, it is sometimes convenient to 
+        declare a domain specific interface and custom context 
+        implementation.  This enables client code to take advantage
+        of convenience accessors, resulting in code that is not 
+        cluttered with casting and context entry key references.
+        </p>
+        <p>
+        The dependency of a component on a custom context type is 
+        declared using the 
+        <a href="http://avalon.apache.org/meta/tools/tags/context.html">
+        @avalon.context</a> tag type attribute.
+        </p>
+<source>
+   /**
+    * Creation of a new DefaultWidget instance using a 
+    * custom object that is castable to a domain specific
+    * interface.
+    *
+    * @avalon.context type="net.dpml.WidgetContext" 
+    * @avalon.entry key="urn:avalon:home" type="java.io.File"
+    */
+    public DefaultWidget( WidgetContext context )
+      throws ContextException
+    {
+        File common = context.getCommonDirectory();
+        m_common = common;
+    }
+</source>
+        <p>
+        In the above example the WidgetContext interfact is unknown
+        to the container - as such an explicit deployment directives is 
+        required to declare a the context implementation class to be used
+        by the container during context argument establishment.               
+        </p>
+<source><![CDATA[
+   <component name="widget" class="net.dpml.DefaultWidget">
+     <context class="net.dpml.DefaultWidgetContext"/>
+   </component>
+]]></source>
       </subsection>
 
     </section>
