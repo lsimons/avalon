@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import org.apache.tools.ant.Task;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.BuildException;
+import org.apache.tools.ant.types.FileSet;
 import org.apache.tools.ant.types.DirSet;
 import org.apache.tools.ant.types.Path;
 import org.apache.tools.ant.taskdefs.Javadoc;
@@ -46,8 +47,6 @@ public class JavadocTask extends SystemTask
 {
     private static final Link J2SE = 
       new Link( "http://java.sun.com/j2se/1.4/docs/api/" );
-
-    public static final String JAVADOC_PRODUCTION_KEY = "project.javadoc.enabled";
 
     public static class Link
     {
@@ -155,15 +154,9 @@ public class JavadocTask extends SystemTask
     public static final String SPI = "spi";
     public static final String IMPL = "impl";
 
-    private String m_root;
     private String m_id;
     private String m_title;
     private List m_links = new ArrayList();
-
-    public void setRoot( String root )
-    {
-        m_root = root;
-    }
 
     public void setId( String id )
     {
@@ -184,21 +177,17 @@ public class JavadocTask extends SystemTask
 
     public void execute() throws BuildException
     {
-        String actionable = getProject().getProperty( JAVADOC_PRODUCTION_KEY );
-        if( "true".equals( actionable ) )
-        {
-            Definition def = getReferenceDefinition();
-            File root = getJavadocRootDirectory( def );
-            Path classpath = def.getPath( getProject(), Policy.RUNTIME );
+        Definition def = getReferenceDefinition();
+        File root = def.getDocDirectory();
+        Path classpath = def.getPath( getProject(), Policy.RUNTIME );
 
-            File api = new File( root, "api" );
-            File spi = new File( root, "spi" );
-            File imp = new File( root, "impl" );
+        File api = new File( root, "api" );
+        File spi = new File( root, "spi" );
+        File imp = new File( root, "impl" );
 
-            setup( def, classpath, ResourceRef.API, api, false );
-            setup( def, classpath, ResourceRef.SPI, spi, false );
-            setup( def, classpath, ResourceRef.IMPL, imp,  true );
-        }
+        setup( def, classpath, ResourceRef.API, api, false );
+        setup( def, classpath, ResourceRef.SPI, spi, false );
+        setup( def, classpath, ResourceRef.IMPL, imp,  true );
     }
 
     private void setup( 
@@ -209,7 +198,6 @@ public class JavadocTask extends SystemTask
         if( refs.length > 0 )
         {
             String message = ResourceRef.getCategoryName( category );
-            log( "Javadoc " + message + " generation." );
             generate( def, classpath, refs, category, root, flag );
         }
     }
@@ -224,7 +212,10 @@ public class JavadocTask extends SystemTask
         javadoc.setDestdir( root );
         Path source = javadoc.createSourcepath();
         javadoc.createClasspath().add( classpath );
-        javadoc.setDoctitle( getTitle( definition, category ) );
+        final String title = getTitle( definition, category );
+        javadoc.setDoctitle( title );
+
+        log( "Generating: " + title );
 
         for( int i=0; i<m_links.size(); i++ )
         {
@@ -298,9 +289,11 @@ public class JavadocTask extends SystemTask
         javadoc.execute();
     }
 
+    /*
     private File getJavadocRootDirectory( Definition def )
     {
-        File docs = getProductRoot( def );
+        //File docs = getContext().getDocsDirectory();
+        File docs = getDocRoot( def );
         
         String version = def.getInfo().getVersion();
         if( null == version )
@@ -312,19 +305,7 @@ public class JavadocTask extends SystemTask
             return new File( docs, version );
         }
     }
-
-    private File getProductRoot( Definition def )
-    {
-        File docs = getContext().getDocsDirectory();
-        if( m_root != null )
-        {
-            return Context.getFile( docs, m_root );
-        }
-        else
-        {
-            return docs;
-        }
-    }
+    */
 
     private String getTitle( Definition def, int category )
     {

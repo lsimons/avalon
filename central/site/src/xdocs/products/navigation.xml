@@ -25,9 +25,9 @@
     <menu>
       <item name="Merlin Runtime" href="runtime/index.html"/>
       <!-- <item name="Merlin Studio" href="studio/index.html"/> -->
-      <item name="Merlin Discovery" href="discovery/index.html"/>
+      <!-- <item name="Merlin Discovery" href="discovery/index.html"/> -->
       <item name="Developer Tools" href="tools/index.html"/>
-      <item name="Legacy Avalon" href="legacy/index.html"/>
+      <item name="Legacy" href="legacy/index.html"/>
     </menu>
  </body>
 

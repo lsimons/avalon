@@ -20,5 +20,6 @@
   <taskdef name="artifact" classname="org.apache.avalon.tools.tasks.ArtifactTask"/> 
   <taskdef name="bar" classname="org.apache.avalon.tools.tasks.BarTask"/> 
   <taskdef name="javadoc" classname="org.apache.avalon.tools.tasks.JavadocTask"/> 
+  <taskdef name="publish" classname="org.apache.avalon.tools.tasks.PublishTask"/> 
 
 </antlib>

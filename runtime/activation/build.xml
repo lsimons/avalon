@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<project name="activation" default="dist" basedir=".">
+<project name="activation" default="install" basedir=".">
 
   <property file="build.properties"/>
   <import file="${project.home}/build/reactor.xml"/>

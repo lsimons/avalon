@@ -131,6 +131,22 @@ public class Definition extends Resource
         return (ResourceRef[]) list.toArray( new ResourceRef[0] );
     }
 
+    public File getDocDirectory()
+    {
+        File cache = getHome().getDocsRepository().getCacheDirectory();
+        File root = new File( cache, getInfo().getGroup() );
+        File artifact = new File( root, getInfo().getName() );
+        String version = getInfo().getVersion();
+        if( null == version )
+        {
+            return artifact;
+        }
+        else
+        {
+            return new File( artifact, version );
+        }
+    }
+
     public String toString()
     {
         return "[" + getInfo().getGroup() + "/" + getInfo().getName() + "]";

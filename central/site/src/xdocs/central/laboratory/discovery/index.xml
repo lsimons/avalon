@@ -6,7 +6,7 @@
   </properties> 
 
   <body>
-    <section name="Introducing Merlin Discovery">
+    <section name="Merlin Discovery">
       <p>
 Existing business requirements for services supporting the creation and maintenance of repositories capable of supporting the registration and discovery of XML based descriptions of services and implementation solution are required as part of the overall Avalon product development strategy.
       </p>

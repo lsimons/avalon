@@ -23,10 +23,6 @@
     <x:javac/>
   </target>
 
-  <target name="javadoc" depends="prepare">
-    <x:javadoc/>
-  </target>
-
   <target name="package" depends="build">
     <x:jar/>
   </target>
@@ -36,14 +32,20 @@
   </target>
 
   <target name="install" depends="test">
-    <x:install/>
+    <x:install docs="false"/>
   </target>
 
-  <target name="site" depends="build,javadoc">
+  <target name="javadoc" depends="prepare">
+    <x:javadoc/>
+  </target>
+
+  <target name="xdoc" depends="prepare">
     <x:xdoc theme="modern"/>
   </target>
 
-  <target name="dist" depends="test,site,install"/>
+  <target name="site" depends="javadoc,xdoc"/>
 
+  <target name="dist" depends="install,site"/>
+  
 </project>
 

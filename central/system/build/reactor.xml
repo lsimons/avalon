@@ -31,20 +31,22 @@
     <x:reactor target="test"/>
   </target>
 
-  <target name="site">
-    <x:home/>
-    <x:reactor target="site"/>
-  </target>
-
   <target name="install">
     <x:home/>
     <x:reactor target="install"/>
+  </target>
+
+  <!--
+  <target name="site">
+    <x:home/>
+    <x:reactor target="site"/>
   </target>
 
   <target name="dist">
     <x:home/>
     <x:reactor target="dist"/>
   </target>
+  -->
 
 </project>
 

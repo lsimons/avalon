@@ -41,15 +41,58 @@ import org.apache.avalon.tools.project.Definition;
  */
 public class InstallTask extends SystemTask
 {
-    public void execute() throws BuildException 
+    private String m_id;
+    private String m_target;
+    private boolean m_deliverables = true;
+    private boolean m_docs = true;
+
+    public void setId( String id )
     {
-        installDeliverables();
-        installDocs();
+        m_id = id;
     }
 
-    private void installDeliverables()
+    public void setDeliverables( boolean flag )
     {
-        File deliverables = getContext().getDeliverablesDirectory();
+        m_deliverables = flag;
+    }
+
+    public void setDocs( boolean flag )
+    {
+        m_docs = flag;
+    }
+
+    public void execute() throws BuildException 
+    {
+        Definition definition = getReferenceDefinition();
+        if( m_deliverables )
+        {
+            log( "installing deliverables" );
+            installDeliverables( definition );
+        }
+        if( m_docs )
+        {
+            log( "installing docs" );
+            installDocs( definition );
+        }
+    }
+
+    private Definition getReferenceDefinition()
+    {
+        if( null != m_id )
+        {
+            return getHome().getDefinition( m_id );
+        }
+        else
+        {
+            return getHome().getDefinition( getKey() );
+        }
+    }
+
+    private void installDeliverables( Definition definition )
+    {
+        File basedir = definition.getBasedir();
+        File target = new File( basedir, Context.TARGET );
+        File deliverables = new File( target, Context.DELIVERABLES );
         if( deliverables.exists() )
         {
             File cache = getHome().getRepository().getCacheDirectory();
@@ -57,25 +100,28 @@ public class InstallTask extends SystemTask
             fileset.setDir( deliverables );
             fileset.createInclude().setName( "**/*" );
             String group = getHome().getDefinition( getKey() ).getInfo().getGroup();
-            File target = new File( cache, group );
-            copy( target, fileset );
+            File destination = new File( cache, group );
+            copy( destination, fileset );
         }
     }
 
-    private void installDocs()
+    private void installDocs( Definition definition )
     {
         File cache = getHome().getDocsRepository().getCacheDirectory();
-        File source = getContext().getDocsDirectory();
+        File basedir = definition.getBasedir();
+        File target = new File( basedir, Context.TARGET );
+        File source = new File( target, Context.DOCS );
+
         if( source.exists() )
         {
             FileSet fileset = new FileSet();
             fileset.setDir( source );
             fileset.createInclude().setName( "**/*" );
-            String group = getHome().getDefinition( getKey() ).getInfo().getGroup();
-            String name = getHome().getDefinition( getKey() ).getInfo().getName();
+            String group = definition.getInfo().getGroup();
+            String name = definition.getInfo().getName();
             File parent = new File( cache, group );
-            File target = new File( parent, name );
-            copy( target, fileset );
+            File destination = new File( parent, name );
+            copy( destination, fileset );
         }
     }
 

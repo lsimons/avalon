@@ -23,9 +23,12 @@
 
  <body>
     <menu>
-      <item name="Component API" href="../@RUNTIME-VERSION@/api/index.html"/>
-      <item name="Facilities SPI" href="../@RUNTIME-VERSION@/spi/index.html"/>
-      <item name="Platform Impl" href="../@RUNTIME-VERSION@/impl/index.html"/>
+      <!-- disabled pending resolution of bug in xdoc generation -->
+      <!--
+      <item name="Component API" href="../../../@RUNTIME-VERSION@/api/index.html"/>
+      <item name="Facilities SPI" href="../../../@RUNTIME-VERSION@/spi/index.html"/>
+      <item name="Platform Impl" href="../../../@RUNTIME-VERSION@/impl/index.html"/>
+      -->
     </menu>
  </body>
 

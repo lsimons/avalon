@@ -11,14 +11,18 @@
        token="RUNTIME-VERSION"/>
   </target>
 
-  <target name="prepare" depends="standard.prepare">
-    <x:javadoc root="${products.runtime.path}" title="Merlin Runtime"
-       id="avalon-merlin-impl"/>
+  <target name="javadoc">
+    <x:javadoc title="Merlin Runtime" id="avalon-runtime">
+      <x:link href="http://java.sun.com/j2se/1.4/docs/api" />
+    </x:javadoc>
   </target>
 
-  <target name="xdocs" depends="xdoc"/>
-  <target name="xdoc" depends="standard.init">
-    <x:xdoc theme="modern"/>
+  <target name="site" depends="standard.site">
+    <x:publish path="."/>
+  </target>
+
+  <target name="update" depends="xdoc">
+    <x:publish path="."/>
   </target>
 
 </project>

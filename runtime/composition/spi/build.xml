@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<project name="avalon-composition-spi" default="dist" basedir=".">
+<project name="avalon-composition-spi" default="install" basedir=".">
   <property file="build.properties"/>
   <import file="${project.home}/build/standard.xml"/>
 </project>

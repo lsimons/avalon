@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<project name="test" default="dist" basedir="." 
+<project name="test" default="install" basedir="." 
     xmlns:x="antlib:org.apache.avalon.tools">
 
   <property file="build.properties"/>

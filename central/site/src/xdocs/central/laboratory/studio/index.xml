@@ -3,14 +3,14 @@
 <document>
 
   <properties>
-    <title>Merlin Developer - Overview</title>
+    <title>Merlin Studio</title>
     <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
   </properties>
 
   <body>
     <section name="Introduction">
       <p>
-        The <em><strong>Merlin Developer</strong></em> is an Eclipse plugin
+        Merlin Studio is an Eclipse plugin
         that allows you to streamline the development of Merlin-based
         components and applications.
       </p>
