@@ -201,7 +201,7 @@ public abstract class AbstractKernel
      * @param entry the application entry
      * @exception ContainerException if an error occurs
      */
-    protected void prepareApplication( final String name, final Entry entry )
+    protected void prepareApplication( final String name, final SarEntry entry )
         throws ContainerException
     {
     }
