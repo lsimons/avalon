@@ -156,7 +156,7 @@ Legal:
            optimize="${optimize}"
            deprecation="${deprecation}">
       <classpath refid="project.class.path" />
-<!--      <src path="${test.dir}"/> -->
+      <src path="${test.dir}"/>
       <exclude name="org/apache/log/output/ServletOutputLogTarget.java" 
                unless="servlet.present"/>
     </javac>
@@ -180,6 +180,7 @@ Legal:
 
     <jar jarfile="${build.lib}/${name}.jar" basedir="${build.classes}">
       <include name="org/apache/log/**" />
+      <exclude name="**/test/*" />
     </jar>
 
   </target>
