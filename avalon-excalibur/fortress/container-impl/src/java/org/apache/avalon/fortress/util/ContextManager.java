@@ -119,7 +119,7 @@ import java.util.Iterator;
  * and dispose of them properly when it itself is disposed .</p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.36 $ $Date: 2003/05/30 17:21:07 $
+ * @version CVS $Revision: 1.37 $ $Date: 2003/05/30 19:23:12 $
  * @since 4.1
  */
 public final class ContextManager
@@ -630,7 +630,7 @@ public final class ContextManager
                 final FortressRoleManager newRoleManager =
                         new FortressRoleManager( null, classLoader );
                 newRoleManager.enableLogging(
-                        m_loggerManager.getLoggerForCategory( "system.roles" ) );
+                        m_loggerManager.getLoggerForCategory( "system.roles.defaults" ) );
                 newRoleManager.initialize();
 
                 roleManager = newRoleManager;
