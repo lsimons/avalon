@@ -116,10 +116,16 @@ public class PhoenixEmbeddor
 
             //TODO: Deploying should go into execute!!!
             deployDefaultApplications();
-            
+
             m_systemManager.start();
             
             m_kernel.start();
+
+            //Uncomment next bit to try registering...
+
+            //TODO: Logger and SystemManager itself aswell???
+            //m_systemManager.register( "Phoenix.Kernel", m_kernel );
+            //m_systemManager.register( "Phoenix.Embeddor", this );
         }
         catch( final Exception e )
         {
@@ -160,6 +166,8 @@ public class PhoenixEmbeddor
     {
         if( null != m_systemManager )
         {
+            m_systemManager.unregister( "Phoenix.Kernel" );
+            m_systemManager.unregister( "Phoenix.Embeddor" );
             m_systemManager.stop();
         }
 
