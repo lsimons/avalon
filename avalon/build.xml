@@ -396,12 +396,15 @@ Legal:
         <echo message="  Building docs, please stand by ..."/>
 
         <java classname="org.apache.cocoon.Main" fork="true" maxmemory="128m" failonerror="true">
+        
             <arg value="-c${build.context}/"/>
             <arg value="-d${build.docs}"/>
-            <arg value="-k${build.context}/logkit.xconf"/>
             <arg value="-w${build.dir}/work"/>
+            <arg value="-b${build.dir}/brokenlinks.txt"/>            
+            <arg value="-k${build.context}/logkit.xconf"/>
             <!-- <arg value="-l${build.dir}/work/cocoon.log"/> -->
             <arg value="-uERROR"/>
+            <arg value="-V"/>            
             <arg value="index.html"/>
             <classpath>
                 <path refid="tools.class.path"/>
