@@ -25,7 +25,7 @@ Legal:
 
   <property name="name" value="logkit"/>
   <property name="Name" value="LogKit"/>
-  <property name="version" value="0.7"/>
+  <property name="version" value="1.0b1[rc1]"/>
   <property name="year" value="1999-2001"/>
 
   <!--
@@ -103,7 +103,7 @@ Legal:
     <echo message=""/>
     <echo message="   jar        -> generates the ${Name} jar file"/>
     <echo message="   javadocs   -> generates the API documentation (java 1.2+ only)"/>
-<!--    
+<!--
     <echo message="   docs       -> generates the ${Name} Documentation"/>
     <echo message="   dist-lite  -> generates the ${Name} distribution without the javadocs (default)"/>
     <echo message="   dist       -> generates the ${Name} distribution"/>
@@ -146,7 +146,7 @@ Legal:
     <mkdir dir="${build.dir}"/>
     <mkdir dir="${build.classes}"/>
 
-    <available property="servlet.present" 
+    <available property="servlet.present"
                classname="javax.servlet.ServletContext"
                classpathref="project.class.path" />
 
@@ -157,7 +157,7 @@ Legal:
            deprecation="${deprecation}">
       <classpath refid="project.class.path" />
       <src path="${test.dir}"/>
-      <exclude name="org/apache/log/output/ServletOutputLogTarget.java" 
+      <exclude name="org/apache/log/output/ServletOutputLogTarget.java"
                unless="servlet.present"/>
     </javac>
 
@@ -216,7 +216,7 @@ Legal:
        <param name="-use"/>
        <param name="-doctitle" value="${Name}"/>
        <param name="-windowtitle" value="${Name} API"/>
-       <param name="-bottom" 
+       <param name="-bottom"
               value="&quot;Copyright &#169; 2001 Apache Jakarta Project. All Rights Reserved.&quot;"/>
       </doclet>
     </javadoc>
@@ -245,7 +245,7 @@ Legal:
        ===================================================================
   -->
   <target name="xdocs">
-     
+
     <mkdir dir="${build.xdocs}"/>
     <mkdir dir="${build.docs}"/>
 
@@ -408,17 +408,17 @@ Legal:
       <param name="dist.dir" value="${dist.name}" />
     </antcall>
 
-    <zip zipfile="${dist.base}/${dist.name}-bin.zip" 
-         basedir="${dist.name}/.." 
+    <zip zipfile="${dist.base}/${dist.name}-bin.zip"
+         basedir="${dist.name}/.."
          includes="${dist.name}/**"/>
 
     <tar longfile="gnu" tarfile="${dist.base}/${dist.name}-bin.tar">
-      <tarfileset dir="${dist.name}/.." username="avalon" group="avalon"> 
+      <tarfileset dir="${dist.name}/.." username="avalon" group="avalon">
         <include name="${dist.name}/**"/>
-      </tarfileset> 
+      </tarfileset>
     </tar>
 
-    <gzip zipfile="${dist.base}/${dist.name}-bin.tar.gz" 
+    <gzip zipfile="${dist.base}/${dist.name}-bin.tar.gz"
           src="${dist.base}/${dist.name}-bin.tar"/>
 
     <delete file="${dist.base}/${dist.name}-bin.tar"/>
@@ -428,21 +428,21 @@ Legal:
       <param name="src.dist.dir" value="${dist.name}" />
     </antcall>
 
-    <zip zipfile="${dist.base}/${dist.name}-src.zip" 
-         basedir="${dist.name}/.." 
+    <zip zipfile="${dist.base}/${dist.name}-src.zip"
+         basedir="${dist.name}/.."
          includes="${dist.name}/**"/>
 
     <tar longfile="gnu" tarfile="${dist.base}/${dist.name}-src.tar" >
       <tarfileset dir="${dist.name}/.." mode="755" username="avalon" group="avalon">
         <include name="${dist.name}/build.sh"/>
-      </tarfileset> 
-      <tarfileset dir="${dist.name}/.." username="avalon" group="avalon"> 
+      </tarfileset>
+      <tarfileset dir="${dist.name}/.." username="avalon" group="avalon">
         <include name="${dist.name}/**"/>
         <exclude name="${dist.name}/build.sh"/>
       </tarfileset>
-    </tar> 
+    </tar>
 
-    <gzip zipfile="${dist.base}/${dist.name}-src.tar.gz" 
+    <gzip zipfile="${dist.base}/${dist.name}-src.tar.gz"
           src="${dist.base}/${dist.name}-src.tar"/>
 
     <delete file="${dist.base}/${dist.name}-src.tar"/>
@@ -471,5 +471,5 @@ Legal:
     <delete dir="${docs.dir}" />
     <delete dir="${dist.base}" />
   </target>
- 
+
 </project>
