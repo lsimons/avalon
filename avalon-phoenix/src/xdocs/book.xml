@@ -42,6 +42,10 @@
     <menu-item label="Creating a Block" href="creating-a-block.html" />
   </menu>
 
+  <menu label="All together">
+    <menu-item label="Example configuration" href="example-configuration.html" />
+  </menu>
+
 </book>
 
 
