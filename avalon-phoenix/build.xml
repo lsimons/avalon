@@ -105,6 +105,10 @@ Legal:
     <!-- Invoke 'ant get-cli' to get these -->
     <property name="cli.jar" value="${repo.dir}/cli/cli-1.0/cli-1.0.jar"/>
 
+    <!-- Invoke ant get-configkit' to get these -->
+    <property name="configkit.jar" value="${repo.dir}/spice-configkit/spice-configkit-1.1/spice-configkit-1.1.jar"/>
+    <fileset id="configkit.fileset" dir="${repo.dir}/spice-configkit/spice-configkit-1.1/lib"/>
+
     <path id="project.class.path">
         <pathelement location="${xerces.jar}"/>
         <pathelement location="${framework.jar}"/>
@@ -112,6 +116,7 @@ Legal:
         <pathelement location="${wrapper.jar}"/>
         <pathelement path="${log4j.jar}"/>
         <pathelement path="${cli.jar}"/>
+        <pathelement path="${configkit.jar}"/>
         <pathelement path="${mx4j.jar}"/>
         <pathelement path="${mx4j-tools.jar}"/>
         <pathelement path="${beanshell.jar}"/>
@@ -431,6 +436,37 @@ Legal:
         <untar src="${repo.dir}/cli/cli.tar" dest="${repo.dir}/cli"/>
     </target>
 
+    <!-- =================================================================== -->
+    <!-- ConfigKit Tasks.                                                    -->
+    <!-- =================================================================== -->
+    <target name="check-configkit-init" depends="init">
+        <available property="configkit.present" classname="org.realityforge.configkit.PropertyExpander">
+            <classpath refid="project.class.path"/>
+        </available>
+    </target>
+
+    <target name="check-configkit" depends="check-configkit-init" unless="configkit.present">
+        <echo>********************************</echo>
+        <echo>* Please execute target        *</echo>
+        <echo>* 'get-configkit' in the main  *</echo>
+        <echo>* build.xml build file         *</echo>
+        <echo>* to download one and          *</echo>
+        <echo>* a half Mb of Spice ConfigKit *</echo>
+        <echo>********************************</echo>
+        <fail message="Spice ConfigKit needed. See above."/>
+    </target>
+
+    <!-- Get the jars from the configkit project. -->
+    <target name="get-configkit" description="Get the Spice ConfigKit distribution from SourceForge.">
+        <mkdir dir="${repo.dir}/spice-configkit"/>
+        <get src="http://osdn.dl.sourceforge.net/sourceforge/spice/configkit-1.1.tar.gz"
+            dest="${repo.dir}/spice-configkit/spice-configkit.tar.gz"
+            verbose="true"
+            usetimestamp="true"/>
+        <gunzip src="${repo.dir}/spice-configkit/spice-configkit.tar.gz" dest="${repo.dir}/spice-configkit"/>
+        <untar src="${repo.dir}/spice-configkit/spice-configkit.tar" dest="${repo.dir}/spice-configkit"/>
+    </target>
+
     <!-- Main target -->
     <target name="main" depends="dist-lite"
         description="generates the Phoenix distribution without the javadocs"/>
@@ -451,7 +487,7 @@ Legal:
 
 
     <!-- Check requirements of environment -->
-    <target name="check-environment" depends="check-mx4j, check-log4j, check-cli, check-wrapper">
+    <target name="check-environment" depends="check-mx4j, check-log4j, check-cli, check-configkit, check-wrapper">
         <available property="xerces.present" type="file" file="${xerces.jar}"/>
         <available property="servlet.present" classname="javax.servlet.Servlet">
             <classpath refid="project.class.path"/>
@@ -817,6 +853,10 @@ Legal:
         <zip destfile="${target.lib}/mx4j-tools.jar" basedir="${target.mx}"/>
 
         <copy file="${cli.jar}" todir="${bin.dist.bin}/lib"/>
+        <copy file="${configkit.jar}" todir="${bin.dist.bin}/lib"/>
+        <copy todir="${bin.dist.bin}/lib">
+            <fileset refid="configkit.fileset"/>
+        </copy>
         <copy file="${mx4j.jar}" todir="${bin.dist.bin}/lib"/>
         <copy file="${target.lib}/mx4j-tools.jar" todir="${bin.dist.bin}/lib"/>
 
