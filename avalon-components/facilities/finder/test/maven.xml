@@ -10,7 +10,6 @@
   </preGoal>
 
   <preGoal name="java:jar-resources">
-    <echo>HELLO FROM TEST</echo>
     <ant:filter token="AVALON-FINDER-API-VERSION" value="&avalon-finder-api-version;"/>
     <ant:filter token="AVALON-FINDER-IMPL-VERSION" value="&avalon-finder-impl-version;"/>
   </preGoal>

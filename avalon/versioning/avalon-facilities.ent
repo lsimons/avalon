@@ -1,61 +1,48 @@
 
-<!ENTITY cornerstone-db-api-id "cornerstone-db-api">
-<!ENTITY cornerstone-db-api-group "cornerstone-db">
-<!ENTITY cornerstone-db-api-version "0.9.0">
+<!ENTITY avalon-db-id "cornerstone-db">
+<!ENTITY avalon-db-api-id "avalon-db-api">
+<!ENTITY avalon-db-api-version "0.9.0">
+<!ENTITY avalon-db-hsql-id "cornerstone-db-hsql">
+<!ENTITY avalon-db-hsql-version "0.9.0">
 
-<!ENTITY cornerstone-db-hsql-id "cornerstone-db-hsql">
-<!ENTITY cornerstone-db-hsql-group "cornerstone-db">
-<!ENTITY cornerstone-db-hsql-version "0.9.0">
+<!ENTITY avalon-finder-id "avalon-finder">
+<!ENTITY avalon-finder-api-id "avalon-finder-api">
+<!ENTITY avalon-finder-api-version "0.9.0">
+<!ENTITY avalon-finder-impl-id "avalon-finder-impl">
+<!ENTITY avalon-finder-impl-version "0.9.0">
 
-<!ENTITY excalibur-finder-api-id "excalibur-finder-api">
-<!ENTITY excalibur-finder-api-group "excalibur-finder">
-<!ENTITY excalibur-finder-api-version "0.9.0">
+<!ENTITY avalon-http-id "avalon-http">
+<!ENTITY avalon-http-api-id "avalon-http-api">
+<!ENTITY avalon-http-api-version "0.9.0">
+<!ENTITY avalon-http-impl-id "avalon-http-impl">
+<!ENTITY avalon-http-impl-version "0.9.0">
+<!ENTITY avalon-http-spi-id "avalon-http-spi">
+<!ENTITY avalon-http-spi-version "0.9.0">
+<!ENTITY avalon-http-test-id "avalon-http-test">
+<!ENTITY avalon-http-test-version "0.9.0">
+<!ENTITY avalon-http-util-id "avalon-http-util">
+<!ENTITY avalon-http-util-version "0.9.0">
 
-<!ENTITY excalibur-finder-impl-id "excalibur-finder-impl">
-<!ENTITY excalibur-finder-impl-group "excalibur-finder">
-<!ENTITY excalibur-finder-impl-version "0.9.0">
+<!ENTITY avalon-jmx-id "avalon-jmx">
+<!ENTITY avalon-jmx-api-id "avalon-jmx-api">
+<!ENTITY avalon-jmx-api-version "0.9.0">
+<!ENTITY avalon-jmx-handler-id "avalon-jmx-handler">
+<!ENTITY avalon-jmx-handler-version "0.9.0">
+<!ENTITY avalon-jmx-mx4j-id "avalon-jmx-mx4j">
+<!ENTITY avalon-jmx-mx4j-version "0.9.0">
+<!ENTITY avalon-jmx-spi-id "avalon-jmx-spi">
+<!ENTITY avalon-jmx-spi-version "0.9.0">
+<!ENTITY avalon-jmx-test-id "avalon-jmx-test">
+<!ENTITY avalon-jmx-test-version "0.9.0">
+<!ENTITY avalon-jmx-util-id "avalon-jmx-util">
+<!ENTITY avalon-jmx-util-version "0.9.0">
 
-<!ENTITY excalibur-http-api-id "excalibur-http-api">
-<!ENTITY excalibur-http-api-group "excalibur-http">
-<!ENTITY excalibur-http-api-version "0.9.0">
+<!ENTITY avalon-mds-id "avalon-mds">
+<!ENTITY avalon-mds-api-id "avalon-mds-api">
+<!ENTITY avalon-mds-api-version "0.9.0">
+<!ENTITY avalon-mds-impl-id "avalon-mds-impl">
+<!ENTITY avalon-mds-impl-version "0.9.0">
+<!ENTITY avalon-mds-test-id "avalon-mds-test">
+<!ENTITY avalon-mds-test-version "0.9.0">
 
-<!ENTITY excalibur-http-impl-id "excalibur-http-impl">
-<!ENTITY excalibur-http-impl-group "excalibur-http">
-<!ENTITY excalibur-http-impl-version "0.9.0">
-
-<!ENTITY excalibur-http-spi-id "excalibur-http-spi">
-<!ENTITY excalibur-http-spi-group "excalibur-http">
-<!ENTITY excalibur-http-spi-version "0.9.0">
-
-<!ENTITY excalibur-http-test-id "excalibur-http-test">
-<!ENTITY excalibur-http-test-group "excalibur-http">
-<!ENTITY excalibur-http-test-version "0.9.0">
-
-<!ENTITY excalibur-http-util-id "excalibur-http-util">
-<!ENTITY excalibur-http-util-group "excalibur-http">
-<!ENTITY excalibur-http-util-version "0.9.0">
-
-<!ENTITY excalibur-jmx-api-id "excalibur-jmx-api">
-<!ENTITY excalibur-jmx-api-group "excalibur-jmx">
-<!ENTITY excalibur-jmx-api-version "0.9.0">
-
-<!ENTITY excalibur-jmx-handler-id "excalibur-jmx-handler">
-<!ENTITY excalibur-jmx-handler-group "excalibur-jmx">
-<!ENTITY excalibur-jmx-handler-version "0.9.0">
-
-<!ENTITY excalibur-jmx-mx4j-id "excalibur-jmx-mx4j">
-<!ENTITY excalibur-jmx-mx4j-group "excalibur-jmx">
-<!ENTITY excalibur-jmx-mx4j-version "0.9.0">
-
-<!ENTITY excalibur-jmx-spi-id "excalibur-jmx-spi">
-<!ENTITY excalibur-jmx-spi-group "excalibur-jmx">
-<!ENTITY excalibur-jmx-spi-version "0.9.0">
-
-<!ENTITY excalibur-jmx-test-id "excalibur-jmx-test">
-<!ENTITY excalibur-jmx-test-group "excalibur-jmx">
-<!ENTITY excalibur-jmx-test-version "0.9.0">
-
-<!ENTITY excalibur-jmx-util-id "excalibur-jmx-util">
-<!ENTITY excalibur-jmx-util-group "excalibur-jmx">
-<!ENTITY excalibur-jmx-util-version "0.9.0">
 
