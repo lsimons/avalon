@@ -72,7 +72,7 @@ import org.apache.avalon.framework.Version;
  * name of container.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.4 $ $Date: 2003/10/19 06:09:32 $
+ * @version $Revision: 1.5 $ $Date: 2003/10/19 08:30:28 $
  */
 public final class InfoDescriptor extends Descriptor
 {
@@ -133,8 +133,7 @@ public final class InfoDescriptor extends Descriptor
      * does not occur.  A component implementing CONSERVATIVE policies will be 
      * maintained irrespective of usage and memory constraints so long as its 
      * scope exists (the jvm for a "singleton" and Thread for "thread" lifestyles).  
-     * The default policy is DEMOCRAT for singleton and per thread componet. 
-     * Transient and poooled components default to LIBERAL.
+     * The default policy is CONSERVATIVE.
      */
     private final String m_collection;
 
@@ -222,15 +221,7 @@ public final class InfoDescriptor extends Descriptor
 
         if ( collection == null )
         {
-            final String policy = getLifestyle();
-            if( policy.equals( TRANSIENT ) || policy.equals( POOLED ))
-            {
-                m_collection = LIBERAL;
-            }
-            else
-            {
-                m_collection = DEMOCRAT;
-            }
+            m_collection = CONSERVATIVE;
         }
         else
         {
