@@ -63,17 +63,22 @@ import org.apache.avalon.framework.thread.ThreadSafe;
  * looks like this:
  *
  * <pre>
- *   &lt;monitor&gt;
+ *   &lt;passive-monitor&gt;
  *     &lt;init-resources&gt;
  *       &lt;-- This entry can be repeated for every resource you want to register immediately --&gt;
  *
  *       &lt;resource key="<i>file:./myfile.html</i>" class="<i>org.apache.avalon.excalibur.monitor.FileMonitor</i>"/&gt;
  *     &lt;/init-resources&gt;
- *   &lt;/monitor&gt;
+ *   &lt;/pasive-monitor&gt;
  * </pre>
  *
+ * @avalon.component
+ * @avalon.service type=org.apache.avalon.excalibur.monitor.Monitor
+ * @x-avalon.info name=passive-monitor
+ * @x-avalon.lifestyle type=singleton
+ *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version $Id: PassiveMonitor.java,v 1.15 2003/03/22 12:46:50 leosimons Exp $
+ * @version $Id: PassiveMonitor.java,v 1.16 2003/05/23 17:41:04 bloritsch Exp $
  */
 public class PassiveMonitor
     extends org.apache.avalon.excalibur.monitor.impl.PassiveMonitor
