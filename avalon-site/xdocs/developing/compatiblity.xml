@@ -4,6 +4,7 @@
   <properties>
     <author email="hammant@apache.org">Paul Hammant</author>
     <author email="bloritsch@apache.org">Berin Loritsch</author>
+    <author email="niclas@apache.org">Niclas Hedhman</author>
     <title>Compatibility with Avalon Project Containers</title>
   </properties>
 
@@ -17,11 +18,6 @@
     gives some advice on the subject.  We will refer to applications,
     utilities and tools as just 'tools' from her on in.  We'll assume
     the classes for which are in a single Jar.
-  </p>
-  <p>
-    This advise is applicable to all
-    <a href="http://avalon.apache.org/framework/principals/containment.html">
-    reference containers</a>
   </p>
   </section>
   <section name="Making a Jar for a tool">
