@@ -12,8 +12,9 @@
         <xsl:value-of select="properties/title" />
       </title>
       <link rel="stylesheet" href="print.css" type="text/css" media="print"></link>
+      <xsl:variable name="x" select="document('navigation.xml', / )/project/body//menu/level" />
       <link rel="stylesheet" type="text/css">
-        <xsl:attribute name="href"><xsl:value-of select="document('navigation.xml', / )/project/body/menu//level" />resources/style.css</xsl:attribute>
+        <xsl:attribute name="href"><xsl:value-of select="$x[position() = last()]" />resources/style.css</xsl:attribute>
       </link>
     </head>
       <xsl:apply-templates select="body" />
@@ -30,8 +31,9 @@
       <table class="logobar" >
         <tr>
           <td class="feather" width="167px"  >
+            <xsl:variable name="x" select="document('navigation.xml', / )/project/body//menu/level" />
             <img>
-              <xsl:attribute name="src"><xsl:value-of select="document('navigation.xml', / )/project/body/menu//level" />resources/feather.jpg</xsl:attribute>
+              <xsl:attribute name="src"><xsl:value-of select="$x[position() = last()]" />resources/feather.jpg</xsl:attribute>
             </img>
           </td>
           <td class="panel">
@@ -42,22 +44,24 @@
       </table>
       
       <div class="icons">
+        <xsl:variable name="x" select="document('navigation.xml', / )/project/body//menu/level" />
         <img class="pdf" >
-          <xsl:attribute name="src"><xsl:value-of select="document('navigation.xml', / )/project/body/menu//level" />resource/pdf.png</xsl:attribute>
+          <xsl:attribute name="src"><xsl:value-of select="$x[last()]" />resource/pdf.png</xsl:attribute>
         </img>
         <img class="printer" >
-          <xsl:attribute name="src"><xsl:value-of select="document('navigation.xml', / )/project/body/menu//level" />resource/printer.png</xsl:attribute>
+          <xsl:attribute name="src"><xsl:value-of select="$x[last()]" />resource/printer.png</xsl:attribute>
         </img>
       </div>
       
       <div class="categorybar">
         <a class="homecategory">
-          <xsl:attribute name="href"><xsl:value-of select="document('navigation.xml', / )/project/body/menu//level" />index.html</xsl:attribute>
+            <xsl:variable name="x" select="document('navigation.xml', / )/project/body//menu/level" />
+          <xsl:attribute name="href"><xsl:value-of select="$x[position() = last()]" />index.html</xsl:attribute>
           Home
         </a>
-        
-        <xsl:apply-templates select="document('navigation.xml', / )/project/body//category/item" >
-          <xsl:with-param name="dir" select="''" />
+        <xsl:variable name="x" select="document('navigation.xml', / )/project/body//category" />
+        <xsl:apply-templates select="$x/item" >
+          <xsl:with-param name="dir" select="$x/../level" />
           <xsl:with-param name="class" select="'category'" />
         </xsl:apply-templates>
       </div>
@@ -72,6 +76,14 @@
         <xsl:apply-templates />
       </div>
     </body>
+  </xsl:template>
+  
+  <xsl:template match="a">
+    <a>
+      <xsl:attribute name="class">doclink</xsl:attribute>
+      <xsl:attribute name="href"><xsl:value-of select="@href" /></xsl:attribute>
+      <xsl:value-of select="." />
+    </a>
   </xsl:template>
   
   <xsl:template match="section">
@@ -133,7 +145,6 @@
         </div>
       </xsl:otherwise>
     </xsl:choose>
-    
   </xsl:template>
 
   <xsl:template match="item">
@@ -141,7 +152,7 @@
     <xsl:param name="class" select="'menuitem'" />
     <a>
       <xsl:attribute name="class"><xsl:value-of select="$class" /></xsl:attribute>
-      <xsl:attribute name="href">
+      <xsl:attribute name="href">      
         <xsl:value-of select="concat( $dir, @href )" />
       </xsl:attribute>
       <xsl:value-of select="@name" />
