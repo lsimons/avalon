@@ -22,6 +22,7 @@ import org.apache.avalon.framework.component.ComponentException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.net.ServerSocket;
+import java.io.IOException;
 
 
 /**
@@ -29,7 +30,7 @@ import java.net.ServerSocket;
  *
  *
  * @author Paul Hammant <a href="mailto:Paul_Hammant@yahoo.com">Paul_Hammant@yahoo.com</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public abstract class AbstractStreamPublisher extends AbstractPublisher
         implements ConnectionHandlerFactory
@@ -84,7 +85,7 @@ public abstract class AbstractStreamPublisher extends AbstractPublisher
         m_connectionManager = (ConnectionManager) manager.lookup(ConnectionManager.ROLE);
     }
 
-    protected ServerSocket makeServerSocket()
+    protected ServerSocket makeServerSocket() throws ComponentException, IOException
     {
 
         final ServerSocketFactory factory = m_socketManager.getServerSocketFactory("plain");
