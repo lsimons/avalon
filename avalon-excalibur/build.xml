@@ -309,23 +309,30 @@ Legal:
         <pathelement location="${build.scratchpad}"/>
       </classpath>
       <batchtest todir="${build.reports}">
+        <!-- Excalibur tests -->
         <fileset dir="${build.classes}">
+          <include name="**/test/*Profile.class" if="test.profile"/>
+          <include name="**/test/*TestCase.class"/>
+                    
           <exclude name="**/test/Abstract*TestCase.class"/>
           <exclude name="org/apache/avalon/excalibur/datasource/test/DataSourceTestCase.class" unless="test.jdbc"/>
-          <!-- Should these be excluded?
-          <exclude name="org/apache/avalon/excalibur/naming/rmi/test/RMIContextTestCase.class"/>
-          <exclude name="org/apache/avalon/excalibur/logger/test/LogKitManagementTestCase.class"/>
-          <exclude name="org/apache/avalon/excalibur/concurrent/test/ReadWriteLockTestCase.class"/>
-          <exclude name="org/apache/avalon/excalibur/monitor/test/MonitorTestCase.class"/>
-          -->
-          <include name="**/test/*Profile.class" if="test.profile"/>
-          <include name="**/test/*TestCase.class"/>
+                    
+          <!-- Slow tests only run when test.all property set -->
+          <exclude name="org/apache/avalon/excalibur/naming/rmi/test/RMIContextTestCase.class" unless="test.all"/>
+          <exclude name="org/apache/avalon/excalibur/logger/test/LogKitManagementTestCase.class" unless="test.all"/>
+          <exclude name="org/apache/avalon/excalibur/concurrent/test/ReadWriteLockTestCase.class" unless="test.all"/>
+          <exclude name="org/apache/avalon/excalibur/monitor/test/MonitorTestCase.class" unless="test.all"/>
         </fileset>
+                
+        <!-- Scratchpad tests -->
         <fileset dir="${build.scratchpad}">
-          <exclude name="**/test/Abstract*TestCase.class"/>
           <include name="**/test/*TestCase.class"/>
           <include name="**/test/*Profile.class" if="test.profile"/>
+          <exclude name="**/test/Abstract*TestCase.class"/>
           <exclude name="**/test/*PerformanceTestCase.class" unless="test.profile"/>
+                    
+          <!-- Slow tests only run when test.all property set -->
+          <exclude name="org/apache/avalon/excalibur/pool/test/*Multithread*TestCase.class" unless="test.all"/>
         </fileset>
       </batchtest>
     </junit>
@@ -343,6 +350,10 @@ Legal:
         <fileset dir="${build.reports}" includes="TESTS-*.xml"/>
     </delete>
   </target>
+  <target name="test-all-prep">
+    <property name="test.all" value="true"/>
+  </target>
+  <target name="test-all" depends="test-all-prep, check"/>
     
   <!-- Run a subset of the tests -->
   <target name="test-subset-check" unless="junit.test">
@@ -571,7 +582,7 @@ Legal:
   </target>
 
   <!-- Create the distribution -->
-  <target name="dist-base" depends="all,javadocs,test">
+  <target name="dist-base" depends="all,javadocs,test-all">
 
     <mkdir dir="${dist.dir}"/>
     <copy file="${build.lib}/avalon-excalibur.jar" tofile="${dist.dir}/avalon-excalibur-${version}.jar"/>
