@@ -22,6 +22,9 @@ public interface ConfigurationRepository
 {
     String ROLE = "org.apache.avalon.phoenix.engine.facilities.ConfigurationRepository";
 
-    Configuration getConfiguration( String name, Entry entry )
+    Configuration getConfiguration( String application, String block )
+        throws ConfigurationException;
+
+    void storeConfiguration( String application, String block, Configuration configuration )
         throws ConfigurationException;
 }
