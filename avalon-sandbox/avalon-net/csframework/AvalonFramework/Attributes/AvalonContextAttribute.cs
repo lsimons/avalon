@@ -21,7 +21,7 @@ namespace Apache.Avalon.Framework
 	/// of a custom context interface classname that a 
 	/// component may safely cast a supplied context instance to.
 	/// </summary>
-	[AttributeUsage(		 AttributeTargets.Property|AttributeTargets.Method|AttributeTargets.Class,		 AllowMultiple=false,Inherited=true)]
+	[AttributeUsage(AttributeTargets.Class,AllowMultiple=false,Inherited=true)]
 	public class AvalonContextAttribute : Attribute
 	{
 		private Type m_contextType;

@@ -20,9 +20,7 @@ namespace Apache.Avalon.Framework
 	/// The AvalonEntryAttribute Attribute declares a context entry 
 	/// required by a component.
 	/// </summary>
-	[AttributeUsage(
-		 AttributeTargets.Constructor|AttributeTargets.Method|AttributeTargets.Property,
-		 AllowMultiple=false,Inherited=true)]
+	[AttributeUsage(AttributeTargets.Class,AllowMultiple=false,Inherited=true)]
 	public class AvalonEntryAttribute : Attribute
 	{
 		private String m_alias;
