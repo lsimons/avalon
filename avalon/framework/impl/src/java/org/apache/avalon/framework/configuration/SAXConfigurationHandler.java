@@ -118,6 +118,10 @@ public class SAXConfigurationHandler
             {
                 finishedValue = accumulatedValue;
             }
+            else if( 0 == accumulatedValue.length() )
+            {
+                finishedValue = null;
+            }
             else
             {
                 finishedValue = accumulatedValue.trim();
