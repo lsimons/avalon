@@ -16,7 +16,10 @@ import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.component.ComponentException;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.logger.AbstractLogEnabled;
+import org.apache.avalon.framework.logger.AbstractLoggable;
+import org.apache.avalon.framework.logger.LogEnabled;
+import org.apache.avalon.framework.logger.LogKitLogger;
+import org.apache.avalon.framework.logger.Loggable;
 import org.apache.avalon.cornerstone.services.datasource.DataSourceSelector;
 import org.apache.avalon.excalibur.datasource.DataSourceComponent;
 import org.apache.avalon.phoenix.Block;
@@ -44,7 +47,7 @@ import org.apache.avalon.phoenix.Block;
  * @author <a href="mailto:colus@isoft.co.kr">Eung-ju Park</a>
  */
 public class DefaultDataSourceSelector
-    extends AbstractLogEnabled
+    extends AbstractLoggable
     implements DataSourceSelector, Block, Configurable, Initializable, Disposable
 {
     private Configuration m_configuration;
@@ -94,7 +97,14 @@ public class DefaultDataSourceSelector
                 component = (DataSourceComponent)classLoader.loadClass( clazz ).newInstance();
             }
 
-            setupLogger( component, name );
+            if ( component instanceof LogEnabled )
+            {
+                ((LogEnabled)component).enableLogging( new LogKitLogger( getLogger().getChildLogger( name ) ) );
+            }
+            else if ( component instanceof Loggable )
+            {
+                ((Loggable)component).setLogger( getLogger().getChildLogger( name ) );
+            }
             component.configure( dataSourceConf );
             m_dataSources.put( name, component );
 
