@@ -320,25 +320,29 @@ Legal:
     <!-- Prepares the documentation directory -->
     <target name="docs" depends="html-docs, javadocs" description="generates all the Avalon documentation"/>
 
-    <target name="html-docs" depends="prepare" description="generates the xdocs-based documentation">
+    <target name="prepare-html-docs" depends="prepare" description="prepares the xdocs-based documentation">
 
-    <property name="use.skin"              value="avalon-tigris"/>
+   
+        <echo message="-------------------------------------------------------------"/>
+        <echo message="  Preparing docs..."/>
+        
+        <property name="use.skin"              value="avalon-tigris"/>
 
-    <!-- Skin filters -->
-    <filter token="Name"              value="${Name}"/>
-    <filter token="skin"              value="${use.skin}"/>
-    <filter token="link1"             value="apache"/>
-    <filter token="link1.href"        value="http://www.apache.org"/>
-    <filter token="link2"             value="jakarta"/>
-    <filter token="link2.href"        value="http://jakarta.apache.org"/>
-    <filter token="link3"             value=""/>
-    <filter token="link3.href"        value=""/>
-    <filter token="group-logo.src"    value="images/jakarta-logo.gif"/>
-    <filter token="group-logo.href"   value="http://jakarta.apache.org/"/>
-    <filter token="project-logo.src"  value="images/header.gif"/>
-    <filter token="project-logo.href" value="http://jakarta.apache.org/avalon/"/>
-    <filter token="year" value="2002"/>
-    <filter token="vendor" value="Apache Software Foundation"/>
+        <!-- Skin filters -->
+        <filter token="Name"              value="${Name}"/>
+        <filter token="skin"              value="${use.skin}"/>
+        <filter token="link1"             value="apache"/>
+        <filter token="link1.href"        value="http://www.apache.org"/>
+        <filter token="link2"             value="jakarta"/>
+        <filter token="link2.href"        value="http://jakarta.apache.org"/>
+        <filter token="link3"             value=""/>
+        <filter token="link3.href"        value=""/>
+        <filter token="group-logo.src"    value="images/jakarta-logo.gif"/>
+        <filter token="group-logo.href"   value="http://jakarta.apache.org/"/>
+        <filter token="project-logo.src"  value="images/header.gif"/>
+        <filter token="project-logo.href" value="http://jakarta.apache.org/avalon/"/>
+        <filter token="year" value="2002"/>
+        <filter token="vendor" value="Apache Software Foundation"/>
 
         <delete dir="${build.dir}/work"/>
 
@@ -392,9 +396,15 @@ Legal:
         <copy file="${context.dir}/resources/schema/CatalogManager.properties"
               todir="${build.context}/resources/schema" filtering="off"/>
 
-        <echo message="-------------------------------------------------------------"/>
-        <echo message="  Building docs, please stand by ..."/>
+        <echo message="                   ok."/>
+        
+   </target>
 
+   <target name="html-docs" depends="prepare-html-docs" description="generates the xdocs-based documentation">
+
+        <echo message="              -"/>
+        <echo message="  Generating docs, please stand by ..."/>
+ 
         <java classname="org.apache.cocoon.Main" fork="true" maxmemory="128m" failonerror="true">
         
             <arg value="-c${build.context}/"/>
@@ -425,7 +435,30 @@ Legal:
         </copy>
 
     </target>
+    
+  <target name="docswar" depends="prepare-html-docs" 
+          description="Create a .war package out of the docs">
+          
+    <mkdir dir="${build.context}/WEB-INF"/>
+    <move file="${build.context}/web.xml" todir="${build.context}/WEB-INF"/>
+    <move file="${build.context}/cocoon.xconf" todir="${build.context}/WEB-INF"/>
+        
+    <war warfile="${build.dir}/${name}.war"
+         webxml="${build.context}/WEB-INF/web.xml"
+         compress="false">
 
+      <fileset dir="${build.context}">
+        <exclude name="WEB-INF/web.xml"/>
+      </fileset>
+      <lib dir="tools/ext"/>
+      <lib dir="tools/lib"/>
+
+      <!--<classes dir="${build.context}/WEB-INF/classes/"/>-->
+
+    </war>
+
+  </target>
+  
     <!-- Create the API documentation -->
     <target name="javadocs" description="generates the API documentation (java 1.2+ only)">
 
