@@ -158,7 +158,7 @@ import org.apache.log.output.io.rotate.UniqueFileStrategy;
  * </dl>
  *
  * @author <a href="mailto:giacomo@apache.org">Giacomo Pati</a>
- * @version CVS $Revision: 1.1 $ $Date: 2003/10/02 19:18:43 $
+ * @version CVS $Revision: 1.2 $ $Date: 2004/01/23 10:01:01 $
  * @since 4.0
  */
 public class FileTargetFactory
@@ -194,6 +194,12 @@ public class FileTargetFactory
             }
             else
             {
+                if( confRotation.getChildren().length == 0 )
+                {
+                    final String error = 
+                      "Missing file rotation strategy element [or|size|date|interval|time]";
+                    throw new ConfigurationException( error );
+                }
                 final Configuration confStrategy = confRotation.getChildren()[ 0 ];
                 final RotateStrategy rotateStrategy = getRotateStrategy( confStrategy );
                 final FileStrategy fileStrategy = getFileStrategy( confRotation, file );
