@@ -308,6 +308,8 @@ class LifecycleHelper
         }
         catch( final ConfigurationException ce )
         {
+            //Note that this shouldn't ever happen once we
+            //create a Config validator
             final String message = 
                 REZ.getString( "missing-configuration", new Integer( type ), name );
             throw new ConfigurationException( message, ce );
