@@ -48,7 +48,7 @@ import org.apache.avalon.framework.logger.LogEnabled;
  *
  * @author <a href="mailto:avalon-dev@jakarta.apache.org">Avalon Development Team</a>
  */
-public class AvalonDataSourceSelector
+public class DefaultDataSourceSelector
     extends AbstractLogEnabled
     implements DataSourceSelector, Contextualizable, Configurable, Initializable, Disposable
 {
