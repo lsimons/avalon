@@ -85,7 +85,7 @@ import org.apache.avalon.util.criteria.PackedParameter;
  * for application to a factory.
  *
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.10 $
+ * @version $Revision: 1.11 $
  */
 public class DefaultCriteria extends Criteria implements KernelCriteria
 {
@@ -94,10 +94,9 @@ public class DefaultCriteria extends Criteria implements KernelCriteria
     //--------------------------------------------------------------
 
     private static final String AVALON_PROPERTIES = "avalon.properties";
-    private static final String MERLIN = "merlin.properties";
+    private static final String MERLIN_PROPERTIES = "merlin.properties";
 
-    private static final File USER_DIR = 
-      getBaseDirectory();
+    private static final File USER_DIR = getBaseDirectory();
 
     private static final File USER_HOME = 
       new File( System.getProperty( "user.home" ) );
@@ -111,16 +110,34 @@ public class DefaultCriteria extends Criteria implements KernelCriteria
     private static final File MERLIN_HOME_DIR = 
       getMerlinHomeDirectory();
 
+   /**
+    * Return the avalon home directory using the ${avalon.home}, AVALON_HOME,
+    * and fallback ${user.home}/.avalon as the search order.
+    * @return the avalon home directory
+    */
     private static File getAvalonHomeDirectory()
     {
         return getEnvironment( "AVALON_HOME", "avalon.home", ".avalon" );
     }
 
+   /**
+    * Return the merlin home directory using the ${merlin.home}, MERLIN_HOME,
+    * and fallback ${user.home}/.merlin as the search order.
+    * @return the merlin home directory
+    */
     private static File getMerlinHomeDirectory()
     {
         return getEnvironment( "MERLIN_HOME", "merlin.home", ".merlin" );
     }
 
+   /**
+    * Return a directory taking into account a supplied env symbol, 
+    * a property key and a property filename.  Use the supplied key
+    * to locate a system property with falback to the supplied 
+    * sysbol, with fallback to the supplied path relative to ${user.home}.
+    * 
+    * @return the derived directory
+    */
     private static File getEnvironment( String symbol, String key, String path )
     {
         try
@@ -150,56 +167,51 @@ public class DefaultCriteria extends Criteria implements KernelCriteria
 
    /**
     * The factory parameters template.
+    * @return the set of parameters constraining the criteria
     */
     private static Parameter[] buildParameters( InitialContext context )
     { 
         return new Parameter[]{
-        new Parameter( 
-          MERLIN_REPOSITORY,
-          File.class, new File( AVALON_HOME_DIR, "repository" ) ),
-        new Parameter( 
-          MERLIN_HOME,
-          File.class, MERLIN_HOME_DIR ),
-        new Parameter( 
-          MERLIN_SYSTEM,
-          File.class, new File( MERLIN_HOME_DIR, "system" ) ),
-        new Parameter( 
-          MERLIN_CONFIG,
-          File.class, new File( MERLIN_HOME_DIR, "config" ) ),
-        new PackedParameter( 
-          MERLIN_INSTALL, ",", new String[0] ),
-        new PackedParameter( 
-          MERLIN_DEPLOYMENT, ",", new String[0] ),
-        new Parameter( 
-          MERLIN_KERNEL, URL.class, null ),
-        new Parameter( 
-          MERLIN_OVERRIDE, String.class, null ),
-        new Parameter( 
-          MERLIN_DIR, File.class, context.getInitialWorkingDirectory() ),
-        new Parameter( 
-          MERLIN_TEMP, File.class, TEMP_DIR ),
-        new Parameter( 
-          MERLIN_CONTEXT, File.class, null ),
-        new Parameter( 
-          MERLIN_ANCHOR, File.class, null ),
-        new Parameter( 
-          MERLIN_INFO, Boolean.class, new Boolean( false ) ),
-        new Parameter( 
-          MERLIN_DEBUG, Boolean.class, new Boolean( false ) ),
-        new Parameter( 
-          MERLIN_SERVER, Boolean.class, new Boolean( false ) ),
-        new Parameter( 
-          MERLIN_AUTOSTART, Boolean.class, new Boolean( true ) ),
-        new Parameter( 
-          MERLIN_LANG, String.class, null )
-      };
+            new Parameter( 
+              MERLIN_REPOSITORY,
+              File.class, new File( AVALON_HOME_DIR, "repository" ) ),
+            new Parameter( 
+              MERLIN_HOME,
+              File.class, MERLIN_HOME_DIR ),
+            new Parameter( 
+              MERLIN_SYSTEM,
+              File.class, new File( MERLIN_HOME_DIR, "system" ) ),
+            new Parameter( 
+              MERLIN_CONFIG,
+              File.class, new File( MERLIN_HOME_DIR, "config" ) ),
+            new PackedParameter( 
+              MERLIN_INSTALL, ",", new String[0] ),
+            new PackedParameter( 
+              MERLIN_DEPLOYMENT, ",", new String[0] ),
+            new Parameter( 
+              MERLIN_KERNEL, URL.class, null ),
+            new Parameter( 
+              MERLIN_OVERRIDE, String.class, null ),
+            new Parameter( 
+              MERLIN_DIR, File.class, context.getInitialWorkingDirectory() ),
+            new Parameter( 
+              MERLIN_TEMP, File.class, TEMP_DIR ),
+            new Parameter( 
+              MERLIN_CONTEXT, File.class, null ),
+            new Parameter( 
+              MERLIN_ANCHOR, File.class, null ),
+            new Parameter( 
+              MERLIN_INFO, Boolean.class, new Boolean( false ) ),
+            new Parameter( 
+              MERLIN_DEBUG, Boolean.class, new Boolean( false ) ),
+            new Parameter( 
+              MERLIN_SERVER, Boolean.class, new Boolean( false ) ),
+            new Parameter( 
+              MERLIN_AUTOSTART, Boolean.class, new Boolean( true ) ),
+            new Parameter( 
+              MERLIN_LANG, String.class, null )
+         };
     }
-
-    //private static final String [] SINGLE_KEYS = 
-    //  Parameter.getKeys( PARAMS );
-
-    //private static final String[] MULTI_VALUE_KEYS = 
-    //  new String[0];
 
     //--------------------------------------------------------------
     // immutable state
@@ -225,7 +237,7 @@ public class DefaultCriteria extends Criteria implements KernelCriteria
         //
 
         Properties avalonStatic = getStaticProperties( AVALON_PROPERTIES );
-        Properties merlinStatic = getStaticProperties( MERLIN );
+        Properties merlinStatic = getStaticProperties( MERLIN_PROPERTIES );
 
         //
         // then comes environment variables
@@ -240,11 +252,22 @@ public class DefaultCriteria extends Criteria implements KernelCriteria
         Properties system = System.getProperties();
 
         //
+        // get the application properties
+        //
+
+        Properties avalonSystem = 
+          getLocalProperties( getAvalonHomeDirectory(), AVALON_PROPERTIES );
+        Properties merlinSystem = 
+          getLocalProperties( getMerlinHomeDirectory(), MERLIN_PROPERTIES );
+
+        //
         // ${user.home} overrides environment
         //
 
-        Properties avalonHome = getLocalProperties( USER_HOME, AVALON_PROPERTIES );
-        Properties merlinHome = getLocalProperties( USER_HOME, MERLIN );
+        Properties avalonHome = 
+          getLocalProperties( USER_HOME, AVALON_PROPERTIES );
+        Properties merlinHome = 
+          getLocalProperties( USER_HOME, MERLIN_PROPERTIES );
 
         //
         // and ${merlin.dir} overrides ${user.home}
@@ -254,7 +277,7 @@ public class DefaultCriteria extends Criteria implements KernelCriteria
         Properties avalonWork = 
           getLocalProperties( work, AVALON_PROPERTIES );
         Properties merlinWork = 
-          getLocalProperties( work, MERLIN );
+          getLocalProperties( work, MERLIN_PROPERTIES );
 
         //
         // Create the finder (discovery policy), construct the defaults, and
@@ -265,6 +288,8 @@ public class DefaultCriteria extends Criteria implements KernelCriteria
           new Properties[] { 
             avalonStatic, 
             merlinStatic, 
+            avalonSystem, 
+            merlinSystem, 
             env, 
             avalonHome, 
             avalonWork, 
@@ -307,7 +332,7 @@ public class DefaultCriteria extends Criteria implements KernelCriteria
         {
             Parameter param = params[i];
             final String key = param.getKey();
-            if( !key.equals( "merlin.dir" ) )
+            if( !key.equals( "merlin.dir" ) && !key.equals( "merlin.implementation" ))
             {
                 try
                 {
@@ -330,11 +355,22 @@ public class DefaultCriteria extends Criteria implements KernelCriteria
             Throwable[] throwables = 
               (Throwable[]) errors.toArray( new Throwable[0] );
             
-            final String report = 
-              "One or more errors occured while attempting to resolve defaults.";
-            String message = 
-              ExceptionHelper.packException( report, throwables, false );
-            System.err.println( message );
+            if( errors.size() > 1 )
+            {
+                final String report = 
+                  "Multiple errors (ignored) while resolving defaults.";
+                String message = 
+                  ExceptionHelper.packException( report, throwables, false );
+                System.err.println( message );
+            }
+            else
+            {
+                final String report = 
+                  "One error (ignored) occured while resolving defaults.";
+                String message = 
+                  ExceptionHelper.packException( report, throwables[0], false );
+                System.err.println( message );
+            }
         }
     }
 

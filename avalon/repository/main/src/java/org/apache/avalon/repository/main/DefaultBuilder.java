@@ -85,16 +85,13 @@ import org.apache.avalon.util.exception.ExceptionHelper;
  * 
  * @author <a href="mailto:aok123@bellsouth.net">Alex Karasulu</a>
  * @author $Author: mcconnell $
- * @version $Revision: 1.9 $
+ * @version $Revision: 1.10 $
  */
 public class DefaultBuilder extends AbstractBuilder implements Builder
 {
     //-----------------------------------------------------------
-    // static
+    // public static
     //-----------------------------------------------------------
-
-    private static final File USER = 
-      new File( System.getProperty( "user.home" ) );
 
    /**
     * Resolve the default implementation taking into account 
@@ -106,36 +103,92 @@ public class DefaultBuilder extends AbstractBuilder implements Builder
     * @return the artifact reference
     */
     public static Artifact createImplementationArtifact( 
-      ClassLoader classloader, File base, String resource, String key ) throws Exception
+      ClassLoader classloader, File base, 
+      String resource, String key ) throws Exception
     {
+        return createImplementationArtifact( 
+          classloader, null, base, resource, key );
+    }
+
+   /**
+    * Resolve the default implementation taking into account 
+    * local and home properties, and application defaults.
+    * @param classloader the embedding classloader
+    * @param system the application system home directory
+    * @param base the base directory
+    * @param resource a properties filename
+    * @param key a property key containing an artifact specification
+    * @return the artifact reference
+    */
+    public static Artifact createImplementationArtifact( 
+      ClassLoader classloader, File system, File base, 
+      String resource, String key ) throws Exception
+    {
+        //
+        // check for the implementation property in the 
+        // working directory
+        //
+
         String spec = 
-          getLocalProperties( USER, resource ).getProperty( key );
+          getLocalProperties( base, resource ).getProperty( key );
+       
+        //
+        // check for the implementation property in the 
+        // user's home directory
+        //
+
         if( null == spec )
         {
             spec = 
-              getLocalProperties( base, resource ).getProperty( key );
-            if( null == spec )
+              getLocalProperties( USER, resource ).getProperty( key );
+        }
+
+        //
+        // check for the implementation property in the 
+        // applications home directory
+        //
+
+        if( null == spec )
+        {
+            spec = 
+              getLocalProperties( system, resource ).getProperty( key );
+        }
+
+        //
+        // check for the implementation property in the 
+        // classloader
+        //
+
+        if( null == spec )
+        {
+            Properties properties = new Properties();
+            InputStream input = classloader.getResourceAsStream( resource );
+            if( input == null ) 
             {
-                Properties properties = new Properties();
-                InputStream input = classloader.getResourceAsStream( resource );
-                if( input == null ) 
-                {
-                    final String error = 
-                      "Missing resource: [" + resource + "]";
-                    throw new Error( error );
-                }
-                properties.load( input );
-                spec = properties.getProperty( key );
-                if( spec == null ) 
-                {
-                    final String error = 
-                      "Missing property: [" + key + "] in resource: [" + resource + "]";
-                    throw new Error( error );
-                }
+                final String error = 
+                  "Missing resource: [" + resource + "]";
+                throw new IllegalStateException( error );
+            }
+            properties.load( input );
+            spec = properties.getProperty( key );
+            if( spec == null ) 
+            {
+                final String error = 
+                  "Missing property: [" + key + "] in resource: [" + resource + "]";
+                throw new IllegalStateException( error );
             }
         }
+
+        //
+        // return the artifact referencing the implementation to be loaded
+        //
+
         return Artifact.createArtifact( spec );
     }
+
+    //-----------------------------------------------------------
+    // private static
+    //-----------------------------------------------------------
 
     private static Properties getLocalProperties( 
       File dir, String filename ) throws IOException
@@ -147,6 +200,9 @@ public class DefaultBuilder extends AbstractBuilder implements Builder
         properties.load( new FileInputStream( file ) );
         return properties;
     }
+
+    private static final File USER = 
+      new File( System.getProperty( "user.home" ) );
 
     //-----------------------------------------------------------
     // immutable state
