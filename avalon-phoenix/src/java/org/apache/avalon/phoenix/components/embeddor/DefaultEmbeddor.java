@@ -42,12 +42,12 @@ import org.apache.log.output.FileOutputLogTarget;
  * @author <a href="mail@leosimons.com">Leo Simons</a>
  * @author <a href="donaldp@apache.org">Peter Donald</a>
  */
-public class PhoenixEmbeddor
+public class DefaultEmbeddor
     extends AbstractLoggable
     implements Embeddor, Parameterizable
 {
     private static final Resources REZ =
-        ResourceManager.getPackageResources( PhoenixEmbeddor.class );
+        ResourceManager.getPackageResources( DefaultEmbeddor.class );
 
     private static final String    PHOENIX_HOME         =
         System.getProperty( "phoenix.home", ".." );
