@@ -150,5 +150,15 @@
     </plugins>
   </project>
 
+  <project basedir="configuration/override">
+    <info>
+      <group>avalon/tutorial</group>
+      <name>avalon-tutorial-config-override</name>
+      <type>block</type>
+    </info>
+    <dependencies>
+      <include key="avalon-tutorial-config-injection"/>
+    </dependencies>
+  </project>
 
 </system>
