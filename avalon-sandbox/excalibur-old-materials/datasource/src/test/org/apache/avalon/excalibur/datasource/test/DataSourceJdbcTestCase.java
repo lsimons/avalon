@@ -40,6 +40,9 @@ public class DataSourceJdbcTestCase
     public DataSourceJdbcTestCase(String name)
     {
         super(name);
+        
+        // Set the priority for default log output.
+        m_logPriority = org.apache.log.Priority.INFO;
     }
 
     public void testOverAllocation()
@@ -52,10 +55,12 @@ public class DataSourceJdbcTestCase
         {
             ds = (DataSourceComponent) manager.lookup( DataSourceComponent.ROLE );
 
-            for( int i = 0; i < 11; i++ )
+            for( int i = 0; i < 10; i++ )
             {
                 connectionList.add( ds.getConnection() );
             }
+            getLogger().info( "Testing overallocation of connections.  Should see a warning next." );
+            connectionList.add( ds.getConnection() );
         }
         catch ( SQLException se )
         {
