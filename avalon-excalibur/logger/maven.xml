@@ -26,6 +26,9 @@ limitations under the License.
         <ant:path
             id="servletlogger.sources"
             location="${basedir}/servletlogger/src/java"/>
+        <ant:path
+            id="impl.sources"
+            location="${basedir}/impl/src/java"/>
         
         <maven:addPath
             id="maven.compile.src.set"
@@ -36,6 +39,9 @@ limitations under the License.
         <maven:addPath
             id="maven.compile.src.set"
             refid="servletlogger.sources"/>
+        <maven:addPath
+            id="maven.compile.src.set"
+            refid="impl.sources"/>
     </preGoal>
     
 
