@@ -14,21 +14,32 @@ import org.xml.sax.Locator;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 import org.xml.sax.helpers.DefaultHandler;
+import java.util.BitSet;
 
 /**
  * A SAXConfigurationHandler helps build Configurations out of sax events.
  *
  * @author <a href="mailto:fede@apache.org">Federico Barbieri</a>
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
- * @author <a href="mailto:leo.sutic@inspireinfrastructure.com">Leo Sutic</a>
  */
 public class SAXConfigurationHandler
     extends DefaultHandler
     implements ErrorHandler
 {
-    private final ArrayList              m_elements        = new ArrayList();
-    private Configuration                m_configuration;
-    private Locator                      m_locator;
+    /**
+     * Likely number of nested configuration items. If more is
+     * encountered the lists will grow automatically.
+     */
+    private final static int EXPECTED_DEPTH  = 5;
+    private final ArrayList m_elements       = new ArrayList(EXPECTED_DEPTH);
+    private final ArrayList m_values         = new ArrayList(EXPECTED_DEPTH);
+    /**
+     * Contains true at index n if space in the configuration with
+     * depth n is to be preserved.
+     */
+    private final BitSet     m_preserveSpace = new BitSet();
+    private Configuration    m_configuration;
+    private Locator          m_locator;
 
     /**
      * Get the configuration object that was built.
@@ -46,6 +57,7 @@ public class SAXConfigurationHandler
     public void clear()
     {
         m_elements.clear();
+        m_values.clear();
         m_locator = null;
     }
 
@@ -70,18 +82,13 @@ public class SAXConfigurationHandler
     public void characters( final char[] ch, int start, int end )
         throws SAXException
     {
-        String value = new String( ch, start, end );
-
-        if( value.equals( "" ) )
-        {
-            return;
-        }
-
-        final DefaultConfiguration configuration =
-            (DefaultConfiguration)m_elements.get( m_elements.size() - 1 );
-
-        value = configuration.getValue( "" ) + value;
-        configuration.setValue( value );
+        // it is possible to play micro-optimization here by doing
+        // manual trimming and thus preserve some precious bits
+        // of memory, but it's really not important enough to justify
+        // resulting code complexity
+        final int depth = m_values.size() - 1;
+        final StringBuffer valueBuffer = (StringBuffer) m_values.get( depth );
+        valueBuffer.append( ch, start, end );
     }
 
     /**
@@ -97,36 +104,40 @@ public class SAXConfigurationHandler
                             final String rawName )
         throws SAXException
     {
-        final int location = m_elements.size() - 1;
-        final DefaultConfiguration object = (DefaultConfiguration) m_elements.remove( location );
-
-        // Check for validity
-        if ( object.getValue( null ) != null && object.getChildCount() > 0 ) 
+        final int depth = m_elements.size() - 1;
+        final DefaultConfiguration finishedConfiguration =
+            (DefaultConfiguration) m_elements.remove( depth );
+        final String accumulatedValue = 
+            ((StringBuffer) m_values.remove( depth )).toString();
+        
+        if( finishedConfiguration.getChildren().length == 0 )
         {
-            // Could be invalid - the configuration has children and a value.
-            // It is valid, however, to have a value consisting of just whitespace.
-            // So let's trim the value, and see if we can resolve the conflict that way.
-            if ( object.getValue("").trim().equals("") )
+            // leaf node
+            String finishedValue;
+            if( m_preserveSpace.get(depth) )
             {
-                // Resolved!
-                object.setValue( null );
+                finishedValue = accumulatedValue;
             }
-            else 
+            else
+            {
+                finishedValue = accumulatedValue.trim();
+            }
+            finishedConfiguration.setValue( finishedValue );
+        }
+        else
+        {
+            final String trimmedValue = accumulatedValue.trim();
+            if( trimmedValue.length() > 0 )
             {
                 throw new SAXException( "Not allowed to define mixed content in the " +
-                                        "element " + object.getName() + " at " +
-                                        object.getLocation() );
+                                        "element " + finishedConfiguration.getName() + " at " +
+                                        finishedConfiguration.getLocation() );
             }
         }
-        
-        if( 0 == location )
+
+        if( 0 == depth )
         {
-            m_configuration = object;
-            final String value = m_configuration.getValue( null );
-            if( null != value )
-            {
-                ((DefaultConfiguration)m_configuration).setValue( value.trim() );
-            }
+            m_configuration = finishedConfiguration;
         }
     }
 
@@ -161,17 +172,22 @@ public class SAXConfigurationHandler
     {
         final DefaultConfiguration configuration =
             createConfiguration( rawName, getLocationString() );
-        final int size = m_elements.size() - 1;
+        // depth of new configuration (not decrementing here, configuration
+        // is to be added)
+        final int depth = m_elements.size();
+        boolean preserveSpace = false; // top level element trims space by default
 
-        if( size > -1 )
+        if( depth > 0 )
         {
             final DefaultConfiguration parent =
-                (DefaultConfiguration)m_elements.get( size );
-
+                (DefaultConfiguration)m_elements.get( depth - 1 );
             parent.addChild( configuration );
+             // inherits parent's space preservation policy
+            preserveSpace = m_preserveSpace.get( depth - 1 );
         }
 
         m_elements.add( configuration );
+        m_values.add( new StringBuffer() );
 
         final int attributesSize = attributes.getLength();
 
@@ -179,7 +195,24 @@ public class SAXConfigurationHandler
         {
             final String name = attributes.getQName( i );
             final String value = attributes.getValue( i );
-            configuration.setAttribute( name, value );
+
+            if( ! name.equals( "xml:space" ))
+            {
+                configuration.setAttribute( name, value );
+            }
+            else
+            {
+                preserveSpace = value.equals( "preserve" );
+            }
+        }
+
+        if( preserveSpace )
+        {
+            m_preserveSpace.set( depth );
+        }
+        else
+        {
+            m_preserveSpace.clear( depth );
         }
     }
 

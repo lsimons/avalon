@@ -43,6 +43,14 @@ import javax.xml.parsers.SAXParserFactory;
  *  Configuration#getNamespace getNamespace()}.equals("http://foo.com")</code>.
  *  </li>
  * </ul>
+ * <p>
+ * Whitespace handling. Since mixed content is not allowed in the
+ * configurations, whitespace is completely discarded in non-leaf nodes.
+ * For the leaf nodes the default behavior is to trim the space
+ * surrounding the value. This can be changed by specifying
+ * <code>xml:space</code> attribute with value of <code>preserve</code>
+ * in that case the whitespace is left intact.
+ * </p>
  *
  * @author <a href="mailto:fede@apache.org">Federico Barbieri</a>
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
