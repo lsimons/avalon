@@ -97,9 +97,9 @@ To build a project independnet of dependent project groups is possible using any
 
   <goal name="xcomposition">
     <maven:reactor basedir="${basedir}"
-      includes="composition/**/project.xml"
+      includes="composition/project.xml"
       banner="Building:"
-      goals="jar:install"
+      goals="avalon:build"
       ignoreFailures="false" 
       postProcessing="false" />
   </goal>
