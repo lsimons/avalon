@@ -1,6 +1,0 @@
-.ant.properties
-*.el
-dist
-build
-docs
-*.ipr
