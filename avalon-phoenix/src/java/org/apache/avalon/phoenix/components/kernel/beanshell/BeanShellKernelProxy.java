@@ -11,7 +11,7 @@ import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.phoenix.interfaces.Application;
 import org.apache.avalon.phoenix.interfaces.Kernel;
 import org.apache.avalon.phoenix.metadata.SarMetaData;
-import org.apache.log.Hierarchy;
+import org.apache.avalon.framework.logger.Logger;
 
 public class BeanShellKernelProxy
     implements Kernel
@@ -28,7 +28,7 @@ public class BeanShellKernelProxy
 
     public void addApplication( SarMetaData metaData,
                                 ClassLoader classLoader,
-                                Hierarchy hierarchy,
+                                Logger hierarchy,
                                 Configuration server )
         throws Exception
     {
