@@ -104,7 +104,7 @@
     <info>
       <group>mx4j</group>
       <name>mx4j-jmx</name>
-      <version>1.1.1</version>
+      <version>2.0.1</version>
       <type>jar</type>
     </info>
     <gump>
@@ -116,8 +116,53 @@
   <resource>
     <info>
       <group>mx4j</group>
+      <name>mx4j-impl</name>
+      <version>2.0.1</version>
+      <type>jar</type>
+    </info>
+    <dependencies>
+      <include key="mx4j-jmx"/>
+    </dependencies>
+    <gump>
+      <alias>mx4j</alias>
+      <id>mx4j-impl</id>
+    </gump>
+  </resource>
+
+  <resource>
+    <info>
+      <group>mx4j</group>
+      <name>mx4j-rjmx</name>
+      <version>2.0.1</version>
+      <type>jar</type>
+    </info>
+    <gump>
+      <alias>mx4j</alias>
+      <id>mx4j-rjmx</id>
+    </gump>
+  </resource>
+
+  <resource>
+    <info>
+      <group>mx4j</group>
+      <name>mx4j-rimpl</name>
+      <version>2.0.1</version>
+      <type>jar</type>
+    </info>
+    <dependencies>
+      <include key="mx4j-rjmx"/>
+    </dependencies>
+    <gump>
+      <alias>mx4j</alias>
+      <id>mx4j-rimpl</id>
+    </gump>
+  </resource>
+
+  <resource>
+    <info>
+      <group>mx4j</group>
       <name>mx4j-tools</name>
-      <version>1.1.1</version>
+      <version>2.0.1</version>
       <type>jar</type>
     </info>
     <dependencies>
@@ -369,7 +414,7 @@
     <dependencies>
       <include key="avalon-framework-impl"/>
       <include key="avalon-util-i18n"/>
-      <include key="mx4j-tools"/>
+      <include key="mx4j-jmx"/>
     </dependencies>
   </project>
 
@@ -390,11 +435,15 @@
     <info>
       <group>avalon/jmx</group>
       <name>avalon-jmx-mx4j</name>
-      <version>1.0.0</version>
-      <status>SNAPSHOT</status> 
+      <version>2.0.1</version>
+      <status>SNAPSHOT</status>
     </info>
     <dependencies>
       <include key="avalon-jmx-spi"/>
+      <include key="mx4j-jmx"/>
+      <include key="mx4j-impl" build="false" runtime="true"/>
+      <include key="mx4j-rjmx"/>
+      <include key="mx4j-rimpl" build="false" runtime="true"/>
       <include key="mx4j-tools"/>
     </dependencies>
     <plugins>
