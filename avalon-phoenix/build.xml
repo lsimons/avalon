@@ -78,9 +78,13 @@ Legal:
   <property name="dist.base" value="distributions"/>
 
   <property name="constants.file" value="org/apache/phoenix/engine/Constants.java"/>
+  <property name="xerces.jar" value="${lib.dir}/xerces_1_2_3.jar"/>
+  <property name="avalonapi.jar" value="${lib.dir}/avalonapi.jar"/>
 
   <path id="project.class.path">
     <pathelement path="${java.class.path}" />
+    <pathelement location="${xerces.jar}"/>
+    <pathelement location="${avalonapi.jar}"/>
     <fileset dir="${lib.dir}">
       <include name="*.jar" />
     </fileset>
@@ -353,8 +357,8 @@ Legal:
     <copy file="${build.lib}/phoenix-engine.jar" todir="${dist.bin}"/>
 
     <copy file="${build.lib}/phoenix-client.jar" todir="${dist.lib}"/>
-    <copy file="${lib.dir}/avalonapi.jar" todir="${dist.lib}"/>
-    <copy file="${lib.dir}/xerces_1_2_3.jar" tofile="${dist.lib}/xerces.jar"/>
+    <copy file="${avalonapi.jar}" todir="${dist.lib}"/>
+    <copy file="${xerces.jar}" tofile="${dist.lib}/xerces.jar"/>
 
     <copy file="${script.dir}/run.bat" todir="${dist.bin}"/>
     <copy file="${script.dir}/run.sh" todir="${dist.bin}"/>
@@ -414,10 +418,15 @@ Legal:
     <copy todir="${src.dist.lib}">
       <fileset dir="${lib.dir}">
         <include name="README" />
+<!--
         <include name="avalonapi.jar" />
         <include name="xerces.jar" />
+-->
       </fileset>
     </copy>
+
+    <copy file="${xerces.jar}" todir="${src.dist.lib}">
+    <copy file="${avalonapi.jar}" todir="${src.dist.lib}">
 
     <copy todir="${src.dist.src}">
       <fileset dir="${src.dir}"/>
