@@ -1,0 +1,375 @@
+? jakarta-news.xml
+? jms1.0.2b
+? logkit-2.0.diff
+? lib/jms.jar
+? lib/log4j-1.2.7.jar
+Index: build.xml
+===================================================================
+RCS file: /home/cvs/jakarta-avalon-logkit/build.xml,v
+retrieving revision 1.85
+diff -u -b -r1.85 build.xml
+--- build.xml	23 Jan 2003 09:08:44 -0000	1.85
++++ build.xml	3 Feb 2003 14:10:29 -0000
+@@ -85,8 +85,7 @@
+ 
+   <property name="servlet.jar" value="${lib.dir}/servlet.jar"/>
+   <property name="mail.jar" value="${lib.dir}/mail.jar"/>
+-  <property name="jakarta-site.dir" value="../jakarta-site"/>
+-  <property name="framework.jar" value="../jakarta-avalon/build/lib/avalon-framework.jar"/>
++  <property name="jakarta-site.dir" value="../jakarta-avalon-site"/>
+ 
+   <path id="project.class.path">
+     <pathelement path="${java.class.path}" />
+@@ -169,12 +168,6 @@
+         
+   </target>
+ 
+-  <target name="import-framework-jar" if="avalon-framework-jar.relatively-present" depends="optional-tests" description="Imports the Avalon Framework jar if required">
+-
+-    <copy file="${framework.jar}" todir="${lib.dir}"/>
+-
+-  </target>
+-
+ 
+   <target name="optional-tests" description="Tests for classes missing to the environment">
+ 
+@@ -182,13 +175,6 @@
+                classname="javax.servlet.ServletContext"
+                classpathref="project.class.path" />
+ 
+-    <available property="avalon-framework-jar.relatively-present"
+-               file="${framework.jar}"/>
+-
+-    <available property="avalon-framework.present"
+-               classname="org.apache.avalon.framework.CascadingThrowable"
+-               classpathref="project.class.path" />
+-
+     <available property="javax.sql.present"
+                classname="javax.sql.DataSource"
+                classpathref="project.class.path" />
+@@ -260,20 +246,7 @@
+     </antcall>
+   </target>
+ 
+-  <target name="framework-warn" unless="avalon-framework.present">
+-    <echo>**********************************************</echo>
+-    <echo>*</echo>
+-    <echo>*  Optional classes from Avalon's framework subproject</echo>
+-    <echo>*  are missing.  Logkit should build without them.</echo>
+-    <echo>*</echo>
+-    <echo>*  Run the build target import-framework-jar and it will</echo>
+-    <echo>*  get the framework jar from a relative directory if there.</echo>
+-    <echo>*</echo>
+-    <echo>***********************************************</echo>
+-    <echo/>
+-  </target>
+-
+-  <target name="optional-warnings" depends="jms-warn,framework-warn,sql-warn,servlet-warn,mail-warn,log4j-warn">
++  <target name="optional-warnings" depends="jms-warn,sql-warn,servlet-warn,mail-warn,log4j-warn">
+   </target>
+ 
+   <!-- Prepares the build directory -->
+@@ -298,8 +271,6 @@
+                unless="servlet.present"/>
+       <exclude name="org/apache/log/output/net/SMTPOutputLogTarget.java"
+                unless="javax.mail.present"/>
+-      <exclude name="org/apache/log/format/AvalonFormatter.java"
+-               unless="avalon-framework.present"/>
+       <exclude name="org/apache/log/output/db/**"
+                unless="javax.sql.present"/>
+       <exclude name="org/apache/log/output/jms/**"
+@@ -405,8 +376,6 @@
+                  unless="servlet.present"/>
+         <exclude name="org/apache/log/output/net/SMTPOutputLogTarget.java"
+                  unless="javax.mail.present"/>
+-        <exclude name="org/apache/log/format/AvalonFormatter.java"
+-                 unless="avalon-framework.present"/>
+         <exclude name="org/apache/log/output/db/**"
+                  unless="javax.sql.present"/>
+         <exclude name="org/apache/log/output/jms/**"
+Index: src/java/org/apache/log/LogEvent.java
+===================================================================
+RCS file: /home/cvs/jakarta-avalon-logkit/src/java/org/apache/log/LogEvent.java,v
+retrieving revision 1.11
+diff -u -b -r1.11 LogEvent.java
+--- src/java/org/apache/log/LogEvent.java	20 May 2002 10:12:49 -0000	1.11
++++ src/java/org/apache/log/LogEvent.java	3 Feb 2003 14:10:29 -0000
+@@ -42,12 +42,6 @@
+     private ContextMap m_contextMap;
+ 
+     /**
+-     * The context stack associated with LogEvent. (May be null)
+-     * @deprecated ContextStack has been deprecated and thus so has this field.
+-     */
+-    private transient ContextStack m_contextStack;
+-
+-    /**
+      * Get Priority for LogEvent.
+      *
+      * @return the LogEvent Priority
+@@ -85,30 +79,6 @@
+     public final void setContextMap( final ContextMap contextMap )
+     {
+         m_contextMap = contextMap;
+-    }
+-
+-    /**
+-     * Get ContextStack associated with LogEvent
+-     *
+-     * @return the ContextStack
+-     * @deprecated ContextStack has been deprecated and thus so has this method
+-     */
+-    public final ContextStack getContextStack()
+-    {
+-        return m_contextStack;
+-    }
+-
+-    /**
+-     * Set the ContextStack for this LogEvent.
+-     * Note that if this LogEvent ever changes threads, the
+-     * ContextStack must be cloned.
+-     *
+-     * @param contextStack the context stack
+-     * @deprecated ContextStack has been deprecated and thus so has this method
+-     */
+-    public final void setContextStack( final ContextStack contextStack )
+-    {
+-        m_contextStack = contextStack;
+     }
+ 
+     /**
+Index: src/java/org/apache/log/Logger.java
+===================================================================
+RCS file: /home/cvs/jakarta-avalon-logkit/src/java/org/apache/log/Logger.java,v
+retrieving revision 1.32
+diff -u -b -r1.32 Logger.java
+--- src/java/org/apache/log/Logger.java	12 Dec 2002 01:51:05 -0000	1.32
++++ src/java/org/apache/log/Logger.java	3 Feb 2003 14:10:29 -0000
+@@ -581,7 +581,6 @@
+     {
+         final LogEvent event = new LogEvent();
+         event.setCategory( m_category );
+-        event.setContextStack( ContextStack.getCurrentContext( false ) );
+         event.setContextMap( ContextMap.getCurrentContext( false ) );
+ 
+         if( null != message )
+Index: src/java/org/apache/log/filter/AbstractFilterTarget.java
+===================================================================
+RCS file: /home/cvs/jakarta-avalon-logkit/src/java/org/apache/log/filter/AbstractFilterTarget.java,v
+retrieving revision 1.6
+diff -u -b -r1.6 AbstractFilterTarget.java
+--- src/java/org/apache/log/filter/AbstractFilterTarget.java	27 Mar 2002 22:07:56 -0000	1.6
++++ src/java/org/apache/log/filter/AbstractFilterTarget.java	3 Feb 2003 14:10:29 -0000
+@@ -7,7 +7,6 @@
+  */
+ package org.apache.log.filter;
+ 
+-import org.apache.log.FilterTarget;
+ import org.apache.log.LogEvent;
+ import org.apache.log.LogTarget;
+ 
+@@ -18,7 +17,7 @@
+  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+  */
+ public abstract class AbstractFilterTarget
+-    implements FilterTarget, LogTarget
++    implements LogTarget
+ {
+     //Log targets in filter chain
+     private LogTarget m_targets[];
+Index: src/java/org/apache/log/format/PatternFormatter.java
+===================================================================
+RCS file: /home/cvs/jakarta-avalon-logkit/src/java/org/apache/log/format/PatternFormatter.java,v
+retrieving revision 1.34
+diff -u -b -r1.34 PatternFormatter.java
+--- src/java/org/apache/log/format/PatternFormatter.java	8 Nov 2002 03:10:36 -0000	1.34
++++ src/java/org/apache/log/format/PatternFormatter.java	3 Feb 2003 14:10:30 -0000
+@@ -12,7 +12,6 @@
+ import java.util.Date;
+ import java.util.Stack;
+ import org.apache.log.ContextMap;
+-import org.apache.log.ContextStack;
+ import org.apache.log.LogEvent;
+ import org.apache.log.Priority;
+ 
+@@ -103,7 +102,7 @@
+  * @version CVS $Revision: 1.1 $ $Date: 2003/02/03 14:12:21 $
+  */
+ public class PatternFormatter
+-    implements Formatter, org.apache.log.Formatter
++    implements Formatter
+ {
+     private static final int TYPE_TEXT = 1;
+     private static final int TYPE_CATEGORY = 2;
+@@ -469,12 +468,12 @@
+                 return getPriority( event.getPriority(), run.m_format );
+ 
+             case TYPE_CONTEXT:
++
+                 if( null == run.m_format ||
+                     run.m_format.startsWith( "stack" ) )
+                 {
+-                    //Print a warning out to stderr here
+-                    //to indicate you are using a deprecated feature?
+-                    return getContext( event.getContextStack(), run.m_format );
++                    // Feature no longer available.
++                    return "";
+                 }
+                 else
+                 {
+@@ -515,32 +514,6 @@
+     protected String getThread( final String format )
+     {
+         return Thread.currentThread().getName();
+-    }
+-
+-    /**
+-     * Utility method to format context.
+-     *
+-     * @param stack the context stack
+-     * @param format ancilliary format parameter - allowed to be null
+-     * @return the formatted string
+-     * @deprecated Use getContextStack rather than this method
+-     */
+-    protected String getContext( final ContextStack stack, final String format )
+-    {
+-        return getContextStack( stack, format );
+-    }
+-
+-    /**
+-     * Utility method to format context.
+-     *
+-     * @param stack the context stack
+-     * @param format ancilliary format parameter - allowed to be null
+-     * @return the formatted string
+-     */
+-    protected String getContextStack( final ContextStack stack, final String format )
+-    {
+-        if( null == stack ) return "";
+-        return stack.toString( Integer.MAX_VALUE );
+     }
+ 
+     /**
+Index: src/java/org/apache/log/format/RawFormatter.java
+===================================================================
+RCS file: /home/cvs/jakarta-avalon-logkit/src/java/org/apache/log/format/RawFormatter.java,v
+retrieving revision 1.7
+diff -u -b -r1.7 RawFormatter.java
+--- src/java/org/apache/log/format/RawFormatter.java	27 Mar 2002 22:07:56 -0000	1.7
++++ src/java/org/apache/log/format/RawFormatter.java	3 Feb 2003 14:10:30 -0000
+@@ -16,7 +16,7 @@
+  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+  */
+ public class RawFormatter
+-    implements Formatter, org.apache.log.Formatter
++    implements Formatter
+ {
+     /**
+      * Format log event into string.
+Index: src/java/org/apache/log/format/SyslogFormatter.java
+===================================================================
+RCS file: /home/cvs/jakarta-avalon-logkit/src/java/org/apache/log/format/SyslogFormatter.java,v
+retrieving revision 1.8
+diff -u -b -r1.8 SyslogFormatter.java
+--- src/java/org/apache/log/format/SyslogFormatter.java	27 Mar 2002 22:07:56 -0000	1.8
++++ src/java/org/apache/log/format/SyslogFormatter.java	3 Feb 2003 14:10:30 -0000
+@@ -17,7 +17,7 @@
+  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+  */
+ public class SyslogFormatter
+-    implements Formatter, org.apache.log.Formatter
++    implements Formatter
+ {
+     public static final int PRIORITY_DEBUG = 7;
+     public static final int PRIORITY_INFO = 6;
+Index: src/java/org/apache/log/format/XMLFormatter.java
+===================================================================
+RCS file: /home/cvs/jakarta-avalon-logkit/src/java/org/apache/log/format/XMLFormatter.java,v
+retrieving revision 1.6
+diff -u -b -r1.6 XMLFormatter.java
+--- src/java/org/apache/log/format/XMLFormatter.java	27 Mar 2002 22:07:56 -0000	1.6
++++ src/java/org/apache/log/format/XMLFormatter.java	3 Feb 2003 14:10:30 -0000
+@@ -19,7 +19,7 @@
+  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+  */
+ public class XMLFormatter
+-    implements Formatter, org.apache.log.Formatter
++    implements Formatter
+ {
+     private static final String EOL = System.getProperty( "line.separator", "\n" );
+ 
+@@ -156,14 +156,6 @@
+             sb.append( "  <category>" );
+             sb.append( event.getCategory() );
+             sb.append( "</category>" );
+-            sb.append( EOL );
+-        }
+-
+-        if( m_printContext && null != event.getContextStack() )
+-        {
+-            sb.append( "  <context-stack>" );
+-            sb.append( event.getContextStack() );
+-            sb.append( "</context-stack>" );
+             sb.append( EOL );
+         }
+ 
+Index: src/java/org/apache/log/output/ServletOutputLogTarget.java
+===================================================================
+RCS file: /home/cvs/jakarta-avalon-logkit/src/java/org/apache/log/output/ServletOutputLogTarget.java,v
+retrieving revision 1.9
+diff -u -b -r1.9 ServletOutputLogTarget.java
+--- src/java/org/apache/log/output/ServletOutputLogTarget.java	27 Mar 2002 22:07:57 -0000	1.9
++++ src/java/org/apache/log/output/ServletOutputLogTarget.java	3 Feb 2003 14:10:30 -0000
+@@ -9,7 +9,7 @@
+  * @author <a href="mailto:Tommy.Santoso@osa.de">Tommy Santoso</a>
+  */
+ public class ServletOutputLogTarget
+-    extends DefaultOutputLogTarget //will extend AbstractOutputTarget in future
++    extends AbstractOutputTarget
+ {
+     ///The servlet context written to (may be null in which case it won't log at all)
+     private ServletContext m_context;
+Index: src/test/org/apache/log/format/test/FormatterTestCase.java
+===================================================================
+RCS file: /home/cvs/jakarta-avalon-logkit/src/test/org/apache/log/format/test/FormatterTestCase.java,v
+retrieving revision 1.5
+diff -u -b -r1.5 FormatterTestCase.java
+--- src/test/org/apache/log/format/test/FormatterTestCase.java	27 Mar 2002 22:07:58 -0000	1.5
++++ src/test/org/apache/log/format/test/FormatterTestCase.java	3 Feb 2003 14:10:30 -0000
+@@ -9,7 +9,6 @@
+ 
+ import junit.framework.TestCase;
+ import org.apache.log.ContextMap;
+-import org.apache.log.ContextStack;
+ import org.apache.log.LogEvent;
+ import org.apache.log.Priority;
+ import org.apache.log.format.Formatter;
+@@ -49,9 +48,9 @@
+     private static ContextMap CM1 = new ContextMap();
+     private static ContextMap CM2 = new ContextMap();
+ 
+-    private static LogEvent E1 = createEvent( C1, M1, null, T1, P1, null, CM1 );
+-    private static LogEvent E2 = createEvent( C2, M2, null, T2, P2, null, CM2 );
+-    private static LogEvent E3 = createEvent( C3, M3, null, T3, P3, null, null );
++    private static LogEvent E1 = createEvent( C1, M1, null, T1, P1, CM1 );
++    private static LogEvent E2 = createEvent( C2, M2, null, T2, P2, CM2 );
++    private static LogEvent E3 = createEvent( C3, M3, null, T3, P3, null );
+ 
+     private static String E1_XML = "<log-entry>" + EOL +
+         "  <time>" + T1 + "</time>" + EOL +
+@@ -149,7 +148,6 @@
+                                          final Throwable throwable,
+                                          final long time,
+                                          final Priority priority,
+-                                         final ContextStack contextStack,
+                                          final ContextMap contextMap )
+     {
+         setupContext();
+@@ -160,7 +158,6 @@
+         event.setThrowable( throwable );
+         event.setTime( time );
+         event.setPriority( priority );
+-        event.setContextStack( contextStack );
+         event.setContextMap( contextMap );
+         return event;
+     }
