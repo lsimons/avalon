@@ -49,8 +49,11 @@
 */
 package org.apache.excalibur.instrument.manager.altrmi;
 
-import java.rmi.ServerException;
-
+import org.apache.altrmi.server.PublicationDescription;
+import org.apache.altrmi.server.PublicationException;
+import org.apache.altrmi.server.ServerException;
+import org.apache.altrmi.server.impl.AbstractServer;
+import org.apache.altrmi.server.impl.socket.CompleteSocketCustomStreamServer;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.excalibur.instrument.manager.DefaultInstrumentManager;
 import org.apache.excalibur.instrument.manager.InstrumentManagerClientLocalImpl;
@@ -65,7 +68,7 @@ import org.apache.excalibur.instrument.manager.interfaces.InstrumentableDescript
  *  file.
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.5 $ $Date: 2003/02/25 16:28:43 $
+ * @version CVS $Revision: 1.6 $ $Date: 2003/02/26 17:20:53 $
  * @since 4.1
  */
 public class InstrumentManagerAltrmiServer
