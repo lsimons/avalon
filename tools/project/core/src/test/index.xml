@@ -11,7 +11,7 @@
     <cache dir=".cache"/>
     <proxy/>
     <hosts>
-      <host>http://www.dpml.net</host>
+      <host>http://www.apache.org/dist/avalon/</host>
     </hosts>
   </repository>
 

@@ -27,8 +27,10 @@ import java.io.Writer;
 import org.apache.tools.ant.Task;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.BuildException;
+import org.apache.tools.ant.taskdefs.Mkdir;
 
 import org.apache.avalon.tools.home.Home;
+import org.apache.avalon.tools.home.Context;
 import org.apache.avalon.tools.project.Definition;
 import org.apache.avalon.tools.project.Resource;
 import org.apache.avalon.tools.project.ResourceRef;
@@ -38,24 +40,66 @@ import org.apache.avalon.tools.project.Plugin;
 import org.apache.avalon.tools.project.Plugin.TaskDef;
 
 /**
- * Load a plugin. 
+ * Load a plugin.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
-public class DeclareTask extends DeliverableTask
+public class DeclareTask extends Task
 {
-    private static final String FILENAME = "plugin.xml";
+    private static final String TYPE = "plugin";
+
+    private boolean m_init = false;
+    private Context m_context;
+    private Home m_home;
+
+   /**
+    * Set the home ref id.
+    * @param id a home id
+    */
+    public void setRefid( String id )
+    {
+        Object object = getProject().getReference( id );
+        if( null == object )
+        {
+            final String error = 
+              "Unknown ref id '" + id + "'.";
+            throw new BuildException( error );
+        }
+        if( object instanceof Home )
+        {
+            m_home = (Home) object;
+        }
+        else
+        {
+            final String error = 
+              "Supplied id '" + id + "' does not refer to a Home.";
+            throw new BuildException( error );
+        }
+    }
 
     public void init() throws BuildException 
     {
-        super.init();
+        if( !m_init )
+        {
+            Project project = getProject();
+            m_context = Context.getContext( project );
+            m_init = true;
+        }
     }
 
     public void execute() throws BuildException 
     {
+        if( null == m_home ) 
+        {
+            final String error = 
+              "Required system home 'refid' attribute not set in the task definition ["
+              + getTaskName() + "].";
+            throw new BuildException( error );
+        }
+
         log( "creating plugin declaration" );
-        final Definition def = getDefinition();
+        final Definition def = m_home.getDefinition();
 
         try
         {
@@ -80,11 +124,11 @@ public class DeclareTask extends DeliverableTask
 
     private File getPluginFile()
     {
-        Project project = getProject();
-        File dir = DeliverableTask.getTargetDeliverablesDirectory( project );
-        File ants = new File( dir, "ants" );
-        createDirectory( ants );
-        Definition def = getDefinition();
+        File dir = m_context.getDeliverablesDirectory();
+        File ants = new File( dir, TYPE + "s" );
+        mkDir( ants );
+
+        Definition def = m_home.getDefinition();
         Info info = def.getInfo();
         String filename = getFilename( info );
         return new File( ants, filename );
@@ -95,11 +139,11 @@ public class DeclareTask extends DeliverableTask
         String version = info.getVersion();
         if( null == version )
         {
-            return info.getName() + ".ant";
+            return info.getName() + "." + TYPE;
         }
         else
         {
-            return info.getName() + "-" + version + ".ant";
+            return info.getName() + "-" + version + "." + TYPE;
         }
     }
 
@@ -173,7 +217,7 @@ public class DeclareTask extends DeliverableTask
         {
             writer.write( "\n    <version>" + version + "</version>" );
         }
-        writer.write( "\n    <type>" + type + "</type>" );
+        writer.write( "\n    <type>" + TYPE + "</type>" );
         writer.write( "\n  </info>" );
     }
 
@@ -182,7 +226,7 @@ public class DeclareTask extends DeliverableTask
     {
         writer.write( "\n  <classpath>" );
         final String pad = "    ";
-        ResourceRef[] resources = getHome().getRepository().getResourceRefs( def );
+        ResourceRef[] resources = m_home.getRepository().getResourceRefs( def );
         writeResourceRefs( writer, pad, resources );
         writeResource( writer, pad, def );
         writer.write( "\n  </classpath>" );
@@ -197,7 +241,7 @@ public class DeclareTask extends DeliverableTask
             Policy policy = ref.getPolicy();
             if( policy.isRuntimeEnabled() )
             {
-                Resource resource = getHome().getResource( ref );
+                Resource resource = m_home.getResource( ref );
                 writeResource( writer, pad, resource );
             }
         }
@@ -240,6 +284,14 @@ public class DeclareTask extends DeliverableTask
                 // ignore
             }
         }
+    }
+
+    private void mkDir( File dir )
+    {
+        Mkdir mkdir = (Mkdir) getProject().createTask( "mkdir" );
+        mkdir.setDir( dir );
+        mkdir.init();
+        mkdir.execute();
     }
 
 }

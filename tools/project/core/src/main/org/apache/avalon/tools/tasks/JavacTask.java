@@ -25,72 +25,116 @@ import org.apache.tools.ant.Project;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.taskdefs.Copy;
 import org.apache.tools.ant.taskdefs.Javac;
+import org.apache.tools.ant.taskdefs.Mkdir;
 import org.apache.tools.ant.types.FileSet;
 import org.apache.tools.ant.types.Path;
 
+import org.apache.avalon.tools.home.Context;
 import org.apache.avalon.tools.home.Home;
 import org.apache.avalon.tools.project.Definition;
 
 /**
- * Load a goal. 
+ * Compile sources.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
-public class JavacTask extends HomeTask
+public class JavacTask extends Task
 {
-    public static final String CLASSES_KEY = "avalon.target.classes";
-    public static final String CLASSES_VALUE = "classes";
+    public static final String BUILD_CLASSES_KEY = "classes";
+    public static final String BUILD_CLASSES_PATH = "classes";
 
     public static final String DEBUG_KEY = "java.compile.debug";
-    public static final boolean DEBUG_FLAG = false;
+    public static final boolean DEBUG_VALUE = false;
 
     public static final String FORK_KEY = "java.compile.fork";
-    public static final boolean FORK_FLAG = false;
+    public static final boolean FORK_VALUE = false;
 
-    public static File getTargetClassesDirectory( Project project )
+    private boolean m_init = false;
+
+    private Context m_context;
+
+    private Home m_home;
+
+   /**
+    * Set the home ref id.
+    * @param id a home id
+    */
+    public void setRefid( String id )
     {
-        File target = PrepareTask.getTargetDirectory( project );
-        String classes = project.getProperty( CLASSES_KEY );
-        return new File( target, classes );
+        Object object = getProject().getReference( id );
+        if( null == object )
+        {
+            final String error = 
+              "Unknown ref id '" + id + "'.";
+            throw new BuildException( error );
+        }
+        if( object instanceof Home )
+        {
+            m_home = (Home) object;
+        }
+        else
+        {
+            final String error = 
+              "Supplied id '" + id + "' does not refer to a Home.";
+            throw new BuildException( error );
+        }
     }
 
     public void init() throws BuildException 
     {
-        super.init();
-        setProjectProperty( CLASSES_KEY, CLASSES_VALUE );
-        setProjectProperty( DEBUG_KEY, "" + DEBUG_FLAG );
-        setProjectProperty( FORK_KEY, "" + FORK_FLAG );
+        if( !m_init )
+        {
+            Project project = getProject();
+            m_context = Context.getContext( project );
+            project.setNewProperty( DEBUG_KEY, "" + DEBUG_VALUE );
+            project.setNewProperty( FORK_KEY, "" + FORK_VALUE );
+            m_context.setBuildPath( 
+              BUILD_CLASSES_KEY, 
+              BUILD_CLASSES_PATH );
+            m_init = true;
+        }
     }
 
     public void execute() throws BuildException 
     {
-        File src = getTargetSrcMainDirectory();
-        if( src.exists() )
+        if( null == m_home )
         {
-            File classes = getTargetClassesDirectory();
-            if( !classes.exists() )
-            {
-                log( "creating target classes directory" );
-                createDirectory( classes );
-            }
-            Path classpath = 
-              getHome().getRepository().createPath( 
-                getProject(), getDefinition() );
-            compile( src, classes, classpath );
-            copy( src, classes );
+            final String error = 
+              "Required system home 'refid' value is not declared";
+            throw new BuildException( error );
         }
-    }
 
-    private File getTargetSrcMainDirectory()
-    {
-        String src = getProject().getProperty( PrepareTask.TARGET_SRC_MAIN_KEY );
-        return new File( getProject().getBaseDir(), src );
-    }
+        Project project = getProject();
+        File build = m_context.getBuildPath( PrepareTask.BUILD_SRC_KEY, false );
+        String mainPath = project.getProperty( Context.SRC_MAIN_KEY );
+        File main = new File( build, mainPath );
 
-    private File getTargetClassesDirectory()
-    {
-        return getTargetClassesDirectory( getProject() );
+        if( main.exists() )
+        {
+            File classes = m_context.getBuildPath( BUILD_CLASSES_KEY );
+            Mkdir mkdir = (Mkdir) getProject().createTask( "mkdir" );
+            mkdir.setDir( classes );
+            mkdir.init();
+            mkdir.execute();
+
+            Path classpath = 
+              m_home.getRepository().createPath( 
+                getProject(), m_home.getDefinition() );
+            compile( main, classes, classpath );
+
+            Copy copy = (Copy) getProject().createTask( "copy" );
+            copy.setPreserveLastModified( true );
+            copy.setTodir( classes );
+
+            FileSet fileset = new FileSet();
+            fileset.setDir( main );
+            fileset.setIncludes( "**/**" );
+            fileset.setExcludes( "**/*.java,**/package.html" );
+            copy.addFileset( fileset );
+            copy.init();
+            copy.execute();
+        }
     }
 
     private void compile( File sources, File classes, Path classpath )
@@ -108,29 +152,14 @@ public class JavacTask extends HomeTask
         javac.execute();
     }
 
-    private void copy( File sources, File classes )
-    {        
-        Copy copy = (Copy) getProject().createTask( "copy" );
-        copy.setPreserveLastModified( true );
-        copy.setTodir( classes );
-
-        FileSet fileset = new FileSet();
-        fileset.setDir( sources );
-        fileset.setIncludes( "**/**" );
-        fileset.setExcludes( "**/*.java,**/package.html" );
-        copy.addFileset( fileset );
-        copy.init();
-        copy.execute();
-    }
-
     private boolean getDebugProperty()
     {
-        return getBooleanProperty( DEBUG_KEY, DEBUG_FLAG );
+        return getBooleanProperty( DEBUG_KEY, DEBUG_VALUE );
     }
 
     private boolean getForkProperty()
     {
-        return getBooleanProperty( FORK_KEY, FORK_FLAG );
+        return getBooleanProperty( FORK_KEY, FORK_VALUE );
     }
 
     private boolean getBooleanProperty( String key, boolean fallback )

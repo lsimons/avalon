@@ -26,11 +26,13 @@ import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.taskdefs.Copy;
 import org.apache.tools.ant.taskdefs.Delete;
 import org.apache.tools.ant.taskdefs.Jar;
+import org.apache.tools.ant.taskdefs.Mkdir;
 import org.apache.tools.ant.taskdefs.Checksum;
 import org.apache.tools.ant.taskdefs.Execute;
 import org.apache.tools.ant.types.FileSet;
 import org.apache.tools.ant.types.Path;
 
+import org.apache.avalon.tools.home.Context;
 import org.apache.avalon.tools.home.Home;
 import org.apache.avalon.tools.project.Definition;
 
@@ -40,37 +42,68 @@ import org.apache.avalon.tools.project.Definition;
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
-public class JarTask extends DeliverableTask
+public class JarTask extends Task
 {
     public static final String MD5_EXT = "md5";
     public static final String JAR_EXT = "jar";
     public static final String ASC_EXT = "asc";
+    public static final String GPG_EXE_KEY = "project.gpg.exe";
+    
+    private boolean m_init = false;
+    private Context m_context;
+    private Home m_home;
 
-    public static String getJarFilename( Definition def )
+   /**
+    * Set the home ref id.
+    * @param id a home id
+    */
+    public void setRefid( String id )
     {
-        String name = def.getInfo().getName();
-        if( null != def.getInfo().getVersion() )
+        Object object = getProject().getReference( id );
+        if( null == object )
         {
-            return name + "-" + def.getInfo().getVersion() + "." + JAR_EXT;
+            final String error = 
+              "Unknown ref id '" + id + "'.";
+            throw new BuildException( error );
+        }
+        if( object instanceof Home )
+        {
+            m_home = (Home) object;
         }
         else
         {
-            return name + "." + JAR_EXT;
+            final String error = 
+              "Supplied id '" + id + "' does not refer to a Home.";
+            throw new BuildException( error );
         }
     }
 
-    public static File getJarFile( Project project, Definition def )
+    public void init() throws BuildException 
     {
-        File type = getTargetDeliverablesTypeDirectory( project, def );
-        String filename = getJarFilename( def );
-        return new File( type, filename );
+        if( !m_init )
+        {
+            Project project = getProject();
+            m_context = Context.getContext( project );
+            m_init = true;
+        }
     }
 
     public void execute() throws BuildException 
     {
+        if( null == m_home ) 
+        {
+            final String error = 
+              "Required system home 'refid' attribute not set in the task definition ["
+              + getTaskName() + "].";
+            throw new BuildException( error );
+        }
+
         File classes = 
-          JavacTask.getTargetClassesDirectory( getProject() );
-        File jarFile = getJarFile();
+          m_context.getBuildPath( JavacTask.BUILD_CLASSES_KEY );
+        File deliverables = 
+          m_context.getDeliverablesDirectory();
+
+        File jarFile = getJarFile( deliverables );
         if( classes.exists() )
         {
             try
@@ -84,15 +117,41 @@ public class JarTask extends DeliverableTask
                 throw new BuildException( ioe );
             }
         }
+        m_context.setBuildPath( "jar", jarFile.toString() );
     }
 
-    private File getJarFile()
+    public File getJarFile( File deliverables )
     {
-        return getJarFile( getProject(), getDefinition() );
+        Project project = getProject();
+        Definition def = m_home.getDefinition();
+        String type = m_home.getDefinition().getInfo().getType();
+        File types = new File( deliverables, type + "s" );
+        String filename = getJarFilename( def );
+        return new File( types, filename );
+    }
+
+    public String getJarFilename( Definition def )
+    {
+        String name = def.getInfo().getName();
+        if( null != def.getInfo().getVersion() )
+        {
+            return name + "-" + def.getInfo().getVersion() + "." + JAR_EXT;
+        }
+        else
+        {
+            return name + "." + JAR_EXT;
+        }
     }
 
     private boolean jar( File classes, File jarFile )
     {
+        File dir = jarFile.getParentFile();
+
+        Mkdir mkdir = (Mkdir) getProject().createTask( "mkdir" );
+        mkdir.setDir( dir );
+        mkdir.init();
+        mkdir.execute();
+
         long modified = -1;
         if( jarFile.exists() )
         {
@@ -133,7 +192,7 @@ public class JarTask extends DeliverableTask
                 md5.delete();
             }
 
-            String gpg = getProject().getProperty( "avalon.gpg.exe" );
+            String gpg = getProject().getProperty( GPG_EXE_KEY );
             if( null != gpg )
             {
                 log( "Creating asc signature" );

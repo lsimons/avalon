@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.apache.tools.ant.Task;
 import org.apache.tools.ant.BuildEvent;
 import org.apache.tools.ant.BuildListener;
 import org.apache.tools.ant.ProjectComponent;
@@ -33,6 +34,7 @@ import org.apache.tools.ant.taskdefs.Ant.Reference;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.types.Path;
+import org.apache.tools.ant.types.DataType;
 import org.apache.tools.ant.util.FileUtils;
 import org.apache.tools.ant.taskdefs.Sequential;
 import org.apache.tools.ant.taskdefs.Property;
@@ -45,6 +47,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import org.apache.avalon.tools.event.StandardListener;
 import org.apache.avalon.tools.project.Definition;
 import org.apache.avalon.tools.project.ProjectRef;
 import org.apache.avalon.tools.project.ResourceRef;
@@ -59,21 +62,27 @@ import org.apache.avalon.tools.util.ElementHelper;
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
-public class Home 
+public class Home extends Sequential
 {
-    private static Home HOME;
+    //-------------------------------------------------------------
+    // static immutable
+    //-------------------------------------------------------------
 
-    public static boolean isInitialized()
-    {
-        return null != HOME;
-    }
+    //private static Home HOME;
 
-    public static void initialize( Project project, File index )
+    //-------------------------------------------------------------
+    // static operations
+    //-------------------------------------------------------------
+
+    /*
+    public static Home initialize( Task task, File index )
     {
-        if( !isInitialized() )
+        Project project = task.getProject();
+        if( null == HOME )
         {
             try
             {
+                task.log( "index: " + index, Project.MSG_INFO );
                 HOME = new Home( project, index );
             }
             catch( Throwable e )
@@ -81,62 +90,256 @@ public class Home
                 throw new BuildException( e );
             }
         }
-    }
-
-    public static Home getHome( Project project )
-    {
-        if( !isInitialized() )
-        {
-            final String error =
-              "Home has not been initialized.";
-            throw new BuildException( error );
-        }
-        project.addReference( "urn:avalon.home", HOME );
+        setHomeReference( project );
         return HOME;
     }
 
-    private final Project m_project;
-    private final Repository m_repository;
-    private final File m_home;
-    private final File m_file;
+    public static Home getHome()
+    {
+        return HOME;
+    }
+    */
+
+    //-------------------------------------------------------------
+    // immutable state
+    //-------------------------------------------------------------
+
+    private String m_key;
+
+    private Project m_project;
+    private Repository m_repository;
+    private File m_home;
+    private File m_file;
 
     private final Hashtable m_resources = new Hashtable();
+    private Definition m_definition;
+    private BuildListener m_listener;
 
-    public Home( Project project, File file )
+    //-------------------------------------------------------------
+    // constructor
+    //-------------------------------------------------------------
+
+    public Home( Project project )
+    {
+        super();
+        m_project = project;
+    }
+
+    //private Home( Project project, File file )
+    //{
+    //    init( project, file );
+    //}
+
+    //-------------------------------------------------------------
+    // setters
+    //-------------------------------------------------------------
+
+    public void setIndex( File file ) throws BuildException
     {
         m_file = file;
-        m_project = project;
-        m_home = file.getParentFile();
+    }
 
-        HOME = this;
+    public void setKey( String key )
+    {
+        m_key = key;
+    }
+
+    //-------------------------------------------------------------
+    // internal
+    //-------------------------------------------------------------
+
+    public void execute()
+    {
+        //m_file = file;
+        //m_project = project;
+        m_home = m_file.getParentFile();
+
+        //HOME = this;
  
-        Element root = ElementHelper.getRootElement( file );
-        project.log( "home: " + m_home, Project.MSG_DEBUG );
+        Element root = ElementHelper.getRootElement( m_file );
+        m_project.log( "home: " + m_home, Project.MSG_DEBUG );
 
         final Element repo = ElementHelper.getChild( root, "repository" );
         final Element resources = ElementHelper.getChild( root, "resources" );
         final Element projects = ElementHelper.getChild( root, "projects" );
 
         //
-        // construct the repository
+        // construct the repository, build the definition of the available 
+        // resources and projects used within the system and associate a build
+        // listener
         //
 
         m_repository = createRepository( repo );
-
-        //
-        // build the definition of the available resources  
-        // used within the system
-        //
-
         buildResourceList( resources );
-
-        //
-        // build the definition of the available projects  
-        // used within the system
-        //
-
         buildProjectList( projects );
 
+        final String key = getKey();
+        m_definition = getDefinition( key, false );
+
+        m_listener = new StandardListener( this, m_definition );
+
+        super.execute();
+
+    }
+
+    private String getKey()
+    {
+        if( null != m_key )
+        {
+            return m_key;
+        }
+        else
+        {
+            return getProject().getName();
+        }
+    }
+
+    //-------------------------------------------------------------
+    // implementation
+    //-------------------------------------------------------------
+
+    public File getHomeDirectory()
+    {
+        return m_home;
+    }
+
+    public Repository getRepository()
+    {
+        return m_repository;
+    }
+
+    public File getFile()
+    {
+        return m_file;
+    }
+
+    public Project getProject()
+    {
+        return m_project;
+    }
+
+    public Plugin getPlugin( PluginRef ref )
+      throws BuildException
+    {
+        return (Plugin) getDefinition( ref );
+    }
+
+    public Definition getDefinition()
+    {
+        return m_definition;
+    }
+
+    public Definition getDefinition( ProjectRef ref )
+      throws BuildException
+    {
+        return getDefinition( ref.getKey() );
+    }
+
+    public Resource getResource( ResourceRef ref )
+      throws BuildException
+    {
+        final String key = ref.getKey();
+        Resource resource = (Resource) m_resources.get( key );
+        if( null == resource )
+        {
+            final String error = 
+              "Unknown resource [" + key + "]";
+            throw new BuildException( error );
+        }
+        return resource;
+    }
+
+    public Definition getDefinition( String key )
+      throws BuildException
+    {
+        return getDefinition( key, true );
+    }
+
+    public Definition getDefinition( String key, boolean fail )
+      throws BuildException
+    {
+        Resource def = (Resource) m_resources.get( key );
+        if( null == def )
+        {
+            if( fail )
+            {
+                final String error = 
+                  "Unknown definition [" + key + "]";
+                throw new BuildException( error );
+            }
+        }
+        else
+        {
+            if( def instanceof Definition )
+            {
+                return (Definition) def;
+            }
+            else
+            {
+                if( fail )
+                {
+                    final String error =
+                      "Key [" + key + "] is not project.";
+                    throw new BuildException( error );
+                }
+            }
+        }
+        return null;
+    }
+
+    public void build( Definition definition )
+    {
+        Ant ant = (Ant) m_project.createTask( "ant" );
+        Property property = ant.createProperty();
+        property.setName( "urn:avalon.definition.key" );
+        property.setValue( definition.getKey() );
+        ant.setDir( definition.getBasedir() );
+        ant.setInheritRefs( true );
+        ant.init();
+        ant.execute();
+    }
+
+    public Definition[] getBuildSequence( Definition definition )
+    {
+        ArrayList visited = new ArrayList();
+        ArrayList targets = new ArrayList();
+        ProjectRef[] refs = definition.getProjectRefs();
+        for( int i=0; i<refs.length; i++ )
+        {
+            Definition def = getDefinition( refs[i] );
+            getBuildSequence( visited, targets, def );
+        }
+        return (Definition[]) targets.toArray( new Definition[0] );
+    }
+
+    //-------------------------------------------------------------
+    // internal
+    //-------------------------------------------------------------
+
+    private void getBuildSequence( List visited, List targets, Definition definition )
+    {
+        if( visited.contains( definition ) ) return;
+        visited.add( definition );
+
+        ProjectRef[] refs = definition.getProjectRefs();
+        for( int i=0; i<refs.length; i++ )
+        {
+            Definition def = getDefinition( refs[i] );
+            if( visited.contains( def ) )
+            {
+                final String error =
+                  "Recursive reference identified in project: " 
+                     + definition 
+                     + " in dependency " + def + ".";
+                throw new BuildException( error );
+            }
+            getBuildSequence( visited, targets, def );
+        }
+
+        if( !targets.contains( definition ) )
+        {
+            targets.add( definition );
+        }
     }
 
     private void buildResourceList( Element resources )
@@ -178,122 +381,6 @@ public class Home
         }
     }
 
-    public File getHomeDirectory()
-    {
-        return m_home;
-    }
-
-    public Repository getRepository()
-    {
-        return m_repository;
-    }
-
-    public File getFile()
-    {
-        return m_file;
-    }
-
-    public Project getProject()
-    {
-        return m_project;
-    }
-
-    public Plugin getPlugin( PluginRef ref )
-      throws BuildException
-    {
-        return (Plugin) getDefinition( ref );
-    }
-
-    public Definition getDefinition( ProjectRef ref )
-      throws BuildException
-    {
-        return getDefinition( ref.getKey() );
-    }
-
-    public Resource getResource( ResourceRef ref )
-      throws BuildException
-    {
-        final String key = ref.getKey();
-        Resource resource = (Resource) m_resources.get( key );
-        if( null == resource )
-        {
-            final String error = 
-              "Unknown resource [" + key + "]";
-            throw new BuildException( error );
-        }
-        return resource;
-    }
-
-    public Definition getDefinition( String key )
-      throws BuildException
-    {
-        Resource def = (Resource) m_resources.get( key );
-        if( null == def )
-        {
-            final String error = 
-              "Unknown definition [" + key + "]";
-            throw new BuildException( error );
-        }
-        if( !( def instanceof Definition ) )
-        {
-            final String error =
-              "Key [" + key + "] is not project.";
-            throw new BuildException( error );
-        }
-        return (Definition) def;
-    }
-
-    public void build( Definition definition )
-    {
-        Ant ant = (Ant) m_project.createTask( "ant" );
-        Property property = ant.createProperty();
-        property.setName( "urn:avalon.definition.key" );
-        property.setValue( definition.getKey() );
-        ant.setDir( definition.getBasedir() );
-        ant.setInheritRefs( true );
-        ant.init();
-        ant.execute();
-    }
-
-    public Definition[] getBuildSequence( Definition definition )
-    {
-        ArrayList visited = new ArrayList();
-        ArrayList targets = new ArrayList();
-        ProjectRef[] refs = definition.getProjectRefs();
-        for( int i=0; i<refs.length; i++ )
-        {
-            Definition def = getDefinition( refs[i] );
-            getBuildSequence( visited, targets, def );
-        }
-        return (Definition[]) targets.toArray( new Definition[0] );
-    }
-
-    private void getBuildSequence( List visited, List targets, Definition definition )
-    {
-        if( visited.contains( definition ) ) return;
-        visited.add( definition );
-
-        ProjectRef[] refs = definition.getProjectRefs();
-        for( int i=0; i<refs.length; i++ )
-        {
-            Definition def = getDefinition( refs[i] );
-            if( visited.contains( def ) )
-            {
-                final String error =
-                  "Recursive reference identified in project: " 
-                     + definition 
-                     + " in dependency " + def + ".";
-                throw new BuildException( error );
-            }
-            getBuildSequence( visited, targets, def );
-        }
-
-        if( !targets.contains( definition ) )
-        {
-            targets.add( definition );
-        }
-    }
-
     private Repository createRepository( Element repo )
     {
         Repository repository = new Repository( this, repo );
@@ -307,4 +394,14 @@ public class Home
         return repository;
     }
 
+    /*
+    private static void setHomeReference( Project project )
+    {
+        if( null == HOME ) throw new IllegalStateException( "home" );
+        if( null == project.getReference( "urn:project.home" ) )
+        {
+            project.addReference( "urn:project.home", HOME );
+        }
+    }
+    */
 }

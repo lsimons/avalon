@@ -19,17 +19,18 @@ package org.apache.avalon.tools.tasks;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Hashtable;
+import java.util.Map;
 
 import org.apache.tools.ant.Task;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.BuildException;
-import org.apache.tools.ant.taskdefs.Copy;
+import org.apache.tools.ant.taskdefs.Mkdir;
 import org.apache.tools.ant.taskdefs.Property;
+import org.apache.tools.ant.taskdefs.Copy;
 import org.apache.tools.ant.types.FileSet;
 
-import org.apache.avalon.tools.home.Home;
-import org.apache.avalon.tools.project.Definition;
-import org.apache.avalon.tools.tasks.HomeTask;
+import org.apache.avalon.tools.home.Context;
 
 /**
  * Load a goal. 
@@ -37,93 +38,75 @@ import org.apache.avalon.tools.tasks.HomeTask;
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
-public class PrepareTask extends HomeTask
+public class PrepareTask extends Task
 {
-    public static String SRC = "src";
-    public static String TARGET = "target";
-    public static String TARGET_SRC = TARGET + "/src";
-    public static String TARGET_SRC_MAIN = TARGET_SRC + "/main";
-    public static String TARGET_SRC_TEST = TARGET_SRC + "/test";
-    public static String TARGET_SRC_RES = TARGET_SRC + "/resources";
 
-    public static final String SRC_KEY = "avalon.src";
-    public static final String TARGET_KEY = "avalon.target";
-    public static final String TARGET_SRC_KEY = "avalon.target.src";
-    public static final String TARGET_SRC_MAIN_KEY = "avalon.target.src.main";
-    public static final String TARGET_SRC_TEST_KEY = "avalon.target.src.test";
-    public static final String TARGET_SRC_RES_KEY = "avalon.target.src.resources";
+    public static final String BUILD_SRC_KEY = "src";
+    private static final String BUILD_SRC_PATH = "src";
 
-    public static File getTargetDirectory( Project project )
+    private static final String SRC_FILTERED_INCLUDES_KEY = 
+      "project.prepare.src.filtered.includes";
+    private static final String SRC_FILTERED_INCLUDES_VALUE = 
+      "**/*.java,**/*.x*,**/*.properties";
+
+    private Context m_context;
+    private boolean m_init = false;
+    private File m_home;
+
+   /**
+    * Optional setting of the project home.
+    */
+    public void setHome( File home )
     {
-        String target = project.getProperty( TARGET_KEY );
-        return new File( project.getBaseDir(), target );
-    }
-
-    public static File getTargetSrcResourcesDirectory( Project project )
-    {
-        String res = project.getProperty( TARGET_SRC_RES_KEY );
-        return new File( project.getBaseDir(), res );
+        m_home = home;
     }
 
     public void init() throws BuildException 
     {
-        setProjectProperty( SRC_KEY, SRC );
-        setProjectProperty( TARGET_KEY, TARGET );
-        setProjectProperty( TARGET_SRC_KEY, TARGET_SRC );
-        setProjectProperty( TARGET_SRC_MAIN_KEY, TARGET_SRC_MAIN );
-        setProjectProperty( TARGET_SRC_TEST_KEY, TARGET_SRC_TEST );
-        setProjectProperty( TARGET_SRC_RES_KEY, TARGET_SRC_RES );
+        if( !m_init )
+        {
+            Project project = getProject();
+            m_context = Context.getContext( project, m_home );
+            project.setNewProperty(
+              SRC_FILTERED_INCLUDES_KEY, SRC_FILTERED_INCLUDES_VALUE );
+            m_context.setBuildPath( BUILD_SRC_KEY, BUILD_SRC_PATH );
+            m_init = true;
+        }
     }
 
     public void execute() throws BuildException 
     {
-        File target = getTargetDirectory();
+        Project project = getProject();
+        File target = m_context.getTargetDirectory();
         if( !target.exists() )
         {
             log( "creating target directory" );
-            createDirectory( target );
+            Mkdir mkdir = (Mkdir) getProject().createTask( "mkdir" );
+            mkdir.setDir( target );
+            mkdir.init();
+            mkdir.execute();
         }
-        File src = getSrcDirectory();
+        File src = m_context.getSrcDirectory();
         if( src.exists() )
         {
-            copySrcToBuildWithFiltering( target );
-            copySrcToBuildWithoutFiltering( target );
+            String filters = project.getProperty( SRC_FILTERED_INCLUDES_KEY );
+            File build = m_context.getBuildPath( "src" );
+            copy( src, build, true, filters, "" );
+            copy( src, build, false, "**/*.*", filters );
         }
     }
 
-    private File getSrcDirectory()
+    private void copy( 
+       File src, File destination, boolean filtering, String includes, String excludes )
     {
-        String src = getProject().getProperty( "avalon.src" );
-        return new File( getProject().getBaseDir(), src );
-    }
-
-    private File getTargetDirectory()
-    {
-        return getTargetDirectory( getProject() );
-    }
-
-    private void copySrcToBuildWithFiltering( File target )
-    {
-        copySrcToBuild( target, true, "**/*.java,**/*.x*,**/*.properties", "" );
-    }
-
-    private void copySrcToBuildWithoutFiltering( File target )
-    {
-        copySrcToBuild( target, false, "**/*.*", "**/*.java,**/*.x*,**/*.properties" );
-    }
-
-    private void copySrcToBuild( 
-       File target, boolean filtering, String includes, String excludes )
-    {
-        File targetSrc = new File( target, SRC );
         Copy copy = (Copy) getProject().createTask( "copy" );
-        copy.setTodir( targetSrc );
+        copy.setTodir( destination );
         copy.setFiltering( filtering );
         copy.setOverwrite( false );
         copy.setPreserveLastModified( true );
 
         FileSet fileset = new FileSet();
-        fileset.setDir( getSrcDirectory() );
+        fileset.setDir( src );
         fileset.setIncludes( includes );
         fileset.setExcludes( excludes );
         copy.addFileset( fileset );
@@ -131,4 +114,5 @@ public class PrepareTask extends HomeTask
         copy.init();
         copy.execute();
     }
+
 }

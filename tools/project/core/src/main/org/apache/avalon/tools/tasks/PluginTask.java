@@ -31,6 +31,7 @@ import org.apache.tools.ant.helper.ProjectHelper2;
 import org.apache.tools.ant.UnknownElement;
 
 import org.apache.avalon.tools.home.Home;
+import org.apache.avalon.tools.home.Context;
 import org.apache.avalon.tools.project.Definition;
 import org.apache.avalon.tools.project.Info;
 import org.apache.avalon.tools.project.Resource;
@@ -47,18 +48,57 @@ import org.w3c.dom.Element;
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
-public class PluginTask extends HomeTask
+public class PluginTask extends Task
 {
     private String m_id;
-    private File m_definition;
     private String m_uri;
 
-    public void setId( String id )
+    private boolean m_init = false;
+    private Context m_context;
+    private Home m_home;
+
+   /**
+    * Set the home ref id.
+    * @param id a home id
+    */
+    public void setRefid( String id )
+    {
+        Object object = getProject().getReference( id );
+        if( null == object )
+        {
+            final String error = 
+              "Unknown ref id '" + id + "'.";
+            throw new BuildException( error );
+        }
+        if( object instanceof Home )
+        {
+            m_home = (Home) object;
+        }
+        else
+        {
+            final String error = 
+              "Supplied id '" + id + "' does not refer to a Home.";
+            throw new BuildException( error );
+        }
+    }
+
+
+    public void setArtifact( String id )
     {
         m_id = id;
     }
 
-    private String getId()
+    public void init() throws BuildException 
+    {
+        if( !m_init )
+        {
+            Project project = getProject();
+            m_context = Context.getContext( project );
+            m_init = true;
+        }
+    }
+
+    private String getArtifactSpec()
     {
         if( null != m_id )
         {
@@ -67,30 +107,40 @@ public class PluginTask extends HomeTask
         else
         {
             final String error = 
-              "Missing plugin id attribute.";
+              "Missing plugin 'artifact' attribute.";
             throw new BuildException( error );
         }
     }
 
     public void execute() throws BuildException 
     {
+        if( null == m_home ) 
+        {
+            final String error = 
+              "Required system home 'refid' attribute not set in the task definition ["
+              + getTaskName() + "].";
+            throw new BuildException( error );
+        }
+
         try
         {
             //
             // get the xml definition of the plugin
             //
 
-            String id = getId();
-            Info info = Info.create( id, "ant" );
+            String id = getArtifactSpec();
+
+            Info info = Info.create( id );
             Project project = getProject();
             Resource resource = new Resource( info );
-            m_definition = getHome().getRepository().getResource( project, resource );
+            File file = m_home.getRepository().getResource( project, resource );
 
             //
             // create a utility data object from the defintion
             //
 
-            AntLibData data = new AntLibData( getProject(), m_definition );
+            AntLibData data = new AntLibData( getProject(), file );
+
             ClassLoader classloader = project.createClassLoader( data.getPath() );
             String uri = data.getInfo().getURI(); 
 
@@ -135,13 +185,12 @@ public class PluginTask extends HomeTask
             for( int i=0; i<children.length; i++ )
             {
                 Element child = children[i];
-                String value = ElementHelper.getValue( child );
                 String type = child.getTagName();
-                Info info = Info.create( value, type );
+                String value = ElementHelper.getValue( child );
+                Info info = Info.create( type, value );
                 Resource resource = new Resource( info );
                 File jar = 
-                  getHome().getRepository().getResource( 
-                    project, resource );
+                  m_home.getRepository().getResource( project, resource );
                 m_path.createPathElement().setLocation( jar );
             }
         }
