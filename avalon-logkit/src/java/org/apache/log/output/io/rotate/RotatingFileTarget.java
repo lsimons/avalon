@@ -145,6 +145,8 @@ public class RotatingFileTarget
             try
             {
                 rotate();
+                
+                m_rotateStrategy.reset ();
             }
             catch( final IOException ioe )
             {
