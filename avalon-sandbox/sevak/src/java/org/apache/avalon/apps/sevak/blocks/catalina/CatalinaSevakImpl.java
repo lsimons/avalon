@@ -15,6 +15,7 @@ import org.apache.avalon.apps.sevak.Sevak;
 import org.apache.avalon.apps.sevak.SevakException;
 import org.apache.avalon.apps.sevak.util.CatalinaLogger;
 import org.apache.avalon.apps.sevak.util.CustomWebappLoader;
+import org.apache.avalon.framework.activity.Startable;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
@@ -49,7 +50,7 @@ import org.apache.coyote.tomcat4.CoyoteConnector;
  */
 public class CatalinaSevakImpl
     extends AbstractLogEnabled
-    implements Contextualizable, Serviceable, Configurable, Initializable, Sevak
+    implements Contextualizable, Serviceable, Configurable, Initializable, Startable, Sevak
 {
     //private BlockContext m_context;
     private Context m_context;
@@ -60,6 +61,22 @@ public class CatalinaSevakImpl
     private Loader m_catalinaCustomClassLoader = null;
     private int m_port;
     private String m_host = null;
+
+   /**
+    * The thread that monitors stop requests from the container.
+    */
+    private Thread m_thread;
+
+   /**
+    * A flag used to trigger stop.
+    */
+    private boolean CONTINUE = false;
+
+   /**
+    * The period to sleep before checking for a stop request.
+    */
+    private int SLEEP_INTERVAL = 1000;
+
 
     /**
      * @see org.apache.avalon.framework.context.Contextualizable#contextualize(org.apache.avalon.framework.context.Context)
@@ -105,9 +122,9 @@ public class CatalinaSevakImpl
 
         //create the Logger
         CatalinaLogger catalinaLogger = new CatalinaLogger();
-        catalinaLogger.enableLogging(getLogger());
-        //create the Custom ClassLoader
+        catalinaLogger.enableLogging( getLogger().getChildLogger("catalina") );
 
+        //create the Custom ClassLoader
         m_catalinaCustomClassLoader =
             new CustomWebappLoader(this.getClass().getClassLoader());
 
@@ -173,6 +190,35 @@ public class CatalinaSevakImpl
 
         m_embedded.addEngine(m_engine);
         m_embedded.addConnector(coyoteConnector);
+        getLogger().debug( "initialization complete" );
+    }
+
+    //=======================================================================
+    // Startable
+    //=======================================================================
+
+   /**
+    */
+    public void start() throws Exception
+    {
+        getLogger().debug( "starting" );
+        m_thread = new Thread(
+          new Runnable() {
+            public void run()
+            {
+                while( CONTINUE )
+                {
+                    try
+                    {
+                        Thread.currentThread().sleep( SLEEP_INTERVAL );
+                    }
+                    catch( Throwable e )
+                    {
+                    }
+                }
+            }
+          }
+        );
 
         //START  Tomcat Instance
         try
@@ -185,9 +231,31 @@ public class CatalinaSevakImpl
         {
             le.printStackTrace();
             throw new ConfigurationException("[FATAL] Could Not START Tomcat  ");
+        }
 
+        CONTINUE = true;
+        m_thread.start();
+        getLogger().debug( "started" );
+    }
+
+   /**
+    * Request to stop the service from the container.
+    */
+    public void stop()
+    {
+        getLogger().debug( "stopping" );
+        CONTINUE = false;
+        try
+        {
+            m_thread.join();
+            m_embedded.stop();
+        }
+        catch( Throwable e )
+        {
+            getLogger().warn("Unexpected error while reqesting stop.", e );
         }
     }
+
 
     /**
      * Deploy the given Web Application
