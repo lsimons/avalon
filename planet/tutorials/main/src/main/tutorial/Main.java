@@ -19,6 +19,7 @@ package tutorial;
 
 import java.io.File;
 import java.util.Map;
+import java.lang.reflect.Method;
 
 import org.apache.avalon.repository.Artifact;
 import org.apache.avalon.repository.provider.Builder;
@@ -44,10 +45,13 @@ public class Main
         // customization of the application environment.
         //
 
+        String cache = System.getProperty( "project.cache" );
+
         InitialContextFactory initial = 
-          new DefaultInitialContextFactory( "merlin" );
+          new DefaultInitialContextFactory( "demo" );
         File home = initial.getHomeDirectory();
-        initial.setCacheDirectory( new File( home, "system" ) );
+        initial.setCacheDirectory( new File( cache ) );
+        initial.setHosts( new String[0] );
         InitialContext context = initial.createInitialContext();
 
         //
@@ -75,13 +79,13 @@ public class Main
         Factory factory = builder.getFactory();
         Map criteria = factory.createDefaultCriteria();
         criteria.put( "merlin.server", "false" );
-        try
-        {
-            Object kernel = factory.create( criteria );
-        }
-        catch( Throwable e )
-        {
-            e.printStackTrace();
-        }
+        Object kernel = factory.create( criteria );
+
+        System.out.println( "Kernel established." );
+
+        Method shutdown = kernel.getClass().getMethod( "shutdown", new Class[0] );
+        shutdown.invoke( kernel, new Object[0] );
+
+        System.out.println( "Shutdown complete." );
     }
 }
