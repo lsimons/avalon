@@ -90,7 +90,6 @@ public class DefaultClassLoaderManager
         final Configuration policyConfig = server.getChild( "policy" );
         final Policy policy = configurePolicy( policyConfig, homeDirectory );
 
-        //TODO: Load Extensions from Package Repository as required
         final File[] extensions = getOptionalPackagesFor( classPath );
         if( getLogger().isDebugEnabled() )
         {
