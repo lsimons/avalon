@@ -10,6 +10,7 @@ package org.apache.avalon.excalibur.xml;
 import java.io.IOException;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.thread.ThreadSafe;
+import org.apache.avalon.framework.activity.Initializable;
 import org.apache.xerces.dom.DocumentImpl;
 import org.apache.xerces.parsers.DOMParser;
 import org.apache.xerces.parsers.SAXParser;
@@ -22,15 +23,24 @@ import org.xml.sax.SAXParseException;
 import org.xml.sax.ext.LexicalHandler;
 
 /**
- *
  * @author <a href="mailto:fumagalli@exoffice.com">Pierpaolo Fumagalli</a>
  *         (Apache Software Foundation, Exoffice Technologies)
- * @version CVS $Revision: 1.4 $ $Date: 2002/07/10 08:34:45 $
+ * @version CVS $Revision: 1.5 $ $Date: 2002/07/10 08:38:48 $
  */
 public class XercesParser
     extends AbstractLogEnabled
-    implements Parser, ErrorHandler, ThreadSafe
+    implements Parser, ErrorHandler, ThreadSafe, Initializable
 {
+    public void initialize()
+        throws Exception
+    {
+        final String message =
+            "WARNING: XercesParser has been deprecated in favour of " +
+            "JaxpParser. Please use JaxpParser unless it is incompatible" +
+            "with your environment";
+        getLogger().warn( message );
+    }
+
     public void parse( final InputSource in,
                        final ContentHandler consumer )
         throws SAXException, IOException
