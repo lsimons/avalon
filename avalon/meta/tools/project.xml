@@ -3,12 +3,12 @@
 <project>
   <extend>${basedir}/../project.xml</extend>
   <id>avalon-meta-tools</id>
-  <name>Meta Management Toolkit</name>
+  <name>Avalon Meta Model Toolkit</name>
   <package>org.apache.avalon.meta</package>
 
   <currentVersion>1.2.1-dev</currentVersion>
   <inceptionYear>2002</inceptionYear>
-  <shortDescription>Meta Model Toolkit</shortDescription>
+  <shortDescription>Avalon Meta Model Toolkit</shortDescription>
   
   <description>
 Component meta info and meta data tools.

@@ -72,7 +72,7 @@ import org.apache.avalon.framework.Version;
  * name of container.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.7 $ $Date: 2003/10/19 14:05:54 $
+ * @version $Revision: 1.8 $ $Date: 2003/12/14 14:11:00 $
  */
 public final class InfoDescriptor extends Descriptor
 {
@@ -81,21 +81,24 @@ public final class InfoDescriptor extends Descriptor
     //-------------------------------------------------------------------
 
     public static final String TRANSIENT = "transient";
-
     public static final String SINGLETON = "singleton";
-
     public static final String THREAD = "thread";
-
     public static final String POOLED = "pooled";
 
     public static final String LIBERAL_KEY = "liberal";
     public static final String DEMOCRAT_KEY = "democrat";
     public static final String CONSERVATIVE_KEY = "conservative";
-
     public static final int UNDEFINED = -1;
     public static final int LIBERAL = 0;
     public static final int DEMOCRAT = 1;
     public static final int CONSERVATIVE = 2;
+
+    public static final String WEAK_KEY = "weak";
+    public static final String SOFT_KEY = "soft";
+    public static final String HARD_KEY = "hard";
+    public static final int WEAK = 0;
+    public static final int SOFT = 1;
+    public static final int HARD = 2;
 
     //-------------------------------------------------------------------
     // immutable state
@@ -145,18 +148,6 @@ public final class InfoDescriptor extends Descriptor
     //-------------------------------------------------------------------
 
     /**
-     * Creation of a new component descriptor using a classname.
-     *
-     * @param classname the implemetation classname
-     * @exception IllegalArgumentException if the implementation key is not a classname
-     */
-    //public InfoDescriptor( final String classname )
-    //        throws IllegalArgumentException
-    //{
-    //    this( null, classname, null, null, null, null, null);
-    //}
-
-    /**
      * Creation of a new info descriptor using a supplied name, key, version
      * and attribute set.
      *
@@ -202,11 +193,25 @@ public final class InfoDescriptor extends Descriptor
         int p = getCollectionPolicy( collection );
         if( p > UNDEFINED )
         {
-            m_collection = p;
+            if(( m_lifestyle == TRANSIENT ) && ( p == HARD ))
+            {
+                m_collection = SOFT;
+            }
+            else
+            {    
+                m_collection = p;
+            }
         }
         else
         {
-            m_collection = CONSERVATIVE;
+            if( m_lifestyle == TRANSIENT )
+            {
+                m_collection = SOFT;
+            }
+            else
+            {
+                m_collection = HARD;
+            }
         }
 
         if ( name != null )
@@ -414,17 +419,17 @@ public final class InfoDescriptor extends Descriptor
         }
         else
         {
-            if( policy == CONSERVATIVE )
+            if( policy == HARD )
             {
-                return CONSERVATIVE_KEY;
+                return HARD_KEY;
             }
-            else if( policy == DEMOCRAT )
+            else if( policy == SOFT )
             {
-                return DEMOCRAT_KEY;
+                return SOFT_KEY;
             }
-            else if( policy == LIBERAL )
+            else if( policy == WEAK )
             {
-                return LIBERAL_KEY;
+                return WEAK_KEY;
             }
             else
             {
@@ -443,17 +448,17 @@ public final class InfoDescriptor extends Descriptor
         }
         else
         {
-            if( policy.equalsIgnoreCase( CONSERVATIVE_KEY ) )
+            if( policy.equalsIgnoreCase( CONSERVATIVE_KEY ) || policy.equalsIgnoreCase( HARD_KEY ) )
             {
-                return CONSERVATIVE;
+                return HARD;
             }
-            else if( policy.equalsIgnoreCase( DEMOCRAT_KEY ) )
+            else if( policy.equalsIgnoreCase( DEMOCRAT_KEY ) || policy.equalsIgnoreCase( SOFT_KEY ))
             {
-                return DEMOCRAT;
+                return SOFT;
             }
-            else if( policy.equalsIgnoreCase( LIBERAL_KEY ) )
+            else if( policy.equalsIgnoreCase( LIBERAL_KEY ) || policy.equalsIgnoreCase( WEAK_KEY ))
             {
-                return LIBERAL;
+                return WEAK;
             }
             else
             {
