@@ -97,8 +97,8 @@ public interface ModifiableSource
     /**
      * Cancel the data sent to an <code>OutputStream</code> returned by
      * {@link #getOutputStream()}.
-     * <p>
-     * After cancel, the stream should no more be used.
+     *
+     * <p>After cancelling, the stream should no longer be used.</p>
      */
     void cancel(OutputStream stream) throws IOException;
     
