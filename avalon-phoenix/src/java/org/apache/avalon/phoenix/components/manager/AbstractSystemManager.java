@@ -8,6 +8,7 @@
 package org.apache.avalon.phoenix.components.manager;
 
 import java.util.HashMap;
+import java.util.Map;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.framework.activity.Disposable;
@@ -28,7 +29,7 @@ public abstract class AbstractSystemManager
     private static final Resources REZ =
         ResourceManager.getPackageResources( AbstractSystemManager.class );
 
-    private final HashMap m_entries = new HashMap();
+    private final Map m_entries = new HashMap();
 
     private SubContext m_subContext;
 
