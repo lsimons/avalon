@@ -7,8 +7,8 @@
  */
 package org.apache.avalon.excalibur.datasource;
 
-import java.util.List;
-import java.util.Date;
+import java.util.HashSet;
+import java.util.Iterator;
 import org.apache.avalon.excalibur.concurrent.Lock;
 import org.apache.avalon.excalibur.pool.DefaultPoolController;
 import org.apache.avalon.excalibur.pool.HardResourceLimitingPool;
@@ -21,7 +21,7 @@ import org.apache.avalon.framework.activity.Initializable;
  * thread to manage the number of SQL Connections.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.11 $ $Date: 2001/11/23 01:43:24 $
+ * @version CVS $Revision: 1.12 $ $Date: 2001/12/03 21:57:42 $
  * @since 4.0
  */
 public class JdbcConnectionPool
@@ -32,6 +32,7 @@ public class JdbcConnectionPool
     private final boolean          m_autoCommit;
     private boolean                m_noConnections = false;
     private long                   m_wait = -1;
+    private HashSet                m_waitingThreads = new HashSet();
 
     public JdbcConnectionPool( final JdbcConnectionFactory factory, final DefaultPoolController controller, final int min, final int max, final boolean autoCommit)
         throws Exception
@@ -76,14 +77,17 @@ public class JdbcConnectionPool
         {
             long curMillis = System.currentTimeMillis();
             long endTime = curMillis + m_wait;
-
             while ( ( null == conn ) && ( curMillis < endTime ) )
             {
+                Object thread = Thread.currentThread();
+                m_waitingThreads.add(thread);
+
                 try
                 {
                     curMillis = System.currentTimeMillis();
                     m_mutex.unlock();
-                    this.wait( endTime - curMillis );
+
+                    thread.wait( endTime - curMillis );
                 }
                 finally
                 {
@@ -177,13 +181,18 @@ public class JdbcConnectionPool
         return obj;
     }
 
-    /*
     public void put( Poolable obj )
     {
         super.put( obj );
-        this.notifyAll();
+        Iterator i = m_waitingThreads.iterator();
+        while (i.hasNext())
+        {
+            Object thread = i.next();
+            thread.notify();
+            i.remove();
+        }
     }
-    */
+
 
     public void run()
     {
