@@ -71,7 +71,7 @@ Legal:
 
   <property name="j2ee.jar" value="${cjan.lib}/j2ee.jar"/>
   <property name="framework.jar" value="${lib.dir}/avalon-framework-20010823.jar"/>
-  <property name="logkit.jar" value="${lib.dir}/logkit-20010910.jar"/>
+  <property name="logkit.jar" value="${lib.dir}/logkit-20010926.jar"/>
   <property name="xerces.jar" value="${tools.dir}/lib/xerces.jar"/>
   <property name="xalan.jar" value="${tools.dir}/lib/xalan-2.2.0-D8.jar"/>
   <property name="bsf.jar" value="${tools.dir}/lib/bsf.jar"/>
