@@ -28,17 +28,17 @@ import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
 import org.apache.avalon.phoenix.components.deployer.installer.Installation;
-import org.apache.avalon.phoenix.components.deployer.installer.Installer;
 import org.apache.avalon.phoenix.components.deployer.installer.InstallationException;
+import org.apache.avalon.phoenix.components.deployer.installer.Installer;
 import org.apache.avalon.phoenix.interfaces.Application;
 import org.apache.avalon.phoenix.interfaces.ClassLoaderManager;
 import org.apache.avalon.phoenix.interfaces.ConfigurationRepository;
+import org.apache.avalon.phoenix.interfaces.ConfigurationValidator;
 import org.apache.avalon.phoenix.interfaces.Deployer;
 import org.apache.avalon.phoenix.interfaces.DeployerMBean;
 import org.apache.avalon.phoenix.interfaces.DeploymentException;
 import org.apache.avalon.phoenix.interfaces.Kernel;
 import org.apache.avalon.phoenix.interfaces.LogManager;
-import org.apache.avalon.phoenix.interfaces.ConfigurationValidator;
 import org.apache.avalon.phoenix.metadata.BlockListenerMetaData;
 import org.apache.avalon.phoenix.metadata.BlockMetaData;
 import org.apache.avalon.phoenix.metadata.SarMetaData;
@@ -46,8 +46,8 @@ import org.apache.avalon.phoenix.tools.assembler.Assembler;
 import org.apache.avalon.phoenix.tools.assembler.AssemblyException;
 import org.apache.avalon.phoenix.tools.configuration.ConfigurationBuilder;
 import org.apache.avalon.phoenix.tools.verifier.SarVerifier;
-import org.apache.log.Hierarchy;
 import org.apache.excalibur.containerkit.verifier.VerifyException;
+import org.apache.log.Hierarchy;
 
 /**
  * Deploy .sar files into a kernel using this class.
@@ -138,7 +138,7 @@ public class DefaultDeployer
         m_classLoaderManager = (ClassLoaderManager)serviceManager.
             lookup( ClassLoaderManager.ROLE );
         m_logManager = (LogManager)serviceManager.lookup( LogManager.ROLE );
-        m_validator = (ConfigurationValidator) serviceManager.lookup( ConfigurationValidator.ROLE );
+        m_validator = (ConfigurationValidator)serviceManager.lookup( ConfigurationValidator.ROLE );
     }
 
     public void initialize()
@@ -369,33 +369,44 @@ public class DefaultDeployer
         {
             for( i = 0; i < blocks.length; i++ )
             {
+                final BlockMetaData block = blocks[ i ];
+                final Configuration schema =
+                    block.getBlockInfo().getConfigurationSchema();
                 m_validator.storeSchema( metaData.getName(),
-                                         blocks[i].getName(),
-                                         blocks[i].getBlockInfo().getConfigurationSchema()
-                );
+                                         block.getName(),
+                                         schema );
             }
         }
         catch( ConfigurationException e ) //uh-oh, bad schema bad bad!
         {
-            while( --i >= 0 ) //back out any schemas that we have already stored for this app
+            //back out any schemas that we have
+            //already stored for this app
+            while( --i >= 0 )
             {
+                final BlockMetaData block = blocks[ i ];
                 try
                 {
+                    final Configuration schema =
+                        block.getBlockInfo().getConfigurationSchema();
                     m_validator.storeSchema( metaData.getName(),
-                                             blocks[i].getName(),
-                                             blocks[i].getBlockInfo().getConfigurationSchema()
-                    );
+                                             block.getName(),
+                                             schema );
                 }
-                catch( ConfigurationException e1 ) // we *really* don't expect any errors here.. but you never know!
+                catch( ConfigurationException e1 )
                 {
-                    final String message = REZ.getString( "deploy.error.config.schema.backoutfail",
-                                                          blocks[i].getName() );
+                    // we *really* don't expect any errors here..
+                    //but you never know!
+                    final String message =
+                        REZ.getString( "deploy.error.config.schema.backoutfail",
+                                       block.getName() );
 
                     getLogger().error( message, e1 );
                 }
             }
 
-            final String message = REZ.getString( "deploy.error.config.schema.invalid", blocks[i].getName() );
+            final String message =
+                REZ.getString( "deploy.error.config.schema.invalid",
+                               blocks[ i ].getName() );
 
             throw new VerifyException( message, e );
         }
