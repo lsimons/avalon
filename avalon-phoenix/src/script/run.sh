@@ -2,7 +2,7 @@
 #
 # Phoenix start script.
 #
-# Author: Peter Donald <donaldp@apache.org>
+# Author: Peter Donald <peter@apache.org>
 #
 # The user may choose to supply parameters to the JVM (such as memory settings)
 # via setting the environment variable PHOENIX_JVM_OPTS.
@@ -29,7 +29,10 @@ if [ "$THIS_PROG" = "." ] ; then
   THIS_PROG=$PWD
 fi
 
-PHOENIX_HOME=$THIS_PROG/..
+if [ "$PHOENIX_HOME" = "" ] ; then
+  PHOENIX_HOME=$THIS_PROG/..
+fi
+
 unset THIS_PROG
 
 # echo "Home directory: $PHOENIX_HOME"
