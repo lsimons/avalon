@@ -447,6 +447,7 @@ public class DefaultFactory implements Factory
         factory.setLoggingManager( logging );
         factory.setDefaultDeploymentTimeout( criteria.getDeploymentTimeout() );
         factory.setTraceEnabled( criteria.isDebugEnabled() );
+        factory.setDefaultProxyPolicy( criteria.isProxyEnabled() );
         factory.setWorkingDirectory( criteria.getContextDirectory() );
         factory.setTemporaryDirectory( criteria.getTempDirectory() );
         factory.setAnchorDirectory( criteria.getAnchorDirectory() );

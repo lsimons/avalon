@@ -146,6 +146,12 @@ public interface KernelCriteria extends Map
       "merlin.audit";
 
    /**
+    * Proxy policy parameter.
+    */
+    String MERLIN_PROXY = 
+      "merlin.proxy";
+
+   /**
     * Server model parameter.
     */
     String MERLIN_SERVER = 
@@ -293,6 +299,13 @@ public interface KernelCriteria extends Map
     * @return the audit policy
     */
     boolean isAuditEnabled();
+
+   /**
+    * Return proxy policy. 
+    *
+    * @return the proxy policy
+    */
+    boolean isProxyEnabled();
 
    /**
     * Return server execution policy.  If TRUE the kernel will 
