@@ -1,0 +1,43 @@
+
+<!-- 
+    ===============================================================
+    Document Type Definition 
+    =============================================================== 
+-->
+
+<!ELEMENT blockinfo (meta?, services?, dependencies?)>
+
+  <!ELEMENT meta          (version, icon?, large-icon?, update?, documentation?, license?, contributors*)>
+
+    <!ELEMENT version       (#PCDATA) >
+    <!ELEMENT icon          (#PCDATA) >
+    <!ELEMENT large-icon    (#PCDATA) >
+    <!ELEMENT update        (#PCDATA) >
+    <!ELEMENT documentation (#PCDATA) >
+    <!ELEMENT license       (#PCDATA) >
+
+    <!ELEMENT contributors (author|patcher)* >
+
+      <!ELEMENT author    EMPTY >    
+      <!ATTLIST author    name    CDATA  #REQUIRED
+                          email   CDATA  #REQUIRED >
+
+      <!ELEMENT patcher   EMPTY >    
+      <!ATTLIST patcher   name    CDATA  #REQUIRED
+                          email   CDATA  #REQUIRED >
+
+  <!ELEMENT services    (service*)>
+
+    <!ELEMENT service   EMPTY >
+    <!ATTLIST service   name      CDATA  #REQUIRED >
+    <!ATTLIST service   version   CDATA  #REQUIRED >
+
+ <!ELEMENT dependencies    (dependency*)>
+
+    <!ELEMENT dependency  (annotation*,role,service,signers?) >    
+
+    <!ELEMENT annotation  (#PCDATA) >
+    <!ATTLIST annotation  language  CDATA #REQUIRED >
+
+    <!ELEMENT role        (#PCDATA) >
+    <!ELEMENT signers     (#PCDATA) >

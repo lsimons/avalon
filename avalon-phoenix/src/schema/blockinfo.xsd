@@ -1,0 +1,85 @@
+<?xml version="1.0"?>
+
+<xsd:schema xmlns:xsd="http://www.w3.org/1999/XMLSchema">
+
+  <xsd:annotation>
+    <xsd:documentation>
+      Schema for BlockInfo xml files.
+      Copyright 2000 Apache.org. All Rights reserved.
+      By Peter Donald
+    </xsd:documentation>
+  </xsd:annotation>
+
+  <xsd:element name="blockinfo" type="BlockInfoType" />
+
+  <xsd:complexType name="BlockInfoType">
+    <xsd:element name="meta" type="MetaType" minOccurs="0" maxOccurs="1"/>
+    <xsd:element name="services" type="ServicesType" minOccurs="0" maxOccurs="1"  />
+    <xsd:element name="dependencies" type="DependenciesType" minOccurs="0" maxOccurs="1" />
+  </xsd:complexType>
+
+  <xsd:complexType name="MetaType">
+    <xsd:element name="version" type="VersionType" minOccurs="0" maxOccurs="1"/>
+    <xsd:element name="icon" type="IconType" minOccurs="0" maxOccurs="1"/>
+    <xsd:element name="large-icon" type="LargeIconType" minOccurs="0" maxOccurs="1"/>
+    <xsd:element name="update" type="UpdateType" minOccurs="0" maxOccurs="1"/>
+    <xsd:element name="documentation" type="DocumentationType" minOccurs="0" maxOccurs="1"/>
+    <xsd:element name="license" type="LicenseType" minOccurs="1" maxOccurs="1"  />
+    <xsd:element name="contributors" type="ContributorsType" minOccurs="0" maxOccurs="1" />
+  </xsd:complexType>
+
+  <xsd:complexType name="VersionType" content="textOnly" />
+  <xsd:complexType name="IconType" content="textOnly" />
+  <xsd:complexType name="LargeIconType" content="textOnly" />
+  <xsd:complexType name="UpdateType" content="textOnly" />
+  <xsd:complexType name="DocumentationType" content="textOnly" />
+  <xsd:complexType name="LicenseType" content="textOnly" />
+
+  <xsd:complexType name="ServicesType" >
+    <xsd:element name="service" type="ServiceType" minOccurs="1" maxOccurs="unbounded"/>
+  </xsd:complexType>
+
+  <xsd:complexType name="DependenciesType" >
+    <xsd:element name="dependency" type="DependencyType" minOccurs="1" maxOccurs="unbounded"/>
+  </xsd:complexType>
+
+  <xsd:complexType name="WebPageType" >
+    <xsd:attribute name="href" type="xsd:string" />
+  </xsd:complexType>
+
+  <xsd:complexType name="DocsType" >
+    <xsd:attribute name="href" type="xsd:string" />
+    <xsd:attribute name="type" type="xsd:string" value="text/html" />
+  </xsd:complexType>
+
+  <xsd:complexType name="LicenseType" >
+    <xsd:attribute name="href" type="xsd:string" />
+  </xsd:complexType>
+
+  <xsd:complexType name="ContributorsType" >
+    <xsd:element name="author" type="PersonType" minOccurs="0" maxOccurs="unbounded"/>
+    <xsd:element name="patcher" type="PersonType" minOccurs="0" maxOccurs="unbounded"/>
+  </xsd:complexType>
+
+  <xsd:complexType name="PersonType" >
+    <xsd:attribute name="name" type="xsd:string" />
+    <xsd:attribute name="email" type="xsd:string" />
+  </xsd:complexType>
+
+  <xsd:complexType name="ServiceType" >
+    <xsd:attribute name="name" type="xsd:string" />
+    <xsd:attribute name="version" type="xsd:string" />
+  </xsd:complexType>
+
+  <xsd:complexType name="DependancyType" >
+    <xsd:element name="annotation" type="AnnotationType" minOccurs="1" maxOccurs="unbounded"/>
+    <xsd:element name="role" type="RoleType" />
+    <xsd:element name="service" type="ServiceType" />
+    <xsd:element name="signers" type="SignersType" />
+  </xsd:complexType>
+
+  <xsd:complexType name="SignersType" content="textOnly" />
+
+  <xsd:complexType name="RoleType" content="textOnly" />
+
+</xsd:schema>
