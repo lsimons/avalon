@@ -8,7 +8,7 @@
     <subtitle>Introduction</subtitle>
     <authors>
       <person name="Berin Loritsch" email="bloritsch@apache.org"/>
-      <person name="Peter Donald" email="donaldp@apache.org"/>
+      <person name="Peter Donald" email="peter@apache.org"/>
     </authors>
   </header>
   <body>
@@ -71,7 +71,7 @@
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.1 $ $Date: 2001/07/18 14:35:44 $
+      $Revision: 1.2 $ $Date: 2001/11/19 12:00:49 $
     </legal>
   </footer>
 </document>
