@@ -8,6 +8,7 @@
 package org.apache.avalon.phoenix.components.embeddor;
 
 import java.io.File;
+import java.net.URL;
 import org.apache.avalon.excalibur.container.Container;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
@@ -36,6 +37,7 @@ import org.apache.avalon.phoenix.interfaces.Embeddor;
 import org.apache.avalon.phoenix.interfaces.Kernel;
 import org.apache.avalon.phoenix.interfaces.LogManager;
 import org.apache.avalon.phoenix.interfaces.SystemManager;
+import org.apache.avalon.phoenix.tools.protocols.DefaultURLStreamHandlerFactory;
 import org.apache.log.Hierarchy;
 import org.apache.log.LogTarget;
 import org.apache.log.Logger;
@@ -132,6 +134,8 @@ public class DefaultEmbeddor
             setupComponent( m_deployer );
             setupComponent( m_systemManager );
             setupComponent( m_kernel );
+            
+            URL.setURLStreamHandlerFactory( new DefaultURLStreamHandlerFactory() );
         }
         catch( final Exception e )
         {
@@ -290,7 +294,7 @@ public class DefaultEmbeddor
     {
         final String defaultAppsLocation =
             m_parameters.getParameter( "applications-directory", DEFAULT_APPS_PATH );
-
+        
         if( null != defaultAppsLocation )
         {
             final File directory = new File( defaultAppsLocation );
