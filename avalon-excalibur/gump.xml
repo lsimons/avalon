@@ -552,6 +552,31 @@
             to="avalon-dev@jakarta.apache.org"/>
 	</project>
 
+    <project name="excalibur-thread">
+        <package>org.apache.avalon.excalibur.thread</package>
+
+        <ant basedir="thread">
+            <depend property="junit.jar" project="junit"/>
+            <property name="version" value="@@DATE@@"/>
+            <property name="junit.failonerror" value="true"/>
+            <property name="do.checkstyle" value="true"/>
+            <property name="skip.dependencies" value="true"/>
+        </ant>
+
+        <depend project="jakarta-ant"/>
+        <depend project="excalibur-pool" runtime="true"/>
+        <depend project="xml-xerces"/>
+        <depend project="xml-xalan2"/>
+        <depend project="checkstyle"/>
+        <work nested="thread/build/classes"/>
+
+        <home nested="thread"/>
+        <jar name="build/lib/excalibur-thread-@@DATE@@.jar"/>
+
+        <nag from="Peter Donald &lt;peter@apache.org&gt;"
+            to="avalon-dev@jakarta.apache.org"/>
+    </project>
+
     <project name="excalibur-util">
         <package>org.apache.avalon.excalibur.util</package>
 
