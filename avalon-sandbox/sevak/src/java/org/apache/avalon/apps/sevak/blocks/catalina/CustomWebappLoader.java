@@ -5,7 +5,7 @@
  * version 1.1, a copy of which has been included with this distribution in
  * the LICENSE file.
  */
-package org.apache.avalon.apps.sevak.util;
+package org.apache.avalon.apps.sevak.blocks.catalina;
 
 import org.apache.catalina.loader.WebappLoader;
 import org.apache.catalina.LifecycleException;
@@ -25,7 +25,7 @@ public class CustomWebappLoader extends WebappLoader
     /**
       * Start this component, initializing our associated class loader.
       *
-      * @exception LifecycleException if a lifecycle error occurs
+      * @exception org.apache.catalina.LifecycleException if a lifecycle error occurs
       */
     public void start() throws LifecycleException
     {
