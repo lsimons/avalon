@@ -57,11 +57,15 @@ package org.apache.log.output;
 /**
  * A output target that does nothing. Useful for profiling.
  *
+ * @author <a href="mailto:avalon-dev@jakarta.apache.org">Avalon Development Team</a>
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 public class NullOutputLogTarget
     extends AbstractOutputTarget
 {
+   /**
+    * Creation of a new null log target.
+    */
     public NullOutputLogTarget()
     {
         open();

@@ -65,6 +65,7 @@ import org.apache.log.output.AbstractOutputTarget;
  * A datagram output target.
  * Useful for writing using custom protocols or writing to syslog daemons.
  *
+ * @author <a href="mailto:avalon-dev@jakarta.apache.org">Avalon Development Team</a>
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 public class DatagramOutputTarget
@@ -78,6 +79,7 @@ public class DatagramOutputTarget
      *
      * @param address the address endpoint
      * @param port the address port
+     * @param formatter the formatter
      * @exception IOException if an error occurs
      */
     public DatagramOutputTarget( final InetAddress address,
