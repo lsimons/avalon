@@ -69,7 +69,7 @@ Legal:
   <property name="src.dist.dir" value="${dist.name}"/>
 
   <property name="constants.file" value="org/apache/avalon/phoenix/Constants.java"/>
-  <property name="xerces.jar" value="${tools.dir}/lib/xerces.jar"/>
+  <property name="xerces.jar" value="lib/xerces.jar"/>
   <property name="xalan.jar" value="${tools.dir}/lib/xalan-2.2.0-D8.jar"/>
   <property name="framework.jar" value="${lib.dir}/avalon-framework-20011110.jar"/>
   <property name="excalibur.jar" value="${lib.dir}/avalon-excalibur-20011110.jar"/>
@@ -97,6 +97,7 @@ Legal:
 
   <path id="tools.class.path">
     <pathelement location="${xerces.jar}"/>
+    <pathelement location="${xalan.jar}"/>
     <pathelement location="${tools.jar}"/>
     <fileset dir="${tools.dir}/lib">
       <exclude name="ant.jar" />
@@ -115,6 +116,7 @@ Legal:
 
   <target name="help" depends="usage"/>
 
+  <!-- Check requirements of environment -->
   <target name="check-environment">
     <available property="servlet.present" classname="javax.servlet.Servlet">
       <classpath refid="project.class.path"/>
@@ -122,6 +124,32 @@ Legal:
     <available property="jmx.present" classname="javax.management.MBeanException">
       <classpath refid="project.class.path"/>
     </available>
+  </target>
+
+  <!-- Setup the filters -->
+  <target name="setup-filters">
+    <filter token="Name" value="Avalon Phoenix"/>
+    <filter token="name" value="phoenix"/>
+    <filter token="version" value="${version}"/>
+    <filter token="year" value="${year}"/>
+    <filter token="status" value="${status}"/>
+    <filter token="release" value="${release}"/>
+    <filter token="short-version" value="${short.version}"/>
+
+    <property name="avalon.base" value="http://jakarta.apache.org/avalon"/>
+    <property name="framework.base" value="http://jakarta.apache.org/avalon/framework"/>
+    <property name="phoenix.base" value="http://jakarta.apache.org/avalon/phoenix"/>
+    <property name="cornerstone.base" value="http://jakarta.apache.org/avalon/cornerstone"/>
+    <property name="logkit.base" value="http://jakarta.apache.org/avalon/logkit"/>
+    <property name="testlet.base" value="http://jakarta.apache.org/avalon/testlet"/>
+
+    <filter token="year" value="${year}"/>
+    <filter token="AVALON_BASE" value="${avalon.base}"/>
+    <filter token="FRAMEWORK_BASE" value="${framework.base}"/>
+    <filter token="PHOENIX_BASE" value="${phoenix.base}"/>
+    <filter token="CORNERSTONE_BASE" value="${cornerstone.base}"/>
+    <filter token="LOGKIT_BASE" value="${logkit.base}"/>
+    <filter token="TESTLET_BASE" value="${testlet.base}"/>
   </target>
 
   <!-- Prepares the build directory -->
@@ -142,15 +170,7 @@ Legal:
   </target>
 
   <!-- Create the announcements and HEADER.html -->
-  <target name="announcement">
-
-    <filter token="Name" value="Avalon Phoenix"/>
-    <filter token="name" value="phoenix"/>
-    <filter token="version" value="${version}"/>
-    <filter token="year" value="${year}"/>
-    <filter token="status" value="${status}"/>
-    <filter token="release" value="${release}"/>
-    <filter token="short-version" value="${short.version}"/>
+  <target name="announcement" depends="setup-filters">
 
     <mkdir dir="${build.dir}" />
     <mkdir dir="${dist.base}" />
@@ -255,7 +275,7 @@ Legal:
   </target>
 
   <!-- Prepares the documentation directory -->
-  <target name="docs" depends="javadocs" description="generates the Phoenix documentation">
+  <target name="docs" depends="setup-filters,javadocs" description="generates the Phoenix documentation">
 
     <mkdir dir="${build.context}"/>
     <mkdir dir="${build.xdocs}"/>
@@ -263,21 +283,6 @@ Legal:
     <mkdir dir="${build.dir}/work"/>
 
     <!-- Base pointers for non-xdocs documentation. Override these in .ant.properties to link to local docs -->
-    <property name="avalon.base" value="http://jakarta.apache.org/avalon"/>
-    <property name="framework.base" value="http://jakarta.apache.org/avalon/framework"/>
-    <property name="phoenix.base" value="http://jakarta.apache.org/avalon/phoenix"/>
-    <property name="cornerstone.base" value="http://jakarta.apache.org/avalon/cornerstone"/>
-    <property name="logkit.base" value="http://jakarta.apache.org/avalon/logkit"/>
-    <property name="testlet.base" value="http://jakarta.apache.org/avalon/testlet"/>
-
-    <filter token="year" value="${year}"/>
-    <filter token="AVALON_BASE" value="${avalon.base}"/>
-    <filter token="FRAMEWORK_BASE" value="${framework.base}"/>
-    <filter token="PHOENIX_BASE" value="${phoenix.base}"/>
-    <filter token="CORNERSTONE_BASE" value="${cornerstone.base}"/>
-    <filter token="LOGKIT_BASE" value="${logkit.base}"/>
-    <filter token="TESTLET_BASE" value="${testlet.base}"/>
-
     <copy todir="${build.context}" filtering="on">
       <fileset dir="${context.dir}">
         <exclude name="resources/**"/>
@@ -462,7 +467,7 @@ Legal:
       <fileset dir="${build.javadocs}"/>
     </copy>
 
-    <copy todir="${bin.dist.dir}">
+    <copy todir="${bin.dist.dir}" filtering="on">
       <fileset dir=".">
         <include name="README"/>
         <include name="WARNING"/>
@@ -509,11 +514,12 @@ Legal:
       <fileset dir="${build.javadocs}"/>
     </copy>
 
-    <copy todir="${src.dist.dir}">
+    <copy todir="${src.dist.dir}" filtering="on">
       <fileset dir=".">
         <include name="README"/>
         <include name="WARNING"/>
         <include name="LICENSE"/>
+        <include name="BUILDING.txt"/>
         <include name="build.bat"/>
         <include name="build.sh"/>
         <include name="build.xml"/>
