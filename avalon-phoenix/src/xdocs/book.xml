@@ -12,6 +12,7 @@
     <menu-item type="external" id="downloads" label="Download" href="http://jakarta.apache.org/builds/jakarta-avalon/release/phoenix"/>
     <menu-item label="Getting Started" href="getting-started.html"/>
     <menu-item label="Installation" href="install.html"/>
+    <menu-item label="A Future" href="afuture.html"/>
     <menu-item label="Todo" href="todo.html"/>
     <menu-item label="Changes" href="changes.html"/>
     <menu-item type="external" id="api-docs" label="API Docs" href="api/index.html"/>
