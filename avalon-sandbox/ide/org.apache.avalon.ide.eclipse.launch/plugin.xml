@@ -2,7 +2,7 @@
 <plugin
    id="org.apache.avalon.MerlinDeveloperLaunch"
    name="MerlinDeveloper Launch"
-   version="0.0.3"
+   version="0.0.4"
    provider-name="Apache Software Foundation"
    class="org.apache.avalon.ide.eclipse.merlin.launch.MerlinDeveloperLaunch">
 
@@ -78,8 +78,8 @@
       <shortcut
             label="Merlin Container"
             icon="icons/merlin_light.gif"
-            modes="run, debug"
             class="org.apache.avalon.ide.eclipse.merlin.launch.MerlinLaunchShortcut"
+            modes="run, debug"
             id="org.apache.avalon.ide.eclipse.merlin.launch.merlinLaunchShortcut">
          <perspective
                id="org.eclipse.jdt.ui.JavaPerspective">

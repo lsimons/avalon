@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-    <classpathentry kind="src" path="src"/>
-    <classpathentry kind="lib" path="lib/xstream-0.2.jar"/>
-    <classpathentry kind="lib" path="lib/xdoclet-1.2b4.jar"/>
-    <classpathentry kind="lib" path="lib/xjavadoc-1.0.jar"/>
-    <classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
-    <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-    <classpathentry kind="output" path="bin"/>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="lib" path="lib/xstream-0.2.jar"/>
+	<classpathentry kind="lib" path="lib/xdoclet-1.2b4.jar"/>
+	<classpathentry kind="lib" path="lib/xjavadoc-1.0.jar"/>
+	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="C:/develop/merlin/merlin3.2.5/system/avalon-repository/jars/avalon-repository-util-1.2.jar"/>
+	<classpathentry kind="lib" path="C:/develop/merlin/merlin3.2.5/system/avalon-repository/jars/avalon-repository-api-1.2.jar"/>
+	<classpathentry kind="lib" path="C:/develop/merlin/merlin3.2.5/system/avalon-repository/jars/avalon-repository-impl-1.2.jar"/>
+	<classpathentry kind="lib" path="C:/develop/merlin/merlin3.2.5/system/avalon-repository/jars/avalon-repository-main-1.2.jar"/>
+	<classpathentry kind="lib" path="C:/develop/merlin/merlin3.2.5/system/avalon-repository/jars/avalon-repository-spi-1.2.jar"/>
+	<classpathentry kind="output" path="bin"/>
 </classpath>

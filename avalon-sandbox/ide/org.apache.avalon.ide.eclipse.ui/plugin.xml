@@ -2,7 +2,7 @@
 <plugin
    id="org.apache.avalon.MerlinDeveloperUI"
    name="MerlinDeveloper UI"
-   version="0.0.1"
+   version="0.0.4"
    provider-name="Apache Software Foundation"
    class="org.apache.avalon.ide.eclipse.merlin.ui.MerlinDeveloperUI">
 
@@ -60,8 +60,8 @@
          point="org.eclipse.ui.editors">
       <editor
             name="Image Viewer"
-            extensions="jpg, gif"
             icon="icons/sample.gif"
+            extensions="jpg, gif"
             class="org.apache.avalon.ide.eclipse.merlin.ui.tools.ImageViewerEditor"
             id="Viewer.editors.XMLEditor">
       </editor>
