@@ -8,7 +8,7 @@
   <body>
     <section name="Introduction" >
       <p>
-        XDoclet tags inserted into source code automatically generate the mxinfo file.
+        Doclet tags inserted into source code automatically generate the mxinfo file.
         There are a number of advantages to doing it this way:
       </p>
       <ul>
@@ -267,35 +267,32 @@
         script, include a task like that this:
       </p>
       <source>
-<![CDATA[                
+<![CDATA[
 <!-- Make .mxinfo automatically for blocks -->
-<target name="phoenix-xdoclet" depends="compile">
+<target name="phoenix-qdox" depends="compile">
 
-  <mkdir dir="${build.xdoclet}"/>
+  <mkdir dir="${build.qdox}"/>
 
-  <taskdef name="phoenix-mxinfo"
-           classname="org.apache.avalon.phoenix.tools.xdoclet.PhoenixXDoclet"
-           classpathref="project.class.path"/>
+  <taskdef name="generatemeta"
+      classname="org.apache.avalon.phoenix.tools.metagenerate.MetaGenerateQdoxTask">
+    <classpath refid="project.class.path" />
+  </taskdef>
 
-  <phoenix-mxinfo
-     destdir="${build.xdoclet}"
-      classpathref="project.class.path">
+  <generatemeta dest="${build.qdox}">
     <fileset dir="${java.dir}">
-      <include name="**" />
+      <include name="**/*.java"/>
     </fileset>
-    <mxinfo/>
-  </phoenix-mxinfo>
+  </generatemeta>
 
-</target>  
+</target>
  ]]>
       </source>
       <p>
-        Where build.xdoclet is where the .mxinfo files should be placed, and java.dir 
+        Where build.qdox is where the .mxinfo files should be placed, and java.dir
         is the location of the source files.
       </p>
       <p>
-        The xdoclet jars, phoenix-client.jar and log4j.jar need to be in 
-        ant's classpath.
+        The qdox jar and phoenix-client.jar need to be in the project.class.path.
       </p>
     </section>
   </body>
