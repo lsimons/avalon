@@ -14,8 +14,9 @@
         <pathelement path="${java.class.path}"/>
         <pathelement location="${build.classes}"/>
         <pathelement location="${avalon-framework.jar}"/>
-        <pathelement location="${junit.jar}"/>
         <pathelement location="${checkstyle.jar}"/>
+        <!-- Unit testing deps -->
+        <pathelement location="${junit.jar}"/>
     </path>
     <property name="cp" refid="project.class.path"/>
 
@@ -33,12 +34,20 @@
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkCommon"/>
     </target>
 
+    <target name="dependencies-test" depends="dist-jar, dependencies"
+        description="Check unit test dependencies" unless="skip.dependencies">
+        <!-- Need the jar to prevent recursive deps. -->
+
+        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkJUnit"/>
+    </target>
+
+
     <!-- Compiles the source code -->
     <target name="compile" depends="dependencies" description="Compiles the source code">
 
         <mkdir dir="${build.classes}"/>
 
-        <!-- Compile all classes including the tests. -->
+        <!-- Compile all classes excluding the tests. -->
         <javac srcdir="${java.dir}"
             destdir="${build.classes}"
             debug="${build.debug}"
@@ -46,7 +55,6 @@
             deprecation="${build.deprecation}"
             target="1.2">
             <classpath refid="project.class.path" />
-            <src path="${test.dir}"/>
             <include name="**/*.java"/>
         </javac>
 
@@ -56,6 +64,24 @@
                 <exclude name="**/*.java"/>
             </fileset>
         </copy>
+
+    </target>
+
+    <!-- Compiles the unit test source code -->
+    <target name="compile-test" depends="compile, dependencies-test" description="Compiles the source code">
+
+        <mkdir dir="${build.classes}"/>
+
+        <!-- Compile all classes including the tests. -->
+        <javac srcdir="${test.dir}"
+            destdir="${build.classes}"
+            debug="${build.debug}"
+            optimize="${build.optimize}"
+            deprecation="${build.deprecation}"
+            target="1.2">
+            <classpath refid="project.class.path" />
+            <include name="**/*.java"/>
+        </javac>
 
         <copy todir="${build.classes}">
             <fileset dir="${test.dir}">
@@ -116,7 +142,7 @@
         </javadoc>
     </target>
 
-    <target name="test" depends="compile" description="Perform the unit tests" unless="skip.tests">
+    <target name="test" depends="compile-test" description="Perform the unit tests" unless="skip.tests">
 
         <echo message="Performing Unit Tests" />
 
