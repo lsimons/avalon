@@ -49,6 +49,7 @@ public class DefaultLogManager
         final DefaultContext context = new DefaultContext();
         context.put( BlockContext.APP_NAME, metaData.getName() );
         context.put( BlockContext.APP_HOME_DIR, metaData.getHomeDirectory() );
+        context.put( "classloader", classLoader );
 
         final String version = logs.getAttribute( "version", "1.0" );
 
