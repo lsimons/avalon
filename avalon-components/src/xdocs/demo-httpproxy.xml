@@ -13,14 +13,76 @@
   <body>
     <s1 title="Introduction">
       <p>
-        TODO-PH
+        HTTP Proxy is a conventional HTTP proxy server that a browser would use to access the internet from behind a firewall.  There are two components that are variations on the same theme and use the same code base:
+      </p>
+      <ol>
+        <li>
+          <strong>Auditing HTTP Proxy</strong>  This logs the requests that it deals with.
+        </li>
+        <li>
+          <strong>Filtering HTTP Proxy</strong>  This filters the requests that go out and blocks some of them based on some configurable rules.
+        </li>
+      </ol>
+      <p>
+        One can be chained into the other such that you could filter and audit.
+      </p>
+    </s1>
+    <s1 title="Packaging of SAR">
+      <p>
+        It's much the same as the previous demo <link href="demo-helloworld.html">HelloWorld</link> in that it's a socket listener type app.  The assembly.xml file has a section for the configuration of this component and it's zipped up into bar form in the same way.
+      </p>
+    </s1>
+    <s1 title="Concepts shown here, not in HelloWorld">
+      <p>
+        Apart from using it's own log, the main difference with this demo is that it provides a mechanism by why the proxy server could be configured by another component that marked it as a dependancy.  A number of methods provide a way for that block to configure settings at runtime as well as query them:
+      </p>
+<source>
+public interface HttpFilteringProxyServer
+    extends HttpProxyServer
+{
+    /**
+     * Method blockAllContentFrom No requests will reach this site.
+     */
+    void blockAllContentFrom( String domainName, boolean onOff );
+
+    /**
+     * Method allowCookiesFrom Allows Cookies to be sent to this site.
+     * This is kinda redundant with some of the features of Netscape 4.x and 6.x
+     */
+    void allowCookiesFrom( String domainName, boolean onOff );
+
+    /**
+     * Method domainAllowed Check to see whether the appl domain should be blocked
+     */
+    boolean domainAllowed( String domainName );
+
+    /**
+     * Method cookieAllowed Check to see whether the appl domain can be sent cookies
+     */
+    boolean cookieAllowed( String domainName );
+
+    /**
+     * List the domains that are completely blocked.
+     */
+    String[] getBlockedDomains();
+
+    /**
+     * List the domains for which cookies are not sent.
+     */
+    String[] getCookieSuppressedDomains();
+}
+</source>
+    </s1>
+    <s1 title="Status of demo">
+      <p>
+        The component is in demo status and would take some extra work to get it working to a level where it could be used for real as a proxy server.
       </p>
     </s1>
   </body>
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.1 $ $Date: 2001/03/11 16:42:03 $
+      $Revision: 1.2 $ $Date: 2001/03/20 22:51:45 $
     </legal>
   </footer>
 </document>
