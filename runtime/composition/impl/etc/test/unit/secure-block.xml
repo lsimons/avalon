@@ -4,7 +4,7 @@
 
    <classloader>
      <classpath>
-       <artifact>@FRAMEWORK_IMPL_SPEC@</artifact>
+       <artifact>@FRAMEWORK-IMPL-SPEC@</artifact>
      </classpath>
    </classloader>
 
