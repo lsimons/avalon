@@ -70,7 +70,7 @@ import org.apache.avalon.phoenix.framework.tools.infobuilder.LegacyUtil;
  *
  * @author Paul Hammant
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.4 $ $Date: 2003/04/06 11:29:43 $
+ * @version $Revision: 1.5 $ $Date: 2003/04/09 23:29:00 $
  */
 public class LegacyInfoBuilder
     extends AbstractInfoBuilder
@@ -146,7 +146,7 @@ public class LegacyInfoBuilder
         {
             return null;
         }
-        final String type = getNamedParameter( tag, "type", "" );
+        final String type = getNamedParameter( tag, "type" );
         final String classname = javaClass.getFullyQualifiedName();
         final String location = LegacyUtil.getSchemaLocationFor( classname );
         return new SchemaDescriptor( location, type, Attribute.EMPTY_SET );
