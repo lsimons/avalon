@@ -61,19 +61,19 @@
         <p>
         Merlin provides support for the creation and assignment of 
         custom context entries to a component through a combination 
-        of requirments specification at the level of a type, and 
+        of requirements specification at the level of a type, and 
         context creation directives.
         </p>
         <p>
         Resource supporting this tutorial are contained in the 
-        turorial/context/custom/ package.
+        tutorial/context/custom/ package.
         </p>
       </subsection>
 
       <subsection name="Creating a non-Component Object">
         <p>
-          To demonstrate Merlin's support for the supply on non
-          component objects to a component, we need to create a 
+          To demonstrate Merlin's support for the supply of non-component 
+          objects to a component, we need to create an 
           example object.  Non-component object approaches may be
           required when you are integrating legacy applications 
           into a component platform and you are obliged to deal 
@@ -82,7 +82,7 @@
         <p>
           Our non-component example NumberCruncher takes two values
           in a constructor and returns the result of the multiplication
-          of the two number via an accessor.  While not very useful, the  
+          of the two numbers via an accessor.  While not very useful, the  
           purpose of NumberCruncher is to demonstrate how you can use 
           Merlin to construct the instance and associate it as a context 
           entry for the component.
