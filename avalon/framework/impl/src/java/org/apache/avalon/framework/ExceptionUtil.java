@@ -191,7 +191,7 @@ public final class ExceptionUtil
     {
         final StringWriter sw = new StringWriter();
         throwable.printStackTrace( new PrintWriter( sw, true ) );
-        return splitString( sw.toString(), LINE_SEPARATOR );
+        return splitStringInternal( sw.toString(), LINE_SEPARATOR );
     }
 
     /**
@@ -203,6 +203,18 @@ public final class ExceptionUtil
      * @deprecated This is an internal utility method that should not be used
      */
     public static String[] splitString( final String string, final String onToken )
+    {
+        return splitStringInternal( string, onToken );
+    }
+
+    /**
+     * Splits the string on every token into an array of stack frames.
+     *
+     * @param string the string to split
+     * @param onToken the token to split on
+     * @return the resultant array
+     */
+    private static String[] splitStringInternal( final String string, final String onToken )
     {
         final StringTokenizer tokenizer = new StringTokenizer( string, onToken );
         final String[] result = new String[ tokenizer.countTokens() ];
