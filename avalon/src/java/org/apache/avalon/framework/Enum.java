@@ -64,6 +64,9 @@ import java.util.Map;
  */
 public abstract class Enum
 {
+    /**
+     * The string representation of the Enum.
+     */
     private final String        m_name;
 
     /**
