@@ -750,6 +750,7 @@
         <include key="avalon-composition-impl" tag="impl"/>
         <include key="avalon-util-configuration" tag="impl"/>
         <include key="avalon-repository-main" runtime="false"/>
+        <include key="avalon-activation-impl" build="false" test="false" runtime="false"/>
       </dependencies>
     </project>
 
