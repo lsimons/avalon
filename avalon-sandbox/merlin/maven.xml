@@ -176,7 +176,7 @@
   </goal>
 
   <!--
-  The update goal generates the merlin site and deploys it to locat site repository.
+  The update goal generates the merlin site and deploys it to local site repository.
   -->
   <goal name="merlin-update">
     <attainGoal name="merlin-site"/>
@@ -261,7 +261,12 @@
   <!--
   Install the merlin plugin into the Maven plugin suite.
   -->
-  <goal name="merlin-install-plugin" prereqs="merlin-dist" description="Install Merlin Maven plugin.">
+  <goal name="merlin-install-plugin" prereqs="merlin-dist" 
+      description="Install Merlin Maven plugin.">
+    <attainGoal name="merlinx-install-plugin"/>
+  </goal>
+
+  <goal name="merlinx-install-plugin">
     <maven:reactor
       basedir="${basedir}"
       includes="merlin-plugin/project.xml"
@@ -269,6 +274,7 @@
       banner="Installing plugin:"
       ignoreFailures="false"/>
   </goal>
+
 
   <!--
   ==============================================================================
