@@ -7,10 +7,14 @@
  */
 package org.apache.excalibur.instrument.client;
 
+import java.io.File;
+
+import org.apache.avalon.framework.logger.ConsoleLogger;
+
 /**
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/08/14 14:58:22 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/08/22 16:50:38 $
  * @since 4.1
  */
 public class Main
@@ -18,7 +22,7 @@ public class Main
     /*---------------------------------------------------------------
      * Methods
      *-------------------------------------------------------------*/
-
+    
     /*---------------------------------------------------------------
      * Main Method
      *-------------------------------------------------------------*/
@@ -27,7 +31,20 @@ public class Main
      */
     public static void main( String args[] )
     {
+        String defaultStateFileName;
+        if ( args.length > 0 )
+        {
+            defaultStateFileName = args[0];
+        }
+        else
+        {
+            defaultStateFileName = "../conf/default.desktop";
+        }
+        File defaultStateFile = new File( defaultStateFileName );
+        
         InstrumentClientFrame client = new InstrumentClientFrame( "Instrument Client" );
+        client.enableLogging( new ConsoleLogger( ConsoleLogger.LEVEL_DEBUG ) );
+        client.setDefaultStateFile( defaultStateFile );
         client.show();
     }
 }

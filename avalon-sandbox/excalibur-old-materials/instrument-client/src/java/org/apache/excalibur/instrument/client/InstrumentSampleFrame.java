@@ -9,9 +9,15 @@ package org.apache.excalibur.instrument.client;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import javax.swing.event.InternalFrameEvent;
+import javax.swing.tree.DefaultMutableTreeNode;
+
+import org.apache.avalon.framework.configuration.Configuration;
+import org.apache.avalon.framework.configuration.ConfigurationException;
+import org.apache.avalon.framework.configuration.DefaultConfiguration;
 
 import org.apache.excalibur.instrument.manager.interfaces.InstrumentableDescriptor;
 import org.apache.excalibur.instrument.manager.interfaces.InstrumentDescriptor;
@@ -22,55 +28,62 @@ import org.apache.excalibur.instrument.manager.interfaces.NoSuchInstrumentableEx
 import org.apache.excalibur.instrument.manager.interfaces.NoSuchInstrumentException;
 import org.apache.excalibur.instrument.manager.interfaces.NoSuchInstrumentSampleException;
 
-import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.configuration.ConfigurationException;
-import org.apache.avalon.framework.configuration.DefaultConfiguration;
-
-import org.apache.excalibur.altrmi.common.AltrmiInvocationException;
-
 /**
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/08/14 14:58:22 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/08/22 16:50:38 $
  * @since 4.1
  */
 class InstrumentSampleFrame
     extends AbstractInternalFrame
-    implements InstrumentManagerConnectionListener
 {
     public static final String FRAME_TYPE = "sample-frame";
 
+    private static final int STATE_NONE         = 0;
+    private static final int STATE_DISCONNECTED = 1;
+    private static final int STATE_MISSING      = 2;
+    private static final int STATE_SNAPSHOT     = 3;
+    private static final int STATE_EXPIRED      = 4;
+    
+    private static final ImageIcon m_iconDisconnected;
+    private static final ImageIcon m_iconMissing;
+    private static final ImageIcon m_iconExpired;
+    
+    private int m_state = STATE_NONE;
     private InstrumentManagerConnection m_connection;
-    //private InstrumentableDescriptor m_instrumentableDescriptor;
-    //private InstrumentDescriptor m_instrumentDescriptor;
-    private InstrumentSampleDescriptor m_instrumentSampleDescriptor;
     private String m_instrumentSampleName;
+    private String m_fullName;
     private LineChart m_lineChart;
 
+    /*---------------------------------------------------------------
+     * Class Initializer
+     *-------------------------------------------------------------*/
+    static
+    {
+        // Load the icons.
+        ClassLoader cl = InstrumentManagerTreeCellRenderer.class.getClassLoader();
+        m_iconDisconnected =
+            new ImageIcon( cl.getResource( NodeData.MEDIA_PATH + "sample_disconnected.gif") );
+        m_iconMissing =
+            new ImageIcon( cl.getResource( NodeData.MEDIA_PATH + "sample_missing.gif") );
+        m_iconExpired =
+            new ImageIcon( cl.getResource( NodeData.MEDIA_PATH + "sample_expired.gif") );
+    }
+    
     /*---------------------------------------------------------------
      * Constructors
      *-------------------------------------------------------------*/
     InstrumentSampleFrame( Configuration stateConfig,
+                           InstrumentManagerConnection connection,
                            InstrumentClientFrame frame )
         throws ConfigurationException
     {
         super( stateConfig, true, true, true, true, frame );
-
-        String host = stateConfig.getAttribute( "host" );
-        int port = stateConfig.getAttributeAsInteger( "port" );
+        
         m_instrumentSampleName = stateConfig.getAttribute( "sample" );
-
-        // Obtain the specified connection.  It should have already been created from the state.
-        m_connection = getFrame().getInstrumentManagerConnection( host, port );
-        if ( m_connection == null )
-        {
-            throw new ConfigurationException(
-                "Could not locate an Instrument Manager Connection at " + host + ":" + port );
-        }
-
-        m_connection.addInstrumentManagerConnectionListener( this );
-
-        init();
+        m_fullName = m_instrumentSampleName;
+        
+        m_connection = connection;
     }
 
     InstrumentSampleFrame( InstrumentManagerConnection connection,
@@ -81,11 +94,8 @@ class InstrumentSampleFrame
 
         m_connection = connection;
         m_instrumentSampleName = sampleName;
-
-        connection.addInstrumentManagerConnectionListener( this );
-
-        init();
-
+        m_fullName = m_instrumentSampleName;
+        
         setSize( new Dimension( 600, 120 ) );
     }
 
@@ -101,7 +111,14 @@ class InstrumentSampleFrame
         stateConfig.setAttribute( "type", FRAME_TYPE );
         stateConfig.setAttribute( "host", m_connection.getHost() );
         stateConfig.setAttribute( "port", Integer.toString( m_connection.getPort() ) );
-        stateConfig.setAttribute( "sample", m_instrumentSampleDescriptor.getName() );
+        stateConfig.setAttribute( "sample", m_instrumentSampleName );
+    }
+    
+    void hideFrame()
+    {
+        System.out.println("InstrumentSampleFrame.hideFrame()");
+        
+        super.hideFrame();
     }
 
     /*---------------------------------------------------------------
@@ -109,51 +126,63 @@ class InstrumentSampleFrame
      *-------------------------------------------------------------*/
     public void internalFrameClosed( InternalFrameEvent event )
     {
-        m_connection.removeInstrumentManagerConnectionListener( this );
-
+        System.out.println("InstrumentSampleFrame.internalFrameClosed()");
+        // Tell the connection that this frame is closing.
+        m_connection.hideSampleFrame( this );
+        
         super.internalFrameClosed( event );
-    }
-
-    /*---------------------------------------------------------------
-     * InstrumentManagerConnectionListener Methods
-     *-------------------------------------------------------------*/
-    /**
-     * Called when the connection is opened.  May be called more than once if
-     *  the connection to the InstrumentManager is reopened.
-     *
-     * @param connection Connection which was opened.
-     */
-    public void opened( InstrumentManagerConnection connection )
-    {
-        // Status changed, so reinitialize the frame.
-        init();
-    }
-
-    /**
-     * Called when the connection is closed.  May be called more than once if
-     *  the connection to the InstrumentManager is reopened.
-     *
-     * @param connection Connection which was closed.
-     */
-    public void closed( InstrumentManagerConnection connection )
-    {
-        // Status changed, so reinitialize the frame.
-        init();
-    }
-
-    /**
-     * Called when the connection is deleted.  All references should be removed.
-     *
-     * @param connection Connection which was deleted.
-     */
-    public void deleted( InstrumentManagerConnection connection )
-    {
-        hideFrame();
     }
 
     /*---------------------------------------------------------------
      * Methods
      *-------------------------------------------------------------*/
+    /**
+     * Returns the name of the sample being displayed.
+     *
+     * @return The name of the sample being displayed.
+     */
+    String getInstrumentSampleName()
+    {
+        return m_instrumentSampleName;
+    }
+    
+    /**
+     * Update the icon that is displayed for the frame.
+     */
+    private void updateIcon()
+    {
+        ImageIcon icon;
+        DefaultMutableTreeNode sampleNode =
+            m_connection.getInstrumentSampleTreeNode( m_instrumentSampleName );
+        if ( sampleNode != null )
+        {
+            // We have a sample node, so build up a nice name
+            InstrumentSampleNodeData sampleNodeData =
+                (InstrumentSampleNodeData)sampleNode.getUserObject();
+                
+            // Set the icon
+            icon = sampleNodeData.getIcon();
+        }
+        else if ( m_state == STATE_MISSING )
+        {
+            icon = m_iconMissing;
+        }
+        else if ( m_state == STATE_EXPIRED )
+        {
+            icon = m_iconExpired;
+        }
+        else
+        {
+            icon = m_iconDisconnected;
+        }
+        
+        // Only change the icon if it is really different
+        if ( getFrameIcon() != icon )
+        {
+            setFrameIcon( icon );
+        }
+    }
+    
     /**
      * Sets the title of the frame and obtains a reference to the
      *  InstrumentSampleDescriptor in the process.  The title is made up of the
@@ -161,212 +190,263 @@ class InstrumentSampleFrame
      * <p>
      * Only called when synchronized.
      */
-    private void setTitleAndFindSample()
+    private void updateTitle()
     {
-        // Initialize the sample reference.
-        m_instrumentSampleDescriptor = null;
-        
-        InstrumentManagerClient manager = m_connection.getInstrumentManagerClient();
-        StringBuffer sb = new StringBuffer( m_connection.getTitle() );
-        sb.insert( 0, " / " );
-        
-        try
+        DefaultMutableTreeNode sampleNode =
+            m_connection.getInstrumentSampleTreeNode( m_instrumentSampleName );
+        if ( sampleNode != null )
         {
-            if ( manager == null )
+            // We have a sample node, so build up a nice name
+            StringBuffer sb = new StringBuffer();
+            InstrumentSampleNodeData sampleNodeData =
+                (InstrumentSampleNodeData)sampleNode.getUserObject();
+            
+            sb.append( sampleNodeData.getDescription() );
+            
+            // Loop up to the root, appending each description.
+            DefaultMutableTreeNode parentNode = (DefaultMutableTreeNode)sampleNode.getParent();
+            while( parentNode != null )
             {
-                sb.insert( 0, m_instrumentSampleName );
-            }
-            else
-            {
-                // Look for the root Instrumentable from the Instrument Manager.
-                InstrumentableDescriptor instrumentable;
-                try
+                Object userObject = parentNode.getUserObject();
+                if ( ( userObject == null ) || !( userObject instanceof NodeData) )
                 {
-                    instrumentable =
-                        manager.getInstrumentableDescriptor( m_instrumentSampleName );
-                    sb.insert( 0, instrumentable.getDescription() );
+                    parentNode = null;
                 }
-                catch ( NoSuchInstrumentableException e )
+                else
                 {
-                    sb.insert( 0, "Instrumentable Not found (" + m_instrumentSampleName + ")" );
-                    instrumentable = null;
-                }
-                sb.insert( 0, " / " );
-                
-                if ( instrumentable != null )
-                {
-                    boolean foundChild = true;
-                    while ( foundChild )
-                    {
-                        // There may be a child Instrumentable that contains the sample.
-                        try
-                        {
-                            InstrumentableDescriptor childInstrumentable =
-                                instrumentable.getChildInstrumentableDescriptor(
-                                m_instrumentSampleName );
-                            instrumentable = childInstrumentable;
-                            sb.insert( 0, instrumentable.getDescription() );
-                            sb.insert( 0, " / " );
-                        }
-                        catch ( NoSuchInstrumentableException e )
-                        {
-                            foundChild = false;
-                        }
-                    }
-                    
-                    // Now get the Instrument 
-                    InstrumentDescriptor instrument;
-                    try
-                    {
-                        instrument =
-                            instrumentable.getInstrumentDescriptor( m_instrumentSampleName );
-                        sb.insert( 0, instrument.getDescription() );
-                    }
-                    catch ( NoSuchInstrumentException e )
-                    {
-                        sb.insert( 0, "Instrument Not found (" + m_instrumentSampleName + ")" );
-                        instrument = null;
-                    }
-                    sb.insert( 0, " / " );
-                    
-                    if ( instrument != null )
-                    {
-                        // Now get the InstrumentSample
-                        InstrumentSampleDescriptor sample;
-                        try
-                        {
-                            sample =
-                                instrument.getInstrumentSampleDescriptor( m_instrumentSampleName );
-                            sb.insert( 0, sample.getDescription() );
-                        }
-                        catch ( NoSuchInstrumentSampleException e )
-                        {
-                            sb.insert( 0, "Sample Not found (" + m_instrumentSampleName + ")" );
-                            sample = null;
-                        }
-                        m_instrumentSampleDescriptor = sample;
-                    }
+                    sb.append( " / " );
+                    sb.append( ((NodeData)userObject).getDescription() );
+                    parentNode = (DefaultMutableTreeNode)parentNode.getParent();
                 }
             }
+            
+            // Store the full name so that we can reuse it later.
+            m_fullName = sb.toString();
         }
-        catch ( AltrmiInvocationException e )
+        
+        // Build the title
+        StringBuffer sb = new StringBuffer();
+        switch ( m_state )
         {
-            // Connection to the InstrumentManager failed.
-            sb.insert( 0, e.getMessage() );
+        case STATE_SNAPSHOT:
+            break;
+            
+        case STATE_MISSING:
+            sb.append( "[Missing] " );
+            break;
+            
+        case STATE_EXPIRED:
+            sb.append( "[Expired] " );
+            break;
+            
+        default:
+            sb.append( "[Disconnected] " );
+            break;
+        }
+        
+        // Add the full name
+        sb.append( m_fullName );
+        
+        // Add the connection info
+        sb.append( " / " );
+        sb.append( m_connection.getTitle() );
+        
+        String title = sb.toString();
+        
+        // Only set the title if it has changed to avoid repaints
+        if ( !getTitle().equals( title ) )
+        {
+            setTitle( title );
+        }
+    }
+
+    /**
+     * Initializes the chart
+     *
+     * @param snapshot InstrumentSampleSnapshot to use to initialize the chart.
+     */
+    private void initChart( InstrumentSampleSnapshot snapshot )
+    {
+        // Decide on a line interval based on the interval of the sample.
+        long interval = snapshot.getInterval();
+        int hInterval;
+        String format;
+        String detailFormat;
+        if( interval < 1000 )
+        {
+            // Once per 10 seconds.
+            hInterval = (int)( 10000 / interval );
+            format = "{2}:{3}:{4}";
+            detailFormat = "{0}/{1} {2}:{3}:{4}.{5}";
+        }
+        else if( interval < 60000 )
+        {
+            // Once per minute.
+            hInterval = (int)( 60000 / interval );
+            format = "{2}:{3}:{4}";
+            detailFormat = "{0}/{1} {2}:{3}:{4}";
+        }
+        else if( interval < 600000 )
+        {
+            // Once per 10 minutes
+            hInterval = (int)( 600000 / interval );
+            format = "{0}/{1} {2}:{3}";
+            detailFormat = "{0}/{1} {2}:{3}";
+        }
+        else if( interval < 3600000 )
+        {
+            // Once per hour.
+            hInterval = (int)( 3600000 / interval );
+            format = "{0}/{1} {2}:{3}";
+            detailFormat = "{0}/{1} {2}:{3}";
+        }
+        else if( interval < 86400000 )
+        {
+            // Once per day.
+            hInterval = (int)( 86400000 / interval );
+            format = "{0}/{1}";
+            detailFormat = "{0}/{1} {2}:{3}";
+        }
+        else
+        {
+            // Default to every 10 points.
+            hInterval = 10;
+            format = "{0}/{1} {2}:{3}";
+            detailFormat = "{0}/{1} {2}:{3}";
         }
 
-        setTitle( sb.toString() );
+        // Make sure that the content pane is empty.
+        getContentPane().removeAll();
+            
+        // Actually create the chart and add it to the content pane
+        m_lineChart = new LineChart( hInterval, interval, format, detailFormat, 20 );
+        getContentPane().add( m_lineChart );
     }
     
-    private void init()
+    private void setStateSnapshot( InstrumentSampleSnapshot snapshot )
     {
-        synchronized (this)
+        if ( m_state != STATE_SNAPSHOT )
         {
-            // Clean out the content pane
+            initChart( snapshot );
+            
+            m_state = STATE_SNAPSHOT;
+            
+            updateTitle();
+            updateIcon();
+        }
+        else
+        {
+            // Update the contents of the chart.
+            m_lineChart.setValues( snapshot.getSamples(), snapshot.getTime() );
+            
+            // Icon can change.
+            updateIcon();
+        }
+    }
+
+    /**
+     * Sets the state of the frame to show that the connection is closed.
+     */
+    private void setStateDisconnected()
+    {
+        if ( m_state != STATE_DISCONNECTED )
+        {
             getContentPane().removeAll();
-
-            // Set the title and locate the InstrumentSampleDescriptor
-            setTitleAndFindSample();
-
-            InstrumentSampleDescriptor sample = m_instrumentSampleDescriptor;
-            if ( sample == null )
+            
+            // Not connected.
+            JLabel label = new JLabel( "Not connected" );
+            label.setForeground( Color.red );
+            label.setHorizontalAlignment( SwingConstants.CENTER );
+            label.setVerticalAlignment( SwingConstants.CENTER );
+            
+            getContentPane().add( label );
+            
+            m_state = STATE_DISCONNECTED;
+            
+            updateTitle();
+            updateIcon();
+        }
+    }
+    
+    /**
+     * Sets the state of the frame to show that the sample could not be found.
+     */
+    private void setStateSampleMissing()
+    {
+        if ( m_state != STATE_MISSING )
+        {
+            getContentPane().removeAll();
+            
+            // Not connected.
+            JLabel label = new JLabel( "Sample not found" );
+            label.setForeground( Color.red );
+            label.setHorizontalAlignment( SwingConstants.CENTER );
+            label.setVerticalAlignment( SwingConstants.CENTER );
+            
+            getContentPane().add( label );
+            
+            m_state = STATE_MISSING;
+            
+            updateTitle();
+            updateIcon();
+        }
+    }
+    
+    /**
+     * Sets the state of the frame to show that the sample could not be found.
+     */
+    private void setStateSampleExpired()
+    {
+        if ( m_state != STATE_EXPIRED )
+        {
+            // Leave the chart as is.  It will just stop updating.
+            // Change its background color slightly.
+            m_lineChart.setBackground( new Color( 220, 220, 220 ) );
+            m_lineChart.repaint();
+            
+            m_state = STATE_EXPIRED;
+            
+            updateTitle();
+            updateIcon();
+        }
+    }
+    
+    
+    /**
+     * Called once per second to prompt the sample frame to refresh itself.
+     */
+    void update()
+    {
+        // Request a snapshot from the connection
+        InstrumentSampleSnapshot snapshot =
+            m_connection.getInstrumentSampleSnapshot( m_instrumentSampleName );
+        if ( snapshot == null )
+        {
+            // A sample was not available.  Why.
+            if ( m_connection.isDeleted() )
             {
-                // Not connected.
-                JLabel label = new JLabel( "Not Connected" );
-                label.setForeground( Color.red );
-                label.setHorizontalAlignment( SwingConstants.CENTER );
-                label.setVerticalAlignment( SwingConstants.CENTER );
-                
-                getContentPane().add( label );
+                // The connection was closed and deleted.
+                hideFrame();
+            }
+            if ( m_connection.isClosed() )
+            {
+                // Connection was closed.
+                setStateDisconnected();
+            }
+            else if ( ( m_state == STATE_SNAPSHOT ) || ( m_state == STATE_EXPIRED ) )
+            {
+                // We were getting snapshots, then they stopped.  The sample expired.
+                setStateSampleExpired();
             }
             else
             {
-                try
-                {
-                    // Decide on a line interval based on the interval of the sample.
-                    long interval = sample.getInterval();
-                    int hInterval;
-                    String format;
-                    String detailFormat;
-                    if( interval < 1000 )
-                    {
-                        // Once per 10 seconds.
-                        hInterval = (int)( 10000 / interval );
-                        format = "{2}:{3}:{4}";
-                        detailFormat = "{0}/{1} {2}:{3}:{4}.{5}";
-                    }
-                    else if( interval < 60000 )
-                    {
-                        // Once per minute.
-                        hInterval = (int)( 60000 / interval );
-                        format = "{2}:{3}:{4}";
-                        detailFormat = "{0}/{1} {2}:{3}:{4}";
-                    }
-                    else if( interval < 600000 )
-                    {
-                        // Once per 10 minutes
-                        hInterval = (int)( 600000 / interval );
-                        format = "{0}/{1} {2}:{3}";
-                        detailFormat = "{0}/{1} {2}:{3}";
-                    }
-                    else if( interval < 3600000 )
-                    {
-                        // Once per hour.
-                        hInterval = (int)( 3600000 / interval );
-                        format = "{0}/{1} {2}:{3}";
-                        detailFormat = "{0}/{1} {2}:{3}";
-                    }
-                    else if( interval < 86400000 )
-                    {
-                        // Once per day.
-                        hInterval = (int)( 86400000 / interval );
-                        format = "{0}/{1}";
-                        detailFormat = "{0}/{1} {2}:{3}";
-                    }
-                    else
-                    {
-                        // Default to every 10 points.
-                        hInterval = 10;
-                        format = "{0}/{1} {2}:{3}";
-                        detailFormat = "{0}/{1} {2}:{3}";
-                    }
-            
-                    m_lineChart = new LineChart( hInterval, sample.getInterval(),
-                        format, detailFormat, 20 );
-            
-                    getContentPane().add( m_lineChart );
-                }
-                catch ( AltrmiInvocationException e )
-                {
-                    // Server went away, close the connection
-                    m_connection.close();
-                }
+                // Sample not found.
+                setStateSampleMissing();
             }
         }
-
-        update();
-    }
-
-    void update()
-    {
-        synchronized (this)
+        else
         {
-            if (  m_instrumentSampleDescriptor != null )
-            {
-                try
-                {
-                    InstrumentSampleSnapshot snapshot = m_instrumentSampleDescriptor.getSnapshot();
-
-                    int[] samples = snapshot.getSamples();
-
-                    m_lineChart.setValues( samples, snapshot.getTime() );
-                }
-                catch ( AltrmiInvocationException e )
-                {
-                    // Server went away, close the connection
-                    m_connection.close();
-                }
-            }
+            setStateSnapshot( snapshot );
         }
     }
 }

@@ -22,7 +22,7 @@ import javax.swing.SwingConstants;
 /**
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/08/14 14:58:22 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/08/22 16:50:38 $
  * @since 4.1
  */
 class ConnectDialog
@@ -32,7 +32,7 @@ class ConnectDialog
     private String m_host;
     private JTextField m_portField;
     private int m_port;
-
+    
     /*---------------------------------------------------------------
      * Constructors
      *-------------------------------------------------------------*/
@@ -46,7 +46,7 @@ class ConnectDialog
         super( frame, "Connect to Remote Instrument Manager",
             AbstractOptionDialog.BUTTON_OK | AbstractOptionDialog.BUTTON_CANCEL );
     }
-
+    
     /*---------------------------------------------------------------
      * AbstractOptionDialog Methods
      *-------------------------------------------------------------*/
@@ -59,7 +59,7 @@ class ConnectDialog
     {
         return "Please enter the host and port of the InstrumentManager to connect to.";
     }
-
+    
     /**
      * Goes through and validates the fields in the dialog.
      *
@@ -76,7 +76,7 @@ class ConnectDialog
             return false;
         }
         m_host = host;
-
+        
         // Check the port.
         boolean portOk = true;
         int port = 0;
@@ -99,10 +99,10 @@ class ConnectDialog
             return false;
         }
         m_port = port;
-
+        
         return true;
     }
-
+    
     /*---------------------------------------------------------------
      * AbstractTabularOptionDialog Methods
      *-------------------------------------------------------------*/
@@ -120,7 +120,7 @@ class ConnectDialog
             "Port:"
         };
     }
-
+    
     /**
      * Returns an array of components to show in the main panel of the dialog.
      *
@@ -132,14 +132,14 @@ class ConnectDialog
         m_hostField.setColumns( 20 );
         m_portField = new JTextField();
         m_portField.setColumns( 6 );
-
+        
         return new Component[]
         {
             m_hostField,
             m_portField
         };
     }
-
+        
     /*---------------------------------------------------------------
      * Methods
      *-------------------------------------------------------------*/
@@ -153,7 +153,7 @@ class ConnectDialog
         m_host = host;
         m_hostField.setText( host );
     }
-
+    
     /**
      * Returns the host set in the dialog.
      *
@@ -163,7 +163,7 @@ class ConnectDialog
     {
         return m_host;
     }
-
+    
     /**
      * Sets the initial port to be shown in the port TextField.
      *
@@ -174,7 +174,7 @@ class ConnectDialog
         m_port = port;
         m_portField.setText( Integer.toString( port ) );
     }
-
+    
     /**
      * Returns the port set in the dialog.
      *
