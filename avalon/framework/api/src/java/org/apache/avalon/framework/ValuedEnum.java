@@ -56,7 +56,15 @@ import java.util.Map;
  * As with <code>Enum</code>, the {@link #ValuedEnum(String, int, Map)} constructor can be used to
  * populate a <code>Map</code>, from which further functionality can be derived.
  *
+ * <p>
+ * <em>NOTE:</em> between 4.0 and 4.1, the constructors' access has been changed
+ * from <code>public</code> to <code>protected</code>. This is to prevent users
+ * of the Enum breaking type-safety by defining new Enum items. All Enum items
+ * should be defined in the Enum class, as shown above.
+ * </p>
+ *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
+ * @author <a href="mailto:jefft@apache.org">Jeff Turner</a>
  */
 public abstract class ValuedEnum
     extends Enum
@@ -66,10 +74,16 @@ public abstract class ValuedEnum
     /**
      * Constructor for enum item.
      *
+     * <p>
+     * <em>Note:</em> access changed from <code>public</code> to
+     * <code>protected</code> after 4.0. See class description.
+     * </p>
+     *
+     *
      * @param name the name of enum item.
      * @param value the value of enum item.
      */
-    public ValuedEnum( final String name, final int value )
+    protected ValuedEnum( final String name, final int value )
     {
         this( name, value, null );
     }
@@ -78,11 +92,16 @@ public abstract class ValuedEnum
      * Constructor for enum item so that it gets added to Map at creation.
      * Adding to a map is useful for implementing find...() style methods.
      *
+     * </p>
+     * <em>Note:</em> access changed from <code>public</code> to
+     * <code>protected</code> after 4.0. See class description.
+     * </p>
+     *
      * @param name the name of enum item.
      * @param value the value of enum item.
      * @param map the <code>Map</code> to add enum item to. 
      */
-    public ValuedEnum( final String name, final int value, final Map map )
+    protected ValuedEnum( final String name, final int value, final Map map )
     {
         super( name, map );
         m_value = value;
