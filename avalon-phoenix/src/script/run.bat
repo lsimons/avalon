@@ -7,6 +7,8 @@ rem
 rem The user may choose to supply parameters to the JVM (such as memory settings)
 rem via setting the environment variable PHOENIX_JVM_OPTS
 rem
+rem The user may also disable the security manager by setting PHOENIX_SECURE=false
+rem
 
 rem
 rem Determine if JAVA_HOME is set and if so then use it
@@ -48,13 +50,22 @@ goto end
 rem echo "Home directory: %PHOENIX_HOME%"
 rem echo "Home ext directory: %PHOENIX_HOME%\lib"
 
+set PHOENIX_SM=
+
+if "%PHOENIX_SECURE%" == "false" goto postSecure
+
+rem Make Phoenix run with security Manager enabled
+set PHOENIX_SM="-Djava.security.manager"
+
+:postSecure
+
 rem
-rem This is needed as some JVM vendors do foolish things
+rem -Djava.ext.dirs= is needed as some JVM vendors do foolish things
 rem like placing jaxp/jaas/xml-parser jars in ext dir
 rem thus breaking Phoenix
 rem
 
 rem Kicking the tires and lighting the fires!!!
-%PHOENIX_JAVACMD% -Djava.ext.dirs=%PHOENIX_HOME%\lib %PHOENIX_JVM_OPTS% -jar %PHOENIX_HOME%\bin\phoenix-loader.jar %1 %2 %3 %4 %5 %6 %7 %8 %9
+%PHOENIX_JAVACMD% -Djava.ext.dirs=%PHOENIX_HOME%\lib -Dphoenix.home=%PHOENIX_HOME% -Djava.security.policy=jar:file:%PHOENIX_HOME%/bin/phoenix-loader.jar!/META-INF/java.policy %PHOENIX_JVM_OPTS% %PHOENIX_SECURE% -jar %PHOENIX_HOME%\bin\phoenix-loader.jar %1 %2 %3 %4 %5 %6 %7 %8 %9
 
 :end
