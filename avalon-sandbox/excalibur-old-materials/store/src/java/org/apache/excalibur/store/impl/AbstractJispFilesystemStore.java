@@ -73,7 +73,7 @@ import org.apache.excalibur.store.Store;
  *
  * @author <a href="mailto:g-froehlich@gmx.de">Gerhard Froehlich</a>
  * @author <a href="mailto:vgritsenko@apache.org">Vadim Gritsenko</a>
- * @version CVS $Id: AbstractJispFilesystemStore.java,v 1.9 2003/07/14 18:17:23 cziegeler Exp $
+ * @version CVS $Id: AbstractJispFilesystemStore.java,v 1.10 2003/07/14 18:51:05 cziegeler Exp $
  */
 public abstract class AbstractJispFilesystemStore
 extends AbstractLogEnabled
@@ -81,8 +81,6 @@ implements Store, ThreadSafe, Initializable {
 
     /** The directory repository */
     protected File m_directoryFile;
-    /** The path to the directory */
-    protected volatile String m_directoryPath;
 
     /** The database  */   
     protected IndexedObjectDatabase m_Database;
@@ -92,23 +90,10 @@ implements Store, ThreadSafe, Initializable {
     /**
      * Sets the repository's location
      */
-    public void setDirectory(final String directory)
-    throws IOException 
-    {
-        this.setDirectory(new File(directory));
-    }
-
-    /**
-     * Sets the repository's location
-     */
     public void setDirectory(final File directory)
     throws IOException 
     {
         this.m_directoryFile = directory;
-
-        /* Save directory path prefix */
-        this.m_directoryPath = this.getFullFilename(this.m_directoryFile);
-        this.m_directoryPath += File.separator;
 
         /* Does directory exist? */
         if (!this.m_directoryFile.exists()) 
@@ -117,35 +102,25 @@ implements Store, ThreadSafe, Initializable {
             if (!this.m_directoryFile.mkdirs()) 
             {
                 throw new IOException(
-                "Error creating store directory '" + this.m_directoryPath + "': ");
+                "Error creating store directory '" + this.m_directoryFile.getAbsolutePath() + "'. ");
             }
         }
 
         /* Is given file actually a directory? */
         if (!this.m_directoryFile.isDirectory()) 
         {
-            throw new IOException("'" + this.m_directoryPath + "' is not a directory");
+            throw new IOException("'" + this.m_directoryFile.getAbsolutePath() + "' is not a directory");
         }
 
         /* Is directory readable and writable? */
         if (!(this.m_directoryFile.canRead() && this.m_directoryFile.canWrite())) 
         {
             throw new IOException(
-                "Directory '" + this.m_directoryPath + "' is not readable/writable"
+                "Directory '" + this.m_directoryFile.getAbsolutePath() + "' is not readable/writable"
             );
         }
     }
    
-    /**
-     * Returns the repository's full pathname
-     *
-     * @return the directory as String
-     */
-    public String getDirectoryPath() 
-    {
-        return this.m_directoryPath;
-    }
-
     /**
      * Returns a Object from the store associated with the Key Object
      *
@@ -367,28 +342,6 @@ implements Store, ThreadSafe, Initializable {
     private KeyObject wrapKeyObject(Object key) 
     {
         return new JispKey( key );
-    }
-
-    /**
-     * Get the complete filename corresponding to a (typically relative)
-     * <code>File</code>.
-     * This method accounts for the possibility of an error in getting
-     * the filename's <i>canonical</i> path, returning the io/error-safe
-     * <i>absolute</i> form instead
-     *
-     * @param file The file
-     * @return The file's absolute filename
-     */
-    public String getFullFilename(File file)
-    {
-        try
-        {
-            return file.getCanonicalPath();
-        }
-        catch (Exception e)
-        {
-            return file.getAbsolutePath();
-        }
     }
 
     class BTreeObjectEnumeration implements Enumeration 
