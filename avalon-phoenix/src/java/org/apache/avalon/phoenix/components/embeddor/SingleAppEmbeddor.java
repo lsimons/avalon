@@ -27,7 +27,7 @@ import org.apache.avalon.framework.component.ComponentManager;
  * @author <a href="donaldp@apache.org">Peter Donald</a>
  */
 public class SingleAppEmbeddor
-    extends PhoenixEmbeddor
+    extends DefaultEmbeddor
     implements ComponentManager
 {
     ///Sole application hosted in kernel
