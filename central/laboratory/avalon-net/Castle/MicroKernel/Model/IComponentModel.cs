@@ -31,14 +31,14 @@ namespace Apache.Avalon.Castle.MicroKernel.Model
 		/// <summary>
 		/// Desired lifecycle
 		/// </summary>
-		Lifestyle SupportedLifestyle { get; }
+        Lifestyle SupportedLifestyle { get; set; }
 
-		/// <summary>
+        /// <summary>
 		/// Desired activation policy
 		/// </summary>
-		Activation ActivationPolicy { get; }
+        Activation ActivationPolicy { get; set; }
 
-		/// <summary>
+        /// <summary>
 		/// Service being exposed by the component
 		/// </summary>
 		Type Service { get; }
@@ -56,14 +56,14 @@ namespace Apache.Avalon.Castle.MicroKernel.Model
 		/// <summary>
 		/// Context for the component
 		/// </summary>
-		IContext Context { get; }
+        IContext Context { get; set; }
 
-		/// <summary>
+        /// <summary>
 		/// List of dependencies declared by the component
 		/// </summary>
-		IDependencyModel[] Dependencies { get; }
+        IDependencyModel[] Dependencies { get; set; }
 
-		/// <summary>
+        /// <summary>
 		/// Information to allow the correct construction 
 		/// of the component
 		/// </summary>

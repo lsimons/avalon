@@ -134,39 +134,46 @@ namespace Apache.Avalon.Castle.MicroKernel.Test
 			handler.Release( service );
 		}
 
-		/*
-		[Test]
+        [Test]
 		public void FacilityLifecycle()
 		{
 			MockFacility facility = new MockFacility();
+            Assert(!facility.InitCalled);
+            Assert(!facility.TerminateCalled);
 
-			m_container.RegisterFacility( facility );
+            m_container.AddFacility( "mock", facility );
+            Assert(facility.InitCalled);
+            Assert(!facility.TerminateCalled);
 
-			Assert( facility.OnInitCalled );
+            m_container.RemoveFacility("mock");
 
-			m_container.AddComponent( "a", typeof(IMailService), typeof(SimpleMailServiceWithLogger) );
+            Assert(facility.TerminateCalled);
+        }
 
-			Assert( facility.ComponentAddedCalled );
-
-			IHandler handler = m_container[ "a" ];
-
-			IMailService service = handler.Resolve() as IMailService;
-
-			Assert( facility.ComponentCreatedCalled );
-
-			AssertNotNull( service );
-
-			service.Send("hammett at apache dot org", 
-				"johndoe at yahoo dot org", "Aloha!", "What's up?");
-
-			handler.Release( service );
-
-			Assert( facility.ComponentReleasedCalled );
-		}
-
-		public class MockFacility : IContainerFacility
+        public class MockFacility : IKernelFacility
 		{
-		}
-		*/
-	}
+            private bool m_initCalled = false;
+            private bool m_terminateCalled = false;
+
+            public void Init(IKernel kernel)
+            {
+                m_initCalled = true;
+            }
+
+            public void Terminate(IKernel kernel)
+            {
+                m_terminateCalled = true;
+            }
+
+            public bool InitCalled
+            {
+                get { return m_initCalled; }
+            }
+
+            public bool TerminateCalled
+            {
+                get { return m_terminateCalled; }
+            }
+        }
+    }
 }

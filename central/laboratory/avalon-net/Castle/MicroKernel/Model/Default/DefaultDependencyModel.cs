@@ -58,7 +58,12 @@ namespace Apache.Avalon.Castle.MicroKernel.Model.Default
 			{
 				return m_key;
 			}
-		}
+            set
+            {
+                AssertUtil.ArgumentNotNull(value, "value");
+                m_key = value;
+            }        
+        }
 
 		public bool Optional
 		{
@@ -66,7 +71,12 @@ namespace Apache.Avalon.Castle.MicroKernel.Model.Default
 			{
 				return m_optional;
 			}
-		}
+            set
+            {
+                AssertUtil.ArgumentNotNull(value, "value");
+                m_optional = value;
+            }
+        }
 
 		#endregion
 	

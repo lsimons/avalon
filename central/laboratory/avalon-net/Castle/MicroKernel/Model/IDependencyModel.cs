@@ -30,11 +30,11 @@ namespace Apache.Avalon.Castle.MicroKernel.Model
 		/// <summary>
 		/// Name that will be used to request this dependency.
 		/// </summary>
-		String LookupKey { get; }
+        String LookupKey { get; set; }
 
-		/// <summary>
+        /// <summary>
 		/// Is this dependency optional?
 		/// </summary>
-		bool Optional { get; }
-	}
+        bool Optional { get; set; }
+    }
 }

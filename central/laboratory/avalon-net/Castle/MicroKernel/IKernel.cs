@@ -22,7 +22,8 @@ namespace Apache.Avalon.Castle.MicroKernel
 	public delegate void DependencyListenerDelegate( Type service, IHandler handler );
 
     /// <summary>
-	/// Defines the Kernel service
+	/// Defines the Kernel contract and behavior.
+	/// <para></para>
 	/// </summary>
     public interface IKernel : IKernelEvents
     {
@@ -35,10 +36,10 @@ namespace Apache.Avalon.Castle.MicroKernel
 		void AddComponent(String key, Type service, Type implementation);
 
 		/// <summary>
-		/// 
+		/// Removes a component from the kernel.
 		/// </summary>
-		/// <param name="key"></param>
-		void RemoveComponent(String key);
+        /// <param name="key">The unique key that identifies the component</param>
+        void RemoveComponent(String key);
 
         /// <summary>
 		/// IComponentModel instance builder.
@@ -51,12 +52,16 @@ namespace Apache.Avalon.Castle.MicroKernel
 		/// </summary>
 		IHandler this[String key] { get; }
 
-		/// <summary>
-		/// 
+        void AddFacility( String key, IKernelFacility kernelFacility );
+
+        void RemoveFacility( String key );
+
+        /// <summary>
+		/// Returns a handler for the specified key and criteria.
 		/// </summary>
-		/// <param name="key"></param>
-		/// <param name="criteria"></param>
-		/// <returns></returns>
+        /// <param name="key">The unique key that identifies the component</param>
+        /// <param name="criteria"></param>
+        /// <returns>Handler instance</returns>
 		IHandler GetHandler(String key, object criteria);
 
 		/// <summary>

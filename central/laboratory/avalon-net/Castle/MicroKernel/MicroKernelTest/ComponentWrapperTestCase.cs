@@ -36,9 +36,9 @@ namespace Apache.Avalon.Castle.MicroKernel.Test
 			IKernel container = new BaseKernel();
 
 			container.ComponentWrap += new WrapDelegate(ComponentWrap);
-			container.ComponentUnWrap += new UnWrapDelegate(ComponentUnWrap);
+            container.ComponentUnWrap += new WrapDelegate(ComponentUnWrap);
 
-			container.AddComponent( "a", typeof(IMailService), typeof(SimpleMailService) );
+            container.AddComponent( "a", typeof(IMailService), typeof(SimpleMailService) );
 
 			IHandler handler = container[ "a" ];
 
