@@ -195,7 +195,7 @@
     </info>
     <dependencies>
       <include key="avalon-framework-api" tag="api"/>
-      <include key="avalon-framework-legacy runtime="false" />
+      <include key="avalon-framework-legacy" runtime="false" />
     </dependencies>
   </project>
 
