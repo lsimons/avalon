@@ -80,12 +80,12 @@ public class Installer
                 final File file = infos[i].getFile();
                 final File parent = file.getParentFile();
                                 
+                final String message = REZ.getString( "skip-removal", file );
+                
                 if( file.exists() )
                 {                    
                     if( file.lastModified() <= installation.getTimestamp() )
                     {
-                        final String message = 
-                            REZ.getString( "skip-removal", file );
                         getLogger().debug( message );                        
                         continue;
                     }
@@ -94,8 +94,6 @@ public class Installer
 
                     if( checksum.getValue() != infos[i].getChecksum() )
                     {
-                        final String message = 
-                            REZ.getString( "skip-removal", file );
                         getLogger().debug( message );                        
                         continue;
                     }
