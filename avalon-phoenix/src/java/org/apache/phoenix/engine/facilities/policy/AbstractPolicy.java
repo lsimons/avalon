@@ -1,11 +1,11 @@
-/* 
- * Copyright (C) The Apache Software Foundation. All rights reserved. 
- * 
- * This software is published under the terms of the Apache Software License 
- * version 1.1, a copy of which has been included with this distribution in 
- * the LICENSE file. 
+/*
+ * Copyright (C) The Apache Software Foundation. All rights reserved.
+ *
+ * This software is published under the terms of the Apache Software License
+ * version 1.1, a copy of which has been included with this distribution in
+ * the LICENSE file.
  */
-package org.apache.phoenix.engine.facilities.security;
+package org.apache.phoenix.engine.facilities.policy;
 
 import java.io.File;
 import java.net.MalformedURLException;
@@ -29,7 +29,7 @@ import org.apache.log.Logger;
 
 /**
  * Abstract policy extended in avalon.
- * 
+ *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
 public abstract class AbstractPolicy
@@ -39,7 +39,7 @@ public abstract class AbstractPolicy
     protected final static boolean     DEBUG         = true;
 
     protected final ArrayList        m_entries     = new ArrayList();
-    
+
     protected Logger                 m_logger;
 
     /**
@@ -57,10 +57,10 @@ public abstract class AbstractPolicy
     }
 
     /**
-     * Overide so we can have a per-application security policy with 
+     * Overide so we can have a per-application security policy with
      * no side-effects to other applications.
      *
-     * @param codeSource the codeSource to get permissions for 
+     * @param codeSource the codeSource to get permissions for
      * @return the PermissionCollection
      */
     public PermissionCollection getPermissions( CodeSource codeSource )
@@ -68,14 +68,14 @@ public abstract class AbstractPolicy
         codeSource = normalize( codeSource );
 
         getLogger().debug( "getPermissions(" + codeSource.getLocation() + ");" );
-        
+
         final Permissions permissions = new Permissions();
         final int size = m_entries.size();
-        
+
         for( int i = 0; i < size; i++ )
         {
             final PolicyEntry entry = (PolicyEntry)m_entries.get( i );
-            
+
             if( entry.m_codeSource.implies( codeSource ) )
             {
                 if( DEBUG )
@@ -87,13 +87,13 @@ public abstract class AbstractPolicy
                 copyPermissions( permissions, entry.m_permissions );
             }
         }
-        
+
         if( DEBUG )
         {
             getLogger().debug( codeSource.getLocation() + " permissions = " + permissions );
         }
-        
-        return permissions;        
+
+        return permissions;
     }
 
     /**
@@ -102,9 +102,9 @@ public abstract class AbstractPolicy
     public void refresh()
     {
     }
-    
+
     /**
-     * Normalizing CodeSource involves removing relative addressing 
+     * Normalizing CodeSource involves removing relative addressing
      * (like .. and .) for file urls.
      *
      * @param codeSource the codeSource to be normalized
@@ -113,14 +113,14 @@ public abstract class AbstractPolicy
     protected CodeSource normalize( final CodeSource codeSource )
     {
         final URL initialLocation = codeSource.getLocation();
-        
+
         // This is a bit of a hack.  I don't know why CodeSource should behave like this
         // Fear not, this only seems to be a problem for home grown classloaders.
         // - Paul Hammant, Nov 2000
         if( null == initialLocation ) return codeSource;
 
         String location = null;
-        
+
         if( !initialLocation.getProtocol().equalsIgnoreCase( "file" ) )
         {
             location = initialLocation.getFile();
@@ -132,7 +132,7 @@ public abstract class AbstractPolicy
             location = file.getAbsoluteFile().toString().replace( File.separatorChar, '/' );
             location =  FileUtil.normalize( location );
         }
-        
+
         URL finalLocation = null;
 
         try
