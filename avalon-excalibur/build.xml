@@ -322,7 +322,6 @@ Legal:
       <doclet name="com.sun.tools.doclets.standard.Standard">
        <param name="-author"/>
        <param name="-version"/>
-       <param name="-use"/>
        <param name="-doctitle" value="${Name}"/>
        <param name="-windowtitle" value="${Name} API"/>
        <param name="-bottom"
