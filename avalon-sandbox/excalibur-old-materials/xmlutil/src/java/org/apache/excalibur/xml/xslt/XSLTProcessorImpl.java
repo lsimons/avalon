@@ -64,7 +64,7 @@ import org.xml.sax.XMLFilter;
  *
  * @author <a href="mailto:ovidiu@cup.hp.com">Ovidiu Predescu</a>
  * @author <a href="mailto:proyal@apache.org">Peter Royal</a>
- * @version CVS $Id: XSLTProcessorImpl.java,v 1.20 2002/12/27 07:35:14 bloritsch Exp $
+ * @version CVS $Id: XSLTProcessorImpl.java,v 1.21 2003/01/14 07:38:22 cziegeler Exp $
  * @version 1.0
  * @since   July 11, 2001
  */
@@ -477,7 +477,8 @@ public final class XSLTProcessorImpl
         boolean isValid;
         if( valid == 0 )
         {
-            isValid = storedValidity.isValid( newValidity );
+            valid = storedValidity.isValid( newValidity );
+            isValid = ( valid == 1 );
         }
         else
         {
@@ -511,7 +512,8 @@ public final class XSLTProcessorImpl
                     SourceValidity included = m_resolver.resolveURI( (String)pair[ 0 ] ).getValidity();
                     if( included != null )
                     {
-                        isValid = storedValidity.isValid( included );
+                        valid = storedValidity.isValid( included );
+                        isValid = ( valid == 1 );
                     }
                 }
                 else
