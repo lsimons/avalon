@@ -1,52 +1,51 @@
-<project name="Avalon Framework - C#" default="test">
+<?xml version="1.0" ?>
+<project name="avalon-framework" default="compile-all" xmlnds="http://tempuri.org/nant-vs.xsd">
 
-  <property name="name" value="Apache.Avalon.Framework"/>
-  <property name="version" value="1.0"/>
-  <property name="library.name" value="${name}"/>
-  <property name="build.debug" value="true"/>
-  <property name="bin.dir" value="bin"/>
-  <property name="output.file" value="${bin.dir}\${library.name}.dll"/>
-  <property name="output.doc.file" value="${bin.dir}\${library.name}.xml"/>
-  <property name="output.test.file" value="${bin.dir}\${library.name}.Test.dll"/>
-  <property name="source.dir" value="AvalonFramework"/>
-  <property name="source.test.dir" value="AvalonFrameworkTest"/>
-  <target name="build" depends="clean" description="Build the AvalonFramework dll">
-    <csc target="library" output="${output.file}" debug="${build.debug}" doc="${output.doc.file}">
-        <references basedir="${bin.dir}">
-            <includes name="*.dll"/>
-        </references>
-        <sources basedir="${source.dir}">
-            <includes name="**.cs"/>
-        </sources>
-    </csc>
-  </target>
-  <target name="build-test" depends="build">    <csc target="library" output="${output.test.file}" debug="${build.debug}">
-       <references basedir="${bin.dir}">
-         <includes name="*.dll"/>
-         <includes name="${nant.location}/nunit.framework.dll"/>
-       </references>
-       <sources basedir="${source.test.dir}">
-         <includes name="**.cs"/>
-       </sources>
-     </csc>
-  </target>
+    <!-- Global project settings -->
+    <property name="avalon-framework.basedir"        value="." readonly="false" />
+    <property name="avalon-framework.src"            value="${avalon-framework.basedir}/AvalonFramework" readonly="false" />
+    <property name="avalon-framework.doc"            value="Apache.Avalon.Framework.xml" readonly="false" />
+    <property name="avalon-framework.test.src"       value="${avalon-framework.basedir}/AvalonFrameworkTest" readonly="false" />
+    <property name="avalon-framework.assembly"       value="Apache.Avalon.Framework.dll" readonly="true" />
+    <property name="avalon-framework.test.assembly"  value="Apache.Avalon.Framework.Test.dll" readonly="true" />
+    <property name="avalon-framework.key"            value="../ApacheAvalon.snk" readonly="true" />
+    <property name="project.build.config"            value="debug" readonly="false" />
 
-  <target name="test" depends="build-test" description="Run the NUnit tests">
-     <exec program="nunit-console.exe" commandline="/assembly:${output.test.file}"/>
-  </target>
+    <include buildfile="${avalon-framework.basedir}/AvalonFramework-helper.build" />
+    <include buildfile="${avalon-framework.basedir}/AvalonFramework-compilations.build" />
 
-  <target name="ndoc" depends="build" description="Build the API documentation">
-    <ndoc>
-      <assemblies>
-        <includes name="${output.file}"/>
-      </assemblies>
-      <summaries>
-        <includes name="${source.dir}/NamespaceSummary.xml"/>      </summaries>      <documenters>        <documenter name="MSDN">          <property name="OutputDirectory" value="doc\MSDN" />          <property name="HtmlHelpName" value="${library.name}" />          <property name="HtmlHelpCompilerFilename" value="hhc.exe" />          <property name="IncludeFavorites" value="False" />          <property name="Title" value="The Avalon Framework API Docs" />          <property name="SplitTOCs" value="False" />          <property name="DefaulTOC" value="" />          <property name="ShowMissingSummaries" value="True" />          <property name="ShowMissingRemarks" value="False" />          <property name="ShowMissingParams" value="False" />          <property name="ShowMissingReturns" value="False" />          <property name="ShowMissingValues" value="False" />          <property name="DocumentInternals" value="False" />          <property name="DocumentProtected" value="True" />          <property name="DocumentPrivates" value="False" />          <property name="DocumentEmptyNamespaces" value="False" />          <property name="IncludeAssemblyVersion" value="False" />          <property name="CopyrightText" value="Copyright 2003 (c) The Apache Software Foundation. All rights reserved." />          <property name="CopyrightHref" value="http://avalon.apache.org/" />        </documenter>      </documenters>     </ndoc>  </target>  <target name="clean" description="Clean up after ourselves">
-    <delete>
-      <fileset>
-        <includes name="${output.file}"/>
-        <includes name="${output.test.file}"/>
-      </fileset>
-    </delete>
-  </target>
+    <call target="set-build-configuration" />
+    <call target="set-runtime-configuration" />
+
+    <target name="compile-all" description="Compile all build configurations for all runtime configurations">
+        <echo message="Compiling all build configurations for all runtime configurations." />
+        <call target="set-debug-build-configuration" />
+        <call target="compile-build" />
+        <call target="set-release-build-configuration" />
+        <call target="compile-build" />
+    </target>
+
+    <target name="run-tests" description="Run the test-cases." depends="check-avalon-framework-basedir">
+        <echo message="Compiling all test cases." />
+        <call target="compile-tests" />
+        
+        <copy todir="${current.bin.dir}">
+            <fileset basedir="${nant.location}">
+                <includes name="nunit.*.dll" />
+            </fileset>
+        </copy>
+        
+        <nunit2 haltonerror="true" haltonfailure="true" failonerror="true">
+            <formatter type="Plain" />
+            <test assemblyname="${current.bin.dir}/${avalon-framework.test.assembly}" fork="true" /> 
+        </nunit2>
+        
+        <delete>
+            <fileset basedir="${current.bin.dir}">
+                <includes name="nunit.*.dll" />
+                <includes name="*Test.*" />
+            </fileset>
+        </delete>
+    </target>
+
 </project>

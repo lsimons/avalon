@@ -23,6 +23,18 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Apache.Avalon.Container.Tes
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Apache.Avalon.Repository", "..\..\Repository\Apache.Avalon.Repository.csproj", "{73F7E12F-646F-4822-B2DB-70670F9FEB36}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Apache.Avalon.Composition.Data.Builder", "..\..\CompositionDataBuilder\Apache.Avalon.Composition.Data.Builder.csproj", "{87E2C42D-B81A-4919-83BC-B0977945249B}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Apache.Avalon.Composition", "..\..\Composition\Apache.Avalon.Composition.csproj", "{1692A8F4-64AB-401A-B521-1311B5EB173E}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfiguration) = preSolution
 		Debug = Debug
@@ -53,6 +65,18 @@ Global
 		{DE388F53-A538-424E-B289-DB5D05BC0169}.Debug.Build.0 = Debug|.NET
 		{DE388F53-A538-424E-B289-DB5D05BC0169}.Release.ActiveCfg = Release|.NET
 		{DE388F53-A538-424E-B289-DB5D05BC0169}.Release.Build.0 = Release|.NET
+		{73F7E12F-646F-4822-B2DB-70670F9FEB36}.Debug.ActiveCfg = Debug|.NET
+		{73F7E12F-646F-4822-B2DB-70670F9FEB36}.Debug.Build.0 = Debug|.NET
+		{73F7E12F-646F-4822-B2DB-70670F9FEB36}.Release.ActiveCfg = Release|.NET
+		{73F7E12F-646F-4822-B2DB-70670F9FEB36}.Release.Build.0 = Release|.NET
+		{87E2C42D-B81A-4919-83BC-B0977945249B}.Debug.ActiveCfg = Debug|.NET
+		{87E2C42D-B81A-4919-83BC-B0977945249B}.Debug.Build.0 = Debug|.NET
+		{87E2C42D-B81A-4919-83BC-B0977945249B}.Release.ActiveCfg = Release|.NET
+		{87E2C42D-B81A-4919-83BC-B0977945249B}.Release.Build.0 = Release|.NET
+		{1692A8F4-64AB-401A-B521-1311B5EB173E}.Debug.ActiveCfg = Debug|.NET
+		{1692A8F4-64AB-401A-B521-1311B5EB173E}.Debug.Build.0 = Debug|.NET
+		{1692A8F4-64AB-401A-B521-1311B5EB173E}.Release.ActiveCfg = Release|.NET
+		{1692A8F4-64AB-401A-B521-1311B5EB173E}.Release.Build.0 = Release|.NET
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 	EndGlobalSection
