@@ -14,7 +14,9 @@ import java.text.NumberFormat;
 
 /**
  * strategy for naming log files based on appending revolving suffix.
-*/
+ *
+ * @author <a href="mailto:bh22351@i-one.at">Bernhard Huber</a>
+ */
 public class FilenameStrategyRevolvingLogFile
     implements FilenameStrategy
 {

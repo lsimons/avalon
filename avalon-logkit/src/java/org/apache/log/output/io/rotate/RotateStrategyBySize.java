@@ -1,8 +1,17 @@
+/*
+ * Copyright (C) The Apache Software Foundation. All rights reserved.
+ *
+ * This software is published under the terms of the Apache Software License
+ * version 1.1, a copy of which has been included with this distribution in
+ * the LICENSE file.
+ */
 package org.apache.log.output.io.rotate;
 
 /**
  * rotation stragety based on size written to log file.
-*/
+ *
+ * @author <a href="mailto:bh22351@i-one.at">Bernhard Huber</a>
+ */
 class RotateStrategyBySize implements RotateStrategy {
     long maxSize;
     long currentSize;
