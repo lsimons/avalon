@@ -50,15 +50,15 @@ import java.io.InputStream;
  * validity object must be the same until discardValidity is called!
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/04/19 09:05:37 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/04/22 09:13:55 $
  */
 public interface Source {
 
     /**
      * Return an <code>InputStream</code> object to read from the source.
      * This is the data at the point of invocation of this method,
-     * so if this is an {@link ModifiableSource} object, you might get
-     * different content from two invocations.
+     * so if this is Modifiable, you might get different content
+     * from two different invocations.
      */
     InputStream getInputStream()
         throws IOException;
