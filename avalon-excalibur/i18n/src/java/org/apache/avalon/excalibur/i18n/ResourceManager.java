@@ -93,7 +93,7 @@ public class ResourceManager
      */
     public final static Resources getClassResources( final Class clazz )
     {
-        final String resource = clazz.getName() + ".Resources";
+        final String resource = clazz.getName() + "Resources";
         return getBaseResources( resource );
     }
 
