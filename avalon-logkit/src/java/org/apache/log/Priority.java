@@ -12,75 +12,88 @@ package org.apache.log;
  * 
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
-public interface Priority
+public final class Priority
 {
     /**
      * DEBUG indicates a message that is used during debugging stage of 
      * project.
      */
-    Enum DEBUG = new Enum( "DEBUG", 5 );
+    public final static Priority DEBUG = new Priority( "DEBUG", 5 );
 
     /**
      * INFO indicates a message that is secondary information.
      */
-    Enum INFO = new Enum( "INFO", 10 );
+    public final static Priority INFO = new Priority( "INFO", 10 );
 
     /**
      * WARN indicates a message that is gives a warning of a 
      * potential conflict.
      */
-    Enum WARN = new Enum( "WARN", 15 );
+    public final static Priority WARN = new Priority( "WARN", 15 );
 
     /**
      * ERROR indicates a message that describes a non fatal error.
      */
-    Enum ERROR = new Enum( "ERROR", 20 );
+    public final static Priority ERROR = new Priority( "ERROR", 20 );
     
     /**
      * FATAL_ERROR indicates a message that describes a error 
      * that will terminate the appliation.
      */         
-    Enum FATAL_ERROR = new Enum( "FATAL_ERROR", 25 );
-    
-    public final class Enum 
+    public final static Priority FATAL_ERROR = new Priority( "FATAL_ERROR", 25 );
+   
+    private final String        m_name;
+    private final int           m_priority;
+
+    /**
+     * Retrieve a Priority.Enum value for the String Priority level.
+     *
+     * @param priority the priority
+     * @return the descriptive string
+     */
+    public static Priority getPriorityForName( final String priority )
     {
-        protected final String        m_name;
-        protected final int           m_priority;
-
-        Enum( final String name, final int priority ) 
-        {
-            m_name = name;
-            m_priority = priority;
-        }
-
-        public String toString()
-        {
-            return "Priority[" + m_name + "/" + m_priority + "]";
-        }
-
-        public int getPriority() 
-        {
-            return m_priority;
-        }
-
-        public String getName() 
-        {
-            return m_name;
-        }
-
-        public boolean isGreater( final Enum level ) 
-        {
-            return m_priority > level.getPriority();
-        }
-        
-        public boolean isLower( final Enum level ) 
-        {
-            return m_priority < level.getPriority();
-        }
-
-        public boolean isLowerOrEqual( final Enum level ) 
-        {
-            return m_priority <= level.getPriority();
-        }        
+        if( Priority.DEBUG.getName().equals( priority ) ) return Priority.DEBUG;
+        else if( Priority.INFO.getName().equals( priority ) ) return Priority.INFO;
+        else if( Priority.WARN.getName().equals( priority ) ) return Priority.WARN;
+        else if( Priority.ERROR.getName().equals( priority ) ) return Priority.ERROR;
+        else if( Priority.FATAL_ERROR.getName().equals( priority ) ) return Priority.FATAL_ERROR;
+        else return Priority.DEBUG;
+    }   
+ 
+    private Priority( final String name, final int priority ) 
+    {
+        m_name = name;
+        m_priority = priority;
     }
+    
+    public String toString()
+    {
+        return "Priority[" + getName() + "/" + getValue() + "]";
+    }
+    
+    public int getValue() 
+    {
+        return m_priority;
+    }
+    
+    public String getName() 
+    {
+        return m_name;
+    }
+    
+    public boolean isGreater( final Priority level ) 
+    {
+        return m_priority > level.getValue();
+    }
+    
+    public boolean isLower( final Priority level ) 
+    {
+        return m_priority < level.getValue();
+    }
+    
+    public boolean isLowerOrEqual( final Priority level ) 
+    {
+        return m_priority <= level.getValue();
+    }        
 }

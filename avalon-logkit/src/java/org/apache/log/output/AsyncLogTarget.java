@@ -8,7 +8,7 @@
 package org.apache.log.output;
 
 import java.util.LinkedList;
-import org.apache.log.LogEntry;
+import org.apache.log.LogEvent;
 import org.apache.log.LogTarget;
 
 /**
@@ -47,11 +47,11 @@ public class AsyncLogTarget
     }
 
     /**
-     * Process a log entry by adding it to queue.
+     * Process a log event by adding it to queue.
      *
-     * @param entry the log entry
+     * @param event the log event
      */
-    public void processEntry( final LogEntry entry )
+    public void processEvent( final LogEvent event )
     {
         synchronized( m_list )
         {
@@ -67,7 +67,7 @@ public class AsyncLogTarget
                 }
             }
 
-            m_list.addFirst( entry );
+            m_list.addFirst( event );
 
             if( size == 0 )
             {
@@ -86,17 +86,17 @@ public class AsyncLogTarget
 
         while( true )
         {
-            LogEntry entry = null;
+            LogEvent event = null;
 
             synchronized( m_list )
             {
-                while( null == entry )
+                while( null == event )
                 {
                     final int size = m_list.size();
 
                     if( size > 0 )
                     {
-                        entry = (LogEntry)m_list.removeLast();
+                        event = (LogEvent)m_list.removeLast();
                         
                         if( size == m_queueSize )
                         {
@@ -125,8 +125,8 @@ public class AsyncLogTarget
                 }
             }
 
-            //actually process an entry
-            m_logTarget.processEntry( entry );
+            //actually process an event
+            m_logTarget.processEvent( event );
         }
     }
 }

@@ -21,7 +21,30 @@ import java.util.Stack;
  */
 public class ContextStack 
 {
-    protected Stack                   m_stack = new Stack();
+    private static final ThreadLocal c_context   = new ThreadLocal();
+    private Stack                    m_stack     = new Stack();
+
+    /**
+     * Get the Current ContextStack.
+     * This returns a ContextStack associated with current thread. If the
+     * thread doesn't have a ContextStack associated with it then a new
+     * ContextStack is created with the name of thread as base context.
+     *
+     * @return the current ContextStack
+     */
+    public final static ContextStack getCurrentContext()
+    {
+        ContextStack context = (ContextStack)c_context.get();
+
+        if( null == context )
+        {
+            context = new ContextStack();
+            context.push( Thread.currentThread().getName() );
+            c_context.set( context );
+        }
+
+        return context;
+    }
 
     /**
      * Empty the context stack.
@@ -29,18 +52,7 @@ public class ContextStack
      */
     public void clear()
     {
-        m_stack.setSize(0);
-    }
-
-    /**
-     * Correct a context string by replacccing '.''s with a '_'.
-     *
-     * @param context the un-fixed context
-     * @return the fixed context
-     */
-    private String fix( final String context )
-    {
-        return context.replace('.','_');
+        m_stack.setSize( 0 );
     }
 
     /**
@@ -49,9 +61,9 @@ public class ContextStack
      * @param index the depth of the context to retrieve
      * @return the context
      */
-    public String get( final int index )
+    public Object get( final int index )
     {
-        return (String)m_stack.elementAt( index );
+        return m_stack.elementAt( index );
     }
   
     /**
@@ -59,22 +71,18 @@ public class ContextStack
      *
      * @return the context that was on top of stack
      */
-    public String pop()
+    public Object pop()
     {
-        return (String)m_stack.pop();
+        return m_stack.pop();
     }
   
     /**
      * Push the context onto top of context stack.
-     * Note that this method automatically removes any '.' characters 
-     * from context. This is to allow nested contexts to be described
-     * in a manner such as context1.context2.context3
      *
      * @param context the context to place on stack
      */
-    public void push( String context )
+    public void push( final Object context )
     {
-        context = fix( context );
         m_stack.push( context );
     }
   
@@ -89,9 +97,9 @@ public class ContextStack
         final int size = stack.m_stack.size();
     
         for( int i = 0; i < size; i++ )
-            {
-                m_stack.push( stack.m_stack.elementAt( i ) );
-            }
+        {
+            m_stack.push( stack.m_stack.elementAt( i ) );
+        }
     }
   
     /**

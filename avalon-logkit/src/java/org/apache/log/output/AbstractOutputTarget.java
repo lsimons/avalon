@@ -9,7 +9,7 @@ package org.apache.log.output;
 
 import org.apache.log.Formatter;
 import org.apache.log.LogTarget;
-import org.apache.log.LogEntry;
+import org.apache.log.LogEvent;
 
 /**
  * An abstract implementation of a basic output target.
@@ -43,22 +43,22 @@ public abstract class AbstractOutputTarget
     }
 
     /**
-     * Abstract method that will output entry.
+     * Abstract method that will output event.
      *
      * @param data the data to be output
      */
     protected abstract void output( final String data );
 
     /**
-     * Process a log entry, via formatting and outputting it.
+     * Process a log event, via formatting and outputting it.
      *
-     * @param entry the log entry
+     * @param event the log event
      */
-    public void processEntry( final LogEntry entry )
+    public void processEvent( final LogEvent event )
     {
         String outputData = null;
-        if( null != m_formatter ) outputData = m_formatter.format( entry );
-        else outputData = entry.toString();
+        if( null != m_formatter ) outputData = m_formatter.format( event );
+        else outputData = event.toString();
         output( outputData );
     }
 }

@@ -7,8 +7,6 @@
  */
 package org.apache.log.output;
 
-import org.apache.log.*;
-
 /**
  * A output target that does nothing. Useful for profiling.
  *

@@ -8,17 +8,17 @@
 package org.apache.log;
 
 /**
- * Formatter's format log entries into strings.
+ * Formatter's format log events into strings.
  *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
 public interface Formatter
 {
     /**
-     * Format log entry into string.
+     * Format log event into string.
      *
-     * @param entry the entry
+     * @param event the event
      * @return the formatted string
      */
-    String format( LogEntry entry );
+    String format( LogEvent event );
 }

@@ -12,7 +12,7 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import org.apache.log.Formatter;
-import org.apache.log.LogEntry;
+import org.apache.log.LogEvent;
 import org.apache.log.LogKit;
 import org.apache.log.LogTarget;
 
