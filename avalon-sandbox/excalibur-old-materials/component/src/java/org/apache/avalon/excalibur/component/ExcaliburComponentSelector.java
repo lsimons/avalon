@@ -10,7 +10,7 @@ package org.apache.avalon.excalibur.component;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import org.apache.avalon.excalibur.collections.BucketMap;
+import org.apache.commons.collections.StaticBucketMap;
 import org.apache.avalon.excalibur.logger.LogKitManageable;
 import org.apache.avalon.excalibur.logger.LogKitManager;
 import org.apache.avalon.excalibur.logger.LoggerManager;
@@ -38,7 +38,7 @@ import org.apache.excalibur.instrument.Instrumentable;
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:paul@luminas.co.uk">Paul Russell</a>
  * @author <a href="mailto:leif@apache.org">Leif Mortenson</a>
- * @version CVS $Revision: 1.17 $ $Date: 2002/11/07 06:37:53 $
+ * @version CVS $Revision: 1.18 $ $Date: 2003/02/05 02:28:35 $
  * @since 4.0
  */
 public class ExcaliburComponentSelector
@@ -80,11 +80,11 @@ public class ExcaliburComponentSelector
 
     /** Static component handlers.
      */
-    private BucketMap m_componentHandlers = new BucketMap();
+    private StaticBucketMap m_componentHandlers = new StaticBucketMap();
 
     /** Dynamic component handlers mapping.
      */
-    private BucketMap m_componentMapping = new BucketMap();
+    private StaticBucketMap m_componentMapping = new StaticBucketMap();
 
     /** Flag for if this is disposed or not.
      */
@@ -653,7 +653,7 @@ public class ExcaliburComponentSelector
      *
      * @return A reference to the componentHandler Map.
      */
-    protected BucketMap getComponentHandlers()
+    protected StaticBucketMap getComponentHandlers()
     {
         return m_componentHandlers;
     }

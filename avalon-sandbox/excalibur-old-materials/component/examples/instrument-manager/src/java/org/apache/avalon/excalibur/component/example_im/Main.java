@@ -11,7 +11,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;
 import org.apache.avalon.excalibur.component.ExcaliburComponentManagerCreator;
-import org.apache.avalon.excalibur.concurrent.ThreadBarrier;
+import EDU.oswego.cs.util.concurrent.CyclicBarrier;
 import org.apache.avalon.framework.component.ComponentManager;
 
 import org.apache.avalon.framework.service.ServiceManager;
@@ -25,7 +25,7 @@ import org.apache.avalon.framework.service.ServiceManager;
  * Note, this code ignores exceptions to keep the code simple.
  *
  * @author <a href="mailto:leif@apache.org">Leif Mortenson</a>
- * @version CVS $Revision: 1.4 $ $Date: 2002/11/07 11:46:13 $
+ * @version CVS $Revision: 1.5 $ $Date: 2003/02/05 02:28:35 $
  * @since 4.1
  */
 public class Main
@@ -88,7 +88,7 @@ public class Main
                     try
                     {
                         int concurrent = 100;
-                        ThreadBarrier barrier = new ThreadBarrier( concurrent );
+                        CyclicBarrier barrier = new CyclicBarrier( concurrent );
                         int cnt = Integer.parseInt( cntStr );
                         int average = Math.max( cnt / concurrent, 1 );
 
@@ -136,7 +136,7 @@ public class Main
     {
         private final int m_numIterations;
         private final ExampleInstrumentable m_instrumentable;
-        private final ThreadBarrier m_barrier;
+        private final CyclicBarrier m_barrier;
 
         protected ActionRunner( ExampleInstrumentable instrumentable, int numIterations, ThreadBarrier barrier )
         {
@@ -154,7 +154,7 @@ public class Main
 
             try
             {
-                m_barrier.barrierSynchronize();
+                m_barrier.barrier();
             }
             catch( Exception e )
             {

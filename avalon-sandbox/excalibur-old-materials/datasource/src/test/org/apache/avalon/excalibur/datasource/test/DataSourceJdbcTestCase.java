@@ -12,7 +12,7 @@ import java.sql.SQLException;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Random;
-import org.apache.avalon.excalibur.concurrent.ThreadBarrier;
+import EDU.oswego.cs.util.concurrent.CyclicBarrier;
 import org.apache.avalon.excalibur.datasource.DataSourceComponent;
 import org.apache.avalon.excalibur.testcase.CascadingAssertionFailedError;
 import org.apache.avalon.excalibur.testcase.ExcaliburTestCase;
@@ -30,7 +30,7 @@ public class DataSourceJdbcTestCase
     extends ExcaliburTestCase
 {
     protected boolean isSuccessful;
-    protected ThreadBarrier barrier;
+    protected CyclicBarrier barrier;
     protected int connectionCount;
 
     public DataSourceJdbcTestCase( String name )
@@ -111,12 +111,12 @@ public class DataSourceJdbcTestCase
                 ( new Thread( new ConnectionThread( this, ds ) ) ).start();
             }
 
-            this.barrier = new ThreadBarrier( 11 );
+            this.barrier = new CyclicBarrier( 11 );
             try
             {
-                this.barrier.barrierSynchronize();
+                this.barrier.barrier();
             }
-            catch( InterruptedException ie )
+            catch( Exception ie )
             {
                 // Ignore
             }
@@ -182,7 +182,7 @@ public class DataSourceJdbcTestCase
 
             try
             {
-                this.testcase.barrier.barrierSynchronize();
+                this.testcase.barrier.barrier();
             }
             catch( final InterruptedException ie )
             {

@@ -10,7 +10,7 @@ package org.apache.avalon.excalibur.component;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import org.apache.avalon.excalibur.collections.BucketMap;
+import org.apache.commons.collections.StaticBucketMap;
 import org.apache.avalon.excalibur.logger.LogKitManageable;
 import org.apache.avalon.excalibur.logger.LogKitManager;
 import org.apache.avalon.excalibur.logger.LoggerManager;
@@ -37,7 +37,7 @@ import org.apache.excalibur.instrument.Instrumentable;
  * @author <a href="mailto:paul@luminas.co.uk">Paul Russell</a>
  * @author <a href="mailto:ryan@silveregg.co.jp">Ryan Shaw</a>
  * @author <a href="mailto:leif@apache.org">Leif Mortenson</a>
- * @version CVS $Revision: 1.21 $ $Date: 2002/11/28 15:54:06 $
+ * @version CVS $Revision: 1.22 $ $Date: 2003/02/05 02:28:35 $
  * @since 4.0
  */
 public class ExcaliburComponentManager
@@ -67,10 +67,10 @@ public class ExcaliburComponentManager
     private Context m_context;
 
     /** Static component mapping handlers. */
-    private final BucketMap m_componentMapping = new BucketMap();
+    private final StaticBucketMap m_componentMapping = new StaticBucketMap();
 
     /** Used to map roles to ComponentHandlers. */
-    private final BucketMap m_componentHandlers = new BucketMap();
+    private final StaticBucketMap m_componentHandlers = new StaticBucketMap();
 
     /** added component handlers before initialization to maintain
      *  the order of initialization
@@ -333,7 +333,7 @@ public class ExcaliburComponentManager
             return;
         }
 
-        // The m_componentMapping BucketMap itself is threadsafe, and because the same component
+        // The m_componentMapping StaticBucketMap itself is threadsafe, and because the same component
         //  will never be released by more than one thread, this method does not need any
         //  synchronization around the access to the map.
 
@@ -528,7 +528,7 @@ public class ExcaliburComponentManager
                         getLogger().error( "Caught an exception trying to initialize "
                                            + "the component handler.", e );
                     }
-                    
+
                     // Rethrow the exception
                     throw e;
                 }
@@ -565,7 +565,7 @@ public class ExcaliburComponentManager
                         {
                             getLogger().error( "Caught an exception trying to initialize "
                                                + "the component handler.", e );
-                            
+
                             // Rethrow the exception
                             throw e;
                         }

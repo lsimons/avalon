@@ -9,7 +9,7 @@ package org.apache.avalon.excalibur.component;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import org.apache.avalon.excalibur.collections.BucketMap;
+import org.apache.commons.collections.StaticBucketMap;
 import org.apache.avalon.excalibur.logger.LogKitManageable;
 import org.apache.avalon.excalibur.pool.ObjectFactory;
 import org.apache.avalon.framework.activity.Disposable;
@@ -40,7 +40,7 @@ import org.apache.excalibur.instrument.Instrumentable;
  * @author <a href="mailto:paul@luminas.co.uk">Paul Russell</a>
  * @author <a href="mailto:ryan@silveregg.co.jp">Ryan Shaw</a>
  * @author <a href="mailto:leif@apache.org">Leif Mortenson</a>
- * @version CVS $Revision: 1.16 $ $Date: 2002/11/09 08:41:03 $
+ * @version CVS $Revision: 1.17 $ $Date: 2003/02/05 02:28:35 $
  * @since 4.0
  */
 public class DefaultComponentFactory
@@ -76,9 +76,9 @@ public class DefaultComponentFactory
      *  proxies, if they are Composables.  These must be seperate maps in case
      *  a component falls into more than one category, which they often do.
      */
-    private final BucketMap m_composableProxies = new BucketMap();
-    private final BucketMap m_serviceableProxies = new BucketMap();
-    private final BucketMap m_componentProxies = new BucketMap();
+    private final StaticBucketMap m_composableProxies = new StaticBucketMap();
+    private final StaticBucketMap m_serviceableProxies = new StaticBucketMap();
+    private final StaticBucketMap m_componentProxies = new StaticBucketMap();
 
     /** Instrument Manager to register objects created by this factory with (May be null). */
     private InstrumentManager m_instrumentManager;
@@ -456,10 +456,10 @@ public class DefaultComponentFactory
     {
         private final ComponentManager m_realManager;
 
-        /** Use a BucketMap rather than an ArrayList as above because this will
+        /** Use a StaticBucketMap rather than an ArrayList as above because this will
          *   contain Proxy instances.  And proxy instances always return false for
          *   equals() making a test for inclusion in the list always fail. */
-        private final BucketMap m_unreleased = new BucketMap();
+        private final StaticBucketMap m_unreleased = new StaticBucketMap();
 
         ServiceManagerProxy( final ComponentManager manager )
         {
