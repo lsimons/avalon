@@ -74,10 +74,15 @@
      <copy todir="${docs.dir}" filtering="off">
       <fileset dir="${xdocs.dir}">
         <include name="**/images/**"/>
+        <include name="**/*.gif"/>
+        <include name="**/*.jpg"/>
+        <include name="**/*.png"/>
+        <include name="**/*.css"/>
+        <include name="**/*.js"/>
       </fileset>
     </copy>
     </target>
-    
+
   <!-- Create the API documentation -->
   <target name="javadocs">
 
