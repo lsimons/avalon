@@ -34,6 +34,17 @@
         <component role="org.apache.avalon.phoenix.interfaces.ConfigurationRepository"
             class="org.apache.avalon.phoenix.components.configuration.DefaultConfigurationRepository"
             logger="config"/>
+
+        <!--
+        <component role="org.apache.avalon.phoenix.interfaces.ConfigurationRepository"
+            class="org.apache.avalon.phoenix.components.configuration.FileSystemPersistentConfigurationRepository"
+            logger="config"/>
+            -->
+
+        <component role="org.apache.avalon.phoenix.interfaces.ConfigurationValidator"
+            class="org.apache.avalon.phoenix.components.configuration.validator.NoopConfigurationValidator"
+            logger="validator"/>
+
         <component role="org.apache.avalon.phoenix.interfaces.ClassLoaderManager"
             class="org.apache.avalon.phoenix.components.classloader.DefaultClassLoaderManager"
             logger="classes"/>
