@@ -82,6 +82,7 @@ Legal:
 
   <property name="logkit.jar" value="${lib.dir}/logkit.jar"/>
   <property name="xerces.jar" value="${lib.dir}/xerces.jar"/>
+  <property name="testlet.jar" value="${tools.dir}/lib/testlet.jar"/>
 
   <path id="project.class.path">
     <pathelement path="${java.class.path}" />
@@ -94,6 +95,17 @@ Legal:
     </fileset>
     <pathelement path="${build.classes}" />
   </path>
+
+  <path id="tools.class.path">
+    <pathelement location="${testlet.jar}"/>
+    <pathelement location="${stylebook.jar}"/>
+    <fileset dir="${tools.dir}/lib">
+      <include name="*.jar" />
+      <exclude name="testlet.jar"/>
+      <exclude name="stylebook*"/>
+    </fileset>
+  </path>
+
 
   <!--
        ===================================================================
@@ -263,6 +275,11 @@ Legal:
       </fileset>
     </copy>
 
+<!--
+    <taskdef name="stylebook" classname="org.apache.stylebook.StyleBookAntTask">
+      <classpath refid="tools.class.path"/>
+    </taskdef>
+-->
     <stylebook targetdirectory="${build.docs}/framework"
                book="${build.xdocs}/framework/book.xml"
                skindirectory="${avalon.skin}">
@@ -375,8 +392,6 @@ Legal:
     <jar jarfile="${build.lib}/avalonapi.jar" basedir="${build.classes}">
       <include name="org/apache/avalon/**"/>
       <exclude name="**/test/*"/>
-
-      <zipfileset src="${logkit.jar}" includes="**/*.class"/>
     </jar>
   </target>
 
