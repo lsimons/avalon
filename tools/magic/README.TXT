@@ -14,6 +14,11 @@ The core antlib is now installed and we can use magic to build and package itsel
 
 To simulate a gump build of magic by magic
 
- $ ant -Dmagic.home=target/123 -Dgump.signature=123 -Dgump.resource.ant=lib/ant.jar -Dgump.resource.junit=lib/junit.jar -Dgump.resource.ant-junit=lib/ant-junit.jar -Dgump.resource.ant-nodeps=lib/ant-nodeps.jar
+ $ ant -Dmagic.home=target/123 \
+       -Dgump.signature=123 \
+       -Dgump.resource.ant=lib/ant.jar \
+       -Dgump.resource.junit=lib/junit.jar \
+       -Dgump.resource.ant-junit=lib/ant-junit.jar \
+       -Dgump.resource.ant-nodeps=lib/ant-nodeps.jar
 
 
