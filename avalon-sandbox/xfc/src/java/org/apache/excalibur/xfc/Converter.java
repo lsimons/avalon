@@ -58,7 +58,7 @@ import org.apache.avalon.framework.logger.NullLogger;
  * {@link Module} implementations.
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: Converter.java,v 1.1 2002/10/02 17:32:28 crafterm Exp $
+ * @version CVS $Id: Converter.java,v 1.2 2002/11/12 19:55:26 donaldp Exp $
  */
 public class Converter extends AbstractLogEnabled
 {
@@ -88,7 +88,7 @@ public class Converter extends AbstractLogEnabled
     public void setInputModule( final Class module )
         throws Exception
     {
-        m_input = ( Module ) module.newInstance();
+        m_input = (Module)module.newInstance();
         m_input.enableLogging( getLogger().getChildLogger( module.getName() ) );
     }
 
@@ -101,7 +101,7 @@ public class Converter extends AbstractLogEnabled
     public void setOutputModule( final Class module )
         throws Exception
     {
-        m_output = ( Module ) module.newInstance();
+        m_output = (Module)module.newInstance();
         m_output.enableLogging( getLogger().getChildLogger( module.getName() ) );
     }
 

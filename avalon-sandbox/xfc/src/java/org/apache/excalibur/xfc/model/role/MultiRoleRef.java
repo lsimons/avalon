@@ -56,7 +56,7 @@ import org.apache.excalibur.xfc.model.Definition;
  * definitions for the one role.
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: MultiRoleRef.java,v 1.1 2002/10/17 14:38:17 crafterm Exp $
+ * @version CVS $Id: MultiRoleRef.java,v 1.2 2002/11/12 19:55:28 donaldp Exp $
  */
 public class MultiRoleRef extends RoleRef
 {
@@ -72,7 +72,7 @@ public class MultiRoleRef extends RoleRef
      */
     public MultiRoleRef(
         final String role, final String shorthand, final Definition[] definitions
-    )
+        )
     {
         super( role, shorthand );
         m_definitions = definitions;

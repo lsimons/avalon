@@ -49,22 +49,14 @@
 */
 package org.apache.excalibur.xfc.modules.fortress;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.configuration.DefaultConfiguration;
-
 import org.apache.excalibur.xfc.model.Definition;
-
-import org.apache.excalibur.xfc.model.Model;
 import org.apache.excalibur.xfc.model.instance.Instance;
 import org.apache.excalibur.xfc.model.instance.SingleNonRoleInstance;
 import org.apache.excalibur.xfc.model.instance.SingleRoleInstance;
+import org.apache.excalibur.xfc.model.role.MultiRoleRef;
 import org.apache.excalibur.xfc.model.role.RoleRef;
 import org.apache.excalibur.xfc.model.role.SingleRoleRef;
-import org.apache.excalibur.xfc.model.role.MultiRoleRef;
-
 import org.apache.excalibur.xfc.modules.ecm.ECMGenerator;
 
 /**
@@ -72,7 +64,7 @@ import org.apache.excalibur.xfc.modules.ecm.ECMGenerator;
  * module.
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: FortressGenerator.java,v 1.2 2002/10/17 14:38:18 crafterm Exp $
+ * @version CVS $Id: FortressGenerator.java,v 1.3 2002/11/12 19:55:28 donaldp Exp $
  */
 public class FortressGenerator extends ECMGenerator
 {
@@ -92,7 +84,7 @@ public class FortressGenerator extends ECMGenerator
     }
 
     /**
-     * Method to create a {@link RoleRef} object for a Configuration 
+     * Method to create a {@link RoleRef} object for a Configuration
      * definition that defines a single component based role.
      *
      * @param role a <code>Configuration</code> definition of a role
@@ -105,7 +97,7 @@ public class FortressGenerator extends ECMGenerator
         Configuration config = role.getChild( COMPONENT );
         Definition definition =
             new Definition(
-                config.getAttribute( CLASS ), 
+                config.getAttribute( CLASS ),
                 config.getAttribute( SHORTHAND ),
                 HandlerMapper.getHandler( config.getAttribute( HANDLER ) )
             );
@@ -129,13 +121,13 @@ public class FortressGenerator extends ECMGenerator
         Configuration[] hints = role.getChildren( COMPONENT );
         Definition[] definitions = new Definition[ hints.length ];
 
-        for ( int i = 0; i < hints.length; ++i )
+        for( int i = 0; i < hints.length; ++i )
         {
-            definitions[i] =
+            definitions[ i ] =
                 new Definition(
-                    hints[i].getAttribute( CLASS ),
-                    hints[i].getAttribute( SHORTHAND ),
-                    HandlerMapper.getHandler( hints[i].getAttribute( HANDLER ) )
+                    hints[ i ].getAttribute( CLASS ),
+                    hints[ i ].getAttribute( SHORTHAND ),
+                    HandlerMapper.getHandler( hints[ i ].getAttribute( HANDLER ) )
                 );
         }
 
@@ -154,7 +146,7 @@ public class FortressGenerator extends ECMGenerator
     protected Instance buildInstance( final Configuration i )
         throws Exception
     {
-        if ( i.getName().equals( COMPONENT ) )
+        if( i.getName().equals( COMPONENT ) )
         {
             // build non-role component
             return buildNonRoleComponentInstance( i );

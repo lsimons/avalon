@@ -50,22 +50,20 @@
 package org.apache.excalibur.xfc;
 
 import java.util.List;
-
-import org.apache.avalon.framework.logger.ConsoleLogger;
-import org.apache.avalon.framework.logger.NullLogger;
-import org.apache.avalon.framework.logger.Logger;
-
 import org.apache.avalon.excalibur.cli.CLArgsParser;
 import org.apache.avalon.excalibur.cli.CLOption;
 import org.apache.avalon.excalibur.cli.CLOptionDescriptor;
 import org.apache.avalon.excalibur.cli.CLUtil;
+import org.apache.avalon.framework.logger.ConsoleLogger;
+import org.apache.avalon.framework.logger.Logger;
+import org.apache.avalon.framework.logger.NullLogger;
 
 /**
  * Command line based XFC entry point.
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
  * (parts also taken from the Excalibur CLI example)
- * @version CVS $Id: Main.java,v 1.3 2002/10/23 12:04:16 crafterm Exp $
+ * @version CVS $Id: Main.java,v 1.4 2002/11/12 19:55:27 donaldp Exp $
  */
 public final class Main
 {
@@ -129,14 +127,14 @@ public final class Main
         // parse command line args
         parseArgs( args );
 
-        if ( getLogger().isInfoEnabled() )
+        if( getLogger().isInfoEnabled() )
         {
             getLogger().info( "Input Module = " + m_inputModule );
             getLogger().info( "Input Module Context = " + m_inputCtx );
             getLogger().info( "Output Module = " + m_outputModule );
             getLogger().info( "Output Module Context = " + m_outputCtx );
         }
-        
+
         // create converter
         final Converter cv = new Converter( getLogger() );
 
@@ -167,7 +165,7 @@ public final class Main
         if( null != parser.getErrorString() )
         {
             System.err.println( "Error: " + parser.getErrorString() );
-            System.exit(1);
+            System.exit( 1 );
         }
 
         // Get a list of parsed options
@@ -175,7 +173,7 @@ public final class Main
         final int size = options.size();
 
         // Check that there are enough arguments (should be no more than 3)
-        if ( size > 3 )
+        if( size > 3 )
         {
             printUsage();
         }
@@ -220,17 +218,17 @@ public final class Main
         }
 
         // check that modules/contexts are set
-        if ( m_inputModule == null ||
-             m_inputCtx == null ||
-             m_outputModule == null ||
-             m_outputCtx == null )
+        if( m_inputModule == null ||
+            m_inputCtx == null ||
+            m_outputModule == null ||
+            m_outputCtx == null )
         {
             printUsage();
         }
     }
 
     /**
-     * Helper method for obtaining the {@link Module} name 
+     * Helper method for obtaining the {@link Module} name
      * from the given {@link String} parameter
      *
      * @param str a <code>String</code> value
@@ -238,7 +236,7 @@ public final class Main
      */
     private static String getModule( final String str )
     {
-        final int i = str.indexOf(':');
+        final int i = str.indexOf( ':' );
         return str.substring( 0, i );
     }
 
@@ -251,7 +249,7 @@ public final class Main
      */
     private static String getContext( final String str )
     {
-        final int i = str.indexOf(':');
+        final int i = str.indexOf( ':' );
         return str.substring( i + 1 );
     }
 
@@ -272,17 +270,17 @@ public final class Main
     private static Class getClass( final String clazz )
         throws ClassNotFoundException
     {
-        if ( "ecm".equalsIgnoreCase( clazz ) )
+        if( "ecm".equalsIgnoreCase( clazz ) )
         {
             return Class.forName( "org.apache.excalibur.xfc.modules.ecm.ECM" );
         }
 
-        if ( "fortress".equalsIgnoreCase( clazz ) )
+        if( "fortress".equalsIgnoreCase( clazz ) )
         {
             return Class.forName( "org.apache.excalibur.xfc.modules.fortress.Fortress" );
         }
 
-        if ( "merlin".equalsIgnoreCase( clazz ) )
+        if( "merlin".equalsIgnoreCase( clazz ) )
         {
             return Class.forName( "org.apache.excalibur.xfc.modules.merlin.Merlin" );
         }

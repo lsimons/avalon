@@ -50,26 +50,20 @@
 package org.apache.excalibur.xfc.modules.ecm;
 
 import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
-
 import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.configuration.DefaultConfiguration;
 import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
-
-import org.apache.excalibur.xfc.model.Model;
 import org.apache.excalibur.xfc.model.Definition;
+import org.apache.excalibur.xfc.model.Model;
 import org.apache.excalibur.xfc.model.instance.Instance;
 import org.apache.excalibur.xfc.model.instance.MultiNonRoleInstance;
 import org.apache.excalibur.xfc.model.instance.MultiRoleInstance;
 import org.apache.excalibur.xfc.model.instance.SelectorHintInstance;
 import org.apache.excalibur.xfc.model.instance.SingleNonRoleInstance;
 import org.apache.excalibur.xfc.model.instance.SingleRoleInstance;
+import org.apache.excalibur.xfc.model.role.MultiRoleRef;
 import org.apache.excalibur.xfc.model.role.RoleRef;
 import org.apache.excalibur.xfc.model.role.SingleRoleRef;
-import org.apache.excalibur.xfc.model.role.MultiRoleRef;
-
 import org.apache.excalibur.xfc.modules.Constants;
 
 /**
@@ -77,7 +71,7 @@ import org.apache.excalibur.xfc.modules.Constants;
  * of the <code>generate</code> method defined in {@link ECM}.
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: ECMGenerator.java,v 1.4 2002/10/23 11:45:04 crafterm Exp $
+ * @version CVS $Id: ECMGenerator.java,v 1.5 2002/11/12 19:55:28 donaldp Exp $
  */
 public class ECMGenerator extends AbstractLogEnabled
     implements Constants
@@ -104,10 +98,10 @@ public class ECMGenerator extends AbstractLogEnabled
     {
         Model model = new Model();
 
-        addRoles( model, context);
-        addInstances( model, context);
+        addRoles( model, context );
+        addInstances( model, context );
 
-        if ( getLogger().isDebugEnabled() )
+        if( getLogger().isDebugEnabled() )
         {
             getLogger().debug( "Model built" );
         }
@@ -129,15 +123,15 @@ public class ECMGenerator extends AbstractLogEnabled
         // locate all roles
         Configuration[] roles = getRoles( getRoleFile( context ) );
 
-        if ( getLogger().isDebugEnabled() )
+        if( getLogger().isDebugEnabled() )
         {
             getLogger().debug( "Identified total of " + roles.length + " roles" );
         }
 
         // for each role create a type object
-        for ( int i = 0; i < roles.length; ++i )
+        for( int i = 0; i < roles.length; ++i )
         {
-            model.addRoleRef( buildRoleRef( roles[i] ) );
+            model.addRoleRef( buildRoleRef( roles[ i ] ) );
         }
     }
 
@@ -155,16 +149,16 @@ public class ECMGenerator extends AbstractLogEnabled
         // locate all component instances
         Configuration[] instances = getInstanceList( getConfigurationFile( context ) );
 
-        if ( getLogger().isDebugEnabled() )
+        if( getLogger().isDebugEnabled() )
         {
             getLogger().debug(
                 "Identified total of " + instances.length + " component instances"
             );
         }
 
-        for ( int i = 0; i < instances.length; ++i )
+        for( int i = 0; i < instances.length; ++i )
         {
-            model.addInstance( buildInstance( instances[i], model ) );
+            model.addInstance( buildInstance( instances[ i ], model ) );
         }
     }
 
@@ -235,7 +229,7 @@ public class ECMGenerator extends AbstractLogEnabled
     protected RoleRef buildRoleRef( final Configuration role )
         throws Exception
     {
-        if ( isComponentSelectorRole( role ) )
+        if( isComponentSelectorRole( role ) )
         {
             return buildMultipleComponentRoleRef( role );
         }
@@ -294,13 +288,13 @@ public class ECMGenerator extends AbstractLogEnabled
         Configuration[] hints = role.getChildren( HINT );
         Definition[] definitions = new Definition[ hints.length ];
 
-        for ( int i = 0; i < hints.length; ++i )
+        for( int i = 0; i < hints.length; ++i )
         {
-            definitions[i] =
+            definitions[ i ] =
                 new Definition(
-                    hints[i].getAttribute( CLASS ),
-                    hints[i].getAttribute( SHORTHAND ),
-                    HandlerAnalyzer.getHandler( hints[i].getAttribute( CLASS ) )
+                    hints[ i ].getAttribute( CLASS ),
+                    hints[ i ].getAttribute( SHORTHAND ),
+                    HandlerAnalyzer.getHandler( hints[ i ].getAttribute( CLASS ) )
                 );
         }
 
@@ -312,7 +306,7 @@ public class ECMGenerator extends AbstractLogEnabled
     // INSTANCE GENERATION METHODS
 
     /**
-     * Builds an {@link Instance} object from a given component configuration 
+     * Builds an {@link Instance} object from a given component configuration
      * definition.
      *
      * @param i a <code>Configuration</code> definition
@@ -323,11 +317,11 @@ public class ECMGenerator extends AbstractLogEnabled
     protected Instance buildInstance( final Configuration i, final Model model )
         throws Exception
     {
-        if ( i.getName().equals( COMPONENT ) )
+        if( i.getName().equals( COMPONENT ) )
         {
             Configuration[] kids = i.getChildren( COMPONENT_INSTANCE );
 
-            if ( kids.length > 0 )
+            if( kids.length > 0 )
             {
                 // build non-role component selector
                 return buildNonRoleComponentSelectorInstance( i );
@@ -337,7 +331,7 @@ public class ECMGenerator extends AbstractLogEnabled
             return buildNonRoleComponentInstance( i );
         }
 
-        if ( isComponentSelectorXConf( i.getName(), model ) )
+        if( isComponentSelectorXConf( i.getName(), model ) )
         {
             // build multi role based component
             return buildRoleComponentSelectorInstance( i );
@@ -359,7 +353,7 @@ public class ECMGenerator extends AbstractLogEnabled
      */
     private boolean isComponentSelectorXConf(
         final String shorthand, final Model model
-    )
+        )
         throws Exception
     {
         // check if shorthand corresponds to ECM
@@ -368,7 +362,7 @@ public class ECMGenerator extends AbstractLogEnabled
     }
 
     /**
-     * Builds an {@link Instance} object from a given xconf 
+     * Builds an {@link Instance} object from a given xconf
      * configuration framgment, for component selector xconf definitions
      * that do not use RoleManager.
      *
@@ -378,21 +372,21 @@ public class ECMGenerator extends AbstractLogEnabled
      */
     private Instance buildNonRoleComponentSelectorInstance(
         final Configuration i
-    )
+        )
         throws Exception
     {
         final Configuration[] kids = i.getChildren( COMPONENT_INSTANCE );
         final SingleRoleInstance[] subs = new SingleRoleInstance[ kids.length ];
 
-        for ( int j = 0; j < kids.length; ++j )
+        for( int j = 0; j < kids.length; ++j )
         {
-            String clazz = kids[j].getAttribute( CLASS );
+            String clazz = kids[ j ].getAttribute( CLASS );
 
-            subs[j] =
+            subs[ j ] =
                 new SingleRoleInstance(
-                    kids[j].getAttribute( NAME ),
+                    kids[ j ].getAttribute( NAME ),
                     clazz,
-                    kids[j].getChildren(),
+                    kids[ j ].getChildren(),
                     clazz == null ? null : HandlerAnalyzer.getHandler( clazz )
                 );
         }
@@ -455,14 +449,14 @@ public class ECMGenerator extends AbstractLogEnabled
         Configuration[] kids = i.getChildren();
         SelectorHintInstance[] subinstances = new SelectorHintInstance[ kids.length ];
 
-        for ( int j = 0; j < kids.length; ++j )
+        for( int j = 0; j < kids.length; ++j )
         {
-            subinstances[j] =
+            subinstances[ j ] =
                 new SelectorHintInstance(
-                    kids[j].getName(),
-                    kids[j].getAttribute( NAME ),
-                    kids[j].getAttribute( CLASS, null ),
-                    kids[j].getChildren()
+                    kids[ j ].getName(),
+                    kids[ j ].getAttribute( NAME ),
+                    kids[ j ].getAttribute( CLASS, null ),
+                    kids[ j ].getChildren()
                 );
         }
 

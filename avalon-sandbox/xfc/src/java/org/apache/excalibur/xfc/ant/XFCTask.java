@@ -51,9 +51,7 @@ package org.apache.excalibur.xfc.ant;
 
 import org.apache.avalon.framework.logger.ConsoleLogger;
 import org.apache.avalon.framework.logger.Logger;
-
 import org.apache.excalibur.xfc.Converter;
-
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Task;
 
@@ -70,7 +68,7 @@ import org.apache.tools.ant.Task;
  * </p>
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: XFCTask.java,v 1.2 2002/10/16 16:21:07 crafterm Exp $
+ * @version CVS $Id: XFCTask.java,v 1.3 2002/11/12 19:55:27 donaldp Exp $
  */
 public final class XFCTask extends Task
 {
@@ -125,7 +123,7 @@ public final class XFCTask extends Task
 
             // all done, good show
         }
-        catch ( Exception e )
+        catch( Exception e )
         {
             throw new BuildException(
                 "Error occured during XFC task conversion", e
@@ -143,18 +141,18 @@ public final class XFCTask extends Task
         throws BuildException
     {
         // check the input task
-        if ( m_input == null ||
-             m_input.getModule() == null ||
-             m_input.getContext() == null
+        if( m_input == null ||
+            m_input.getModule() == null ||
+            m_input.getContext() == null
         )
         {
             throw new BuildException( "XFC input task missing input criteria" );
         }
 
         // check the output task
-        if ( m_output == null ||
-             m_output.getModule() == null ||
-             m_output.getContext() == null
+        if( m_output == null ||
+            m_output.getModule() == null ||
+            m_output.getContext() == null
         )
         {
             throw new BuildException( "XFC output task missing output criteria" );
@@ -178,17 +176,17 @@ public final class XFCTask extends Task
     private Class getClass( final String clazz )
         throws ClassNotFoundException
     {
-        if ( "ecm".equalsIgnoreCase( clazz ) )
+        if( "ecm".equalsIgnoreCase( clazz ) )
         {
             return Class.forName( "org.apache.excalibur.xfc.modules.ecm.ECM" );
         }
 
-        if ( "fortress".equalsIgnoreCase( clazz ) )
+        if( "fortress".equalsIgnoreCase( clazz ) )
         {
             return Class.forName( "org.apache.excalibur.xfc.modules.fortress.Fortress" );
         }
 
-        if ( "merlin".equalsIgnoreCase( clazz ) )
+        if( "merlin".equalsIgnoreCase( clazz ) )
         {
             return Class.forName( "org.apache.excalibur.xfc.modules.merlin.Merlin" );
         }

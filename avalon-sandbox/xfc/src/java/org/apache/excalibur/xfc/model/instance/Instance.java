@@ -66,7 +66,7 @@ import org.apache.avalon.framework.configuration.Configuration;
  * </p>
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: Instance.java,v 1.1 2002/10/17 14:38:17 crafterm Exp $
+ * @version CVS $Id: Instance.java,v 1.2 2002/11/12 19:55:27 donaldp Exp $
  */
 public abstract class Instance
 {
@@ -87,7 +87,7 @@ public abstract class Instance
         final String clazz,
         final Configuration[] config,
         final String handler
-    )
+        )
     {
         m_class = clazz;
         m_configuration = config;

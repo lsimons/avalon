@@ -49,53 +49,51 @@
 */
 package org.apache.excalibur.xfc.ant;
 
-import org.apache.tools.ant.BuildException;
-
 /**
  * Class used to hold information about a module definition in an XFC ANT
  * task.
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: ModuleDefinition.java,v 1.1 2002/10/08 16:30:18 crafterm Exp $
+ * @version CVS $Id: ModuleDefinition.java,v 1.2 2002/11/12 19:55:27 donaldp Exp $
  */
 public final class ModuleDefinition
 {
     // internals
     String m_module;
     String m_context;
-    
+
     /**
      * Get the value of m_module.
      * @return value of m_module.
      */
-    public String getModule() 
+    public String getModule()
     {
         return m_module;
     }
-    
+
     /**
      * Set the value of m_module.
      * @param v  Value to assign to m_module.
      */
-    public void setModule(String  v) 
+    public void setModule( String v )
     {
         m_module = v;
     }
-    
+
     /**
      * Get the value of m_context.
      * @return value of m_context.
      */
-    public String getContext() 
+    public String getContext()
     {
         return m_context;
     }
-    
+
     /**
      * Set the value of m_context.
      * @param v  Value to assign to m_context.
      */
-    public void setContext(String  v) 
+    public void setContext( String v )
     {
         m_context = v;
     }

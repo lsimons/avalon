@@ -51,16 +51,15 @@ package org.apache.excalibur.xfc.model;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import org.apache.excalibur.xfc.model.role.RoleRef;
 import org.apache.excalibur.xfc.model.instance.Instance;
+import org.apache.excalibur.xfc.model.role.RoleRef;
 
 /**
  * Class for maintaining the Roles and their providing Components
  * a particular Container configuration.
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: Model.java,v 1.4 2002/10/17 14:38:17 crafterm Exp $
+ * @version CVS $Id: Model.java,v 1.5 2002/11/12 19:55:27 donaldp Exp $
  */
 public final class Model
 {
@@ -99,7 +98,7 @@ public final class Model
      */
     public RoleRef[] getDefinitions()
     {
-        return (RoleRef[]) m_definitions.toArray(
+        return (RoleRef[])m_definitions.toArray(
             new RoleRef[ m_definitions.size() ]
         );
     }
@@ -114,10 +113,10 @@ public final class Model
     {
         RoleRef[] refs = getDefinitions();
 
-        for ( int i = 0; i < refs.length; ++i )
+        for( int i = 0; i < refs.length; ++i )
         {
-            if ( refs[i].getShorthand().equals( shorthand ) )
-                return refs[i];
+            if( refs[ i ].getShorthand().equals( shorthand ) )
+                return refs[ i ];
         }
 
         return null;
@@ -131,7 +130,7 @@ public final class Model
      */
     public Instance[] getInstances()
     {
-        return (Instance[]) m_instances.toArray(
+        return (Instance[])m_instances.toArray(
             new Instance[ m_instances.size() ]
         );
     }

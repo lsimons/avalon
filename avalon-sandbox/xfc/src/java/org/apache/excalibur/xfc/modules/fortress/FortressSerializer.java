@@ -49,24 +49,16 @@
 */
 package org.apache.excalibur.xfc.modules.fortress;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.DefaultConfiguration;
-
 import org.apache.excalibur.xfc.model.Definition;
-import org.apache.excalibur.xfc.model.instance.Instance;
-import org.apache.excalibur.xfc.model.instance.InstanceVisitor;
-import org.apache.excalibur.xfc.model.instance.SelectorHintInstance;
-import org.apache.excalibur.xfc.model.instance.SingleRoleInstance;
-import org.apache.excalibur.xfc.model.instance.SingleNonRoleInstance;
-import org.apache.excalibur.xfc.model.instance.MultiRoleInstance;
 import org.apache.excalibur.xfc.model.instance.MultiNonRoleInstance;
-import org.apache.excalibur.xfc.model.Model;
-import org.apache.excalibur.xfc.model.role.SingleRoleRef;
+import org.apache.excalibur.xfc.model.instance.MultiRoleInstance;
+import org.apache.excalibur.xfc.model.instance.SelectorHintInstance;
+import org.apache.excalibur.xfc.model.instance.SingleNonRoleInstance;
+import org.apache.excalibur.xfc.model.instance.SingleRoleInstance;
 import org.apache.excalibur.xfc.model.role.MultiRoleRef;
-
+import org.apache.excalibur.xfc.model.role.SingleRoleRef;
 import org.apache.excalibur.xfc.modules.ecm.ECMSerializer;
 
 /**
@@ -74,7 +66,7 @@ import org.apache.excalibur.xfc.modules.ecm.ECMSerializer;
  * module.
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: FortressSerializer.java,v 1.3 2002/10/23 11:32:25 crafterm Exp $
+ * @version CVS $Id: FortressSerializer.java,v 1.4 2002/11/12 19:55:28 donaldp Exp $
  */
 public class FortressSerializer extends ECMSerializer
 {
@@ -85,7 +77,7 @@ public class FortressSerializer extends ECMSerializer
      * definition.
      *
      * @param ref a {@link SingleRoleRef} instance
-       * @exception Exception if an error occurs
+     * @exception Exception if an error occurs
      */
     public void visit( final SingleRoleRef ref )
         throws Exception
@@ -117,13 +109,13 @@ public class FortressSerializer extends ECMSerializer
         DefaultConfiguration role = new DefaultConfiguration( ROLE, "" );
         Definition[] defs = ref.getProviders();
 
-        for ( int i = 0; i < defs.length; ++i )
+        for( int i = 0; i < defs.length; ++i )
         {
             DefaultConfiguration hint = new DefaultConfiguration( COMPONENT, "" );
-            hint.setAttribute( SHORTHAND, defs[i].getShorthand() );
-            hint.setAttribute( CLASS, defs[i].getDefaultClass() );
+            hint.setAttribute( SHORTHAND, defs[ i ].getShorthand() );
+            hint.setAttribute( CLASS, defs[ i ].getDefaultClass() );
             hint.setAttribute(
-                HANDLER, HandlerMapper.getHandler( defs[i].getHandler() )
+                HANDLER, HandlerMapper.getHandler( defs[ i ].getHandler() )
             );
 
             role.addChild( hint );
@@ -147,13 +139,13 @@ public class FortressSerializer extends ECMSerializer
     {
         DefaultConfiguration conf = new DefaultConfiguration( i.getShorthand(), "" );
 
-        if ( i.getConfiguration() != null )
+        if( i.getConfiguration() != null )
         {
             Configuration[] kids = i.getConfiguration();
 
-            for ( int j = 0; j < kids.length; ++j )
+            for( int j = 0; j < kids.length; ++j )
             {
-                conf.addChild( kids[j] );
+                conf.addChild( kids[ j ] );
             }
         }
 
@@ -173,19 +165,19 @@ public class FortressSerializer extends ECMSerializer
     {
         SelectorHintInstance[] subs = i.getSubInstances();
 
-        for ( int j = 0; j < subs.length; ++j )
+        for( int j = 0; j < subs.length; ++j )
         {
             DefaultConfiguration child =
-                new DefaultConfiguration( subs[j].getShorthand(), "" );
-            child.setAttribute( ID, subs[j].getHint() );
+                new DefaultConfiguration( subs[ j ].getShorthand(), "" );
+            child.setAttribute( ID, subs[ j ].getHint() );
 
-            if ( subs[j].getConfiguration() != null )
+            if( subs[ j ].getConfiguration() != null )
             {
-                Configuration[] kids = subs[j].getConfiguration();
+                Configuration[] kids = subs[ j ].getConfiguration();
 
-                for ( int k = 0; k < kids.length; ++k )
+                for( int k = 0; k < kids.length; ++k )
                 {
-                    child.addChild( kids[k] );
+                    child.addChild( kids[ k ] );
                 }
             }
 
@@ -209,13 +201,13 @@ public class FortressSerializer extends ECMSerializer
         conf.setAttribute( HANDLER, HandlerMapper.getHandler( i.getHandler() ) );
         conf.setAttribute( ID, "UNKNOWN" );
 
-        if ( i.getConfiguration() != null )
+        if( i.getConfiguration() != null )
         {
             Configuration[] kids = i.getConfiguration();
 
-            for ( int j = 0; j < kids.length; ++j )
+            for( int j = 0; j < kids.length; ++j )
             {
-                conf.addChild( kids[j] );
+                conf.addChild( kids[ j ] );
             }
         }
 
@@ -234,22 +226,22 @@ public class FortressSerializer extends ECMSerializer
         SingleRoleInstance[] subs = i.getSubInstances();
         Configuration[] xconfs = new Configuration[ subs.length ];
 
-        for ( int j = 0; j < subs.length; ++j )
+        for( int j = 0; j < subs.length; ++j )
         {
             DefaultConfiguration conf = new DefaultConfiguration( COMPONENT, "" );
 
             conf.setAttribute( ROLE, i.getRole() );
-            conf.setAttribute( CLASS, subs[j].getClassImpl() );
-            conf.setAttribute( HANDLER, HandlerMapper.getHandler( subs[j].getHandler() ) );
-            conf.setAttribute( ID, subs[j].getShorthand() );
+            conf.setAttribute( CLASS, subs[ j ].getClassImpl() );
+            conf.setAttribute( HANDLER, HandlerMapper.getHandler( subs[ j ].getHandler() ) );
+            conf.setAttribute( ID, subs[ j ].getShorthand() );
 
-            if ( subs[j].getConfiguration() != null )
+            if( subs[ j ].getConfiguration() != null )
             {
-                Configuration[] kids = subs[j].getConfiguration();
+                Configuration[] kids = subs[ j ].getConfiguration();
 
-                for ( int k = 0; k < kids.length; ++k )
+                for( int k = 0; k < kids.length; ++k )
                 {
-                    conf.addChild( kids[k] );
+                    conf.addChild( kids[ k ] );
                 }
             }
 
