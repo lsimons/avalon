@@ -7,18 +7,18 @@
     <!--<attainGoal name="do-site"/>-->
   </goal>
 
-  <goal name="do-install" 
+  <goal name="do-install"
     description="Install the sub-project jars." >
     <maven:reactor
       basedir="${basedir}"
       includes="*/project.xml"
-      excludes="site/*.*"
+      excludes="site/*"
       goals="jar:install-snapshot"
       banner="Installing:"
       ignoreFailures="false" />
   </goal>
 
-  <goal name="do-site" 
+  <goal name="do-site"
     description="Build the project site." >
     <maven:reactor
       basedir="${basedir}"
@@ -28,17 +28,28 @@
       ignoreFailures="false" />
   </goal>
 
-  <goal name="do-clean" 
-    description="Build the distribution." >
+  <goal name="do-clean"
+    description="Clean up build artifacts" >
     <maven:reactor
       basedir="${basedir}"
       includes="*/project.xml"
-      excludes="site/*.*"
+      excludes="site/*"
       goals="clean"
       banner="Cleaning:"
       ignoreFailures="false" />
     <attainGoal name="clean"/>
   </goal>
+
+    <goal name="do-dist"
+      description="Build binary distributions" >
+      <maven:reactor
+        basedir="${basedir}"
+        includes="*/project.xml"
+        excludes="site/*"
+        goals="dist"
+        banner="Building distribution:"
+        ignoreFailures="false" />
+    </goal>
 
 
 </project>
