@@ -20,6 +20,7 @@ package org.apache.avalon.activation.impl;
 import java.util.Map;
 import java.util.Hashtable;
 import java.lang.reflect.Proxy;
+import java.lang.reflect.InvocationHandler;
 
 import org.apache.avalon.activation.TransientApplianceException;
 
@@ -254,11 +255,19 @@ class DefaultServiceManager implements ServiceManager
 
         if( Proxy.isProxyClass( instance.getClass() ) )
         {
-            ApplianceInvocationHandler handler = 
-              (ApplianceInvocationHandler) 
+            InvocationHandler handler = 
                 Proxy.getInvocationHandler( instance );
-            handler.release();
-            return;
+            if( handler instanceof ApplianceInvocationHandler )
+            { 
+                ApplianceInvocationHandler aic = 
+                  (ApplianceInvocationHandler) handler;
+                aic.release();
+                return;
+            }
+            else if( handler instanceof BlockInvocationHandler )
+            {
+                return;
+            }
         }
 
         //
