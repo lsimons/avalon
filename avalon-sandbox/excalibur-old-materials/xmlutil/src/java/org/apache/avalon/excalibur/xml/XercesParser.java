@@ -25,24 +25,19 @@ import org.xml.sax.ext.LexicalHandler;
  *
  * @author <a href="mailto:fumagalli@exoffice.com">Pierpaolo Fumagalli</a>
  *         (Apache Software Foundation, Exoffice Technologies)
- * @version CVS $Revision: 1.2 $ $Date: 2002/07/07 07:19:00 $
+ * @version CVS $Revision: 1.3 $ $Date: 2002/07/09 13:57:57 $
  */
 public class XercesParser
     extends AbstractLogEnabled
     implements Parser, ErrorHandler, SingleThreaded
 {
     /** the SAX Parser */
-    private final SAXParser m_parser;
+    private SAXParser m_parser;
 
     public XercesParser()
         throws SAXException
     {
-        m_parser = new SAXParser();
-
-        m_parser.setFeature( "http://xml.org/sax/features/validation", false );
-        m_parser.setFeature( "http://xml.org/sax/features/namespaces", true );
-        m_parser.setFeature( "http://xml.org/sax/features/namespace-prefixes",
-                             true );
+        m_parser = createSAXParser();
     }
 
     public void parse( final InputSource in,
@@ -69,14 +64,23 @@ public class XercesParser
                        final LexicalHandler lexicalHandler )
         throws SAXException, IOException
     {
+        final SAXParser parser = getSAXParser();
+
         if( null != lexicalHandler )
         {
-            m_parser.setProperty( "http://xml.org/sax/properties/lexical-handler",
-                                  lexicalHandler );
+            parser.setProperty( "http://xml.org/sax/properties/lexical-handler",
+                                lexicalHandler );
         }
-        m_parser.setErrorHandler( this );
-        m_parser.setContentHandler( contentHandler );
-        m_parser.parse( in );
+        parser.setErrorHandler( this );
+        parser.setContentHandler( contentHandler );
+        parser.parse( in );
+
+        //Note it is a deliberate choice to make sure that
+        //the parser is only released when a successful parse
+        //has occured. If an exception is generated the
+        //parser becomes fubar so we need to let it go into
+        //the void to be garbage collected
+        releaseSAXParser( parser );
     }
 
     /**
@@ -151,5 +155,43 @@ public class XercesParser
             spe.getLineNumber() + " col. " + spe.getColumnNumber() +
             "): " + spe.getMessage();
         throw new SAXException( message, spe );
+    }
+
+    /**
+     * Aquire a parser from the pool of {@link SAXParser} objects.
+     *
+     * @return the parser
+     */
+    private SAXParser getSAXParser()
+        throws SAXException
+    {
+        return m_parser;
+    }
+
+    /**
+     * Utility method to release parser back into pool.
+     *
+     * @param parser the parser
+     */
+    private void releaseSAXParser( final SAXParser parser )
+    {
+        m_parser = parser;
+    }
+
+    /**
+     * Utility method to create a SAXParser.
+     *
+     * @return new SAXParser
+     * @throws SAXException if unable to create parser
+     */
+    private SAXParser createSAXParser()
+        throws SAXException
+    {
+        final SAXParser parser = new SAXParser();
+        parser.setFeature( "http://xml.org/sax/features/validation", false );
+        parser.setFeature( "http://xml.org/sax/features/namespaces", true );
+        parser.setFeature( "http://xml.org/sax/features/namespace-prefixes",
+                           true );
+        return parser;
     }
 }
