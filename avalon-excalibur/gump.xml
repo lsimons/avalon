@@ -18,6 +18,7 @@
         <depend project="xml-xerces" id="parser" runtime="true"/>
         <depend project="excalibur-pool" runtime="true"/>
         <depend project="jakarta-avalon" runtime="true"/>
+        <depend project="excalibur-assembly" runtime="true"/>
         <depend project="excalibur-datasource" runtime="true"/>
         <depend project="excalibur-component" runtime="true"/>
         <depend project="excalibur-collections" runtime="true"/>
