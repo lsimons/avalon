@@ -50,18 +50,16 @@
 package org.apache.avalon.fortress.examples.servlet;
 
 import java.io.IOException;
-
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServlet;
 
-
 /**
  * Servlet based Fortress container example.
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version $Id: servlet.java,v 1.5 2003/03/22 12:46:32 leosimons Exp $
+ * @version $Id: servlet.java,v 1.6 2003/04/11 07:36:20 donaldp Exp $
  */
 public final class servlet extends HttpServlet
 {
@@ -89,7 +87,7 @@ public final class servlet extends HttpServlet
             config.setRoleManagerConfiguration( "resource://org/avalon/excalibur/fortress/examples/servlet/ServletContainer.roles" );
 
             m_containerManager = new org.apache.avalon.fortress.impl.DefaultContainerManager( config.getContext() );
-            org.apache.avalon.framework.container.ContainerUtil.initialize(m_containerManager);
+            org.apache.avalon.framework.container.ContainerUtil.initialize( m_containerManager );
 
             m_container = (ServletContainer)m_containerManager.getContainer();
         }
@@ -121,6 +119,6 @@ public final class servlet extends HttpServlet
      */
     public void destroy()
     {
-        org.apache.avalon.framework.container.ContainerUtil.dispose(m_containerManager);
+        org.apache.avalon.framework.container.ContainerUtil.dispose( m_containerManager );
     }
 }

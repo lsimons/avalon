@@ -49,14 +49,13 @@
 */
 package org.apache.avalon.fortress.examples.swing;
 
-
 /**
  * Simple Fortress based container containing a Swing implementation of Hello World.
  * This container creates a small Swing based GUI displaying a combobox of available
  * languages from the translator component.
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Revision: 1.5 $ $Date: 2003/03/22 12:46:32 $
+ * @version CVS $Revision: 1.6 $ $Date: 2003/04/11 07:36:21 $
  */
 public final class SwingContainer extends org.apache.avalon.fortress.impl.DefaultContainer
     implements org.apache.avalon.framework.activity.Startable, java.awt.event.ActionListener, Runnable
@@ -126,15 +125,15 @@ public final class SwingContainer extends org.apache.avalon.fortress.impl.Defaul
 
     public void run()
     {
-        while ( m_frame.isVisible() )
+        while( m_frame.isVisible() )
         {
             try
             {
-                Thread.sleep(1000);
+                Thread.sleep( 1000 );
             }
             catch( InterruptedException ie )
             {
-                m_frame.setVisible(false);
+                m_frame.setVisible( false );
             }
         }
     }
