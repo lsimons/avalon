@@ -61,6 +61,8 @@ Legal:
   <property name="build.cadastre" value="${build.dir}/cadastre"/>
   <property name="build.javadocs" value="${build.dir}/javadocs"/>
   <property name="build.docs" value="${build.dir}/docs"/>
+  <property name="build.testdocs" value="${build.docs}/test"/>
+  <property name="build.reports" value="${build.dir}/reports"/>
   <property name="build.context" value="${build.dir}/documentation"/>
   <property name="build.xdocs" value="${build.context}/xdocs"/>
 
@@ -267,12 +269,30 @@ Legal:
   </target>
 
   <target name="test" depends="compile" > 
+    <mkdir dir="${build.testdocs}"/>
+    <mkdir dir="${build.reports}"/>
+
     <echo message="Performing Unit Tests" />
-    <junit fork="true" printsummary="yes">
-      <formatter type="plain"/>
+    <junit fork="true" printsummary="yes" dir="${build.reports}">
+      <formatter type="xml"/>
       <classpath refid="test.class.path"/>
-      <test name="org.apache.avalon.excalibur.test.ExcaliburTestSuite"/>
+      <batchtest todir="${build.reports}">
+        <fileset dir="${build.classes}">
+          <exclude name="org/apache/avalon/excalibur/test/*"/>
+          <exclude name="**$*"/>
+          <include name="**/test/*"/>
+        </fileset>
+      </batchtest>
+<!--      <test name="org.apache.avalon.excalibur.test.ExcaliburTestSuite"
+            todir="${build.reports}"/> -->
     </junit>
+
+    <junitreport todir="${build.reports}">
+      <fileset dir="${build.reports}">
+        <include name="TEST-*.xml"/>
+      </fileset>
+      <report format="frames" todir="${build.testdocs}"/>
+    </junitreport>
   </target>
 
   <!-- Creates the clutil.jar file -->
