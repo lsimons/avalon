@@ -3,7 +3,7 @@
 <!--
 ============================================================
                 Dependency updater
-                   Version $Revision: 1.23 $
+                   Version $Revision: 1.24 $
            Jeff Turner <jefft@apache.org>
 
 This Ant script provides "functions" to check if
@@ -432,7 +432,7 @@ To use it, type 'ant -f depchecker.xml'
     </target>
     <target name="checkSourceResolve">
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
-            <property name="name" value="excalibur-source-resolving.jar"/>
+            <property name="name" value="excalibur-sourceresolve.jar"/>
             <property name="path" value="${excalibur-sourceresolve.jar}"/>
             <property name="proj.home" value="${basedir}/../sourceresolve"/>
         </ant>

@@ -261,6 +261,31 @@
             to="avalon-dev@jakarta.apache.org"/>
     </project>
 
+    <project name="excalibur-converter">
+        <package>org.apache.excalibur.converter</package>
+
+        <ant basedir="converter">
+            <depend property="junit.jar" project="junit"/>
+            <depend property="checkstyle.jar" project="checkstyle"/>
+            <depend property="excalibur-i18n.jar" project="excalibur-i18n" runtime="true"/>
+            <property name="version" value="@@DATE@@"/>
+            <property name="junit.failonerror" value="true"/>
+            <property name="do.checkstyle" value="true"/>
+            <property name="skip.dependencies" value="true"/>
+        </ant>
+
+        <depend project="jakarta-ant"/>
+        <depend project="xml-xerces"/>
+        <depend project="xml-xalan2"/>
+        <work nested="converter/build/classes"/>
+
+        <home nested="converter"/>
+        <jar name="build/lib/excalibur-converter-@@DATE@@.jar"/>
+
+        <nag from="Peter Donald &lt;peter@apache.org&gt;"
+            to="avalon-dev@jakarta.apache.org"/>
+    </project>
+
     <project name="excalibur-datasource">
         <package>org.apache.avalon.excalibur.datasource</package>
 
