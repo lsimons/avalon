@@ -211,6 +211,14 @@
         maven excalibur:write-gump-module.xml
 
     Note this won't work if the file mentioned above already exists.
+
+    As an alternative, you can call
+
+        maven excalibur:setup-gump
+
+    inside the repo base directory, but this will result in
+    corrupt gump definitions because the component.dir is then
+    not properly set.
 </ant:echo>
     </goal>
 
@@ -537,6 +545,7 @@ describes your project.
     <goal name="excalibur:write-gump-module.xml"
             description="creates a gump-module.xml referencing all gump-project.xml files">
 
+        <attainGoal name="excalibur:header"/>
         <mkdir dir="gump-integration"/>
         <mkdir dir="gump-integration/project"/>
 
@@ -573,6 +582,30 @@ describes your project.
             </j:whitespace>
             </j:file>
         </j:if>
+    </goal>
+
+    <goal name="excalibur:write-gump-projects"
+            description="reactor that call excalibur:seed-gump on all components">
+
+        <attainGoal name="excalibur:header"/>
+<ant:echo>
+    Warning: this will result in unusable descriptors;
+    you will need to modify the various paths by hand!
+</ant:echo>
+        <maven:reactor
+          basedir="${basedir}"
+          includes="*/project.xml"
+          goals="excalibur:seed-gump"
+          banner="Excalibur is creating a gump descriptor:"
+          ignoreFailures="false"/>
+    </goal>
+
+    <goal name="excalibur:setup-gump"
+            description="calls the gump targets">
+
+        <attainGoal name="excalibur:header"/>
+        <attainGoal name="excalibur:write-gump-projects"/>
+        <attainGoal name="excalibur:write-gump-module.xml"/>
     </goal>
 
 </project>
