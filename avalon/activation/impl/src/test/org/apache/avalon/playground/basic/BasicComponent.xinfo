@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<!DOCTYPE type
+      PUBLIC "-//AVALON/Type DTD Version 1.0//EN"
+             "http://avalon.apache.org/dtds/meta/type_1_1.dtd" >
+
+<!--  
+Copyright (C) The Apache Software Foundation. All rights reserved.
+This software is published under the terms of the Apache Software License
+version 1.1, a copy of which has been included with this distribution in
+the LICENSE.txt file.
+
+@author  Avalon Development Team
+@version 1.0 12/03/2001
+-->
+
+<type>
+
+  <info>
+    <name>basic</name>
+    <lifestyle>singleton</lifestyle>
+  </info>
+
+  <context type="org.apache.avalon.playground.basic.BasicContext">
+    <attributes>
+      <attribute key="urn:avalon:context.strategy"
+          value="org.apache.avalon.framework.context.Contextualizable"/>
+    </attributes>
+    <entry key="location"/>
+    <entry key="home" type="java.io.File"/>
+  </context>
+
+  <services>
+    <service type="org.apache.avalon.playground.basic.BasicService" version="1.1"/>
+    <service type="org.apache.avalon.playground.NullService"/>
+  </services>
+
+</type>
+

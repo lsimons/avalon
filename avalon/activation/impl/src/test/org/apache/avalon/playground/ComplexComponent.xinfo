@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<!DOCTYPE type
+      PUBLIC "-//AVALON/Component Type DTD Version 1.0//EN"
+             "http://avalon.apache.org/dtds/meta/type_1_1.dtd" >
+
+<type>
+
+  <info>
+    <name>complex</name>
+  </info>
+
+  <loggers>
+     <logger name="internal"/>
+  </loggers>
+
+  <services>
+    <service type="org.apache.avalon.playground.ComplexService"/>
+  </services>
+
+  <dependencies>
+      <dependency type="org.apache.avalon.playground.basic.BasicService" version="1.1" key="basic"/>
+      <dependency type="org.apache.avalon.playground.SimpleService" key="simple"/>
+  </dependencies>
+
+</type>
+
