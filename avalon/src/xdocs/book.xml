@@ -24,6 +24,9 @@
   <menu label="Sub-Projects">
     <menu-item type="external" label="Framework" href="framework/index.html"/>
     <menu-item type="external" label="Phoenix" href="@PHOENIX_BASE@/index.html"/>
+    <menu-item type="external" label="Cornerstone" href="@CORNERSTONE_BASE@/index.html"/>
+    <menu-item type="external" label="Testlet" href="@TESTLET_BASE@/index.html"/>
+    <menu-item type="external" label="LogKit" href="@LOGKIT_BASE@/index.html"/>
   </menu>
 
 </book>
