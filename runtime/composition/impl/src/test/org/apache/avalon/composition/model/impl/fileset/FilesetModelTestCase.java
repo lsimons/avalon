@@ -182,15 +182,15 @@ public class FilesetModelTestCase extends TestCase
      */
     public void testWildcardIncludes() throws Exception
     {
-        // testing an include directive = "*.jar"
+        // testing an include directive = "*.widget"
         IncludeDirective[] includes = new IncludeDirective[1];
-        includes[0] = new IncludeDirective( "*.jar" );
+        includes[0] = new IncludeDirective( "*.widget" );
 
         // testing empty exclude directives
         ExcludeDirective[] excludes = new ExcludeDirective[0];
 
         // provide legitimate fileset directory attribute
-        final String dir = "ext";
+        final String dir = "fileset";        
         FilesetDirective fsd = new FilesetDirective( dir, includes, excludes );
 
         // create the fileset model's anchor directory
@@ -207,7 +207,9 @@ public class FilesetModelTestCase extends TestCase
             ArrayList list = m_model.getIncludes();
             if ( list.size() != 4 )
             {
-                fail( "The include set returned did not equal 4 (four) entries" );
+                fail( 
+                  "The include set returned [" + list.size() 
+                  + "] entries which does not equal 4 (four) expected entries" );
             }
             for ( int i = 0; i < list.size(); i++ )
             {
@@ -216,9 +218,9 @@ public class FilesetModelTestCase extends TestCase
                 {
                     fail( "One of the included entries is not a file" );
                 }
-                if ( !file.getName().endsWith( "jar" ) )
+                if ( !file.getName().endsWith( "widget" ) )
                 {
-                    fail( "One of the included file entries does not have a .jar extension" );
+                    fail( "One of the included file entries does not have a .widget extension" );
                 }
             }
         }
@@ -250,16 +252,16 @@ public class FilesetModelTestCase extends TestCase
      */
     public void testIncludeExcludes() throws Exception
     {
-        // testing an include directive = "*.jar"
+        // testing an include directive = "*.widget"
         IncludeDirective[] includes = new IncludeDirective[1];
-        includes[0] = new IncludeDirective( "*.jar" );
+        includes[0] = new IncludeDirective( "*.widget" );
 
-        // testing an exclude directive = "test*.jar"
+        // testing an exclude directive = "test*.widget"
         ExcludeDirective[] excludes = new ExcludeDirective[1];
-        excludes[0] = new ExcludeDirective( "test*.jar" );
+        excludes[0] = new ExcludeDirective( "test*.widget" );
 
         // provide legitimate fileset directory attribute
-        final String dir = "ext";
+        final String dir = "fileset";
         FilesetDirective fsd = new FilesetDirective( dir, includes, excludes );
 
         // create the fileset model's anchor directory
@@ -285,9 +287,9 @@ public class FilesetModelTestCase extends TestCase
                 {
                     fail( "One of the included entries is not a file" );
                 }
-                if ( !file.getName().endsWith( "jar" ) )
+                if ( !file.getName().endsWith( "widget" ) )
                 {
-                    fail( "One of the included file entries does not have a .jar extension" );
+                    fail( "One of the included file entries does not have a .widget extension" );
                 }
                 if ( file.getName().startsWith( "test" ) )
                 {
@@ -321,15 +323,15 @@ public class FilesetModelTestCase extends TestCase
      */
     public void testRecursiveIncludes() throws Exception
     {
-        // testing an include directive = "**/*.jar"
+        // testing an include directive = "**/*.widget"
         IncludeDirective[] includes = new IncludeDirective[1];
-        includes[0] = new IncludeDirective( "**/*.jar" );
+        includes[0] = new IncludeDirective( "**/*.widget" );
 
         // testing empty exclude directives
         ExcludeDirective[] excludes = new ExcludeDirective[0];
 
         // provide legitimate fileset directory attribute
-        final String dir = ".";
+        final String dir = "fileset";
         FilesetDirective fsd = new FilesetDirective( dir, includes, excludes );
 
         // create the fileset model's anchor directory
@@ -355,9 +357,9 @@ public class FilesetModelTestCase extends TestCase
                 {
                     fail( "One of the included entries is not a file" );
                 }
-                if ( !file.getName().endsWith( "jar" ) )
+                if ( !file.getName().endsWith( "widget" ) )
                 {
-                    fail( "One of the included file entries does not have a .jar extension" );
+                    fail( "One of the included file entries does not have a .widget extension" );
                 }
             }
         }
