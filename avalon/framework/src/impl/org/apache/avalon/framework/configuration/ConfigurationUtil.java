@@ -7,7 +7,6 @@
  *
  * Original contribution by OSM SARL, http://www.osm.net
  */
-
 package org.apache.avalon.framework.configuration;
 
 import java.util.Vector;
@@ -18,6 +17,7 @@ import org.apache.avalon.framework.CascadingRuntimeException;
  * General utility supporting static operations for generating string
  * representations of a configuration suitable for debugging.
  * @author Stephen McConnell <mcconnell@osm.net>
+ * @author <a href="mailto:proyal@apache.org">Peter Royal</a>
  */
 public class ConfigurationUtil
 {
@@ -173,6 +173,15 @@ public class ConfigurationUtil
         return null;
     }
 
+    /**
+     * Create a copy of the specified configuration giving it a new name. This performs
+     * a shallow copy, child configurations will still be the same objects as the original
+     * configuration had
+     *
+     * @param config configuration to branch
+     * @param name name for new configuration
+     * @return configuration with new name
+     */
     public static Configuration branch( final Configuration config, final String name )
     {
         final DefaultConfiguration c = createNew( config, name );
