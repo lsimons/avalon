@@ -29,7 +29,7 @@ import org.apache.avalon.phoenix.BlockContext;
  *  An basic test case for the LogManager.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.7 $ $Date: 2002/11/02 00:29:28 $
+ * @version $Revision: 1.8 $ $Date: 2003/03/16 11:01:59 $
  */
 public class LogManagerTestCase
     extends TestCase
@@ -84,7 +84,7 @@ public class LogManagerTestCase
         runtTestForConfigFile( 2 );
     }
 
-    public void _testLog4jVersion()
+    public void testLog4jVersion()
         throws Exception
     {
         runtTestForConfigFile( 3 );
@@ -118,10 +118,15 @@ public class LogManagerTestCase
 
     private long getFileSize( final int index, final String filename )
     {
-        final String baseDir = getBaseDir( index );
-        final File base = new File( m_baseDirectory, baseDir );
+        final File base = getBaseDir( index );
         final File file = new File( base, filename );
         return file.length();
+    }
+
+    private File getBaseDir( final int index )
+    {
+        final String baseDir = getBaseDirName( index );
+        return new File( m_baseDirectory, baseDir );
     }
 
     private Logger createHierarchy( final int index )
@@ -129,9 +134,18 @@ public class LogManagerTestCase
     {
         final Configuration logs = loadConfig( "config" + index + ".xml" );
         final LogManager logManager = createLogManager();
-        final SarMetaData sarMetaData = createSarMetaData( getBaseDir( index ) );
+        final SarMetaData sarMetaData = createSarMetaData( getBaseDirName( index ) );
 
         cleanHomeDirectory( sarMetaData );
+
+        //make sure directory is created else log4j will fail.
+        if( 3 == index )
+        {
+            final File file =
+                new File( getBaseDir( index ).getAbsolutePath() + "/logs" );
+            file.mkdirs();
+        }
+
         final DefaultContext context = new DefaultContext();
         context.put( BlockContext.APP_NAME, sarMetaData.getName() );
         context.put( BlockContext.APP_HOME_DIR, sarMetaData.getHomeDirectory() );
@@ -140,7 +154,7 @@ public class LogManagerTestCase
         return logManager.createHierarchy( logs, context );
     }
 
-    private String getBaseDir( final int index )
+    private String getBaseDirName( final int index )
     {
         return "test" + index;
     }
