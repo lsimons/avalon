@@ -14,7 +14,7 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
  * Handles parsing of configuration schema and validation against schema
  *
  * @author <a href="mailto:proyal@apache.org">Peter Royal</a>
- * @version CVS $Revision: 1.4 $ $Date: 2002/07/26 09:49:22 $
+ * @version CVS $Revision: 1.5 $ $Date: 2002/09/14 06:37:01 $
  */
 public interface ConfigurationValidator
 {
@@ -37,9 +37,6 @@ public interface ConfigurationValidator
      *
      * @param application Application name
      * @param block Block name to store configuration for
-     * @param url url that the schema may be located at
-     *
-     * @throws ConfigurationException if schema is invalid
      */
     void removeSchema( String application, String block );
 
