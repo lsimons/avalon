@@ -33,8 +33,6 @@ Thread Block deployment directive.
      <component name="manager" 
         class="org.apache.avalon.cornerstone.blocks.datasources.DefaultDataSourceSelector" 
         activation="true">
-       <configuration>
-       </configuration>
      </component>
 
    </implementation>
