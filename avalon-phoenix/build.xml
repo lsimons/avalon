@@ -90,19 +90,23 @@ Legal:
     <!-- Invoke 'ant get-wrapper' to get these -->
     <property name="wrapper.version" value="3.0.0"/>
     <property name="wrapper.jar" value="${repo.dir}/wrapper/bin/wrapper.jar"/>
-    
+
     <!-- Invoke 'ant get-mx4j' to get these -->
     <property name="mx4j.jar" value="${repo.dir}/mx4j/mx4j-1.1.1/lib/mx4j-jmx.jar"/>
     <property name="mx4j-tools.jar" value="${repo.dir}/mx4j/mx4j-1.1.1/lib/mx4j-tools.jar"/>
 
     <!-- Invoke 'ant get-beanshell' to get this -->
     <property name="beanshell.jar" value="${repo.dir}/beanshell/bsh-1.2b7.jar"/>
-    
+
+    <!-- Invoke 'ant get-cli' to get these -->
+    <property name="cli.jar" value="${repo.dir}/cli/cli-1.0/cli-1.0.jar"/>
+
     <path id="project.class.path">
         <pathelement location="${xerces.jar}"/>
         <pathelement location="${framework.jar}"/>
         <pathelement location="${logkit.jar}"/>
         <pathelement location="${wrapper.jar}"/>
+        <pathelement path="${cli.jar}"/>
         <pathelement path="${mx4j.jar}"/>
         <pathelement path="${mx4j-tools.jar}"/>
         <pathelement path="${beanshell.jar}"/>
@@ -176,20 +180,20 @@ Legal:
         <property name="wrapper.dist.name" value="wrapper_hpux_${wrapper.version}"/>
         <property name="dist.name.wrapper" value="${name}_hpux_${version}"/>
     </target>
-    
+
     <!-- =================================================================== -->
     <!-- Initialize build.                                                   -->
     <!-- =================================================================== -->
     <target name="init"
         depends="init-windows-nt, init-windows-2000, init-windows-xp, init-linux, init-solaris, init-aix, init-hpux">
         <echo message="OS='${os.name}'"/>
-        
+
         <!-- Wrapper filters -->
         <filter token="app.name" value="phoenix"/>
         <filter token="app.long.name" value="Phoenix Application Server"/>
 
     </target>
-    
+
     <!-- =================================================================== -->
     <!-- Wrapper Tasks.                                                      -->
     <!-- =================================================================== -->
@@ -197,14 +201,14 @@ Legal:
         <available property="wrapper.present" classname="org.tanukisoftware.wrapper.WrapperManager">
             <classpath refid="project.class.path"/>
         </available>
-        
+
         <condition property="wrapper.present.Windows">
             <and>
                 <isset property="wrapper.present"/>
                 <isset property="is.Windows"/>
             </and>
         </condition>
-        
+
         <condition property="wrapper.present.Unix">
             <and>
                 <isset property="wrapper.present"/>
@@ -222,7 +226,7 @@ Legal:
         <echo>* a half Mb of Wrapper      *</echo>
         <echo>*****************************</echo>
     </target>
-    
+
     <!-- Get the files from the Wrapper project. -->
     <target name="get-wrapper-test" depends="init" unless="wrapper.dist.name">
         <echo>**********************************************************</echo>
@@ -291,11 +295,11 @@ Legal:
         description="Get the Wrapper distribution from SourceForge.">
         <mkdir dir="${repo.dir}/wrapper"/>
     </target>
-    
+
     <target name="dist-lite-wrapper-windows" depends="dist-lite" if="wrapper.present.Windows">
         <copy file="${repo.dir}/wrapper/bin/Wrapper.exe" todir="${bin.dist.bin}"/>
         <copy file="${repo.dir}/wrapper/bin/Wrapper.dll" todir="${bin.dist.bin}"/>
-        
+
         <copy file="${repo.dir}/wrapper/bin/${Name}.bat" todir="${bin.dist.bin}"/>
         <copy file="${repo.dir}/wrapper/bin/Install${Name}-NT.bat" todir="${bin.dist.bin}"/>
         <copy file="${repo.dir}/wrapper/bin/Uninstall${Name}-NT.bat" todir="${bin.dist.bin}"/>
@@ -304,7 +308,7 @@ Legal:
         <copy file="${repo.dir}/wrapper/bin/wrapper" todir="${bin.dist.bin}"/>
         <copy file="${repo.dir}/wrapper/bin/realpath" todir="${bin.dist.bin}"/>
         <copy file="${repo.dir}/wrapper/bin/libwrapper.so" todir="${bin.dist.bin}"/>
-        
+
         <copy file="${phoenix-wrapper.sh}" tofile="${bin.dist.bin}/${name}-wrapper.sh"/>
         <chmod file="${bin.dist.bin}/*.sh" perm="u+x"/>
         <chmod file="${bin.dist.bin}/realpath" perm="u+x"/>
@@ -317,13 +321,13 @@ Legal:
         <copy file="${wrapper.jar}" todir="${bin.dist.bin}"/>
         <copy file="${conf.dir}/wrapper.conf" todir="${bin.dist.conf}"/>
         <fixcrlf srcdir="${bin.dist.conf}" includes="wrapper.conf" eol="lf"/>
-        
+
         <fixcrlf srcdir="${bin.dist.dir}" includes="**/*.bat" eol="crlf"/>
         <fixcrlf srcdir="${bin.dist.dir}" includes="**/*.sh" eol="lf"/>
         <chmod file="${bin.dist.bin}/*.sh" perm="u+x"/>
         <chmod file="${bin.dist.bin}/*.bat" perm="u-x"/>
     </target>
-    
+
 
     <!-- =================================================================== -->
     <!-- JMX Tasks.                                                          -->
@@ -344,7 +348,7 @@ Legal:
         <echo>**************************</echo>
         <fail message="MX4J needed. See above."/>
     </target>
-    
+
     <!-- Get the jars from the MX4J project. -->
     <!-- For licensing reasons, we are unable to put these Jars in our CVS or source distributions. -->
     <target name="get-mx4j" description="Get the MX4J distribution from SourceForge.">
@@ -356,10 +360,39 @@ Legal:
         <gunzip src="${repo.dir}/mx4j/mx4j.tar.gz" dest="${repo.dir}/mx4j"/>
         <untar src="${repo.dir}/mx4j/mx4j.tar" dest="${repo.dir}/mx4j"/>
     </target>
-    
-    
-    
-    
+
+    <!-- =================================================================== -->
+    <!-- JMX Tasks.                                                          -->
+    <!-- =================================================================== -->
+    <target name="check-cli-init" depends="init">
+        <available property="cli.present" classname="org.realityforge.cli.CLOption">
+            <classpath refid="project.class.path"/>
+        </available>
+    </target>
+
+    <target name="check-cli" depends="check-cli-init" unless="cli.present">
+        <echo>**************************</echo>
+        <echo>* Please execute target  *</echo>
+        <echo>* 'get-cli' in the main  *</echo>
+        <echo>* build.xml build file   *</echo>
+        <echo>* to download one and    *</echo>
+        <echo>* a half Mb of Spice CLI *</echo>
+        <echo>**************************</echo>
+        <fail message="Spice CLI needed. See above."/>
+    </target>
+
+    <!-- Get the jars from the MX4J project. -->
+    <!-- For licensing reasons, we are unable to put these Jars in our CVS or source distributions. -->
+    <target name="get-cli" description="Get the Spice CLI distribution from SourceForge.">
+        <mkdir dir="${repo.dir}/cli"/>
+        <get src="http://osdn.dl.sourceforge.net/sourceforge/spice/cli-1.0.tar.gz"
+            dest="${repo.dir}/cli/cli.tar.gz"
+            verbose="true"
+            usetimestamp="true"/>
+        <gunzip src="${repo.dir}/cli/cli.tar.gz" dest="${repo.dir}/cli"/>
+        <untar src="${repo.dir}/cli/cli.tar" dest="${repo.dir}/cli"/>
+    </target>
+
     <!-- Main target -->
     <target name="main" depends="dist-lite"
         description="generates the Phoenix distribution without the javadocs"/>
@@ -380,7 +413,7 @@ Legal:
 
 
     <!-- Check requirements of environment -->
-    <target name="check-environment" depends="check-mx4j, check-wrapper">
+    <target name="check-environment" depends="check-mx4j, check-cli, check-wrapper">
         <available property="xerces.present" type="file" file="${xerces.jar}"/>
         <available property="servlet.present" classname="javax.servlet.Servlet">
             <classpath refid="project.class.path"/>
@@ -390,7 +423,7 @@ Legal:
         </available>
     </target>
 
-    
+
 
     <!-- Get the jars from the Beanshell project. -->
     <!-- For licensing reasons, we are unable to put these Jars in our CVS or source distributions. -->
@@ -401,7 +434,7 @@ Legal:
             dest="${repo.dir}/beanshell/bsh-1.2b7.jar"
             verbose="true"
             usetimestamp="true"/>
-    </target>      
+    </target>
 
     <!-- Prepares the build directory -->
     <target name="prepare" depends="check-environment">
@@ -742,6 +775,7 @@ Legal:
 
         <zip destfile="${target.lib}/mx4j-tools.jar" basedir="${target.mx}"/>
 
+        <copy file="${cli.jar}" todir="${bin.dist.bin}/lib"/>
         <copy file="${mx4j.jar}" todir="${bin.dist.bin}/lib"/>
         <copy file="${target.lib}/mx4j-tools.jar" todir="${bin.dist.bin}/lib"/>
 
@@ -927,7 +961,7 @@ Legal:
         <delete file="${dist.base}/${dist.name}-src.tar"/>
         <delete dir="${dist.name}"/>
     </target>
-    
+
     <target name="dist-bin" depends="dist-src">
         <mkdir dir="${dist.base}"/>
         <delete dir="${dist.name}"/>
@@ -972,43 +1006,43 @@ Legal:
 
         <!-- Do not delete the temp dir yet as it is needed by the platform specific builds. -->
     </target>
-    
+
     <target name="dist-wrapper-windows" depends="dist-bin, check-wrapper" if="wrapper.present.Windows">
         <copy todir="${dist.name.wrapper}">
             <fileset dir="${dist.name}"/>
         </copy>
-        
+
         <copy file="${repo.dir}/wrapper/bin/Wrapper.exe" todir="${dist.name.wrapper}/bin"/>
         <copy file="${repo.dir}/wrapper/bin/Wrapper.dll" todir="${dist.name.wrapper}/bin"/>
         <copy file="${wrapper.jar}" todir="${dist.name.wrapper}/bin"/>
         <copy file="${conf.dir}/wrapper.conf" todir="${dist.name.wrapper}/conf"/>
-        
+
         <copy file="${repo.dir}/wrapper/bin/${Name}.bat" todir="${dist.name.wrapper}/bin"/>
         <copy file="${repo.dir}/wrapper/bin/Install${Name}-NT.bat" todir="${dist.name.wrapper}/bin"/>
         <copy file="${repo.dir}/wrapper/bin/Uninstall${Name}-NT.bat" todir="${dist.name.wrapper}/bin"/>
-        
+
         <zip zipfile="${dist.base}/${dist.name.wrapper}-bin.zip">
             <fileset dir="${dist.name.wrapper}/..">
                 <include name="${dist.name.wrapper}/**"/>
                 <exclude name="${dist.name.wrapper}/lib/bsh*.jar"/>
             </fileset>
         </zip>
-        
+
         <delete dir="${dist.name.wrapper}"/>
     </target>
     <target name="dist-wrapper-unix" depends="dist-bin, check-wrapper" if="wrapper.present.Unix">
         <copy todir="${dist.name.wrapper}">
             <fileset dir="${dist.name}"/>
         </copy>
-        
+
         <copy file="${repo.dir}/wrapper/bin/wrapper" todir="${dist.name.wrapper}/bin"/>
         <copy file="${repo.dir}/wrapper/bin/realpath" todir="${dist.name.wrapper}/bin"/>
         <copy file="${repo.dir}/wrapper/bin/libwrapper.so" todir="${dist.name.wrapper}/bin"/>
         <copy file="${wrapper.jar}" todir="${dist.name.wrapper}/bin"/>
         <copy file="${conf.dir}/wrapper.conf" todir="${dist.name.wrapper}/conf"/>
-        
+
         <copy file="${phoenix-wrapper.sh}" tofile="${dist.name.wrapper}/bin/${name}-wrapper.sh"/>
-        
+
         <tar longfile="gnu" tarfile="${dist.base}/${dist.name.wrapper}-bin.tar">
             <tarfileset dir="${dist.name.wrapper}/.." mode="755" username="avalon" group="avalon">
                 <include name="${dist.name.wrapper}/bin/*.sh"/>
@@ -1032,7 +1066,7 @@ Legal:
     </target>
     <target name="dist" depends="dist-wrapper-windows, dist-wrapper-unix"
         description="generates the Phoenix distribution (src, bin, and bin with wrapper)">
-        
+
         <delete dir="${dist.name}"/>
     </target>
 
