@@ -1,0 +1,130 @@
+<?xml version="1.0"?>
+
+<!--
+ ============================================================================
+                   The Apache Software License, Version 1.1
+ ============================================================================
+
+ Copyright (C) 1999-2002 The Apache Software Foundation. All rights reserved.
+
+ Redistribution and use in source and binary forms, with or without modifica-
+ tion, are permitted provided that the following conditions are met:
+
+ 1. Redistributions of  source code must  retain the above copyright  notice,
+    this list of conditions and the following disclaimer.
+
+ 2. Redistributions in binary form must reproduce the above copyright notice,
+    this list of conditions and the following disclaimer in the documentation
+    and/or other materials provided with the distribution.
+
+ 3. The end-user documentation included with the redistribution, if any, must
+    include  the following  acknowledgment:  "This product includes  software
+    developed  by the  Apache Software Foundation  (http://www.apache.org/)."
+    Alternately, this  acknowledgment may  appear in the software itself,  if
+    and wherever such third-party acknowledgments normally appear.
+
+ 4. The names "Jakarta", "Apache Avalon", "Avalon Framework" and
+    "Apache Software Foundation"  must not be used to endorse or promote
+    products derived  from this  software without  prior written
+    permission. For written permission, please contact apache@apache.org.
+
+ 5. Products  derived from this software may not  be called "Apache", nor may
+    "Apache" appear  in their name,  without prior written permission  of the
+    Apache Software Foundation.
+
+ THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES,
+ INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ FITNESS  FOR A PARTICULAR  PURPOSE ARE  DISCLAIMED.  IN NO  EVENT SHALL  THE
+ APACHE SOFTWARE  FOUNDATION  OR ITS CONTRIBUTORS  BE LIABLE FOR  ANY DIRECT,
+ INDIRECT, INCIDENTAL, SPECIAL,  EXEMPLARY, OR CONSEQUENTIAL  DAMAGES (INCLU-
+ DING, BUT NOT LIMITED TO, PROCUREMENT  OF SUBSTITUTE GOODS OR SERVICES; LOSS
+ OF USE, DATA, OR  PROFITS; OR BUSINESS  INTERRUPTION)  HOWEVER CAUSED AND ON
+ ANY  THEORY OF LIABILITY,  WHETHER  IN CONTRACT,  STRICT LIABILITY,  OR TORT
+ (INCLUDING  NEGLIGENCE OR  OTHERWISE) ARISING IN  ANY WAY OUT OF THE  USE OF
+ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+ This software  consists of voluntary contributions made  by many individuals
+ on  behalf of the Apache Software  Foundation. For more  information on the
+ Apache Software Foundation, please see http://www.apache.org/.
+-->
+
+<document>
+  <header>
+    <title>Blocks</title>
+    <authors>
+      <person name="Stephen McConnell" email="mcconnell@apache.org"/>
+    </authors>
+  </header>
+  <body>
+
+    <section name="Introducing Blocks">
+      <subsection name="Overview">
+
+      <p>
+A block is a specialisation of an <a href="../appliance/index.html">Appliance</a>. 
+A block manages a container (a type of component).  In addition, a block exposes 
+services derived from the set of appliances that are managed by its container.  As 
+such, a block can be view as a composite component.  A block may be contained 
+within other blocks.
+      </p>
+      <p>
+A container manages a set of components declared within the containment scope.  
+As such, a container represents a logical and structural partition within a 
+containment hierarchy.  Each container is associated with a classloader.  The 
+classloader parent is the classloader of the parent container.  As such, a 
+container (and component within the container) have access to the services 
+defined within the immediate container and all parent containers. 
+      </p>
+
+      </subsection>
+      <subsection name="Cascading Containers">
+
+      <p>
+The Merlin system provides support for <strong>cascading containers</strong>. 
+This model enables component assemblers to (among other things) associate jar 
+files under a protected block scope where each block is associated with its own 
+classloader.  Each block manages a single container.  A container manages 
+multiple components.
+      </p>
+
+      <p>
+Merlin will handle resolution of service dependencies for components contained 
+in containers by looking for explicitly declared components commencing within 
+the local container, and working progressively up the container hierarchy.  If 
+no explicit solutions are resolved, Merlin will attempt to build an implicit 
+solution based on components declared in the respective container classpath.
+      </p>
+
+      </subsection>
+      <subsection name="Block Model">
+
+      <p>
+A new block is defined by the &lt;container&gt; element. The element is the definition 
+of a block, its classpath, and the components it is responsible for managing. 
+Blocks are declared programmatically or via an XML description as shown below:
+      </p>
+
+      <p><em>Minimilist block definition:</em></p>
+<source><![CDATA[
+<container name="tutorial">
+
+   <component name="hello" class="tutorial.HelloComponent" activation="startup"/>
+
+</container>
+]]></source>
+
+      </subsection>
+
+    </section>
+  </body>
+
+  <footer>
+    <legal>
+      Copyright (c) @year@ The Avalon Apache Project All rights reserved.
+      $Revision: 1.1 $ $Date: 2003/09/24 09:34:38 $
+    </legal>
+  </footer>
+
+</document>
+
+

@@ -1,0 +1,54 @@
+
+
+<container name="test-block">
+
+   <services>
+     <service type="org.apache.avalon.composition.model.testa.A">
+       <source>primary</source>
+     </service>
+     <service type="org.apache.avalon.composition.model.testd.D">
+       <source>my-component</source>
+     </service>
+   </services>
+
+   <classloader>
+     <library>
+       <include>ext</include>
+       <group>avalon-framework</group>
+     </library>
+     <classpath>
+       <fileset dir="lib">
+         <include>test-c.jar</include>
+       </fileset>
+       <repository>
+         <resource id="avalon-framework:avalon-framework-impl" version="4.1.5"/>
+         <resource id="test:test-d"/>
+       </repository>
+     </classpath>
+   </classloader>
+
+   <component name="my-component" class="org.apache.avalon.composition.model.testd.TestD"/>
+
+   <container name="primary">
+
+     <classloader>
+       <classpath>
+         <repository>
+           <resource id="test:test-e"/>
+         </repository>
+       </classpath>
+     </classloader>
+
+     <container name="block">
+       <component name="test" class="org.apache.avalon.composition.model.teste.TestE">
+         <context>
+           <entry key="home">
+             <import key="urn:avalon:home.dir"/>
+           </entry>
+         </context>
+       </component>
+     </container>
+
+   </container>
+
+</container>

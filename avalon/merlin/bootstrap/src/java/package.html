@@ -1,0 +1,23 @@
+<body>
+<a name="description"><h3>Description</h3></a>
+<p>The Merlin system is established through a bootstrap loader.  To startup Merlin from the command line you use either of the commands listed below.  These command handle the establishment of the system directory, the working home directory, and the filename of the deployment profile.</p>
+
+<pre>
+   java -classpath %MERLIN_HOME%\lib\merlin-bootstrap-1.0.jar Merlin -profile &lt;profile&gt;
+
+   java -jar %MERLIN_HOME%\lib\merlin-bootstrap-1.0.jar -profile &lt;profile&gt;
+</pre>
+
+<p>
+To validate your instalation try running the demo deployment profile using the following command line:
+</p>
+<pre>
+   java -jar %MERLIN_HOME%\lib\merlin-bootstrap-1.0.jar -profile config/demo.xml
+</pre>
+<p>
+Information concerning command line options are available using the -help option.
+</p>
+<pre>
+   java -jar %MERLIN_HOME%\lib\merlin-bootstrap-1.0.jar -help 
+</pre>
+</body>
