@@ -18,6 +18,7 @@ namespace Apache.Avalon.Castle.MicroKernel.Handler
 	using System.Collections;
 
 	using Apache.Avalon.Castle.MicroKernel.Model;
+	using Apache.Avalon.Castle.MicroKernel.Subsystems.Events;
 
 	/// <summary>
 	/// Summary description for AbstractHandler.
@@ -68,7 +69,7 @@ namespace Apache.Avalon.Castle.MicroKernel.Handler
 			{
 				object instance = m_lifestyleManager.Resolve();
 
-				RegisterInstance( instance );
+				RegisterInstance( ref instance );
 
 				return instance;
 			}
@@ -105,9 +106,9 @@ namespace Apache.Avalon.Castle.MicroKernel.Handler
 
 		#endregion
 
-		protected virtual void RegisterInstance( object instance )
+		protected virtual void RegisterInstance( ref object instance )
 		{
-			RaiseComponentCreatedEvent( instance );
+			RaiseComponentCreatedEvent( ref instance );
 
 			if (!HasInstance( instance, false ))
 			{
@@ -151,6 +152,34 @@ namespace Apache.Avalon.Castle.MicroKernel.Handler
 			}
 
 			return false;
+		}
+
+		protected virtual void RaiseComponentCreatedEvent( ref object instance )
+		{
+			IEventManager eventManager = (IEventManager) m_kernel.GetSubsystem( KernelConstants.EVENTS );
+			
+			if (eventManager != null)
+			{
+				// We're passing the instance and allowing the listeners to
+				// replace/wrap the instance as they wish.
+				EventManagerData data = new EventManagerData( m_componentModel, instance );
+				
+				eventManager.OnComponentCreated( data );
+
+				/// 90% of cases we're setting the same instance back
+				instance = data.Instance;
+			}
+		}
+
+		protected virtual void RaiseComponentCreatedEvent( object instance )
+		{
+			IEventManager eventManager = (IEventManager) m_kernel.GetSubsystem( KernelConstants.EVENTS );
+			
+			if (eventManager != null)
+			{
+				EventManagerData data = new EventManagerData( m_componentModel, instance );
+				eventManager.OnComponentDestroyed( data );
+			}
 		}
 	}
 }

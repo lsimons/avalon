@@ -46,6 +46,7 @@ namespace Apache.Avalon.Castle.MicroKernel.Test
 		public void TransientReferences()
 		{
 			MyHandler handler = new MyHandler( model );
+			handler.Init( kernel );
 			
 			object instance = handler.Resolve();
 			AssertNotNull( instance );
@@ -61,6 +62,7 @@ namespace Apache.Avalon.Castle.MicroKernel.Test
 		public void MultipleTransientReferences()
 		{
 			MyHandler handler = new MyHandler( model );
+			handler.Init( kernel );
 			
 			object instance1 = handler.Resolve();
 			object instance2 = handler.Resolve();
@@ -92,7 +94,7 @@ namespace Apache.Avalon.Castle.MicroKernel.Test
 			public override object Resolve()
 			{
 				object instance = new object();
-				base.RegisterInstance( instance );
+				base.RegisterInstance( ref instance );
 				return instance;
 			}
 		
@@ -109,6 +111,7 @@ namespace Apache.Avalon.Castle.MicroKernel.Test
 		public void SingletonReferences()
 		{
 			MySingletonHandler handler = new MySingletonHandler( model );
+			handler.Init( kernel );
 			
 			object instance1 = handler.Resolve();
 			object instance2 = handler.Resolve();
@@ -136,7 +139,7 @@ namespace Apache.Avalon.Castle.MicroKernel.Test
 
 			public override object Resolve()
 			{
-				base.RegisterInstance( instance );
+				base.RegisterInstance( ref instance );
 				return instance;
 			}
 		
