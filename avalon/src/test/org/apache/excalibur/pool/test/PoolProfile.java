@@ -7,7 +7,7 @@
  */
 package org.apache.excalibur.pool.test;
 
-import org.apache.avalon.Poolable;
+import org.apache.excalibur.pool.Poolable;
 import org.apache.excalibur.pool.DefaultPool;
 import org.apache.excalibur.pool.Pool;
 import org.apache.excalibur.pool.HardResourceLimitingPool;
