@@ -19,27 +19,10 @@ namespace Apache.Avalon.Castle.MicroKernel.Lifestyle.Default
 	/// <summary>
 	/// Summary description for TransientLifestyleManager.
 	/// </summary>
-	public class TransientLifestyleManager : ILifestyleManager
+	public class TransientLifestyleManager : AbstractLifestyleManager
 	{
-		private IComponentFactory m_componentFactory;
-
-		public TransientLifestyleManager(IComponentFactory componentFactory)
+		public TransientLifestyleManager(IComponentFactory componentFactory) : base(componentFactory)
 		{
-			m_componentFactory = componentFactory;
 		}
-
-		#region IResolver Members
-
-		public object Resolve()
-		{
-			return m_componentFactory.Incarnate();
-		}
-
-		public void Release( object instance )
-		{
-			m_componentFactory.Etherialize( instance );
-		}
-
-		#endregion
 	}
 }

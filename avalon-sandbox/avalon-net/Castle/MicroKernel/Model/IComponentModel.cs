@@ -23,7 +23,17 @@ namespace Apache.Avalon.Castle.MicroKernel.Model
 	/// </summary>
 	public interface IComponentModel
 	{
+		String Name
+		{
+			get;
+		}
+
 		Lifestyle SupportedLifestyle
+		{
+			get;
+		}
+
+		Type Service
 		{
 			get;
 		}
@@ -31,19 +41,16 @@ namespace Apache.Avalon.Castle.MicroKernel.Model
 		ILogger Logger
 		{
 			get;
+			set;
 		}
 
 		IConfiguration Configuration
 		{
 			get;
+			set;
 		}
 
 		IContext Context
-		{
-			get;
-		}
-
-		Type Service
 		{
 			get;
 		}

@@ -18,15 +18,39 @@ namespace Apache.Avalon.Castle.MicroKernel
 
 	using Apache.Avalon.Castle.MicroKernel.Concerns;
 	using Apache.Avalon.Castle.MicroKernel.Model;
+	using Apache.Avalon.Castle.MicroKernel.Configuration;
+	using Apache.Avalon.Castle.MicroKernel.Logger;
 
 	/// <summary>
-	/// Summary description for AvalonKernel.
+	/// Specialization of Kernel to support 
+	/// avalon semantics
 	/// </summary>
 	public interface AvalonKernel : Kernel
 	{
+		/// <summary>
+		/// Manages the concerns related to Avalon Framework
+		/// </summary>
 		ConcernManager Concerns
 		{
 			get;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		IConfigurationManager ConfigurationManager
+		{
+			get;
+			set;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		ILoggerManager LoggerManager
+		{
+			get;
+			set;
 		}
 	}
 }

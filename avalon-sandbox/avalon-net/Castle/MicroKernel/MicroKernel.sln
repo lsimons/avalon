@@ -3,7 +3,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Apache.Avalon.Castle.MicroK
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroKernelTest", "MicroKernelTest\MicroKernelTest.csproj", "{50442F0D-987F-4A8D-B38C-DFA855B9249E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Apache.Avalon.Castle.MicroKernel.Test", "MicroKernelTest\Apache.Avalon.Castle.MicroKernel.Test.csproj", "{50442F0D-987F-4A8D-B38C-DFA855B9249E}"
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject

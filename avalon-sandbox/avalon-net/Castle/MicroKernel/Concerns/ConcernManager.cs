@@ -26,6 +26,8 @@ namespace Apache.Avalon.Castle.MicroKernel.Concerns
 	{
 		private Type m_creationConcern;
 
+		private Type m_destructionConcern;
+
 		private ArrayList m_commissionConcerns = new ArrayList();
 
 		private ArrayList m_decommissionConcerns = new ArrayList();
@@ -44,6 +46,7 @@ namespace Apache.Avalon.Castle.MicroKernel.Concerns
 			Add( typeof(InitializeConcern) );
 			Add( typeof(StartConcern) );
 			Add( typeof(ShutdownConcern) );
+			Add( typeof(DestructionConcern) );
 		}
 
 		public void Add( Type concern )
@@ -53,6 +56,10 @@ namespace Apache.Avalon.Castle.MicroKernel.Concerns
 			if ( typeof(ICreationConcern).IsAssignableFrom(concern) )
 			{
 				m_creationConcern = concern;
+			}
+			else if ( typeof(IDestructionConcern).IsAssignableFrom(concern) )
+			{
+				m_destructionConcern = concern;
 			}
 			else if ( typeof(ICommissionConcern).IsAssignableFrom(concern) )
 			{
@@ -108,6 +115,7 @@ namespace Apache.Avalon.Castle.MicroKernel.Concerns
 		public IConcern GetDecommissionChain( Kernel kernel )
 		{
 			ArrayList concerns = new ArrayList( m_decommissionConcerns );
+			concerns.Add( m_destructionConcern );
 			Type[] concernTypes = (Type[]) concerns.ToArray( typeof(Type) );
 			Array.Reverse( concernTypes );
 

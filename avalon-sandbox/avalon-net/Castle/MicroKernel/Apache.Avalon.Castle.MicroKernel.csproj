@@ -149,6 +149,46 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Avalon\Configuration\IConfigurationManager.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Avalon\Configuration\Default\AvalonConfigurationSectionHandler.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Avalon\Configuration\Default\ContainerConfiguration.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Avalon\Configuration\Default\DefaultConfigurationManager.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Avalon\Context\IContextManager.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Avalon\Context\Default\ContextManager.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Avalon\Logger\ILoggerManager.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Avalon\Logger\Default\LoggerManager.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Concerns\ConcernManager.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -174,6 +214,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Concerns\IDestructionConcern.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Concerns\Default\AbstractConcern.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -190,6 +235,11 @@
                 />
                 <File
                     RelPath = "Concerns\Default\CreationConcern.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Concerns\Default\DestructionConcern.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -220,6 +270,11 @@
                 />
                 <File
                     RelPath = "Factory\IComponentFactory.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Factory\Default\ComponentInstanceBurden.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -289,7 +344,27 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Lifestyle\UnsupportedLifestyleException.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Lifestyle\Default\AbstractLifestyleManager.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Lifestyle\Default\PerThreadLifestyleManager.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Lifestyle\Default\SimpleLifestyleManagerFactory.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Lifestyle\Default\SingletonLifestyleManager.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

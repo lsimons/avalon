@@ -16,6 +16,7 @@ namespace Apache.Avalon.Castle.MicroKernel.Lifestyle.Default
 {
 	using System;
 	
+	using Apache.Avalon.Framework;
 	using Apache.Avalon.Castle.MicroKernel.Model;
 
 	/// <summary>
@@ -31,7 +32,24 @@ namespace Apache.Avalon.Castle.MicroKernel.Lifestyle.Default
 
 		public ILifestyleManager Create( IComponentFactory factory, IComponentModel model )
 		{
-			return new TransientLifestyleManager( factory );
+			if (model.SupportedLifestyle == Apache.Avalon.Framework.Lifestyle.Singleton)
+			{
+				return new SingletonLifestyleManager( factory );
+			}
+			else if (model.SupportedLifestyle == Apache.Avalon.Framework.Lifestyle.Thread)
+			{
+				return new PerThreadLifestyleManager( factory );
+			}
+			else if (model.SupportedLifestyle == Apache.Avalon.Framework.Lifestyle.Transient)
+			{
+				return new TransientLifestyleManager( factory );
+			}
+			else
+			{
+				throw new UnsupportedLifestyleException(
+					String.Format("Lifestyle requested by component {0} is not supported.", 
+					model.ConstructionModel.Implementation));
+			}
 		}
 
 		#endregion

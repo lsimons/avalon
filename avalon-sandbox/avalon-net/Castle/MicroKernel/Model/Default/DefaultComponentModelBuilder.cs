@@ -36,30 +36,27 @@ namespace Apache.Avalon.Castle.MicroKernel.Model.Default
 
 		public IComponentModel BuildModel(String key, Type service, Type implementation)
 		{
-			// TODO: This code sucks. Refactor it!
+			AssertUtil.ArgumentNotNull( key, "key" );
+			AssertUtil.ArgumentNotNull( service, "service" );
+			AssertUtil.ArgumentNotNull( implementation, "implementation" );
 
-			ArrayList dependencies = new ArrayList();
+			ComponentData data = new ComponentData(implementation);
 
-			ConstructorInfo constructor = InspectConstructors(implementation, dependencies);
-			PropertyInfo[] properties = InspectSetMethods(service, dependencies);
-			InspectAvalonAttributes( implementation, dependencies );
-
-			IDependencyModel[] dependenciesArray = 
-				(IDependencyModel[]) dependencies.ToArray( typeof(IDependencyModel) );
+			InspectConstructors(data);
+			InspectSetMethods(service, data);
+			InspectAvalonAttributes(data);
 
 			IConstructionModel constructionModel = 
-				new DefaultConstructionModel( implementation, constructor, properties );
-
-			// TODO: Consoler. Context and Configuration should be created by 
-			//   a separated entity - how to reach it? Kernel?
+				new DefaultConstructionModel( implementation, data.Constructor, data.PropertiesInfo );
 
 			DefaultComponentModel model = new DefaultComponentModel( 
+				data.Name,
 				service, 
-				Avalon.Framework.Lifestyle.Transient, 
+				data.SupportedLifestyle, 
 				new ConsoleLogger( service.Name, LoggerLevel.Debug ), 
 				new DefaultConfiguration(), 
 				new DefaultContext(), 
-				dependenciesArray, 
+				data.DependencyModel, 
 				constructionModel );
 
 			return model;
@@ -67,20 +64,20 @@ namespace Apache.Avalon.Castle.MicroKernel.Model.Default
 
 		#endregion
 
-		protected void InspectAvalonAttributes( Type implementation, IList dependencies )
+		protected void InspectAvalonAttributes( ComponentData componentData )
 		{
-			if (!implementation.IsDefined( typeof(AvalonComponentAttribute), false ))
+			if (!componentData.Implementation.IsDefined( typeof(AvalonComponentAttribute), false ))
 			{
 				return;
 			}
 
-			AvalonComponentAttribute componentAttribute = GetComponentAttribute( implementation );
-			AvalonLoggerAttribute loggerAttribute = GetLoggerAttribute( implementation );
-			AvalonDependencyAttribute[] dependencyAttributes = GetDependencyAttributes( implementation );
+			componentData.AvalonComponent = GetComponentAttribute( componentData.Implementation );
+			componentData.AvalonLogger = GetLoggerAttribute( componentData.Implementation );
+			AvalonDependencyAttribute[] dependencyAttributes = GetDependencyAttributes( componentData.Implementation );
 
 			foreach( AvalonDependencyAttribute dependency in dependencyAttributes )
 			{
-				AddDependency( dependencies, dependency.DependencyType, 
+				AddDependency( componentData.Dependencies, dependency.DependencyType, 
 					dependency.Key, dependency.IsOptional );
 			}
 		}
@@ -117,11 +114,11 @@ namespace Apache.Avalon.Castle.MicroKernel.Model.Default
 			return implementation.GetCustomAttributes( attribute, false );
 		}
 
-		protected ConstructorInfo InspectConstructors( Type implementation, IList dependencies )
+		protected void InspectConstructors( ComponentData componentData )
 		{
 			ConstructorInfo constructor = null;
 
-			ConstructorInfo[] constructors = implementation.GetConstructors();
+			ConstructorInfo[] constructors = componentData.Implementation.GetConstructors();
 
 			// TODO: Try to sort the array 
 			// by the arguments lenght in descendent order
@@ -141,7 +138,7 @@ namespace Apache.Avalon.Castle.MicroKernel.Model.Default
 							continue;
 						}
 
-						AddDependency( dependencies, parameter.ParameterType );
+						AddDependency( componentData.Dependencies, parameter.ParameterType );
 					}
 
 					break;
@@ -152,28 +149,24 @@ namespace Apache.Avalon.Castle.MicroKernel.Model.Default
 			{
 				throw new ModelBuilderException( 
 					String.Format("Handler could not find an eligible constructor for type {0}", 
-					implementation.FullName) );
+					componentData.Implementation.FullName) );
 			}
 
-			return constructor;
+			componentData.Constructor = constructor;
 		}
 
-		protected PropertyInfo[] InspectSetMethods( Type service, IList dependencies )
+		protected void InspectSetMethods( Type service, ComponentData componentData )
 		{
-			ArrayList selected = new ArrayList();
-
 			PropertyInfo[] properties = service.GetProperties();
 
 			foreach(PropertyInfo property in properties)
 			{
 				if (IsEligible( property ))
 				{
-					AddDependency( dependencies, property.PropertyType );
-					selected.Add( property );
+					AddDependency( componentData.Dependencies, property.PropertyType );
+					componentData.Properties.Add( property );
 				}
 			}
-
-			return (PropertyInfo[]) selected.ToArray( typeof(PropertyInfo) );
 		}
 
 		protected bool IsEligible( PropertyInfo property )
@@ -228,6 +221,126 @@ namespace Apache.Avalon.Castle.MicroKernel.Model.Default
 		protected virtual void AddDependency( IList dependencies, Type type )
 		{
 			AddDependency( dependencies, type, String.Empty, false );
+		}
+	}
+
+	/// <summary>
+	/// Holds a component data during inspect phase.
+	/// </summary>
+	public class ComponentData
+	{
+		private ArrayList m_dependencies = new ArrayList();
+		private ArrayList m_properties = new ArrayList();
+		private ConstructorInfo m_constructor;
+		private AvalonComponentAttribute m_componentAttribute;
+		private AvalonLoggerAttribute m_loggerAttribute;
+		private Type m_implementation;
+
+		public ComponentData( Type implementation )
+		{
+			this.m_implementation = implementation;
+		}
+
+		public Type Implementation
+		{
+			get
+			{
+				return m_implementation;
+			}
+		}
+
+		public IList Dependencies
+		{
+			get
+			{
+				return m_dependencies;
+			}
+		}
+
+		public IDependencyModel[] DependencyModel
+		{
+			get
+			{
+				return (IDependencyModel[]) m_dependencies.ToArray( typeof(IDependencyModel) );
+			}
+		}
+
+		public ConstructorInfo Constructor
+		{
+			get
+			{
+				return m_constructor;
+			}
+			set
+			{
+				m_constructor = value;
+			}
+		}
+
+		public IList Properties
+		{
+			get
+			{
+				return m_properties;
+			}
+		}
+
+		public PropertyInfo[] PropertiesInfo
+		{
+			get
+			{
+				return (PropertyInfo[]) m_properties.ToArray( typeof(PropertyInfo) );
+			}
+		}
+
+		public AvalonComponentAttribute AvalonComponent
+		{
+			get
+			{
+				return m_componentAttribute;
+			}
+			set
+			{
+				m_componentAttribute = value;
+			}
+		}
+
+		public AvalonLoggerAttribute AvalonLogger
+		{
+			get
+			{
+				return m_loggerAttribute;
+			}
+			set
+			{
+				m_loggerAttribute = value;
+			}
+		}
+
+		public Apache.Avalon.Framework.Lifestyle SupportedLifestyle
+		{
+			get
+			{
+				if (AvalonComponent == null)
+				{
+					return Apache.Avalon.Framework.Lifestyle.Transient;
+				}
+
+				return AvalonComponent.Lifestyle;
+			}
+		}
+
+		public String Name
+		{
+			get
+			{
+				if (AvalonComponent == null)
+				{
+					return Implementation.Name;
+				}
+
+				return AvalonComponent.Name;
+			}
 		}
 	}
 }
