@@ -40,7 +40,7 @@ import org.apache.avalon.framework.logger.Logger;
  * @avalon.service type="org.apache.avalon.db.DatabaseService"
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2004/05/06 00:01:40 $
+ * @version $Revision: 1.2 $ $Date: 2004/05/11 21:08:03 $
  */
 public class HsqlServiceProvider implements Contextualizable,
     Configurable, Initializable, Startable, DatabaseService
@@ -201,13 +201,11 @@ public class HsqlServiceProvider implements Contextualizable,
      * component
      */
     public void start() throws Exception {
-        m_logger.info("Entering start()");
         if (m_server != null) {
             m_server.startServer();
         } else {
             throw new Exception("Server instance not instantiated!!");
         }
-        m_logger.info("Exiting start()");
     }
 
     /**
@@ -216,9 +214,7 @@ public class HsqlServiceProvider implements Contextualizable,
      * @throws Exception if an error occurs while stopping the component
      */
     public void stop() throws Exception {
-        m_logger.info("Entering stop()");
         m_server.stopServer();
-        m_logger.info("Exiting stop()");
     }
 
     /**
