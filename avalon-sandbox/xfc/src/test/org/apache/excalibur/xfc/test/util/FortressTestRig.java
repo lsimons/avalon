@@ -51,17 +51,18 @@ package org.apache.excalibur.xfc.test.util;
 
 import org.apache.avalon.framework.configuration.Configuration;
 
-import org.apache.excalibur.xfc.modules.ECM;
 import org.apache.excalibur.xfc.model.RoleRef;
+import org.apache.excalibur.xfc.modules.Fortress;
 
 /**
- * ECM Module Test Rig. This class extends ECM and provides several accessor methods to
- * internal ECM methods that are otherwise not available from the normal Module API.
+ * Fortress Module Test Rig. This class extends Fortress and provides several accessor
+ * methods to internal Fortress methods that are otherwise not available from the normal
+ * Module API.
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: ECMTestRig.java,v 1.2 2002/10/08 10:39:37 crafterm Exp $
+ * @version CVS $Id: FortressTestRig.java,v 1.1 2002/10/08 10:39:37 crafterm Exp $
  */
-public final class ECMTestRig extends ECM
+public final class FortressTestRig extends Fortress
 {
     public Configuration buildRole( final RoleRef roleref )
         throws Exception
