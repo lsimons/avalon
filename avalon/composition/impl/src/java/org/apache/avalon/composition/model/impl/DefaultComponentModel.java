@@ -54,6 +54,7 @@ import org.apache.avalon.meta.info.ContextDescriptor;
 import org.apache.avalon.meta.info.DependencyDescriptor;
 import org.apache.avalon.meta.info.InfoDescriptor;
 import org.apache.avalon.meta.info.ServiceDescriptor;
+import org.apache.avalon.meta.info.ReferenceDescriptor;
 import org.apache.avalon.meta.info.StageDescriptor;
 import org.apache.avalon.meta.info.Type;
 
@@ -63,7 +64,7 @@ import org.apache.excalibur.configuration.CascadingConfiguration;
  * Deployment model defintion.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.7 $ $Date: 2004/02/12 05:59:41 $
+ * @version $Revision: 1.8 $ $Date: 2004/02/21 23:54:42 $
  */
 public class DefaultComponentModel extends DefaultDeploymentModel 
   implements ComponentModel
@@ -353,7 +354,7 @@ public class DefaultComponentModel extends DefaultDeploymentModel
     */
     public boolean isaCandidate( DependencyDescriptor dependency )
     {
-        return m_context.getType().getService( dependency.getReference() ) != null;
+        return isaCandidate( dependency.getReference() );
     }
 
    /**
@@ -366,6 +367,18 @@ public class DefaultComponentModel extends DefaultDeploymentModel
     public boolean isaCandidate( StageDescriptor stage )
     {
         return m_context.getType().getExtension( stage ) != null;
+    }
+
+   /**
+    * Return TRUE is this model is capable of supporting a supplied 
+    * service.
+    *
+    * @param reference the service reference descriptor
+    * @return true if this model can fulfill the service
+    */
+    public boolean isaCandidate( ReferenceDescriptor reference )
+    {
+        return m_context.getType().getService( reference ) != null;
     }
 
     //==============================================================

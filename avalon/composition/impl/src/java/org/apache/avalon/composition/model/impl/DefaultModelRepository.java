@@ -28,6 +28,7 @@ import org.apache.avalon.composition.model.ModelRepository;
 import org.apache.avalon.framework.logger.Logger;
 
 import org.apache.avalon.meta.info.DependencyDescriptor;
+import org.apache.avalon.meta.info.ReferenceDescriptor;
 import org.apache.avalon.meta.info.StageDescriptor;
 
 
@@ -37,7 +38,7 @@ import org.apache.avalon.meta.info.StageDescriptor;
  * a stage or service dependencies.
  *
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.4 $ $Date: 2004/01/24 23:25:27 $
+ * @version $Revision: 1.5 $ $Date: 2004/02/21 23:54:42 $
  */
 public class DefaultModelRepository implements ModelRepository
 {
@@ -80,6 +81,17 @@ public class DefaultModelRepository implements ModelRepository
      */
     public DeploymentModel getModel( DependencyDescriptor dependency )
     {
+        return getModel( dependency.getReference() );
+    }
+
+    /**
+     * Locate an model meeting the supplied criteria.
+     *
+     * @param reference a component service reference
+     * @return the model or null if no matching model is resolved
+     */
+    public DeploymentModel getModel( ReferenceDescriptor reference )
+    {
         //
         // attempt to locate a solution locally
         //
@@ -88,7 +100,7 @@ public class DefaultModelRepository implements ModelRepository
         while( iterator.hasNext() )
         {
             DeploymentModel model = (DeploymentModel) iterator.next();
-            if( model.isaCandidate( dependency ) )
+            if( model.isaCandidate( reference ) )
             {
                 return model;
             }
@@ -100,7 +112,7 @@ public class DefaultModelRepository implements ModelRepository
 
         if( m_parent != null )
         {
-            return m_parent.getModel( dependency );
+            return m_parent.getModel( reference );
         }
 
         return null;
@@ -159,6 +171,37 @@ public class DefaultModelRepository implements ModelRepository
         if( m_parent != null )
         {
             DeploymentModel[] models = m_parent.getCandidateProviders( dependency );
+            for( int i=0; i<models.length; i++ )
+            {
+                list.add( models[i] );
+            }
+        }
+        return (DeploymentModel[]) list.toArray( new DeploymentModel[0] );
+    }
+
+    /**
+     * Locate all models meeting the supplied service reference criteria.
+     *
+     * @param reference a service reference
+     * @return the candidate models
+     */
+    public DeploymentModel[] getCandidateProviders( 
+      ReferenceDescriptor reference )
+    {
+        ArrayList list = new ArrayList();
+        Iterator iterator = m_models.values().iterator();
+        while( iterator.hasNext() )
+        {
+            DeploymentModel model = (DeploymentModel) iterator.next();
+            if( model.isaCandidate( reference ) )
+            {
+                list.add( model );
+            }
+        }
+
+        if( m_parent != null )
+        {
+            DeploymentModel[] models = m_parent.getCandidateProviders( reference );
             for( int i=0; i<models.length; i++ )
             {
                 list.add( models[i] );

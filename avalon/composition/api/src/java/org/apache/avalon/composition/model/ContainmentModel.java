@@ -24,6 +24,7 @@ import org.apache.avalon.composition.data.ServiceDirective;
 import org.apache.avalon.logging.data.CategoriesDirective;
 import org.apache.avalon.composition.data.TargetDirective;
 import org.apache.avalon.composition.event.CompositionListener;
+import org.apache.avalon.meta.info.ReferenceDescriptor;
 import org.apache.avalon.meta.info.DependencyDescriptor;
 import org.apache.avalon.meta.info.StageDescriptor;
 
@@ -33,7 +34,7 @@ import org.apache.avalon.meta.info.StageDescriptor;
  * context.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.18 $ $Date: 2004/02/12 05:59:41 $
+ * @version $Revision: 1.19 $ $Date: 2004/02/21 23:54:42 $
  */
 public interface ContainmentModel extends DeploymentModel
 {
@@ -118,6 +119,26 @@ public interface ContainmentModel extends DeploymentModel
     * @exception IllegalArgumentException if the path if badly formed
     */
     DeploymentModel getModel( String path );
+
+   /**
+    * Resolve a model capable of supporting the supplied service reference.
+    *
+    * @param descriptor a service reference descriptor
+    * @return the model or null if unresolvable
+    * @exception AssemblyException if an assembly error occurs
+    */
+    DeploymentModel getModel( ReferenceDescriptor descriptor )
+      throws AssemblyException;
+
+   /**
+    * Resolve a model capable of supporting the supplied service reference.
+    *
+    * @param dependency a service dependency descriptor
+    * @return the model or null if unresolvable
+    * @exception AssemblyException if an assembly error occurs
+    */
+    DeploymentModel getModel( DependencyDescriptor dependency )
+      throws AssemblyException;
 
    /**
     * Addition of a new subsidiary containment model

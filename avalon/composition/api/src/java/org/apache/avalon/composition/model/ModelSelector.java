@@ -18,6 +18,7 @@
 package org.apache.avalon.composition.model;
 
 import org.apache.avalon.meta.info.DependencyDescriptor;
+import org.apache.avalon.meta.info.ReferenceDescriptor;
 import org.apache.avalon.meta.info.StageDescriptor;
 
 /**
@@ -30,7 +31,7 @@ import org.apache.avalon.meta.info.StageDescriptor;
  * driven approach).
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.4 $ $Date: 2004/01/24 23:25:25 $
+ * @version $Revision: 1.5 $ $Date: 2004/02/21 23:54:42 $
  */
 public interface ModelSelector
 {
@@ -53,4 +54,13 @@ public interface ModelSelector
      *    can be established
      */
     DeploymentModel select( DeploymentModel[] models, StageDescriptor stage );
+
+    /**
+     * Returns the preferred model from an available selection of candidates
+     * @param models the set of candidate models 
+     * @param reference the versioned service reference
+     * @return the preferred provider or null if no satisfactory provider 
+     *    can be established
+     */
+    DeploymentModel select( DeploymentModel[] models, ReferenceDescriptor reference );
 }

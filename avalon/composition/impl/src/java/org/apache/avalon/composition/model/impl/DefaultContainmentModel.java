@@ -87,6 +87,7 @@ import org.apache.avalon.excalibur.i18n.Resources;
 
 import org.apache.avalon.meta.info.DependencyDescriptor;
 import org.apache.avalon.meta.info.ServiceDescriptor;
+import org.apache.avalon.meta.info.ReferenceDescriptor;
 import org.apache.avalon.meta.info.StageDescriptor;
 import org.apache.avalon.meta.info.Type;
 
@@ -98,7 +99,7 @@ import org.apache.avalon.util.exception.ExceptionHelper;
  * as a part of a containment deployment model.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.33 $ $Date: 2004/02/14 21:33:56 $
+ * @version $Revision: 1.34 $ $Date: 2004/02/21 23:54:42 $
  */
 public class DefaultContainmentModel extends DefaultDeploymentModel 
   implements ContainmentModel
@@ -355,11 +356,23 @@ public class DefaultContainmentModel extends DefaultDeploymentModel
     */
     public boolean isaCandidate( DependencyDescriptor dependency )
     {
+        return isaCandidate( dependency.getReference() );
+    }
+
+   /**
+    * Return TRUE is this model is capable of supporting a supplied 
+    * service.
+    *
+    * @param reference the service reference descriptor
+    * @return true if this model can fulfill the service
+    */
+    public boolean isaCandidate( ReferenceDescriptor reference )
+    {
         ServiceDescriptor[] services = getServices();
         for( int i=0; i<services.length; i++ )
         {
             ServiceDescriptor service = services[i];
-            if( service.getReference().matches( dependency.getReference() ) )
+            if( service.getReference().matches( reference ) )
             {
                 return true;
             }
@@ -763,6 +776,35 @@ public class DefaultContainmentModel extends DefaultDeploymentModel
         DefaultContainmentModelNavigationHelper helper = 
           new DefaultContainmentModelNavigationHelper( m_context, this );
         return helper.getModel( path );
+    }
+
+   /**
+    * Resolve a model capable of supporting the supplied service reference.
+    *
+    * @param descriptor a service reference descriptor
+    * @return the model or null if unresolvable
+    */
+    public DeploymentModel getModel( ReferenceDescriptor descriptor )
+      throws AssemblyException
+    {
+        DefaultContainmentModelAssemblyHelper helper = 
+          new DefaultContainmentModelAssemblyHelper( m_context, this );
+        return helper.findServiceProvider( descriptor );
+    }
+
+   /**
+    * Resolve a model capable of supporting the supplied service reference.
+    *
+    * @param dependency a dependency descriptor
+    * @return the model or null if unresolvable
+    * @exception AssemblyException if an assembly error occurs
+    */
+    public DeploymentModel getModel( DependencyDescriptor dependency ) 
+      throws AssemblyException
+    {
+        DefaultContainmentModelAssemblyHelper helper = 
+          new DefaultContainmentModelAssemblyHelper( m_context, this );
+        return helper.findDependencyProvider( dependency );
     }
 
    /**

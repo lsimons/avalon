@@ -17,15 +17,17 @@
 
 package org.apache.avalon.composition.model;
 
+import org.apache.avalon.composition.data.DeploymentProfile;
+
+import org.apache.avalon.meta.info.ReferenceDescriptor;
 import org.apache.avalon.meta.info.DependencyDescriptor;
 import org.apache.avalon.meta.info.StageDescriptor;
-import org.apache.avalon.composition.data.DeploymentProfile;
 
 /**
  * Interface defining the contract for profile selection.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $ $Date: 2004/01/24 23:25:25 $
+ * @version $Revision: 1.4 $ $Date: 2004/02/21 23:54:42 $
  */
 public interface ProfileSelector
 {
@@ -50,4 +52,16 @@ public interface ProfileSelector
      *    no satisfactory profile can be established
      */
     DeploymentProfile select( DeploymentProfile[] profiles, StageDescriptor stage );
+
+    /**
+     * Returns the preferred profile from an available selection of
+     * candidates profiles.
+     *
+     * @param profiles the set of candidate profiles
+     * @param reference a service reference
+     * @return the preferred profile or null if 
+     *    no satisfactory profile can be established
+     */
+    DeploymentProfile select( DeploymentProfile[] profiles, ReferenceDescriptor reference );
+
 }

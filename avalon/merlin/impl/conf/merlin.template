@@ -25,5 +25,9 @@ merlin.runtime.standard.implementation = @STANDARD_RUNTIME@
 merlin.runtime.csi.implementation = @SECURE_RUNTIME@
 
 #
+# server mode
+merlin.server = true
+
+#
 # EOF
 #
