@@ -51,7 +51,7 @@ import org.apache.excalibur.source.*;
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version $Id: SourceResolverImpl.java,v 1.2 2002/04/24 08:25:42 cziegeler Exp $
+ * @version $Id: SourceResolverImpl.java,v 1.3 2002/04/24 12:35:37 cziegeler Exp $
  */
 public class SourceResolverImpl
     extends AbstractLogEnabled
@@ -167,7 +167,7 @@ public class SourceResolverImpl
      * Get a <code>Source</code> object.
      */
     public Source resolveURI( String location )
-        throws MalformedURLException, IOException, ComponentException
+        throws MalformedURLException, IOException, SourceException
     {
         return this.resolveURI( location, null, null );
     }
@@ -178,7 +178,7 @@ public class SourceResolverImpl
     public Source resolveURI( String location,
                               String baseURI,
                               Map parameters )
-        throws MalformedURLException, IOException, ComponentException
+        throws MalformedURLException, IOException, SourceException
     {
         if( this.getLogger().isDebugEnabled() )
         {
@@ -265,6 +265,10 @@ public class SourceResolverImpl
                     factory = (SourceFactory)m_factorySelector.select( protocol );
                     source = factory.getSource( systemID, parameters );
                 }
+                catch (ComponentException ce)
+                {
+                    throw new SourceException("ComponentException.", ce);
+                }
                 finally
                 {
                     m_factorySelector.release( factory );
@@ -294,7 +298,7 @@ public class SourceResolverImpl
                 }
                 catch (Exception ie)
                 {
-                    throw new ComponentException("Unable to create new instance of " +
+                    throw new SourceException("Unable to create new instance of " +
                                                  this.m_urlSourceClass, ie);
                 }
             }
@@ -314,7 +318,7 @@ public class SourceResolverImpl
                 }
                 catch (Exception ie)
                 {
-                    throw new ComponentException("Unable to create new instance of " +
+                    throw new SourceException("Unable to create new instance of " +
                                                  this.m_urlSourceClass, ie);
                 }
             }
@@ -323,21 +327,28 @@ public class SourceResolverImpl
         {
             ( (LogEnabled)source ).enableLogging( getLogger() );
         }
-        try
+        if( source instanceof Contextualizable )
         {
-            if( source instanceof Contextualizable )
+            try
             {
                 ( (Contextualizable)source ).contextualize( m_context );
             }
-        }
-        catch( ContextException ce )
-        {
-            throw new ComponentException( "ContextException occured during source resolving.", ce );
+            catch( ContextException ce )
+            {
+                throw new SourceException( "ContextException occured during source resolving.", ce );
+            }
         }
 
         if( source instanceof Composable )
         {
-            ( (Composable)source ).compose( m_manager );
+            try
+            {
+                ( (Composable)source ).compose( m_manager );
+            }
+            catch( ComponentException ce )
+            {
+                throw new SourceException( "ComponentException occured during source resolving.", ce );
+            }
         }
         return source;
     }

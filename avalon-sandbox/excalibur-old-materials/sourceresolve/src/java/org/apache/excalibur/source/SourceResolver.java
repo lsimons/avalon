@@ -11,7 +11,6 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.Map;
 import org.apache.avalon.framework.component.Component;
-import org.apache.avalon.framework.component.ComponentException;
 
 /**
  * Base interface for resolving a source by system identifiers.
@@ -30,11 +29,11 @@ import org.apache.avalon.framework.component.ComponentException;
  * like Composable, Initializable, Disposable etc.
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/04/19 09:05:37 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/04/24 12:35:37 $
  */
 
 public interface SourceResolver
-    extends Component
+   extends Component
 {
     String ROLE = SourceResolver.class.getName();
 
@@ -43,7 +42,7 @@ public interface SourceResolver
      * This is a shortcut for <code>resolve(location, null, null)</code>
      */
     Source resolveURI( String location )
-        throws MalformedURLException, IOException, ComponentException;
+        throws MalformedURLException, IOException, SourceException;
 
     /**
      * Get a <code>Source</code> object.
@@ -59,7 +58,7 @@ public interface SourceResolver
     Source resolveURI( String location,
                        String base,
                        Map parameters )
-        throws MalformedURLException, IOException, ComponentException;
+        throws MalformedURLException, IOException, SourceException;
 
     /**
      * Releases a resolved resource

@@ -24,7 +24,7 @@ import org.apache.excalibur.source.impl.validity.TimeStampValidity;
  * Description of a source which is described by an URL.
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.5 $ $Date: 2002/04/24 08:25:42 $
+ * @version CVS $Revision: 1.6 $ $Date: 2002/04/24 12:35:37 $
  */
 
 public class URLSource
@@ -180,23 +180,6 @@ public class URLSource
     }
 
     /**
-     *  Get the corresponding Resource object for monitoring.
-    public Resource getResource()
-        throws Exception
-    {
-        this.getInfos();
-        if( this.isFile == true )
-        {
-            return new FileResource( this.systemId.substring( FILE.length() ) );
-        }
-        else
-        {
-            return new SourceResource( this );
-        }
-    }
-     */
-
-    /**
      * Return an <code>InputStream</code> object to read from the source.
      *
      * @throws ResourceNotFoundException if file not found or
@@ -204,7 +187,7 @@ public class URLSource
      * @throws IOException if I/O error occured.
      */
     public InputStream getInputStream()
-        throws IOException
+        throws IOException, SourceException
     {
         this.getInfos();
         InputStream input = null;
