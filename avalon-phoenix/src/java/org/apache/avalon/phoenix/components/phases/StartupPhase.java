@@ -40,6 +40,8 @@ import org.apache.avalon.phoenix.components.kapi.RoleEntry;
 import org.apache.avalon.phoenix.metainfo.BlockInfo;
 import org.apache.avalon.phoenix.metainfo.BlockUtil;
 import org.apache.avalon.phoenix.metainfo.ServiceDescriptor;
+import org.apache.avalon.excalibur.i18n.ResourceManager;
+import org.apache.avalon.excalibur.i18n.Resources;
 
 /**
  *
@@ -49,6 +51,9 @@ public class StartupPhase
     extends AbstractLoggable
     implements BlockVisitor, Contextualizable, Composable
 {
+    private static final Resources REZ =
+        ResourceManager.getPackageResources( ShutdownPhase.class );
+
     //Repository of configuration data to access
     private ConfigurationRepository m_repository;
 
@@ -96,8 +101,19 @@ public class StartupPhase
         if( entry.getState() != BlockEntry.BASE &&
             null != entry.getState() ) return;
 
-        getLogger().info( "Processing Block: " + name );
-        getLogger().debug( "Processing with classloader " + m_frame.getClassLoader() );
+        if( getLogger().isInfoEnabled() )
+        {
+            final String message = REZ.format( "startup.notice.processing.name", name );
+            getLogger().info( message );
+        }
+        
+        //TODO: remove this and place in deployer/application
+        if( getLogger().isDebugEnabled() )
+        {
+            final String message = 
+                REZ.format( "startup.notice.processing.classloader", m_frame.getClassLoader() );
+            getLogger().debug( message );
+        }
 
         //HACK: Hack-o-mania here - Fix when each Application is
         //run in a separate thread group
@@ -107,86 +123,82 @@ public class StartupPhase
         try
         {
             //Creation stage
-            getLogger().debug( "Pre-Creation Stage" );
+            getLogger().debug( REZ.getString( "startup.notice.create.pre" ) );
             final Object object = createBlock( name, entry );
             entry.setInstance( object );
-            getLogger().debug( "Creation successful." );
+            getLogger().debug( REZ.getString( "startup.notice.create.success" ) );
 
             //Loggable stage
             if( object instanceof Loggable )
             {
-                getLogger().debug( "Pre-Loggable Stage" );
+                getLogger().debug( REZ.getString( "startup.notice.log.pre" ) );
                 ((Loggable)object).setLogger( m_frame.getLogger( name ) );
-                getLogger().debug( "Loggable successful." );
+                getLogger().debug( REZ.getString( "startup.notice.log.success" ) );
             }
 
             //Contextualize stage
             if( object instanceof Contextualizable )
             {
-                getLogger().debug( "Pre-Contextualize Stage" );
+                getLogger().debug( REZ.getString( "startup.notice.context.pre" ) );
                 final BlockContext context = m_frame.createBlockContext( name );
                 ((Contextualizable)object).contextualize( context );
-                getLogger().debug( "Contextualize successful." );
+                getLogger().debug( REZ.getString( "startup.notice.context.success" ) );
             }
 
             //Composition stage
             if( object instanceof Composable )
             {
-                getLogger().debug( "Pre-Composition Stage" );
+                getLogger().debug( REZ.getString( "startup.notice.compose.pre" ) );
                 final ComponentManager componentManager =
                     createComponentManager( name, entry );
                 ((Composable)object).compose( componentManager );
-                getLogger().debug( "Composition successful." );
+                getLogger().debug( REZ.getString( "startup.notice.compose.success" ) );
             }
 
             //Configuring stage
             if( object instanceof Configurable )
             {
-                getLogger().debug( "Pre-Configure Stage" );
+                getLogger().debug( REZ.getString( "startup.notice.config.pre" ) );
                 final Configuration configuration =
                     m_repository.getConfiguration( m_appName, name );
                 ((Configurable)object).configure( configuration );
-                getLogger().debug( "Configure successful." );
+                getLogger().debug( REZ.getString( "startup.notice.config.success" ) );
             }
 
             //Initialize stage
             if( object instanceof Initializable )
             {
-                getLogger().debug( "Pre-Initializable Stage" );
+                getLogger().debug( REZ.getString( "startup.notice.init.pre" ) );
                 ((Initializable)object).initialize();
-                getLogger().debug( "Initializable successful." );
+                getLogger().debug( REZ.getString( "startup.notice.init.success" ) );
             }
 
             //Start stage
             if( object instanceof Startable )
             {
-                getLogger().debug( "Pre-Start Stage" );
+                getLogger().debug( REZ.getString( "startup.notice.start.pre" ) );
                 ((Startable)object).start();
-                getLogger().debug( "Start successful." );
+                getLogger().debug( REZ.getString( "startup.notice.start.success" ) );
             }
 
             entry.setState( BlockEntry.STARTEDUP );
-
-            getLogger().info( "Ran Startup Phase for " + name );
         }
         catch( final Exception e )
         {
-            throw new CascadingException( "Failed to load block " + name, e );
+            final String message = REZ.format( "startup.error.load.fail", name );
+            throw new CascadingException( message, e );
         }
     }
 
     private Block createBlock( final String name, final BlockEntry entry )
         throws Exception
     {
-        getLogger().info( "Creating block " + name );
 
         final Block block = (Block)m_factory.create( entry.getLocator(), Block.class );
-
-        getLogger().debug( "Created block" );
+        getLogger().debug( REZ.getString( "startup.notice.block.created" ) );
 
         verifyBlockServices( name, entry, block );
-
-        getLogger().debug( "Verified block services" );
+        getLogger().debug( REZ.getString( "startup.notice.block.verify" ) );
 
         return block;
     }
@@ -210,8 +222,8 @@ public class StartupPhase
         {
             if( false == BlockUtil.implementsService( block, services[ i ] ) )
             {
-                final String message = "Block " + name + " fails to implement " +
-                    "advertised service " + services[ i ];
+                final String message = 
+                    REZ.format( "startup.error.block.noimplement", name, services[ i ] );
                 getLogger().warn( message );
                 throw new Exception( message );
             }
@@ -249,9 +261,12 @@ public class StartupPhase
                 final ServiceDescriptor[] services = dependency.getBlockInfo().getServices();
                 if( !BlockUtil.hasMatchingService( services, serviceDescriptor ) )
                 {
-                    throw new ComponentException( "Dependency " + dependencyName +
-                                                  " does not offer service required: " +
-                                                  serviceDescriptor );
+                    final String message = 
+                        REZ.format( "startup.error.dependency.noservice", 
+                                    dependencyName, 
+                                    serviceDescriptor );
+
+                    throw new ComponentException( message );
                 }
 
                 componentManager.put( roleEntrys[ i ].getRole(), (Block)dependency.getInstance() );
