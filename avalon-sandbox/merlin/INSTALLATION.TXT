@@ -13,6 +13,7 @@ resources.
     /config
     /ext
     /repository
+    /system
     README.TXT
     LICENSE.TXT
   /plugins
