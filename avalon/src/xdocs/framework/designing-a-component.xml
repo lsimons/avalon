@@ -1,7 +1,5 @@
 <?xml version="1.0"?>
 
-<!DOCTYPE document SYSTEM "dtd/document-v10.dtd">
-
 <document>
   <header>
     <title>Avalon Framework - Designing a Component</title>
