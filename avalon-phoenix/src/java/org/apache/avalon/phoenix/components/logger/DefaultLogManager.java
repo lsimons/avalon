@@ -10,7 +10,9 @@ package org.apache.avalon.phoenix.components.logger;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.excalibur.logger.LogKitLoggerManager;
+import org.apache.avalon.excalibur.logger.LoggerManager;
 import org.apache.avalon.framework.configuration.Configuration;
+import org.apache.avalon.framework.container.ContainerUtil;
 import org.apache.avalon.framework.context.DefaultContext;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.logger.Logger;
@@ -46,8 +48,10 @@ public class DefaultLogManager
                                    final ClassLoader classLoader )
         throws Exception
     {
+        final String sarName = metaData.getName();
+
         final DefaultContext context = new DefaultContext();
-        context.put( BlockContext.APP_NAME, metaData.getName() );
+        context.put( BlockContext.APP_NAME, sarName );
         context.put( BlockContext.APP_HOME_DIR, metaData.getHomeDirectory() );
         context.put( "classloader", classLoader );
 
@@ -56,26 +60,25 @@ public class DefaultLogManager
         if( getLogger().isDebugEnabled() )
         {
             final String message =
-                REZ.getString( "logger-create", metaData.getName(), version );
+                REZ.getString( "logger-create", sarName, version );
             getLogger().debug( message );
         }
+        final LoggerManager loggerManager = createLoggerManager( version );
+        ContainerUtil.enableLogging( loggerManager, getLogger() );
+        ContainerUtil.contextualize( loggerManager, context );
+        ContainerUtil.configure( loggerManager, logs );
+        return loggerManager.getDefaultLogger();
+    }
 
+    private LoggerManager createLoggerManager( final String version )
+    {
         if( version.equals( "1.0" ) )
         {
-            final SimpleLogKitManager manager = new SimpleLogKitManager();
-            setupLogger( manager );
-            manager.contextualize( context );
-            manager.configure( logs );
-            return manager.getDefaultLogger();
+            return new SimpleLogKitManager();
         }
         else if( version.equals( "1.1" ) )
         {
-            final LogKitLoggerManager manager =
-                new LogKitLoggerManager();
-            setupLogger( manager );
-            manager.contextualize( context );
-            manager.configure( logs );
-            return manager.getDefaultLogger();
+            return new LogKitLoggerManager();
         }
         else
         {
