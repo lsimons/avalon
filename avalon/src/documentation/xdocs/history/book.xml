@@ -15,6 +15,7 @@
       <menu-item type="hidden" href="call-to-vote.html" />
       <menu-item type="hidden" href="what-is-a-server.html" />
       <menu-item type="hidden" href="need-for-avalon.html" />
+      <menu-item type="hidden" href="changes.html" />
 
     <menu-item label="License" href="../license.html"/>
     <menu-item label="Mail Archive" href="../mail.html"/>
