@@ -1,6 +1,13 @@
-maven.log
-velocity.log
 build.properties
+ant.properties
+build
+checkstyle.cache
+distributions
+dist
+excalibur-*
+*.el
+*.ipr
+*.log
 target
 
 *.iml
