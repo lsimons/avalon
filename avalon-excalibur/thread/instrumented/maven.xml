@@ -23,6 +23,7 @@
     <!-- Generate fortress meta descriptors                                    -->
     <!-- ===================================================================== -->
 
+    <!--
     <postGoal name="java:compile">
         <attainGoal name="provide-fortress-meta"/>
     </postGoal>
@@ -44,5 +45,6 @@
         </fortress-collect-meta>
 
     </goal>
+    -->
 
 </project>
