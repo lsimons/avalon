@@ -76,7 +76,7 @@ import org.apache.avalon.framework.logger.Logger;
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:proyal@apache.org">Peter Royal</a>
- * @version CVS $Revision: 1.28 $ $Date: 2003/04/17 20:46:49 $
+ * @version CVS $Revision: 1.29 $ $Date: 2003/06/11 17:40:21 $
  * @since 4.1
  */
 public class AbstractJdbcConnection
@@ -182,7 +182,6 @@ public class AbstractJdbcConnection
 
     public void recycle()
     {
-        //m_lastUsed = System.currentTimeMillis(); // not accurate
         m_testException = null;
         try
         {
@@ -214,16 +213,10 @@ public class AbstractJdbcConnection
         }
 
         long age = System.currentTimeMillis() - m_lastUsed;
-// Commenting out the hour check since it was to check an hour since last use, but since the
-// last-use time is not being updated anywhere, it has turned into "all connections expire after
-// an hour"
-//        if( age > 1000 * 60 * 60 ) // over an hour?
-//        {
-//            this.dispose();
-//            return true;
-//        }
-
-        if( m_testStatement != null && age > ( 5 * 1000 ) ) // over 5 seconds ago
+        
+        // If the connection has not been used for 5 seconds, then make
+        //  sure it is still alive.
+        if ( ( m_testStatement != null ) && ( age > ( 5 * 1000 ) ) )
         {
             if( getLogger().isDebugEnabled() )
             {
@@ -249,6 +242,10 @@ public class AbstractJdbcConnection
     public void close()
             throws SQLException
     {
+        // Always mark the time the connection was placed back in the pool
+        //  as its last used time.
+        m_lastUsed = System.currentTimeMillis();
+        
         try
         {
             clearAllocatedStatements();
