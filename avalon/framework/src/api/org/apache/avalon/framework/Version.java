@@ -74,10 +74,22 @@ public final class Version
      */
     public boolean equals( final Version other )
     {
-        if( m_major != other.m_major) return false;
-        else if( m_minor != other.m_minor) return false;
-        else if( m_revision != other.m_revision ) return false;
-        else return true;
+        if( m_major != other.m_major)
+        {
+            return false;
+        }
+        else if( m_minor != other.m_minor)
+        {
+            return false;
+        }
+        else if( m_revision != other.m_revision )
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
     }
 
     /**
@@ -94,9 +106,18 @@ public final class Version
      */
     public boolean complies( final Version other )
     {
-        if( m_major != other.m_major) return false;
-        else if( m_minor < other.m_minor) return false;
-        else return true;
+        if( m_major != other.m_major)
+        {
+            return false;
+        }
+        else if( m_minor < other.m_minor)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
     }
 
     /**

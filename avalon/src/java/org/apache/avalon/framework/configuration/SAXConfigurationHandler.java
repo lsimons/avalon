@@ -7,7 +7,6 @@
  */
 package org.apache.avalon.framework.configuration;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import org.xml.sax.Attributes;
 import org.xml.sax.ErrorHandler;
@@ -51,7 +50,10 @@ public class SAXConfigurationHandler
     {
         String value = (new String( ch, start, end )).trim();
 
-        if( value.equals( "" ) ) return;
+        if( value.equals( "" ) )
+        {
+            return;
+        }
 
         final DefaultConfiguration configuration =
             (DefaultConfiguration)m_elements.get( m_elements.size() - 1 );
@@ -153,7 +155,10 @@ public class SAXConfigurationHandler
 
     protected String getLocationString()
     {
-        if( null == m_locator ) return "Unknown";
+        if( null == m_locator )
+        {
+            return "Unknown";
+        }
         else
         {
             return

@@ -9,12 +9,21 @@
     <person name="Peter Donald" email="donaldp@apache.org" id="PD"/>
   </devs>
 <release version="4.0b2" date="unreleased">
+  <action dev="BL" type="update">
+    Removed the "throws Exception" from Disposable interface.  That was
+    inadverdantly left in the previous release.
+  </action>
+  <action dev="BL" type="add">
+    Added extra methods to Parameters to throw exceptions if the value
+    does not exist.  They are the "no default value" methods.
+  </action>
   <action dev="PD" type="update">
     Updated javadocs for Framework.
   </action>
 </release>
 <release version="4.0b1" date="May 11, 2001">
-  <action dev="BL" type="add">
+  <action dev="BL" type="update">
+    Official release
   </action>
 </release>
 
