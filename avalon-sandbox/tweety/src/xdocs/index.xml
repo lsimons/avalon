@@ -2,22 +2,61 @@
 
 <document>
   <header>
-    <title>Excalibur ??? - Overview</title>
+    <title>Avalon Excalibur's Tweety - Overview</title>
     <authors>
-      <person name="????" email="???"/>
+      <person name="Leo Simons" email="leosimons@apache.org"/>
     </authors>
   </header>
   <body>
     <s1 title="Introduction">
-      <p>
-        Blah Blah
-      </p>
+		<p>Tweety is a minimalist container explicitly designed for educational purposes, and
+		educational purposes only.</p>
+
+		<p>In other words, if you want to learn the concepts behind avalon,	and see some examples
+		of how to apply them, tweety is your starting point. If you need to actually write really
+		cool components for a production environment, look elsewhere.</p>
+
+		<p>Tweety is currently in an alpha stage (though it works just fine!). You can only get
+		it from CVS at this point. Expect downloadables in two weeks or so.</p>
+
+		<note>We can use a lot of help with tweety, especially in the form of simple tweetified
+		components and documentation patches. Chirp!</note>
     </s1>
+
+	<s1 title="The available documentation">
+		<s2 title="The Tweety FAQ">
+		    <p>TBD</p>
+		</s2>
+	    <s2 title="JavaDocs">
+			<p>All of the Tweety code has complete javadocs. If you're an experienced java
+			programmer, you can probably figure out everything that happens when you invoke tweety
+			just by looking at the code.</p>
+
+			<p>The javadocs aren't available online just yet, but are easily built from the sources,
+			and can also be found in the binary release (once we create one).</p>
+		</s2>
+
+		<s2 title="Avalon for beginners">
+			<p>This is a hands-on, example-based tutorial for people that are new to avalon. It
+			will eventually migrate to the main avalon site. It introduces avalon framework and its
+			concepts, using Tweety for the example code.</p>
+
+			<p><link href="avalon-for-beginners.html">Start the tutorial</link></p>
+		</s2>
+
+		<s2 title="The Avalon Container HOWTO">
+			<p>This is a tutorial for the advanced avalon user who wants to write his own container.
+			It is assumed you are familiar with all the avalon framework definitions, interfaces,
+			and contracts.</p>
+
+			<p><link href="avalon-container-howto.html">Start the tutorial</link></p>
+		</s2>
+	</s1>
   </body>
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.1 $ $Date: 2002/06/22 15:18:13 $
+      $Revision: 1.2 $ $Date: 2002/06/27 16:57:18 $
     </legal>
   </footer>
 </document>

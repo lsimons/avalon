@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 
-<book software="Excalibur ???"
-      title="Avalon Excalibur Documentation - ???"
+<book software="Avalon Excalibur's Tweety"
+      title="Avalon Excalibur Documentation - Tweety"
       copyright="@year@ The Apache Software Foundation">
 
   <project label="Back to Avalon" href="@AVALON_BASE@" />
@@ -15,6 +15,13 @@
 
   </menu>
 
+  <menu label="Avalon for Beginners">
+	<menu-tem label="Introduction" href="avalon-for-beginners.html"/>
+  </menu>
+
+  <menu label="Avalon Container HOWTO">
+	<menu-tem label="Introduction" href="avalon-container-howto.html"/>
+  </menu>
 </book>
 
 
