@@ -41,6 +41,12 @@
     -->
 
 <release version="4.1alpha" date="unreleased">
+    <action dev="PD" type="update">
+        Add support for property expansion in Log4J configuration files. You can
+        now use propertys such as ${app.dir} and ${app.name} in the log4j logging
+        configuration. See src/test/org/apache/avalon/phoenix/components/logger/test/config3.xml
+        for a sample log4j config that uses property expansion.
+    </action>
     <action dev="PR" type="add">
         Add support for the excalibur-instrument project. An InstrumentManager is
         now part of the Phoenix kernel (a Noop version by default). Applications can
