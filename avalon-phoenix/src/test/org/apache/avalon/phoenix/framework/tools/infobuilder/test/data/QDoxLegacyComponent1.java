@@ -65,7 +65,7 @@ import org.apache.avalon.phoenix.framework.tools.infobuilder.test.data.otherpkg.
  * A simple avalon component to test QDox loading of info etc.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2003/03/22 12:07:17 $
+ * @version $Revision: 1.4 $ $Date: 2003/04/06 21:21:16 $
  * @phoenix:block
  * @phoenix:service name="org.apache.avalon.phoenix.framework.tools.infobuilder.test.data.Service1"
  * @phoenix:service name="org.apache.avalon.phoenix.framework.tools.infobuilder.test.data.otherpkg.Service2"
@@ -86,7 +86,7 @@ public class QDoxLegacyComponent1
     }
 
     /**
-     * @phoenix:configuration-schema type="relax-ng"
+     * @phoenix:configuration-schema type="http://relaxng.org/ns/structure/1.0"
      */
     public void configure( Configuration configuration )
         throws ConfigurationException
