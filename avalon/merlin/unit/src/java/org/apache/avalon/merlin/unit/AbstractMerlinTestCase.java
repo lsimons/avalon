@@ -389,6 +389,11 @@ public class AbstractMerlinTestCase extends TestCase
     */
     private File getMavenRepositoryDirectory()
     {
+        //
+        // get the ${maven.home.local} system property - this may 
+        // be null in which case to fallback to ${maven.home}
+        //
+
         final String system = System.getProperty( "maven.home.local" );
         if( system != null )
         {
@@ -396,6 +401,11 @@ public class AbstractMerlinTestCase extends TestCase
         }
         else
         {
+            //
+            // try to establish the repository relative to 
+            // ${maven.home}/repository
+            //
+
             final String home = System.getProperty( "maven.home" );
             if( home != null )
             {
@@ -403,8 +413,11 @@ public class AbstractMerlinTestCase extends TestCase
             }
             else
             {
+                // probaly unrealistic - but if we get here then there is a lot
+                // of stuff missing - return the total fallback maven repository
+
                 File user = new File( System.getProperty( "user.dir" ) );
-                return new File( user, ".merlin/system" );
+                return new File( user, ".maven/repository" );
             }
         }
     }
