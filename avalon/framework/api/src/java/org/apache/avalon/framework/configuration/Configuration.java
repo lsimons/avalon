@@ -45,6 +45,15 @@ public interface Configuration
     String getLocation();
 
     /**
+     * Return a Namespace object describing where this configuration object
+     * was intended to be.  The Namespace is relevant to XML configuration schemes,
+     * and defaults to an empty one (xmlns="").
+     *
+     * @return a Namespace object describing the namespace of the Configuration
+     */
+    Namespace getNamespace();
+
+    /**
      * Return a new <code>Configuration</code> instance encapsulating the
      * specified child node.
      *

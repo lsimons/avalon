@@ -8,6 +8,7 @@
 package org.apache.avalon.framework.configuration;
 
 import java.util.ArrayList;
+import java.util.Stack;
 import org.xml.sax.Attributes;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.Locator;
@@ -28,6 +29,7 @@ public class SAXConfigurationHandler
     private final ArrayList              m_elements        = new ArrayList();
     private Configuration                m_configuration;
     private Locator                      m_locator;
+    private Stack                        m_namespaceStack  = new Stack();
 
     public Configuration getConfiguration()
     {
@@ -43,6 +45,20 @@ public class SAXConfigurationHandler
     public void setDocumentLocator( final Locator locator )
     {
         m_locator = locator;
+    }
+
+    public void startDocument()
+        throws SAXException
+    {
+        m_namespaceStack.push(Namespace.getNamespace(null));
+        super.startDocument();
+    }
+
+    public void endDocument()
+        throws SAXException
+    {
+        super.endDocument();
+        m_namespaceStack.clear();
     }
 
     public void characters( final char[] ch, int start, int end )
@@ -86,7 +102,7 @@ public class SAXConfigurationHandler
     protected DefaultConfiguration createConfiguration( final String localName,
                                                         final String location )
     {
-        return new DefaultConfiguration( localName, location );
+        return new DefaultConfiguration( localName, location, (Namespace) this.m_namespaceStack.peek() );
     }
 
     public void startElement( final String namespaceURI,
@@ -166,5 +182,23 @@ public class SAXConfigurationHandler
                 m_locator.getLineNumber() + ":" +
                 m_locator.getColumnNumber();
         }
+    }
+
+    public void startPrefixMapping(String prefix, String uri)
+        throws SAXException
+    {
+        m_namespaceStack.push( Namespace.getNamespace( prefix, uri ) );
+        super.startPrefixMapping( prefix, uri );
+    }
+
+    public void endPrefixMapping(String prefix)
+        throws SAXException
+    {
+        Namespace ns = (Namespace) m_namespaceStack.pop();
+        if ( !( ns.getPrefix().equals( prefix ) ) )
+        {
+            throw new SAXException( "Uneven namespace mapping for prefix: " + prefix );
+        }
+        super.endPrefixMapping( prefix );
     }
 }

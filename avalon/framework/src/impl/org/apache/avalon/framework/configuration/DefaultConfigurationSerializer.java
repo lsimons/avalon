@@ -35,6 +35,7 @@ public class DefaultConfigurationSerializer
     private TransformerHandler    m_handler;
     private OutputStream          m_out;
     private Properties            m_format = new Properties();
+    private Namespace             m_currentNamespace = Namespace.getNamespace( null );
 
     /**
      * Build a ConfigurationSerializer
@@ -105,6 +106,14 @@ public class DefaultConfigurationSerializer
             }
         }
 
+        Namespace oldNamespace = null;
+        if ( m_currentNamespace != element.getNamespace() )
+        {
+            oldNamespace = m_currentNamespace;
+            m_currentNamespace = element.getNamespace();
+            this.m_handler.startPrefixMapping( m_currentNamespace.getPrefix(), m_currentNamespace.getURI() );
+        }
+
         this.m_handler.startElement("", element.getName(), element.getName(), attr);
         String value = element.getValue(null);
 
@@ -123,6 +132,12 @@ public class DefaultConfigurationSerializer
         }
 
         this.m_handler.endElement("", element.getName(), element.getName());
+
+        if ( null != oldNamespace )
+        {
+            this.m_handler.endPrefixMapping( m_currentNamespace.getPrefix() );
+            m_currentNamespace = oldNamespace;
+        }
     }
 
     /**
