@@ -163,25 +163,12 @@ class ConnectionRunner
             m_thread = Thread.currentThread();
             m_runners.add( this );
 
-            if( getLogger().isDebugEnabled() )
-            {
-                final String message =
-                    "Starting connection on " +
-                    m_socket.getInetAddress().getHostAddress();
-                getLogger().debug( message );
-            }
+            debugBanner( true );
 
             handler = m_handlerFactory.createConnectionHandler();
             handler.handleConnection( m_socket );
 
-            if( getLogger().isDebugEnabled() )
-            {
-                final String message =
-                    "Ending connection on " +
-                    m_socket.getInetAddress().getHostAddress();
-                getLogger().debug( message );
-            }
-
+            debugBanner( false );
         }
         catch( final Exception e )
         {
@@ -204,6 +191,24 @@ class ConnectionRunner
 
                 notifyAll();
             }
+        }
+    }
+
+    /**
+     * Print out debug banner indicating that handling of a connection
+     * is starting or ending.
+     *
+     * @param starting true if starting, false othrewise
+     */
+    private void debugBanner( final boolean starting )
+    {
+        if( getLogger().isDebugEnabled() )
+        {
+            final String prefix = ( starting ) ? "Starting" : "Ending";
+            final String message =
+                prefix + " connection on " +
+                m_socket.getInetAddress().getHostAddress();
+            getLogger().debug( message );
         }
     }
 
