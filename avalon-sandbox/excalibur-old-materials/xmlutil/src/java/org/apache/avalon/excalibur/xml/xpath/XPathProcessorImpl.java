@@ -1,10 +1,10 @@
-/*****************************************************************************
- * Copyright (C) The Apache Software Foundation. All rights reserved.        *
- * ------------------------------------------------------------------------- *
- * This software is published under the terms of the Apache Software License *
- * version 1.1, a copy of which has been included  with this distribution in *
- * the LICENSE.txt file.                                                         *
- *****************************************************************************/
+/*
+ * Copyright (C) The Apache Software Foundation. All rights reserved.
+ *
+ * This software is published under the terms of the Apache Software License
+ * version 1.1, a copy of which has been included  with this distribution in
+ * the LICENSE.txt file.
+ */
 package org.apache.avalon.excalibur.xml.xpath;
 
 import org.apache.avalon.framework.logger.AbstractLoggable;
@@ -12,6 +12,7 @@ import org.apache.avalon.framework.thread.ThreadSafe;
 import org.apache.xpath.XPathAPI;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import javax.xml.transform.TransformerException;
 
 /**
  * This class defines the implementation of the {@link XPathProcessor}
@@ -26,7 +27,7 @@ import org.w3c.dom.NodeList;
  * </pre>
  *
  * @author <a href="mailto:dims@yahoo.com">Davanum Srinivas</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/04/22 10:06:05 $ $Author: cziegeler $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/07/07 06:24:16 $ $Author: donaldp $
  */
 public class XPathProcessorImpl
     extends AbstractLoggable
@@ -41,13 +42,14 @@ public class XPathProcessorImpl
      * @param str A valid XPath string.
      * @return The first node found that matches the XPath, or null.
      */
-    public Node selectSingleNode( Node contextNode, String str )
+    public Node selectSingleNode( final Node contextNode,
+                                  final String str )
     {
         try
         {
             return XPathAPI.selectSingleNode( contextNode, str );
         }
-        catch( javax.xml.transform.TransformerException e )
+        catch( final TransformerException te )
         {
             return null;
         }
@@ -61,26 +63,16 @@ public class XPathProcessorImpl
      *  @param str A valid XPath string.
      *  @return A NodeList, should never be null.
      */
-    public NodeList selectNodeList( Node contextNode, String str )
+    public NodeList selectNodeList( final Node contextNode,
+                                    final String str )
     {
         try
         {
             return XPathAPI.selectNodeList( contextNode, str );
         }
-        catch( javax.xml.transform.TransformerException e )
+        catch( final TransformerException te )
         {
-            return new NodeList()
-            {
-                public Node item( int index )
-                {
-                    return null;
-                }
-
-                public int getLength()
-                {
-                    return 0;
-                }
-            };
+            return new EmptyNodeList();
         }
     }
 }
