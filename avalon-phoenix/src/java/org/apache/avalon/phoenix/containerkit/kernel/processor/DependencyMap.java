@@ -14,7 +14,7 @@ import org.apache.avalon.phoenix.framework.info.DependencyDescriptor;
 import org.apache.avalon.phoenix.containerkit.kernel.ComponentStore;
 import org.apache.avalon.phoenix.containerkit.metadata.ComponentMetaData;
 import org.apache.avalon.phoenix.containerkit.metadata.DependencyMetaData;
-import org.apache.avalon.phoenix.containerkit.registry.ComponentProfile;
+import org.apache.avalon.phoenix.containerkit.profile.ComponentProfile;
 
 /**
  * Utility class to help aquire a ordered graph of
@@ -22,7 +22,7 @@ import org.apache.avalon.phoenix.containerkit.registry.ComponentProfile;
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.2 $ $Date: 2003/03/01 03:39:46 $
+ * @version $Revision: 1.3 $ $Date: 2003/03/01 08:39:15 $
  */
 public class DependencyMap
 {

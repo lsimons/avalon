@@ -19,7 +19,7 @@ import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.phoenix.containerkit.lifecycle.ResourceProvider;
 import org.apache.avalon.phoenix.containerkit.metadata.ComponentMetaData;
-import org.apache.avalon.phoenix.containerkit.registry.ComponentProfile;
+import org.apache.avalon.phoenix.containerkit.profile.ComponentProfile;
 import org.apache.avalon.phoenix.interfaces.ApplicationContext;
 
 /**
@@ -27,7 +27,7 @@ import org.apache.avalon.phoenix.interfaces.ApplicationContext;
  * Block or Listener.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.7 $ $Date: 2003/02/22 04:03:25 $
+ * @version $Revision: 1.8 $ $Date: 2003/03/01 08:39:14 $
  */
 class ListenerResourceProvider
     extends AbstractLogEnabled

@@ -5,7 +5,7 @@
  * version 1.1, a copy of which has been included  with this distribution in
  * the LICENSE.txt file.
  */
-package org.apache.avalon.phoenix.containerkit.registry;
+package org.apache.avalon.phoenix.containerkit.profile;
 
 import org.apache.avalon.phoenix.containerkit.metadata.PartitionMetaData;
 
@@ -16,7 +16,7 @@ import org.apache.avalon.phoenix.containerkit.metadata.PartitionMetaData;
  * objects.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003/01/18 16:43:44 $
+ * @version $Revision: 1.1 $ $Date: 2003/03/01 08:39:15 $
  */
 public class PartitionProfile
 {

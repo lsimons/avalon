@@ -10,7 +10,7 @@ package org.apache.avalon.phoenix.interfaces;
 import java.io.File;
 import java.util.Map;
 import org.apache.avalon.framework.logger.Logger;
-import org.apache.avalon.phoenix.containerkit.registry.PartitionProfile;
+import org.apache.avalon.phoenix.containerkit.profile.PartitionProfile;
 
 /**
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>

@@ -7,9 +7,9 @@
  */
 package org.apache.avalon.phoenix.components.deployer;
 
-import org.apache.avalon.phoenix.containerkit.registry.ProfileBuilder;
-import org.apache.avalon.phoenix.containerkit.registry.PartitionProfile;
-import org.apache.avalon.phoenix.containerkit.registry.ComponentProfile;
+import org.apache.avalon.phoenix.containerkit.profile.ProfileBuilder;
+import org.apache.avalon.phoenix.containerkit.profile.PartitionProfile;
+import org.apache.avalon.phoenix.containerkit.profile.ComponentProfile;
 import org.apache.avalon.phoenix.containerkit.metadata.PartitionMetaData;
 import org.apache.avalon.phoenix.containerkit.metadata.ComponentMetaData;
 import org.apache.avalon.phoenix.containerkit.factory.ComponentFactory;
@@ -26,7 +26,7 @@ import java.util.ArrayList;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003/03/01 03:39:45 $
+ * @version $Revision: 1.3 $ $Date: 2003/03/01 08:39:14 $
  */
 public class PhoenixProfileBuilder
     extends AbstractLogEnabled

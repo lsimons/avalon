@@ -15,14 +15,14 @@ import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.logger.ConsoleLogger;
 import org.apache.avalon.phoenix.components.ContainerConstants;
 import org.apache.avalon.phoenix.components.deployer.PhoenixProfileBuilder;
-import org.apache.avalon.phoenix.containerkit.registry.PartitionProfile;
+import org.apache.avalon.phoenix.containerkit.profile.PartitionProfile;
 import org.apache.avalon.phoenix.tools.configuration.ConfigurationBuilder;
 
 /**
  * Abstract class which TestCases can extend.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.4 $ $Date: 2003/03/01 01:07:44 $
+ * @version $Revision: 1.5 $ $Date: 2003/03/01 08:39:15 $
  */
 public class AbstractContainerTestCase
     extends TestCase

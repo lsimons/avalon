@@ -14,14 +14,14 @@ import org.apache.avalon.framework.CascadingException;
 import org.apache.avalon.phoenix.framework.info.ServiceDescriptor;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.phoenix.framework.tools.infobuilder.LegacyUtil;
-import org.apache.avalon.phoenix.containerkit.registry.ComponentProfile;
+import org.apache.avalon.phoenix.containerkit.profile.ComponentProfile;
 import org.apache.avalon.phoenix.interfaces.ApplicationContext;
 
 /**
  * Utility class to help with exporting Blocks to management subsystem.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.6 $ $Date: 2003/03/01 03:39:45 $
+ * @version $Revision: 1.7 $ $Date: 2003/03/01 08:39:14 $
  */
 class ExportHelper
     extends AbstractLogEnabled

@@ -29,7 +29,7 @@ import org.apache.avalon.framework.service.DefaultServiceManager;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.phoenix.containerkit.lifecycle.ResourceProvider;
 import org.apache.avalon.phoenix.containerkit.metadata.DependencyMetaData;
-import org.apache.avalon.phoenix.containerkit.registry.ComponentProfile;
+import org.apache.avalon.phoenix.containerkit.profile.ComponentProfile;
 import org.apache.avalon.phoenix.interfaces.Application;
 import org.apache.avalon.phoenix.interfaces.ApplicationContext;
 
@@ -38,7 +38,7 @@ import org.apache.avalon.phoenix.interfaces.ApplicationContext;
  * Block or Listener.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.16 $ $Date: 2003/03/01 03:39:45 $
+ * @version $Revision: 1.17 $ $Date: 2003/03/01 08:39:14 $
  */
 class BlockResourceProvider
     extends AbstractLogEnabled

@@ -24,7 +24,7 @@ import org.apache.avalon.phoenix.containerkit.kernel.processor.DependencyMap;
 import org.apache.avalon.phoenix.containerkit.lifecycle.LifecycleHelper;
 import org.apache.avalon.phoenix.containerkit.lifecycle.ResourceProvider;
 import org.apache.avalon.phoenix.containerkit.metadata.ComponentMetaData;
-import org.apache.avalon.phoenix.containerkit.registry.ComponentProfile;
+import org.apache.avalon.phoenix.containerkit.profile.ComponentProfile;
 
 /**
  * The <code>AbstractServiceKernel</code> defines an application scope through
@@ -33,7 +33,7 @@ import org.apache.avalon.phoenix.containerkit.registry.ComponentProfile;
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.4 $ $Date: 2003/03/01 03:39:46 $
+ * @version $Revision: 1.5 $ $Date: 2003/03/01 08:39:15 $
  */
 public abstract class AbstractServiceKernel
     extends AbstractLogEnabled

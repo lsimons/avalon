@@ -9,14 +9,14 @@ package org.apache.avalon.phoenix.components.application.test;
 
 import org.apache.avalon.framework.logger.ConsoleLogger;
 import org.apache.avalon.phoenix.components.application.DefaultApplication;
-import org.apache.avalon.phoenix.containerkit.registry.PartitionProfile;
+import org.apache.avalon.phoenix.containerkit.profile.PartitionProfile;
 import org.apache.avalon.phoenix.test.AbstractContainerTestCase;
 
 /**
  *  An basic test case for the LogManager.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2003/02/28 23:48:16 $
+ * @version $Revision: 1.4 $ $Date: 2003/03/01 08:39:15 $
  */
 public class ApplicationTestCase
     extends AbstractContainerTestCase
