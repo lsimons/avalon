@@ -84,12 +84,14 @@ import org.apache.avalon.composition.model.ModelFactory;
 import org.apache.avalon.composition.model.SystemContext;
 import org.apache.avalon.composition.model.ClassLoaderContext;
 import org.apache.avalon.composition.model.ClassLoaderModel;
+import org.apache.avalon.composition.model.ModelRepository;
 import org.apache.avalon.composition.model.impl.DefaultSystemContext;
 import org.apache.avalon.composition.model.impl.DefaultModelFactory;
 import org.apache.avalon.composition.model.impl.DefaultContainmentContext;
 import org.apache.avalon.composition.model.impl.DefaultContainmentModel;
 import org.apache.avalon.composition.model.impl.DefaultClassLoaderModel;
 import org.apache.avalon.composition.model.impl.DefaultClassLoaderContext;
+import org.apache.avalon.composition.model.impl.DefaultModelRepository;
 import org.apache.avalon.composition.util.StringHelper;
 
 import org.apache.avalon.excalibur.i18n.ResourceManager;
@@ -393,9 +395,6 @@ public class DefaultFactory implements Factory
 
         final Logger systemLogger = getLogger();
 
-        //ClassLoader impl = 
-        //  Thread.currentThread().getContextClassLoader();
-
         ContainmentModel system = 
           new DefaultContainmentModel(
             createContainmentContext( 
@@ -596,7 +595,7 @@ public class DefaultFactory implements Factory
     }
 
    /**
-    * Creation of a new containment context.
+    * Creation of a new root containment context.
     *
     * @param profile a containment profile 
     * @return the containment context
@@ -624,9 +623,9 @@ public class DefaultFactory implements Factory
           logger, 
           context, 
           classLoaderModel,
+          null,
           profile );
     }
-
 
     private ContainmentProfile getContainmentProfile( Configuration config )
       throws KernelException

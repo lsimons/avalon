@@ -66,9 +66,9 @@ import org.apache.avalon.meta.info.StageDescriptor;
  * context.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.9 $ $Date: 2003/12/29 14:31:21 $
+ * @version $Revision: 1.9.2.1 $ $Date: 2004/01/03 15:38:50 $
  */
-public interface ContainmentModel extends Model
+public interface ContainmentModel extends Model, Composite
 {
     public static String SEPERATOR = "/";
 

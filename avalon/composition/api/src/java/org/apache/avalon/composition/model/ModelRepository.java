@@ -50,35 +50,70 @@
 
 package org.apache.avalon.composition.model;
 
+import org.apache.avalon.meta.info.DependencyDescriptor;
+import org.apache.avalon.meta.info.StageDescriptor;
+
 /**
- * Exception raised in response to a model assembly failure.
+ * The model repository interface declares operations through which 
+ * clients may resolve new or existing model instances relative to
+ * a stage or service dependency.
  *
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.1.2.2 $ $Date: 2004/01/03 15:38:50 $
+ * @version $Revision: 1.1.2.1 $ $Date: 2004/01/03 15:38:50 $
  */
-public final class AssemblyException
-        extends ModelException
+public interface ModelRepository
 {
+    /**
+     * Locate an model matching the supplied name.
+     *
+     * @param name the model name
+     * @return the model or null if the model name is unknown
+     */
+    Model getModel( String name );
 
     /**
-     * Construct a new <code>AssemblyException</code> instance.
+     * Locate a model meeting the supplied criteria.
      *
-     * @param message The detail message for this exception.
+     * @param dependency a component service dependency
+     * @return the model
      */
-    public AssemblyException( final String message )
-    {
-        this( message, null );
-    }
+    Model getModel( DependencyDescriptor dependency );
 
     /**
-     * Construct a new <code>AssemblyException</code> instance.
+     * Locate a model meeting the supplied criteria.
      *
-     * @param message The detail message for this exception.
-     * @param throwable the root cause of the exception
+     * @param stage a component stage dependency
+     * @return the model
      */
-    public AssemblyException( final String message, final Throwable throwable )
-    {
-        super( message, throwable );
-    }
+    Model getModel( StageDescriptor stage );
+
+    /**
+     * Add an model to the repository.
+     *
+     * @param model the model to add
+     */
+    void addModel( Model model );
+
+    /**
+     * Add an model to the repository.
+     *
+     * @param the name to register the model under
+     * @param model the model to add
+     */
+    void addModel( String name, Model model );
+
+    /**
+     * Remove an model from the repository.
+     *
+     * @param model the model to remove
+     */
+    void removeModel( Model model );
+
+    /**
+     * Locate an model meeting the supplied criteria.
+     *
+     * @return the model
+     */
+    public Model[] getModels();
+
 }
-

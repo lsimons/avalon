@@ -54,10 +54,12 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Properties;
 
+import org.apache.avalon.composition.model.AssemblyException;
 import org.apache.avalon.composition.model.ContextModel;
 import org.apache.avalon.composition.model.DependencyModel;
 import org.apache.avalon.composition.model.DeploymentModel;
 import org.apache.avalon.composition.model.DeploymentContext;
+import org.apache.avalon.composition.model.Model;
 import org.apache.avalon.composition.model.ModelException;
 import org.apache.avalon.composition.model.SystemContext;
 import org.apache.avalon.composition.model.StageModel;
@@ -86,13 +88,13 @@ import org.apache.excalibur.configuration.CascadingConfiguration;
  * Deployment model defintion.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.9 $ $Date: 2003/12/14 14:09:59 $
+ * @version $Revision: 1.9.2.1 $ $Date: 2004/01/03 15:38:50 $
  */
 public class DefaultDeploymentModel extends DefaultModel implements DeploymentModel
 {
-    //==============================================================
+    //--------------------------------------------------------------
     // static
-    //==============================================================
+    //--------------------------------------------------------------
 
     private static final Resources REZ =
             ResourceManager.getPackageResources( DefaultDeploymentModel.class );
@@ -104,9 +106,9 @@ public class DefaultDeploymentModel extends DefaultModel implements DeploymentMo
       new DefaultConfiguration( 
         "configuration", DeploymentModel.class.getName() );
 
-    //==============================================================
+    //--------------------------------------------------------------
     // immutable state
-    //==============================================================
+    //--------------------------------------------------------------
 
     private final DeploymentContext m_context;
 
@@ -118,9 +120,11 @@ public class DefaultDeploymentModel extends DefaultModel implements DeploymentMo
 
     private final StageModel[] m_stages;
 
-    //==============================================================
+    private final DefaultState m_assembly = new DefaultState();
+
+    //--------------------------------------------------------------
     // mutable state
-    //==============================================================
+    //--------------------------------------------------------------
 
     private CategoriesDirective m_categories;
 
@@ -132,9 +136,9 @@ public class DefaultDeploymentModel extends DefaultModel implements DeploymentMo
 
     private int m_collection;
 
-    //==============================================================
+    //--------------------------------------------------------------
     // constructor
-    //==============================================================
+    //--------------------------------------------------------------
 
    /**
     * Creation of a new deployment model.
@@ -249,9 +253,72 @@ public class DefaultDeploymentModel extends DefaultModel implements DeploymentMo
         }
     }
 
-    //==============================================================
+    //--------------------------------------------------------------
+    // Composite
+    //--------------------------------------------------------------
+
+    /**
+     * Returns the assembled state of the model.
+     * @return true if this model is assembled
+     */
+    public boolean isAssembled()
+    {
+        return m_assembly.isEnabled();
+    }
+
+    /**
+     * Assemble the model.
+     * @exception Exception if an error occurs during model assembly
+     */
+    public void assemble() throws AssemblyException
+    {
+        synchronized( m_assembly )
+        {
+            if( isAssembled() )
+            {
+                return;
+            }
+
+            m_assembly.setEnabled( true );
+        }
+    }
+
+    /**
+     * Disassemble the model.
+     */
+    public void disassemble()
+    {
+        synchronized( m_assembly )
+        {
+            if( !isAssembled() )
+            {
+                return;
+            }
+
+            m_assembly.setEnabled( false );
+        }
+    }
+
+    /**
+     * Return the set of models assigned as providers.
+     * @return the providers consumed by the model
+     * @exception IllegalStateException if the model is not in an assembled state 
+     */
+    public Model[] getProviders()
+    {
+        if( !isAssembled() ) 
+        {
+             final String error = 
+               "Model is not assembled.";
+             throw new IllegalStateException( error );
+        }
+
+        return new Model[0];
+    }
+
+    //--------------------------------------------------------------
     // Model
-    //==============================================================
+    //--------------------------------------------------------------
 
    /**
     * Return the set of services produced by the model.

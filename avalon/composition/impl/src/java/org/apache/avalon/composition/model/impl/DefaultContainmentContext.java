@@ -55,6 +55,7 @@ import java.io.File;
 import org.apache.avalon.composition.model.SystemContext;
 import org.apache.avalon.composition.model.ContainmentContext;
 import org.apache.avalon.composition.model.ClassLoaderModel;
+import org.apache.avalon.composition.model.ModelRepository;
 import org.apache.avalon.framework.context.DefaultContext;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
@@ -66,7 +67,7 @@ import org.apache.avalon.composition.data.ContainmentProfile;
  * Implementation of a system context that exposes a system wide set of parameters.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2003/10/28 20:21:00 $
+ * @version $Revision: 1.2.2.1 $ $Date: 2004/01/03 15:38:50 $
  */
 public class DefaultContainmentContext extends DefaultContext 
   implements ContainmentContext
@@ -98,6 +99,8 @@ public class DefaultContainmentContext extends DefaultContext
 
     private final String m_name;
 
+    private final ModelRepository m_repository;
+
     //==============================================================
     // constructor
     //==============================================================
@@ -112,9 +115,9 @@ public class DefaultContainmentContext extends DefaultContext
     */
     public DefaultContainmentContext( 
       Logger logger, SystemContext system, ClassLoaderModel model, 
-      ContainmentProfile profile )
+      ModelRepository repository, ContainmentProfile profile )
     {
-        this( logger, system, model, 
+        this( logger, system, model, repository,
           system.getHomeDirectory(), system.getTempDirectory(), 
           profile, null, "" );
     }
@@ -125,6 +128,7 @@ public class DefaultContainmentContext extends DefaultContext
     * @param logger the logging channel to assign
     * @param system the system context
     * @param model the classloader model
+    * @param repository the parent model repository
     * @param home the directory for the container
     * @param temp a temporary directory for the container
     * @param profile the containment profile
@@ -133,7 +137,7 @@ public class DefaultContainmentContext extends DefaultContext
     * @param name the assigned containment context name
     */
     public DefaultContainmentContext( 
-      Logger logger, SystemContext system, ClassLoaderModel model, 
+      Logger logger, SystemContext system, ClassLoaderModel model, ModelRepository repository,
       File home, File temp, ContainmentProfile profile, String partition, String name )
     {
         if( logger == null )
@@ -176,6 +180,7 @@ public class DefaultContainmentContext extends DefaultContext
             throw new IllegalArgumentException( error );
         }
 
+        m_repository = new DefaultModelRepository( repository, logger );
         m_logger = logger;
         m_system = system;
         m_model = model;
@@ -264,6 +269,16 @@ public class DefaultContainmentContext extends DefaultContext
     }
 
    /**
+    * Return the model repository.
+    *
+    * @return the model repository
+    */
+    public ModelRepository getModelRepository()
+    {
+        return m_repository;
+    }
+
+   /**
     * Return the containment classloader model.
     *
     * @return the classloader model
@@ -275,7 +290,8 @@ public class DefaultContainmentContext extends DefaultContext
 
    /**
     * Return the containment classloader.  This method is a 
-    * convinience operation equivalent to getClassLoaderModel().getClassLoader(); 
+    * convinience operation equivalent to 
+    * getClassLoaderModel().getClassLoader(); 
     *
     * @return the classloader
     */
