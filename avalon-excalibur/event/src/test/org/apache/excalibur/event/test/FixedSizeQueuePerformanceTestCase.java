@@ -15,16 +15,22 @@ import org.apache.avalon.excalibur.event.FixedSizeQueue;
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  */
-public final class FixedSizeQueueTestCase extends AbstractQueueTestCase
+public final class FixedSizeQueuePerformanceTestCase extends AbstractQueueTestCase
 {
-    public FixedSizeQueueTestCase( String name )
+    public FixedSizeQueuePerformanceTestCase( String name )
     {
         super( name );
     }
 
-    public void testFixedSizeQueue()
+    public void testMillionIterationOneElement()
         throws Exception
     {
-        this.performQueue( new FixedSizeQueue( 32 ) );
+        this.performMillionIterationOneElement( new FixedSizeQueue( 32 ) );
+    }
+
+    public void testMillionIterationTenElements()
+        throws Exception
+    {
+        this.performMillionIterationTenElements( new FixedSizeQueue( 32 ) );
     }
 }

@@ -8,23 +8,29 @@
 package org.apache.avalon.excalibur.event.test;
 
 import junit.framework.TestCase;
-import org.apache.avalon.excalibur.event.FixedSizeQueue;
+import org.apache.avalon.excalibur.event.DefaultQueue;
 
 /**
  * The default queue implementation is a variabl size queue.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  */
-public final class FixedSizeQueueTestCase extends AbstractQueueTestCase
+public final class DefaultQueuePerformanceQueueTestCase extends AbstractQueueTestCase
 {
-    public FixedSizeQueueTestCase( String name )
+    public DefaultQueuePerformanceQueueTestCase( String name )
     {
         super( name );
     }
 
-    public void testFixedSizeQueue()
+    public void testMillionIterationOneElement()
         throws Exception
     {
-        this.performQueue( new FixedSizeQueue( 32 ) );
+        this.performMillionIterationOneElement( new DefaultQueue() );
+    }
+
+    public void testMillionIterationTenElements()
+        throws Exception
+    {
+        this.performMillionIterationTenElements( new DefaultQueue() );
     }
 }

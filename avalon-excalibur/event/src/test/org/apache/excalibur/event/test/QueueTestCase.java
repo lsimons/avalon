@@ -22,18 +22,6 @@ public final class QueueTestCase extends AbstractQueueTestCase
         super( name );
     }
 
-    public void testMillionIterationOneElement()
-        throws Exception
-    {
-        this.performMillionIterationOneElement( new DefaultQueue() );
-    }
-
-    public void testMillionIterationTenElements()
-        throws Exception
-    {
-        this.performMillionIterationTenElements( new DefaultQueue() );
-    }
-
     public void testDefaultQueue()
         throws Exception
     {

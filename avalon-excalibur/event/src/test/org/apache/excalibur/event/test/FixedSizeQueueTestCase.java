@@ -22,18 +22,6 @@ public final class FixedSizeQueueTestCase extends AbstractQueueTestCase
         super( name );
     }
 
-    public void testMillionIterationOneElement()
-        throws Exception
-    {
-        this.performMillionIterationOneElement( new FixedSizeQueue( 32 ) );
-    }
-
-    public void testMillionIterationTenElements()
-        throws Exception
-    {
-        this.performMillionIterationTenElements( new FixedSizeQueue( 32 ) );
-    }
-
     public void testFixedSizeQueue()
         throws Exception
     {
