@@ -30,24 +30,24 @@
     </dependency>
 
     <dependency>
-      <groupId>avalon-logging</groupId>
-      <artifactId>avalon-logging-impl</artifactId>
-      <version>1.0-SNAPSHOT</version>
+      <groupId>&avalon-logging-id;</groupId>
+      <artifactId>&avalon-logging-api-id;</artifactId>
+      <version>&avalon-logging-api-version;</version>
     </dependency>
     <dependency>
-      <groupId>avalon-logging</groupId>
-      <artifactId>avalon-logkit-api</artifactId>
-      <version>1.0-SNAPSHOT</version>
+      <groupId>&avalon-logging-id;</groupId>
+      <artifactId>&avalon-logging-impl-id;</artifactId>
+      <version>&avalon-logging-impl-version;</version>
     </dependency>
     <dependency>
-      <groupId>avalon-logging</groupId>
-      <artifactId>avalon-logkit-impl</artifactId>
-      <version>1.0-SNAPSHOT</version>
+      <groupId>&avalon-logging-id;</groupId>
+      <artifactId>&avalon-logging-logkit-impl-id;</artifactId>
+      <version>&avalon-logging-logkit-impl-version;</version>
     </dependency>
     <dependency>
-      <groupId>logkit</groupId>
-      <artifactId>logkit</artifactId>
-      <version>2.0</version>
+      <groupId>&avalon-logkit-group;</groupId>
+      <artifactId>&avalon-logkit-id;</artifactId>
+      <version>&avalon-logkit-version;</version>
     </dependency>
   </dependencies>
 

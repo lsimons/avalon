@@ -151,17 +151,17 @@ Merlin service management platform.
     </dependency>
 
     <dependency>
-      <groupId>avalon-logging</groupId>
-      <artifactId>avalon-logging-api</artifactId>
-      <version>1.0-SNAPSHOT</version>
+      <groupId>&avalon-logging-id;</groupId>
+      <artifactId>&avalon-logging-api-id;</artifactId>
+      <version>&avalon-logging-api-version;</version>
       <properties>
         <avalon.classloader>api</avalon.classloader>
       </properties>
     </dependency>
     <dependency>
-      <groupId>avalon-logging</groupId>
-      <artifactId>avalon-logging-spi</artifactId>
-      <version>1.0-SNAPSHOT</version>
+      <groupId>&avalon-logging-id;</groupId>
+      <artifactId>&avalon-logging-spi-id;</artifactId>
+      <version>&avalon-logging-spi-version;</version>
       <properties>
         <avalon.classloader>spi</avalon.classloader>
       </properties>
@@ -177,6 +177,7 @@ Merlin service management platform.
         <avalon.classloader>api</avalon.classloader>
       </properties>
     </dependency>
+
     <dependency>
       <id>excalibur-configuration</id>
       <version>1.2</version>
@@ -192,6 +193,7 @@ Merlin service management platform.
         <avalon.classloader>api</avalon.classloader>
       </properties>
     </dependency>
+
     <dependency>
       <groupId>xml-apis</groupId>
       <artifactId>xmlParserAPIs</artifactId>
@@ -200,6 +202,7 @@ Merlin service management platform.
         <avalon.classloader>api</avalon.classloader>
       </properties>
     </dependency>
+
     <dependency>
       <groupId>xerces</groupId>
       <artifactId>xerces</artifactId>

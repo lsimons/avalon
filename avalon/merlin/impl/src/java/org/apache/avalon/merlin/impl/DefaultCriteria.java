@@ -47,7 +47,7 @@ import org.apache.avalon.util.criteria.PackedParameter;
  * for application to a factory.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.32 $
+ * @version $Revision: 1.33 $
  */
 public class DefaultCriteria extends Criteria implements KernelCriteria
 {
@@ -419,6 +419,7 @@ public class DefaultCriteria extends Criteria implements KernelCriteria
     public URL getLoggingConfiguration()
     {
         String path = (String) get( MERLIN_LOGGING_CONFIG );
+        if( null == path ) return null;
         File base = getWorkingDirectory();
         return resolveURL( base, path );
     }

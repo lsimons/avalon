@@ -63,7 +63,7 @@ public abstract class AbstractTestCase extends TestCase
       new File( System.getProperty( "basedir" ) );
 
     public static final File SYS_CONF = 
-      new File( BASEDIR, "src/test/conf/system/kernel.xml" );
+      new File( BASEDIR, "target/test-classes/system/kernel.xml" );
 
     private static final XMLSecurityProfileBuilder SECURITY_BUILDER = 
       new XMLSecurityProfileBuilder();

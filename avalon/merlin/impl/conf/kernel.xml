@@ -3,7 +3,7 @@
 <kernel>
 
   <system>
-    <artifact spec="avalon-logging/avalon-logkit-impl#1.0-SNAPSHOT"/>
+    <artifact spec="@AVALON-LOGGING-LOGKIT-SPEC@"/>
   </system>
 
   <security>
