@@ -32,7 +32,7 @@ import java.io.File;
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
-public class BarTask extends AbstractDeliverableTask
+public class BarTask extends SystemTask
 {
     public static final String BAR_EXT = "bar";
 
@@ -70,8 +70,8 @@ public class BarTask extends AbstractDeliverableTask
             final boolean modified = bar( def, deliverables, bar );
             if( modified )
             {
-                checksum( bar );
-                asc( bar );
+                DeliverableHelper.checksum( this, bar );
+                DeliverableHelper.asc( getHome(), this, bar );
             }
         }
     }

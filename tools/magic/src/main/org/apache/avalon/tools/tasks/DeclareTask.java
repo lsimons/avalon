@@ -71,6 +71,10 @@ public class DeclareTask extends SystemTask
             {
                 closeStream( output );
             }
+
+            DeliverableHelper.checksum( this, file );
+            DeliverableHelper.asc( getHome(), this, file );
+
         }
         catch( Throwable e )
         {
