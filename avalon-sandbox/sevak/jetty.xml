@@ -166,6 +166,19 @@
           <include name="org.mortbay.jetty-jdk1.2.jar"/>
           <include name="org.mortbay.jmx.jar"/>          
       </lib>      
+
+      <lib dir="jetty-download/Jetty-${jetty.rel}/Jetty-${jetty.rel}/ext">
+          <include name="ant.jar"/>
+      </lib>      
+      
+      <zipfileset dir="jetty-download/Jetty-${jetty.rel}/Jetty-${jetty.rel}/ext" prefix="jsplibs">
+          <include name="jasper-compiler.jar"/>
+          <include name="jasper-runtime.jar"/>
+      </zipfileset>
+
+      <zipfileset dir="${jetty.jars.dir}" prefix="jsplibs">
+          <include name="javax.servlet.jar"/>
+      </zipfileset>
            
       <zipfileset dir="${build.lib}">
         <include name="sevak-demo.war"/>
