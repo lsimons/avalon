@@ -19,16 +19,12 @@
 
 <project>
 
- <title>Avalon Central</title>
+ <title>Apache Avalon Central</title>
 
  <body>
     <menu>
-      <item name="Init" href="init.html"/>
-      <item name="Javac" href="javac.html"/>
-      <item name="Jar" href="jar.html"/>
-      <item name="Bar" href="bar.html"/>
-      <item name="Junit" href="junit.html"/>
-      <item name="Install" href="install.html"/>
+      <item name="Standard" href="standard.html"/>
+      <item name="Reactor" href="reactor.html"/>
     </menu>
  </body>
 

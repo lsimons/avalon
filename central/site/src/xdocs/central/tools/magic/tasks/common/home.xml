@@ -35,6 +35,10 @@
   <x:home/>
 ]]></source>
 
+<pre>
+   [x:home] Building system definition.
+</pre>
+
       <subsection name="Property Loading">
 
       <p>
@@ -123,8 +127,25 @@
 ]]></source>
 
       <p>
-      If the index attribute is not declared and ${project.home} 
-      is undefined, a build failure will occur.  
+      A recommended approach is to define ${project.system}
+      and ${project.name} under a build.properties file and 
+      use a template build file that includes home establishment
+      and magic related targets as shown below.
+      </p>
+
+<source><![CDATA[
+<project name="avalon-tutorial-hello" 
+    default="install" basedir="." 
+    xmlns:x="antlib:org.apache.avalon.tools">
+
+  <property file="build.properties"/>
+  <import file="${project.system}/build/standard.xml"/>
+
+</project>
+]]></source>
+
+      <p>
+      If ${project.system} is unresolvable a build failure will occur.  
       </p>
 
       </subsection>

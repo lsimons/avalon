@@ -15,13 +15,13 @@
     <x:clean/>
 ]]></source>
 
-      <p><i>Typical output of the clean task:</i></p>
+      <p><i>Example output of the clean task:</i></p>
 
-<source><![CDATA[
+<pre>
 clean:
   [x:clean] removing target directory
    [delete] Deleting directory F:\dev\avalon\planet\tutorials\hello\target
-]]></source>
+</pre>
     </section>
   </body>
 
