@@ -244,7 +244,7 @@
         </jar>
 
         <jar jarfile="${build.lib}/${manager-interfaces.name}.jar"
-            basedir="${build.classes}"
+            basedir="${build.manager.classes}"
             compress="${build.compress}">
             <include name="**/interfaces/**"/>
             <exclude name="**/test/**"/>
