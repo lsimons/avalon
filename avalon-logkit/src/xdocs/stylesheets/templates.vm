@@ -256,7 +256,7 @@
 	#set ($authors = $root.getChild("properties").getChildren("author"))
 	#foreach ( $au in $authors )
  #if( $velocityCount == 1 )by #end
- #if( $velocityCount != 1 ),#end <a href="$au.getAttributeValue("email")">$au.getText()</a>
+ #if( $velocityCount != 1 ),#end <a href="email:$au.getAttributeValue("email")">$au.getText()</a>
 	#end
 	</div>
 #end
