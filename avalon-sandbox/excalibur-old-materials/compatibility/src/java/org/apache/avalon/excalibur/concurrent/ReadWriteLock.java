@@ -63,7 +63,7 @@ package org.apache.avalon.excalibur.concurrent;
  * @deprecated use EDU.oswego.cs.dl.util.concurrent.ReadWriteLock instead
  *
  * @author <a href="mailto:leo.sutic@inspireinfrastructure.com">Leo Sutic</a>
- * @version CVS $Revision: 1.7 $ $Date: 2003/04/02 09:24:44 $
+ * @version CVS $Revision: 1.8 $ $Date: 2003/04/05 19:39:33 $
  * @since 4.0
  */
 public class ReadWriteLock

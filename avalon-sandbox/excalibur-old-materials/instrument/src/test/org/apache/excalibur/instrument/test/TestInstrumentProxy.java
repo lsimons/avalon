@@ -55,7 +55,7 @@ import org.apache.excalibur.instrument.InstrumentProxy;
  * Dummy InstrumentProxy used to test instruments.
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.2 $ $Date: 2003/02/27 15:20:57 $
+ * @version CVS $Revision: 1.3 $ $Date: 2003/04/05 19:39:36 $
  */
 public class TestInstrumentProxy
     implements InstrumentProxy

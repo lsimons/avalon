@@ -39,13 +39,14 @@
     <path id="test.class.path">
         <pathelement location="${build.testclasses}"/>
         <pathelement location="${junit.jar}"/>
+        <pathelement location="${commons-collections.jar}"/>
         <pathelement location="${excalibur-testcase.jar}"/>
         <pathelement location="${excalibur-i18n.jar}"/>
         <path refid="project.class.path"/>
     </path>
     <property name="cp" refid="test.class.path"/>
 
-    <target name="main" depends="jar" description="Build the project"/>
+    <target name="main" depends="test,jar" description="Build the project"/>
     <target name="rebuild" depends="clean,main" description="Rebuild the project"/>
 
     <!-- Checks the environment for existing resources -->
@@ -92,6 +93,7 @@
         <!-- Need the jar to prevent recursive deps. -->
 
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkJUnit"/>
+        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkCommonsCollections"/>
     </target>
 
 

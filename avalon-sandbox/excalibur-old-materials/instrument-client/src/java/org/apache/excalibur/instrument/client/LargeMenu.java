@@ -63,7 +63,7 @@ import javax.swing.JPopupMenu;
  *  large numbers of elements.
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.6 $ $Date: 2003/03/22 12:46:38 $
+ * @version CVS $Revision: 1.7 $ $Date: 2003/04/05 19:39:36 $
  * @since 4.1
  */
 public class LargeMenu
@@ -122,8 +122,8 @@ public class LargeMenu
      * Code is copied from JDK1.3 source, but has been patched.
      *
      * @return a <code>Point</code> in the coordinate space of the
-     *		menu which should be used as the origin
-     * 		of the <code>JMenu</code>'s popup menu
+     *      menu which should be used as the origin
+     *      of the <code>JMenu</code>'s popup menu
      */
     protected Point getPopupMenuOrigin()
     {

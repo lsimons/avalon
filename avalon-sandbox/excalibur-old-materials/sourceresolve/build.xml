@@ -31,7 +31,7 @@
     </path>
     <property name="cp" refid="test.class.path"/>
 
-    <target name="main" depends="jar" description="Build the project"/>
+    <target name="main" depends="test,jar" description="Build the project"/>
     <target name="rebuild" depends="clean,main" description="Rebuild the project"/>
 
     <target name="dependencies" description="Check dependencies" unless="skip.dependencies">
@@ -176,14 +176,17 @@
 
             <formatter type="xml"/>    <!-- xml reports for junitreport -->
             <formatter type="plain" usefile="false"/>  <!-- text reports for humans     -->
-            
+
+            <!-- added the next line because the standard approach does not seem to be working -->
+            <test name="org.apache.excalibur.source.SourceResolverImplTestCase" todir="${build.tests}"/>
+
             <batchtest todir="${build.tests}">
                 <fileset dir="${build.testclasses}">
                     <include name="**/test/*TestCase.class"/>
                     <exclude name="**/Abstract*"/>
                 </fileset>
             </batchtest>
-            
+
         </junit>
 
     </target>
@@ -342,10 +345,10 @@
         <fileset dir="${build.docs}">
           <include name="**"/>
         </fileset>
-      </copy>    
+      </copy>
 
     </target>
-    
+
     <target name="site" depends="docs" description=" Places Docs ready for hosting on website">
 
       <mkdir dir="../site/dist/docs/${dir-name}"/>

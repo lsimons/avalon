@@ -76,7 +76,7 @@ import org.apache.excalibur.mpool.PoolManager;
  * See that interface for a description.
  *
  * @author <a href="mailto:dev@avalon.apache.org">The Avalon Team</a>
- * @version CVS $Revision: 1.11 $ $Date: 2003/03/22 12:46:33 $
+ * @version CVS $Revision: 1.12 $ $Date: 2003/04/05 19:39:35 $
  */
 public class DefaultContainerManager
     implements Initializable, Disposable, org.apache.avalon.fortress.ContainerManager, org.apache.avalon.fortress.ContainerManagerConstants

@@ -147,7 +147,7 @@
     <!--  Ant to decide on the correct build order. -->
     <target name="build-all-subprojects"
         depends="prj-compatibility, prj-loader,
-                prj-naming, prj-threadcontext, 
+                prj-naming, prj-threadcontext,
 		prj-i18n, prj-extension,
                 prj-configuration, prj-event,
                 prj-thread, prj-monitor, prj-fortress, prj-datasource,
@@ -168,6 +168,12 @@
     <target name="build-subprojects-dist" depends="jar">
         <ant target="build-all-subprojects">
             <property name="subproject-target" value="dist"/>
+        </ant>
+    </target>
+
+    <target name="test" depends="jar">
+        <ant target="build-all-subprojects">
+            <property name="subproject-target" value="test"/>
         </ant>
     </target>
 

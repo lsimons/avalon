@@ -72,7 +72,7 @@ import org.apache.excalibur.instrument.ValueInstrument;
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:ryan@silveregg.co.jp">Ryan Shaw</a>
  * @author <a href="mailto:leif@apache.org">Leif Mortenson</a>
- * @version CVS $Revision: 1.11 $ $Date: 2003/02/20 17:12:34 $
+ * @version CVS $Revision: 1.12 $ $Date: 2003/04/05 19:39:34 $
  * @since 4.0
  */
 public abstract class ComponentHandler
@@ -162,53 +162,53 @@ public abstract class ComponentHandler
                                                         final String instrumentableName )
         throws Exception
     {
-	// If componentClass extends Component, everything
-	// is fly, as no proxy needs to be generated, and we can pass
-	// in null for the role. If not, we check for a public ROLE
-	// member and use that. If that fails, we complain loudly...
-	String role = null;
-	final boolean isComponent = Component.class.isAssignableFrom( componentClass );
+    // If componentClass extends Component, everything
+    // is fly, as no proxy needs to be generated, and we can pass
+    // in null for the role. If not, we check for a public ROLE
+    // member and use that. If that fails, we complain loudly...
+    String role = null;
+    final boolean isComponent = Component.class.isAssignableFrom( componentClass );
 
-	if( role == null && !isComponent )
-	{
-		try
-		{
-			final Field field = componentClass.getField( "ROLE" );
-			final boolean isStatic = Modifier.isStatic(field.getModifiers());
-			if( !isStatic )
-				throw new IllegalArgumentException( "the componentClass you provided" +
-					"does not implement Component, and you also did not" +
-					"specify a role." );
-			
-			final Object fieldContents = field.get(null);
-			if( fieldContents instanceof String )
-				role = (String)field.get(null); // found the role
-		}
-		catch( NoSuchFieldException nsfe )
-		{
-			throw new IllegalArgumentException( "the componentClass you provided" +
-					"does not implement Component, and you also did not" +
-					"specify a role." );
-		}
-		catch( SecurityException se )
-		{
-			throw new IllegalArgumentException( "the componentClass you provided" +
-					"does not implement Component, and you also did not" +
-					"specify a role." );
-		}
-		catch( IllegalArgumentException iae )
-		{
-			 // won't happen
-			throw iae;
-		}
-		catch( IllegalAccessException iae )
-		{
-			// won't happen
-			throw new IllegalArgumentException( "the componentClass you provided" +
-					"does not implement Component, and you also did not" +
-					"specify a role." );
-		}
-	}
+    if( role == null && !isComponent )
+    {
+        try
+        {
+            final Field field = componentClass.getField( "ROLE" );
+            final boolean isStatic = Modifier.isStatic(field.getModifiers());
+            if( !isStatic )
+                throw new IllegalArgumentException( "the componentClass you provided" +
+                    "does not implement Component, and you also did not" +
+                    "specify a role." );
+            
+            final Object fieldContents = field.get(null);
+            if( fieldContents instanceof String )
+                role = (String)field.get(null); // found the role
+        }
+        catch( NoSuchFieldException nsfe )
+        {
+            throw new IllegalArgumentException( "the componentClass you provided" +
+                    "does not implement Component, and you also did not" +
+                    "specify a role." );
+        }
+        catch( SecurityException se )
+        {
+            throw new IllegalArgumentException( "the componentClass you provided" +
+                    "does not implement Component, and you also did not" +
+                    "specify a role." );
+        }
+        catch( IllegalArgumentException iae )
+        {
+             // won't happen
+            throw iae;
+        }
+        catch( IllegalAccessException iae )
+        {
+            // won't happen
+            throw new IllegalArgumentException( "the componentClass you provided" +
+                    "does not implement Component, and you also did not" +
+                    "specify a role." );
+        }
+    }
         return ComponentHandler.getComponentHandler( role,
                                                      componentClass,
                                                      configuration,

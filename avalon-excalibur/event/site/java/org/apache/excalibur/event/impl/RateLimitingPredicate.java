@@ -55,7 +55,7 @@ import org.apache.excalibur.event.Sink;
 /**
  * This enqueue predicate implements input rate policing.
  *
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  * @author  <a href="mailto:schierma@users.sourceforge.net">schierma</a>
  */
 public class RateLimitingPredicate implements EnqueuePredicate

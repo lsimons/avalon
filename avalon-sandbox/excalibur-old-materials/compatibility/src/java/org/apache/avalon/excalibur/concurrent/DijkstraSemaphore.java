@@ -59,7 +59,7 @@ package org.apache.avalon.excalibur.concurrent;
  * @deprecated use EDU.oswego.cs.dl.util.concurrent.Semaphore instead
  *
  * @author <a href="mailto:kranga@sapient.com">Karthik Rangaraju</a>
- * @version CVS $Revision: 1.4 $ $Date: 2003/03/22 12:46:23 $
+ * @version CVS $Revision: 1.5 $ $Date: 2003/04/05 19:39:33 $
  * @since 4.0
  */
 public class DijkstraSemaphore

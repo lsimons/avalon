@@ -64,7 +64,7 @@ import org.apache.avalon.framework.configuration.DefaultConfiguration;
 /**
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.7 $ $Date: 2003/03/22 12:46:36 $
+ * @version CVS $Revision: 1.8 $ $Date: 2003/04/05 19:39:36 $
  * @since 4.1
  */
 abstract class AbstractInternalFrame
@@ -278,7 +278,7 @@ abstract class AbstractInternalFrame
     public void internalFrameClosed( InternalFrameEvent event )
     {
         // On closing Swing will bring forward the window at the bottom,
-        //	rather than the next window.  So we need to move it back and show the correct one.
+        //  rather than the next window.  So we need to move it back and show the correct one.
         if( m_nextFrame != null )
         {
             // The getSelectedFrame method was added in JDK1.3, so it may not yet exist.

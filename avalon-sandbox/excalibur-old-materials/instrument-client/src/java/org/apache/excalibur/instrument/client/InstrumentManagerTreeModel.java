@@ -235,7 +235,7 @@ class InstrumentManagerTreeModel
     public void valueForPathChanged( TreePath path, Object newValue )
     {
         //getLogger.debug( "InstrumentManagerTreeModel.valueForPathChanged(" + path +
-        //	", " + newValue + ")" );
+        //  ", " + newValue + ")" );
     }
 
     /**
@@ -464,7 +464,7 @@ class InstrumentManagerTreeModel
             InstrumentSampleNodeData sampleNodeData =
                 (InstrumentSampleNodeData)leasedSampleArray[i].getUserObject();
             //System.out.println("    check: " + sampleNodeData + "  remaining " +
-            //	( sampleNodeData.getRemainingLeaseTime() / 1000 ) + " seconds." );
+            //  ( sampleNodeData.getRemainingLeaseTime() / 1000 ) + " seconds." );
             if ( sampleNodeData.getRemainingLeaseTime() < 0 )
             {
                 // Update the Instrument containing the sample.

@@ -57,7 +57,7 @@ package org.apache.avalon.fortress;
  * it.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.6 $ $Date: 2003/03/22 12:46:32 $
+ * @version CVS $Revision: 1.7 $ $Date: 2003/04/05 19:39:35 $
  * @since 4.1
  */
 public interface RoleManager

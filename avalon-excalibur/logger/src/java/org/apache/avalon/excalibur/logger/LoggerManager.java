@@ -56,7 +56,7 @@ import org.apache.avalon.framework.logger.Logger;
  * a Logger for your system.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.6 $ $Date: 2003/03/22 12:46:48 $
+ * @version CVS $Revision: 1.7 $ $Date: 2003/04/05 19:39:37 $
  */
 public interface LoggerManager
 {

@@ -72,7 +72,7 @@ import com.coyotegulch.jisp.KeyObject;
  *
  * @author <a href="mailto:g-froehlich@gmx.de">Gerhard Froehlich</a>
  * @author <a href="mailto:vgritsenko@apache.org">Vadim Gritsenko</a>
- * @version CVS $Id: AbstractJispFilesystemStore.java,v 1.6 2003/03/22 12:46:55 leosimons Exp $
+ * @version CVS $Id: AbstractJispFilesystemStore.java,v 1.7 2003/04/05 19:39:38 leosimons Exp $
  */
 public abstract class AbstractJispFilesystemStore
 extends AbstractLogEnabled

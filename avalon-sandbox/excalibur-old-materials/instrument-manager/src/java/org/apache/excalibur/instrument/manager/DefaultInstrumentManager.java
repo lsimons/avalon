@@ -87,7 +87,7 @@ import org.apache.excalibur.instrument.manager.interfaces.NoSuchInstrumentableEx
 /**
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.5 $ $Date: 2003/02/25 16:28:16 $
+ * @version CVS $Revision: 1.6 $ $Date: 2003/04/05 19:39:36 $
  * @since 4.1
  */
 public class DefaultInstrumentManager
@@ -253,7 +253,7 @@ public class DefaultInstrumentManager
             }
             
             // Configure the instrumentables.
-            Configuration instrumentablesConf =	configuration.getChild( "instrumentables" );
+            Configuration instrumentablesConf = configuration.getChild( "instrumentables" );
             Configuration[] instrumentableConfs =
                 instrumentablesConf.getChildren( "instrumentable" );
             for( int i = 0; i < instrumentableConfs.length; i++ )
