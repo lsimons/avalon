@@ -207,6 +207,8 @@ public class JUnitTestTask extends SystemTask
         fileset.createExclude().setName( "**/Abstract*.java" );
 
         JUnitTask junit = (JUnitTask) getProject().createTask( "junit" );
+        junit.init();
+
         junit.setErrorProperty( ERROR_KEY );
         junit.setFailureProperty( FAILURE_KEY );
 
@@ -254,7 +256,6 @@ public class JUnitTestTask extends SystemTask
         basedir.setValue( base.toString() );
         junit.addSysproperty( basedir );
 
-        junit.init();
         junit.execute();
     }
 
