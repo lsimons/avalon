@@ -74,6 +74,7 @@ public abstract class AbstractTestCase extends TestCase
         BASEDIR = getWorkDir();
         SYS_CONF = new File( BASEDIR, "system/kernel.xml" ).getAbsoluteFile();
         SECURITY_BUILDER = new XMLSecurityProfileBuilder();
+        System.out.println( "security.policy=" + System.getProperty( "java.security.policy" ) );
     }
     
     private static File getWorkDir()

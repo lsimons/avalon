@@ -31,7 +31,6 @@
       <x:component name="typehandler-array" class="org.apache.metro.facilities.reflector.typehandlers.ArrayTypeHandler" />
       <x:component name="typehandler-collection" class="org.apache.metro.facilities.reflector.typehandlers.CollectionTypeHandler" />
       <x:component name="typehandler-map" class="org.apache.metro.facilities.reflector.typehandlers.MapTypeHandler" />
-      <x:component name="typehandler-dictionary" class="org.apache.metro.facilities.reflector.typehandlers.DictionaryTypeHandler" />
       <x:component name="typehandler-componentmodel" class="org.apache.metro.facilities.reflector.typehandlers.ComponentModelTypeHandler" />
       
       <x:component name="reflector-http-handler" class="org.apache.metro.facilities.reflector.impl.ReflectionHandler" >
