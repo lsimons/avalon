@@ -82,7 +82,7 @@
       <util:file var="jarFile" name="${maven.build.dir}/jars/${path}.jar"/>
       <j:if test="${jarFile.exists()}">
         <checksum file="${jarFile}"/>
-        <j:if test="${maven.gpg.exe != ''}">
+        <j:if test="${maven.gpg.exec != null}">
           <ant:exec executable="${maven.gpg.exec}">
             <ant:arg value="--armour"/>
             <ant:arg value="--yes"/>
@@ -94,7 +94,7 @@
       <util:file var="metaFile" name="${maven.build.dir}/jars/${path}.jar.meta"/>
       <j:if test="${metaFile.exists()}">
         <checksum file="${metaFile}"/>
-        <j:if test="${maven.gpg.exe != ''}">
+        <j:if test="${maven.gpg.exec != null}">
           <ant:exec executable="${maven.gpg.exec}">
             <ant:arg value="--armour"/>
             <ant:arg value="--yes"/>

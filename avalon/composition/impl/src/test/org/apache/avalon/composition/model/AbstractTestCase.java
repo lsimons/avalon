@@ -80,7 +80,7 @@ public abstract class AbstractTestCase extends TestCase
             {
                 SystemContext system = 
                   DefaultSystemContext.createSystemContext( 
-                    context, base, root, PRIORITY, true );
+                    context, base, root, PRIORITY, true, 1000 );
                 m_model = 
                   system.getFactory().createContainmentModel( 
                     source.toURL() );
