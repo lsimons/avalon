@@ -49,12 +49,11 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import org.apache.avalon.tools.event.StandardListener;
 import org.apache.avalon.tools.project.Definition;
 import org.apache.avalon.tools.project.ResourceRef;
 import org.apache.avalon.tools.project.Resource;
 import org.apache.avalon.tools.project.Plugin;
-import org.apache.avalon.tools.project.builder.XMLDefinitionBuilder;
+import org.apache.avalon.tools.project.XMLDefinitionBuilder;
 import org.apache.avalon.tools.util.ElementHelper;
 
 /**
