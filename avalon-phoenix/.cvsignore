@@ -6,3 +6,4 @@ prj.el
 emacs-jprj.el
 docs
 todo
+*.ipr
