@@ -10,10 +10,17 @@
     <person name="Jeff Turner" email="jefft@apache.org" id="JT"/>
     <person name="Paul Hammant" email="hammant@apache.org" id="PH"/>
   </devs>
-  <release version="4.0.1" date="unreleased: current CVS">
+  <release version="4.1" date="November 7, 2001">
+    <action dev="BL" type="remove">
+      Deprecate the Loggable and AbstractLoggable classes, and replace
+      them with LogEnabled and AbstractLogEnabled.
+    </action>
     <action dev="BL" type="add">
-      Add Persistable interface to allow for full round trip configuration
-      persistence.
+      Add an abstraction layer to the Logging implementation.  Thanks
+      to Peter Donald for supplying the interface.
+    </action>
+    <action dev="BL" type="add">
+      Add Namespace support to Configuration files.
     </action>
     <action dev="BL" type="add">
       Add AvalonFormatter that was in LogKit's heirarchy.  This way, we

@@ -31,11 +31,11 @@ Legal:
   <property name="name" value="avalon"/>
   <property name="Name" value="Avalon"/>
   <property name="framework.name" value="avalon-framework"/>
-  <property name="version" value="4.0.1"/>
+  <property name="version" value="4.1"/>
   <property name="year" value="1999-2001"/>
   <property name="status" value="final"/>
-  <property name="release" value="2nd"/>
-  <property name="short.version" value="4.0"/>
+  <property name="release" value="1st"/>
+  <property name="short.version" value="4.1"/>
 
   <property name="debug" value="on"/>
   <property name="optimize" value="off"/>
