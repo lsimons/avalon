@@ -263,11 +263,10 @@
   related subprojects.
   -->
   <goal name="merlin:site"
-    description="Build the Merlin site.">
-    <maven:reactor
-      basedir="${basedir}"
+      description="Build the Merlin site" prereqs="license">
+    <maven:reactor basedir="${basedir}"
       includes="platform.xml"
-      goals="xjavadoc,license,site"
+      goals="xjavadoc,site"
       banner="Building site:"
       ignoreFailures="false"/>
   </goal>
@@ -342,9 +341,10 @@
 	  <link href="${avalon.logkit.link}" />
 	  <link href="${avalon.lifecycle.link}" />
 	  <link href="${excalibur.configuration.link}" />
-	  <link href="${excalibur.pool.link}" />
-	  <link href="${excalibur.thread.link}" />
-	  <link href="${excalibur.event.link}" />
+        <!-- comment out the following until the respective project docs are in place -->
+	  <!--<link href="${excalibur.pool.link}" />-->
+	  <!--<link href="${excalibur.thread.link}" />-->
+	  <!--<link href="${excalibur.event.link}" />-->
     </ant:javadoc>
   </goal>
 
