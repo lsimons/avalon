@@ -105,6 +105,8 @@ public class FilterTask extends SystemTask
             return;
         }
 
+        log( "Processing feature: " + m_feature, Project.MSG_VERBOSE );
+
         final String value = getFeature();
         if( null != value )
         {
