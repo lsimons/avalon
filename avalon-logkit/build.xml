@@ -146,11 +146,10 @@ Legal:
     <echo message=""/>
     <echo message="   clean      -> cleans up the created directories"/>
     <echo message="   dist       -> generates the ${Name} distribution"/>
-    <echo message="   dist-lite  -> generates the ${Name} distribution without the javadocs (default)"/>
     <echo message="   docs       -> generates the ${Name} Documentation"/>
     <echo message="   jar        -> generates the ${Name} jar file"/>
     <echo message="   javadocs   -> generates the API documentation (java 1.2+ only)"/>
-    <echo message="   real-clean -> cleans up all genereated files and directories"/>
+    <echo message="   distclean  -> cleans up all genereated files and directories"/>
     <echo message="   import-dependencies -> "/>
     <echo message="                 downloads automatically downloadable dependencies"/>
     <echo message=""/>
