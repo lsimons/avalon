@@ -9,7 +9,7 @@
   <menu label="About">
     <menu-item label="Overview" href="index.html"/>
     <menu-item label="Features" href="features.html"/>
-    <menu-item type="external" id="downloads" label="Download" href="http://jakarta.apache.org/builds/jakarta-avalon/release/logkit"/>
+    <menu-item type="external" id="downloads" label="Download" href="http://jakarta.apache.org/builds/jakarta-avalon/release/logkit/latest"/>
     <menu-item label="Whitepaper" href="whitepaper.html"/>
 <!--
     <menu-item label="Getting Started" href="getting-started.html"/>
@@ -17,7 +17,7 @@
     <menu-item label="Todo" href="todo.html"/>
 -->
     <menu-item label="Changes" href="changes.html"/>
-    <menu-item type="external" id="api-docs" label="API Docs" href="api/index.html"/>
+    <menu-item type="external" id="api-docs" label="API Docs" href="http://jakarta.apache.org/avalon/logkit/api/index.html"/>
   </menu>
 
 </book>

@@ -53,7 +53,7 @@ Legal:
   <property name="build.testdocs" value="${build.docs}/test"/>
   <property name="build.reports" value="${build.dir}/reports"/>
   <property name="build.context" value="${build.dir}/documentation"/>
-  <property name="build.xdocs" value="${build.context}/xdocs/logkit"/>
+  <property name="build.xdocs" value="${build.context}/xdocs"/>
 
   <!-- Set the properties for source directories -->
   <property name="src.dir" value="src"/>
@@ -457,6 +457,9 @@ Legal:
         <include name="**/*.png"/>
       </fileset>
     </copy>
+    <copy todir="${build.xdocs}" filtering="on" overwrite="true">
+      <fileset dir="${xdocs.dir}"/>
+    </copy>
 
     <java classname="org.apache.cocoon.Main" fork="true">
       <arg value="-c${build.context}/"/>
@@ -464,7 +467,7 @@ Legal:
       <arg value="-w${build.dir}/work"/>
       <arg value="-l${build.dir}/work/cocoon.log"/>
       <arg value="-uINFO"/>
-      <arg value="-f${xdocs.dir}/logkit.uris"/>
+      <arg value="index.html"/>
       <classpath>
         <path refid="tools.class.path"/>
         <fileset dir="${build.lib}"/>
