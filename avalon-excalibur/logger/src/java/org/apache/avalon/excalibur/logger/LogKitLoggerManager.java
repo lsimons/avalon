@@ -70,7 +70,7 @@ import org.apache.log.Priority;
  *
  * @author <a href="mailto:giacomo@apache.org">Giacomo Pati</a>
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.6 $ $Date: 2002/08/22 01:20:07 $
+ * @version CVS $Revision: 1.7 $ $Date: 2002/09/28 04:44:35 $
  * @since 4.0
  */
 public class LogKitLoggerManager
@@ -126,7 +126,7 @@ public class LogKitLoggerManager
     public LogKitLoggerManager( final String prefix, final Hierarchy hierarchy )
     {
         this( prefix, hierarchy,
-              new LogKitLogger( hierarchy.getLoggerFor( "" ) ) );
+              new LogKitLogger( hierarchy.getRootLogger() ) );
     }
 
     /**
