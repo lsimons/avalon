@@ -55,7 +55,7 @@ package org.apache.excalibur.xfc.model.instance;
  * (eg. ComponentSelector)
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: MultiNonRoleInstance.java,v 1.1 2002/10/17 14:38:17 crafterm Exp $
+ * @version CVS $Id: MultiNonRoleInstance.java,v 1.2 2002/11/12 19:55:27 donaldp Exp $
  */
 public class MultiNonRoleInstance extends Instance
 {
@@ -72,7 +72,7 @@ public class MultiNonRoleInstance extends Instance
     public MultiNonRoleInstance(
         final String role,
         final SingleRoleInstance[] subinstances
-    )
+        )
     {
         super( null, null, null );
 

@@ -56,7 +56,7 @@ import org.apache.avalon.framework.configuration.Configuration;
  * that represents a role managed component with a component selector definition.
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: SelectorHintInstance.java,v 1.2 2002/10/23 11:45:04 crafterm Exp $
+ * @version CVS $Id: SelectorHintInstance.java,v 1.3 2002/11/12 19:55:27 donaldp Exp $
  */
 public class SelectorHintInstance extends Instance
 {
@@ -78,7 +78,7 @@ public class SelectorHintInstance extends Instance
         final String hint,
         final String clazz,
         final Configuration[] config
-    )
+        )
     {
         super( clazz, config, null );
         m_shorthand = shorthand;

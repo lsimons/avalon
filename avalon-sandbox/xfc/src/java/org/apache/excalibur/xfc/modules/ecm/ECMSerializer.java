@@ -50,28 +50,23 @@
 package org.apache.excalibur.xfc.modules.ecm;
 
 import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
-
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.DefaultConfiguration;
 import org.apache.avalon.framework.configuration.DefaultConfigurationSerializer;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
-
-import org.apache.excalibur.xfc.model.Model;
 import org.apache.excalibur.xfc.model.Definition;
+import org.apache.excalibur.xfc.model.Model;
 import org.apache.excalibur.xfc.model.instance.Instance;
 import org.apache.excalibur.xfc.model.instance.InstanceVisitor;
-import org.apache.excalibur.xfc.model.instance.SelectorHintInstance;
-import org.apache.excalibur.xfc.model.instance.SingleRoleInstance;
-import org.apache.excalibur.xfc.model.instance.SingleNonRoleInstance;
-import org.apache.excalibur.xfc.model.instance.MultiRoleInstance;
 import org.apache.excalibur.xfc.model.instance.MultiNonRoleInstance;
+import org.apache.excalibur.xfc.model.instance.MultiRoleInstance;
+import org.apache.excalibur.xfc.model.instance.SelectorHintInstance;
+import org.apache.excalibur.xfc.model.instance.SingleNonRoleInstance;
+import org.apache.excalibur.xfc.model.instance.SingleRoleInstance;
+import org.apache.excalibur.xfc.model.role.MultiRoleRef;
 import org.apache.excalibur.xfc.model.role.RoleRef;
 import org.apache.excalibur.xfc.model.role.RoleRefVisitor;
 import org.apache.excalibur.xfc.model.role.SingleRoleRef;
-import org.apache.excalibur.xfc.model.role.MultiRoleRef;
-
 import org.apache.excalibur.xfc.modules.Constants;
 
 /**
@@ -79,7 +74,7 @@ import org.apache.excalibur.xfc.modules.Constants;
  * of the <code>serialize</code> method defined in {@link ECM}.
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: ECMSerializer.java,v 1.3 2002/10/23 11:32:25 crafterm Exp $
+ * @version CVS $Id: ECMSerializer.java,v 1.4 2002/11/12 19:55:28 donaldp Exp $
  */
 public class ECMSerializer extends AbstractLogEnabled
     implements RoleRefVisitor, InstanceVisitor, Constants
@@ -130,9 +125,9 @@ public class ECMSerializer extends AbstractLogEnabled
         RoleRef[] rolerefs = model.getDefinitions();
 
         // for each type object generate a roles file entry
-        for ( int i = 0; i < rolerefs.length; ++i )
+        for( int i = 0; i < rolerefs.length; ++i )
         {
-            rolerefs[i].accept( this );
+            rolerefs[ i ].accept( this );
         }
 
         m_serializer.serializeToFile( getRoleFile( context ), m_roles );
@@ -153,9 +148,9 @@ public class ECMSerializer extends AbstractLogEnabled
         Instance[] instances = model.getInstances();
 
         // for each instance object generate an xconf file entry
-        for ( int i = 0; i < instances.length; ++i )
+        for( int i = 0; i < instances.length; ++i )
         {
-            instances[i].accept( this );
+            instances[ i ].accept( this );
         }
 
         m_serializer.serializeToFile( getConfigurationFile( context ), m_xconf );
@@ -220,11 +215,11 @@ public class ECMSerializer extends AbstractLogEnabled
         DefaultConfiguration role = new DefaultConfiguration( ROLE, "" );
         Definition[] defs = ref.getProviders();
 
-        for ( int i = 0; i < defs.length; ++i )
+        for( int i = 0; i < defs.length; ++i )
         {
             DefaultConfiguration hint = new DefaultConfiguration( HINT, "" );
-            hint.setAttribute( SHORTHAND, defs[i].getShorthand() );
-            hint.setAttribute( CLASS, defs[i].getDefaultClass() );
+            hint.setAttribute( SHORTHAND, defs[ i ].getShorthand() );
+            hint.setAttribute( CLASS, defs[ i ].getDefaultClass() );
             role.addChild( hint );
         }
 
@@ -236,7 +231,7 @@ public class ECMSerializer extends AbstractLogEnabled
     }
 
     /**
-     * Builds a multiple component role definition from a 
+     * Builds a multiple component role definition from a
      * {@link RoleRef} definition. (Note, this method is unused).
      *
      * @param ref a {@link RoleRef} instance
@@ -261,17 +256,17 @@ public class ECMSerializer extends AbstractLogEnabled
     {
         DefaultConfiguration conf = new DefaultConfiguration( i.getShorthand(), "" );
 
-        if ( i.getConfiguration() != null )
+        if( i.getConfiguration() != null )
         {
             Configuration[] kids = i.getConfiguration();
 
-            for ( int j = 0; j < kids.length; ++j )
+            for( int j = 0; j < kids.length; ++j )
             {
-                conf.addChild( kids[j] );
+                conf.addChild( kids[ j ] );
             }
         }
 
-        if ( i.getClassImpl() != null )
+        if( i.getClassImpl() != null )
         {
             conf.setAttribute( CLASS, i.getClassImpl() );
         }
@@ -294,13 +289,13 @@ public class ECMSerializer extends AbstractLogEnabled
         conf.setAttribute( ROLE, i.getRole() );
         conf.setAttribute( CLASS, i.getClassImpl() );
 
-        if ( i.getConfiguration() != null )
+        if( i.getConfiguration() != null )
         {
             Configuration[] kids = i.getConfiguration();
 
-            for ( int j = 0; j < kids.length; ++j )
+            for( int j = 0; j < kids.length; ++j )
             {
-                conf.addChild( kids[j] );
+                conf.addChild( kids[ j ] );
             }
         }
 
@@ -308,7 +303,7 @@ public class ECMSerializer extends AbstractLogEnabled
     }
 
     /**
-     * Builds an xconf entry based on a {@link MultiNonRoleInstance} 
+     * Builds an xconf entry based on a {@link MultiNonRoleInstance}
      * declaration
      *
      * @param i a {@link MultiNonRoleInstance} instance
@@ -324,20 +319,20 @@ public class ECMSerializer extends AbstractLogEnabled
 
         SingleRoleInstance[] subs = i.getSubInstances();
 
-        for ( int j = 0; j < subs.length; ++j )
+        for( int j = 0; j < subs.length; ++j )
         {
             DefaultConfiguration child =
                 new DefaultConfiguration( COMPONENT_INSTANCE, "" );
-            child.setAttribute( CLASS, subs[j].getClassImpl() );
-            child.setAttribute( NAME, subs[j].getShorthand() );
+            child.setAttribute( CLASS, subs[ j ].getClassImpl() );
+            child.setAttribute( NAME, subs[ j ].getShorthand() );
 
-            if ( subs[j].getConfiguration() != null )
+            if( subs[ j ].getConfiguration() != null )
             {
-                Configuration[] kids = subs[j].getConfiguration();
+                Configuration[] kids = subs[ j ].getConfiguration();
 
-                for ( int k = 0; k < kids.length; ++k )
+                for( int k = 0; k < kids.length; ++k )
                 {
-                    child.addChild( kids[k] );
+                    child.addChild( kids[ k ] );
                 }
             }
 
@@ -360,19 +355,19 @@ public class ECMSerializer extends AbstractLogEnabled
 
         SelectorHintInstance[] subs = i.getSubInstances();
 
-        for ( int j = 0; j < subs.length; ++j )
+        for( int j = 0; j < subs.length; ++j )
         {
             DefaultConfiguration child =
-                new DefaultConfiguration( subs[j].getShorthand(), "" );
-            child.setAttribute( NAME, subs[j].getHint() );
+                new DefaultConfiguration( subs[ j ].getShorthand(), "" );
+            child.setAttribute( NAME, subs[ j ].getHint() );
 
-            if ( subs[j].getConfiguration() != null )
+            if( subs[ j ].getConfiguration() != null )
             {
-                Configuration[] kids = subs[j].getConfiguration();
+                Configuration[] kids = subs[ j ].getConfiguration();
 
-                for ( int k = 0; k < kids.length; ++k )
+                for( int k = 0; k < kids.length; ++k )
                 {
-                    child.addChild( kids[k] );
+                    child.addChild( kids[ k ] );
                 }
             }
 

@@ -53,7 +53,7 @@ package org.apache.excalibur.xfc.model;
  * Class containing information about a particular Component's definition.
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: Definition.java,v 1.2 2002/10/07 17:13:17 crafterm Exp $
+ * @version CVS $Id: Definition.java,v 1.3 2002/11/12 19:55:27 donaldp Exp $
  */
 public final class Definition
 {
@@ -73,7 +73,7 @@ public final class Definition
         final String clazz,
         final String shorthand,
         final String handler
-    )
+        )
     {
         m_clazz = clazz;
         m_shorthand = shorthand;

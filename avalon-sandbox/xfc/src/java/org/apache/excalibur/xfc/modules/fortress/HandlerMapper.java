@@ -51,7 +51,6 @@ package org.apache.excalibur.xfc.modules.fortress;
 
 import java.util.HashMap;
 import java.util.Map;
-
 import org.apache.excalibur.xfc.modules.Constants;
 
 /**
@@ -59,7 +58,7 @@ import org.apache.excalibur.xfc.modules.Constants;
  * handler names.
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: HandlerMapper.java,v 1.2 2002/10/17 10:08:47 crafterm Exp $
+ * @version CVS $Id: HandlerMapper.java,v 1.3 2002/11/12 19:55:28 donaldp Exp $
  */
 public final class HandlerMapper implements Constants
 {
@@ -113,11 +112,11 @@ public final class HandlerMapper implements Constants
      */
     private static String getLifestyleType( String handler, String defaultValue )
     {
-        if ( handler != null )
+        if( handler != null )
         {
-            String type = (String) m_handlers.get( handler );
+            String type = (String)m_handlers.get( handler );
 
-            if ( type != null )
+            if( type != null )
                 return type;
         }
 

@@ -53,32 +53,32 @@ package org.apache.excalibur.xfc.modules;
  * Constants common to all {@link Module}s.
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: Constants.java,v 1.1 2002/10/16 16:21:07 crafterm Exp $
+ * @version CVS $Id: Constants.java,v 1.2 2002/11/12 19:55:28 donaldp Exp $
  */
 public interface Constants
 {
     // normalized component handler names
-    String TRANSIENT            = "transient";
-    String THREAD               = "thread";
-    String POOLED               = "pooled";
-    String SINGLETON            = "singleton";
+    String TRANSIENT = "transient";
+    String THREAD = "thread";
+    String POOLED = "pooled";
+    String SINGLETON = "singleton";
 
     // character used to separate context entries
-    char   CONTEXT_SEPARATOR    = ':';
+    char CONTEXT_SEPARATOR = ':';
 
     // ExcaliburComponentSelector class name
     String ECS = "org.apache.avalon.excalibur.component.ExcaliburComponentSelector";
 
     // general strings used in .roles/.xconf files.
-    String COMPONENT            = "component";
-    String COMPONENT_INSTANCE   = "component-instance";
-    String ROLELIST             = "role-list";
-    String SHORTHAND            = "shorthand";
-    String CLASS                = "class";
-    String NAME                 = "name";
-    String DEFAULT              = "default-class";
-    String HINT                 = "hint";
-    String ROLE                 = "role";
-    String ID                   = "id";
-    String HANDLER              = "handler";
+    String COMPONENT = "component";
+    String COMPONENT_INSTANCE = "component-instance";
+    String ROLELIST = "role-list";
+    String SHORTHAND = "shorthand";
+    String CLASS = "class";
+    String NAME = "name";
+    String DEFAULT = "default-class";
+    String HINT = "hint";
+    String ROLE = "role";
+    String ID = "id";
+    String HANDLER = "handler";
 }

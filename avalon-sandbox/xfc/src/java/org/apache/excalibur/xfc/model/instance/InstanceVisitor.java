@@ -56,9 +56,9 @@ package org.apache.excalibur.xfc.model.instance;
  * <p>
  *  This class is based on the Visitor pattern <i>(Design Patterns, p331)</i>.
  * </p>
- * 
+ *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: InstanceVisitor.java,v 1.1 2002/10/17 14:38:17 crafterm Exp $
+ * @version CVS $Id: InstanceVisitor.java,v 1.2 2002/11/12 19:55:27 donaldp Exp $
  */
 public interface InstanceVisitor
 {

@@ -51,7 +51,6 @@ package org.apache.excalibur.xfc.modules.fortress;
 
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.logger.Logger;
-
 import org.apache.excalibur.xfc.Module;
 import org.apache.excalibur.xfc.model.Model;
 import org.apache.excalibur.xfc.modules.Constants;
@@ -86,7 +85,7 @@ import org.apache.excalibur.xfc.modules.Constants;
  * </p>
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: Fortress.java,v 1.2 2002/10/17 14:38:18 crafterm Exp $
+ * @version CVS $Id: Fortress.java,v 1.3 2002/11/12 19:55:28 donaldp Exp $
  */
 public class Fortress extends AbstractLogEnabled
     implements Module
@@ -139,7 +138,7 @@ public class Fortress extends AbstractLogEnabled
     private String validateContext( final String context )
         throws Exception
     {
-        if ( context.indexOf( Constants.CONTEXT_SEPARATOR ) == -1 )
+        if( context.indexOf( Constants.CONTEXT_SEPARATOR ) == -1 )
             throw new IllegalArgumentException(
                 "Fortress Module requires the role and xconf filename " +
                 "separated by a '" + Constants.CONTEXT_SEPARATOR + "' character"

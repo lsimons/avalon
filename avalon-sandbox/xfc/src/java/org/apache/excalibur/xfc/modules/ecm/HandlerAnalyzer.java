@@ -51,12 +51,11 @@ package org.apache.excalibur.xfc.modules.ecm;
 
 import java.util.HashMap;
 import java.util.Map;
-
 import org.apache.excalibur.xfc.modules.Constants;
 
 /**
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: HandlerAnalyzer.java,v 1.2 2002/10/17 10:08:46 crafterm Exp $
+ * @version CVS $Id: HandlerAnalyzer.java,v 1.3 2002/11/12 19:55:28 donaldp Exp $
  */
 public final class HandlerAnalyzer implements Constants
 {
@@ -88,7 +87,7 @@ public final class HandlerAnalyzer implements Constants
      * Method for extracting a role's ComponentHandler name,
      * ECM style. ECM roles don't define ComponentHandlers explicitly,
      * so some simple class analysis is made in this method to
-     * try to ascertain which handler has been chosed by the 
+     * try to ascertain which handler has been chosed by the
      * implementor.
      *
      * @param classname class name as a <code>String</code> value
@@ -103,7 +102,7 @@ public final class HandlerAnalyzer implements Constants
             Class clazz = Class.forName( classname );
             String handler = getNormalizedHandlerName( clazz );
 
-            if ( handler != null )
+            if( handler != null )
             {
                 return handler;
             }
@@ -120,7 +119,7 @@ public final class HandlerAnalyzer implements Constants
 
             return TRANSIENT;
         }
-        catch ( ClassNotFoundException e )
+        catch( ClassNotFoundException e )
         {
             /*
             if ( getLogger().isWarnEnabled() )
@@ -158,19 +157,19 @@ public final class HandlerAnalyzer implements Constants
         // get all interfaces implemented by this Class
         Class[] interfaces = interfaze.getInterfaces();
 
-        for ( int i = 0; i < interfaces.length; ++i )
+        for( int i = 0; i < interfaces.length; ++i )
         {
             // check if this interface is a known component marker
-            if ( m_handlers.containsKey( interfaces[i].getName() ) )
+            if( m_handlers.containsKey( interfaces[ i ].getName() ) )
             {
-                return (String) m_handlers.get( interfaces[i].getName() );
+                return (String)m_handlers.get( interfaces[ i ].getName() );
             }
 
             // if it's unknown, check for any subinterfaces and recurse
-            String handler = getNormalizedHandlerName( interfaces[i] );
+            String handler = getNormalizedHandlerName( interfaces[ i ] );
 
             // if a subinterface is known, return
-            if ( handler != null )
+            if( handler != null )
                 return handler;
         }
 
