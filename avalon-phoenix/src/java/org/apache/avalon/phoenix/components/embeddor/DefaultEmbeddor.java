@@ -25,6 +25,7 @@ import org.apache.avalon.framework.parameters.ParameterException;
 import org.apache.avalon.framework.parameters.Parameterizable;
 import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.phoenix.components.application.Application;
+import org.apache.avalon.phoenix.components.kernel.Kernel;
 import org.apache.avalon.phoenix.components.configuration.ConfigurationRepository;
 import org.apache.avalon.phoenix.components.manager.SystemManager;
 import org.apache.avalon.phoenix.components.installer.Installer;
@@ -81,7 +82,7 @@ public class DefaultEmbeddor
 
     private Parameters     m_parameters;
 
-    private Application              m_kernel;
+    private Kernel                   m_kernel;
     private Installer                m_installer;
     private Deployer                 m_deployer;
     private SystemManager            m_systemManager;
@@ -425,7 +426,7 @@ public class DefaultEmbeddor
         if( m_deployer instanceof Composable )
         {
             final DefaultComponentManager componentManager = new DefaultComponentManager();
-            componentManager.put( Container.ROLE, (Container)m_kernel );
+            componentManager.put( Container.ROLE, m_kernel );
             componentManager.put( ConfigurationRepository.ROLE, m_repository );
             componentManager.put( Installer.ROLE, m_installer );
             ((Composable)m_deployer).compose( componentManager );
@@ -537,13 +538,13 @@ public class DefaultEmbeddor
      * @return the created Kernel
      * @exception ConfigurationException if an error occurs
      */
-    private Application createKernel()
+    private Kernel createKernel()
         throws ConfigurationException
     {
         final String className = m_parameters.getParameter( "kernel-class", DEFAULT_KERNEL );
         try
         {
-            return (Application)Class.forName( className ).newInstance();
+            return (Kernel)Class.forName( className ).newInstance();
         }
         catch( final Exception e )
         {
@@ -609,7 +610,7 @@ public class DefaultEmbeddor
      *
      * @return the Kernel
      */
-    protected final Application getKernel()
+    protected final Kernel getKernel()
     {
         return m_kernel;
     }

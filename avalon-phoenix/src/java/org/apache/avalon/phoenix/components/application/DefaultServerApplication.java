@@ -45,6 +45,8 @@ import org.apache.avalon.phoenix.metainfo.BlockInfoBuilder;
 import org.apache.avalon.phoenix.metainfo.DependencyDescriptor;
 import org.apache.avalon.phoenix.components.listeners.BlockListenerSupport;
 import org.apache.avalon.phoenix.components.listeners.BlockListenerManager;
+import org.apache.avalon.phoenix.components.kapi.BlockListenerEntry;
+import org.apache.avalon.phoenix.BlockListener;
 
 /**
  * This is the basic container of blocks. A server application
@@ -80,6 +82,7 @@ public final class DefaultServerApplication
     //these are the facilities (internal components) of ServerApplication
     private ApplicationFrame         m_frame;
     private BlockListenerManager     m_listenerManager;
+    private BlockListenerEntry[]     m_listenerEntrys;
 
     public DefaultServerApplication()
     {
@@ -108,6 +111,11 @@ public final class DefaultServerApplication
         newComponentManager.makeReadOnly();
 
         m_componentManager = newComponentManager;
+    }
+
+    public void addBlockListenerEntrys( final BlockListenerEntry[] listeners )
+    {
+        m_listenerEntrys = listeners;
     }
 
     public void configure( final Configuration configuration )
@@ -197,6 +205,9 @@ public final class DefaultServerApplication
         // load block info
         loadBlockInfos();
 
+        // load block listeners
+        loadBlockListeners();
+
         // load blocks
         final PhaseEntry entry = (PhaseEntry)m_phases.get( "startup" );
         runPhase( "startup", entry );
@@ -229,6 +240,30 @@ public final class DefaultServerApplication
             {
                 final String message = REZ.getString( "app.error.failremove", names[ i ] );
                 getLogger().warn( message, ce );
+            }
+        }
+    }
+
+    private void loadBlockListeners()
+        throws Exception
+    {
+        final ClassLoader classLoader = m_frame.getClassLoader();
+
+        for( int i = 0; i < m_listenerEntrys.length; i++ )
+        {
+            final BlockListenerEntry entry = m_listenerEntrys[ i ];
+            
+            try
+            {
+                final Class clazz = classLoader.loadClass( entry.getClassname() );
+                final BlockListener listener = (BlockListener)clazz.newInstance();
+                m_listenerManager.addBlockListener( listener );
+            }
+            catch( final Exception e )
+            {
+                final String message = REZ.getString( "app.error.bad-listener", entry.getName() );
+                getLogger().error( message, e );
+                throw e;
             }
         }
     }

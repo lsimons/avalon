@@ -36,7 +36,7 @@ import org.apache.avalon.phoenix.components.application.Application;
  */
 public abstract class AbstractKernel
     extends AbstractContainer
-    implements Application
+    implements Kernel
 {
     private static final Resources REZ =
         ResourceManager.getPackageResources( AbstractKernel.class );

@@ -26,6 +26,7 @@ import org.apache.avalon.framework.logger.AbstractLoggable;
 import org.apache.avalon.phoenix.components.application.Application;
 import org.apache.avalon.phoenix.components.configuration.ConfigurationRepository;
 import org.apache.avalon.phoenix.components.kapi.BlockEntry;
+import org.apache.avalon.phoenix.components.kapi.BlockListenerEntry;
 import org.apache.avalon.phoenix.components.kapi.RoleEntry;
 import org.apache.avalon.phoenix.components.kapi.ServerApplicationEntry;
 import org.apache.avalon.phoenix.components.installer.Installation;
@@ -104,6 +105,11 @@ public class DefaultSarDeployer
         final Configuration[] blocks = configuration.getChildren( "block" );
         final BlockEntry[] blockEntrys = assembleBlocks( entry, blocks );
         entry.setBlockEntrys( blockEntrys );
+
+        final Configuration[] blockListeners = configuration.getChildren( "block-listener" );
+        final BlockListenerEntry[] blockListenerEntrys = 
+            assembleBlockListeners( entry, blockListeners );
+        entry.setListenerEntrys( blockListenerEntrys );
 
         //Setup configuration for all the applications blocks
         configuration = getConfigurationFor( installation.getConfig() );
@@ -197,6 +203,45 @@ public class DefaultSarDeployer
         }
 
         return (BlockEntry[])blockEntrys.toArray( new BlockEntry[ 0 ] );
+    }
+
+
+    /**
+     * Process assembly.xml and create a list of BlockListenerEntrys.
+     *
+     * @param saEntry the ServerApplication Entry
+     * @param blockListeners the assembly data for blockListeners
+     * @return the  created BlockListenerEntrys
+     * @exception DeploymentException if an error occurs
+     */
+    private BlockListenerEntry[] assembleBlockListeners( final ServerApplicationEntry saEntry,
+                                                         final Configuration[] listeners )
+        throws DeploymentException
+    {
+        final ArrayList listenerEntrys = new ArrayList();
+        for( int i = 0; i < listeners.length; i++ )
+        {
+            final Configuration listener = listeners[ i ];
+
+            try
+            {
+                final String name = listener.getAttribute( "name" );
+                final String className = listener.getAttribute( "class" );
+
+                final BlockListenerEntry entry = new BlockListenerEntry( name, className );
+                listenerEntrys.add( entry );
+
+                final String message = REZ.getString( "deploy.notice.listener.add", name );
+                getLogger().debug( message );
+            }
+            catch( final ConfigurationException ce )
+            {
+                final String message = REZ.getString( "deploy.error.assembly.malformed" );
+                throw new DeploymentException( message, ce );
+            }
+        }
+
+        return (BlockListenerEntry[])listenerEntrys.toArray( new BlockListenerEntry[ 0 ] );
     }
 
     /**

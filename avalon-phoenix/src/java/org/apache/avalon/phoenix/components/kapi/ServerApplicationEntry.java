@@ -25,6 +25,7 @@ public class ServerApplicationEntry
     private File            m_homeDirectory;
     private URL[]           m_classPath;
     private BlockEntry[]    m_blockEntrys;
+    private BlockListenerEntry[] m_listenerEntrys;
     private Configuration   m_configuration;
 
     public BlockEntry[] getBlockEntrys()
@@ -35,6 +36,16 @@ public class ServerApplicationEntry
     public void setBlockEntrys( final BlockEntry[] blockEntrys )
     {
         m_blockEntrys = blockEntrys;
+    }
+
+    public BlockListenerEntry[] getListenerEntrys()
+    {
+        return m_listenerEntrys;
+    }
+
+    public void setListenerEntrys( final BlockListenerEntry[] listenerEntrys )
+    {
+        m_listenerEntrys = listenerEntrys;
     }
 
     public void setClassPath( final URL[] classPath )
