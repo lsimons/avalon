@@ -50,8 +50,10 @@
 package org.apache.avalon.excalibur.component;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.avalon.excalibur.logger.LogKitManageable;
 import org.apache.avalon.excalibur.logger.LogKitManager;
@@ -69,7 +71,6 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.thread.ThreadSafe;
-import org.apache.commons.collections.StaticBucketMap;
 import org.apache.excalibur.instrument.Instrument;
 import org.apache.excalibur.instrument.InstrumentManageable;
 import org.apache.excalibur.instrument.InstrumentManager;
@@ -83,7 +84,7 @@ import org.apache.excalibur.instrument.Instrumentable;
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:paul@luminas.co.uk">Paul Russell</a>
  * @author <a href="mailto:leif@apache.org">Leif Mortenson</a>
- * @version CVS $Revision: 1.1 $ $Date: 2003/11/09 12:45:27 $
+ * @version CVS $Revision: 1.2 $ $Date: 2004/01/21 08:34:24 $
  * @since 4.0
  */
 public class ExcaliburComponentSelector
@@ -125,11 +126,11 @@ public class ExcaliburComponentSelector
 
     /** Static component handlers.
      */
-    private StaticBucketMap m_componentHandlers = new StaticBucketMap();
+    private Map m_componentHandlers = new HashMap();
 
     /** Dynamic component handlers mapping.
      */
-    private StaticBucketMap m_componentMapping = new StaticBucketMap();
+    private Map m_componentMapping = new HashMap();
 
     /** Flag for if this is disposed or not.
      */
@@ -273,7 +274,7 @@ public class ExcaliburComponentSelector
             throw new ComponentException( hint.toString(), message );
         }
 
-        m_componentMapping.put( component.toString(), handler );
+        m_componentMapping.put( component, handler );
         return component;
     }
 
@@ -311,7 +312,7 @@ public class ExcaliburComponentSelector
         }
 
         final ComponentHandler handler =
-            (ComponentHandler)m_componentMapping.get( component.toString() );
+            (ComponentHandler)m_componentMapping.get( component );
 
         if( null == handler )
         {
@@ -330,7 +331,7 @@ public class ExcaliburComponentSelector
             // Remove the component before calling put.  This is critical to avoid the
             //  problem where another thread calls put on the same component before
             //  remove can be called.
-            m_componentMapping.remove( component.toString() );
+            m_componentMapping.remove( component );
         }
 
         try
@@ -350,7 +351,7 @@ public class ExcaliburComponentSelector
      * Is this component looked up using this selector?
      */
     protected boolean canRelease(final Component component) {
-          return m_componentMapping.containsKey( component.toString() );
+          return m_componentMapping.containsKey( component );
     }
 
     /*---------------------------------------------------------------
@@ -700,7 +701,7 @@ public class ExcaliburComponentSelector
      *
      * @return A reference to the componentHandler Map.
      */
-    protected StaticBucketMap getComponentHandlers()
+    protected Map getComponentHandlers()
     {
         return m_componentHandlers;
     }
