@@ -14,7 +14,32 @@
     <author name="Peter Royal" email="proyal@apache.org" id="PR"/>
     <author name="Huw Roberts" email="huw@apache.org" id="HR"/>    
   </devs>
-<release version="4.0b" date="Unreleased">  
+<release version="4.0b" date="Unreleased">
+    <action dev="PD" type="add">
+        Added the ability for Blocks to request shutdown of their
+        enclosing application via BlockContext.requestShutdown().
+        This will in turn shutdown the JVM *if* there are no more
+        applications and the kernel has not been put in persistent
+        mode.
+    </action>
+    <action dev="PD" type="fix">
+        Made sure that the i18n resources are reloaded whenever an
+        application is redeployed. This fixed a bug where multiple
+        re-runs of the same application would not update the i18n Resource
+        bundles.
+    </action>
+    <action dev="PD" type="add">
+        Added the ability for Blocks to request resources from the
+        .sar file via BlockContext.getResourceAsStream(String).
+    </action>
+    <action dev="PD" type="remove">
+        Removed support for the JMX RI as it did not support
+        RequiredMBean objects. We now require the MX4J
+        implementation.
+    </action>
+    <action dev="HR" type="add">
+        Addded documentation for new Management Info files.
+    </action>
     <action dev="HR" type="add">
         Lots of work on JMX capability for Phoenix.
     </action>
