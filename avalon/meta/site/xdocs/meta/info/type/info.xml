@@ -29,7 +29,7 @@
             <td>lifestyle</td><td>0..1</td>
             <td>
              Declaration of the component lifestyle. May contain one of the 
-             reconized values "singleton", "thread", "pooled", or "transient".
+             recognized values "singleton", "thread", "pooled", or "transient".
             </td>
           </tr>
           <tr>
@@ -54,7 +54,8 @@
 
       <subsection name="Description">
 <p>
-The org.apache.avalon.meta.info.infoDescriptor class describes the component type name, version, and optionally a set of attributes.
+The org.apache.avalon.meta.info.InfoDescriptor class describes the component 
+type name, version, and optionally a set of attributes.
 </p>
       </subsection>
 
@@ -82,7 +83,7 @@ The org.apache.avalon.meta.info.infoDescriptor class describes the component typ
   <footer>
     <legal>
       Copyright (c) @year@ The Avalon Apache Project All rights reserved.
-      $Revision: 1.6 $ $Date: 2003/12/14 20:26:26 $
+      $Revision: 1.7 $ $Date: 2004/03/04 15:48:47 $
     </legal>
   </footer>
 

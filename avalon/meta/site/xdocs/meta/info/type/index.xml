@@ -50,7 +50,7 @@
           <tr>
             <td><a href="services/index.html">services</a></td><td>0..1</td>
             <td>
-             Declaration of the set of service that the component type provides.
+             Declaration of the set of services that the component type provides.
             </td>
           </tr>
           <tr>
@@ -83,7 +83,8 @@ information about the component type.
 
       <subsection name="Example XML">
 
-<p>Configuration instances supplied to the builder shall correspond to the <a href="http://avalon.apache.org/dtds/meta/type_1_1.dtd">type DTD</a>.  
+<p>Configuration instances supplied to the builder shall correspond to the 
+<a href="http://avalon.apache.org/dtds/meta/type_1_1.dtd">type DTD</a>.  
 The structure of a Type XML document is described below:</p>
 
 <source>
@@ -100,12 +101,12 @@ The structure of a Type XML document is described below:</p>
 
 
     <font color="gray"><i>&lt;!--
-    Defintion of a single component info descriptor.
+    Definition of a single component info descriptor.
     --&gt;</i></font>
 
     &lt;info&gt;
 
-      <font color="gray"><i>&lt;!-- the name of the component (character restrictions appply) --&gt;</i></font>
+      <font color="gray"><i>&lt;!-- the name of the component (character restrictions apply) --&gt;</i></font>
 
       &lt;name&gt;<font color="darkred">my-component</font>&lt;/name&gt;
 
@@ -113,7 +114,7 @@ The structure of a Type XML document is described below:</p>
 
       &lt;version&gt;<font color="darkred">1.2.1</font>&lt;/version&gt;
 
-      <font color="gray"><i>&lt;!-- the set of attribibutes associated with the type
+      <font color="gray"><i>&lt;!-- the set of attributes associated with the type
          (attribute names and values are examples only) --&gt;</i></font>
 
       &lt;attributes&gt;
@@ -126,7 +127,7 @@ The structure of a Type XML document is described below:</p>
     &lt;/info&gt;
 
     <font color="gray"><i>&lt;!--
-    The set of logging catagories the component uses. 
+    The set of logging categories the component uses. 
     --&gt;</i></font>
 
     &lt;loggers&gt;
@@ -166,7 +167,7 @@ The structure of a Type XML document is described below:</p>
     of supplying.  Each service declared under the services element
     may be referenced by other component info descriptions as a 
     dependency.  A container is responsible for the assembly of 
-    components based on the connection of supply components to 
+    components based on the connection of supplier components to 
     consumer components via a common service description. 
     --&gt;</i></font>
 
@@ -174,7 +175,7 @@ The structure of a Type XML document is described below:</p>
 
       <font color="gray"><i>&lt;!-- 
       The service element declares the classname of an service 
-      interface and the version identifier the qualifies the service 
+      interface and the version identifier that qualify as the service 
       version.  The default version value is 1.0.
       --&gt;</i></font>
 
@@ -185,9 +186,9 @@ The structure of a Type XML document is described below:</p>
         &lt;attributes&gt;
 
            <font color="gray"><i>&lt;!--
-           Attributes qualifying a service implementation may be included
+           Attributes qualifying as service implementation may be included
            as supplementary information to the attributes declared under
-           a ServiceDefintion.
+           a ServiceDefinition.
            --&gt;</i></font>
 
         &lt;/attributes&gt;
@@ -249,7 +250,7 @@ The structure of a Type XML document is described below:</p>
   <footer>
     <legal>
       Copyright (c) @year@ The Avalon Apache Project All rights reserved.
-      $Revision: 1.2 $ $Date: 2004/02/25 13:33:10 $
+      $Revision: 1.3 $ $Date: 2004/03/04 15:48:47 $
     </legal>
   </footer>
 
