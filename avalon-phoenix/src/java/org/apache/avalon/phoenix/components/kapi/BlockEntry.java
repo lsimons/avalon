@@ -44,9 +44,4 @@ public class BlockEntry
     {
         m_invocationHandler = invocationHandler;
     }
-
-    public BlockInfo getBlockInfo()
-    {
-        return (BlockInfo)getInfo();
-    }
 }
