@@ -16,6 +16,8 @@
         <pathelement location="${avalon-framework.jar}"/>
         <pathelement location="${checkstyle.jar}"/>
         <pathelement location="${jisp.jar}"/>
+        <pathelement location="${excalibur-fortress-tools.jar}"/>
+        <pathelement location="${qdox.jar}"/>
         <pathelement path="${java.class.path}"/>
     </path>
 
@@ -39,6 +41,7 @@
     <target name="dependencies" description="Check dependencies" unless="skip.dependencies">
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkCommon"/>
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkFramework"/>
+        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkFortressTools"/>
     </target>
 
     <target name="dependencies-test" depends="dist-jar, dependencies"
@@ -64,6 +67,16 @@
             <classpath refid="project.class.path" />
             <include name="**/*.java"/>
         </javac>
+
+        <!-- generate fortress meta descriptors -->
+        <taskdef name="fortress-collect-meta"
+                 classname="org.apache.avalon.fortress.tools.ComponentMetaInfoCollector">
+            <classpath refid="project.class.path"/>
+        </taskdef>
+
+        <fortress-collect-meta destdir="${build.classes}">
+            <fileset dir="${java.dir}"/>
+        </fortress-collect-meta>
 
         <!-- copy resources to same location as .class files -->
         <copy todir="${build.classes}">
