@@ -10,6 +10,7 @@
   <property name="magic.bar.dir" value="${magic.group}/bars"/>
   <property name="magic.bar.path" value="${magic.bar.dir}/${magic.bar}"/>
   <property name="magic.bar.url" value="${magic.install.host}/${magic.bar.path}"/>
+  <property name="magic.jar" value="avalon-tools-magic.jar"/>
 
   <property name="magic.junit.jar" value="junit-3.8.1.jar"/>
   <property name="magic.junit.jar.url" 
@@ -91,6 +92,11 @@
     <mkdir dir="${magic.home}/themes"/>
     <copy todir="${magic.home}/themes">
       <fileset dir="${magic.bar.destination}/themes"/>
+    </copy>
+
+    <!-- add magic antlib to ant -->
+    <copy todir="${ant.lib}">
+      <fileset file="${magic.cache}/${magic.group}/jars/${magic.jar}"/>
     </copy>
 
   </target>
