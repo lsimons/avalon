@@ -23,13 +23,16 @@ import java.io.IOException;
 import org.apache.tools.ant.Task;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.taskdefs.Property;
+import org.apache.tools.ant.taskdefs.Delete;
 import org.apache.tools.ant.taskdefs.Mkdir;
 
 import org.apache.avalon.tools.home.Home;
 import org.apache.avalon.tools.project.Definition;
 
 /**
- * Load a goal. 
+ * Abstract task that provides convinience opperations including 
+ * access to the current project defintion and the system home 
+ * model and repository.  
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
@@ -46,17 +49,17 @@ public abstract class HomeTask extends Task
         m_definition = m_home.getDefinition( key );
     }
 
-    public Home getHome()
+    protected Home getHome()
     {
         return m_home;
     }
 
-    public Definition getDefinition()
+    protected Definition getDefinition()
     {
         return m_definition;
     }
 
-    public void setProjectProperty( String key, String value )
+    protected void setProjectProperty( String key, String value )
     {
         Property props = (Property) getProject().createTask( "property" );
         props.setName( key );
@@ -65,11 +68,26 @@ public abstract class HomeTask extends Task
         props.execute();
     }
 
-    public void createDirectory( File dir )
+    protected void createDirectory( File dir )
     {
         Mkdir mkdir = (Mkdir) getProject().createTask( "mkdir" );
         mkdir.setDir( dir );
         mkdir.init();
         mkdir.execute();
+    }
+
+    protected void delete( File file )
+    {
+        delete( file, true );
+    }
+
+    protected void delete( File file, boolean verbose )
+    {
+        Delete delete = (Delete) getProject().createTask( "delete" );
+        delete.setFile( file );
+        delete.setVerbose( verbose );
+        delete.setQuiet( true );
+        delete.init();
+        delete.execute();
     }
 }

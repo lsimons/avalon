@@ -36,36 +36,30 @@ import org.apache.avalon.tools.project.Definition;
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
-public class InstallTask extends HomeTask
+public class InstallTask extends DeliverableTask
 {
     public void execute() throws BuildException 
     {
-        String filename = JarTask.getJarFilename( getDefinition() );
-        File jar = JarTask.getJarFile( getProject(), getDefinition() );
-        if( jar.exists() )
+        File deliverables = getTargetDeliverablesDirectory();
+        if( deliverables.exists() )
         {
-            install();
+            install( deliverables );
         }
     }
 
-    private void install()
+    private void install( File deliverables )
     {
         FileSet fileset = new FileSet();
-        fileset.setDir( PrepareTask.getTargetDirectory( getProject() ) );
-        String filename = JarTask.getJarFilename( getDefinition() );
-        fileset.createInclude().setName( filename );
-        fileset.createInclude().setName( filename + "." + JarTask.MD5_EXT );
+        fileset.setDir( deliverables );
+        fileset.createInclude().setName( "**/*" );
 
         File cache = getHome().getRepository().getCacheDirectory();
         String group = getDefinition().getInfo().getGroup();
-        String type = getDefinition().getInfo().getType();
-        File repoGroup = new File( cache, group );
-        File repoType = new File( repoGroup, type + "s" );
+        File target = new File( cache, group );
 
         Copy copy = (Copy) getProject().createTask( "copy" );
+        copy.setTodir( target );
         copy.addFileset( fileset );
-        copy.setTodir( repoType );
-
         copy.init();
         copy.execute();
     }
