@@ -20,12 +20,12 @@ import org.apache.log.*;
  * The +|- indicates left or right justify.
  * The #.# indicates the minimum and maximum size of output.
  * 'field' indicates which field is to be output and must be one of
- *  proeprties of LogEvent
+ *  properties of LogEvent
  * 'subformat' indicates a particular subformat and is currently unused.
  *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  * @author <a href="mailto:sylvain@apache.org">Sylvain Wallez</a>
- * @version CVS $Revision: 1.12 $ $Date: 2001/07/27 05:08:50 $
+ * @version CVS $Revision: 1.13 $ $Date: 2001/07/27 08:36:17 $
  */
 public class PatternFormatter
     implements Formatter
