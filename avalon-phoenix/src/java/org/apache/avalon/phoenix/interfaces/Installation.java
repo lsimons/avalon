@@ -5,7 +5,7 @@
  * version 1.1, a copy of which has been included with this distribution in
  * the LICENSE.txt file.
  */
-package org.apache.avalon.phoenix.components.deployer.installer;
+package org.apache.avalon.phoenix.interfaces;
 
 import java.io.File;
 
@@ -16,7 +16,7 @@ import java.io.File;
  * jars in Classpath, config files and installation directory.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.4 $ $Date: 2002/09/15 02:41:47 $
+ * @version $Revision: 1.1 $ $Date: 2002/09/21 02:36:03 $
  */
 public final class Installation
 {
