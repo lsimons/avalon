@@ -35,7 +35,7 @@ import org.xml.sax.SAXException;
  * This class uses jtidy.
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.8 $ $Date: 2002/07/10 08:57:10 $
+ * @version CVS $Revision: 1.9 $ $Date: 2002/07/10 09:34:30 $
  */
 public final class HTMLXMLizer
     extends AbstractLogEnabled
@@ -50,6 +50,7 @@ public final class HTMLXMLizer
     private Parser m_parser;
 
     public void compose( final ComponentManager manager )
+        throws ComponentException
     {
         m_parser = (Parser)manager.lookup( Parser.ROLE );
     }

@@ -25,7 +25,7 @@ import org.xml.sax.SAXException;
  * to SAX events.
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.4 $ $Date: 2002/07/10 08:59:10 $
+ * @version CVS $Revision: 1.5 $ $Date: 2002/07/10 09:34:59 $
  */
 public final class TextXMLizer
     extends AbstractLogEnabled
@@ -39,6 +39,7 @@ public final class TextXMLizer
     private Parser m_parser;
 
     public void compose( final ComponentManager manager )
+        throws ComponentException
     {
         m_parser = (Parser)manager.lookup( Parser.ROLE );
     }
