@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 
 <book software="Avalon Applications"
-      title="Avalon Applications Documentation - Applications / Sevak - A Catalina Wrapper"
+      title="Avalon Applications Documentation - Applications / Sevak"
       copyright="@year@ The Apache Software Foundation">
 
   <project label="Back to Avalon" href="@AVALON_BASE@" />
@@ -9,8 +9,8 @@
 
   <menu label="About">
     <menu-item label="Overview" href="index.html"/>
-    <menu-item type="external" label="API Docs" href="http://jakarta.apache.org/avalon"/>   
-    <menu-item type="external" id="downloads" label="Download" href="http://cvs.apache.org/~vinayc/"/>
+    <menu-item type="external" label="API Docs" href="http://hack.hack"/>   
+    <menu-item type="external" id="downloads" label="Download" href="http://cvs.apache.org/~hammant/"/>
   </menu>
 
 </book>
