@@ -15,13 +15,14 @@ import java.rmi.server.UnicastRemoteObject;
 import javax.management.DynamicMBean;
 import javax.management.MBeanServer;
 import javax.management.ObjectName;
+import org.apache.avalon.excalibur.i18n.ResourceManager;
+import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.framework.parameters.ParameterException;
 import org.apache.avalon.framework.parameters.Parameterizable;
 import org.apache.avalon.framework.parameters.Parameters;
+import org.apache.avalon.phoenix.interfaces.ManagerException;
 import org.apache.jmx.adaptor.RMIAdaptorImpl;
 import org.apache.jmx.introspector.DynamicMBeanFactory;
-import org.apache.avalon.excalibur.i18n.ResourceManager;
-import org.apache.avalon.excalibur.i18n.Resources;
 
 /**
  * This component is responsible for managing phoenix instance.

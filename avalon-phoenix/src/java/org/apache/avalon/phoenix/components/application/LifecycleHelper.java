@@ -28,13 +28,15 @@ import org.apache.avalon.phoenix.Block;
 import org.apache.avalon.phoenix.BlockContext;
 import org.apache.avalon.phoenix.BlockEvent;
 import org.apache.avalon.phoenix.BlockListener;
-import org.apache.avalon.phoenix.metadata.BlockMetaData;
+import org.apache.avalon.phoenix.interfaces.Application;
+import org.apache.avalon.phoenix.interfaces.ApplicationContext;
 import org.apache.avalon.phoenix.metadata.BlockListenerMetaData;
+import org.apache.avalon.phoenix.metadata.BlockMetaData;
 import org.apache.avalon.phoenix.metadata.DependencyMetaData;
 
 /**
- * This is a class to help an Application manage lifecycle of 
- * <code>Blocks</code> and <code>BlockListeners</code>. The 
+ * This is a class to help an Application manage lifecycle of
+ * <code>Blocks</code> and <code>BlockListeners</code>. The
  * class will run each individual Entry through each lifecycle stage,
  * and manage erros in a consistent way.
  *
@@ -77,7 +79,7 @@ class LifecycleHelper
     private BlockListenerSupport m_listenerSupport = new BlockListenerSupport();
 
     /**
-     * Construct helper object for specified application, 
+     * Construct helper object for specified application,
      * in specified frame.
      *
      * @param application the Application that this object is helper to
@@ -96,7 +98,7 @@ class LifecycleHelper
      * object if appropriate.
      *
      * @param metaData the BlockListenerMetaData
-     * @exception Exception if an error occurs when listener passes 
+     * @exception Exception if an error occurs when listener passes
      *            through a specific lifecycle stage
      */
     public void startupListener( final BlockListenerMetaData metaData )
@@ -120,13 +122,13 @@ class LifecycleHelper
     /**
      * Method to run a <code>Block</code> through it's startup phase.
      * This will involve notification of <code>BlockListener</code>
-     * objects, creation of the Block/Block Proxy object, calling the startup 
-     * Avalon Lifecycle methods and updating State property of BlockEntry. 
+     * objects, creation of the Block/Block Proxy object, calling the startup
+     * Avalon Lifecycle methods and updating State property of BlockEntry.
      * Errors that occur during shutdown will be logged appropriately and
      * cause exceptions with useful messages to be raised.
      *
      * @param entry the entry containing Block
-     * @exception Exception if an error occurs when block passes 
+     * @exception Exception if an error occurs when block passes
      *            through a specific lifecycle stage
      */
     public void startup( final BlockEntry entry )
@@ -214,8 +216,8 @@ class LifecycleHelper
     /**
      * Method to run a <code>Block</code> through it's shutdown phase.
      * This will involve notification of <code>BlockListener</code>
-     * objects, invalidating the proxy object, calling the shutdown 
-     * Avalon Lifecycle methods and updating State property of BlockEntry. 
+     * objects, invalidating the proxy object, calling the shutdown
+     * Avalon Lifecycle methods and updating State property of BlockEntry.
      * Errors that occur during shutdown will be logged appropraitely.
      *
      * @param entry the entry containing Block
@@ -323,17 +325,17 @@ class LifecycleHelper
         {
             //Note that this shouldn't ever happen once we
             //create a Config validator
-            final String message = 
+            final String message =
                 REZ.getString( "missing-configuration", new Integer( type ), name );
             throw new ConfigurationException( message, ce );
         }
     }
 
     /**
-     * Create a <code>ComponentManager</code> object for a 
+     * Create a <code>ComponentManager</code> object for a
      * specific <code>Block</code>. This requires that for
      * each dependency a reference to providing <code>Block</code>
-     * is aaqiured from the Application and placing it in 
+     * is aaqiured from the Application and placing it in
      * <code>ComponentManager</code> under the correct name.
      *
      * @param metaData the BlockMetaData representing block

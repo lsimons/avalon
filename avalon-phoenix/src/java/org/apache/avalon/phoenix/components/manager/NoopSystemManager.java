@@ -7,6 +7,8 @@
  */
 package org.apache.avalon.phoenix.components.manager;
 
+import org.apache.avalon.phoenix.interfaces.ManagerException;
+
 /**
  * Null SystemManager.
  *

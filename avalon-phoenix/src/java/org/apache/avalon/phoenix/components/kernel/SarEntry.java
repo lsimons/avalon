@@ -9,8 +9,8 @@ package org.apache.avalon.phoenix.components.kernel;
 
 import java.net.URL;
 import org.apache.avalon.framework.configuration.Configuration;
+import org.apache.avalon.phoenix.interfaces.Application;
 import org.apache.avalon.phoenix.metadata.SarMetaData;
-import org.apache.avalon.phoenix.components.application.Application;
 import org.apache.log.Hierarchy;
 
 /**
@@ -26,7 +26,7 @@ final class SarEntry
     private Application     m_application;
     private Hierarchy       m_hierarchy;
 
-    protected SarEntry( final SarMetaData metaData, 
+    protected SarEntry( final SarMetaData metaData,
                         final ClassLoader classLoader,
                         final Hierarchy hierarchy,
                         final Configuration configuration )
@@ -40,12 +40,12 @@ final class SarEntry
     public Application getApplication()
     {
         return m_application;
-    } 
+    }
 
     public void setApplication( final Application application )
     {
         m_application = application;
-    } 
+    }
 
     public SarMetaData getMetaData()
     {

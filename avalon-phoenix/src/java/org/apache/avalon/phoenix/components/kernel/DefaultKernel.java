@@ -20,11 +20,12 @@ import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.context.DefaultContext;
 import org.apache.avalon.framework.logger.AbstractLoggable;
-import org.apache.avalon.phoenix.components.application.Application;
 import org.apache.avalon.phoenix.components.application.DefaultApplication;
-import org.apache.avalon.phoenix.components.configuration.ConfigurationRepository;
-import org.apache.avalon.phoenix.components.application.ApplicationContext;
-import org.apache.avalon.phoenix.components.manager.SystemManager;
+import org.apache.avalon.phoenix.interfaces.Application;
+import org.apache.avalon.phoenix.interfaces.ApplicationContext;
+import org.apache.avalon.phoenix.interfaces.ConfigurationRepository;
+import org.apache.avalon.phoenix.interfaces.Kernel;
+import org.apache.avalon.phoenix.interfaces.SystemManager;
 import org.apache.avalon.phoenix.metadata.SarMetaData;
 import org.apache.log.Hierarchy;
 
@@ -178,7 +179,7 @@ public class DefaultKernel
         throws Exception
     {
         final DefaultApplicationContext context =
-            new DefaultApplicationContext( entry.getMetaData(), 
+            new DefaultApplicationContext( entry.getMetaData(),
                                            entry.getClassLoader(),
                                            entry.getHierarchy() );
 

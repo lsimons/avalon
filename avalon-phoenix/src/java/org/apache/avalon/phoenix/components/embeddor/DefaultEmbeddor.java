@@ -8,17 +8,17 @@
 package org.apache.avalon.phoenix.components.embeddor;
 
 import java.io.File;
+import org.apache.avalon.excalibur.container.Container;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.excalibur.io.ExtensionFileFilter;
+import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.activity.Startable;
-import org.apache.avalon.framework.activity.Disposable;
-import org.apache.avalon.excalibur.container.Container;
-import org.apache.avalon.framework.component.Composable;
 import org.apache.avalon.framework.component.Component;
-import org.apache.avalon.framework.component.DefaultComponentManager;
 import org.apache.avalon.framework.component.ComponentManager;
+import org.apache.avalon.framework.component.Composable;
+import org.apache.avalon.framework.component.DefaultComponentManager;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
@@ -28,13 +28,14 @@ import org.apache.avalon.framework.logger.AvalonFormatter;
 import org.apache.avalon.framework.parameters.ParameterException;
 import org.apache.avalon.framework.parameters.Parameterizable;
 import org.apache.avalon.framework.parameters.Parameters;
-import org.apache.avalon.phoenix.components.application.Application;
-import org.apache.avalon.phoenix.components.kernel.Kernel;
-import org.apache.avalon.phoenix.components.configuration.ConfigurationRepository;
-import org.apache.avalon.phoenix.components.manager.SystemManager;
-import org.apache.avalon.phoenix.components.deployer.Deployer;
-import org.apache.avalon.phoenix.components.logger.LogManager;
-import org.apache.avalon.phoenix.components.classloader.ClassLoaderManager;
+import org.apache.avalon.phoenix.interfaces.Application;
+import org.apache.avalon.phoenix.interfaces.ClassLoaderManager;
+import org.apache.avalon.phoenix.interfaces.ConfigurationRepository;
+import org.apache.avalon.phoenix.interfaces.Deployer;
+import org.apache.avalon.phoenix.interfaces.Embeddor;
+import org.apache.avalon.phoenix.interfaces.Kernel;
+import org.apache.avalon.phoenix.interfaces.LogManager;
+import org.apache.avalon.phoenix.interfaces.SystemManager;
 import org.apache.log.Hierarchy;
 import org.apache.log.LogTarget;
 import org.apache.log.Logger;
@@ -230,15 +231,15 @@ public class DefaultEmbeddor
         String component = null;
 
         component = m_parameters.getParameter( ConfigurationRepository.ROLE );
-        m_repository = 
+        m_repository =
             (ConfigurationRepository)createComponent( component, ConfigurationRepository.class );
 
         component = m_parameters.getParameter( LogManager.ROLE );
-        m_logManager = 
+        m_logManager =
             (LogManager)createComponent( component, LogManager.class );
 
         component = m_parameters.getParameter( ClassLoaderManager.ROLE );
-        m_classLoaderManager = 
+        m_classLoaderManager =
             (ClassLoaderManager)createComponent( component, ClassLoaderManager.class );
 
         component = m_parameters.getParameter( Deployer.ROLE );
@@ -329,11 +330,11 @@ public class DefaultEmbeddor
     protected final void deployFile( final String name, final File file )
         throws Exception
     {
-        m_deployer.deploy( name, file.toURL() );        
+        m_deployer.deploy( name, file.toURL() );
     }
 
     /**
-     * Setup a component and run it through al of it's 
+     * Setup a component and run it through al of it's
      * setup lifecycle stages.
      *
      * @param component the component
@@ -367,7 +368,7 @@ public class DefaultEmbeddor
     }
 
     /**
-     * Shutdown a component and run it through al of it's 
+     * Shutdown a component and run it through al of it's
      * shutdown lifecycle stages.
      *
      * @param component the component
@@ -460,9 +461,9 @@ public class DefaultEmbeddor
         defaults.setParameter( LogManager.ROLE, PREFIX + "logger.DefaultLogManager" );
         defaults.setParameter( Kernel.ROLE, PREFIX + "kernel.DefaultKernel" );
         defaults.setParameter( SystemManager.ROLE, PREFIX + "manager.NoopSystemManager" );
-        defaults.setParameter( ConfigurationRepository.ROLE, 
+        defaults.setParameter( ConfigurationRepository.ROLE,
                                PREFIX + "configuration.DefaultConfigurationRepository" );
-        defaults.setParameter( ClassLoaderManager.ROLE, 
+        defaults.setParameter( ClassLoaderManager.ROLE,
                                PREFIX + "classloader.DefaultClassLoaderManager" );
         return defaults;
     }
