@@ -27,7 +27,7 @@
 BUILD SYSTEM FAILURE!
 ===================================================================
 
-a required file, ../maven-common-gump-build.xml,
+a required file, ../../maven-common-gump-build.xml,
 cannot be found. Try setting the avalon.buildsystem property in
 project.properties to the correct location.
 </fail>
