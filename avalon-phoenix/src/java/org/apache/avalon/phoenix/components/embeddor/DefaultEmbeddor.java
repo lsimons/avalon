@@ -194,6 +194,8 @@ public class DefaultEmbeddor
     public void stop()
         throws Exception
     {
+        shutdown();
+
         if( null != m_systemManager )
         {
             m_systemManager.unregister( "Phoenix.Kernel" );
