@@ -7,13 +7,11 @@
     </ant>
 
 
-    <depend inherit="runtime" project="ant"></depend>
+    <depend project="ant" inherit="runtime"></depend>
     <depend project="xml-xalan2"></depend>
     <depend project="xml-xerces"></depend>
 
 
-
-      <depend runtime="true" project="ant"></depend>
 
       <depend runtime="true" project="avalon-fortress-container"></depend>
 

@@ -1,52 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <module name="avalon">
-    <url href="http://avalon.apache.org/"></url>
+    <url href="http://avalon.apache.org/"/>
     <description>
       Avalon's main repository.
     </description>
-    <cvs repository="avalon"></cvs>
+    <cvs repository="avalon"/>
 
     <project name="avalon">
         <!-- deprecated! -->
 
         <!-- can't just reference the new avalon-framework project here
-             because we go from 1 to multiple jars. This is a copied
-             descriptor. -->
+        because we go from 1 to multiple jars. This is a copied
+        descriptor. -->
 
         <package>org.apache.avalon</package>
         <ant target="dist" basedir="framework">
             <property name="project.version" value="@@DATE@@"></property>
         </ant>
 
-        <depend project="ant"></depend>
-        <depend inherit="runtime" project="ant"></depend>
-        <depend project="xml-xalan2"></depend>
-        <depend project="xml-xerces"></depend>
+        <depend project="ant" inherit="runtime"/>
+        <depend project="xml-xalan2"/>
+        <depend project="xml-xerces"/>
 
-          <depend runtime="true" project="junit"></depend>
-          <depend runtime="true" project="jakarta-log4j"></depend>
-          <depend runtime="true" project="avalon-logkit"></depend>
+        <depend runtime="true" project="junit"/>
+        <depend runtime="true" project="jakarta-log4j"/>
+        <depend runtime="true" project="avalon-logkit"/>
 
-        <work nested="framework/target/classes"></work>
-        <work nested="framework/target/api-classes"></work>
-        <work nested="framework/target/impl-classes"></work>
-        <work nested="framework/target/test-classes"></work>
+        <work nested="framework/target/classes"/>
+        <work nested="framework/target/api-classes"/>
+        <work nested="framework/target/impl-classes"/>
+        <work nested="framework/target/test-classes"/>
 
-        <home nested="framework"></home>
-        <jar name="target/avalon-framework-@@DATE@@.jar" id="combined"></jar>
-        <javadoc nested="framework/target/docs/apidocs"></javadoc>
+        <home nested="framework"/>
+        <jar name="target/avalon-framework-@@DATE@@.jar" id="combined"/>
+        <javadoc nested="framework/target/docs/apidocs"/>
 
-        <nag to="dev@avalon.apache.org" from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"></nag>
+        <nag to="dev@avalon.apache.org" from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"/>
     </project>
 
-    <project href="http://cvs.apache.org/viewcvs.cgi/*checkout*/avalon/buildsystem/gump-integration/project/avalon-framework.xml"></project>
-
-    <project href="http://cvs.apache.org/viewcvs.cgi/*checkout*/avalon/buildsystem/gump-integration/project/avalon-fortress-container.xml"></project>
-
-    <project href="http://cvs.apache.org/viewcvs.cgi/*checkout*/avalon/buildsystem/gump-integration/project/avalon-fortress-tools.xml"></project>
-
-    <project href="http://cvs.apache.org/viewcvs.cgi/*checkout*/avalon/buildsystem/gump-integration/project/avalon-fortress-examples.xml"></project>
+    <project href="http://cvs.apache.org/viewcvs.cgi/*checkout*/avalon/buildsystem/gump-integration/project/avalon-framework.xml"/>
+    <project href="http://cvs.apache.org/viewcvs.cgi/*checkout*/avalon/buildsystem/gump-integration/project/avalon-fortress-container.xml"/>
+    <project href="http://cvs.apache.org/viewcvs.cgi/*checkout*/avalon/buildsystem/gump-integration/project/avalon-fortress-tools.xml"/>
+    <project href="http://cvs.apache.org/viewcvs.cgi/*checkout*/avalon/buildsystem/gump-integration/project/avalon-fortress-examples.xml"/>
 
 
 </module>
