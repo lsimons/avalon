@@ -25,7 +25,7 @@ import org.apache.log.*;
  *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  * @author <a href="mailto:sylvain@apache.org">Sylvain Wallez</a>
- * @version CVS $Revision: 1.17 $ $Date: 2001/07/31 02:24:01 $
+ * @version CVS $Revision: 1.18 $ $Date: 2001/08/12 12:34:04 $
  */
 public class PatternFormatter
     implements Formatter, org.apache.log.Formatter
@@ -430,18 +430,6 @@ public class PatternFormatter
     protected String getContextStack( final ContextStack stack, final String format )
     {
         if( null == stack ) return "";
-
-        //No longer supported
-        /*
-        int sizeSpecification = Integer.MAX_VALUE;
-        if( null != format )
-        {
-            
-            try { sizeSpecification = Integer.parseInt( format ); }
-            catch( final NumberFormatException nfe ) { nfe.printStackTrace(); }
-        }
-        */
-
         return stack.toString( Integer.MAX_VALUE );
     }
 
