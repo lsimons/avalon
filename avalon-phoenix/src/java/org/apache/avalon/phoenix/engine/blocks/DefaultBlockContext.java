@@ -15,7 +15,7 @@ import org.apache.avalon.framework.context.DefaultContext;
 import org.apache.avalon.excalibur.thread.ThreadPool;
 import org.apache.log.Logger;
 import org.apache.avalon.phoenix.BlockContext;
-import org.apache.avalon.phoenix.engine.facilities.ThreadManager;
+import org.apache.avalon.phoenix.engine.facilities.ApplicationFrame;
 
 /**
  * Context via which Blocks communicate with container.
@@ -26,21 +26,21 @@ public class DefaultBlockContext
     extends DefaultContext
     implements BlockContext
 {
-    private ThreadManager  m_threadManager;
-    private Logger         m_baseLogger;
+    private ApplicationFrame  m_frame;
+    private Logger            m_baseLogger;
 
-    public DefaultBlockContext( final Logger logger, final ThreadManager threadManager )
+    public DefaultBlockContext( final Logger logger, final ApplicationFrame applicationFrame )
     {
-        this( logger, threadManager, null );
+        this( logger, applicationFrame, null );
     }
 
     public DefaultBlockContext( final Logger logger,
-                                final ThreadManager threadManager,
+                                final ApplicationFrame frame,
                                 final Context context )
     {
         super( context );
         m_baseLogger = logger;
-        m_threadManager = threadManager;
+        m_frame = frame;
     }
 
     /**
@@ -80,16 +80,16 @@ public class DefaultBlockContext
     }
 
     /**
-     * Retrieve thread manager by category.
-     * ThreadManagers are given names so that you can manage different thread
+     * Retrieve thread pool by category.
+     * ThreadPools are given names so that you can manage different thread
      * count to different components.
      *
      * @param category the category
-     * @return the ThreadManager
+     * @return the ThreadPool
      */
     public ThreadPool getThreadPool( final String category )
     {
-        return m_threadManager.getThreadPool( category );
+        return m_frame.getThreadPool( category );
     }
 
     /**
@@ -101,7 +101,6 @@ public class DefaultBlockContext
     {
         return getThreadPool( "default" );
     }
-
 
     /**
      * Retrieve logger coresponding to named category.

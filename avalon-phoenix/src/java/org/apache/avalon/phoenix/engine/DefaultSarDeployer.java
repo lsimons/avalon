@@ -8,21 +8,12 @@
 package org.apache.avalon.phoenix.engine;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.Iterator;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.excalibur.io.FileUtil;
-import org.apache.avalon.excalibur.io.IOUtil;
 import org.apache.avalon.excalibur.io.InvertedFileFilter;
 import org.apache.avalon.excalibur.io.PrefixFileFilter;
 import org.apache.avalon.framework.activity.Initializable;
@@ -36,14 +27,10 @@ import org.apache.avalon.framework.camelot.Locator;
 import org.apache.avalon.framework.component.ComponentException;
 import org.apache.avalon.framework.component.ComponentManager;
 import org.apache.avalon.framework.component.Composable;
-import org.apache.avalon.framework.component.Composable;
-import org.apache.avalon.framework.component.DefaultComponentManager;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
-import org.apache.avalon.framework.context.DefaultContext;
 import org.apache.avalon.framework.logger.AbstractLoggable;
-import org.apache.avalon.phoenix.BlockContext;
 import org.apache.avalon.phoenix.engine.blocks.BlockEntry;
 import org.apache.avalon.phoenix.engine.blocks.RoleEntry;
 
@@ -53,7 +40,7 @@ import org.apache.avalon.phoenix.engine.blocks.RoleEntry;
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
 public class DefaultSarDeployer
-    extends AbstractLoggable //AbstractDeployer
+    extends AbstractLoggable
     implements Deployer, Composable
 {
     private static final Resources REZ =
@@ -118,6 +105,28 @@ public class DefaultSarDeployer
         return file;
     }
 
+    private void expand( final File file, final File destination )
+        throws DeploymentException
+    {
+        try
+        {
+            final String message = REZ.format( "deploy.notice.expanding", file, destination );
+            getLogger().info( message );
+            
+            final InvertedFileFilter filter =
+                new InvertedFileFilter( new PrefixFileFilter( "META-INF" ) );
+            m_expander.expand( file, destination, filter );
+        }
+        catch( final IOException ioe )
+        {
+            final String message = REZ.format( "deploy.error.expanding", file, destination );
+            throw new DeploymentException( message, ioe );
+        }
+        
+        final String message = REZ.format( "deploy.notice.expanded", file, destination );
+        getLogger().info( message );        
+    }
+
     private void deployFromFile( final String name, final File file )
         throws DeploymentException
     {
@@ -130,26 +139,9 @@ public class DefaultSarDeployer
         else
         {
             destination = getDestinationFor( name, file );
-
-            try
-            {
-                final String message = REZ.format( "deploy.notice.expanding", file, destination );
-                getLogger().info( message );
-
-                final InvertedFileFilter filter =
-                    new InvertedFileFilter( new PrefixFileFilter( "META-INF" ) );
-                m_expander.expand( file, destination, filter );
-            }
-            catch( final IOException ioe )
-            {
-                final String message = REZ.format( "deploy.error.expanding", file, destination );
-                throw new DeploymentException( message, ioe );
-            }
-
-            final String message = REZ.format( "deploy.notice.expanded", file, destination );
-            getLogger().info( message );
+            expand( file, destination );
         }
-
+    
         try { deployFromDirectory( name, destination ); }
         catch( final DeploymentException de )
         {
@@ -180,7 +172,7 @@ public class DefaultSarDeployer
     private void buildEntry( final String name,
                              final ServerApplicationEntry entry,
                              final File directory )
-        throws Exception
+        throws DeploymentException
     {
         entry.setHomeDirectory( directory );
 
@@ -191,13 +183,19 @@ public class DefaultSarDeployer
     }
 
     private void deployFromDirectory( final String name, final File directory )
-        throws Exception
+        throws DeploymentException
     {
         final ServerApplicationEntry entry = new ServerApplicationEntry();
         buildEntry( name, entry, directory );
         addEntry( name, entry );
 
-        final Application application = ((Kernel)m_container).getApplication( name );
+        Application application = null;
+        try { application = ((Kernel)m_container).getApplication( name ); }
+        catch( final ContainerException ce )
+        {
+            throw new DeploymentException( ce.getMessage(), ce );
+        }
+
         final File blocksDirectory = new File( directory, "blocks" );
 
         File file = new File( directory, ASSEMBLY_XML );
@@ -248,27 +246,32 @@ public class DefaultSarDeployer
     private BlockEntry[] assembleBlocks( final Application application,
                                          final ServerApplicationEntry saEntry,
                                          final Configuration[] blocks )
-        throws ComponentException, ConfigurationException, DeploymentException
+        throws DeploymentException
     {
         final ArrayList blockEntrys = new ArrayList();
-
         for( int i = 0; i < blocks.length; i++ )
         {
             final Configuration block = blocks[ i ];
 
-            final String name = block.getAttribute( "name" );
-            final String className = block.getAttribute( "class" );
-            final Configuration[] provides = block.getChildren( "provide" );
+            try
+            {
+                final String name = block.getAttribute( "name" );
+                final String className = block.getAttribute( "class" );
+                final Configuration[] provides = block.getChildren( "provide" );
 
-            final RoleEntry[] roles = buildRoleEntrys( provides );
-            final BlockEntry entry = new BlockEntry( name, roles );
-            final Locator locator = new Locator( className, null );
-            entry.setLocator( locator );
+                final RoleEntry[] roles = buildRoleEntrys( provides );
+                final Locator locator = new Locator( className, null );
+                final BlockEntry entry = new BlockEntry( name, roles, locator );
+                blockEntrys.add( entry );
 
-            blockEntrys.add( entry );
-
-            final String message = REZ.format( "deploy.notice.block.add", name );
-            getLogger().debug( message );
+                final String message = REZ.format( "deploy.notice.block.add", name );
+                getLogger().debug( message );
+            }
+            catch( final ConfigurationException ce )
+            {
+                final String message = REZ.getString( "deploy.error.assembly.malformed" );
+                throw new DeploymentException( message, ce );
+            }
         }
 
         return (BlockEntry[])blockEntrys.toArray( new BlockEntry[ 0 ] );

@@ -34,7 +34,7 @@ import org.apache.log.LogTarget;
 import org.apache.log.Logger;
 import org.apache.log.Priority;
 import org.apache.log.output.FileOutputLogTarget;
-import org.apache.avalon.phoenix.engine.facilities.log.AvalonLogFormatter;
+import org.apache.log.format.AvalonFormatter;
 
 /**
  * This is the object that is interacted with to create, manage and
@@ -331,12 +331,15 @@ public class PhoenixEmbeddor
                 m_parameters.getParameter( "log-priority", "INFO" );
 
             final FileOutputLogTarget logTarget = new FileOutputLogTarget( logDestination );
-            final AvalonLogFormatter formatter = new AvalonLogFormatter();
+            final AvalonFormatter formatter = new AvalonFormatter();
             formatter.setFormat( "%{time} [%7.7{priority}] <<%{category}>> " +
                                  "(%{context}): %{message}\\n%{throwable}" );
             logTarget.setFormatter( formatter );
 
-            final Logger logger = Hierarchy.getDefaultHierarchy().getLoggerFor( "Phoenix" );
+            //Create an anonymous hierarchy so no other 
+            //components can get access to logging hierarchy
+            final Hierarchy hierarchy = new Hierarchy();
+            final Logger logger = hierarchy.getLoggerFor( "Phoenix" );
             logger.setLogTargets( new LogTarget[] { logTarget } );
             logger.setPriority( Priority.getPriorityForName( logPriority ) );
 
@@ -529,7 +532,6 @@ public class PhoenixEmbeddor
         throws Exception
     {
         setupLogger( m_kernel );
-
 
         if( m_kernel instanceof Composable )
         {

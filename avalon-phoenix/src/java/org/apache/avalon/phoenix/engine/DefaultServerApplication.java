@@ -35,17 +35,11 @@ import org.apache.avalon.phoenix.engine.blocks.BlockEntry;
 import org.apache.avalon.phoenix.engine.blocks.BlockVisitor;
 import org.apache.avalon.phoenix.engine.blocks.RoleEntry;
 import org.apache.avalon.phoenix.engine.facilities.ApplicationManager;
-import org.apache.avalon.phoenix.engine.facilities.ClassLoaderManager;
+import org.apache.avalon.phoenix.engine.facilities.ApplicationFrame;
+import org.apache.avalon.phoenix.engine.facilities.frame.DefaultApplicationFrame;
 import org.apache.avalon.phoenix.engine.facilities.ConfigurationRepository;
-import org.apache.avalon.phoenix.engine.facilities.LogManager;
-import org.apache.avalon.phoenix.engine.facilities.PolicyManager;
-import org.apache.avalon.phoenix.engine.facilities.ThreadManager;
 import org.apache.avalon.phoenix.engine.facilities.application.DefaultApplicationManager;
-import org.apache.avalon.phoenix.engine.facilities.classloader.DefaultClassLoaderManager;
 import org.apache.avalon.phoenix.engine.facilities.configuration.DefaultConfigurationRepository;
-import org.apache.avalon.phoenix.engine.facilities.log.DefaultLogManager;
-import org.apache.avalon.phoenix.engine.facilities.policy.DefaultPolicyManager;
-import org.apache.avalon.phoenix.engine.facilities.thread.DefaultThreadManager;
 import org.apache.avalon.phoenix.engine.phases.ShutdownPhase;
 import org.apache.avalon.phoenix.engine.phases.StartupPhase;
 import org.apache.avalon.phoenix.metainfo.BlockInfo;
@@ -84,11 +78,8 @@ public final class DefaultServerApplication
     private SystemManager            m_systemManager;
 
     //these are the facilities (internal components) of ServerApplication
+    private ApplicationFrame         m_frame;
     private ApplicationManager       m_applicationManager;
-    private LogManager               m_logManager;
-    private PolicyManager            m_policyManager;
-    private ThreadManager            m_threadManager;
-    private ClassLoaderManager       m_classLoaderManager;
     private ConfigurationRepository  m_configurationRepository;
 
     public void contextualize( final Context context )
@@ -123,7 +114,6 @@ public final class DefaultServerApplication
 
         setupComponents();
 
-        initPhases();
         setupPhases();
     }
 
@@ -144,29 +134,20 @@ public final class DefaultServerApplication
         }
     }
 
-    protected void initPhases()
-        throws ApplicationException
+    protected void setupPhases()
+        throws Exception
     {
         PhaseEntry entry = new PhaseEntry();
         entry.m_visitor = new StartupPhase();
         entry.m_traversal = BlockDAG.FORWARD;
         m_phases.put( "startup", entry );
+        setupComponent( entry.m_visitor, "<core>.phases." + entry.m_traversal.getName(), null );
 
         entry = new PhaseEntry();
         entry.m_visitor = new ShutdownPhase();
         entry.m_traversal = BlockDAG.REVERSE;
         m_phases.put( "shutdown", entry );
-    }
-
-    private void setupPhases()
-        throws Exception
-    {
-        final Iterator phases = m_phases.values().iterator();
-        while( phases.hasNext() )
-        {
-            final PhaseEntry entry = (PhaseEntry)phases.next();
-            setupComponent( entry.m_visitor, "<core>.phases." + entry.m_traversal.getName(), null );
-        }
+        setupComponent( entry.m_visitor, "<core>.phases." + entry.m_traversal.getName(), null );
     }
 
     public void start()
@@ -242,7 +223,7 @@ public final class DefaultServerApplication
 
         getLogger().info( "Creating block info from " + resourceName );
 
-        final ClassLoader classLoader = m_classLoaderManager.getClassLoader();
+        final ClassLoader classLoader = m_frame.getClassLoader();
         final URL resource = classLoader.getResource( resourceName );
 
         if( null == resource )
@@ -270,14 +251,8 @@ public final class DefaultServerApplication
     protected void createComponents()
         throws Exception
     {
-        //TODO: Refactor logManager so it does more useful managing
-        // possibly including setting up rolling etc
-        m_logManager = new DefaultLogManager();
-
+        m_frame = new DefaultApplicationFrame();
         m_configurationRepository = new DefaultConfigurationRepository();
-        m_classLoaderManager = new DefaultClassLoaderManager();
-        m_threadManager = new DefaultThreadManager();
-        m_policyManager = new DefaultPolicyManager();
         m_applicationManager = new DefaultApplicationManager();
     }
 
@@ -291,19 +266,8 @@ public final class DefaultServerApplication
     {
         Configuration configuration = null;
 
-        configuration = m_configuration.getChild( "logs" );
-        setupComponent( m_logManager, "<core>.log", configuration );
-
-        configuration = m_configuration.getChild( "threads" );
-        setupComponent( m_threadManager, "<core>.thread", configuration );
-
-        configuration = m_configuration.getChild( "policy" );
-        setupComponent( m_policyManager, "<core>.policy", configuration );
-
-        setupComponent( m_classLoaderManager, "<core>.classloader", null );
-
-        setupComponent( m_configurationRepository, "<core>.configuration-repository", null );
-
+        setupComponent( m_frame, "<core>.frame", m_configuration );
+        setupComponent( m_configurationRepository, "<core>.config", null );
         setupComponent( m_applicationManager, "<core>.application-manager", null );
 
         setupComponent( m_dag, "<core>.dag", null );
@@ -399,12 +363,9 @@ public final class DefaultServerApplication
     {
         final DefaultComponentManager componentManager = new DefaultComponentManager();
         componentManager.put( SystemManager.ROLE, m_systemManager );
+        componentManager.put( ApplicationFrame.ROLE, m_frame );
         componentManager.put( Container.ROLE, this );
-        componentManager.put( PolicyManager.ROLE, m_policyManager );
-        componentManager.put( ClassLoaderManager.ROLE, m_classLoaderManager );
-        componentManager.put( ThreadManager.ROLE, m_threadManager );
         componentManager.put( ConfigurationRepository.ROLE, m_configurationRepository );
-        componentManager.put( LogManager.ROLE, m_logManager );
 
         return componentManager;
     }
