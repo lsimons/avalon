@@ -7,6 +7,7 @@
  */
 package org.apache.avalon.framework.configuration;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -20,6 +21,7 @@ import java.util.HashMap;
  */
 public class DefaultConfiguration
     extends AbstractConfiguration
+    implements Serializable
 {
     protected static final Configuration[]   EMPTY_ARRAY = new Configuration[ 0 ];
 
