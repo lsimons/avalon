@@ -139,8 +139,8 @@ public class AttributesTestCase extends TestCase {
      * won't mess up the attribute cache.
      */
     public void testClassLoaderKeying () throws Exception {
-        URLClassLoader cl1 = new URLClassLoader (new URL[]{new File ("api/target/cl1/").toURL ()}, getClass().getClassLoader ());
-        URLClassLoader cl2 = new URLClassLoader (new URL[]{new File ("api/target/cl2/").toURL ()}, getClass().getClassLoader ());
+        URLClassLoader cl1 = new URLClassLoader (new URL[]{new File ("unittest/target/cl1/").toURL ()}, getClass().getClassLoader ());
+        URLClassLoader cl2 = new URLClassLoader (new URL[]{new File ("unittest/target/cl2/").toURL ()}, getClass().getClassLoader ());
         
         Class cl1Class = cl1.loadClass ("TestClass");
         Class cl2Class = cl2.loadClass ("TestClass");

@@ -151,11 +151,32 @@ public class Attributes {
         return getAttributes (getAttributes (method), attributeClass);
     }
     
+    /**
+     * Filters a collection of <code>Class</code> objects. The returned collection
+     * only contains those classes that have an attribute of the specified type.
+     */
     public static Collection getClassesWithAttributeType (Collection classes, Class attributeClass) {
         ArrayList result = new ArrayList ();
         Iterator iter = classes.iterator ();
         while (iter.hasNext ()) {
             Class clazz = (Class) iter.next ();
+            if (hasAttributeType (clazz, attributeClass)) {
+                result.add (clazz);
+            }
+        }
+        
+        return result;
+    }
+    
+    /**
+     * Filters a collection objects. The returned collection
+     * only contains those objects that have an attribute of the specified type.
+     */
+    public static Collection getObjectsWithAttributeType (Collection objects, Class attributeClass) {
+        ArrayList result = new ArrayList ();
+        Iterator iter = objects.iterator ();
+        while (iter.hasNext ()) {
+            Class clazz = (Class) iter.next ().getClass ();
             if (hasAttributeType (clazz, attributeClass)) {
                 result.add (clazz);
             }
@@ -252,7 +273,11 @@ public class Attributes {
         return hasAttribute (getAttributes (method), attribute);
     }
     
-    
+    /**
+     * Constructs an <code>AttributeIndex</code> for the given <code>ClassLoader</code>.
+     * An AttributeIndex allows oyu to quickly find all classes that have a given
+     * attribute.
+     */
     public static AttributeIndex getAttributeIndex (ClassLoader cl) throws Exception {
         return new AttributeIndex (cl);
     }

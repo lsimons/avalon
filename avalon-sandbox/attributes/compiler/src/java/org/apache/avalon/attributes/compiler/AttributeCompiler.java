@@ -9,7 +9,19 @@ import xjavadoc.ant.*;
 import java.util.*;
 
 /**
- * Ant task to compile attributes.
+ * Ant task to compile attributes. Usage:
+ *
+ * <pre><code>
+ *     &lt;taskdef resource="org/apache/avalon/attributes/anttasks.properties"/&gt;
+ *     
+ *     &lt;attribute-compiler destDir="temp/"&gt;
+ *         &lt;fileset dir="src/" includes="*.java"/&gt;
+ *     &lt;/attribute-compiler&gt;
+ * </code></pre>
+ *
+ * The task should be run before compiling the Java sources, and will produce some
+ * additional Java source files in the destination directory that should be compiled
+ * along with the input source files. (See the overview for a diagram.)
  */
 public class AttributeCompiler extends XJavadocTask {
     

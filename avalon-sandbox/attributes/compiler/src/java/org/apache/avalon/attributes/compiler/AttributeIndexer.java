@@ -15,7 +15,24 @@ import xjavadoc.ant.*;
 import java.util.*;
 
 /**
- * Ant task to compile attributes.
+ * Ant task to compile attribute indexes. Usage:
+ *
+ * <pre><code>
+ *     &lt;taskdef resource="org/apache/avalon/attributes/anttasks.properties"/&gt;
+ *     
+ *     &lt;attribute-indexer destFile="META-INF/attrs.index"&gt;
+ *         &lt;fileset dir="classes/" includes="*.class"/&gt;
+ *     &lt;/attribute-indexer&gt;
+ * </code></pre>
+ *
+ * The task should be run after compiling the Java sources (including those generated
+ * by the <tt>attribute-compiler</tt> task), and the nested <tt>&lt;fileset/&gt;</tt> elements
+ * should include the resulting class files.
+ *
+ * <p>Note: This task isn't that tested, and is pre-alpha. Amog other things, you have to name the
+ * destination file <tt>attrs.index</tt> and it has to be reachable via 
+ * <tt>ClassLoader.getResource("META-INF/attrs.index")</tt>. I'd like to change this into something
+ * that has a lot less unstated assumptions and requirements.
  */
 public class AttributeIndexer extends Task {
     

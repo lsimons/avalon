@@ -1,6 +1,180 @@
 <html>
     <body>
-        <p>The Avalon Attributes projects provides a Java preprocessor
-        and an API that enables developers to use C#-like attributes in their programs.
+        <p>The Avalon Attributes projects enables developers to use C#-like attributes in their programs.</p>
+        
+        <h3>What does it do for me?</h3>
+        
+        <p>The Avalon Attributes project allows you to add objects, called attributes, to your
+        classes, methods and fields:</p>
+        
+        <blockquote><pre>public class MyAttribute {}
+
+/**
+ * @@MyAttribute
+ */
+public class MyClass { }</pre></blockquote>
+        
+        <p>These attributes can then be retrieved at runtime:</p>
+        
+        <blockquote><pre>Collection attrs = Attributes.getAttributes( MyClass.class );
+
+// Get the first object of the collection
+MyAttribute myAttr = (MyAttribute) attrs.iterator().next(); 
+</pre></blockquote>
+        
+        <p>Attributes can in turn contain values:</p>
+        
+        <blockquote><pre>public class Dependency {
+
+    private final String name;
+    private final Class dependencyClass;
+
+    public Dependency( String name, Class dependencyClass ) {
+        this.name = name;
+        this.dependencyClass = dependencyClass;
+    }
+
+    public Class getDependencyClass() {
+        return this.dependencyClass;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+}</pre></blockquote>
+        
+        <p>This attribute can then be used like this:</p>
+        
+        <blockquote><pre>/**
+ * @@Dependency( "dependency-name", SomeClass.class )
+ */
+public class MyClass { }</pre></blockquote>
+        
+        <h3>How do I use it?</h3>
+        
+        <p>The Attributes project provides a precompiler that you must run before you compile your Java
+        classes with Javac (or some other Java compiler). The process goes like this:</p>
+        
+<blockquote><pre>
++------------+                              +--------------------+
+|Java Sources|----&gt; Attribute Compiler ----&gt;|Generated Java Files|   
++------------+                              +--------------------+
+      |                                                 |
+      |                                                 |
+      |               +-------------+                   |
+      +--------------&gt;|Java Compiler|&lt;------------------+
+                      +-------------+
+                             |
+                             v
+                    +-----------------+
+                    |Java .class files|
+                    +-----------------+
+</pre></blockquote>
+        
+        <p>Let's illustrate the above with a short tutorial. Create a new folder and place in it the following files:</p>
+        
+        <h4>build.xml</h4>
+        
+        <blockquote><pre>&lt;project name="avalon-attributes-demo" default="build" basedir="."&gt;
+    
+    &lt;path id="build.classpath"&gt;
+        &lt;pathelement path="avalon-attributes-api-SNAPSHOT.jar"/&gt;
+        &lt;pathelement path="avalon-attributes-compiler-SNAPSHOT.jar"/&gt;
+    &lt;/path&gt;
+    
+    &lt;taskdef name="attribute-compiler" 
+        classname="org.apache.avalon.attributes.compiler.AttributeCompiler"&gt;
+        &lt;classpath&gt;
+            &lt;path refid="build.classpath"/&gt;
+        &lt;/classpath&gt;
+    &lt;/taskdef&gt;
+    
+    &lt;target name="build"&gt;
+        &lt;attribute-compiler destDir="."&gt;
+            &lt;fileset dir="." includes="*.java"/&gt;
+        &lt;/attribute-compiler&gt;    
+        
+        &lt;javac srcdir="." 
+            destdir="."
+            target="1.3"&gt;
+            &lt;classpath&gt;
+                &lt;path refid="build.classpath"/&gt;
+            &lt;/classpath&gt;
+        &lt;/javac&gt;
+    &lt;/target&gt;
+    
+    &lt;target name="run"&gt;
+        &lt;java fork="yes" classname="Main"&gt;
+            &lt;classpath&gt;
+                &lt;path refid="build.classpath"/&gt;
+                &lt;pathelement path="."/&gt;
+            &lt;/classpath&gt;
+        &lt;/java&gt;
+    &lt;/target&gt;
+&lt;/project&gt;</pre></blockquote>
+        
+        <h4>MyAttribute.java</h4>
+        
+        <blockquote><pre>public class MyAttribute {
+    
+    public final String value;
+    
+    public MyAttribute( String value ) {
+        this.value = value;
+    }
+    
+    public String getValue () {
+        return value;
+    }
+    
+    public String toString () {
+        return "[MyAttribute: " + value + "]";
+    }
+    
+}</pre></blockquote>
+        
+        
+        <h4>Main.java</h4>
+        
+        <blockquote><pre>import java.util.Collection;
+import org.apache.avalon.attributes.Attributes;
+
+/**
+ * @@MyAttribute( "A value" )
+ */
+public class Main {
+    
+    public static void main (String[] args) {
+        Collection attributes = Attributes.getAttributes ( Main.class );
+        System.out.println ("The class Main has the following attributes:");
+        System.out.println (attributes);
+    }
+    
+}</pre></blockquote>
+        
+        <p>Place the two <tt>.jar</tt> files that the Attribute project consists of (<tt>avalon-attributes-api-SNAPSHOT.jar</tt> 
+        <tt>avalon-attributes-compiler-SNAPSHOT.jar</tt>) in the directory. Then compile everything with:</p>
+        
+        <blockquote><pre>C:\tutorial&gt;ant
+Buildfile: build.xml
+
+build:
+    [javac] Compiling 3 source files to C:\tutorial
+
+BUILD SUCCESSFUL
+Total time: 8 seconds</pre></blockquote>
+        
+        <p>and run the small demo with:</p>
+        
+        <blockquote><pre>C:\tutorial&gt;ant run
+Buildfile: build.xml
+
+run:
+     [java] The class Main has the following attributes:
+     [java] [[MyAttribute: A value]]
+
+BUILD SUCCESSFUL
+Total time: 3 seconds</pre></blockquote>
+        
     </body>
 </html>
