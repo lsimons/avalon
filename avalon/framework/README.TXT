@@ -13,7 +13,7 @@
 summary:   the core interfaces of the avalon project
 publisher: Avalon Software Foundation
 website:   http://avalon.apache.org/framework/
-version:   4.1.5RC-2
+version:   4.1.5
 license:   Please see the LICENSE.txt file
 =======================================================================
 
