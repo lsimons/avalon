@@ -73,6 +73,7 @@ Legal:
     <property name="xalan.jar" value="${lib.dir}/xalan-2.3.1.jar"/>
     <property name="framework.jar" value="${lib.dir}/avalon-framework.jar"/>
     <property name="logkit.jar" value="${lib.dir}/logkit-1.1.1.jar"/>
+    <property name="sandbox-info.jar" value="${lib.dir}/sandbox-info-1.0a.jar"/>
     <property name="tools.jar" value="${java.home}/../lib/tools.jar"/>
 
     <property name="announce2txt" value="${phoenix.tools.dir}/announcement2txt.xsl"/>
@@ -89,6 +90,7 @@ Legal:
         <pathelement location="${xerces.jar}"/>
         <pathelement location="${framework.jar}"/>
         <pathelement location="${logkit.jar}"/>
+        <pathelement location="${sandbox-info.jar}"/>
         <pathelement location="${wrapper.jar}"/>
         <pathelement path="${mx4j.jar}"/>
         <pathelement path="${mx4j-tools.jar}"/>
