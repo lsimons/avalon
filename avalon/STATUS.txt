@@ -1,30 +1,34 @@
 APACHE AVALON PROJECT STATUS:                          -*-indented-text-*-
-Last modified at [$Date: 2002/12/04 18:22:58 $]
+Last modified at [$Date: 2002/12/04 18:27:24 $]
 
 Background:
 
-    Apache Avalon is a project started at java.apache.org. It later became an
-    Apache Jakarta subproject. It has recently been declared a new top-level
-    project with its own PMC.
+    Apache Avalon is a project started at java.apache.org. 
+    It later became an Apache Jakarta subproject.
+    It has recently been declared a new top-level project with
+    its own PMC.
 
     See the bottom of this file for the official resolution/
     charter-as-it-stands. See the project website for other information.
        
 Release:
 
-    o none scheduled ATM; still defining new container plan and how to best keep
-      development of current code go ahead without impacting negatively on
-      the new work.
+    o none scheduled ATM; still defining new container plan and 
+      how to best keep development of current code go ahead 
+      without impacting negatively on the new work.
     
-    o past releases available from http://jakarta.apache.org/builds/jakarta-avalon/
+    o past releases available from 
+         http://jakarta.apache.org/builds/jakarta-avalon/
     
-    o nightlies available from http://cvs.apache.org/builds/jakarta-avalon/nightly/    
+    o nightlies available from 
+         http://cvs.apache.org/builds/jakarta-avalon/nightly/    
 
 
 Resolved Issues:
 
-    o previously released software needs to be supported, including but not
-      limited to the avalon framework, avalon excalibur and avalon phoenix
+    o previously released software needs to be supported, 
+      including but not limited to the avalon framework, avalon 
+      excalibur and avalon phoenix
       
     o existing avalon users must be supported, including but not limited
       to the XML Cocoon and Jakarta JAMES communities
@@ -36,7 +40,8 @@ Resolved Issues:
       all non-released code. It has its own site to make less confusion
       with released products.
       
-    o Use a unified avalon-dev mailing list (and avalon-user remains separate) 
+    o Use a unified avalon-dev mailing list
+       (and avalon-user remains separate) 
 
       
 Pending issues:
@@ -47,15 +52,17 @@ Pending issues:
     
     o deciding on moving or not moving to avalon.apache.org
 
-    o discussing and writing medium-to-long term roadmap regarding containers
-      and possible avalon framework extension based on consensus development
+    o discussing and writing medium-to-long term roadmap 
+      regarding containers and possible avalon framework extension 
+      based on consensus development
 
-    o discussing and writing short-to-medium term roadmap regarding unused and/
-      or unmaintained and/or alpha-stage software packages in current CVSes
+    o discussing and writing short-to-medium term roadmap regarding 
+      unused and/or unmaintained and/or alpha-stage software
+      packages in current CVSes
 
-    o discussing and writing short-to-medium term roadmap regarding possible
-      relocation of software packages that could have a better home at another
-      avalon project
+    o discussing and writing short-to-medium term roadmap 
+      regarding possible relocation of software packages that 
+      could have a better home at another avalon project
 
     o wrap up discussion on licensing headers in sourcefiles
 
