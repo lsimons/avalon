@@ -87,10 +87,10 @@ import java.util.StringTokenizer;
  * </ul>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.26 $ $Date: 2003/02/11 16:19:27 $
+ * @version CVS $Revision: 1.27 $ $Date: 2003/05/20 19:41:55 $
  */
 public final class Version
-    implements Serializable
+    implements Comparable, Serializable
 {
     private int m_major;
     private int m_minor;
@@ -200,22 +200,19 @@ public final class Version
      */
     public boolean equals( final Version other )
     {
-        if( m_major != other.m_major )
-        {
-            return false;
-        }
-        else if( m_minor != other.m_minor )
-        {
-            return false;
-        }
-        else if( m_micro != other.m_micro )
-        {
-            return false;
-        }
-        else
-        {
-            return true;
-        }
+    	boolean isEqual = ( getMajor() == other.getMajor() );
+    	
+		if ( isEqual )
+		{
+			isEqual = ( getMinor() == other.getMinor() );
+		}
+    	
+		if ( isEqual )
+		{
+			isEqual = ( getMicro() == other.getMicro() );
+		}
+
+        return isEqual;
     }
 
     /**
@@ -228,14 +225,33 @@ public final class Version
      */
     public boolean equals( final Object other )
     {
+    	boolean isEqual = false;
+    	
         if( other instanceof Version )
         {
-            return equals( (Version)other );
+            isEqual = equals( (Version)other );
         }
-        else
-        {
-            return false;
-        }
+
+        return isEqual;
+    }
+    
+    /**
+     * Add a hashing function to ensure the Version object is
+     * treated as expected in hashmaps and sets.  NOTE: any
+     * time the equals() is overridden, hashCode() should also
+     * be overridden.
+     * 
+     * @return the hashCode
+     */
+    public int hashCode()
+    {
+    	int hash = getMajor();
+    	hash >>>= 17;
+    	hash += getMinor();
+    	hash >>>= 17;
+    	hash += getMicro();
+    	
+    	return hash;
     }
 
     /**
@@ -300,4 +316,26 @@ public final class Version
     {
         return m_major + "." + m_minor + "." + m_micro;
     }
+
+    /**
+     * Compare two versions together according to the
+     * Comparable interface.
+     * 
+     * @return number indicating relative value (-1, 0, 1)
+     */
+	public int compareTo(Object o) {
+		Version other = (Version)o;
+		int val = 0;
+
+		if ( getMajor() < other.getMajor() ) val = -1;
+		if ( 0 == val && getMajor() > other.getMajor() ) val = 1;
+
+		if ( 0 == val && getMinor() < other.getMinor() ) val = -1;
+		if ( 0 == val && getMinor() > other.getMinor() ) val = 1;
+
+		if ( 0 == val && getMicro() < other.getMicro() ) val = -1;
+		if ( 0 == val && getMicro() > other.getMicro() ) val = 1;
+
+		return val;
+	}
 }
