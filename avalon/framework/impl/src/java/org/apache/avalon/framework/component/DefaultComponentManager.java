@@ -13,7 +13,7 @@ import java.util.Map;
 
 /**
  * This class is a static implementation of a ComponentManager. Allow ineritance
- * and extention so you can generate a tree of ComponentManager each defining
+ * and extension so you can generate a tree of ComponentManager each defining
  * Component scope.
  *
  * @author <a href="mailto:fede@apache.org">Federico Barbieri</a>
