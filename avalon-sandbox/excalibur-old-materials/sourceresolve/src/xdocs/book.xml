@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<book software="Excalibur sourceresolve" title="Excalibur sourceresolve" copyright="@year@ The Apache Software Foundation" xmlns:xlink="http://www.w3.org/1999/xlink">
+      <!DOCTYPE book PUBLIC "-//APACHE//DTD Cocoon Documentation Book V1.0//EN" "book-cocoon-v10.dtd">
+
+<book software="Excalibur Sourceresolve" 
+      title="Excalibur Sourceresolve" 
+      copyright="@year@ The Apache Software Foundation" 
+      xmlns:xlink="http://www.w3.org/1999/xlink">
 
 
   <menu label="About">
