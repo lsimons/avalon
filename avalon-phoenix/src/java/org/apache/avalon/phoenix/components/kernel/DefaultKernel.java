@@ -221,7 +221,6 @@ public class DefaultKernel
 
         ContainerUtil.logEnable( context, createContextLogger( name ) );
         ContainerUtil.service( context, createServiceManager() );
-        ContainerUtil.configure( context, entry.getConfiguration() );
         return context;
     }
 

@@ -8,7 +8,6 @@
 package org.apache.avalon.phoenix;
 
 import java.io.File;
-import org.apache.avalon.excalibur.thread.ThreadPool;
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.logger.Logger;
 
@@ -41,28 +40,6 @@ public interface BlockContext
      * @return the name of block
      */
     String getName();
-
-    /**
-     * Retrieve thread pool by category.
-     * ThreadPools are given names so that you can manage different thread
-     * count to different components.
-     *
-     * @param category the category
-     * @return the ThreadManager
-     * @deprecated Use ThreadManager service rather than
-     *             accessing ThreadPool via this method.
-     */
-    ThreadPool getThreadPool( String category );
-
-    /**
-     * Retrieve default thread pool.
-     * Equivelent to getThreadPool( "default" );
-     *
-     * @return the default ThreadPool
-     * @deprecated Use ThreadManager service rather than
-     *             accessing ThreadPool via this method.
-     */
-    ThreadPool getDefaultThreadPool();
 
     /**
      * Retrieve logger coresponding to named category.

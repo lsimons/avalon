@@ -461,9 +461,7 @@ class LifecycleHelper
      */
     private BlockContext createBlockContext( final String name )
     {
-        final DefaultBlockContext context = new DefaultBlockContext( name, m_context );
-        setupLogger( context );
-        return context;
+        return new DefaultBlockContext( name, m_context );
     }
 
     /**
