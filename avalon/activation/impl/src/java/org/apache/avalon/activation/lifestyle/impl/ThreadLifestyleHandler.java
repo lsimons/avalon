@@ -56,7 +56,7 @@ import org.apache.avalon.framework.activity.Disposable;
 
 /**
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2003/10/17 03:26:28 $
+ * @version $Revision: 1.3 $ $Date: 2003/10/17 06:44:49 $
  */
 public class ThreadLifestyleHandler extends AbstractLifestyleHandler implements Disposable
 {
@@ -71,6 +71,14 @@ public class ThreadLifestyleHandler extends AbstractLifestyleHandler implements 
         {
             m_factory = factory;
         }
+
+        //
+        // TODO: the current implementation is hard coded to CONSERVATIVE
+        // collection policy - we need to update the ThreadLocalHolder so 
+        // it regenerates the value relative to DEMOCRAT or LIBERAL policies
+        // (but I just need to check docs on thread local state access
+        // semantics)
+        //
 
         protected Object initialValue()
         {
@@ -96,7 +104,7 @@ public class ThreadLifestyleHandler extends AbstractLifestyleHandler implements 
 
     public ThreadLifestyleHandler( Logger logger, Factory factory )
     {
-        super( logger );
+        super( logger, factory );
         m_factory = factory;
     }
 

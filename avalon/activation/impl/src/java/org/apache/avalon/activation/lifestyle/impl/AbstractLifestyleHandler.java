@@ -50,27 +50,96 @@
 
 package org.apache.avalon.activation.lifestyle.impl;
 
+import java.lang.ref.Reference;
+import java.lang.ref.SoftReference;
+import java.lang.ref.WeakReference;
+import java.lang.ref.ReferenceQueue;
+
+import org.apache.avalon.activation.lifecycle.Factory;
+import org.apache.avalon.activation.lifestyle.LifestyleHandler;
+import org.apache.avalon.meta.info.InfoDescriptor;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.logger.Logger;
-import org.apache.avalon.activation.lifestyle.LifestyleHandler;
 
 /**
  * Abstract implentation class for a lifestyle handler.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2003/10/17 03:26:28 $
+ * @version $Revision: 1.3 $ $Date: 2003/10/17 06:44:49 $
  */
 public abstract class AbstractLifestyleHandler extends AbstractLogEnabled
   implements LifestyleHandler
 {
+    private final Factory m_factory;
+
+    private final InfoDescriptor m_info;
+
+    private final ReferenceQueue m_liberals = new ReferenceQueue();
+
+    private final ReferenceQueue m_democrats = new ReferenceQueue();
 
    /**
     * Creation of a new instance.
     * @param logger the logging channel
     */
-    public AbstractLifestyleHandler( Logger logger )
+    public AbstractLifestyleHandler( Logger logger, Factory factory  )
     {
         enableLogging( logger );
+        m_info = factory.getDeploymentModel().getType().getInfo();
+        m_factory = factory;
     }
 
+    Factory getFactory()
+    { 
+        return m_factory;
+    }
+
+    Reference getReference( Object instance )
+    {
+        if( m_info.isLiberal() )
+        {
+             return new WeakReference( instance, m_liberals );
+        }
+        else if( m_info.isDemocrat() )
+        {
+             return new SoftReference( instance );
+        }
+        else
+        {
+             return new StrongReference( instance );
+        }
+    }
+
+    void disposeInstance( Object instance )
+    {
+        if( instance != null )
+        {
+            synchronized( getFactory() )
+            {
+                m_factory.destroy( instance );
+            }
+        }
+    }
+
+    class StrongReference extends WeakReference
+    {
+        private final Object m_instance;
+
+        public StrongReference( Object instance )
+        {
+            super( instance );
+            m_instance = instance;
+        }
+
+        public Object get()
+        {
+            return m_instance;
+        }
+    }
+
+    Object newInstance() throws Exception
+    {
+        return m_factory.newInstance();
+    }
+    
 }

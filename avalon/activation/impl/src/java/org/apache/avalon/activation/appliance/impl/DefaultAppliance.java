@@ -116,7 +116,7 @@ import org.apache.avalon.meta.info.ExtensionDescriptor;
  * appliance instance.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2003/10/17 03:26:28 $
+ * @version $Revision: 1.3 $ $Date: 2003/10/17 06:44:49 $
  */
 public class DefaultAppliance extends AbstractAppliance
   implements Composite, DefaultApplianceMBean
@@ -1239,6 +1239,16 @@ public class DefaultAppliance extends AbstractAppliance
 
     private class StandardFactory implements Factory
     {
+       /**
+        * Return the component deployment model. 
+        *
+        * @exception LifecycleException
+        */
+        public DeploymentModel getDeploymentModel()
+        {
+            return m_model;
+        }
+
        /**
         * Create a new instance of a component. 
         *
