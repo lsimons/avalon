@@ -156,7 +156,7 @@ public class MetaBuildListener implements BuildListener
         File test = new File( basedir, "target/build/test" );
         if( test.exists() )
         {
-            File classes = new File( basedir, "target/test/classes" );
+            File classes = new File( basedir, "target/test-classes" );
             classes.mkdirs();
             MetaTask meta = createMetaTask( project );
             meta.setDestDir( classes );
@@ -167,7 +167,6 @@ public class MetaBuildListener implements BuildListener
             meta.execute();
         }
     }
-
 
     private MetaTask createMetaTask( Project project )
     {
