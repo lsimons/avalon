@@ -66,7 +66,7 @@ import org.apache.avalon.framework.parameters.Parameters;
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
  * @author <a href="mailto:stephan@apache.org">Stephan Michels</a>
- * @version CVS $Revision: 1.11 $ $Date: 2003/06/15 16:08:53 $
+ * @version CVS $Revision: 1.12 $ $Date: 2003/07/14 08:13:16 $
  */
 public final class SourceUtil
 {
@@ -511,7 +511,15 @@ public final class SourceUtil
      */
     public static String absolutize(String url1, String url2)
     {
-        return absolutize(url1, url2, false);
+        return absolutize(url1, url2, false, true);
+    }
+
+    /**
+     * Calls absolutize(url1, url2, false, true).
+     */
+    public static String absolutize(String url1, String url2, boolean treatAuthorityAsBelongingToPath)
+    {
+        return absolutize(url1, url2, treatAuthorityAsBelongingToPath, true);
     }
 
     /**
@@ -521,8 +529,9 @@ public final class SourceUtil
      * @param url2 the location
      * @param treatAuthorityAsBelongingToPath considers the authority to belong to the path. These
      * special kind of URIs are used in the Apache Cocoon project.
+     * @param normalizePath should the path be normalized, i.e. remove ../ and /./ etc.
      */
-    public static String absolutize(String url1, String url2, boolean treatAuthorityAsBelongingToPath)
+    public static String absolutize(String url1, String url2, boolean treatAuthorityAsBelongingToPath, boolean normalizePath)
     {
         if (url1 == null)
             return url2;
@@ -557,7 +566,8 @@ public final class SourceUtil
         // combine the 2 paths
         String path = stripLastSegment(url1Path);
         path = path + (path.endsWith("/") ? "" : "/") + url2Path;
-        path = normalize(path);
+        if (normalizePath)
+            path = normalize(path);
 
         return makeUrl(url1Parts[SCHEME], url1Parts[AUTHORITY], path, url2Parts[QUERY], url2Parts[FRAGMENT]);
     }
