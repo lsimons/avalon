@@ -1,5 +1,5 @@
 @echo off
-
+ 
 if exist "%HOME%\antrc_pre.bat" call "%HOME%\antrc_pre.bat"
 
 if not "%OS%"=="Windows_NT" goto win9xStart

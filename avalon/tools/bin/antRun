@@ -1,5 +1,5 @@
 #! /bin/sh
-
+ 
 # Args: DIR command
 cd "$1"
 CMD="$2"

@@ -2,11 +2,11 @@
 # -----------------------------------------------------------------------------
 # run.sh - Unix Run Script for Apache Cocoon
 #
-# $Id: cocoon.sh,v 1.1 2001/07/16 20:12:41 bloritsch Exp $
+# $Id: cocoon.sh,v 1.2 2001/07/19 09:54:39 donaldp Exp $
 # -----------------------------------------------------------------------------
 
 # ----- Verify and Set Required Environment Variables -------------------------
-
+ 
 if [ "$JAVA_HOME" = "" ] ; then
   echo You must set JAVA_HOME to point at your Java Development Kit installation
   exit 1
