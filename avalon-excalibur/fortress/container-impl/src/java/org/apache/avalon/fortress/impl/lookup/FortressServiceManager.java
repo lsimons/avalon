@@ -66,7 +66,7 @@ import org.apache.avalon.fortress.impl.AbstractContainer;
  * the references.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.3 $ $Date: 2003/02/07 16:08:12 $
+ * @version CVS $Revision: 1.4 $ $Date: 2003/02/15 17:34:16 $
  */
 public class FortressServiceManager
     implements ServiceManager
@@ -131,7 +131,7 @@ public class FortressServiceManager
         {
             final ComponentHandler handler = (ComponentHandler)result;
             final Object component = handler.get();
-            m_used.put( component, handler );
+            m_used.put( component.toString(), handler );
             return component;
         }
         catch( final ServiceException ce )
@@ -162,7 +162,7 @@ public class FortressServiceManager
 
     public void release( final Object component )
     {
-        final ComponentHandler handler = (ComponentHandler)m_used.remove( component );
+        final ComponentHandler handler = (ComponentHandler)m_used.remove( component.toString() );
         if( null == handler )
         {
             if( null == m_parent )
