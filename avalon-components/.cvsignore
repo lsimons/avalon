@@ -6,3 +6,4 @@ build
 distributions
 docs
 *.ipr
+maven.log

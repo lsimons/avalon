@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@apache.org">Stephen McConnell</author>
+    <title>Cornerstone Scheduler</title>
+  </properties>
+
+  <body>
+    <section name="Cornerstone Components - Threads">
+      <subsection name="Description">
+        <p>The threads component provides support for the establishment
+        a set of named thread pools.  The component implementation can be configured
+        such that multiple thread pools may be defined within which each pool has 
+        a minimum and maximum pool criteria and daemon property.  Consumer components
+        can access threads from named or default pool using the ThreadManager 
+        service interface.</p>
+      </subsection>
+      <subsection name="Deployment Facts">
+        <table>
+          <tr><td>Container Support</td><td>
+           <a href="http://avalon.apache.org/excalibur/fortress/">Fortress</a>, 
+           <a href="http://avalon.apache.org/sandbox/merlin/">Merlin</a>, 
+           <a href="http://avalon.apache.org/phoenix/">Phoenix</a>.</td>
+          </tr>
+          <tr><td>Lifestyle</td><td>singleton</td></tr>
+          <tr><td>Lifecycle</td>
+            <td>
+              <table>
+                <tr><th>Stage</th><th>Description</th></tr>
+                <tr><td>LogEnabled</td><td>Logs information concerning created pools during 
+                  configuration at the DEBUG level.</td></tr>
+                <tr>
+                  <td>Configurable</td>
+                  <td>
+                  Declaration of the thread pools and associated 
+                  pool establishment criteria.  An example configuration is 
+                  presented below.
+<source><![CDATA[
+<configuration>
+  <thread-group>
+    <name>default</name>
+    <is-daemon>false</is-daemon>
+    <max-threads>100</max-threads>
+    <min-threads>20</min-threads>
+  </thread-group>
+</configuration>
+]]></source>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+      </subsection>
+      <subsection name="Example">
+        <p>In preparation.</p>
+      </subsection>
+    </section>
+  </body>
+
+</document>
+
+

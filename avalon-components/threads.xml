@@ -14,7 +14,7 @@
     <pathelement location="${xml-apis.jar}"/>
     <pathelement location="${avalon-framework.jar}"/>
     <pathelement location="${excalibur-thread.jar}"/>
-    <pathelement location="${excalibur-threadcontext.jar}"/>
+    <!--<pathelement location="${excalibur-threadcontext.jar}"/>-->
     <pathelement location="${metagenerate.jar}"/>
     <pathelement location="${qdox.jar}"/>
     <pathelement path="${java.class.path}" />
