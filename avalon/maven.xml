@@ -6,8 +6,32 @@
 
   <goal name="avalon:help">
     <echo>
-Top level solution not in place yet - but it's underway.
-    </echo>
+To build the avalon platform you need to invoke the following three goals:
+
+  $ maven plugins
+  $ maven meta
+  $ maven merlin
+
+Subsequent builds can be achieved using:
+
+  $ maven merlin
+
+A set of utility goals are also provided that build projects including the building all dependent projects.  These include:
+
+  util
+  framework
+  meta
+  repository
+  logging
+  composition
+  activation
+  merlin
+
+To build a project independnet of dependent project groups is possible using any of the above targets by prepending the "x" character.  For example, to locally build the meta package just enter the following command:
+
+  maven xmeta
+
+      </echo>
   </goal>
 
   <!--
