@@ -5,19 +5,18 @@
  * version 1.1, a copy of which has been included with this distribution in
  * the LICENSE file.
  */
-package org.apache.phoenix.engine.facilities;
+package org.apache.phoenix.engine.facilities.phoenix;
 
-import org.apache.avalon.atlantis.Facility;
+import org.apache.phoenix.engine.facilities.ApplicationManager;
 
 /**
- * This facility is responsible for managing phoenix instance. 
- * This includes managing embeddor, deployer, kernel, applications 
- * and some Blocks.
+ * This is default implementation of ApplicationManager.
+ * It uses kernel Manager to export management.
  *
  * @author <a href="mail@leosimons.com">Leo Simons</a>
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
-public interface PhoenixManager
-    extends Facility
+public class DefaultApplicationManager
+    implements ApplicationManager
 {
 }

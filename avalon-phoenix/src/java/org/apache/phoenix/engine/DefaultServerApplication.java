@@ -31,16 +31,16 @@ import org.apache.phoenix.engine.blocks.BlockDAG;
 import org.apache.phoenix.engine.blocks.BlockEntry;
 import org.apache.phoenix.engine.blocks.BlockVisitor;
 import org.apache.phoenix.engine.blocks.RoleEntry;
+import org.apache.phoenix.engine.facilities.ApplicationManager;
 import org.apache.phoenix.engine.facilities.ClassLoaderManager;
 import org.apache.phoenix.engine.facilities.ConfigurationRepository;
 import org.apache.phoenix.engine.facilities.LogManager;
-import org.apache.phoenix.engine.facilities.PhoenixManager;
 import org.apache.phoenix.engine.facilities.PolicyManager;
 import org.apache.phoenix.engine.facilities.ThreadManager;
+import org.apache.phoenix.engine.facilities.application.DefaultApplicationManager;
 import org.apache.phoenix.engine.facilities.classloader.DefaultClassLoaderManager;
 import org.apache.phoenix.engine.facilities.configuration.DefaultConfigurationRepository;
 import org.apache.phoenix.engine.facilities.log.DefaultLogManager;
-import org.apache.phoenix.engine.facilities.phoenix.DefaultPhoenixManager;
 import org.apache.phoenix.engine.facilities.policy.DefaultPolicyManager;
 import org.apache.phoenix.engine.facilities.thread.DefaultThreadManager;
 import org.apache.phoenix.engine.phases.ShutdownPhase;
@@ -73,7 +73,7 @@ public final class DefaultServerApplication
     protected Configuration            m_configuration;
     protected ComponentManager         m_componentManager;
 
-    protected PhoenixManager           m_phoenixManager;
+    protected ApplicationManager       m_applicationManager;
     protected LogManager               m_logManager;
     protected PolicyManager            m_policyManager;
     protected ThreadManager            m_threadManager;
@@ -191,7 +191,7 @@ public final class DefaultServerApplication
         m_classLoaderManager = new DefaultClassLoaderManager();
         m_threadManager = new DefaultThreadManager();
         m_policyManager = new DefaultPolicyManager();
-        m_phoenixManager = new DefaultPhoenixManager();
+        m_applicationManager = new DefaultApplicationManager();
     }
 
     /**
@@ -217,7 +217,7 @@ public final class DefaultServerApplication
 
         setupComponent( m_configurationRepository, "<core>.configuration-repository", null );
 
-        setupComponent( m_phoenixManager, "<core>.phoenix-manager", null );
+        setupComponent( m_applicationManager, "<core>.application-manager", null );
 
         setupComponent( m_dag, "<core>.dag", null );
     }
