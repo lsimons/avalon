@@ -498,6 +498,9 @@ Legal:
        <param name="-version"/>
        <param name="-doctitle" value="${Name}"/>
        <param name="-windowtitle" value="${Name} API"/>
+       <param name="-link" value="http://java.sun.com/j2se/1.4/docs/api/"/>
+       <param name="-link" value="http://java.sun.com/j2ee/sdk_1.3/techdocs/api/"/>
+       <param name="-link" value="http://jakarta.apache.org/avalon/api/"/>
        <param name="-bottom"
               value="&quot;Copyright &#169; 2001 Apache Jakarta Project. All Rights Reserved.&quot;"/>
       </doclet>
@@ -519,6 +522,9 @@ Legal:
         <param name="-version"/>
         <param name="-doctitle" value="${Name} Scratchpad"/>
         <param name="-windowtitle" value="${Name} Scratchpad API"/>
+        <param name="-link" value="http://java.sun.com/j2se/1.4/docs/api/"/>
+        <param name="-link" value="http://java.sun.com/j2ee/sdk_1.3/techdocs/api/"/>
+        <param name="-link" value="http://jakarta.apache.org/avalon/api/"/>
         <param name="-bottom"
             value="&quot;Copyright &#169; 2001 Apache Jakarta Project. All Rights Reserved.&quot;"/>
       </doclet>
@@ -717,6 +723,7 @@ Legal:
     <property name="cornerstone.base" value="http://jakarta.apache.org/avalon/cornerstone"/>
     <property name="logkit.base" value="http://jakarta.apache.org/avalon/logkit"/>
     <property name="testlet.base" value="http://jakarta.apache.org/avalon/testlet"/>
+    <property name="excalibur.base" value="http://jakarta.apache.org/avalon/excalibur"/>
 
     <filter token="year" value="${year}"/>
     <filter token="AVALON_BASE" value="${avalon.base}"/>
@@ -725,6 +732,7 @@ Legal:
     <filter token="CORNERSTONE_BASE" value="${cornerstone.base}"/>
     <filter token="LOGKIT_BASE" value="${logkit.base}"/>
     <filter token="TESTLET_BASE" value="${testlet.base}"/>
+    <filter token="EXCALIBUR_BASE" value="${excalibur.base}"/>
 
     <!-- Copy files from jakarta-avalon src/documentation -->
     <copy todir="${build.context}" filtering="on">
