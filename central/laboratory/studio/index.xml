@@ -207,9 +207,6 @@
       <include key="eclipse-jdt-launching" runtime="false" />
       <include key="xstream"/>
     </dependencies>
-    <plugins>
-      <include key="metro-studio-magic"/>
-    </plugins>
   </project>
 
   <project basedir="core/plugin">
@@ -220,7 +217,11 @@
       <status>SNAPSHOT</status> 
     </info>
     <dependencies>
+      <include key="metro-studio-core"/>
     </dependencies>
+    <plugins>
+      <include key="metro-studio-magic"/>
+    </plugins>
   </project>
   
   <project basedir="docs">
