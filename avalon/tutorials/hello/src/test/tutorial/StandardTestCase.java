@@ -72,8 +72,8 @@ public class StandardTestCase extends AbstractMerlinTestCase
         super( 
           MAVEN_TARGET_CLASSES_DIR, 
           MERLIN_DEFAULT_CONFIG_FILE, 
-          MERLIN_DEBUG_OFF, 
           MERLIN_INFO_OFF, 
+          MERLIN_DEBUG_OFF, 
           name );
     }
 
