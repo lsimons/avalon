@@ -7,6 +7,7 @@
  */
 package org.apache.avalon.phoenix.components.configuration.validator;
 
+import java.io.File;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -17,6 +18,7 @@ import org.xml.sax.SAXParseException;
 
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
+import org.apache.avalon.excalibur.io.FileUtil;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
@@ -47,6 +49,7 @@ public class JarvConfigurationValidator extends AbstractLogEnabled
     private String m_schemaType;
     private String m_schemaLanguage;
     private String m_verifierFactoryClass;
+    private String m_debugPath;
 
     private final DefaultConfigurationSerializer m_serializer =
         new DefaultConfigurationSerializer();
@@ -68,6 +71,7 @@ public class JarvConfigurationValidator extends AbstractLogEnabled
     public void configure( Configuration configuration )
         throws ConfigurationException
     {
+        this.m_debugPath = configuration.getChild( "debug-output-path" ).getValue( null );
         this.m_schemaType = configuration.getAttribute( "schema-type" );
         this.m_schemaLanguage = configuration.getChild( "schema-language" ).getValue( null );
         this.m_verifierFactoryClass =
@@ -92,6 +96,13 @@ public class JarvConfigurationValidator extends AbstractLogEnabled
             this.m_verifierFactory =
                 ( VerifierFactory ) Class.forName( this.m_verifierFactoryClass ).newInstance();
         }
+
+        if( null != this.m_debugPath )
+        {
+            FileUtil.forceMkdir( new File( m_debugPath ) );
+        }
+
+        this.m_serializer.setIndent( true );
     }
 
     private String createKey( String application, String block )
@@ -163,6 +174,11 @@ public class JarvConfigurationValidator extends AbstractLogEnabled
             throw new ConfigurationException( msg );
         }
 
+        if( null != this.m_debugPath )
+        {
+            writeDebugConfiguration( application, block, configuration );
+        }
+
         try
         {
             final Verifier verifier = schema.newVerifier();
@@ -221,6 +237,27 @@ public class JarvConfigurationValidator extends AbstractLogEnabled
             final String msg = REZ.getString( "jarv.valid.badparse", application, block );
 
             throw new ConfigurationException( msg, e );
+        }
+    }
+
+    private void writeDebugConfiguration( final String application,
+                                          final String block,
+                                          final Configuration configuration )
+    {
+        try
+        {
+            final File temp = File.createTempFile( application + "-" + block + "-",
+                                                   ".xml",
+                                                   new File( this.m_debugPath ) );
+
+            this.m_serializer.serializeToFile( temp, configuration );
+
+            if( getLogger().isDebugEnabled() )
+                getLogger().debug( "Configuration written at: " + temp );
+        }
+        catch( Exception e )
+        {
+            getLogger().error( "Unable to write debug output", e );
         }
     }
 
