@@ -67,7 +67,7 @@ import org.apache.excalibur.source.SourceValidity;
  * Abstract base class for a source implementation.
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.5 $ $Date: 2002/12/15 11:56:48 $
+ * @version CVS $Revision: 1.6 $ $Date: 2002/12/15 12:18:57 $
  */
 
 public abstract class AbstractSource
@@ -210,5 +210,23 @@ public abstract class AbstractSource
     {
         checkInfos();
         return Collections.EMPTY_LIST.iterator();
+    }
+
+    /**
+     * Does this source point to a directory?
+     */
+    public boolean isDirectory()
+    {
+    	return false;
+    }
+    
+    /**
+     * Return the URIs of the children
+     * The returned URIs are relative to the URI of the parent
+     * (this object)
+     */
+    public Iterator getChildrenLocations() 
+    {
+    	return Collections.EMPTY_LIST.iterator();
     }
 }
