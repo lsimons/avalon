@@ -53,6 +53,7 @@ import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+
 import org.apache.avalon.phoenix.components.extensions.pkgmgr.PackageManager;
 import org.apache.oro.text.regex.Pattern;
 import org.apache.oro.text.regex.Perl5Compiler;
@@ -66,12 +67,12 @@ import org.apache.oro.text.regex.Perl5Matcher;
  * {@link #m_baseDirectory} value.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2003/06/12 15:17:10 $
+ * @version $Revision: 1.4 $ $Date: 2003/06/12 15:24:46 $
  * @deprecated Convert to ClassMan SimpleLoaderResolver when it updates
  *             dependecy to latest Excalibur-Extension
  */
 class DefaultLoaderResolver
-    extends SimpleLoaderResolver
+        extends SimpleLoaderResolver
 {
     /**
      * Create a resolver that resolves all files according to specied
@@ -99,7 +100,7 @@ class DefaultLoaderResolver
     public URL[] resolveFileSet( final String baseDirectory,
                                  final String[] includes,
                                  final String[] excludes )
-        throws Exception
+            throws Exception
     {
         final File base = getFileFor( "." );
         return resolveFileSet( base, baseDirectory, includes, excludes );
@@ -129,7 +130,7 @@ class DefaultLoaderResolver
 
         scanDir( base, matcher, "", urls );
 
-        return (URL[])urls.toArray( new URL[ urls.size() ] );
+        return (URL[]) urls.toArray( new URL[urls.size()] );
     }
 
     /**
@@ -148,38 +149,38 @@ class DefaultLoaderResolver
                           final ArrayList urls )
     {
         final File[] files = dir.listFiles();
-        if( null == files )
+        if ( null == files )
         {
             final String message = "Bad dir specified: " + dir;
             throw new IllegalArgumentException( message );
         }
 
         String prefix = "";
-        if( 0 != path.length() )
+        if ( 0 != path.length() )
         {
             prefix = path + "/";
         }
 
-        for( int i = 0; i < files.length; i++ )
+        for ( int i = 0; i < files.length; i++ )
         {
-            final File file = files[ i ];
+            final File file = files[i];
             final String newPath = prefix + file.getName();
-            if( file.isDirectory() )
+            if ( file.isDirectory() )
             {
                 scanDir( file, matcher, newPath, urls );
             }
             else
             {
-                if( matcher.match( newPath ) )
+                if ( matcher.match( newPath ) )
                 {
                     try
                     {
                         urls.add( file.toURL() );
                     }
-                    catch( final MalformedURLException mue )
+                    catch ( final MalformedURLException mue )
                     {
                         final String message = "Error converting " +
-                            file + " to url. Reason: " + mue;
+                                file + " to url. Reason: " + mue;
                         throw new IllegalArgumentException( message );
                     }
                 }
@@ -198,15 +199,15 @@ class DefaultLoaderResolver
     private String[] prefixPatterns( final String prefix,
                                      final String[] patterns )
     {
-        if( 0 == prefix.length() )
+        if ( 0 == prefix.length() )
         {
             return patterns;
         }
 
-        final String[] newPatterns = new String[ patterns.length ];
-        for( int i = 0; i < newPatterns.length; i++ )
+        final String[] newPatterns = new String[patterns.length];
+        for ( int i = 0; i < newPatterns.length; i++ )
         {
-            newPatterns[ i ] = prefix + "/" + patterns[ i ];
+            newPatterns[i] = prefix + "/" + patterns[i];
         }
         return newPatterns;
     }
@@ -243,11 +244,11 @@ class DefaultLoaderResolver
      */
     private static final String normalize( String path )
     {
-        if( ".".equals( path ) || "./".equals( path ) )
+        if ( ".".equals( path ) || "./".equals( path ) )
         {
             return "";
         }
-        else if( path.length() < 2 )
+        else if ( path.length() < 2 )
         {
             return path;
         }
@@ -259,7 +260,7 @@ class DefaultLoaderResolver
         // this whole prefix thing is for windows compatibility only.
         String prefix = null;
 
-        if( length > 2 && buff.charAt( 1 ) == ':' )
+        if ( length > 2 && buff.charAt( 1 ) == ':' )
         {
             prefix = path.substring( 0, 2 );
             buff.delete( 0, 2 );
@@ -274,18 +275,18 @@ class DefaultLoaderResolver
         int lastSlash = length + 1;
         int upLevel = 0;
 
-        for( int i = length - 1; i >= 0; i-- )
-            switch( path.charAt( i ) )
+        for ( int i = length - 1; i >= 0; i-- )
+            switch ( path.charAt( i ) )
             {
                 case '\\':
                     buff.setCharAt( i, '/' );
                 case '/':
-                    if( lastSlash == i + 1 )
+                    if ( lastSlash == i + 1 )
                     {
                         buff.deleteCharAt( i );
                     }
 
-                    switch( ptCount )
+                    switch ( ptCount )
                     {
                         case 1:
                             buff.delete( i, lastSlash );
@@ -296,7 +297,7 @@ class DefaultLoaderResolver
                             break;
 
                         default:
-                            if( upLevel > 0 && lastSlash != i + 1 )
+                            if ( upLevel > 0 && lastSlash != i + 1 )
                             {
                                 buff.delete( i, lastSlash + 3 );
                                 upLevel--;
@@ -310,7 +311,7 @@ class DefaultLoaderResolver
                     break;
 
                 case '.':
-                    if( expStart )
+                    if ( expStart )
                     {
                         ptCount++;
                     }
@@ -322,7 +323,7 @@ class DefaultLoaderResolver
                     break;
             }
 
-        switch( ptCount )
+        switch ( ptCount )
         {
             case 1:
                 buff.delete( 0, lastSlash );
@@ -332,9 +333,9 @@ class DefaultLoaderResolver
                 break;
 
             default:
-                if( upLevel > 0 )
+                if ( upLevel > 0 )
                 {
-                    if( startsWithSlash )
+                    if ( startsWithSlash )
                     {
                         return null;
                     }
@@ -344,7 +345,7 @@ class DefaultLoaderResolver
                     }
                 }
 
-                while( upLevel > 0 )
+                while ( upLevel > 0 )
                 {
                     buff.delete( 0, lastSlash + 3 );
                     upLevel--;
@@ -354,19 +355,19 @@ class DefaultLoaderResolver
 
         length = buff.length();
         boolean isLengthNull = length == 0;
-        char firstChar = isLengthNull?(char)0:buff.charAt( 0 );
+        char firstChar = isLengthNull ? (char) 0 : buff.charAt( 0 );
 
-        if( !startsWithSlash && !isLengthNull && firstChar == '/' )
+        if ( !startsWithSlash && !isLengthNull && firstChar == '/' )
         {
             buff.deleteCharAt( 0 );
         }
-        else if( startsWithSlash &&
-            ( isLengthNull || ( !isLengthNull && firstChar != '/' ) ) )
+        else if ( startsWithSlash &&
+                ( isLengthNull || ( !isLengthNull && firstChar != '/' ) ) )
         {
             buff.insert( 0, '/' );
         }
 
-        if( prefix != null )
+        if ( prefix != null )
         {
             buff.insert( 0, prefix );
         }
