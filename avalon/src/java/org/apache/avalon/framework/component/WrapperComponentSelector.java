@@ -68,7 +68,7 @@ import org.apache.avalon.framework.service.ServiceException;
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/11/07 09:06:13 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/11/07 15:50:06 $
  */
 public class WrapperComponentSelector
     implements ComponentSelector
@@ -156,5 +156,17 @@ public class WrapperComponentSelector
     public void release( final Component object )
     {
         m_selector.release( object );
+    }
+
+    /**
+     * The {@link WrapperComponentManager} wraps ServiceSelectors in
+     *  WrapperServiceSelectors when they are looked up.  This method
+     *  makes it possible to release the original component selector.
+     *
+     * @return The {@link ServiceSelector} being wrapped.
+     */
+    ServiceSelector getWrappedServiceSelector()
+    {
+        return m_selector;
     }
 }
