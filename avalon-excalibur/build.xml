@@ -51,6 +51,7 @@ Legal:
   <property name="build.classes" value="${build.dir}/classes"/>
   <property name="build.scratchpad" value="${build.dir}/scratchpad"/>
   <property name="build.javadocs" value="${build.dir}/javadocs"/>
+  <property name="build.javadocs-scratchpad" value="${build.dir}/javadocs-scratchpad"/>
   <property name="build.docs" value="${build.dir}/docs"/>
   <property name="build.testdocs" value="${build.docs}/test"/>
   <property name="build.reports" value="${build.dir}/reports"/>
@@ -67,6 +68,7 @@ Legal:
   <property name="docs.dir" value="docs"/>
   <property name="www.dir" value="../jakarta-avalon-site/docs/${name}"/>
   <property name="javadocs.dir" value="${docs.dir}/api"/>
+  <property name="javadocs-scratchpad.dir" value="${docs.dir}/api-scratchpad"/>
   <property name="xdocs.dir" value="${src.dir}/xdocs"/>
   <property name="context.dir" value="../jakarta-avalon/src/documentation"/>
 
@@ -403,9 +405,8 @@ Legal:
     </jar>
   </target>
 
-  <!-- Create the API documentation -->
-  <target name="javadocs" depends="prepare-jdbc" description="generates the API documentation">
-
+  <!-- Create the API documentation in build directory -->
+  <target name="javadocs-main" depends="prepare-jdbc">
     <delete dir="${build.javadocs}"/>
     <mkdir dir="${build.javadocs}"/>
 
@@ -452,19 +453,45 @@ Legal:
     </javadoc>
 
     <delete dir="${build.src}"/>
-
   </target>
+  <target name="javadocs-scratchpad">
+    <delete dir="${build.javadocs-scratchpad}"/>
+    <mkdir dir="${build.javadocs-scratchpad}"/>
+        
+    <javadoc packagenames="org.apache.*"
+        sourcepath="${scratchpad.dir}"
+        destdir="${build.javadocs-scratchpad}"
+        excludepackagenames="**/test">
+      <classpath refid="project.class.path" />
+      <doclet name="com.sun.tools.doclets.standard.Standard">
+        <param name="-author"/>
+        <param name="-version"/>
+        <param name="-doctitle" value="${Name} Scratchpad"/>
+        <param name="-windowtitle" value="${Name} Scratchpad API"/>
+        <param name="-bottom"
+            value="&quot;Copyright &#169; 2001 Apache Jakarta Project. All Rights Reserved.&quot;"/>
+      </doclet>
+    </javadoc>
+  </target>
+  <target name="javadocs" depends="javadocs-main, javadocs-scratchpad" description="generates the API documentation"/>
 
-  <!-- Create the Local API documentation -->
+  <!-- Create the API documentation in doc/api directory  -->
   <target name="local-javadocs" depends="javadocs">
-
+    <!-- Copy the main javadocs -->
     <delete dir="${javadocs.dir}"/>
     <mkdir dir="${javadocs.dir}"/>
-
+        
     <copy todir="${javadocs.dir}">
       <fileset dir="${build.javadocs}" />
     </copy>
-
+            
+    <!-- Copy the scratchpad javadocs -->
+    <delete dir="${javadocs-scratchpad.dir}"/>
+    <mkdir dir="${javadocs-scratchpad.dir}"/>
+        
+    <copy todir="${javadocs-scratchpad.dir}">
+      <fileset dir="${build.javadocs-scratchpad}" />
+    </copy>
   </target>
 
   <target name="local-docs" depends="local-javadocs,docs">
