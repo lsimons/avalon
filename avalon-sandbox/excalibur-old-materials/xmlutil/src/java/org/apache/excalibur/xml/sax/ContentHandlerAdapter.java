@@ -19,10 +19,10 @@ import org.xml.sax.helpers.NamespaceSupport;
 
 /**
  * This class is an utility class adapting a SAX version 2.0
- * {@link ContentHandler} ato receive SAX version 1.0 events.
+ * {@link ContentHandler} to receive SAX version 1.0 events.
  *
  * @author <a href="mailto:mirceatoma@apache.org">Mircea Toma</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/10/16 17:12:32 $
+ * @version CVS $Revision: 1.3 $ $Date: 2002/10/16 17:26:59 $
  */
 
 public class ContentHandlerAdapter implements DocumentHandler
@@ -32,12 +32,12 @@ public class ContentHandlerAdapter implements DocumentHandler
     private final ContentHandler m_handler;
     private final NamespaceSupport m_support = new NamespaceSupport();
     
-    public ContentHandlerAdapter(ContentHandler handler)
+    public ContentHandlerAdapter( final ContentHandler handler )
     {
         m_handler = handler;
     }
     
-    public void setDocumentLocator( Locator locator )
+    public void setDocumentLocator( final Locator locator )
     {
         m_handler.setDocumentLocator( locator );
     }
@@ -52,22 +52,28 @@ public class ContentHandlerAdapter implements DocumentHandler
         m_handler.endDocument();
     }
     
-    public void characters( char ch[], int start, int length ) throws SAXException
+    public void characters( final char ch[], 
+                            final int start, 
+                            final int length ) throws SAXException
     {
         m_handler.characters( ch, start, length );
     }
     
-    public void ignorableWhitespace( char ch[], int start, int length ) throws SAXException
+    public void ignorableWhitespace( final char ch[], 
+                                     final int start, 
+                                     final int length ) throws SAXException
     {
         m_handler.ignorableWhitespace( ch, start, length );
     }
     
-    public void processingInstruction( String target, String data ) throws SAXException
+    public void processingInstruction( final String target, 
+                                       final String data ) throws SAXException
     {
         m_handler.processingInstruction( target, data );
     }
     
-    public void startElement( String name, AttributeList atts ) throws SAXException
+    public void startElement( final String name, 
+                              final AttributeList atts ) throws SAXException
     {
         m_support.pushContext();
         
@@ -106,7 +112,7 @@ public class ContentHandlerAdapter implements DocumentHandler
         m_handler.startElement( parts[0], parts[1], parts[2], attributes );
     }
     
-    public void endElement( String name ) throws SAXException
+    public void endElement( final String name ) throws SAXException
     {
         final String[] parts = m_support.processName( name, new String[3], false );
         m_handler.endElement( parts[0], parts[1], parts[2] );

@@ -21,7 +21,7 @@ import org.xml.sax.helpers.NamespaceSupport;
  * {@link DocumentHandler} to receive SAX version 2.0 events.
  *
  * @author <a href="mailto:mirceatoma@apache.org">Mircea Toma</a>
- * @version CVS $Revision: 1.4 $ $Date: 2002/10/16 17:14:19 $
+ * @version CVS $Revision: 1.5 $ $Date: 2002/10/16 17:26:59 $
  */
 public class DocumentHandlerAdapter implements ContentHandler
 {
@@ -198,7 +198,7 @@ public class DocumentHandlerAdapter implements ContentHandler
         //do nothing
     }
     
-    private String getTagName( String loc, String raw, String uri ) throws SAXException
+    private String getTagName( final String loc, final String raw, final String uri ) throws SAXException
     {
         if (raw != null && raw.length() > 0) 
         {
@@ -211,7 +211,7 @@ public class DocumentHandlerAdapter implements ContentHandler
         }
     }
     
-    private String getTagPrefix( String uri ) throws SAXException
+    private String getTagPrefix( final String uri ) throws SAXException
     {
         if ( m_support.getPrefix( uri ) == null )
         {
