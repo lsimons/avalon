@@ -54,9 +54,9 @@ package org.apache.avalon.composition.data;
  * A block include directive that references a source file describing a block.
  *
  * @author <a href="mailto:mcconnell@avalon.apache.org">Stephen McConnell</a>
- * @version $Revision: 1.1 $ $Date: 2003/09/24 09:31:01 $
+ * @version $Revision: 1.1.1.1.2.1 $ $Date: 2004/01/09 20:29:48 $
  */
-public class BlockIncludeDirective extends Profile
+public class BlockIncludeDirective extends DeploymentProfile
 {
     /**
      * The include path.

@@ -48,117 +48,51 @@
 
 */
 
-package org.apache.avalon.composition.data;
+package org.apache.avalon.merlin.event;
 
-import java.io.Serializable;
+import java.util.EventObject;
+
+import org.apache.avalon.merlin.Kernel;
 
 /**
- * The <code>Mode</code> class declares the EXPLICIT, PACKAGED or IMPLICIT mode of creation of a profile.
+ * A event raised by a kernel signaling a state change.
  *
- * @see DeploymentProfile
- * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1.1.1.2.1 $ $Date: 2004/01/09 20:29:48 $
+ * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
+ * @version $Revision: 1.1.2.1 $ $Date: 2004/01/09 20:29:49 $
  */
-public class Mode implements Serializable
+public class KernelEvent extends EventObject
 {
     /**
-     * Constant indicating that the profile was implicitly created.
+     * The model added or removed from the containment model.
      */
-    public static final int IMPLICIT_VALUE = 0;
+    private final Kernel m_kernel;
 
     /**
-     * Constant indicating that the profile was created based on a profile packaged with the type.
+     * Create a CompositionEvent event.
+     *
+     * @param source the comtainment model raising the event
+     * @param child the model that is the subject of composition
      */
-    public static final int PACKAGED_VALUE = 1;
-
-    /**
-     * Constant indicating that the profile was explicitly declared under an assembly directive.
-     */
-    public static final int EXPLICIT_VALUE = 2;
-
-    /**
-     * Constant indicating that the profile was implicitly created.
-     */
-    public static final Mode IMPLICIT = new Mode( IMPLICIT_VALUE );
-
-    /**
-     * Constant indicating that the profile was created based on a profile packaged with the type.
-     */
-    public static final Mode PACKAGED = new Mode( PACKAGED_VALUE );
-
-    /**
-     * Constant indicating that the profile was explicitly declared under an assembly directive.
-     */
-    public static final Mode EXPLICIT = new Mode( EXPLICIT_VALUE );
-
-   /**
-    * Returns a string representation of a mode value.
-    * @param mode the mode value
-    * @return the string representation
-    */
-    public static String modeToString( int mode )
+    public KernelEvent( final Kernel kernel )
     {
-        if( mode == IMPLICIT_VALUE )
-        {
-            return "IMPLICIT";
-        }
-        else if( mode == PACKAGED_VALUE )
-        {
-            return "PACKAGED";
-        }
-        else if( mode == EXPLICIT_VALUE )
-        {
-            return "EXPLICIT";
-        }
-        else
-        {
-            return "?";
-        }
+        super( kernel );
+        m_kernel = kernel;
     }
 
     /**
-     * The creation mode.
+     * Return the kernel raising the event.
+     *
+     * @return the source kernel
      */
-    private final int m_mode;
-
-   /**
-    * Creation of a new mode value.
-    * @param mode the int value of the mode.
-    */
-    public Mode( int mode )
+    public Kernel getKernel()
     {
-        m_mode = mode;
+        return m_kernel;
     }
 
-    /**
-     * The supplied argument.
-     * @return the mode value
-     */
-    public int getValue()
-    {
-        return m_mode;
-    }
-
-   /**
-    * Return a string representatio of the mode.
-    * @return String the string value
-    */
     public String toString()
     {
-        return modeToString( getValue() );
-    }
-
-   /**
-    * Compare a supplied object for equality.
-    * @param object the other object
-    * @return TRUE if the supplied mode is equivalent to this mode.
-    */
-    public boolean equals( Object object )
-    {
-        if( object instanceof Mode )
-        {
-            return ((Mode)object).getValue() == getValue();
-        }
-        return false;
-    }
+        return "kernel-event: [" 
+          + getKernel() 
+          + "]";
+    } 
 }

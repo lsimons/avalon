@@ -52,7 +52,7 @@ package org.apache.avalon.composition.model;
 
 import java.io.File;
 
-import org.apache.avalon.composition.data.DeploymentProfile;
+import org.apache.avalon.composition.data.ComponentProfile;
 
 import org.apache.avalon.framework.context.ContextException;
 import org.apache.avalon.framework.logger.Logger;
@@ -66,7 +66,7 @@ import org.apache.avalon.meta.info.Type;
  * Defintion of a component deployment context.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1.2.3 $ $Date: 2004/01/06 23:16:49 $
+ * @version $Revision: 1.1.2.4 $ $Date: 2004/01/09 20:29:48 $
  */
 public interface ComponentContext extends DeploymentContext
 {
@@ -128,7 +128,7 @@ public interface ComponentContext extends DeploymentContext
     *
     * @return the profile
     */
-    DeploymentProfile getProfile();
+    ComponentProfile getProfile();
 
    /**
     * Return the component type.

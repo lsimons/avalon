@@ -1,61 +1,78 @@
 ;NSIS Modern User Interface version 1.63
 ;Welcome/Finish Page Example Script
-;Written by Joost Verburg
+;Written by Stephen McConnell
 
-!define MUI_PRODUCT "Merlin"
-!define MUI_VERSION "3.2"
+;--------------------------------
+;Include Modern UI
 
-!include "MUI.nsh"
-  
+  !include "MUI.nsh"
+
+;--------------------------------
+;Include Environment Handler
+
+  !include path.nsh
+
 ;--------------------------------
 ;Configuration
 
   ;General
-  OutFile "..\..\target\merlin-install-3.2.exe"
+  Name "Merlin Service Management"
+
+  ;General
+  OutFile "..\..\..\..\target\merlin-install-3.4-dev.exe"
 
   ;Folder selection page
-  InstallDir "$PROGRAMFILES\${MUI_PRODUCT}"
+  InstallDir "$PROGRAMFILES\Merlin"
   
   ;Remember install folder
-  InstallDirRegKey HKCU "Software\${MUI_PRODUCT}" ""
+  InstallDirRegKey HKCU "Software\Merlin" ""
 
 ;--------------------------------
-;Modern UI Configuration
+;Interface Settings
 
-  !define MUI_WELCOMEPAGE
-  !define MUI_LICENSEPAGE
-  !define MUI_COMPONENTSPAGE
-  !define MUI_DIRECTORYPAGE
-  !define MUI_FINISHPAGE
-  
   !define MUI_ABORTWARNING
-  
-  !define MUI_UNINSTALLER
-  !define MUI_UNCONFIRMPAGE
 
+;--------------------------------
+;Pages
+
+  !insertmacro MUI_PAGE_WELCOME
+  !insertmacro MUI_PAGE_LICENSE "./../etc/license.txt"
+  !insertmacro MUI_PAGE_COMPONENTS
+  !insertmacro MUI_PAGE_DIRECTORY
+  !insertmacro MUI_PAGE_INSTFILES
+  !insertmacro MUI_PAGE_FINISH
+  
+  !insertmacro MUI_UNPAGE_WELCOME
+  !insertmacro MUI_UNPAGE_CONFIRM
+  !insertmacro MUI_UNPAGE_INSTFILES
+  !insertmacro MUI_UNPAGE_FINISH
   
 ;--------------------------------
 ;Languages
  
   !insertmacro MUI_LANGUAGE "English"
-  
-;--------------------------------
-;Language Strings
 
-  ;Description
-  LangString DESC_SecCopyUI ${LANG_ENGLISH} "Merlin core system resources."
-
-;--------------------------------
-;Data
-  
-  LicenseData "./../etc/license.txt"
-  
 ;--------------------------------
 ;Reserve Files
 
   ;Things that need to be extracted on first (keep these lines before any File command!)
   ;Only useful for BZIP2 compression
-  !insertmacro MUI_RESERVEFILE_WELCOMEFINISHPAGE
+  ;!insertmacro MUI_RESERVEFILE_WELCOMEFINISHPAGE
+
+;--------------------------------
+Section ""
+
+  Push "MERLIN_HOME"
+  CreateDirectory $INSTDIR
+  GetFullPathName /SHORT $R1 $INSTDIR
+  Push $R1
+  Call WriteEnvStr
+
+  Push "%MERLIN_HOME%\bin"
+  Call AddToPath
+
+SectionEnd
+
 
 ;--------------------------------
 ;Installer Sections
@@ -70,36 +87,35 @@ Section "Merlin Kernel" SecCopyUI
   File /r "..\..\..\..\target\merlin\**"
 
   ;Store install folder
-  WriteRegStr HKCU "Software\${MUI_PRODUCT}" "" $INSTDIR
+  WriteRegStr HKCU "Software\Merlin" "" $INSTDIR
     
   ;Create uninstaller
   WriteUninstaller "$INSTDIR\Uninstall.exe"
 
 SectionEnd
 
-Section "Start Menu Shortcuts"
+Section ""
 
-  CreateDirectory "$SMPROGRAMS\${MUI_PRODUCT}"
-  CreateShortCut "$SMPROGRAMS\${MUI_PRODUCT}\Uninstall.lnk" "$INSTDIR\uninstall.exe" "" "$INSTDIR\uninstall.exe" 0
-  
-  CreateShortCut "$SMPROGRAMS\${MUI_PRODUCT}\Readme.lnk" "$INSTDIR\README.txt" "" "$INSTDIR\README.txt" 0
+  CreateDirectory "$SMPROGRAMS\Merlin"
+  CreateShortCut "$SMPROGRAMS\Merlin\Uninstall.lnk" "$INSTDIR\uninstall.exe"
+  CreateShortCut "$SMPROGRAMS\Merlin\Merlin Documentation.lnk" "$INSTDIR\docs\index.html"
+  CreateShortCut "$SMPROGRAMS\Merlin\Tutorials.lnk" "$INSTDIR\docs\starting\tutorial\index.html"
+  CreateShortCut "$SMPROGRAMS\Merlin\System Properties.lnk" "$INSTDIR\docs\merlin\kernel\properties.html"
+  CreateShortCut "$SMPROGRAMS\Merlin\XML Descriptors.lnk" "$INSTDIR\docs\meta\index.html"
+  CreateShortCut "$SMPROGRAMS\Merlin\Tools.lnk" "$INSTDIR\docs\tools\index.html"
 
 SectionEnd
 
-
 ;--------------------------------
-;Descriptions
-
-!insertmacro MUI_FUNCTIONS_DESCRIPTION_BEGIN
-  !insertmacro MUI_DESCRIPTION_TEXT ${SecCopyUI} $(DESC_SecCopyUI)
-!insertmacro MUI_FUNCTIONS_DESCRIPTION_END
-
-;--------------------------------
-;Uninstaller Section
+;Uninstaller
 
 Section "Uninstall"
 
-  ;Add your stuff here
+  Push "%MERLIN_HOME%\bin"
+  Call un.RemoveFromPath
+
+  Push "MERLIN_HOME"
+  Call un.DeleteEnvStr
 
   Delete "$INSTDIR\Uninstall.exe"
   Delete "$INSTDIR\INSTALL.TXT"
@@ -112,11 +128,9 @@ Section "Uninstall"
   RMDir "$INSTDIR"
 
   ; remove shortcuts, if any
-  Delete "$SMPROGRAMS\${MUI_PRODUCT}\*.*"
-  RMDir "$SMPROGRAMS\${MUI_PRODUCT}"
+  Delete "$SMPROGRAMS\Merlin\*.*"
+  RMDir "$SMPROGRAMS\Merlin"
 
-  DeleteRegKey /ifempty HKCU "Software\${MUI_PRODUCT}"
-
-  !insertmacro MUI_UNFINISHHEADER
+  DeleteRegKey /ifempty HKCU "Software\Merlin"
 
 SectionEnd

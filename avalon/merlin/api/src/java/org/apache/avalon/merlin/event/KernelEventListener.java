@@ -48,63 +48,31 @@
 
 */
 
-package org.apache.avalon.composition.data;
+package org.apache.avalon.merlin.event;
 
-import java.io.Serializable;
+import java.util.EventListener;
+
 
 /**
- * A collection of profiles packaged with a component type.
+ * A listener for kernel events.
  *
- * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1.1.1.2.1 $ $Date: 2004/01/09 20:29:48 $
+ * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
+ * @version $Revision: 1.1.2.1 $ $Date: 2004/01/09 20:29:49 $
  */
-public class ProfilePackage implements Serializable
+public interface KernelEventListener extends EventListener
 {
-    //--------------------------------------------------------------------------
-    // static
-    //--------------------------------------------------------------------------
-
-    public static final ProfilePackage EMPTY_PACKAGE = new ProfilePackage();
-
-    //--------------------------------------------------------------------------
-    // immutable state
-    //--------------------------------------------------------------------------
-
     /**
-     * The set of component profiles contained within the package.
-     */
-    private final ComponentProfile[] m_profiles;
-
-    //--------------------------------------------------------------------------
-    // constructor
-    //--------------------------------------------------------------------------
-
-    public ProfilePackage() 
-    {
-        this( new ComponentProfile[0] );
-    }
-
-    /**
-     * Create a new profile package instance.
+     * Notify the listener that the kernel has started.
      *
-     * @param profiles the set of contained profiles
+     * @param event the kernel event
      */
-    public ProfilePackage( final ComponentProfile[] profiles ) 
-    {
-        m_profiles = profiles;
-    }
-
-    //--------------------------------------------------------------------------
-    // implementation
-    //--------------------------------------------------------------------------
+    void started( KernelEvent event );
 
     /**
-     * Return the set of profile.
+     * Notify the listener that the kernel has started.
      *
-     * @return the profiles
+     * @param event the kernel event
      */
-    public ComponentProfile[] getComponentProfiles()
-    {
-        return m_profiles;
-    }
+    void stopped( KernelEvent event );
+
 }

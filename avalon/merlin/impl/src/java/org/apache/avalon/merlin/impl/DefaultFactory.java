@@ -68,7 +68,7 @@ import org.apache.avalon.composition.data.CategoriesDirective;
 import org.apache.avalon.composition.data.ContainmentProfile;
 import org.apache.avalon.composition.data.TargetDirective;
 import org.apache.avalon.composition.data.builder.XMLTargetsCreator;
-import org.apache.avalon.composition.data.builder.XMLDeploymentProfileCreator;
+import org.apache.avalon.composition.data.builder.XMLComponentProfileCreator;
 import org.apache.avalon.composition.data.builder.XMLContainmentProfileCreator;
 import org.apache.avalon.composition.logging.LoggingManager;
 import org.apache.avalon.composition.logging.LoggingDescriptor;
@@ -132,8 +132,8 @@ public class DefaultFactory implements Factory
     private static Resources REZ =
         ResourceManager.getPackageResources( DefaultFactory.class );
 
-    private static final XMLDeploymentProfileCreator CREATOR = 
-      new XMLDeploymentProfileCreator();
+    private static final XMLComponentProfileCreator CREATOR = 
+      new XMLComponentProfileCreator();
 
     private static final XMLContainmentProfileCreator CONTAINER_CREATOR = 
       new XMLContainmentProfileCreator();
