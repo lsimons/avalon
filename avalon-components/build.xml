@@ -459,8 +459,8 @@
     </copy>
 -->
 
-    <copy file="${avalonapi.jar}" tofile="${src.dist.lib}/avalonapi.jar">
-    <copy file="${phoenix-client.jar}" tofile="${src.dist.lib}/phoenix-client.jar">
+    <copy file="${avalonapi.jar}" tofile="${src.dist.lib}/avalonapi.jar"/>
+    <copy file="${phoenix-client.jar}" tofile="${src.dist.lib}/phoenix-client.jar"/>
 
     <copy todir="${src.dist.src}">
       <fileset dir="${src.dir}"/>
