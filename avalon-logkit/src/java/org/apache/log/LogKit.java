@@ -11,7 +11,8 @@ package org.apache.log;
  * The LogKit provides the access to static methods to
  * manipulate the logging sub-system
  *
- *  @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
+ * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
+ * @deprecated Instead of using LogKit directly use the facilities in code itself
  */
 public final class LogKit
 {
@@ -22,6 +23,7 @@ public final class LogKit
      * ContextStack is created with the name of thread as base context.
      *
      * @return the current ContextStack
+     * @deprecated Use ContextStack.getCurrentContext() instead
      */
     public static ContextStack getCurrentContext()
     {
@@ -33,6 +35,7 @@ public final class LogKit
      *
      * @param category the context
      * @return the Logger
+     * @deprecated Use Hierarchy.getDefaultHierarchy().getLoggerFor() instead
      */
     public static Logger getLoggerFor( final String category )
     {
@@ -40,7 +43,7 @@ public final class LogKit
     }
 
     /**
-     * Retrieve a Priority.Enum value for the String Priority level.
+     * Retrieve a Priority value for the string parameter.
      *
      * @param priority the priority
      * @return the descriptive string
@@ -52,7 +55,9 @@ public final class LogKit
     }
 
     /**
-     * Loga an error message and exception to stderr.
+     * Logs an error message to error handler.
+     *
+     * @deprecated Use Hierarchy.getDefaultHierarchy().log() instead
      */
     public static void log( final String message, final Throwable t )
     {
@@ -60,7 +65,9 @@ public final class LogKit
     }
 
     /**
-     * Logs an error message to stderr.
+     * Logs an error message to error handler.
+     *
+     * @deprecated Use Hierarchy.getDefaultHierarchy().log() instead
      */
     public static void log( final String message )
     {
@@ -69,6 +76,8 @@ public final class LogKit
 
     /**
      * Sets the default LogTarget for the default logger.
+     *
+     * @deprecated Use Hierarchy.getDefaultHierarchy().setDefaultLogTarget() instead
      */
     public static void setDefaultLogTarget( final LogTarget defaultLogTarget )
     {
