@@ -89,14 +89,7 @@
   </path>
 
   <!-- Main target -->
-  <target name="main" depends="jars" description="Generates the files minus documentation">
-    <ant antfile="build.xml" dir="apps/overlord" target="main"
-         inheritall="false"/>
-    <ant antfile="build.xml" dir="apps/simpleserver" target="main"
-         inheritall="false"/>
-    <ant antfile="build.xml" dir="apps/xcommander" target="main"
-         inheritall="false"/>
-  </target>
+  <target name="main" depends="jars" description="Generates the files minus documentation" />
 
   <target name="all" depends="main,docs" description="Generates the files including documentation"/>
 
@@ -375,14 +368,6 @@
       <fileset dir="${src.dir}"/>
     </copy>
 
-    <copy todir="${src.dist.dir}/apps">
-      <fileset dir=".">
-        <include name="apps/*/src/**"/>
-        <include name="apps/*/build.xml"/>
-        <include name="apps/*/lib/**"/>
-      </fileset>
-    </copy>
-
     <copy todir="${src.dist.docs}">
       <fileset dir="${docs.dir}"/>
     </copy>
@@ -415,15 +400,6 @@
 
     <chmod dir="${src.dist.dir}" perm="go-rwx" />
 
-  </target>
-
-  <!-- Distribute Applications as apps subdir of distributions/ -->
-  <target name="distributions-apps" depends="jars">
-    <copy todir="${dist.base}/phoenix-apps" flatten="true">
-      <fileset dir="apps">
-        <include name="*/dist/*.sar"/>
-      </fileset>
-    </copy>
   </target>
 
   <!-- Completely build all dists -->
@@ -475,30 +451,6 @@
     <delete file="${dist.base}/${dist.name}-src.tar"/>
     <delete dir="${dist.name}" />
 
-    <mkdir dir="${dist.base}/phoenix-apps"/>
-
-    <ant antfile="build.xml" dir="apps/overlord" target="dist"
-         inheritall="false"/>
-    <ant antfile="build.xml" dir="apps/simpleserver" target="dist"
-         inheritall="false"/>
-    <ant antfile="build.xml" dir="apps/xcommander" target="dist"
-         inheritall="false"/>
-
-    <antcall target="distributions-apps" inheritall="false">
-      <param name="dist.dir" value="${dist.name}" />
-    </antcall>
-
-  </target>
-
-  <target name="install" depends="main" description="Installs Cornerstone into Phoenix">
-
-    <!-- <copy file="${build.lib}/cornerstone.jar" tofile="${install.dir}/cornerstone.jar"/> -->
-    <ant antfile="build.xml" dir="apps/demo" target="install" inheritall="false"/>
-  </target>
-
-  <target name="uninstall" description="Uninstalls Cornerstone into Phoenix">
-    <!-- <delete file="${install.dir}/cornerstone.jar"/> -->
-    <ant antfile="build.xml" dir="apps/demo" target="uninstall" inheritall="false"/>
   </target>
 
   <!-- Update the www directory -->
@@ -528,12 +480,6 @@
       <fileset dir="." includes="**/*~" defaultexcludes="no"/>
     </delete>
 
-    <ant antfile="build.xml" dir="apps/overlord" target="clean"
-         inheritall="false"/>
-    <ant antfile="build.xml" dir="apps/simpleserver" target="clean"
-         inheritall="false"/>
-    <ant antfile="build.xml" dir="apps/xcommander" target="clean"
-         inheritall="false"/>
   </target>
 
   <!-- Cleans absolutely everything up -->
@@ -541,25 +487,6 @@
     <delete dir="${docs.dir}" />
     <delete dir="${dist.base}" />
 
-    <ant antfile="build.xml" dir="apps/overlord" target="distclean"
-         inheritall="false"/>
-    <ant antfile="build.xml" dir="apps/simpleserver" target="distclean"
-         inheritall="false"/>
-    <ant antfile="build.xml" dir="apps/xcommander" target="distclean"
-         inheritall="false"/>
-  </target>
-
-
-  <!-- Delegated (to apps/xxxxxx) Targets -->
-
-  <target name="overlord" depends="compile" description="Delegates to build.xml in apps/overlord">
-    <ant antfile="build.xml" dir="apps/overlord" target="${apps-target}" inheritall="false"/>
-  </target>
-  <target name="simpleserver" depends="compile" description="Delegates to build.xml in apps/simpleserver">
-    <ant antfile="build.xml" dir="apps/simpleserver" target="${apps-target}" inheritall="false"/>
-  </target>
-  <target name="xcommander" depends="compile" description="Delegates to build.xml in apps/xcommander">
-    <ant antfile="build.xml" dir="apps/xcommander" target="${apps-target}" inheritall="false"/>
   </target>
 
 </project>
