@@ -65,7 +65,7 @@ import org.apache.avalon.framework.activity.Initializable;
  * thread to manage the number of SQL Connections.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.21 $ $Date: 2003/03/25 18:38:20 $
+ * @version CVS $Revision: 1.22 $ $Date: 2003/03/25 20:01:48 $
  * @since 4.0
  */
 public class JdbcConnectionPool
@@ -127,14 +127,15 @@ public class JdbcConnectionPool
             long endTime = curMillis + m_wait;
             while( ( null == conn ) && ( curMillis < endTime ) )
             {
-                m_waitingThreads.add( Thread.currentThread() );
+                Thread thread = Thread.currentThread();
+                m_waitingThreads.add( thread );
 
                 try
                 {
                     curMillis = System.currentTimeMillis();
                     unlock();
 
-                    Thread.sleep( endTime - curMillis );
+                    thread.wait( endTime - curMillis );
                 }
                 finally
                 {
