@@ -36,6 +36,7 @@
 
 <!ENTITY merlin-impl-id "merlin-impl">
 <!ENTITY merlin-impl-version "3.3.0-dev">
+<!ENTITY merlin-impl-artifact "artifact:&merlin-id;/&merlin-impl-id;#merlin-impl-version;">
 
 <!ENTITY merlin-cli-id "merlin-cli">
 <!ENTITY merlin-cli-version "3.3.0-dev">

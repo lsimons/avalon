@@ -62,6 +62,8 @@
       <j:set var="path" 
           value="${child.artifactId}-${child.currentVersion}.jar"/>
       <checksum file="${maven.build.dir}/jars/${path}"/>
+      <move file="${maven.build.dir}/jars/${path}.md5" toFile="temp"/>
+      <move file="temp" toFile="${maven.build.dir}/jars/${path}.md5"/>
       <j:if test="${maven_gpg_exe != null}">
         <ant:exec executable="${maven_gpg_exe}">
           <ant:arg value="-a"/>
@@ -257,6 +259,8 @@
     />
     <ant:delete file="${maven.dist.dir}/${build.name}-bin.tar"/>
     <checksum file="${maven.dist.dir}/${build.name}-bin.tar.gz"/>
+    <move file="${maven.dist.dir}/${build.name}-bin.tar.gz.md5" toFile="temp"/>
+    <move file="temp" toFile="${maven.dist.dir}/${build.name}-bin.tar.gz.md5"/>
     <j:if test="${maven_gpg_exe != null}">
       <ant:exec executable="${maven_gpg_exe}">
         <ant:arg value="-a"/>
@@ -270,6 +274,8 @@
       <ant:zipfileset dir="${maven.dist.bin.archive.dir}"/>
     </ant:zip>
     <checksum file="${maven.dist.dir}/${build.name}-bin.zip"/>
+    <move file="${maven.dist.dir}/${build.name}-bin.zip.md5" toFile="temp"/>
+    <move file="temp" toFile="${maven.dist.dir}/${build.name}-bin.zip.md5"/>
     <j:if test="${maven_gpg_exe != null}">
       <ant:exec executable="${maven_gpg_exe}">
         <ant:arg value="-a"/>
@@ -294,6 +300,8 @@
     />
     <ant:delete file="${maven.dist.dir}/${build.name}-src.tar"/>
     <checksum file="${maven.dist.dir}/${build.name}-src.tar.gz"/>
+    <move file="${maven.dist.dir}/${build.name}-src.tar.gz.md5" toFile="temp"/>
+    <move file="temp" toFile="${maven.dist.dir}/${build.name}-src.tar.gz.md5"/>
     <j:if test="${maven_gpg_exe != null}">
       <ant:exec executable="${maven_gpg_exe}">
         <ant:arg value="-a"/>
@@ -307,6 +315,8 @@
       <ant:zipfileset dir="${maven.dist.src.archive.dir}"/>
     </ant:zip>
     <checksum file="${maven.dist.dir}/${build.name}-src.zip"/>
+    <move file="${maven.dist.dir}/${build.name}-src.zip.md5" toFile="temp"/>
+    <move file="temp" toFile="${maven.dist.dir}/${build.name}-src.zip.md5"/>
     <j:if test="${maven_gpg_exe != null}">
       <ant:exec executable="${maven_gpg_exe}">
         <ant:arg value="-a"/>
