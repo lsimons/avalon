@@ -14,28 +14,28 @@ package org.apache.log.output.jms;
  */
 public class PropertyType
 {
-    public final static int STATIC = 1;
-    public final static int CATEGORY = 2;
-    public final static int CONTEXT = 3;
-    public final static int MESSAGE = 4;
-    public final static int TIME = 5;
-    public final static int RELATIVE_TIME = 6;
-    public final static int THROWABLE = 7;
-    public final static int PRIORITY = 8;
+    public static final int STATIC = 1;
+    public static final int CATEGORY = 2;
+    public static final int CONTEXT = 3;
+    public static final int MESSAGE = 4;
+    public static final int TIME = 5;
+    public static final int RELATIVE_TIME = 6;
+    public static final int THROWABLE = 7;
+    public static final int PRIORITY = 8;
 
     /**
      * The maximum value used for TYPEs. Subclasses can define their own TYPEs
      * starting at <code>MAX_TYPE + 1</code>.
      */
 
-    public final static String STATIC_STR = "static";
-    public final static String CATEGORY_STR = "category";
-    public final static String CONTEXT_STR = "context";
-    public final static String MESSAGE_STR = "message";
-    public final static String TIME_STR = "time";
-    public final static String RELATIVE_TIME_STR = "rtime";
-    public final static String THROWABLE_STR = "throwable";
-    public final static String PRIORITY_STR = "priority";
+    public static final String STATIC_STR = "static";
+    public static final String CATEGORY_STR = "category";
+    public static final String CONTEXT_STR = "context";
+    public static final String MESSAGE_STR = "message";
+    public static final String TIME_STR = "time";
+    public static final String RELATIVE_TIME_STR = "rtime";
+    public static final String THROWABLE_STR = "throwable";
+    public static final String PRIORITY_STR = "priority";
 
     public static int getTypeIdFor( final String type )
     {

@@ -51,7 +51,7 @@ public final class ContextMap
      *
      * @return the current ContextMap
      */
-    public final static ContextMap getCurrentContext()
+    public static final ContextMap getCurrentContext()
     {
         return getCurrentContext( true );
     }
@@ -65,7 +65,7 @@ public final class ContextMap
      * @param autocreate true if a ContextMap is to be created if it doesn't exist
      * @return the current ContextMap
      */
-    public final static ContextMap getCurrentContext( final boolean autocreate )
+    public static final ContextMap getCurrentContext( final boolean autocreate )
     {
         //Check security permission here???
         ContextMap context = (ContextMap)c_context.get();
@@ -84,7 +84,7 @@ public final class ContextMap
      *
      * @param context the context map (may be null)
      */
-    public final static void bind( final ContextMap context )
+    public static final void bind( final ContextMap context )
     {
         //Check security permission here??
         c_context.set( context );

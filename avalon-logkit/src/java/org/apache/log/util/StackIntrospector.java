@@ -15,7 +15,7 @@ import java.io.StringWriter;
  *
  * @author <a href="mailto:sylvain@apache.org">Sylvain Wallez</a>
  * @author <a href="mailto:stuart.roebuck@adolos.com">Stuart Roebuck</a>
- * @version CVS $Revision: 1.5 $ $Date: 2002/03/27 22:07:58 $
+ * @version CVS $Revision: 1.6 $ $Date: 2002/05/20 10:12:50 $
  */
 public final class StackIntrospector
 {
@@ -24,7 +24,7 @@ public final class StackIntrospector
      * SecurityManager class provides it as a protected method, so
      * change it to public through a new method !
      */
-    private final static class CallStack
+    private static final class CallStack
         extends SecurityManager
     {
         /**
@@ -79,7 +79,7 @@ public final class StackIntrospector
      * @exception SecurityException if an existing SecurityManager disallows construction
      *            of another SecurityManager and thus blocks method results
      */
-    public final static Class getCallerClass( final Class clazz )
+    public static final Class getCallerClass( final Class clazz )
         throws SecurityException
     {
         final Class[] stack = getCallStack().get();
@@ -105,7 +105,7 @@ public final class StackIntrospector
      *
      * @return The method path name in the form "the.package.path.Method"
      */
-    public final static String getCallerMethod( final Class clazz )
+    public static final String getCallerMethod( final Class clazz )
     {
         final String className = clazz.getName();
 
@@ -192,7 +192,7 @@ public final class StackIntrospector
      *
      * @return The method path name in the form "the.package.path.Method"
      */
-    public final static String getRecentStack( final Class clazz, int entries )
+    public static final String getRecentStack( final Class clazz, int entries )
     {
         final String className = clazz.getName();
 

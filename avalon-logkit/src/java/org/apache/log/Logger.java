@@ -15,7 +15,7 @@ package org.apache.log;
 public class Logger
 {
     ///Separator character use to separate different categories
-    public final static char CATEGORY_SEPARATOR = '.';
+    public static final char CATEGORY_SEPARATOR = '.';
 
     ///The ErrorHandler associated with Logger
     private final ErrorHandler m_errorHandler;
