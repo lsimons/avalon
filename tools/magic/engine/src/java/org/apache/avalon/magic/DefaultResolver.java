@@ -24,7 +24,13 @@ import java.util.StringTokenizer;
 public class DefaultResolver
     implements PropertyResolver
 {
-
+    private PluginContext m_Context;
+    
+    DefaultResolver( PluginContext context )
+    {
+        m_Context = context;
+    }
+    
     public String resolve( PluginProperties props, String value )
     {
         // optimization for common case.
@@ -44,7 +50,10 @@ public class DefaultResolver
                 String open = (String) stack.pop();
                 if( open.equals( "${" ) )
                 {
-                    String propValue = props.getProperty( name );
+                    String propValue = props.getProperty( name, this );
+                    if( propValue == null )
+                        propValue = m_Context.getProperty( name );
+                        
                     if( propValue == null )
                         push( stack, "${" + name + "}" );
                     else

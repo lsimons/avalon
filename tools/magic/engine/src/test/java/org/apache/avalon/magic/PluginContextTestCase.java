@@ -27,19 +27,30 @@ public class PluginContextTestCase extends TestCase
     protected void setUp() throws Exception
     {
         super.setUp();
-        m_ProjectDir = new File( "target/projectdir");
-        m_ProjectDir.mkdir();
+        m_ProjectDir = new File( "target/test/projectdir");
+        m_ProjectDir.mkdirs();
         
         PluginProperties projectProps = new PluginProperties();
         InputStream in = getClass().getResourceAsStream( "test.properties");
         projectProps.load( in );
         
-        m_PluginDir = new File( "target/plugins");
-        m_PluginDir.mkdir();
+        m_PluginDir = new File( "target/test/plugins");
+        m_PluginDir.mkdirs();
         
-        m_SystemDir = new File( "target/system");
-        m_SystemDir.mkdir();
+        m_SystemDir = new File( "target/test/system");
+        m_SystemDir.mkdirs();
         
+        m_TempDir = new File( "target/test/temp");
+        m_TempDir.mkdirs();
+        
+        m_ProjectSystemDir = new File( "../../../central/system");
+
+        m_Project = new Project();
+        m_Project.setBaseDir( m_ProjectDir );
+        m_Project.setCoreLoader( this.getClass().getClassLoader() );
+        m_Project.setName( "testcase project" );
+        m_Project.init();
+                
         m_Context = new PluginContext
         ( 
             " testcase project ", 
@@ -89,26 +100,43 @@ public class PluginContextTestCase extends TestCase
         assertEquals( "Plugin ClassName failed.", "TestCasePlugin", m_Context.getPluginClassname());
     }
 
-    public void testGetProperty()
+    public void testGetProperty1()
     {
         String p1 = "niclas${abc.def}hedhman";
         String value = m_Context.resolve( p1 );
+        System.out.println( "1:" + value );
         assertEquals( "Unresolvable failed.", p1, value );
+    }
 
-        p1 = "niclas ${a.property } hedhman";
-        value = m_Context.resolve( p1 );
+    public void testGetProperty2()
+    {
+        String p1 = "niclas ${a.property } hedhman";
+        String value = m_Context.resolve( p1 );
+        System.out.println( "2:" + value );
         assertEquals( "Single Level resolution failed.", "niclas has the surname of hedhman", value );
+    }
 
-        p1 = "${a2.this}";
-        value = m_Context.resolve( p1 );
+    public void testGetProperty3()
+    {
+        String p1 = "${a2.this}";
+        String value = m_Context.resolve( p1 );
+        System.out.println( "3:" + value );
         assertEquals( "Property resolution failed.", "this is", value );
+    }
 
-        p1 = "Hey, ${a2.${a1}} ${a2.${a4}} ${a3}";
-        value = m_Context.resolve( p1 );
+    public void testGetProperty4()
+    {
+        String p1 = "Hey, ${a2.${a1}} ${a2.${a4}} ${a3}";
+        String value = m_Context.resolve( p1 );
+        System.out.println( "4:" + value );
         assertEquals( "Nested resolution failed.", "Hey, this is this is not this is funky", value );
+    }
 
-        p1 = "${${${${${${b1}}}}}}";
-        value = m_Context.resolve( p1 );
+    public void testGetProperty5()
+    {
+        String p1 = "${${${${${${b1}}}}}}";
+        String value = m_Context.resolve( p1 );
+        System.out.println( "5:" + value );
         assertEquals( "Nested resolution failed.", "YEAH!!!!", value );
     }
 
@@ -116,5 +144,11 @@ public class PluginContextTestCase extends TestCase
     {
         assertTrue( "Ant Project failed.", m_Context.getAntProject() != null );
         assertEquals( "Ant Project failed.", "testcase project", m_Context.getAntProject().getName() );
+    }
+    
+    public void testResolvePluginDir()
+    {
+        String expected = "This is " + m_PluginDir.getAbsolutePath() + " right.";
+        assertEquals( "PluginDir not retrievable.", expected, m_Context.resolve( "This is ${plugin.dir} right." ) );
     }
 }

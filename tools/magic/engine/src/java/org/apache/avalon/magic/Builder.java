@@ -151,14 +151,14 @@ public class Builder
     
     private void loadGlobalProperties( PluginProperties props )
     {
-        props.put( "magic.home.dir", m_SystemDir.toString() );
-        props.put( "magic.plugins.dir", m_PluginsDir.getAbsolutePath() );
-        props.put( "magic.repository.dir", new File( m_SystemDir, "repository" ).toString() );
-        props.put( "magic.project.dir", m_ProjectDir.getAbsolutePath() );
-        props.put( "magic.temp.dir", m_TempDir.getAbsolutePath() );
-        props.put( "user.home", System.getProperty( "user.home" ) );
-        props.put( "java.home", System.getProperty( "java.home" ) );
-        props.put( "java.version", System.getProperty( "java.version" ) );
+        props.setProperty( "magic.home.dir", m_SystemDir.toString() );
+        props.setProperty( "magic.plugins.dir", m_PluginsDir.getAbsolutePath() );
+        props.setProperty( "magic.repository.dir", new File( m_SystemDir, "repository" ).toString() );
+        props.setProperty( "magic.project.dir", m_ProjectDir.getAbsolutePath() );
+        props.setProperty( "magic.temp.dir", m_TempDir.getAbsolutePath() );
+        props.setProperty( "user.home", System.getProperty( "user.home" ) );
+        props.setProperty( "java.home", System.getProperty( "java.home" ) );
+        props.setProperty( "java.version", System.getProperty( "java.version" ) );
         populateDateTimes( props );        
     }
     
@@ -268,12 +268,12 @@ public class Builder
     {
         Calendar cal = Calendar.getInstance();
         
-        p.put( "magic.year", "" + cal.get( Calendar.YEAR ) );
-        p.put( "magic.month", "" + cal.get( Calendar.MONTH ) );
-        p.put( "magic.date", "" + cal.get( Calendar.DATE ) );
-        p.put( "magic.hour", "" + cal.get( Calendar.HOUR_OF_DAY ) );
-        p.put( "magic.minute", "" + cal.get( Calendar.MINUTE ) );
-        p.put( "magic.second", "" + cal.get( Calendar.SECOND ) );
+        p.setProperty( "magic.year", "" + cal.get( Calendar.YEAR ) );
+        p.setProperty( "magic.month", "" + cal.get( Calendar.MONTH ) );
+        p.setProperty( "magic.date", "" + cal.get( Calendar.DATE ) );
+        p.setProperty( "magic.hour", "" + cal.get( Calendar.HOUR_OF_DAY ) );
+        p.setProperty( "magic.minute", "" + cal.get( Calendar.MINUTE ) );
+        p.setProperty( "magic.second", "" + cal.get( Calendar.SECOND ) );
     }
 } 
  
