@@ -52,6 +52,11 @@ including the Avalon Meta, Composition, and Activation packages.
               Formal specification of the Avalon Deployment model.
             </td>
           </tr>
+          <tr>
+            <td><a href="system/index.html">System Specification</a></td>
+            <td>IN PREP</td>
+          </tr>
+
         </table>
       </subsection>
     </section>

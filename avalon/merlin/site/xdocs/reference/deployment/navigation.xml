@@ -45,9 +45,10 @@
       <item name="Specification" href="/reference/index.html">
         <item name="Component Specification" href="/reference/component/index.html"/>
         <item name="Deployment Specification" href="/reference/deployment/index.html">
-          <item name="Kernel Specification" href="/reference/deployment/kernel/index.html"/>
           <item name="Deployment Directives" href="/reference/deployment/directives/index.html"/>
+          <item name="Override Directives" href="/reference/deployment/overrides/index.html"/>
         </item>
+        <item name="System Specification" href="/reference/system/index.html"/>
       </item>
       <item name="Download" href="/resources/download.html"/>
       <item name="Roadmap" href="/resources/roadmap/index.html"/>

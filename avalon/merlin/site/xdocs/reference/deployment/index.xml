@@ -33,15 +33,15 @@
         <table>
           <tr><th>Topic</th><th>Summary</th></tr>
           <tr>
-            <td><a href="deployment/kernel/index.html">Kernel Directives</a></td>
+            <td><a href="directives/index.html">Deployment Directives</a></td>
             <td>
-The Merlin system establishes a environment within which multiple distinct containers can be created. Each container represents a context withing which sub-containers and component are managed.  The kernel directive speficatuion deals with the establishment of the minimal core system used to establish the root container.
+The Deployment Directive Specification deals with the language and semantics of container and component specification and the mechanisms provided concerning classloader management, component addressing, and composition component inclusion. 
             </td>
           </tr>
           <tr>
-            <td><a href="deployment/directives/index.html">Deployment Directives</a></td>
+            <td><a href="overrides/index.html">Override Directives</a></td>
             <td>
-The Deployment Directive Specification deals with the language and semantics of container and component specification and the mechanisms provided concerning classloader management, component addressing, and composition component inclusion. 
+IN PREP
             </td>
           </tr>
         </table>
