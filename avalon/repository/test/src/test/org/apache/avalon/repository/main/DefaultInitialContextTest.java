@@ -71,7 +71,7 @@ import org.apache.avalon.util.exception.ExceptionHelper;
  * 
  * @author <a href="mailto:aok123@bellsouth.net">Alex Karasulu</a>
  * @author $Author: mcconnell $
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public class DefaultInitialContextTest extends TestCase
 {
@@ -147,12 +147,6 @@ public class DefaultInitialContextTest extends TestCase
                 "maven.home.local", 
                 Env.getEnvVariable( "MAVEN_HOME_LOCAL" ) );
             if( null != local ) return local;
-
-            String maven = 
-              System.getProperty( 
-                "maven.home", 
-                Env.getEnvVariable( "MAVEN_HOME" ) );
-            if( null != maven ) return maven;
 
             return System.getProperty( "user.home" ) + File.separator + ".maven";
 
