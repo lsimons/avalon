@@ -173,12 +173,12 @@ public class XMLDefinitionBuilder
         final String name =
           ElementHelper.getValue( 
             ElementHelper.getChild( info, "name" ) );
-        final String version =
-          ElementHelper.getValue( 
-            ElementHelper.getChild( info, "version" ) );
         final String type =
           ElementHelper.getValue( 
             ElementHelper.getChild( info, "type" ) );
+        final String version =
+          ElementHelper.getValue( 
+            ElementHelper.getChild( info, "version" ) );
         final boolean status = createSnapshotPolicy( info );
         return Info.create( home, group, name, version, type, status );
     }
@@ -199,7 +199,9 @@ public class XMLDefinitionBuilder
         final String id =
           ElementHelper.getValue( 
             ElementHelper.getChild( info, "id" ) );
-        return new Gump( alias, id );
+        final boolean classpath = (null != ElementHelper.getChild( info, "classpath" ));
+        final boolean ignore = (null != ElementHelper.getChild( info, "ignore" ));
+        return new Gump( alias, id, classpath, ignore );
     }
 
     private static ResourceRef[] createResourceRefs( final Element element )

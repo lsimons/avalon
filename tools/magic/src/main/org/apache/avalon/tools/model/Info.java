@@ -60,15 +60,15 @@ public class Info
       final Home home, final String group, final String name, final String version, 
       final String type, boolean snapshot )
     {
-        //if( home.isGump() ) 
-        //{
-        //    final String sig = home.getGumpSignature();
-        //    return new Info( group, name, sig, type, snapshot );
-        //}
-        //else
-        //{
+        if( home.isGump() )
+        {
+            final String signature = home.getGumpSignature();
+            return new Info( group, name, signature, type, false );
+        }
+        else
+        {
             return new Info( group, name, version, type, snapshot );
-        //}
+        }
     }
 
     private String m_name;

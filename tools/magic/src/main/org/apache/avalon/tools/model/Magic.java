@@ -117,14 +117,10 @@ public class Magic extends DataType
         setProject( project );
 
         m_signature = project.getProperty( GUMP_SIGNATURE_KEY );
-
         m_system = getSystemDirectory( project );
-
         project.setProperty( KEY, Context.getCanonicalPath( m_system ) );
-
         File user = new File( m_system, "user.properties" );
         loadProperties( project, user );
-
         File properties = new File( m_system, "magic.properties" );
         loadProperties( project, properties );
 
@@ -316,6 +312,13 @@ public class Magic extends DataType
 
     private File getSystemDirectory( final Project project )
     {
+        final String path = project.getProperty( "magic.home" );
+        if( null != path )
+        {
+            File system = new File( path );
+            return Context.getCanonicalFile( system );
+        }
+
         final Property property = (Property) project.createTask( "property" );
         property.setEnvironment( "env" );
         property.init();

@@ -27,15 +27,19 @@ import org.apache.tools.ant.BuildException;
  */
 public class Gump 
 {
-    public static final Gump NULL_GUMP = new Gump( null, null );
+    public static final Gump NULL_GUMP = new Gump( null, null, false, false );
 
     private String m_alias;
     private String m_id;
+    private boolean m_ignore;
+    private boolean m_classpath;
 
-    public Gump( final String alias, final String id )
+    public Gump( final String alias, final String id, boolean classpath, boolean ignore )
     {
         m_alias = alias;
         m_id = id;
+        m_ignore = ignore;
+        m_classpath = classpath;
     }
 
    /**
@@ -52,5 +56,23 @@ public class Gump
     public String getId()
     {
         return m_id;
+    }
+
+   /**
+    * Return true if this defintion can be ignored when 
+    * building a gump project dependency.
+    */
+    public boolean isIgnorable()
+    {
+        return m_ignore;
+    }
+
+   /**
+    * Return true if this defintion is required as part of the 
+    * classpath established by gump.
+    */
+    public boolean isClasspathEntry()
+    {
+        return m_classpath;
     }
 }
