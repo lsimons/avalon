@@ -96,7 +96,7 @@ import java.util.*;
  * Container's Manager can expose that to the instantiating class.
  *
  * @author <a href="mailto:dev@avalon.apache.org">The Avalon Team</a>
- * @version CVS $Revision: 1.32 $ $Date: 2003/05/29 16:29:06 $
+ * @version CVS $Revision: 1.33 $ $Date: 2003/05/29 17:14:45 $
  */
 public abstract class AbstractContainer
         extends AbstractLogEnabled
@@ -141,7 +141,36 @@ public abstract class AbstractContainer
 
     protected List m_shutDownOrder;
 
-    private ProxyManager m_proxyManager = new ProxyManager( true );
+    private ProxyManager m_proxyManager;
+
+    /**
+     * Allows you to override the ProxyManager used in the container.  In order for your proxymanager
+     * to be used, it <b>must</b> be set prior to adding any components.
+     * @param proxyManager
+     */
+    protected void setProxyManager( ProxyManager proxyManager )
+    {
+        if ( null == proxyManager ) throw new NullPointerException("proxyManager");
+        if ( null != m_proxyManager ) throw new IllegalStateException("Can not double-assign the ProxyManager");
+        m_proxyManager = proxyManager;
+    }
+
+    /**
+     * Guarantees that the ProxyManager will be assigned before use.  If you do not set the proxy
+     * manager, the AbstractContainer will use the ProxyManager.DISCOVER algorithm.
+     *
+     * @return the ProxyManager.
+     * @throws Exception if there is a problem
+     */
+    protected ProxyManager getProxyManager() throws Exception
+    {
+        if ( null == m_proxyManager )
+        {
+            m_proxyManager = new ProxyManager( ProxyManager.DISCOVER );
+        }
+
+        return m_proxyManager;
+    }
 
     /**
      * Pull the manager items from the context so we can use them to set up
@@ -441,7 +470,7 @@ public abstract class AbstractContainer
                 new ComponentFactory( clazz, configuration,
                         m_serviceManager, m_componentContext,
                         m_loggerManager, m_extManager );
-        return m_proxyManager.getWrappedObjectFactory( componentFactory );
+        return getProxyManager().getWrappedObjectFactory( componentFactory );
     }
 
     /**
