@@ -33,20 +33,19 @@ import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.http.HttpService;
 
 import org.mortbay.http.HttpListener;
-import org.mortbay.http.SocketListener;
 
 /** Wrapper for the Jetty SocketListener.
  *
  * @avalon.component name="http-socket-listener" lifestyle="singleton"
  * @avalon.service type="org.mortbay.http.HttpListener"
  */
-public class SocketListenerComponent extends SocketListener
+public class JsseListener extends org.mortbay.http.SunJsseListener
     implements Parameterizable, Startable, Serviceable, LogEnabled, HttpListener
 {
     private HttpService m_HttpServer;
     private Logger      m_Logger;
     
-    public SocketListenerComponent()
+    public JsseListener()
     {
     }
     
@@ -106,7 +105,7 @@ public class SocketListenerComponent extends SocketListener
             throw new ParameterException( "Unknown hostname: " + host );
         }
         
-        int port = params.getParameterAsInteger( "port", 8080 );
+        int port = params.getParameterAsInteger( "port", 8443 );
         setPort( port );
         
         int lowResMs = params.getParameterAsInteger( "low-resource-persist-ms", -1 );
@@ -116,7 +115,35 @@ public class SocketListenerComponent extends SocketListener
         boolean identify = params.getParameterAsBoolean( "identify-listener", false );
         setIdentifyListener( identify );
         
+        boolean needClientAuth = params.getParameterAsBoolean( "need-client-authentication", false );
+        setNeedClientAuth( needClientAuth );
         
+        boolean useDefTrustStore = params.getParameterAsBoolean( "use-default-trust-store", false );
+        setUseDefaultTrustStore( useDefTrustStore );
+        
+        String keyPass = params.getParameter( "key-password", null );
+        if( keyPass != null )
+            setKeyPassword( keyPass );
+            
+        String keyStore = params.getParameter( "key-store", null );
+        if( keyStore != null )
+            setKeystore( keyStore );
+            
+        String keyStoreProviderClass = params.getParameter( "key-store-provider-class", null );
+        if( keyStoreProviderClass != null )
+            setKeystoreProviderClass( keyStoreProviderClass );
+            
+        String keyStoreProviderName = params.getParameter( "key-store-provider-name", null );
+        if( keyStoreProviderName != null )
+            setKeystoreProviderName( keyStoreProviderName );
+            
+        String keyStoreType = params.getParameter( "key-store-type", null );
+        if( keyStoreType != null )
+            setKeystoreType( keyStoreType );
+            
+        String password = params.getParameter( "password", null );
+        if( password != null )
+            setPassword( password );
     }
     
     /**
@@ -133,7 +160,7 @@ public class SocketListenerComponent extends SocketListener
         throws Exception
     {
         if( m_Logger.isDebugEnabled() )
-            m_Logger.debug( "Starting socket: " + this );
+            m_Logger.debug( "Starting SSL socket: " + this );
         m_HttpServer.addListener( this );
         super.start();
     }
@@ -142,8 +169,9 @@ public class SocketListenerComponent extends SocketListener
         throws InterruptedException
     {
         if( m_Logger.isDebugEnabled() )
-            m_Logger.debug( "Stopping socket: " + this );
+            m_Logger.debug( "Stopping SSL socket: " + this );
         super.stop();
         m_HttpServer.removeListener( this );
     }
 } 
+ 
