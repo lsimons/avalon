@@ -59,7 +59,7 @@ Legal:
     <property name="xerces.jar" value="${xerces.dir}/${xerces.file}"/>
     <property name="xalan.jar" value="${tools.dir}/lib/xalan-2.2.0-D8.jar"/>
     <property name="framework.jar" value="${lib.dir}/avalon-framework-20022103.jar"/>
-    <property name="logkit.jar" value="${lib.dir}/logkit-1.0.1.jar"/>
+    <property name="logkit.jar" value="${lib.dir}/logkit-1.1a.jar"/>
     <property name="jmxri.jar" value="${lib.dir}/jmxri.jar"/>
     <property name="jmxtools.jar" value="${lib.dir}/jmxtools.jar"/>
     <property name="tools.jar" value="${java.home}/../lib/tools.jar"/>
