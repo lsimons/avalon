@@ -56,7 +56,7 @@ import org.apache.avalon.util.i18n.Resources;
  * A factory enabling the establishment of new composition model instances.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.14 $ $Date: 2004/03/17 10:39:10 $
+ * @version $Revision: 1.15 $ $Date: 2004/04/01 04:06:52 $
  */
 public class DefaultModelFactory
   implements ModelFactory
@@ -357,7 +357,7 @@ public class DefaultModelFactory
         try
         {
             Repository repository = m_system.getRepository();
-            File base = m_system.getBaseDirectory();
+            File base = m_system.getAnchorDirectory();
 
             ClassLoader root = m_system.getAPIClassLoader();
             ClassLoaderDirective classLoaderDirective = 

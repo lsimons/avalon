@@ -46,7 +46,7 @@ import org.apache.avalon.util.i18n.Resources;
  * Implementation of a system context that exposes a system wide set of parameters.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.8 $ $Date: 2004/03/17 10:39:10 $
+ * @version $Revision: 1.9 $ $Date: 2004/04/01 04:06:52 $
  */
 public class DefaultSystemContextFactory implements SystemContextFactory
 {
@@ -71,6 +71,8 @@ public class DefaultSystemContextFactory implements SystemContextFactory
     private File m_home;
 
     private File m_temp;
+
+    private File m_anchor;
 
     private Repository m_repository;
 
@@ -201,6 +203,15 @@ public class DefaultSystemContextFactory implements SystemContextFactory
         m_temp = temp;
     }
 
+   /**
+    * Set the anchor directory.
+    * @param anchor the anchor directory
+    */
+    public void setAnchorDirectory( File anchor )
+    {
+        m_anchor = anchor;
+    }
+
     public void setName( String name )
     {
         m_name = name;
@@ -239,6 +250,7 @@ public class DefaultSystemContextFactory implements SystemContextFactory
           getBaseDirectory(), 
           getHomeDirectory(), 
           getTempDirectory(), 
+          getAnchorDirectory(), 
           getRepository(), 
           getName(), 
           isTraceEnabled(), 
@@ -341,6 +353,20 @@ public class DefaultSystemContextFactory implements SystemContextFactory
     {
         if( null != m_temp ) return m_temp;
         return new File( getBaseDirectory(), "temp" );
+    }
+
+   /**
+    * Return the anchor directory from which a container 
+    * may use to establish relative classpath references. 
+    * If undefined the value returned will default to the
+    * basedir.
+    *
+    * @return the anchor directory
+    */
+    public File getAnchorDirectory()
+    {
+        if( null != m_anchor ) return m_anchor;
+        return getBaseDirectory();
     }
 
    /**

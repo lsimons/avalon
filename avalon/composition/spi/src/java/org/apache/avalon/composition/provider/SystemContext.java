@@ -32,7 +32,7 @@ import org.apache.avalon.framework.logger.Logger;
  * Defintion of a system context that exposes a system wide set of parameters.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.5 $ $Date: 2004/03/17 10:39:11 $
+ * @version $Revision: 1.6 $ $Date: 2004/04/01 04:06:52 $
  */
 public interface SystemContext extends Context
 {
@@ -67,6 +67,14 @@ public interface SystemContext extends Context
     */
     File getTempDirectory();
 
+   /**
+    * Return the anchor directory from which a container 
+    * may use to resolve relative classpath references.
+    *
+    * @return the anchor directory
+    */
+    File getAnchorDirectory();
+    
    /**
     * Return the application repository from which resource 
     * directives can be resolved.

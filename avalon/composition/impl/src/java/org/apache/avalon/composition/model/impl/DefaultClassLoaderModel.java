@@ -96,7 +96,7 @@ import org.apache.avalon.util.i18n.Resources;
  * and the extensions package.
  * </p>
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.13 $ $Date: 2004/03/08 11:28:36 $
+ * @version $Revision: 1.14 $ $Date: 2004/04/01 04:06:52 $
  */
 public class DefaultClassLoaderModel extends AbstractLogEnabled 
     implements ClassLoaderModel
@@ -107,12 +107,6 @@ public class DefaultClassLoaderModel extends AbstractLogEnabled
 
     private static final Resources REZ =
             ResourceManager.getPackageResources( DefaultClassLoaderModel.class );
-
-    //private static ClassLoaderModel createClassLoaderModel( 
-    //  ClassLoaderContext context ) throws ModelException
-    //{
-    //    return new DefaultClassLoaderModel( context );
-    //}
 
     //==============================================================
     // state
