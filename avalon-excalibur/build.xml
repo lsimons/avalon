@@ -91,6 +91,7 @@ Legal:
 
   <property name="announce2txt" value="${tools.dir}/announcement2txt.xsl"/>
   <property name="announce2header" value="${tools.dir}/announcement2header.xsl"/>
+  <property name="announce2readme" value="${tools.dir}/announcement2readme.xsl"/>
   <property name="announce2site" value="${tools.dir}/announcement2site.xsl"/>
 
   <path id="project.class.path">
@@ -471,6 +472,8 @@ Legal:
            out="Announcement.txt"/>
     <style style="${announce2header}" in="${build.context}/xdocs/announcement.xml"
            out="${dist.base}/HEADER.html"/>
+    <style style="${announce2readme}" in="${build.context}/xdocs/announcement.xml"
+           out="${dist.base}/README.html"/>
     <style style="${announce2site}" in="${build.context}/xdocs/announcement.xml"
            out="jakarta-news.xml"/>
 
