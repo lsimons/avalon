@@ -45,6 +45,10 @@ public class DefaultConnectionManager
 
     public void dispose()
     {
+        if( getLogger().isDebugEnabled() )
+        {
+            getLogger().debug( "disposal" );
+        }
         final String[] names = (String[])m_connections.keySet().toArray( new String[ 0 ] );
         for( int i = 0; i < names.length; i++ )
         {
@@ -139,14 +143,18 @@ public class DefaultConnectionManager
         throws Exception
     {
         final Connection connection = (Connection)m_connections.remove( name );
-        if( null == connection )
-        {
-            final String message =
-                "No such connection with name " + name;
-            throw new IllegalArgumentException( message );
-        }
 
-        //TODO: Stop ignoring tearDown
-        connection.dispose();
+        if( connection != null )
+        {
+            //TODO: Stop ignoring tearDown
+            connection.dispose();
+        }
+        else
+        {
+            final String error = 
+               "Invalid request for the disconnection of an unrecognized connection name: " 
+               + name;
+            throw new IllegalArgumentException( error );
+        }
     }
 }
