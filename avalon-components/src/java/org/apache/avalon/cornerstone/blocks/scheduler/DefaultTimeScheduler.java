@@ -36,8 +36,6 @@ public class DefaultTimeScheduler
     extends AbstractLogEnabled
     implements Block, TimeScheduler, Composable, Initializable, Startable, Disposable, Runnable
 {
-    private final Object               m_monitor         = new Object();
-
     private boolean                    m_running;
     private Hashtable                  m_entries;
     private PriorityQueue              m_priorityQueue;
@@ -69,9 +67,9 @@ public class DefaultTimeScheduler
      * @param trigger the trigger
      * @param target the target
      */
-    public void addTrigger( final String name,
-                            final TimeTrigger trigger,
-                            final Target target )
+    public synchronized void addTrigger( final String name,
+                                         final TimeTrigger trigger,
+                                         final Target target )
     {
         try { removeTrigger( name ); }
         catch( final NoSuchElementException nse ) {}
@@ -86,7 +84,7 @@ public class DefaultTimeScheduler
         {
             if( entry == m_priorityQueue.peek() )
             {
-                synchronized( m_monitor ) { m_monitor.notify(); }
+                notifyAll();
             }
         }
         catch( final NoSuchElementException nse )
@@ -102,7 +100,7 @@ public class DefaultTimeScheduler
      * @param name the name of the trigger
      * @exception NoSuchElementException if no trigger exists with that name
      */
-    public void removeTrigger( String name )
+    public synchronized void removeTrigger( String name )
         throws NoSuchElementException
     {
         //use the kill-o-matic against any entry with same name
@@ -117,7 +115,7 @@ public class DefaultTimeScheduler
      * @param name the name of the trigger
      * @exception NoSuchElementException if no trigger exists with that name
      */
-    public void resetTrigger( String name )
+    public synchronized void resetTrigger( final String name )
         throws NoSuchElementException
     {
         final TimeScheduledEntry entry = getEntry( name );
@@ -134,8 +132,8 @@ public class DefaultTimeScheduler
      * @param clone true if new entry is to be created
      * @return true if added to queue, false if not added
      */
-    private boolean rescheduleEntry( final TimeScheduledEntry timeEntry,
-                                       final boolean clone )
+    private synchronized boolean rescheduleEntry( final TimeScheduledEntry timeEntry,
+                                                  final boolean clone )
     {
         TimeScheduledEntry entry = timeEntry;
 
@@ -162,7 +160,7 @@ public class DefaultTimeScheduler
 
             if( entry == m_priorityQueue.peek() )
             {
-                synchronized( m_monitor ) { m_monitor.notify(); }
+                notify();
             }
 
             return true;
@@ -228,7 +226,7 @@ public class DefaultTimeScheduler
     public void stop()
     {
         m_running = false;
-        synchronized( m_monitor ) { m_monitor.notify(); }
+        notifyAll();
     }
 
     public void run()
@@ -241,25 +239,36 @@ public class DefaultTimeScheduler
 
             if( !m_priorityQueue.isEmpty() )
             {
-                TimeScheduledEntry entry =
-                    (TimeScheduledEntry)m_priorityQueue.peek();
-
-                //if job has been invalidated then remove it and continue
-                while( !entry.isValid() )
+                TimeScheduledEntry entry = null;
+                synchronized( this )
                 {
-                    m_priorityQueue.pop();
+                    entry = getNextEntry();
+                    if( null == entry ) continue;
 
-                    if ( m_priorityQueue.isEmpty() ) break;
+                    duration = entry.getNextTime() - System.currentTimeMillis();
 
-                    entry = (TimeScheduledEntry)m_priorityQueue.peek();
+                    if( duration < 0 )
+                    {
+                        //time to run job so remove it from priority queue
+                        //and run it
+                        m_priorityQueue.pop();
+
+                        //Note that we need the pop to occur in a 
+                        //synchronized section while the runEntry
+                        //does not need to be synchronized
+                        //hence why there is to if statements
+                        //structured in this ugly way
+                    }
                 }
 
-                if ( m_priorityQueue.isEmpty() )
+                if( duration < 0 )
+                {
+                    runEntry( entry );
+                    
+                    rescheduleEntry( entry, false );
                     continue;
-
-                duration = entry.getNextTime() - System.currentTimeMillis();
-
-                if( 0 == duration )
+                }                 
+                else if( 0 == duration )
                 {
                     //give a short duration that will sleep
                     // so that next loop will definetly be below 0.
@@ -267,25 +276,35 @@ public class DefaultTimeScheduler
                     //at once
                     duration = 1;
                 }
-                else if( duration < 0 )
-                {
-                    //time to run job so remove it from priority queue
-                    //and run it
-                    m_priorityQueue.pop();
-
-                    runEntry( entry );
-
-                    rescheduleEntry( entry, false );
-                    continue;
-                }
             }
 
-            //wait/sleep until m_monitor is signalled which occurs when
+            //wait/sleep until monitor is signalled which occurs when
             //next jobs is likely to occur or when a new job gets added to
             //top of heap
-            try { synchronized( m_monitor ) { m_monitor.wait( duration ); } }
+            try { synchronized( this ) { wait( duration ); } }
             catch( final InterruptedException ie ) { }
         }
+    }
+
+    private synchronized TimeScheduledEntry getNextEntry()
+    {
+        TimeScheduledEntry entry =
+            (TimeScheduledEntry)m_priorityQueue.peek();
+        
+        //if job has been invalidated then remove it and continue
+        while( !entry.isValid() )
+        {
+            m_priorityQueue.pop();
+            
+            if ( m_priorityQueue.isEmpty() ) 
+            {
+                return null;
+            }
+            
+            entry = (TimeScheduledEntry)m_priorityQueue.peek();
+        }
+
+        return entry;
     }
 }
 
