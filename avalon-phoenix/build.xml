@@ -1009,7 +1009,7 @@ Legal:
         <copy file="${wrapper.jar}" todir="${dist.name.wrapper}/bin"/>
         <copy file="${conf.dir}/wrapper.conf" todir="${dist.name.wrapper}/conf"/>
         
-        <copy file="${phoenix-wrapper.sh}" todir="${dist.name.wrapper}/bin/${name}-wrapper.sh"/>
+        <copy file="${phoenix-wrapper.sh}" tofile="${dist.name.wrapper}/bin/${name}-wrapper.sh"/>
         
         <tar longfile="gnu" tarfile="${dist.base}/${dist.name.wrapper}-bin.tar">
             <tarfileset dir="${dist.name.wrapper}/.." mode="755" username="avalon" group="avalon">
@@ -1020,6 +1020,8 @@ Legal:
             <tarfileset dir="${dist.name.wrapper}/.." username="avalon" group="avalon">
                 <include name="${dist.name.wrapper}/**"/>
                 <exclude name="${dist.name.wrapper}/bin/*.sh"/>
+                <exclude name="${dist.name.wrapper}/bin/wrapper"/>
+                <exclude name="${dist.name.wrapper}/bin/realpath"/>
                 <exclude name="${dist.name.wrapper}/lib/bsh*.jar"/>
             </tarfileset>
         </tar>
