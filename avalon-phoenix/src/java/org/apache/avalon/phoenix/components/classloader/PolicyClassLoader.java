@@ -44,24 +44,18 @@ class PolicyClassLoader
      * @param parent the parent ClassLoader
      * @param policy the Policy object
      */
-    PolicyClassLoader( final String[] urls,
+    PolicyClassLoader( final URL[] urls,
                        final ClassLoader parent,
                        final Policy policy )
         throws MalformedURLException
     {
-        super( new URL[ 0 ], parent );
+        super( urls, parent );
 
         if( null == policy )
         {
             throw new NullPointerException( "policy" );
         }
         m_policy = policy;
-
-        for( int i = 0; i < urls.length; i++ )
-        {
-            final URL url = new URL( urls[ i ] );
-            addURL( url );
-        }
     }
 
     public void enableLogging( final Logger logger )

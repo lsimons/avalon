@@ -139,8 +139,14 @@ public class DefaultClassLoaderManager
             getLogger().debug( message );
         }
 
+        final URL[] urls = new URL[ classPath.length ];
+        for( int i = 0; i < urls.length; i++ )
+        {
+            urls[ i ] = new URL( classPath[ i ] );
+        }
+
         final PolicyClassLoader classLoader =
-            new PolicyClassLoader( classPath, m_commonClassLoader, policy );
+            new PolicyClassLoader( urls, m_commonClassLoader, policy );
         setupLogger( classLoader, "classloader" );
 
         for( int i = 0; i < extensions.length; i++ )
