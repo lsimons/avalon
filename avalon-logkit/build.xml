@@ -67,6 +67,8 @@ Legal:
   <property name="xdocs.dir" value="${src.dir}/xdocs"/>
   <property name="context.dir" value="../jakarta-avalon/src/documentation"/>
   <property name="javadocs.dir" value="${docs.dir}/api"/>
+  <property name="dist.dir" value="dist"/>
+  <property name="src.dist.dir" value="src-dist"/>
 
   <property name="tools.jar" value="${java.home}/../lib/tools.jar"/>
   <property name="testlet.jar" value="${tools.dir}/lib/testlet.jar"/>
@@ -131,17 +133,7 @@ Legal:
 
   <!-- Set up dist properties -->
   <target name="setup-properties" >
-    <property name="dist.dir" value="dist"/>
-    <property name="dist.lib" value="${dist.dir}/lib"/>
-    <property name="dist.docs" value="${dist.dir}/docs"/>
-    <property name="dist.javadocs" value="${dist.dir}/docs/api"/>
 
-    <property name="src.dist.dir" value="dist-src"/>
-    <property name="src.dist.src" value="${src.dist.dir}/src"/>
-    <property name="src.dist.docs" value="${src.dist.dir}/docs"/>
-    <property name="src.dist.javadocs" value="${src.dist.dir}/docs/api"/>
-    <property name="src.dist.lib" value="${src.dist.dir}/lib"/>
-    <property name="src.dist.tools" value="${src.dist.dir}/tools"/>
   </target>
   
   <target name="import-servlet-jar" description="Imports the servlet API if required">
@@ -412,7 +404,7 @@ Legal:
     <copy todir="${build.context}" filtering="on">
       <fileset dir="${context.dir}">
         <exclude name="resources/**"/>
-        <exclude name="xdocs"/>
+        <exclude name="xdocs/**"/>
       </fileset>
     </copy>
 
@@ -442,7 +434,11 @@ Legal:
     </java>
   </target>
 
-  <target name="local-docs" depends="local-javadocs,docs"/>
+  <target name="local-docs" depends="local-javadocs,docs">
+    <copy todir="${docs.dir}">
+      <fileset dir="${build.docs}"/>
+    </copy>
+  </target>
 
   <!-- Update the www directory -->
   <target name="site-docs" depends="local-docs">
@@ -465,7 +461,11 @@ Legal:
   </target>
 
   <!-- Create the binary distribution -->
-  <target name="bin-dist" depends="all,setup-properties">
+  <target name="bin-dist" depends="all">
+
+    <property name="dist.lib" value="${dist.dir}/lib"/>
+    <property name="dist.docs" value="${dist.dir}/docs"/>
+    <property name="dist.javadocs" value="${dist.dir}/docs/api"/>
 
     <mkdir dir="${dist.dir}"/>
     <mkdir dir="${dist.docs}"/>
@@ -494,7 +494,13 @@ Legal:
   </target>
 
   <!-- Create the source distribution -->
-  <target name="src-dist" depends="setup-properties">
+  <target name="src-dist">
+
+    <property name="src.dist.src" value="${src.dist.dir}/src"/>
+    <property name="src.dist.docs" value="${src.dist.dir}/docs"/>
+    <property name="src.dist.javadocs" value="${src.dist.dir}/docs/api"/>
+    <property name="src.dist.lib" value="${src.dist.dir}/lib"/>
+    <property name="src.dist.tools" value="${src.dist.dir}/tools"/>
 
     <mkdir dir="${src.dist.dir}" />
     <mkdir dir="${src.dist.docs}"/>
@@ -554,7 +560,7 @@ Legal:
   </target>
 
   <!-- Completely build all dists -->
-  <target name="dist" depends="docs">
+  <target name="dist" depends="site-docs,announcement">
     <mkdir dir="${dist.base}"/>
 
     <antcall target="bin-dist">
