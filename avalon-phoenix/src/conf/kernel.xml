@@ -12,10 +12,6 @@
             class="org.apache.avalon.phoenix.components.logger.DefaultLogManager"
             logger="logs"/>
 
-        <component role="org.apache.avalon.phoenix.interfaces.SystemManager"
-            class="org.apache.avalon.phoenix.components.manager.NoopSystemManager"
-            logger="manager"></component>
-
         <!-- There is one JMX MBeanServer infrastructure currently
              supported by Avalon, namely MX4J. Previously the JMX RI
              was supported but due to severe bugs and lack of implementation
