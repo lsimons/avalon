@@ -1,4 +1,3 @@
 Manifest-Version: 1.0
-Class-Path: ../lib/avalonapi.jar ../lib/phoenix-client.jar ../lib/xerces.jar
-Created-By: Apache Avalon Project
+Created-By: Jakarta-Apache Avalon/Phoenix Project
 
