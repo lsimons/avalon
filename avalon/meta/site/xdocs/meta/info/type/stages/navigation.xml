@@ -22,6 +22,7 @@
             <item name="Loggers" href="/meta/info/type/loggers/index.html"/>
             <item name="Context" href="/meta/info/type/context/index.html"/>
             <item name="Dependencies" href="/meta/info/type/dependencies/index.html"/>
+            <item name="Security" href="/meta/info/type/security/index.html"/>
             <item name="Services" href="/meta/info/type/services/index.html"/>
             <item name="Stages" href="/meta/info/type/stages/index.html">
               <item name="Stage" href="/meta/info/type/stages/stage.html"/>
