@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project>
+
+ <title>Apache Avalon Central</title>
+
+ <body>
+    <menu>
+      <item name="Latest News" href="news/index.html"/>
+      <item name="Community" href="community/index.html"/>
+      <item name="Developer's Resources" href="developers/index.html"/>
+      <item name="User's Resources" href="users/index.html"/>
+      <item name="The Laboratory" href="laboratory/index.html"/>
+    </menu>
+ </body>
+
+</project>
