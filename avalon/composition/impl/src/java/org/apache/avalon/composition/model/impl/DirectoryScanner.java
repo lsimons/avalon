@@ -39,7 +39,7 @@ import org.apache.avalon.util.env.Env;
  * 
  * @author Apache Ant Development Team (Kuiper, Umasankar, Atherton, and Levy-Lambert)
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.5 $ $Date: 2004/04/21 03:21:04 $
+ * @version $Revision: 1.6 $ $Date: 2004/04/30 14:05:59 $
  */
 public class DirectoryScanner {
 
@@ -691,7 +691,6 @@ public class DirectoryScanner {
      * @see #dirsIncluded
      * @see #dirsNotIncluded
      * @see #dirsExcluded
-     * @see #slowScan
      */
     protected void scandir(File dir, String vpath, boolean fast)
         throws IOException
