@@ -117,7 +117,7 @@ namespace Apache.Avalon.Castle.ManagementExtensions.Test.Components
 
 				info.Operations.Add(new ManagementOperation("Start"));
 				info.Operations.Add(new ManagementOperation("Stop"));
-				info.Attributes.Add(new ManagementAttribute("Port"));
+				info.Attributes.Add(new ManagementAttribute("Port", typeof(int)));
 
 				return info;
 			}

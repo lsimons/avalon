@@ -59,19 +59,9 @@ namespace Apache.Avalon.Castle.ManagementExtensions.Default
 
 		public MDefaultServer()
 		{
-			registry = new Default.MDefaultRegistry();
+			// TODO: Allow customisation of MRegistry
 
-			SetupRegistry();
-		}
-
-		public MDefaultServer(MRegistry registry)
-		{
-			if (registry == null)
-			{
-				throw new ArgumentNullException("registry");
-			}
-
-			this.registry = registry;
+			registry = new Default.MDefaultRegistry(this);
 
 			SetupRegistry();
 		}

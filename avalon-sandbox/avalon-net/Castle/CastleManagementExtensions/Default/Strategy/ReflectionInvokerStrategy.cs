@@ -164,7 +164,7 @@ namespace Apache.Avalon.Castle.ManagementExtensions.Default.Strategy
 
 			ManagementAttribute attribute = (ManagementAttribute) info.Attributes[name];
 
-			if (attribute != null)
+			if (attribute == null)
 			{
 				throw new InvalidOperationException(String.Format("Attribute {0} doesn't exists.", name));
 			}

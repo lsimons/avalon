@@ -45,177 +45,64 @@
 // Apache Software Foundation, please see <http://www.apache.org/>.
 // ============================================================================
 
-namespace Apache.Avalon.Castle.ManagementExtensions
+namespace Apache.Avalon.Castle.ManagementExtensions.Test.Components
 {
 	using System;
-	using System.Collections;
-	using System.Collections.Specialized;
+
+	using NUnit.Framework;
+
+	using Apache.Avalon.Castle.ManagementExtensions;
 
 	/// <summary>
-	/// Summary description for ManagementInfo.
+	/// Summary description for DummyLifecycledService.
 	/// </summary>
-	[Serializable]
-	public class ManagementInfo
+	[ManagedComponent]
+	public class DummyLifecycledService : MRegistrationListener
 	{
-		protected String description;
-		// TODO: Replate by Collection
-		protected ManagementObjectCollection operations = new ManagementObjectCollection();
-		// TODO: Replate by Collection
-		protected ManagementObjectCollection attributes = new ManagementObjectCollection();
+		private int state = 0;
+		
+		public int beforeRegisterCalled;
+		public int afterRegisterCalled;
+		public int beforeDeregisterCalled;
+		public int afterDeregisterCalled;
 
-		public ManagementInfo()
+		public DummyLifecycledService()
 		{
 		}
 
-		public String Description
-		{
-			get
-			{
-				return description;
-			}
-			set
-			{
-				description = value;
-			}
-		}
-
-		public ManagementObjectCollection Operations
-		{
-			get
-			{
-				return operations;
-			}
-		}
-
-		public ManagementObjectCollection Attributes
-		{
-			get
-			{
-				return attributes;
-			}
-		}
-	}
-
-	/// <summary>
-	/// 
-	/// </summary>
-	[Serializable]
-	public class ManagementObject 
-	{
-		protected String name;
-		protected String description;
-
-		public String Name
-		{
-			get
-			{
-				return name;
-			}
-			set
-			{
-				name = value;
-			}
-		}
-
-		public String Description
-		{
-			get
-			{
-				return description;
-			}
-			set
-			{
-				description = value;
-			}
-		}
-	}
-
-	/// <summary>
-	/// 
-	/// </summary>
-	[Serializable]
-	public class ManagementOperation : ManagementObject
-	{
-		public ManagementOperation()
+		[ManagedOperation]
+		public void Start()
 		{
 		}
 
-		public ManagementOperation(String name)
-		{
-			Name = name;
-		}
-
-		public ManagementOperation(String name, String description)
-		{
-			Name = name;
-			Description = description;
-		}
-	}
-
-	/// <summary>
-	/// 
-	/// </summary>
-	[Serializable]
-	public class ManagementAttribute : ManagementObject
-	{
-		protected Type type;
-
-		public ManagementAttribute(String name, Type attType)
-		{
-			Name = name;
-			type = attType;
-		}
-
-		public ManagementAttribute(String name, String description, Type attType)
-		{
-			Name = name;
-			Description = description;
-			type = attType;
-		}
-
-		public Type AttributeType
-		{
-			get
-			{
-				return type;
-			}
-		}
-	}
-
-	/// <summary>
-	/// 
-	/// </summary>
-	[Serializable]
-	public class ManagementObjectCollection : NameObjectCollectionBase, IEnumerable
-	{
-		public ManagementObjectCollection() : 
-			base(CaseInsensitiveHashCodeProvider.Default, CaseInsensitiveComparer.Default)
+		[ManagedOperation]
+		public void Stop()
 		{
 		}
 
-		public void Add(ManagementObject obj)
+		#region MRegistrationListener Members
+
+		public void BeforeRegister(MServer server, ManagedObjectName name)
 		{
-			base.BaseAdd(obj.Name, obj);
+			Assertion.AssertNotNull(server);
+			Assertion.AssertNotNull(name);
+
+			beforeRegisterCalled = state++;
 		}
 
-		public ManagementObject this[String name]
+		public void AfterDeregister()
 		{
-			get
-			{
-				return (ManagementObject) base.BaseGet(name);
-			}
+			afterDeregisterCalled = state++;
 		}
 
-		public bool Contains(String name)
+		public void AfterRegister()
 		{
-			return BaseGet(name) != null;
+			afterRegisterCalled = state++;
 		}
 
-		#region IEnumerable Members
-
-		public new IEnumerator GetEnumerator()
+		public void BeforeDeregister()
 		{
-			return base.BaseGetAllValues().GetEnumerator();
+			beforeDeregisterCalled = state++;
 		}
 
 		#endregion

@@ -45,179 +45,21 @@
 // Apache Software Foundation, please see <http://www.apache.org/>.
 // ============================================================================
 
-namespace Apache.Avalon.Castle.ManagementExtensions
+namespace Apache.Avalon.Castle.ManagementExtensions.Test.Components
 {
 	using System;
-	using System.Collections;
-	using System.Collections.Specialized;
 
 	/// <summary>
-	/// Summary description for ManagementInfo.
+	/// Summary description for ISomeService.
 	/// </summary>
-	[Serializable]
-	public class ManagementInfo
+	public interface ISomeService
 	{
-		protected String description;
-		// TODO: Replate by Collection
-		protected ManagementObjectCollection operations = new ManagementObjectCollection();
-		// TODO: Replate by Collection
-		protected ManagementObjectCollection attributes = new ManagementObjectCollection();
+		void DoWork();
 
-		public ManagementInfo()
+		int Port
 		{
+			get;
+			set;
 		}
-
-		public String Description
-		{
-			get
-			{
-				return description;
-			}
-			set
-			{
-				description = value;
-			}
-		}
-
-		public ManagementObjectCollection Operations
-		{
-			get
-			{
-				return operations;
-			}
-		}
-
-		public ManagementObjectCollection Attributes
-		{
-			get
-			{
-				return attributes;
-			}
-		}
-	}
-
-	/// <summary>
-	/// 
-	/// </summary>
-	[Serializable]
-	public class ManagementObject 
-	{
-		protected String name;
-		protected String description;
-
-		public String Name
-		{
-			get
-			{
-				return name;
-			}
-			set
-			{
-				name = value;
-			}
-		}
-
-		public String Description
-		{
-			get
-			{
-				return description;
-			}
-			set
-			{
-				description = value;
-			}
-		}
-	}
-
-	/// <summary>
-	/// 
-	/// </summary>
-	[Serializable]
-	public class ManagementOperation : ManagementObject
-	{
-		public ManagementOperation()
-		{
-		}
-
-		public ManagementOperation(String name)
-		{
-			Name = name;
-		}
-
-		public ManagementOperation(String name, String description)
-		{
-			Name = name;
-			Description = description;
-		}
-	}
-
-	/// <summary>
-	/// 
-	/// </summary>
-	[Serializable]
-	public class ManagementAttribute : ManagementObject
-	{
-		protected Type type;
-
-		public ManagementAttribute(String name, Type attType)
-		{
-			Name = name;
-			type = attType;
-		}
-
-		public ManagementAttribute(String name, String description, Type attType)
-		{
-			Name = name;
-			Description = description;
-			type = attType;
-		}
-
-		public Type AttributeType
-		{
-			get
-			{
-				return type;
-			}
-		}
-	}
-
-	/// <summary>
-	/// 
-	/// </summary>
-	[Serializable]
-	public class ManagementObjectCollection : NameObjectCollectionBase, IEnumerable
-	{
-		public ManagementObjectCollection() : 
-			base(CaseInsensitiveHashCodeProvider.Default, CaseInsensitiveComparer.Default)
-		{
-		}
-
-		public void Add(ManagementObject obj)
-		{
-			base.BaseAdd(obj.Name, obj);
-		}
-
-		public ManagementObject this[String name]
-		{
-			get
-			{
-				return (ManagementObject) base.BaseGet(name);
-			}
-		}
-
-		public bool Contains(String name)
-		{
-			return BaseGet(name) != null;
-		}
-
-		#region IEnumerable Members
-
-		public new IEnumerator GetEnumerator()
-		{
-			return base.BaseGetAllValues().GetEnumerator();
-		}
-
-		#endregion
 	}
 }

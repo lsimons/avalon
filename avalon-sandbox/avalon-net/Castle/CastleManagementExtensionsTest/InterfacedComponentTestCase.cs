@@ -45,179 +45,44 @@
 // Apache Software Foundation, please see <http://www.apache.org/>.
 // ============================================================================
 
-namespace Apache.Avalon.Castle.ManagementExtensions
+namespace Apache.Avalon.Castle.ManagementExtensions.Test
 {
 	using System;
-	using System.Collections;
-	using System.Collections.Specialized;
+
+	using NUnit.Framework;
+
+	using Apache.Avalon.Castle.ManagementExtensions.Default;
+	using Apache.Avalon.Castle.ManagementExtensions.Test.Components;
 
 	/// <summary>
-	/// Summary description for ManagementInfo.
+	/// Summary description for InterfacedComponentTestCase.
 	/// </summary>
-	[Serializable]
-	public class ManagementInfo
+	[TestFixture]
+	public class InterfacedComponentTestCase : Assertion
 	{
-		protected String description;
-		// TODO: Replate by Collection
-		protected ManagementObjectCollection operations = new ManagementObjectCollection();
-		// TODO: Replate by Collection
-		protected ManagementObjectCollection attributes = new ManagementObjectCollection();
-
-		public ManagementInfo()
+		[Test]
+		public void TestInfoObtation()
 		{
-		}
+			MDefaultServer server = new MDefaultServer();
 
-		public String Description
-		{
-			get
+			ManagedObjectName name1 = new ManagedObjectName("domain.org:type=dummyService");
+
+			try
 			{
-				return description;
+				Type serviceType = typeof(DummyService);
+
+				Object service = server.Instantiate( serviceType.Assembly.FullName, serviceType.FullName );
+				server.RegisterManagedObject( service, name1 );
+
+				ManagementInfo info = server.GetManagementInfo( name1 );
+				AssertNotNull( info );
+				AssertEquals( 1, info.Operations.Count );
+				AssertEquals( 1, info.Attributes.Count );
 			}
-			set
+			finally
 			{
-				description = value;
-			}
-		}
-
-		public ManagementObjectCollection Operations
-		{
-			get
-			{
-				return operations;
+				server.UnregisterManagedObject( name1 );
 			}
 		}
-
-		public ManagementObjectCollection Attributes
-		{
-			get
-			{
-				return attributes;
-			}
-		}
-	}
-
-	/// <summary>
-	/// 
-	/// </summary>
-	[Serializable]
-	public class ManagementObject 
-	{
-		protected String name;
-		protected String description;
-
-		public String Name
-		{
-			get
-			{
-				return name;
-			}
-			set
-			{
-				name = value;
-			}
-		}
-
-		public String Description
-		{
-			get
-			{
-				return description;
-			}
-			set
-			{
-				description = value;
-			}
-		}
-	}
-
-	/// <summary>
-	/// 
-	/// </summary>
-	[Serializable]
-	public class ManagementOperation : ManagementObject
-	{
-		public ManagementOperation()
-		{
-		}
-
-		public ManagementOperation(String name)
-		{
-			Name = name;
-		}
-
-		public ManagementOperation(String name, String description)
-		{
-			Name = name;
-			Description = description;
-		}
-	}
-
-	/// <summary>
-	/// 
-	/// </summary>
-	[Serializable]
-	public class ManagementAttribute : ManagementObject
-	{
-		protected Type type;
-
-		public ManagementAttribute(String name, Type attType)
-		{
-			Name = name;
-			type = attType;
-		}
-
-		public ManagementAttribute(String name, String description, Type attType)
-		{
-			Name = name;
-			Description = description;
-			type = attType;
-		}
-
-		public Type AttributeType
-		{
-			get
-			{
-				return type;
-			}
-		}
-	}
-
-	/// <summary>
-	/// 
-	/// </summary>
-	[Serializable]
-	public class ManagementObjectCollection : NameObjectCollectionBase, IEnumerable
-	{
-		public ManagementObjectCollection() : 
-			base(CaseInsensitiveHashCodeProvider.Default, CaseInsensitiveComparer.Default)
-		{
-		}
-
-		public void Add(ManagementObject obj)
-		{
-			base.BaseAdd(obj.Name, obj);
-		}
-
-		public ManagementObject this[String name]
-		{
-			get
-			{
-				return (ManagementObject) base.BaseGet(name);
-			}
-		}
-
-		public bool Contains(String name)
-		{
-			return BaseGet(name) != null;
-		}
-
-		#region IEnumerable Members
-
-		public new IEnumerator GetEnumerator()
-		{
-			return base.BaseGetAllValues().GetEnumerator();
-		}
-
-		#endregion
 	}
 }
