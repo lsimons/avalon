@@ -1,4 +1,4 @@
-avalon.apache.org is a collaborative software development project
+Apache Avalon is a collaborative software development project
 dedicated to providing robust, full-featured, commercial-quality, and
 freely available component architecture.  This project is managed in
 cooperation with various individuals worldwide (both independent and
@@ -11,13 +11,13 @@ processes of the project.
 MISSION
 =======
 
-avalon.apache.org exists to promote the use of Avalon components. 
+Apache Avalon exists to promote the use of Avalon components. 
 Component Based Design is a proven practice that helps create systems
 that are loosely coupled and easy to maintain.  Component Based
 Design requires a general framework, components, and containers to
 function properly.
 
-avalon.apache.org defines the framework, the reference implementation
+Apache Avalon defines the framework, the reference implementation
 of the containers, the compliance testing suite, and a set of components
 that can be used in third party projects. These components plug into each
 other using standard APIs (formal, de facto, or proposed). The components
@@ -30,7 +30,7 @@ having both individuals and corporations collaborate on the best possible
 infrastructure, APIs, code, testing, and release cycles. Components must
 be vendor neutral and usable as core components for all.
 
-In order to achieve a coherent architecture between avalon.apache.org
+In order to achieve a coherent architecture between Apache Avalon
 components and other components and applications, standards (formal or
 de facto) will be used as much as possible for both protocols and
 APIs. We will also allow the innovation of new protocols, APIs, and
@@ -45,7 +45,7 @@ open-source development.
 
 THE PROJECT MANAGEMENT COMMITTEE
 ================================
-The avalon.apache.org project is managed by a small, core group of
+The Apache Avalon project is managed by a small, core group of
 contributors known as the Project Management Committee [PMC].  The PMC
 must have at least one officer from the Apache Board, who will be the
 Chairperson and report to the Apache Board.  See
@@ -61,9 +61,9 @@ The PMC has the following responsibilities:
 4) Approving new committers.
 5) Ensuring that administrative and infrastructure work is completed.
 6) Facilitating relationships among projects.
-7) Facilitating relationships between avalon.apache.org and the external
+7) Facilitating relationships between Apache Avalon and the external
    world.
-8) Overseeing avalon.apache.org to ensure that the mission defined in
+8) Overseeing Apache Avalon to ensure that the mission defined in
    this document is being fulfilled.
 9) Resolving conflicts within the project.
 
@@ -91,7 +91,7 @@ majority must approve the change.
 
 SUBPROJECTS
 ===========
-avalon.apache.org is comprised of subprojects; a subproject is a
+Apache Avalon is comprised of subprojects; a subproject is a
 component whose scope is well defined.  Each subproject has its own
 set of developers.
 
@@ -133,7 +133,7 @@ committers as described above.
 
 INFRASTRUCTURE
 ==============
-The avalon.apache.org project site must provide the following:
+The Apache Avalon project site must provide the following:
 
 Bug Database -- This is a system for tracking bugs and feature
 requests.
@@ -143,8 +143,8 @@ containing both the source code and documentation for the
 subprojects. Each subproject will have a set of committers to its
 repository.
 
-Website -- An avalon.apache.org website will contain information about
-the avalon.apache.org project, including documentation, downloads of
+Website -- An Apache Avalon website will contain information about
+the Apache Avalon project, including documentation, downloads of
 releases, and this charter. Each subproject will have its own website
 with subproject information.
 
@@ -163,7 +163,7 @@ their mailing lists.
 
 LICENSING
 =========
-All contributions to the avalon.apache.org project adhere to the "ASF
+All contributions to the Apache Avalon project adhere to the "ASF
 Source Code License." All further contributions must be made under the
 same terms. All contributions must contain the following copyright
 notice: [This changes now that the license is available]
@@ -196,8 +196,8 @@ least as a basic integration test.
 
 RELATIONSHIP TO OTHER APACHE PROJECTS
 =====================================
-The avalon.apache.org project should work closely with other Apache
+The Apache Avalon project should work closely with other Apache
 projects, such as Jakarta and the Apache Server, to avoid redundancy
-and achieve a coherent architecture among avalon.apache.org and these
+and achieve a coherent architecture among Apache Avalon and these
 projects.
 
