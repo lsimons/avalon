@@ -17,12 +17,15 @@
         that plug into Phoenix. Example blocks include ConnectionManager, SocketManager,
         Scheduler etc.
       </p>
+      <p>
+        TODO - introduce the blocks that come with cornerstone.
+      </p>      
     </s1>
   </body>
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.2 $ $Date: 2001/03/13 20:41:51 $
+      $Revision: 1.3 $ $Date: 2001/12/29 19:29:03 $
     </legal>
   </footer>
 </document>
