@@ -46,8 +46,8 @@
   <goal name="avalon:build" description="Build the Logging system.">
 
     <maven:reactor basedir="${basedir}"
-      includes="**/project.xml"
-      excludes="project.xml,site/project.xml"
+      includes="*/*/project.xml"
+      excludes="project.xml,**/target/**/project.xml"
       goals="jar:install"
       banner="Building:"
       ignoreFailures="false"

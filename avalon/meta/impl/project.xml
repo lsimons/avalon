@@ -46,7 +46,7 @@ Services supporting the creation of meta info and data data content based on XML
 
     <dependency>
       <id>excalibur-configuration</id>
-      <version>1.1</version>
+      <version>1.2</version>
     </dependency>
 
     <!-- pre JDK 1.4 dependencies -->
