@@ -5,143 +5,119 @@
  * version 1.1, a copy of which has been included with this distribution in
  * the LICENSE.txt file.
  */
+
 package org.apache.excalibur.xml.sax;
 
-import org.xml.sax.Attributes;
+import java.util.Enumeration;
+import org.xml.sax.AttributeList;
 import org.xml.sax.ContentHandler;
+import org.xml.sax.DocumentHandler;
 import org.xml.sax.Locator;
 import org.xml.sax.SAXException;
+import org.xml.sax.helpers.AttributesImpl;
+import org.xml.sax.helpers.NamespaceSupport;
 
 /**
- * This class is an utility class &quot;wrapping&quot; around a SAX version 2.0
- * {@link ContentHandler} and forwarding the events to it.
- * <br>
+ * This class is an utility class adapting a SAX version 2.0
+ * {@link ContentHandler} ato receive SAX version 1.0 events.
  *
  * @author <a href="mailto:mirceatoma@apache.org">Mircea Toma</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/10/13 03:20:14 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/10/16 17:12:32 $
  */
-public class ContentHandlerAdapter implements ContentHandler
-{
-    /** The current {@link ContentHandler}. */
-    private final ContentHandler m_contentHandler;
 
-    /**
-     * Create a new <code>ContentHandlerWrapper</code> instance.
-     */
-    public ContentHandlerAdapter(final ContentHandler contentHandler)
+public class ContentHandlerAdapter implements DocumentHandler
+{    
+    private final static String XMLNS = "xmlns";
+    private final static String XMLNS_PREFIX = "xmlns:";
+    private final ContentHandler m_handler;
+    private final NamespaceSupport m_support = new NamespaceSupport();
+    
+    public ContentHandlerAdapter(ContentHandler handler)
     {
-        m_contentHandler = contentHandler;
+        m_handler = handler;
     }
-
-    /**
-     * Receive an object for locating the origin of SAX document events.
-     */
-    public void setDocumentLocator( final Locator locator )
+    
+    public void setDocumentLocator( Locator locator )
     {
-        m_contentHandler.setDocumentLocator( locator );
+        m_handler.setDocumentLocator( locator );
     }
-
-    /**
-     * Receive notification of the beginning of a document.
-     */
-    public void startDocument()
-        throws SAXException
+    
+    public void startDocument() throws SAXException
     {
-        m_contentHandler.startDocument();
+        m_handler.startDocument();
     }
-
-    /**
-     * Receive notification of the end of a document.
-     */
-    public void endDocument()
-        throws SAXException
+    
+    public void endDocument() throws SAXException
     {
-        m_contentHandler.endDocument();
+        m_handler.endDocument();
     }
-
-    /**
-     * Begin the scope of a prefix-URI Namespace mapping.
-     */
-    public void startPrefixMapping( final String prefix,
-                                    final String uri )
-        throws SAXException
+    
+    public void characters( char ch[], int start, int length ) throws SAXException
     {
-        m_contentHandler.startPrefixMapping( prefix, uri );
+        m_handler.characters( ch, start, length );
     }
-
-    /**
-     * End the scope of a prefix-URI mapping.
-     */
-    public void endPrefixMapping( final String prefix )
-        throws SAXException
+    
+    public void ignorableWhitespace( char ch[], int start, int length ) throws SAXException
     {
-        m_contentHandler.endPrefixMapping( prefix );
+        m_handler.ignorableWhitespace( ch, start, length );
     }
-
-    /**
-     * Receive notification of the beginning of an element.
-     */
-    public void startElement( final String uri,
-                              final String loc,
-                              final String raw,
-                              final Attributes a )
-        throws SAXException
+    
+    public void processingInstruction( String target, String data ) throws SAXException
     {
-        m_contentHandler.startElement( uri, loc, raw, a );
+        m_handler.processingInstruction( target, data );
     }
-
-    /**
-     * Receive notification of the end of an element.
-     */
-    public void endElement( final String uri,
-                            final String loc,
-                            final String raw )
-        throws SAXException
+    
+    public void startElement( String name, AttributeList atts ) throws SAXException
     {
-        m_contentHandler.endElement( uri, loc, raw );
+        m_support.pushContext();
+        
+        for (int i = 0; i < atts.getLength(); i++)
+        {
+            final String attributeName = atts.getName(i);
+            if ( attributeName.startsWith( XMLNS_PREFIX ) )
+            {
+                m_support.declarePrefix( attributeName.substring( 6 ), atts.getValue( i ) );
+            }
+            else if ( attributeName.equals( XMLNS ) )
+            {
+                m_support.declarePrefix( "", atts.getValue( i ) );
+            }
+        }
+        
+        final AttributesImpl attributes = new AttributesImpl();
+        for ( int i = 0; i < atts.getLength(); i++ )
+        {
+            final String attributeName = atts.getName(i);
+            if ( !attributeName.startsWith( XMLNS_PREFIX ) && !attributeName.equals( XMLNS ) )
+            {
+                final String[] parts = m_support.processName( name, new String[3], true );
+                attributes.addAttribute(parts[0], parts[1], parts[2], atts.getType( i ), atts.getValue( i ) );
+            }
+        }
+        
+        final Enumeration e = m_support.getDeclaredPrefixes();
+        while( e.hasMoreElements() )
+        {
+            final String prefix = (String)e.nextElement();
+            m_handler.startPrefixMapping( prefix, m_support.getURI( prefix ) );
+        }
+        
+        final String[] parts = m_support.processName( name, new String[3], false );
+        m_handler.startElement( parts[0], parts[1], parts[2], attributes );
     }
-
-    /**
-     * Receive notification of character data.
-     */
-    public void characters( final char[] ch,
-                            final int start,
-                            final int len )
-        throws SAXException
+    
+    public void endElement( String name ) throws SAXException
     {
-        m_contentHandler.characters( ch, start, len );
-    }
-
-    /**
-     * Receive notification of ignorable whitespace in element content.
-     */
-    public void ignorableWhitespace( final char[] ch,
-                                     final int start,
-                                     final int len )
-        throws SAXException
-    {
-        m_contentHandler.ignorableWhitespace( ch, start, len );
-    }
-
-    /**
-     * Receive notification of a processing instruction.
-     */
-    public void processingInstruction( final String target,
-                                       final String data )
-        throws SAXException
-    {
-        m_contentHandler.processingInstruction( target, data );
-    }
-
-    /**
-     * Receive notification of a skipped entity.
-     *
-     * @param name The name of the skipped entity.  If it is a  parameter
-     *             entity, the name will begin with '%'.
-     */
-    public void skippedEntity( final String name )
-        throws SAXException
-    {
-        m_contentHandler.skippedEntity( name );
+        final String[] parts = m_support.processName( name, new String[3], false );
+        m_handler.endElement( parts[0], parts[1], parts[2] );
+        
+        final Enumeration e = m_support.getDeclaredPrefixes();
+        while( e.hasMoreElements() )
+        {
+            final String prefix = (String)e.nextElement();
+            m_handler.endPrefixMapping( prefix );
+        }
+        
+        m_support.popContext();
     }
 }
