@@ -8,18 +8,26 @@
 package org.apache.avalon.phoenix.components.classloader;
 
 import java.io.File;
-import java.net.MalformedURLException;
+import java.io.IOException;
+import java.net.JarURLConnection;
 import java.net.URL;
-import java.net.URLStreamHandler;
-import java.net.URLStreamHandlerFactory;
 import java.security.Policy;
 import java.util.ArrayList;
-import java.util.jar.JarFile;
-import org.apache.avalon.framework.component.Component;
+import java.util.Arrays;
+import java.util.jar.Manifest;
+import org.apache.avalon.excalibur.extension.PackageManager;
+import org.apache.avalon.excalibur.extension.OptionalPackage;
+import org.apache.avalon.excalibur.extension.Extension;
+import org.apache.avalon.excalibur.i18n.ResourceManager;
+import org.apache.avalon.excalibur.i18n.Resources;
+import org.apache.avalon.framework.component.ComponentException;
+import org.apache.avalon.framework.component.ComponentManager;
+import org.apache.avalon.framework.component.Composable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.phoenix.interfaces.ClassLoaderManager;
+import org.apache.avalon.phoenix.interfaces.PackageRepository;
 
 /**
  * Component that creates and manages the <code>ClassLoader</code>
@@ -37,8 +45,21 @@ import org.apache.avalon.phoenix.interfaces.ClassLoaderManager;
  */
 public class DefaultClassLoaderManager
     extends AbstractLogEnabled
-    implements ClassLoaderManager
+    implements ClassLoaderManager, Composable
 {
+    private static final Resources REZ =
+        ResourceManager.getPackageResources( DefaultClassLoaderManager.class );
+
+    private PackageManager m_packageManager;
+
+    public void compose( final ComponentManager componentManager )
+        throws ComponentException
+    {
+        final PackageRepository packageRepository =
+            (PackageRepository)componentManager.lookup( PackageRepository.ROLE );
+        m_packageManager = new PackageManager( packageRepository );
+    }
+
     /**
      * Create a <code>ClassLoader</code> for a specific application.
      * See Class Javadoc for description of technique for creating
@@ -63,6 +84,13 @@ public class DefaultClassLoaderManager
         final Policy policy = configurePolicy( policyConfig, homeDirectory );
 
         //TODO: Load Extensions from Package Repository as required
+        final File[] extensions = getOptionalPackagesFor( classPath );
+        if( getLogger().isDebugEnabled() )
+        {
+            final String message = 
+                REZ.getString( "optional-packages-added", Arrays.asList( extensions ) );
+            getLogger().debug( message );
+        }
 
         //TODO: Determine parentClassLoader in a safer fashion
         final ClassLoader parentClassLoader = Thread.currentThread().getContextClassLoader();
@@ -77,10 +105,153 @@ public class DefaultClassLoaderManager
         //URL.setURLStreamHandlerFactory( factory );
         //}
 
-        final PolicyClassLoader classLoader = 
+        final PolicyClassLoader classLoader =
             new PolicyClassLoader( classPath, parentClassLoader, null, policy );
         setupLogger( classLoader, "classloader" );
+
+        for( int i = 0; i < extensions.length; i++ )
+        {
+            final URL url = extensions[ i ].toURL();
+            classLoader.addURL( url );
+        }
+        
         return classLoader;
+    }
+
+    /**
+     * Retrieve the files for the optional packages required by
+     * the jars in ClassPath.
+     *
+     * @param classPath the Classpath array
+     * @return the files that need to be added to ClassLoader
+     */
+    private File[] getOptionalPackagesFor( final String[] classPath )
+        throws Exception
+    {
+        final Manifest[] manifests = getManifests( classPath );
+        final Extension[] available = getAvailable( manifests );
+        final Extension[] required = getRequired( manifests );
+
+        if( getLogger().isDebugEnabled() )
+        {
+            final String message1 = 
+                REZ.getString( "available-extensions", Arrays.asList( available ) );
+            getLogger().debug( message1 );
+            final String message2 = 
+                REZ.getString( "required-extensions", Arrays.asList( required ) );
+            getLogger().debug( message2 );
+        }
+
+        final ArrayList dependencies = new ArrayList();
+        final ArrayList unsatisfied = new ArrayList();
+
+        m_packageManager.scanDependencies( required,
+                                           available,
+                                           dependencies,
+                                           unsatisfied );
+
+        if( 0 != unsatisfied.size() )
+        {
+            final int size = unsatisfied.size();
+            for( int i = 0; i < size; i++ )
+            {
+                final Extension extension = (Extension)unsatisfied.get( i );
+                final Object[] params = new Object[]
+                {
+                    extension.getExtensionName(), 
+                    extension.getSpecificationVendor(), 
+                    extension.getSpecificationVersion(),
+                    extension.getImplementationVendor(), 
+                    extension.getImplementationVendorId(),
+                    extension.getImplementationVersion(), 
+                    extension.getImplementationURL()
+                };
+                final String message = REZ.format( "missing.extension", params );
+                getLogger().warn( message );
+            }
+
+            final String message =
+                REZ.getString( "unsatisfied.extensions", new Integer( size ) );
+            throw new Exception( message );
+        }
+
+        final OptionalPackage[] packages =
+            (OptionalPackage[])dependencies.toArray( new OptionalPackage[ 0 ] );
+        return OptionalPackage.toFiles( packages );
+    }
+
+    /**
+     * Retrieve an array of available extensions from the specified manifests.
+     *
+     * @param manifests the manifests to scan
+     * @return the extensions
+     */
+    private Extension[] getAvailable( final Manifest[] manifests )
+    {
+        final ArrayList availableSet = new ArrayList();
+
+        for( int i = 0; i < manifests.length; i++ )
+        {
+            final Extension[] available = Extension.getAvailable( manifests[ i ] );
+            for( int j = 0; j < available.length; j++ )
+            {
+                availableSet.add( available[ j ] );
+            }
+        }
+
+        return (Extension[])availableSet.toArray( new Extension[ 0 ] );
+    }
+
+    /**
+     * Retrieve an array of required extensions from the specified manifests.
+     *
+     * @param manifests the manifests to scan
+     * @return the extensions
+     */
+    private Extension[] getRequired( final Manifest[] manifests )
+    {
+        final ArrayList availableSet = new ArrayList();
+
+        for( int i = 0; i < manifests.length; i++ )
+        {
+            final Extension[] available = Extension.getRequired( manifests[ i ] );
+            for( int j = 0; j < available.length; j++ )
+            {
+                availableSet.add( available[ j ] );
+            }
+        }
+
+        return (Extension[])availableSet.toArray( new Extension[ 0 ] );
+    }
+
+    private Manifest[] getManifests( final String[] classPath )
+        throws Exception
+    {
+        final ArrayList manifests = new ArrayList();
+
+        for( int i = 0; i < classPath.length; i++ )
+        {
+            final String element = classPath[ i ];
+
+            if( element.endsWith( ".jar" ) )
+            {
+                try
+                {
+                    final URL url = new URL( "jar:" + element + "!/" );
+                    final JarURLConnection connection = (JarURLConnection)url.openConnection();
+                    final Manifest manifest = connection.getManifest();
+                    manifests.add( manifest );
+                }
+                catch( final IOException ioe )
+                {
+                    final String message = REZ.getString( "bad-classpath-entry", element );
+                    getLogger().warn( message );
+                    throw new Exception( message );
+                }
+            }
+        }
+
+        return (Manifest[])manifests.toArray( new Manifest[ 0 ] );
     }
 
     /**
