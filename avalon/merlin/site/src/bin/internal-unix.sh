@@ -13,7 +13,7 @@ echo ""
 
 JAVA="$JAVA_HOME/bin/java"
 
-ARGS="$MERLIN_JVM_OPTS \"-Djava.security.policy=$MERLIN_HOME/bin/security.policy\" \"-Djava.ext.dirs=$MERLIN_HOME/ext\" -jar \"$MERLIN_BOOTSTRAP_JAR\" $MERLIN_ARGS $@"
+ARGS="$MERLIN_JVM_OPTS \"-Djava.security.policy=$MERLIN_HOME/bin/security.policy\" -jar \"$MERLIN_BOOTSTRAP_JAR\" $MERLIN_ARGS $@"
 echo -n "$JAVA" >$MERLIN_HOME/command-line.log
 echo "$ARGS" >>$MERLIN_HOME/command-line.log
 

@@ -106,7 +106,7 @@ fi
 # 
 
 JVM_EXT_DIRS="$MERLIN_HOME/ext" 
-JVM_OPTS="-Djava.security.policy=$MERLIN_HOME/bin/security.policy -Djava.ext.dirs=$JVM_EXT_DIRS" 
+JVM_OPTS="-Djava.security.policy=$MERLIN_HOME/bin/security.policy " 
 MERLIN_BOOTSTRAP_JAR=$MERLIN_HOME/bin/lib/@MERLIN_CLI_JAR@
 
 # Get the run cmd
