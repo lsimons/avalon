@@ -287,10 +287,12 @@
 
     <!-- Generate all docs -->
     <target name="docs" description="Generate all the docs">
+	<ant dir="site" target="docs"/>
+	<!--
         <ant dir="fortress" target="docs"/>
-        <!--<ant dir="instrument" target="docs"/>  -->
-        <!--<ant dir="instrument-client" target="docs"/-->  <!-- depends on instrument-manager -->
-        <!--<ant dir="instrument-manager" target="docs"/>  --> <!-- depends on instrument, all -->
+        <ant dir="instrument" target="docs"/>
+        <ant dir="instrument-client" target="docs"/>
+        <ant dir="instrument-manager" target="docs"/>
         <ant dir="altrmi" target="docs"/> 
         <ant dir="baxter" target="docs"/>
         <ant dir="bzip2" target="docs"/>
@@ -318,7 +320,7 @@
         <ant dir="util" target="docs"/>
         <ant dir="xmlbundle" target="docs"/>
         <ant dir="zip" target="docs"/>
-
+        -->
     </target>
 
     <!-- Generate all docs -->
@@ -337,7 +339,8 @@
         <!--<ant dir="fortress" target="site"/> -->
         <!--<ant dir="instrument" target="site"/>  -->
         <!--<ant dir="instrument-client" target="site"/-->  <!-- depends on instrument-manager -->
-        <!--<ant dir="instrument-manager" target="site"/>  --> <!-- depends on instrument, all -->
+		<!--<ant dir="instrument-manager" target="site"/>  --> <!-- depends on instrument, all -->
+		<!--
         <ant dir="altrmi" target="site"/> 
         <ant dir="baxter" target="site"/>
         <ant dir="bzip2" target="site"/>
@@ -365,7 +368,7 @@
         <ant dir="util" target="site"/>
         <ant dir="xmlbundle" target="site"/>
         <ant dir="zip" target="site"/>               
-
+	-->
     </target>
 
     <!-- Generate all docs -->
