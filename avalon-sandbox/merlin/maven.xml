@@ -266,7 +266,7 @@
       basedir="${basedir}"
       includes="merlin-plugin/project.xml"
       goals="plugin:install"
-      banner="Resolving dependencies:"
+      banner="Installing plugin:"
       ignoreFailures="false"/>
   </goal>
 
