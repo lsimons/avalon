@@ -40,6 +40,17 @@ function getcrumbs( d )
 }
 function gettrail( c )
 {
+	var h=DISPLAY_PREPREND;
+	for(var i=0;i < c.length;i++)
+	{
+		h+='<a href="'+c[i][1]+'" >'+sc(c[i][0])+'</a>';
+		if(i!=(c.length-1))
+			h+=DISPLAY_SEPARATOR; }
+	return h+DISPLAY_POSTPREND;
+}
+
+function gettrailXHTML( c )
+{
 	var h='<span class="'+CSS_CLASS_TRAIL+'">'+DISPLAY_PREPREND;
 	for(var i=0;i < c.length;i++)
 	{
