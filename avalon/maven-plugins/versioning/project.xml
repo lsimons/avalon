@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE project [
+  <!ENTITY % index SYSTEM "file:index.ent"> %index;
+]>
 <!-- 
 /*
  * Copyright 2001-2004 The Apache Software Foundation.
@@ -20,10 +23,10 @@
 
 <project>
   <extend>../project-common.xml</extend>
-  <groupId>avalon-versioning-plugin</groupId>
-  <id>avalon-versioning-plugin</id>
+  <groupId>&avalon-versioning-plugin-group;</groupId>
+  <id>&avalon-versioning-plugin-id;</id>
   <name>Avalon Versioning Maven Plugin</name>
-  <currentVersion>1.0.dev-6</currentVersion>
+  <currentVersion>&avalon-versioning-plugin-version;</currentVersion>
   <description/>
   <shortDescription>Automatic generation and updates of Versions.</shortDescription>
   
