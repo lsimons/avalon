@@ -86,11 +86,6 @@ public class BlockHandler extends URLStreamHandler
         {
             result.append(url.getFile());
         }
-	  if (url.getQuery() != null ) 
-        {
-	      result.append("?");
-            result.append(url.getQuery());
-	  }
 	  if (url.getRef() != null ) 
         {
 	      result.append("#");

@@ -61,18 +61,17 @@ import org.apache.avalon.repository.Artifact;
 import org.apache.avalon.activation.appliance.CascadingIOException;
 
 /**
- * Repository URL protocol handler.  
+ * Abstract artifact URL protocol handler.  
+ * @since 3.3
  */
 public abstract class AbstractURLConnection extends URLConnection
 {
     /**
      * Creation of a new handler. 
      * @param url the url to establish a connection with
-     * @param type the default type if no type specified
-     * @exception NullPointerException if the supplied repository argument is null
      */
      AbstractURLConnection( URL url ) 
-       throws NullPointerException, IOException
+       throws IOException
      {
          super( url );
  
@@ -86,6 +85,20 @@ public abstract class AbstractURLConnection extends URLConnection
          }
      }
 
+    /**
+     * Return the Artifact specified by this URL.
+     * @param classes a set of classes (ignored)
+     * @return the artifact instance
+     * @see org.apache.avalon.repository.Artifact
+     */
+     public Object getContent( Class[] classes ) throws IOException
+     {
+         return getContent();
+     }
+
+    /**
+     * Null implementation of the conect protocol.
+     */
      public void connect()
      {
          // nothing to do
@@ -93,8 +106,9 @@ public abstract class AbstractURLConnection extends URLConnection
 
     /**
      * Return the Artifact specified by this URL.
-     * @param type the artifact type
+     * @param type the artifact type (e.g. "jar", "block", "xml", etc.)
      * @return the artifact instance
+     * @see org.apache.avalon.repository.Artifact
      */
      protected Object getContent( String type ) throws IOException
      {
@@ -116,22 +130,25 @@ public abstract class AbstractURLConnection extends URLConnection
      }
 
     /**
-     * Return the Artifact specified by this URL.
-     * @param classes a set of classes (ignored)
-     * @return the artifact instance
+     * Utility method to return the version field with the url query.
+     * @param url the url containing the query
+     * @return the version value if declared else null
      */
-     public Object getContent( Class[] classes ) throws IOException
-     {
-         return getContent();
-     }
-
      protected String getVersion( URL url )
      {
          return getQueryField( url, "version", null );
      } 
 
+     /**
+     * Utility method to return the value of a field within the url query.
+     * @param url the url containing the query
+     * @param field the query field name
+     * @param fallback the default value if not query parameter available
+     * @return the value of the query field
+     */
      protected String getQueryField( URL url, String field, String fallback )
      {
+System.out.println( "url: " + url + ", field: " + field + ", fallback: " + fallback );
          String query = url.getQuery();
          if( null != query ) 
          {
