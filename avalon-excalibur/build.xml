@@ -107,7 +107,7 @@
     </target>
     
     <!-- Fortress -->
-    <target name="prj-fortress" depends="prj-altrmi, prj-collections, prj-event, prj-instrument, prj-instrument-manager, prj-logger, prj-sourceresolve, prj-threadcontext">
+    <target name="prj-fortress" depends="prj-altrmi, prj-assembly, prj-collections, prj-container, prj-event, prj-instrument, prj-instrument-manager, prj-logger, prj-sourceresolve, prj-threadcontext">
         <ant dir="fortress" target="${subproject-target}"/>
     </target>
     
