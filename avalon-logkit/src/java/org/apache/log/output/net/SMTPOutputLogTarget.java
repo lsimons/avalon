@@ -8,8 +8,6 @@
 package org.apache.log.output.net;
 
 import java.util.Date;
-import java.util.Properties;
-
 import javax.mail.Address;
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -17,15 +15,14 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-
-import org.apache.log.output.AbstractOutputTarget;
 import org.apache.log.format.Formatter;
+import org.apache.log.output.AbstractOutputTarget;
 
 /**
  * Logkit output target that logs data via SMTP (ie. email, email gateways).
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: SMTPOutputLogTarget.java,v 1.1 2002/04/17 09:49:56 crafterm Exp $
+ * @version CVS $Id: SMTPOutputLogTarget.java,v 1.2 2002/10/02 01:55:08 donaldp Exp $
  * @since 1.1.0
  */
 public class SMTPOutputLogTarget extends AbstractOutputTarget

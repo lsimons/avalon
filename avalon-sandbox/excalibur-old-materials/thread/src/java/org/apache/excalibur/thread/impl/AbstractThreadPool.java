@@ -7,9 +7,9 @@
  */
 package org.apache.excalibur.thread.impl;
 
+import org.apache.excalibur.thread.Executable;
 import org.apache.excalibur.thread.ThreadControl;
 import org.apache.excalibur.thread.ThreadPool;
-import org.apache.excalibur.thread.Executable;
 
 /**
  * This is the base class of all ThreadPools.

@@ -9,16 +9,16 @@ package org.apache.avalon.excalibur.xml.xpath;
 
 import java.util.HashMap;
 import java.util.List;
-import org.apache.avalon.framework.configuration.Configurable;
-import org.apache.avalon.framework.configuration.ConfigurationException;
-import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.logger.AbstractLogEnabled;
-import org.jaxen.dom.DOMXPath;
 import org.apache.avalon.framework.component.Component;
+import org.apache.avalon.framework.configuration.Configurable;
+import org.apache.avalon.framework.configuration.Configuration;
+import org.apache.avalon.framework.configuration.ConfigurationException;
+import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.thread.ThreadSafe;
+import org.jaxen.NamespaceContext;
+import org.jaxen.dom.DOMXPath;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.jaxen.NamespaceContext;
 
 /**
  * This class defines the implementation of the {@link XPathProcessor}
@@ -33,7 +33,7 @@ import org.jaxen.NamespaceContext;
  * </pre>
  *
  * @author <a href="mailto:dims@yahoo.com">Davanum Srinivas</a>
- * @version CVS $Revision: 1.6 $ $Date: 2002/10/02 01:47:05 $ $Author: donaldp $
+ * @version CVS $Revision: 1.7 $ $Date: 2002/10/02 01:52:25 $ $Author: donaldp $
  */
 public final class JaxenProcessorImpl extends AbstractLogEnabled implements XPathProcessor, Configurable, Component, ThreadSafe, NamespaceContext
 {

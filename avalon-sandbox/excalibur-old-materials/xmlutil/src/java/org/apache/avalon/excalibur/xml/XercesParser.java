@@ -8,9 +8,9 @@
 package org.apache.avalon.excalibur.xml;
 
 import java.io.IOException;
+import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.thread.ThreadSafe;
-import org.apache.avalon.framework.activity.Initializable;
 import org.apache.xerces.dom.DocumentImpl;
 import org.apache.xerces.parsers.DOMParser;
 import org.apache.xerces.parsers.SAXParser;
@@ -25,7 +25,7 @@ import org.xml.sax.ext.LexicalHandler;
 /**
  * @author <a href="mailto:fumagalli@exoffice.com">Pierpaolo Fumagalli</a>
  *         (Apache Software Foundation, Exoffice Technologies)
- * @version CVS $Revision: 1.6 $ $Date: 2002/07/10 08:53:17 $
+ * @version CVS $Revision: 1.7 $ $Date: 2002/10/02 01:52:24 $
  */
 public final class XercesParser
     extends AbstractLogEnabled

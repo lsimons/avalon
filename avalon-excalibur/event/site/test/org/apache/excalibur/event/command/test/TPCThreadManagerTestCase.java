@@ -51,9 +51,8 @@ package org.apache.excalibur.event.command.test;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
-
+import junit.framework.TestCase;
 import org.apache.avalon.framework.parameters.Parameters;
-import org.apache.excalibur.event.impl.DefaultQueue;
 import org.apache.excalibur.event.EventHandler;
 import org.apache.excalibur.event.Queue;
 import org.apache.excalibur.event.Sink;
@@ -61,8 +60,7 @@ import org.apache.excalibur.event.SinkException;
 import org.apache.excalibur.event.Source;
 import org.apache.excalibur.event.command.EventPipeline;
 import org.apache.excalibur.event.command.TPCThreadManager;
-
-import junit.framework.TestCase;
+import org.apache.excalibur.event.impl.DefaultQueue;
 
 /**
  * @author <a href="mailto:greg-tpcthreadmanager@nest.cx">Gregory Steuck</a>

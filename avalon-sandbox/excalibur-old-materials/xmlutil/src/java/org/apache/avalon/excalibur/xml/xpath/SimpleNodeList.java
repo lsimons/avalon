@@ -7,15 +7,15 @@
  */
 package org.apache.avalon.excalibur.xml.xpath;
 
-import org.w3c.dom.NodeList;
-import org.w3c.dom.Node;
 import java.util.List;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 /**
  * Simple node list wrapper around a List object.
  *
  * @author <a href="mailto:dims@yahoo.com">Davanum Srinivas</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/07/10 08:53:17 $ $Author: donaldp $
+ * @version CVS $Revision: 1.3 $ $Date: 2002/10/02 01:52:25 $ $Author: donaldp $
  */
 final class SimpleNodeList
     implements NodeList
