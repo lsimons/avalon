@@ -67,18 +67,18 @@ public class DefaultSarDeployer
         m_type = "Sar";
     }
 
-    protected void deployFromFile( final String location, final File file )
+    protected void deployFromFile( final String name, final File file )
         throws DeploymentException
     {
         if( file.isDirectory() )
         {
-            deployFromDirectory( location, file );
+            throw new DeploymentException( "Deploying directories is not supported" );
         }
         else
         {
-            final File destination = getDestinationFor( location, file );
+            final File destination = getDestinationFor( name, file );
             expandTo( file, destination );
-            deployFromDirectory( location, destination );
+            deployFromDirectory( file, name, destination );
         }
     }
 
@@ -101,7 +101,7 @@ public class DefaultSarDeployer
             if( entry.isDirectory() ) continue;
 
             final String name = entry.getName().replace( '/', File.separatorChar );
-            if( name.startsWith( "META-INF" ) ) continue;
+            if( !shouldExpandEntry( entry.getName() ) ) continue;
 
             final File destination = new File( directory, name );
 
@@ -125,6 +125,12 @@ public class DefaultSarDeployer
                 IOUtil.shutdownStream( output );
             }
         }
+    }
+
+    protected boolean shouldExpandEntry( final String name )
+    {
+        if( name.startsWith( "META-INF" ) ) return false;
+        else return true;
     }
 
     protected boolean needsExpanding( final ZipFile zipFile, final File directory )
@@ -162,25 +168,15 @@ public class DefaultSarDeployer
 
     protected void buildEntry( final String name, 
                                final ServerApplicationEntry entry, 
+                               final File archive,
                                final File directory )
         throws DeploymentException
     {
-        /*
-          final File file = new File( directory, "SAR-INF" + File.separator + "sar-inf.xml" );
-          if( file.exists() )
-          {
-          final Configuration configuration = getConfigurationFor( file );
-          libDirectory = 
-          configuration.getChild( "lib-directory" ).getValue( libDirectory );
-          blocksDirectory =
-          configuration.getChild( "blocks-directory" ).getValue( blocksDirectory );
-          confDirectory = 
-          configuration.getChild( "conf-directory" ).getValue( confDirectory );
-          }
-        */
+        //final File file = new File( directory, "SAR-INF" + File.separator + "sar-inf.xml" );
 
         //setup the ServerApplications context
         final DefaultContext context = new DefaultContext();
+        context.put( SarContextResources.APP_ARCHIVE, archive );
         context.put( SarContextResources.APP_HOME_DIR, directory );
         context.put( SarContextResources.APP_NAME, name );
         entry.setContext( context );
@@ -199,13 +195,16 @@ public class DefaultSarDeployer
         entry.setConfiguration( configuration );
     }
 
-    protected void deployFromDirectory( final String name, final File directory )
+    protected void deployFromDirectory( final File archive, 
+                                        final String name, 
+                                        final File directory )
         throws DeploymentException
     {
-        getLogger().info( "deploying from expanded directory " + directory );
+        getLogger().info( "deploying from archive (" + archive +
+                          ") expanded into directory " + directory );
 
         final ServerApplicationEntry entry = new ServerApplicationEntry();
-        buildEntry( name, entry, directory );
+        buildEntry( name, entry, archive, directory );
         addEntry( name, entry );
 
         final ServerKernel kernel = getKernel();
@@ -218,7 +217,8 @@ public class DefaultSarDeployer
         {
             throw new DeploymentException( "Error preparingserver application", ce );
         }
- 
+
+        //rework next bit so it grabs deployments from archive
         final Deployer deployer = getBlockDeployer( entry );
         final File blocksDirectory = new File( directory, "blocks" );    
         CamelotUtil.deployFromDirectory( deployer, blocksDirectory, ".bar" );
