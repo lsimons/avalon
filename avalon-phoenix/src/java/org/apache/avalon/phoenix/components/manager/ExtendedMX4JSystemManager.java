@@ -61,6 +61,7 @@ public class ExtendedMX4JSystemManager
             configuration.getChild( "rmi-naming-factory" ).getValue( null);
         if ( null != namingFactory )
         {
+            getLogger().warn( "Deprecated." );
             System.setProperty( "java.naming.factory.initial", namingFactory );
         }
         else if ( null == System.getProperty( "java.naming.factory.initial" ) )
@@ -80,7 +81,7 @@ public class ExtendedMX4JSystemManager
         final Configuration[] mBeanConfs = m_configuration.getChildren( "mbean" );
         for ( int i = 0; i < mBeanConfs.length; i++ )
         {
-            initializeMBean( mBeanConfs[ i ] );
+            createMBean( mBeanConfs[ i ] );
         }
     }
 
@@ -88,36 +89,26 @@ public class ExtendedMX4JSystemManager
     {
         final MBeanServer mBeanServer = getMBeanServer();
 
-        final Iterator mBeanNames = m_jmxMBeans.values().iterator();
+        final Iterator mBeanNames = m_jmxMBeans.keySet().iterator();
         while ( mBeanNames.hasNext() )
         {
-            final ObjectName mBeanName = (ObjectName)mBeanNames.next();
-            try
-            {
-                //stop mbean.
-                mBeanServer.invoke( mBeanName, "stop", null, null );
-            }
-            catch ( final Exception e )
-            {
-                final String message = REZ.getString( "jmxmanager.error.jmxmbean.dispose" );
-                getLogger().error( message , e );
-            }
+            destroyMBean( (String)mBeanNames.next() );
         }
 
         super.dispose();
     }
 
-    private void initializeMBean( final Configuration mBeanConf )
+    private void createMBean( final Configuration mBeanConf )
         throws Exception
     {
         final MBeanServer mBeanServer = getMBeanServer();
         final Converter valueConverter = new SimpleMasterConverter();
 
-        final ObjectName mBeanName = new ObjectName( mBeanConf.getAttribute( "name" ) );
+        final ObjectName objectName = new ObjectName( mBeanConf.getAttribute( "name" ) );
 
         try
         {
-            mBeanServer.createMBean( mBeanConf.getAttribute( "class" ), mBeanName, null );
+            mBeanServer.createMBean( mBeanConf.getAttribute( "class" ), objectName, null );
 
             //set attributes
             final Configuration[] attributes = mBeanConf.getChildren( "attribute" );
@@ -132,7 +123,7 @@ public class ExtendedMX4JSystemManager
                     final Class valueClass = Class.forName( type );
                     value = valueConverter.convert( valueClass, value, null );
                 }
-                mBeanServer.setAttribute( mBeanName, new Attribute( name, value ) );
+                mBeanServer.setAttribute( objectName, new Attribute( name, value ) );
             }
 
             //set dependent attributes
@@ -142,7 +133,7 @@ public class ExtendedMX4JSystemManager
                 final Configuration use = uses[ i ];
                 final String name = use.getAttribute( "name" );
                 final String value = use.getValue();
-                mBeanServer.setAttribute( mBeanName, new Attribute( name, new ObjectName( value ) ) );
+                mBeanServer.setAttribute( objectName, new Attribute( name, new ObjectName( value ) ) );
             }
 
             //invoke operations
@@ -165,17 +156,34 @@ public class ExtendedMX4JSystemManager
                         values[ j ] = valueConverter.convert( valueClass, values[ j ], null );
                     }
                 }
-                mBeanServer.invoke( mBeanName, operationName, values, types );
+                mBeanServer.invoke( objectName, operationName, values, types );
             }
 
             //start mbean
-            mBeanServer.invoke( mBeanName, "start", null, null );
+            mBeanServer.invoke( objectName, "start", null, null );
 
-            m_jmxMBeans.put( mBeanName.getCanonicalName(), mBeanName );
+            m_jmxMBeans.put( objectName.getCanonicalName(), objectName );
         }
         catch ( final Exception e )
         {
             final String message = REZ.getString( "jmxmanager.error.jmxmbean.initialize" );
+            getLogger().error( message , e );
+        }
+    }
+
+    private void destroyMBean( final String name )
+    {
+        final MBeanServer mBeanServer = getMBeanServer();
+
+        final ObjectName objectName = (ObjectName)m_jmxMBeans.get( name );
+        try
+        {
+            //stop mbean.
+            mBeanServer.invoke( objectName, "stop", null, null );
+        }
+        catch ( final Exception e )
+        {
+            final String message = REZ.getString( "jmxmanager.error.jmxmbean.dispose" );
             getLogger().error( message , e );
         }
     }
