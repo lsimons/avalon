@@ -1,0 +1,11 @@
+avalon-framework-api
+merlin-meta-api
+merlin-composition-api
+merlin-api
+merlin-repository-api
+merlin-repository-spi
+merlin-repository-main
+merlin-util-env
+merlin-util-exception
+servletapi
+ 

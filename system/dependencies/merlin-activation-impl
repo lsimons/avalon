@@ -1,0 +1,22 @@
+avalon-framework-api
+avalon-framework-impl
+merlin-composition-api
+merlin-composition-spi
+merlin-composition-impl
+merlin-activation-api
+merlin-meta-api
+merlin-meta-spi
+merlin-meta-impl
+merlin-repository-api
+merlin-repository-spi
+merlin-util-extension-api
+merlin-util-extension-impl
+merlin-util-i18n
+excalibur-lifecycle-api
+
+
+merlin-logging-spi              test
+merlin-util-exception           test
+merlin-util-env                 test
+merlin-util-defaults            test
+merlin-repository-main          test
