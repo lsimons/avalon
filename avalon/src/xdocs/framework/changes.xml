@@ -9,6 +9,19 @@
     <person name="Peter Donald" email="donaldp@apache.org" id="PD"/>
   </devs>
   <release version="4.0-dev" date="unreleased">
+    <action dev="PD" type="update">
+      Updated Resolvable interface to allow a ContextException to be thrown 
+      on failure. 
+    </action>
+    <action dev="PD" type="update">
+      Add a makeReadOnly() method to the default implementations of Configuration, 
+      Context and ComponentManager. Calling this method after the respective
+      object has been filled will make the object read-only. This is a safety 
+      precaution to stop code performing unwanted operations.
+    </action>
+    <action dev="PD" type="update">
+      Updated the javadocs of many of the classes.
+    </action>
     <action dev="BL" type="update">
       Update documentation so that it is more accurate and descriptive.
     </action>
