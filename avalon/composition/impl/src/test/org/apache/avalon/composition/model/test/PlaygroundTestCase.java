@@ -32,8 +32,6 @@ public class PlaygroundTestCase extends AbstractTestCase
         try
         {
             m_model.assemble();
-            System.out.println( "" );
-            printModel( "", m_model );
         }
         catch( Throwable e )
         {
