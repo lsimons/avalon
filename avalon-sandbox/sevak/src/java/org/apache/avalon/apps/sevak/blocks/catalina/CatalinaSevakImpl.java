@@ -177,7 +177,7 @@ public class CatalinaSevakImpl
         //START  Tomcat Instance
         try
         {
-            getLogger().debug("starting Tomcat");
+            getLogger().debug("starting Tomcat on home: " + System.getProperty("catalina.home"));
             m_embedded.start();
             getLogger().debug("Tomcat started");
         }
