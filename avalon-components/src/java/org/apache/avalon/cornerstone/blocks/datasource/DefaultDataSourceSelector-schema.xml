@@ -6,14 +6,16 @@
 >
     <start>
         <element name="root">
-            <element name="data-sources">
+            <choice>
+                <element name="data-sources">
+                    <oneOrMore>
+                        <ref name="datasource"/>
+                    </oneOrMore>
+                </element>
                 <oneOrMore>
                     <ref name="datasource"/>
                 </oneOrMore>
-            </element>
-            <oneOrMore>
-                <ref name="datasource"/>
-            </oneOrMore>
+            </choice>
         </element>
     </start>
 
