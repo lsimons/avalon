@@ -17,6 +17,7 @@ import org.apache.avalon.excalibur.packagemanager.PackageManager;
 import org.apache.avalon.framework.container.ContainerUtil;
 import org.apache.avalon.framework.logger.LogEnabled;
 import org.apache.avalon.framework.logger.Logger;
+import org.apache.avalon.phoenix.components.util.ResourceUtil;
 import org.apache.excalibur.loader.builder.DefaultLoaderResolver;
 
 /**
@@ -24,7 +25,7 @@ import org.apache.excalibur.loader.builder.DefaultLoaderResolver;
  * and the way it is split across multiple directories.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2002/11/01 22:55:27 $
+ * @version $Revision: 1.3 $ $Date: 2002/11/01 23:22:43 $
  */
 class SarLoaderResolver
     extends DefaultLoaderResolver
@@ -92,6 +93,23 @@ class SarLoaderResolver
     }
 
     /**
+     * Resolve a location to either the work or home hierarchys.
+     *
+     * @param location the location
+     * @return the URL representing location
+     * @throws Exception if unable to resolve location
+     */
+    public URL resolveURL( final String location )
+        throws Exception
+    {
+        final File file =
+            ResourceUtil.getFileForResource( location,
+                                             getBaseDirectory(),
+                                             m_workDirectory );
+        return file.toURL();
+    }
+
+    /**
      * Resolve a fileset. Make sure it is resolved against
      * both the work and the base directories of application.
      *
@@ -128,15 +146,16 @@ class SarLoaderResolver
                                           final URL[] urls )
         throws Exception
     {
+        final URL[] classpath = determineCompleteClasspath( urls );
         if( m_logger.isDebugEnabled() )
         {
             final String message =
                 REZ.getString( "resolver.loader-urls.notice",
-                               Arrays.asList( urls ) );
+                               Arrays.asList( classpath ) );
             m_logger.debug( message );
         }
         final PolicyClassLoader loader =
-            new PolicyClassLoader( urls, parent, m_policy );
+            new PolicyClassLoader( classpath, parent, m_policy );
         ContainerUtil.enableLogging( loader, m_logger );
         return loader;
     }
