@@ -226,7 +226,10 @@ public class DefaultTimeScheduler
     public void stop()
     {
         m_running = false;
-        notifyAll();
+        synchronized ( this )
+        {
+            notifyAll();
+        }
     }
 
     public void run()
