@@ -372,7 +372,7 @@
 
     <ant:echo>Building zip distribution: ${package.name}</ant:echo>
     <ant:zip zipfile="${maven.build.dir}/${package.name}.zip">
-      <zipfileset dir="${merlin.build.inst.dir}" prefix="merlin">
+      <zipfileset dir="${merlin.build.inst.dir}" prefix="merlin" filemode="755" >
         <include name="bin/merlin"/>
         <include name="bin/merlinx"/>
         <include name="bin/internal-cygwin.sh"/>
@@ -403,7 +403,7 @@
 
     <ant:echo>Building tar distribution: ${package.name}</ant:echo>
     <ant:tar longfile="gnu" tarfile="${maven.build.dir}/${package.name}.tar">
-      <tarfileset dir="${merlin.build.inst.dir}" prefix="merlin" filemode="755" >
+      <tarfileset dir="${merlin.build.inst.dir}" prefix="merlin" mode="755" >
         <include name="bin/merlin"/>
         <include name="bin/merlinx"/>
         <include name="bin/internal-cygwin.sh"/>
