@@ -31,7 +31,7 @@ Legal:
   <property name="testlets.name" value="${name}-framework-excalibur-test"/>
   <property name="scratchpad.name" value="${name}-scratchpad"/>
   <property name="Name" value="Avalon"/>
-  <property name="version" value="4.0b1"/>
+  <property name="version" value="4.0b2rc1"/>
   <property name="year" value="1999-2001"/>
 
   <!--
