@@ -15,7 +15,8 @@ import org.apache.avalon.excalibur.concurrent.Mutex;
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  */
-public final class FixedSizeQueue extends AbstractQueue
+public final class FixedSizeQueue 
+    extends AbstractQueue
 {
     private final QueueElement[] m_elements;
     private final Mutex m_mutex;
