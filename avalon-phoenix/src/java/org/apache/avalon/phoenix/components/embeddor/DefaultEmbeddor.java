@@ -132,11 +132,6 @@ public class DefaultEmbeddor
             setupComponent( m_deployer );
             setupComponent( m_systemManager );
             setupComponent( m_kernel );
-
-            //Uncomment next bit to try registering...
-            //TODO: Logger and SystemManager itself aswell???
-            m_systemManager.register( "Phoenix.Kernel", m_kernel );
-            m_systemManager.register( "Phoenix.Embeddor", this );
         }
         catch( final Exception e )
         {
@@ -436,6 +431,7 @@ public class DefaultEmbeddor
     {
         final DefaultComponentManager componentManager = new DefaultComponentManager();
 
+        componentManager.put( Embeddor.ROLE, this );
         componentManager.put( LogManager.ROLE, m_logManager );
         componentManager.put( ClassLoaderManager.ROLE, m_classLoaderManager );
         componentManager.put( ConfigurationRepository.ROLE, m_repository );

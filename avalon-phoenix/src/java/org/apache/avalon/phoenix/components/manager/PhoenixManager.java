@@ -17,10 +17,20 @@ import javax.management.MBeanServer;
 import javax.management.ObjectName;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
+import org.apache.avalon.framework.component.ComponentException;
+import org.apache.avalon.framework.component.ComponentManager;
+import org.apache.avalon.framework.component.Composable;
 import org.apache.avalon.framework.parameters.ParameterException;
 import org.apache.avalon.framework.parameters.Parameterizable;
 import org.apache.avalon.framework.parameters.Parameters;
+import org.apache.avalon.phoenix.interfaces.ClassLoaderManager;
+import org.apache.avalon.phoenix.interfaces.ConfigurationRepository;
+import org.apache.avalon.phoenix.interfaces.Deployer;
+import org.apache.avalon.phoenix.interfaces.Embeddor;
+import org.apache.avalon.phoenix.interfaces.Kernel;
+import org.apache.avalon.phoenix.interfaces.LogManager;
 import org.apache.avalon.phoenix.interfaces.ManagerException;
+import org.apache.avalon.phoenix.interfaces.SystemManager;
 import org.apache.jmx.adaptor.RMIAdaptorImpl;
 import org.apache.jmx.introspector.DynamicMBeanFactory;
 
@@ -49,10 +59,34 @@ public class PhoenixManager
     ///Name Adaptor registered with
     private String          m_name;
 
+    private Embeddor                 m_embeddor;
+    private Deployer                 m_deployer;
+    private LogManager               m_logManager;
+    private Kernel                   m_kernel;
+    private ConfigurationRepository  m_repository;
+    private ClassLoaderManager       m_classLoaderManager;
+
     public void parameterize( final Parameters parameters )
         throws ParameterException
     {
         m_parameters = parameters;
+    }
+
+    /**
+     * Retrieve relevent services needed to deploy.
+     *
+     * @param componentManager the ComponentManager
+     * @exception ComponentException if an error occurs
+     */
+    public void compose( final ComponentManager componentManager )
+        throws ComponentException
+    {
+        m_embeddor = (Embeddor)componentManager.lookup( Embeddor.ROLE );
+        m_kernel = (Kernel)componentManager.lookup( Kernel.ROLE );
+        m_deployer = (Deployer)componentManager.lookup( Deployer.ROLE );
+        m_repository = (ConfigurationRepository)componentManager.lookup( ConfigurationRepository.ROLE );
+        m_classLoaderManager = (ClassLoaderManager)componentManager.lookup( ClassLoaderManager.ROLE );
+        m_logManager = (LogManager)componentManager.lookup( LogManager.ROLE );
     }
 
     public void initialize()
@@ -61,7 +95,10 @@ public class PhoenixManager
         m_mBeanServer = createMBeanServer();
         m_rmiAdaptor = new RMIAdaptorImpl( m_mBeanServer );
 
-        //TODO: Register everything here or in embeddor???
+        //TODO: Register everything here
+        //TODO: SystemManager itself aswell???
+        //register( "Phoenix.Kernel", m_kernel );
+        //register( "Phoenix.Embeddor", m_embeddor );
     }
 
     public void start()
