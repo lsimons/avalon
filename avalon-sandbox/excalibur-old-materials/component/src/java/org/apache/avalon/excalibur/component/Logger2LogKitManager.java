@@ -14,10 +14,10 @@ import org.apache.log.Hierarchy;
 import org.apache.log.LogTarget;
 
 /**
- * An adaptor between LogkitManager and LoggerManager.
+ * An adapter between LogkitManager and LoggerManager.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2002/06/02 06:03:01 $
+ * @version $Revision: 1.3 $ $Date: 2002/07/29 09:53:40 $
  */
 class Logger2LogKitManager
     implements LogKitManager

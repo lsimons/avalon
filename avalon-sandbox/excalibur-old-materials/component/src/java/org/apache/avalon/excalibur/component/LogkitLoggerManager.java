@@ -13,10 +13,10 @@ import org.apache.avalon.framework.logger.LogKitLogger;
 import org.apache.avalon.framework.logger.Logger;
 
 /**
- * An adaptor class to help with backwards comaptability.
+ * An adapter class to help with backwards comaptability.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2002/06/02 06:03:01 $
+ * @version $Revision: 1.3 $ $Date: 2002/07/29 09:53:40 $
  */
 public class LogkitLoggerManager
     implements LoggerManager
