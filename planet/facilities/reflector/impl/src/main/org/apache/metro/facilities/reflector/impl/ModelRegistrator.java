@@ -62,6 +62,7 @@ public class ModelRegistrator
         throws ContextException
     {
         m_Model = (ContainmentModel) ctx.get( "urn:composition:containment.model" );
+        m_Model = (ContainmentModel) m_Model.getModel("/");
         m_Model.addCompositionListener( this );
     }
 
