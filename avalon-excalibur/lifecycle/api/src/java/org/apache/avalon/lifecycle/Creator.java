@@ -1,9 +1,10 @@
+/*
+
  ============================================================================
                    The Apache Software License, Version 1.1
  ============================================================================
 
- Copyright (C) 1997-2003 The Apache Software Foundation.
- All rights reserved.
+ Copyright (C) 1999-2002 The Apache Software Foundation. All rights reserved.
 
  Redistribution and use in source and binary forms, with or without modifica-
  tion, are permitted provided that the following conditions are met:
@@ -21,10 +22,10 @@
     Alternately, this  acknowledgment may  appear in the software itself,  if
     and wherever such third-party acknowledgments normally appear.
 
- 4. The  names   "Apache",   "Avalon",  "Excalibur",  "Fortress",  "Phoenix",
-    "Merlin" and "Apache Software Foundation" must not be used  to endorse or
-    promote  products  derived  from  this  software  without  prior  written
-    permission.  For written permission, please contact apache@apache.org.
+ 4. The names "Jakarta", "Apache Avalon", "Avalon Framework" and
+    "Apache Software Foundation"  must not be used to endorse or promote
+    products derived  from this  software without  prior written
+    permission. For written permission, please contact apache@apache.org.
 
  5. Products  derived from this software may not  be called "Apache", nor may
     "Apache" appear  in their name,  without prior written permission  of the
@@ -43,4 +44,42 @@
 
  This software  consists of voluntary contributions made  by many individuals
  on  behalf of the Apache Software  Foundation. For more  information on the
- Apache Software Foundation, please see http://www.apache.org/.
+ Apache Software Foundation, please see <http://www.apache.org/>.
+
+*/
+package org.apache.avalon.lifecycle;
+
+import org.apache.avalon.framework.context.Context;
+
+/**
+ * The <code>Creator</code> interface describes the create and destroy
+ * stages that occur between a component and a container
+ * during service management.  Lifecycle extensions supporting create
+ * and destroy stages must implement this interface.
+ *
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version CVS $Revision: 1.1 $ $Date: 2003/10/02 03:07:21 $
+ */
+public interface Creator
+{
+    /**
+     * Create stage handler.
+     *
+     * @param object the object that is being created
+     * @param context the context instance required by the create handler
+     *    implementation
+     * @exception Exception if an error occurs
+     */
+    void create( Object object, Context context )
+        throws Exception;
+
+    /**
+     * Destroy stage handler.
+     *
+     * @param object the object that is being destroyed
+     * @param context the context instance required by the handler
+     *    implementation
+     */
+    void destroy( Object object, Context context );
+
+}
