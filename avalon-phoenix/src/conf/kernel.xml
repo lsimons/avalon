@@ -38,7 +38,7 @@
             class="org.apache.avalon.phoenix.components.classloader.DefaultClassLoaderManager"
             logger="classes"/>
         <component role="org.apache.avalon.excalibur.extension.PackageRepository"
-            class="org.apache.avalon.phoenix.components.extensions.PhoenixPackageRepository"
+            class="org.apache.avalon.phoenix.components.extensions.DefaultExtensionManager"
             logger="packages"/>
     </embeddor>
 </phoenix>
