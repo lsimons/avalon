@@ -94,7 +94,7 @@
     </target>
 
     <!-- Creates all the Javadocs -->
-    <target name="javadocs" depends="compile" description="Generates the javadocs">
+    <target name="javadocs" depends="compile" description="Generates the javadocs" unless="skip.javadocs">
 
         <mkdir dir="${dist.javadocs}"/>
         <javadoc packagenames="org.apache.*"
