@@ -138,6 +138,82 @@ public class MetaInfoEntryTestCase extends TestCase
         checkMetaInfoEntry( entry, ThreadSafeComponentHandler.class, "component1", true );
     }
 
+    public void testNullPointerException() throws Exception
+    {
+        try
+        {
+            new MetaInfoEntry(null);
+            fail("Did not throw an exception");
+        }
+        catch(NullPointerException npe)
+        {
+            // SUCCESS!
+        }
+        catch(Exception e)
+        {
+            fail("Threw wrong exception type: " + e.getClass().getName() );
+        }
+
+        try
+        {
+            new MetaInfoEntry( null, m_properties );
+            fail( "Did not throw an exception" );
+        }
+        catch ( NullPointerException npe )
+        {
+            // SUCCESS!
+        }
+        catch ( Exception e )
+        {
+            fail( "Threw wrong exception type: " + e.getClass().getName() );
+        }
+
+        try
+        {
+            new MetaInfoEntry( m_componentClass, null );
+            fail( "Did not throw an exception" );
+        }
+        catch ( NullPointerException npe )
+        {
+            // SUCCESS!
+        }
+        catch ( Exception e )
+        {
+            fail( "Threw wrong exception type: " + e.getClass().getName() );
+        }
+
+        try
+        {
+            MetaInfoEntry entry = new MetaInfoEntry( m_componentClass, m_properties );
+            entry.addRole( null );
+            fail( "Did not throw an exception" );
+        }
+        catch ( NullPointerException npe )
+        {
+            // SUCCESS!
+        }
+        catch ( Exception e )
+        {
+            fail( "Threw wrong exception type: " + e.getClass().getName() );
+        }
+
+        try
+        {
+            MetaInfoEntry entry = new MetaInfoEntry( m_componentClass, m_properties );
+            entry.addRole( Role1.class.getName() );
+            entry.containsRole( null );
+            fail( "Did not throw an exception" );
+        }
+        catch ( NullPointerException npe )
+        {
+            // SUCCESS!
+        }
+        catch ( Exception e )
+        {
+            fail( "Threw wrong exception type: " + e.getClass().getName() );
+        }
+    }
+
     private void checkMetaInfoEntry( MetaInfoEntry entry, Class handler, String name, boolean oneRole )
     {
         assertEquals( m_componentClass, entry.getComponentClass() );

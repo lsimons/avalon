@@ -65,7 +65,7 @@ import java.util.regex.Pattern;
  * to enable "self-healing" configuration files.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2003/04/18 20:02:29 $
+ * @version $Revision: 1.2 $ $Date: 2003/04/21 17:40:17 $
  */
 public final class MetaInfoEntry
 {
@@ -103,8 +103,8 @@ public final class MetaInfoEntry
      */
     public MetaInfoEntry( final Class componentClass, final Properties properties ) throws ClassNotFoundException
     {
-        if ( null == componentClass ) throw new NullPointerException( "componentClass" );
-        if ( null == properties ) throw new NullPointerException( "properties" );
+        if ( null == componentClass ) throw new NullPointerException( "\"componentClass\" cannot be null." );
+        if ( null == properties ) throw new NullPointerException( "\"properties\" cannot be null." );
 
         m_klass = componentClass;
         m_configName = properties.getProperty( "x-avalon.name", createShortName( componentClass.getName() ) );
@@ -119,7 +119,7 @@ public final class MetaInfoEntry
      */
     public MetaInfoEntry( final RoleEntry roleEntry )
     {
-        if ( null == roleEntry ) throw new NullPointerException( "roleEntry" );
+        if ( null == roleEntry ) throw new NullPointerException( "\"roleEntry\" cannot be null." );
 
         m_klass = roleEntry.getComponentClass();
         m_configName = roleEntry.getShortname();
@@ -178,6 +178,7 @@ public final class MetaInfoEntry
      */
     public void addRole( final String role )
     {
+        if ( null == role ) throw new NullPointerException( "\"role\" cannot be null" );
         if ( m_readOnly ) throw new SecurityException( "This MetaInfoEntry is read-only." );
 
         m_roles.add( role );
@@ -191,6 +192,7 @@ public final class MetaInfoEntry
      */
     public boolean containsRole( final String role )
     {
+        if ( null == role ) throw new NullPointerException( "\"role\" cannot be null" );
         return m_roles.contains( role );
     }
 
