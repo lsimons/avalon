@@ -1,7 +1,7 @@
 /* ====================================================================
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 1997-2002 The Apache Software Foundation. All rights
+ * Copyright (c) 1997-2003 The Apache Software Foundation. All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -59,7 +59,7 @@ package org.apache.avalon.framework.configuration;
  * with methods that can be abstracted away from underlying implementations.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.24 $ $Date: 2003/02/07 15:12:32 $
+ * @version CVS $Revision: 1.25 $ $Date: 2003/02/10 07:19:16 $
  */
 public abstract class AbstractConfiguration
     implements Configuration

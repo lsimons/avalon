@@ -1,7 +1,7 @@
 /* ====================================================================
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 1997-2002 The Apache Software Foundation. All rights
+ * Copyright (c) 1997-2003 The Apache Software Foundation. All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -80,7 +80,7 @@ import org.apache.avalon.framework.service.Serviceable;
  * a component throught it's lifecycle stages.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.11 $ $Date: 2003/02/07 15:12:33 $
+ * @version $Revision: 1.12 $ $Date: 2003/02/10 07:19:16 $
  */
 public final class ContainerUtil
 {
