@@ -119,7 +119,7 @@ public class DefaultComponentSelector
         if( m_readOnly )
         {
             throw new IllegalStateException
-                ( "ComponentLocator is read only and can not be modified" );
+                ( "ComponentSelector is read only and can not be modified" );
         }
     }
 }
