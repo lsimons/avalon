@@ -70,7 +70,7 @@ import junit.framework.TestCase;
  *
  *
  * @author <a href="mail at leosimons dot com">Leo Simons</a>
- * @version $Id: Avalon2PicoAdapterTestCase.java,v 1.2 2003/08/21 20:58:31 leosimons Exp $
+ * @version $Id: Avalon2PicoAdapterTestCase.java,v 1.3 2003/08/21 21:13:52 leosimons Exp $
  */
 public class Avalon2PicoAdapterTestCase extends TestCase
 {
@@ -244,5 +244,32 @@ public class Avalon2PicoAdapterTestCase extends TestCase
         assertFalse( "The first File was used by the proxied pico-style component", context.isGetCalled() );
         assertTrue( "The second File was not used by the proxied pico-style component", sm.isLookupCalled() );
 
+    }
+
+    public void testCommonSenseSomewhatRealisticUsage() throws Exception
+    {
+        Tweety tweety = (Tweety)Avalon2PicoAdapter.getProxy( TweetyImpl5.class );
+
+        Logger logger = new ConsoleLogger();
+        ContainerUtil.enableLogging( tweety, logger );
+
+        DefaultContext context = new DefaultContext();
+        context.put( File.class.getName(), new File(".") );
+        context.makeReadOnly();
+        ContainerUtil.contextualize( tweety, context );
+
+        DefaultServiceManager sm = new DefaultServiceManager();
+        sm.put( Pussycat.class.getName(), new PussycatImpl() );
+        sm.makeReadOnly();
+        ContainerUtil.service( tweety, sm );
+
+        AssertionConfiguration conf = new AssertionConfiguration( "blah" );
+        conf.setAttribute( "message", "dummy message");
+        conf.makeReadOnly();
+        ContainerUtil.configure( tweety, conf );
+        ContainerUtil.initialize( tweety );
+        ContainerUtil.start( tweety );
+
+        tweety.chilp();
     }
 }
