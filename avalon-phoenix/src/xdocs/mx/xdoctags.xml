@@ -6,27 +6,14 @@
     <author email="huw@apache.org">Huw Roberts</author>
   </properties>
   <body>
-    <section name="Outline">
-      <ul>
-        <li>
-            describe the XDoclet tags and how they generate the mxinfo
-        </li>
-        <li>
-            including how defaults are generated
-        </li>
-        <li>
-            dependencies and how to set up ant to generate the mxinfo files
-        </li>
-      </ul>
-    </section>
-    <section name="Overview" >
+    <section name="Introduction" >
       <p>
-        XDoclet tags can be inserted into source code to automatically generate the mxinfo file.
+        XDoclet tags inserted into source code automatically generate the mxinfo file.
         There are a number of advantages to doing it this way:
       </p>
       <ul>
         <li>
-          its a lot faster than writing mxinfo files by hand
+          its a lot faster than writing MXINFO files by hand
         </li>
         <li>
           its harder to make mistakes, since much of the data required for the mxinfo file is
@@ -37,7 +24,7 @@
         </li>
       </ul>
       <p>
-        Any class or interface can be used to produce mxinfo files.  How they get used is up to 
+        Any class or interface can be used to produce MXINFO files.  How they get used is up to 
         container and its Management subsystem.
       </p>
     </section>
