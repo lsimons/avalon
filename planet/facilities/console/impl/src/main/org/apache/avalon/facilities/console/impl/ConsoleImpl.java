@@ -26,11 +26,18 @@ import java.util.Collection;
 import java.util.Hashtable;
 import java.util.Iterator;
 
+import org.apache.avalon.composition.model.ContainmentModel;
+
+import org.apache.avalon.facilities.console.CommandInterpreter;
 import org.apache.avalon.facilities.console.Console;
 import org.apache.avalon.facilities.console.ConsoleCommand;
 
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.activity.Startable;
+
+import org.apache.avalon.framework.context.Context;
+import org.apache.avalon.framework.context.ContextException;
+import org.apache.avalon.framework.context.Contextualizable;
 
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 
@@ -44,7 +51,8 @@ import org.apache.avalon.framework.parameters.Parameters;
  * @avalon.service type="org.apache.avalon.facilities.console.Console"
  */
 public class ConsoleImpl extends AbstractLogEnabled
-    implements Console, Runnable, Startable, Parameterizable, Initializable
+    implements Console, Runnable, Startable, Parameterizable, 
+               Initializable, Contextualizable
 {
     private int         m_Port;
     private ServerSocket m_ServerSocket;
@@ -52,6 +60,26 @@ public class ConsoleImpl extends AbstractLogEnabled
     private Hashtable   m_Commands;
     private ArrayList   m_Interpreters;
     private String      m_Welcome;    
+    private ContainmentModel m_RootModel;
+    
+    /**
+     * Contextulaization of the listener by the container during 
+     * which we are supplied with the root composition model for 
+     * the application.
+     *
+     * @param ctx the supplied listener context
+     *
+     * @exception ContextException if a contextualization error occurs
+     *
+     * @avalon.entry key="urn:composition:containment.model" 
+     *               type="org.apache.avalon.composition.model.ContainmentModel" 
+     *
+     */
+    public void contextualize( Context ctx ) 
+        throws ContextException
+    {
+        m_RootModel = (ContainmentModel) ctx.get( "urn:composition:containment.model" );
+    }
     
     public void parameterize( Parameters params )
         throws ParameterException
@@ -94,17 +122,45 @@ public class ConsoleImpl extends AbstractLogEnabled
     public void addCommand( ConsoleCommand cmd )
     {
         getLogger().info( "Added " + cmd.getName() + " command." );
-        m_Commands.put( cmd.getName(), cmd );
+        String name = cmd.getName();
+        m_Commands.put( name, cmd );
+        synchronized( m_Interpreters )
+        {
+            Iterator list = m_Interpreters.iterator();
+            while( list.hasNext() )
+            {
+                CommandInterpreter intp = (CommandInterpreter) list.next();
+                intp.addCommand( cmd );
+            }
+        }
     }
     
     public void removeCommand( ConsoleCommand cmd )
     {
         m_Commands.remove( cmd.getName() );
+        synchronized( m_Interpreters )
+        {
+            Iterator list = m_Interpreters.iterator();
+            while( list.hasNext() )
+            {
+                CommandInterpreter intp = (CommandInterpreter) list.next();
+                intp.removeCommand( cmd );
+            }
+        }
     }
     
     public void removeCommand( String commandname )
     {
         m_Commands.remove( commandname );
+        synchronized( m_Interpreters )
+        {
+            Iterator list = m_Interpreters.iterator();
+            while( list.hasNext() )
+            {
+                CommandInterpreter intp = (CommandInterpreter) list.next();
+                intp.removeCommand( commandname );
+            }
+        }
     }
     
     public ConsoleCommand getCommand( String name )
@@ -125,8 +181,11 @@ public class ConsoleImpl extends AbstractLogEnabled
             try
             {
                 Socket socket = m_ServerSocket.accept();
-                CommandInterpreter intp = new CommandInterpreter( socket, m_Welcome, this );
-                m_Interpreters.add( intp );
+                CommandInterpreterImpl intp = new CommandInterpreterImpl( socket, m_Welcome, m_Commands, m_RootModel );
+                synchronized( m_Interpreters )
+                {
+                    m_Interpreters.add( intp );
+                }
                 intp.start();
             } catch( IOException e )
             {
@@ -146,7 +205,7 @@ public class ConsoleImpl extends AbstractLogEnabled
         Iterator list = m_Interpreters.iterator();
         while( list.hasNext() )
         {
-            CommandInterpreter intp = (CommandInterpreter) list.next();
+            CommandInterpreterImpl intp = (CommandInterpreterImpl) list.next();
             intp.interrupt();
         }
     }

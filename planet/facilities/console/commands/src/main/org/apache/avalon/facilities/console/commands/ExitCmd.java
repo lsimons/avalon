@@ -18,8 +18,13 @@ package org.apache.avalon.facilities.console.commands;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 
+import org.apache.avalon.facilities.console.CommandInterpreter;
 import org.apache.avalon.facilities.console.Console;
 import org.apache.avalon.facilities.console.ConsoleCommand;
+
+import org.apache.avalon.framework.context.Context;
+import org.apache.avalon.framework.context.ContextException;
+import org.apache.avalon.framework.context.Contextualizable;
 
 import org.apache.avalon.framework.service.Serviceable;
 import org.apache.avalon.framework.service.ServiceException;
@@ -30,19 +35,39 @@ import org.apache.avalon.framework.service.ServiceManager;
  * @avalon.service type="org.apache.avalon.facilities.console.ConsoleCommand"
  */
 public class ExitCmd
-    implements ConsoleCommand, Serviceable
+    implements ConsoleCommand, Serviceable, Contextualizable
 {
+    private String m_Name;
+    
     public String getName()
     {
-        return "exit";
+        return m_Name;
     }
     
     public String getDescription()
     {
-        String str = "usage: exit\n\nTerminates the session.";
+        String str = "usage: " + m_Name + "\n\nTerminates the session.";
         return str;
     }
     
+    /**
+     * Contextulaization of the listener by the container during 
+     * which we are supplied with the root composition model for 
+     * the application.
+     *
+     * @param ctx the supplied listener context
+     *
+     * @exception ContextException if a contextualization error occurs
+     *
+     * @avalon.entry key="urn:avalon:name" 
+     *               type="java.lang.String" 
+     */
+    public void contextualize( Context ctx ) 
+        throws ContextException
+    {
+        m_Name = (String) ctx.get( "urn:avalon:name" );
+    }
+
     /**
      * @avalon.dependency type="org.apache.avalon.facilities.console.Console"
      *                    key="console"
@@ -54,7 +79,7 @@ public class ExitCmd
         console.addCommand( this );
     }
     
-    public void execute( BufferedReader input, BufferedWriter output, String[] arguments )
+    public void execute( CommandInterpreter intp, BufferedReader input, BufferedWriter output, String[] arguments )
         throws Exception
     {
         output.write( "Logging out..." );
