@@ -11,11 +11,23 @@
       <library name="MetroStudioTests.jar">
          <export name="*"/>
       </library>
+      <library name="lib/xstream-1.0.2.jar">
+         <export name="*"/>
+      </library>
+      <library name="lib/metro-event-0.0.1.jar">
+         <export name="*"/>
+      </library>
    </runtime>
 
    <requires>
       <import plugin="org.eclipse.ui"/>
       <import plugin="org.eclipse.core.runtime"/>
+      <import plugin="org.apache.metro.studio.core"/>
+      <import plugin="org.apache.metro.studio.ui"/>
+      <import plugin="org.apache.metro.studio.launch"/>
+      <import plugin="org.junit"/>
+      <import plugin="org.eclipse.core.resources"/>
+      <import plugin="org.eclipse.jdt.core"/>
    </requires>
 
 </plugin>
