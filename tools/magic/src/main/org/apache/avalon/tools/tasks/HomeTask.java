@@ -17,6 +17,7 @@
 
 package org.apache.avalon.tools.tasks;
 
+import org.apache.avalon.tools.model.Context;
 import org.apache.avalon.tools.model.Definition;
 import org.apache.avalon.tools.model.Info;
 import org.apache.avalon.tools.model.Home;
@@ -115,10 +116,17 @@ public class HomeTask extends ContextualTask
     private void verifyBaseDir( Definition def )
         throws BuildException
     {
-        String defBase = def.getBaseDir().getAbsolutePath();
-        String projBase = getProject().getBaseDir().getAbsolutePath();
+        String defBase = Context.getCanonicalPath( def.getBaseDir() );
+        String projBase = Context.getCanonicalPath( getProject().getBaseDir() );
         if( defBase.equals( projBase ) )
             return;
-        throw new BuildException( "The basedir in the Magic Index file, does not correspond with the current working directory. Most probably, you have the wrong project name in the build.xml file." );
+        throw new BuildException( 
+          "The basedir ["
+          + defBase 
+          + "] declared in the project index for the key [" 
+          + def.getKey() 
+          + "] does not correspond with the current working directory ["
+          + projBase 
+          + "]. Most probably, you have the wrong project name in the build.xml file." );
     }
 }
