@@ -25,13 +25,12 @@
         to allow for different implementations of the backing mechanism (store)
         and replacement algorithm (eg LRU, FIFO).
       </p>
-      <figure src="images/cache.png" alt="Caching Class Diagram"/>
     </s1>
   </body>
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.2 $ $Date: 2002/04/04 22:01:24 $
+      $Revision: 1.3 $ $Date: 2002/04/05 05:32:40 $
     </legal>
   </footer>
 </document>
