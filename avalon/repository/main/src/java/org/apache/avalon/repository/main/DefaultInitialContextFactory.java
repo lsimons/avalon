@@ -79,7 +79,7 @@ import org.apache.avalon.util.defaults.Defaults;
  * </pre>
  * 
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class DefaultInitialContextFactory implements InitialContextFactory
 {
@@ -152,10 +152,15 @@ public class DefaultInitialContextFactory implements InitialContextFactory
      * @param key the application key
      * @param work the working directory
      * @throws IOException if an error occurs during establishment
+     * @exception NullPointerException if tyhe supplied key or work 
+     *    arguments are null
      */
     public DefaultInitialContextFactory( String key, File work ) 
       throws IOException
     {
+        if( null == key ) throw new NullPointerException( "key" );
+        if( null == work ) throw new NullPointerException( "work" );
+
         m_key = key;
         m_work = work;
         m_defaults = new DefaultsBuilder( key, work );
@@ -252,6 +257,7 @@ public class DefaultInitialContextFactory implements InitialContextFactory
         try
         {
             return new DefaultInitialContext(
+              getApplicationKey(),
               getParentClassLoader(),
               getImplementation(),
               getWorkingDirectory(),
@@ -264,6 +270,15 @@ public class DefaultInitialContextFactory implements InitialContextFactory
               "Could not create initial context.";
             throw new RepositoryRuntimeException( error, e );
         }
+    }
+
+
+   /**
+    * Return the application key.
+    */
+    public String getApplicationKey()
+    {
+        return m_key;
     }
 
    /**

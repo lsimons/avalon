@@ -29,7 +29,7 @@ import org.apache.avalon.repository.RepositoryException;
  * The initial context established by an initial repository factory.
  *
  * @author <a href="mailto:mcconnell@osm.net">Stephen McConnell</a>
- * @version $Revision: 1.8 $ $Date: 2004/02/17 11:06:17 $
+ * @version $Revision: 1.9 $ $Date: 2004/02/18 02:23:58 $
  */
 public interface InitialContext
 {        
@@ -52,6 +52,15 @@ public interface InitialContext
 
     String LINE = 
       "\n-----------------------------------------------------------";
+
+    /**
+     * Return the application key.  The value of the key may be used 
+     * to resolve property files by using the convention 
+     * [key].properties.
+     * 
+     * @return the application key.
+     */
+    String getApplicationKey();
 
     /**
      * Return the base working directory.
