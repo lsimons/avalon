@@ -63,7 +63,7 @@ import java.util.List;
  * Provides the foundation for MetaInfoManagers.
  *
  * @author <a href="bloritsch.at.apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.4 $
+ * @version CVS $Revision: 1.5 $
  */
 public abstract class AbstractMetaInfoManager extends AbstractLogEnabled implements MetaInfoManager
 {
@@ -159,7 +159,7 @@ public abstract class AbstractMetaInfoManager extends AbstractLogEnabled impleme
         if ( getLogger().isDebugEnabled() )
         {
             getLogger().debug( "addComponent component: type='" + className +
-                "', meta='" + meta.toString() + "', " );
+                "', meta='" + meta.toString() + "', role='" + role + "', with deps=" + deps );
         }
 
         try
