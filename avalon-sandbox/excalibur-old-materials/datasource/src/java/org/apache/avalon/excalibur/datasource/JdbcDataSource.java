@@ -13,6 +13,7 @@ import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.logger.AbstractLoggable;
+import org.apache.avalon.framework.logger.LogKitLogger;
 import org.apache.avalon.excalibur.pool.DefaultPoolController;
 
 /**
@@ -33,7 +34,7 @@ import org.apache.avalon.excalibur.pool.DefaultPoolController;
  * </pre>
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.8 $ $Date: 2001/08/14 16:26:09 $
+ * @version CVS $Revision: 1.9 $ $Date: 2001/11/01 14:25:57 $
  * @since 4.0
  */
 public class JdbcDataSource
@@ -154,7 +155,7 @@ public class JdbcDataSource
                     new JdbcConnectionFactory( dburl, user, passwd, autoCommit, keepAlive, connectionClass );
             final DefaultPoolController poolController = new DefaultPoolController(l_max / 4);
 
-            factory.setLogger(getLogger());
+            factory.enableLogging( new LogKitLogger( getLogger() ) );
 
             try
             {

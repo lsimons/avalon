@@ -15,7 +15,7 @@ import java.sql.SQLException;
 import java.sql.SQLWarning;
 import java.sql.Statement;
 import java.util.Map;
-import org.apache.avalon.framework.logger.AbstractLoggable;
+import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.excalibur.pool.Recyclable;
@@ -31,11 +31,11 @@ import org.apache.avalon.framework.logger.Logger;
  * total number of Connection objects that are created.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.6 $ $Date: 2001/10/31 21:40:59 $
+ * @version CVS $Revision: 1.7 $ $Date: 2001/11/01 14:25:57 $
  * @since 4.0
  */
 public class JdbcConnection
-    extends AbstractLoggable
+    extends AbstractLogEnabled
     implements Connection, Recyclable, Disposable, Initializable
 {
     protected Connection         m_connection;
@@ -90,9 +90,9 @@ public class JdbcConnection
         this.m_pool = pool;
     }
 
-    public final void setLogger( final Logger log )
+    public final void enableLogging( final Logger log )
     {
-        super.setLogger(log);
+        super.enableLogging(log);
 
         if (m_test_statement == null && m_test_exception != null)
         {
