@@ -26,6 +26,9 @@ import org.apache.avalon.framework.parameters.Parameterizable;
 import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
+import org.apache.excalibur.instrument.InstrumentManageable;
+import org.apache.excalibur.instrument.InstrumentManager;
+import org.apache.excalibur.instrument.Instrumentable;
 
 /**
  * This is a class to help an Application manage the lifecycle of a component.
@@ -44,15 +47,17 @@ public class LifecycleHelper
     //Constants to designate stages
     private static final int STAGE_CREATE = 0;
     private static final int STAGE_LOGGER = 1;
-    private static final int STAGE_CONTEXT = 2;
-    private static final int STAGE_COMPOSE = 3;
-    private static final int STAGE_CONFIG = 4;
-    private static final int STAGE_PARAMETER = 5;
-    private static final int STAGE_INIT = 6;
-    private static final int STAGE_START = 7;
-    private static final int STAGE_STOP = 8;
-    private static final int STAGE_DISPOSE = 9;
-    private static final int STAGE_DESTROY = 10;
+    private static final int STAGE_INSTRUMENTMGR = 2;
+    private static final int STAGE_CONTEXT = 3;
+    private static final int STAGE_COMPOSE = 4;
+    private static final int STAGE_CONFIG = 5;
+    private static final int STAGE_PARAMETER = 6;
+    private static final int STAGE_INIT = 7;
+    private static final int STAGE_INSTRUMENTABLE = 8;
+    private static final int STAGE_START = 9;
+    private static final int STAGE_STOP = 10;
+    private static final int STAGE_DISPOSE = 11;
+    private static final int STAGE_DESTROY = 12;
 
     /**
      * Method to run a component through it's startup phase.
@@ -78,6 +83,7 @@ public class LifecycleHelper
             stage = STAGE_CREATE;
             notice( name, stage );
             final Object object = provider.createObject( entry );
+            final InstrumentManager instrumentManager = provider.createInstrumentManager( entry );
 
             //LogEnabled stage
             stage = STAGE_LOGGER;
@@ -86,6 +92,15 @@ public class LifecycleHelper
                 notice( name, stage );
                 final Logger logger = provider.createLogger( entry );
                 ContainerUtil.enableLogging( object, logger );
+            }
+
+            //InstrumentManageable stage
+            stage = STAGE_INSTRUMENTMGR;
+            if( object instanceof InstrumentManageable )
+            {
+                notice( name, stage );
+
+                ( (InstrumentManageable)object ).setInstrumentManager( instrumentManager );
             }
 
             //Contextualize stage
@@ -140,6 +155,17 @@ public class LifecycleHelper
             {
                 notice( name, stage );
                 ContainerUtil.initialize( object );
+            }
+
+            //InstrumentManageable stage
+            stage = STAGE_INSTRUMENTABLE;
+            if( object instanceof Instrumentable )
+            {
+                notice( name, stage );
+                final String instrumentableName = provider.createInstrumentableName( entry );
+                final Instrumentable instrumentable = (Instrumentable)object;
+                instrumentable.setInstrumentableName( instrumentableName );
+                instrumentManager.registerInstrumentable( instrumentable, instrumentableName );
             }
 
             //Start stage
