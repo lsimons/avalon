@@ -273,6 +273,16 @@ public class Logger
     }
 
     /**
+     * Determine if messages of priority  will be logged.
+     *
+     * @return true if messages will be logged
+     */
+    public final boolean isPriorityEnabled( final Priority priority )
+    {
+        return getPriority().isLowerOrEqual( priority );
+    }
+    
+    /**
      * Log a event at specific priority with a certain message and throwable.
      *
      * @param message the message
