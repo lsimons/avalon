@@ -299,11 +299,10 @@ Legal:
         <copy file="${build.lib}/phoenix-loader.jar" todir="${bin.dist.bin}/"/>
         <copy file="${build.lib}/phoenix-engine.jar" todir="${bin.dist.bin}"/>
 
-        <copy file="${lib.dir}/excalibur-baxter-1.0a.jar" todir="${bin.dist.lib}"/>
         <copy file="${logkit.jar}" todir="${bin.dist.lib}"/>
         <copy file="${framework.jar}" todir="${bin.dist.lib}"/>
         <copy todir="${bin.dist.lib}">
-          <fileset dir="lib">
+          <fileset dir="${lib.dir}">
             <include name="excalibur*.jar"/>
           </fileset>
         </copy>
@@ -410,8 +409,15 @@ Legal:
 
         <copy file="${xerces.jar}" todir="${src.dist.lib}/"/>
         <copy file="${framework.jar}" todir="${src.dist.lib}"/>
-        <copy file="${excalibur.jar}" todir="${src.dist.lib}"/>
-        <copy file="${scratchpad.jar}" todir="${src.dist.lib}"/>
+        <copy todir="${src.dist.lib}">
+          <fileset dir="${lib.dir}">
+            <include name="excalibur*.jar"/>
+            <include name="xdoclet*.jar"/>
+            <include name="xjavadoc*.jar"/>
+            <include name="LICENSE.xdoclet.txt"/>
+            <include name="README.txt"/>
+          </fileset>
+        </copy>        
         <copy file="${logkit.jar}" todir="${src.dist.lib}"/>
 
         <copy todir="${src.dist.src}">
@@ -435,6 +441,9 @@ Legal:
                 <include name="LICENSE.txt"/>
                 <include name="BUILDING.txt"/>
                 <include name="build.xml"/>
+                <include name="build.bat"/>
+                <include name="build.sh"/>
+                <include name="docs.xml"/>
             </fileset>
         </copy>
 
