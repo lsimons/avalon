@@ -21,7 +21,7 @@ import org.xml.sax.XMLReader;
  * Utility class used to load Configuration trees from XML files.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.7 $ $Date: 2002/08/06 11:57:42 $
+ * @version $Revision: 1.7.2.1 $ $Date: 2002/09/06 23:37:12 $
  */
 public class ConfigurationBuilder
 {
@@ -35,6 +35,15 @@ public class ConfigurationBuilder
                      "org/apache/avalon/phoenix/tools/assembly.dtd" ),
         new DTDInfo( "-//PHOENIX/Mx Info DTD Version 1.0//EN",
                      "http://jakarta.apache.org/phoenix/mxinfo_1_0.dtd",
+                     "org/apache/avalon/phoenix/tools/mxinfo.dtd" ),
+        new DTDInfo( "-//PHOENIX/Block Info DTD Version 1.0//EN",
+                     "http://jakarta.apache.org/avalon/dtds/phoenix/blockinfo_1_0.dtd",
+                     "org/apache/avalon/phoenix/tools/blockinfo.dtd" ),
+        new DTDInfo( "-//PHOENIX/Assembly DTD Version 1.0//EN",
+                     "http://jakarta.apache.org/avalon/dtds/phoenix/assembly_1_0.dtd",
+                     "org/apache/avalon/phoenix/tools/assembly.dtd" ),
+        new DTDInfo( "-//PHOENIX/Mx Info DTD Version 1.0//EN",
+                     "http://jakarta.apache.org/avalon/dtds/phoenix/mxinfo_1_0.dtd",
                      "org/apache/avalon/phoenix/tools/mxinfo.dtd" )
     };
 
@@ -65,17 +74,17 @@ public class ConfigurationBuilder
      */
     private static void setupXMLReader( final XMLReader reader,
                                         final SAXConfigurationHandler handler,
-                                        final boolean validate)
+                                        final boolean validate )
         throws SAXException
     {
         reader.setEntityResolver( c_resolver );
         reader.setContentHandler( handler );
         reader.setErrorHandler( handler );
 
-        if (validate)
+        if( validate )
         {
             // Request validation
-            reader.setFeature("http://xml.org/sax/features/validation", true);
+            reader.setFeature( "http://xml.org/sax/features/validation", true );
         }
     }
 
@@ -89,7 +98,7 @@ public class ConfigurationBuilder
     }
 
     /**
-     * Build a configuration object using an URI, and 
+     * Build a configuration object using an URI, and
      * optionally validate the xml against the DTD.
      */
     public static Configuration build( final String uri, boolean validate )
@@ -108,7 +117,7 @@ public class ConfigurationBuilder
     }
 
     /**
-     * Build a configuration object using an XML InputSource object, and 
+     * Build a configuration object using an XML InputSource object, and
      * optionally validate the xml against the DTD.
      */
     public static Configuration build( final InputSource input, boolean validate )
@@ -119,5 +128,5 @@ public class ConfigurationBuilder
         setupXMLReader( reader, handler, validate );
         reader.parse( input );
         return handler.getConfiguration();
-    }   
+    }
 }

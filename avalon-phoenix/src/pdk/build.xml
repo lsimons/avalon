@@ -57,8 +57,7 @@
     <mkdir dir="build/lib"/>
 
     <!-- block for Phoenix-Demo -->
-    <jar jarfile="build/lib/${name}-block.jar"
-         manifest="src/manifest/block-archive.mf">
+    <jar jarfile="build/lib/${name}-block.jar">
       <fileset dir="build/classes">
         <include name="**"/>
         <exclude name="phoenixdemo/client/**"/>
