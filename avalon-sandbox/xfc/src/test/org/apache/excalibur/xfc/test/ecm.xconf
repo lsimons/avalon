@@ -3,51 +3,26 @@
 <ecm-xconf>
 
   <!-- XML Parser -->
-  <xml-parser class="org.apache.excalibur.xml.impl.JaxpParser">
+  <role1 class="org.apache.excalibur.xfc.data.Component1">
     <parameter name="validate" value="false"/>
-    <parameter name="namespace-prefixes" value="false"/>
-    <parameter name="stop-on-warning" value="true"/>
-    <parameter name="stop-on-recoverable-error" value="true"/>
-    <parameter name="reuse-parsers" value="false"/>
-  </xml-parser>
+  </role1>
 
   <!-- XSLT Processor -->
-  <xslt-processor>
-     <parameter name="use-store" value="false"/> 
-     <parameter name="incremental-processing" value="true"/>
-  </xslt-processor>
+  <role2>
+     <parameter name="use-store" value="false"/>
+  </role2>
 
   <!-- Xpath Processor -->
-  <xpath-processor class="org.apache.excalibur.xml.xpath.XPathProcessorImpl"/>
+  <role3 class="org.apache.excalibur.xfc.data.Component3"/>
 
   <!-- Datasources -->
-  <datasources>
-    <jdbc name="default">
+  <role4s>
+    <a name="default">
       <dburl>jdbc:hsqldb:hsql://localhost:9002</dburl>
-      <user>sa</user>
-      <password/>
-    </jdbc>
-    <jdbc name="backup">
+    </a>
+    <a name="backup">
       <dburl>jdbc:hsqldb:hsql://localhost:9003</dburl>
-      <user>sa</user>
-      <password/>
-    </jdbc>
-  </datasources>
-
-  <!-- component selector, non roles -->
-  <component role="my.cs.role"
-             class="org.apache.avalon.excalibur.component.ExcaliburComponentSelector" >
-    <component-instance name="one" class="my.first.impl">
-      <config><values/></config>
-    </component-instance>
-    <component-instance name="two" class="my.second.impl">
-      <config><values/></config>
-    </component-instance>
-  </component>
-
-  <!-- component, non role -->
-  <component role="my.role" class="my.class">
-    <config><values/></config>
-  </component>
+    </a>
+  </role4s>
 
 </ecm-xconf>
