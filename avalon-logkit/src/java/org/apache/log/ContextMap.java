@@ -7,6 +7,8 @@
  */
 package org.apache.log;
 
+import java.io.ObjectStreamException;
+import java.io.Serializable;
 import java.util.Hashtable;
 
 /**
@@ -27,7 +29,8 @@ import java.util.Hashtable;
  *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
-public final class ContextMap 
+public final class ContextMap
+    implements Serializable
 {
     ///Thread local for holding instance of map associated with current thread
     private static final ThreadLocal c_context   = new InheritableThreadLocal();
@@ -38,7 +41,7 @@ public final class ContextMap
     private Hashtable  m_map       = new Hashtable();
 
     ///Flag indicating whether this map should be readonly
-    private boolean    m_readOnly;
+    private transient boolean    m_readOnly;
 
     /**
      * Get the Current ContextMap.
@@ -55,7 +58,7 @@ public final class ContextMap
 
     /**
      * Get the Current ContextMap.
-     * This method returns a ContextMap associated with current thread. 
+     * This method returns a ContextMap associated with current thread.
      * If the thread doesn't have a ContextMap associated with it and
      * autocreate is true then a new ContextMap is created.
      *
@@ -106,7 +109,7 @@ public final class ContextMap
     }
 
     /**
-     * Make the context read-only. 
+     * Make the context read-only.
      * This makes it safe to allow untrusted code reference
      * to ContextMap.
      */
@@ -160,15 +163,15 @@ public final class ContextMap
     public Object get( final String key )
     {
         final Object result = m_map.get( key );
-        
+
         if( null == result && null != m_parent )
         {
             return m_parent.get( key );
         }
-        
+
         return result;
     }
-  
+
     /**
      * Set a value in context
      *
@@ -200,7 +203,7 @@ public final class ContextMap
         return (String[])m_map.keySet().toArray( new String[ 0 ] );
     }
     */
-  
+
     /**
      * Get the number of contexts in map.
      *
@@ -209,6 +212,19 @@ public final class ContextMap
     public int getSize()
     {
         return m_map.size();
+    }
+
+    /**
+     * Helper method that sets context to read-only after de-serialization.
+     *
+     * @return the corrected object version
+     * @exception ObjectStreamException if an error occurs
+     */
+    private Object readResolve()
+        throws ObjectStreamException
+    {
+        makeReadOnly();
+        return this;
     }
 
     /**
