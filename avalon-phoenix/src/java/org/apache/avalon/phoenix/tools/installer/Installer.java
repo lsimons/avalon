@@ -462,7 +462,7 @@ public class Installer
 
         if( !file.exists() )
         {
-            final String message = REZ.getString( "install-nofile", file );
+            final String message = REZ.getString( "install-nourl", file );
             throw new InstallationException( message );
         }
 
