@@ -16,7 +16,7 @@ import org.apache.avalon.phoenix.BlockListener;
  *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
-public class BlockListenerSupport
+final class BlockListenerSupport
 {
     //Set of listeners. Must be accessed from synchronized code
     private BlockListener[] m_listeners = new BlockListener[ 0 ];
