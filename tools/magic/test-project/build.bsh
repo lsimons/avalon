@@ -1,0 +1,40 @@
+
+import org.apache.merlin.magic.Plugin;
+import org.apache.merlin.magic.PluginContext;
+
+import org.apache.avalon.framework.context.Context;
+import org.apache.avalon.framework.context.Contextualizable;
+
+import org.apache.avalon.framework.logger.AbstractLogEnabled;
+
+import org.apache.avalon.framework.service.Serviceable;
+import org.apache.avalon.framework.service.ServiceManager;
+
+import org.apache.tools.ant.Project;
+
+public class TestProjectPlugin extends AbstractLogEnabled
+    implements Contextualizable, Serviceable, Plugin
+{
+    /* JavacPlugin type is not loaded yet */
+    private Object m_JavacPlugin;
+    
+    private PluginContext m_Context;
+    private Project m_Project;
+    
+    public void contextualize( Context context )
+    {
+        m_Context = (PluginContext) context;
+        m_Project = context.getAntProject();
+    }
+
+    public void service( ServiceManager man )
+    {
+        m_JavacPlugin = man.lookup( "java" );
+    }
+
+    public void initialize()
+    {
+        JavacPlugin javac = (JavacPlugin) m_JavacPlugin;
+        javac.addCompileListener( this );
+    }
+} 

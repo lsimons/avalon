@@ -1,0 +1,157 @@
+
+.projecttitle
+{
+    font-size: 36pt;
+    font-weight: bold;
+    font-family: Tahoma, Verdana, Helvetica, Sans-Serif;
+    position: absolute;
+    display: block;
+    top: 30px;
+    left: 250px;
+}
+
+.shield
+{
+    position: absolute;
+    display: block;
+    top: 20px;
+    left: 10px;
+}
+
+.menubar
+{
+    display: block;
+    position: absolute;
+    top: 120px;
+    left: 40px;
+} 
+
+.links
+{
+    margin-top: 10px;
+}
+
+.content
+{
+    display: block;
+    position: absolute;
+    top: 270px;
+    left: 220px;
+} 
+
+.ruler1
+{
+    display: none;
+}
+
+.ruler2
+{
+    text-align: center;
+    display: block;
+    position: absolute;
+}
+
+.ruler3
+{
+    display: none;
+}
+
+.sword-tip
+{
+    display: block;
+    position: absolute;
+    top: 95px;
+    left: 0px;
+}
+
+.sword-blade
+{
+    display: block;
+    position: absolute;
+    top: 95px;
+    left: 52px;
+    width: 590px;
+}
+
+.sword-cross
+{
+    display: block;
+    position: absolute;
+    top: 5px;
+    left: 641px;
+}
+
+.sword-handle
+{
+    display: block;
+    position: absolute;
+    top: 75px;
+    left: 744px;
+}
+
+.doctitle
+{
+    display: block;
+    position: absolute;
+    top: 200px;
+    left: 300px;
+    font-size: 16pt;
+    font-family: Tahoma, Verdana, Helvetica, Sans-Serif;
+}
+
+.section
+{
+    display: block;
+    font-size: 14pt;
+    font-weight: bold;
+    font-family: Tahoma, Verdana, Helvetica, Sans-Serif;
+    vertical-align: middle;
+    line-height: 48px;
+}
+.section-prefix
+{
+}
+
+.section-postfix
+{
+}
+
+.section-header
+{
+    position: relative;
+    padding: 10px;
+    top: -24px;
+    left: -100px;
+}
+
+.subsection
+{
+    display: block;
+    font-size: 12pt;
+    font-family: Tahoma, Verdana, Helvetica, Sans-Serif;
+}
+
+.source
+{
+    display: block;
+    font-size: 9pt;
+    font-family: Courier, Fixed;
+    border: 1px solid black;
+    background-color: #F8F8F8;
+}
+
+p
+{
+    padding-left: 2em;
+    padding-right: 2em;
+}
+
+.pdf
+{
+    display: none;
+}
+
+.printer
+{
+    display: none;
+}

@@ -1,0 +1,23 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN"
+"http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+
+
+<svg xmlns="http://www.w3.org/2000/svg" 
+     xmlns:xlink="http://www.w3.org/1999/xlink" 
+     width="100" height="450" 
+     viewBox="0 0 100 450">
+  <g>
+    <defs>
+      <linearGradient id="shield-gradient" >
+        <stop offset="5%" stop-color="#F8F8F8" />
+        <stop offset="80%" stop-color="#C0C0C0" />
+        <stop offset="99%" stop-color="#808080" />
+      </linearGradient>
+    </defs>
+  </g>   
+  <g id="main" >
+    <path stroke="black" fill="url(#shield-gradient)" d="M 0,20 c 00,0 70,20 90,-20 l 0,350 c 0,40 -90,30 -90,90 z" />
+  </g>
+  
+</svg>
