@@ -8,7 +8,7 @@
   </properties>
 
   <body>
-    <section name="Cornerstone Components - Scheduler">
+    <section name="Scheduler">
       <subsection name="Description">
            <p>
            The TimeScheduler service provides a services supporting the 

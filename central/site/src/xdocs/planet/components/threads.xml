@@ -8,7 +8,7 @@
   </properties>
 
   <body>
-    <section name="Cornerstone Components - Threads">
+    <section name="Threads">
 
       <subsection name="Description">
         <p>The threads component provides support for the establishment

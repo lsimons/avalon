@@ -8,7 +8,7 @@
   </properties>
 
   <body>
-    <section name="Cornerstone Components - Connection">
+    <section name="Connection">
       <subsection name="Description">
             <p>
             The ConnectionManager service provides a facility to listen 
