@@ -34,7 +34,7 @@ import java.util.Map;
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
  * @author <a href="mailto:mirceatoma@apache.org">Mircea Toma</a>
- * @version CVS $Revision: 1.4 $ $Date: 2003/01/15 08:20:02 $
+ * @version CVS $Revision: 1.5 $ $Date: 2003/01/15 10:37:34 $
  */
 public final class DefaultXMLizer extends AbstractLogEnabled
         implements XMLizer, Serviceable, Configurable, ThreadSafe, Component
@@ -54,7 +54,7 @@ public final class DefaultXMLizer extends AbstractLogEnabled
         {
             final Configuration parser = parsers[i];
             final String mimeType = parser.getAttribute("mime-type");
-            final String role = parser.getAttribute("parser");
+            final String role = parser.getAttribute("role");
             m_mimeTypes.put(mimeType, role);
             if ( getLogger().isDebugEnabled() )
             {
