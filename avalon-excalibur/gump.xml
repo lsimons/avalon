@@ -35,6 +35,22 @@
     <jar name="avalon-scratchpad.jar" id="avalon-scratchpad"/>
     <javadoc nested="build/javadocs" module="jakarta-avalon"/>
   </project>
+
+  <project name="excalibur-extension">
+    <package>org.apache.avalon.excalibur.extension</package>
+
+    <ant>
+      <depend property="junit.jar"   project="junit"/>
+      <property name="version" value="@@DATE@@"/>
+    </ant>
+
+    <depend project="jakarta-ant"/>
+    <depend project="xml-xerces"/>
+    <work nested="build/classes"/>
+
+    <home nested="io"/>
+    <jar name="build/lib/excalibur-extension-@@DATE@@.sar"/>
+  </project>
   
   <project name="excalibur-cli">
     <package>org.apache.avalon.excalibur.cli</package>
