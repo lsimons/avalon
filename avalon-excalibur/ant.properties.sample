@@ -10,7 +10,7 @@
 # components. They override properties in component-specific ant.properties
 # files.
 #
-# $Id: ant.properties.sample,v 1.8.2.2 2002/04/01 08:57:02 jefft Exp $
+# $Id: ant.properties.sample,v 1.8.2.3 2002/04/04 14:14:18 jefft Exp $
 # -----------------------------------------------------------------------------
 
 
@@ -64,13 +64,13 @@ excalibur-instrument-manager.home=${base.path}/jakarta-excalibur-core/instrument
 excalibur-instrument-manager-interfaces.jar=${excalibur-instrument-manager.home}/excalibur-instrument-manager-interfaces-0.1.jar
 
 # ----- Altrmi -----
-commons-altrmi.home=${base.path}/jakarta-commons-sandbox/altrmi/dist
-commons-altrmi-client-impl.jar=${commons-altrmi.home}/commons-altrmi-client-impl.jar
-commons-altrmi-client-interfaces.jar=${commons-altrmi.home}/commons-altrmi-client-interfaces.jar
-commons-altrmi-server-impl.jar=${commons-altrmi.home}/commons-altrmi-server-impl.jar
-commons-altrmi-server-interfaces.jar=${commons-altrmi.home}/commons-altrmi-server-interfaces.jar
-commons-altrmi-common.jar=${commons-altrmi.home}/commons-altrmi-common.jar
-commons-altrmi-generator.jar=${commons-altrmi.home}/commons-altrmi-generator.jar
+excalibur-altrmi.home=${base.path}/jakarta-commons-sandbox/altrmi/dist
+excalibur-altrmi-client-impl.jar=${excalibur-altrmi.home}/excalibur-altrmi-client-impl.jar
+excalibur-altrmi-client-interfaces.jar=${excalibur-altrmi.home}/excalibur-altrmi-client-interfaces.jar
+excalibur-altrmi-server-impl.jar=${excalibur-altrmi.home}/excalibur-altrmi-server-impl.jar
+excalibur-altrmi-server-interfaces.jar=${excalibur-altrmi.home}/excalibur-altrmi-server-interfaces.jar
+excalibur-altrmi-common.jar=${excalibur-altrmi.home}/excalibur-altrmi-common.jar
+excalibur-altrmi-generator.jar=${excalibur-altrmi.home}/excalibur-altrmi-generator.jar
 
 # ----- Java Management Extensions (JMX) RI, version 1.0.1 or later -----
 jmx.home=${base.path}/jmx-1_0_1-ri_bin/jmx
