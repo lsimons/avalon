@@ -266,7 +266,7 @@ public class Hierarchy
      */
     public void log( final String message )
     {
-        log( message, null );
+        m_errorHandler.error( message, null, null );
     }
 
     /**
