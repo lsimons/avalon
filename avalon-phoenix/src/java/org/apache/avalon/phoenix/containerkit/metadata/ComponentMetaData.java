@@ -11,6 +11,8 @@ import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.phoenix.framework.info.Attribute;
 import org.apache.avalon.phoenix.framework.info.FeatureDescriptor;
 import org.apache.avalon.framework.parameters.Parameters;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Each component declared in the application is represented by
@@ -21,7 +23,7 @@ import org.apache.avalon.framework.parameters.Parameters;
  * new components as needed.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003/03/01 03:39:46 $
+ * @version $Revision: 1.3 $ $Date: 2003/03/18 09:34:31 $
  */
 public class ComponentMetaData
     extends FeatureDescriptor
@@ -160,5 +162,27 @@ public class ComponentMetaData
         }
 
         return null;
+    }
+
+    /**
+     * Return all the dependencies for key. Used for Map and array dependencies.
+     *
+     * @return all the dependencies for key
+     */
+    public DependencyMetaData[] getDependencies( final String key )
+    {
+        final List result = new ArrayList();
+
+        for( int i = 0; i < m_dependencies.length; i++ )
+        {
+            final DependencyMetaData dependency = m_dependencies[ i ];
+            if( dependency.getKey().equals( key ) )
+            {
+                result.add( dependency );
+            }
+        }
+
+        return (DependencyMetaData[])result.
+            toArray( new DependencyMetaData[ result.size() ] );
     }
 }
