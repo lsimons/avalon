@@ -55,6 +55,7 @@
           <item name="Lifecycle" href="/reference/component/lifecycle/index.html"/>
           <item name="Lifestyle" href="/reference/component/lifestyle/index.html"/>
         </item>
+        <item name="Container Specification" href="/reference/containment/index.html"/>
         <item name="Deployment Specification" href="/reference/deployment/index.html"/>
         <item name="System Specification" href="/reference/system/index.html"/>
       </item>

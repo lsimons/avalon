@@ -37,8 +37,6 @@
       <item name="Merlin System" href="/merlin/index.html"/>
       <item name="Tools" href="/tools/index.html">
         <item name="Merlin Plugin for Maven" href="/tools/maven/index.html"/>
-        <item name="Meta Plugin for Maven" 
-          href="http://avalon.apache.org/meta/tools/index.html"/>
       </item>
       <item name="Extensions" href="/extensions/index.html" />
     </menu>

@@ -49,12 +49,21 @@ including the Avalon Meta, Composition, and Activation packages.
             </td>
           </tr>
           <tr>
-            <td><a href="deployment/index.html">Deployment Specification</a></td>
+            <td><a href="containment/index.html">Container Specification</a></td>
             <td>
-              Avalon Deployment model specification covering the complete set
+              Avalon Container specification covers the complete set
               of component and containment directives, including classloader
               management, container composition, container includes, composite
-              component publication and related utility directives.
+              component publication, and related utility directives.
+            </td>
+          </tr>
+          <tr>
+            <td><a href="deployment/index.html">Deployment Specification</a></td>
+            <td>
+              Avalon Deployment specification deals with block packaging, 
+              and publication, component assembly semantics, deployment 
+              management, memory management, dynamic model interaction, and
+              general system decommissioning.
             </td>
           </tr>
           <tr>

@@ -43,10 +43,12 @@
       <item name="Javadoc" href="/api/index.html"/>
       <item name="Specification" href="/reference/index.html">
         <item name="Component Specification" href="/reference/component/index.html"/>
+        <item name="Container Specification" href="/reference/containment/index.html"/>
         <item name="Deployment Specification" href="/reference/deployment/index.html"/>
         <item name="System Specification" href="/reference/system/index.html">
           <item name="Properties" href="/reference/system/properties.html"/>
           <item name="kernel" href="/reference/system/kernel/index.html"/>
+          <item name="CLI" href="/reference/system/cli.html"/>
         </item>
       </item>
       <item name="Download" href="/resources/download.html"/>
