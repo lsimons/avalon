@@ -12,34 +12,42 @@
       </p>
       <table>
         <tr>
-	  <th>Name</th>
-	  <th>Description</th>
-	</tr>
-	<tr>
-	  <td><a href="framework/index.html">Framework</a></td>
-	  <td>
-          <p>The framework collection includes a component meta model 
-          used to describe component dependencies towards a container, and,
-          the classic framework APIs that describe the runtime contact 
-          between a container and a component.</p>
-        </td>
-	</tr>
-	<tr>
-	  <td><a href="containers/index.html">Containers</a></td>
-	  <td>
-          <p>A container is a platform supporting the management of 
-          components. This page provides an overview of current and 
-          legacy container solutions and links to respective home pages.</p>
-        </td>
-	</tr>
-	<tr>
-	  <td><a href="components/index.html">Components</a></td>
-	  <td>
-          <p>The components page provides a summary of the two main
-          component groups in Avalon - the course grained cornerstone
-          suite and the fine grain utilites under Excalibur.</p>
-        </td>
-	</tr>
+          <th>Name</th>
+          <th>Description</th>
+        </tr>
+        <tr>
+          <td><a href="framework/index.html">Framework</a></td>
+          <td>
+              <p>The framework collection includes a component meta model 
+              used to describe component dependencies towards a container, and,
+              the classic framework APIs that describe the runtime contact 
+              between a container and a component.</p>
+            </td>
+        </tr>
+        <tr>
+          <td><a href="containers/index.html">Containers</a></td>
+          <td>
+              <p>
+                A container is a platform supporting the management of 
+                components. This page tries to explain how component
+                management is done in Avalon.
+              </p>
+              <p>
+                In March 2004, Avalon community decided to focus on a single
+                reference container, which is 
+                <a href="../merlin/index.html">Merlin</a>, but this page
+                also give some history on how we arrived where we are.
+              </p>
+            </td>
+        </tr>
+        <tr>
+          <td><a href="components/index.html">Components</a></td>
+          <td>
+              <p>The components page provides a summary of the two main
+              component groups in Avalon - the course grained cornerstone
+              suite and the fine grain utilites under Excalibur.</p>
+            </td>
+        </tr>
       </table>
     </section>
   </body>
