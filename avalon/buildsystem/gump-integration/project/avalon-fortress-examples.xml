@@ -39,7 +39,7 @@
 
       <depend runtime="true" project="junit"></depend>
 
-      <depend runtime="true" project="logkit"></depend>
+      <depend runtime="true" project="avalon-logkit"></depend>
 
       <depend runtime="true" project="qdox"></depend>
 
