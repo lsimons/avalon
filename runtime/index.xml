@@ -1,5 +1,20 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 
+<!--
+    This file contains version and dependency information for the various
+    sub projects in the current directory.   Whenever changes are made to
+    a released jar, it is important that the version be incremented and
+    that the jar be marked as a SNAPSHOT.  When it has been decided to do
+    a release of the new version, the SNAPSHOT tag will be removed.
+    
+    <info>
+      <group>avalon/logkit</group>
+      <name>avalon-logkit</name>
+      <version>2.0.1</version>
+      <status>SNAPSHOT</status>
+    </info>
+-->
+
 <index>
 
   <import index="../tools/index.xml"
@@ -64,6 +79,7 @@
       <group>avalon/logkit</group>
       <name>avalon-logkit</name>
       <version>2.0.1</version>
+      <status>SNAPSHOT</status>
     </info>
     <dependencies>
       <include key="mailapi" runtime="false"/>
