@@ -24,6 +24,7 @@ import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
+import org.apache.avalon.framework.context.DefaultContext;
 import org.apache.avalon.phoenix.interfaces.Application;
 import org.apache.avalon.phoenix.interfaces.ClassLoaderManager;
 import org.apache.avalon.phoenix.interfaces.ConfigurationRepository;
@@ -46,6 +47,7 @@ import org.apache.avalon.phoenix.tools.assembler.AssemblyException;
 import org.apache.avalon.phoenix.tools.configuration.ConfigurationBuilder;
 import org.apache.avalon.phoenix.tools.verifier.SarVerifier;
 import org.apache.avalon.phoenix.tools.verifier.VerifyException;
+import org.apache.avalon.phoenix.BlockContext;
 
 /**
  * Deploy .sar files into a kernel using this class.
@@ -248,11 +250,18 @@ public class DefaultDeployer
 
             final File directory = installation.getDirectory();
 
+            final DefaultContext context = new DefaultContext();
+            context.put( BlockContext.APP_NAME, name );
+            context.put( BlockContext.APP_HOME_DIR, directory );
+
             final ClassLoaderSet classLoaderSet =
                 m_classLoaderManager.createClassLoaderSet( environment,
                                                            installation.getDirectory(),
                                                            installation.getWorkDirectory() );
             final ClassLoader classLoader = classLoaderSet.getDefaultClassLoader();
+
+            context.put( "classloader", classLoader );
+
             //assemble all the blocks for application
             final SarMetaData metaData =
                 m_assembler.assembleSar( name, assembly, directory, classLoader );
@@ -266,7 +275,7 @@ public class DefaultDeployer
 
             final Configuration logs = environment.getChild( "logs" );
             final Logger logger =
-                m_logManager.createHierarchy( metaData, logs, classLoader );
+                m_logManager.createHierarchy( logs, context );
 
             //Finally add application to kernel
             m_kernel.addApplication( metaData,

@@ -17,17 +17,19 @@ import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
 import org.apache.avalon.framework.container.ContainerUtil;
 import org.apache.avalon.framework.logger.ConsoleLogger;
 import org.apache.avalon.framework.logger.Logger;
+import org.apache.avalon.framework.context.DefaultContext;
 import org.apache.avalon.phoenix.components.logger.DefaultLogManager;
 import org.apache.avalon.phoenix.interfaces.LogManager;
 import org.apache.avalon.phoenix.metadata.BlockListenerMetaData;
 import org.apache.avalon.phoenix.metadata.BlockMetaData;
 import org.apache.avalon.phoenix.metadata.SarMetaData;
+import org.apache.avalon.phoenix.BlockContext;
 
 /**
  *  An basic test case for the LogManager.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.6 $ $Date: 2002/10/30 07:32:41 $
+ * @version $Revision: 1.7 $ $Date: 2002/11/02 00:29:28 $
  */
 public class LogManagerTestCase
     extends TestCase
@@ -130,10 +132,12 @@ public class LogManagerTestCase
         final SarMetaData sarMetaData = createSarMetaData( getBaseDir( index ) );
 
         cleanHomeDirectory( sarMetaData );
+        final DefaultContext context = new DefaultContext();
+        context.put( BlockContext.APP_NAME, sarMetaData.getName() );
+        context.put( BlockContext.APP_HOME_DIR, sarMetaData.getHomeDirectory() );
+        context.put( "classloader", getClass().getClassLoader() );
 
-        return logManager.createHierarchy( sarMetaData,
-                                           logs,
-                                           getClass().getClassLoader() );
+        return logManager.createHierarchy( logs, context );
     }
 
     private String getBaseDir( final int index )
