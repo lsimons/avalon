@@ -17,6 +17,9 @@ import org.apache.avalon.framework.activity.Startable;
 import org.apache.avalon.framework.component.ComponentManager;
 import org.apache.avalon.framework.component.Composable;
 import org.apache.avalon.framework.component.DefaultComponentManager;
+import org.apache.avalon.framework.service.ServiceManager;
+import org.apache.avalon.framework.service.Serviceable;
+import org.apache.avalon.framework.service.DefaultServiceManager;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
@@ -233,6 +236,12 @@ class LifecycleHelper
                 notice( name, stage );
                 final ComponentManager componentManager = createComponentManager( metaData );
                 ( (Composable)block ).compose( componentManager );
+            }
+            else if( block instanceof Serviceable )
+            {
+                notice( name, stage );
+                final ServiceManager manager = createServiceManager( metaData );
+                ( (Serviceable)block ).service( manager );
             }
 
             //Configuring stage
@@ -491,6 +500,21 @@ class LifecycleHelper
         }
 
         return componentManager;
+    }
+
+    private ServiceManager createServiceManager( final BlockMetaData metaData )
+    {
+        final DefaultServiceManager manager = new DefaultServiceManager();
+        final DependencyMetaData[] roles = metaData.getDependencies();
+
+        for( int i = 0; i < roles.length; i++ )
+        {
+            final DependencyMetaData role = roles[ i ];
+            final Block dependency = m_application.getBlock( role.getName() );
+            manager.put( role.getRole(), dependency );
+        }
+
+        return manager;
     }
 
     /**
