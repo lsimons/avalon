@@ -21,7 +21,7 @@ import org.apache.avalon.phoenix.Block;
  * Example JesktopApplications may be a Spreadsheet program, browser, mail client
  * Example WebApplications may be a particular website or application within a website
  *
- * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 public interface Application
     extends Component, Initializable, Startable, Disposable

@@ -11,7 +11,7 @@ package org.apache.avalon.phoenix;
  * This is a marker interface that all Services must implement.
  * A Service is a behavioural contract that an object implements.
  *
- * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  * @deprecated This interface has been deprecated with no replacement.
  */
 public interface Service 

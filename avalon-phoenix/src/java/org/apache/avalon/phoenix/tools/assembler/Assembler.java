@@ -29,7 +29,7 @@ import org.apache.avalon.phoenix.tools.infobuilder.BlockInfoBuilder;
  * object. The Configuration object represents the assembly descriptor
  * and is in the format specified for <code>assembly.xml</code> files.
  *
- * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 public class Assembler
     extends AbstractLogEnabled

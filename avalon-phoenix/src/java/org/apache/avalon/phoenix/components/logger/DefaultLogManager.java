@@ -19,7 +19,7 @@ import org.apache.log.Hierarchy;
 /**
  * Interface that is used to manage Log objects for a Sar.
  *
- * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 public class DefaultLogManager
     extends AbstractLogEnabled

@@ -20,7 +20,7 @@ import org.apache.log.LogEvent;
 /**
  * The basic DB target for configurable output formats.
  *
- * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 public class DefaultJDBCTarget
     extends AbstractJDBCTarget

@@ -15,7 +15,7 @@ import org.apache.log.format.Formatter;
 /**
  * A basic target that writes to a File.
  *
- * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 public class FileTarget
     extends StreamTarget

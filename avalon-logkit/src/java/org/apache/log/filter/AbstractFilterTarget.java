@@ -15,7 +15,7 @@ import org.apache.log.LogTarget;
  * Abstract implementation of FilterTarget.
  * A concrete implementation has to implement filter method.
  *
- * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 public abstract class AbstractFilterTarget 
     implements FilterTarget, LogTarget

@@ -42,7 +42,7 @@ import org.apache.avalon.phoenix.metadata.DependencyMetaData;
  * class will run each individual Entry through each lifecycle stage,
  * and manage erros in a consistent way.
  *
- * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 class LifecycleHelper
     extends AbstractLogEnabled

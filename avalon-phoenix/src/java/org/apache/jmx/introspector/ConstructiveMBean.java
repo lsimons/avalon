@@ -21,8 +21,8 @@ import javax.management.MBeanOperationInfo;
  * simple method calls. The attributes and operations of MBean are 
  * verified by reflection,
  *
- * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
- * @version CVS $Revision: 1.3 $ $Date: 2001/09/30 05:26:15 $
+ * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @version CVS $Revision: 1.4 $ $Date: 2001/11/19 12:21:31 $
  */
 public abstract class ConstructiveMBean
     extends AbstractMBean

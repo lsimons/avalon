@@ -69,9 +69,9 @@ import org.apache.log.Priority;
  * <pre><code>1000928827905 DEBUG [     junit]: Sample message
  * </pre><code>
  *
- * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  * @author <a href="mailto:sylvain@apache.org">Sylvain Wallez</a>
- * @version CVS $Revision: 1.20 $ $Date: 2001/09/25 10:04:37 $
+ * @version CVS $Revision: 1.21 $ $Date: 2001/11/19 12:18:33 $
  */
 public class PatternFormatter
     implements Formatter, org.apache.log.Formatter

@@ -16,7 +16,7 @@ import org.apache.log.output.io.FileTarget;
 /**
  * This is a basic Output log target that writes to rotating files.
  *
- * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  * @author <a href="mailto:mcconnell@osm.net">Stephen McConnell</a>
  * @author <a href="mailto:bh22351@i-one.at">Bernhard Huber</a>
  */

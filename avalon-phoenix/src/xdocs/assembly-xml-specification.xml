@@ -7,7 +7,7 @@
     <title>Server Assemblers Guide</title>
     <subtitle>Specification of assembly.xml </subtitle>
     <authors>
-      <person id="PD" name="Peter Donald" email="donaldp@apache.org"/>
+      <person id="PD" name="Peter Donald" email="peter@apache.org"/>
     </authors>
   </header>
   <body>
@@ -58,7 +58,7 @@
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.5 $ $Date: 2001/11/05 23:41:03 $
+      $Revision: 1.6 $ $Date: 2001/11/19 12:21:32 $
     </legal>
   </footer>
 </document>

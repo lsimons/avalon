@@ -11,7 +11,7 @@ package org.apache.log;
  * Interface implemented by components that wish to 
  * delegate ErrorHandling to an ErrorHandler.
  *
- * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 public interface ErrorAware
 {

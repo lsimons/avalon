@@ -41,7 +41,7 @@ import org.apache.avalon.phoenix.interfaces.PackageRepository;
  * Packages" formely called "Extensions" which it will add to the
  * <code>ClassLoader</code></p>
  *
- * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 public class DefaultClassLoaderManager
     extends AbstractLogEnabled

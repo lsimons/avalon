@@ -15,7 +15,7 @@ import org.apache.avalon.phoenix.metainfo.DependencyDescriptor;
 /**
  *
  *
- * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 class DependencyGraph
 {

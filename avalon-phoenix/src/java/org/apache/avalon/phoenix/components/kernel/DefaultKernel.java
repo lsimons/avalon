@@ -36,7 +36,7 @@ import org.apache.log.Hierarchy;
  * Note that no facilities are available until after the Kernel has been
  * configured and initialized.
  *
- * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 public class DefaultKernel
     extends AbstractLogEnabled

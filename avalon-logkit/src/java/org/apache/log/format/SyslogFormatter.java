@@ -14,7 +14,7 @@ import org.apache.log.Priority;
  * A formatter that serializes in the format originally 
  * used by BSD syslog daemon.
  *
- * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 public class SyslogFormatter
     implements Formatter, org.apache.log.Formatter

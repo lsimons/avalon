@@ -15,7 +15,7 @@ import org.apache.log.LogTarget;
 /**
  * Abstract target.
  *
- * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 public abstract class AbstractTarget
     implements LogTarget, ErrorAware

@@ -16,7 +16,7 @@ import org.apache.log.util.DefaultErrorHandler;
  * This class encapsulates a basic independent log hierarchy.
  * The hierarchy is essentially a safe wrapper around root logger.
  *
- *  @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
+ *  @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 public class Hierarchy
 {

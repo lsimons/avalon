@@ -24,8 +24,8 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
  * easier.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
- * @version CVS $Revision: 1.4 $ $Date: 2001/11/09 21:14:30 $
+ * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @version CVS $Revision: 1.5 $ $Date: 2001/11/19 12:21:28 $
  */
 public abstract class AbstractBlock
     extends AbstractLogEnabled

@@ -17,7 +17,7 @@ import org.apache.avalon.framework.component.Component;
  * This includes managing the embeddor, deployer and kernel.
  *
  * @author <a href="mail@leosimons.com">Leo Simons</a>
- * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 public interface SystemManager
     extends Component, Initializable, Startable, Disposable

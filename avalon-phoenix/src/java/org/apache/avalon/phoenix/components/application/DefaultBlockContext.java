@@ -22,7 +22,7 @@ import org.apache.avalon.phoenix.metadata.SarMetaData;
 /**
  * Context via which Blocks communicate with container.
  *
- * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 final class DefaultBlockContext
     implements BlockContext, LogEnabled

@@ -10,7 +10,7 @@ package org.apache.log.output.db;
 /**
  * A descriptor for each column stored in table.
  *
- * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 public class ColumnInfo
 {

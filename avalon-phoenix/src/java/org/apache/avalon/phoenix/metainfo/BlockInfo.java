@@ -12,7 +12,7 @@ import org.apache.avalon.excalibur.container.Info;
 /**
  * This descrbes information about the block that is used by administration tools and kernel.
  *
- * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 public class BlockInfo
     implements Info

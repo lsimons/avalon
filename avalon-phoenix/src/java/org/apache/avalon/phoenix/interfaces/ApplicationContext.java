@@ -18,7 +18,7 @@ import org.apache.log.Logger;
 /**
  * Manage the "context" in which Applications operate.
  *
- * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 public interface ApplicationContext
     extends Component

@@ -29,7 +29,7 @@ import org.apache.log.LogTarget;
  * logger.setLogTargets( new LogTarget[] { asyncTarget } );
  * </pre>
  *
- * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 public class AsyncLogTarget 
     extends AbstractTarget

@@ -32,7 +32,7 @@ import org.apache.log.output.io.FileTarget;
  * style logging configuration.
  *
  * @author <a href="mailto:colus@isoft.co.kr">Eung-ju Park</a>
- * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 public class SimpleLogKitManager
     extends AbstractLogEnabled

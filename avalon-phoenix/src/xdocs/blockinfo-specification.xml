@@ -8,7 +8,7 @@
     <subtitle>The BlockInfo Specification</subtitle>
     <version>3.0</version>
     <authors>
-      <person id="PD" name="Peter Donald" email="donaldp@apache.org"/>
+      <person id="PD" name="Peter Donald" email="peter@apache.org"/>
     </authors>
     <abstract>
       Specifies the format of BlockInfo files and the reasons for particular aspects.
@@ -98,7 +98,7 @@
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.5 $ $Date: 2001/11/05 23:41:03 $
+      $Revision: 1.6 $ $Date: 2001/11/19 12:21:32 $
     </legal>
   </footer>
 </document>

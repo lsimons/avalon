@@ -18,7 +18,7 @@ import org.apache.avalon.phoenix.interfaces.Embeddor;
 /**
  * The class to load the kernel and start it running.
  *
- * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  * @author <a href="mail@leosimons.com">Leo Simons</a>
  */
 public final class CLIMain

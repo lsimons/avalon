@@ -7,7 +7,7 @@
     <title>Deployers Guide</title>
     <subtitle>Introduction</subtitle>
     <authors>
-      <person name="Peter Donald" email="donaldp@apache.org"/>
+      <person name="Peter Donald" email="peter@apache.org"/>
     </authors>
   </header>
   <body>
@@ -30,7 +30,7 @@
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.1 $ $Date: 2001/03/01 13:44:44 $
+      $Revision: 1.2 $ $Date: 2001/11/19 12:21:32 $
     </legal>
   </footer>
 </document>

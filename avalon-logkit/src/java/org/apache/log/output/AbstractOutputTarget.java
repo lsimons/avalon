@@ -16,7 +16,7 @@ import org.apache.log.format.Formatter;
  * Any new output target that is writing to a single connected
  * resource should extend this class directly or indirectly.
  *
- * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 public abstract class AbstractOutputTarget
     extends AbstractTarget

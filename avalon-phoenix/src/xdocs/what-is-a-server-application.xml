@@ -7,7 +7,7 @@
     <title>Server Assemblers Guide</title>
     <subtitle>What is a Server Application?</subtitle>
     <authors>
-      <person id="PD" name="Peter Donald" email="donaldp@apache.org"/>
+      <person id="PD" name="Peter Donald" email="peter@apache.org"/>
       <person id="BL" name="Berin Loritsch" email="bloritsch@apache.org"/>
     </authors>
   </header>
@@ -32,7 +32,7 @@
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.1 $ $Date: 2001/03/01 13:44:44 $
+      $Revision: 1.2 $ $Date: 2001/11/19 12:21:32 $
     </legal>
   </footer>
 </document>

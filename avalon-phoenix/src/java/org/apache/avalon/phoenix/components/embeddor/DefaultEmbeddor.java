@@ -47,7 +47,7 @@ import org.apache.log.output.io.FileTarget;
  * dispose of the kernel and related resources.
  *
  * @author <a href="mail@leosimons.com">Leo Simons</a>
- * @author <a href="donaldp@apache.org">Peter Donald</a>
+ * @author <a href="peter@apache.org">Peter Donald</a>
  */
 public class DefaultEmbeddor
     extends AbstractLogEnabled

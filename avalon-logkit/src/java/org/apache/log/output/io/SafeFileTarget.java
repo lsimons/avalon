@@ -19,7 +19,7 @@ import org.apache.log.LogEvent;
  * filesystems/OSes. It should only be used when there is a
  * small number of log events.
  *
- * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 public class SafeFileTarget
     extends FileTarget
