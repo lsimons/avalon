@@ -213,7 +213,7 @@ public class StartupPhase
         throws Exception
     {
         final ClassLoader classLoader = m_frame.getClassLoader();
-        final Class clazz = classLoader.loadClass( entry.getLocator().getName() );
+        final Class clazz = classLoader.loadClass( entry.getBlockMetaData().getClassname() );
         final Block block = (Block)clazz.newInstance(); 
         getLogger().debug( REZ.getString( "startup.notice.block.created" ) );
 

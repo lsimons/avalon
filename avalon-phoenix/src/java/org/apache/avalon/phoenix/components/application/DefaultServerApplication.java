@@ -342,8 +342,8 @@ public final class DefaultServerApplication
         throws Exception
     {
         //We should cache copies here...
-        final String className = entry.getLocator().getName();
-        final String resourceName = className.replace( '.', '/' ) + ".xinfo";
+        final String classname = entry.getBlockMetaData().getClassname();
+        final String resourceName = classname.replace( '.', '/' ) + ".xinfo";
 
         final String notice = REZ.getString( "app.notice.blockinfo.resource", resourceName );
         getLogger().info( notice );
@@ -361,7 +361,7 @@ public final class DefaultServerApplication
         try 
         { 
             final Configuration info = m_builder.build( resource.toString() );
-            return BlockInfoBuilder.build( className, info ); 
+            return BlockInfoBuilder.build( classname, info ); 
         }
         catch( final Exception e )
         {

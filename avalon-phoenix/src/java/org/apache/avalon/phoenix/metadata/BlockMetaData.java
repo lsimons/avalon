@@ -32,6 +32,11 @@ public class BlockMetaData
         return m_name;
     }
 
+    public String getClassname()
+    {
+        return m_classname;
+    }
+
     public RoleMetaData getRole( final String role )
     {
         for( int i = 0; i < m_roles.length; i++ )
