@@ -286,7 +286,6 @@
         description="Generates a distribution (jar + docs + javadocs + unit tests + checkstyle reports)">
 
         <copy file="${build.conf}/LICENSE.txt" todir="${dist.dir}"/>
-        <copy file="../avalon/KEYS" todir="${dist.dir}"/>
 
         <zip zipfile="${dist.dir}/src.zip" compress="false">
             <zipfileset dir="src/java"/>
@@ -299,9 +298,9 @@
             <zipfileset dir="${docs.dir}" prefix="${dist.name}/docs"/>
         </zip>
 
-	<checksum fileext=".md5">
-	  <fileset dir="${dist.base}"/>
-	</checksum>
+    <checksum fileext=".md5">
+      <fileset dir="${dist.base}"/>
+    </checksum>
     </target>
 
     <!-- Creates a mini jar-only distribution -->
@@ -320,7 +319,6 @@
         description="Generates a minimal distribution (jar + javadocs)">
 
         <copy file="../LICENSE.txt" todir="${dist.dir}"/>
-        <copy file="../avalon/KEYS" todir="${dist.dir}"/>
 
     </target>
 
