@@ -176,14 +176,7 @@ public final class DefaultQueue extends AbstractQueue
 
     public QueueElement[] dequeue( final int numElements )
     {
-        int arraySize = numElements;
-
-        if( size() < numElements )
-        {
-            arraySize = size();
-        }
-
-        QueueElement[] elements = null;
+        QueueElement[] elements = EMPTY_ARRAY;
 
         try
         {
@@ -191,17 +184,9 @@ public final class DefaultQueue extends AbstractQueue
             {
                 try
                 {
-                    if( size() < numElements )
-                    {
-                        arraySize = size();
-                    }
-
-                    elements = new QueueElement[ arraySize ];
-
-                    for( int i = 0; i < arraySize; i++ )
-                    {
-                        elements[ i ] = (QueueElement)m_elements.remove();
-                    }
+                    elements = retrieveElements( m_elements,
+                                                 Math.min( size(),
+                                                           numElements ) );
                 }
                 finally
                 {
@@ -218,7 +203,7 @@ public final class DefaultQueue extends AbstractQueue
 
     public QueueElement[] dequeueAll()
     {
-        QueueElement[] elements = null;
+        QueueElement[] elements = EMPTY_ARRAY;
 
         try
         {
@@ -226,12 +211,7 @@ public final class DefaultQueue extends AbstractQueue
             {
                 try
                 {
-                    elements = new QueueElement[ size() ];
-
-                    for( int i = 0; i < elements.length; i++ )
-                    {
-                        elements[ i ] = (QueueElement)m_elements.remove();
-                    }
+                    elements = retrieveElements( m_elements, size() );
                 }
                 finally
                 {
@@ -241,6 +221,29 @@ public final class DefaultQueue extends AbstractQueue
         }
         catch( InterruptedException ie )
         {
+        }
+
+        return elements;
+    }
+
+    /**
+     * Removes the given number of elements from the given <code>buf</code>
+     * and returns them in an array. Trusts the caller to pass in a buffer
+     * full of <code>QueueElement</code>s and with at least <code>count</code>
+     * elements available.
+     * <p>
+     * @param buf to remove elements from, the caller is responsible
+     *            for synchronizing access
+     * @param count number of elements to remove/return
+     * @return requested number of elements
+     */
+    private static QueueElement[] retrieveElements( Buffer buf, int count )
+    {
+        QueueElement[] elements = new QueueElement[ count ];
+ 
+        for( int i = 0; i < count; i++ )
+        {
+            elements[ i ] = (QueueElement) buf.remove();
         }
 
         return elements;

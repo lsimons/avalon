@@ -59,20 +59,22 @@ public final class FixedSizeQueue
         try
         {
             m_mutex.acquire();
-
-            if( elements.length + m_reserve + size() > maxSize() )
+            try
             {
-                throw new SinkFullException( "Not enough room to enqueue these elements." );
-            }
+                if( elements.length + m_reserve + size() > maxSize() )
+                {
+                    throw new SinkFullException( "Not enough room to enqueue these elements." );
+                }
 
-            enqueue = new FixedSizePreparedEnqueue( this, elements );
+                enqueue = new FixedSizePreparedEnqueue( this, elements );
+            }
+            finally
+            {
+                m_mutex.release();
+            }
         }
         catch( InterruptedException ie )
         {
-        }
-        finally
-        {
-            m_mutex.release();
         }
 
         return enqueue;
@@ -85,21 +87,23 @@ public final class FixedSizeQueue
         try
         {
             m_mutex.acquire();
-
-            if( 1 + m_reserve + size() > maxSize() )
+            try
             {
-                return false;
-            }
+                if( 1 + m_reserve + size() > maxSize() )
+                {
+                    return false;
+                }
 
-            addElement( element );
-            success = true;
+                addElement( element );
+                success = true;
+            }
+            finally
+            {
+                m_mutex.release();
+            }
         }
         catch( InterruptedException ie )
         {
-        }
-        finally
-        {
-            m_mutex.release();
         }
 
         return success;
@@ -113,22 +117,25 @@ public final class FixedSizeQueue
         try
         {
             m_mutex.acquire();
-            if( elements.length + m_reserve + size() > maxSize() )
+            try
             {
-                throw new SinkFullException( "Not enough room to enqueue these elements." );
-            }
+                if( elements.length + m_reserve + size() > maxSize() )
+                {
+                    throw new SinkFullException( "Not enough room to enqueue these elements." );
+                }
 
-            for( int i = 0; i < len; i++ )
+                for( int i = 0; i < len; i++ )
+                {
+                    addElement( elements[ i ] );
+                }
+            }
+            finally
             {
-                addElement( elements[ i ] );
+                m_mutex.release();
             }
         }
         catch( InterruptedException ie )
         {
-        }
-        finally
-        {
-            m_mutex.release();
         }
     }
 
@@ -138,55 +145,46 @@ public final class FixedSizeQueue
         try
         {
             m_mutex.acquire();
-            if( 1 + m_reserve + size() > maxSize() )
+            try
             {
-                throw new SinkFullException( "Not enough room to enqueue these elements." );
-            }
+                if( 1 + m_reserve + size() > maxSize() )
+                {
+                    throw new SinkFullException( "Not enough room to enqueue these elements." );
+                }
 
-            addElement( element );
+                addElement( element );
+            }
+            finally
+            {
+                m_mutex.release();
+            }
         }
         catch( InterruptedException ie )
         {
-        }
-        finally
-        {
-            m_mutex.release();
         }
     }
 
     public QueueElement[] dequeue( final int numElements )
     {
-        int arraySize = numElements;
-
-        if( size() < numElements )
-        {
-            arraySize = size();
-        }
-
-        QueueElement[] elements = null;
+        QueueElement[] elements = EMPTY_ARRAY;
 
         try
         {
-            m_mutex.attempt( m_timeout );
-
-            if( size() < numElements )
+            if( m_mutex.attempt( m_timeout ) )
             {
-                arraySize = size();
-            }
-
-            elements = new QueueElement[ arraySize ];
-
-            for( int i = 0; i < arraySize; i++ )
-            {
-                elements[ i ] = removeElement();
+                try
+                {
+                    elements = retrieveElements( Math.min( size(),
+                                                           numElements ) );
+                }
+                finally
+                {
+                    m_mutex.release();
+                }
             }
         }
         catch( InterruptedException ie )
         {
-        }
-        finally
-        {
-            m_mutex.release();
         }
 
         return elements;
@@ -221,27 +219,51 @@ public final class FixedSizeQueue
         return element;
     }
 
+    /**
+     * Removes exactly <code>count</code> elements from the underlying
+     * element store and returns them as an array of QueueElements.
+     * The caller is responsible for synchronizing access to the
+     * element store and passing the correct value for
+     * <code>count</code>.
+     * <p>
+     * The method can be further optimized by using System.arraycopy
+     * if it is found to underperform.
+     *
+     * @param count number of elements to return
+     * @return requested number of elements
+     */
+    private final QueueElement[] retrieveElements( int count )
+    {
+        QueueElement[] elements = new QueueElement[ count ];
+
+        for( int i = 0; i < count; i++ )
+        {
+            elements[ i ] = removeElement();
+        }
+
+        return elements;
+    }
+
     public QueueElement[] dequeueAll()
     {
-        QueueElement[] elements = null;
+        QueueElement[] elements = EMPTY_ARRAY;
 
         try
         {
-            m_mutex.attempt( m_timeout );
-
-            elements = new QueueElement[ size() ];
-
-            for( int i = 0; i < elements.length; i++ )
+            if( m_mutex.attempt( m_timeout ) )
             {
-                elements[ i ] = removeElement();
+                try
+                {
+                    elements = retrieveElements( size() );
+                }
+                finally
+                {
+                    m_mutex.release();
+                }
             }
         }
         catch( InterruptedException ie )
         {
-        }
-        finally
-        {
-            m_mutex.release();
         }
 
         return elements;
@@ -253,19 +275,23 @@ public final class FixedSizeQueue
 
         try
         {
-            m_mutex.attempt( m_timeout );
-
-            if( size() > 0 )
+            if( m_mutex.attempt( m_timeout ) )
             {
-                element = removeElement();
+                try
+                {
+                    if( size() > 0 )
+                    {
+                        element = removeElement();
+                    }
+                }
+                finally
+                {
+                    m_mutex.release();
+                }
             }
         }
         catch( InterruptedException ie )
         {
-        }
-        finally
-        {
-            m_mutex.release();
         }
 
         return element;
