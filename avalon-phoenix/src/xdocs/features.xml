@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE document SYSTEM "dtd/document-v10.dtd">
+
+<document>
+
+ <header>
+  <title>Features</title>
+  <authors>
+    <person name="Avalon Documentation Team" email="bloritsch@apache.org"/>
+  </authors>
+ </header>
+
+<body>
+
+<s1 title="Features">
+
+<p>
+    This document will list the features of Phoenix. It is yet to be completed ;)
+</p>
+
+</s1>
+
+</body>
+</document>

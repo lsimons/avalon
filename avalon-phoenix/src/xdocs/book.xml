@@ -8,13 +8,10 @@
 
   <menu label="About">
     <menu-item label="Overview" source="index.xml"/>
-<!--
     <menu-item label="Features" source="features.xml"/>
     <menu-item label="Getting Started" source="getting-started.xml"/>
     <menu-item label="Installation" source="install.xml"/>
     <menu-item type="changes" label="Changes" source="changes.xml"/>
--->
-    <separator/>
   </menu>
 
   <menu label="Administrators Guide">
