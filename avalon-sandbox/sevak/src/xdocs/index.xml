@@ -13,8 +13,8 @@
   <body>
     <s1 title="Introduction">
       <p>
-        This block is simple wrapper for Tomcat Catalina  server
-        as listed at <link href="http://jakarta.apache.org/builds/jakarta-tomcat-4.0/release/v4.0.3/">
+        This block is a wrapper for Tomcat Catalina  server
+        <link href="http://jakarta.apache.org/builds/jakarta-tomcat-4.0/release/v4.0.3/">
         http://jakarta.apache.org/builds/jakarta-tomcat-4.0/release/v4.0.3/</link>
       </p>
     </s1>
@@ -22,7 +22,7 @@
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.1 $ $Date: 2002/06/28 05:01:26 $
+      $Revision: 1.2 $ $Date: 2002/06/28 05:07:21 $
     </legal>
   </footer>
 </document>
