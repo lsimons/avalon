@@ -14,7 +14,7 @@
             <depend property="logkit.jar" project="jakarta-avalon-logkit" runtime="true"/>
             <property name="skip.dependencies" value="true"/>
         </ant>
-        <depend project="jakarta-ant"/>
+        <depend project="jakarta-ant" inherit="runtime"/>
         <depend project="xml-xerces" id="parser" runtime="true"/>
         <depend project="excalibur-pool" runtime="true"/>
         <depend project="jakarta-avalon" runtime="true"/>
@@ -79,7 +79,7 @@
             <property name="skip.dependencies" value="true"/>
         </ant>
 
-        <depend project="jakarta-ant"/>
+        <depend project="jakarta-ant" inherit="runtime"/>
         <depend project="checkstyle"/>
         <depend project="junit"/>
         <depend project="jakarta-avalon" runtime="true"/>
@@ -110,7 +110,7 @@
             <property name="skip.dependencies" value="true"/>
         </ant>
 
-        <depend project="jakarta-ant"/>
+        <depend project="jakarta-ant" inherit="runtime"/>
         <depend project="checkstyle"/>
         <depend project="junit"/>
         <depend project="xml-xerces"/>
@@ -133,7 +133,7 @@
             <property name="skip.dependencies" value="true"/>
         </ant>
 
-        <depend project="jakarta-ant"/>
+        <depend project="jakarta-ant" inherit="runtime"/>
         <depend project="checkstyle"/>
         <depend project="junit"/>
         <depend project="xml-xerces"/>
@@ -157,7 +157,7 @@
             <property name="skip.dependencies" value="true"/>
         </ant>
 
-        <depend project="jakarta-ant"/>
+        <depend project="jakarta-ant" inherit="runtime"/>
         <depend project="checkstyle"/>
         <depend project="junit"/>
         <depend project="jakarta-avalon" runtime="true"/>
@@ -182,7 +182,7 @@
             <property name="skip.dependencies" value="true"/>
         </ant>
 
-        <depend project="jakarta-ant"/>
+        <depend project="jakarta-ant" inherit="runtime"/>
         <depend project="checkstyle"/>
         <depend project="junit"/>
         <depend project="xml-xerces"/>
@@ -206,7 +206,7 @@
             <property name="skip.dependencies" value="true"/>
         </ant>
 
-        <depend project="jakarta-ant"/>
+        <depend project="jakarta-ant" inherit="runtime"/>
         <depend project="checkstyle"/>
         <depend project="junit"/>
         <depend project="xml-xerces"/>
@@ -234,7 +234,7 @@
             <property name="skip.dependencies" value="true"/>
         </ant>
 
-        <depend project="jakarta-ant"/>
+        <depend project="jakarta-ant" inherit="runtime"/>
         <depend project="checkstyle"/>
         <depend project="junit"/>
         <depend project="jakarta-avalon" runtime="true"/>
@@ -259,7 +259,7 @@
             <property name="skip.dependencies" value="true"/>
         </ant>
 
-        <depend project="jakarta-ant"/>
+        <depend project="jakarta-ant" inherit="runtime"/>
         <depend project="checkstyle"/>
         <depend project="junit"/>
         <depend project="xml-xerces"/>
@@ -285,7 +285,7 @@
             <property name="skip.dependencies" value="true"/>
         </ant>
 
-        <depend project="jakarta-ant"/>
+        <depend project="jakarta-ant" inherit="runtime"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
         <work nested="configuration/build/classes"/>
@@ -308,7 +308,7 @@
             <property name="skip.dependencies" value="true"/>
         </ant>
 
-        <depend project="jakarta-ant"/>
+        <depend project="jakarta-ant" inherit="runtime"/>
         <depend project="checkstyle"/>
         <depend project="jakarta-avalon" runtime="true"/>
         <depend project="excalibur-i18n" runtime="true"/>
@@ -328,18 +328,17 @@
         <package>org.apache.excalibur.converter</package>
 
         <ant basedir="converter">
-            <depend property="excalibur-i18n.jar" project="excalibur-i18n" runtime="true"/>
             <property name="version" value="@@DATE@@"/>
             <property name="junit.failonerror" value="true"/>
             <property name="do.checkstyle" value="true"/>
             <property name="skip.dependencies" value="true"/>
         </ant>
 
-        <depend project="jakarta-ant"/>
+        <depend project="jakarta-ant" inherit="runtime"/>
         <depend project="checkstyle"/>
         <depend project="junit"/>
         <depend project="xml-xerces"/>
-        <depend project="xml-xalan2"/>
+        <depend project="excalibur-i18n.jar" runtime="true"/>
         <work nested="converter/build/classes"/>
 
         <home nested="converter"/>
@@ -365,7 +364,7 @@
             <property name="skip.dependencies" value="true"/>
         </ant>
 
-        <depend project="jakarta-ant"/>
+        <depend project="jakarta-ant" inherit="runtime"/>
         <depend project="checkstyle"/>
         <depend project="junit"/>
         <depend project="jakarta-avalon" runtime="true"/>
@@ -396,7 +395,7 @@
             <property name="skip.dependencies" value="true"/>
         </ant>
 
-        <depend project="jakarta-ant"/>
+        <depend project="jakarta-ant" inherit="runtime"/>
         <depend project="checkstyle"/>
         <depend project="junit"/>
         <depend project="jakarta-avalon" runtime="true"/>
@@ -421,7 +420,7 @@
             <property name="skip.dependencies" value="true"/>
         </ant>
 
-        <depend project="jakarta-ant"/>
+        <depend project="jakarta-ant" inherit="runtime"/>
         <depend project="checkstyle"/>
         <depend project="junit"/>
         <depend project="xml-xerces"/>
@@ -445,7 +444,7 @@
             <property name="skip.dependencies" value="true"/>
         </ant>
 
-        <depend project="jakarta-ant"/>
+        <depend project="jakarta-ant" inherit="runtime"/>
         <depend project="checkstyle"/>
         <depend project="junit"/>
         <depend project="xml-xerces"/>
@@ -469,7 +468,7 @@
             <property name="skip.dependencies" value="true"/>
         </ant>
 
-        <depend project="jakarta-ant"/>
+        <depend project="jakarta-ant" inherit="runtime"/>
         <depend project="checkstyle"/>
         <depend project="junit"/>
         <depend project="xml-xerces"/>
@@ -494,7 +493,7 @@
             <property name="skip.dependencies" value="true"/>
         </ant>
 
-        <depend project="jakarta-ant"/>
+        <depend project="jakarta-ant" inherit="runtime"/>
         <depend project="checkstyle"/>
         <depend project="junit"/>
         <depend project="xml-xerces"/>
@@ -519,7 +518,7 @@
             <property name="skip.dependencies" value="true"/>
         </ant>
 
-        <depend project="jakarta-ant"/>
+        <depend project="jakarta-ant" inherit="runtime"/>
         <depend project="checkstyle"/>
         <depend project="junit"/>
         <depend project="jakarta-avalon" runtime="true"/>
@@ -546,7 +545,7 @@
             <property name="skip.dependencies" value="true"/>
         </ant>
 
-        <depend project="jakarta-ant"/>
+        <depend project="jakarta-ant" inherit="runtime"/>
         <depend project="checkstyle"/>
         <depend project="jakarta-avalon" runtime="true"/>
         <depend project="xml-xerces"/>
@@ -571,7 +570,7 @@
             <property name="skip.dependencies" value="true"/>
         </ant>
 
-        <depend project="jakarta-ant"/>
+        <depend project="jakarta-ant" inherit="runtime"/>
         <depend project="checkstyle"/>
         <depend project="jakarta-avalon" runtime="true"/>
         <depend project="xml-xerces"/>
@@ -595,7 +594,7 @@
             <property name="skip.dependencies" value="true"/>
         </ant>
 
-        <depend project="jakarta-ant"/>
+        <depend project="jakarta-ant" inherit="runtime"/>
         <depend project="checkstyle"/>
         <depend project="junit"/>
         <depend project="xml-xerces"/>
@@ -622,7 +621,7 @@
             <property name="skip.dependencies" value="true"/>
         </ant>
 
-        <depend project="jakarta-ant"/>
+        <depend project="jakarta-ant" inherit="runtime"/>
         <depend project="checkstyle"/>
         <depend project="junit"/>
         <depend project="jakarta-avalon" runtime="true"/>
@@ -648,7 +647,7 @@
             <property name="skip.dependencies" value="true"/>
         </ant>
 
-        <depend project="jakarta-ant"/>
+        <depend project="jakarta-ant" inherit="runtime"/>
         <depend project="checkstyle"/>
         <depend project="junit"/>
         <depend project="jakarta-avalon" runtime="true"/>
@@ -673,7 +672,7 @@
             <property name="skip.dependencies" value="true"/>
         </ant>
 
-        <depend project="jakarta-ant"/>
+        <depend project="jakarta-ant" inherit="runtime"/>
         <depend project="checkstyle"/>
         <depend project="junit"/>
         <depend project="jakarta-avalon" runtime="true"/>
@@ -698,7 +697,7 @@
             <property name="skip.dependencies" value="true"/>
         </ant>
 
-        <depend project="jakarta-ant"/>
+        <depend project="jakarta-ant" inherit="runtime"/>
         <depend project="checkstyle"/>
         <depend project="junit"/>
         <depend project="xml-xerces"/>
@@ -725,7 +724,7 @@
             <property name="skip.dependencies" value="true"/>
         </ant>
 
-        <depend project="jakarta-ant"/>
+        <depend project="jakarta-ant" inherit="runtime"/>
         <depend project="checkstyle"/>
         <depend project="junit"/>
         <depend project="jakarta-avalon" runtime="true"/>
@@ -755,7 +754,7 @@
             <property name="skip.dependencies" value="true"/>
         </ant>
 
-        <depend project="jakarta-ant"/>
+        <depend project="jakarta-ant" inherit="runtime"/>
         <depend project="checkstyle"/>
         <depend project="junit"/>
         <depend project="jakarta-avalon" runtime="true"/>
@@ -780,7 +779,7 @@
             <property name="skip.dependencies" value="true"/>
         </ant>
 
-        <depend project="jakarta-ant"/>
+        <depend project="jakarta-ant" inherit="runtime"/>
         <depend project="checkstyle"/>
         <depend project="junit"/>
         <depend project="xml-xerces"/>
@@ -805,7 +804,7 @@
             <property name="skip.dependencies" value="true"/>
         </ant>
 
-        <depend project="jakarta-ant"/>
+        <depend project="jakarta-ant" inherit="runtime"/>
         <depend project="checkstyle"/>
         <depend project="junit"/>
         <depend project="jakarta-avalon" runtime="true"/>
@@ -835,7 +834,7 @@
             <property name="skip.dependencies" value="true"/>
         </ant>
 
-        <depend project="jakarta-ant"/>
+        <depend project="jakarta-ant" inherit="runtime"/>
         <depend project="checkstyle"/>
         <depend project="junit"/>
         <depend project="jakarta-avalon" runtime="true"/>
@@ -860,7 +859,7 @@
             <property name="skip.dependencies" value="true"/>
         </ant>
 
-        <depend project="jakarta-ant"/>
+        <depend project="jakarta-ant" inherit="runtime"/>
         <depend project="checkstyle"/>
         <depend project="junit"/>
         <depend project="xml-xerces"/>
