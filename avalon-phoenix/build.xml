@@ -69,7 +69,9 @@ Legal:
   <property name="src.dist.dir" value="${dist.name}"/>
 
   <property name="constants.file" value="org/apache/avalon/phoenix/Constants.java"/>
-  <property name="xerces.jar" value="${lib.dir}/xerces.jar"/>
+  <property name="xerces.dir" value="${lib.dir}"/>
+  <property name="xerces.file" value="xerces.jar"/>
+  <property name="xerces.jar" value="${xerces.dir}/${xerces.file}"/>
   <property name="xalan.jar" value="${tools.dir}/lib/xalan-2.2.0-D8.jar"/>
   <property name="framework.jar" value="${lib.dir}/avalon-framework-20011110.jar"/>
   <property name="excalibur.jar" value="${lib.dir}/avalon-excalibur-20011110.jar"/>
@@ -118,6 +120,7 @@ Legal:
 
   <!-- Check requirements of environment -->
   <target name="check-environment">
+    <available property="xerces.present" type="file" file="${xerces.jar}"/>
     <available property="servlet.present" classname="javax.servlet.Servlet">
       <classpath refid="project.class.path"/>
     </available>
@@ -430,7 +433,11 @@ Legal:
     <copy file="${framework.jar}" todir="${bin.dist.lib}"/>
     <copy file="${excalibur.jar}" todir="${bin.dist.lib}"/>
     <copy file="${scratchpad.jar}" todir="${bin.dist.lib}"/>
-    <copy file="${xerces.jar}" tofile="${bin.dist.lib}/xerces.jar"/>
+    <copy todir="${bin.dist.lib}">
+      <fileset dir="${xerces.dir}">
+        <include name="${xerces.file}" if="xerces.present"/>
+      </fileset>
+    </copy>
 
     <copy file="${script.dir}/run.bat" todir="${bin.dist.bin}"/>
     <copy file="${script.dir}/run.sh" todir="${bin.dist.bin}"/>
