@@ -18,12 +18,8 @@
 package org.apache.avalon.tools.model;
 
 import org.apache.tools.ant.BuildException;
-import org.apache.tools.ant.BuildListener;
-import org.apache.tools.ant.Task;
 import org.apache.tools.ant.Location;
 import org.apache.tools.ant.Project;
-import org.apache.tools.ant.taskdefs.Get;
-import org.apache.tools.ant.taskdefs.Property;
 import org.apache.tools.ant.types.DataType;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
@@ -33,11 +29,9 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.FileNotFoundException;
-import java.io.FileInputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Hashtable;
-import java.util.Date;
 
 /**
  * A Home is an immutable data object that aggregates a suite of buildable 
@@ -339,14 +333,6 @@ public class Home extends DataType
                 final File anchor = source.getParentFile();
                 buildLocalList( anchor, elements );
             }
-            else if( "project".equals( rootElementName ) )
-            {
-                //
-                // its probably a maven project definition
-                //
-
-                buildFromMavenProject( source, root );
-            }
             else
             {
                 final String error = 
@@ -542,22 +528,6 @@ public class Home extends DataType
           "resource".equals( tag ) 
           || "project".equals( tag )
           || "plugin".equals( tag ) );
-    }
-
-   /**
-    * Create a magic index from a maven project file.
-    * @param root the root DOM element of the maven project file
-    */
-    private void buildFromMavenProject( File file, Element root )
-    {
-        //
-        // maven uses the notion of project inheritance which is 
-        // functionally equivalent to magic's index inclusion
-        // .. so the first step is to resolve the any project
-        // that the target project extends
-        //
-        
-        throw new UnsupportedOperationException();
     }
 
     /*

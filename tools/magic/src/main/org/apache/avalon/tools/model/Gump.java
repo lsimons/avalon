@@ -17,8 +17,6 @@
 
 package org.apache.avalon.tools.model;
 
-import org.apache.tools.ant.BuildException;
-
 /**
  * An immutable data object holding supplimentary information required for
  * the creation fo gump project defintions.

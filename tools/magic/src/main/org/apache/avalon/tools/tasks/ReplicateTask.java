@@ -18,30 +18,17 @@
 package org.apache.avalon.tools.tasks;
 
 import org.apache.avalon.tools.model.Context;
-import org.apache.avalon.tools.model.Definition;
-import org.apache.avalon.tools.model.ResourceRef;
 import org.apache.avalon.tools.model.Home;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Task;
 import org.apache.tools.ant.Project;
-import org.apache.tools.ant.taskdefs.Ant;
-import org.apache.tools.ant.taskdefs.Sequential;
-import org.apache.tools.ant.types.DirSet;
-import org.apache.tools.ant.types.FileList;
 import org.apache.tools.ant.types.FileSet;
 import org.apache.tools.ant.types.Path;
 import org.apache.tools.ant.taskdefs.Copy;
-import org.apache.tools.ant.types.FileSet;
 import org.apache.tools.ant.taskdefs.Mkdir;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Properties;
 
 
 /**
@@ -52,9 +39,6 @@ import java.util.Properties;
  */
 public class ReplicateTask extends Task
 {
-    private static final String BANNER = 
-      "------------------------------------------------------------------------";
-
     private File m_todir;
     private String m_id;
     private Context m_context;
@@ -176,11 +160,6 @@ public class ReplicateTask extends Task
         mkdir.setDir( dir );
         mkdir.init();
         mkdir.execute();
-    }
-
-    private Context getContext()
-    {
-        return m_context;
     }
 
     private Home getHome()

@@ -24,7 +24,6 @@ import org.apache.tools.ant.taskdefs.ExecTask;
 import org.apache.avalon.tools.model.Home;
 
 import java.io.File;
-import java.io.IOException;
 
 
 /**

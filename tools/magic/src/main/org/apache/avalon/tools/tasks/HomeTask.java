@@ -17,16 +17,13 @@
 
 package org.apache.avalon.tools.tasks;
 
-import org.apache.avalon.tools.model.Context;
 import org.apache.avalon.tools.model.Definition;
 import org.apache.avalon.tools.model.Info;
 import org.apache.avalon.tools.model.Home;
 import org.apache.avalon.tools.model.Magic;
-import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 
 /**
  * Load a goal. 

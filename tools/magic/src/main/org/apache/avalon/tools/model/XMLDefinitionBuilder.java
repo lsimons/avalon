@@ -230,7 +230,7 @@ public class XMLDefinitionBuilder
             final Element child = children[i];
             final String key = child.getAttribute( "key" );
             final int tag = ResourceRef.getCategory( child.getAttribute( "tag" ) );
-            final Policy policy = createPolicy( child, false, false, false );
+            final Policy policy = createPolicy( child, false, false );
             refs[i] = new ResourceRef( key, policy, tag );
         }
         return refs;
@@ -238,11 +238,11 @@ public class XMLDefinitionBuilder
 
     private static Policy createPolicy( final Element element )
     {
-        return createPolicy( element, true, true, true );
+        return createPolicy( element, true, true );
     }
 
     private static Policy createPolicy( 
-      final Element element, final boolean defBuild, final boolean defTest, final boolean defRuntime )
+      final Element element, final boolean defBuild, final boolean defTest )
     {
         final boolean build =
           ElementHelper.getBooleanAttribute( element, "build", defBuild );

@@ -18,20 +18,14 @@
 package org.apache.avalon.tools.model;
 
 import org.apache.tools.ant.BuildException;
-import org.apache.tools.ant.BuildListener;
-import org.apache.tools.ant.Task;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.taskdefs.Property;
 import org.apache.tools.ant.taskdefs.optional.net.SetProxy;
 import org.apache.tools.ant.types.DataType;
-import org.w3c.dom.Element;
 
 import java.io.File;
-import java.io.IOException;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.Hashtable;
-import java.util.Map;
 import java.util.StringTokenizer;
 
 /**
@@ -139,7 +133,7 @@ public class Magic extends DataType
     private final File m_system;
     private final Repository m_main;
     private final Repository m_docs;
-    private final Map m_homes = new Hashtable();
+    //private final Map m_homes = new Hashtable();
 
     //-------------------------------------------------------------
     // constructor
@@ -167,12 +161,12 @@ public class Magic extends DataType
         project.setNewProperty( CACHE_KEY, "main" );
         final String cachePath = project.getProperty( CACHE_KEY );
         final File main = Context.getFile( m_system, cachePath );
-        m_main = new Repository( project, main, hosts );
+        m_main = new Repository( main, hosts );
 
         project.setNewProperty( DOCS_KEY, "docs" );
         final String docsPath = project.getProperty( DOCS_KEY );
         final File docs = Context.getFile( m_system, docsPath );
-        m_docs = new Repository( project, docs, hosts );
+        m_docs = new Repository( docs, hosts );
 
         setupProxy( project );
 

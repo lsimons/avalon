@@ -17,13 +17,7 @@
 
 package org.apache.avalon.tools.model;
 
-import org.apache.tools.ant.BuildException;
-import org.apache.tools.ant.Project;
-
 import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.StringTokenizer;
 
 /**
  *
@@ -35,8 +29,7 @@ public class Repository
     private final File m_cache;
     private final String[] m_hosts;
 
-    public Repository( 
-      final Project project, final File cache, final String[] hosts )
+    public Repository( final File cache, final String[] hosts )
     {
         if( null == cache ) 
         {

@@ -17,8 +17,6 @@
 
 package org.apache.avalon.tools.model;
 
-import org.apache.tools.ant.Project;
-
 import java.io.File;
 
 /**
