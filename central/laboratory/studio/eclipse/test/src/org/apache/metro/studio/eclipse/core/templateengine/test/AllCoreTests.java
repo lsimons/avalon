@@ -15,34 +15,46 @@ See the License for the specific language governing permissions and
 limitations under the License. 
 
 */
-package org.apache.metro.studio.eclipse.tests;
+package org.apache.metro.studio.eclipse.core.templateengine.test;
 
 import junit.framework.Test;
+import junit.framework.TestResult;
 import junit.framework.TestSuite;
-
-import org.apache.metro.studio.eclipse.core.templateengine.test.AllCoreTests;
 
 /**
  * @author <a href="mailto:dev@avalon.apache.org">Metro Development Team</a>
- * 03.09.2004
+ * 12.08.2004
  * last change:
  * 
  */
-public class AllTests 
+public class AllCoreTests implements Test
 {
-
-    public static void main(String[] args)
-    {
-    }
 
     public static Test suite()
     {
-        System.out.println("test");
         TestSuite suite = new TestSuite(
-                "Test for org.apache.metro.studio.eclipse.tests");
+                "Test for org.apache.metro.studio.eclipse.core.templateengine");
         //$JUnit-BEGIN$
-        suite.addTestSuite(AllCoreTests.class);
+        suite.addTestSuite(BlockProjectManagerBasicTest.class);
+        suite.addTestSuite(DirectoryTemplateManagerTest.class);
+        suite.addTestSuite(ResourceTemplateManagerTest.class);
         //$JUnit-END$
         return suite;
+    }
+
+    /* (non-Javadoc)
+     * @see junit.framework.Test#countTestCases()
+     */
+    public int countTestCases()
+    {
+        return 3;
+    }
+
+    /* (non-Javadoc)
+     * @see junit.framework.Test#run(junit.framework.TestResult)
+     */
+    public void run(TestResult result)
+    {
+        suite();
     }
 }
