@@ -266,7 +266,7 @@ public class Installer
         //this directory is created?
         directory.mkdirs();
 
-        final String baseURL = "sar:" + url.toExternalForm() + "|/";
+        final String baseURL = "sar:/";
 
         final ArrayList digests = new ArrayList();
         final ArrayList jars = new ArrayList();
@@ -300,6 +300,7 @@ public class Installer
                     LIB.length() == name.lastIndexOf( "/" ) )
                 {
                     isJar = true;
+                    //expand = true;
                     //final String jar = baseURL + name;
                     //jars.add( jar );
                 }
