@@ -69,14 +69,6 @@ public class VertexTestCase extends TestCase
         super( name );
     }
 
-    public void setUp()
-    {
-    }
-
-    public void tearDown()
-    {
-    }
-
     public void testSortMethods()
     {
         Vertex v = new Vertex( "Root" );
