@@ -21,7 +21,7 @@ import org.apache.avalon.framework.service.WrapperServiceSelector;
  * interface to a {@link ComponentManager} interface.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.4 $ $Date: 2002/11/07 15:52:11 $
+ * @version $Revision: 1.5 $ $Date: 2002/11/09 08:04:53 $
  */
 public class WrapperComponentManager
     implements ComponentManager
@@ -65,7 +65,7 @@ public class WrapperComponentManager
         }
         catch( final ServiceException se )
         {
-            throw new ComponentException( se.getRole(), se.getMessage(), se.getCause() );
+            throw new ComponentException( se.getKey(), se.getMessage(), se.getCause() );
         }
 
         final String message = "Role does not implement the Component " +

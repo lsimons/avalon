@@ -70,7 +70,7 @@ import org.apache.avalon.framework.CascadingException;
 public class ServiceException
     extends CascadingException
 {
-    final private String m_role;
+    final private String m_key;
 
     /**
      * Construct a new <code>ServiceException</code> instance.
@@ -90,10 +90,10 @@ public class ServiceException
      * @param message the exception message
      * @param throwable the throwable
      */
-    public ServiceException( final String role, final String message, final Throwable throwable )
+    public ServiceException( final String key, final String message, final Throwable throwable )
     {
         super( message, throwable );
-        m_role = role;
+        m_key = key;
     }
 
     /**
@@ -112,17 +112,27 @@ public class ServiceException
      *
      * @param message the exception message
      */
-    public ServiceException( final String role, final String message )
+    public ServiceException( final String key, final String message )
     {
-        this( role, message, null );
+        this( key, message, null );
+    }
+
+    /**
+     * Return the key that caused the exception.
+     */
+    public String getKey()
+    {
+        return m_key;
     }
 
     /**
      * Return the role that caused the exception
+     *
+     * @deprecated Use getKey() instead
      */
     public String getRole()
     {
-        return m_role;
+        return getKey();
     }
 
     /**
@@ -131,13 +141,13 @@ public class ServiceException
      */
     public String getMessage()
     {
-        if( m_role == null )
+        if( m_key == null )
         {
             return super.getMessage();
         }
         else
         {
-            return super.getMessage() + " (Role='" + m_role + "')";
+            return super.getMessage() + " (Role='" + m_key + "')";
         }
     }
 }
