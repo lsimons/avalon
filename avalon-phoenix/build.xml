@@ -94,6 +94,7 @@ Legal:
     <pathelement location="${logkit.jar}"/>
     <pathelement location="${jmxri.jar}"/>
     <pathelement location="${jmxtools.jar}"/>
+    <pathelement location="${wrapper.jar}"/>
     <pathelement path="${java.class.path}" />
     <fileset dir="${lib.dir}">
       <include name="*.jar" />
@@ -111,7 +112,7 @@ Legal:
   </path>
 
   <!-- Main target -->
-  <target name="main" depends="dist-lite" 
+  <target name="main" depends="wrapper-dist" 
           description="generates the Phoenix distribution without the javadocs"/>
   <target name="all" depends="dist-lite,docs" description="generates the Phoenix distribution" />
 
@@ -468,7 +469,17 @@ Legal:
 
   </target>
 
-  <target name="install" depends="dist-lite,install-check-cjan,install-check-phoenix">
+  <!-- Create the lite build -->
+  <target name="wrapper-dist" depends="dist-lite" if="wrapper.present"
+          description="generates the Phoenix binary distribution without the javadocs and with wrapper">
+          
+    <copy file="${wrapper.jar}" todir="${bin.dist.bin}"/>
+    <copy file="${wrapper.exe}" todir="${bin.dist.bin}"/>
+    <copy file="${wrapper.dll}" todir="${bin.dist.bin}"/>
+    <copy file="${conf.dir}/wrapper.conf" todir="${bin.dist.bin}"/>
+  </target>
+
+  <target name="install" depends="wrapper-dist,install-check-cjan,install-check-phoenix">
 
     <mkdir dir="${cjan.lib}" />
     <copy file="${build.lib}/phoenix-client.jar" todir="${cjan.lib}"/>
