@@ -28,10 +28,10 @@ import org.apache.tools.ant.taskdefs.Mkdir;
 import org.apache.avalon.tools.home.Context;
 import org.apache.avalon.tools.home.Home;
 
-public class XdocTask extends Task
+public class XdocTask extends ContextualTask
 {
-    //public static final String BUILD_DOCS_KEY = "project.target.docs.name";
-    //public static final String BUILD_DOCS_VALUE = "docs";
+    public static final String ORG_NAME_KEY = "project.organization.name";
+    public static final String ORG_NAME_VALUE = "The Apache Software Foundation";
 
     public static final String XDOC_TEMP_KEY = "project.target.temp.xdocs";
     public static final String XDOC_TEMP_VALUE = "xdocs";
@@ -47,9 +47,6 @@ public class XdocTask extends Task
 
     public static final String XDOC_FORMAT_KEY = "project.xdoc.output.format";
     public static final String XDOC_FORMAT_VALUE = "html";
-
-    public static final String ORG_NAME_KEY = "project.organization.name";
-    public static final String ORG_NAME_VALUE = "The Apache Software Foundation";
 
     public static final String XDOC_LOGO_RIGHT_FILE_KEY = "project.xdoc.logo.right.file";
     public static final String XDOC_LOGO_RIGHT_FILE_VALUE = "";
@@ -74,9 +71,6 @@ public class XdocTask extends Task
 
     public static final String XDOC_ANCHOR_URL_KEY = "project.xdoc.anchor.url";
 
-
-    private boolean m_init = false;
-    private Context m_context;
     private Home m_home;
     private String m_theme;
 
@@ -115,10 +109,10 @@ public class XdocTask extends Task
 
     public void init() throws BuildException 
     {
-        if( !m_init )
+        if( !isInitialized() )
         {
+            super.init();
             Project project = getProject();
-            m_context = Context.getContext( project );
             project.setNewProperty( ORG_NAME_KEY, ORG_NAME_VALUE );
             project.setNewProperty( XDOC_SRC_KEY, XDOC_SRC_VALUE );
             project.setNewProperty( XDOC_RESOURCES_KEY, XDOC_RESOURCES_VALUE );
@@ -132,8 +126,6 @@ public class XdocTask extends Task
             project.setNewProperty( XDOC_LOGO_MIDDLE_FILE_KEY, XDOC_LOGO_MIDDLE_FILE_VALUE );
             project.setNewProperty( XDOC_LOGO_MIDDLE_URL_KEY, XDOC_LOGO_MIDDLE_URL_VALUE );
             project.setNewProperty( XDOC_BRAND_NAME_KEY, XDOC_BRAND_NAME_VALUE );
-
-            m_init = true;
         }
     }
 
@@ -156,8 +148,6 @@ public class XdocTask extends Task
 
     public void execute()
     {        
-        log( "Executing" );
-
         if( null == m_home ) 
         {
             final String error = 
@@ -167,30 +157,19 @@ public class XdocTask extends Task
         }
 
         Project project = getProject();
-        File docs = m_context.getDocsDirectory();
-        log( "Docs:" + docs );
+        File docs = getContext().getDocsDirectory();
 
         //
         // get the directory containing the filtered xdocs source files 
         // (normally target/src/xdocs)
         //
 
-        File build = m_context.getBuildPath( PrepareTask.BUILD_SRC_KEY, false );
-
-        if( null == build )
-        {
-            final String message =
-              "Src directory does not exist: "
-              + build;
-            log( message );
-            return;
-        }
-
+        File build = getContext().getBuildDirectory();
         String xdocsPath = project.getProperty( XDOC_SRC_KEY );
         if( null == xdocsPath )
         {
             final String message =
-              "Cannot processed as xdoc src directory not defined.";
+              "Cannot continue as xdoc src directory not defined.";
             log( message );
             return;
         }
@@ -204,7 +183,7 @@ public class XdocTask extends Task
         // navigation structure (normally target/temp/xdocs)
         //
 
-        File temp = m_context.getTempDirectory();
+        File temp = getContext().getTempDirectory();
         String tempPath = project.getProperty( XDOC_TEMP_KEY );
         File destDir = new File( temp, tempPath );
         mkDir( destDir );
@@ -454,12 +433,4 @@ public class XdocTask extends Task
             return ! m.matches() ;
         }
     } 
-
-    private void mkDir( File dir )
-    {
-        Mkdir mkdir = (Mkdir) getProject().createTask( "mkdir" );
-        mkdir.setDir( dir );
-        mkdir.init();
-        mkdir.execute();
-    }
 }

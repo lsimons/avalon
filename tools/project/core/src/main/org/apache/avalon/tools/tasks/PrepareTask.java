@@ -38,19 +38,13 @@ import org.apache.avalon.tools.home.Context;
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
-public class PrepareTask extends Task
+public class PrepareTask extends ContextualTask
 {
-
-    public static final String BUILD_SRC_KEY = "src";
-    private static final String BUILD_SRC_PATH = "src";
-
     private static final String SRC_FILTERED_INCLUDES_KEY = 
       "project.prepare.src.filtered.includes";
     private static final String SRC_FILTERED_INCLUDES_VALUE = 
       "**/*.java,**/*.x*,**/*.properties";
 
-    private Context m_context;
-    private boolean m_init = false;
     private File m_home;
 
    /**
@@ -63,34 +57,34 @@ public class PrepareTask extends Task
 
     public void init() throws BuildException 
     {
-        if( !m_init )
+        if( !isInitialized() )
         {
+            super.init();
             Project project = getProject();
-            m_context = Context.getContext( project, m_home );
             project.setNewProperty(
               SRC_FILTERED_INCLUDES_KEY, SRC_FILTERED_INCLUDES_VALUE );
-            m_context.setBuildPath( BUILD_SRC_KEY, BUILD_SRC_PATH );
-            m_init = true;
         }
     }
 
     public void execute() throws BuildException 
     {
         Project project = getProject();
-        File target = m_context.getTargetDirectory();
+        File target = getContext().getTargetDirectory();
         if( !target.exists() )
         {
             log( "creating target directory" );
-            Mkdir mkdir = (Mkdir) getProject().createTask( "mkdir" );
-            mkdir.setDir( target );
-            mkdir.init();
-            mkdir.execute();
+            mkDir( target );
         }
-        File src = m_context.getSrcDirectory();
+        File src = getContext().getSrcDirectory();
+        File build = getContext().getBuildDirectory();
+        if( !build.exists() )
+        {
+            log( "creating build directory" );
+            mkDir( build );
+        }
         if( src.exists() )
         {
             String filters = project.getProperty( SRC_FILTERED_INCLUDES_KEY );
-            File build = m_context.getBuildPath( "src" );
             copy( src, build, true, filters, "" );
             copy( src, build, false, "**/*.*", filters );
         }

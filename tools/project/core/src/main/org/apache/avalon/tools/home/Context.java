@@ -57,6 +57,9 @@ public class Context
     public static final String DELIVERABLES_KEY = "project.target.deliverables";
     private static final String DELIVERABLES_VALUE = "deliverables";
 
+    public static final String BUILD_KEY = "project.target.build";
+    private static final String BUILD_VALUE = "build";
+
     public static final String TEMP_KEY = "project.target.temp";
     private static final String TEMP_VALUE = "temp";
 
@@ -83,6 +86,7 @@ public class Context
 
     private final File m_src;
     private final File m_target;
+    private final File m_build;
     private final File m_deliverables;
     private final File m_temp;
     private final File m_docs;
@@ -98,14 +102,16 @@ public class Context
         project.setNewProperty( SRC_MAIN_KEY, SRC_MAIN_VALUE );
         project.setNewProperty( SRC_CONFIG_KEY, SRC_CONFIG_VALUE );
         project.setNewProperty( SRC_TEST_KEY, SRC_TEST_VALUE );
-        project.setNewProperty( DELIVERABLES_KEY, DELIVERABLES_VALUE );
         project.setNewProperty( TARGET_KEY, TARGET_VALUE );
+        project.setNewProperty( BUILD_KEY, BUILD_VALUE );
+        project.setNewProperty( DELIVERABLES_KEY, DELIVERABLES_VALUE );
         project.setNewProperty( DOCS_KEY, DOCS_VALUE );
         project.setNewProperty( TEMP_KEY, TEMP_VALUE );
 
         File basedir = project.getBaseDir();
         String src = project.getProperty( SRC_KEY );
         String target = project.getProperty( TARGET_KEY );
+        String build = project.getProperty( BUILD_KEY );
         String temp = project.getProperty( TEMP_KEY );
         String docs = project.getProperty( DOCS_KEY );
         String deliverables = project.getProperty( DELIVERABLES_KEY );
@@ -132,6 +138,8 @@ public class Context
             m_home = home;
         }
 
+        m_build = 
+          setBuildPath( BUILD_KEY, build );
         m_deliverables = 
           setBuildPath( DELIVERABLES_KEY, deliverables );
         m_temp = 
@@ -153,6 +161,11 @@ public class Context
     public File getTargetDirectory()
     {
         return m_target;
+    }
+
+    public File getBuildDirectory()
+    {
+        return m_build;
     }
 
     public File getDeliverablesDirectory()
