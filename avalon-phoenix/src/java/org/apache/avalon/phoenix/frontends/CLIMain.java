@@ -31,10 +31,12 @@ public final class CLIMain
         ResourceManager.getPackageResources( CLIMain.class );
 
     ///The embeddor attached to frontend
-    private Embeddor   m_embeddor;
+    private Embeddor      m_embeddor;
 
     ///The code to return to system using exit code
-    private int        m_exitCode;
+    private int           m_exitCode;
+
+    private ShutdownHook  m_hook;
 
     /**
      * Main entry point.
@@ -85,8 +87,8 @@ public final class CLIMain
         final boolean disableHook = parameters.getParameterAsBoolean( "disable-hook", false );
         if( false == disableHook )
         {
-            final ShutdownHook hook = new ShutdownHook( this );
-            Runtime.getRuntime().addShutdownHook( hook );
+            m_hook = new ShutdownHook( this );
+            Runtime.getRuntime().addShutdownHook( m_hook );
         }
 
         try
@@ -99,6 +101,7 @@ public final class CLIMain
         }
         finally
         {
+            Runtime.getRuntime().removeShutdownHook( m_hook );
             shutdown();
         }
     }
