@@ -7,7 +7,7 @@
  */
 package org.apache.phoenix.metainfo;
 
-import org.apache.avalon.util.Version;
+import org.apache.avalon.Version;
 
 /**
  * This is implementation of DependencyDescriptor.

@@ -9,7 +9,7 @@ package org.apache.phoenix.metainfo;
 
 import java.net.URL;
 import javax.swing.Icon;
-import org.apache.avalon.util.Version;
+import org.apache.avalon.Version;
 import org.apache.avalon.camelot.Descriptor;
 
 /**

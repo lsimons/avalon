@@ -10,7 +10,7 @@ package org.apache.phoenix.metainfo;
 import javax.swing.Icon;
 import java.net.URL;
 import java.util.Locale;
-import org.apache.avalon.util.Version;
+import org.apache.avalon.Version;
 
 /**
  * This descrbes information about the block that is used by administration 
