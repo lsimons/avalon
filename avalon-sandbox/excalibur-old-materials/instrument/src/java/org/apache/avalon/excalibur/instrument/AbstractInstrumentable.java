@@ -14,7 +14,8 @@ package org.apache.avalon.excalibur.instrument;
  *
  * @author <a href="mailto:ryan.shaw@stanfordalumni.org">Ryan Shaw</a>
  */
-public abstract class AbstractInstrumentable 
+public abstract class AbstractInstrumentable
+    implements Instrumentable
 {
     /** Name of the instrumentable. */
     private String m_instrumentableName; 
