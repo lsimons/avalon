@@ -7,7 +7,7 @@
  */
 package org.apache.excalibur.pool;
 
-import org.apache.avalon.Initializable;
+import org.apache.avalon.activity.Initializable;
 import org.apache.avalon.thread.ThreadSafe;
 
 /**
@@ -61,9 +61,9 @@ public class HardResourceLimitingPool
         this( clazz, initial, initial );
     }
 
-    public void init() {
+    public void initialize() {
         try {
-            super.init();
+            super.initialize();
         } catch (Exception e) {
             getLogger().debug("Caught init exception", e);
         }

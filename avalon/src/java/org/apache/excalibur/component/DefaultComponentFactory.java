@@ -7,10 +7,10 @@
  */
 package org.apache.excalibur.component;
 
-import org.apache.avalon.Disposable;
-import org.apache.avalon.Initializable;
 import org.apache.avalon.Startable;
 import org.apache.avalon.Stoppable;
+import org.apache.avalon.activity.Disposable;
+import org.apache.avalon.activity.Initializable;
 import org.apache.avalon.component.ComponentManager;
 import org.apache.avalon.component.Composable;
 import org.apache.avalon.configuration.Configurable;
@@ -29,7 +29,7 @@ import org.apache.excalibur.pool.Poolable;
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:paul@luminas.co.uk">Paul Russell</a>
- * @version CVS $Revision: 1.1 $ $Date: 2001/04/18 13:16:36 $
+ * @version CVS $Revision: 1.2 $ $Date: 2001/04/25 14:24:38 $
  */
 public class DefaultComponentFactory
     extends AbstractLoggable
@@ -109,7 +109,7 @@ public class DefaultComponentFactory
 
         if( component instanceof Initializable )
         {
-            ((Initializable)component).init();
+            ((Initializable)component).initialize();
         }
 
         if( component instanceof Startable )

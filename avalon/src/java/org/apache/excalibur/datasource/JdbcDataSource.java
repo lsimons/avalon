@@ -9,7 +9,7 @@ package org.apache.excalibur.datasource;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import org.apache.avalon.Disposable;
+import org.apache.avalon.activity.Disposable;
 import org.apache.avalon.configuration.Configuration;
 import org.apache.avalon.configuration.ConfigurationException;
 import org.apache.avalon.logger.AbstractLoggable;
@@ -20,7 +20,7 @@ import org.apache.avalon.logger.AbstractLoggable;
  * <code>java.sql.DriverManager</code>.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.2 $ $Date: 2001/04/18 13:15:48 $
+ * @version CVS $Revision: 1.3 $ $Date: 2001/04/25 14:24:43 $
  */
 public class JdbcDataSource
     extends AbstractLoggable
@@ -53,7 +53,7 @@ public class JdbcDataSource
 
             m_pool = new JdbcConnectionPool( dburl, user, passwd, max, autoCommit );
             m_pool.setLogger(getLogger());
-            m_pool.init();
+            m_pool.initialize();
         }
     }
 

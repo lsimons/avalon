@@ -7,7 +7,7 @@
  */
 package org.apache.excalibur.pool;
 
-import org.apache.avalon.Initializable;
+import org.apache.avalon.activity.Initializable;
 import org.apache.avalon.thread.SingleThreaded;
 
 /**
@@ -40,11 +40,11 @@ public class SingleThreadedPool
 
         if( !(this instanceof Initializable) )
         {
-            init();
+            initialize();
         }
     }
 
-    public void init()
+    public void initialize()
         throws Exception
     {
         grow( m_maximum );

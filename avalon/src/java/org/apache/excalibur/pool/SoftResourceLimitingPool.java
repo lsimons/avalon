@@ -7,7 +7,7 @@
  */
 package org.apache.excalibur.pool;
 
-import org.apache.avalon.Initializable;
+import org.apache.avalon.activity.Initializable;
 
 /**
  * This is an <code>Pool</code> that caches Poolable objects for reuse.
@@ -57,7 +57,7 @@ public class SoftResourceLimitingPool
         m_controller = controller;
     }
 
-    public void init() 
+    public void initialize() 
     {
         grow( m_min );
     }

@@ -7,15 +7,15 @@
  */
 package org.apache.excalibur.component;
 
-import org.apache.avalon.logger.AbstractLoggable;
-import org.apache.avalon.thread.ThreadSafe;
-import org.apache.avalon.thread.SingleThreaded;
-import org.apache.avalon.Initializable;
-import org.apache.avalon.Disposable;
+import org.apache.avalon.activity.Disposable;
+import org.apache.avalon.activity.Initializable;
 import org.apache.avalon.component.Component;
-import org.apache.avalon.configuration.Configuration;
 import org.apache.avalon.component.ComponentManager;
+import org.apache.avalon.configuration.Configuration;
 import org.apache.avalon.context.Context;
+import org.apache.avalon.logger.AbstractLoggable;
+import org.apache.avalon.thread.SingleThreaded;
+import org.apache.avalon.thread.ThreadSafe;
 import org.apache.excalibur.pool.Poolable;
 
 /**
@@ -23,7 +23,7 @@ import org.apache.excalibur.pool.Poolable;
  * and destroyed correctly.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.1 $ $Date: 2001/04/20 20:48:33 $
+ * @version CVS $Revision: 1.2 $ $Date: 2001/04/25 14:24:37 $
  */
 public abstract class ComponentHandler extends AbstractLoggable
                                        implements Initializable, Disposable {

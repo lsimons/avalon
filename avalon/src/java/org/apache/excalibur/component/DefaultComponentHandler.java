@@ -7,9 +7,9 @@
  */
 package org.apache.excalibur.component;
 
-import org.apache.avalon.Disposable;
-import org.apache.avalon.Initializable;
 import org.apache.avalon.Stoppable;
+import org.apache.avalon.activity.Disposable;
+import org.apache.avalon.activity.Initializable;
 import org.apache.avalon.component.Component;
 import org.apache.avalon.component.ComponentManager;
 import org.apache.avalon.configuration.Configuration;
@@ -22,7 +22,7 @@ import org.apache.log.Logger;
  * and destroyed correctly.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.2 $ $Date: 2001/04/20 20:48:34 $
+ * @version CVS $Revision: 1.3 $ $Date: 2001/04/25 14:24:38 $
  */
 class DefaultComponentHandler
     extends ComponentHandler
@@ -42,10 +42,10 @@ class DefaultComponentHandler
      * It falls back to SingleThreaded if not specified.
      */
     protected DefaultComponentHandler( final Class componentClass,
-                             final Configuration config,
-                             final ComponentManager manager,
-                             final Context context,
-                             final RoleManager roles )
+                                       final Configuration config,
+                                       final ComponentManager manager,
+                                       final Context context,
+                                       final RoleManager roles )
         throws Exception
     {
         m_factory = new DefaultComponentFactory( componentClass, config, manager, context, roles );
@@ -64,7 +64,7 @@ class DefaultComponentHandler
     /**
      * Initialize the ComponentHandler.
      */
-    public void init()
+    public void initialize()
     {
         if( m_initialized ) return;
 
