@@ -266,6 +266,9 @@ class LifecycleHelper
 
         final Block block = entry.getBlock();
 
+        //Remove block from Management system
+        unexportBlock( metaData, block );
+
         //Invalidate entry. This will invalidate
         //and null out Proxy object aswell as nulling out
         //block property
@@ -335,6 +338,35 @@ class LifecycleHelper
                     REZ.getString( "export.error", name, service.getName(), reason );
                 getLogger().error( message );
                 throw new CascadingException( message, e );
+            }
+        }
+    }
+
+    /**
+     * Unxport the services of block, declared to be management 
+     * services, into management system.
+     */
+    private void unexportBlock( final BlockMetaData metaData, 
+                                final Block block )
+    {
+        final ServiceDescriptor[] services = metaData.getBlockInfo().getManagement();
+        final String name = metaData.getName();
+        final ClassLoader classLoader = block.getClass().getClassLoader();
+
+        for( int i = 0; i < services.length; i++ )
+        {
+            final ServiceDescriptor service = services[ i ];
+            try
+            {
+                final Class clazz = classLoader.loadClass( service.getName() );
+                m_context.unexportObject( name, clazz );
+            }
+            catch( final Exception e )
+            {
+                final String reason = e.toString();
+                final String message =
+                    REZ.getString( "unexport.error", name, service.getName(), reason );
+                getLogger().error( message );
             }
         }
     }
