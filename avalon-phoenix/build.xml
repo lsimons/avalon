@@ -418,10 +418,12 @@ Legal:
 
     <property name="bin.dist.bin" value="${bin.dist.dir}/bin"/>
     <property name="bin.dist.apps" value="${bin.dist.dir}/apps"/>
+    <property name="bin.dist.ext" value="${bin.dist.dir}/ext"/>
     <property name="bin.dist.lib" value="${bin.dist.dir}/lib"/>
 
     <mkdir dir="${bin.dist.bin}"/>
     <mkdir dir="${bin.dist.apps}"/>
+    <mkdir dir="${bin.dist.ext}"/>
     <mkdir dir="${bin.dist.lib}"/>
 
     <copy file="${build.lib}/phoenix-loader.jar" todir="${bin.dist.bin}/"/>
