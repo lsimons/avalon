@@ -7,30 +7,32 @@
  */
 package org.apache.avalon.cornerstone.blocks.sockets;
 
-import com.sun.net.ssl.KeyManagerFactory;
-import com.sun.net.ssl.SSLContext;
-import com.sun.net.ssl.TrustManagerFactory;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.ServerSocket;
-import java.security.KeyStore;
 import javax.net.ssl.SSLServerSocket;
 import javax.net.ssl.SSLServerSocketFactory;
-import javax.security.cert.X509Certificate;
 import org.apache.avalon.cornerstone.services.sockets.ServerSocketFactory;
-import org.apache.avalon.framework.activity.Initializable;
-import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
-import org.apache.avalon.framework.context.Context;
-import org.apache.avalon.framework.context.Contextualizable;
-import org.apache.avalon.framework.logger.AbstractLogEnabled;
-import org.apache.avalon.phoenix.BlockContext;
 
 /**
- * Factory implementation for TLS TCP sockets.
+ * Manufactures TLS server sockets. Configuration element inside a
+ * SocketManager would look like:
+ * <pre>
+ *  &lt;factory name="secure"
+ *            class="org.apache.avalon.cornerstone.blocks.sockets.TLSServerSocketFactory" &gt;
+ *   &lt;ssl-factory /&gt; &lt;!-- see {@link SSLFactoryBuilder} --&gt;
+ *   &lt;timeout&gt; 0 &lt;/timeout&gt;
+ *   &lt;!-- With this option set to a non-zero timeout, a call to
+ *     accept() for this ServerSocket will block for only this amount of
+ *     time. If the timeout expires, a java.io.InterruptedIOException is
+ *     raised, though the ServerSocket is still valid. Default value is 0. --&gt;
+ *   &lt;authenticate-client&gt;false&lt;/authenticate-client&gt;
+ *   &lt;!-- Whether or not the client must present a certificate to
+ *      confirm its identity. Defaults to false. --&gt;
+ * &lt;/factory&gt;
+ * </pre>
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
  * @author <a href="mailto:fede@apache.org">Federico Barbieri</a>
@@ -38,41 +40,18 @@ import org.apache.avalon.phoenix.BlockContext;
  * @author <a href="mailto:">Harish Prabandham</a>
  * @author <a href="mailto:">Costin Manolache</a>
  * @author <a href="mailto:">Craig McClanahan</a>
- * @author <a href="mailto:myfam@surfeu.fi">Andrei Ivanov</a> 
+ * @author <a href="mailto:myfam@surfeu.fi">Andrei Ivanov</a>
+ * @author <a href="mailto:greg-avalon-apps at nest.cx">Greg Steuck</a>
  */
 public class TLSServerSocketFactory
-    extends AbstractLogEnabled
-    implements ServerSocketFactory, Contextualizable, Configurable, Initializable
+    extends AbstractTLSSocketFactory
+    implements ServerSocketFactory
 {
-    protected SSLServerSocketFactory m_factory;
-    protected File m_baseDirectory;
-
-    protected String m_keyStoreFile;
-    protected String m_keyStorePassword;
-    protected String m_keyPassword;      
-    protected String m_keyStoreType;
-    protected String m_keyStoreProtocol;
-    protected String m_keyStoreAlgorithm;
+    private SSLServerSocketFactory m_factory;
     protected boolean m_keyStoreAuthenticateClients;
 
-    public void contextualize( final Context context )
-    {
-        final BlockContext blockContext = (BlockContext)context;
-        m_baseDirectory = blockContext.getBaseDirectory();
-    }
-
     /**
-     * Configure factory. Sample config is
-     *
-     * <keystore>
-     *  <file>conf/keystore</file> <!-- location of keystore relative to .sar base directory -->
-     *  <password></password> <!-- Password for the Key Store file -->
-     *  <key-password></key-password> <!-- Optional private Key Password -->
-     *  <type>JKS</type> <!-- Type of the Key Store file -->
-     *  <protocol>TLS</protocol> <!-- SSL protocol to use -->
-     *  <algorithm>SunX509</algorithm> <!-- Certificate encoding algorithm -->
-     *  <authenticate-client>false</authenticate-client> <!-- Require client authentication? -->
-     * <keystore>
+     * Configures the factory.
      *
      * @param configuration the Configuration
      * @exception ConfigurationException if an error occurs
@@ -80,75 +59,14 @@ public class TLSServerSocketFactory
     public void configure( final Configuration configuration )
         throws ConfigurationException
     {
-        final Configuration keyStore = configuration.getChild( "keystore" );
-        m_keyStoreFile = keyStore.getChild( "file" ).getValue( "conf/keystore" );
-        m_keyStorePassword = keyStore.getChild( "password" ).getValue();
-        m_keyPassword = keyStore.getChild( "key-password" ).getValue(null);            
-        m_keyStoreType = keyStore.getChild( "type" ).getValue( "JKS" );
-        m_keyStoreProtocol = keyStore.getChild( "protocol" ).getValue( "TLS" );
-        m_keyStoreAlgorithm = keyStore.getChild( "algorithm" ).getValue( "SunX509" );
+        super.configure( configuration );
         m_keyStoreAuthenticateClients =
-            keyStore.getChild( "authenticate-client" ).getValueAsBoolean( false );
+            configuration.getChild( "authenticate-client" ).getValueAsBoolean( false );
     }
 
-    public void initialize()
-        throws Exception
+    protected void visitBuilder( SSLFactoryBuilder builder )
     {
-        final KeyStore keyStore = initKeyStore();
-        initSSLFactory( keyStore );
-    }
-
-    protected KeyStore initKeyStore()
-        throws Exception
-    {
-        try
-        {
-            final KeyStore keyStore = KeyStore.getInstance( m_keyStoreType );
-            final File keyStoreFile = new File( m_baseDirectory, m_keyStoreFile );
-            final FileInputStream input = new FileInputStream( keyStoreFile );
-
-            keyStore.load( input, m_keyStorePassword.toCharArray() );
-            getLogger().info( "Keystore loaded from: " + keyStoreFile );
-
-            return keyStore;
-        }
-        catch( final Exception e )
-        {
-            getLogger().error( "Exception loading keystore from: " + m_keyStoreFile, e );
-            throw e;
-        }
-    }
-
-    protected void initSSLFactory( final KeyStore keyStore )
-        throws Exception
-    {
-
-        java.security.Security.addProvider( new sun.security.provider.Sun() );
-        java.security.Security.addProvider( new com.sun.net.ssl.internal.ssl.Provider() );
-
-        // set up key manager to do server authentication
-        final SSLContext sslContext = SSLContext.getInstance( m_keyStoreProtocol );
-        final KeyManagerFactory keyManagerFactory =
-            KeyManagerFactory.getInstance( m_keyStoreAlgorithm );
-
-        if ( null == m_keyPassword ) 
-        {
-          keyManagerFactory.init( keyStore, m_keyStorePassword.toCharArray() );
-        } else 
-        {
-          keyManagerFactory.init( keyStore, m_keyPassword.toCharArray() );
-        }
-        
-
-        final TrustManagerFactory tmf = TrustManagerFactory.getInstance( m_keyStoreAlgorithm );
-        tmf.init( keyStore );
-
-        sslContext.init( keyManagerFactory.getKeyManagers(),
-                         tmf.getTrustManagers(),
-                         new java.security.SecureRandom() );
-
-        // Create socket factory
-        m_factory = sslContext.getServerSocketFactory();
+        m_factory = builder.buildServerSocketFactory();
     }
 
     /**
@@ -202,15 +120,14 @@ public class TLSServerSocketFactory
     }
 
     protected void initServerSocket( final ServerSocket serverSocket )
+        throws IOException
     {
-        final SSLServerSocket socket = (SSLServerSocket)serverSocket;
-
-        // Enable all available cipher suites when the socket is connected
-        final String[] cipherSuites = socket.getSupportedCipherSuites();
-        socket.setEnabledCipherSuites( cipherSuites );
+        final SSLServerSocket socket = (SSLServerSocket) serverSocket;
 
         // Set client authentication if necessary
         socket.setNeedClientAuth( m_keyStoreAuthenticateClients );
+        // Sets socket timeout
+        socket.setSoTimeout( m_socketTimeOut );
     }
 }
 
