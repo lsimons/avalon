@@ -322,4 +322,29 @@ public final class CronTimeTriggerTestlet
         assert( "Day of month", now.get( Calendar.DAY_OF_MONTH ) == 5 );
         assert( "Month", now.get( Calendar.MONTH ) == 2 );
     }
+
+    public void testMaxDayBoundaries()
+    {
+        final CronTimeTrigger trigger = new CronTimeTrigger( -1, -1, 30, 1, -1, false );
+
+        final Calendar now = Calendar.getInstance();
+        now.set( Calendar.SECOND, 0 );
+        now.set( Calendar.MINUTE, 0 );
+        now.set( Calendar.HOUR_OF_DAY, 0 );
+        now.set( Calendar.DAY_OF_MONTH, 0 );
+        now.set( Calendar.MONTH, 7 );
+        now.set( Calendar.YEAR, 2001 );
+
+        long time = now.getTime().getTime();
+        long next = trigger.getTimeAfter( time );
+        long delta = next - time;
+
+        now.setTime( new Date( next ) );
+
+        assert( "Second", now.get( Calendar.SECOND ) == 0 );
+        assert( "Minute", now.get( Calendar.MINUTE ) == 0 );
+        assert( "Hour of Day", now.get( Calendar.HOUR_OF_DAY ) == 0 );
+        assert( "Month", now.get( Calendar.MONTH ) == 1 );
+        assert( "Day of month", now.get( Calendar.DAY_OF_MONTH ) == 28 );
+    }
 }
