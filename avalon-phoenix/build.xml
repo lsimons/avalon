@@ -63,8 +63,8 @@ Legal:
     <property name="tools.jar" value="${java.home}/../lib/tools.jar"/>
 
     <!-- Invoke 'ant get-mx4j' to get these -->
-    <property name="mx4j.jar" value="mx4j/mx4j-1.1.1-beta1/lib/mx4j-jmx.jar"/>
-    <property name="mx4j-tools.jar" value="mx4j/mx4j-1.1.1-beta1/lib/mx4j-tools.jar"/>
+    <property name="mx4j.jar" value="mx4j/mx4j-1.1.1/lib/mx4j-jmx.jar"/>
+    <property name="mx4j-tools.jar" value="mx4j/mx4j-1.1.1/lib/mx4j-tools.jar"/>
 
     <path id="project.class.path">
         <pathelement location="${xerces.jar}"/>
@@ -136,7 +136,7 @@ Legal:
     <!-- For licensing reasons, we are unable to put these Jars in our CVS or source distributions. -->
     <target name="get-mx4j">
         <mkdir  dir="mx4j"/>
-        <get src="http://telia.dl.sourceforge.net/sourceforge/mx4j/mx4j-1.1.1-beta1.tar.gz"
+        <get src="http://telia.dl.sourceforge.net/sourceforge/mx4j/mx4j-1.1.1.tar.gz"
             dest="mx4j/mx4j.tar.gz"
             verbose="true"
             usetimestamp="true"/>

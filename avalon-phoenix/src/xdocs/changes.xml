@@ -16,6 +16,22 @@
     <author name="Eung-ju Park" email="colus@apache.org" id="EP"/>
     <author name="David W." email="daveweit@optonline.net" id="DW"/>
   </devs>
+<release version="4.0.2" date="October 28, 2002">
+    <action dev="PH" type="change">
+        MX4J JMX upgraded to 1.1.1
+    </action>    
+</release>
+<release version="4.0.1" date="October 20, 2002">
+    <action dev="PD" type="change">
+        Fix for backwards Logging. Some backwards compatability lost
+    </action>
+    <action dev="PH" type="change">
+        MX4J JMX upgraded to 1.1.1 beta1.  
+    </action>    
+    <action dev="PH" type="change">
+        Some work on the wrapper for Unix.
+    </action>    
+</release>
 <release version="4.0" date="September 16, 2002">
     <action dev="PD" type="add">
         Small bug fixes.  Some work on documentation.
