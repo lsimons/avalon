@@ -15,8 +15,6 @@ import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.excalibur.lang.DefaultThreadContextPolicy;
 import org.apache.avalon.excalibur.lang.ThreadContext;
 import org.apache.avalon.excalibur.lang.ThreadContextPolicy;
-import org.apache.avalon.excalibur.logger.DefaultLogKitManager;
-import org.apache.avalon.excalibur.logger.LogKitManager;
 import org.apache.avalon.excalibur.thread.ThreadPool;
 import org.apache.avalon.excalibur.thread.impl.DefaultThreadPool;
 import org.apache.avalon.framework.ExceptionUtil;
@@ -36,7 +34,7 @@ import org.apache.avalon.framework.logger.AbstractLoggable;
 import org.apache.avalon.phoenix.BlockContext;
 import org.apache.avalon.phoenix.BlockEvent;
 import org.apache.avalon.phoenix.components.configuration.ConfigurationRepository;
-import org.apache.avalon.phoenix.components.logger.SimpleLogKitManager;
+import org.apache.avalon.phoenix.components.logger.DefaultLogManager;
 import org.apache.avalon.phoenix.metadata.SarMetaData;
 import org.apache.log.Logger;
 
@@ -59,7 +57,7 @@ public class DefaultApplicationFrame
     private HashMap      m_threadPools     = new HashMap();
 
     //LogKitManager for application
-    private LogKitManager   m_logKitManager;
+    private Logger       m_logger;
 
     ///ClassLoader for application
     private ClassLoader  m_classLoader;
@@ -106,7 +104,14 @@ public class DefaultApplicationFrame
     {
         //Configure Logging
         final Configuration logs = configuration.getChild( "logs" );
-        configureLogKitManager( logs );
+        final DefaultLogManager manager = new DefaultLogManager();
+        try
+        {
+            m_logger = manager.createLogger( m_metaData.getName(), m_metaData.getHomeDirectory(), logs ); 
+        }
+        catch( final Exception e )
+        {
+        }
 
         //Cache config to use in building thread pools
         m_configuration = configuration;
@@ -166,7 +171,7 @@ public class DefaultApplicationFrame
      */
     public Logger getLogger( final String category )
     {
-        return m_logKitManager.getLogger( category );
+        return m_logger.getChildLogger( category );
     }
 
 
@@ -277,43 +282,6 @@ public class DefaultApplicationFrame
         {
             final String message = REZ.getString( "frame.error.thread.create", name );
             throw new ConfigurationException( message, e );
-        }
-    }
-
-    private void configureLogKitManager( final Configuration conf )
-        throws ConfigurationException
-    {
-        final DefaultContext context = new DefaultContext();
-        context.put( BlockContext.APP_NAME, m_metaData.getName() );
-        context.put( BlockContext.APP_HOME_DIR, m_metaData.getHomeDirectory() );
-
-        try
-        {
-            final Version version = Version.getVersion( conf.getAttribute( "version", "1.0" ) );
-
-            if ( new Version( 1, 0, 0 ).complies( version ) )
-            {
-                final SimpleLogKitManager logs = new SimpleLogKitManager();
-                setupLogger( logs );
-                logs.contextualize( context );
-                logs.configure( conf );
-
-                m_logKitManager = logs;
-            }
-            else
-            {
-                final DefaultLogKitManager logs = new DefaultLogKitManager();
-                setupLogger( logs );
-                logs.contextualize( context );
-                logs.configure( conf );
-
-                m_logKitManager = logs;
-            }
-        }
-        catch ( final ContextException ce )
-        {
-            final String message = REZ.getString( "frame.error.log.configure" );
-            throw new ConfigurationException( message, ce );
         }
     }
 }
