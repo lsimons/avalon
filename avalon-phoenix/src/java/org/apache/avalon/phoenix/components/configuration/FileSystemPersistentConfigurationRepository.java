@@ -81,7 +81,7 @@ import org.xml.sax.SAXException;
  * {@link ConfigurationMerger#merge}.
  * </p>
  * @author <a href="mailto:proyal@apache.org">Peter Royal</a>
- * @see org.apache.excalibur.configuration.merged.ConfigurationMerger
+ * @see ConfigurationMerger
  */
 public class FileSystemPersistentConfigurationRepository
         extends AbstractLogEnabled
