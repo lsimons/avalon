@@ -8,7 +8,7 @@
 ==============================================================================
 -->
 
-<project default="main" basedir=".">
+<project default="all" basedir=".">
 
   <!--
     Give user a chance to override without editing this file
@@ -123,8 +123,13 @@
                                   Main target
        ===================================================================
   -->
-  <target name="main" depends="all,check" />
-  <target name="all" depends="xars,ftpserver,jesktop,soapdemo-sar" />
+  <target name="all" depends="compile,jars,bars" description="Generates all the Cornerstone jar/bar/sar files">
+    <parallel>
+      <ant antfile="build.xml" dir="apps/demo" target="all"/>
+      <ant antfile="build.xml" dir="apps/ftpserver" target="all"/>
+      <ant antfile="build.xml" dir="apps/jesktop" target="all"/>
+    </parallel>
+  </target>
 
   <!--
        ===================================================================
@@ -143,7 +148,7 @@
     <echo message="   uninstall   -> uninstalls Cornerstone from Phoenix"/>
     <echo message="   check       -> perform any built in tests"/>
     <echo message="   docs        -> generates the ${Name} Documentation"/>
-    <echp message="   printerdocs -> generates printer-friendly ${Name} Documentation"/>
+    <echo message="   printerdocs -> generates printer-friendly ${Name} Docs"/>
     <echo message="   javadocs    -> generates the API documentation (java 1.2+ only)"/>
     <echo message="   dist        -> generates the ${Name} distribution"/>
     <echo message="   clean       -> cleans up the created directories"/>
@@ -196,9 +201,9 @@
 
     <javac srcdir="${java.dir}"
            destdir="${build.classes}"
-           debug="${debug}"
-           optimize="${optimize}"
-           deprecation="${deprecation}">
+           debug="${build.debug}"
+           optimize="${build.optimize}"
+           deprecation="${build.deprecation}">
       <classpath refid="project.class.path" />
       <exclude name="org/apache/avalon/cornerstone/blocks/serversocket/TLSServerSocketAcceptor.java"
                unless="jsse.present" />
@@ -206,8 +211,6 @@
                unless="jsse.present" />
       <exclude name="org/apache/avalon/cornerstone/blocks/soapification/glue/**.java"
                unless="glue.present" />
-      <exclude name="org/apache/avalon/cornerstone/demos/soaphelloworldserver/**.java"
-               unless="glue.present" />               
     </javac>
 
     <copy todir="${build.classes}">
@@ -243,7 +246,7 @@
        ===================================================================
   -->  
   
-  <target name="bars" depends="compile">  
+  <target name="bars" depends="jars">  
   
     <mkdir dir="${build.lib}"/>  
   
@@ -288,102 +291,12 @@
 
   <!--
        ===================================================================
-                           Creates all the .sar files
-       ===================================================================
-  -->  
-  <target name="sars" depends="demo-sar, soapdemo-sar, jesktop, ftpserver"/>
-
-  <target name="demo-sar" depends="bars">
-
-    <jar jarfile="${build.lib}/avalon-demo.sar">
-
-      <zipfileset dir="${build.lib}/" prefix="blocks/">
-        <include name="*.bar"/>
-        <exclude name="demo-soaphelloworld.bar"/>
-      </zipfileset>
-
-      <zipfileset dir="${lib.dir}" prefix="lib/">
-        <include name="jsse.jar" if="jsse.present" />
-        <include name="jnet.jar" if="jsse.present" />
-        <include name="jcert.jar" if="jsse.present" />
-      </zipfileset>
-
-      <zipfileset dir="${conf.dir}" fullpath="conf/assembly.xml">
-        <include name="avalon-demo-assembly.xml"/>
-      </zipfileset>
-
-      <zipfileset dir="${conf.dir}" fullpath="conf/server.xml">
-        <include name="avalon-demo-server.xml"/>
-      </zipfileset>
-
-      <zipfileset dir="${conf.dir}" fullpath="conf/config.xml">
-        <include name="avalon-demo-config.xml"/>
-      </zipfileset>
-
-      <zipfileset dir="${conf.dir}" fullpath="conf/keyStore">
-        <include name="keystore"/>
-      </zipfileset>
-
-    </jar>  
-
-  </target>    
-  <target name="soapdemo-sar" depends="compile" if="glue.present">    
-    
-    
-    <jar jarfile="${build.lib}/avalon-soapdemo.sar">
-
-      <zipfileset dir="${build.lib}/" prefix="blocks/">
-        <include name="cornerstone.bar"/>
-        <include name="demo-helloworld.bar"/>
-        <include name="demo-soaphelloworld.bar"/>
-      </zipfileset>
-
-      <zipfileset dir="${lib.dir}" prefix="lib/">
-        <include name="GLUE-STD.jar"/>
-        <include name="jndi.jar"/>
-        <include name="ejb.jar"/>
-        <include name="servlet.jar"/>
-        <include name="jcert.jar"/>
-        <include name="jnet.jar"/>
-        <include name="jsse.jar"/>
-      </zipfileset>
-
-      <zipfileset dir="${conf.dir}/glue-helloworldserver" fullpath="conf/assembly.xml">
-        <include name="avalon-gluedemo-assembly.xml"/>
-      </zipfileset>
-
-      <zipfileset dir="${conf.dir}/glue-helloworldserver" fullpath="conf/server.xml">
-        <include name="avalon-gluedemo-server.xml"/>
-      </zipfileset>
-
-      <zipfileset dir="${conf.dir}/glue-helloworldserver" fullpath="conf/config.xml">
-        <include name="avalon-gluedemo-config.xml"/>
-      </zipfileset>
-
-      <zipfileset dir="${conf.dir}/glue-helloworldserver" fullpath="conf/keyStore">
-        <include name="keystore"/>
-      </zipfileset>
-
-    </jar>   
-    
-  
-  </target>    
-  
-  <!--
-       ===================================================================
-                  Creates all the .jar .bar & .sar files
-       ===================================================================
-  -->
-  <target name="xars" depends="compile, jars, bars, sars"/>
-
-  <!--
-       ===================================================================
        Performs unit tests
        ===================================================================
   -->
   <target name="test" depends="check"/>
 
-  <target name="check" depends="jars">
+  <target name="check" depends="jars" description="Perform any built in tests">
 
     <test showSuccess="true" showBanner="false" showTrace="true" forceShowTrace="true" >
       <classpath>
@@ -393,6 +306,12 @@
 
       <testlet>org.apache.avalon.cornerstone.services.scheduler.test.CronTimeTriggerTestlet</testlet>
     </test>
+
+    <parallel>
+      <ant antfile="build.xml" dir="apps/demo" target="check"/>
+      <ant antfile="build.xml" dir="apps/ftpserver" target="check"/>
+      <ant antfile="build.xml" dir="apps/jesktop" target="check"/>
+    </parallel>
   
   </target>
   <!--
@@ -419,7 +338,7 @@
        Create the API documentation
        ===================================================================
   -->
-  <target name="javadocs">
+  <target name="javadocs" description="Generates the Cornerstone Java Docs">
 
     <delete dir="${build.javadocs}"/>
     <mkdir dir="${build.javadocs}"/>
@@ -438,6 +357,12 @@
       </doclet>
     </javadoc>
 
+    <parallel>
+      <ant antfile="build.xml" dir="apps/demo" target="javadocs"/>
+      <ant antfile="build.xml" dir="apps/ftpserver" target="javadocs"/>
+      <ant antfile="build.xml" dir="apps/jesktop" target="javadocs"/>
+    </parallel>
+
   </target>
 
   <!-- Create the Local API documentation -->
@@ -452,8 +377,18 @@
 
   </target>
 
+  <!-- prepares printer friendly documentation -->
+  <target name="printerdocs" depends="javadocs" description="Generates the printer-friendly Cornerstone Docs">
+    <echo message="Printer friendly docs are not yet implemented"/>
+    <parallel>
+      <ant antfile="build.xml" dir="apps/demo" target="printerdocs"/>
+      <ant antfile="build.xml" dir="apps/ftpserver" target="printerdocs"/>
+      <ant antfile="build.xml" dir="apps/jesktop" target="printerdocs"/>
+    </parallel>
+  </target>
+
   <!-- Prepares the documentation directory -->
-  <target name="xdocs">
+  <target name="docs" depends="javadocs" description="Generates the Cornerstone Docs">
 
     <mkdir dir="${build.context}"/>
     <mkdir dir="${build.xdocs}"/>
@@ -479,7 +414,7 @@
     <copy todir="${build.context}" filtering="on">
       <fileset dir="${context.dir}">
         <exclude name="resources/**"/>
-	<exclude name="xdocs"/>
+        <exclude name="xdocs"/>
       </fileset>
     </copy>
 
@@ -506,6 +441,12 @@
         <fileset dir="${tools.dir}/ext"/>
       </classpath>
     </java>
+
+    <parallel>
+      <ant antfile="build.xml" dir="apps/demo" target="docs"/>
+      <ant antfile="build.xml" dir="apps/ftpserver" target="docs"/>
+      <ant antfile="build.xml" dir="apps/jesktop" target="docs"/>
+    </parallel>
   </target>
 
   <!--
@@ -513,7 +454,7 @@
        Create the Local site documentation
        ===================================================================
   -->
-  <target name="local-xdocs" depends="xdocs">
+  <target name="local-xdocs" depends="docs">
 
     <delete>
       <fileset dir="${docs.dir}">
@@ -554,17 +495,20 @@
 
   </target>
 
-  <target name="install" depends="all,jesktop-deploy,ftpserver-deploy,install-no-cjan,install-yes-cjan,install-check-phoenix">
+  <target name="install" depends="all,install-no-cjan,install-yes-cjan,install-check-phoenix" description="Installs Cornerstone into Phoenix">
     <mkdir dir="${phoenix.apps}" />
 
-    <delete dir="${phoenix.apps}/avalon-demo"/>
-    <copy file="${build.lib}/avalon-demo.sar" todir="${phoenix.apps}"/>
+    <parallel>
+      <ant antfile="build.xml" dir="apps/demo" target="install"/>
+      <ant antfile="build.xml" dir="apps/ftpserver" target="install"/>
+      <ant antfile="build.xml" dir="apps/jesktop" target="install"/>
+    </parallel>
   </target>
 
   <target name="install-yes-cjan" if="cjan.lib">
     <mkdir dir="${cjan.lib}" />
     <copy file="${build.lib}/cornerstone.bar" todir="${cjan.lib}"/>
-    <echo message="Installed in cjan.lib." />
+    <echo message="Installed in cjan.lib (${cjan.lib})." />
   </target>
 
   <target name="install-no-cjan" unless="cjan.lib">
@@ -575,12 +519,26 @@
     <fail message="phoenix.home not specified." />
   </target>
 
+  <target name="uninstall" depends="uninstall-cjan" description="Uninstalls Cornerstone into Phoenix">
+    <parallel>
+      <ant antfile="build.xml" dir="apps/demo" target="uninstall"/>
+      <ant antfile="build.xml" dir="apps/ftpserver" target="uninstall"/>
+      <ant antfile="build.xml" dir="apps/jesktop" target="uninstall"/>
+    </parallel>
+  </target>
+
+  <target name="uninstall-cjan" if="cjan.lib">
+    <mkdir dir="${cjan.lib}" />
+    <delete file="${build.lib}/cornerstone.bar" dir="${cjan.lib}"/>
+    <echo message="Uninstalled in cjan.lib (${cjan.lib})." />
+  </target>
+
   <!--
        ===================================================================
                             Create the binary distribution
        ===================================================================
   -->
-  <target name="dist" depends="xars,javadocs,xdocs,setup-properties,dist-norm,dist-soap">  
+  <target name="bin-dist" depends="compile,jars,bars,javadocs,docs,setup-properties,dist-norm,dist-soap">  
     <chmod dir="${dist.dir}" perm="go-rwx" />
   </target>
   
@@ -609,6 +567,9 @@
   <target name="dist-soap" if="glue.present">      
   
     <copy file="${build.lib}/avalon-soapdemo.sar" tofile="${dist.dir}/avalon-soapdemo-${version}.sar"/>
+    <delete dir="${phoenix.apps}/avalon-demo"/>
+    <copy file="${build.lib}/avalon-demo.sar" todir="${phoenix.apps}"/>
+
     
   </target>
 
@@ -617,7 +578,7 @@
                             Create the source distribution
        ===================================================================
   -->
-  <target name="src-dist" depends="javadocs,xdocs,setup-properties">
+  <target name="src-dist" depends="javadocs,docs,setup-properties">
 
     <mkdir dir="${src.dist.dir}" />
     <mkdir dir="${src.dist.docs}"/>
@@ -626,12 +587,6 @@
     <copy todir="${src.dist.tools}">
       <fileset dir="${tools.dir}"/>
     </copy>
-
-<!--
-    <copy todir="${src.dist.lib}">
-      <fileset dir="${lib.dir}"/>
-    </copy>
--->
 
     <copy file="${logkit.jar}" tofile="${src.dist.lib}/logkit.jar"/>
     <copy file="${framework.jar}" tofile="${src.dist.lib}/framework.jar"/>
@@ -693,13 +648,24 @@
                  Completely build all dists
        ===================================================================
   -->
-  <target name="distributions">
+  <target name="dist" depends="all" description="Generates the Cornerstone distribution">
     <mkdir dir="${dist.base}"/>
     <mkdir dir="${dist.base}/phoenix-apps"/>
 
-    <antcall target="dist">
-      <param name="dist.dir" value="${dist.name}" />
-    </antcall>
+    <parallel>
+      <antcall target="dist">
+        <param name="dist.dir" value="${dist.name}" />
+      </antcall>
+      <ant antfile="build.xml" dir="apps/demo" target="check">
+        <property name="dist.dir" value="${dist.name}" />
+      </ant>
+      <ant antfile="build.xml" dir="apps/ftpserver" target="check">
+        <property name="dist.dir" value="${dist.name}" />
+      </ant>
+      <ant antfile="build.xml" dir="apps/jesktop" target="check">
+        <property name="dist.dir" value="${dist.name}" />
+      </ant>
+    </parallel>
 
     <copy todir="${dist.base}/phoenix-apps" flatten="true">
       <fileset dir="${dist.name}">
@@ -758,11 +724,16 @@
                  Cleans up build and distribution directories
        ===================================================================
   -->
-  <target name="clean">
+  <target name="clean" description="Cleans up artifacts from build process">
     <delete dir="${build.dir}" />
     <delete>
       <fileset dir="." includes="**/*~" defaultexcludes="no"/>
     </delete>
+    <parallel>
+      <ant antfile="build.xml" dir="apps/demo" target="clean"/>
+      <ant antfile="build.xml" dir="apps/ftpserver" target="clean"/>
+      <ant antfile="build.xml" dir="apps/jesktop" target="clean"/>
+    </parallel>
   </target>
 
   <!--
@@ -770,9 +741,15 @@
                       Cleans absolutely everything up
        ===================================================================
   -->
-  <target name="distclean" depends="clean">
+  <target name="distclean" depends="clean" description="Cleans up all genereated files and directories">
     <delete dir="${docs.dir}" />
     <delete dir="${dist.dir}" />
+
+    <parallel>
+      <ant antfile="build.xml" dir="apps/demo" target="distclean"/>
+      <ant antfile="build.xml" dir="apps/ftpserver" target="distclean"/>
+      <ant antfile="build.xml" dir="apps/jesktop" target="distclean"/>
+    </parallel>
   </target>
   
   <!--
@@ -780,47 +757,12 @@
            Distribute Applications as "apps" subdir of distributions/
        ===================================================================
   -->
-  <target name="distributions-apps" depends="apps-jars">
+  <target name="distributions-apps" depends="bars">
     <copy todir="${dist.base}/phoenix-apps" flatten="true">
       <fileset dir="apps">
         <include name="*/dist/*.sar"/>
       </fileset>
     </copy>    
   </target>
-
-  <!--
-       ===================================================================
-                   Targets in other build.xml files (apps)
-       ===================================================================
-  -->
-  
-  <target name="apps-jars" depends="jars, ftpserver, jesktop"/>
-  <target name="apps-deploy" depends="jars, ftpserver-deploy, jesktop-deploy"/>
-  
-  <!-- FtpServer targets -->
-  <!-- ================= -->
-  
-  <target name="ftpserver" depends="compile, dist-dirs">
-    <ant antfile="build.xml" dir="apps/ftpserver" target="jars"/>
-  </target>  
-  <target name="ftpserver-clean">
-    <ant antfile="build.xml" dir="apps/ftpserver" target="clean"/>
-  </target>   
-  <target name="ftpserver-deploy" depends="compile, dist-dirs">
-    <ant antfile="build.xml" dir="apps/ftpserver" target="deploy"/>
-  </target>    
-  
-  <!-- Jesktop targets -->
-  <!-- =============== -->
-  
-  <target name="jesktop" depends="compile, dist-dirs">
-    <ant antfile="build.xml" dir="apps/jesktop" target="jars"/>
-  </target> 
-  <target name="jesktop-clean">
-    <ant antfile="build.xml" dir="apps/jesktop" target="clean"/>
-  </target>   
-  <target name="jesktop-deploy" depends="compile, dist-dirs">
-    <ant antfile="build.xml" dir="apps/jesktop" target="deploy"/>
-  </target>   
 
 </project>
