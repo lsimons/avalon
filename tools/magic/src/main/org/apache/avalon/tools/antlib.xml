@@ -11,7 +11,6 @@
   <taskdef name="declare" classname="org.apache.avalon.tools.tasks.DeclareTask"/> 
   <taskdef name="install" classname="org.apache.avalon.tools.tasks.InstallTask"/> 
   <taskdef name="plugin" classname="org.apache.avalon.tools.tasks.PluginTask"/> 
-  <taskdef name="xdoc" classname="org.apache.avalon.tools.tasks.XdocTask"/> 
   <taskdef name="reactor" classname="org.apache.avalon.tools.tasks.ReactorTask"/> 
   <taskdef name="filter" classname="org.apache.avalon.tools.tasks.FilterTask"/> 
   <taskdef name="info" classname="org.apache.avalon.tools.tasks.AnnounceTask"/> 
@@ -24,6 +23,7 @@
   <taskdef name="replicate" classname="org.apache.avalon.tools.tasks.ReplicateTask"/> 
   <taskdef name="block" classname="org.apache.avalon.tools.tasks.BlockTask"/> 
   <taskdef name="gump" classname="org.apache.avalon.tools.tasks.GumpTask"/> 
+  <taskdef name="new" classname="org.apache.avalon.tools.tasks.NewTask"/> 
+  
   <typedef name="path" classname="org.apache.avalon.tools.model.MagicPath"/> 
-  <typedef name="new" classname="org.apache.avalon.tools.tasks.NewTask"/> 
 </antlib>

@@ -55,7 +55,8 @@
   </target>
 
   <target name="xdoc" depends="prepare">
-    <x:xdoc theme="modern"/>
+    <x:plugin name="xdoc" uri="plugin:avalon/tools/magic-xdoc-plugin"/>
+    <xdoc theme="modern"/>
   </target>
 
   <target name="site" depends="javadoc,xdoc"/>

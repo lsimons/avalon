@@ -135,6 +135,15 @@
     </gump>
   </resource>
 
+  <resource>
+    <info>
+      <group>saxon</group>
+      <name>saxon</name>
+      <version>6.5.3</version>
+      <type>jar</type>
+    </info>
+  </resource>
+
   <!--
   Avalon Tools.
   -->
@@ -175,6 +184,21 @@
     </dependencies>
     <tasks>
       <taskdef name="checkstyle" class="com.puppycrawl.tools.checkstyle.CheckStyleTask"/>
+    </tasks>
+  </plugin>
+
+  <plugin basedir="spells/xdoc">
+    <info>
+      <group>avalon/tools</group>
+      <name>magic-xdoc-plugin</name>
+      <type>plugin</type>
+    </info>
+    <dependencies>
+      <include key="avalon-tools-magic"/>
+      <include key="saxon" runtime="true" build="false" test="false" />
+    </dependencies>
+    <tasks>
+      <taskdef name="xdoc" class="org.apache.metro.magic.spells.xdoc.XdocTask"/>
     </tasks>
   </plugin>
 
