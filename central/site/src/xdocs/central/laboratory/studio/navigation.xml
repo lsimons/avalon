@@ -23,13 +23,11 @@
 
   <body>
     <menu>
-      <item name="Overview" href="index.html"/>
       <item name="Installation" href="installation/index.html"/>
       <item name="Getting Started" href="getting-started/index.html"/>
       <item name="User Manual" href="manual/index.html"/>
       <item name="Reference" href="reference/index.html"/>
       <item name="Developing Plug-ins" href="developing-plugins/index.html"/>
-      <item name="Javadoc" href="/api/index.html"/>
     </menu>
   </body>
 
