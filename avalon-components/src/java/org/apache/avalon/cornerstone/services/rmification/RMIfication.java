@@ -17,7 +17,7 @@ import java.rmi.RemoteException;
  * This service provides a way to publish an <code>Remote<code> object via RMI.
  *
  * @author <a href="mailto:colus@apache.org">Eung-ju Park</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public interface RMIfication
 {
@@ -37,6 +37,6 @@ public interface RMIfication
      *
      * @param publicationName the name of the object to unpublish
      */
-    public void unpublish( final String publicationName )
+    void unpublish( final String publicationName )
         throws RemoteException, NotBoundException, MalformedURLException;
 }
