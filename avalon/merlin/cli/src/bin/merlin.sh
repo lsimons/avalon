@@ -1,6 +1,10 @@
 #! /bin/sh
 #
 
+echo "DEPRECATED!!!"
+echo "  use 'merlin' instead. This file will disappear in Merlin 4.0"
+echo ""
+
 # OS specific support.  $var _must_ be set to either true or false.
 cygwin=false
 case "`uname`" in

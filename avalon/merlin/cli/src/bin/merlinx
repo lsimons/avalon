@@ -8,6 +8,16 @@
 # respectively.
 #
 
+#usage VARIABLE=`find_maven_repo "property_file" "property_name" "default_value"`
+function find_property()
+{
+       VAL=${3}
+       if [ -f ${1} ] ; then
+               VAL=`cat ${1} | grep ^${2} | cut -d= -f2`
+       fi
+       echo ${VAL}
+}
+
 #
 # Compute the MERLIN_HOME if not already set.
 #
@@ -20,13 +30,20 @@ if [ -z "$MERLIN_HOME" ] ; then
     export MERLIN_HOME="`dirname "$ABSOLUTE_PATH"`"
 fi
 
-# Checking for REPOSITORY
-if [ "$MAVEN_HOME_LOCAL" = "" ] ; then
-    REPOSITORY="$HOME/.maven/repository"
-else
-    REPOSITORY="$MAVEN_HOME_LOCAL/repository"
-fi
 
-export MERLIN_ARGS="$MERLIN_ARGS -system \"$REPOSITORY\" -repository \"$REPOSITORY\""
+MAVEN_HOME_LOCAL=${HOME}/.maven
+
+MAVEN_HOME_LOCAL=`find_property "project.properties" "maven.home.local" "${MAVEN_HOME_LOCAL}"`
+MAVEN_HOME_LOCAL=`find_property "build.properties" "maven.home.local" "${MAVEN_HOME_LOCAL}"`
+MAVEN_HOME_LOCAL=`find_property "${HOME}/build.properties" "maven.home.local" "${MAVEN_HOME_LOCAL}"`
+
+MAVEN_REPO_LOCAL=${MAVEN_HOME_LOCAL}/repository
+MAVEN_REPO_LOCAL=`find_property "project.properties" "maven.repo.local" "${MAVEN_REPO_LOCAL}"`
+MAVEN_REPO_LOCAL=`find_property "build.properties" "maven.repo.local" "${MAVEN_REPO_LOCAL}"`
+MAVEN_REPO_LOCAL=`find_property "${HOME}/build.properties" "maven.repo.local" "${MAVEN_REPO_LOCAL}"`
+
+echo "using MAVEN_REPO_LOCAL: ${MAVEN_REPO_LOCAL}"
+
+export MERLIN_ARGS="$MERLIN_ARGS -system \"${MAVEN_REPO_LOCAL}\" -repository \"${MAVEN_REPO_LOCAL}\""
 
 "$MERLIN_HOME/bin/merlin"  "$@"
