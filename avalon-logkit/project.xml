@@ -40,10 +40,6 @@ Avalon LogKit is the logging utility used by default in all Avalon systems.
         <version>1.2.8</version>
       </dependency>
       <dependency>
-        <id>commons-logging</id>
-        <version>1.0.2</version>
-      </dependency>
-      <dependency>
         <id>servletapi</id>
         <version>2.3</version>
       </dependency>
