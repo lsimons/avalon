@@ -9,18 +9,18 @@ package org.apache.log.output.test;
 
 import java.net.InetAddress;
 import org.apache.log.Hierarchy; 
-import org.apache.log.Formatter; 
-import org.apache.log.LogTarget; 
-import org.apache.log.Logger; 
-import org.apache.log.Priority; 
-import org.apache.log.format.SyslogFormatter;
+import org.apache.log.LogTarget;
+import org.apache.log.Logger;
+import org.apache.log.Priority;
+import org.apache.log.format.Formatter;
 import org.apache.log.format.RawFormatter;
+import org.apache.log.format.SyslogFormatter;
 import org.apache.log.output.net.DatagramOutputTarget;
- 
-/** 
- * 
- * @author <a href="mailto:donaldp@apache.org">Peter Donald</a> 
- */ 
+
+/**
+ *
+ * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
+ */
 public final class DatagramTest
 {
     public static void main( final String[] args )
@@ -45,7 +45,7 @@ public final class DatagramTest
             }
 
             final InetAddress address = InetAddress.getByName( "localhost" );
-            final DatagramOutputTarget target = 
+            final DatagramOutputTarget target =
                 new DatagramOutputTarget( address, 514, formatter );
 
             final Logger logger = Hierarchy.getDefaultHierarchy().getLoggerFor( "foo" );
