@@ -74,7 +74,7 @@ import org.apache.commons.logging.impl.AvalonLogger;
  * Bean for making it easier to run Fortress, for example as Ant task.
  *
  * @author <a href="mailto:dev@avalon.apache.org">The Avalon Team</a>
- * @version CVS $Revision: 1.1 $ $Date: 2003/12/01 18:04:15 $
+ * @version CVS $Revision: 1.2 $ $Date: 2003/12/02 13:37:59 $
  */
 public class FortressBean implements Initializable, LogEnabled, Serviceable, Disposable {
 
@@ -107,7 +107,15 @@ public class FortressBean implements Initializable, LogEnabled, Serviceable, Dis
     public void initialize() throws Exception {
         //only initialize if we do not already have a servicemanager passed in from outside
         if (this.sm == null) {
-            Thread.currentThread().setContextClassLoader(getClass().getClassLoader());
+            if (Thread.currentThread().getContextClassLoader() == null) {
+                if (this.getClass().getClassLoader() != null) {
+                    ClassLoader cl = this.getClass().getClassLoader();
+                    config.setContextClassLoader(cl);
+                    Thread.currentThread().setContextClassLoader(cl);
+                } else {
+                    getLogger().warn("context classloader not set and class classloader is null!");
+                }
+            }
             // Get the root container initialized
             this.cm = new DefaultContainerManager(config.getContext());
             ContainerUtil.initialize(cm);
