@@ -1,5 +1,14 @@
 <instrument logger="im">
-    <state-file interval="60000" use-compact-samples="true">../data/instrument.sampledata</state-file>
+    <name>instrument-manager-example-icm</name>
+    <description>ICM Example Instrument Application</description>
+    
+    <connectors>
+        <connector class="altrmi" port="15555"/>
+    </connectors>
+    
+    <state-file interval="60000" use-compact-samples="true">
+        ../data/instrument.sampledata
+    </state-file>
     
     <instrumentables>
         <!-- The profiler Profilable is the ProfilerManager itself. -->

@@ -14,7 +14,6 @@ import java.io.InputStreamReader;
 import org.apache.avalon.excalibur.component.DefaultRoleManager;
 import org.apache.excalibur.instrument.component.InstrumentComponentManager;
 import org.apache.excalibur.instrument.manager.DefaultInstrumentManager;
-import org.apache.excalibur.instrument.manager.altrmi.InstrumentManagerAltrmiServer;
 import org.apache.avalon.excalibur.logger.DefaultLogKitManager;
 import org.apache.avalon.excalibur.concurrent.ThreadBarrier;
 
@@ -37,14 +36,13 @@ import org.apache.log.Priority;
  * Note, this code ignores exceptions to keep the code simple.
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/08/03 14:59:39 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/08/04 10:33:33 $
  * @since 4.1
  */
 public class Main
 {
     private static InstrumentComponentManager           m_componentManager;
     private static DefaultInstrumentManager             m_instrumentManager;
-    private static InstrumentManagerAltrmiServer        m_altrmiServer;
 
     /*---------------------------------------------------------------
      * Constructors
@@ -85,8 +83,9 @@ public class Main
         logManager.configure( logKitConfig );
 
         // Set up the Instrument Manager
-        m_instrumentManager = new DefaultInstrumentManager( "instrument-manager-example" );
-        m_instrumentManager.enableLogging( new LogKitLogger( logManager.getLogger( instrumentConfig.getAttribute( "logger", "pm" ) ) ) );
+        m_instrumentManager = new DefaultInstrumentManager();
+        m_instrumentManager.enableLogging( new LogKitLogger(
+            logManager.getLogger( instrumentConfig.getAttribute( "logger", "im" ) ) ) );
         m_instrumentManager.configure( instrumentConfig );
         m_instrumentManager.initialize();
 
@@ -106,24 +105,6 @@ public class Main
         m_componentManager.setRoleManager( roleManager );
         m_componentManager.configure( componentsConfig );
         m_componentManager.initialize();
-
-        // Set up the InstrumentManagerAltrmiServer so clients can connect.
-        m_altrmiServer = new InstrumentManagerAltrmiServer( m_instrumentManager );
-
-        /*
-        m_instrumentFrame = new InstrumentFrame( m_instrumentManager, "Example Instrument" );
-        m_instrumentFrame.setVisible( true );
-
-        try
-        {
-            File desktopFile = new File( "../conf/instrument.desktop" );
-            m_instrumentFrame.loadDesktopStateFromFile( desktopFile, false );
-        }
-        catch ( Exception e )
-        {
-            System.out.println( "Unable to load desktop file: " + e );
-        }
-        */
     }
 
     /*---------------------------------------------------------------
@@ -198,17 +179,6 @@ public class Main
             // Release the component
             m_componentManager.release( instrumentable );
             instrumentable = null;
-
-            // Dispose the InstrumentManagerAltrmiServer
-            m_altrmiServer.dispose();
-            m_altrmiServer = null;
-
-            /*
-            // Hide the frame
-            m_instrumentFrame.setVisible( false );
-            m_instrumentFrame.dispose();
-            m_instrumentFrame = null;
-            */
 
             // Dispose the ComponentManager
             m_componentManager.dispose();
