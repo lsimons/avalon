@@ -2,7 +2,7 @@
 rem
 rem Example start script.
 rem
-rem Author: Leif Mortenson [leif@silveregg.co.jp]
+rem Author: Leif Mortenson [leif@tanukisoftware.com]
 rem Author: Berin Loritsch [bloritsch@apache.org]
 
 rem

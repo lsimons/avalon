@@ -14,8 +14,8 @@ package org.apache.avalon.excalibur.instrument;
  *  implement this interface in order for Instruments to be supported within
  *  those child components.
  *
- * @author <a href="mailto:leif@silveregg.co.jp">Leif Mortenson</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/03/26 11:17:21 $
+ * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
+ * @version CVS $Revision: 1.2 $ $Date: 2002/04/03 13:48:49 $
  * @since 4.0
  */
 public interface InstrumentManageable

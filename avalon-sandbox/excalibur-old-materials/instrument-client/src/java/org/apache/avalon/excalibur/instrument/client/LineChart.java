@@ -24,8 +24,8 @@ import javax.swing.JComponent;
 /**
  * Draws a nice pretty chart given a set of data.
  *
- * @author <a href="mailto:leif@silveregg.co.jp">Leif Mortenson</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/04/01 10:08:18 $
+ * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
+ * @version CVS $Revision: 1.3 $ $Date: 2002/04/03 13:48:48 $
  * @since 4.1
  */
 public class LineChart

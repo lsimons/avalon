@@ -18,7 +18,7 @@ import java.util.Observer;
  * using the Java Service Wrapper at http://wrapper.sourceforge.net
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @author <a href="mailto:leif@silveregg.co.jp">Leif Mortenson</a>
+ * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
  */
 public class DaemonLauncher
     implements WrapperListener, Observer

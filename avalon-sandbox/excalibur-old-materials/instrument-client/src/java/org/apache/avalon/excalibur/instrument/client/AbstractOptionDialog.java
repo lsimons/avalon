@@ -26,8 +26,8 @@ import javax.swing.border.EmptyBorder;
 
 /**
  *
- * @author <a href="mailto:leif@silveregg.co.jp">Leif Mortenson</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/03/28 03:15:40 $
+ * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
+ * @version CVS $Revision: 1.2 $ $Date: 2002/04/03 13:48:48 $
  * @since 4.1
  */
 public abstract class AbstractOptionDialog
