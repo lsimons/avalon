@@ -231,7 +231,6 @@ Legal:
 
   </target>
 
-
   <!-- Prepares the documentation directory -->
   <target name="xdocs">
 
@@ -333,6 +332,7 @@ Legal:
 
     <jar jarfile="${build.lib}/phoenix-client.jar" basedir="${build.classes}">
       <include name="org/apache/avalon/phoenix/*"/>
+      <include name="org/apache/avalon/phoenix/tools/**"/>
     </jar>
 
     <jar jarfile="${build.lib}/phoenix-loader.jar"
@@ -353,15 +353,12 @@ Legal:
          basedir="${build.classes}"
          manifest="${manifest.dir}/engine-Manifest.mf" >
 
-      <!-- temporary hack until camelot/atlantis stabilizes -->
-      <include name="org/apache/avalon/framework/**"/>
-
       <include name="org/apache/avalon/phoenix/metainfo/**"/>
       <include name="org/apache/avalon/phoenix/engine/**"/>
       <include name="org/apache/avalon/phoenix/frontends/**"/>
       <include name="org/apache/avalon/phoenix/components/**"/>
       <exclude name="org/apache/avalon/phoenix/engine/loader/**"/>
-
+      <exclude name="org/apache/avalon/phoenix/tools/**"/>
     </jar>
 
   </target>
