@@ -12,64 +12,66 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Apache.Avalon.Castle.Default.Runtime
+namespace Apache.Avalon.Activation.Default
 {
 	using System;
 
-	using Apache.Avalon.Castle.ManagementExtensions;
-	using Apache.Avalon.Castle.Util;
 	using Apache.Avalon.Composition.Model;
-	using RuntimeImpl = Apache.Avalon.Activation.Default.DefaultRuntime;
 
 	/// <summary>
 	/// Summary description for DefaultRuntime.
 	/// </summary>
-	[ManagedComponent]
-	public class DefaultRuntime : ManagedService, IRuntime
+	public class DefaultRuntime : IRuntime
 	{
-		private RuntimeImpl m_runtime;
+		//--------------------------------------------------------------
+		// immutable state
+		//--------------------------------------------------------------
 
-		public DefaultRuntime()
+		private IRuntimeFactory m_runtimeFactory;
+
+		/// <summary>
+		/// Creation of a new system context.
+		/// </summary>
+		/// <param name="system">the system context</param>
+		public DefaultRuntime( ISystemContext system )
 		{
+			if( system == null )
+			{
+				throw new ArgumentNullException( "system" );
+			}
+			m_runtimeFactory = new DefaultRuntimeFactory( system );
 		}
-	
+
 		#region IRuntime Members
 
-		[ManagedOperation]
 		public void Decommission(IDeploymentModel model)
 		{
-			m_runtime.Decommission( model );
+			RuntimeFactory.GetRuntime( model ).Decommission();
 		}
 
-		[ManagedOperation]
 		public void Commission(IDeploymentModel model)
 		{
-			m_runtime.Commission( model );
+			RuntimeFactory.GetRuntime( model ).Commission();
 		}
 
-		[ManagedOperation]
 		public void Release(IDeploymentModel model, object instance)
 		{
-			m_runtime.Release( model, instance );
+			RuntimeFactory.GetRuntime( model ).Release( instance );
 		}
 
-		[ManagedOperation]
 		public object Resolve(IDeploymentModel model)
 		{
-			return m_runtime.Resolve( model );;
+			return RuntimeFactory.GetRuntime( model ).Resolve();;
 		}
 
 		#endregion
-	
-		public override void Start()
+
+		protected IRuntimeFactory RuntimeFactory
 		{
-			base.Start();
-
-			ISystemContext context = (ISystemContext) 
-				MXUtil.GetAttribute( server, CastleConstants.ORCHESTRATOR_NAME, 
-				"SystemContext" );
-
-			m_runtime = new RuntimeImpl( context );
+			get
+			{
+				return m_runtimeFactory;
+			}
 		}
 	}
 }
