@@ -16,7 +16,7 @@ import org.apache.avalon.phoenix.Service;
  * @author Federico Barbieri <fede@apache.org>
  */
 public interface Store
-    extends Service, ComponentSelector
+    extends ComponentSelector
 {
     String ROLE = "org.apache.avalon.cornerstone.services.store.Store";
 

@@ -18,7 +18,7 @@ import org.apache.avalon.phoenix.Service;
  * @author <a href="mailto:colus@isoft.co.kr">Eung-ju Park</a>
  */
 public interface DataSourceSelector
-    extends Service, ComponentSelector
+    extends ComponentSelector
 {
     String ROLE = "org.apache.avalon.cornerstone.services.datasource.DataSourceSelector";
 }
