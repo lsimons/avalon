@@ -29,7 +29,7 @@ import org.apache.avalon.framework.logger.Logger;
  * total number of Connection objects that are created.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.14 $ $Date: 2002/03/16 00:05:40 $
+ * @version CVS $Revision: 1.15 $ $Date: 2002/04/10 05:41:34 $
  * @since 4.1
  */
 public abstract class AbstractJdbcConnection
@@ -156,6 +156,7 @@ public abstract class AbstractJdbcConnection
             }
             catch( final SQLException se )
             {
+                getLogger().debug( "Ping of connection failed.", se );
                 this.dispose();
                 return true;
             }
