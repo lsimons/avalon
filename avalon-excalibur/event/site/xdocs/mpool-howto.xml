@@ -1,32 +1,29 @@
-<?xml version="1.0"?>
-<!-- 
- Copyright 2004 The Apache Software Foundation
- Licensed  under the  Apache License,  Version 2.0  (the "License");
- you may not use  this file  except in  compliance with the License.
- You may obtain a copy of the License at 
- 
-   http://www.apache.org/licenses/LICENSE-2.0
- 
- Unless required by applicable law or agreed to in writing, software
- distributed  under the  License is distributed on an "AS IS" BASIS,
- WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
- implied.
-  
- See the License for the specific language governing permissions and
- limitations under the License.
+<!--
+     Copyright 2004 The Apache Software Foundation
+     Licensed  under the  Apache License,  Version 2.0  (the "License");
+     you may not use  this file  except in  compliance with the License.
+     You may obtain a copy of the License at
+     
+     http://www.apache.org/licenses/LICENSE-2.0
+     
+     Unless required by applicable law or agreed to in writing, software
+     distributed  under the  License is distributed on an "AS IS" BASIS,
+     WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+     implied.
+     
+     See the License for the specific language governing permissions and
+     limitations under the License.
 -->
 <document>
-  <header>
+  <properties>
+    <author email="dev@avalon.apache.org">Avalon Development Team</author>
     <title>Excalibur Event - How To Use MPool</title>
-    <authors>
-      <person name="Berin Loritsch" email="bloritsch@apache.org"/>
-    </authors>
-  </header>
+  </properties>
   <body>
-    <section><title>Setting Up the PoolManager</title>
+    <section name="Setting Up the PoolManager" >
       <p>
         In order to set up a CommandManager.  For those instructions,
-        follow <link href="command-howto.html">the Command "How To"</link>.
+        follow <a href="command-howto.html">the Command "How To"</a>.
         From there, you want to set up the PoolManager using the following
         code:
       </p>
@@ -38,7 +35,7 @@ PoolManager poolManager = new DefaultPoolManager( commandManager );
         ]]>
       </source>
     </section>
-    <section><title>Creating Your Pool</title>
+    <section name="Creating Your Pool" >
       <p>
         The PoolManager is responsible for manufacturing managed pools,
         and for managing their sizes.  All PoolManager managed pools are
@@ -54,7 +51,7 @@ ObjectFactory objectFactory = new MySpecialObjectFactory();
 Pool managedPool = poolManager.getManagedPool( objectFactory, initialEntries );
         ]]>
       </source>
-      <section><title>Writing an ObjectFactory</title>
+      <section name="Writing an ObjectFactory" >
         <p>
           Writing an Object Factory is not that difficult.  You just need to
           implement the ObjectFactory interface.  Below is an example
@@ -105,7 +102,7 @@ public class MySpecialObjectFactory implements ObjectFactory
             ]]>
           </source>
       </section>
-      <section><title>Unmanaged Pools</title>
+      <section name="Unmanaged Pools" >
         <p>
           There are two unmanaged pool types in MPool:
           FixedSizePool and BlockingFixedSizePool.  They are
@@ -124,7 +121,7 @@ public class MySpecialObjectFactory implements ObjectFactory
         </p>
       </section>
     </section>
-    <section><title>Using the Pool</title>
+    <section name="Using the Pool" >
       <p>
         Using the pools is quite simple:
       </p>
@@ -178,10 +175,4 @@ public class ResettableObject implements Recyclable
       </source>
     </section>
   </body>
-  <footer>
-    <legal>
-      Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.7 $ $Date: 2004/02/28 11:47:30 $
-    </legal>
-  </footer>
 </document>

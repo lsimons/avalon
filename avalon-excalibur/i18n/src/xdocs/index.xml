@@ -1,15 +1,26 @@
-<?xml version="1.0"?>
-<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V1.1//EN" "document-v11.dtd">
-
+<!--
+     Copyright 2004 The Apache Software Foundation
+     Licensed  under the  Apache License,  Version 2.0  (the "License");
+     you may not use  this file  except in  compliance with the License.
+     You may obtain a copy of the License at
+     
+     http://www.apache.org/licenses/LICENSE-2.0
+     
+     Unless required by applicable law or agreed to in writing, software
+     distributed  under the  License is distributed on an "AS IS" BASIS,
+     WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+     implied.
+     
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
 <document>
-    <header>
-        <title>Excalibur Internationalization - Overview</title>
-        <authors>
-          <person name="Avalon Documentation Team" email="dev@avalon.apache.org"/>
-        </authors>
-    </header>
-    <body>
-        <section><title>Introduction</title>
+  <properties>
+    <author email="dev@avalon.apache.org">Avalon Development Team</author>
+    <title>Excalibur Internationalization - Overview</title>
+  </properties>
+  <body>
+        <section name="Introduction" >
             <p>
               Excalibur's Internationalization package is found in
               <code>org.apache.avalon.excalibur.i18n</code>.  Avalon
@@ -18,7 +29,7 @@
               XML resource bundles are still under development.
             </p>
         </section>
-        <section><title>usage</title>
+        <section name="Usage" >
             <p>
                 Using the i18n code is really straightforward; a good
                 example of its use is Avalon-Phoenix, which is completely
@@ -66,7 +77,7 @@ doStuff method is invalid; it is {0}, which is plain silly!
                 This i18n package is, indeed, a trivial wrapper around
                 the built-in i18n features java has using ResourceBundles
                 and the like. See the java api docs for
-                <link href="http://java.sun.com/j2se/1.4.1/docs/api/java/util/ResourceBundle.html">ResourceBundle</link>
+                <a href="http://java.sun.com/j2se/1.4.1/docs/api/java/util/ResourceBundle.html">ResourceBundle</a>
                 to learn more about i18n, and take a look at the javadoc
                 for Resources and ResourceManager to see which options
                 are available.

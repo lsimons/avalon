@@ -1,39 +1,36 @@
-<?xml version="1.0"?>
-<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V1.1//EN" "document-v11.dtd">
-<!-- 
- Copyright 2004 The Apache Software Foundation
- Licensed  under the  Apache License,  Version 2.0  (the "License");
- you may not use  this file  except in  compliance with the License.
- You may obtain a copy of the License at 
- 
-   http://www.apache.org/licenses/LICENSE-2.0
- 
- Unless required by applicable law or agreed to in writing, software
- distributed  under the  License is distributed on an "AS IS" BASIS,
- WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
- implied.
-  
- See the License for the specific language governing permissions and
- limitations under the License.
+<!--
+     Copyright 2004 The Apache Software Foundation
+     Licensed  under the  Apache License,  Version 2.0  (the "License");
+     you may not use  this file  except in  compliance with the License.
+     You may obtain a copy of the License at
+     
+     http://www.apache.org/licenses/LICENSE-2.0
+     
+     Unless required by applicable law or agreed to in writing, software
+     distributed  under the  License is distributed on an "AS IS" BASIS,
+     WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+     implied.
+     
+     See the License for the specific language governing permissions and
+     limitations under the License.
 -->
 <document>
-  <header>
+  <properties>
+    <author email="dev@avalon.apache.org">Avalon Development Team</author>
     <title>Lifecycle Extensions</title>
-    <authors>
-      <person name="Avalon Development Team" email="dev@avalon.apache.org"/>
-    </authors>
-  </header>
+  </properties>
   <body>
+    <section name="Example" >
 
-  <section><title>Example</title>
+      <section name="Create your lifestyle stage interface" >
 
-    <section><title>Create your lifestyle stage interface</title>
+        <p>
+          The following interface is your domain specific lifecycle stage 
+          interface.  It is the interface that an extension handler will use to
+          interact with your component during deployment and decommissioning.
+        </p>
 
-<p>
-The following interface is your domain specific lifecycle stage interface.  It is the interface that an extension handler will use to interact with your component during deployment and decommissioning.
-</p>
-
-      <source>
+        <source>
  public interface Exploitable
  {
     /**
@@ -42,16 +39,21 @@ The following interface is your domain specific lifecycle stage interface.  It i
      */
      void exploit( String message );
  }
-      </source>
+        </source>
 
-    </section>
+      </section>
 
-    <section><title>Create the lifestyle extension handler</title>
-
-<p>
-An extension handler is the implementation class that will be activated by the Merlin container to handle domain specific tasks during the deployment and decommissioning phases.  The extension can implement etier or both of the Creator and Accessor interfaces depeding on the particular extension requirements.  IN this example we are defining a simple creation stage handler that supplies a message to an instance of Exploitable.
-</p>
-      <source>
+      <section name="Create the lifestyle extension handler" >
+        <p>
+          An extension handler is the implementation class that will be 
+          activated by the Merlin container to handle domain specific tasks 
+          during the deployment and decommissioning phases.  The extension can 
+          implement etier or both of the Creator and Accessor interfaces 
+          depeding on the particular extension requirements.  IN this example we
+          are defining a simple creation stage handler that supplies a message 
+          to an instance of Exploitable.
+        </p>
+        <source>
  public class ExploitationManager implements Creator
  {
     /**
@@ -78,13 +80,20 @@ An extension handler is the implementation class that will be activated by the M
      {
      }
  }
-      </source>
+        </source>
+        <p>
+          To complete the defintion of you extension handler you need to prepare
+          the meta-info that will be used by Merlin to identify the extension 
+          and the stage interface is supports.  The following &lt;type/&gt; 
+          declaration includes an &lt;extensions/&gt; tag that contains a 
+          &lt;reference/&gt; element that includes the reference to the 
+          Exploitable lifecycle stage interface. This is the key that Merlin 
+          uses to associate a handler with a component.  If you extension class
+          requires any specific context values, they should be declared in a 
+          context element within the extension element.
+        </p>
 
-<p>
-To complete the defintion of you extension handler you need to prepare the meta-info that will be used by Merlin to identify the extension and the stage interface is supports.  The following &lt;type/&gt; declaration includes an &lt;extensions/&gt; tag that contains a &lt;reference/&gt; element that includes the reference to the Explitable lifecycle stage interface. This is the key that Merlin uses to associate a handler with a component.  If you extension class requires any specific context values, they should be declared in a context element within the extension element.
-</p>
-
-      <source>
+        <source>
 &lt;type&gt;
 
    &lt;info&gt;
@@ -100,11 +109,11 @@ To complete the defintion of you extension handler you need to prepare the meta-
 
 &lt;/type&gt;
 
-      </source>
+        </source>
 
-    </section>
+      </section>
 
-    <section><title>Create a component implementing the stage interface</title>
+      <section name="Create a component implementing the stage interface" >
       <source>
  public class MyComponent extends AbstractLogEnabled implements Exploitable
  {
@@ -119,9 +128,15 @@ To complete the defintion of you extension handler you need to prepare the meta-
  }
       </source>
 
-<p>
-To complete the defintion of your component you need to prepare the meta-info that will be used by Merlin to identify the stage interface is requires a handler for.  The following &lt;type/&gt; declaration includes an &lt;stage/&gt; tag that contains a &lt;reference/&gt; element that includes the reference to the Exploitable lifecycle stage interface. This is the key that Merlin uses to associate the component with a handler capable of handling the Exploitable interface.
-</p>
+        <p>
+          To complete the defintion of your component you need to prepare the 
+          meta-info that will be used by Merlin to identify the stage interface
+          is requires a handler for.  The following &lt;type/&gt; declaration 
+          includes an &lt;stage/&gt; tag that contains a &lt;reference/&gt; 
+          element that includes the reference to the Exploitable lifecycle stage
+          interface. This is the key that Merlin uses to associate the component
+          with a handler capable of handling the Exploitable interface.
+        </p>
 
       <source>
 &lt;type&gt;
@@ -142,9 +157,13 @@ To complete the defintion of your component you need to prepare the meta-info th
       </source>
     </section>
 
-    <section><title>Register you component and the extension</title>
+    <section name="Register you component and the extension" >
 
-<p>To complete the process you need to declare your handler and component in a jar manifest file.  The following entries show the declaration of the component and the extension handler.</p>
+        <p>
+          To complete the process you need to declare your handler and component
+          in a jar manifest file.  The following entries show the declaration of
+          the component and the extension handler.
+        </p>
 
       <source>
   Manifest-Version: 1.0
@@ -159,9 +178,15 @@ To complete the defintion of your component you need to prepare the meta-info th
 
     </section>
 
-    <section><title>Execute the example</title>
+    <section name="Execute the example" >
 
-<p>To execute the example you simply need to include a reference to you component within a Merlin container declaration.  The following XML source declares a Merlin kernel, container, and component.  You don't need to include the handler because Merlin can sort that out itself based on the information supplied in the meta-info declarations.</p>
+        <p>
+          To execute the example you simply need to include a reference to you 
+          component within a Merlin container declaration.  The following XML 
+          source declares a Merlin kernel, container, and component.  You don't
+          need to include the handler because Merlin can sort that out itself 
+          based on the information supplied in the meta-info declarations.
+        </p>
 
       <source>
  &lt;kernel&gt;
@@ -186,10 +211,4 @@ To complete the defintion of your component you need to prepare the meta-info th
   </section>
 
   </body>
-  <footer>
-    <legal>
-      Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.4 $ $Date: 2004/02/28 11:47:21 $
-    </legal>
-  </footer>
 </document>

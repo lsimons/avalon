@@ -179,9 +179,12 @@
             <include>**/*.xtype</include>
             <include>**/*.xprofile</include>
             <include>**/*.xconfig</include>
+            <include>**/*.xconf</include>
             <include>**/*.xml</include>
             <include>**/*.xservice</include>
             <include>**/*.rng</include>
+            <include>**/*.roles</include>
+            <include>**/*.xlog</include>
           </includes>
         </resource>
       </resources>
