@@ -31,7 +31,7 @@
   <!-- Compiles project -->
   <target name="compile">
 
-    <mkdir dir="build/classes"/>
+    <mkdir dir="target/classes"/>
 
     <javac srcdir="src/java"
            destdir="target/classes"
