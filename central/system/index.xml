@@ -2,6 +2,9 @@
 
 <system>
 
+  <import index="../../tools/index.xml"
+     href="http://svn.apache.org/repos/asf/avalon/trunk/tools/index.xml"/>
+
   <import index="../../runtime/index.xml"
      href="http://svn.apache.org/repos/asf/avalon/trunk/runtime/index.xml"/>
 

@@ -435,7 +435,7 @@ public class GumpTask extends SystemTask
 
         writer.write( "\n    <!-- magic -->" );
         writer.write( 
-          "\n    <depend project=\"avalon-tools-magic\" inherit=\"true\" runtime=\"true\"/>" );
+          "\n    <depend project=\"avalon-tools-magic-bootstrap\" inherit=\"true\" runtime=\"true\"/>" );
 
         //
         // add dependencies for gump to do its sequencing correctly
