@@ -131,6 +131,11 @@
 
     </target>
 
+    <!-- Generates the altrmi proxies used by the client. -->
+    <target name="altrmiproxies" depends="compile">
+        <ant antfile="altrmiproxies.xml" target="altrmiproxies"/>
+    </target>
+
     <!-- Compiles the unit test source code -->
     <target name="compile-test" depends="compile, dependencies-test" description="Compiles the source code">
         <mkdir dir="${build.testsrc}"/>
@@ -181,7 +186,7 @@
     </target>
 
     <!-- Creates all the .jar file -->
-    <target name="jar" depends="compile, prepare-conf" description="Generates the jar files">
+    <target name="jar" depends="compile, prepare-conf, altrmiproxies" description="Generates the jar files">
 
         <mkdir dir="${build.lib}"/>
 
