@@ -46,29 +46,30 @@ public class Tweety implements LogEnabled, Contextualizable, Configurable, Initi
 	// methods for them, this is the only way to make them accessible when
 	// subclassing.
 
-	/** we'll use this logger everywhere. It sends messages to the console. */
+	/** This logger is used by tweety and its managed components everywhere; it sends
+	messages to the console. */
 	protected Logger m_logger;
 
-	/** all components share the same, global, Context. This is not what should
-	really happen, but it does make Tweety a bit easier. */
+	/** all components share the same, global, Context; this is not what should
+	really happen in an actual avalon container, but it does make Tweety a bit easier. */
 	protected Context m_context;
 
-	/** all components share the same, global, Configuration. This is not what should
-	really happen, but it does make Tweety a bit easier. */
+	/** all components share the same, global, Configuration; this is not what should
+	really happen in an actual avalon container, but it does make Tweety a bit easier. */
 	protected Configuration m_configuration;
 
-	/** all components share the same, global, ComponentManager.
-	This would not happen in a real-life setup, but it makes the
+	/** all components share the same, global, ComponentManager;
+	this would not happen in a real-life setup, but it makes the
 	code simpler. */
 	protected DefaultComponentManager m_componentManager;
 
-	/** all components share the same, global, ServiceManager.
-	This would not happen in a real-life setup, but it makes the
+	/** all components share the same, global, ServiceManager;
+	this would not happen in a real-life setup, but it makes the
 	code simpler. */
 	protected DefaultServiceManager m_serviceManager;
 
 	/**
-	 * this field is filled during <code>parameterize()</code> with a parametersÿ
+	 * this field is filled during <code>parameterize()</code> with a parameters
 	 * object that describes everything <code>Tweety</code> needs to run.
 	 * Usually, it contains information loaded from a tweety.properties file. A
 	 * sample <code>tweety.properties</code> file might look like this:
@@ -91,17 +92,17 @@ chirp-mondo = org.apache.avalon.excalibur.tweety.demos.ChirpWorld
 
 	/**
 	 * This map will be used to store a reference to all the components
-	 * that tweety will manage. We fill it up during initialize().
+	 * that tweety will manage; We fill it up during initialize().
 	 */
 	protected Map m_components;
 
 	//// CONSTRUCTOR ////
 	/**
-	 * Tweety has a single, public, no arguments constructor. We supply arguments
+	 * Tweety has a single, public, no arguments constructor; We supply arguments
 	 * at a later point in the form of an instance of <code>Parameters</code>
 	 * during parameterize().
 	 *
-	 * The constructor initializes our properties with default values.
+	 * <p>The constructor initializes our properties with default values.</p>
 	 */
 	public Tweety()
 	{
@@ -109,13 +110,13 @@ chirp-mondo = org.apache.avalon.excalibur.tweety.demos.ChirpWorld
 
 	//// METHOD TO HANDLE RUNNING FROM COMMAND LINE ////
 	/**
-	 * This method is called to invoke tweety from the command line. It instantiates
+	 * This method is called to invoke tweety from the command line; It instantiates
 	 * a new <code>Tweety</code> instance, provides the parameters to configure
 	 * tweety by loading them from a file, and then runs tweety itself through its
 	 * lifecycle.
 	 *
-	 * <b>Note:</b> we should improve this method to create a sensible context and
-	 * configuration for hosted components.
+	 * <p><b>Note:</b> we should improve this method to create a sensible context and
+	 * configuration for hosted components.</p>
 	 *
 	 * @param args the command line arguments. We don't use them.
 	 */
@@ -173,7 +174,7 @@ chirp-mondo = org.apache.avalon.excalibur.tweety.demos.ChirpWorld
 
 	//// AVALON FRAMEWORK LIFECYCLE METHODS ////
 	/**
-	 * Provide tweety with a logger. This logger will also be used for all the
+	 * Provide tweety with a logger; This logger will also be used for all the
 	 * components that tweety manages.
 	 *
 	 * @param logger the logger
@@ -185,7 +186,7 @@ chirp-mondo = org.apache.avalon.excalibur.tweety.demos.ChirpWorld
 	}
 
     /**
-     * Provide tweety with a context. This context will also be used for all the
+     * Provide tweety with a context; This context will also be used for all the
 	 * components that tweety manages.
      *
      * @param context the context
@@ -197,7 +198,7 @@ chirp-mondo = org.apache.avalon.excalibur.tweety.demos.ChirpWorld
 	}
 
     /**
-     * Provide tweety with a configuration. This configuration will also be used for all the
+     * Provide tweety with a configuration; This configuration will also be used for all the
 	 * components that tweety manages.
      *
      * @param configuration the class configurations.
@@ -209,7 +210,7 @@ chirp-mondo = org.apache.avalon.excalibur.tweety.demos.ChirpWorld
     }
 
     /**
-     * Provide tweety with the parameters it needs to run. Each pair of name and
+     * Provide tweety with the parameters it needs to run; Each pair of name and
 	 * value defines a <b>Role</b> and a component that implements that role.
      *
      * @param parameters the parameters
@@ -259,7 +260,7 @@ chirp-mondo = org.apache.avalon.excalibur.tweety.demos.ChirpWorld
 	}
 
 	/**
-	 * Initialize tweety. We create an instance of all the components tweety contains.
+	 * Initialize tweety; We create an instance of all the components tweety contains.
 	 */
 	public void initialize()
 	{
@@ -309,7 +310,7 @@ chirp-mondo = org.apache.avalon.excalibur.tweety.demos.ChirpWorld
 	}
 
 	/**
-	 * Start up tweety. We setup all the components tweety contains, add them to
+	 * Start up tweety; We setup all the components tweety contains, add them to
 	 * the global componentmanager and servicemanager, and finally we call start()
 	 * on each of them.
 	 */
@@ -413,7 +414,7 @@ chirp-mondo = org.apache.avalon.excalibur.tweety.demos.ChirpWorld
 	}
 
 	/**
-	 * Stop tweety. For each component tweety contains, we run their lifecycle from
+	 * Stop tweety; For each component tweety contains, we run their lifecycle from
 	 * their stop() method right up to dispose().
 	 */
 	public void stop()
