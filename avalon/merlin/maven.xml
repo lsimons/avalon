@@ -349,7 +349,6 @@
         <sourcepath path="${basedir}/activation/spi/src/java"/>
         <sourcepath path="${basedir}/activation/impl/src/java"/>
         <sourcepath path="${basedir}/kernel/api/src/java"/>
-        <sourcepath path="${basedir}/kernel/main/src/java"/>
         <sourcepath path="${basedir}/kernel/impl/src/java"/>
         <sourcepath path="${basedir}/kernel/unit/src/java"/>
         <classpath>
@@ -387,16 +386,5 @@
   <goal name="merlin-dist" prereqs="merlin:install"/>
   <goal name="merlin-site" prereqs="merlin:site"/>
   <goal name="merlin-libs" prereqs="merlin:update"/>
-
-  <!--
-  Write a build signature for each package.
-  -->
-  <preGoal name="java:compile">
-    <ant:available file="${maven.home}/plugins/${avalon.plugin.jar}"
-      property="pluginPresent"/>
-    <j:if test="${pluginPresent == 'true'}">
-      <attainGoal name="avalon:artifact"/>
-    </j:if>
-  </preGoal>
 
 </project>
