@@ -59,6 +59,7 @@ import org.apache.avalon.framework.parameters.Parameters;
  *   &lt;parameters&gt;
  *     &lt;parameter name="port" value="3333" /&gt;
  *     &lt;parameter name="allow-deny" value="false" /&gt;
+ *     &lt;parameter name="local-allow" value="true" /&gt;
  *     &lt;parameter name="welcome-text" value="type 'help' form more info." /&gt;
  *   &lt;/parameters&gt;
  * </pre>
@@ -66,6 +67,9 @@ import org.apache.avalon.framework.parameters.Parameters;
  * if the host does not exist in the deny list, otherwise it is not allowed
  * unless the host exist in the allow list.
  * </p>
+ * <p>If <i>local-allow</i> is true, the localhost/127.0.0.1 is added to the
+ * allow list. This is default, so one can connect without further parameterization
+ * or configuration.</p>
  *
  * <p>Configuration</p>
  * <pre>
@@ -138,6 +142,7 @@ public class ConsoleImpl extends AbstractLogEnabled
      *   &lt;parameters&gt;
      *     &lt;parameter name="port" value="3333" /&gt;
      *     &lt;parameter name="allow-deny" value="false" /&gt;
+     *     &lt;parameter name="local-allow" value="true" /&gt;
      *     &lt;parameter name="welcome-text" value="type 'help' form more info." /&gt;
      *   &lt;/parameters&gt;
      * </pre>
@@ -148,6 +153,13 @@ public class ConsoleImpl extends AbstractLogEnabled
         m_Port = params.getParameterAsInteger( "port", 3333 );
         m_Welcome = params.getParameter( "welcome-text", "type 'help' form more info." );
         m_Allow = params.getParameterAsBoolean( "deny-allow", false );
+        
+        boolean localAllow = params.getParameterAsBoolean( "allow-local", true );
+        if( localAllow )
+        {
+            InetAddress address = InetAddress.getByName( "127.0.0.1" );
+            m_Allows.add( address );
+        }
     }
     
     /**
@@ -171,6 +183,7 @@ public class ConsoleImpl extends AbstractLogEnabled
      *     &lt;/connections&gt;
      *   &lt;/configuration&gt;
      * </pre>
+     *
      */
     public void configure( Configuration conf )
         throws ConfigurationException
