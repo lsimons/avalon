@@ -20,21 +20,166 @@
 <document>
 
   <properties>
-    <author email="mcconnell@apache.org">Stephen McConnell</author>
-    <title>Specification</title>
+    <title>Merlin Servlet</title>
+    <author email="dev@avalon.apache.org">Avalon Development Team</author>
   </properties>
 
   <body>
-
     <section name="Merlin Servlet">
+      <p>
+        The Merlin Servlet package contains an abstract Servlet implementation 
+        that contains an embedded Merlin Kernel.
+      </p>
 
-      <subsection name="Overview">
+      <subsection name="Development Notes">
+        <p>
+          This is a minimal implementation of a Servlet that contains an 
+          embedded kernel.  The behaviour is a function of the block.xml 
+          resource resolved via the initialisation parameters.  No support 
+          is included for configuration of the kernel and as such the kernel
+          is established relative to defaults.  This will be enhanced in a 
+          later revision.
+        </p>
       </subsection>
+      <subsection name="Example web.xml">
+        <p>
+          <i>web.xml</i>
+        </p>
+<source><![CDATA[
+<!DOCTYPE web-app 
+    PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN" 
+    "http://java.sun.com/dtd/web-app_2_3.dtd">
 
+<web-app>
+
+  <display-name>Merlin Servlet</display-name>
+
+  <description>
+    Merlin Servlet Test Page.
+  </description>
+
+  <servlet>
+    <servlet-name>merlin</servlet-name>
+    <servlet-class>org.apache.avalon.merlin.servlet.TestServlet</servlet-class>
+    <init-param>
+      <param-name>block</param-name>
+      <param-value>/BLOCK-INF/block.xml</param-value>
+    </init-param>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+</web-app>
+]]></source>
+
+      </subsection>
+      <subsection name="Servlet Implementation">
+        <p>
+          <i>MerlinServlet.java</i>
+        </p>
+<source>
+package org.apache.avalon.merlin.servlet;
+
+import java.io.File;
+import java.net.URL;
+import java.io.IOException;
+
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServlet;
+
+import org.apache.avalon.assembly.locator.DefaultLocator;
+import org.apache.avalon.merlin.kernel.Kernel;
+import org.apache.avalon.merlin.kernel.impl.DefaultKernel;
+
+/**
+ * Servlet that handles the establishment of a Merlin Kernel
+ * and registration of the kernel base URL under the servlet 
+ * context using the key {@link Kernel.BASE_URL_KEY}.
+ *
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ */
+public class MerlinServlet extends HttpServlet
+{
+    private DefaultKernel m_kernel;
+
+    /**
+     * Initializes Servlet by the web server container.
+     *
+     * @exception ServletException if an error occurs
+     */
+    public void init()
+        throws ServletException
+    {
+        try
+        {
+            ClassLoader loader = Thread.currentThread().getContextClassLoader();
+
+            String homePath = getServletContext().getRealPath( "." );
+            File home = new File( homePath );
+
+            String blockPath = getInitParameter( "block", "BLOCK-INF/block.xml" );
+            URL block = new File( home, blockPath ).toURL();
+
+            DefaultLocator context = new DefaultLocator();
+            context.put( "urn:merlin:home", home );
+            context.put( "urn:merlin:system", home );
+            context.put( "urn:merlin:classloader.common", loader );
+            context.put( "urn:merlin:classloader.system", loader );
+            context.put( "urn:merlin:debug", "WARN" );
+            context.put( "urn:merlin:logging.priority", "INFO" );
+            context.put( "urn:merlin:block.url", block );
+            context.makeReadOnly();
+
+            m_kernel = new DefaultKernel();
+            m_kernel.contextualize( context );
+            m_kernel.initialize();
+
+            getServletContext().setAttribute( Kernel.BASE_URL_KEY, m_kernel.getURL() );
+
+            log( "kernel established" );
+        }
+        catch( Exception e )
+        {
+            throw new ServletException( "Initialization error.", e );
+        }
+    }
+
+    /**
+     * Disposes of container manager and container instance.
+     */
+    public void destroy()
+    {
+        if( m_kernel != null )
+        { 
+            m_kernel.shutdown();
+            m_kernel = null;
+        }
+    }
+
+    private String getInitParameter( final String name, final String defaultValue )
+    {
+        final String value = getInitParameter( name );
+        if ( null == value )
+        {
+            return defaultValue;
+        }
+        else
+        {
+            return value;
+        }
+    }
+}
+</source>
+      </subsection>
     </section>
-
   </body>
 
+  <footer>
+    <legal>
+      Copyright (c) @year@ The Avalon Apache Project All rights reserved.
+      $Revision: 1.2 $ $Date: 2004/04/03 05:34:14 $
+    </legal>
+  </footer>
 </document>
 
 

@@ -22,7 +22,7 @@
   <header>
     <title>Avalon Assembly - Why?</title>
     <authors>
-      <person name="Avalon Development Team" email="avalon-dev@jakarta.apache.org"/>
+      <person name="Avalon Development Team" email="dev@avalon.apache.org"/>
     </authors>
   </header>
 
@@ -87,7 +87,7 @@ The above code demonstrates the elimination of knowledge about the component dep
   <footer>
     <legal>
       Copyright (c) @year@ The Avalon Apache Project All rights reserved.
-      $Revision: 1.4 $ $Date: 2004/04/03 04:34:08 $
+      $Revision: 1.5 $ $Date: 2004/04/03 05:34:14 $
     </legal>
   </footer>
 

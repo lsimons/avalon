@@ -20,25 +20,38 @@
 <document>
 
   <properties>
-    <title>Third Party Merlin Extensions</title>
-    <author email="avalon-dev@jakarta.apache.org">Avalon Development Team</author>
+    <title>JMX Extension</title>
+    <author email="dev@avalon.apache.org">Avalon Development Team</author>
   </properties>
 
   <body>
-    <section name="Third Party Merlin Extensions">
-      <p>
-        If you have created any extensions to Merlin and want them to be 
-        referenced from this page, please send a mail to 
-        <a href="mailto:dev@avalon.apache.org">Avalon Developers Mailing 
-        List</a>.
-      </p>
+    <section name="Facilities">
+      <subsection name="Index">
+        <table>
+          <tr><th>Topic</th><th>Summary</th></tr>
+          <tr>
+            <td><a href="finder.html">Finder</a></td>
+            <td>
+              A facility that provides support for dynamic component
+              aquisition.
+            </td>
+          </tr>
+          <tr>
+            <td><a href="http.html">HTTP</a></td>
+            <td>
+              A facility that handles redirection of HTTP requests to
+              components.
+            </td>
+          </tr>
+        </table>
+      </subsection>
     </section>
   </body>
 
   <footer>
     <legal>
       Copyright (c) @year@ The Avalon Apache Project All rights reserved.
-      $Revision: 1.1 $ $Date: 2004/03/02 00:00:15 $
+      $Revision: 1.1 $ $Date: 2004/04/03 05:34:14 $
     </legal>
   </footer>
 </document>
