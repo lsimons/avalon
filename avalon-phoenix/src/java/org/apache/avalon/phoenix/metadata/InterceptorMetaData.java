@@ -5,19 +5,19 @@
  * version 1.1, a copy of which has been included  with this distribution in
  * the LICENSE.txt file.
  */
-package org.apache.avalon.phoenix.metainfo;
+package org.apache.avalon.phoenix.metadata;
 
 /**
  * This class describes block invocation interceptor.
- * 
+ *
  * @author <a href="mailto:igorfie at yahoo.com">Igor Fedorenko</a>
- * @version $Revision: 1.1.2.1 $ $Date: 2002/10/15 22:14:06 $
+ * @version $Revision: 1.1.4.1 $ $Date: 2002/10/20 01:00:14 $
  */
-public class InterceptorInfo {
-
+public class InterceptorMetaData
+{
     private final String m_classname;
 
-    public InterceptorInfo( final String classname )
+    public InterceptorMetaData( final String classname )
     {
         m_classname = classname;
     }
