@@ -18,7 +18,7 @@ import org.apache.excalibur.altrmi.server.impl.rmi.RmiServer;
  * @phoenix:service name="org.apache.excalibur.altrmi.server.AltrmiPublisher"
  *
  * @author Paul Hammant <a href="mailto:Paul_Hammant@yahoo.com">Paul_Hammant@yahoo.com</a>
- * @version $Revision: 1.12 $
+ * @version $Revision: 1.13 $
  */
 public class RmiPublisher
     extends AbstractPublisher
@@ -59,7 +59,9 @@ public class RmiPublisher
     }
 
     /**
-     * @phoenix:dependency name="org.apache.excalibur.altrmi.server.AltrmiAuthenticator"
+     * Service as per Serviceable interface
+     * @param manager a service manager
+     * @throws ServiceException if a problem during servicing
      */
     public void service( ServiceManager manager )
         throws ServiceException

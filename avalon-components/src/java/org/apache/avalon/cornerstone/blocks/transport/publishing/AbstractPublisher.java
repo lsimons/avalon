@@ -34,12 +34,15 @@ import org.apache.excalibur.altrmi.server.PublicationException;
 import org.apache.excalibur.altrmi.server.impl.AbstractServer;
 import org.apache.excalibur.altrmi.server.impl.classretrievers.JarFileClassRetriever;
 import org.apache.excalibur.altrmi.server.impl.classretrievers.NoClassRetriever;
+import org.apache.excalibur.altrmi.server.impl.classretrievers.AbstractDynamicGeneratorClassRetriever;
+import org.apache.excalibur.altrmi.server.impl.classretrievers.BcelDynamicGeneratorClassRetriever;
 
 /**
- * @phoenix:service name="org.apache.excalibur.altrmi.server.AltrmiPublisher"
+ * Abstract Publisher.
  *
  * @author Paul Hammant <a href="mailto:Paul_Hammant@yahoo.com">Paul_Hammant@yahoo.com</a>
- * @version $Revision: 1.19 $
+ * @author Thomas Kiesgen
+ * @version $Revision: 1.20 $
  */
 public abstract class AbstractPublisher
     extends AbstractLogEnabled
@@ -50,7 +53,13 @@ public abstract class AbstractPublisher
     private ClassRetriever m_classRetriever;
     private AltrmiAuthenticator m_altrmiAuthenticator;
     protected File m_baseDirectory;
+    private boolean m_isDynamicPublisher = false;
 
+    /**
+     *
+     * @param configuration
+     * @throws ConfigurationException
+     */
     public void configure( Configuration configuration )
         throws ConfigurationException
     {
@@ -98,19 +107,39 @@ public abstract class AbstractPublisher
         {
             m_classRetriever = new NoClassRetriever();
         }
+        else if( classRetrieverType.equals( "bcel" ) )
+        {
+            AbstractDynamicGeneratorClassRetriever generator = new BcelDynamicGeneratorClassRetriever();
+            File classGenDir = new File( m_baseDirectory, configuration.getChild( "classGenDir" ).getValue( "" ) );
+            generator.setClassGenDir( classGenDir.getAbsolutePath() );
+            m_classRetriever = generator;
+
+            m_isDynamicPublisher = true;
+            getLogger().debug( "setting classgen dir for generator to " + classGenDir.getAbsolutePath() );
+            getLogger().debug( "setting class retriever to bcel dynamic generator" );
+        }
+
+
         else
         {
             throw new ConfigurationException(
-                "classRetrieverType must be 'baseMobileClass', 'jarFile' or 'none'" );
+                "classRetrieverType must be 'bcel', 'jarFile' or 'none'" );
         }
     }
 
+    /**
+     * contextualize as per Contextualizable interface
+     * @param context
+     */
     public void contextualize( final Context context )
     {
         m_baseDirectory = ( (BlockContext)context ).getBaseDirectory();
     }
 
     /**
+     * Service as per Serviceable interface
+     * @param manager a service manager
+     * @throws ServiceException if a problem during servicing
      * @phoenix:dependency name="org.apache.excalibur.altrmi.server.AltrmiAuthenticator"
      */
     public void service( ServiceManager manager )
@@ -120,12 +149,23 @@ public abstract class AbstractPublisher
             (AltrmiAuthenticator)manager.lookup( AltrmiAuthenticator.class.getName() );
     }
 
+    /**
+     * initialize as per Initializable interface
+     * @throws Exception
+     */
     public void initialize() throws Exception
     {
         m_abstractServer.setClassRetriever( m_classRetriever );
         m_abstractServer.setAuthenticator( m_altrmiAuthenticator );
     }
 
+    /**
+     *
+     * @param implementation
+     * @param asName
+     * @param interfaceToExpose
+     * @throws PublicationException
+     */
     public void publish( Object implementation, String asName, Class interfaceToExpose )
         throws PublicationException
     {
@@ -133,9 +173,25 @@ public abstract class AbstractPublisher
             getLogger().debug( "Publishing object [as: " + asName + ", impl: " + implementation
                               + ", interf: "+ interfaceToExpose + "]" );
 
+        if( m_isDynamicPublisher )
+        {
+            ( ( AbstractDynamicGeneratorClassRetriever ) m_classRetriever ).generate( asName, interfaceToExpose, this.getClass().getClassLoader() );
+                if( getLogger().isDebugEnabled() )
+                {
+                    getLogger().debug( "generated dynamic proxy for published interface " + asName );
+                }
+        }
+
         m_abstractServer.publish( implementation, asName, interfaceToExpose );
     }
 
+    /**
+     * Publish an service
+     * @param implementation
+     * @param asName
+     * @param publicationDescription
+     * @throws PublicationException
+     */
     public void publish(
         Object implementation, String asName, PublicationDescription publicationDescription )
         throws PublicationException
@@ -143,50 +199,101 @@ public abstract class AbstractPublisher
         if( getLogger().isDebugEnabled() )
             getLogger().debug( "Publishing object [as: " + asName + ", impl: " + implementation + "]" );
 
+        if( m_isDynamicPublisher )
+        {
+            ( ( AbstractDynamicGeneratorClassRetriever ) m_classRetriever ).generate( asName, publicationDescription, this.getClass().getClassLoader() );
+                if( getLogger().isDebugEnabled() )
+                {
+                    getLogger().debug( "generated dynamic proxy for published interface " + asName );
+                }
+        }
+
+
+
         m_abstractServer.publish( implementation, asName, publicationDescription );
     }
 
-    public void unPublish( Object o, String s ) throws PublicationException
+    /**
+     *
+     * @param object
+     * @param asName
+     * @throws PublicationException
+     */
+    public void unPublish( Object object, String asName ) throws PublicationException
     {
         if( getLogger().isDebugEnabled() )
-            getLogger().debug( "Unpublishing object [nane: " + s + ", impl: " + o + "]" );
+            getLogger().debug( "Unpublishing object [nane: " + asName + ", impl: " + object + "]" );
 
-        m_abstractServer.unPublish( o, s );
+        m_abstractServer.unPublish( object, asName );
     }
 
-    public void replacePublished( Object o, String s, Object o1 ) throws PublicationException
+    /**
+     *
+     * @param object
+     * @param asName
+     * @param o1
+     * @throws PublicationException
+     */
+    public void replacePublished( Object object, String asName, Object o1 ) throws PublicationException
     {
         if( getLogger().isDebugEnabled() )
-            getLogger().debug( "Replacing published object [nane: " + s + ", existing: " + o + ", new: " + o1 + "]" );
+            getLogger().debug( "Replacing published object [nane: " + asName + ", existing: " + object + ", new: " + o1 + "]" );
 
-        m_abstractServer.replacePublished( o, s, o1 );
+        m_abstractServer.replacePublished( object, asName, o1 );
     }
 
+    /**
+     *
+     * @throws Exception
+     */
     public void start() throws Exception
     {
         m_abstractServer.start();
     }
 
+    /**
+     *
+     * @throws Exception
+     */
     public void stop() throws Exception
     {
         m_abstractServer.stop();
     }
 
+    /**
+     *
+     * @param request
+     * @param publishedName
+     * @return
+     */
     public MethodInvocationHandler getMethodInvocationHandler( MethodRequest request, String publishedName )
     {
         return m_abstractServer.getMethodInvocationHandler( request, publishedName );
     }
 
+    /**
+     *
+     * @param publishedName
+     * @return
+     */
     public MethodInvocationHandler getMethodInvocationHandler(String publishedName)
     {
         return m_abstractServer.getMethodInvocationHandler( publishedName );
     }
 
+    /**
+     *
+     * @return
+     */
     protected AbstractServer getAbstractServer()
     {
         return m_abstractServer;
     }
 
+    /**
+     *
+     * @param abstractServer
+     */
     protected void setAbstractServer( AbstractServer abstractServer )
     {
         m_abstractServer = abstractServer;

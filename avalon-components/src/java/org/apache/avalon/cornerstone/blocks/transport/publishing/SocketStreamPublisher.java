@@ -21,7 +21,6 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.excalibur.altrmi.server.impl.socket.AbstractPartialSocketStreamServer;
-import org.apache.excalibur.altrmi.server.impl.socket.PartialSocketCustomStreamServer;
 
 /**
  * @phoenix:block
@@ -30,7 +29,7 @@ import org.apache.excalibur.altrmi.server.impl.socket.PartialSocketCustomStreamS
  * @author Paul Hammant <a href="mailto:Paul_Hammant@yahoo.com">Paul_Hammant@yahoo.com</a>
  * @author Mike Miller.
  * @author Peter Royal.
- * @version $Revision: 1.7 $
+ * @version $Revision: 1.8 $
  */
 public class SocketStreamPublisher
     extends AbstractPublisher
@@ -77,7 +76,9 @@ public class SocketStreamPublisher
     }
 
     /**
-     * @phoenix:dependency name="org.apache.excalibur.altrmi.server.AltrmiAuthenticator"
+     * Service as per Serviceable interface
+     * @param manager a service manager
+     * @throws ServiceException if a problem during servicing
      * @phoenix:dependency name="org.apache.avalon.cornerstone.services.sockets.SocketManager"
      * @phoenix:dependency name="org.apache.avalon.cornerstone.services.connection.ConnectionManager"
      */
