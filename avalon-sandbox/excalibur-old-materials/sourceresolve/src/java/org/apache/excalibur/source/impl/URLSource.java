@@ -32,14 +32,12 @@ import org.apache.excalibur.source.impl.validity.TimeStampValidity;
  * FIXME: Get mime-type
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.12 $ $Date: 2002/06/12 09:24:14 $
+ * @version CVS $Revision: 1.13 $ $Date: 2002/07/06 03:55:06 $
  */
-
 public class URLSource
     extends AbstractSource
     implements Source
 {
-
     /** With this parameter you can specify the method to use for a http request.
      *  Default is GET.
      */
@@ -185,7 +183,7 @@ public class URLSource
     /**
      * Return an <code>InputStream</code> object to read from the source.
      *
-     * @throws ResourceNotFoundException if file not found or
+     * @throws SourceException if file not found or
      *         HTTP location does not exist.
      * @throws IOException if I/O error occured.
      */
@@ -353,5 +351,4 @@ public class URLSource
         this.connection = null;
         super.discardValidity();
     }
-
 }

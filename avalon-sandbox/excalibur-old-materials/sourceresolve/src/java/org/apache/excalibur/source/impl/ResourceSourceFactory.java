@@ -20,13 +20,12 @@ import org.apache.excalibur.source.SourceFactory;
  * A factory for the Resource protocol
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version $Id: ResourceSourceFactory.java,v 1.5 2002/06/13 12:59:10 bloritsch Exp $
+ * @version $Id: ResourceSourceFactory.java,v 1.6 2002/07/06 03:55:06 donaldp Exp $
  */
 public class ResourceSourceFactory
     extends AbstractLogEnabled
     implements SourceFactory, ThreadSafe
 {
-
     /**
      * Get a <code>Source</code> object.
      * @param parameters This is optional.
@@ -36,7 +35,8 @@ public class ResourceSourceFactory
     {
         if( getLogger().isDebugEnabled() )
         {
-            getLogger().debug( "Creating source object for " + location );
+            final String message = "Creating source object for " + location;
+            getLogger().debug( message );
         }
         return new ResourceSource( location );
     }

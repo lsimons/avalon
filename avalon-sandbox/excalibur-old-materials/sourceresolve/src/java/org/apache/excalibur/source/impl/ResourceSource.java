@@ -19,24 +19,20 @@ import org.apache.excalibur.source.impl.validity.NOPValidity;
  * FIXME: Get mime-type, content-length, lastModified
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.4 $ $Date: 2002/06/13 12:59:10 $
+ * @version CVS $Revision: 1.5 $ $Date: 2002/07/06 03:55:06 $
  */
-
 public final class ResourceSource
     extends AbstractSource
     implements Source
 {
     /** Location of the resource */
-    private String location;
+    private String m_location;
 
-    /**
-     * Constructor
-     */
     public ResourceSource( String systemId )
     {
         this.systemId = systemId;
         final int pos = systemId.indexOf( "://" );
-        this.location = systemId.substring( pos + 3 );
+        m_location = systemId.substring( pos + 3 );
     }
 
     /**
@@ -50,7 +46,7 @@ public final class ResourceSource
         {
             loader = getClass().getClassLoader();
         }
-        return loader.getResourceAsStream( this.location );
+        return loader.getResourceAsStream( m_location );
     }
 
     /**
@@ -64,5 +60,4 @@ public final class ResourceSource
         // we are always valid
         return NOPValidity.SHARED_INSTANCE;
     }
-
 }

@@ -14,12 +14,11 @@ import org.apache.avalon.framework.component.Component;
 
 /**
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version $Id: SourceFactory.java,v 1.3 2002/05/13 12:17:40 donaldp Exp $
+ * @version $Id: SourceFactory.java,v 1.4 2002/07/06 03:55:06 donaldp Exp $
  */
 public interface SourceFactory
     extends Component
 {
-
     String ROLE = SourceFactory.class.getName();
 
     /**
@@ -28,5 +27,4 @@ public interface SourceFactory
      */
     Source getSource( String location, Map parameters )
         throws MalformedURLException, IOException, SourceException;
-
 }

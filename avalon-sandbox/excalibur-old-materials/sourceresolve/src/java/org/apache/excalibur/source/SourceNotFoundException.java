@@ -5,19 +5,17 @@
  * version 1.1, a copy of which has been included with this distribution in
  * the LICENSE.txt file.
  */
-
 package org.apache.excalibur.source;
 
 /**
  * This Exception should be thrown if the source could not be found.
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/05/13 12:17:40 $
+ * @version CVS $Revision: 1.3 $ $Date: 2002/07/06 03:55:06 $
  */
 public class SourceNotFoundException
     extends SourceException
 {
-
     /**
      * Construct a new <code>SourceNotFoundException</code> instance.
      *

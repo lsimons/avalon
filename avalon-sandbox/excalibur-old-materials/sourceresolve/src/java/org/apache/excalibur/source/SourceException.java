@@ -17,12 +17,11 @@ import org.apache.avalon.framework.CascadingException;
  * the source.
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/05/13 12:17:40 $
+ * @version CVS $Revision: 1.3 $ $Date: 2002/07/06 03:55:06 $
  */
 public class SourceException
     extends CascadingException
 {
-
     /**
      * Construct a new <code>SourceException</code> instance.
      *
@@ -46,34 +45,40 @@ public class SourceException
 
     public String toString()
     {
-        StringBuffer s = new StringBuffer();
-        s.append( super.toString() );
-        if( getCause() != null )
+        final StringBuffer sb = new StringBuffer();
+        sb.append( super.toString() );
+        if( null != getCause() )
         {
-            s.append( ": " );
-            s.append( getCause().toString() );
+            sb.append( ": " );
+            sb.append( getCause().toString() );
         }
-        return s.toString();
+        return sb.toString();
     }
 
     public void printStackTrace()
     {
         super.printStackTrace();
         if( getCause() != null )
+        {
             getCause().printStackTrace();
+        }
     }
 
     public void printStackTrace( PrintStream s )
     {
         super.printStackTrace( s );
         if( getCause() != null )
+        {
             getCause().printStackTrace( s );
+        }
     }
 
     public void printStackTrace( PrintWriter s )
     {
         super.printStackTrace( s );
         if( getCause() != null )
+        {
             getCause().printStackTrace( s );
+        }
     }
 }

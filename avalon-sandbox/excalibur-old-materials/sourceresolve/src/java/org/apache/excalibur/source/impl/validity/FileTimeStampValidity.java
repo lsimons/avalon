@@ -8,36 +8,35 @@
 package org.apache.excalibur.source.impl.validity;
 
 import java.io.File;
-
 import org.apache.excalibur.source.SourceValidity;
 
 /**
  * A validation object for time-stamps.
  *
  * @author: <a href="mailto:volker.schmitt@basf-it-services.com">Volker Schmitt</a>
- * @version CVS $Revision: 1.2 $
+ * @version CVS $Revision: 1.3 $
  */
 public final class FileTimeStampValidity
     implements SourceValidity
 {
+    private long m_timeStamp;
+    private File m_file;
 
-    private long timeStamp;
-    private File file;
-
-    public FileTimeStampValidity( String filename )
+    public FileTimeStampValidity( final String filename )
     {
-        this(new File(filename));
+        this( new File( filename ) );
     }
 
-    public FileTimeStampValidity( File file )
+    public FileTimeStampValidity( final File file )
     {
-        this(file, file.lastModified());
+        this( file, file.lastModified() );
     }
 
-    public FileTimeStampValidity( File file, long  timeStamp )
+    public FileTimeStampValidity( final File file,
+                                  final long timeStamp )
     {
-        this.file = file;
-        this.timeStamp = timeStamp;
+        m_file = file;
+        m_timeStamp = timeStamp;
     }
 
     /**
@@ -49,31 +48,32 @@ public final class FileTimeStampValidity
      */
     public int isValid()
     {
-        return (file.lastModified() == this.timeStamp ? 1 : -1);
+        return ( m_file.lastModified() == m_timeStamp ? 1 : -1 );
     }
 
-    public boolean isValid( SourceValidity newValidity )
+    public boolean isValid( final SourceValidity newValidity )
     {
-        if( newValidity instanceof FileTimeStampValidity)
+        if( newValidity instanceof FileTimeStampValidity )
         {
-            return this.timeStamp == ( (FileTimeStampValidity)newValidity ).getTimeStamp();
+            final long timeStamp =
+                ( (FileTimeStampValidity)newValidity ).getTimeStamp();
+            return ( m_timeStamp == timeStamp );
         }
         return false;
     }
 
     public File getFile()
     {
-        return this.file;
+        return this.m_file;
     }
 
     public long getTimeStamp()
     {
-        return this.timeStamp;
+        return this.m_timeStamp;
     }
 
     public String toString()
     {
-        return "FileTimeStampValidity: " + file.getPath() + ": " + this.timeStamp;
+        return "FileTimeStampValidity: " + m_file.getPath() + ": " + this.m_timeStamp;
     }
-
 }
