@@ -132,5 +132,17 @@ public class Glue
             throw new SOAPificationException("Can't unpublish object as " + publicationName , re);
         }        
     }
+
+    // for testing.
+
+    public static void main (String[] args) throws Exception {
+        Glue glue = new Glue();
+        glue.mPort = 1234;
+        glue.mBindingAddress = "127.0.0.1";
+        glue.mBaseName = "soap";
+        glue.start();
+    }
+
+
 }
 
