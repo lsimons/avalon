@@ -8,13 +8,13 @@
     <cvs repository="avalon"></cvs>
 
 
-    <project href="./avalon-framework.xml"></project>
+    <project href="http://cvs.apache.org/viewcvs.cgi/*checkout*/avalon/buildsystem/gump-integration/project/avalon-framework.xml"></project>
 
-    <project href="./avalon-fortress-container.xml"></project>
+    <project href="http://cvs.apache.org/viewcvs.cgi/*checkout*/avalon/buildsystem/gump-integration/project/avalon-fortress-container.xml"></project>
 
-    <project href="./avalon-fortress-tools.xml"></project>
+    <project href="http://cvs.apache.org/viewcvs.cgi/*checkout*/avalon/buildsystem/gump-integration/project/avalon-fortress-tools.xml"></project>
 
-    <project href="./avalon-fortress-examples.xml"></project>
+    <project href="http://cvs.apache.org/viewcvs.cgi/*checkout*/avalon/buildsystem/gump-integration/project/avalon-fortress-examples.xml"></project>
 
 
 </module>
