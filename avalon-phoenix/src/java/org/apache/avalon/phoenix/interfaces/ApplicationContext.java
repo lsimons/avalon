@@ -12,6 +12,7 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.phoenix.metadata.SarMetaData;
 import org.apache.excalibur.threadcontext.ThreadContext;
+import java.io.InputStream;
 
 /**
  * Manage the "context" in which Applications operate.
@@ -58,6 +59,14 @@ public interface ApplicationContext
      * @return the ClassLoader
      */
     ClassLoader getClassLoader();
+
+    /**
+     * Retrieve a resource from the SAR file. The specified
+     * name is relative the root of the archive. So you could
+     * use it to retrieve a html page from within sar by loading
+     * the resource named "data/main.html" or similar.
+     */
+    InputStream getResourceAsStream( String name );
 
     /**
      * Get the Configuration for specified component.
