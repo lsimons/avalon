@@ -54,7 +54,7 @@ A component implementing the the <a href="http://avalon.apache.org/framework/api
             </td>
           </tr>
           <tr>
-            <td><p>suspension</p></td>
+            <td><p>resumption</p></td>
             <td>
 <p>
 A component implementing the the <a href="http://avalon.apache.org/framework/api/org/apache/avalon/framework/activity/Suspendable.html">Suspendable</a> lifecycle may be placed back into operation following suspension by a container management system.
