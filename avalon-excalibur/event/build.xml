@@ -33,6 +33,7 @@
     </path>
 
     <path id="test.class.path">
+        <pathelement location="${excalibur-instrument.jar}"/>
         <pathelement location="${build.testclasses}"/>
         <pathelement location="${junit.jar}"/>
         <path refid="project.class.path"/>
