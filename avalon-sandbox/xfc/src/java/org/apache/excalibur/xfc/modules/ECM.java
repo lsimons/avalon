@@ -80,7 +80,7 @@ import org.apache.excalibur.xfc.model.RoleRef;
  * </p>
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: ECM.java,v 1.2 2002/10/04 14:46:35 crafterm Exp $
+ * @version CVS $Id: ECM.java,v 1.3 2002/10/04 21:26:38 crafterm Exp $
  */
 public class ECM extends AbstractModule
 {
@@ -117,6 +117,8 @@ public class ECM extends AbstractModule
     public Model generate( final String context )
         throws Exception
     {
+        validateContext( context );
+
         Configuration[] roles = getRoles( getRoleFile( context ) );
         Model model = new Model();
 
@@ -372,6 +374,8 @@ public class ECM extends AbstractModule
     public void serialize( final Model model, final String context )
         throws Exception
     {
+        validateContext( context );
+
         RoleRef[] rolerefs = model.getDefinitions();
         DefaultConfiguration roles = new DefaultConfiguration( "role-list", "" );
 
@@ -458,6 +462,23 @@ public class ECM extends AbstractModule
         role.setAttribute( "default-class", defs[0].getDefaultClass() );
 
         return role;
+    }
+
+    /**
+     * Helper method to validate the input & output context's
+     * given to this module.
+     *
+     * @param context a <code>String</code> context value
+     * @exception Exception if an error occurs
+     */
+    private void validateContext( final String context )
+        throws Exception
+    {
+        if ( context.indexOf( CONTEXT_SEPARATOR ) == -1 )
+            throw new IllegalArgumentException(
+                "Module requires the role and xconf filename " +
+                "separated by a '" + CONTEXT_SEPARATOR + "' character"
+            );
     }
 
     // Normalized mappings for ECM lifestyles
