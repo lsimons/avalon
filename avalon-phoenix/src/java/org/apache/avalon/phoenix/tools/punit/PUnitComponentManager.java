@@ -41,7 +41,7 @@ public class PUnitComponentManager
         return m_serviceManager.hasService(key);
     }
 
-    public void release( Component Component )
+    public void release( Component component )
     {
 
     }
