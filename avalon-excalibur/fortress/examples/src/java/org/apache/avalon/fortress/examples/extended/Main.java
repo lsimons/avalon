@@ -58,12 +58,12 @@ import org.apache.avalon.fortress.util.FortressConfig;
  * Fortress container example with custom extensions
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version $Id: Main.java,v 1.1 2003/01/28 21:19:18 leosimons Exp $
+ * @version $Id: Main.java,v 1.2 2003/01/30 18:24:38 bloritsch Exp $
  */
 public final class Main
 {
     // container reference
-    private static org.apache.avalon.fortress.examples.extended.ExtendedContainer m_container;
+    private static ExtendedContainer m_container;
 
     /**
      * @param args a <code>String[]</code> array of command line arguments
@@ -72,23 +72,22 @@ public final class Main
     public static final void main( String[] args )
         throws Exception
     {
-        org.apache.avalon.fortress.util.FortressConfig config = new org.apache.avalon.fortress.util.FortressConfig();
-        config.setContainerClass( "org.apache.avalon.fortress.examples.extended.ExtendedContainer" );
+        FortressConfig config = new FortressConfig();
+        config.setContainerClass( ExtendedContainer.class.getName() );
         config.setContextDirectory( "./" );
         config.setWorkDirectory( "./" );
         config.setContainerConfiguration( "resource://org/apache/avalon/fortress/examples/extended/ExtendedContainer.xconf" );
         config.setLoggerManagerConfiguration( "resource://org/apache/avalon/fortress/examples/extended/ExtendedContainer.xlog" );
         config.setRoleManagerConfiguration( "resource://org/apache/avalon/fortress/examples/extended/ExtendedContainer.roles" );
 
-        final org.apache.avalon.fortress.ContainerManager cm =
-            new org.apache.avalon.fortress.impl.DefaultContainerManager( config.getContext() );
-        org.apache.avalon.framework.container.ContainerUtil.initialize( cm );
+        final ContainerManager cm = new DefaultContainerManager( config.getContext() );
+        ContainerUtil.initialize( cm );
 
-        m_container = (org.apache.avalon.fortress.examples.extended.ExtendedContainer)cm.getContainer();
+        m_container = (ExtendedContainer)cm.getContainer();
 
         m_container.doLookups();
 
-        org.apache.avalon.framework.container.ContainerUtil.dispose( cm );
+        ContainerUtil.dispose( cm );
     }
 }
 
