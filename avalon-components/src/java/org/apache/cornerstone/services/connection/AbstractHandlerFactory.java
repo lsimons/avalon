@@ -15,13 +15,22 @@ import org.apache.avalon.Composer;
 import org.apache.avalon.Context;
 import org.apache.avalon.Contextualizable;
 import org.apache.avalon.Initializable;
+import org.apache.avalon.configuration.Configurable;
+import org.apache.avalon.configuration.Configuration;
+import org.apache.avalon.configuration.ConfigurationException;
 
+/**
+ * Helper class to extend to create handler factorys.
+ *
+ * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
+ */
 public abstract class AbstractHandlerFactory
     extends AbstractLoggable
-    implements Component, Contextualizable, ConnectionHandlerFactory 
+    implements Component, Contextualizable, Composer, Configurable, ConnectionHandlerFactory 
 {
     protected Context             m_context;
     protected ComponentManager    m_componentManager;
+    protected Configuration       m_configuration;
     
     public void contextualize( final Context context )
     {
@@ -32,6 +41,12 @@ public abstract class AbstractHandlerFactory
         throws ComponentManagerException
     {
         m_componentManager = componentManager;
+    }
+
+    public void configure( final Configuration configuration )
+        throws ConfigurationException
+    {
+        m_configuration = configuration;
     }
 
     /**
@@ -57,6 +72,11 @@ public abstract class AbstractHandlerFactory
             ((Composer)handler).compose( m_componentManager );
         }
 
+        if( handler instanceof Configurable )
+        {
+            ((Configurable)handler).configure( m_configuration );
+        }
+
         if( handler instanceof Initializable )
         {
             ((Initializable)handler).init();
@@ -65,6 +85,12 @@ public abstract class AbstractHandlerFactory
         return handler;
     }
 
+    /**
+     * Overide this method to create actual instance of connection handler.
+     *
+     * @return the new ConnectionHandler
+     * @exception Exception if an error occurs
+     */
     protected abstract ConnectionHandler newHandler() 
         throws Exception;
 }
