@@ -7,16 +7,20 @@
  */
 package org.apache.avalon.atlantis;
 
+import org.apache.avalon.Disposable;
+import org.apache.avalon.Initializable;
+import org.apache.avalon.Startable;
+import org.apache.avalon.Stoppable;
 import org.apache.avalon.component.Component;
 
 /**
- * This facility is responsible for managing the system. 
+ * This component is responsible for managing the system.
  * This includes managing the embeddor, deployer and kernel.
  *
  * @author <a href="mail@leosimons.com">Leo Simons</a>
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
 public interface SystemManager
-    extends Component
+    extends Component, Initializable, Startable, Stoppable, Disposable
 {
 }
