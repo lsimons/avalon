@@ -14,6 +14,10 @@
             <depend property="xerces.jar"    project="xml-xerces" id="parser"/>
             <depend property="framework.jar" project="jakarta-avalon"/>
             <depend property="logkit.jar"    project="jakarta-avalon-logkit"/>
+            <depend property="excalibur-pool.jar"    project="excalibur-pool"/>
+            <depend property="excalibur-collections.jar"    project="excalibur-collections"/>
+            <depend property="excalibur-event.jar"    project="excalibur-event"/>
+            <depend property="excalibur-instrument.jar"    project="excalibur-instrument"/>
         </ant>
 
         <depend project="jakarta-ant"/>
@@ -24,7 +28,7 @@
         <depend project="dist-bsf"/>
         <depend project="rhino"/>
         <depend project="junitperf"/>
-        <depend project="excalibur-pool"/>
+
 
         <option project="jdbc"/>
         <option project="jaxen"/>
