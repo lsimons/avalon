@@ -60,6 +60,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.Map;
@@ -97,7 +98,7 @@ import org.apache.excalibur.source.impl.validity.TimeStampValidity;
  * project.
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: HTTPClientSource.java,v 1.4 2003/07/03 17:03:09 crafterm Exp $
+ * @version CVS $Id: HTTPClientSource.java,v 1.5 2003/07/04 14:13:54 crafterm Exp $
  */
 public class HTTPClientSource extends AbstractLogEnabled 
     implements ModifiableSource, Initializable, Parameterizable
@@ -208,7 +209,8 @@ public class HTTPClientSource extends AbstractLogEnabled
         throws Exception
     {
         m_uri = uri;
-        m_parameters = parameters;
+        m_parameters = 
+            parameters == null ? Collections.EMPTY_MAP : parameters;
     }
 
     /**
