@@ -8,18 +8,13 @@
 package org.apache.avalon.phoenix.components.application;
 
 import java.net.URL;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Arrays;
 import java.util.List;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.framework.activity.Initializable;
-import org.apache.avalon.phoenix.components.manager.SystemManager;
-import org.apache.avalon.excalibur.container.AbstractContainer;
-import org.apache.avalon.excalibur.container.Container;
-import org.apache.avalon.excalibur.container.ContainerException;
-import org.apache.avalon.excalibur.container.Entry;
 import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.component.ComponentException;
 import org.apache.avalon.framework.component.ComponentManager;
@@ -32,23 +27,22 @@ import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.ContextException;
 import org.apache.avalon.framework.context.Contextualizable;
-import org.apache.avalon.phoenix.components.configuration.ConfigurationRepository;
+import org.apache.avalon.framework.logger.AbstractLoggable;
+import org.apache.avalon.phoenix.Block;
+import org.apache.avalon.phoenix.BlockListener;
 import org.apache.avalon.phoenix.components.frame.ApplicationFrame;
 import org.apache.avalon.phoenix.components.frame.DefaultApplicationFrame;
+import org.apache.avalon.phoenix.components.kapi.BlockEntry;
+import org.apache.avalon.phoenix.components.listeners.BlockListenerManager;
+import org.apache.avalon.phoenix.components.listeners.BlockListenerSupport;
+import org.apache.avalon.phoenix.components.manager.SystemManager;
 import org.apache.avalon.phoenix.components.phases.BlockVisitor;
 import org.apache.avalon.phoenix.components.phases.ShutdownPhase;
 import org.apache.avalon.phoenix.components.phases.StartupPhase;
-import org.apache.avalon.phoenix.components.kapi.BlockEntry;
 import org.apache.avalon.phoenix.metadata.BlockListenerMetaData;
 import org.apache.avalon.phoenix.metadata.BlockMetaData;
 import org.apache.avalon.phoenix.metadata.SarMetaData;
 import org.apache.avalon.phoenix.metainfo.DependencyDescriptor;
-import org.apache.avalon.phoenix.components.listeners.BlockListenerSupport;
-import org.apache.avalon.phoenix.components.listeners.BlockListenerManager;
-import org.apache.avalon.phoenix.BlockListener;
-import org.apache.avalon.phoenix.components.configuration.ConfigurationRepository;
-import org.apache.avalon.phoenix.tools.verifier.Verifier;
-import org.apache.avalon.phoenix.tools.verifier.DefaultVerifier;
 
 /**
  * This is the basic container of blocks. A server application
@@ -56,43 +50,33 @@ import org.apache.avalon.phoenix.tools.verifier.DefaultVerifier;
  * an application.
  *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
- * @author <a href="mailto:fede@apache.org">Federico Barbieri</a>
  */
 public final class DefaultServerApplication
-    extends AbstractContainer
+    extends AbstractLoggable
     implements Application, Contextualizable, Composable, Configurable
 {
     private static final Resources REZ =
         ResourceManager.getPackageResources( DefaultServerApplication.class );
 
-    private DefaultConfigurationBuilder     m_builder = new DefaultConfigurationBuilder();
-
     //the following are used for setting up facilities
     private Context                  m_context;
     private Configuration            m_configuration;
-    private ComponentManager         m_componentManager;
+    private DefaultComponentManager  m_componentManager;
 
     //these are the facilities (internal components) of ServerApplication
     private ApplicationFrame         m_frame;
     private BlockListenerManager     m_listenerManager;
 
-    private BlockListenerMetaData[]  m_listeners;
-    private BlockMetaData[]          m_blocks;
-
     private BlockVisitor             m_startupVisitor;
     private BlockVisitor             m_shutdownVisitor;
 
-    //Repository of configuration data to access
-    private ConfigurationRepository m_repository;
-
     private SarMetaData             m_metaData;
+    private ClassLoader             m_classLoader;
+
+    private HashMap                 m_entrys = new HashMap();
 
     public DefaultServerApplication()
     {
-        m_frame = new DefaultApplicationFrame();
-        m_listenerManager = new BlockListenerSupport();
-        m_startupVisitor = new StartupPhase();
-        m_shutdownVisitor = new ShutdownPhase();
     }
 
     public void contextualize( final Context context )
@@ -105,26 +89,25 @@ public final class DefaultServerApplication
     public void compose( final ComponentManager componentManager )
         throws ComponentException
     {
-        final DefaultComponentManager newComponentManager =
-            new DefaultComponentManager( componentManager );
-
-        //Setup component manager with new components added
-        //by application
-        newComponentManager.put( ApplicationFrame.ROLE, m_frame );
-        newComponentManager.put( BlockListenerManager.ROLE, m_listenerManager );
-        newComponentManager.put( Container.ROLE, this );
-        newComponentManager.makeReadOnly();
-
-        m_componentManager = newComponentManager;
-
-        m_repository = (ConfigurationRepository)componentManager.lookup( ConfigurationRepository.ROLE );
+        m_componentManager = new DefaultComponentManager( componentManager );
     }
 
-    public void setup( final SarMetaData metaData )
+    public void setup( final SarMetaData metaData, final ClassLoader classLoader )
     {
         m_metaData = metaData;
-        m_blocks = metaData.getBlocks();
-        m_listeners = metaData.getListeners();
+        m_classLoader = classLoader;
+    }
+
+    public String[] getBlockNames()
+    {
+        return (String[])m_entrys.keySet().toArray( new String[ 0 ] );
+    }
+
+    public Block getBlock( final String name )
+    {
+        final BlockEntry entry = (BlockEntry)m_entrys.get( name );
+        if( null == entry ) return null;
+        return entry.getProxy();
     }
 
     public void configure( final Configuration configuration )
@@ -142,6 +125,18 @@ public final class DefaultServerApplication
     public void initialize()
         throws Exception
     {
+        m_frame = new DefaultApplicationFrame( m_classLoader );
+        m_listenerManager = new BlockListenerSupport();
+        m_startupVisitor = new StartupPhase();
+        m_shutdownVisitor = new ShutdownPhase();
+
+        //Setup component manager with new components added
+        //by application
+        m_componentManager.put( ApplicationFrame.ROLE, m_frame );
+        m_componentManager.put( BlockListenerManager.ROLE, m_listenerManager );
+        m_componentManager.put( Application.ROLE, this );
+        m_componentManager.makeReadOnly();
+
         setupComponent( m_frame, "frame" );
         setupComponent( m_startupVisitor, "startup" );
         setupComponent( m_shutdownVisitor, "shutdown" );
@@ -154,20 +149,18 @@ public final class DefaultServerApplication
      */
     public void start()
         throws Exception
-    {      
+    {
+        final BlockMetaData[] blocks = m_metaData.getBlocks();
+
         final String message = REZ.getString( "app.notice.block.loading-count",
-                                              new Integer( m_blocks.length ) );
+                                              new Integer( blocks.length ) );
         getLogger().info( message );
 
-        final DefaultVerifier verifier = new DefaultVerifier();
-        setupLogger( verifier );
-        verifier.verifySar( m_metaData, m_frame.getClassLoader() );
-
-        for( int i = 0; i < m_blocks.length; i++ )
+        for( int i = 0; i < blocks.length; i++ )
         {
-            final String blockName = m_blocks[ i ].getName();
-            final BlockEntry blockEntry = new BlockEntry( m_blocks[ i ] );
-            add( blockName, blockEntry );
+            final String blockName = blocks[ i ].getName();
+            final BlockEntry blockEntry = new BlockEntry( blocks[ i ] );
+            m_entrys.put( blockName, blockEntry );
         }
 
         // load block listeners
@@ -187,7 +180,7 @@ public final class DefaultServerApplication
         throws Exception
     {
         final String message = REZ.getString( "app.notice.block.unloading-count",
-                                              new Integer( m_blocks.length ) );
+                                              new Integer( m_metaData.getBlocks().length ) );
         getLogger().info( message );
 
         runPhase( "shutdown", m_shutdownVisitor, false  );
@@ -195,25 +188,17 @@ public final class DefaultServerApplication
 
     public void dispose()
     {
-        final String[] names = list();
-        for( int i = 0; i < names.length; i++ )
-        {
-            try { remove( names[ i ] ); }
-            catch( final ContainerException ce )
-            {
-                final String message = REZ.getString( "app.error.failremove", names[ i ] );
-                getLogger().warn( message, ce );
-            }
-        }
+        m_entrys.clear();
     }
 
     private void loadBlockListeners()
         throws Exception
     {
-        for( int i = 0; i < m_listeners.length; i++ )
+        final BlockListenerMetaData[] listeners = m_metaData.getListeners();
+
+        for( int i = 0; i < listeners.length; i++ )
         {
-            final BlockListenerMetaData listener = m_listeners[ i ];
-            
+            final BlockListenerMetaData listener = listeners[ i ];
             try
             {
                 loadBlockListener( listener );
@@ -230,28 +215,27 @@ public final class DefaultServerApplication
     private void loadBlockListener( final BlockListenerMetaData entry )
         throws Exception
     {
-        final ClassLoader classLoader = m_frame.getClassLoader();
-        final Class clazz = classLoader.loadClass( entry.getClassname() );
+        final Class clazz = m_classLoader.loadClass( entry.getClassname() );
         final BlockListener listener = (BlockListener)clazz.newInstance();
-        
+
         if( listener instanceof Configurable )
         {
             final String name = entry.getName();
 
             Configuration configuration = null;
-            try 
+            try
             {
-                configuration = m_repository.getConfiguration( m_metaData.getName(), name );
-            } 
-            catch( final ConfigurationException ce ) 
+                configuration = m_frame.getConfiguration( name );
+            }
+            catch( final ConfigurationException ce )
             {
                 final String message = REZ.getString( "app.error.listener.noconfiguration", name );
                 throw new ConfigurationException( message, ce );
             }
-            
+
             ((Configurable)listener).configure( configuration );
         }
-        
+
         m_listenerManager.addBlockListener( listener );
     }
 
@@ -297,13 +281,14 @@ public final class DefaultServerApplication
      * @param name the name of phase (for logging purposes)
      * @exception Exception if an error occurs
      */
-    protected final void runPhase( final String name, 
-                                   final BlockVisitor visitor, 
+    protected final void runPhase( final String name,
+                                   final BlockVisitor visitor,
                                    final boolean forward )
         throws Exception
     {
-        final String[] path = DependencyGraph.walkGraph( forward, m_blocks );
-        
+        final BlockMetaData[] blocks = m_metaData.getBlocks();
+        final String[] path = DependencyGraph.walkGraph( forward, blocks );
+
         if( getLogger().isInfoEnabled() )
         {
             final List pathList = Arrays.asList( path );
@@ -311,17 +296,17 @@ public final class DefaultServerApplication
             getLogger().info( message );
             System.out.println( message );
         }
-        
+
         for( int i = 0; i < path.length; i++ )
         {
             try
             {
-                final BlockEntry entry = (BlockEntry)getEntry( path[ i ] );
+                final BlockEntry entry = (BlockEntry)m_entrys.get( path[ i ] );
                 visitor.visitBlock( path[ i ], entry );
             }
             catch( final Exception e )
             {
-                final String message = 
+                final String message =
                     REZ.getString( "app.error.run-phase", name, path[ i ], e.getMessage() );
                 getLogger().error( message, e );
                 throw e;

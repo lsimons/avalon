@@ -12,6 +12,7 @@ import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.activity.Startable;
 import org.apache.avalon.phoenix.metadata.SarMetaData;
+import org.apache.avalon.phoenix.Block;
 
 /**
  * The Application is a self-contained component that performs a specific
@@ -26,5 +27,12 @@ import org.apache.avalon.phoenix.metadata.SarMetaData;
 public interface Application
     extends Component, Initializable, Startable, Disposable
 {
-    void setup( SarMetaData metaData );
+    String ROLE = "org.apache.avalon.phoenix.components.application.Application";
+
+    //TODO: change to pass in ClassLoader, base Logger/Hierargy, deprecated ThreadPool
+    void setup( SarMetaData metaData, ClassLoader classLoader );
+
+    //TODO: Remove these - only needed by SingleAppEmbeddor
+    String[] getBlockNames();
+    Block getBlock( String name );
 }
