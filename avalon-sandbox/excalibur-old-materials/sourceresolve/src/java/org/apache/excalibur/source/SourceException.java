@@ -52,7 +52,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  */
- package org.apache.excalibur.source;
+package org.apache.excalibur.source;
 
 import org.apache.avalon.framework.CascadingException;
 
@@ -61,7 +61,7 @@ import org.apache.avalon.framework.CascadingException;
  * the source.
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.5 $ $Date: 2002/12/15 11:56:48 $
+ * @version CVS $Revision: 1.6 $ $Date: 2003/01/09 08:33:34 $
  */
 public class SourceException
     extends CascadingException
