@@ -20,7 +20,7 @@ import org.apache.avalon.framework.context.Context;
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:ryan@silveregg.co.jp">Ryan Shaw</a>
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/06/02 06:03:01 $
+ * @version CVS $Revision: 1.3 $ $Date: 2002/08/21 05:04:36 $
  * @since 4.0
  */
 public class DefaultComponentHandler
@@ -39,6 +39,17 @@ public class DefaultComponentHandler
      * Create a ComponentHandler that takes care of hiding the details of
      * whether a Component is ThreadSafe, Poolable, or SingleThreaded.
      * It falls back to SingleThreaded if not specified.
+     *
+     * @param componentClass Class of the component of the handler being
+     *                       created.
+     * @param config The configuration for the component.
+     * @param manager The ComponentManager which will be managing the
+     *                Component.
+     * @param context The current context.
+     * @param roles The current RoleManager.
+     * @param logkit The current LogKitLoggerManager.
+     *
+     * @throws Exception If there are any problems creating the handler.
      */
     protected DefaultComponentHandler( final Class componentClass,
                                        final Configuration config,
@@ -60,6 +71,8 @@ public class DefaultComponentHandler
      * @param factory The factory object which is responsible for creating the components
      *                managed by the ComponentHandler.
      * @param config The configuration to use to configure the pool.
+     *
+     * @throws Exception If there are any problems creating the handler.
      */
     public DefaultComponentHandler( final DefaultComponentFactory factory,
                                     final Configuration config )
@@ -82,20 +95,27 @@ public class DefaultComponentHandler
 
         if( getLogger().isDebugEnabled() )
         {
-            getLogger().debug( "ComponentHandler initialized for: " + m_factory.getCreatedClass().getName() );
+            getLogger().debug( "ComponentHandler initialized for: "
+                + m_factory.getCreatedClass().getName() );
         }
         m_initialized = true;
     }
 
     /**
      * Get a reference of the desired Component
+     *
+     * @return A component instance.
+     *
+     * @throws Exception If there are any problems encountered acquiring a
+     *                   component instance.
      */
     protected Component doGet()
         throws Exception
     {
         if( !m_initialized )
         {
-            throw new IllegalStateException( "You cannot get a component from an uninitialized holder." );
+            throw new IllegalStateException(
+                "You cannot get a component from an uninitialized holder." );
         }
 
         if( m_disposed )
@@ -108,12 +128,15 @@ public class DefaultComponentHandler
 
     /**
      * Return a reference of the desired Component
+     *
+     * @param component Component to be be put/released back to the handler.
      */
     protected void doPut( final Component component )
     {
         if( !m_initialized )
         {
-            throw new IllegalStateException( "You cannot put a component in an uninitialized holder." );
+            throw new IllegalStateException(
+                "You cannot put a component in an uninitialized holder." );
         }
 
         try
@@ -124,8 +147,8 @@ public class DefaultComponentHandler
         {
             if( getLogger().isWarnEnabled() )
             {
-                getLogger().warn( "Error decommissioning component: " +
-                                  m_factory.getCreatedClass().getName(), e );
+                getLogger().warn( "Error decommissioning component: "
+                    + m_factory.getCreatedClass().getName(), e );
             }
         }
     }
@@ -148,8 +171,8 @@ public class DefaultComponentHandler
         {
             if( getLogger().isWarnEnabled() )
             {
-                getLogger().warn( "Error decommissioning component: " +
-                                  m_factory.getCreatedClass().getName(), e );
+                getLogger().warn( "Error decommissioning component: "
+                    + m_factory.getCreatedClass().getName(), e );
             }
         }
 
