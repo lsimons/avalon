@@ -45,16 +45,16 @@ ExcaliburComponentManager, usually abbreviated to ECM.
         </dependency>
         <dependency>
             <id>excalibur-logger</id>
-            <version>1.0.1</version>
+            <version>1.1</version>
         </dependency>
         <dependency>
             <id>excalibur-instrument</id>
-            <version>1.2</version>
+            <version>1.0</version>
             <groupId>excalibur-instrument</groupId>
         </dependency>
         <dependency>
             <id>excalibur-instrument-manager</id>
-            <version>1.2</version>
+            <version>1.0</version>
             <groupId>excalibur-instrument-manager</groupId>
         </dependency>
         <dependency>
