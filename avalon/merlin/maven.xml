@@ -453,6 +453,12 @@
           <sourcepath path="${child.file.parentFile}/src/java"/>
         </j:forEach>
 
+        <sourcepath path="${basedir}/../composition/api/src/java"/>
+        <sourcepath path="${basedir}/../composition/spi/src/java"/>
+        <sourcepath path="${basedir}/../composition/impl/src/java"/>
+        <sourcepath path="${basedir}/../activation/api/src/java"/>
+        <sourcepath path="${basedir}/../activation/impl/src/java"/>
+
         <j:forEach var="packageGroup" items="${pom.packageGroups}">
           <group title="${packageGroup.title}" packages="${packageGroup.packages}"/>
         </j:forEach>
