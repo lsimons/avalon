@@ -1,0 +1,48 @@
+ 
+import java.io.File;
+
+import org.apache.merlin.magic.Plugin;
+import org.apache.merlin.magic.PluginContext;
+
+import org.apache.avalon.framework.context.Context;
+import org.apache.avalon.framework.context.Contextualizable;
+
+import org.apache.avalon.framework.logger.AbstractLogEnabled;
+
+import org.apache.tools.ant.Project;
+import org.apache.tools.ant.taskdefs.Copy;
+import org.apache.tools.ant.types.FileSet;
+
+public class PluginPlugin extends AbstractLogEnabled
+    implements Contextualizable, Plugin
+{
+    private PluginContext m_PluginContext;
+    
+    public void contextualize( Context ctx )
+    {
+        m_PluginContext = (PluginContext) ctx;
+    }
+    
+    public void install()
+    {
+        getLogger().info( "Installing plugin: " + m_PluginContext.getProjectName() );
+
+        String projectName = m_PluginContext.getProjectName();
+                
+        File systemDir = m_PluginContext.getSystemDir();
+        File localpluginrepo = new File( systemDir, "plugins/" + projectName );
+        File srcDir = new File( m_PluginContext.getProjectDir(), "src/dist" );
+
+        Project project = m_PluginContext.getAntProject();
+        FileSet src = new FileSet();
+        src.setDir( srcDir );
+        
+        Copy copy = project.createTask( "copy" );
+        copy.setVerbose( true );
+        copy.setTodir( localpluginrepo );
+        copy.addFileset( src );
+        copy.execute();        
+    
+        getLogger().info( "Sucess!" );
+    }
+}

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<project name="magic" default="dist" basedir="." >
+
+  <target name="prepare" >
+    <property file="user.properties" />
+    <property file="build.properties" />
+    <mkdir dir="${java.build.src.dir}" />
+    <mkdir dir="${java.build.classes.dir}" />
+    <mkdir dir="${jar.build.resources.dir}" />
+    
+    <copy todir="${build.src.dir}" filtering="on">
+      <fileset dir="${src.dir}"  >
+        <include name="**/*.java" />
+        <include name="**/*.x*" />
+        <include name="**/*.prop*" />
+        <include name="**/*.MF" />
+      </fileset>
+    </copy>
+    <copy todir="${build.src.dir}" filtering="off">
+      <fileset dir="${src.dir}" >
+        <include name="**" />
+        <exclude name="**/*.java" />
+        <exclude name="**/*.x*" />
+        <exclude name="**/*.prop*" />
+      </fileset>
+    </copy>
+  </target>
+
+  <target name="build" depends="prepare" >
+    <javac srcdir="${java.build.src.dir}"
+           destdir="${java.build.classes.dir}"
+           debug="${java.compile.debug}"
+           classpath="${artifact.compile.dependency.classpath}"
+           fork="${java.compile.fork}"
+    >
+      <classpath>
+        <path location="${maven.repository}/avalon-framework/jars/avalon-framework-api-4.1.5.jar" />
+        <path location="${maven.repository}/avalon-framework/jars/avalon-framework-impl-4.1.5.jar" />
+        <path location="${maven.repository}/bsh/jars/bsh-2.0b1.jar" />
+        <path location="${maven.repository}/ant/jars/ant-1.6.jar" />
+      </classpath>
+    </javac>
+  </target>
+  
+  <target name="package" depends="build" >
+    <property name="jar-built-file" value="${jar.file.dir}/magic.jar" />
+    <jar destfile="${jar-built-file}"
+         basedir="${jar.classes.dir}"
+         manifest="${jar.manifest.file}"
+    >
+      <fileset dir="${jar.build.resources.dir}">
+        <include name="**" />
+      </fileset>
+    </jar>
+  </target>
+  
+  <target name="install" depends="build, package" >
+  
+  </target>
+  
+  <target name="dist" depends="install" >
+    <copy todir="${build.dist.dir}" >
+      <fileset dir="${build.src.dir}/dist" includes="**" />
+    </copy>
+    <copy todir="${build.dist.dir}/bin" file="${jar-built-file}" />
+    <chmod file="${build.dist.dir}/bin/magic" perm="+x" />
+  </target>
+  
+  <target name="clean" depends="prepare" >
+    <delete dir="${build.dest.dir}" />
+  </target>
+</project>

@@ -1,0 +1,80 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN"
+"http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+
+
+<svg xmlns="http://www.w3.org/2000/svg" 
+     xmlns:xlink="http://www.w3.org/1999/xlink" 
+     width="800" height="250" 
+     viewBox="0 0 800 250">
+  <g>
+    <defs>
+      <linearGradient id="blade-lower-gradient" x2="0" y2="1">
+        <stop offset="0" stop-color="#F0F0F0" />
+        <stop offset="100%" stop-color="#B0B0B0" />
+      </linearGradient>
+    
+      <linearGradient id="blade-upper-gradient" x2="0" y2="1">
+        <stop offset="0" stop-color="#FFFFFF" />
+        <stop offset="100%" stop-color="#F0F0F0" />
+      </linearGradient>
+      
+      <linearGradient id="handle-gradient" >
+        <stop offset="0" stop-color="#FEFEFE" />
+        <stop offset="80%" stop-color="#E0E0E0" />
+        <stop offset="85%" stop-color="#C0C0C0" />
+        <stop offset="91%" stop-color="#808080" />
+        <stop offset="91%" stop-color="black" />
+      </linearGradient>
+      <linearGradient id="cross-gradient" x2="0" y2="1">
+        <stop offset="7.5%" stop-color="black" />
+        <stop offset="8%" stop-color="#808080" />
+        <stop offset="15%" stop-color="#C0C0C0" />
+        <stop offset="20%" stop-color="#E0E0E0" />
+        <stop offset="80%" stop-color="#E0E0E0" />
+        <stop offset="85%" stop-color="#C0C0C0" />
+        <stop offset="92%" stop-color="#808080" />
+        <stop offset="92.5%" stop-color="black" />
+      </linearGradient>
+    </defs>
+  </g>
+  <g id="upperblade" >
+    <path stroke="black" fill="url(#blade-upper-gradient)" d="M 0,125 l 50,-30 l 500,0 l 0,30z" />
+  </g>
+  
+  <g id="lowerblade" >
+    <path stroke="black" fill="url(#blade-lower-gradient)" d="M 0,125 l 50,30 l 500,0 l 0,-30z" />
+  </g>
+  
+  <g id="cross" fill="url(#cross-gradient)">
+    <!-- Arc top -->
+    <path stroke="black" 
+      d="M 520,20 c 20,-20 80,-20 100,0 c -35,-10 -30,75 -30,75 l 0,60 c 0,0 -5,85 30,75 c -20,20 -80,20 -100,0 c 35,10 30,-75 30,-75 l 0,-60 c 0,0 5,-85 -30,-75" />
+<!--    
+    - Top bar -
+    <path stroke="black" d="M 520,20  l 0,30" />
+    <path stroke="black" d="M 620,20  l 0,30" />
+    
+    - Bottom bar 
+    <path stroke="black"  
+        d="M 520,230 " />
+    <path stroke="black" d="M 620,230  l 0,-30" />
+    
+    - Arc bottom -
+    <path stroke="black" fill="none" d="M 520,230 c 20,20 80,20 100,0" />
+-->
+  </g>
+  
+  <g id="handle" >
+    <path stroke="black" fill="none" d="M 590,105 l 115,0" />
+    <path stroke="black" fill="none" d="M 590,145 l 115,0" />
+    
+    <path stroke="black" fill="url(#handle-gradient)" 
+        d="M 780,75 c 20,20 20,80 0,100 c 10,-35 -75,-30 -75,-30 L 590,145 L590,105 L 705,105 c 0,0 85,5 75,-30 z" />
+    
+  </g>
+  
+  <g id="butt" >
+  
+  </g>
+</svg>

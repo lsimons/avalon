@@ -1,0 +1,6 @@
+#!/bin/sh
+#
+
+BIN_DIR=`dirname $0`
+
+java $JVM_OPTS -jar $BIN_DIR/magic.jar $@
