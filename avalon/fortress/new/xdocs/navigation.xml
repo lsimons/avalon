@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project href="http://avalon.apache.org/fortress" 
+         name="Avalon Fortress">
+ <title>Avalon Fortress</title>
+
+ <body>
+
+    <links>
+      <item name="Apache" href="http://apache.org/"/>
+      <item name="Avalon" href="http://avalon.apache.org/"/>
+      <item name="Framework" href="http://avalon.apache.org/product/framework/"/>
+      <item name="Containers" href="http://avalon.apache.org/product/containers/"/>
+      <item name="Components" href="http://avalon.apache.org/product/components/"/>
+    </links>
+
+    <menu name="About Fortress">
+        <item name="Overview" href="/index.html"/>
+        <item name="Features Oriented" href="/features.html"/>
+        <item name="Getting Started" href="/getting-started.html"/>
+        <item name="Using Meta Info" href="/using-meta-info.html"/>
+        <item name="Download" href="http://avalon.apache.org/download.cgi"/>
+    </menu>
+
+    <menu name="Environment">
+        <item name="CLI" href="/cli.html"/>
+        <item name="Swing" href="/swing.html"/>
+        <item name="Servlet" href="/servlet.html"/>
+    </menu>
+
+    <menu name="Resources">
+        <item name="API" href="/api/index.html"/>
+        <item name="Lifecycle Extensions" href="/lifecycle-extensions.html"/>
+        <item name="Design Notes" href="/design-notes.html"/>
+    </menu>
+ </body>
+
+</project>
