@@ -19,7 +19,7 @@ Not in use yet.
     </file>
   </targets>
 
-  <categories priority="info" target="simple"/>
+  <categories priority="debug" target="simple"/>
 
   <logger name="kernel.logger"/>
 

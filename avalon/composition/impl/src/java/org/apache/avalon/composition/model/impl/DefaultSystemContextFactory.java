@@ -18,6 +18,7 @@
 package org.apache.avalon.composition.model.impl;
 
 import java.io.File;
+import java.net.URL;
 import java.util.Hashtable;
 import java.util.Map;
 
@@ -46,7 +47,7 @@ import org.apache.avalon.util.i18n.Resources;
  * Implementation of a system context that exposes a system wide set of parameters.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.9 $ $Date: 2004/04/01 04:06:52 $
+ * @version $Revision: 1.10 $ $Date: 2004/04/20 16:53:19 $
  */
 public class DefaultSystemContextFactory implements SystemContextFactory
 {
@@ -446,30 +447,11 @@ public class DefaultSystemContextFactory implements SystemContextFactory
     */
     private LoggingManager createLoggingManager()
     {
-        Artifact[] artifacts = 
-          m_context.getRepository().getCandidates( 
-            LoggingManager.class );
-        if( artifacts.length < 1 )
-        {
-            final String error =
-              "No factory registered for the class [" 
-              + LoggingManager.class.getName() + "].";
-            throw new IllegalStateException( error );
-        }
-
-        Artifact artifact = artifacts[0];
+        boolean trace = isTraceEnabled();
 
         try
         {
-            File dir = getBaseDirectory();
-            ClassLoader classloader = 
-              DefaultSystemContextFactory.class.getClassLoader();
-            Builder builder = m_context.newBuilder( classloader, artifact );
-            LoggingFactory factory = (LoggingFactory) builder.getFactory();
-            LoggingCriteria params = factory.createDefaultLoggingCriteria();
-            params.setDebugEnabled( isTraceEnabled() );
-            params.setBaseDirectory( dir );
-            return factory.createLoggingManager( params );
+            return createLoggingManager( m_context, null, null, null, trace );
         }
         catch( Throwable e )
         {
@@ -478,4 +460,81 @@ public class DefaultSystemContextFactory implements SystemContextFactory
             throw new ModelRuntimeException( error, e );
         }
     }
+
+   /**
+    * Utility method to create the LoggingManager.
+    * @param context the initial context reference
+    * @param artifact the logging implementation factory artifact 
+    * @param dir the logging system base directory 
+    * @param path the logging system configuration path
+    * @param trace the trace enabled flag
+    * @return the logging manager
+    * @exception NullPointerException if the supplied context is null
+    */
+    public static LoggingManager createLoggingManager( 
+      final InitialContext context, final Artifact artifact, 
+      final File dir, final URL path, boolean trace ) throws Exception
+    {
+        assertNotNull( context, "context" );
+
+        Artifact implementation = 
+          locateArtifact( context, LoggingManager.class, artifact );
+        File basedir = getBaseDirectory( context, dir );
+
+        ClassLoader classloader = 
+          DefaultSystemContextFactory.class.getClassLoader();
+        Builder builder = context.newBuilder( classloader, implementation );
+        LoggingFactory factory = (LoggingFactory) builder.getFactory();
+        LoggingCriteria params = factory.createDefaultLoggingCriteria();
+        params.setBaseDirectory( basedir );
+        params.setLoggingConfiguration( path );
+        params.setDebugEnabled( trace );
+        return factory.createLoggingManager( params );
+    }
+
+    private static Artifact locateArtifact( 
+      InitialContext context, Class clazz, Artifact artifact )
+    {
+        if( null != artifact ) return artifact;
+        return locateArtifact( context, clazz );
+    }
+
+    private static Artifact locateArtifact( InitialContext context, Class clazz )
+      throws IllegalStateException
+    {
+        assertNotNull( context, "context" );
+        assertNotNull( clazz, "clazz" );
+
+        Artifact[] artifacts = 
+          context.getRepository().getCandidates( clazz );
+        if( artifacts.length < 1 )
+        {
+            final String error =
+              "No factory registered for the class [" 
+              + clazz.getName() + "].";
+            throw new IllegalStateException( error );
+        }
+
+        return artifacts[0];
+    }
+
+    private static void assertNotNull( Object object, String key ) 
+      throws NullPointerException
+    {
+        if( null == object ) 
+          throw new NullPointerException( key );
+    }
+
+   /**
+    * Return the base directory from which relative classloader 
+    * references may be resolved.
+    *
+    * @return the base directory
+    */
+    private static File getBaseDirectory( InitialContext context, File dir )
+    {
+        if( null != dir ) return dir;
+        return context.getInitialWorkingDirectory();
+    }
+
 }

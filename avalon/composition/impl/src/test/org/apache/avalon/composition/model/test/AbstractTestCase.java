@@ -19,7 +19,7 @@
 package org.apache.avalon.composition.model.test;
 
 import java.io.File;
-
+import java.net.URL;
 
 import org.apache.avalon.composition.data.SecurityProfile;
 import org.apache.avalon.composition.data.builder.XMLSecurityProfileBuilder;
@@ -30,6 +30,8 @@ import org.apache.avalon.composition.model.impl.DefaultSystemContextFactory;
 import org.apache.avalon.composition.provider.SystemContext;
 import org.apache.avalon.composition.provider.ModelFactory;
 import org.apache.avalon.composition.provider.SystemContextFactory;
+
+import org.apache.avalon.logging.provider.LoggingManager;
 
 import org.apache.avalon.repository.Artifact;
 import org.apache.avalon.repository.Repository;
@@ -106,6 +108,18 @@ public abstract class AbstractTestCase extends TestCase
 
         SystemContextFactory factory = 
           new DefaultSystemContextFactory( context );
+
+        //
+        // setup the logging manager
+        //
+
+        String logConfigPath = config.getChild( "logging" ).getAttribute( "path" );
+        File file = new File( test, logConfigPath );
+        URL url = file.toURL();
+        LoggingManager logging = 
+          DefaultSystemContextFactory.createLoggingManager( 
+            context, null, null, url, false );
+        factory.setLoggingManager( logging );
 
         //
         // setup the security profiles
