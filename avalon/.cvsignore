@@ -1,8 +1,8 @@
 .ant.properties
 dist
 build
-distribution
+distributions
 prj.el
 emacs-jprj.el
 docs
-
+todo
