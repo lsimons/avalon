@@ -36,7 +36,10 @@ operation generates a simple string representation of a configuration.
         </p>
         <p>
 Also provides a branch operation to take a Configuration object and rename it but
-retain all attributes and children
+retain all attributes and children.
+        </p>
+        <p>
+Additionally, provide an method to test the equality of two Configuration objects
         </p>
       </s2>
       <s2 title="ConfigurationMerger">
@@ -49,12 +52,18 @@ Configuration.getChildren() based off of meta-attributes that can exist in the
 layer.
         </p>
       </s2>
+      <s2 title="ConfigurationSplitter">
+        <p>
+Given a Configuration and a "base", generate the "layer" that when passed to
+the ConfigurationMerger will yield the original Configuration.
+        </p>
+      </s2>
     </s1>
   </body>
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.5 $ $Date: 2002/07/26 15:48:01 $
+      $Revision: 1.6 $ $Date: 2002/07/26 19:22:28 $
     </legal>
   </footer>
 </document>
