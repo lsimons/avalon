@@ -66,7 +66,7 @@ import org.apache.excalibur.instrument.manager.interfaces.NoSuchInstrumentExcept
 /**
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.1 $ $Date: 2003/09/08 09:00:44 $
+ * @version CVS $Revision: 1.2 $ $Date: 2003/09/10 10:03:17 $
  * @since 4.1
  */
 public class HTMLInstrumentHandler
@@ -115,7 +115,7 @@ public class HTMLInstrumentHandler
             }
             else
             {
-                throw new HTTPRedirect( "instrumentable.html" );
+                throw new HTTPRedirect( "instrument-manager.html" );
             }
         }
         
@@ -290,57 +290,5 @@ public class HTMLInstrumentHandler
     /*---------------------------------------------------------------
      * Methods
      *-------------------------------------------------------------*/
-    private void outputInstrumentSamples( PrintStream out, InstrumentSampleDescriptor[] descs )
-        throws IOException
-    {
-        startTable( out );
-        startTableHeaderRow( out );
-        tableHeaderCell( out, "Name" );
-        tableHeaderCell( out, "Last Sample" );
-        tableHeaderCell( out, "Last Sample Period" );
-        tableHeaderCell( out, "Interval" );
-        tableHeaderCell( out, "Size" );
-        tableHeaderCell( out, "Expiration Time" );
-        endTableHeaderRow( out );
-        
-        for ( int i = 0; i < descs.length; i++ )
-        {
-            InstrumentSampleDescriptor desc = descs[i];
-            
-            startTableRow( out, i );
-            tableCell( out, "<a href='sample.html?name=" + urlEncode( desc.getName() ) + "'>"
-                + desc.getDescription() + "</a> (<a href='sample.html?name="
-                + urlEncode( desc.getName() ) + "&chart=true'>Chart</a>)" );
-            tableCell( out, Integer.toString( desc.getValue() ) );
-            tableCell( out, new Date( desc.getTime() ).toString() );
-            tableCell( out, Long.toString( desc.getInterval() ) );
-            tableCell( out, Integer.toString( desc.getSize() ) );
-            String value;
-            if ( desc.getLeaseExpirationTime() == 0 )
-            {
-                value = "<i>Permanent</i>";
-            }
-            else
-            {
-                String renewUrl =
-                    "sample-lease.html?name=" + urlEncode( desc.getName() ) + "&instrument=true&lease=";
-                
-                value = new Date( desc.getLeaseExpirationTime() ).toString()
-                    + " (Renew <a href='" + renewUrl + "600000'>10min</a>, "
-                    + "<a href='" + renewUrl + "3600000'>1hr</a>, "
-                    + "<a href='" + renewUrl + "86400000'>1day</a>)";
-                
-                // Make the text red if it is about to expire.
-                if ( desc.getLeaseExpirationTime() - System.currentTimeMillis() < 300000 )
-                {
-                    value = "<font color='ff0000'>" + value + "</font>";
-                }
-            }
-            tableCell( out, value );
-            endTableRow( out );
-        }
-        
-        endTable( out );
-    }
 }
 

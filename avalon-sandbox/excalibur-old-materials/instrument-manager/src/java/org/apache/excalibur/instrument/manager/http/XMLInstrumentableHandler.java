@@ -56,21 +56,17 @@ import java.util.Map;
 
 import org.apache.excalibur.instrument.manager.interfaces.InstrumentManagerClient;
 import org.apache.excalibur.instrument.manager.interfaces.InstrumentableDescriptor;
-import org.apache.excalibur.instrument.manager.interfaces.InstrumentDescriptor;
-import org.apache.excalibur.instrument.manager.http.server.AbstractHTTPURLPrintStreamHandler;
+import org.apache.excalibur.instrument.manager.interfaces.NoSuchInstrumentableException;
 
 /**
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.1 $ $Date: 2003/09/08 09:00:45 $
+ * @version CVS $Revision: 1.2 $ $Date: 2003/09/10 10:03:17 $
  * @since 4.1
  */
 public class XMLInstrumentableHandler
-    extends AbstractHTTPURLPrintStreamHandler
+    extends AbstractXMLHandler
 {
-    /** The instrument manager */
-    private InstrumentManagerClient m_manager;
-    
     /*---------------------------------------------------------------
      * Constructors
      *-------------------------------------------------------------*/
@@ -82,10 +78,7 @@ public class XMLInstrumentableHandler
      */
     public XMLInstrumentableHandler( InstrumentManagerClient manager )
     {
-        super( "/instrumentable.xml", CONTENT_TYPE_TEXT_XML,
-            InstrumentManagerHTTPConnector.ENCODING );
-        
-        m_manager = manager;
+        super( "/instrumentable.xml", manager );
     }
     
     /*---------------------------------------------------------------
@@ -102,62 +95,26 @@ public class XMLInstrumentableHandler
         throws IOException
     {
         String name = getParameter( parameters, "name" );
-        if ( name == null )
+        boolean packed = ( getParameter( parameters, "packed", null ) != null );
+        boolean recurse = ( getParameter( parameters, "recurse", null ) != null );
+        
+        InstrumentableDescriptor desc;
+        try
         {
-            // This is the root
-            out.println( InstrumentManagerHTTPConnector.XML_BANNER );
-            out.println( "<instrumentable name='' description='"
-                + m_manager.getDescription() + "' state-version='" + m_manager.getStateVersion()
-                + "' configured='true' registered='true'>" );
-            
-            outputInstrumentables( out, m_manager.getInstrumentableDescriptors() );
-            
-            out.println( "</instrumentable>" );
+            desc = getInstrumentManagerClient().locateInstrumentableDescriptor( name );
         }
-        else
+        catch ( NoSuchInstrumentableException e )
         {
-            InstrumentableDescriptor desc = m_manager.locateInstrumentableDescriptor( name );
-            if ( desc == null )
-            {
-                throw new FileNotFoundException(
-                    "The specified instrumentable does not exist: " + name );
-            }
-            
-            out.println( InstrumentManagerHTTPConnector.XML_BANNER );
-            out.println( "<instrumentable name='" + desc.getName() + "' description='"
-                + desc.getDescription() + "' state-version='" + desc.getStateVersion()
-                + "' configured='" + desc.isConfigured() + "' registered='"
-                + desc.isRegistered() + "'>" );
-            
-            outputInstrumentables( out, desc.getChildInstrumentableDescriptors() );
-            outputInstruments( out, desc.getInstrumentDescriptors() );
-            
-            out.println( "</instrumentable>" );
+            throw new FileNotFoundException(
+                "The specified instrumentable does not exist: " + name );
         }
+        
+        out.println( InstrumentManagerHTTPConnector.XML_BANNER );
+        outputInstrumentable( out, desc, "", recurse, packed );
     }
             
     /*---------------------------------------------------------------
      * Methods
      *-------------------------------------------------------------*/
-    private void outputInstrumentables( PrintStream out, InstrumentableDescriptor[] descs )
-        throws IOException
-    {
-        for ( int i = 0; i < descs.length; i++ )
-        {
-            InstrumentableDescriptor desc = descs[i];
-            out.println( "  <instrumentable name='" + desc.getName() + "' state-version='"
-                + desc.getStateVersion() + "'/>" );
-        }
-    }
-    private void outputInstruments( PrintStream out, InstrumentDescriptor[] descs )
-        throws IOException
-    {
-        for ( int i = 0; i < descs.length; i++ )
-        {
-            InstrumentDescriptor desc = descs[i];
-            out.println( "  <instrument name='" + desc.getName() + "' state-version='"
-                + desc.getStateVersion() + "'/>" );
-        }
-    }
 }
 

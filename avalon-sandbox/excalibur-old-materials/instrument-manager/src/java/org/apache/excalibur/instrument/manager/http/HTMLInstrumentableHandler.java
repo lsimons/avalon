@@ -63,7 +63,7 @@ import org.apache.excalibur.instrument.manager.interfaces.NoSuchInstrumentableEx
 /**
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.1 $ $Date: 2003/09/08 09:00:44 $
+ * @version CVS $Revision: 1.2 $ $Date: 2003/09/10 10:03:17 $
  * @since 4.1
  */
 public class HTMLInstrumentableHandler
@@ -95,134 +95,61 @@ public class HTMLInstrumentableHandler
     public void doGet( String path, Map parameters, PrintStream out )
         throws IOException
     {
-        String name = getParameter( parameters, "name", null );
-        if ( name == null )
+        String name = getParameter( parameters, "name" );
+        InstrumentableDescriptor desc;
+        try
         {
-            // This is the root
-            out.println( "<html>" );
-            out.println( "<head><title>" + getInstrumentManagerClient().getDescription()
-                + "</title></head>" );
-            out.println( "<body>" );
-            
-            breadCrumbs( out, false );
-            
-            out.println( "<h2>Instrumentable</h2>" );
-            startTable( out );
-            tableRow( out, 0, "Name", "<i>Instrument Manager</i>" );
-            tableRow( out, 0, "Description", getInstrumentManagerClient().getDescription() );
-            endTable( out );
-            
-            InstrumentableDescriptor[] instrumentables =
-                getInstrumentManagerClient().getInstrumentableDescriptors();
-            if ( instrumentables.length > 0 )
-            {
-                out.println( "<h2>Instrumentables</h2>" );
-                outputInstrumentables( out, instrumentables );
-            }
-            
-            footer( out );
-            
-            out.println( "</body>" );
-            out.println( "</html>" );
+            desc = getInstrumentManagerClient().locateInstrumentableDescriptor( name );
         }
-        else
+        catch ( NoSuchInstrumentableException e )
         {
-            InstrumentableDescriptor desc;
-            try
+            // Sample no longer exists, go back to the parent instrument.
+            int pos = name.lastIndexOf( '.' );
+            if ( pos >= 0 )
             {
-                desc = getInstrumentManagerClient().locateInstrumentableDescriptor( name );
+                throw new HTTPRedirect(
+                    "instrumentable.html?name=" + urlEncode( name.substring( 0,  pos ) ) );
             }
-            catch ( NoSuchInstrumentableException e )
+            else
             {
-                // Sample no longer exists, go back to the parent instrument.
-                int pos = name.lastIndexOf( '.' );
-                if ( pos >= 0 )
-                {
-                    throw new HTTPRedirect(
-                        "instrumentable.html?name=" + urlEncode( name.substring( 0,  pos ) ) );
-                }
-                else
-                {
-                    throw new HTTPRedirect( "instrumentable.html" );
-                }
+                throw new HTTPRedirect( "instrument-manager.html" );
             }
-            
-            out.println( "<html>" );
-            out.println( "<head><title>" + desc.getDescription() + "</title></head>" );
-            out.println( "<body>" );
-            
-            breadCrumbs( out, desc, false );
-            
-            out.println( "<h2>Instrumentable</h2>" );
-            startTable( out );
-            tableRow( out, 0, "Name", desc.getName() );
-            tableRow( out, 0, "Description", desc.getDescription() );
-            endTable( out );
-            
-            InstrumentableDescriptor[] instrumentables = desc.getChildInstrumentableDescriptors();
-            if ( instrumentables.length > 0 )
-            {
-                out.println( "<h2>Instrumentables</h2>" );
-                outputInstrumentables( out, instrumentables );
-            }
-            
-            InstrumentDescriptor[] instruments = desc.getInstrumentDescriptors();
-            if ( instruments.length > 0 )
-            {
-                out.println( "<h2>Instruments</h2>" );
-                outputInstruments( out, instruments );
-            }
-            
-            footer( out );
-            
-            out.println( "</body>" );
-            out.println( "</html>" );
         }
+        
+        out.println( "<html>" );
+        out.println( "<head><title>" + desc.getDescription() + "</title></head>" );
+        out.println( "<body>" );
+        
+        breadCrumbs( out, desc, false );
+        
+        out.println( "<h2>Instrumentable</h2>" );
+        startTable( out );
+        tableRow( out, 0, "Name", desc.getName() );
+        tableRow( out, 0, "Description", desc.getDescription() );
+        endTable( out );
+        
+        InstrumentableDescriptor[] instrumentables = desc.getChildInstrumentableDescriptors();
+        if ( instrumentables.length > 0 )
+        {
+            out.println( "<h2>Instrumentables</h2>" );
+            outputInstrumentables( out, instrumentables );
+        }
+        
+        InstrumentDescriptor[] instruments = desc.getInstrumentDescriptors();
+        if ( instruments.length > 0 )
+        {
+            out.println( "<h2>Instruments</h2>" );
+            outputInstruments( out, instruments );
+        }
+        
+        footer( out );
+        
+        out.println( "</body>" );
+        out.println( "</html>" );
     }
             
     /*---------------------------------------------------------------
      * Methods
      *-------------------------------------------------------------*/
-    private void outputInstrumentables( PrintStream out, InstrumentableDescriptor[] descs )
-        throws IOException
-    {
-        startTable( out );
-        startTableHeaderRow( out );
-        tableHeaderCell( out, "Name" );
-        endTableHeaderRow( out );
-        
-        for ( int i = 0; i < descs.length; i++ )
-        {
-            InstrumentableDescriptor desc = descs[i];
-            
-            startTableRow( out, i );
-            tableCell( out,
-                "<a href='instrumentable.html?name=" + urlEncode( desc.getName() ) + "'>"
-                + desc.getDescription() + "</a>" );
-            endTableRow( out );
-        }
-        
-        endTable( out );
-    }
-    private void outputInstruments( PrintStream out, InstrumentDescriptor[] descs )
-        throws IOException
-    {
-        startTable( out );
-        startTableHeaderRow( out );
-        tableHeaderCell( out, "Name" );
-        endTableHeaderRow( out );
-        
-        for ( int i = 0; i < descs.length; i++ )
-        {
-            InstrumentDescriptor desc = descs[i];
-            
-            startTableRow( out, i );
-            tableCell( out, "<a href='instrument.html?name=" + urlEncode( desc.getName() ) + "'>"
-                + desc.getDescription() + "</a>" );
-            endTableRow( out );
-        }
-        
-        endTable( out );
-    }
 }
 

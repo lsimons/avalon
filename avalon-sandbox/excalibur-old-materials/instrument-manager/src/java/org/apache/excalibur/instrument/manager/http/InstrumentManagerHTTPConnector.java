@@ -76,7 +76,7 @@ import org.apache.excalibur.instrument.manager.InstrumentManagerClientLocalImpl;
  *  alternative to this connector is to make use of the InstrumentManagerServlet.
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.2 $ $Date: 2003/09/08 10:19:22 $
+ * @version CVS $Revision: 1.3 $ $Date: 2003/09/10 10:03:17 $
  * @since 4.1
  */
 public class InstrumentManagerHTTPConnector
@@ -175,7 +175,14 @@ public class InstrumentManagerHTTPConnector
             // XML
             String nameBase = "xml-";
             initAndRegisterHandler(
+                new XMLInstrumentManagerHandler( client ), nameBase + "instrument-manager" );
+            initAndRegisterHandler(
                 new XMLInstrumentableHandler( client ), nameBase + "instrumentable" );
+            initAndRegisterHandler(
+                new XMLInstrumentHandler( client ), nameBase + "instrument" );
+            initAndRegisterHandler( new XMLSampleHandler( client ), nameBase + "sample" );
+            initAndRegisterHandler(	new XMLSnapshotHandler( client ), nameBase + "snapshot" );
+            initAndRegisterHandler(	new XMLSnapshotsHandler( client ), nameBase + "snapshots" );
         }
         
         if ( m_html )
@@ -183,19 +190,18 @@ public class InstrumentManagerHTTPConnector
             // HTML
             String nameBase = "html-";
             initAndRegisterHandler(
+                new HTMLInstrumentManagerHandler( client ), nameBase + "instrument-manager" );
+            initAndRegisterHandler(
                 new HTMLInstrumentableHandler( client ), nameBase + "instrumentable" );
             initAndRegisterHandler(
                 new HTMLInstrumentHandler( client ), nameBase + "instrument" );
-            initAndRegisterHandler(
-                new HTMLSampleHandler( client ), nameBase + "sample" );
+            initAndRegisterHandler( new HTMLSampleHandler( client ), nameBase + "sample" );
             initAndRegisterHandler(
                 new HTMLSampleLeaseHandler( client ), nameBase + "sample-lease" );
             initAndRegisterHandler(
                 new HTMLCreateSampleHandler( client ), nameBase + "create-sample" );
-            initAndRegisterHandler(
-                new SampleChartHandler( client ), "sample-chart" );
-            initAndRegisterHandler(
-                new HTMLRootHandler( client ), nameBase + "root" );
+            initAndRegisterHandler( new SampleChartHandler( client ), "sample-chart" );
+            initAndRegisterHandler( new HTMLRootHandler( client ), nameBase + "root" );
         }
         
         getLogger().debug( "Starting Instrument Manager HTTP Connector" );
