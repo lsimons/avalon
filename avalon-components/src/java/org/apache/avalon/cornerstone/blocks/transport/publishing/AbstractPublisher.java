@@ -14,9 +14,9 @@ import org.apache.commons.altrmi.server.AltrmiPublisher;
 import org.apache.commons.altrmi.server.AltrmiPublicationException;
 import org.apache.commons.altrmi.server.AltrmiServer;
 import org.apache.commons.altrmi.server.ClassRetriever;
-import org.apache.commons.altrmi.server.impl.JarFileClassRetriever;
-import org.apache.commons.altrmi.server.impl.BaseMobileClassRetriever;
-import org.apache.commons.altrmi.server.impl.NoClassRetriever;
+import org.apache.commons.altrmi.server.impl.classretrievers.JarFileClassRetriever;
+import org.apache.commons.altrmi.server.impl.classretrievers.BaseMobileClassRetriever;
+import org.apache.commons.altrmi.server.impl.classretrievers.NoClassRetriever;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.activity.Startable;
 import org.apache.avalon.framework.activity.Initializable;
@@ -34,7 +34,7 @@ import java.net.MalformedURLException;
  *
  *
  * @author Paul Hammant <a href="mailto:Paul_Hammant@yahoo.com">Paul_Hammant@yahoo.com</a>
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 
 public abstract class AbstractPublisher
@@ -265,6 +265,3 @@ public abstract class AbstractPublisher
       mAltrmiServer.stop();
    }
 }
-
-
-/*------ Formatted by Jindent 3.24 Basic 1.0 --- http://www.jindent.de ------*/
