@@ -106,7 +106,7 @@ import java.util.Map;
  *
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.24 $ $Date: 2003/04/07 08:31:15 $
+ * @version CVS $Revision: 1.25 $ $Date: 2004/01/11 21:58:28 $
  */
 public abstract class Enum
 {
@@ -180,7 +180,7 @@ public abstract class Enum
      */
     public int hashCode()
     {
-        return m_name.hashCode();
+        return m_name.hashCode() ^ this.getClass().getName().hashCode();
     }
 
     /**
