@@ -139,6 +139,13 @@
       focused projects.  Avalon can be described as a framework that
       includes implementations of the framework.
     </para>
+    <para>
+      While Avalon is focused on server side solutions, many people have
+      found it to be useful for regular applications.  The concepts used in
+      Framework, Excalibur, and LogKit are general enough to be used for
+      any project.  The two projects that are more squarely focused on
+      the server are Cornerstone and Phoenix.
+    </para>
     <blockquote>
       <title>Framework</title>
       <orderedlist>
