@@ -9,15 +9,15 @@ package org.apache.avalon.cornerstone.blocks.transport.publishing;
 
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
-import org.apache.avalon.framework.component.ComponentManager;
-import org.apache.avalon.framework.component.ComponentException;
+import org.apache.avalon.framework.service.ServiceException;
+import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.excalibur.altrmi.server.impl.rmi.RmiServer;
 
 /**
  * @phoenix:service name="org.apache.excalibur.altrmi.server.AltrmiPublisher"
  *
  * @author Paul Hammant <a href="mailto:Paul_Hammant@yahoo.com">Paul_Hammant@yahoo.com</a>
- * @version $Revision: 1.9 $
+ * @version $Revision: 1.10 $
  */
 public class RmiPublisher
     extends AbstractPublisher
@@ -60,9 +60,9 @@ public class RmiPublisher
     /**
      * @phoenix:dependency name="org.apache.excalibur.altrmi.server.AltrmiAuthenticator"
      */
-    public void compose( ComponentManager manager )
-        throws ComponentException
+    public void service( ServiceManager manager )
+        throws ServiceException
     {
-        super.compose( manager );
+        super.service( manager );
     }
 }

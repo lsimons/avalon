@@ -25,6 +25,8 @@ import org.apache.avalon.framework.component.ComponentException;
 import org.apache.avalon.framework.component.ComponentManager;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
+import org.apache.avalon.framework.service.ServiceManager;
+import org.apache.avalon.framework.service.ServiceException;
 import org.apache.excalibur.altrmi.server.impl.socket.PartialSocketCustomStreamServer;
 import org.apache.excalibur.altrmi.server.impl.socket.AbstractPartialSocketStreamServer;
 
@@ -35,7 +37,7 @@ import org.apache.excalibur.altrmi.server.impl.socket.AbstractPartialSocketStrea
  * @author Paul Hammant <a href="mailto:Paul_Hammant@yahoo.com">Paul_Hammant@yahoo.com</a>
  * @author Mike Miller.
  * @author Peter Royal.
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class SocketStreamPublisher
     extends AbstractPublisher
@@ -90,10 +92,10 @@ public class SocketStreamPublisher
      * @phoenix:dependency name="org.apache.avalon.cornerstone.services.sockets.SocketManager"
      * @phoenix:dependency name="org.apache.avalon.cornerstone.services.connection.ConnectionManager"
      */
-    public final void compose(ComponentManager manager)
-        throws ComponentException
+    public final void service( final ServiceManager manager)
+        throws ServiceException
     {
-        super.compose(manager);
+        super.service(manager);
 
         m_socketManager = (SocketManager) manager.lookup(SocketManager.ROLE);
         m_connectionManager = (ConnectionManager) manager.lookup(ConnectionManager.ROLE);

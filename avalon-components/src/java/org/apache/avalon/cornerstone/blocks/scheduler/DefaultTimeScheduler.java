@@ -19,10 +19,10 @@ import org.apache.avalon.excalibur.collections.SynchronizedPriorityQueue;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.activity.Startable;
-import org.apache.avalon.framework.component.ComponentException;
-import org.apache.avalon.framework.component.ComponentManager;
-import org.apache.avalon.framework.component.Composable;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
+import org.apache.avalon.framework.service.ServiceException;
+import org.apache.avalon.framework.service.ServiceManager;
+import org.apache.avalon.framework.service.Serviceable;
 import org.apache.avalon.phoenix.Block;
 
 /**
@@ -35,7 +35,7 @@ import org.apache.avalon.phoenix.Block;
  */
 public class DefaultTimeScheduler
     extends AbstractLogEnabled
-    implements Block, TimeScheduler, Composable, Initializable, Startable, Disposable, Runnable
+    implements Block, TimeScheduler, Serviceable, Initializable, Startable, Disposable, Runnable
 {
     private boolean m_running;
     private Hashtable m_entries;
@@ -45,10 +45,10 @@ public class DefaultTimeScheduler
     /**
      * @phoenix:dependency name="org.apache.avalon.cornerstone.services.threads.ThreadManager"
      */
-    public void compose( final ComponentManager componentManager )
-        throws ComponentException
+    public void service( final ServiceManager serviceManager )
+        throws ServiceException
     {
-        m_threadManager = (ThreadManager)componentManager.lookup( ThreadManager.ROLE );
+        m_threadManager = (ThreadManager)serviceManager.lookup( ThreadManager.ROLE );
     }
 
     public void initialize()
