@@ -16,7 +16,13 @@
         <pathelement location="${logkit.jar}"/>
         <pathelement location="${avalon-framework.jar}"/>
         <pathelement location="${checkstyle.jar}"/>
+
+        <!-- Optional jars -->
+        <pathelement location="${servlet.jar}"/>
+        <pathelement location="${jdbc.jar}"/>
+        <pathelement location="${log4j.jar}"/>
         <pathelement location="${mail.jar}"/>
+        <pathelement location="${jms.jar}"/>
         <pathelement path="${java.class.path}"/>
     </path>
 
@@ -38,7 +44,17 @@
     </path>
     <property name="cp" refid="test.class.path"/>
 
-    <target name="main" depends="jar" description="Build the project"/>
+    <target name="cocoon-warning" unless="servlet.present">
+        <echo>**********************************************</echo>
+        <echo>*            COCOON USERS WARNING             </echo>
+        <echo>*                                             </echo>
+        <echo>* The generated jar ${build.lib}/${jar.name}  </echo>
+        <echo>* is not suitable for use in Cocoon, as it    </echo>
+        <echo>* lacks servlet support                       </echo>
+        <echo>**********************************************</echo>
+    </target>
+
+    <target name="main" depends="jar,cocoon-warning" description="Build the project"/>
     <target name="rebuild" depends="clean,main" description="Rebuild the project"/>
 
     <!-- Checks the environment for existing resources -->
@@ -60,7 +76,16 @@
         </available>
     </target>
 
-    <target name="dependencies" description="Check dependencies" unless="skip.dependencies">
+    <target name="dependencies.optional" if="servlet.present">
+            <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredClass">
+                <property name="name" value="logkit.jar"/>
+                <property name="class" value="org.apache.log.output.ServletOutputLogTarget"/>
+                <property name="classpath" value="${cp}"/>
+                <property name="remedy" value="Recompile LogKit with servlet support enabled"/>
+            </ant>
+    </target>
+
+    <target name="dependencies" depends="dependencies.optional" description="Check dependencies" unless="skip.dependencies">
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkCommon"/>
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkFramework"/>
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkLogkit"/>
@@ -77,8 +102,72 @@
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkPool"/>
     </target>
 
-    <!-- Compiles the source code -->
-    <target name="compile" depends="dependencies, check-environment" description="Compiles the source code">
+  <target name="op-warning" description="General warning target (used by other targets)">
+    <echo>**********************************************</echo>
+    <echo>*</echo>
+    <echo>*  Classes needed for output via ${thing} are not </echo>
+    <echo>*  available.  Excalibur Logger should build without them</echo>
+    <echo>*</echo>
+    <echo>*  Recovery:</echo>
+    <echo>*  ${recovery}</echo>
+    <echo>*</echo>
+    <echo>***********************************************</echo>
+    <echo/>
+  </target>
+
+  <target name="jms-warn" unless="jms.present"
+      description="Outputs a warning if javax.jms.* classes are missing during compilation">
+      <antcall target="op-warning">
+          <param name="thing" value="JMS"/>
+          <param name="recovery"
+              value="Get jms.jar from inside jms-1_0_2b.zip from http://java.sun.com/products/jms/docs.html and place it in ${lib.repo} (if defined), or set the $${jms.jar} property in ant.properties"/>
+      </antcall>
+  </target>
+
+  <target name="sql-warn" unless="datasource.present"
+      description="Outputs a warning if javax.sql.* classes are missing during compilation">
+      <antcall target="op-warning">
+          <param name="thing" value="SQL databases"/>
+          <param name="recovery"
+              value="Get jdbc2_0-stdext.jar (listed as 'JDBC 2.0 Optional Package Binary') from http://java.sun.com/products/jdbc/download.html and place it in ${lib.repo} (if defined), or set the $${sql.jar} property in ant.properties"/>
+      </antcall>
+  </target>
+
+  <target name="mail-warn" unless="javamail.present"
+      description="Outputs a warning if javax.mail.* classes are missing during compilation">
+      <antcall target="op-warning">
+          <param name="thing" value="SMTP"/>
+          <param name="recovery"
+              value="Get mail.jar from inside javamail-1_2.zip from http://java.sun.com/products/javamail/ and place it in ${lib.repo} (if defined), or set the $${sql.jar} property in ant.properties"/>
+      </antcall>
+  </target>
+
+  <target name="log4j-warn" unless="log4j.present"
+      description="Outputs a warning if log4j classes are missing during compilation">
+      <antcall target="op-warning">
+          <param name="thing" value="Log4j"/>
+          <param name="recovery"
+              value="Get log4j.jar from http://jakarta.apache.org/log4j/docs/download.html and place it in ${lib.repo} (if defined), or set the $${sql.jar} property in ant.properties"/>
+      </antcall>
+  </target>
+
+  <target name="servlet-warn" unless="servlet.present"
+      description="Outputs a warning if javax.servlet.* classes are missing during compilation">
+      <antcall target="op-warning">
+          <param name="thing" value="Servlets"/>
+          <param name="recovery"
+              value="Get servlet.jar from http://jakarta.apache.org/builds/jakarta-tomcat/release/, or from http://gump.covalent.net/jars/latest/jakarta-servletapi-4/servlet.jar, and place it in the lib dir"/>
+      </antcall>
+  </target>
+
+
+
+  <target name="optional-warnings" depends="jms-warn,sql-warn,mail-warn,log4j-warn,servlet-warn"
+      description="Outputs warnings if some jars are missing from the environment"> 
+  </target>
+
+  <!-- Compiles the source code -->
+  <target name="compile" depends="dependencies, check-environment, optional-warnings" description="Compiles the source code">
 
         <mkdir dir="${build.classes}"/>
 
