@@ -7,7 +7,8 @@
  */
 package org.apache.log.format;
 
-import org.apache.avalon.framework.CascadingThrowable;
+import java.util.Date;
+import org.apache.avalon.framework.ExceptionUtil;
 
 /**
  * This formatter extends PatternFormatter so that 
@@ -27,16 +28,19 @@ public class AvalonFormatter
      */
     protected String getStackTrace( final Throwable throwable, final String format )
     {
-        final StringBuffer sb = new StringBuffer();
-        sb.append( super.getStackTrace( throwable, format ) );
+        if( null == throwable ) return "";
+        return ExceptionUtil.printStackTrace( throwable, 8, true );
+    }
 
-        if( throwable instanceof CascadingThrowable )
-        {
-            final Throwable t = ((CascadingThrowable)throwable).getCause();
-
-            sb.append( getStackTrace( t, format ) );
-        }
-
-        return sb.toString();
+    /**
+     * Utility method to format time.
+     *
+     * @param time the time
+     * @param format ancilliary format parameter - allowed to be null
+     * @return the formatted string
+     */
+    protected String getTime( final long time, final String format )
+    {
+        return new Date().toString();
     }
 }
