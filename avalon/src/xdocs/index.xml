@@ -30,6 +30,13 @@
         different projects to share resources avoiding as much as possible efforts
         duplication. 
       </p>
+      <p>
+        The Avalon Team are proud to announce a new whitepaper that covers how
+	to develop with Avalon. It covers the Framework, and touches on the
+	LogKit and Excalibur. You can find
+	<link href="./developing/index.html">Developing with Apache Avalon</link>
+	on this site.
+      </p>
     </s1>
 	<s1 title="Sub-Projects">
 	  <p>
@@ -99,7 +106,7 @@
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.4 $ $Date: 2001/05/12 08:09:24 $
+      $Revision: 1.5 $ $Date: 2001/07/16 14:16:10 $
     </legal>
   </footer>
 </document>
