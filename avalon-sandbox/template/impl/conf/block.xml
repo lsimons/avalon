@@ -6,7 +6,7 @@
    <classloader>
      <classpath>
        <repository>
-         <resource id="template:template-api" version="1.0"/>
+         <resource id="template:template-api" version="@TEMPLATE-API-VERSION@"/>
        </repository>
      </classpath>
    </classloader>

@@ -1,23 +1,22 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE project [
+  <!ENTITY % index SYSTEM "file:index.ent"> %index;
+]>
 
 <project>
 
-  <extend>${basedir}/../project.xml</extend>
+  <extend>${basedir}/../master.xml</extend>
 
-  <id>template-impl</id>
+  <id>&template-impl-id;</id>
+  <groupId>&template-id;</groupId>
+  <currentVersion>&template-impl-version;</currentVersion>
+
   <name>Template Implementation</name>
-  <currentVersion>1.0</currentVersion>
   <shortDescription>Template Implementation</shortDescription>
   <package>org.apache.avalon.playground.impl</package>
 
   <dependencies>
     
-    <dependency>
-      <groupId>template</groupId>
-      <artifactId>template-api</artifactId>
-      <version>1.0</version>
-    </dependency>
-
     <dependency>
       <groupId>avalon-framework</groupId>
       <artifactId>avalon-framework-api</artifactId>
@@ -25,9 +24,15 @@
     </dependency>
 
     <dependency>
-      <groupId>merlin</groupId>
-      <artifactId>merlin-unit</artifactId>
-      <version>3.2.7</version>
+      <groupId>&template-id;</groupId>
+      <artifactId>&template-api-id;</artifactId>
+      <version>&template-api-version;</version>
+    </dependency>
+
+    <dependency>
+      <groupId>&merlin-id;</groupId>
+      <artifactId>&merlin-unit-id;</artifactId>
+      <version>&merlin-unit-version;</version>
     </dependency>
 
   </dependencies>
