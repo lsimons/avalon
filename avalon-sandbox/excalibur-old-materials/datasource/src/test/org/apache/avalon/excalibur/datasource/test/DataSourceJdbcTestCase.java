@@ -149,13 +149,13 @@ public class DataSourceJdbcTestCase
             ds = (DataSourceComponent)manager.lookup( DataSourceComponent.ROLE );
 
             this.connectionCount = 0;
+            this.barrier = new CyclicBarrier( 11 );
 
             for( int i = 0; i < 10; i++ )
             {
                 ( new Thread( new ConnectionThread( this, ds ) ) ).start();
             }
 
-            this.barrier = new CyclicBarrier( 11 );
             try
             {
                 this.barrier.barrier();
@@ -186,7 +186,7 @@ public class DataSourceJdbcTestCase
         assertTrue( "Normal use test failed", this.isSuccessful );
     }
 
-    class ConnectionThread
+    static class ConnectionThread
         implements Runnable
     {
         protected DataSourceComponent datasource;

@@ -29,7 +29,7 @@
             </stream>
             <file id="file">
                 <filename>TEST-org.apache.avalon.excalibur.datasource.ids.test.TableIdGeneratorJdbcTestCase.log</filename>
-                <format type="extended">
+                <format type="avalon">
                     %7.7{priority} %5.5{time}   [%8.8{category}] (%{context}): %{message}\n%{throwable}
                 </format>
             </file>
@@ -79,10 +79,10 @@
             <jdbc name="test-db" logger="jdbc">
                 <pool-controller min="1" max="10"/>
                 <auto-commit>true</auto-commit>
-                <driver>@test.jdbc.driver@</driver>
-                <dburl>@test.jdbc.url@</dburl>
-                <user>@test.jdbc.user@</user>
-                <password>@test.jdbc.password@</password>
+                <driver>org.hsqldb.jdbcDriver</driver>
+                <dburl>jdbc:hsqldb:test</dburl>
+                <user>SA</user>
+                <password></password>
             </jdbc>
         </datasources>
         
