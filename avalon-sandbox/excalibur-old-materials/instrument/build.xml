@@ -22,6 +22,10 @@
         <pathelement location="${excalibur-altrmi-client-impl.jar}"/>
         <pathelement location="${excalibur-altrmi-client-interfaces.jar}"/>
         <pathelement location="${excalibur-altrmi-generator.jar}"/>
+        <pathelement location="${excalibur-collections.jar}"/>
+        <pathelement location="${excalibur-component.jar}"/>
+        <pathelement location="${excalibur-logger.jar}"/>
+        <pathelement location="${excalibur-pool.jar}"/>
         <pathelement path="${java.class.path}"/>
     </path>
 
@@ -51,6 +55,11 @@
     <!-- Checks the environment for existing resources -->
     <target name="check-environment">
         <available property="framework.present" classname="org.apache.avalon.framework.logger.AbstractLogEnabled">
+            <classpath refid="project.class.path"/>
+        </available>
+        
+        <echo message="excalibur-component.jar=${excalibur-component.jar}"/>
+        <available property="ecm.present" classname="org.apache.avalon.excalibur.component.ExcaliburComponentManager">
             <classpath refid="project.class.path"/>
         </available>
     </target>
@@ -237,7 +246,6 @@
               <attribute name="Implementation-Version" value="${package-version}"/>
             </manifest>
             <exclude name="**/test/**"/>
-            <exclude name="**/interfaces/**"/>
             <zipfileset dir="${build.conf}" prefix="META-INF/">
                 <include name="LICENSE.txt"/>
             </zipfileset>
@@ -398,7 +406,7 @@
             <zipfileset dir="${docs.dir}" prefix="${dist.name}/docs"/>
         </zip>
 
-	<!--
+    <!--
         <tar longfile="gnu" tarfile="${dist.base}/${dist.name}-bin.tar">
           <tarfileset dir="${dist.dir}"
                       prefix="${dist.name}"
@@ -407,8 +415,8 @@
         </tar>
 
         <gzip zipfile="${dist.base}/${dist.name}-bin.tar.gz"
-		src="${dist.name}-bin.tar"/>
-	
+        src="${dist.name}-bin.tar"/>
+    
         <bzip2 zipfile="${dist.base}/${dist.name}-bin.tar.bz2"
                src="${dist.name}-bin.tar"/>
 
@@ -418,40 +426,40 @@
 
     <target name="dist-src">
         <zip zipfile="${dist.base}/${dist.name}-src.zip" compress="true">
-	    <zipfileset dir="${dist.dir}" prefix="${dist.name}"/>
-	    <zipfileset dir="${basedir}" prefix="${dist.name}" includes="*.xml,*.properties"/>
-	    <zipfileset dir="${src.dir}" prefix="${dist.name}/src"/>
+        <zipfileset dir="${dist.dir}" prefix="${dist.name}"/>
+        <zipfileset dir="${basedir}" prefix="${dist.name}" includes="*.xml,*.properties"/>
+        <zipfileset dir="${src.dir}" prefix="${dist.name}/src"/>
             <zipfileset dir="${docs.dir}" prefix="${dist.name}/docs"/>
         </zip>
 
-	<!--
+    <!--
         <tar longfile="gnu" tarfile="${dist.base}/${dist.name}-src.tar">
           <tarfileset dir="${dist.dir}"
                       prefix="${dist.name}"
                       username="avalon"
                       group="avalon"/>
           <tarfileset dir="$docs.dir}"
-		  prefix="${dist.name}/docs"
+          prefix="${dist.name}/docs"
                       username="avalon"
-		      group="avalon"/>
+            group="avalon"/>
           <tarfileset dir="${src.dir}"
-		  prefix="${dist.name}/src"
+          prefix="${dist.name}/src"
                       username="avalon"
-		      group="avalon"/>
+            group="avalon"/>
       </tar>
 
         <gzip zipfile="${dist.base}/${dist.name}-src.tar.gz"
-		src="${dist.name}-bin.tar"/>
-	
+        src="${dist.name}-bin.tar"/>
+    
         <bzip2 zipfile="${dist.base}/${dist.name}-src.tar.bz2"
-		src="${dist.name}-bin.tar"/>
+        src="${dist.name}-bin.tar"/>
 
-	<delete file="${dist.base}/${dist.name}-src.tar"/>
-	-->
+    <delete file="${dist.base}/${dist.name}-src.tar"/>
+    -->
     </target>
 
     <target name="prepare-dist"
-	    depends="test-reports, checkstyle-report, site">
+        depends="test-reports, checkstyle-report, site">
 
 
         <copy file="${build.conf}/LICENSE.txt" todir="${dist.dir}"/>
@@ -461,8 +469,8 @@
     </target>
 
     <target name="dist"
-	    depends="prepare-dist, dist-src, dist-jar, dist-bin, clean"
-	    description="Generates a distribution (jar + docs + javadocs + unit tests + checkstyle reports)">
+        depends="prepare-dist, dist-src, dist-jar, dist-bin, clean"
+        description="Generates a distribution (jar + docs + javadocs + unit tests + checkstyle reports)">
 
         <checksum fileext=".md5">
           <fileset dir="${dist.base}" />

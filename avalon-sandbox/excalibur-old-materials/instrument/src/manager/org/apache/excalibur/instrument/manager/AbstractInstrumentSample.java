@@ -11,9 +11,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.StringTokenizer;
 
-import org.apache.excalibur.instrument.manager.interfaces.InstrumentSampleDescriptor;
-import org.apache.excalibur.instrument.manager.interfaces.InstrumentSampleListener;
 import org.apache.excalibur.instrument.manager.interfaces.InstrumentSampleSnapshot;
+import org.apache.excalibur.instrument.manager.interfaces.InstrumentSampleUtils;
 
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
@@ -25,70 +24,82 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
  *  InstrumentSamples.
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/07/29 16:05:20 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/08/03 15:00:37 $
  * @since 4.1
  */
 abstract class AbstractInstrumentSample
     extends AbstractLogEnabled
     implements InstrumentSample
 {
+    /** The InstrumentProxy which owns the InstrumentSample. */
+    private InstrumentProxy m_instrumentProxy;
+    
+    /** Configured flag. */
+    private boolean m_configured;
+    
     /** The name of the new InstrumentSample. */
     private String m_name;
-
+    
     /** The sample interval of the new InstrumentSample. */
     private long m_interval;
-
+    
     /** The number of samples to store as history. */
     private int m_size;
-
+    
     /** The description of the new InstrumentSample. */
     private String m_description;
-
+    
     /** The Descriptor for the InstrumentSample. */
-    private InstrumentSampleDescriptor m_descriptor;
-
-    /**
+    private InstrumentSampleDescriptorLocal m_descriptor;
+    
+    /** 
      * The maximum amount of time between updates before history will be
      * wiped clean.
      */
     private long m_maxAge;
-
+    
     /** The UNIX time of the beginning of the sample. */
     protected long m_time;
-
+    
     /** The time that the current lease expires. */
     private long m_leaseExpirationTime;
-
+    
     /** The Index into the history arrays. */
     private int m_historyIndex;
-
+    
     /** The Old half of the history array. */
     private int[] m_historyOld;
-
+    
     /** The New half of the history array. */
     private int[] m_historyNew;
-
+    
     /** Array of registered InstrumentSampleListeners. */
     private InstrumentSampleListener[] m_listeners;
-
+    
     /*---------------------------------------------------------------
      * Constructors
      *-------------------------------------------------------------*/
     /**
      * Creates a new AbstractInstrumentSample
      *
+     * @param instrumentProxy The InstrumentProxy which owns the
+     *                        InstrumentSample.
      * @param name The name of the new InstrumentSample.
      * @param interval The sample interval of the new InstrumentSample.
-     * @param size The number of samples to store as history.  Assumes that size is at least 1.
+     * @param size The number of samples to store as history.  Assumes that
+     *             size is at least 1.
      * @param description The description of the new InstrumentSample.
      * @param lease The length of the lease in milliseconds.
      */
-    protected AbstractInstrumentSample( String name,
+    protected AbstractInstrumentSample( InstrumentProxy instrumentProxy,
+                                        String name,
                                         long interval,
                                         int size,
                                         String description,
                                         long lease )
     {
+        m_instrumentProxy = instrumentProxy;
+        
         if ( interval < 1 )
         {
             throw new IllegalArgumentException( "interval must be at least 1." );
@@ -97,7 +108,7 @@ abstract class AbstractInstrumentSample
         {
             throw new IllegalArgumentException( "size must be at least 1." );
         }
-
+        
         m_name = name;
         m_interval = interval;
         m_size = size;
@@ -111,19 +122,29 @@ abstract class AbstractInstrumentSample
             // Permanent lease.
             m_leaseExpirationTime = 0;
         }
-
+        
         // Calculate the maxAge
         m_maxAge = m_size * m_interval;
-
+        
         init();
-
+        
         // Create the descriptor
-        m_descriptor = new InstrumentSampleDescriptorImpl( this );
+        m_descriptor = new InstrumentSampleDescriptorLocalImpl( this );
     }
-
+    
     /*---------------------------------------------------------------
      * InstrumentSample Methods
      *-------------------------------------------------------------*/
+    /**
+     * Returns the InstrumentProxy which owns the InstrumentSample.
+     *
+     * @return The InstrumentProxy which owns the InstrumentSample.
+     */
+    public InstrumentProxy getInstrumentProxy()
+    {
+        return m_instrumentProxy;
+    }
+    
     /**
      * Returns true if the Instrument was configured in the instrumentables
      *  section of the configuration.
@@ -132,10 +153,9 @@ abstract class AbstractInstrumentSample
      */
     public boolean isConfigured()
     {
-        //return m_configured;
-        return true;
+        return m_configured;
     }
-
+    
     /**
      * Returns the name of the sample.
      *
@@ -145,7 +165,7 @@ abstract class AbstractInstrumentSample
     {
         return m_name;
     }
-
+    
     /**
      * Returns the sample interval.  The period of each sample in millisends.
      *
@@ -155,7 +175,7 @@ abstract class AbstractInstrumentSample
     {
         return m_interval;
     }
-
+    
     /**
      * Returns the number of samples in the sample history.
      *
@@ -165,7 +185,7 @@ abstract class AbstractInstrumentSample
     {
         return m_size;
     }
-
+    
     /**
      * Returns the description of the sample.
      *
@@ -175,17 +195,17 @@ abstract class AbstractInstrumentSample
     {
         return m_description;
     }
-
+    
     /**
      * Returns a Descriptor for the InstrumentSample.
      *
      * @return A Descriptor for the InstrumentSample.
      */
-    public InstrumentSampleDescriptor getDescriptor()
+    public InstrumentSampleDescriptorLocal getDescriptor()
     {
         return m_descriptor;
     }
-
+    
     /**
      * Obtain the value of the sample.  All samples are integers, so the profiled
      * objects must measure quantity (numbers of items), rate (items/period), time in
@@ -198,7 +218,7 @@ abstract class AbstractInstrumentSample
         boolean update;
         int value;
         long time;
-
+        
         synchronized(this)
         {
             long now = System.currentTimeMillis();
@@ -206,14 +226,14 @@ abstract class AbstractInstrumentSample
             value = getValueInner();
             time = m_time;
         }
-
+        
         if ( update )
         {
             updateListeners( value, time );
         }
         return value;
     }
-
+    
     /**
      * Obtain the UNIX time of the beginning of the sample.
      *
@@ -224,7 +244,7 @@ abstract class AbstractInstrumentSample
         boolean update;
         int value;
         long time;
-
+        
         synchronized(this)
         {
             long now = System.currentTimeMillis();
@@ -232,14 +252,14 @@ abstract class AbstractInstrumentSample
             value = getValueInner();
             time = m_time;
         }
-
+        
         if ( update )
         {
             updateListeners( value, time );
         }
         return time;
     }
-
+    
     /**
      * Returns the time that the current lease expires.  Permanent samples will
      *  return a value of 0.
@@ -250,13 +270,16 @@ abstract class AbstractInstrumentSample
     {
         return m_leaseExpirationTime;
     }
-
+    
     /**
      * Extends the lease to be lease milliseconds from the current time.
      *
      * @param lease The length of the lease in milliseconds.
+     *
+     * @return The new lease expiration time.  Returns 0 if the sample is
+     *         permanent.
      */
-    public void extendLease( long lease )
+    public long extendLease( long lease )
     {
         synchronized(this)
         {
@@ -266,9 +289,11 @@ abstract class AbstractInstrumentSample
                 long newLeaseExpirationTime = System.currentTimeMillis() + lease;
                 m_leaseExpirationTime = Math.max( m_leaseExpirationTime, newLeaseExpirationTime );
             }
+            
+            return m_leaseExpirationTime;
         }
     }
-
+    
     /**
      * Obtains a static snapshot of the InstrumentSample.
      *
@@ -280,7 +305,7 @@ abstract class AbstractInstrumentSample
         {
             long time = System.currentTimeMillis();
             update( time );
-
+            
             return new InstrumentSampleSnapshot(
                 m_name,
                 m_interval,
@@ -289,7 +314,7 @@ abstract class AbstractInstrumentSample
                 getHistorySnapshot() );
         }
     }
-
+    
     /**
      * Registers a InstrumentSampleListener with a InstrumentSample given a name.
      *
@@ -303,7 +328,7 @@ abstract class AbstractInstrumentSample
             getLogger().debug( "A InstrumentSampleListener was added to sample, " + m_name + " : " +
                 listener.getClass().getName() );
         }
-
+        
         synchronized(this)
         {
             // Store the listeners in an array.  This makes it possible to
@@ -322,12 +347,12 @@ abstract class AbstractInstrumentSample
                 System.arraycopy( oldListeners, 0, newListeners, 0, oldListeners.length );
                 newListeners[ oldListeners.length ] = listener;
             }
-
+            
             // Update the m_listeners field.
             m_listeners = newListeners;
         }
     }
-
+    
     /**
      * Unregisters a InstrumentSampleListener from a InstrumentSample given a name.
      *
@@ -341,7 +366,7 @@ abstract class AbstractInstrumentSample
             getLogger().debug( "A InstrumentSampleListener was removed from sample, " + m_name +
                 " : " + listener.getClass().getName() );
         }
-
+        
         synchronized(this)
         {
             // Store the listeners in an array.  This makes it possible to
@@ -380,7 +405,7 @@ abstract class AbstractInstrumentSample
                         break;
                     }
                 }
-
+                
                 if ( pos < 0 )
                 {
                     // The listener was not in the list.
@@ -397,17 +422,17 @@ abstract class AbstractInstrumentSample
                     if ( pos < oldListeners.length - 1 )
                     {
                         // Copy the tail of the array
-                        System.arraycopy( oldListeners, pos + 1,
+                        System.arraycopy( oldListeners, pos + 1, 
                             newListeners, pos, oldListeners.length - 1 - pos );
                     }
                 }
             }
-
+            
             // Update the m_listeners field.
             m_listeners = newListeners;
         }
     }
-
+    
     /**
      * Notifies any listeners of a change.
      * <p>
@@ -428,57 +453,59 @@ abstract class AbstractInstrumentSample
             }
         }
     }
-
+    
     /**
      * Saves the current state into a Configuration.
      *
-     * @param useCompactSamples Flag for whether or not InstrumentSample data
-     *                          should be saved in compact format or not.
-     *
-     * @return The state as a Configuration.
+     * @return The state as a Configuration.  Returns null if the configuration
+     *         would not contain any information.
      */
-    public final Configuration saveState( boolean useCompactSamples )
+    public final Configuration saveState()
     {
+        // If this sample is not configured and its lease time is 0, then it
+        //  is an artifact of a previous state file, so it should not be saved.
+        if ( ( !isConfigured() ) && ( getLeaseExpirationTime() <= 0 ) )
+        {
+            return null;
+        }
+        
         synchronized(this)
         {
-            DefaultConfiguration state = new DefaultConfiguration( "profile-sample", "-" );
-            state.setAttribute( "name", m_name );
+            DefaultConfiguration state = new DefaultConfiguration( "sample", "-" );
+            state.setAttribute( "type",
+                InstrumentSampleUtils.getInstrumentSampleTypeName( getType() ) );
+            state.setAttribute( "interval", Long.toString( m_interval ) );
+            state.setAttribute( "size", Integer.toString( m_size ) );
+            
             state.setAttribute( "time", Long.toString( m_time ) );
-
+            if ( getLeaseExpirationTime() > 0 )
+            {
+                state.setAttribute( "lease-expiration", Long.toString( getLeaseExpirationTime() ) );
+                state.setAttribute( "description", m_description );
+            }
+            
             // Save the history samples so that the newest is first.
             DefaultConfiguration samples = new DefaultConfiguration( "history", "-" );
             int[] history = getHistorySnapshot();
-            if ( useCompactSamples )
+            
+            // Build up a string of the sample points.
+            StringBuffer sb = new StringBuffer();
+            // Store the first value outside the loop to simplify the loop.
+            sb.append( history[ history.length - 1 ] );
+            for ( int i = history.length - 2; i >= 0; i-- )
             {
-                StringBuffer sb = new StringBuffer();
-
-                // Store the first value outside the loop to simplify the loop.
-                sb.append( history[ history.length - 1 ] );
-                for ( int i = history.length - 2; i >= 0; i-- )
-                {
-                    sb.append( ',' );
-                    sb.append( history[ i ] );
-                }
-
-                samples.setValue( sb.toString() );
+                sb.append( ',' );
+                sb.append( history[ i ] );
             }
-            else
-            {
-                for ( int i = history.length - 1; i >= 0; i-- )
-                {
-                    DefaultConfiguration sample = new DefaultConfiguration( "sample", "-" );
-                    sample.setValue( Integer.toString( history[i] ) );
-                    samples.addChild( sample );
-                }
-            }
+            samples.setValue( sb.toString() );
             state.addChild( samples );
-
+            
             saveState( state );
-
+            
             return state;
         }
     }
-
+    
     /**
      * Loads the state into the InstrumentSample.
      *
@@ -493,58 +520,44 @@ abstract class AbstractInstrumentSample
         {
             // Set the time
             long savedTime = m_time = state.getAttributeAsLong( "time" );
-
+            
+            // Load the lease expiration time
+            m_leaseExpirationTime = state.getAttributeAsLong( "lease-expiration", 0 );
+            
             // Set the history index.
             m_historyIndex = 0;
-
+            
             // Read in the samples, don't trust that the number will be correct.
             //  First sample is the current value, following sames go back in
             //   time from newest to oldest.
             Configuration history = state.getChild( "history" );
-
-            Configuration samples[] = history.getChildren( "sample" );
-            int[] sampleValues;
-            if ( samples.length == 0 )
+            
+            String compactSamples = history.getValue();
+            
+            // Sample values are stored in newest to oldest order.
+            StringTokenizer st = new StringTokenizer( compactSamples, "," );
+            int[] sampleValues = new int[st.countTokens()];
+            
+            for ( int i = 0; i < sampleValues.length; i++ )
             {
-                // No sample children.  The data may be stored in compact form
-                String compactSamples = history.getValue();
-
-                // Sample values are stored in newest to oldest order.
-                StringTokenizer st = new StringTokenizer( compactSamples, "," );
-                sampleValues = new int[st.countTokens()];
-
-                for ( int i = 0; i < sampleValues.length; i++ )
+                try
                 {
-                    try
-                    {
-                        sampleValues[i] = Integer.parseInt( st.nextToken() );
-                    }
-                    catch ( NumberFormatException e )
-                    {
-                        throw new ConfigurationException( "The compact sample data could not be " +
-                            "loaded, because of a number format problem, for InstrumentSample: " +
-                            m_name );
-                    }
+                    sampleValues[i] = Integer.parseInt( st.nextToken() );
+                }
+                catch ( NumberFormatException e )
+                {
+                    throw new ConfigurationException( "The compact sample data could not be " +
+                        "loaded, because of a number format problem, for InstrumentSample: " +
+                        m_name ); 
                 }
             }
-            else
-            {
-                // Sample data stored as individual elements
-                sampleValues = new int[ samples.length ];
-
-                // Sample values are stored in newest to oldest order.
-                for ( int i = 0; i < samples.length; i++ )
-                {
-                    sampleValues[i] = samples[ i ].getValueAsInteger();
-                }
-            }
-
+            
             // Get the current value
             int value;
             if ( sampleValues.length > 0 )
             {
                 value = sampleValues[0];
-
+                
                 for ( int i = 0; i < m_size - 1; i++ )
                 {
                     if ( i < sampleValues.length - 1 )
@@ -561,7 +574,7 @@ abstract class AbstractInstrumentSample
             {
                 value = 0;
             }
-
+            
             loadState( value, state );
 
             if ( calculateSampleTime( System.currentTimeMillis() ) > savedTime )
@@ -571,12 +584,28 @@ abstract class AbstractInstrumentSample
                 //  intervals.
                 postSaveNeedsReset();
             }
+            
+            if ( m_leaseExpirationTime > 0 )
+            {
+                // This is a sample that was leased in a previous JVM invocation
+                //  and needs to be registered with the InstrumentManager
+                getInstrumentProxy().getInstrumentableProxy().getInstrumentManager().
+                    registerLeasedInstrumentSample( this );
+            }
         }
     }
-
+    
     /*---------------------------------------------------------------
      * Methods
      *-------------------------------------------------------------*/
+    /**
+     * Sets the configured flag.
+     */
+    void setConfigured()
+    {
+        m_configured = true;
+    }
+    
     /**
      * Initializes the sample
      */
@@ -586,7 +615,7 @@ abstract class AbstractInstrumentSample
         //  value of the current time. This will allign the intervals to the start of computer
         //  time.
         m_time = calculateSampleTime( System.currentTimeMillis() );
-
+        
         // Create the arrays which will hold the history points.
         // History is build with m_value holding the current value and all previous values
         // spanning accross 2 arrays that switch places as time progresses.  This completely
@@ -596,14 +625,14 @@ abstract class AbstractInstrumentSample
         m_historyOld = new int[ m_size - 1 ];
         m_historyNew = new int[ m_size - 1 ];
     }
-
+    
     /**
      * Allow subclasses to add information into the saved state.
      *
      * @param state State configuration.
      */
     protected void saveState( DefaultConfiguration state ) {}
-
+    
     /**
      * Used to load the state, called from AbstractInstrumentSample.loadState();
      * <p>
@@ -617,13 +646,13 @@ abstract class AbstractInstrumentSample
      */
     protected abstract void loadState( int value, Configuration state )
         throws ConfigurationException;
-
+    
     /**
      * Called after a state is loaded if the sample period is not the same
      *  as the last period saved.
      */
     protected abstract void postSaveNeedsReset();
-
+    
     /**
      * Calculates the time of the sample which contains the specified time.
      *
@@ -633,7 +662,7 @@ abstract class AbstractInstrumentSample
     {
         return ( time / m_interval ) * m_interval;
     }
-
+    
     /**
      * Gets the current value.  Does not update.
      * <p>
@@ -642,7 +671,7 @@ abstract class AbstractInstrumentSample
      * @return The current value.
      */
     protected abstract int getValueInner();
-
+    
     /**
      * The current sample has already been stored.  Reset the current sample
      *  and move on to the next.
@@ -650,7 +679,7 @@ abstract class AbstractInstrumentSample
      * Should only be called when synchronized.
      */
     protected abstract void advanceToNextSample();
-
+    
     /**
      * Brings the InstrumentSample's time up to date so that a new value can be added.
      * <p>
@@ -680,19 +709,19 @@ abstract class AbstractInstrumentSample
                 {
                     // Store the current value into the end of the history.
                     m_historyNew[ m_historyIndex ] = getValueInner();
-
+                    
                     // Advance to the next sample.
                     m_time += m_interval;
                     advanceToNextSample();
                     m_historyIndex++;
-
+                    
                     if ( m_historyIndex >= m_size - 1 )
                     {
                         // Need to swap the history arrays
                         int[] tmp = m_historyOld;
                         m_historyOld = m_historyNew;
                         m_historyNew = tmp;
-
+                        
                         // Reset the history index
                         m_historyIndex = 0;
                     }
@@ -703,7 +732,7 @@ abstract class AbstractInstrumentSample
             return false;
         }
     }
-
+    
     /**
      * Gets a snapshot of the samples.
      * <p>
@@ -717,9 +746,9 @@ abstract class AbstractInstrumentSample
         // This method is a little slow but normal collection of sample points is
         // extremely fast.
         int[] history = new int[m_size];
-
+        
         int sizem1 = m_size - 1;
-
+        
         if ( m_size > 1 )
         {
             // Copy samples from the old history first.
@@ -728,7 +757,7 @@ abstract class AbstractInstrumentSample
                 // Copy the last (size - 1 - historyIndex) samples from the old history.
                 System.arraycopy( m_historyOld, m_historyIndex, history, 0, sizem1 - m_historyIndex );
             }
-
+            
             if ( m_historyIndex > 0 )
             {
                 // Copy the first (historyIndex) samples from the new history.
@@ -737,7 +766,19 @@ abstract class AbstractInstrumentSample
         }
         // Get the final sample from the current sample value.
         history[ m_size - 1] = getValueInner();
-
+        
         return history;
+    }
+    
+    /**
+     * Returns a string representation of the sample.
+     *
+     * @return A string representation of the sample.
+     */
+    public String toString()
+    {
+        return "InstrumentSample[name=" + m_name + ", type=" + 
+            InstrumentSampleUtils.getInstrumentSampleTypeName( getType() ) + ", interval=" + 
+            m_interval + ", size=" + m_size + ", lease=" + m_leaseExpirationTime + "]";
     }
 }

@@ -8,7 +8,6 @@
 package org.apache.excalibur.instrument.manager;
 
 import org.apache.excalibur.instrument.manager.interfaces.InstrumentManagerClient;
-import org.apache.excalibur.instrument.manager.interfaces.ValueInstrumentListener;
 
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
@@ -19,7 +18,7 @@ import org.apache.avalon.framework.configuration.DefaultConfiguration;
  *  to all InstrumentSamples which represent a fixed value.
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/07/29 16:05:20 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/08/03 15:00:37 $
  * @since 4.1
  */
 abstract class AbstractValueInstrumentSample
@@ -28,34 +27,37 @@ abstract class AbstractValueInstrumentSample
 {
     /** The sample value. */
     protected int m_value;
-
+    
     /** The number of times that the value has been changed in this sample period. */
     protected int m_valueCount;
-
+    
     /*---------------------------------------------------------------
      * Constructors
      *-------------------------------------------------------------*/
     /**
      * Creates a new AbstractValueInstrumentSample
      *
+     * @param instrumentProxy The InstrumentProxy which owns the
+     *                        InstrumentSample.
      * @param name The name of the new InstrumentSample.
      * @param interval The sample interval of the new InstrumentSample.
      * @param size The number of samples to store as history.  Assumes that size is at least 1.
      * @param description The description of the new InstrumentSample.
      * @param lease The length of the lease in milliseconds.
      */
-    protected AbstractValueInstrumentSample( String name,
+    protected AbstractValueInstrumentSample( InstrumentProxy instrumentProxy,
+                                             String name,
                                              long interval,
                                              int size,
                                              String description,
                                              long lease )
     {
-        super( name, interval, size, description, lease );
-
+        super( instrumentProxy, name, interval, size, description, lease );
+        
         // Set the current value to 0 initially.
         m_value = 0;
     }
-
+    
     /*---------------------------------------------------------------
      * InstrumentSample Methods
      *-------------------------------------------------------------*/
@@ -71,7 +73,7 @@ abstract class AbstractValueInstrumentSample
     {
         return InstrumentManagerClient.INSTRUMENT_TYPE_VALUE;
     }
-
+    
     /**
      * Obtain the value of the sample.  All samples are integers, so the profiled
      * objects must measure quantity (numbers of items), rate (items/period), time in
@@ -97,10 +99,10 @@ abstract class AbstractValueInstrumentSample
     protected void saveState( DefaultConfiguration state )
     {
         super.saveState( state );
-
+        
         state.setAttribute( "value-count", Integer.toString( m_valueCount ) );
     }
-
+    
     /**
      * Used to load the state, called from AbstractInstrumentSample.loadState();
      * <p>
@@ -118,7 +120,7 @@ abstract class AbstractValueInstrumentSample
         m_value = value;
         m_valueCount = state.getAttributeAsInteger( "value-count" );
     }
-
+    
     /**
      * Called after a state is loaded if the sample period is not the same
      *  as the last period saved.
@@ -128,7 +130,7 @@ abstract class AbstractValueInstrumentSample
         m_value = 0;
         m_valueCount = 0;
     }
-
+    
     /*---------------------------------------------------------------
      * ValueInstrumentListener Methods
      *-------------------------------------------------------------*/
@@ -146,8 +148,8 @@ abstract class AbstractValueInstrumentSample
         //System.out.println("AbstractValueInstrumentSample.setValue(" + instrumentName + ", " + value + ", " + time + ") : " + getName());
         setValueInner( value, time );
     }
-
-
+    
+    
     /*---------------------------------------------------------------
      * Methods
      *-------------------------------------------------------------*/

@@ -7,6 +7,8 @@
  */
 package org.apache.excalibur.instrument.manager;
 
+import org.apache.excalibur.instrument.manager.interfaces.InstrumentManagerClient;
+
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.configuration.DefaultConfiguration;
@@ -16,7 +18,7 @@ import org.apache.avalon.framework.configuration.DefaultConfiguration;
  *  period.
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/07/29 16:05:20 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/08/03 15:00:38 $
  * @since 4.1
  */
 class MinimumValueInstrumentSample
@@ -24,28 +26,44 @@ class MinimumValueInstrumentSample
 {
     /** Last value set to the sample for use for sample periods where no value is set. */
     private int m_lastValue;
-
+    
     /*---------------------------------------------------------------
      * Constructors
      *-------------------------------------------------------------*/
     /**
      * Creates a new MinimumValueInstrumentSample
      *
+     * @param instrumentProxy The InstrumentProxy which owns the
+     *                        InstrumentSample.
      * @param name The name of the new InstrumentSample.
      * @param interval The sample interval of the new InstrumentSample.
      * @param size The number of samples to store as history.  Assumes that size is at least 1.
      * @param description The description of the new InstrumentSample.
      * @param lease The length of the lease in milliseconds.
      */
-    MinimumValueInstrumentSample( String name,
+    MinimumValueInstrumentSample( InstrumentProxy instrumentProxy,
+                                  String name,
                                   long interval,
                                   int size,
                                   String description,
                                   long lease )
     {
-        super( name, interval, size, description, lease );
+        super( instrumentProxy, name, interval, size, description, lease );
     }
-
+    
+    /*---------------------------------------------------------------
+     * InstrumentSample Methods
+     *-------------------------------------------------------------*/
+    /**
+     * Returns the type of the Instrument Sample.
+     *
+     * @return The type of the Instrument Sample.
+     */
+    public int getType()
+    {
+        return InstrumentManagerClient.INSTRUMENT_SAMPLE_TYPE_MINIMUM;
+    }
+    
     /*---------------------------------------------------------------
      * AbstractInstrumentSample Methods
      *-------------------------------------------------------------*/
@@ -61,7 +79,7 @@ class MinimumValueInstrumentSample
         m_value = m_lastValue;
         m_valueCount = 0;
     }
-
+    
     /**
      * Allow subclasses to add information into the saved state.
      *
@@ -70,10 +88,10 @@ class MinimumValueInstrumentSample
     protected void saveState( DefaultConfiguration state )
     {
         super.saveState( state );
-
+        
         state.setAttribute( "last-value", Integer.toString( m_lastValue ) );
     }
-
+    
     /**
      * Used to load the state, called from AbstractInstrumentSample.loadState();
      * <p>
@@ -89,10 +107,10 @@ class MinimumValueInstrumentSample
         throws ConfigurationException
     {
         super.loadState( value, state );
-
+        
         m_lastValue = state.getAttributeAsInteger( "last-value" );
     }
-
+    
     /**
      * Called after a state is loaded if the sample period is not the same
      *  as the last period saved.
@@ -100,10 +118,10 @@ class MinimumValueInstrumentSample
     protected void postSaveNeedsReset()
     {
         super.postSaveNeedsReset();
-
+        
         m_lastValue = 0;
     }
-
+    
     /*---------------------------------------------------------------
      * AbstractValueInstrumentSample Methods
      *-------------------------------------------------------------*/
@@ -119,14 +137,14 @@ class MinimumValueInstrumentSample
         boolean update;
         int sampleValue;
         long sampleTime;
-
+        
         synchronized(this)
         {
             update( time );
-
+            
             // Always store the last value to use for samples where a value is not set.
             m_lastValue = value;
-
+            
             if ( m_valueCount > 0 )
             {
                 // Additional sample
@@ -143,12 +161,12 @@ class MinimumValueInstrumentSample
                 m_valueCount = 1;
                 m_value = value;
             }
-
+            
             sampleValue = m_value;
             sampleTime = m_time;
                 update = true;
         }
-
+        
         if ( update )
         {
             updateListeners( sampleValue, sampleTime );

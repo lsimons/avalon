@@ -7,11 +7,13 @@
  */
 package org.apache.excalibur.instrument.manager;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -22,13 +24,11 @@ import org.apache.excalibur.instrument.Instrument;
 import org.apache.excalibur.instrument.Instrumentable;
 import org.apache.excalibur.instrument.InstrumentManager;
 import org.apache.excalibur.instrument.ValueInstrument;
-import org.apache.excalibur.instrument.manager.interfaces.InstrumentableDescriptor;
 import org.apache.excalibur.instrument.manager.interfaces.InstrumentManagerClient;
 import org.apache.excalibur.instrument.manager.interfaces.NoSuchInstrumentableException;
 
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Initializable;
-import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
@@ -36,11 +36,12 @@ import org.apache.avalon.framework.configuration.DefaultConfiguration;
 import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
 import org.apache.avalon.framework.configuration.DefaultConfigurationSerializer;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
+import org.apache.avalon.framework.service.ServiceException;
 
 /**
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/07/29 16:05:20 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/08/03 15:00:37 $
  * @since 4.1
  */
 public class DefaultInstrumentManager
@@ -52,13 +53,13 @@ public class DefaultInstrumentManager
     public static final String INSTRUMENT_FREE_MEMORY = "free-memory";
     public static final String INSTRUMENT_MEMORY = "memory";
     public static final String INSTRUMENT_ACTIVE_THREAD_COUNT = "active-thread-count";
-
+    
     /** The name used to identify this InstrumentManager. */
     private String m_name;
 
     /** The description of this InstrumentManager. */
     private String m_description;
-
+    
     /** Configuration for the InstrumentManager */
     private Configuration m_configuration;
 
@@ -67,9 +68,6 @@ public class DefaultInstrumentManager
 
     /** Save state interval. */
     private long m_stateInterval;
-
-    /** Use a compact format when saving profile sample data. */
-    private boolean m_stateCompactSamples;
 
     /** Last time that the state was saved. */
     private long m_lastStateSave;
@@ -83,9 +81,15 @@ public class DefaultInstrumentManager
     /** Optimized array of the InstrumentableProxies. */
     private InstrumentableProxy[] m_instrumentableProxyArray;
 
-    /** Optimized array of the InstrumentableDescriptors. */
-    private InstrumentableDescriptor[] m_instrumentableDescriptorArray;
+    /** Optimized array of the InstrumentableDescriptorLocals. */
+    private InstrumentableDescriptorLocal[] m_instrumentableDescriptorArray;
 
+    /** List of leased InstrumentSamples. */
+    private ArrayList m_leasedInstrumentSamples = new ArrayList();
+    
+    /** Optimized array of the leased InstrumentSamples. */
+    private InstrumentSample[] m_leasedInstrumentSampleArray;
+    
     /**
      * Thread used to keep the instruments published by the InstrumentManager
      *  up to date.
@@ -121,7 +125,7 @@ public class DefaultInstrumentManager
         m_name = name;
         // The description defaults to the name.
         m_description = name;
-
+        
         // Initialize the Instrumentable elements.
         m_totalMemoryInstrument = new ValueInstrument( INSTRUMENT_TOTAL_MEMORY );
         m_freeMemoryInstrument = new ValueInstrument( INSTRUMENT_FREE_MEMORY );
@@ -156,8 +160,8 @@ public class DefaultInstrumentManager
                 Configuration instrumentableConf = instrumentableConfs[ i ];
                 String instrumentableName = instrumentableConf.getAttribute( "name" );
 
-                InstrumentableProxy instrumentableProxy =
-                    new InstrumentableProxy( instrumentableName );
+                InstrumentableProxy instrumentableProxy = new InstrumentableProxy(
+                    this, null, instrumentableName, instrumentableName );
                 instrumentableProxy.enableLogging( getLogger() );
                 instrumentableProxy.configure( instrumentableConf );
                 m_instrumentableProxies.put( instrumentableName, instrumentableProxy );
@@ -170,8 +174,6 @@ public class DefaultInstrumentManager
             // Configure the state file.
             Configuration stateFileConf = configuration.getChild( "state-file" );
             m_stateInterval = stateFileConf.getAttributeAsLong( "interval", 60000 );
-            m_stateCompactSamples =
-                stateFileConf.getAttributeAsBoolean( "use-compact-samples", true );
 
             String stateFile = stateFileConf.getValue( null );
             if( stateFile != null )
@@ -179,7 +181,6 @@ public class DefaultInstrumentManager
                 m_stateFile = new File( stateFile );
                 if( m_stateFile.exists() )
                 {
-                    /*
                     try
                     {
                         loadStateFromFile( m_stateFile );
@@ -191,7 +192,6 @@ public class DefaultInstrumentManager
                             "may have been corruptped.  A backup may have been made in the same " +
                             "directory when it was saved.", e );
                     }
-                    */
                 }
             }
         }
@@ -262,7 +262,8 @@ public class DefaultInstrumentManager
             if( instrumentableProxy == null )
             {
                 // This is a Instrumentable that has not been seen before.
-                instrumentableProxy = new InstrumentableProxy( instrumentableName );
+                instrumentableProxy = new InstrumentableProxy(
+                    this, null, instrumentableName, instrumentableName );
                 instrumentableProxy.enableLogging( getLogger() );
                 // Do not call configure here because there is no configuration
                 //  for discovered instrumentables.
@@ -273,17 +274,19 @@ public class DefaultInstrumentManager
                 m_instrumentableDescriptorArray = null;
 
                 // Recursively register all the Instruments in this and any child Instrumentables.
-                registerInstruments( instrumentable, instrumentableProxy, instrumentableName );
+                registerInstrumentableInner(
+                    instrumentable, instrumentableProxy, instrumentableName );
             }
             else
             {
                 // Additional Instrumentable instance.  Possible that new Instruments could be found.
-                registerInstruments( instrumentable, instrumentableProxy, instrumentableName );
+                registerInstrumentableInner(
+                    instrumentable, instrumentableProxy, instrumentableName );
             }
         }
     }
 
-
+    
     /*---------------------------------------------------------------
      * Methods
      *-------------------------------------------------------------*/
@@ -296,7 +299,7 @@ public class DefaultInstrumentManager
     {
         return m_name;
     }
-
+    
     /**
      * Returns the description of this InstrumentManager.
      *
@@ -306,10 +309,10 @@ public class DefaultInstrumentManager
     {
         return m_description;
     }
-
+    
     /**
-     * Returns an InstrumentableDescriptor based on its name or the name of any
-     *  of its children.
+     * Returns an InstrumentableDescriptorLocal based on its name or the name
+     *  of any of its children.
      *
      * @param instrumentableName Name of the Instrumentable being requested.
      *
@@ -318,7 +321,7 @@ public class DefaultInstrumentManager
      * @throws NoSuchInstrumentableException If the specified Instrumentable
      *                                       does not exist.
      */
-    public InstrumentableDescriptor getInstrumentableDescriptor( String instrumentableName )
+    public InstrumentableDescriptorLocal getInstrumentableDescriptor( String instrumentableName )
         throws NoSuchInstrumentableException
     {
         InstrumentableProxy proxy = getInstrumentableProxy( instrumentableName );
@@ -338,16 +341,16 @@ public class DefaultInstrumentManager
      * @return An array of Descriptors for the Instrumentables managed by this
      *  InstrumentManager.
      */
-    public InstrumentableDescriptor[] getInstrumentableDescriptors()
+    public InstrumentableDescriptorLocal[] getInstrumentableDescriptors()
     {
-        InstrumentableDescriptor[] descriptors = m_instrumentableDescriptorArray;
+        InstrumentableDescriptorLocal[] descriptors = m_instrumentableDescriptorArray;
         if( descriptors == null )
         {
             descriptors = updateInstrumentableDescriptorArray();
         }
         return descriptors;
     }
-
+    
     /**
      * Invokes garbage collection.
      */
@@ -355,147 +358,194 @@ public class DefaultInstrumentManager
     {
         System.gc();
     }
-
-
+    
+    
 
     /**
-     * Loads the profiler state from the specified file.
+     * Loads the Instrument Manager state from the specified file.
      *
-     * @param stateFile File to read the profiler's state from.
+     * @param stateFile File to read the instrument manager's state from.
      *
      * @throws Exception if there are any problems loading the state.
      */
-    /*
-    public void loadInstrumentStateFromFile( File stateFile )
+    public void loadStateFromFile( File stateFile )
         throws Exception
     {
         long now = System.currentTimeMillis();
-        getLogger().debug( "Loading profiler state from: " + stateFile.getAbsolutePath() );
+        getLogger().debug( "Loading Instrument Manager state from: " +
+            stateFile.getAbsolutePath() );
 
         FileInputStream is = new FileInputStream( stateFile );
         try
         {
-            loadInstrumentStateFromStream( is );
+            loadStateFromStream( is );
         }
         finally
         {
             is.close();
         }
 
-        getLogger().debug( "Loading profiler state took " +
+        getLogger().debug( "Loading Instrument Manager state took " +
                            ( System.currentTimeMillis() - now ) + "ms." );
     }
-    */
 
     /**
-     * Loads the profiler state from the specified stream.
+     * Loads the Instrument Manager state from the specified stream.
      *
-     * @param is Stream to read the profiler's state from.
+     * @param is Stream to read the instrument manager's state from.
      *
      * @throws Exception if there are any problems loading the state.
      */
-    /*
-    public void loadInstrumentStateFromStream( InputStream is )
+    public void loadStateFromStream( InputStream is )
         throws Exception
     {
         // Ride on top of the Configuration classes to load the state.
         DefaultConfigurationBuilder builder = new DefaultConfigurationBuilder();
         Configuration stateConfig = builder.build( is );
 
-        loadInstrumentStateFromConfiguration( stateConfig );
+        loadStateFromConfiguration( stateConfig );
     }
-    */
 
     /**
-     * Loads the profiler state from the specified Configuration.
+     * Loads the Instrument Manager state from the specified Configuration.
      *
      * @param state Configuration object to load the state from.
      *
      * @throws ConfigurationException If there were any problems loading the
      *                                state.
      */
-    /*
-    public void loadInstrumentStateFromConfiguration( Configuration state )
+    public void loadStateFromConfiguration( Configuration state )
         throws ConfigurationException
     {
         Configuration[] instrumentableConfs = state.getChildren( "instrumentable" );
         for( int i = 0; i < instrumentableConfs.length; i++ )
         {
             Configuration instrumentableConf = instrumentableConfs[ i ];
-            String name = instrumentableConf.getAttribute( "name" );
-            InstrumentableProxy proxy = getInstrumentableProxy( name );
-            if( proxy == null )
+            String instrumentableName = instrumentableConf.getAttribute( "name" );
+            InstrumentableProxy instrumentableProxy = getInstrumentableProxy( instrumentableName );
+            if( instrumentableProxy == null )
             {
-                getLogger().warn( "Instrumentable entry ignored while loading state because the " +
-                                  "instrumentable does not exist: " + name );
+                // The Instrumentable was in the state file, but has not yet
+                //  been registered.  It is possible that it will be registered
+                //  at a later time.  For now it needs to be created.
+                instrumentableProxy = new InstrumentableProxy(
+                    this, null, instrumentableName, instrumentableName );
+                instrumentableProxy.enableLogging( getLogger() );
+                m_instrumentableProxies.put( instrumentableName, instrumentableProxy );
+
+                // Clear the optimized arrays
+                m_instrumentableProxyArray = null;
+                m_instrumentableDescriptorArray = null;
             }
-            else
-            {
-                proxy.loadState( instrumentableConf );
-            }
+            
+            instrumentableProxy.loadState( instrumentableConf );
         }
     }
-    */
 
     /**
-     * Saves the Instrument's state to the specified file.
+     * Saves the Instrument Manager's state to the specified file.  Any
+     *  existing file is backed up before the save takes place and replaced
+     *  in the event of an error.
      *
-     * @param stateFile File to write the profiler's state to.
+     * @param stateFile File to write the Instrument Manager's state to.
      *
      * @throws Exception if there are any problems saving the state.
      */
-    /*
-    public void saveInstrumentStateToFile( File stateFile )
+    public void saveStateToFile( File stateFile )
         throws Exception
     {
         long now = System.currentTimeMillis();
-        getLogger().debug( "Saving profiler state to: " + stateFile.getAbsolutePath() );
+        getLogger().debug( "Saving Instrument Manager state to: " + stateFile.getAbsolutePath() );
 
-        FileOutputStream os = new FileOutputStream( stateFile );
+        // First save the state to an in memory stream to shorten the
+        //  period of time needed to write the data to disk.  This makes it
+        //  less likely that the files will be left in a corrupted state if
+        //  the JVM dies at the wrong time.
+        ByteArrayOutputStream os = new ByteArrayOutputStream();
+        byte[] data;
         try
         {
-            saveInstrumentStateToStream( os );
+            saveStateToStream( os );
+            data = os.toByteArray();
         }
         finally
         {
             os.close();
         }
-
-        getLogger().debug( "Saving profiler state took " +
+        
+        // If the specified file exists, then rename it before we start writing.
+        //  This makes it possible to recover from some errors.
+        File renameFile = null;
+        boolean success = false;
+        if( stateFile.exists() )
+        {
+            renameFile = new File( stateFile.getAbsolutePath() + "." + now + ".backup" );
+            stateFile.renameTo( renameFile );
+        }
+        
+        // Write the data to the new file.
+        FileOutputStream fos = new FileOutputStream( stateFile );
+        try
+        {
+            fos.write( data );
+            success = true;
+        }
+        finally
+        {
+            fos.close();
+            
+            if ( !success )
+            {
+                // Make sure that part of the file does not exist.
+                stateFile.delete();
+            }
+            
+            // Handle the backup file.
+            if ( renameFile != null )
+            {
+                if ( success )
+                {
+                    // No longer need the backup.
+                    renameFile.delete();
+                }
+                else
+                {
+                    // Need to replace the backup.
+                    renameFile.renameTo( stateFile );
+                }
+            }
+        }
+        
+        getLogger().debug( "Saving Instrument Manager state took " +
                            ( System.currentTimeMillis() - now ) + "ms." );
     }
-    */
 
     /**
-     * Saves the Instrument's state to the specified output stream.
+     * Saves the Instrument Manager's state to the specified output stream.
      *
-     * @param os Stream to write the profiler's state to.
+     * @param os Stream to write the Instrument Manager's state to.
      *
      * @throws Exception if there are any problems saving the state.
      */
-    /*
-    public void saveInstrumentStateToStream( OutputStream os )
+    public void saveStateToStream( OutputStream os )
         throws Exception
     {
-        Configuration stateConfig = saveInstrumentStateToConfiguration();
+        Configuration stateConfig = saveStateToConfiguration();
 
         // Ride on top of the Configuration classes to save the state.
         DefaultConfigurationSerializer serializer = new DefaultConfigurationSerializer();
         serializer.setIndent( true );
         serializer.serialize( os, stateConfig );
     }
-    */
 
     /**
-     * Returns the desktop state as a Configuration object.
+     * Returns the Instrument Manager's state as a Configuration object.
      *
-     * @return The desktop state as a Configuration object.
+     * @return The Instrument Manager's state as a Configuration object.
      */
-    /*
-    public Configuration saveInstrumentStateToConfiguration()
+    public Configuration saveStateToConfiguration()
     {
-
-        DefaultConfiguration state = new DefaultConfiguration( "profiler-state", "-" );
+        DefaultConfiguration state = new DefaultConfiguration( "instrument-manager-state", "-" );
 
         InstrumentableProxy[] instrumentableProxies = m_instrumentableProxyArray;
         if( instrumentableProxies == null )
@@ -505,18 +555,15 @@ public class DefaultInstrumentManager
 
         for( int i = 0; i < instrumentableProxies.length; i++ )
         {
-            // Only save configured instrumentables as they are the only ones
-            //  that will contain profile samples.
-            if( instrumentableProxies[ i ].isConfigured() )
+            Configuration childState = instrumentableProxies[ i ].saveState();
+            if ( childState != null )
             {
-                state.addChild( instrumentableProxies[ i ].saveState( m_stateCompactSamples ) );
+                state.addChild( childState );
             }
         }
 
         return state;
     }
-    */
-
 
     /*---------------------------------------------------------------
      * Instrumentable Methods
@@ -598,6 +645,7 @@ public class DefaultInstrumentManager
 
                 memoryInstruments();
                 threadInstruments();
+                testInstrumentSampleLeases();
 
                 // Handle the state file if it is set
                 long now = System.currentTimeMillis();
@@ -630,45 +678,14 @@ public class DefaultInstrumentManager
         {
             return;
         }
-
-        // Rename the old file in case there is a problem
-        File renameFile = null;
-        boolean success = false;
-        if( m_stateFile.exists() )
-        {
-            renameFile = new File( m_stateFile.getAbsolutePath() + "." + now + ".backup" );
-            m_stateFile.renameTo( renameFile );
-        }
-
+        
         try
         {
-            /*
-            try
-            {
-                saveInstrumentStateToFile( m_stateFile );
-                success = true;
-            }
-            catch( Exception e )
-            {
-                getLogger().error( "Unable to save the profiler state.", e );
-            }
-            */
+            saveStateToFile( m_stateFile );
         }
-        finally
+        catch ( Exception e )
         {
-            // Clean up after the renamed file.
-            if( renameFile != null )
-            {
-                if( success )
-                {
-                    renameFile.delete();
-                }
-                else
-                {
-                    m_stateFile.delete();
-                    renameFile.renameTo( m_stateFile );
-                }
-            }
+            getLogger().warn( "Unable to save the Instrument Manager state", e );
         }
     }
 
@@ -770,7 +787,70 @@ public class DefaultInstrumentManager
             m_activeThreadCountInstrument.setValue( threadGroup.activeCount() );
         }
     }
-
+    
+    /**
+     * Handles the maintenance of all Instrument Samples which have been leased
+     *  by a client.  Any Samples whose leases which have expired are cleaned
+     *  up.
+     */
+    private void testInstrumentSampleLeases()
+    {
+        long now = System.currentTimeMillis();
+        
+        InstrumentSample[] samples;
+        synchronized( m_leasedInstrumentSamples )
+        {
+            samples = m_leasedInstrumentSampleArray;
+            if ( samples == null )
+            {
+                m_leasedInstrumentSampleArray =
+                    new InstrumentSample[ m_leasedInstrumentSamples.size() ];
+                m_leasedInstrumentSamples.toArray( m_leasedInstrumentSampleArray );
+                samples = m_leasedInstrumentSampleArray;
+            }
+        }
+        
+        for ( int i = 0; i < samples.length; i++ )
+        {
+            InstrumentSample sample = samples[i];
+            long expire = sample.getLeaseExpirationTime();
+            if ( now >= expire )
+            {
+                // The sample lease has expired.
+                InstrumentProxy instrument = sample.getInstrumentProxy();
+                instrument.removeInstrumentSample( sample );
+                
+                m_leasedInstrumentSamples.remove( sample );
+                m_leasedInstrumentSampleArray = null;
+            }
+        }
+    }
+    
+    /**
+     * Registers an InstrumentSample which has been leased so that the
+     *  Instrument Manager can efficiently purge it when it has expired.
+     *
+     * @param instrumentSample Leased InstrumentSample to register.
+     */
+    void registerLeasedInstrumentSample( InstrumentSample instrumentSample )
+    {
+        synchronized( m_leasedInstrumentSamples )
+        {
+            // Make sure that the sample is really leased.
+            if ( instrumentSample.getLeaseExpirationTime() <= 0 )
+            {
+                throw new IllegalStateException( "Got an InstrumentSample that was not leased." );
+            }
+            
+            // Make sure that it is not already in the list.
+            if ( m_leasedInstrumentSamples.indexOf( instrumentSample ) < 0 )
+            {
+                m_leasedInstrumentSamples.add( instrumentSample );
+                m_leasedInstrumentSampleArray = null;
+            }
+        }
+    }
+    
     /**
      * Updates the cached array of InstrumentableProxies taking
      *  synchronization into account.
@@ -794,24 +874,24 @@ public class DefaultInstrumentManager
                         return ((InstrumentableProxy)o1).getDescription().
                             compareTo( ((InstrumentableProxy)o2).getDescription() );
                     }
-
+                    
                     public boolean equals( Object obj )
                     {
                         return false;
                     }
                 } );
-
+            
             return m_instrumentableProxyArray;
         }
     }
 
     /**
-     * Updates the cached array of InstrumentableDescriptors taking
+     * Updates the cached array of InstrumentableDescriptorLocals taking
      *  synchronization into account.
      *
      * @return An array of the InstrumentableDescriptors.
      */
-    private InstrumentableDescriptor[] updateInstrumentableDescriptorArray()
+    private InstrumentableDescriptorLocal[] updateInstrumentableDescriptorArray()
     {
         synchronized( m_semaphore )
         {
@@ -821,7 +901,7 @@ public class DefaultInstrumentManager
             }
 
             m_instrumentableDescriptorArray =
-                new InstrumentableDescriptor[ m_instrumentableProxyArray.length ];
+                new InstrumentableDescriptorLocal[ m_instrumentableProxyArray.length ];
             for( int i = 0; i < m_instrumentableProxyArray.length; i++ )
             {
                 m_instrumentableDescriptorArray[ i ] = m_instrumentableProxyArray[ i ].getDescriptor();
@@ -832,51 +912,59 @@ public class DefaultInstrumentManager
     }
 
     /**
-     * Examines a instrumentable and Registers all of its Instruments.
+     * Examines a instrumentable and Registers all of its child Instrumentables
+     *  and Instruments.
      * <p>
      * Only called when m_semaphore is locked.
      */
-    private void registerInstruments( Instrumentable instrumentable,
-                                        InstrumentableProxy instrumentableProxy,
-                                        String instrumentableName )
+    private void registerInstrumentableInner( Instrumentable instrumentable,
+                                              InstrumentableProxy instrumentableProxy,
+                                              String instrumentableName )
         throws Exception
     {
-        // Loop over the Instruments published by this Instrumentable
-        Instrument[] profilePoints = instrumentable.getInstruments();
-        for( int i = 0; i < profilePoints.length; i++ )
-        {
-            Instrument profilePoint = profilePoints[ i ];
-            String profilePointName =
-                instrumentableName + "." + profilePoint.getInstrumentName();
+        // Mark the instrumentable proxy as registered.
+        instrumentableProxy.setRegistered();
 
-            getLogger().debug( "Registering Instrument: " + profilePointName );
+        // Loop over the Instruments published by this Instrumentable
+        Instrument[] instruments = instrumentable.getInstruments();
+        for( int i = 0; i < instruments.length; i++ )
+        {
+            Instrument instrument = instruments[ i ];
+            String instrumentName = instrument.getInstrumentName();
+            String fullInstrumentName = instrumentableName + "." + instrumentName;
+
+            getLogger().debug( "Registering Instrument: " + fullInstrumentName );
 
             // See if a proxy exists for the Instrument yet.
-            InstrumentProxy proxy = instrumentableProxy.getInstrumentProxy( profilePointName );
+            InstrumentProxy proxy = instrumentableProxy.getInstrumentProxy( fullInstrumentName );
             if( proxy == null )
             {
-                proxy = new InstrumentProxy( profilePointName );
+                proxy = new InstrumentProxy(
+                    instrumentableProxy, fullInstrumentName, instrumentName );
                 proxy.enableLogging( getLogger() );
 
                 // Set the type of the new InstrumentProxy depending on the
                 //  class of the actual Instrument.
-                if( profilePoint instanceof CounterInstrument )
+                if( instrument instanceof CounterInstrument )
                 {
                     proxy.setType( InstrumentManagerClient.INSTRUMENT_TYPE_COUNTER );
                 }
-                else if( profilePoint instanceof ValueInstrument )
+                else if( instrument instanceof ValueInstrument )
                 {
                     proxy.setType( InstrumentManagerClient.INSTRUMENT_TYPE_VALUE );
                 }
                 else
                 {
-                    throw new ServiceException( profilePointName, "Encountered an unknown Instrument type for " +
-                                                  "the Instrument with key, " + profilePointName + ": " +
-                                                  profilePoint.getClass().getName() );
+                    throw new ServiceException( fullInstrumentName, "Encountered an unknown "
+                        + "Instrument type for the Instrument with key, "
+                        + fullInstrumentName + ": " + instrument.getClass().getName() );
                 }
 
+                // Mark the instrument proxy as registered.
+                proxy.setRegistered();
+                
                 // Store a reference to the proxy in the Instrument.
-                ( (AbstractInstrument)profilePoint ).setInstrumentProxy( proxy );
+                ( (AbstractInstrument)instrument ).setInstrumentProxy( proxy );
 
                 instrumentableProxy.addInstrumentProxy( proxy );
             }
@@ -884,14 +972,14 @@ public class DefaultInstrumentManager
             {
                 // Register the existing proxy with the Instrument.  Make sure that the
                 //  type didn't change on us.
-                if( profilePoint instanceof CounterInstrument )
+                if( instrument instanceof CounterInstrument )
                 {
                     switch( proxy.getType() )
                     {
                         case InstrumentManagerClient.INSTRUMENT_TYPE_COUNTER:
                             // Type is the same.
                             // Store a reference to the proxy in the Instrument.
-                            ( (AbstractInstrument)profilePoint ).setInstrumentProxy( proxy );
+                            ( (AbstractInstrument)instrument ).setInstrumentProxy( proxy );
                             break;
 
                         case InstrumentManagerClient.INSTRUMENT_TYPE_NONE:
@@ -899,23 +987,23 @@ public class DefaultInstrumentManager
                             proxy.setType( InstrumentManagerClient.INSTRUMENT_TYPE_COUNTER );
 
                             // Store a reference to the proxy in the Instrument.
-                            ( (AbstractInstrument)profilePoint ).setInstrumentProxy( proxy );
+                            ( (AbstractInstrument)instrument ).setInstrumentProxy( proxy );
                             break;
 
                         default:
-                            throw new ServiceException( profilePointName,
-                                "Instruments of more than one type are assigned to name: " +
-                                profilePointName );
+                            throw new ServiceException( instrumentName,
+                                "Instruments of more than one type are assigned to name: "
+                                + instrumentName );
                     }
                 }
-                else if( profilePoint instanceof ValueInstrument )
+                else if( instrument instanceof ValueInstrument )
                 {
                     switch( proxy.getType() )
                     {
                         case InstrumentManagerClient.INSTRUMENT_TYPE_VALUE:
                             // Type is the same.
                             // Store a reference to the proxy in the Instrument.
-                            ( (AbstractInstrument)profilePoint ).setInstrumentProxy( proxy );
+                            ( (AbstractInstrument)instrument ).setInstrumentProxy( proxy );
                             break;
 
                         case InstrumentManagerClient.INSTRUMENT_TYPE_NONE:
@@ -923,41 +1011,62 @@ public class DefaultInstrumentManager
                             proxy.setType( InstrumentManagerClient.INSTRUMENT_TYPE_VALUE );
 
                             // Store a reference to the proxy in the Instrument.
-                            ( (AbstractInstrument)profilePoint ).setInstrumentProxy( proxy );
+                            ( (AbstractInstrument)instrument ).setInstrumentProxy( proxy );
                             break;
 
                         default:
-                            throw new ServiceException( profilePointName,
-                                "Instruments of more than one type are assigned to name: " +
-                                profilePointName );
+                            throw new ServiceException( instrumentName,
+                                "Instruments of more than one type are assigned to name: "
+                                + instrumentName );
                     }
                 }
                 else
                 {
-                    throw new ServiceException( profilePointName, "Encountered an unknown Instrument type for " +
-                                                  "the Instrument with name, " + profilePointName + ": " +
-                                                  profilePoint.getClass().getName() );
+                    throw new ServiceException( instrumentName, "Encountered an unknown Instrument "
+                        + "type for the Instrument with name, " + instrumentName + ": "
+                        + instrument.getClass().getName() );
                 }
+                
+                // Mark the instrument proxy as registered.
+                proxy.setRegistered();
             }
         }
 
-        // Loop over the child Instrumentables and register their Instruments as well.
-        Instrumentable[] childInstrumentables = instrumentable.getChildInstrumentables();
-        for( int i = 0; i < childInstrumentables.length; i++ )
+        // Loop over the child Instrumentables published by this Instrumentable
+        Instrumentable[] children = instrumentable.getChildInstrumentables();
+        for ( int i = 0; i < children.length; i++ )
         {
+            Instrumentable child = children[i];
+            
             // Make sure that the child instrumentable name is set.
-            if( childInstrumentables[ i ].getInstrumentableName() == null )
+            String childName = child.getInstrumentableName();
+            if( childName == null )
             {
-                String msg = "The getInstrumentableName of a child Instrumentable returned null.  " +
-                    "Instance of " + instrumentable.getClass().getName();
+                String msg = "The getInstrumentableName() method of a child Instrumentable of " +
+                    instrumentableName + " returned null.  Child class: " +
+                    child.getClass().getName();
                 getLogger().debug( msg );
                 throw new ServiceException( instrumentable.getClass().getName(), msg );
             }
-
-            String instrumentableChildName = instrumentableName + "." +
-                childInstrumentables[ i ].getInstrumentableName();
-
-            registerInstruments( childInstrumentables[ i ], instrumentableProxy, instrumentableChildName );
+            
+            String fullChildName = instrumentableName + "." + childName;
+            
+            getLogger().debug( "Registering Child Instrumentable: " + fullChildName );
+            
+            // See if a proxy exists for the child Instrumentable yet.
+            InstrumentableProxy proxy =
+                instrumentableProxy.getChildInstrumentableProxy( fullChildName );
+            if( proxy == null )
+            {
+                proxy = new InstrumentableProxy(
+                    this, instrumentableProxy, fullChildName, childName );
+                proxy.enableLogging( getLogger() );
+                
+                instrumentableProxy.addChildInstrumentableProxy( proxy );
+            }
+            
+            // Recurse to the child
+            registerInstrumentableInner( child, proxy, fullChildName );
         }
     }
 }

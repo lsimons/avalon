@@ -7,8 +7,6 @@
  */
 package org.apache.excalibur.instrument.manager;
 
-import org.apache.excalibur.instrument.manager.interfaces.InstrumentSampleDescriptor;
-import org.apache.excalibur.instrument.manager.interfaces.InstrumentSampleListener;
 import org.apache.excalibur.instrument.manager.interfaces.InstrumentSampleSnapshot;
 
 /**
@@ -16,15 +14,15 @@ import org.apache.excalibur.instrument.manager.interfaces.InstrumentSampleSnapsh
  *  InstrumentSample object.
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/07/29 16:05:20 $
+ * @version CVS $Revision: 1.1 $ $Date: 2002/08/03 15:00:38 $
  * @since 4.1
  */
-public class InstrumentSampleDescriptorImpl
-    implements InstrumentSampleDescriptor
+public class InstrumentSampleDescriptorLocalImpl
+    implements InstrumentSampleDescriptorLocal
 {
     /** The InstrumentSample. */
     private InstrumentSample m_instrumentSample;
-
+    
     /*---------------------------------------------------------------
      * Constructors
      *-------------------------------------------------------------*/
@@ -33,13 +31,13 @@ public class InstrumentSampleDescriptorImpl
      *
      * @param InstrumentSample InstrumentSample being described.
      */
-    InstrumentSampleDescriptorImpl( InstrumentSample InstrumentSample )
+    InstrumentSampleDescriptorLocalImpl( InstrumentSample InstrumentSample )
     {
         m_instrumentSample = InstrumentSample;
     }
-
+    
     /*---------------------------------------------------------------
-     * Methods
+     * Methods InstrumentSampleDescriptor
      *-------------------------------------------------------------*/
     /**
      * Returns true if the InstrumentSample was configured in the instrumentables
@@ -51,7 +49,7 @@ public class InstrumentSampleDescriptorImpl
     {
         return m_instrumentSample.isConfigured();
     }
-
+    
     /**
      * Returns the name of the sample.
      *
@@ -61,7 +59,7 @@ public class InstrumentSampleDescriptorImpl
     {
         return m_instrumentSample.getName();
     }
-
+    
     /**
      * Returns the sample interval.  The period of each sample in millisends.
      *
@@ -71,7 +69,7 @@ public class InstrumentSampleDescriptorImpl
     {
         return m_instrumentSample.getInterval();
     }
-
+    
     /**
      * Returns the number of samples in the sample history.
      *
@@ -81,7 +79,7 @@ public class InstrumentSampleDescriptorImpl
     {
         return m_instrumentSample.getSize();
     }
-
+    
     /**
      * Returns the description of the sample.
      *
@@ -91,7 +89,21 @@ public class InstrumentSampleDescriptorImpl
     {
         return m_instrumentSample.getDescription();
     }
-
+    
+    /**
+     * Returns the type of the Instrument Sample.  Possible values include
+     *  InstrumentManagerClient.INSTRUMENT_SAMPLE_TYPE_COUNTER,
+     *  InstrumentManagerClient.INSTRUMENT_SAMPLE_TYPE_MAXIMUM,
+     *  InstrumentManagerClient.INSTRUMENT_SAMPLE_TYPE_MEAN, or
+     *  InstrumentManagerClient.INSTRUMENT_SAMPLE_TYPE_MINIMUM.
+     *
+     * @return The type of the Instrument Sample.
+     */
+    public int getType()
+    {
+        return m_instrumentSample.getType();
+    }
+    
     /**
      * Obtain the value of the sample.  All samples are integers, so the profiled
      * objects must measure quantity (numbers of items), rate (items/period), time in
@@ -103,7 +115,7 @@ public class InstrumentSampleDescriptorImpl
     {
         return m_instrumentSample.getValue();
     }
-
+    
     /**
      * Obtain the UNIX time of the beginning of the sample.
      *
@@ -113,7 +125,7 @@ public class InstrumentSampleDescriptorImpl
     {
         return m_instrumentSample.getTime();
     }
-
+    
     /**
      * Returns the Type of the Instrument which can use the sample.  This
      *  should be the same for all instances of a class.
@@ -127,7 +139,7 @@ public class InstrumentSampleDescriptorImpl
     {
         return m_instrumentSample.getInstrumentType();
     }
-
+    
     /**
      * Returns the time that the current lease expires.  Permanent samples will
      *  return a value of 0.
@@ -138,7 +150,20 @@ public class InstrumentSampleDescriptorImpl
     {
         return m_instrumentSample.getLeaseExpirationTime();
     }
-
+    
+    /**
+     * Extends the lease to be lease milliseconds from the current time.
+     *
+     * @param lease The length of the lease in milliseconds.
+     *
+     * @return The new lease expiration time.  Returns 0 if the sample is
+     *         permanent.
+     */
+    public long extendLease( long lease )
+    {
+        return m_instrumentSample.extendLease( lease );
+    }
+    
     /**
      * Obtains a static snapshot of the InstrumentSample.
      *
@@ -148,7 +173,10 @@ public class InstrumentSampleDescriptorImpl
     {
         return m_instrumentSample.getSnapshot();
     }
-
+    
+    /*---------------------------------------------------------------
+     * Methods InstrumentSampleDescriptorLocal
+     *-------------------------------------------------------------*/
     /**
      * Registers a InstrumentSampleListener with a InstrumentSample given a name.
      *
@@ -159,7 +187,7 @@ public class InstrumentSampleDescriptorImpl
     {
         m_instrumentSample.addInstrumentSampleListener( listener );
     }
-
+    
     /**
      * Unregisters a InstrumentSampleListener from a InstrumentSample given a name.
      *

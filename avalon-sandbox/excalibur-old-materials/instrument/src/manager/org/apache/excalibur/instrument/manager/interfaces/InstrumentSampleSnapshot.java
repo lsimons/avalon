@@ -12,7 +12,7 @@ import java.io.Serializable;
 /**
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/07/29 16:05:21 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/08/03 15:00:38 $
  * @since 4.1
  */
 public class InstrumentSampleSnapshot
@@ -20,19 +20,19 @@ public class InstrumentSampleSnapshot
 {
     /** The name used to reference the InstrumentSample. */
     private String m_InstrumentSampleName;
-
+    
     /** The interval between each sample. */
     private long m_interval;
-
+    
     /** The number of samples in the InstrumentSample. */
     private int m_size;
-
+    
     /** The time that the last sample starts. */
     private long m_time;
-
+    
     /** The samples as an array of integers. */
     private int[] m_samples;
-
+    
     /*---------------------------------------------------------------
      * Constructors
      *-------------------------------------------------------------*/
@@ -55,7 +55,7 @@ public class InstrumentSampleSnapshot
         m_time = time;
         m_samples = samples;
     }
-
+    
     /*---------------------------------------------------------------
      * Methods
      *-------------------------------------------------------------*/
@@ -68,7 +68,7 @@ public class InstrumentSampleSnapshot
     {
         return m_InstrumentSampleName;
     }
-
+    
     /**
      * Returns the interval, in milliseconds, between each sample.
      *
@@ -78,7 +78,7 @@ public class InstrumentSampleSnapshot
     {
         return m_interval;
     }
-
+    
     /**
      * Returns the number of samples in the InstrumentSample.
      *
@@ -88,7 +88,7 @@ public class InstrumentSampleSnapshot
     {
         return m_size;
     }
-
+    
     /**
      * Returns the time that the last sample starts.
      *
@@ -98,7 +98,7 @@ public class InstrumentSampleSnapshot
     {
         return m_time;
     }
-
+    
     /**
      * Returns the samples as an array of integers.  The sample at index 0
      *  will be the oldest.  The end of the array is the newest.

@@ -12,7 +12,7 @@ package org.apache.excalibur.instrument.manager.interfaces;
  *  Instrumentable.
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/07/29 16:05:21 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/08/03 15:00:38 $
  * @since 4.1
  */
 public interface InstrumentableDescriptor
@@ -24,6 +24,14 @@ public interface InstrumentableDescriptor
      * @return True if configured.
      */
     boolean isConfigured();
+
+    /**
+     * Returns true if the Instrumentable was registered with the Instrument
+     *  Manager.
+     *
+     * @return True if registered.
+     */
+    boolean isRegistered();
 
     /**
      * Gets the name for the Instrumentable.  The Instrumentable Name is used to
@@ -42,6 +50,30 @@ public interface InstrumentableDescriptor
      */
     String getDescription();
 
+    /**
+     * Returns a child InstrumentableDescriptor based on its name or the name
+     *  of any of its children.
+     *
+     * @param childInstrumentableName Name of the child Instrumentable being
+     *                                requested.
+     *
+     * @return A descriptor of the requested child Instrumentable.
+     *
+     * @throws NoSuchInstrumentableException If the specified Instrumentable
+     *                                       does not exist.
+     */
+    InstrumentableDescriptor getChildInstrumentableDescriptor( String childInstrumentableName )
+        throws NoSuchInstrumentableException;
+
+    /**
+     * Returns an array of Descriptors for the child Instrumentables registered
+     *  by this Instrumentable.
+     *
+     * @return An array of Descriptors for the child Instrumentables registered
+     *  by this Instrumentable.
+     */
+    InstrumentableDescriptor[] getChildInstrumentableDescriptors();
+        
     /**
      * Returns a InstrumentDescriptor based on its name.
      *
