@@ -1,4 +1,3 @@
-
 /*
  * Copyright (C) The Apache Software Foundation. All rights reserved.
  *
@@ -8,77 +7,53 @@
  */
 package phoenixdemo.server;
 
-
-
-import phoenixdemo.api.PDKDemoServer;
-
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
-
-import java.io.ObjectInputStream;
-import java.io.IOException;
-
+import phoenixdemo.api.PDKDemoServer;
 
 /**
- * Class PDKDemoServerImpl
- *
- *
  * @author Paul Hammant <a href="mailto:Paul_Hammant@yahoo.com">Paul_Hammant@yahoo.com</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
-public class PDKDemoServerImpl implements PDKDemoServer {
+public class PDKDemoServerImpl 
+    implements PDKDemoServer
+{
+    public void processSocket( final Socket socket )
+    {
+        try
+        {
+            final ObjectInputStream ois = 
+                new ObjectInputStream( socket.getInputStream() );
 
-    /**
-     * Constructor PDKDemoServerImpl
-     *
-     *
-     */
-    public PDKDemoServerImpl() {}
+            String string = null;
 
-    /**
-     * Method processSocket
-     *
-     *
-     * @param socket
-     *
-     */
-    public void processSocket(Socket socket) {
+            try { string = (String)ois.readObject(); }
+            catch( final ClassNotFoundException cnfe) {}
 
-        try {
-            ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
-            String st = null;
-
-            try {
-                st = (String) ois.readObject();
-            } catch (ClassNotFoundException cnfe) {}
-
-            System.out.println("String passed = " + st);
+            System.out.println( "String passed = " + string );
             ois.close();
             socket.close();
-        } catch (IOException ioe) {
-            System.out.println("Unexpected IO Exception");
+        } 
+        catch( final IOException ioe )
+        {
+            System.out.println( "Unexpected IO Exception" );
         }
     }
 
-    /**
-     * Method main
-     *
-     *
-     * @param args
-     *
-     * @throws IOException
-     *
-     */
-    public static void main(String[] args) throws IOException {
+    public static void main( final String[] args ) 
+        throws IOException
+    {
+        final PDKDemoServerImpl svr = new PDKDemoServerImpl();
+        final ServerSocket serverSocket = new ServerSocket(7654);
 
-        PDKDemoServerImpl svr = new PDKDemoServerImpl();
-        ServerSocket serverSocket = new ServerSocket(7654);
+        System.out.println( "PDK Demo listening on port " + 7654 );
+        System.out.println( "Ctrl-C to exit" );
 
-        System.out.println("PDK Demo listening on port " + 7654);
-        System.out.println("Ctrl-C to exit");
-
-        while (true) {
-            svr.processSocket(serverSocket.accept());
+        while( true )
+        {
+            svr.processSocket( serverSocket.accept() );
         }
     }
 }

@@ -8,86 +8,56 @@
  */
 package phoenixdemo.block;
 
-
-
-import org.apache.avalon.framework.logger.AbstractLoggable;
+import org.apache.avalon.framework.activity.Initializable;
+import org.apache.avalon.framework.activity.Startable;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
-import org.apache.avalon.framework.activity.Startable;
-import org.apache.avalon.framework.activity.Initializable;
+import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.phoenix.Block;
-
 import phoenixdemo.api.PDKDemoServer;
-
 import phoenixdemo.server.PDKDemoServerImpl;
-
 
 /**
  * @author  Paul Hammant <Paul_Hammant@yahoo.com>
  * @version 1.0
  */
-public class DefaultPDKDemoServer extends AbstractLoggable
-        implements Block, PDKDemoServer, Configurable, Startable, Initializable {
+public class DefaultPDKDemoServer 
+    extends AbstractLogEnabled
+    implements Block, PDKDemoServer, Configurable, Startable, Initializable
+{
+    private int m_port;
+    private PDKDemoServerImpl m_pdkServer;
+    private SocketThread m_socketThread;
 
-    protected int mPort;
-    protected PDKDemoServerImpl mPDKServer;
-    protected SocketThread mSocketThread;
-
-    /**
-     * Method configure
-     *
-     *
-     * @param configuration
-     *
-     * @throws ConfigurationException
-     *
-     */
-    public void configure(final Configuration configuration) throws ConfigurationException {
-        mPort = configuration.getChild("port").getValueAsInteger(7777);
+    public void configure( final Configuration configuration )
+        throws ConfigurationException
+    {
+        m_port = configuration.getChild("port").getValueAsInteger(7777);
     }
 
-    /**
-     * Method initialize
-     *
-     *
-     * @throws Exception
-     *
-     */
-    public void initialize() throws Exception {
-        mPDKServer = new PDKDemoServerImpl();
+    public void initialize() 
+        throws Exception
+    {
+        m_pdkServer = new PDKDemoServerImpl();
     }
 
-    /**
-     * Method start
-     *
-     *
-     * @throws Exception
-     *
-     */
-    public void start() throws Exception {
+    public void start() 
+        throws Exception
+    {
+        m_socketThread = new SocketThread( m_pdkServer, m_port );
+        m_socketThread.start();
 
-        mSocketThread = new SocketThread(mPDKServer, mPort);
-
-        mSocketThread.start();
-        System.out.println("Server started on port " + mPort);
+        System.out.println( "Server started on port " + m_port );
     }
 
-    /**
-     * Method stop
-     *
-     *
-     * @throws Exception
-     *
-     */
-    public void stop() throws Exception {
+    public void stop() 
+        throws Exception
+    {
+        m_socketThread = new SocketThread( m_pdkServer, m_port );
+        m_socketThread.interrupt();
+        m_socketThread = null;
 
-        mSocketThread = new SocketThread(mPDKServer, mPort);
-
-        mSocketThread.interrupt();
-
-        mSocketThread = null;
-
-        System.out.println("Server stopped on port " + mPort);
+        System.out.println( "Server stopped on port " + m_port );
     }
 }
