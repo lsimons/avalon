@@ -20,7 +20,7 @@
        <fileset dir="lib">
          <include>test-c.jar</include>
        </fileset>
-       <artifact>@FRAMEWORK_IMPL_SPEC@</artifact>
+       <artifact>@FRAMEWORK-IMPL-SPEC@</artifact>
        <artifact>test/test-d</artifact>
      </classpath>
    </classloader>
