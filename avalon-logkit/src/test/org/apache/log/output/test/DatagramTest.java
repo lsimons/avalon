@@ -15,7 +15,7 @@ import org.apache.log.Logger;
 import org.apache.log.Priority; 
 import org.apache.log.format.SyslogFormatter;
 import org.apache.log.format.RawFormatter;
-import org.apache.log.output.DatagramOutputTarget;
+import org.apache.log.output.net.DatagramOutputTarget;
  
 /** 
  * 
