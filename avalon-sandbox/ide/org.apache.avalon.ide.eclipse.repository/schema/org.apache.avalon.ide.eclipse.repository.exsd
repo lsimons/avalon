@@ -1,9 +1,13 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!-- Schema file written by PDE -->
-<schema targetNamespace="org.apache.avalon.ide.eclipse.org.apache.avalon.ide.eclipse">
+<schema targetNamespace="org.apache.avalon.ide.eclipse.repository">
 <annotation>
       <appInfo>
-         <meta.schema plugin="org.apache.avalon.ide.eclipse.org.apache.avalon.ide.eclipse" id="repository" name="Avalon Repository"/>
+         <meta.schema 
+             plugin="org.apache.avalon.ide.eclipse.repository" 
+             id="repository" 
+             name="Avalon Repository"
+         />
       </appInfo>
       <documentation>
          For registration of new Avalon Repository types.
