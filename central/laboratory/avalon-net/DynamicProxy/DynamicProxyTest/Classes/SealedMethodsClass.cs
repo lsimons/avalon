@@ -12,58 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Apache.Avalon.DynamicProxy.Test
+namespace Apache.Avalon.DynamicProxy.Test.Classes
 {
 	using System;
 
 	/// <summary>
-	/// Summary description for MyInterfaceImpl.
+	/// Summary description for SealedMethodsClass.
 	/// </summary>
-	public class MyInterfaceImpl : IMyInterface
+	public class SealedMethodsClass : ServiceClass
 	{
-		private String m_name;
-		private bool m_started;
-
-		public MyInterfaceImpl()
+		public override sealed int Sum(int b1, int b2)
 		{
+			return b1 + b2;
 		}
-
-		#region IMyInterface Members
-
-		public String Name
-		{
-			get
-			{
-				return m_name;
-			}
-			set
-			{
-				m_name = value;
-			}
-		}
-
-		public bool Started
-		{
-			get
-			{
-				return m_started;
-			}
-			set
-			{
-				m_started = value;
-			}
-		}
-
-		public int Calc(int x, int y)
-		{
-			return x + y;
-		}
-
-		public int Calc(int x, int y, int z, Single k)
-		{
-			return x + y + z + (int)k;
-		}
-
-		#endregion
 	}
 }

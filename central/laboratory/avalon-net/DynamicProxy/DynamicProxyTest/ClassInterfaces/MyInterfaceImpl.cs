@@ -12,19 +12,58 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Apache.Avalon.DynamicProxy.Test
+namespace Apache.Avalon.DynamicProxy.Test.ClassInterfaces
 {
 	using System;
 
 	/// <summary>
-	/// Summary description for IMySecondInterface.
+	/// Summary description for MyInterfaceImpl.
 	/// </summary>
-	public interface IMySecondInterface : IMyInterface
+	public class MyInterfaceImpl : IMyInterface
 	{
-		String Address
+		private String m_name;
+		private bool m_started;
+
+		public MyInterfaceImpl()
 		{
-			get;
-			set;
 		}
+
+		#region IMyInterface Members
+
+		public String Name
+		{
+			get
+			{
+				return m_name;
+			}
+			set
+			{
+				m_name = value;
+			}
+		}
+
+		public bool Started
+		{
+			get
+			{
+				return m_started;
+			}
+			set
+			{
+				m_started = value;
+			}
+		}
+
+		public int Calc(int x, int y)
+		{
+			return x + y;
+		}
+
+		public int Calc(int x, int y, int z, Single k)
+		{
+			return x + y + z + (int)k;
+		}
+
+		#endregion
 	}
 }
