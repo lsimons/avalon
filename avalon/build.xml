@@ -201,7 +201,7 @@ Legal:
   </target>
 
   <!-- Prepares the documentation directory -->
-  <target name="xdocs" depends="jar">
+  <target name="xdocs" depends="prepare">
 
     <mkdir dir="${build.context}"/>
     <mkdir dir="${build.docs}"/>
@@ -246,7 +246,6 @@ Legal:
       <arg value="-f${context.dir}/history.uris"/>
       <classpath>
         <path refid="tools.class.path"/>
-        <fileset dir="${build.lib}"/>
         <fileset dir="${tools.dir}/ext"/>
       </classpath>
     </java>
