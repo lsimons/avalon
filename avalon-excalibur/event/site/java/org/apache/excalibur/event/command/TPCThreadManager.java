@@ -183,14 +183,19 @@ public final class TPCThreadManager extends AbstractThreadManager implements Par
             m_threadPool.shutdownAfterProcessingCurrentlyQueuedTasks();
         }
 
+        m_threadPool.interruptAll();
+
         try
         {
-            m_threadPool.awaitTerminationAfterShutdown( getSleepTime() );
+            if ( !m_threadPool.awaitTerminationAfterShutdown( getSleepTime() ) )
+            {
+                getLogger().warn("Thread pool took longer than " + getSleepTime() +
+                     " ms to shut down");
+            }
         }
         catch (InterruptedException ie)
         {
-            getLogger().warn("Thread pool took longer than " + getSleepTime() +
-                 " ms to shut down", ie);
+            getLogger().warn("Thread pool was interrupted while waiting for shutdown to complete.", ie);
         }
     }
 }
