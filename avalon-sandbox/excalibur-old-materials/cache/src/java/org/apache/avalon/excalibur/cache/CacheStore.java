@@ -32,6 +32,10 @@ public interface CacheStore
 
     boolean isFull();
 
+    /**
+     * @param key not null
+     * @param value may be null
+     */
     Object put( Object key, Object value );
 
     Object get( Object key );
