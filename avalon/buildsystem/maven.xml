@@ -636,7 +636,7 @@ property
     <cvs repository="avalon"/>
 
 <j:forEach var="file" items="${projectfiles.iterator()}">
-    <project href="./${file.name}"/>
+    <project href="http://cvs.apache.org/viewcvs.cgi/*checkout*/avalon/buildsystem/gump-integration/project/${file.name}"/>
 </j:forEach>
 
 </module>
