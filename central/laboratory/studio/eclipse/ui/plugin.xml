@@ -3,7 +3,7 @@
 <plugin
    id="org.apache.metro.studio.ui"
    name="MetroStudio UI"
-   version="0.1.0"
+   version="0.1.1"
    provider-name="Apache Software Foundation"
    class="org.apache.metro.studio.eclipse.ui.MetroStudioUI">
 
@@ -13,6 +13,7 @@
       </library>
       <library name="lib/metro-event-0.0.1.jar"/>
    </runtime>
+
    <requires>
       <import plugin="org.eclipse.ui.views"/>
       <import plugin="org.eclipse.ui.workbench.texteditor"/>
@@ -32,7 +33,6 @@
       <import plugin="org.eclipse.debug.ui"/>
       <import plugin="org.eclipse.jdt.debug.ui"/>
    </requires>
-
 
    <extension
          point="org.eclipse.jdt.ui.javadocCompletionProcessor">
@@ -68,8 +68,8 @@
          point="org.eclipse.ui.editors">
       <editor
             name="Image Viewer"
-            extensions="jpg, gif"
             icon="icons/sample.gif"
+            extensions="jpg, gif"
             class="org.apache.avalon.ide.eclipse.merlin.ui.tools.ImageViewerEditor"
             id="Viewer.editors.XMLEditor">
       </editor>
@@ -91,16 +91,16 @@
       </page>
       <page
             name="Server"
+            category="metro.preferences.MainPreferencePage"
             class="org.apache.metro.studio.eclipse.ui.preferences.ServerPreferencePage"
-            id="metro.preferences.ServerPreferencePage"
-            category="metro.preferences.MainPreferencePage">
-      </page>      
+            id="metro.preferences.ServerPreferencePage">
+      </page>
       <page
             name="Repository"
+            category="metro.preferences.MainPreferencePage"
             class="org.apache.metro.studio.eclipse.ui.preferences.RepositoryPreferencePage"
-            id="metro.preferences.RepositoryPreferencePage"
-            category="metro.preferences.MainPreferencePage">
-      </page> 
+            id="metro.preferences.RepositoryPreferencePage">
+      </page>
    </extension>
 
 </plugin>
