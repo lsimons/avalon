@@ -156,6 +156,14 @@ limitations under the License.
         <role>Most stuff.</role>
       </roles>
     </developer>
+    <developer>
+      <name>Timothy Bennett</name>
+      <email>tbennett@apache.org</email>
+      <id>tbennett</id>
+      <roles>
+        <role>HTTP facility, model enhancements, etc.</role>
+      </roles>
+    </developer>
   </developers>
 
   <contributors>

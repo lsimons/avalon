@@ -17,6 +17,8 @@ limitations under the License.
 -->
 <project>
 
+  <extend>${basedir}/../project.xml</extend>
+
   <pomVersion>3</pomVersion>
   <groupId>merlin</groupId>
   <id>merlin</id>
@@ -45,185 +47,6 @@ limitations under the License.
     <url>http://cvs.apache.org/viewcvs/avalon/merlin/</url>
   </repository>
   
-  <mailingLists>
-    <mailingList>
-      <name>Avalon Developer List</name>
-      <subscribe>dev-subscribe@avalon.apache.org</subscribe>
-      <unsubscribe>dev-unsubscribe@avalon.apache.org</unsubscribe>
-      <archive>http://nagoya.apache.org/eyebrowse/SummarizeList?listName=dev@avalon.apache.org</archive>
-    </mailingList>
-    <mailingList>
-      <name>Avalon User List</name>
-      <subscribe>users-subscribe@avalon.apache.org</subscribe>
-      <unsubscribe>users-unsubscribe@avalon.apache.org</unsubscribe>
-      <archive>http://nagoya.apache.org/eyebrowse/SummarizeList?listName=users@avalon.apache.org</archive>
-    </mailingList>
-    <mailingList>
-      <name>CVS List</name>
-      <subscribe>cvs-subscribe@avalon.apache.org</subscribe>
-      <unsubscribe>cvs-unsubscribe@avalon.apache.org</unsubscribe>
-    </mailingList>
-  </mailingLists>
-
-  <developers>
-    <developer>
-      <name>Stephen McConnell</name>
-      <id>mcconnell</id>
-      <email>mcconnell@apache.org</email>
-      <roles>
-        <role>Release Manager.</role>
-        <role>Conception, architecture and initial implementation.</role>
-      </roles>
-      <timezone>1</timezone>
-    </developer>
-    <developer>
-      <name>Leo Simons</name>
-      <id>leosimons</id>
-      <email>leosimons@apache.org</email>
-      <roles>
-        <role>System review, code cleanup.</role>
-      </roles>
-      <timezone>1</timezone>
-    </developer>
-    <developer>
-      <name>Berin Loritsch</name>
-      <id>bloritsch</id>
-      <email>bloritsch@apache.org</email>
-      <roles>
-        <role>Code enhancements and lots of test cases.</role>
-      </roles>
-    </developer>
-    <developer>
-      <name>Vinay Chandran</name>
-      <id>vinayc</id>
-      <email>vinayc@apache.org</email>
-      <roles>
-        <role>Testing and bug reporting, migration of tutorials from ant to maven.</role>
-      </roles>
-    </developer>
-    <developer>
-      <name>Marcus Crafter</name>
-      <id>crafterm</id>
-      <email>crafterm@apache.org</email>
-      <roles>
-        <role>Architecture review and Fortress/ECM/Cocoon liason.</role>
-      </roles>
-    </developer>
-    <developer>
-      <name>Peter Royal</name>
-      <id>proyal</id>
-      <email>proyal@apache.org</email>
-      <roles>
-        <role>Test and evaluation.</role>
-      </roles>
-    </developer>
-    <developer>
-      <name>Leif Mortenson</name>
-      <email>leif@apache.org</email>
-      <id>leif</id>
-      <roles>
-        <role>Support on setup of NT service scripts and resources.</role>
-      </roles>
-    </developer>
-    <developer>
-      <name>Aaron Far</name>
-      <email>farra@apache.org</email>
-      <id>farra</id>
-      <roles>
-        <role>Testing, bug reporting, and early access trial participation.</role>
-        <role>AltRMI extensions.</role>
-        <role>JMS extensions.</role>
-      </roles>
-      <timezone>-5</timezone>
-      <organization>Sony Electronics</organization>
-    </developer>
-    <developer>
-      <name>Neeme Praks</name>
-      <email>neeme@apache.org</email>
-      <id>neeme</id>
-      <roles>
-        <role>Documentation improvements and corrections.</role>
-      </roles>
-    </developer>
-    <developer>
-      <name>Alex Karasulu</name>
-      <email>aok123@bellsouth.net</email>
-      <id>akarasulu</id>
-      <roles>
-        <role>Kernel loading strategy, refactoring and optimization of embedded aspects.</role>
-      </roles>
-    </developer>
-    <developer>
-      <name>Niclas Hedhman</name>
-      <email>niclas@hedhman.org</email>
-      <id>niclas</id>
-      <roles>
-        <role>Patches improving build procedures, validating and enhancing cross-platform builds, resolving maven bugs, and enhancements to the repository subsystem.</role>
-        <role>Kernel improvements in deployment and security.</role>
-      </roles>
-      <organization>Bali Automation Sdn Bhd</organization>
-      <timezone>8</timezone>
-    </developer>
-  </developers>
-
-  <contributors>
-    <contributor>
-      <name>Gary Shea</name>
-      <email>shea@gtsdesign.com</email>
-      <organization>GTS Design</organization>
-      <roles>
-        <role>Test and evaluation in a desktop environment.</role>
-      </roles>
-    </contributor>
-    <contributor>
-      <name>Richard Wallace</name>
-      <email>rwallace@a--i--m.com</email>
-      <organization>A-I-M</organization>
-      <roles>
-        <role>Web services related trials and feedback.</role>
-      </roles>
-    </contributor>
-    <contributor>
-      <name>Jrg Schaible</name>
-      <email>Joerg.Schaible@gmx.de</email>
-      <organization>Elsag-Solutions AG</organization>
-      <roles>
-        <role>Test, evaluation and contribution of German language i18n resources.</role>
-      </roles>
-    </contributor>
-    <contributor>
-      <name>David Bernard</name>
-      <email>dwayne@java-fan.com</email>
-      <roles>
-        <role>Documentation and tutorial review, testing and patches. Updates to lifecycle handlers. Contribution to JMX related development.</role>
-      </roles>
-      <organization>BNP</organization>
-    </contributor>
-    <contributor>
-      <name>Kristian Meier</name>
-      <email>kristian.meier@jentro.com</email>
-      <roles>
-        <role>Patches enhancing the meta-info generation sources and documentation, and patches related to the pooled lifestyle handler.</role>
-      </roles>
-      <organization>Jentro AG</organization>
-    </contributor>
-    <contributor>
-      <name>Laurent Rieu</name>
-      <email>Laurent.Rieu@fr.ibm.com</email>
-      <roles>
-        <role>Testing, bug reporting, and early access trial participation.</role>
-      </roles>
-      <organization>IBM Global Services</organization>
-    </contributor>
-    <contributor>
-      <name>Alexis Agahi</name>
-      <email>alag@users.sf.net</email>
-      <roles>
-        <role>Debugging, script enhancements and release testing.</role>
-      </roles>
-    </contributor>
-  </contributors>
-
   <releases>
     <release>
       <version>3.2-20031225</version>
@@ -266,6 +89,7 @@ limitations under the License.
   </reports> 
   -->
 
+  <!--
   <build>
 
     <nagEmailAddress>dev@avalon.apache.org</nagEmailAddress>
@@ -304,7 +128,6 @@ limitations under the License.
             <include>**/*.properties</include>
           </includes>
         </resource>
-        <!-- This fix makes merlin build with maven-10 again -->
         <resource>
           <directory>${basedir}/conf</directory>
           <includes> 
@@ -368,5 +191,6 @@ limitations under the License.
     
     <jars></jars>
   </build>
+  -->
 
 </project>

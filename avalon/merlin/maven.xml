@@ -106,7 +106,7 @@
   -->
 
   <goal name="avalon:build" description="Build Merlin."
-    prereqs="avalon:build-main,avalon:build-kernel,avalon:build-externals"/>
+    prereqs="avalon:build-main,avalon:build-kernel,avalon:build-externals,avalon:xinstall"/>
 
   <goal name="avalon:build-main" description="Build Merlin.">
 
@@ -222,7 +222,7 @@
   -->
 
   <goal name="avalon:install" 
-    description="Build the Merlin distribution." prereqs="avalon:build,avalon:xinstall"/>
+    description="Build the Merlin distribution." prereqs="avalon:build"/>
 
   <goal name="avalon:xinstall">
     <!-- add supporting resources -->
@@ -266,9 +266,6 @@
         <include name="LICENSE.txt"/>
       </fileset>
     </ant:copy>
-    <ant:fixcrlf eol="crlf" srcdir="${merlin.build.inst.dir}/bin">
-       <include name="README.TXT"/>
-    </ant:fixcrlf>
     <ant:fixcrlf eol="crlf" srcdir="${merlin.build.dir}">
        <include name="INSTALL.TXT"/>
     </ant:fixcrlf>
@@ -319,12 +316,12 @@
         <maven:snapshot project="${pom}"/>
         <j:set var="timestamp" value="${snapshotSignature.substring(7,15)}"/>
         <j:set var="package.name" value="${maven.final.name}-dist-${timestamp}"/>
-        <j:set var="tutorial.name" value="${maven.final.name}-tutorial-${timestamp}"/>
+        <j:set var="docs.name" value="${maven.final.name}-docs-${timestamp}"/>
         <echo>Snapshot Packaging: ${timestamp}</echo>
       </j:when>
       <j:otherwise>
         <j:set var="package.name" value="${maven.final.name}-dist"/>
-        <j:set var="tutorial.name" value="${maven.final.name}-tutorial"/>
+        <j:set var="docs.name" value="${maven.final.name}-docs"/>
         <echo>Release Packaging: ${pom.currentVersion}</echo>
       </j:otherwise>
     </j:choose>
@@ -332,12 +329,6 @@
     <ant:echo>Building zip distribution: ${package.name}</ant:echo>
     <ant:zip zipfile="${maven.build.dir}/${package.name}.zip">
       <zipfileset dir="${merlin.build.inst.dir}" prefix="merlin"/>
-      <fileset dir="${basedir}">
-        <include name="INSTALL.TXT"/>
-      </fileset>
-      <fileset dir="${maven.build.dir}">
-        <include name="docs/**"/>
-      </fileset>
     </ant:zip>
     <checksum file="${maven.build.dir}/${package.name}.zip" fileext=".md5" />
     <j:if test="${maven_gpg_exe != null}">
@@ -351,12 +342,6 @@
     <ant:echo>Building tar distribution: ${package.name}</ant:echo>
     <ant:tar longfile="gnu" tarfile="${maven.build.dir}/${package.name}.tar">
       <tarfileset dir="${merlin.build.inst.dir}" prefix="merlin"/>
-      <fileset dir="${basedir}">
-        <include name="INSTALL.TXT"/>
-      </fileset>
-      <fileset dir="${maven.build.dir}">
-        <include name="docs/**"/>
-      </fileset>
     </ant:tar>
     <ant:gzip 
       zipfile="${maven.build.dir}/${package.name}.tar.gz"
@@ -368,6 +353,35 @@
         <ant:arg value="-a"/>
         <ant:arg value="-b"/>
         <ant:arg value="${maven.build.dir}/${package.name}.tar.gz"/>
+      </ant:exec>
+    </j:if>
+
+    <ant:echo>Building doc kit: ${docs.name}</ant:echo>
+    <ant:zip zipfile="${maven.build.dir}/${docs.name}.zip">
+      <zipfileset dir="${maven.build.dir}/docs" prefix="docs"/>
+    </ant:zip>
+    <checksum file="${maven.build.dir}/${docs.name}.zip" fileext=".md5" />
+    <j:if test="${maven_gpg_exe != null}">
+      <ant:exec executable="${maven_gpg_exe}">
+        <ant:arg value="-a"/>
+        <ant:arg value="-b"/>
+        <ant:arg value="${maven.build.dir}/${docs.name}.zip"/>
+      </ant:exec>
+    </j:if>
+
+    <ant:tar longfile="gnu" tarfile="${maven.build.dir}/${docs.name}.tar">
+      <tarfileset dir="${maven.build.dir}/docs" prefix="docs"/>
+    </ant:tar>
+    <ant:gzip 
+      zipfile="${maven.build.dir}/${docs.name}.tar.gz"
+      src="${maven.build.dir}/${docs.name}.tar"/>
+    <ant:delete file="${maven.build.dir}/${docs.name}.tar"/>
+    <checksum file="${maven.build.dir}/${docs.name}.tar.gz" fileext=".md5" />
+    <j:if test="${maven_gpg_exe != null}">
+      <ant:exec executable="${maven_gpg_exe}">
+        <ant:arg value="-a"/>
+        <ant:arg value="-b"/>
+        <ant:arg value="${maven.build.dir}/${docs.name}.tar.gz"/>
       </ant:exec>
     </j:if>
 
@@ -384,8 +398,8 @@
       prereqs="xavalon:css-copy,license,xjavadoc,site"/>
 
   <goal name="xavalon:css-copy">
-    <ant:mkdir dir="${merlin.build.inst.dir}/docs/style"/>
-    <ant:copy toDir="${merlin.build.inst.dir}/docs/style">
+    <ant:mkdir dir="${maven.build.dir}/docs/style"/>
+    <ant:copy toDir="${maven.build.dir}/docs/style">
       <fileset dir="${basedir}/site/etc">
         <include name="maven.css"/>
         <include name="tigris.css"/>
@@ -403,7 +417,7 @@
 
     <maven:reactor basedir="${basedir}"
       includes="**/project.xml"
-      excludes="**/target/**,**/test/project.xml,project.xml"
+      excludes="**/target/**,**/test/project.xml,project.xml,site/**"
       banner="Site Prep:"
       ignoreFailures="false"
       postProcessing="true" />
@@ -418,12 +432,12 @@
       </j:forEach>
     </ant:path>
 
-    <ant:mkdir dir="${merlin.build.inst.dir}/docs/api" />
+    <ant:mkdir dir="${maven.build.dir}/docs/api" />
     <ant:property name="copyright"
       value="Copyright &amp;copy; ${year} ${pom.organization.name}. All Rights Reserved." />
     <ant:property name="title" value="${pom.name} ${pom.currentVersion} API"/>
 
-    <ant:javadoc destdir="${merlin.build.inst.dir}/docs/api" 
+    <ant:javadoc destdir="${maven.build.dir}/docs/api" 
 	doctitle="&lt;h1&gt;${title}&lt;/h1&gt;" 
       noindex="false" author="true" use="true"
 	windowtitle="${title}" 
