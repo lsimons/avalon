@@ -42,11 +42,7 @@ Legal:
   <property name="optimize" value="off"/>
   <property name="deprecation" value="off"/>
 
-  <!--
-       ===================================================================
-       Set the properties for intermediate directory
-       ===================================================================
-  -->
+  <!-- Set the properties for intermediate directory -->
   <property name="build.dir" value="build"/>
   <property name="build.lib" value="${build.dir}/lib"/>
   <property name="build.src" value="${build.dir}/src"/>
@@ -55,11 +51,7 @@ Legal:
   <property name="build.docs" value="${build.dir}/docs"/>
   <property name="build.xdocs" value="${build.dir}/xdocs"/>
 
-  <!--
-       ===================================================================
-       Set the properties for source directories
-       ===================================================================
-  -->
+  <!-- Set the properties for source directories -->
   <property name="src.dir" value="src"/>
   <property name="lib.dir" value="lib"/>
   <property name="java.dir" value="${src.dir}/java"/>
@@ -82,18 +74,16 @@ Legal:
     <pathelement path="${build.classes}" />
   </path>
 
-  <!--
-       ===================================================================
-                                  Main target
-       ===================================================================
-  -->
+  <path id="tools.class.path">
+    <fileset dir="${tools.dir}/lib">
+      <exclude name="ant.jar" />
+    </fileset>
+  </path>
+
+  <!-- Main target -->
   <target name="main" depends="jar" />
 
-  <!--
-       ===================================================================
-                                  Help on usage
-       ===================================================================
-  -->
+  <!-- Help on usage -->
   <target name="usage">
     <echo message=""/>
     <echo message="${Name} Build file"/>
@@ -117,11 +107,7 @@ Legal:
 
   <target name="help" depends="usage"/>
 
-  <!--
-       ===================================================================
-       Set up dist properties
-       ===================================================================
-  -->
+  <!-- Set up dist properties -->
   <target name="setup-properties" >
 
     <property name="dist.dir" value="dist"/>
@@ -137,11 +123,7 @@ Legal:
     <property name="src.dist.tools" value="${src.dist.dir}/tools"/>
   </target>
 
-  <!--
-       ===================================================================
-                         Prepares the build directory
-       ===================================================================
-  -->
+  <!-- Prepares the build directory -->
   <target name="compile">
     <mkdir dir="${build.dir}"/>
     <mkdir dir="${build.classes}"/>
@@ -175,11 +157,7 @@ Legal:
 
   </target>
 
-  <!--
-       ===================================================================
-                           Creates all the .jar file
-       ===================================================================
-  -->
+  <!-- Creates all the .jar file -->
   <target name="jar" depends="compile">
 
     <mkdir dir="${build.lib}"/>
@@ -202,11 +180,7 @@ Legal:
     <fail message="cjan.lib not specified." />
   </target>
 
-  <!--
-       ===================================================================
-       Create the API documentation
-       ===================================================================
-  -->
+  <!-- Create the API documentation -->
   <target name="javadocs">
 
     <delete dir="${build.javadocs}"/>
@@ -229,11 +203,7 @@ Legal:
 
   </target>
 
-  <!--
-       ===================================================================
-       Create the Local API documentation
-       ===================================================================
-  -->
+  <!-- Create the Local API documentation -->
   <target name="local-javadocs" depends="javadocs">
 
     <delete dir="${javadocs.dir}"/>
@@ -245,11 +215,7 @@ Legal:
 
   </target>
 
-  <!--
-       ===================================================================
-                     Prepares the documentation directory
-       ===================================================================
-  -->
+  <!-- Prepares the documentation directory -->
   <target name="xdocs">
 
     <mkdir dir="${build.xdocs}"/>
@@ -271,19 +237,20 @@ Legal:
       </fileset>
     </copy>
 
+    <taskdef name="stylebook" 
+             classname="org.apache.tools.ant.taskdefs.optional.StyleBook">
+      <classpath refid="tools.class.path"/>
+    </taskdef>
+
     <stylebook targetdirectory="${build.docs}"
                book="${build.xdocs}/book.xml"
                skindirectory="${avalon.skin}">
-      <classpath refid="project.class.path" />
+      <classpath refid="tools.class.path" />
     </stylebook>
 
   </target>
 
-  <!--
-       ===================================================================
-       Create the Local site documentation
-       ===================================================================
-  -->
+  <!-- Create the Local site documentation -->
   <target name="local-xdocs" depends="xdocs">
 
     <delete>
@@ -301,11 +268,7 @@ Legal:
 
   <target name="local-docs" depends="local-javadocs,local-xdocs"/>
 
-  <!--
-       ===================================================================
-       Update the www directory
-       ===================================================================
-  -->
+  <!-- Update the www directory -->
   <target name="site-docs" depends="local-docs">
 
     <!-- delete all old documents but keep CVS directories -->
@@ -323,11 +286,7 @@ Legal:
 
   </target>
 
-  <!--
-       ===================================================================
-                            Create the binary distribution
-       ===================================================================
-  -->
+  <!-- Create the binary distribution -->
   <target name="dist" depends="jar,javadocs,xdocs,setup-properties">
 
     <mkdir dir="${dist.dir}"/>
@@ -348,11 +307,7 @@ Legal:
 
   </target>
 
-  <!--
-       ===================================================================
-                            Create the source distribution
-       ===================================================================
-  -->
+  <!-- Create the source distribution -->
   <target name="src-dist" depends="javadocs,xdocs,setup-properties">
 
     <mkdir dir="${src.dist.dir}" />
@@ -402,11 +357,7 @@ Legal:
 
   </target>
 
-  <!--
-       ===================================================================
-                 Completely build all dists
-       ===================================================================
-  -->
+  <!-- Completely build all dists -->
   <target name="distributions">
     <mkdir dir="${dist.base}"/>
 
@@ -456,11 +407,7 @@ Legal:
 
   </target>
 
-  <!--
-       ===================================================================
-                 Cleans up build and distribution directories
-       ===================================================================
-  -->
+  <!-- Cleans up build and distribution directories -->
   <target name="clean">
     <delete dir="${build.dir}" />
     <delete>
@@ -468,11 +415,7 @@ Legal:
     </delete>
   </target>
 
-  <!--
-       ===================================================================
-                      Cleans absolutely everything up
-       ===================================================================
-  -->
+  <!-- Cleans absolutely everything up -->
   <target name="real-clean" depends="clean">
     <delete dir="${docs.dir}" />
     <delete dir="${dist.base}" />
