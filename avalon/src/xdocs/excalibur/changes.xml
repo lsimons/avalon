@@ -7,6 +7,18 @@
     <person name="Berin Loritsch" email="bloritsch@apache.org" id="BL"/>
     <person name="Leo Simons" email="mail@leosimons.com" id="LS"/>
   </devs>
+  <release version="4.0b3" date="June 6, 2001">
+    <action dev="BL" type="update">
+      Release 4.0b3
+    </action>
+    <action dev="BL" type="fix">
+      Repair major showstopper in Excalibur Component Manager.  This
+      showstopper manifests itself as a NullPointerException with
+      ExcaliburComponentSelectors.  Because of the reflective code
+      in the ComponentFactory, this was originally missed in the
+      Beta 2 release.
+    </action>
+  </release>
 <release version="4.0b2" date="June 4, 2001">
   <action dev="BL" type="update">
     Release 4.0b2
