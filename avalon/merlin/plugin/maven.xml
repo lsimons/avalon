@@ -1,13 +1,24 @@
-<project default="plugin:install" xmlns:maven="jelly:maven" xmlns:j="jelly:core" xmlns:util="jelly:util" xmlns:ant="jelly:ant">
+<project default="plugin:install" xmlns:ant="jelly:ant">
 
-
-  <!--
-  Add the merlin.properties file.
-  -->
   <postGoal name="java:compile">
     <ant:copy file="${maven.repo.local}/${pom.groupId}/properties/merlin.properties" 
        toDir="${maven.build.dir}/classes" verbose="yes"/>
   </postGoal>
 
+  <preGoal name="jar:jar">
+    <attainGoal name="avalon:generate"/>
+  </preGoal>
+  
+  <goal name="avalon:generate">
+    <echo message="starting"/>
+    <mkdir dir="${maven.build.dir}/classes"/>
+    <ant:xslt in="${basedir}/project.xml" out="${maven.build.dir}/classes/project.xml"
+      style="${basedir}/copy-all.xsl">
+      <outputproperty name="method" value="xml" />
+      <outputproperty name="standalone" value="yes"/>
+      <outputproperty name="indent" value="yes"/>
+    </ant:xslt>
+    <echo message="done"/>
+  </goal>
 
 </project>
