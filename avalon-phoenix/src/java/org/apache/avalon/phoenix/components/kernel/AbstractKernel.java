@@ -16,7 +16,6 @@ import org.apache.avalon.framework.container.AbstractContainer;
 import org.apache.avalon.framework.container.Container;
 import org.apache.avalon.framework.container.ContainerException;
 import org.apache.avalon.framework.container.Entry;
-import org.apache.avalon.framework.camelot.FactoryException;
 import org.apache.avalon.framework.container.Locator;
 import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.component.ComponentManager;

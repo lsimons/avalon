@@ -17,8 +17,6 @@ import org.apache.avalon.framework.container.State;
 import org.apache.avalon.framework.container.Container;
 import org.apache.avalon.framework.container.ContainerException;
 import org.apache.avalon.framework.container.Entry;
-import org.apache.avalon.framework.camelot.Factory;
-import org.apache.avalon.framework.camelot.SimpleFactory;
 import org.apache.avalon.framework.component.ComponentException;
 import org.apache.avalon.framework.component.ComponentException;
 import org.apache.avalon.framework.component.ComponentManager;
@@ -62,9 +60,6 @@ public class StartupPhase
     ///Frame in which block executes
     private ApplicationFrame     m_frame;
 
-    ///Factory used to build instance of Block
-    private Factory              m_factory;
-
     ///Name of application, phase is running in
     private String               m_appName;
 
@@ -86,8 +81,6 @@ public class StartupPhase
         m_container = (Container)componentManager.lookup( Container.ROLE );
         m_frame = (ApplicationFrame)componentManager.lookup( ApplicationFrame.ROLE );
         m_repository = (ConfigurationRepository)componentManager.lookup( ConfigurationRepository.ROLE );
-
-        m_factory = new SimpleFactory( m_frame.getClassLoader() );
     }
 
     /**
@@ -205,8 +198,9 @@ public class StartupPhase
     private Block createBlock( final String name, final BlockEntry entry )
         throws Exception
     {
-
-        final Block block = (Block)m_factory.create( entry.getLocator(), Block.class );
+        final ClassLoader classLoader = m_frame.getClassLoader();
+        final Class clazz = classLoader.loadClass( entry.getLocator().getName() );
+        final Block block = (Block)clazz.newInstance(); 
         getLogger().debug( REZ.getString( "startup.notice.block.created" ) );
 
         verifyBlockServices( name, entry, block );
