@@ -21,16 +21,14 @@ import org.apache.excalibur.instrument.manager.interfaces.InstrumentDescriptor;
 import org.apache.excalibur.instrument.manager.interfaces.InstrumentManagerClient;
 import org.apache.excalibur.instrument.manager.interfaces.InstrumentSampleDescriptor;
 
-import org.apache.excalibur.altrmi.server.AltrmiServerException;
 import org.apache.excalibur.altrmi.server.PublicationDescription;
-import org.apache.excalibur.altrmi.server.PublicationException;
 import org.apache.excalibur.altrmi.server.impl.AbstractServer;
 import org.apache.excalibur.altrmi.server.impl.socket.CompleteSocketCustomStreamServer;
 
 /**
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/08/14 14:58:24 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/10/14 15:17:16 $
  * @since 4.1
  */
 public class InstrumentManagerAltrmiConnector
