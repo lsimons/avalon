@@ -7,3 +7,4 @@ ant.properties
 .classpath
 .project
 *.log
+*log.txt
