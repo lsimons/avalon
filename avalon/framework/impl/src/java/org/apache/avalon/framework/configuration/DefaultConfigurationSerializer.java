@@ -102,7 +102,7 @@ public class DefaultConfigurationSerializer
 
     /**
      * Create a ContentHandler for an OutputStream
-     * @param out an <code>OutputStream</code> value
+     * @param result the result
      * @return contenthandler that goes to specified OutputStream
      */
     protected ContentHandler createContentHandler( final Result result )

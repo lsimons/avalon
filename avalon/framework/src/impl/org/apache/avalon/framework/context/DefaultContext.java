@@ -71,7 +71,7 @@ public class DefaultContext
     {
     }
 
-    private static final Hidden m_hiddenMarker = new Hidden();
+    private static final Hidden HIDDEN_MAKER = new Hidden();
 
     private final Map m_contextData;
     private final Context m_parent;
@@ -193,7 +193,7 @@ public class DefaultContext
         throws IllegalStateException
     {
         checkWriteable();
-        m_contextData.put( key, m_hiddenMarker );
+        m_contextData.put( key, HIDDEN_MAKER );
     }
 
     /**
