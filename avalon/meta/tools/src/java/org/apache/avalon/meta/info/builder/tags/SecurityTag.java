@@ -28,12 +28,13 @@ import org.apache.avalon.meta.info.Service;
 
 import com.thoughtworks.qdox.model.DocletTag;
 import com.thoughtworks.qdox.model.JavaClass;
+import com.thoughtworks.qdox.model.JavaMethod;
 
 /**
  * A doclet tag the declares a service definition.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2004/02/24 22:33:44 $
+ * @version $Revision: 1.2 $ $Date: 2004/02/26 00:02:18 $
  */
 public class SecurityTag extends AbstractTag
 {
@@ -87,14 +88,30 @@ public class SecurityTag extends AbstractTag
         final ArrayList permissions = new ArrayList();
         final DocletTag[] tags = 
           getJavaClass().getTagsByName( getNS() + Tags.DELIMITER + PERMISSION_KEY );
-        for( int i = 0; i < tags.length; i++ )
-        {
-            permissions.add( getPermission( tags[i] ) );
-        }
+        processTags( tags, permissions );
+        JavaMethod[] methods = findTaggedMethods( getJavaClass(), getNS() + Tags.DELIMITER + PERMISSION_KEY );
+        processMethods( methods, permissions );
+        
         return (PermissionDescriptor[])permissions.toArray( 
           new PermissionDescriptor[ permissions.size() ] );
     }
 
+    private void processTags( DocletTag[] tags, ArrayList permissions )
+    {
+        for( int i = 0; i < tags.length; i++ )
+            permissions.add( getPermission( tags[i] ) );
+    }
+
+    private void processMethods( JavaMethod[] methods, ArrayList permissions )
+    {
+        for( int i=0 ; i < methods.length ; i++ )
+        {
+            final DocletTag[] tags = 
+              methods[i].getTagsByName( getNS() + Tags.DELIMITER + PERMISSION_KEY );
+            processTags( tags, permissions );
+        }
+    }
+        
    /**
     * Return the value of the Avalon 'service' tag.
     * @return the service descriptor or null if no service is declared
