@@ -61,14 +61,14 @@ import org.apache.avalon.framework.container.ContainerUtil;
 import org.apache.avalon.framework.logger.LogEnabled;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.phoenix.components.util.ResourceUtil;
-import org.apache.excalibur.loader.builder.DefaultLoaderResolver;
+import org.realityforge.classman.builder.DefaultLoaderResolver;
 
 /**
  * a LoaderResolver that knows about Phoenixs environment,
  * and the way it is split across multiple directories.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.5 $ $Date: 2003/03/22 12:07:08 $
+ * @version $Revision: 1.6 $ $Date: 2003/04/11 06:49:37 $
  */
 class SarLoaderResolver
     extends DefaultLoaderResolver
