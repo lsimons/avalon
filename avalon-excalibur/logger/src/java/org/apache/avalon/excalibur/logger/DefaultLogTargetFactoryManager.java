@@ -67,7 +67,7 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
  * from a configuration file.
  *
  * @author <a href="mailto:giacomo@apache.org">Giacomo Pati</a>
- * @version CVS $Revision: 1.11 $ $Date: 2003/05/27 07:30:27 $
+ * @version CVS $Revision: 1.12 $ $Date: 2003/06/02 13:53:33 $
  * @since 4.0
  */
 public class DefaultLogTargetFactoryManager
@@ -106,10 +106,8 @@ public class DefaultLogTargetFactoryManager
      * Reads a context object.
      *
      * @param context The context object.
-     * @throws ContextException if the context is malformed
      */
     public final void contextualize( final Context context )
-        throws ContextException
     {
         m_context = context;
         try
@@ -118,6 +116,7 @@ public class DefaultLogTargetFactoryManager
         }
         catch( ContextException ce )
         {
+            m_classLoader = Thread.currentThread().getContextClassLoader();
         }
     }
 
@@ -142,28 +141,12 @@ public class DefaultLogTargetFactoryManager
                 Class clazz = null;
 
                 //First lets try the supplied ClassLoader
-                if( null != m_classLoader )
+                try
                 {
-                    try
-                    {
-                        clazz = m_classLoader.loadClass( factoryClass );
-                    }
-                    catch( final ClassNotFoundException cnfe )
-                    {
-                    }
+                    clazz = m_classLoader.loadClass( factoryClass );
                 }
-
-                //Next lets try the context ClassLoader
-                final ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-                if( null == clazz && null != classLoader )
+                catch( final ClassNotFoundException cnfe )
                 {
-                    try
-                    {
-                        clazz = classLoader.loadClass( factoryClass );
-                    }
-                    catch( final ClassNotFoundException cnfe )
-                    {
-                    }
                 }
 
                 //Okay now lets try classLoader this class was loaded from
