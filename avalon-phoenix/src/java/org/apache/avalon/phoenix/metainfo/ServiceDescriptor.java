@@ -19,7 +19,6 @@ import org.apache.avalon.framework.Version;
 public final class ServiceDescriptor
 {
     private final Version m_version;
-
     private final String m_name;
 
     /**
