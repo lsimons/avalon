@@ -54,25 +54,27 @@
  */
 package org.apache.log.output.lf5;
 
-import org.apache.log.*;
-import org.apache.log.format.Formatter;
-import org.apache.log.util.StackIntrospector;
-
 import java.util.Arrays;
 import java.util.List;
-
-import org.apache.log4j.lf5.LogRecord;
+import org.apache.log.ContextMap;
+import org.apache.log.LogEvent;
+import org.apache.log.Logger;
+import org.apache.log.Priority;
+import org.apache.log.format.Formatter;
+import org.apache.log.util.StackIntrospector;
 import org.apache.log4j.lf5.LogLevel;
+import org.apache.log4j.lf5.LogRecord;
 
 /**
  * An implementation of a LogFactor5 <code>LogRecord</code> based on a
  * LogKit {@link LogEvent}.
  *
  * @author <a href="sylvain@apache.org">Sylvain Wallez</a>
- * @version CVS $Revision: 1.4 $ $Date: 2003/02/09 23:33:24 $
+ * @version CVS $Revision: 1.5 $ $Date: 2003/04/07 11:36:51 $
  */
 
-public class LogKitLogRecord extends LogRecord
+public class LogKitLogRecord
+    extends LogRecord
 {
     /** Is this a severe event ? */
     private boolean m_severe;
@@ -87,49 +89,49 @@ public class LogKitLogRecord extends LogRecord
         Object contextObject;
 
         // Category
-        this.setCategory( event.getCategory() );
+        setCategory( event.getCategory() );
 
         // Level
-        this.setLevel( toLogLevel( event.getPriority() ) );
+        setLevel( toLogLevel( event.getPriority() ) );
         m_severe = event.getPriority().isGreater( Priority.INFO );
 
         // Location
-        if ( null != contextMap && null != ( contextObject = contextMap.get( "method" ) ) )
+        if( null != contextMap && null != ( contextObject = contextMap.get( "method" ) ) )
         {
-            this.setLocation( contextObject.toString() );
+            setLocation( contextObject.toString() );
         }
         else
         {
-            this.setLocation( StackIntrospector.getCallerMethod( Logger.class ) );
+            setLocation( StackIntrospector.getCallerMethod( Logger.class ) );
         }
 
         // Message
-        this.setMessage( event.getMessage() );
+        setMessage( event.getMessage() );
 
         // Millis
-        this.setMillis( event.getTime() );
+        setMillis( event.getTime() );
 
         // NDC
-        this.setNDC( fmt.format(event) );
+        setNDC( fmt.format( event ) );
 
         // SequenceNumber
-        //this.setSequenceNumber( 0L );
+        //setSequenceNumber( 0L );
 
         // ThreadDescription
         if( null != contextMap && null != ( contextObject = contextMap.get( "thread" ) ) )
         {
-            this.setThreadDescription( contextObject.toString() );
+            setThreadDescription( contextObject.toString() );
         }
         else
         {
-            this.setThreadDescription( Thread.currentThread().getName() );
+            setThreadDescription( Thread.currentThread().getName() );
         }
 
         // Thrown
-        this.setThrown( event.getThrowable() );
+        setThrown( event.getThrowable() );
 
         // ThrownStackTrace
-        //this.setThrownStackTrace("");
+        //setThrownStackTrace("");
     }
 
     public boolean isSevereLevel()
@@ -142,25 +144,37 @@ public class LogKitLogRecord extends LogRecord
      */
     public LogLevel toLogLevel( final Priority priority )
     {
-        if ( Priority.DEBUG == priority )
+        if( Priority.DEBUG == priority )
+        {
             return LogLevel.DEBUG;
-        else if ( Priority.INFO == priority )
+        }
+        else if( Priority.INFO == priority )
+        {
             return LogLevel.INFO;
-        else if ( Priority.WARN == priority )
+        }
+        else if( Priority.WARN == priority )
+        {
             return LogLevel.WARN;
-        else if ( Priority.ERROR == priority )
+        }
+        else if( Priority.ERROR == priority )
+        {
             return LogLevel.ERROR;
-        else if ( Priority.FATAL_ERROR == priority )
+        }
+        else if( Priority.FATAL_ERROR == priority )
+        {
             return LogLevel.FATAL;
+        }
         else
+        {
             return new LogLevel( priority.getName(), priority.getValue() );
+        }
     }
 
     /**
      * The <code>LogLevel</code>s corresponding to LogKit priorities.
      */
     public static final List LOGKIT_LOGLEVELS =
-        Arrays.asList(new LogLevel[] {
+        Arrays.asList( new LogLevel[]{
             LogLevel.FATAL, LogLevel.ERROR, LogLevel.WARN, LogLevel.INFO, LogLevel.DEBUG
-        });
+        } );
 }
