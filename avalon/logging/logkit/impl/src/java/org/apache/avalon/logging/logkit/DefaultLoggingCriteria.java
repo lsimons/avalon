@@ -20,6 +20,7 @@ package org.apache.avalon.logging.logkit;
 import java.io.File;
 import java.net.URL;
 import java.io.IOException;
+import java.util.Properties;
 
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.DefaultConfiguration;
@@ -38,6 +39,8 @@ import org.apache.avalon.repository.main.DefaultBuilder;
 import org.apache.avalon.util.criteria.CriteriaException;
 import org.apache.avalon.util.criteria.Criteria;
 import org.apache.avalon.util.criteria.Parameter;
+import org.apache.avalon.util.defaults.Defaults;
+import org.apache.avalon.util.defaults.DefaultsBuilder;
 
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
@@ -50,7 +53,7 @@ import org.apache.excalibur.configuration.ConfigurationUtil;
  * for application to a LoggingManager factory.
  *
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class DefaultLoggingCriteria extends Criteria 
   implements LoggingCriteria
@@ -59,11 +62,14 @@ public class DefaultLoggingCriteria extends Criteria
     // static
     //--------------------------------------------------------------
 
-    private static final File BASEDIR = getDefaultBaseDirectory();
+    private static final String[] KEYS = 
+      new String[]{
+        LOGGING_CONFIGURATION_KEY,
+        LOGGING_BASEDIR_KEY,
+        LOGGING_DEBUG_KEY,
+        LOGGING_BOOTSTRAP_KEY };
 
-    private static final String IMPLEMENTATION_KEY = "avalon.logging.implementation";
-
-    private static final String LOGGING_PROPERTIES = "avalon.properties";
+    private static final String DEFAULTS = "/avalon.logging.properties";
 
     private static final Resources REZ =
       ResourceManager.getPackageResources( DefaultLoggingCriteria.class );
@@ -81,7 +87,7 @@ public class DefaultLoggingCriteria extends Criteria
             new Parameter( 
               LOGGING_BASEDIR_KEY, 
               File.class, 
-              BASEDIR ),
+              context.getInitialWorkingDirectory() ),
             new Parameter( 
               LOGGING_DEBUG_KEY, 
               Boolean.class, 
@@ -90,17 +96,6 @@ public class DefaultLoggingCriteria extends Criteria
               LOGGING_BOOTSTRAP_KEY, 
               new ConsoleLogger( ConsoleLogger.LEVEL_WARN ) )
         };
-    }
-
-    private static File getDefaultBaseDirectory()
-    {
-        String base = System.getProperty( "basedir" );
-        if( null != base )
-        {
-            return getCanonicalForm( new File( base ) );
-        }
-        return getCanonicalForm( 
-          new File( System.getProperty( "user.dir" ) ) );
     }
 
     //--------------------------------------------------------------
@@ -121,6 +116,42 @@ public class DefaultLoggingCriteria extends Criteria
     {
         super( buildParameters( context ) );
         m_context = context;
+
+        try
+        {
+            //
+            // get the properties declared relative to the application
+            //
+
+            final String key = context.getApplicationKey();
+            final File work = context.getInitialWorkingDirectory();
+            DefaultsBuilder builder = new DefaultsBuilder( key, work );
+            Properties bootstrap = 
+              Defaults.getStaticProperties( 
+                DefaultLoggingCriteria.class, DEFAULTS );
+            Properties properties = 
+              builder.getConsolidatedProperties( bootstrap, KEYS );
+
+            //
+            // apply any non-null properties to the criteria
+            //
+
+            for( int i=0; i<KEYS.length; i++ )
+            {
+                final String propertyKey = KEYS[i];
+                final String value = properties.getProperty( propertyKey );
+                if( null != value )
+                {
+                    put( propertyKey, value );
+                }
+            }
+        }
+        catch ( IOException e )
+        {
+            throw new LoggingRuntimeException( 
+             "Failed to load implementation defaults resource: "
+             + DEFAULTS, e );
+        }
     }
 
     //--------------------------------------------------------------
@@ -191,26 +222,6 @@ public class DefaultLoggingCriteria extends Criteria
     }
 
    /**
-    * Return the artifact reference to the logging implementation factory .
-    * @return the logging implementation factory classname
-    * @exception IllegalStateException if the url is not an artifact url
-    */
-    /*
-    public Artifact getFactoryArtifact() throws IOException
-    {
-        String value = (String) get( FACTORY_ARTIFACT_KEY );
-        if( null == value )
-        {
-            return getDefaultImplementationArtifact( m_context );
-        }
-        else
-        {
-            return Artifact.createArtifact( value );
-        }
-    }
-    */
-
-   /**
     * Return debug policy.  If TRUE all logging channels will be 
     * set to debug level.
     *
@@ -238,5 +249,4 @@ public class DefaultLoggingCriteria extends Criteria
             throw new LoggingRuntimeException( error, e );
         }
     }
-
 }

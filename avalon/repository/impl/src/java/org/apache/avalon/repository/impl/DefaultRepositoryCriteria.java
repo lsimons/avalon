@@ -45,7 +45,7 @@ import org.apache.avalon.util.defaults.DefaultsBuilder;
  * for application to a factory.
  *
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public class DefaultRepositoryCriteria extends Criteria implements RepositoryCriteria
 {
@@ -72,47 +72,6 @@ public class DefaultRepositoryCriteria extends Criteria implements RepositoryCri
         REPOSITORY_REMOTE_HOSTS,
         ",",
         null );
-
-
-   /**
-    * Repository proxy host parameter descriptor.
-    */
-    //public static final String REPOSITORY_PROXY_HOST = "avalon.repository.proxy.host";
-    //private static final Parameter REPOSITORY_PROXY_HOST_PARAM = 
-    //  new Parameter( 
-    //    REPOSITORY_PROXY_HOST,
-    //    String.class,
-    //    null );
-
-   /**
-    * Repository proxy port parameter descriptor.
-    */
-    //public static final String REPOSITORY_PROXY_PORT = "avalon.repository.proxy.port";
-    //private static final Parameter REPOSITORY_PROXY_PORT_PARAM = 
-    //  new Parameter( 
-    //    REPOSITORY_PROXY_PORT,
-    //    Integer.class,
-    //    null );
-
-   /**
-    * Repository proxy username parameter descriptor.
-    */
-    //public static final String REPOSITORY_PROXY_USERNAME = "avalon.repository.proxy.username";
-    //private static final Parameter REPOSITORY_PROXY_USERNAME_PARAM = 
-    //  new Parameter( 
-    //    REPOSITORY_PROXY_USERNAME,
-    //    String.class,
-    //    null );
-
-   /**
-    * Repository proxy password parameter descriptor.
-    */
-    //public static final String REPOSITORY_PROXY_PASSWORD = "avalon.repository.proxy.password";
-    //private static final Parameter REPOSITORY_PROXY_PASSWORD_PARAM = 
-    //  new Parameter( 
-    //    REPOSITORY_PROXY_PASSWORD,
-    //    String.class,
-    //    null );
 
    /**
     * The factory parameters template.
@@ -164,86 +123,19 @@ public class DefaultRepositoryCriteria extends Criteria implements RepositoryCri
               builder.getConsolidatedProperties( bootstrap, SINGLE_KEYS );
 
             //
-            // override values aquired from the initial context
+            // Populate the empty repository criteria using
+            // the values from the consilidated defaults.
             //
 
-            put( 
-              REPOSITORY_CACHE_DIR, 
-              context.getInitialCacheDirectory() );
-            put( 
-              REPOSITORY_REMOTE_HOSTS, 
-              context.getInitialHosts() );
-
-            //
-            // Create the finder (discovery policy), construct the defaults, and
-            // macro expand the values.
-            //
-            //
-            //final DefaultsFinder[] finders = {
-            //    new SimpleDefaultsFinder( new Properties[] { bootstrap }, false ), 
-            //    new SystemDefaultsFinder() };
-            // 
-            //Defaults defaults = new Defaults( SINGLE_KEYS, MULTI_VALUE_KEYS, finders );
-            //Defaults.macroExpand( defaults, new Properties[]{ System.getProperties() } );
-            //
-
-            //
-            // Here we start to populate the empty repository criteria using
-            // the values from the consilidated defaults
-            //
-
-            String cache = 
-              properties.getProperty( REPOSITORY_CACHE_DIR );
-            if( null != cache )
+            for( int i=0; i<SINGLE_KEYS.length; i++ )
             {
-                put( 
-                  REPOSITORY_CACHE_DIR, 
-                  new File( cache ) );
-            }
-
-            try
-            {
-                String hosts = 
-                  properties.getProperty( REPOSITORY_REMOTE_HOSTS );
-                if( null != hosts )
+                final String propertyKey = SINGLE_KEYS[i];
+                final String value = properties.getProperty( propertyKey );
+                if( null != value )
                 {
-                    put( REPOSITORY_REMOTE_HOSTS, hosts );
+                    put( propertyKey, value );
                 }
             }
-            catch ( Throwable e )
-            {
-                final String error = 
-                  "Failed to set remote repositories.";
-                throw new RepositoryException( error, e );
-            }
-
-            //if( properties.containsKey( REPOSITORY_PROXY_HOST ) )
-            //{    
-            //    put(
-            //      REPOSITORY_PROXY_HOST, 
-            //      new Integer( properties.getProperty( REPOSITORY_PROXY_HOST ) ) );
-    
-            //    if( properties.containsKey( REPOSITORY_PROXY_PORT ) )
-            //    {
-            //        put(
-            //          REPOSITORY_PROXY_PORT, 
-            //          new Integer( properties.getProperty( REPOSITORY_PROXY_PORT ) ) );
-            //    }
-    
-            //    if( properties.containsKey( REPOSITORY_PROXY_USERNAME ) )
-            //    {
-            //        put(
-            //          REPOSITORY_PROXY_USERNAME, 
-            //          properties.getProperty( REPOSITORY_PROXY_USERNAME ) );
-            //    }
-
-            //    if( properties.containsKey( REPOSITORY_PROXY_PASSWORD ) )
-            //    {
-            //        put(
-            //          REPOSITORY_PROXY_PASSWORD, 
-            //          properties.getProperty( REPOSITORY_PROXY_PASSWORD ) );
-            //    }
-            //}
         }
         catch( IOException ioe )
         {

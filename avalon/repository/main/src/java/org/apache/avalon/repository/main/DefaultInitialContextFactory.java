@@ -79,7 +79,7 @@ import org.apache.avalon.util.defaults.Defaults;
  * </pre>
  * 
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public class DefaultInitialContextFactory implements InitialContextFactory
 {
@@ -131,6 +131,27 @@ public class DefaultInitialContextFactory implements InitialContextFactory
     // ------------------------------------------------------------------------
 
     /**
+     * <p>Creates an initial repository context factory relative to 
+     * the current working directory. This is equivalent to the following
+     * invocation:</p>
+     * <pre>
+     *   final String key = "demo";
+     *   final File work = new File( System.getProperty( "user.dir" );
+     *   InitialContextFactory factory = 
+     *     new DefaultInitialContextFactory( key, work );
+     * </pre>
+     *
+     * @param key the application key
+     * @throws IOException if an error occurs during establishment
+     * @exception NullPointerException if tyhe supplied key is null
+     */
+    public DefaultInitialContextFactory( String key ) 
+      throws IOException
+    {
+        this( key, new File( System.getProperty( "user.dir" ) ) );
+    }
+
+    /**
      * <p>Creates an initial repository context factory.  The supplied 
      * key is used to establish the application root directory and 
      * property files at application, user and working directory 
@@ -171,15 +192,26 @@ public class DefaultInitialContextFactory implements InitialContextFactory
 
         m_key = key;
         m_work = work;
+
         m_defaults = new DefaultsBuilder( key, work );
-        Properties defaults = getDefaultProperties();
+
+        //
+        // pull in the set of properties we need for the construction of
+        // the initial context
+        //
+
         m_properties = 
           m_defaults.getConsolidatedProperties(
-            defaults, 
+            getDefaultProperties(), 
             KEYS );
         Defaults.macroExpand( 
             m_properties, 
             new Properties[]{ m_properties } );
+
+        //
+        // retrieve the property defining the implementation
+        // artifact for the initial repository
+        //
 
         String spec = m_properties.getProperty( 
           InitialContext.IMPLEMENTATION_KEY );
