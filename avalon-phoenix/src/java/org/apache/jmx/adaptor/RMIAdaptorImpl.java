@@ -153,7 +153,7 @@ public class RMIAdaptorImpl
     }
 
     public AttributeList getAttributes( final ObjectName name, final String[] attributes )
-        throws InstanceNotFoundException, ReflectionException
+        throws InstanceNotFoundException, ReflectionException, RemoteException
     {
         return m_server.getAttributes( name, attributes );
     }
