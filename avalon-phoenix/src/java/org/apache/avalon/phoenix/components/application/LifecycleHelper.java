@@ -33,6 +33,10 @@ import org.apache.avalon.phoenix.metadata.BlockMetaData;
 import org.apache.avalon.phoenix.metadata.DependencyMetaData;
 
 /**
+ * This is a class to help an Application manage lifecycle of 
+ * <code>Blocks</code> and <code>BlockListeners</code>. The 
+ * class will run each individual Entry through each lifecycle stage,
+ * and manage erros in a consistent way.
  *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
@@ -51,6 +55,13 @@ class LifecycleHelper
      */
     private Application          m_application;
 
+    /**
+     * Construct helper object for specified application, 
+     * in specified frame.
+     *
+     * @param application the APplication that this object is helper to
+     * @param frame the frame in which this helper operates
+     */
     protected LifecycleHelper( final Application application,
                                final ApplicationFrame frame )
     {
@@ -58,6 +69,19 @@ class LifecycleHelper
         m_frame = frame;
     }
 
+
+    /**
+     * Method to run a <code>Block</code> through it's startup phase.
+     * This will involve notification of <code>BlockListener</code>
+     * objects, creation of the Block/Block Proxy object, calling the startup 
+     * Avalon Lifecycle methods and updating State property of BlockEntry. 
+     * Errors that occur during shutdown will be logged appropriately and
+     * cause exceptions with useful messages to be raised.
+     *
+     * @param entry the entry containing Block
+     * @exception Exception if an error occurs when blocks passes 
+     *            through a secific lifecycle stage
+     */
     public void startup( final BlockEntry entry )
         throws Exception
     {
@@ -73,7 +97,7 @@ class LifecycleHelper
             //Creation stage
             stage = 0;
             notice( name, stage );
-            final Block block = createBlock( name, metaData );
+            final Block block = createBlock( metaData );
 
             //Loggable stage
             stage = 1;
@@ -97,8 +121,7 @@ class LifecycleHelper
             if( block instanceof Composable )
             {
                 notice( name, stage );
-                final ComponentManager componentManager =
-                    createComponentManager( name, metaData );
+                final ComponentManager componentManager = createComponentManager( metaData );
                 ((Composable)block).compose( componentManager );
             }
 
@@ -141,8 +164,16 @@ class LifecycleHelper
         }
     }
 
+    /**
+     * Method to run a <code>Block</code> through it's shutdown phase.
+     * This will involve notification of <code>BlockListener</code>
+     * objects, invalidating the proxy object, calling the shutdown 
+     * Avalon Lifecycle methods and updating State property of BlockEntry. 
+     * Errors that occur during shutdown will be logged appropraitely.
+     *
+     * @param entry the entry containing Block
+     */
     public void shutdown( final BlockEntry entry )
-        throws Exception
     {
         final BlockMetaData metaData = entry.getMetaData();
         final String name = metaData.getName();
@@ -195,7 +226,15 @@ class LifecycleHelper
         entry.setState( State.DESTROYED );
     }
 
-    private Block createBlock( final String name, final BlockMetaData metaData )
+    /**
+     * Utility method to create a <code>Block</code> object
+     * from specified BlockMetaData.
+     *
+     * @param metaData the BlockMetaData
+     * @return the newly created Block object
+     * @exception Exception if an error occurs
+     */
+    private Block createBlock( final BlockMetaData metaData )
         throws Exception
     {
         final ClassLoader classLoader = m_frame.getClassLoader();
@@ -203,6 +242,15 @@ class LifecycleHelper
         return (Block)clazz.newInstance();
     }
 
+    /**
+     * Retrieve a configuration for specified component.
+     * If the configuration is missing then a exception
+     * is raised with an appropraite error message.
+     *
+     * @param name the name of component
+     * @return the Configuration object
+     * @exception ConfigurationException if an error occurs
+     */
     private Configuration getConfiguration( final String name )
         throws ConfigurationException
     {
@@ -218,14 +266,16 @@ class LifecycleHelper
     }
 
     /**
-     * Build a ComponentManager for a specific Block.
+     * Create a <code>ComponentManager</code> object for a 
+     * specific <code>Block</code>. This requires that for
+     * each dependency a reference to providing <code>Block</code>
+     * is aaqiured from the Application and placing it in 
+     * <code>ComponentManager</code> under the correct name.
      *
-     * @param name the name of the block
-     * @param entry the BlockEntry
+     * @param metaData the BlockMetaData representing block
      * @return the created ComponentManager
      */
-    private ComponentManager createComponentManager( final String name, final BlockMetaData metaData )
-        throws Exception
+    private ComponentManager createComponentManager( final BlockMetaData metaData )
     {
         final DefaultComponentManager componentManager = new DefaultComponentManager();
         final DependencyMetaData[] roles = metaData.getDependencies();
@@ -240,6 +290,12 @@ class LifecycleHelper
         return componentManager;
     }
 
+    /**
+     * Utility method to report that a lifecycle stage is about to be processed.
+     *
+     * @param name the name of block that caused failure
+     * @param stage the stage
+     */
     private void notice( final String name, final int stage )
     {
         if( getLogger().isDebugEnabled() )
@@ -250,8 +306,15 @@ class LifecycleHelper
         }
     }
 
+    /**
+     * Utility method to report that there was an error processing
+     * specified lifecycle stage.
+     *
+     * @param name the name of block that caused failure
+     * @param stage the stage
+     * @param t the exception thrown
+     */
     private void safeFail( final String name, final int stage, final Throwable t )
-        throws Exception
     {
         final String reason = t.getMessage();
         final String message =
@@ -259,6 +322,16 @@ class LifecycleHelper
         getLogger().error( message );
     }
 
+    /**
+     * Utility method to report that there was an error processing
+     * specified lifecycle stage. It will also rethrow an exception
+     * with a better error message.
+     *
+     * @param name the name of block that caused failure
+     * @param stage the stage
+     * @param t the exception thrown
+     * @exception Exception containing error
+     */
     private void fail( final String name, final int stage, final Throwable t )
         throws Exception
     {
