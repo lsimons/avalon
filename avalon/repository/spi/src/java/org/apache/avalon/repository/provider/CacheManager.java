@@ -61,7 +61,7 @@ import org.apache.avalon.repository.RepositoryException;
  * for repository creation.
  *
  * @author <a href="mailto:mcconnell@osm.net">Stephen McConnell</a>
- * @version $Revision: 1.2 $ $Date: 2003/12/07 03:15:16 $
+ * @version $Revision: 1.3 $ $Date: 2004/01/21 03:24:32 $
  */
 public interface CacheManager
 {        
@@ -70,8 +70,8 @@ public interface CacheManager
      * 
      * @return the cache directory
      */
-    File getCacheDirectory() ;
-    
+    File getCacheDirectory();
+
     /**
      * Install a block archive into the repository.
      * @param url the block archive url

@@ -7,7 +7,7 @@
   <groupId>avalon-util</groupId>
   <id>avalon-util-defaults</id>
   <name>Avalon Property Defaults</name>
-  <currentVersion>1.1</currentVersion>
+  <currentVersion>1.2-SNAPSHOT</currentVersion>
 
   <package>org.apache.avalon.util.defaults</package>
 
@@ -19,7 +19,7 @@
     <dependency>
       <groupId>avalon-util</groupId>
       <artifactId>avalon-util-env</artifactId>
-      <version>1.0</version>
+      <version>1.1-SNAPSHOT</version>
     </dependency>
 
   </dependencies>
