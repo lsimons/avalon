@@ -44,6 +44,7 @@ import org.apache.avalon.http.HttpRequestHandler;
 import org.apache.avalon.http.HttpContextService;
 
 import org.mortbay.http.HttpContext;
+import org.mortbay.http.HttpException;
 import org.mortbay.http.HttpHandler;
 import org.mortbay.http.HttpRequest;
 import org.mortbay.http.HttpResponse;
@@ -136,6 +137,7 @@ public class ModelHandler
 
     public void handle( String pathInContext, String pathParams, 
                         HttpRequest request, HttpResponse response ) 
+        throws HttpException
     {
         getLogger().info( "Request: " + pathInContext + ", " + pathParams );
     }

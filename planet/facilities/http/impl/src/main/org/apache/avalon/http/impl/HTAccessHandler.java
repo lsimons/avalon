@@ -110,19 +110,23 @@ public class HTAccessHandler
     }
  
     public void start()
+        throws Exception
     {
-        if( m_Logger.isDebugEnabled() )
-            m_Logger.debug( "Starting HTAccessHandler: " + this );
         if( m_Index >= 0 )
             m_Context.addHandler( m_Index, this );
         else
             m_Context.addHandler( this );
+        if( m_Logger.isDebugEnabled() )
+            m_Logger.debug( "Starting HTAccessHandler: " + this );
+        super.start();
     }
     
     public void stop()
+        throws InterruptedException
     {
         if( m_Logger.isDebugEnabled() )
             m_Logger.debug( "Stopping HTAccessHandler: " + this );
+        super.stop();
         m_Context.removeHandler( this );
     }
 } 

@@ -32,23 +32,22 @@ import org.apache.avalon.framework.service.ServiceManager;
 
 import org.apache.avalon.http.HttpService;
 
+import org.mortbay.http.HttpListener;
 import org.mortbay.http.SocketListener;
 
 /** Wrapper for the Jetty SocketListener.
  *
  * @avalon.component name="http-socket-listener" lifestyle="singleton"
+ * @avalon.service type="org.mortbay.http.HttpListener"
  */
-public class SocketListenerComponent
-    implements Parameterizable, Startable, Serviceable, LogEnabled
+public class SocketListenerComponent extends SocketListener
+    implements Parameterizable, Startable, Serviceable, LogEnabled, HttpListener
 {
-    private SocketListener m_SocketListener;
-    
     private HttpService m_HttpServer;
     private Logger      m_Logger;
     
     public SocketListenerComponent()
     {
-        m_SocketListener = new SocketListener();
     }
     
     /**
@@ -71,51 +70,51 @@ public class SocketListenerComponent
     {
         int reserve = params.getParameterAsInteger( "buffer-reserve", -1 );
         if( reserve > 0 )
-            m_SocketListener.setBufferReserve( reserve );
+            setBufferReserve( reserve );
         
         int size = params.getParameterAsInteger( "buffer-size", -1 );
         if( size > 0 )
-            m_SocketListener.setBufferSize( size );
+            setBufferSize( size );
     
         int confPort = params.getParameterAsInteger( "confidential-port", -1 );
         if( confPort > 0 )
-            m_SocketListener.setConfidentialPort( confPort );
+            setConfidentialPort( confPort );
         
         String confScheme = params.getParameter( "confidential-scheme", null );
         if( confScheme != null )
-            m_SocketListener.setConfidentialScheme( confScheme );
+            setConfidentialScheme( confScheme );
     
         String defScheme = params.getParameter( "default-scheme", null );
         if( defScheme != null )
-            m_SocketListener.setDefaultScheme( defScheme );
+            setDefaultScheme( defScheme );
         
         int integralPort = params.getParameterAsInteger( "integral-port", -1 );
         if( integralPort > 0 )
-            m_SocketListener.setIntegralPort( integralPort );
+            setIntegralPort( integralPort );
         
         String integralScheme = params.getParameter( "integral-scheme", null );
         if( integralScheme != null )
-            m_SocketListener.setIntegralScheme( integralScheme );
+            setIntegralScheme( integralScheme );
     
         String host = params.getParameter( "hostname", null );
         try
         {
             if( host != null )
-                m_SocketListener.setHost( host );
+                setHost( host );
         } catch( java.net.UnknownHostException e )
         {
             throw new ParameterException( "Unknown hostname: " + host );
         }
         
         int port = params.getParameterAsInteger( "port", 8080 );
-        m_SocketListener.setPort( port );
+        setPort( port );
         
         int lowResMs = params.getParameterAsInteger( "low-resource-persist-ms", -1 );
         if( lowResMs > 0 )
-            m_SocketListener.setLowResourcePersistTimeMs( lowResMs );
+            setLowResourcePersistTimeMs( lowResMs );
         
         boolean identify = params.getParameterAsBoolean( "identify-listener", false );
-        m_SocketListener.setIdentifyListener( identify );
+        setIdentifyListener( identify );
         
         
     }
@@ -134,17 +133,17 @@ public class SocketListenerComponent
         throws Exception
     {
         if( m_Logger.isDebugEnabled() )
-            m_Logger.debug( "Starting socket: " + m_SocketListener );
-        m_HttpServer.addListener( m_SocketListener );
-        m_SocketListener.start();
+            m_Logger.debug( "Starting socket: " + this );
+        m_HttpServer.addListener( this );
+        super.start();
     }
     
     public void stop()
-        throws Exception
+        throws InterruptedException
     {
         if( m_Logger.isDebugEnabled() )
-            m_Logger.debug( "Stopping socket: " + m_SocketListener );
-        m_SocketListener.stop();
-        m_HttpServer.removeListener( m_SocketListener );
+            m_Logger.debug( "Stopping socket: " + this );
+        super.stop();
+        m_HttpServer.removeListener( this );
     }
 } 

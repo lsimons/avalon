@@ -102,19 +102,23 @@ public class NotFoundHandler
     }
  
     public void start()
+        throws Exception
     {
-        if( m_Logger.isDebugEnabled() )
-            m_Logger.debug( "Starting NotFoundHandler: " + this );
         if( m_Index >= 0 )
             m_Context.addHandler( m_Index, this );
         else
             m_Context.addHandler( this );
+        if( m_Logger.isDebugEnabled() )
+            m_Logger.debug( "Starting NotFoundHandler: " + this );
+        super.start();
     }
     
     public void stop()
+        throws InterruptedException
     {
         if( m_Logger.isDebugEnabled() )
             m_Logger.debug( "Stopping NotFoundHandler: " + this );
+        super.stop();
         m_Context.removeHandler( this );
     }
 } 

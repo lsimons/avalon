@@ -90,7 +90,10 @@ public class HttpContextImpl
     }
     
     /** 
-     * @avalon.entry key="urn:avalon:temp" type="java.io.File"
+     * @avalon.entry key="urn:avalon:temp" 
+     *               type="java.io.File"
+     * @avalon.entry key="urn:avalon:classloader" 
+     *               type="java.lang.ClassLoader"
      */
     public void contextualize( Context ctx )
         throws ContextException
@@ -98,6 +101,9 @@ public class HttpContextImpl
         File tmpDir = (File) ctx.get( "urn:avalon:temp" );
         tmpDir.mkdirs();
         m_HttpContext.setTempDirectory( tmpDir );
+    
+        ClassLoader cl = (ClassLoader) ctx.get( "urn:avalon:classloader" );
+        m_HttpContext.setClassLoader( cl );
     }
     
     /**

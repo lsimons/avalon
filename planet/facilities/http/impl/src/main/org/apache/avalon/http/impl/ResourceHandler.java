@@ -17,6 +17,8 @@
 
 package org.apache.avalon.http.impl;
 
+import java.io.IOException;
+
 import org.apache.avalon.framework.activity.Startable;
 
 import org.apache.avalon.framework.context.Context;
@@ -35,6 +37,11 @@ import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 
 import org.apache.avalon.http.HttpContextService;
+
+import org.mortbay.http.HttpException;
+import org.mortbay.http.HttpRequest;
+import org.mortbay.http.HttpResponse;
+import org.mortbay.util.Resource;
 
 /**
  * @avalon.component name="http-resource-handler" lifestyle="singleton"
@@ -122,21 +129,42 @@ public class ResourceHandler
     }
  
     public void start()
+        throws Exception
     {
-        if( m_Logger.isDebugEnabled() )
-            m_Logger.debug( "Starting ResourceHandler: " + this );
         if( m_Index >= 0 )
             m_Context.addHandler( m_Index, this );
         else
             m_Context.addHandler( this );
+        if( m_Logger.isDebugEnabled() )
+            m_Logger.debug( "Starting ResourceHandler: " + this );
+        super.start();
     }
     
     public void stop()
+        throws InterruptedException
     {
         if( m_Logger.isDebugEnabled() )
             m_Logger.debug( "Stopping ResourceHandler: " + this );
+        super.stop();
         m_Context.removeHandler( this );
     }
    
+    public void handle( String pathInContext, String pathParams, 
+                        HttpRequest request, HttpResponse response ) 
+        throws HttpException, IOException
+    {
+        getLogger().info( "(ResourceHandler): " + pathInContext + ", " + pathParams );
+        super.handle( pathInContext, pathParams, request, response );
+    }
+
+    public void handleGet( HttpRequest request, HttpResponse response,
+                           String pathInContext, String pathParams,
+                           Resource resource 
+                         ) 
+        throws IOException
+    {
+        getLogger().info( "(ResourceHandler)/GET: " + pathInContext + ", " + pathParams + ", " + resource);
+        super.handleGet( request, response, pathInContext, pathParams, resource );
+    }
 
 }
