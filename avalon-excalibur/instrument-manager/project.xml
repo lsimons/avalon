@@ -5,7 +5,7 @@
 
     <name>excalibur-instrument-manager</name>
     <id>excalibur-instrument-manager</id>
-    <currentVersion>1.1-dev</currentVersion>
+    <currentVersion>1.2</currentVersion>
     <inceptionYear>1997</inceptionYear>
     <shortDescription>Excalibur Instrument Manager</shortDescription>
     <description>
@@ -41,7 +41,7 @@
         </dependency>
         <dependency>
             <id>excalibur-instrument</id>
-            <version>SNAPSHOT</version>
+            <version>1.2</version>
         </dependency>
     </dependencies>
 
