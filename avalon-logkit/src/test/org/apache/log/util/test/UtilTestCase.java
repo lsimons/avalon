@@ -33,7 +33,7 @@ public final class UtilTestCase
 
     private final static String MSG = "No soup for you!";
     private final static String RMSG = MSG;
-    private final static String METHOD_RESULT = UtilTestlet.class.getName() + ".";
+    private final static String METHOD_RESULT = UtilTestCase.class.getName() + ".";
 
     public UtilTestCase( final String name )
     {

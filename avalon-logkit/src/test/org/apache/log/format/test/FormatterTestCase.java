@@ -125,7 +125,7 @@ public final class FormatterTestCase
     private static String E2_PATTERN8 = "[]: " + M2 + "\n";
     private static String E3_PATTERN8 = "[]: " + M3 + "\n";
 
-    private static String CLASS_PREFIX = FormatterTestlet.class.getName() + ".";
+    private static String CLASS_PREFIX = FormatterTestCase.class.getName() + ".";
 
     private static String PATTERN9 = "[%{method}]: %{message}\\n";
     private static String E1_PATTERN9 = "[com.biz.MyObject.myMethod(MyObject:53)]: " + M1 + "\n";
