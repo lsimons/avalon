@@ -30,7 +30,7 @@ public class TestRotatingFileOutputLogTarget
 
     /** test file rotation by size, using unique filenames
      */
-    public void testSizeRotationUniqueFilename() 
+    public void testSizeUnique() 
         throws Exception
     {
         final File file = new File( "test/size-unique.log" );
@@ -43,7 +43,7 @@ public class TestRotatingFileOutputLogTarget
 
     /** test file rotation by size, using revolving filenames
      */
-    public void testSizeRotationRevolingFilename() 
+    public void testSizeRevoling() 
         throws Exception
     {
         final File file = new File( "test/size-revolve.log" );
@@ -56,7 +56,7 @@ public class TestRotatingFileOutputLogTarget
 
     /** test file rotation by time, using unique filenames
      */
-    public void testTimeRotationUniqueFilename() 
+    public void testTimeUnique() 
         throws Exception
     {
         final File file = new File( "test/time-unique.log" );
@@ -69,7 +69,7 @@ public class TestRotatingFileOutputLogTarget
 
     /** test file rotation by time, using revolving filenames
      */
-    public void testTimeRotationRevolvingFilename() 
+    public void testTimeRevolving() 
         throws Exception
     {
         final File file = new File( "test/time-revolve.log" );
@@ -84,7 +84,6 @@ public class TestRotatingFileOutputLogTarget
     {
         final long startTime = System.currentTimeMillis();
         final long diffTime = 10 * 1000;
-        //final long diffTime = 1 * 1000;
         long endTime = startTime;
 
         int size = 0;
@@ -131,9 +130,9 @@ public class TestRotatingFileOutputLogTarget
         throws Exception
     {
         TestRotatingFileOutputLogTarget trfolt = new TestRotatingFileOutputLogTarget();
-        trfolt.testSizeRotationUniqueFilename();
-        trfolt.testSizeRotationRevolingFilename();
-        trfolt.testTimeRotationUniqueFilename();
-        trfolt.testTimeRotationRevolvingFilename();
+        trfolt.testSizeUnique();
+        trfolt.testSizeRevoling();
+        trfolt.testTimeUnique();
+        trfolt.testTimeRevolving();
     }
 }
