@@ -56,10 +56,7 @@
 package org.apache.excalibur.configuration;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
 import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.configuration.DefaultConfiguration;
 
 /**
@@ -232,86 +229,6 @@ public class ConfigurationUtil
      */
     public static boolean equals( final Configuration c1, final Configuration c2 )
     {
-        return c1.getName().equals( c2.getName() )
-            && isValueEquals( c1, c2 )
-            && isAttributesEqual( c1, c2 )
-            && isChildrenEqual( c1, c2 );
-    }
-
-    private static boolean isChildrenEqual( final Configuration c1, final Configuration c2 )
-    {
-        final Configuration[] kids1 = c1.getChildren();
-        final ArrayList kids2 = new ArrayList( Arrays.asList( c2.getChildren() ) );
-
-        if( kids1.length != kids2.size() )
-        {
-            return false;
-        }
-
-        for( int i = 0; i < kids1.length; i++ )
-        {
-            if( !isMatchingChild( kids1[ i ], kids2 ) )
-            {
-                return false;
-            }
-        }
-
-        return kids2.isEmpty() ? true : false;
-    }
-
-    private static boolean isMatchingChild( final Configuration c, final ArrayList matchAgainst )
-    {
-        final Iterator i = matchAgainst.iterator();
-
-        while( i.hasNext() )
-        {
-            if( equals( c, (Configuration)i.next() ) )
-            {
-                i.remove();
-
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    private static boolean isAttributesEqual( final Configuration c1, final Configuration c2 )
-    {
-        final String[] attr = c1.getAttributeNames();
-
-        if( attr.length != c2.getAttributeNames().length )
-        {
-            return false;
-        }
-
-        for( int i = 0; i < attr.length; i++ )
-        {
-            try
-            {
-                if( !c1.getAttribute( attr[ i ] ).equals( c2.getAttribute( attr[ i ], null ) ) )
-                {
-                    return false;
-                }
-            }
-            catch( ConfigurationException e )
-            {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    private static boolean isValueEquals( final Configuration c1, final Configuration c2 )
-    {
-        final String value1 = c1.getValue( null );
-        final String value2 = c2.getValue( null );
-
-        return ( value1 == null && value2 == null )
-            || ( value1 != null && value1.equals( value2 ) );
+        return org.apache.avalon.framework.configuration.ConfigurationUtil.equals(c1, c2 );
     }
 }
-
-
-
