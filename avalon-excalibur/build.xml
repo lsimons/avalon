@@ -45,6 +45,7 @@ Legal:
 
   <!-- Set the properties for intermediate directory -->
   <property name="build.dir" value="build"/>
+  <property name="build.src" value="${build.dir}/src"/>
   <property name="build.lib" value="${build.dir}/lib"/>
   <property name="build.classes" value="${build.dir}/classes"/>
   <property name="build.scratchpad" value="${build.dir}/scratchpad"/>
