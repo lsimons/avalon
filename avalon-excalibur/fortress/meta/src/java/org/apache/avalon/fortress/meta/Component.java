@@ -68,7 +68,7 @@ import java.util.*;
  * Represents a component, and output the meta information.
  *
  * @author <a href="mailto:dev@avalon.apache.org">The Avalon Team</a>
- * @version CVS $Revision: 1.12 $ $Date: 2003/05/29 20:53:24 $
+ * @version CVS $Revision: 1.13 $ $Date: 2003/05/31 06:52:49 $
  */
 final class Component
 {
@@ -121,6 +121,13 @@ final class Component
         final DocletTag[] tags = javaClass.getTagsByName( TAG_SERVICE );
         for ( int t = 0; t < tags.length; t++ )
         {
+            if ( tags[t].getNamedParameter( Component.ATTR_TYPE ) == null )
+            {
+                throw new BuildException( "The \"type\" tag is missing from the "
+                    + "\"@" + TAG_SERVICE + "\" meta tag in "
+                    + javaClass.getName() );
+            }
+            
             final String serviceName = resolveClassName( m_javaClass.getParentSource(),
                     tags[t].getNamedParameter( Component.ATTR_TYPE ) );
             m_serviceNames.add( serviceName );
@@ -166,6 +173,13 @@ final class Component
                     DocletTag[] dependencies = methods[i].getTagsByName( TAG_DEPENDENCY );
                     for ( int d = 0; d < dependencies.length; d++ )
                     {
+                        if ( dependencies[d].getNamedParameter( ATTR_TYPE ) == null )
+                        {
+                            throw new BuildException( "The \"type\" tag is missing from a "
+                                + "\"@" + TAG_DEPENDENCY + "\" meta tag of the " + METH_SERVICE
+                                + " method in " + fromClass.getName() );
+                        }
+                        
                         String type = resolveClassName( fromClass.getParentSource(),
                                 dependencies[d].getNamedParameter( ATTR_TYPE ) );
                         //String optional = dependencies[d].getNamedParameter("optional");
@@ -364,8 +378,16 @@ final class Component
      */
     protected String resolveClassName( final JavaSource sourceCode, final String serviceName )
     {
-        if ( null == sourceCode ) return null;
-        if ( null == serviceName ) throw new BuildException( "You must specify the service name with the \"type\" parameter" );
+        if ( null == sourceCode )
+        {
+            return null;
+        }
+        if ( null == serviceName )
+        {
+            // This should be checked by the caller so that a message which better
+            //  describes the problem in a given context can be given.
+            throw new IllegalStateException( "The serviceName parameter was null." );
+        }
 
         final String className = stripQuotes( serviceName );
 
