@@ -50,6 +50,8 @@
     </target>
 
     <target name="jdepend" if="do.jdepend" description="Generate Dependency Analysis Report">
+        <mkdir dir="${build.dir}"/>
+        <mkdir dir="${build.reports}"/>
 
         <path id="java.src">
             <pathelement location="altrmi/src/java"/>
