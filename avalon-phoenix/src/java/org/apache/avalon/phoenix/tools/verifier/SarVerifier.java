@@ -18,6 +18,7 @@ import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
 import org.apache.avalon.framework.logger.AbstractLoggable;
 import org.apache.avalon.phoenix.Block;
 import org.apache.avalon.phoenix.BlockListener;
+import org.apache.avalon.phoenix.Service;
 import org.apache.avalon.phoenix.metadata.BlockListenerMetaData;
 import org.apache.avalon.phoenix.metadata.BlockMetaData;
 import org.apache.avalon.phoenix.metadata.DependencyMetaData;
@@ -29,31 +30,31 @@ import org.apache.avalon.phoenix.metainfo.ServiceDescriptor;
 
 /**
  * This Class verifies that Sars are valid. It performs a number
- * of checks to make sure that the Sar represents a valid 
+ * of checks to make sure that the Sar represents a valid
  * application and excluding runtime errors will start up validly.
  * Some of the checks it performs include;
  *
  * <ul>
- *   <li>Verify names of Sar, Blocks and BlockListeners contain only 
+ *   <li>Verify names of Sar, Blocks and BlockListeners contain only
  *       letters, digits or the '_' character.</li>
- *   <li>Verify that the names of the Blocks and BlockListeners are 
+ *   <li>Verify that the names of the Blocks and BlockListeners are
  *       unique to Sar.</li>
- *   <li>Verify that specified Blocks have coresponding BlockInfo 
+ *   <li>Verify that specified Blocks have coresponding BlockInfo
  *       files that are valid and well-formed.</li>
- *   <li>Verify that the dependendencies specified in assembly.xml 
+ *   <li>Verify that the dependendencies specified in assembly.xml
  *       correspond to dependencies specified in BlockInfo files.</li>
- *   <li>Verify that the inter-block dependendencies specified in 
- *       assembly.xml are valid. This essentially means that if  
+ *   <li>Verify that the inter-block dependendencies specified in
+ *       assembly.xml are valid. This essentially means that if
  *       Block A requires Service S from Block B then Block B must
  *       provide Service S.</li>
- *   <li>Verify that there are no circular dependendencies between 
+ *   <li>Verify that there are no circular dependendencies between
  *       blocks.</li>
  *   <li>Verify that the Class objects for Blocks support the Block
  *       interface and any specified Services.</li>
- *   <li>Verify that the Class objects for BlockListeners support the 
+ *   <li>Verify that the Class objects for BlockListeners support the
  *       BlockListener interface.</li>
  * </ul>
- * 
+ *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
 public class SarVerifier
@@ -123,7 +124,7 @@ public class SarVerifier
         {
             final String name = blocks[ i ].getName();
             final String classname = blocks[ i ].getClassname();
-            final BlockInfo blockInfo = 
+            final BlockInfo blockInfo =
                 getBlockInfo( name, classname, infoCache, classLoader );
 
             blocks[ i ].setBlockInfo( blockInfo );
@@ -171,8 +172,8 @@ public class SarVerifier
      * @param blocks the BlockMetaData objects for the blocks
      * @exception VerifyException if an error occurs
      */
-    private void verifyNoCircularDependencies( final BlockMetaData block, 
-                                               final BlockMetaData[] blocks, 
+    private void verifyNoCircularDependencies( final BlockMetaData block,
+                                               final BlockMetaData[] blocks,
                                                final Stack stack )
         throws VerifyException
     {
@@ -184,9 +185,9 @@ public class SarVerifier
             if( stack.contains( dependency ) )
             {
                 final String trace = getDependencyTrace( dependency, stack );
-                final String message = 
+                final String message =
                     REZ.getString( "dependency-circular", block.getName(), trace );
-                throw new VerifyException( message );                
+                throw new VerifyException( message );
             }
 
             stack.push( dependency );
@@ -202,7 +203,7 @@ public class SarVerifier
      * @param stack the Stack
      * @return the path of dependency
      */
-    private String getDependencyTrace( final BlockMetaData block, 
+    private String getDependencyTrace( final BlockMetaData block,
                                        final Stack stack )
     {
         final StringBuffer sb = new StringBuffer();
@@ -214,7 +215,7 @@ public class SarVerifier
         for( int i = top; i >= 0; i-- )
         {
             final BlockMetaData other = (BlockMetaData)stack.get( i );
-            
+
             if( top != i ) sb.append( ", " );
             sb.append( other.getName() );
 
@@ -228,7 +229,7 @@ public class SarVerifier
         return sb.toString();
     }
 
-    private BlockMetaData[] getDependencies( final BlockMetaData block, 
+    private BlockMetaData[] getDependencies( final BlockMetaData block,
                                              final BlockMetaData[] blocks )
         throws VerifyException
     {
@@ -267,7 +268,7 @@ public class SarVerifier
      * @param others the BlockMetaData objects for the other blocks
      * @exception VerifyException if an error occurs
      */
-    private void verifyDependencyReferences( final BlockMetaData block, 
+    private void verifyDependencyReferences( final BlockMetaData block,
                                              final BlockMetaData[] others )
         throws VerifyException
     {
@@ -285,17 +286,17 @@ public class SarVerifier
             final BlockMetaData other = getBlock( blockName, others );
             if( null == other )
             {
-                final String message = 
+                final String message =
                     REZ.getString( "dependency-noblock", blockName, block.getName() );
                 throw new VerifyException( message );
             }
 
-            //make sure that the block offers service 
+            //make sure that the block offers service
             //that user expects it to be providing
             final ServiceDescriptor[] services = other.getBlockInfo().getServices();
             if( !hasMatchingService( service, services ) )
             {
-                final String message = 
+                final String message =
                     REZ.getString( "dependency-noservice", blockName, service, block.getName() );
                 throw new VerifyException( message );
             }
@@ -487,7 +488,7 @@ public class SarVerifier
     }
 
     /**
-     * Return true if specified name is valid. 
+     * Return true if specified name is valid.
      * Valid names consist of letters, digits or the '_' character.
      *
      * @param name the name to check
@@ -499,7 +500,7 @@ public class SarVerifier
         for( int i = 0; i < size; i++ )
         {
             final char ch = name.charAt( i );
-            
+
             if( !Character.isLetterOrDigit( ch ) && '-' != ch )
             {
                 return false;
@@ -714,8 +715,14 @@ public class SarVerifier
                     REZ.getString( "service-not-interface", name, classname );
                 throw new VerifyException( message );
             }
-            
-            //TODO: Verify that Service extends Service interface? or not?
+
+            if( Service.class.isAssignableFrom( classes[ i ] ) )
+            {
+                final String message =
+                    REZ.getString( "service-interface-deprecated", name, classname );
+                getLogger().warn( message );
+                System.err.println( message );
+            }
         }
 
         classes[ services.length ] = Block.class;

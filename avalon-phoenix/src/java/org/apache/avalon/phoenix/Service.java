@@ -12,6 +12,7 @@ package org.apache.avalon.phoenix;
  * A Service is a behavioural contract that an object implements.
  *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
+ * @deprecated This interface has been deprecated with no replacement.
  */
 public interface Service 
 {
