@@ -23,7 +23,7 @@
 
   <properties>
     <author email="niclas@apache.org">Niclas Hedhman</author>
-    <title>Magic Prepare Plugin</title>
+    <title>Avalon Magic</title>
   </properties>
 
   <body>
@@ -45,6 +45,9 @@
             src/
           </td>
           <td>
+            The source directories. The <code>init</code> method will copy all
+            the content from these directories to the ${prepare.build.src.dir}
+            with and without filtering enabled, depending on file type.
           </td>
         </tr>
         <tr>
@@ -55,6 +58,7 @@
             target/
           </td>
           <td>
+            The top destination directory for all build outputs.
           </td>
         </tr>
         <tr>
@@ -65,6 +69,10 @@
             ${prepare.dest.dir}/src/
           </td>
           <td>
+            This is the directory where the sources will be copied to before
+            processed. The copy procedure allows for filtering, where the
+            content of the source files have 'tags' in them that will be
+            replaced by build-time information.
           </td>
         </tr>
         <tr>
@@ -75,6 +83,13 @@
             **/*.xml, **/*.java, **/*.html, **/*.sh, **/*.bat, **/*.prop*
           </td>
           <td>
+            A comma-separated list of files that will be filtered. All other
+            files copied will be copied without filtering enabled. All 
+            properties will be converted from their typical lower-case format
+            to an upper-case equivalent, and any properties surrounded by the @
+            character is a tag, that will be replaced by its build value. For
+            instance, @PREPARE.DEST.DIR@ will be replaced by the value of the
+            ${prepare.dest.dir} property, default "target/".
           </td>
         </tr>
       </table>

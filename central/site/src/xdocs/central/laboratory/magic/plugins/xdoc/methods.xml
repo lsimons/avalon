@@ -23,12 +23,12 @@
 
   <properties>
     <author email="niclas@apache.org">Niclas Hedhman</author>
-    <title>Merlin Magic - XDoc Plugin</title>
+    <title>Avalon Magic</title>
   </properties>
 
   <body>
 
-    <section name="Merlin Magic XDoc Plugin - Methods">
+    <section name="XDoc Plugin - Methods">
       <p>
         The following methods has been defined in the XDoc Plugin.
       </p>
@@ -47,7 +47,7 @@
           </td>
           <td>
             The <strong>generate</strong> method generates the documentation
-            from residing in the xdoc.src.dir directory. 
+            from residing in the ${xdoc.src.dir} directory. 
           </td>
         </tr>
       </table>

@@ -23,12 +23,12 @@
 
   <properties>
     <author email="niclas@apache.org">Niclas Hedhman</author>
-    <title>Magic Prepare Plugin</title>
+    <title>Avalon Magic</title>
   </properties>
 
   <body>
 
-    <section name="Magic Prepare Plugin - Methods">
+    <section name="Prepare Plugin - Methods">
       <p>
         It is not meant for humans to directly invoke the Prepare plugin,
         but for other plugins to request its service.

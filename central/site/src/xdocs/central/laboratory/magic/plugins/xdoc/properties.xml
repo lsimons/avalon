@@ -23,11 +23,11 @@
 
   <properties>
     <author email="niclas@apache.org">Niclas Hedhman</author>
-    <title>Merlin Magic - XDoc Plugin</title>
+    <title>Avalon Magic</title>
   </properties>
 
   <body>
-    <section name="Merlin Magic XDoc Plugin - Properties">
+    <section name="XDoc Plugin - Properties">
       <p>
         The following properties are used by the XDoc Plugin. 
       </p>
@@ -45,6 +45,22 @@
             src/xdocs
           </td>
           <td>
+            The source directory where the XDoc documents are expected to be
+            found.
+          </td>
+        </tr>
+        <tr>
+          <td>
+            xdoc.build.src.dir
+           </td>
+          <td>
+            target/src/xdocs
+          </td>
+          <td>
+            The directory where the source documents will be copied before
+            processed. This directory structure is also where the navigation
+            aggregation will occur, and the intermediary files can be found
+            here.
           </td>
         </tr>
         <tr>
@@ -55,6 +71,7 @@
             target/docs
           </td>
           <td>
+            The output directory where the generated files will be stored.
           </td>
         </tr>
         <tr>
@@ -62,12 +79,196 @@
             xdoc.theme.name
            </td>
           <td>
-            merlin
+            avalon2
           </td>
           <td>
+            Name of the theme to use. The themes must located in 
+            ${project.system}/themes.
+          </td>
+        </tr>
+        <tr>
+          <td>
+            xdoc.resources.dir
+           </td>
+          <td>
+            src/resources/
+          </td>
+          <td>
+            The directory where other resources are stored. These resources
+            will be copied into the destination directory ${xdoc.dest.dir}.
+          </td>
+        </tr>
+        <tr>
+          <td>
+            xdoc.output.format
+           </td>
+          <td>
+            html
+          </td>
+          <td>
+            The output format of the generated content. Only 'html' is supported
+            at the moment.
+          </td>
+        </tr>
+        <tr>
+          <td>
+            xdoc.fail.on.error
+          </td>
+          <td>
+            true 
+          </td>
+          <td>
+            If "true", the generation will halt when an error of any kind has
+            occurred. If not "true", then generation will continue.
+          </td>
+        </tr>
+        <tr>
+          <td>
+            xdoc.print.stack.trace
+          </td>
+          <td>
+            true
+          </td>
+          <td>
+            If "true" a stack trace will be printed out if an error occurs.
+            If not "true", then only the message of the exception will be 
+            printed.
+          </td>
+        </tr>
+        <tr>
+          <td>
+            xdoc.public.root.xdocs
+          </td>
+          <td>
+            https://svn.apache.org/repos/asf/avalon/trunk/central/site/src/xdocs
+          </td>
+          <td>
+            This is the 'anchor' of the source documents root, which is used for
+            the source icon, where one can easily retrieve the xml source.
+          </td>
+        </tr>
+        <tr>
+          <td>
+            xdoc.footer.copyright.text
+          </td>
+          <td>
+            Copyright ${magic.year}, The Apache Software Foundation. All rights reserved.
+          </td>
+          <td>
+            Text of the footer to be generated on each page.
+          </td>
+        </tr>
+        <tr>
+          <td>
+            xdoc.footer.copyright.url
+          </td>
+          <td>
+            http://www.apache.org/
+          </td>
+          <td>
+            If this property is not an empty string a link will be created around
+            the copyright notice. I.e. &lt;a href="${xdoc.footer.copyright.url}"&gt;
+            ${xdoc.footer.copyright.text}&lt;/a&gt;.
+          </td>
+        </tr>
+        <tr>
+          <td>
+            xdoc.logo.left.file
+          </td>
+          <td>
+            images/feather.jpg
+          </td>
+          <td>
+            The image name of the logo that will be generated in the top-left 
+            corner of the page.
+          </td>
+        </tr>
+        <tr>
+          <td>
+            xdoc.logo.left.url
+          </td>
+          <td>
+            &lt;empty string&gt;
+          </td>
+          <td>
+            If this property is not an empty string, the top-left image will be
+            link to this URL. I.e.
+            &lt;a href="${xdoc.footer.copyright.url}"&gt;
+            &lt;img src="${xdoc.logo.left.file}" /&gt;
+            &lt;/a&gt;.
+          </td>
+        </tr>
+        <tr>
+          <td>
+            xdoc.logo.right.file = 
+          </td>
+          <td>
+           &lt;empty string&gt;
+          </td>
+            The image name of the logo that will be generated in the top-right 
+            corner of the page.
+          <td>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            xdoc.logo.right.url
+          </td>
+          <td>
+            &lt;empty string&gt;
+          </td>
+          <td>
+            If this property is not an empty string, the top-right image will be
+            link to this URL. I.e.
+            &lt;a href="${xdoc.footer.copyright.url}"&gt;
+            &lt;img src="${xdoc.logo.right.file}" /&gt;
+            &lt;/a&gt;.
+          </td>
+        </tr>
+        <tr>
+          <td>
+            xdoc.logo.middle.file = 
+          </td>
+          <td>
+            &lt;empty string&gt;
+          </td>
+          <td>
+            The image name of the logo that will be generated in the top-middle
+            corner of the page.
+          </td>
+        </tr>
+        <tr>
+          <td>
+            xdoc.logo.middle.url = 
+          </td>
+          <td>
+            &lt;empty string&gt;
+          </td>
+          <td>
+            If this property is not an empty string, the top-middle image will be
+            link to this URL. I.e.
+            &lt;a href="${xdoc.footer.copyright.url}"&gt;
+            &lt;img src="${xdoc.logo.middle.file}" /&gt;
+            &lt;/a&gt;.
+          </td>
+        </tr>
+        <tr>
+          <td>
+            xdoc.brand.name
+          </td>
+          <td>
+            Apache Avalon
+          </td>
+          <td>
+            This is the "brand name" to be generated in the middle section of
+            the top panel, above the document title.
           </td>
         </tr>
       </table>
     </section>
   </body>
 </document>
+
+ 
+
+

@@ -45,6 +45,8 @@
             ${user.home}/.maven/repository
           </td>
           <td>
+            The local repository where artifacts will be downloaded to, and
+            included from in builds.
           </td>
         </tr>
         <tr>
@@ -55,6 +57,7 @@
             http://www.ibiblio.org/maven
           </td>
           <td>
+            The remote repository where the artifact will be downloaded from.
           </td>
         </tr>
       </table>

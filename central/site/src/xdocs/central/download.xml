@@ -116,13 +116,13 @@
           <tr>
             <td><a href="/logkit/">Avalon-Logkit</a></td>
             <td><a href="[preferred]/avalon/logkit/binaries">binaries</a></td>
-            <td><a href="[preferred]/avalon/logkit/source">broswe</a></td>
+            <td><a href="[preferred]/avalon/logkit/source">browse</a></td>
             <td><a href="[preferred]/avalon/logkit/jars">jars</a></td>
           </tr>
           <tr>
             <td><a href="/merlin/">Avalon-Merlin</a></td>
             <td><a href="[preferred]/avalon/merlin/binaries">binaries</a></td>
-            <td><a href="[preferred]/avalon/merlin/source">broswe</a></td>
+            <td><a href="[preferred]/avalon/merlin/source">browse</a></td>
             <td><a href="[preferred]/avalon/merlin/jars">jars</a></td>
           </tr>
         </table>
@@ -140,13 +140,13 @@
           <tr>
             <td><a href="/excalibur/fortress/">Avalon-Fortress</a></td>
             <td><a href="[preferred]/avalon/avalon-fortress/binaries">binaries</a></td>
-            <td><a href="[preferred]/avalon/avalon-fortress/source">broswe</a></td>
+            <td><a href="[preferred]/avalon/avalon-fortress/source">browse</a></td>
             <td><a href="[preferred]/avalon/avalon-fortress/jars">jars</a></td>
           </tr>
           <tr>
             <td><a href="/phoenix/">Avalon-Phoenix</a></td>
             <td><a href="[preferred]/avalon/phoenix/binaries">binaries</a></td>
-            <td><a href="[preferred]/avalon/phoenix/source">broswe</a></td>
+            <td><a href="[preferred]/avalon/phoenix/source">browse</a></td>
             <td><a href="[preferred]/avalon/phoenix/jars">jars</a></td>
           </tr>
         </table>

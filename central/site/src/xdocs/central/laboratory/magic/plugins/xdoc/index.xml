@@ -23,22 +23,21 @@
 
   <properties>
     <author email="niclas@apache.org">Niclas Hedhman</author>
-    <category>Merlin Magic - XDoc Plugin</category>
-    <title>Merlin Magic - XDoc Plugin</title>
+    <title>Avalon Magic</title>
   </properties>
 
   <body>
 
-    <section name="About Merlin Magic XDoc Plugin">
-      <p>
-Welcome to the Merlin Magic XDoc Plugin. 
-      </p>
+    <section name="About XDoc Plugin">
       <p>
         The XDoc Plugin allows you to create the project documentation using
         XML, in the so called Anakia format, and automatically generate the
         look from a <em>theme</em>. A <em>theme</em> is a predefined XSLT
         template that the XDoc Plugin will use to generate the HTML and PDF
-        (optional) outputs.
+        (future) outputs.
+      </p>
+      <p>
+        The theme must be located in the ${project.system}/theme directory.
       </p>
     </section>
   </body>
