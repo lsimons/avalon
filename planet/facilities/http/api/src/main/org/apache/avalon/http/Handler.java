@@ -52,5 +52,5 @@ public interface Handler
      *
      */
     public void service( ServletRequest request, ServletResponse response )
-	throws HandlerException, IOException;
+        throws HandlerException, IOException;
 }

@@ -65,7 +65,8 @@ import org.apache.avalon.http.HandlerException;
  * @version        $Revision: 1.1 $
  *
  */
-public abstract class HttpHandler implements Handler, java.io.Serializable
+public abstract class HttpHandler 
+    implements Handler, java.io.Serializable
 {
     private static final String METHOD_DELETE = "DELETE";
     private static final String METHOD_HEAD = "HEAD";
