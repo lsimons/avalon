@@ -13,7 +13,7 @@
             <p>
                 The Instrumentable interface is required to be able to register a component with
                 an InstrumentManager.  The interface makes it possible for the InstrumentManager
-                to query the component about what Instruments and child Instrumentables is making
+                to query the component about what Instruments and child Instrumentables it is making
                 available.
             </p>
             <p>
@@ -33,7 +33,7 @@
             <p>
                 The third and fourth methods, getInstruments and getChildInstrumentables, are
                 each called once by an InstrumentManager to query the Instrumentable for a list
-                of the Instruments and child Instrumentables that is making available.
+                of the Instruments and child Instrumentables that it is making available.
 	</p>
 	<!-- temporarily commented out until there is some content
             <p>
