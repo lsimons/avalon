@@ -14,9 +14,9 @@
         The reference implementation provides a number of facilities to manage the
         environment of Server Applications. Such facilities include log management,
         classloading, thread management and security. In the future it will
-        conditionally offer support extra facilities such as central server management,
+        conditionally support extra facilities such as central server management,
         server pools, and other facilities aimed at reducing the time to market. The API
-        defines a standard method of piecing togther server components and creating a server.
+        defines a standard method of piecing together server components and creating a server.
       </p>
     </section>
     <section name="Documentation is coming">
