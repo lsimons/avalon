@@ -53,11 +53,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
+
 import org.apache.avalon.excalibur.logger.LogKitLoggerManager;
 import org.apache.avalon.excalibur.logger.LoggerManager;
 import org.apache.avalon.fortress.RoleManager;
-import org.apache.avalon.fortress.impl.role.ConfigurableRoleManager;
 import org.apache.avalon.fortress.impl.role.FortressRoleManager;
+import org.apache.avalon.fortress.impl.role.ServiceRoleManager;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.configuration.Configuration;
@@ -116,7 +117,7 @@ import org.apache.log.Priority;
  * and dispose of them properly when it itself is disposed .</p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.16 $ $Date: 2003/04/04 16:05:51 $
+ * @version CVS $Revision: 1.17 $ $Date: 2003/04/07 20:46:59 $
  * @since 4.1
  */
 public class ContextManager
@@ -539,9 +540,9 @@ public class ContextManager
         erm.initialize();
 
         // Create a role manager with the configured roles
-        ConfigurableRoleManager rm = new ConfigurableRoleManager( erm, classLoader );
+        ServiceRoleManager rm = new ServiceRoleManager();
         rm.enableLogging( rmLogger );
-        rm.configure( roleConfig );
+        rm.initialize();
 
         assumeOwnership( rm );
         m_childContext.put( org.apache.avalon.fortress.RoleManager.ROLE, rm );
