@@ -301,8 +301,8 @@ Legal:
       <fileset dir="${build.dir}/javadocs"/>
     </copy>
 
-    <filter name="version" value="${version}"/>
-    <filter name="dist.name" value="${dist.name}"/>
+    <filter token="version" value="${version}"/>
+    <filter token="dist.name" value="${dist.name}"/>
     <copy todir="${bin.dist.dir}" filtering="on">
       <fileset dir=".">
         <include name="README.txt"/>
@@ -346,8 +346,8 @@ Legal:
       <fileset dir="${build.javadocs}"/>
     </copy>
 
-    <filter name="version" value="${version}"/>
-    <filter name="dist.name" value="${dist.name}"/>
+    <filter token="version" value="${version}"/>
+    <filter token="dist.name" value="${dist.name}"/>
     <copy todir="${src.dist.dir}" filtering="on">
       <fileset dir=".">
         <include name="README.txt"/>
