@@ -19,8 +19,6 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.phoenix.ApplicationListener;
 import org.apache.avalon.phoenix.BlockListener;
-import org.apache.avalon.phoenix.components.container.lifecycle.LifecycleException;
-import org.apache.avalon.phoenix.components.container.lifecycle.LifecycleHelper;
 import org.apache.avalon.phoenix.interfaces.Application;
 import org.apache.avalon.phoenix.interfaces.ApplicationContext;
 import org.apache.avalon.phoenix.interfaces.ApplicationException;
@@ -29,6 +27,8 @@ import org.apache.avalon.phoenix.metadata.BlockListenerMetaData;
 import org.apache.avalon.phoenix.metadata.BlockMetaData;
 import org.apache.avalon.phoenix.metadata.SarMetaData;
 import org.apache.excalibur.threadcontext.ThreadContext;
+import org.apache.excalibur.containerkit.LifecycleException;
+import org.apache.excalibur.containerkit.LifecycleHelper;
 
 /**
  * This is the basic container of blocks. A server application

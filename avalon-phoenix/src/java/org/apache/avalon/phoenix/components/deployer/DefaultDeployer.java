@@ -30,7 +30,6 @@ import org.apache.avalon.framework.service.Serviceable;
 import org.apache.avalon.phoenix.components.deployer.installer.Installation;
 import org.apache.avalon.phoenix.components.deployer.installer.Installer;
 import org.apache.avalon.phoenix.components.deployer.installer.InstallationException;
-import org.apache.avalon.phoenix.components.container.verifier.VerifyException;
 import org.apache.avalon.phoenix.interfaces.Application;
 import org.apache.avalon.phoenix.interfaces.ClassLoaderManager;
 import org.apache.avalon.phoenix.interfaces.ConfigurationRepository;
@@ -47,6 +46,7 @@ import org.apache.avalon.phoenix.tools.assembler.AssemblyException;
 import org.apache.avalon.phoenix.tools.configuration.ConfigurationBuilder;
 import org.apache.avalon.phoenix.tools.verifier.SarVerifier;
 import org.apache.log.Hierarchy;
+import org.apache.excalibur.containerkit.VerifyException;
 
 /**
  * Deploy .sar files into a kernel using this class.
