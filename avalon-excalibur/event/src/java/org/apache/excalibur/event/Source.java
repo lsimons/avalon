@@ -27,26 +27,29 @@ public interface Source
     void setTimeout( long millis );
 
     /**
-     * Dequeues the next element, or returns <code>null</code> if there is
-     * nothing left on the queue.
+     * Dequeues the next element, or <code>null</code> if there is
+     * nothing left on the queue or in case of a timeout while
+     * attempting to obtain the mutex
      *
      * @return the next <code>QueueElement</code> on the queue
      */
     QueueElement dequeue();
 
     /**
-     * Dequeues all available elements, or returns <code>null</code> if there is
-     * nothing left on the queue.
+     * Dequeues all available elements. Returns a zero-sized array in
+     * case of a timeout while attempting to obtain the mutex or if
+     * there is nothing left on the queue.
      *
      * @return all pending <code>QueueElement</code>s on the queue
      */
     QueueElement[] dequeueAll();
 
     /**
-     * Dequeues at most <code>num</code> available elements, or returns
-     * <code>null</code> if there is nothing left on the queue.
+     * Dequeues at most <code>num</code> available elements. Returns a
+     * zero-sized array in case of a timeout while attempting to
+     * obtain the mutex or if there is nothing left on the queue.
      *
-     * @return At most <code>num</code> <code>QueueElement</code>s on the queue
+     * @return At most <code>num</code> <code>QueueElement</code>s from the queue
      */
     QueueElement[] dequeue( int num );
 
