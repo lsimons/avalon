@@ -60,7 +60,7 @@ import org.apache.avalon.fortress.RoleEntry;
  * adding configuration markup semantics to the {@link AbstractContainer}.
  *
  * @author <a href="mailto:avalon-dev@jakarta.apache.org">The Avalon Team</a>
- * @version CVS $Revision: 1.1 $ $Date: 2003/01/27 16:55:41 $
+ * @version CVS $Revision: 1.2 $ $Date: 2003/01/27 17:48:49 $
  */
 public class DefaultContainer
     extends AbstractContainer
@@ -116,7 +116,14 @@ public class DefaultContainer
                 final ComponentHandlerMetaData metaData =
                     new ComponentHandlerMetaData( hint, classname, element, isLazy );
 
-                addComponent( metaData );
+                try
+                {
+                    addComponent( metaData );
+                }
+                catch (Exception e)
+                {
+                    throw new ConfigurationException("Could not add component", e);
+                }
             }
         }
     }
