@@ -107,7 +107,7 @@
     <project name="excalibur-assembly">
         <package>org.apache.excalibur.assembly</package>
 
-        <ant basedir="assembly">
+        <ant basedir="assembly" target="jar">
             <depend property="logkit.jar" project="jakarta-avalon-logkit" runtime="true"/>
             <property name="version" value="@@DATE@@"/>
             <property name="junit.failonerror" value="true"/>
