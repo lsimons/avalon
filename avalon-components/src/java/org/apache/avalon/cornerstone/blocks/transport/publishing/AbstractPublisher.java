@@ -16,6 +16,7 @@ import org.apache.commons.altrmi.server.AltrmiServer;
 import org.apache.commons.altrmi.server.ClassRetriever;
 import org.apache.commons.altrmi.server.impl.JarFileClassRetriever;
 import org.apache.commons.altrmi.server.impl.BaseMobileClassRetriever;
+import org.apache.commons.altrmi.server.impl.NoClassRetriever;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.activity.Startable;
 import org.apache.avalon.framework.activity.Initializable;
@@ -35,7 +36,7 @@ import java.net.MalformedURLException;
  *
  *
  * @author Paul Hammant <a href="mailto:Paul_Hammant@yahoo.com">Paul_Hammant@yahoo.com</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public abstract class AbstractPublisher extends AbstractLogEnabled
         implements AltrmiPublisher, Startable, Configurable, Initializable, Block {
@@ -75,8 +76,10 @@ public abstract class AbstractPublisher extends AbstractLogEnabled
             }
         } else if (classRetrieverType.equals("baseMobileClass")) {
             mClassRetriever = new BaseMobileClassRetriever();
+        } else if (classRetrieverType.equals("none")) {
+            mClassRetriever = new NoClassRetriever();
         } else {
-            throw new ConfigurationException("classRetrieverType must be 'baseMobileClass' or 'jarFile'");
+            throw new ConfigurationException("classRetrieverType must be 'baseMobileClass', 'jarFile' or 'none'");
         }
     }
 

@@ -11,7 +11,7 @@ package org.apache.avalon.cornerstone.blocks.transport.subscription;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.commons.altrmi.client.impl.rmi.RmiAltrmiHostContext;
-import org.apache.commons.altrmi.client.impl.socket.PlainSocketAltrmiHostContext;
+import org.apache.commons.altrmi.client.impl.socket.SocketObjectStreamHostContext;
 
 
 /**
@@ -19,7 +19,7 @@ import org.apache.commons.altrmi.client.impl.socket.PlainSocketAltrmiHostContext
  *
  *
  * @author Paul Hammant <a href="mailto:Paul_Hammant@yahoo.com">Paul_Hammant@yahoo.com</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class SocketObjectStreamSubscriber extends AbstractSubscriber {
 
@@ -50,7 +50,7 @@ public class SocketObjectStreamSubscriber extends AbstractSubscriber {
      */
     public void initialize() throws Exception {
 
-        mHostContext = new PlainSocketAltrmiHostContext(mHost, mPort);
+        mHostContext = new SocketObjectStreamHostContext(mHost, mPort);
         super.initialize();
     }
 }
