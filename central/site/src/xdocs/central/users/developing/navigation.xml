@@ -2,41 +2,19 @@
 <project>
  <title>Apache Avalon</title>
  <body>
-
-    <links>
-      <item name="Apache" href="http://apache.org/"/>
-      <item name="Avalon" href="/index.html"/>
-      <item name="Framework" href="/product/framework/index.html"/>
-      <item name="Merlin" href="/product/containers/index.html"/>
-      <item name="Planet" href="/product/components/index.html"/>
-    </links>
-
-  <menu name="Developing With Avalon">
-    <item name="Article Info" href="/developing/index.html"/>
-    <item name="Authors" href="/developing/authors.html"/>
+  <menu>
+    <item name="Overview" href="introduction.html"/>
+    <item name="Decomposition" href="decomposing.html"/>
+    <item name="Avalon Framework" href="framework.html"/>
+    <item name="Avalon Merlin" href="merlin.html"/>
+    <item name="Avalon Repository" href="repository.html"/>
+    <item name="Avalon Logging" href="logging.html"/>
+    <item name="Using the framework" href="implementing.html"/>
+    <item name="Compatibility with Avalon" href="compatiblity.html"/>
+    <item name="Development Strategies" href="strategies.html"/>
+    <item name="Conclusion" href="conclusion.html"/>
+    <item name="Authors" href="authors.html"/>
   </menu>
-
-  <menu name="Chapters">
-    <item name="Overview" href="/developing/introduction.html"/>
-    <item name="Decomposition" href="/developing/decomposing.html"/>
-    <item name="Avalon Framework" href="/developing/framework.html"/>
-    <item name="Avalon Merlin" href="/developing/merlin.html"/>
-    <item name="Avalon Repository" href="/developing/repository.html"/>
-    <item name="Avalon Logging" href="/developing/logging.html"/>
-    <item name="Using the framework" href="/developing/implementing.html"/>
-    <item name="Compatibility with Avalon" href="/developing/compatiblity.html"/>
-    <item name="Development Strategies" href="/developing/strategies.html"/>
-    <item name="Conclusion" href="/developing/conclusion.html"/>
-  </menu>
-
-    <menu name="Related">
-      <item name="Avalon Framework" href="http://avalon.apache.org/framework"/>
-      <item name="Avalon Meta" href="http://avalon.apache.org/meta"/>
-      <item name="Avalon Utilities" href="http://avalon.apache.org/util"/>
-      <item name="Avalon Repository" href="http://avalon.apache.org/repository"/>
-      <item name="Avalon Merlin" href="http://avalon.apache.org/merlin"/>
-      <item name="Avalon Planet" href="http://avalon.apache.org/components"/>
-    </menu>
  
  </body>
 </project>
