@@ -17,6 +17,7 @@
 
 package org.apache.avalon.util.env ;
 
+import java.io.IOException;
 
 /**
  * A simple wrapper exception around exceptions that could occur while accessing
@@ -24,9 +25,9 @@ package org.apache.avalon.util.env ;
  * 
  * @author <a href="mailto:aok123@bellsouth.net">Alex Karasulu</a>
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
-public class EnvAccessException extends Exception
+public class EnvAccessException extends IOException
 {
     /** the environment variable name if available */
     public final String m_variable ;
