@@ -9,8 +9,8 @@ package org.apache.avalon.phoenix.components.extensions;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.StringTokenizer;
 import org.apache.avalon.excalibur.extension.DefaultPackageRepository;
-import org.apache.avalon.excalibur.util.StringUtil;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.logger.LogEnabled;
@@ -25,7 +25,7 @@ import org.apache.avalon.phoenix.interfaces.PackageRepository;
  * PhoenixPackageRepository
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.5 $ $Date: 2002/03/16 00:11:55 $
+ * @version $Revision: 1.6 $ $Date: 2002/03/25 09:01:30 $
  */
 public class PhoenixPackageRepository
     extends DefaultPackageRepository
@@ -57,7 +57,7 @@ public class PhoenixPackageRepository
         final String defaultExtPath = phoenixHome + File.separator + "ext";
         final String rawPath =
             parameters.getParameter( "phoenix.ext.path", defaultExtPath );
-        m_path = StringUtil.split( rawPath, "|" );
+        m_path = split( rawPath, "|" );
 
         final File[] dirs = new File[ m_path.length ];
         for( int i = 0; i < dirs.length; i++ )
@@ -127,4 +127,26 @@ public class PhoenixPackageRepository
     {
         m_logger.debug( message );
     }
+
+
+    /**
+     * Splits the string on every token into an array of strings.
+     *
+     * @param string the string
+     * @param onToken the token
+     * @return the resultant array
+     */
+    private static String[] split( final String string, final String onToken )
+    {
+        final StringTokenizer tokenizer = new StringTokenizer( string, onToken );
+        final String[] result = new String[ tokenizer.countTokens() ];
+
+        for( int i = 0; i < result.length; i++ )
+        {
+            result[ i ] = tokenizer.nextToken();
+        }
+
+        return result;
+    }
+
 }
