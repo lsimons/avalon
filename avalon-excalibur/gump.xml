@@ -481,7 +481,6 @@
         <package>org.apache.avalon.excalibur.pool</package>
 
         <ant basedir="pool">
-            <depend property="framework.jar" project="jakarta-avalon"/>
             <depend property="excalibur-collections.jar" project="excalibur-collections"/>
             <depend property="excalibur-instrument.jar" project="excalibur-instrument"/>
             <depend property="junit.jar" project="junit"/>
@@ -492,7 +491,8 @@
         </ant>
 
         <depend project="jakarta-ant"/>
-        <depend project="jakarta-avalon-logkit"/>
+        <depend project="jakarta-avalon-logkit" runtime="true"/>
+        <depend project="jakarta-avalon" runtime="true"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
         <depend project="checkstyle"/>
@@ -566,6 +566,9 @@
 
         <depend project="jakarta-ant"/>
         <depend project="excalibur-pool" runtime="true"/>
+        <depend project="excalibur-threadcontext" runtime="true"/>
+        <depend project="jakarta-avalon" runtime="true"/>
+        <depend project="jakarta-avalon-logkit" runtime="true"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
         <depend project="checkstyle"/>
