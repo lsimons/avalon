@@ -17,22 +17,31 @@
 
 package org.apache.avalon.fortress.impl.handler;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
+
 import org.apache.avalon.excalibur.logger.LoggerManager;
 import org.apache.avalon.fortress.util.LifecycleExtensionManager;
 import org.apache.avalon.framework.CascadingException;
 import org.apache.avalon.framework.component.Composable;
 import org.apache.avalon.framework.component.WrapperComponentManager;
+import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.container.ContainerUtil;
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.ContextException;
+import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.context.DefaultContext;
+import org.apache.avalon.framework.logger.LogEnabled;
 import org.apache.avalon.framework.logger.LogKit2AvalonLoggerAdapter;
 import org.apache.avalon.framework.logger.Loggable;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.parameters.Parameterizable;
 import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.framework.service.ServiceManager;
+import org.apache.avalon.framework.service.Serviceable;
+import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.beanutils.MethodUtils;
 import org.apache.excalibur.instrument.AbstractLogEnabledInstrumentable;
 import org.apache.excalibur.instrument.CounterInstrument;
 import org.apache.excalibur.mpool.ObjectFactory;
@@ -41,7 +50,7 @@ import org.apache.excalibur.mpool.ObjectFactory;
  * Factory for Avalon components.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.28 $ $Date: 2004/02/28 15:16:25 $
+ * @version CVS $Revision: 1.29 $ $Date: 2004/04/02 10:29:03 $
  * @since 4.0
  */
 public final class ComponentFactory
@@ -80,6 +89,14 @@ public final class ComponentFactory
      */
     private final Logger m_componentLogger;
 
+    /**
+     * The class info for creating the component
+     */
+    private ClassInfo m_classinfo;
+    
+    /** Use the dynamic configuration */
+    private boolean m_useDynamicCreation = false;
+    
     /**
      * Construct a new component factory for the specified component.
      *
@@ -126,6 +143,7 @@ public final class ComponentFactory
 
         addInstrument( m_newInstance );
         addInstrument( m_dispose );
+        
     }
 
     /**
@@ -143,7 +161,7 @@ public final class ComponentFactory
 
         try
         {
-            component = m_componentClass.newInstance();
+            component = this.createComponent();
 
             if ( getLogger().isDebugEnabled() )
             {
@@ -153,27 +171,13 @@ public final class ComponentFactory
                 getLogger().debug( message );
             }
 
-            ContainerUtil.enableLogging( component, m_componentLogger );
+            this.enabledComponentLogging(component);
 
-            if ( component instanceof Loggable )
-            {
-                final org.apache.log.Logger logkitLogger =
-                    LogKit2AvalonLoggerAdapter.createLogger( m_componentLogger );
-                ( (Loggable) component ).setLogger( logkitLogger );
-            }
+            this.contextualizeComponent(component);
 
-            ContainerUtil.contextualize( component, m_context );
-            if ( component instanceof Composable )
-            {
-                ContainerUtil.compose( component, new WrapperComponentManager( m_serviceManager ) );
-            }
-            ContainerUtil.service( component, m_serviceManager );
-            ContainerUtil.configure( component, m_configuration );
-
-            if ( component instanceof Parameterizable )
-            {
-                ContainerUtil.parameterize( component, Parameters.fromConfiguration( m_configuration ) );
-            }
+            this.serviceComponent(component);
+            
+            this.configureComponent(component);
 
             m_extManager.executeCreationExtensions( component, m_context );
 
@@ -260,6 +264,275 @@ public final class ComponentFactory
             final String message = "The object given to be disposed does " +
                 "not come from this ObjectFactory";
             throw new IllegalArgumentException( message );
+        }
+    }
+    
+    /**
+     * Create a new component
+     */
+    protected Object createComponent() throws Exception
+    {
+        if ( !m_useDynamicCreation ) 
+        {
+            return m_componentClass.newInstance();
+        }
+        
+        if ( m_classinfo == null )
+        {
+            m_classinfo = new ClassInfo();            
+        }
+        
+        return m_classinfo.m_constructor.newInstance(m_classinfo.m_constructorArguments);
+    }
+
+    /**
+     * Enable logging for the component
+     */
+    protected void enabledComponentLogging(Object component) throws Exception 
+    {
+        ContainerUtil.enableLogging( component, m_componentLogger );
+
+        if ( component instanceof Loggable )
+        {
+            final org.apache.log.Logger logkitLogger =
+                LogKit2AvalonLoggerAdapter.createLogger( m_componentLogger );
+            ( (Loggable) component ).setLogger( logkitLogger );
+        }
+
+        if ( m_useDynamicCreation ) 
+        {
+
+            if ( m_classinfo.m_setLoggerMethod != null ) {
+                m_classinfo.m_setLoggerMethod.invoke( component, new Object[] {m_componentLogger});
+            }
+        }
+    }
+    
+    /**
+     * Contextualize the component
+     */
+    protected void contextualizeComponent(Object component) throws Exception 
+    {
+        ContainerUtil.contextualize( component, m_context );
+        if ( !(component instanceof Contextualizable ) ) 
+        {
+            try 
+            {
+                MethodUtils.invokeMethod(component, "setContext", m_context);
+            }
+            catch (Exception ignore) {}
+        }
+
+        if ( m_useDynamicCreation ) 
+        {
+            if ( m_classinfo.m_setContextMethod != null ) {
+                m_classinfo.m_setContextMethod.invoke( component, new Object[] {m_context});
+            }
+        }
+    }
+    
+    /**
+     * Service the component
+     */
+    protected void serviceComponent(Object component) throws Exception
+    {
+        if ( component instanceof Composable )
+        {
+            ContainerUtil.compose( component, new WrapperComponentManager( m_serviceManager ) );
+        }                
+        ContainerUtil.service( component, m_serviceManager );
+
+        if ( m_useDynamicCreation ) 
+        {
+            if ( m_classinfo.m_setServiceManagerMethod != null ) {
+                m_classinfo.m_setServiceManagerMethod.invoke( component, new Object[] {m_serviceManager});
+            }
+        }
+    }
+    
+    /**
+     * Configure the component
+     */
+    protected void configureComponent(Object component) throws Exception
+    {
+        ContainerUtil.configure( component, m_configuration );
+
+        if ( component instanceof Parameterizable )
+        {
+            ContainerUtil.parameterize( component, Parameters.fromConfiguration( m_configuration ) );
+        }        
+
+        if ( m_useDynamicCreation ) 
+        {
+            if ( m_classinfo.m_setParametersMethod!= null ) {
+                m_classinfo.m_setParametersMethod.invoke( component, new Object[] {Parameters.fromConfiguration( m_configuration )});
+            }
+            if ( m_classinfo.m_setConfigurationMethod != null ) {
+                m_classinfo.m_setConfigurationMethod.invoke( component, new Object[] {m_configuration});
+            }
+    
+            // if the component has a configuration, but does not implement the
+            // interfaces, try to set the parameters using reflection
+            if ( m_classinfo.m_dynamicConfiguration ) 
+            {
+                if ( m_configuration != null && m_configuration.getChildren().length > 0) 
+                {
+                    final Parameters p = Parameters.fromConfiguration( m_configuration );
+                    String[] names = p.getNames();
+                    for( int i = 0; i < names.length; i++ ) 
+                    {
+                        try 
+                        {
+                            BeanUtils.setProperty( component, names[i], p.getParameter(names[i]));
+                        } 
+                        catch (Exception ignore)                    
+                        {
+                            if ( this.getLogger() != null && this.getLogger().isWarnEnabled() ) 
+                            {
+                                this.getLogger().warn("Error while trying to configure " + component 
+                                           + " with parameter: " + names[i], ignore);   
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    /**
+     * This class collects all information about the components class:
+     * - the constructor to use
+     * 
+     */
+    protected class ClassInfo {
+        
+        public Constructor m_constructor;
+        public Object[]    m_constructorArguments;
+        public Method      m_setLoggerMethod;
+        public Method      m_setConfigurationMethod;
+        public Method      m_setParametersMethod;
+        public Method      m_setContextMethod;
+        public boolean     m_dynamicConfiguration = false;
+        public Method      m_setServiceManagerMethod;
+        
+        /** Constructor */
+        public ClassInfo() 
+        throws Exception {
+            // let's see which constructors are available
+            Constructor[] constructors = m_componentClass.getConstructors();
+            
+            if( constructors.length < 1 ) 
+            {
+                throw new Exception("Class " + m_componentClass + " does not have a public constructor.");
+            }
+
+            if( constructors.length > 1 )
+            {
+                // if we have more than one constructor, we first search for
+                // an empty argument constructor
+                // if that is not available we simply take the first constructor
+                // we find
+                try
+                {
+                    m_constructor = m_componentClass.getConstructor( new Class[0] );
+                }
+                catch( NoSuchMethodException e )
+                {
+                    // we ignore the exception and take the first one
+                    m_constructor = constructors[0];
+                }
+            }
+            else
+            {
+                m_constructor = constructors[0];
+            }
+
+            // now test the parameters for the constructor
+            final Class[] classes = m_constructor.getParameterTypes();
+            m_constructorArguments = new Object[ classes.length ];
+            for( int i=0; i<classes.length; i++ )
+            {
+                final Class current = classes[i];
+                if( Logger.class.isAssignableFrom( current ) )
+                {
+                    if ( m_componentLogger == null ) 
+                    {
+                        throw new IllegalArgumentException("Logger is null.");
+                    }
+                    m_constructorArguments[i] = m_componentLogger;
+                }
+                else if( Context.class.isAssignableFrom( current ) )
+                {
+                    if ( m_context == null ) 
+                    {
+                        throw new IllegalArgumentException("Context is null.");
+                    }
+                    m_constructorArguments[i] = m_context;
+                }
+                else if( Configuration.class.isAssignableFrom( current ) )
+                {
+                    if ( m_configuration == null ) 
+                    {
+                        throw new IllegalArgumentException("Configuration is null.");
+                    }
+                    m_constructorArguments[i] = m_configuration;
+                }
+                else if( Parameters.class.isAssignableFrom( current ) )
+                {
+                    if ( m_configuration == null ) 
+                    {
+                        throw new IllegalArgumentException("Configuration is null.");
+                    }
+                    m_constructorArguments[i] = Parameters.fromConfiguration( m_configuration );
+                }
+                else if( ServiceManager.class.isAssignableFrom( current ) )
+                {
+                    m_constructorArguments[i] = m_serviceManager;
+                }
+                else
+                {
+                    throw new Exception("Unknown parameter type for constructor of component: " + current);
+                }
+            }
+            
+            // now test for some setter methods
+            if ( !Loggable.class.isAssignableFrom( m_componentClass)
+                    && !LogEnabled.class.isAssignableFrom(m_componentClass)) 
+            {
+                m_setLoggerMethod = this.getMethod("setLogger", Logger.class);
+            }
+
+            if ( !Contextualizable.class.isAssignableFrom( m_componentClass)) 
+            {
+                m_setContextMethod = this.getMethod("setContext", Context.class);
+            }
+
+            if ( !Parameterizable.class.isAssignableFrom( m_componentClass)
+                  && !Configurable.class.isAssignableFrom(m_componentClass)) 
+            {
+                m_setConfigurationMethod = this.getMethod("setConfiguration", Configuration.class);
+                m_setParametersMethod = this.getMethod("setParameters", Parameters.class);
+                if ( m_setConfigurationMethod == null && m_setParametersMethod == null )
+                {
+                    m_dynamicConfiguration = true;
+                }
+            }
+            
+            if ( !Composable.class.isAssignableFrom(m_componentClass)
+                 && !Serviceable.class.isAssignableFrom(m_componentClass))
+            {
+                m_setServiceManagerMethod = this.getMethod("setServiceManager", ServiceManager.class);                
+            }
+        }
+        
+        protected Method getMethod(String name, Class clazz) throws Exception
+        {
+            try 
+            {
+                return m_componentClass.getMethod(name, new Class[] {clazz});            
+            }
+            catch (NoSuchMethodException ignore) {}
+            return null;
         }
     }
 }
