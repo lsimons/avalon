@@ -24,7 +24,7 @@ performance orientated logging. It's design encourages integration
 into existing products with minimal impact.
     </description>
     <changes version="@version@" file="changes.xml"/>
-    <downloads base="http://jakarta.apache.org/builds/jakarta-avalon/release/@name@"/>
+    <downloads name="LogKit" base="http://jakarta.apache.org/builds/jakarta-avalon/release/@name@"/>
   </project>
 
 </announcement>
