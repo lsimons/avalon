@@ -61,11 +61,11 @@
           <tr><th>Topic</th><th>Summary</th></tr>
           <tr>
             <td><a href="lifecycle/index.html">Lifecycle Extensions</a></td>
-            <td>Defintion and implementation of custom lifecycle stage handlers.</td>
+            <td>Definition and implementation of custom lifecycle stage handlers.</td>
           </tr>
           <tr>
             <td><a href="context.html">Custom Contextualization</a></td>
-            <td>Defintion and implementation of a custom contextualization handler.</td>
+            <td>Definition and implementation of a custom contextualization handler.</td>
           </tr>
           <tr>
             <td><a href="profiles.html">Deployment Templates</a></td>
@@ -83,11 +83,15 @@
           </tr>
           <tr>
             <td><a href="composite.html">Block Composition</a></td>
-            <td>Example of the use of imported blocks can publish services and declare dependencies.  The tutorial demonstrates the use of block level service export statements that isolate a block implementation from the services it provides.</td>
+            <td>Example of the use of imported blocks that can publish services and declare 
+                dependencies.  The tutorial demonstrates the use of block level service 
+                export statements that isolate a block implementation from the services 
+                it provides.</td>
           </tr>
           <tr>
             <td><a href="containers.html">Custom Containers</a></td>
-            <td>Example of the creation fo a custom container including dynamic component management.</td>
+            <td>Example of the creation of a custom container including dynamic component 
+                management.</td>
           </tr>
         </table>
     </section>
