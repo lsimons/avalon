@@ -42,7 +42,7 @@ public interface Cache
     /**
      * Return size of cache.
      *
-     * @return the number of key-value mappings in this cache.
+     * @return the number of key-value mappings in this cache
      */
     int size();
 
@@ -51,7 +51,7 @@ public interface Cache
      *
      * @param key key for the item
      * @param value item
-     * @return old value. null if old value not exists.
+     * @return old value. null if old value not exists
      */
     Object put( Object key, Object value );
 
@@ -59,7 +59,7 @@ public interface Cache
      * Get an item from the cache.
      *
      * @param key key to lookup the item
-     * @return the matching object in the cache. null if item not exists.
+     * @return the matching object in the cache. null if item not exists
      */
     Object get( Object key );
 
@@ -67,12 +67,14 @@ public interface Cache
      * Removes an item from the cache.
      *
      * @param key key to remove
-     * @return the value removed. null if old value not exists.
+     * @return the value removed. null if old value not exists
      */
     Object remove( Object key );
 
     /**
-     * @param key
+     * Returns true if this cache contains a specified key.
+     *
+     * @param key key whose presence in this map is to be tested
      * @return true if matching item in the cache
      */
     boolean containsKey( Object key );
