@@ -160,12 +160,52 @@ Legal:
 
   <target name="import-log4j-jar" description="Imports the Log4J API if required">
 
-
     <get src="http://www.ibiblio.org/maven/log4j/jars/log4j-1.2.7.jar"
         dest="${lib.dir}/log4j-1.2.7.jar"
         verbose="true"
         usetimestamp="true"/>
-        
+      
+  </target>
+
+  <target name="import-avalon-site" description="Imports the avalon-site" depends="import-log4j-jar">
+    <!-- these are really old releases. Need to verify we can get the
+         latest of everything and just download that! -->
+    <mkdir dir="${avalon-site.dir}"/>
+    <mkdir dir="${avalon-site.dir}/lib"/>
+    
+    <get src="http://www.ibiblio.org/maven/ant/jars/ant-1.4.1.jar"
+        dest="${avalon-site.dir}/lib/ant-1.4.1.jar"
+        verbose="true"
+        usetimestamp="true"/>
+      
+    <get src="http://www.ibiblio.org/maven/commons-collections/jars/commons-collections-2.0.jar"
+        dest="${avalon-site.dir}/lib/commons-collections-2.0.jar"
+        verbose="true"
+        usetimestamp="true"/>
+      
+    <get src="http://www.ibiblio.org/maven/jdom/jars/jdom-b8.jar"
+        dest="${avalon-site.dir}/lib/jdom-b8.jar"
+        verbose="true"
+        usetimestamp="true"/>
+      
+    <get src="http://www.ibiblio.org/maven/jdom/jars/jdom-b8.jar"
+        dest="${avalon-site.dir}/lib/jdom-b8.jar"
+        verbose="true"
+        usetimestamp="true"/>
+    
+    <copy file="${lib.dir}/log4j-1.2.7.jar"
+        tofile="${avalon-site.dir}/lib/log4j-1.2.7.jar"/>
+	
+    <get src="http://www.ibiblio.org/maven/velocity/jars/velocity-1.4-dev.jar"
+        dest="${avalon-site.dir}/lib/velocity-1.4-dev.jar"
+        verbose="true"
+        usetimestamp="true"/>
+
+    <get src="http://www.ibiblio.org/maven/xerces/jars/xerces-1.4.4.jar"
+        dest="${avalon-site.dir}/lib/velocity-1.4-dev.jar"
+        verbose="true"
+        usetimestamp="true"/>
+
   </target>
 
 
@@ -191,10 +231,14 @@ Legal:
                classname="org.apache.log4j.Appender"
                classpathref="project.class.path" />
 
+    <available property="avalon-site.present"
+               file="${avalon-site.dir}/lib/velocity-1.4-dev.jar"
+               type="file" />
+	       
   </target>
 
   <target name="op-warning">
-    <echo>**********************************************</echo>
+    <echo>******************7****************************</echo>
     <echo>*</echo>
     <echo>*  Classes needed for output via ${thing} are not </echo>
     <echo>*  available.  Logkit should build without them</echo>
@@ -246,7 +290,31 @@ Legal:
     </antcall>
   </target>
 
-  <target name="optional-warnings" depends="jms-warn,sql-warn,servlet-warn,mail-warn,log4j-warn">
+  <target name="avalon-site-warn" unless="avalon-site.present">
+    <echo>******************************************************</echo>
+    <echo>*</echo>
+    <echo>*  The avalon-site CVS module is not available.</echo>
+    <echo>*  Without it, you cannot build the documentation</echo>
+    <echo>*  from source.</echo>
+    <echo>*</echo>
+    <echo>*  Recovery:</echo>
+    <echo>*  Set the avalon-site.dir property in either</echo>
+    <echo>*  ant.properties or ${user.home}/.ant.properties to</echo>
+    <echo>*  point at your cvs checkout of avalon-site, or run</echo> 
+    <echo>*  the build target import-avalon-site and it will</echo>
+    <echo>*  check out the required parts of avalon-site into the</echo>
+    <echo>*  parent directory.</echo>
+    <echo>*</echo>
+    <echo>*  In order to not let the build fail completely, I'll</echo>
+    <echo>*  created a directory ${avalon-site.dir}/lib.</echo>
+    <echo>*</echo>
+    <echo>******************************************************</echo>
+    <echo/>
+    
+    <mkdir dir="${avalon-site.dir}/lib"/>
+  </target>
+
+  <target name="optional-warnings" depends="jms-warn,sql-warn,servlet-warn,mail-warn,log4j-warn,avalon-site-warn">
   </target>
 
   <!-- Prepares the build directory -->
@@ -418,8 +486,11 @@ Legal:
         <echo>
             AnakiaTask is not present! Please check to make sure that
             velocity.jar is in your classpath. The easiest way to build
-            the documentation is to checkout jakarta-site CVS and specify
+            the documentation is to checkout avalon-site CVS and specify
             avalon-site.dir property.
+	    
+	    You can also run the build target import-avalon-site, to do
+	    this automatically.
         </echo>
     </target>
 
@@ -672,4 +743,5 @@ Legal:
   </target>
 
 </project>
+
 
