@@ -411,17 +411,6 @@
         <j:forEach var="packageGroup" items="${pom.packageGroups}">
           <group title="${packageGroup.title}" packages="${packageGroup.packages}"/>
         </j:forEach>
-        <sourcepath path="${basedir}/extension/spi/src/java"/>
-        <sourcepath path="${basedir}/extension/impl/src/java"/>
-        <sourcepath path="${basedir}/composition/api/src/java"/>
-        <sourcepath path="${basedir}/composition/spi/src/java"/>
-        <sourcepath path="${basedir}/composition/impl/src/java"/>
-        <sourcepath path="${basedir}/activation/api/src/java"/>
-        <sourcepath path="${basedir}/activation/spi/src/java"/>
-        <sourcepath path="${basedir}/activation/impl/src/java"/>
-        <sourcepath path="${basedir}/kernel/api/src/java"/>
-        <sourcepath path="${basedir}/kernel/impl/src/java"/>
-        <sourcepath path="${basedir}/kernel/unit/src/java"/>
         <classpath>
           <path refid="maven.dependency.classpath"/>
 	  </classpath>
