@@ -140,13 +140,16 @@
           would be a bear to maintain, and it won't easily be extended.
         </p>
         <source>
-abstract class AbstractExampleDocument {
+abstract class AbstractExampleDocument 
+{
     // skip some code ...
-    public void output(Example structure) {
-        if (structure != null) {
-            this.format(Example structure);
-        }
-    }
+  public void output(Example structure) 
+  {
+      if( null != structure )
+      {
+        this.format( structure );
+      }
+  }
 
     protected void format(Example structure);
 }
@@ -158,14 +161,18 @@ abstract class AbstractExampleDocument {
           without worrying about any other concerns.
         </p>
         <source>
-class DefaultExampleDocument {
-    // skip some code ...
-    public void output(Example structure) {
-       ExampleFormatter output = (ExampleFormatter) manager.lookup(Roles.FORMATTER);
-       if (structure != null) {
-            output.format(structure);
-       }
-    }
+class DefaultExampleDocument 
+{
+  // skip some code ...
+  public void output(Example structure) 
+  {
+     ExampleFormatter output = 
+       (ExampleFormatter) manager.lookup(Roles.FORMATTER);
+     if( null != structure ) 
+     {
+       output.format(structure);
+     }
+  }
 }
         </source>
         <p>
@@ -190,7 +197,7 @@ class DefaultExampleDocument {
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.2 $ $Date: 2001/03/02 01:53:52 $
+      $Revision: 1.3 $ $Date: 2001/03/02 03:14:05 $
     </legal>
   </footer>
 </document>
