@@ -16,8 +16,9 @@ import java.security.PermissionCollection;
 import java.security.Permissions;
 import java.security.Policy;
 import java.util.ArrayList;
-import java.util.Hashtable;
+import java.util.Map;
 import java.util.StringTokenizer;
+import java.util.HashMap;
 
 /**
  * PhoenixLoader is the class that bootstraps and sets up engine ClassLoader.
@@ -27,8 +28,8 @@ import java.util.StringTokenizer;
  */
 public final class Main
 {
-    private static final String MAIN_CLASS = "org.apache.avalon.phoenix.frontends.CLIMain";
-
+    private static final String MAIN_CLASS =
+        "org.apache.avalon.phoenix.frontends.CLIMain";
     private static final String LOADER_JAR = "phoenix-loader.jar";
 
     private static Object c_frontend;
@@ -42,7 +43,8 @@ public final class Main
     public static final void main( final String[] args )
         throws Exception
     {
-        int exitCode = startup( args, new Hashtable(), true );
+        final int exitCode =
+            startup( args, new HashMap(), true );
         System.exit( exitCode );
     }
 
@@ -60,7 +62,7 @@ public final class Main
      * @throws Exception if an error occurs
      */
     protected static final int startup( final String[] args,
-                                        final Hashtable data,
+                                        final Map data,
                                         final boolean blocking )
         throws Exception
     {
@@ -84,7 +86,7 @@ public final class Main
             //Create main launcher
             final Class clazz = classLoader.loadClass( MAIN_CLASS );
             final Class[] paramTypes =
-                new Class[]{args.getClass(), Hashtable.class, Boolean.TYPE};
+                new Class[]{args.getClass(), Map.class, Boolean.TYPE};
             final Method method = clazz.getMethod( "main", paramTypes );
             c_frontend = clazz.newInstance();
 
