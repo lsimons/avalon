@@ -49,10 +49,12 @@
 
     <!-- Create the artifact cache. -->
     <property name="magic.cache" value="${magic.home}/main"/>
+    <echo message="Using cache: ${magic.cache}"/>
     <mkdir dir="${magic.cache}"/>
 
     <!-- Create the docs cache. -->
     <property name="magic.docs" value="${magic.home}/docs"/>
+    <echo message="Using doc repository: ${magic.docs}"/>
     <mkdir dir="${magic.docs}"/>
 
     <!-- Create the magic group cache dir. -->
