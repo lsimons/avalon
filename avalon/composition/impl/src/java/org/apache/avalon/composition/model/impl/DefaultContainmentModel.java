@@ -77,6 +77,7 @@ import org.apache.avalon.composition.data.builder.ContainmentProfileBuilder;
 import org.apache.avalon.composition.data.builder.XMLContainmentProfileCreator;
 import org.apache.avalon.composition.event.CompositionEvent;
 import org.apache.avalon.composition.event.CompositionEventListener;
+import org.apache.avalon.composition.model.Composite;
 import org.apache.avalon.composition.model.ClassLoaderContext;
 import org.apache.avalon.composition.model.ClassLoaderModel;
 import org.apache.avalon.composition.model.ContainmentModel;
@@ -85,9 +86,11 @@ import org.apache.avalon.composition.model.DeploymentModel;
 import org.apache.avalon.composition.model.Model;
 import org.apache.avalon.composition.model.ModelException;
 import org.apache.avalon.composition.model.ModelRuntimeException;
+import org.apache.avalon.composition.model.ModelRepository;
 import org.apache.avalon.composition.model.ModelSelector;
 import org.apache.avalon.composition.model.ProfileSelector;
 import org.apache.avalon.composition.model.TypeRepository;
+import org.apache.avalon.composition.model.AssemblyException;
 import org.apache.avalon.composition.logging.LoggingManager;
 import org.apache.avalon.composition.util.StringHelper;
 import org.apache.avalon.repository.Repository;
@@ -111,7 +114,7 @@ import org.apache.avalon.util.exception.ExceptionHelper;
  * as a part of a containment deployment model.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.13 $ $Date: 2004/01/01 13:08:56 $
+ * @version $Revision: 1.13.2.1 $ $Date: 2004/01/03 15:38:50 $
  */
 public class DefaultContainmentModel extends DefaultModel 
   implements ContainmentModel
@@ -144,9 +147,9 @@ public class DefaultContainmentModel extends DefaultModel
         }
     }
 
-    //==============================================================
+    //--------------------------------------------------------------
     // state
-    //==============================================================
+    //--------------------------------------------------------------
 
     private ContainmentContext m_context;
 
@@ -161,9 +164,11 @@ public class DefaultContainmentModel extends DefaultModel
 
     private final LinkedList m_compositionListeners = new LinkedList();
 
-    //==============================================================
+    private final DefaultState m_assembly = new DefaultState();
+
+    //--------------------------------------------------------------
     // constructor
-    //==============================================================
+    //--------------------------------------------------------------
 
    /**
     * Creation of a new containment model.
@@ -195,9 +200,9 @@ public class DefaultContainmentModel extends DefaultModel
         }
     }
 
-    //==============================================================
+    //--------------------------------------------------------------
     // Model
-    //==============================================================
+    //--------------------------------------------------------------
 
    /**
     * Return the classloader model.
@@ -255,10 +260,83 @@ public class DefaultContainmentModel extends DefaultModel
         return false;
     }
 
-    //==============================================================
-    // ContainmentModel
-    //==============================================================
+    //--------------------------------------------------------------
+    // Composite
+    //--------------------------------------------------------------
 
+    /**
+     * Returns the assembled state of the model.
+     * @return true if this model is assembled
+     */
+    public boolean isAssembled()
+    {
+        return m_assembly.isEnabled();
+    }
+
+    /**
+     * Assemble the model.
+     * @exception Exception if an error occurs during model assembly
+     */
+    public void assemble() throws AssemblyException
+    {
+        synchronized( m_assembly )
+        {
+            if( isAssembled() )
+            {
+                return;
+            }
+
+            getLogger().debug( "assembly phase" );
+            Model[] models = m_context.getModelRepository().getModels();
+            for( int i=0; i<models.length; i++ )
+            {
+                Model model = models[i];
+                if( model instanceof Composite )
+                {
+                    ((Composite)model).assemble();
+                }
+            }
+
+            m_assembly.setEnabled( true );
+        }
+    }
+
+    /**
+     * Disassemble the model.
+     */
+    public void disassemble()
+    {
+        synchronized( m_assembly )
+        {
+            if( !isAssembled() )
+            {
+                return;
+            }
+
+            m_assembly.setEnabled( false );
+        }
+    }
+
+    /**
+     * Return the set of models assigned as providers.
+     * @return the providers consumed by the model
+     * @exception IllegalStateException if the model is not in an assembled state 
+     */
+    public Model[] getProviders()
+    {
+        if( !isAssembled() ) 
+        {
+             final String error = 
+               "Model is not assembled.";
+             throw new IllegalStateException( error );
+        }
+
+        return new Model[0];
+    }
+
+    //--------------------------------------------------------------
+    // ContainmentModel
+    //--------------------------------------------------------------
 
    /**
     * Add a composition listener to the model.
@@ -376,9 +454,10 @@ public class DefaultContainmentModel extends DefaultModel
 
     private Model addModel( String name, Model model ) throws ModelException
     {
-        synchronized( m_models )
+        ModelRepository repository = m_context.getModelRepository();
+        synchronized( repository )
         {
-            m_models.put( name, model );
+            repository.addModel( name, model );
             CompositionEvent event = new CompositionEvent( this, model );
             fireModelAddedEvent( event );
             return model;
@@ -416,9 +495,10 @@ public class DefaultContainmentModel extends DefaultModel
     */
     public void removeModel( String name ) throws IllegalArgumentException
     {
-        synchronized( m_models )
+        ModelRepository repository = m_context.getModelRepository();
+        synchronized( repository )
         {
-            Model model = (Model) m_models.get( name );
+            Model model = (Model) repository.getModel( name );
             if( null == name )
             {
                 final String error = 
@@ -429,7 +509,7 @@ public class DefaultContainmentModel extends DefaultModel
             }
             else
             {
-                m_models.remove( name );
+                repository.removeModel( model );
                 CompositionEvent event = new CompositionEvent( this, model );
                 fireModelRemovedEvent( event );
             }
@@ -490,6 +570,7 @@ public class DefaultContainmentModel extends DefaultModel
               m_context.getClassLoaderModel().getTypeRepository().getType( base );
             final File home = new File( m_context.getHomeDirectory(), name );
             final File temp = new File( m_context.getTempDirectory(), name );
+
             DefaultDeploymentContext context = 
               new DefaultDeploymentContext( 
                 logger, name, m_context, profile, type, base, home, temp, partition );
@@ -582,10 +663,13 @@ public class DefaultContainmentModel extends DefaultModel
             final File temp = new File( m_context.getTempDirectory(), name );
             final Logger logger = getLogger().getChildLogger( name );
 
+            ModelRepository modelRepository = 
+              m_context.getModelRepository();
+
             DefaultContainmentContext context = 
               new DefaultContainmentContext( 
                 logger, m_context.getSystemContext(), 
-                classLoaderModel, home, temp, profile, partition, name );
+                classLoaderModel, modelRepository, home, temp, profile, partition, name );
 
             //
             // TODO: lookup the profile for a factory declaration, then 
@@ -908,7 +992,7 @@ public class DefaultContainmentModel extends DefaultModel
     */
     public Model[] getModels()
     {
-        return (Model[]) m_models.values().toArray( new Model[0] );
+        return m_context.getModelRepository().getModels();
     }
 
    /**
@@ -961,7 +1045,7 @@ public class DefaultContainmentModel extends DefaultModel
             }
             else
             {
-                return (Model) m_models.get( path );
+                return m_context.getModelRepository().getModel( path );
             }
         }
     }

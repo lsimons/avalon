@@ -60,7 +60,7 @@ import org.apache.avalon.composition.data.ContainmentProfile;
  * Defintion of a working context.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2003/09/24 09:31:15 $
+ * @version $Revision: 1.1.1.1.2.1 $ $Date: 2004/01/03 15:38:50 $
  */
 public interface ContainmentContext extends Context
 {
@@ -128,5 +128,12 @@ public interface ContainmentContext extends Context
     */
     ClassLoader getClassLoader();
 
+
+   /**
+    * Return the model repository.
+    *
+    * @return the model repository
+    */
+    ModelRepository getModelRepository();
 
 }

@@ -4,7 +4,7 @@
                    The Apache Software License, Version 1.1
  ============================================================================
 
- Copyright (C) 1999-2002 The Apache Software Foundation. All rights reserved.
+ Copyright (C) 1999-2004 The Apache Software Foundation. All rights reserved.
 
  Redistribution and use in source and binary forms, with or without modifica-
  tion, are permitted provided that the following conditions are met:
@@ -54,7 +54,7 @@ package org.apache.avalon.composition.model;
  * Exception raised in response to a model assembly failure.
  *
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.1.2.1 $ $Date: 2004/01/03 13:28:37 $
+ * @version $Revision: 1.1.2.2 $ $Date: 2004/01/03 15:38:50 $
  */
 public final class AssemblyException
         extends ModelException
