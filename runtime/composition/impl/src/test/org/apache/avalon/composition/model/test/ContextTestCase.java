@@ -69,7 +69,19 @@ public class ContextTestCase extends AbstractTestCase
    // tests
    //-------------------------------------------------------
 
-    public void testClassLoader() throws Exception
+    public void testContext() throws Exception
+    {
+        executeClassLoader();
+        executeHomeDirectory();
+        executeTempDirectory();
+        executePartition();
+        executeAlias();
+        executeVolatile();
+        executeImport();
+        executeContextCasting();
+    }
+
+    private void executeClassLoader() throws Exception
     {
         try
         {
@@ -81,7 +93,7 @@ public class ContextTestCase extends AbstractTestCase
         }
     }
 
-    public void testHomeDirectory() throws Exception
+    private void executeHomeDirectory() throws Exception
     {   
         try
         {
@@ -93,7 +105,7 @@ public class ContextTestCase extends AbstractTestCase
         }
     }
 
-    public void testTempDirectory() throws Exception
+    private void executeTempDirectory() throws Exception
     {
         try
         {
@@ -105,7 +117,7 @@ public class ContextTestCase extends AbstractTestCase
         }
     }
 
-    public void testPartition() throws Exception
+    private void executePartition() throws Exception
     {
         try
         {
@@ -117,7 +129,7 @@ public class ContextTestCase extends AbstractTestCase
         }
     }
 
-    public void testAlias() throws Exception
+    private void executeAlias() throws Exception
     {
         //
         // validate context entry lookup using an alias
@@ -131,9 +143,9 @@ public class ContextTestCase extends AbstractTestCase
         {
             fail( "alias based lookup of the component name" );
         }
-   }
+    }
 
-    public void testVolatile() throws Exception
+    private void executeVolatile() throws Exception
     {
 
         //
@@ -169,7 +181,7 @@ public class ContextTestCase extends AbstractTestCase
         }
     }
 
-    public void testImport() throws Exception
+    private void executeImport() throws Exception
     {
         //
         // validate an imported context entry
@@ -185,7 +197,7 @@ public class ContextTestCase extends AbstractTestCase
         }
     }
 
-    public void testContextCasting() throws Exception
+    private void executeContextCasting() throws Exception
     {
         //
         // validate context safe-casting
