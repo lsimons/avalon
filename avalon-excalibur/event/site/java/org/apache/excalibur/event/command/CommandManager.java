@@ -115,7 +115,7 @@ public class CommandManager implements EventPipeline, Disposable, EnqueuePredica
         m_mutex = new ReentrantLock();
         m_eventHandler = new CommandEventHandler( Collections.unmodifiableMap( m_signalHandlers ) );
         m_sources = new Source[]{m_queue};
-        m_failureHandler = new NullCommandFailureHandler();
+        m_failureHandler = NullCommandFailureHandler.SHARED_INSTANCE;
         m_queue.setEnqueuePredicate(this);
         m_isAccepting = true;
     }
