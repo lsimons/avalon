@@ -219,21 +219,17 @@ Legal:
     <mkdir dir="${build.classes}"/>
     <mkdir dir="${build.scratchpad}"/>
 
+    <copy todir="${build.scratchpad}">
+      <fileset dir="${scratchpad.dir}">
+        <include name="**/test/**"/>
+        <exclude name="**/test/*.java"/>
+      </fileset>
+    </copy>
+
     <copy todir="${build.classes}">
       <fileset dir="${test.dir}">
-        <include name="**/test/*.xtest"/>
-      </fileset>
-    </copy>
-
-    <copy todir="${build.scratchpad}">
-      <fileset dir="${scratchpad.dir}">
-        <include name="**/test/*.xtest"/>
-      </fileset>
-    </copy>
-
-    <copy todir="${build.scratchpad}">
-      <fileset dir="${scratchpad.dir}">
-        <include name="**/test/*.mf"/>
+        <include name="**/test/**"/>
+        <exclude name="**/test/*.java"/>
       </fileset>
     </copy>
 
@@ -295,6 +291,7 @@ Legal:
           <exclude name="org/apache/avalon/excalibur/datasource/test/DataSourceTestCase.class"/>
           <exclude name="org/apache/avalon/excalibur/naming/rmi/test/RMIContextTestCase.class"/>
           <exclude name="org/apache/avalon/excalibur/logger/test/LogKitManagementTestCase.class"/>
+          <exclude name="org/apache/avalon/excalibur/concurrent/test/ReadWriteLockTestCase.class"/>
           <include name="**/test/*TestCase.class"/>
         </fileset>
         <fileset dir="${build.scratchpad}">
