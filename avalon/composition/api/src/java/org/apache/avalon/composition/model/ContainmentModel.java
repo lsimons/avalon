@@ -55,6 +55,7 @@ import java.net.URL;
 import org.apache.avalon.composition.data.Profile;
 import org.apache.avalon.composition.data.ServiceDirective;
 import org.apache.avalon.composition.data.CategoriesDirective;
+import org.apache.avalon.composition.data.TargetDirective;
 import org.apache.avalon.meta.info.DependencyDescriptor;
 import org.apache.avalon.meta.info.StageDescriptor;
 
@@ -64,7 +65,7 @@ import org.apache.avalon.meta.info.StageDescriptor;
  * context.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.5 $ $Date: 2003/11/22 12:52:55 $
+ * @version $Revision: 1.6 $ $Date: 2003/12/05 00:40:08 $
  */
 public interface ContainmentModel extends Model
 {
@@ -168,5 +169,19 @@ public interface ContainmentModel extends Model
     * @return the export directives
     */
     ServiceDirective getExportDirective( Class clazz );
+
+   /**
+    * Apply a set of override targets resolvable from a supplied url.
+    * @param url a url resolvable to a TargetDirective[]
+    * @exception ModelException if an error occurs
+    */
+    void applyTargets( URL config )
+      throws ModelException;
+
+   /**
+    * Apply a set of override targets.
+    * @param targets a set of target directives
+    */
+    void applyTargets( TargetDirective[]targets );
 
 }
