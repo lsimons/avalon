@@ -34,10 +34,16 @@ import org.apache.avalon.framework.context.Context;
  * Defintion of a system context that exposes a system wide set of parameters.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2004/02/29 22:25:26 $
+ * @version $Revision: 1.3 $ $Date: 2004/03/01 16:31:41 $
  */
 public interface SystemContextFactory 
 {
+   /**
+    * Set the security enabled status.
+    * @param secure the security enabled flag
+    */
+    void setSecurityEnabled( boolean secure );
+
    /**
     * Set the parent context.
     * @param context a parent context instance 

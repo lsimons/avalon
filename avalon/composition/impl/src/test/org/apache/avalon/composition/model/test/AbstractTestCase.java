@@ -113,6 +113,7 @@ public abstract class AbstractTestCase extends TestCase
         SecurityProfile[] profiles = 
           SECURITY_BUILDER.createSecurityProfiles( secConfig );
         factory.setSecurityProfiles( profiles );
+        factory.setSecurityEnabled( true );
 
         Repository repository = 
           createTestRepository( context, new File( test, "repository" ) );

@@ -62,7 +62,7 @@ import org.apache.avalon.excalibur.i18n.Resources;
  * Implementation of a system context that exposes a system wide set of parameters.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2004/02/29 22:25:26 $
+ * @version $Revision: 1.3 $ $Date: 2004/03/01 16:31:41 $
  */
 public class DefaultSystemContextFactory implements SystemContextFactory
 {
@@ -110,6 +110,8 @@ public class DefaultSystemContextFactory implements SystemContextFactory
 
     private Context m_parent;
 
+    private boolean m_secure = false;
+
     //--------------------------------------------------------------
     // constructor
     //--------------------------------------------------------------
@@ -127,6 +129,11 @@ public class DefaultSystemContextFactory implements SystemContextFactory
     //--------------------------------------------------------------
     // SystemContextFactory
     //--------------------------------------------------------------
+
+    public void setSecurityEnabled( boolean secure )
+    {
+        m_secure = secure;
+    }
 
     public void setParentContext( Context parent )
     {
@@ -224,9 +231,15 @@ public class DefaultSystemContextFactory implements SystemContextFactory
           getName(), 
           isTraceEnabled(), 
           getDefaultDeploymentTimeout(), 
+          getSecurityEnabled(),
           getSecurityProfiles(), 
           getTargetDirectives()
         );
+    }
+
+    public boolean getSecurityEnabled()
+    {
+        return m_secure;
     }
 
     public Context getParentContext()

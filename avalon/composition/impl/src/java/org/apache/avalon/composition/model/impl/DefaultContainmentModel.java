@@ -99,7 +99,7 @@ import org.apache.avalon.util.exception.ExceptionHelper;
  * as a part of a containment deployment model.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.37 $ $Date: 2004/02/29 22:25:26 $
+ * @version $Revision: 1.38 $ $Date: 2004/03/01 16:31:41 $
  */
 public class DefaultContainmentModel extends DefaultDeploymentModel 
   implements ContainmentModel
@@ -140,8 +140,6 @@ public class DefaultContainmentModel extends DefaultDeploymentModel
     private final LinkedList m_compositionListeners = new LinkedList();
 
     private final DefaultState m_assembly = new DefaultState();
-
-    private final Map m_models = new Hashtable();
 
     private final ContainmentContext m_context;
 
@@ -722,7 +720,7 @@ public class DefaultContainmentModel extends DefaultDeploymentModel
             }
             else
             {
-                m_context.getDependencyGraph().add( model );
+                m_context.getDependencyGraph().remove( model );
                 repository.removeModel( model );
                 CompositionEvent event = new CompositionEvent( this, model );
                 fireModelRemovedEvent( event );

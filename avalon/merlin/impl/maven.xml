@@ -3,7 +3,8 @@
   <postGoal name="java:prepare-filesystem">
     <attainGoal name="avalon:artifact"/>
     <ant:copy toDir="${maven.repo.local}/${pom.groupId}/jars" 
-       file="${maven.build.dir}/${pom.artifactId}-${pom.currentVersion}.jar.meta" verbose="yes"/>
+       file="${maven.build.dir}/${pom.artifactId}-${pom.currentVersion}.jar.meta" 
+       verbose="yes"/>
   </postGoal>
 
   <!--
@@ -27,35 +28,10 @@
         <filter token="LOGGING_IMPLEMENTATION" 
            value="${merlin.logging.implementation}"/>
         <filter token="STANDARD_RUNTIME" 
-           value="${merlin.runtime.standard.implementation}"/>
-        <filter token="SECURE_RUNTIME" 
-           value="${merlin.runtime.csi.implementation}"/>
+           value="${merlin.runtime.implementation}"/>
       </filterset>
     </ant:copy>
 
-    <!--
-    <ant:echo file="${maven.build.dir}/classes/merlin.properties">
-#
-# merlin system implementation
-merlin.implementation = ${pom.groupId}:${pom.artifactId};${pom.currentVersion}
-
-#
-# logging implementation
-merlin.logging.implementation = ${merlin.logging.implementation}
-
-#
-# runtime implementation
-merlin.runtime.standard.implementation = ${merlin.runtime.standard.implementation}
-
-#
-# runtime code secure implementation
-merlin.runtime.csi.implementation = ${merlin.runtime.csi.implementation}
-
-#
-# EOF
-#
-</ant:echo>
-    -->
     <ant:mkdir dir="${maven.repo.local}/${pom.groupId}/properties"/>
     <ant:copy toDir="${maven.repo.local}/${pom.groupId}/properties" 
        file="${maven.build.dir}/classes/merlin.properties" verbose="yes"/>

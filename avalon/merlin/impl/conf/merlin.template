@@ -18,11 +18,7 @@ merlin.logging.implementation = @LOGGING_IMPLEMENTATION@
 
 #
 # runtime implementation
-merlin.runtime.standard.implementation = @STANDARD_RUNTIME@
-
-#
-# runtime code secure implementation
-merlin.runtime.csi.implementation = @SECURE_RUNTIME@
+merlin.runtime.implementation = @STANDARD_RUNTIME@
 
 #
 # server mode

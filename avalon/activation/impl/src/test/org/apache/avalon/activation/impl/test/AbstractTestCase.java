@@ -68,7 +68,6 @@ public abstract class AbstractTestCase extends TestCase
     private static final XMLSecurityProfileBuilder SECURITY_BUILDER = 
       new XMLSecurityProfileBuilder();
 
-
    //-------------------------------------------------------
    // state
    //-------------------------------------------------------
@@ -155,8 +154,9 @@ public abstract class AbstractTestCase extends TestCase
         if( m_secured )
         {
             SecurityProfile[] profiles = 
-              SECURITY_BUILDER.createSecurityProfiles( config );
+              SECURITY_BUILDER.createSecurityProfiles( secConfig );
             factory.setSecurityProfiles( profiles );
+            factory.setSecurityEnabled( true );
         }
 
         Repository repository = 
@@ -165,6 +165,7 @@ public abstract class AbstractTestCase extends TestCase
 
         factory.setRuntime( DefaultRuntime.class );
         m_system = factory.createSystemContext();
+
         m_logger = m_system.getLogger();
 
         //
@@ -176,7 +177,8 @@ public abstract class AbstractTestCase extends TestCase
         m_model = m_system.getModelFactory().createRootContainmentModel( profile );
     }
 
-    InitialContext setUpInitialContext( File base, Configuration config ) throws Exception
+    InitialContext setUpInitialContext( 
+      File base, Configuration config ) throws Exception
     {
         InitialContextFactory initial = 
           new DefaultInitialContextFactory( "test", base );
@@ -185,7 +187,8 @@ public abstract class AbstractTestCase extends TestCase
         return initial.createInitialContext();
     }
 
-    private Repository createTestRepository( InitialContext context, File cache ) throws Exception
+    private Repository createTestRepository( 
+      InitialContext context, File cache ) throws Exception
     {
         Factory factory = context.getInitialFactory();
         RepositoryCriteria criteria = 
@@ -195,7 +198,8 @@ public abstract class AbstractTestCase extends TestCase
         return (Repository) factory.create( criteria );
     }
 
-    private void registerSystemArtifacts( InitialContextFactory factory, Configuration config )
+    private void registerSystemArtifacts( 
+      InitialContextFactory factory, Configuration config )
       throws Exception
     {
         Artifact[] artifacts = getArtifactsToRegister( config );
