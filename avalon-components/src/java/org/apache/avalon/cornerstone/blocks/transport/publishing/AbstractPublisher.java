@@ -26,13 +26,18 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.component.Composable;
 import org.apache.avalon.framework.component.ComponentManager;
 import org.apache.avalon.framework.component.ComponentException;
+import org.apache.avalon.framework.context.Context;
+import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.phoenix.Block;
+import org.apache.avalon.phoenix.BlockContext;
 import org.apache.avalon.cornerstone.services.sockets.SocketManager;
 
 import java.util.StringTokenizer;
 import java.util.Vector;
 
 import java.net.MalformedURLException;
+import java.io.File;
+import java.net.URL;
 
 
 /**
@@ -40,15 +45,17 @@ import java.net.MalformedURLException;
  *
  *
  * @author Paul Hammant <a href="mailto:Paul_Hammant@yahoo.com">Paul_Hammant@yahoo.com</a>
- * @version $Revision: 1.7 $
+ * @version $Revision: 1.8 $
  */
 public abstract class AbstractPublisher extends AbstractLogEnabled
-        implements AltrmiPublisher, Startable, Composable, Configurable, Initializable, Block
+        implements AltrmiPublisher, Startable, Composable, Contextualizable,
+                   Configurable, Initializable, Block
 {
 
     protected AltrmiServer m_AltrmiServer;
     private ClassRetriever m_ClassRetriever;
     protected AltrmiAuthenticator m_AltrmiAuthenticator;
+    protected File mBaseDirectory;
 
     /**
      * Pass the <code>Configuration</code> to the <code>Configurable</code>
@@ -71,21 +78,22 @@ public abstract class AbstractPublisher extends AbstractLogEnabled
 
             while (st.hasMoreTokens())
             {
-                vector.add(st.nextToken());
+                try {
+                    String url = st.nextToken();
+                    if (url.startsWith("./")) {
+                        File file = new File(mBaseDirectory, url.substring(2,url.length()));
+                        vector.add(file.toURL());
+                    } else {
+                         vector.add(new URL(url));
+                    }
+                } catch (MalformedURLException e) {
+                    getLogger().debug("Can't create URL from config element 'gerneratedClassJarURLs'",e);
+                }
             }
 
-            String[] urls = new String[vector.size()];
-
+            URL[] urls = new URL[vector.size()];
             vector.copyInto(urls);
-
-            try
-            {
-                m_ClassRetriever = new JarFileClassRetriever(urls);
-            }
-            catch (MalformedURLException mufe)
-            {
-                throw new ConfigurationException("URL Invalid", mufe);
-            }
+            m_ClassRetriever = new JarFileClassRetriever(urls);
         }
         else if (classRetrieverType.equals("none"))
         {
@@ -96,6 +104,17 @@ public abstract class AbstractPublisher extends AbstractLogEnabled
             throw new ConfigurationException(
                 "classRetrieverType must be 'baseMobileClass', 'jarFile' or 'none'");
         }
+    }
+
+    /**
+     * Method contextualize
+     *
+     *
+     * @param mContext
+     *
+     */
+    public void contextualize(final Context context) {
+        mBaseDirectory = ((BlockContext) context).getBaseDirectory();
     }
 
     /**
