@@ -155,8 +155,9 @@ public class CommandManager implements EventPipeline
                     if ( command.m_repeatable )
                     {
                         RepeatedCommand cmd = (RepeatedCommand) command.m_command;
+                        int numRepeats = cmd.getNumberOfRepeats();
 
-                        if ( cmd.getNumberOfRepeats() < command.m_numExecutions )
+                        if ( numRepeats < 1 || numRepeats < command.m_numExecutions )
                         {
                             command.m_nextRunTime = System.currentTimeMillis() +
                                     cmd.getRepeatInterval();
