@@ -13,10 +13,20 @@ import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.context.DefaultContext;
 import org.apache.avalon.framework.parameters.Parameterizable;
 import org.apache.avalon.framework.parameters.Parameters;
+import org.apache.avalon.framework.logger.AbstractLogEnabled;
+import org.apache.avalon.framework.logger.AvalonFormatter;
+import org.apache.avalon.framework.logger.LogKitLogger;
+import org.apache.avalon.framework.logger.Logger;
+import org.apache.avalon.framework.logger.LogEnabled;
 import org.apache.avalon.phoenix.Constants;
 import org.apache.avalon.phoenix.components.embeddor.DefaultEmbeddor;
 import org.apache.avalon.phoenix.interfaces.Embeddor;
 import java.util.Hashtable;
+import java.io.File;
+import org.apache.log.Hierarchy;
+import org.apache.log.LogTarget;
+import org.apache.log.Priority;
+import org.apache.log.output.io.FileTarget;
 
 /**
  * The class to load the kernel and start it running.
@@ -29,6 +39,13 @@ public final class CLIMain
 {
     private static final Resources REZ =
         ResourceManager.getPackageResources( CLIMain.class );
+
+    private static final String DEFAULT_LOG_FILE = "/logs/phoenix.log";
+
+    private final static String DEFAULT_FORMAT =
+        "%{time} [%7.7{priority}] (%{category}): %{message}\\n%{throwable}";
+
+
 
     ///The embeddor attached to frontend
     private Embeddor m_embeddor;
@@ -137,6 +154,12 @@ public final class CLIMain
         {
             m_embeddor = new DefaultEmbeddor();
 
+            if( m_embeddor instanceof LogEnabled )
+            {
+                final Logger logger = createLogger( parameters );
+                ( (LogEnabled)m_embeddor ).enableLogging( logger );
+            }
+
             if( m_embeddor instanceof Contextualizable )
             {
                 final DefaultContext context = new DefaultContext( data );
@@ -157,6 +180,37 @@ public final class CLIMain
         }
 
         return true;
+    }
+
+
+    /**
+     * Uses <code>org.apache.log.Hierarchy</code> to create a new
+     * logger using "Phoenix" as its category, DEBUG as its
+     * priority and the log-destination from Parameters as its
+     * destination.
+     * TODO: allow configurable priorities and multiple
+     * logtargets.
+     */
+    private Logger createLogger( final Parameters parameters )
+        throws Exception
+    {
+        final String phoenixHome = parameters.getParameter( "phoenix.home" );
+        final String logDestination =
+            parameters.getParameter( "log-destination", phoenixHome + DEFAULT_LOG_FILE );
+        final String logPriority =
+            parameters.getParameter( "log-priority", "INFO" );
+        final AvalonFormatter formatter = new AvalonFormatter( DEFAULT_FORMAT );
+        final File file = new File( logDestination );
+        final FileTarget logTarget = new FileTarget( file, false, formatter );
+
+        //Create an anonymous hierarchy so no other
+        //components can get access to logging hierarchy
+        final Hierarchy hierarchy = new Hierarchy();
+        final org.apache.log.Logger logger = hierarchy.getLoggerFor( "Phoenix" );
+        logger.setLogTargets( new LogTarget[]{ logTarget } );
+        logger.setPriority( Priority.getPriorityForName( logPriority ) );
+        logger.info( "Logger started" );
+        return new LogKitLogger( logger );
     }
 
     /**
