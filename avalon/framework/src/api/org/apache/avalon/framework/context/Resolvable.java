@@ -21,5 +21,6 @@ public interface Resolvable
      * @param context the contextwith respect which to resolve
      * @return the resolved object
      */
-    Object resolve( Context context );
+    Object resolve( Context context )
+        throws ContextException;
 }
