@@ -14,8 +14,17 @@ public class Attributes {
     
     protected synchronized static CachedRepository getCachedRepository (Class clazz) throws Exception {
         if (classRepositories.containsKey (clazz)) {
-            return (CachedRepository) classRepositories.get (clazz);
+            CachedRepository cr = (CachedRepository) classRepositories.get (clazz);
+            if (cr == null) {
+                // Circular references.
+                throw new ClassCircularityError (clazz.getName ());
+            } else {
+                return cr;
+            }
         } else {
+            // Indicates we're loading it.
+            classRepositories.put (clazz, null);
+            
             Class attributeRepo;
             CachedRepository cached;
             try {

@@ -4,12 +4,12 @@ package org.apache.avalon.attributes.test;
  * @ThreadSafe ()
  * @Dependency ( SampleService.class, "sample" )
  */
-public class Sample extends SuperSample {
+public class Sample extends SuperSample implements SampleIFJoin {
     
     /**
      * @ThreadSafe ()
      */
-    public Object aaaa;
+    public Object field;
  
     
     /**
