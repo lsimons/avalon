@@ -23,7 +23,7 @@ import javax.swing.SwingConstants;
 /**
  *
  * @author <a href="mailto:leif@silveregg.co.jp">Leif Mortenson</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/03/28 03:15:40 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/03/30 01:29:59 $
  * @since 4.1
  */
 class ConnectDialog
@@ -85,7 +85,7 @@ class ConnectDialog
         mainBox.add( Box.createVerticalStrut( 5 ) );
         
         Box portBox = Box.createHorizontalBox();
-        portBox.add( new JLabel( "Post:" ) );
+        portBox.add( new JLabel( "Port:" ) );
         portBox.add( Box.createHorizontalStrut( 5 ) );
         portBox.add( m_portField );
         mainBox.add( portBox );
