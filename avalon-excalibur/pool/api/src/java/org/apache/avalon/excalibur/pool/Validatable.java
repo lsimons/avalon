@@ -20,7 +20,7 @@ package org.apache.avalon.excalibur.pool;
  * Used to define an object which can be validated by a ValidatedResourceLimitingPool.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.4 $ $Date: 2004/02/28 11:47:17 $
+ * @version CVS $Revision: 1.5 $ $Date: 2004/03/29 16:50:37 $
  * @since 4.1
  */
 public interface Validatable

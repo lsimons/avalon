@@ -25,7 +25,7 @@ import org.apache.avalon.framework.activity.Disposable;
  *  given a single access thread.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Id: MultiThreadedPoolComparisonProfile.java,v 1.5 2004/03/17 12:12:37 mcconnell Exp $
+ * @version $Id: MultiThreadedPoolComparisonProfile.java,v 1.6 2004/03/29 16:50:37 mcconnell Exp $
  */
 public class MultiThreadedPoolComparisonProfile
     extends PoolComparisonProfileAbstract

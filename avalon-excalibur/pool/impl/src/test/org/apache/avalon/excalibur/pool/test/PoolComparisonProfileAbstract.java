@@ -24,15 +24,16 @@ import org.apache.avalon.excalibur.pool.Pool;
 import org.apache.avalon.excalibur.pool.Poolable;
 import org.apache.avalon.excalibur.pool.ResourceLimitingPool;
 import org.apache.avalon.excalibur.pool.SoftResourceLimitingPool;
+
 import org.apache.avalon.framework.logger.LogEnabled;
-import org.apache.avalon.framework.logger.LogKitLogger;
+import org.apache.avalon.framework.logger.ConsoleLogger;
 import org.apache.avalon.framework.logger.Logger;
 
 /**
  * Used as a basis for the PoolComparisonProfile Tests
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Id: PoolComparisonProfileAbstract.java,v 1.4 2004/02/28 11:47:22 cziegeler Exp $
+ * @version $Id: PoolComparisonProfileAbstract.java,v 1.5 2004/03/29 16:50:37 mcconnell Exp $
  */
 public abstract class PoolComparisonProfileAbstract
     extends TestCase
@@ -53,17 +54,8 @@ public abstract class PoolComparisonProfileAbstract
     {
         super( name );
 
-        // Set to debug to see more useful information.
-        org.apache.log.Logger logger =
-            org.apache.log.Hierarchy.getDefaultHierarchy().getLoggerFor( "test" );
-        logger.setPriority( org.apache.log.Priority.INFO );
-        m_logger = new LogKitLogger( logger );
-
-        // The output from the pools is too much data to be useful, so use a different logger.
-        org.apache.log.Logger poolLogger =
-            org.apache.log.Hierarchy.getDefaultHierarchy().getLoggerFor( "pool" );
-        poolLogger.setPriority( org.apache.log.Priority.INFO );
-        m_poolLogger = new LogKitLogger( poolLogger );
+        m_logger = new ConsoleLogger( ConsoleLogger.LEVEL_INFO );
+        m_poolLogger = m_logger.getChildLogger( "pool" );
     }
 
     /*---------------------------------------------------------------

@@ -31,7 +31,7 @@ import com.clarkware.junitperf.Timer;
 
 /**
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.6 $ $Date: 2004/03/17 12:12:37 $
+ * @version CVS $Revision: 1.7 $ $Date: 2004/03/29 16:50:37 $
  * @since 4.1
  */
 public final class ResourceLimitingPoolMultithreadMaxTestCase
@@ -61,9 +61,9 @@ public final class ResourceLimitingPoolMultithreadMaxTestCase
     {
         TestSuite suite = new TestSuite();
 
-        Timer timer = new ConstantTimer( 10 );
-        int maxUsers = 20;
-        int iterations = 50;
+        Timer timer = new ConstantTimer( 100 );
+        int maxUsers = 50;
+        int iterations = 10;
         long maxElapsedTime = 20000;
 
         Test testCase = new ResourceLimitingPoolMultithreadMaxTestCase( "testGetPut" );
@@ -98,12 +98,6 @@ public final class ResourceLimitingPoolMultithreadMaxTestCase
 
     public static void oneTimeTearDown() throws Exception
     {
-        // Dump the logger.
-        System.out.println( "Debug output of the logger.  "
-            + "This is useful for debugging problems if the test fails." );
-        System.out.println( m_logger.toString() );
-        System.out.println();
-        
         // The timing of this test makes it so the pool should grow to 4 elements
         assertEquals( "1) Pool Ready Size", 3, m_pool.getReadySize() );
         assertEquals( "1) Pool Size", 3, m_pool.getSize() );

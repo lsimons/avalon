@@ -23,10 +23,6 @@ import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.logger.LogEnabled;
 import org.apache.avalon.framework.thread.ThreadSafe;
-import org.apache.excalibur.instrument.CounterInstrument;
-import org.apache.excalibur.instrument.Instrument;
-import org.apache.excalibur.instrument.Instrumentable;
-import org.apache.excalibur.instrument.ValueInstrument;
 
 /**
  * General Pool implementation which supports; weak and strong pool size limits,
@@ -40,22 +36,13 @@ import org.apache.excalibur.instrument.ValueInstrument;
  *  trimmed.  See the {@link #trim()} method for details of how trimming works.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.4 $ $Date: 2004/02/28 11:47:17 $
+ * @version CVS $Revision: 1.5 $ $Date: 2004/03/29 16:50:37 $
  * @since 4.1
  */
 public class ResourceLimitingPool
     extends AbstractLogEnabled
-    implements Pool, LogEnabled, Disposable, ThreadSafe, Instrumentable
+    implements Pool, LogEnabled, Disposable, ThreadSafe
 {
-    public static final String DEFAULT_INSTRUMENTABLE_NAME = "pool";
-    public static final String INSTRUMENT_SIZE_NAME = "size";
-    public static final String INSTRUMENT_READY_SIZE_NAME = "ready-size";
-    public static final String INSTRUMENT_GETS_NAME = "gets";
-    public static final String INSTRUMENT_PUTS_NAME = "puts";
-    public static final String INSTRUMENT_BLOCKS_NAME = "blocks";
-    public static final String INSTRUMENT_CREATES_NAME = "creates";
-    public static final String INSTRUMENT_DECOMMISSIONS_NAME = "decommissions";
-
     /*---------------------------------------------------------------
      * Protected Fields
      *-------------------------------------------------------------*/
@@ -134,30 +121,6 @@ public class ResourceLimitingPool
      */
     private int m_size;
 
-    /** Instrumentable Name assigned to this Instrumentable */
-    private String m_instrumentableName = DEFAULT_INSTRUMENTABLE_NAME;
-
-    /** Instrument used to profile the size of the pool. */
-    private ValueInstrument m_sizeInstrument;
-
-    /** Instrument used to profile the number of available poolables. */
-    private ValueInstrument m_readySizeInstrument;
-
-    /** Instrument used to profile the number of gets. */
-    private CounterInstrument m_getsInstrument;
-
-    /** Instrument used to profile the number of puts. */
-    private CounterInstrument m_putsInstrument;
-
-    /** Instrument used to profile the number of blocks. */
-    private CounterInstrument m_blocksInstrument;
-
-    /** Instrument used to profile the number of created poolables. */
-    private CounterInstrument m_createsInstrument;
-
-    /** Instrument used to profile the number of decommissioned poolables. */
-    private CounterInstrument m_decommissionsInstrument;
-
     /*---------------------------------------------------------------
      * Constructors
      *-------------------------------------------------------------*/
@@ -197,15 +160,6 @@ public class ResourceLimitingPool
         {
             m_oldReady = new LinkedList();
         }
-
-        // Initialize the Instrumentable elements.
-        m_sizeInstrument = new ValueInstrument( INSTRUMENT_SIZE_NAME );
-        m_readySizeInstrument = new ValueInstrument( INSTRUMENT_READY_SIZE_NAME );
-        m_getsInstrument = new CounterInstrument( INSTRUMENT_GETS_NAME );
-        m_putsInstrument = new CounterInstrument( INSTRUMENT_PUTS_NAME );
-        m_blocksInstrument = new CounterInstrument( INSTRUMENT_BLOCKS_NAME );
-        m_createsInstrument = new CounterInstrument( INSTRUMENT_CREATES_NAME );
-        m_decommissionsInstrument = new CounterInstrument( INSTRUMENT_DECOMMISSIONS_NAME );
     }
 
     /*---------------------------------------------------------------
@@ -266,9 +220,6 @@ public class ResourceLimitingPool
                             getLogger().debug( "Blocking until a Poolable is available. "
                                                + "Thread: " + Thread.currentThread().getName() );
                         }
-
-                        // Notify the InstrumentManager
-                        m_blocksInstrument.increment();
 
                         if( m_blockTimeout > 0 )
                         {
@@ -383,13 +334,6 @@ public class ResourceLimitingPool
             getLogger().debug( "Got a " + poolable.getClass().getName() + " from the pool." );
         }
 
-        // Notify the InstrumentManager
-        m_getsInstrument.increment();
-        if( m_readySizeInstrument.isActive() )
-        {
-            m_readySizeInstrument.setValue( getReadySize() );
-        }
-
         return poolable;
     }
 
@@ -452,13 +396,6 @@ public class ResourceLimitingPool
                 permanentlyRemovePoolable( poolable );
             }
         }
-
-        // Notify the InstrumentManager
-        m_putsInstrument.increment();
-        if( m_readySizeInstrument.isActive() )
-        {
-            m_readySizeInstrument.setValue( getReadySize() );
-        }
     }
 
     /*---------------------------------------------------------------
@@ -509,87 +446,7 @@ public class ResourceLimitingPool
                 getLogger().debug( "There were " + m_size
                                    + " outstanding objects when the pool was disposed." );
             }
-
-            // Notify the InstrumentManager
-            if( m_sizeInstrument.isActive() )
-            {
-                m_sizeInstrument.setValue( getSize() );
-            }
-            if( m_readySizeInstrument.isActive() )
-            {
-                m_readySizeInstrument.setValue( getReadySize() );
-            }
         }
-    }
-
-    /*---------------------------------------------------------------
-     * Instrumentable Methods
-     *-------------------------------------------------------------*/
-    /**
-     * Sets the name for the Instrumentable.  The Instrumentable Name is used
-     *  to uniquely identify the Instrumentable during the configuration of
-     *  the InstrumentManager and to gain access to an InstrumentableDescriptor
-     *  through the InstrumentManager.  The value should be a string which does
-     *  not contain spaces or periods.
-     * <p>
-     * This value may be set by a parent Instrumentable, or by the
-     *  InstrumentManager using the value of the 'instrumentable' attribute in
-     *  the configuration of the component.
-     *
-     * @param name The name used to identify a Instrumentable.
-     */
-    public void setInstrumentableName( String name )
-    {
-        m_instrumentableName = name;
-    }
-
-    /**
-     * Gets the name of the Instrumentable.
-     *
-     * @return The name used to identify a Instrumentable.
-     */
-    public String getInstrumentableName()
-    {
-        return m_instrumentableName;
-    }
-
-    /**
-     * Obtain a reference to all the Instruments that the Instrumentable object
-     *  wishes to expose.  All sampling is done directly through the
-     *  Instruments as opposed to the Instrumentable interface.
-     *
-     * @return An array of the Instruments available for profiling.  Should
-     *         never be null.  If there are no Instruments, then
-     *         EMPTY_INSTRUMENT_ARRAY can be returned.  This should never be
-     *         the case though unless there are child Instrumentables with
-     *         Instruments.
-     */
-    public Instrument[] getInstruments()
-    {
-        return new Instrument[]
-        {
-            m_sizeInstrument,
-            m_readySizeInstrument,
-            m_getsInstrument,
-            m_putsInstrument,
-            m_blocksInstrument,
-            m_createsInstrument,
-            m_decommissionsInstrument
-        };
-    }
-
-    /**
-     * Any Object which implements Instrumentable can also make use of other
-     *  Instrumentable child objects.  This method is used to tell the
-     *  InstrumentManager about them.
-     *
-     * @return An array of child Instrumentables.  This method should never
-     *         return null.  If there are no child Instrumentables, then
-     *         EMPTY_INSTRUMENTABLE_ARRAY can be returned.
-     */
-    public Instrumentable[] getChildInstrumentables()
-    {
-        return Instrumentable.EMPTY_INSTRUMENTABLE_ARRAY;
     }
 
     /*---------------------------------------------------------------
@@ -640,12 +497,6 @@ public class ResourceLimitingPool
         Object obj = m_factory.newInstance();
 
         // Notify the InstrumentManager
-        m_createsInstrument.increment();
-        if( m_sizeInstrument.isActive() )
-        {
-            // The size is incremented after this call in case an error is thrown.
-            m_sizeInstrument.setValue( getSize() + 1 );
-        }
 
         return (Poolable)obj;
     }
@@ -664,13 +515,6 @@ public class ResourceLimitingPool
         try
         {
             m_factory.decommission( poolable );
-
-            // Notify the InstrumentManager
-            m_decommissionsInstrument.increment();
-            if( m_sizeInstrument.isActive() )
-            {
-                m_sizeInstrument.setValue( getSize() );
-            }
         }
         catch( Exception e )
         {

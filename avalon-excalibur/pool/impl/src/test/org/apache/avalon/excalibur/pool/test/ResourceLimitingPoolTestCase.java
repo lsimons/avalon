@@ -23,7 +23,7 @@ import org.apache.avalon.excalibur.pool.ResourceLimitingPool;
 
 /**
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.5 $ $Date: 2004/03/17 12:12:37 $
+ * @version CVS $Revision: 1.6 $ $Date: 2004/03/29 16:50:37 $
  * @since 4.1
  */
 public final class ResourceLimitingPoolTestCase extends TestCase

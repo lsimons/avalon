@@ -21,7 +21,8 @@ import junit.framework.TestCase;
 import org.apache.avalon.excalibur.pool.DefaultPool;
 import org.apache.avalon.excalibur.pool.Poolable;
 import org.apache.avalon.excalibur.pool.SingleThreadedPool;
-import org.apache.avalon.framework.logger.LogKitLogger;
+
+import org.apache.avalon.framework.logger.ConsoleLogger;
 import org.apache.avalon.framework.logger.Logger;
 
 /**
@@ -41,21 +42,12 @@ public final class PoolProfile
         super( name );
 
         // Set to debug to see more useful information.
-        logger = getLogger( "test", org.apache.log.Priority.INFO );
+        logger = new ConsoleLogger( ConsoleLogger.LEVEL_INFO );
 
         // The output from the pools is too much data to be useful, so use a different logger.
-        poolLogger = getLogger( "pool", org.apache.log.Priority.INFO );
+        poolLogger = logger.getChildLogger( "pool" );
     }
 
-    private Logger getLogger( final String name, final org.apache.log.Priority priority)
-    {
-        final org.apache.log.Logger l =
-            org.apache.log.Hierarchy.getDefaultHierarchy().getLoggerFor( name );
-
-        l.setPriority( priority );
-
-        return new LogKitLogger( l );
-    }
 
     public static class A
         implements Poolable

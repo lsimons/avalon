@@ -52,7 +52,7 @@ package org.apache.avalon.excalibur.pool;
  * </p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.6 $ $Date: 2004/02/28 11:47:17 $
+ * @version CVS $Revision: 1.7 $ $Date: 2004/03/29 16:50:37 $
  * @since 4.0
  */
 public interface Poolable

@@ -20,7 +20,7 @@ import org.apache.avalon.excalibur.pool.Poolable;
 
 /**
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.4 $ $Date: 2004/02/28 11:47:22 $
+ * @version CVS $Revision: 1.5 $ $Date: 2004/03/29 16:50:37 $
  * @since 4.1
  */
 public class FailingPoolableTestObject implements Poolable

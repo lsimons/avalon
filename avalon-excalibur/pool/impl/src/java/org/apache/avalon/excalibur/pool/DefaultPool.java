@@ -23,7 +23,7 @@ import org.apache.avalon.framework.activity.Disposable;
  * Please note that this pool offers no resource limiting whatsoever.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.5 $ $Date: 2004/02/28 11:47:17 $
+ * @version CVS $Revision: 1.6 $ $Date: 2004/03/29 16:50:37 $
  * @since 4.0
  */
 public class DefaultPool
@@ -138,7 +138,7 @@ public class DefaultPool
                     else
                     {
                         final String message =
-                            "Could not create enough Components to service " +
+                            "Could not create enough components to service " +
                             "your request.";
                         throw new Exception( message );
                     }
