@@ -35,6 +35,8 @@ public interface ClassLoaderManager
      * @return the ClassLoader created
      * @exception Exception if an error occurs
      */
-    ClassLoader createClassLoader( Configuration server, File baseDirectory, URL[] classPath )
+    ClassLoader createClassLoader( Configuration server, 
+                                   File baseDirectory, 
+                                   String[] classPath )
         throws Exception;
 }
