@@ -17,7 +17,7 @@
 <document>
   <properties>
     <author email="dev@avalon.apache.org">Avalon Development Team</author>
-    <>Excalibur Event - How To Use Command</title>
+    <title>Excalibur Event - How To Use Command</title>
   </properties>
   <body>
     <section name="Setting Up The Command Manager" >
