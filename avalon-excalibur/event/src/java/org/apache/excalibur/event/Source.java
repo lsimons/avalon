@@ -80,28 +80,28 @@ public interface Source
      * nothing left on the queue or in case of a timeout while
      * attempting to obtain the mutex
      *
-     * @return the next queue element on the queue
+     * @return the next queue element on the Source
      */
     Object dequeue();
 
     /**
      * Dequeues all available elements. Returns a zero-sized array in
      * case of a timeout while attempting to obtain the mutex or if
-     * there is nothing left on the queue.
+     * there is nothing left on the Source.
      *
-     * @return all pending queue elements on the queue
+     * @return all pending elements on the Source
      */
     Object[] dequeueAll();
 
     /**
      * Dequeues at most <code>num</code> available elements. Returns a
      * zero-sized array in case of a timeout while attempting to
-     * obtain the mutex or if there is nothing left on the queue.
+     * obtain the mutex or if there is nothing left on the Source.
      *
      * @param num  The maximum number of elements to dequeue
      *
      * @return At most <code>num</code> elements from the
-     *         queue
+     *         Source
      */
     Object[] dequeue( int num );
 
