@@ -251,7 +251,7 @@
   
   <target name="compile-demo" depends="compile" description="Compiles the Demo Block">
     <delete dir="${build.demoClasses}"/>
-    <delete dir="${build.demoXdoclet}"/>
+    <delete dir="${build.demoMetaGenerate}"/>
 
 
     <mkdir dir="${build.demoClasses}"/>
