@@ -99,7 +99,8 @@ public class Hierarchy
         {
             if( null == targets[ i ] )
             {
-                throw new IllegalArgumentException( "Can not set DefaultLogTarget element to null" );
+                final String message = "Can not set DefaultLogTarget element to null";
+                throw new IllegalArgumentException( message );
             }
         }
 
@@ -116,7 +117,8 @@ public class Hierarchy
     {
         if( null == priority )
         {
-            throw new IllegalArgumentException( "Can not set default Hierarchy Priority to null" );
+            final String message = "Can not set default Hierarchy Priority to null";
+            throw new IllegalArgumentException( message );
         }
 
         getRootLogger().setPriority( priority );
@@ -131,7 +133,8 @@ public class Hierarchy
     {
         if( null == errorHandler )
         {
-            throw new IllegalArgumentException( "Can not set default Hierarchy ErrorHandler to null" );
+            final String message = "Can not set default Hierarchy ErrorHandler to null";
+            throw new IllegalArgumentException( message );
         }
 
         m_errorHandler = errorHandler;
