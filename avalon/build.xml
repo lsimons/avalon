@@ -267,6 +267,7 @@ Legal:
     <property name="phoenix.base" value="http://jakarta.apache.org/avalon/phoenix"/>
     <property name="cornerstone.base" value="http://jakarta.apache.org/avalon/cornerstone"/>
     <property name="logkit.base" value="http://jakarta.apache.org/avalon/logkit"/>
+    <property name="apps.base" value="http://jakarta.apache.org/avalon/apps"/>
     <property name="testlet.base" value="http://jakarta.apache.org/avalon/testlet"/>
 
     <filter token="year" value="${year}"/>
@@ -277,6 +278,7 @@ Legal:
     <filter token="CORNERSTONE_BASE" value="${cornerstone.base}"/>
     <filter token="LOGKIT_BASE" value="${logkit.base}"/>
     <filter token="TESTLET_BASE" value="${testlet.base}"/>
+    <filter token="APPS_BASE" value="${apps.base}"/>    
 
     <copy todir="${build.context}" overwrite="true" filtering="on">
       <fileset dir="${context.dir}">
