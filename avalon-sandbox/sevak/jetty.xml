@@ -69,10 +69,7 @@
     <pathelement path="${build.classes}" />
     <fileset dir="../common/lib">
       <include name="*.jar" />
-    </fileset>
-    <fileset dir="../common/lib/xdoclet">
-      <include name="*.jar" />
-    </fileset>    
+    </fileset> 
     <fileset dir="${jetty.jars.dir}">
       <include name="*.jar" />
     </fileset>       
