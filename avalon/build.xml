@@ -311,7 +311,11 @@ Legal:
     <!-- note that by doing an include the defaultexcludes (CVS dirs) will be kept -->
     <delete>
       <fileset dir="${www.dir}">
-        <include name="**"/>
+        <exclude name="excalibur/**"/>
+	<exclude name="logkit/**"/>
+	<exclude name="cornerstone/**"/>
+	<exclude name="phoenix/**"/>
+	<exclude name="testlet/**"/>
       </fileset>
     </delete>
 
