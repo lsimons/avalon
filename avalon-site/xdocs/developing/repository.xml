@@ -9,6 +9,9 @@
   <body>
     <section name="Avalon Repository">
       <p>
+        <strong><em>Work in progress.</em></strong>
+      </p>
+      <p>
         The Avalon Repository system is a powerful solution to <em>Jar 
         Hell</em>. The underlying technology is fairly straight forward
         but it enables so much;
