@@ -189,8 +189,6 @@ public class MX4JSystemManager
     private void startRMIAdaptor( final MBeanServer server )
         throws Exception
     {
-        System.setProperty( "java.naming.factory.initial", m_namingFactory );
-
         // Create and start the naming service
         final ObjectName naming = new ObjectName( "Naming:type=rmiregistry" );
         server.createMBean( "mx4j.tools.naming.NamingService", naming, null );
@@ -205,6 +203,9 @@ public class MX4JSystemManager
                                                          adaptor );
         // Set the JNDI name with which will be registered
         mbean.setJNDIName( "jrmp" );
+        mbean.putJNDIProperty( javax.naming.Context.INITIAL_CONTEXT_FACTORY,
+                               m_namingFactory );
+        //mbean.putJNDIProperty( javax.naming.Context.PROVIDER_URL, "rmi://localhost:1099" );
         // Register the JRMP adaptor in JNDI and start it
         mbean.start();
     }
