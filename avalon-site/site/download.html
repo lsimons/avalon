@@ -226,6 +226,17 @@ using</p>
 % gpg --verify name-of-distributed-file.tar.gz.asc
 </code></p>
 
+<!--
+
+Using an automated process to retrieve files from mirrors is
+considered unsafe by the infrastructure team, as it is very
+easy to become a 'malicious mirror' and that could have grave
+consequences to users.
+
+Maven needs a way to verify distributions against md5 and/or asc
+files retrieved from the main distribution location before we
+re-enable this.
+
 <a name="Maven Repository"></a><h4>Maven Repository</h4>
 
 <p>The avalon distribution layout is compatible with the
@@ -236,7 +247,7 @@ as a remote repository, add a line to your project.properties file:
 
 <p><code>
 maven.repo.remote = [preferred]/avalon,http://www.ibiblio.org/maven
-</code></p>
+</code></p>-->
 
 <p>Doing so will ensure that your maven-enabled projects will always
 be able to find the latest avalon binaries.</p>
