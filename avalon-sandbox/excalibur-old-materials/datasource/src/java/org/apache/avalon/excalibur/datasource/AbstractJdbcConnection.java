@@ -29,7 +29,7 @@ import org.apache.avalon.framework.logger.Logger;
  * total number of Connection objects that are created.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.6 $ $Date: 2002/01/17 13:27:20 $
+ * @version CVS $Revision: 1.7 $ $Date: 2002/01/17 13:31:05 $
  * @since 4.1
  */
 public abstract class AbstractJdbcConnection
@@ -124,7 +124,7 @@ public abstract class AbstractJdbcConnection
             return true;
         }
 
-        if ( System.currentTimeMillis - m_lastUsed
+        if ( System.currentTimeMillis() - m_lastUsed
                > 1000*60*60 ) // over an hour?
         {
             this.dispose();
