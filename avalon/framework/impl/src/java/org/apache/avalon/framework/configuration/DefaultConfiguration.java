@@ -62,7 +62,7 @@ import java.util.HashMap;
  * This is the default <code>Configuration</code> implementation.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.34 $ $Date: 2003/07/12 12:40:49 $
+ * @version CVS $Revision: 1.35 $ $Date: 2003/08/29 15:12:00 $
  */
 public class DefaultConfiguration
     extends AbstractConfiguration
@@ -276,7 +276,7 @@ public class DefaultConfiguration
         }
         else
         {
-            throw new ConfigurationException( 
+            throw new ConfigurationException(
                "No attribute named \"" + name + "\" is "
                + "associated with the configuration element \""
                + getName() + "\" at " + getLocation() );
@@ -539,6 +539,12 @@ public class DefaultConfiguration
         }
     }
 
+    /**
+     * Compare if this configuration is equal to another.
+     *
+     * @param other  The other configuration
+     * @return <code>true</code> if they are the same.
+     */
     public boolean equals( Object other )
     {
         if( other == null ) return false;
@@ -546,6 +552,11 @@ public class DefaultConfiguration
         return ConfigurationUtil.equals( this, (Configuration) other );
     }
 
+    /**
+     * Obtaine the hashcode for this configuration.
+     *
+     * @return the hashcode.
+     */
     public int hashCode()
     {
         int hash = m_prefix.hashCode();
