@@ -116,7 +116,10 @@ public class WebServerMain {
       When we are trying to run this in phoeinix we might have this wrapper:
 <source>
 package examplecomp.block;
-public class WebServerBlock extends AbstractLoggable implements Block, WebServer, Startable, Configurable, Initializable {
+public class WebServerBlock
+    extends AbstractLoggable
+    implements WebServer, Startable, Configurable, Initializable {
+
     private int mPort;
     private WebServer mWebServer;
 
@@ -124,7 +127,8 @@ public class WebServerBlock extends AbstractLoggable implements Block, WebServer
         mWebServer = new MyWebServer();
     }
 
-    public void configure(final Configuration configuration) throws ConfigurationException {
+    public void configure(final Configuration configuration)
+        throws ConfigurationException {
         mPort = configuration.getChild("port").getValueAsInteger( 9001 );
     }
 
@@ -156,11 +160,14 @@ public class WebServerBlock extends AbstractLoggable implements Block, WebServer
       being reused by another Phoenix block (say an EJB server), it might be like so:
 <source>
 package somebeanserver;
-public class EJBBlock extends AbstractLoggable implements Block, Composable {
+public class EJBBlock
+    extends AbstractLoggable
+    implements Composable {
 
     private WebServer mWebServer;
 
-    public void compose(final ComponentManager compMgr) throws ComponentException {
+    public void compose(final ComponentManager compMgr)
+        throws ComponentException {
         mWebServer = compMgr.lookup("WebServer");
     }
 
