@@ -25,27 +25,6 @@ public class QueueTestCase extends TestCase
 
     private static final class TestQueueElement implements QueueElement
     {
-         private final Object m_attachment;
-
-         private TestQueueElement()
-         {
-             this( null );
-         }
-
-         private TestQueueElement( Object attachment )
-         {
-             m_attachment = attachment;
-         }
-
-         public Object getAttachment()
-         {
-             return m_attachment;
-         }
-
-         public long getType()
-         {
-             return 1;
-         }
     }
 
     public QueueTestCase( String name )
