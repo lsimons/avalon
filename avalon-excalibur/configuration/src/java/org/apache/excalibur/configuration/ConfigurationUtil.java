@@ -222,23 +222,6 @@ public class ConfigurationUtil
     }
 
     /**
-     * Create a copy of the specified configuration giving it a new name. This performs
-     * a shallow copy, child configurations will still be the same objects as the original
-     * configuration had
-     *
-     * @param config configuration to branch
-     * @param name name for new configuration
-     * @return configuration with new name
-     */
-    public static Configuration branch( final Configuration config, final String name )
-    {
-        final DefaultConfiguration branched = new DefaultConfiguration( name, config.getLocation() );
-        branched.addAll( config );
-        branched.makeReadOnly();
-        return branched;
-    }
-
-    /**
      * Test to see if two Configuration's can be considered the same. Name, value, attributes
      * and children are test. The <b>order</b> of children is not taken into consideration
      * for equality.
