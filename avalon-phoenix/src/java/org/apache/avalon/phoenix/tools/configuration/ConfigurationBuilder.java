@@ -21,42 +21,30 @@ import org.xml.sax.XMLReader;
  * Utility class used to load Configuration trees from XML files.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.11 $ $Date: 2003/02/22 04:03:29 $
+ * @version $Revision: 1.12 $ $Date: 2003/03/01 04:15:38 $
  */
 public class ConfigurationBuilder
 {
     private static final DTDInfo[] c_dtdInfo = new DTDInfo[]
     {
-        new DTDInfo( "-//PHOENIX/Block Info DTD Version 1.0//EN",
-                     "http://jakarta.apache.org/phoenix/blockinfo_1_0.dtd",
-                     "org/apache/avalon/phoenix/tools/blockinfo.dtd" ),
         new DTDInfo( "-//PHOENIX/Assembly DTD Version 1.0//EN",
                      "http://jakarta.apache.org/phoenix/assembly_1_0.dtd",
                      "org/apache/avalon/phoenix/tools/assembly.dtd" ),
         new DTDInfo( "-//PHOENIX/Mx Info DTD Version 1.0//EN",
                      "http://jakarta.apache.org/phoenix/mxinfo_1_0.dtd",
                      "org/apache/avalon/phoenix/tools/mxinfo.dtd" ),
-        new DTDInfo( "-//PHOENIX/Block Info DTD Version 1.0//EN",
-                     "http://jakarta.apache.org/avalon/dtds/phoenix/blockinfo_1_0.dtd",
-                     "org/apache/avalon/phoenix/tools/blockinfo.dtd" ),
         new DTDInfo( "-//PHOENIX/Assembly DTD Version 1.0//EN",
                      "http://jakarta.apache.org/avalon/dtds/phoenix/assembly_1_0.dtd",
                      "org/apache/avalon/phoenix/tools/assembly.dtd" ),
         new DTDInfo( "-//PHOENIX/Mx Info DTD Version 1.0//EN",
                      "http://jakarta.apache.org/avalon/dtds/phoenix/mxinfo_1_0.dtd",
                      "org/apache/avalon/phoenix/tools/mxinfo.dtd" ),
-        new DTDInfo( "-//PHOENIX/Block Info DTD Version 1.0//EN",
-                     "http://jakarta.apache.org/phoenix/blockinfo_1.0.dtd",
-                     "org/apache/avalon/phoenix/tools/blockinfo.dtd" ),
         new DTDInfo( "-//PHOENIX/Assembly DTD Version 1.0//EN",
                      "http://jakarta.apache.org/phoenix/assembly_1.0.dtd",
                      "org/apache/avalon/phoenix/tools/assembly.dtd" ),
         new DTDInfo( "-//PHOENIX/Mx Info DTD Version 1.0//EN",
                      "http://jakarta.apache.org/phoenix/mxinfo_1.0.dtd",
                      "org/apache/avalon/phoenix/tools/mxinfo.dtd" ),
-        new DTDInfo( "-//PHOENIX/Block Info DTD Version 1.0//EN",
-                     "http://jakarta.apache.org/avalon/dtds/phoenix/blockinfo_1.0.dtd",
-                     "org/apache/avalon/phoenix/tools/blockinfo.dtd" ),
         new DTDInfo( "-//PHOENIX/Assembly DTD Version 1.0//EN",
                      "http://jakarta.apache.org/avalon/dtds/phoenix/assembly_1.0.dtd",
                      "org/apache/avalon/phoenix/tools/assembly.dtd" ),
