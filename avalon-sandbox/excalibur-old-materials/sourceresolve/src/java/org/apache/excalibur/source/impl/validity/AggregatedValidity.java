@@ -63,7 +63,7 @@ import org.apache.excalibur.source.SourceValidity;
  * A validation object using a List.
  *
  * @author <a href="mailto:dims@yahoo.com">Davanum Srinivas</a>
- * @version CVS $Revision: 1.5 $ $Date: 2003/01/10 12:54:37 $
+ * @version CVS $Revision: 1.6 $ $Date: 2003/01/13 13:14:12 $
  */
 public final class AggregatedValidity
     extends AbstractAggregatedValidity
@@ -89,7 +89,7 @@ public final class AggregatedValidity
         return 1;
     }
 
-    public boolean isValid( final SourceValidity validity )
+    public int isValid( final SourceValidity validity )
     {
         if( validity instanceof AggregatedValidity )
         {
@@ -97,21 +97,30 @@ public final class AggregatedValidity
             final List otherList = other.m_list;
             if( m_list.size() != otherList.size() )
             {
-                return false;
+                return -1;
             }
 
             for( final Iterator i = m_list.iterator(), j = otherList.iterator(); i.hasNext(); )
             {
                 final SourceValidity srcA = (SourceValidity)i.next();
                 final SourceValidity srcB = (SourceValidity)j.next();
-                if( srcA.isValid() < 1 && !srcA.isValid( srcB ) )
+                int result = srcA.isValid();
+                if ( result == -1) 
                 {
-                    return false;
+                    return -1;
+                }
+                if ( result == 0 )
+                {
+                    result = srcA.isValid( srcB );
+                    if ( result < 1)
+                    {
+                        return result;
+                    }
                 }
             }
-            return true;
+            return 1;
         }
-        return false;
+        return -1;
     }
 
 }
