@@ -7,29 +7,23 @@
  */
 package org.apache.avalon.phoenix.tools.assembler.test;
 
-import java.io.File;
-import java.net.URL;
-import junit.framework.TestCase;
-import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.logger.ConsoleLogger;
-import org.apache.avalon.phoenix.metadata.SarMetaData;
 import org.apache.avalon.phoenix.metadata.BlockMetaData;
 import org.apache.avalon.phoenix.metadata.DependencyMetaData;
-import org.apache.avalon.phoenix.tools.assembler.Assembler;
+import org.apache.avalon.phoenix.metadata.SarMetaData;
+import org.apache.avalon.phoenix.test.AbstractContainerTestCase;
 import org.apache.avalon.phoenix.test.data.Component1;
-import org.apache.avalon.phoenix.test.data.Service2;
 import org.apache.avalon.phoenix.test.data.Component2;
 import org.apache.avalon.phoenix.test.data.Component3;
-import org.apache.avalon.phoenix.tools.configuration.ConfigurationBuilder;
+import org.apache.avalon.phoenix.test.data.Service2;
 
 /**
  *  An basic test case for the LogManager.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.5 $ $Date: 2002/09/30 23:52:48 $
+ * @version $Revision: 1.6 $ $Date: 2002/10/01 06:17:58 $
  */
 public class AssemblerTestCase
-    extends TestCase
+    extends AbstractContainerTestCase
 {
     public AssemblerTestCase( final String name )
     {
@@ -139,23 +133,5 @@ public class AssemblerTestCase
         assertTrue( "Block4 getBlockInfo non null",
                        null != block4.getBlockInfo() );
         assertEquals( "Block4 isDisableProxy", false, block4.isDisableProxy() );
-
-    }
-
-    private SarMetaData assembleSar( final String config ) throws Exception
-    {
-        final Assembler assembler = new Assembler();
-        assembler.enableLogging( new ConsoleLogger() );
-        final ClassLoader classLoader = getClass().getClassLoader();
-        final Configuration assembly = loadConfig( config );
-        return assembler.assembleSar( "test", assembly,
-                                      new File( "." ), classLoader );
-    }
-
-    private Configuration loadConfig( final String config )
-        throws Exception
-    {
-        final URL resource = getClass().getResource( config );
-        return ConfigurationBuilder.build( resource.toExternalForm() );
     }
 }

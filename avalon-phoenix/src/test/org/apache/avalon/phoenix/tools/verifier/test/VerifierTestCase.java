@@ -7,24 +7,19 @@
  */
 package org.apache.avalon.phoenix.tools.verifier.test;
 
-import java.io.File;
-import java.net.URL;
-import junit.framework.TestCase;
-import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.logger.ConsoleLogger;
 import org.apache.avalon.phoenix.metadata.SarMetaData;
-import org.apache.avalon.phoenix.tools.assembler.Assembler;
-import org.apache.avalon.phoenix.tools.configuration.ConfigurationBuilder;
+import org.apache.avalon.phoenix.test.AbstractContainerTestCase;
 import org.apache.avalon.phoenix.tools.verifier.SarVerifier;
 
 /**
  *  An basic test case for the LogManager.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2002/10/01 00:08:40 $
+ * @version $Revision: 1.2 $ $Date: 2002/10/01 06:18:22 $
  */
 public class VerifierTestCase
-    extends TestCase
+    extends AbstractContainerTestCase
 {
     public VerifierTestCase( final String name )
     {
@@ -43,29 +38,12 @@ public class VerifierTestCase
         verify( "assembly2.xml" );
     }
 
-    private void verify( final String config ) throws Exception
+    protected void verify( final String config ) throws Exception
     {
         final SarMetaData sarMetaData = assembleSar( config );
         final ClassLoader classLoader = getClass().getClassLoader();
         final SarVerifier verifier = new SarVerifier();
         verifier.enableLogging( new ConsoleLogger() );
         verifier.verifySar( sarMetaData, classLoader );
-    }
-
-    private SarMetaData assembleSar( final String config ) throws Exception
-    {
-        final Assembler assembler = new Assembler();
-        assembler.enableLogging( new ConsoleLogger() );
-        final ClassLoader classLoader = getClass().getClassLoader();
-        final Configuration assembly = loadConfig( config );
-        return assembler.assembleSar( "test", assembly,
-                                      new File( "." ), classLoader );
-    }
-
-    private Configuration loadConfig( final String config )
-        throws Exception
-    {
-        final URL resource = getClass().getResource( config );
-        return ConfigurationBuilder.build( resource.toExternalForm() );
     }
 }
