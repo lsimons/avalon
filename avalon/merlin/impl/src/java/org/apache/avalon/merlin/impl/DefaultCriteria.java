@@ -85,7 +85,7 @@ import org.apache.avalon.util.criteria.PackedParameter;
  * for application to a factory.
  *
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class DefaultCriteria extends Criteria implements KernelCriteria
 {
@@ -638,7 +638,7 @@ public class DefaultCriteria extends Criteria implements KernelCriteria
         if( null == file ) throw new NullPointerException( "file" );
         try
         {
-            return file.toURL();
+            return file.getCanonicalFile().toURL();
         }
         catch( Throwable e )
         {
