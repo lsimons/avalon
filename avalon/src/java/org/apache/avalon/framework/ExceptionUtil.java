@@ -23,7 +23,7 @@ import java.util.StringTokenizer;
  */
 public final class ExceptionUtil
 {
-    private static final String LINE_SEPARATOR = "\n";
+    private static final String LINE_SEPARATOR = System.getProperty( "line.separator" );
     private static final String GET_CAUSE_NAME = "getCause";
     private static final Class[] GET_CAUSE_PARAMTYPES = new Class[ 0 ];
 
