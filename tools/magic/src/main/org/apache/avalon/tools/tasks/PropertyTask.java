@@ -36,6 +36,7 @@ public class PropertyTask extends SystemTask
     private String m_key;
     private String m_feature;
     private String m_property;
+    private boolean m_resolve = true;
 
     public void init()
     {
@@ -48,6 +49,11 @@ public class PropertyTask extends SystemTask
     public void setKey( final String key )
     {
         m_key = key;
+    }
+
+    public void setResolve( final boolean policy )
+    {
+        m_resolve = policy;
     }
 
     public void setFeature( final String feature )
@@ -82,7 +88,15 @@ public class PropertyTask extends SystemTask
             return;
         }
 
-        final String value = getFeature();
+        final ResourceRef ref = new ResourceRef( m_key );
+        final Resource resource = getHome().getResource( ref );
+        if( m_resolve )
+        {
+            resource.getArtifact( getProject() );
+        }
+
+        final String value = getFeature( resource );
+
         if( null != value )
         {
             final Property property = (Property) getProject().createTask( "property" );
@@ -98,10 +112,8 @@ public class PropertyTask extends SystemTask
         }
     }
 
-    private String getFeature()
+    private String getFeature( Resource resource )
     {
-        final ResourceRef ref = new ResourceRef( m_key );
-        final Resource resource = getHome().getResource( ref );
         if( m_feature.equals( "name" ) )
         {
             return resource.getInfo().getName();
