@@ -18,18 +18,17 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.CascadingRuntimeException;
 import org.apache.avalon.apps.sevak.Sevak;
 import org.apache.avalon.apps.sevak.SevakException;
+import org.apache.avalon.phoenix.BlockContext;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
 
 import org.mortbay.jetty.Server;
 import org.mortbay.jetty.servlet.WebApplicationContext;
 import org.mortbay.util.MultiException;
-import org.mortbay.util.InetAddrPort;
 import org.mortbay.util.Log;
 import org.mortbay.http.SocketListener;
-import org.mortbay.http.SocketChannelListener;
+
 
 
 /**
@@ -52,6 +51,7 @@ public class JettySevak extends AbstractLogEnabled implements Sevak, Startable, 
     private String m_hostName;
     private HashMap m_webapps = new HashMap();
     private int m_port;
+    private File m_sarRootDir;
 
 
     /**
@@ -68,7 +68,7 @@ public class JettySevak extends AbstractLogEnabled implements Sevak, Startable, 
 
     public void contextualize(final Context context)
     {
-        //this.m_context = (BlockContext) context;
+        m_sarRootDir = ((BlockContext) context).getBaseDirectory();
     }
 
     /**
@@ -144,7 +144,12 @@ public class JettySevak extends AbstractLogEnabled implements Sevak, Startable, 
         {
             String webAppURL = pathToWebAppFolder.toURL().toString();
             // This still does not work.
-            WebApplicationContext ctx = m_server.addWebApplication(m_hostName, context, webAppURL);
+//            WebApplicationContext ctx = m_server.addWebApplication(m_hostName, context, webAppURL);
+
+            WebApplicationContext ctx =
+                new SevakWebApplicationContext(m_sarRootDir, webAppURL);
+            ctx.setContextPath(context);
+            m_server.addContext(m_hostName,ctx);
 
             System.out.println("deploying context=" + context + ", webapp=" + webAppURL + " to host="
                     + m_hostName);
