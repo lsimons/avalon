@@ -1,8 +1,15 @@
 
-After building merlin try the following:
+To build:
 
-  $ cd avalon-components/facilities/http/test
-  $ merlin conf/test.block
+  $ cd planet/facilities/http
+  $ ant
 
-The point you we browser to http://localhost:8080/test/primary
+To start the http server:
+
+  $ cd test
+  $ merlin target/deliverables/blocks/avalon-http-test.block
+
+To see the result:
+
+  http://localhost:8080/test/primary
 

@@ -1,0 +1,19 @@
+<profiles>
+
+  <profile name="primary">
+    <configuration>
+      <name>Primary</name>
+      <message>I'm an avalon component.</message>
+      <link>/test/secondary</link>
+    </configuration>
+  </profile>
+
+  <profile name="secondary">
+    <configuration>
+      <name>Secondary</name>
+      <message>I'm an avalon component too!</message>
+      <link>/test/primary</link>
+    </configuration>
+  </profile>
+
+</profiles>

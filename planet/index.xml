@@ -86,7 +86,7 @@
     </info>
     <dependencies>
       <include key="avalon-http-api"/>
-      <include key="avalon-composition-api"/>
+      <include key="avalon-composition-api" runtime="false"/>
     </dependencies>
   </project>
 
@@ -115,9 +115,22 @@
     <dependencies>
       <include key="avalon-http-spi"/>
       <include key="avalon-http-util"/>
-      <include key="avalon-composition-api"/>
-      <include key="org.mortbay.jetty"/>
+      <include key="avalon-composition-api" runtime="false"/>
       <include key="avalon-util-configuration"/>
+      <include key="org.mortbay.jetty"/>
+    </dependencies>
+    <plugins>
+      <include key="avalon-meta-tools"/>
+    </plugins>
+  </project>
+
+  <project basedir="facilities/http/test">
+    <info>
+      <group>avalon/http</group>
+      <name>avalon-http-test</name>
+    </info>
+    <dependencies>
+      <include key="avalon-http-impl"/>
     </dependencies>
     <plugins>
       <include key="avalon-meta-tools"/>
