@@ -60,3 +60,6 @@ Issues:
 * Should we move to docbook DTD
 
 * Should we move stylebook sheets into jakarta-site CVS
+
+* Enhance Parameters so that it can be built from writer/inputstream in such a
+  way that it reads in velocity/turbine style parameters
