@@ -123,5 +123,19 @@
     </dependencies>
   </project>
 
+  <project basedir="static">
+    <info>
+      <group>avalon/http</group>
+      <name>avalon-http-static</name>
+      <type>block</type>
+      <version>1.0.0</version>
+      <status>SNAPSHOT</status> 
+    </info>
+    <dependencies>
+      <include key="avalon-http-impl" />
+      <include key="servletapi" />
+    </dependencies>
+  </project>
+
 </index>
  
