@@ -8,7 +8,6 @@
 package org.apache.avalon.phoenix.components.kernel;
 
 import java.net.URL;
-import org.apache.avalon.excalibur.container.Entry;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.phoenix.metadata.SarMetaData;
 import org.apache.avalon.phoenix.components.application.Application;
@@ -19,7 +18,6 @@ import org.apache.avalon.phoenix.components.application.Application;
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
 final class SarEntry
-    extends Entry
 {
     private SarMetaData     m_metaData;
     private Configuration   m_configuration;
