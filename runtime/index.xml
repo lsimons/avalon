@@ -2,8 +2,8 @@
 
 <index>
 
-  <import index="../tools/index.xml"
-     href="http://svn.apache.org/repos/asf/avalon/trunk/tools/index.xml"/>
+  <import index="../tools/common.xml"
+     href="http://svn.apache.org/repos/asf/avalon/trunk/tools/common.xml"/>
 
   <!--
   Declaration of the binary resources available through

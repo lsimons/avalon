@@ -1,47 +1,16 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 
+<!-- index of resources shared between tools and runtime -->
+
 <index>
 
-  <import index="common.xml"
-     href="http://svn.apache.org/repos/asf/avalon/trunk/tools/common.xml"/>
-
   <resource>
     <info>
-      <group>ant</group>
-      <name>ant</name>
-      <version>1.6.1</version>
+      <group>junit</group>
+      <name>junit</name>
+      <version>3.8.1</version>
       <type>jar</type>
     </info>
-    <gump>
-      <alias>ant</alias>
-      <id>ant</id>
-    </gump>
-  </resource>
-
-  <resource>
-    <info>
-      <group>ant</group>
-      <name>ant-nodeps</name>
-      <version>1.6.1</version>
-      <type>jar</type>
-    </info>
-    <gump>
-      <alias>ant</alias>
-      <id>nodeps</id>
-    </gump>
-  </resource>
-
-  <resource>
-    <info>
-      <group>ant</group>
-      <name>ant-junit</name>
-      <version>1.6.1</version>
-      <type>jar</type>
-    </info>
-    <gump>
-      <alias>ant</alias>
-      <id>junit</id>
-    </gump>
   </resource>
 
   <!--

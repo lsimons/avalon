@@ -193,10 +193,11 @@ public class JavadocTask extends SystemTask
     }
 
     private void setup( 
-      final Definition def, final Path classpath, final int category, final File root, final boolean flag )
+      final Definition def, final Path classpath, final int category, 
+      final File root, final boolean flag )
     {
         final ResourceRef[] refs =
-          def.getResourceRefs( Policy.RUNTIME, category, true );
+          def.getResourceRefs( getProject(), Policy.RUNTIME, category, true );
         if( flag || ( refs.length > 0 ))
         {
             generate( def, classpath, refs, category, root, flag );

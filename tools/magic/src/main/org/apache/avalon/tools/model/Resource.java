@@ -84,10 +84,11 @@ public class Resource
         return m_home;
     }
 
-    public ResourceRef[] getResourceRefs( final int mode, final int tag, final boolean flag )
+    public ResourceRef[] getResourceRefs( 
+      final Project project, final int mode, final int tag, final boolean flag )
     {
         final ArrayList list = new ArrayList();
-        getResourceRefs( list, mode, tag, flag );
+        getResourceRefs( project, list, mode, tag, flag );
         return (ResourceRef[]) list.toArray( new ResourceRef[0] );
     }
 
@@ -96,7 +97,7 @@ public class Resource
     // optimization is need to eliminate duplicates
 
     protected void getResourceRefs( 
-      final List list, final int mode, final int tag, final boolean flag )
+      final Project project, final List list, final int mode, final int tag, final boolean flag )
     {
         final ResourceRef[] refs = getResourceRefs();
         for( int i=0; i<refs.length; i++ )
@@ -110,8 +111,8 @@ public class Resource
                     list.add( ref );
                     if( flag )
                     {
-                        final Resource def = getHome().getResource( ref );
-                        def.getResourceRefs( list, mode, ResourceRef.ANY, flag );
+                        final Resource def = getResource( project, ref );
+                        def.getResourceRefs( project, list, mode, ResourceRef.ANY, flag );
                     }
                 }
             }
@@ -131,13 +132,13 @@ public class Resource
 
         final ArrayList visited = new ArrayList();
         final Path path = new Path( project );
-        final ResourceRef[] refs = getResourceRefs( mode, ResourceRef.ANY, true );
+        final ResourceRef[] refs = getResourceRefs( project, mode, ResourceRef.ANY, true );
         for( int i=0; i<refs.length; i++ )
         {
             final ResourceRef ref = refs[i];
             if( !visited.contains( ref ) )
             {
-                final Resource resource = getHome().getResource( ref );
+                final Resource resource = getResource( project, ref );
                 final File file = resource.getArtifact( project );
                 path.createPathElement().setLocation( file );
                 visited.add( ref );
@@ -147,11 +148,26 @@ public class Resource
         return path;
     }
 
-    public ResourceRef[] getQualifiedRefs( final List visited, final int category )
+    private Resource getResource( Project project, ResourceRef ref ) 
+    {
+        try
+        {
+            return getHome().getResource( ref );
+        }
+        catch( UnknownResourceException ure )
+        {
+            final String error = 
+              "Resource defintion " + this + " contains a unknown resource reference ["
+                 + ure.getKey() + "] referenced in the project [" + project.getName() + "].";
+            throw new BuildException( error );
+        }
+    }
+
+    public ResourceRef[] getQualifiedRefs( Project project, final List visited, final int category )
     {
         final ArrayList list = new ArrayList();
         final ResourceRef[] refs =
-          getResourceRefs( Policy.RUNTIME, category, true );
+          getResourceRefs( project, Policy.RUNTIME, category, true );
         for( int i=0; i<refs.length; i++ )
         {
             final ResourceRef ref = refs[i];

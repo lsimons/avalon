@@ -197,7 +197,7 @@ public class ArtifactTask extends SystemTask
         throws IOException
     {
         final ArrayList visited = new ArrayList();
-        final ResourceRef[] apis = def.getQualifiedRefs( visited, ResourceRef.API );
+        final ResourceRef[] apis = def.getQualifiedRefs( getProject(), visited, ResourceRef.API );
         if( apis.length > 0 )
         {
             writer.write( "\n" );
@@ -207,7 +207,7 @@ public class ArtifactTask extends SystemTask
             final String lead = "avalon.artifact.dependency.api";
             writeRefs( writer, apis, lead );
         }
-        final ResourceRef[] spis = def.getQualifiedRefs( visited, ResourceRef.SPI );
+        final ResourceRef[] spis = def.getQualifiedRefs( getProject(), visited, ResourceRef.SPI );
         if( spis.length > 0 )
         {
             writer.write( "\n" );
@@ -218,7 +218,7 @@ public class ArtifactTask extends SystemTask
             writeRefs( writer, spis, lead );
         }
 
-        final ResourceRef[] impl = def.getQualifiedRefs( visited, ResourceRef.IMPL );
+        final ResourceRef[] impl = def.getQualifiedRefs( getProject(), visited, ResourceRef.IMPL );
         if( impl.length > 0 )
         {
             writer.write( "\n" );

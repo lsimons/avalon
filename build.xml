@@ -47,21 +47,12 @@
 
   <target name="gump">
     <x:home/>
-    <x:gump name="Magic" description="Magic Test Module" 
+    <x:gump description="Magic Test Module" 
          public="true" filename="gump.xml">
-      <x:url href="http://avalon.apache.org/magic"/>
+      <x:url href="http://avalon.apache.org/"/>
       <x:svn href="https://svn.apache.org/repos/asf/avalon/trunk"/>
       <x:license file="central/system/license/LICENSE.TXT"/>
     </x:gump>
-  </target>
-
-  <target name="execute">
-    <property name="gump.build-id" value="123456"/>
-    <property name="gump.target" value="runtime/composition/api"/>
-    <echo>BASDIR: ${basedir}</echo>
-    <echo>TARGET: ${gump.target}</echo>
-
-    <ant dir="." antfile="central/system/build/gump.xml" inheritrefs="false"/>
   </target>
 
 </project>
