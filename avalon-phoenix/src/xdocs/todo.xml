@@ -62,6 +62,23 @@ If you need more detailed help, please send mail to the mailing list
 <s1 title="Wish List">
 
 <ul>
+
+    <li>
+      Refactor block validation code. Write an Ant taks that uses this 
+      and validates the .bar files and another task that validates the
+      assembly.xml file.
+    </li>
+
+    <li>
+      Refactor Log messages so that they are structured in a manner more 
+      suitable for administrators rather than developers.
+    </li>
+
+    <li>
+      Refactor Log messages so that they are structured in a manner more 
+      suitable for administrators rather than developers.
+    </li>
+
     <li>
       Define and implement a smart way to generate Avalon configurations.
       Define configuration template containing default configuration,
@@ -77,10 +94,51 @@ If you need more detailed help, please send mail to the mailing list
     </li>
 
     <li>
+      Rework kernel so that ConfigurationRepository, Logging and Management can
+      be routed through ServerApplications.
+    </li>
+
+    <li>
+      Implement a simple read-only VFS so that .sar files do not need to be 
+      expanded.
+    </li>
+
+    <li>
+      Rework kernel so that thread boundaries are respected and secure. This essentially
+      involves using ThreadPools to execute phases and for management.
+    </li>
+
+    <li>
+      Determine if we need a naming service. If so provide a simple JNDI based naming
+      service possibly built on top of cadastre.
+    </li>
+
+    <li>
+      Separate out and specify the way in which different parts of system are managed.
+      ie Compare how remote Management of Blocks could occur vs Deployer/Kernel/Embeddor
+      management occurs.
+    </li>
+
+    <li>
+      A standard system for hot deploying and undeploying. This may require the building
+      of FileMonitors that will read a file when it is changed.
+    </li>
+
+    <li>
       A standard reconfiguration system.  This may require the building
       of FileMonitors that will read a file when it is changed.  Any
       kind of block or component that extends the Reconfigurable interface
       gets sent the new configuration.
+    </li>
+
+    <li>
+      Rework kernel so that components are optionally provided via proxied
+      interfaces. External services and management will also be provided via 
+      proxy interfaces.
+    </li>
+
+    <li>
+      Management console/Client interface. CLI version aswell as a GUI version.
     </li>
 
     <li>
