@@ -5,7 +5,7 @@
 
     <property file="${basedir}/project.properties"></property>
 
-    
+
     <property file="${basedir}/../project.properties"></property>
     <property file="${basedir}/../../project.properties"></property>
     <property file="${basedir}/../../../project.properties"></property>
@@ -23,9 +23,10 @@ project.properties to the correct location.
 </fail>
     </target>
 
-    
+
     <target name="delegate">
-        
+        <available file="${avalon.buildsystem}/maven-common-gump-build.xml"
+                property="avalon.buildsystem.available"></available>
         <antcall target="need-for-common-build"></antcall>
 
         <ant inheritRefs="true" target="avalon:${target}" antfile="${avalon.buildsystem}/maven-common-gump-build.xml" inheritAll="true"></ant>
@@ -56,4 +57,3 @@ project.properties to the correct location.
     </target>
 
 </project>
-            
