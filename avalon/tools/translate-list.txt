@@ -1,0 +1,37 @@
+import org.apache.avalon.util.StringUtil;|import org.apache.avalon.ExceptionUtil;
+StringUtil.|ExceptionUtil.
+import org.apache.avalon.ComponentManagerException;|import org.apache.avalon.component.ComponentException;
+import org.apache.avalon.ComponentNotFoundException;|import org.apache.avalon.component.ComponentException;
+import org.apache.avalon.ComponentNotAccessibleException;|import org.apache.avalon.component.ComponentException;
+import org.apache.avalon.ComponentManager;|import org.apache.avalon.component.ComponentManager;
+import org.apache.avalon.DefaultComponentManager;|import org.apache.avalon.component.DefaultComponentManager;
+import org.apache.avalon.ComponentSelector;|import org.apache.avalon.component.ComponentSelector;
+import org.apache.avalon.DefaultComponentSelector;|import org.apache.avalon.component.DefaultComponentSelector;
+import org.apache.avalon.Component;|import org.apache.avalon.component.Component;
+import org.apache.avalon.Composer;|import org.apache.avalon.component.Composable;
+import org.apache.avalon.Recomposer;|import org.apache.avalon.component.Recomposable;
+import org.apache.avalon.configuration.Parameters;|import org.apache.avalon.parameters.Parameters;
+ComponentManagerException|ComponentException
+ComponentNotFoundException|ComponentException
+ComponentNotAccessibleException|ComponentException
+Composer|Composable
+import org.apache.avalon.Poolable;|import org.apache.excalibur.pool.Poolable;
+import org.apache.avalon.Recyclable;|import org.apache.excalibur.pool.Recyclable;
+import org.apache.avalon.ThreadSafe;|import org.apache.avalon.thread.ThreadSafe;
+import org.apache.avalon.SingleThreaded;|import org.apache.avalon.thread.SingleThreaded;
+import org.apache.avalon.AbstractLoggable;|import org.apache.avalon.logger.AbstractLoggable;
+import org.apache.avalon.Loggable;|import org.apache.avalon.logger.Loggable;
+import org.apache.avalon.Context;|import org.apache.avalon.context.Context;
+import org.apache.avalon.DefaultContext;|import org.apache.avalon.context.DefaultContext;
+import org.apache.avalon.Contextualizable;|import org.apache.avalon.context.Contextualizable;
+import org.apache.avalon.Recontextualizable;|import org.apache.avalon.context.Recontextualizable;
+import org.apache.avalon.Resolvable;|import org.apache.avalon.context.Resolvable;
+import org.apache.avalon.util.Lock;|import org.apache.excalibur.concurrent.Lock;
+import org.apache.avalon.util.cli.|import org.apache.excalibur.cli.
+import org.apache.avalon.util.concurrent.|import org.apache.excalibur.concurrent.
+import org.apache.avalon.util.collections.|import org.apache.excalibur.collections.
+import org.apache.avalon.util.datasource.|import org.apache.excalibur.datasource.
+import org.apache.avalon.util.i18n.|import org.apache.excalibur.i18n.
+import org.apache.avalon.util.io.|import org.apache.excalibur.io.
+import org.apache.avalon.util.pool.|import org.apache.excalibur.pool.
+import org.apache.avalon.util.thread.|import org.apache.excalibur.thread.
