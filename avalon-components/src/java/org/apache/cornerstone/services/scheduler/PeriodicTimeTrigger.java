@@ -20,20 +20,20 @@ public class PeriodicTimeTrigger
     protected final long    m_period;
     private   final long    m_triggerTime;
     
-    public PeriodicTimeTrigger( final int startTime, final int period )
+    public PeriodicTimeTrigger( final int offset, final int period )
     {
         final long current = System.currentTimeMillis();
 
-        if( -1 == startTime )
+        if( -1 == offset )
         {
             m_triggerTime = current;
         }
         else
         {
-            m_triggerTime = current + startTime;
+            m_triggerTime = current + offset;
         }
 
-        m_startTime = startTime;
+        m_startTime = offset;
         m_period = period;
     }
 
