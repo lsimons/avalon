@@ -29,7 +29,7 @@ import org.apache.avalon.framework.logger.Logger;
  * serve basis.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $ $Date: 2004/03/17 10:39:10 $
+ * @version $Revision: 1.4 $ $Date: 2004/04/19 10:50:05 $
  * @see CommissionRequest
  */
 class Commissioner implements Runnable
@@ -164,10 +164,6 @@ class Commissioner implements Runnable
      **/
     void dispose()
     {
-        if( m_logger.isDebugEnabled() )
-        {
-            m_logger.debug( "commissioner disposal" );
-        }
         if( null != m_thread )
         { 
             m_thread.interrupt();
@@ -176,10 +172,6 @@ class Commissioner implements Runnable
     
     public void run()
     {
-        if( m_logger.isDebugEnabled() )
-        {
-            m_logger.debug( m_message + " thread started" );
-        }
         try
         {
             while( true )

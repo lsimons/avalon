@@ -68,7 +68,7 @@ import org.apache.avalon.util.i18n.Resources;
  * A factory enabling the establishment of component instances.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.11 $ $Date: 2004/03/23 23:34:35 $
+ * @version $Revision: 1.12 $ $Date: 2004/04/19 10:49:50 $
  */
 public class DefaultComponentFactory implements ComponentFactory
 {
@@ -142,6 +142,13 @@ public class DefaultComponentFactory implements ComponentFactory
     */
     public void etherialize( final Object instance )
     {
+        if( getLogger().isDebugEnabled() )
+        {
+            final String message = 
+              "etherialization";
+            getLogger().debug( message );
+        }
+
         try
         {
             applyCreateStage( instance, false );
@@ -241,6 +248,13 @@ public class DefaultComponentFactory implements ComponentFactory
     */
     private Object incarnation() throws LifecycleException
     {
+        if( getLogger().isDebugEnabled() )
+        {
+            final String message = 
+              "incarnation";
+            getLogger().debug( message );
+        }
+
         Class clazz = m_model.getDeploymentClass();
         final Logger logger = m_model.getLogger();
         final Configuration config = m_model.getConfiguration();
@@ -431,7 +445,6 @@ public class DefaultComponentFactory implements ComponentFactory
                     ContainerUtil.execute( instance );
                 }
             }
-            return instance;
         }
         catch( Throwable e )
         {
@@ -441,6 +454,8 @@ public class DefaultComponentFactory implements ComponentFactory
                 m_model.getQualifiedName() );
              throw new LifecycleException( error, e );
         }
+
+        return instance;
     }
 
     private Class getContextCastingClass()

@@ -51,7 +51,7 @@ import org.apache.avalon.util.i18n.Resources;
  * a fully qualifed context can be established.</p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.16 $ $Date: 2004/03/17 10:39:10 $
+ * @version $Revision: 1.17 $ $Date: 2004/04/19 10:50:05 $
  */
 public class DefaultContextModel extends DefaultDependent implements ContextModel
 {
@@ -477,14 +477,7 @@ public class DefaultContextModel extends DefaultDependent implements ContextMode
         {
             try
             {
-                Class clazz = classloader.loadClass( DEFAULT_STRATEGY_CLASSNAME );
-                if( getLogger().isDebugEnabled() )
-                {
-                    final String message = 
-                      REZ.getString( "context.strategy.avalon" );
-                    getLogger().debug( message );
-                }
-                return clazz;
+                return classloader.loadClass( DEFAULT_STRATEGY_CLASSNAME );
             }
             catch( ClassNotFoundException e )
             {
