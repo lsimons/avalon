@@ -333,4 +333,17 @@
     </dependencies>
   </project>
 
+  <project basedir="parameterization">
+    <info>
+      <group>avalon/tutorial</group>
+      <name>avalon-tutorial-parameters</name>
+    </info>
+    <dependencies>
+      <include key="avalon-framework-api"/>
+    </dependencies>
+    <plugins>
+      <include key="avalon-meta-tools"/>
+    </plugins>
+  </project>
+
 </system>
