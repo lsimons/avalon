@@ -173,10 +173,24 @@ public class PluginServiceManager extends AbstractLogEnabled
         PluginProperties props = new PluginProperties( m_GlobalProperties );
         
         appendProperties( props, m_ProjectDir );
+        
         String projectName = props.getProperty( "project.name" );
+        String psLoc = props.getProperty( "project.system" ) ;
+        File projectSystemDir;
+        
+        if( psLoc != null )
+        {
+            projectSystemDir = new File( m_ProjectDir, psLoc );
+        }
+        else
+        {
+            projectSystemDir = new File( m_ProjectDir, "../system" );
+        }
+        projectSystemDir.mkdirs();
         
         PluginContext ctx = new PluginContext( projectName, m_ProjectDir, 
-            props, service, pluginDir, m_SystemDir, m_TempDir, m_AntProject );
+            projectSystemDir.getAbsoluteFile(), props, service, pluginDir, 
+            m_SystemDir, m_TempDir, m_AntProject );
         
         try
         {

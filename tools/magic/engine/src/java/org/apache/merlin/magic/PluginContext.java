@@ -21,6 +21,7 @@ public class PluginContext extends AbstractLogEnabled
     private String m_PluginClassname;    
     private String m_PluginName;
     private File m_PluginDir;
+    private File m_ProjectSystemDir;
     private File m_SystemDir;
     private File m_TempDir;
    
@@ -29,13 +30,13 @@ public class PluginContext extends AbstractLogEnabled
     
     PluginContext( File scriptDir )
     {
-        this( "virtual", new File( "." ), new PluginProperties(), "virtual plugin", 
+        this( "virtual", new File( "." ), new File( "../system" ), new PluginProperties(), "virtual plugin", 
               scriptDir, new File( "." ), new File( "." ), new Project() );
     }
     
-    PluginContext( String projectName, File projectDir, PluginProperties projectProps,
-                   String pluginName, File pluginDir, File systemDir, File tempDir,
-                   Project ant )
+    PluginContext( String projectName, File projectDir, File projectSystemDir, 
+                   PluginProperties projectProps, String pluginName, 
+                   File pluginDir, File systemDir, File tempDir, Project ant )
     {
         if( projectName == null )
             throw new IllegalArgumentException( "Null argument: projectName" );
@@ -64,6 +65,7 @@ public class PluginContext extends AbstractLogEnabled
         m_SystemDir = systemDir;
         m_TempDir = tempDir;
         m_AntProject = ant;
+        m_ProjectSystemDir = projectSystemDir;
     }
 
     public Object get( Object entry )
@@ -117,6 +119,11 @@ public class PluginContext extends AbstractLogEnabled
     public File getSystemDir()
     {
         return m_SystemDir;
+    }
+    
+    public File getProjectSystemDir()
+    {
+        return m_ProjectSystemDir;
     }
     
     public File getTempDir()
