@@ -86,6 +86,16 @@
             <td>false</td>
             <td>Debug flag used to override all logging channels to debug priority.</td>
           </tr>
+          <tr>
+            <td>avalon.logging.update</td>
+            <td>0</td>
+            <td>
+              If the value is larger than zero, the <strong>update</strong> is
+              how many millisecond between re-configuring the logging system. Not
+              all logging system will support this property, in which case it is
+              completely ignored.
+            </td>
+          </tr>
         </table>
       </subsection>
     </section>

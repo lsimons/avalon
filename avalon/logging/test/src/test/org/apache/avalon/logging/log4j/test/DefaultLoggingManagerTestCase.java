@@ -43,7 +43,7 @@ import org.apache.avalon.util.exception.ExceptionHelper;
  * 
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class DefaultLoggingManagerTestCase extends TestCase
 {
@@ -74,7 +74,7 @@ public class DefaultLoggingManagerTestCase extends TestCase
     {
         m_manager = 
           LoggingManagerHelper.setUpLoggingManager( 
-            "avalon-log4j-impl", "log4j/logging.xml" );
+            "avalon-log4j-impl", "log4j/log4j.xml" );
     }
 
     public void testKernelLogging() throws Exception

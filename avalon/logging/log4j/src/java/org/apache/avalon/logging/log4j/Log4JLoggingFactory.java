@@ -49,13 +49,13 @@ import org.w3c.dom.Element;
  * A Log4J factory.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  */
 public class Log4JLoggingFactory
     implements LoggingFactory
 {
     private static final Resources REZ =
-      ResourceManager.getPackageResources( DefaultLoggingCriteria.class );
+      ResourceManager.getPackageResources( Log4JLoggingFactory.class );
     
     private final ClassLoader    m_Classloader;
     private final InitialContext m_Context;
@@ -83,7 +83,7 @@ public class Log4JLoggingFactory
     */
     public LoggingCriteria createDefaultLoggingCriteria()
     {
-        return new DefaultLoggingCriteria( m_Context );
+        return new LoggingCriteria( m_Context );
     }
 
    /**
@@ -141,97 +141,89 @@ public class Log4JLoggingFactory
         {
             throw new NullPointerException( "criteriaMap" );
         }
-
-        final LoggingCriteria criteria = getLoggingCriteria( criteriaMap );
+        LoggingCriteria criteria = getLoggingCriteria( criteriaMap );
         m_BaseDirectory = criteria.getBaseDirectory();
-
-        final Configuration config = criteria.getConfiguration();
-        Configuration srcConf = config.getChild( "src", false );
-        if( srcConf != null )
+        
+        String cwd = System.getProperty( "user.dir" );
+        try
         {
-            Configuration updateConf = config.getChild( "update" );
-            String src = srcConf.getValue();
-            src = resolveSource( src );
-            System.out.println( src );
-            long updateInterval = updateConf.getValueAsLong( 0 );
-            if( updateInterval > 0 )
+            System.setProperty( "user.dir", m_BaseDirectory.getAbsolutePath() );
+            URL conf = criteria.getLoggingConfiguration();
+            long updateInterval = criteria.getUpdateInterval();
+            configure( conf, updateInterval );
+            return new LoggingManagerImpl();
+        } finally
+        {
+            System.setProperty( "user.dir", cwd );
+        }
+    }
+
+    private void configure( URL url, long interval )
+    {
+        String src = url.toExternalForm();
+        if( src.startsWith( "file:" ) )
+        {
+            src = src.substring( 5 );
+            while( src.startsWith( "/" ) )
+                src = src.substring( 1 );
+            configureFile( src, interval );
+        }
+        configureURL( url );
+    }
+    
+    private void configureFile( String src, long interval )
+    {
+        if( interval > 0 )
+        {
+            if( src.endsWith( ".xml" ) )
             {
-                configureWithWatch( src, updateInterval );
+                DOMConfigurator.configureAndWatch( src, interval );
             }
             else
             {
-                configureWithOutWatch( src );
+                PropertyConfigurator.configureAndWatch( src, interval );
             }
         }
         else
         {
-            Configuration log4jNode = config.getChild( "configuration" );
-            Element node = ConfigurationUtil.toElement( log4jNode );
-            DOMConfigurator.configure( node );
-        }
-        return new LoggingManagerImpl();
-    }
-    
-    private void configureWithWatch( String src, long interval )
-    {
-        if( src.endsWith( ".xml" ) )
-        {
-            DOMConfigurator.configureAndWatch( src, interval );
-        }
-        else
-        {
-            PropertyConfigurator.configureAndWatch( src, interval );
+            if( src.endsWith( ".xml" ) )
+            {
+                DOMConfigurator.configureAndWatch( src );
+            }
+            else
+            {
+                PropertyConfigurator.configureAndWatch( src );
+            }
         }
     }
     
-    private void configureWithOutWatch( String src )
+    private void configureURL( URL url )
     {
+        String src = url.toExternalForm();
+        
         if( src.endsWith( ".xml" ) )
         {
-            DOMConfigurator.configure( src );
+            DOMConfigurator.configure( url );
         }
         else
         {
-            PropertyConfigurator.configure( src );
+            PropertyConfigurator.configure( url );
         }
     }
 
-    private String resolveSource( String src )
+    private LoggingCriteria getLoggingCriteria( Map criteriaMap )
     {
-        try
+        if( criteriaMap instanceof LoggingCriteria )
         {
-            URL url = new URL( src );
-            if( url.getProtocol().equals( "file" ) )
-                return resolveToBaseDir( src );
-            return src;
-        } catch( MalformedURLException e )
-        {
-            return resolveToBaseDir( src );
-        }
-    }
-    
-    private String resolveToBaseDir( String src )
-    {
-        if( src.startsWith( "/" ) )
-            return src;
-        File f = new File( m_BaseDirectory, src );
-        return f.getAbsolutePath();
-    }
-    
-    private LoggingCriteria getLoggingCriteria( Map map )
-    {
-        if( map instanceof LoggingCriteria )
-        {
-            return (LoggingCriteria) map;
+            return (LoggingCriteria) criteriaMap;
         }
         else
         {
             final String error = 
               REZ.getString( 
                 "factory.bad-criteria", 
-                map.getClass().getName() );
+                criteriaMap.getClass().getName() );
             throw new IllegalArgumentException( error );
         }
     }
-
 }

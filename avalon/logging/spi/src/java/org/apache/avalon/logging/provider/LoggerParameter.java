@@ -15,15 +15,15 @@
  * limitations under the License.
  */
 
-package org.apache.avalon.logging.logkit;
+package org.apache.avalon.logging.provider;
 
 import java.io.File;
 import java.net.URL;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
+import java.util.StringTokenizer;
 
 import org.apache.avalon.framework.logger.Logger;
-import org.apache.avalon.framework.logger.ConsoleLogger;
 
 import org.apache.avalon.util.criteria.Parameter;
 import org.apache.avalon.util.criteria.CriteriaException;
@@ -33,10 +33,10 @@ import org.apache.avalon.excalibur.i18n.Resources;
 
 /**
  * A parameter descriptor that supports transformation of a 
- * a string to a logging channel instance.
+ * a string to a Logger instance.
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.1 $
  */
 public class LoggerParameter extends Parameter
 {
@@ -116,5 +116,4 @@ public class LoggerParameter extends Parameter
             value.getClass().getName(), Logger.class.getName() );
         throw new CriteriaException( error );
     }
-
 }
