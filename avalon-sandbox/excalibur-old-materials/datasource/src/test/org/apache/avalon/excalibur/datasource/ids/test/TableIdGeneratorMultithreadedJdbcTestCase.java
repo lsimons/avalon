@@ -49,7 +49,6 @@
 */
 package org.apache.avalon.excalibur.datasource.ids.test;
 
-import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -467,6 +466,7 @@ public class TableIdGeneratorMultithreadedJdbcTestCase
         }
     }
 
+/*  Never used code
     private void initializeNextBigDecimalId( String tableName, BigDecimal nextId )
     {
         try
@@ -490,7 +490,7 @@ public class TableIdGeneratorMultithreadedJdbcTestCase
             fail( "Unable to initialize next_id. " + e );
         }
     }
-
+*/
     private void initializeNextLongId( String tableName, long nextId )
     {
         try
@@ -515,6 +515,7 @@ public class TableIdGeneratorMultithreadedJdbcTestCase
         }
     }
 
+/* Never used code
     private BigDecimal peekNextBigDecimalId( String tableName )
     {
         try
@@ -548,7 +549,7 @@ public class TableIdGeneratorMultithreadedJdbcTestCase
             return null; // for compiler
         }
     }
-
+*/
     private long peekNextLongId( String tableName )
     {
         try
