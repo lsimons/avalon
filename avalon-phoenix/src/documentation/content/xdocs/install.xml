@@ -4,7 +4,7 @@
 
  <header>
   <title>Installation</title>
-     
+
  <authors><person name="Phoenix Documentation Team" email="dev@avalon.apache.org"/></authors></header>
 
 <body>
@@ -17,11 +17,8 @@
 
 <p>
     Everything required to run Phoenix and develop Phoenix based products comes with the
-    <link href="http://jakarta.apache.org/builds/avalon/release">distribution</link>. If
-    you wish to help develop Avalon/Phoenix then it is recomended that you obtain the full
-    source tree from <link href="http://jakarta.apache.org/getinvolved/cvsindex.html">CVS</link>
-    or from the <link href="http://jakarta.apache.org/builds/avalon/nightly/">nightly
-    builds</link>.
+    distribution. If you wish to help develop Avalon/Phoenix then it is recomended that you
+    obtain the full source tree from CVS or from the nightly builds.
 </p>
 
 </section>

@@ -33,12 +33,12 @@
         </p>
       </section>
       <section><title>Inversion of Control Pattern</title>
-         <p>The IoC pattern is described <link href="http://jakarta.apache.org/avalon/framework/inversion-of-control.html">
+         <p>The IoC pattern is described <link href="http://avalon.apache.org/framework/inversion-of-control.html">
          here</link>.  This means for Phoenix avoiding static concepts including loggers.</p>
       </section>
       <section><title>Separation of interface and implementation</title>
         <p>
-         The separation of interface/implementation pattern is described <link href="http://jakarta.apache.org/avalon/framework/separation-of-interface-and-implementation.html">here</link>.
+         The separation of interface/implementation pattern is described <link href="http://avalon.apache.org/framework/separation-of-interface-and-implementation.html">here</link>.
          For Phoenix this means we can (if done completely) mount the implementation jar in place where hosted client components (beans, servlets etc) can use the API, but not see the implementation.  We can also reimplement or wrap
          bits of the implementation.  For example we could write a pluggable implementation that could, for a certain API
          journal some methods, but still delegate to the real implementation.  Which pluggable implementation is used by Phoenix when it

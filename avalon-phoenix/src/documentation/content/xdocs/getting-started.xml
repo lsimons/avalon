@@ -17,7 +17,7 @@
     This document provides developers with simple documentation for getting
     started with Phoenix. For information about the overall structure of
     Avalon Framework (on which Phoenix is based), please refer to the
-    <link href="http://jakarta.apache.org/avalon/framework/index.html">Framework documentation</link>.
+    <link href="http://avalon.apache.org/framework/index.html">Framework documentation</link>.
 </p>
 
 <p>
@@ -57,7 +57,7 @@
 <p>
     Firstly you will need to get the demo-helloworld.sar file and drop it into
     the apps directory of Phoenix.  Currently it needs to be built from CVS -
-    <link href="http://cvs.apache.org/viewcvs/jakarta-avalon-apps/demo/">
+    <link href="http://cvs.apache.org/viewcvs/avalon-apps/demo/">
     http://cvs.apache.org/viewcvs/jakarta-avalon-apps/demo/</link>.
 </p>
 <p>

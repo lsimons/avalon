@@ -6,12 +6,12 @@
         copyright="Foo"
         xmlns:xlink="http://www.w3.org/1999/xlink">
 
-        <tab label="Framework"   href="http://jakarta.apache.org/avalon/framework/"/>
-        <tab label="Excalibur"   href="http://jakarta.apache.org/avalon/excalibur/"/>
-        <tab label="Cornerstone" href="http://jakarta.apache.org/avalon/cornerstone/"/>
+        <tab label="Framework"   href="http://avalon.apache.org/framework/"/>
+        <tab label="Excalibur"   href="http://avalon.apache.org/excalibur/"/>
+        <tab label="Cornerstone" href="http://avalon.apache.org/cornerstone/"/>
         <tab label="Phoenix"     dir="/"/>
-        <tab label="Apps"        href="http://jakarta.apache.org/avalon/apps/"/> 
-        <tab label="Logkit"      href="http://jakarta.apache.org/avalon/logkit/"/>               
+        <tab label="Apps"        href="http://avalon.apache.org/apps/"/>
+        <tab label="Logkit"      href="http://avalon.apache.org/logkit/"/>
         <!-- Add new tabs here, eg:
         <tab label="How-Tos" dir="community/howto/"/>
         <tab label="XML Site" dir="xml-site/"/>
