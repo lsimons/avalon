@@ -100,7 +100,7 @@ import org.xml.sax.XMLReader;
  * </p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.26 $ $Date: 2003/02/11 16:19:27 $
+ * @version CVS $Revision: 1.27 $ $Date: 2003/03/10 12:11:16 $
  */
 public class DefaultConfigurationBuilder
 {
@@ -154,7 +154,7 @@ public class DefaultConfigurationBuilder
      */
     public DefaultConfigurationBuilder( XMLReader parser )
     {
-        this.setParser( parser );
+        setParser( parser );
     }
 
     /**
