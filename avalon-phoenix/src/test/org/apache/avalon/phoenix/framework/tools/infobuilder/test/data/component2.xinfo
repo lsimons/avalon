@@ -8,7 +8,7 @@
     <!-- section to describe block -->
     <block>
         <version>1.0</version>
-        <schema-type>relax-ng</schema-type>
+        <schema-type>http://relaxng.org/ns/structure/1.0</schema-type>
     </block>
 
     <!-- services that are offered by this block -->
