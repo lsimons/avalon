@@ -51,8 +51,12 @@
 package org.apache.avalon.repository.main;
 
 import java.io.File;
+import java.io.InputStream;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.text.ParseException;
 import java.util.Map;
+import java.util.Properties;
 import java.util.StringTokenizer;
 import java.util.ArrayList;
 
@@ -81,10 +85,69 @@ import org.apache.avalon.util.exception.ExceptionHelper;
  * 
  * @author <a href="mailto:aok123@bellsouth.net">Alex Karasulu</a>
  * @author $Author: mcconnell $
- * @version $Revision: 1.7 $
+ * @version $Revision: 1.8 $
  */
 public class DefaultBuilder extends AbstractBuilder implements Builder
 {
+    //-----------------------------------------------------------
+    // static
+    //-----------------------------------------------------------
+
+    private static final File USER = 
+      new File( System.getProperty( "user.home" ) );
+
+   /**
+    * Resolve the default implementation taking into account 
+    * local and home properties, and application defaults.
+    * @param classloader the embedding classloader
+    * @param base the base directory
+    * @param resource a properties filename
+    * @param key a property key containing an artifact specification
+    * @return the artifact reference
+    */
+    protected static Artifact createImplementationArtifact( 
+      ClassLoader classloader, File base, String resource, String key ) throws Exception
+    {
+        String spec = 
+          getLocalProperties( USER, resource ).getProperty( key );
+        if( null == spec )
+        {
+            spec = 
+              getLocalProperties( base, resource ).getProperty( key );
+            if( null == spec )
+            {
+                Properties properties = new Properties();
+                InputStream input = classloader.getResourceAsStream( resource );
+                if( input == null ) 
+                {
+                    final String error = 
+                      "Missing resource: [" + resource + "]";
+                    throw new Error( error );
+                }
+                properties.load( input );
+                spec = properties.getProperty( key );
+                if( spec == null ) 
+                {
+                    final String error = 
+                      "Missing property: [" + key + "] in resource: [" + resource + "]";
+                    throw new Error( error );
+                }
+            }
+        }
+        return Artifact.createArtifact( spec );
+    }
+
+    private static Properties getLocalProperties( 
+      File dir, String filename ) throws IOException
+    {
+        Properties properties = new Properties();
+        if( null == dir ) return properties;
+        File file = new File( dir, filename );
+        if( !file.exists() ) return properties;
+        properties.load( new FileInputStream( file ) );
+        return properties;
+    }
+
     //-----------------------------------------------------------
     // immutable state
     //-----------------------------------------------------------
@@ -119,6 +182,29 @@ public class DefaultBuilder extends AbstractBuilder implements Builder
     //-----------------------------------------------------------
     // constructors
     //-----------------------------------------------------------
+
+   /**
+    * Creates a DefaultBuilder for a specific target application.
+    * 
+    * @param context the initial repository context
+    * @param classloader the parent classloader
+    * @param resource the filename of a property file normall located in
+    *   the inital working directory or user home directory
+    * @param key a property key containing the implemention artifact specification
+    * @exception Exception if a builder creation error occurs
+    */
+    public DefaultBuilder( InitialContext context, ClassLoader classloader, String resource, String key )
+        throws Exception
+    {
+        this( 
+          context, 
+          classloader,
+          createImplementationArtifact( 
+            classloader,
+            context.getInitialWorkingDirectory(), 
+            resource, 
+            key ) );
+    }
 
    /**
     * Creates a DefaultBuilder for a specific target application.
