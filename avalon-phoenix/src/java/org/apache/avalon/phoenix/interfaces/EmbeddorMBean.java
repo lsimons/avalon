@@ -22,12 +22,13 @@ public interface EmbeddorMBean
     String ROLE = EmbeddorMBean.class.getName();
 
     /**
-     * Get name by which the server is know.
+     * Get name by which the server is known.
      * Usually this defaults to "Phoenix" but the admin
      * may assign another name. This is useful when you
      * are managing a cluster of Phoenix servers.
      *
      * @phoenix:mx-attribute
+     * @phoenix:mx-description Name by which this server is known.
      *
      * @return the name of server
      */
@@ -66,6 +67,7 @@ public interface EmbeddorMBean
      * Usually looks like "v4.0.1a".
      *
      * @phoenix:mx-attribute
+     * @phoenix:mx-description Retrieve a string identifying version of server.
      *
      * @return version string of server.
      */
