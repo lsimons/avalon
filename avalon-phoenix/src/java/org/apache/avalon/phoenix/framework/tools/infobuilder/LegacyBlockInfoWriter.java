@@ -65,7 +65,7 @@ import org.apache.avalon.phoenix.framework.info.ServiceDescriptor;
  * documents in legacy BlockInfo format.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2003/03/22 12:07:13 $
+ * @version $Revision: 1.4 $ $Date: 2003/04/05 04:25:43 $
  */
 public class LegacyBlockInfoWriter
     implements InfoWriter
@@ -168,7 +168,6 @@ public class LegacyBlockInfoWriter
         writer.write( "</services>" );
     }
 
-
     /**
      * Write out xml representation of a set of services.
      *
@@ -177,7 +176,7 @@ public class LegacyBlockInfoWriter
      * @throws IOException if unable to write xml
      */
     private void writeMxServices( final Writer writer,
-                                final ServiceDescriptor[] services )
+                                  final ServiceDescriptor[] services )
         throws IOException
     {
         if( 0 == services.length )

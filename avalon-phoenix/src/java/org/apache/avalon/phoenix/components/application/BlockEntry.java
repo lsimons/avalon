@@ -50,11 +50,11 @@
 
 package org.apache.avalon.phoenix.components.application;
 
+import org.apache.avalon.phoenix.containerkit.profile.ComponentProfile;
 import org.apache.avalon.phoenix.framework.info.Attribute;
 import org.apache.avalon.phoenix.framework.info.ComponentInfo;
 import org.apache.avalon.phoenix.framework.info.ServiceDescriptor;
 import org.apache.avalon.phoenix.interfaces.ContainerConstants;
-import org.apache.avalon.phoenix.containerkit.profile.ComponentProfile;
 
 /**
  * This is the structure describing each block before it is loaded.
@@ -175,7 +175,6 @@ class BlockEntry
         return classes;
     }
 
-
     private static Class getBlockClass()
     {
         try
@@ -187,4 +186,4 @@ class BlockEntry
             throw new IllegalStateException( "Can not find block class" );
         }
     }
- }
+}

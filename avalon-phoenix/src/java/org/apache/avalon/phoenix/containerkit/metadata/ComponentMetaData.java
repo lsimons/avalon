@@ -50,12 +50,12 @@
 
 package org.apache.avalon.phoenix.containerkit.metadata;
 
-import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.phoenix.framework.info.Attribute;
-import org.apache.avalon.phoenix.framework.info.FeatureDescriptor;
-import org.apache.avalon.framework.parameters.Parameters;
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.avalon.framework.configuration.Configuration;
+import org.apache.avalon.framework.parameters.Parameters;
+import org.apache.avalon.phoenix.framework.info.Attribute;
+import org.apache.avalon.phoenix.framework.info.FeatureDescriptor;
 
 /**
  * Each component declared in the application is represented by
@@ -66,7 +66,7 @@ import java.util.List;
  * new components as needed.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.5 $ $Date: 2003/03/22 12:07:12 $
+ * @version $Revision: 1.6 $ $Date: 2003/04/05 04:25:43 $
  */
 public class ComponentMetaData
     extends FeatureDescriptor

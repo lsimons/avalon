@@ -58,15 +58,15 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.phoenix.containerkit.profile.PartitionProfile;
 import org.apache.avalon.phoenix.interfaces.ApplicationContext;
-import org.apache.excalibur.threadcontext.ThreadContext;
-import org.apache.excalibur.threadcontext.impl.DefaultThreadContextPolicy;
 import org.apache.excalibur.instrument.InstrumentManager;
 import org.apache.excalibur.instrument.manager.NoopInstrumentManager;
+import org.apache.excalibur.threadcontext.ThreadContext;
+import org.apache.excalibur.threadcontext.impl.DefaultThreadContextPolicy;
 
 /**
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.9 $ $Date: 2003/03/22 12:07:17 $
+ * @version $Revision: 1.10 $ $Date: 2003/04/05 04:25:44 $
  */
 class MockApplicationContext
     implements ApplicationContext

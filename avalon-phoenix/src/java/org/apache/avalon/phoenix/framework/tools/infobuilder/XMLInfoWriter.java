@@ -50,25 +50,25 @@
 
 package org.apache.avalon.phoenix.framework.tools.infobuilder;
 
-import java.io.OutputStream;
 import java.io.IOException;
-import java.io.Writer;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import org.apache.avalon.phoenix.framework.info.ComponentInfo;
-import org.apache.avalon.phoenix.framework.info.ComponentDescriptor;
+import java.io.Writer;
 import org.apache.avalon.phoenix.framework.info.Attribute;
-import org.apache.avalon.phoenix.framework.info.LoggerDescriptor;
+import org.apache.avalon.phoenix.framework.info.ComponentDescriptor;
+import org.apache.avalon.phoenix.framework.info.ComponentInfo;
 import org.apache.avalon.phoenix.framework.info.ContextDescriptor;
-import org.apache.avalon.phoenix.framework.info.EntryDescriptor;
-import org.apache.avalon.phoenix.framework.info.ServiceDescriptor;
 import org.apache.avalon.phoenix.framework.info.DependencyDescriptor;
+import org.apache.avalon.phoenix.framework.info.EntryDescriptor;
+import org.apache.avalon.phoenix.framework.info.LoggerDescriptor;
 import org.apache.avalon.phoenix.framework.info.SchemaDescriptor;
+import org.apache.avalon.phoenix.framework.info.ServiceDescriptor;
 
 /**
  * Write {@link ComponentInfo} objects to a stream as xml documents.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2003/03/22 12:07:13 $
+ * @version $Revision: 1.4 $ $Date: 2003/04/05 04:25:43 $
  */
 public class XMLInfoWriter
     implements InfoWriter

@@ -54,6 +54,7 @@ import com.thoughtworks.qdox.model.DocletTag;
 import com.thoughtworks.qdox.model.JavaClass;
 import com.thoughtworks.qdox.model.JavaMethod;
 import java.util.ArrayList;
+import org.apache.avalon.phoenix.framework.info.Attribute;
 import org.apache.avalon.phoenix.framework.info.ComponentDescriptor;
 import org.apache.avalon.phoenix.framework.info.ComponentInfo;
 import org.apache.avalon.phoenix.framework.info.ContextDescriptor;
@@ -62,7 +63,6 @@ import org.apache.avalon.phoenix.framework.info.EntryDescriptor;
 import org.apache.avalon.phoenix.framework.info.LoggerDescriptor;
 import org.apache.avalon.phoenix.framework.info.SchemaDescriptor;
 import org.apache.avalon.phoenix.framework.info.ServiceDescriptor;
-import org.apache.avalon.phoenix.framework.info.Attribute;
 
 /**
  * This is a utility class that is used to build a ComponentInfo object
@@ -70,7 +70,7 @@ import org.apache.avalon.phoenix.framework.info.Attribute;
  * all of the javadoc tags present in JavaClass object model.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.4 $ $Date: 2003/04/04 11:01:03 $
+ * @version $Revision: 1.5 $ $Date: 2003/04/05 04:25:44 $
  */
 public class DefaultInfoBuilder
     extends AbstractInfoBuilder

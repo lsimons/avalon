@@ -50,11 +50,11 @@
 
 package org.apache.avalon.phoenix.launcher;
 
-import org.tanukisoftware.wrapper.WrapperListener;
-import org.tanukisoftware.wrapper.WrapperManager;
 import java.util.Hashtable;
 import java.util.Observable;
 import java.util.Observer;
+import org.tanukisoftware.wrapper.WrapperListener;
+import org.tanukisoftware.wrapper.WrapperManager;
 
 /**
  * A frontend for Phoenix that starts it as a native service
@@ -79,7 +79,7 @@ public class DaemonLauncher
      * WrapperListener Methods
      *-------------------------------------------------------------*/
     /**
-     * The start method is called when the WrapperManager is signaled by the 
+     * The start method is called when the WrapperManager is signaled by the
      *	native wrapper code that it can start its application.  This
      *	method call is expected to return, so a new thread should be launched
      *	if necessary.
@@ -158,8 +158,8 @@ public class DaemonLauncher
     /**
      * Called whenever the native wrapper code traps a system control signal
      *  against the Java process.  It is up to the callback to take any actions
-     *  necessary.  Possible values are: WrapperManager.WRAPPER_CTRL_C_EVENT, 
-     *    WRAPPER_CTRL_CLOSE_EVENT, WRAPPER_CTRL_LOGOFF_EVENT, or 
+     *  necessary.  Possible values are: WrapperManager.WRAPPER_CTRL_C_EVENT,
+     *    WRAPPER_CTRL_CLOSE_EVENT, WRAPPER_CTRL_LOGOFF_EVENT, or
      *    WRAPPER_CTRL_SHUTDOWN_EVENT
      *
      * @param event The system control signal.

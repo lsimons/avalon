@@ -53,16 +53,16 @@ package org.apache.avalon.phoenix.framework.tools.verifier;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.framework.component.Composable;
+import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.context.Contextualizable;
-import org.apache.avalon.phoenix.framework.info.ComponentInfo;
-import org.apache.avalon.phoenix.framework.info.ContextDescriptor;
-import org.apache.avalon.phoenix.framework.info.ServiceDescriptor;
-import org.apache.avalon.phoenix.framework.info.SchemaDescriptor;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.logger.Logger;
-import org.apache.avalon.framework.service.Serviceable;
-import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.parameters.Parameterizable;
+import org.apache.avalon.framework.service.Serviceable;
+import org.apache.avalon.phoenix.framework.info.ComponentInfo;
+import org.apache.avalon.phoenix.framework.info.ContextDescriptor;
+import org.apache.avalon.phoenix.framework.info.SchemaDescriptor;
+import org.apache.avalon.phoenix.framework.info.ServiceDescriptor;
 
 /**
  * This Class verifies that an implementation is valid wrt the
@@ -86,14 +86,14 @@ import org.apache.avalon.framework.parameters.Parameterizable;
  * </ul>
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.4 $ $Date: 2003/04/04 10:56:51 $
+ * @version $Revision: 1.5 $ $Date: 2003/04/05 04:25:44 $
  */
 public class InfoVerifier
     extends AbstractLogEnabled
 {
     private static final Resources REZ =
         ResourceManager.getPackageResources( InfoVerifier.class );
-    
+
     /**
      * The verifier for components in assembly.
      */

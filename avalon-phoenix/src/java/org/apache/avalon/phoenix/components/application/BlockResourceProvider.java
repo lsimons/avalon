@@ -64,7 +64,6 @@ import org.apache.avalon.framework.component.WrapperComponentManager;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.context.Context;
-import org.apache.avalon.phoenix.framework.info.DependencyDescriptor;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.parameters.Parameters;
@@ -73,6 +72,7 @@ import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.phoenix.containerkit.lifecycle.ResourceProvider;
 import org.apache.avalon.phoenix.containerkit.metadata.DependencyMetaData;
 import org.apache.avalon.phoenix.containerkit.profile.ComponentProfile;
+import org.apache.avalon.phoenix.framework.info.DependencyDescriptor;
 import org.apache.avalon.phoenix.interfaces.Application;
 import org.apache.avalon.phoenix.interfaces.ApplicationContext;
 import org.apache.excalibur.instrument.InstrumentManager;
@@ -82,7 +82,7 @@ import org.apache.excalibur.instrument.InstrumentManager;
  * Block or Listener.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.20 $ $Date: 2003/03/22 12:07:07 $
+ * @version $Revision: 1.21 $ $Date: 2003/04/05 04:25:41 $
  */
 class BlockResourceProvider
     extends AbstractLogEnabled

@@ -49,24 +49,24 @@
 */
 package org.apache.avalon.phoenix.components.logger;
 
+import java.util.HashMap;
+import java.util.Map;
 import org.apache.avalon.excalibur.logger.Log4JLoggerManager;
+import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.configuration.ConfigurationUtil;
-import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.ContextException;
-import org.apache.avalon.framework.activity.Initializable;
+import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.phoenix.BlockContext;
 import org.apache.log4j.xml.DOMConfigurator;
-import org.w3c.dom.Element;
-import org.w3c.dom.Document;
-import org.w3c.dom.NodeList;
-import org.w3c.dom.Node;
 import org.realityforge.configkit.PropertyExpander;
-import java.util.Map;
-import java.util.HashMap;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 /**
  * A LoggerManager for Log4j that will configure the Log4j subsystem
@@ -74,7 +74,7 @@ import java.util.HashMap;
  *
  * @author <a href="mailto:Ole.Bulbuk at ebp.de">Ole Bulbuk</a>
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003/04/05 02:07:02 $
+ * @version $Revision: 1.2 $ $Date: 2003/04/05 04:25:42 $
  */
 public class ExtendedLog4jLoggerManager
     extends Log4JLoggerManager

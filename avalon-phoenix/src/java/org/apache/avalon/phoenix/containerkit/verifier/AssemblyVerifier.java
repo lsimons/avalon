@@ -54,13 +54,13 @@ import java.util.ArrayList;
 import java.util.Stack;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
+import org.apache.avalon.framework.logger.AbstractLogEnabled;
+import org.apache.avalon.phoenix.containerkit.metadata.DependencyMetaData;
+import org.apache.avalon.phoenix.containerkit.profile.ComponentProfile;
 import org.apache.avalon.phoenix.framework.info.ComponentInfo;
 import org.apache.avalon.phoenix.framework.info.DependencyDescriptor;
 import org.apache.avalon.phoenix.framework.info.ServiceDescriptor;
-import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.phoenix.framework.tools.verifier.VerifyException;
-import org.apache.avalon.phoenix.containerkit.metadata.DependencyMetaData;
-import org.apache.avalon.phoenix.containerkit.profile.ComponentProfile;
 
 /**
  * This Class verifies that Sars are valid. It performs a number
@@ -87,7 +87,7 @@ import org.apache.avalon.phoenix.containerkit.profile.ComponentProfile;
  * </ul>
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.7 $ $Date: 2003/03/22 12:07:12 $
+ * @version $Revision: 1.8 $ $Date: 2003/04/05 04:25:43 $
  */
 public class AssemblyVerifier
     extends AbstractLogEnabled

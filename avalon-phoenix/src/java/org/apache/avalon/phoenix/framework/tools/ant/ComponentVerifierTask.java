@@ -50,8 +50,8 @@
 
 package org.apache.avalon.phoenix.framework.tools.ant;
 
-import org.apache.avalon.phoenix.framework.info.ComponentInfo;
 import org.apache.avalon.framework.logger.ConsoleLogger;
+import org.apache.avalon.phoenix.framework.info.ComponentInfo;
 import org.apache.avalon.phoenix.framework.tools.infobuilder.InfoBuilder;
 import org.apache.avalon.phoenix.framework.tools.verifier.InfoVerifier;
 import org.apache.tools.ant.AntClassLoader;
@@ -65,7 +65,7 @@ import org.apache.tools.ant.types.Path;
  * is compatible with the {@link ComponentInfo}.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2003/03/22 12:07:13 $
+ * @version $Revision: 1.4 $ $Date: 2003/04/05 04:25:43 $
  */
 public class ComponentVerifierTask
     extends Task

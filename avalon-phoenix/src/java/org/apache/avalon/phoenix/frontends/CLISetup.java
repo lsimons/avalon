@@ -51,14 +51,14 @@
 package org.apache.avalon.phoenix.frontends;
 
 import java.util.List;
-import org.apache.avalon.excalibur.i18n.ResourceManager;
-import org.apache.avalon.excalibur.i18n.Resources;
-import org.apache.avalon.framework.parameters.Parameters;
-import org.apache.avalon.phoenix.interfaces.SystemManager;
 import org.apache.avalon.excalibur.cli.CLArgsParser;
 import org.apache.avalon.excalibur.cli.CLOption;
 import org.apache.avalon.excalibur.cli.CLOptionDescriptor;
 import org.apache.avalon.excalibur.cli.CLUtil;
+import org.apache.avalon.excalibur.i18n.ResourceManager;
+import org.apache.avalon.excalibur.i18n.Resources;
+import org.apache.avalon.framework.parameters.Parameters;
+import org.apache.avalon.phoenix.interfaces.SystemManager;
 
 /**
  * The class prepare parameters based on input options.

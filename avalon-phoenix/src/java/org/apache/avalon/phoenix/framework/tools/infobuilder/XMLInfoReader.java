@@ -53,7 +53,6 @@ package org.apache.avalon.phoenix.framework.tools.infobuilder;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Properties;
-
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.framework.configuration.Configuration;
@@ -77,7 +76,7 @@ import org.xml.sax.InputSource;
  * is specified in the <a href="package-summary.html#external">package summary</a>.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.5 $ $Date: 2003/04/05 04:21:47 $
+ * @version $Revision: 1.6 $ $Date: 2003/04/05 04:25:43 $
  */
 public final class XMLInfoReader
     extends AbstractLogEnabled

@@ -62,6 +62,7 @@ import java.io.Reader;
 import java.util.Properties;
 import junit.framework.TestCase;
 import org.apache.avalon.framework.container.ContainerUtil;
+import org.apache.avalon.framework.logger.ConsoleLogger;
 import org.apache.avalon.phoenix.framework.info.Attribute;
 import org.apache.avalon.phoenix.framework.info.ComponentDescriptor;
 import org.apache.avalon.phoenix.framework.info.ComponentInfo;
@@ -71,16 +72,15 @@ import org.apache.avalon.phoenix.framework.info.EntryDescriptor;
 import org.apache.avalon.phoenix.framework.info.LoggerDescriptor;
 import org.apache.avalon.phoenix.framework.info.SchemaDescriptor;
 import org.apache.avalon.phoenix.framework.info.ServiceDescriptor;
-import org.apache.avalon.framework.logger.ConsoleLogger;
 import org.apache.avalon.phoenix.framework.tools.infobuilder.InfoBuilder;
 import org.apache.avalon.phoenix.framework.tools.infobuilder.InfoReader;
 import org.apache.avalon.phoenix.framework.tools.infobuilder.InfoWriter;
+import org.apache.avalon.phoenix.framework.tools.infobuilder.LegacyBlockInfoReader;
+import org.apache.avalon.phoenix.framework.tools.infobuilder.LegacyBlockInfoWriter;
 import org.apache.avalon.phoenix.framework.tools.infobuilder.SerializedInfoReader;
 import org.apache.avalon.phoenix.framework.tools.infobuilder.SerializedInfoWriter;
 import org.apache.avalon.phoenix.framework.tools.infobuilder.XMLInfoReader;
 import org.apache.avalon.phoenix.framework.tools.infobuilder.XMLInfoWriter;
-import org.apache.avalon.phoenix.framework.tools.infobuilder.LegacyBlockInfoReader;
-import org.apache.avalon.phoenix.framework.tools.infobuilder.LegacyBlockInfoWriter;
 import org.apache.avalon.phoenix.framework.tools.qdox.DefaultInfoBuilder;
 import org.apache.avalon.phoenix.framework.tools.qdox.LegacyInfoBuilder;
 
@@ -88,7 +88,7 @@ import org.apache.avalon.phoenix.framework.tools.qdox.LegacyInfoBuilder;
  * Abstract class which TestCases can extend.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2003/03/22 12:07:17 $
+ * @version $Revision: 1.4 $ $Date: 2003/04/05 04:25:44 $
  */
 public class InfoBuilderTestCase
     extends TestCase

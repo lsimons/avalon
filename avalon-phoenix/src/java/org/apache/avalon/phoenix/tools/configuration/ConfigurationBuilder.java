@@ -56,17 +56,17 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.SAXConfigurationHandler;
+import org.realityforge.configkit.ResolverFactory;
+import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
-import org.xml.sax.EntityResolver;
-import org.realityforge.configkit.ResolverFactory;
 
 /**
  * Utility class used to load Configuration trees from XML files.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.15 $ $Date: 2003/04/05 04:11:18 $
+ * @version $Revision: 1.16 $ $Date: 2003/04/05 04:25:44 $
  */
 public class ConfigurationBuilder
 {

@@ -54,17 +54,17 @@ import java.util.ArrayList;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.framework.CascadingException;
-import org.apache.avalon.phoenix.framework.info.ServiceDescriptor;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
-import org.apache.avalon.phoenix.framework.tools.infobuilder.LegacyUtil;
 import org.apache.avalon.phoenix.containerkit.profile.ComponentProfile;
+import org.apache.avalon.phoenix.framework.info.ServiceDescriptor;
+import org.apache.avalon.phoenix.framework.tools.infobuilder.LegacyUtil;
 import org.apache.avalon.phoenix.interfaces.ApplicationContext;
 
 /**
  * Utility class to help with exporting Blocks to management subsystem.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.9 $ $Date: 2003/03/22 12:07:07 $
+ * @version $Revision: 1.10 $ $Date: 2003/04/05 04:25:42 $
  */
 class ExportHelper
     extends AbstractLogEnabled

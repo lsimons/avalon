@@ -58,14 +58,14 @@ import org.apache.avalon.phoenix.framework.info.ContextDescriptor;
 import org.apache.avalon.phoenix.framework.info.DependencyDescriptor;
 import org.apache.avalon.phoenix.framework.info.EntryDescriptor;
 import org.apache.avalon.phoenix.framework.info.LoggerDescriptor;
-import org.apache.avalon.phoenix.framework.info.ServiceDescriptor;
 import org.apache.avalon.phoenix.framework.info.SchemaDescriptor;
+import org.apache.avalon.phoenix.framework.info.ServiceDescriptor;
 
 /**
  * A set of utilities for asserting  facts about info objects.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2003/03/22 12:07:17 $
+ * @version $Revision: 1.4 $ $Date: 2003/04/05 04:25:44 $
  */
 public class InfoAssert
 {

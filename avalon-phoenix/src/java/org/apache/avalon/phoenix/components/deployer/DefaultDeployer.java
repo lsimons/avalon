@@ -485,7 +485,7 @@ public class DefaultDeployer
     private Configuration getConfigurationFor( final Map install, final String key )
         throws DeploymentException
     {
-        final String location = (String)install.get(key );
+        final String location = (String)install.get( key );
         try
         {
             return ConfigurationBuilder.build( new InputSource( location ), false );

@@ -56,6 +56,7 @@ import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
+import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.phoenix.framework.info.Attribute;
 import org.apache.avalon.phoenix.framework.info.ComponentDescriptor;
 import org.apache.avalon.phoenix.framework.info.ComponentInfo;
@@ -64,7 +65,6 @@ import org.apache.avalon.phoenix.framework.info.LoggerDescriptor;
 import org.apache.avalon.phoenix.framework.info.SchemaDescriptor;
 import org.apache.avalon.phoenix.framework.info.ServiceDescriptor;
 import org.apache.avalon.phoenix.tools.configuration.ConfigurationBuilder;
-import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.xml.sax.InputSource;
 
 /**
@@ -74,7 +74,7 @@ import org.xml.sax.InputSource;
  * <a href="package-summary.html#external">package summary</a>.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.5 $ $Date: 2003/04/05 04:21:47 $
+ * @version $Revision: 1.6 $ $Date: 2003/04/05 04:25:43 $
  */
 public final class LegacyBlockInfoReader
     extends AbstractLogEnabled
