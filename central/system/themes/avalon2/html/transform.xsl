@@ -26,10 +26,12 @@
       <title>
         <xsl:value-of select="properties/title" />
       </title>
+      <!--
       <link rel="stylesheet" href="print.css" type="text/css" media="print"></link>
+      -->
       <xsl:variable name="x" select="document('navigation.xml', / )/project/body//menu/level" />
       <link rel="stylesheet" type="text/css">
-        <xsl:attribute name="href"><xsl:value-of select="$relativepath[position() = last()]" />/style.css</xsl:attribute>
+        <xsl:attribute name="href"><xsl:value-of select="$relativepath[position() = last()]" />styles/style.css</xsl:attribute>
       </link>
     </head>
       <xsl:apply-templates select="body" />
@@ -90,17 +92,17 @@
       
       <div class="content" >
         <xsl:apply-templates />
+      </div>
       
-        <div class="footer" >
-          <span class="copyright"><xsl:value-of select="$copyright" /></span>
-          <div class="views" >
-            <a  id="xmllink" class="viewlink" >
-              <xsl:attribute name="href"><xsl:value-of select="$svn-location" /></xsl:attribute>
-              <img>
-                <xsl:attribute name="src"><xsl:value-of select="$relativepath[position() = last()]" />images/xml.gif</xsl:attribute>
-              </img>
-            </a>
-          </div>
+      <div class="footer" >
+        <span class="copyright"><xsl:value-of select="$copyright" /></span>
+        <div class="views" >
+          <a  id="xmllink" class="viewlink" >
+            <xsl:attribute name="href"><xsl:value-of select="$svn-location" /></xsl:attribute>
+            <img>
+              <xsl:attribute name="src"><xsl:value-of select="$relativepath[position() = last()]" />images/xml.gif</xsl:attribute>
+            </img>
+          </a>
         </div>
       </div>
     </body>
