@@ -17,6 +17,8 @@
 
 package org.apache.avalon.composition.model.impl;
 
+import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -61,71 +63,30 @@ class DefaultContainmentModelAssemblyHelper
     // static
     //-------------------------------------------------------------------
 
-    private static final Resources REZ =
-      ResourceManager.getPackageResources( 
-        DefaultContainmentModelAssemblyHelper.class );
+    private static final Resources REZ = ResourceManager
+            .getPackageResources( DefaultContainmentModelAssemblyHelper.class );
 
     //-------------------------------------------------------------------
     // immutable state
     //-------------------------------------------------------------------
 
     private final ContainmentContext m_context;
+
     private final DefaultContainmentModel m_model;
 
     //-------------------------------------------------------------------
     // constructor
     //-------------------------------------------------------------------
 
-    public DefaultContainmentModelAssemblyHelper( 
-      ContainmentContext context, DefaultContainmentModel model )
+    public DefaultContainmentModelAssemblyHelper( ContainmentContext context,
+            DefaultContainmentModel model )
     {
         m_context = context;
         m_model = model;
     }
 
-    //-------------------------------------------------------------------
-    // implementation
-    //-------------------------------------------------------------------
-
-   /**
-    * Assemble a target model during which all deployment and runtime 
-    * dependencies are assigned a provider model.
-    *
-    * @param model the target model to be assembled
-    * @param subject the model requesting the assembly
-    */
-    public void assembleModel( DeploymentModel model, List subjects ) 
-      throws AssemblyException
-    {
-         if( null == model )
-         {
-             throw new NullPointerException( "model" );
-         }
-         if( null == subjects )
-         {
-             throw new NullPointerException( "subjects" );
-         }
-         if( subjects.contains( model ) )
-         {
-             return;
-         }
-         if( model.isAssembled() ) 
-         {
-             return;
-         }
-
-         if( model instanceof ComponentModel )
-         {
-             assembleComponent( (ComponentModel) model, subjects );
-         }
-         else
-         {
-             ContainmentModel containment = (ContainmentModel) model;
-             containment.assemble( subjects );
-         }
-    }
-
-    private void assembleComponent( ComponentModel model, List subjects ) throws AssemblyException
+    private void assembleComponent( ComponentModel model, List subjects )
+            throws AssemblyException
     {
         ModelRepository repository = m_context.getModelRepository();
 
@@ -141,25 +102,23 @@ class DefaultContainmentModelAssemblyHelper
             {
                 if( null == context.getProvider() )
                 {
-                    StagedDeliveryDescriptor phased = 
-                     (StagedDeliveryDescriptor) delivery;
+                    StagedDeliveryDescriptor phased = (StagedDeliveryDescriptor) delivery;
                     Class clazz = phased.getDeliveryInterfaceClass();
 
                     try
                     {
                         subjects.add( model );
-                        StageDescriptor stage = 
-                          new StageDescriptor( clazz.getName() );
-                        DeploymentModel provider = 
-                          findExtensionProvider( repository, stage, subjects );
+                        StageDescriptor stage = new StageDescriptor( clazz
+                                .getName() );
+                        DeploymentModel provider = findExtensionProvider(
+                                repository, stage, subjects );
                         context.setProvider( provider );
                     }
-                    catch( Throwable e )
+                    catch ( Throwable e )
                     {
-                        final String error = 
-                          "Unable to assemble component: " 
-                          + model 
-                         + " due to a component context phase handler establishment failure.";
+                        final String error = "Unable to assemble component: "
+                                + model
+                                + " due to a component context phase handler establishment failure.";
                         throw new AssemblyException( error, e );
                     }
                     finally
@@ -175,7 +134,7 @@ class DefaultContainmentModelAssemblyHelper
         //
 
         StageModel[] stages = model.getStageModels();
-        for( int i=0; i<stages.length; i++ )
+        for ( int i = 0; i < stages.length; i++ )
         {
             StageModel stage = stages[i];
             if( null == stage.getProvider() )
@@ -183,16 +142,15 @@ class DefaultContainmentModelAssemblyHelper
                 try
                 {
                     subjects.add( model );
-                    DeploymentModel provider =
-                      findExtensionProvider( repository, stage, subjects );
+                    DeploymentModel provider = findExtensionProvider(
+                            repository, stage, subjects );
                     stage.setProvider( provider );
                 }
-                catch( Throwable e )
+                catch ( Throwable e )
                 {
-                    final String error = 
-                      "Unable to assemble component: " 
-                      + model 
-                      + " due to a component extension handler establishment failure.";
+                    final String error = "Unable to assemble component: "
+                            + model
+                            + " due to a component extension handler establishment failure.";
                     throw new AssemblyException( error, e );
                 }
                 finally
@@ -207,7 +165,7 @@ class DefaultContainmentModelAssemblyHelper
         //
 
         DependencyModel[] dependencies = model.getDependencyModels();
-        for( int i=0; i < dependencies.length; i++ )
+        for ( int i = 0; i < dependencies.length; i++ )
         {
             DependencyModel dependency = dependencies[i];
             if( null == dependency.getProvider() )
@@ -215,17 +173,17 @@ class DefaultContainmentModelAssemblyHelper
                 try
                 {
                     subjects.add( model );
-                    DeploymentModel provider =
-                      findDependencyProvider( repository, dependency, subjects );
+                    DeploymentModel provider = findDependencyProvider(
+                            repository, dependency, subjects );
                     dependency.setProvider( provider );
                 }
-                catch( Throwable e )
+                catch ( Throwable e )
                 {
                     if( dependency.getDependency().isRequired() )
                     {
-                        final String error = 
-                          "Unable to assemble component: " + model 
-                          + " due to a service provider establishment failure.";
+                        final String error = "Unable to assemble component: "
+                                + model
+                                + " due to a service provider establishment failure.";
                         throw new AssemblyException( error, e );
                     }
                 }
@@ -237,9 +195,155 @@ class DefaultContainmentModelAssemblyHelper
         }
     }
 
-    private DeploymentModel findDependencyProvider( 
-      ModelRepository repository, DependencyModel dependency, List subjects )
-      throws AssemblyException
+    //-------------------------------------------------------------------
+    // implementation
+    //-------------------------------------------------------------------
+
+    /**
+     * Assemble a target model during which all deployment and runtime
+     * dependencies are assigned a provider model.
+     * 
+     * @param model
+     *            the target model to be assembled
+     * @param subject
+     *            the model requesting the assembly
+     */
+    public void assembleModel( DeploymentModel model, List subjects )
+            throws AssemblyException
+    {
+        if( null == model )
+        {
+            throw new NullPointerException( "model" );
+        }
+        if( null == subjects )
+        {
+            throw new NullPointerException( "subjects" );
+        }
+        if( subjects.contains( model ) )
+        {
+            return;
+        }
+        if( model.isAssembled() )
+        {
+            return;
+        }
+
+        if( model instanceof ComponentModel )
+        {
+            assembleComponent( (ComponentModel) model, subjects );
+        }
+        else
+        {
+            ContainmentModel containment = (ContainmentModel) model;
+            containment.assemble( subjects );
+        }
+    }
+
+    /**
+     * @param dependency
+     *            the dependency to check for
+     * @param subjects
+     *            the subjects needing the dependency
+     * @throws AssemblyException
+     */
+    private void checkCyclic( DeploymentModel dependency, List subjects )
+            throws AssemblyException
+    {
+        if( subjects.contains( dependency ) )
+        {
+            throw new AssemblyException( "Cyclic Dependency: " + dependency
+                    + "is already in subject list " + subjects );
+        }
+    }
+
+    private DeploymentProfile[] findDependencyProfiles(
+            DependencyDescriptor dependency )
+    {
+        TypeRepository repository = m_context.getClassLoaderModel()
+                .getTypeRepository();
+        Type[] types = repository.getTypes( dependency );
+        try
+        {
+            return getProfiles( repository, types );
+        }
+        catch ( TypeUnknownException tue )
+        {
+            // will not happen
+            final String error = "An irrational condition has occured.";
+            throw new ModelRuntimeException( error, tue );
+        }
+    }
+
+    DeploymentModel findDependencyProvider( DependencyDescriptor dependency )
+            throws AssemblyException
+    {
+        ArrayList list = new ArrayList();
+        ModelRepository repository = m_context.getModelRepository();
+        return findDependencyProvider( repository, dependency, list );
+    }
+
+    private DeploymentModel findDependencyProvider( ModelRepository repository,
+            DependencyDescriptor dependency, List subjects )
+            throws AssemblyException
+    {
+        DeploymentModel[] candidates = repository
+                .getCandidateProviders( dependency );
+        ModelSelector selector = new DefaultModelSelector();
+        DeploymentModel model = selector.select( candidates, dependency );
+        //checkCyclic( model, subjects );
+        if( model != null )
+        {
+            assembleModel( model, subjects );
+            return model;
+        }
+
+        //
+        // otherwise, check for any packaged profiles that
+        // we could use to construct the model
+        //
+
+        DeploymentProfile[] profiles = findDependencyProfiles( dependency );
+        ProfileSelector profileSelector = new DefaultProfileSelector();
+        DeploymentProfile profile = profileSelector.select( profiles,
+                dependency );
+        if( profile != null )
+        {
+            try
+            {
+                DeploymentModel solution = m_model
+                        .createDeploymentModel( profile );
+                assembleModel( solution, subjects );
+                m_model.addModel( solution );
+                return solution;
+            }
+            catch ( AssemblyException ae )
+            {
+                final String error = "Nested assembly failure while attempting to construct model"
+                        + " for the profile: "
+                        + profile
+                        + " for the dependency: [" + dependency + "].";
+                throw new AssemblyException( error, ae );
+            }
+            catch ( ModelException me )
+            {
+                final String error = "Nested model failure while attempting to add model"
+                        + " for the profile: "
+                        + profile
+                        + " for the dependency: [" + dependency + "].";
+                throw new AssemblyException( error, me );
+            }
+        }
+        else
+        {
+            final String error = "Unable to locate a service provider for the dependency: [ "
+                    + dependency + "].";
+            throw new AssemblyException( error );
+        }
+    }
+
+    private DeploymentModel findDependencyProvider( ModelRepository repository,
+            DependencyModel dependency, List subjects )
+            throws AssemblyException
     {
         String path = dependency.getPath();
         if( null != path )
@@ -247,9 +351,8 @@ class DefaultContainmentModelAssemblyHelper
             DeploymentModel model = m_model.getModel( path );
             if( null == model )
             {
-                final String error = 
-                  "Could not locate a model at the address: [" 
-                  + path + "] in " + this + ".";
+                final String error = "Could not locate a model at the address: ["
+                        + path + "] in " + this + ".";
                 throw new AssemblyException( error );
             }
             assembleModel( model, subjects );
@@ -257,172 +360,32 @@ class DefaultContainmentModelAssemblyHelper
         }
         else
         {
-            return findDependencyProvider( 
-              repository, dependency.getDependency(), subjects );
+            return findDependencyProvider( repository, dependency
+                    .getDependency(), subjects );
         }
     }
 
-    DeploymentModel findDependencyProvider( DependencyDescriptor dependency )
-      throws AssemblyException
+    private DeploymentProfile[] findExtensionProfiles( StageDescriptor stage )
     {
-        ArrayList list = new ArrayList();
-        ModelRepository repository = m_context.getModelRepository();
-        return findDependencyProvider( repository, dependency, list );
-    }
-
-    private DeploymentModel findDependencyProvider( 
-      ModelRepository repository, DependencyDescriptor dependency, List subjects )
-      throws AssemblyException
-    {
-        DeploymentModel[] candidates = 
-          repository.getCandidateProviders( dependency );
-        ModelSelector selector = new DefaultModelSelector();
-        DeploymentModel model = selector.select( candidates, dependency );
-        if( model != null )
+        TypeRepository repository = m_context.getClassLoaderModel()
+                .getTypeRepository();
+        Type[] types = repository.getTypes( stage );
+        try
         {
-            assembleModel( model, subjects );
-            return model;
+            return getProfiles( repository, types );
         }
-
-        //
-        // otherwise, check for any packaged profiles that 
-        // we could use to construct the model
-        //
-
-        DeploymentProfile[] profiles = findDependencyProfiles( dependency );
-        ProfileSelector profileSelector = new DefaultProfileSelector();
-        DeploymentProfile profile = profileSelector.select( profiles, dependency );
-        if( profile != null ) 
+        catch ( TypeUnknownException tue )
         {
-            try
-            {
-                DeploymentModel solution = m_model.createDeploymentModel( profile );
-                assembleModel( solution, subjects );
-                m_model.addModel( solution );
-                return solution;
-            }
-            catch( AssemblyException ae )
-            {
-                final String error = 
-                  "Nested assembly failure while attempting to construct model"
-                  + " for the profile: " + profile + " for the dependency: ["
-                  + dependency + "].";
-                throw new AssemblyException( error, ae );
-            }
-            catch( ModelException me )
-            {
-                final String error = 
-                  "Nested model failure while attempting to add model"
-                  + " for the profile: " + profile + " for the dependency: ["
-                  + dependency + "].";
-                throw new AssemblyException( error, me );
-            }
-        }
-        else
-        {
-            final String error = 
-              "Unable to locate a service provider for the dependency: [ "
-              + dependency + "].";
-            throw new AssemblyException( error );
+            // will not happen
+            final String error = "An irrational condition has occured.";
+            throw new ModelRuntimeException( error, tue );
         }
     }
 
-    DeploymentModel findServiceProvider( ReferenceDescriptor reference )
-      throws AssemblyException
+    private DeploymentModel findExtensionProvider( ModelRepository repository,
+            StageDescriptor stage, List subjects ) throws AssemblyException
     {
-        ArrayList list = new ArrayList();
-        ModelRepository repository = m_context.getModelRepository();
-        return findServiceProvider( repository, reference, list );
-    }
-
-    private DeploymentModel findServiceProvider( 
-      ModelRepository repository, ReferenceDescriptor reference, List subjects )
-      throws AssemblyException
-    {
-        DeploymentModel[] candidates = 
-          repository.getCandidateProviders( reference );
-        ModelSelector selector = new DefaultModelSelector();
-        DeploymentModel model = selector.select( candidates, reference );
-        if( model != null )
-        {
-            assembleModel( model, subjects );
-            return model;
-        }
-
-        //
-        // otherwise, check for any packaged profiles that 
-        // we could use to construct the model
-        //
-
-        DeploymentProfile[] profiles = findServiceProfiles( reference );
-        ProfileSelector profileSelector = new DefaultProfileSelector();
-        DeploymentProfile profile = profileSelector.select( profiles, reference );
-        if( profile != null ) 
-        {
-            try
-            {
-                DeploymentModel solution = m_model.createDeploymentModel( profile );
-                assembleModel( solution, subjects );
-                m_model.addModel( solution );
-                return solution;
-            }
-            catch( AssemblyException ae )
-            {
-                final String error = 
-                  "Nested assembly failure while attempting to construct model"
-                  + " for the profile: [" + profile + "] for the reference: ["
-                  + reference + "].";
-                throw new AssemblyException( error, ae );
-            }
-            catch( ModelException me )
-            {
-                final String error = 
-                  "Nested model failure while attempting to add model"
-                  + " for the profile: " + profile + " for the reference: ["
-                  + reference + "].";
-                throw new AssemblyException( error, me );
-            }
-        }
-        else
-        {
-            final String error = 
-              "Unable to locate a service provider for the reference: [ "
-              + reference + "].";
-            throw new ProviderNotFoundException( error );
-        }
-    }
-
-
-    private DeploymentModel findExtensionProvider( 
-      ModelRepository repository, StageModel stage, List subjects )
-      throws AssemblyException
-    {
-        String path = stage.getPath();
-        if( null != path )
-        {
-            DeploymentModel model = m_model.getModel( path );
-            if( null == model )
-            {
-                final String error = 
-                  "Could not locate a model at the address: [" 
-                  + path + "] in " + this + ".";
-                throw new AssemblyException( error );
-            }
-            assembleModel( model, subjects );
-            return model;
-        }
-        else
-        {
-            return findExtensionProvider( repository, stage.getStage(), subjects );
-        }
-    }
-
-    private DeploymentModel findExtensionProvider( 
-      ModelRepository repository, StageDescriptor stage, List subjects )
-      throws AssemblyException
-    {
-        DeploymentModel[] candidates = 
-          repository.getCandidateProviders( stage );
+        DeploymentModel[] candidates = repository.getCandidateProviders( stage );
         ModelSelector selector = new DefaultModelSelector();
         DeploymentModel model = selector.select( candidates, stage );
         if( model != null )
@@ -432,91 +395,82 @@ class DefaultContainmentModelAssemblyHelper
         }
 
         //
-        // otherwise, check for any packaged profiles that 
+        // otherwise, check for any packaged profiles that
         // we could use to construct the model
         //
 
         DeploymentProfile[] profiles = findExtensionProfiles( stage );
         ProfileSelector profileSelector = new DefaultProfileSelector();
         DeploymentProfile profile = profileSelector.select( profiles, stage );
-        if( profile != null ) 
+        if( profile != null )
         {
             try
             {
-                DeploymentModel solution = m_model.createDeploymentModel( profile );
+                DeploymentModel solution = m_model
+                        .createDeploymentModel( profile );
                 assembleModel( solution, subjects );
                 m_model.addModel( solution );
                 return solution;
             }
-            catch( AssemblyException ae )
+            catch ( AssemblyException ae )
             {
-                final String error = 
-                  "Nested assembly failure while attempting to construct model"
-                  + " for the extension profile: [" + profile 
-                  + "] for the stage dependency: ["
-                  + stage + "].";
+                final String error = "Nested assembly failure while attempting to construct model"
+                        + " for the extension profile: ["
+                        + profile
+                        + "] for the stage dependency: [" + stage + "].";
                 throw new AssemblyException( error, ae );
             }
-            catch( ModelException me )
+            catch ( ModelException me )
             {
-                final String error = 
-                  "Nested model failure while attempting to add model"
-                  + " for the extension profile: " + profile 
-                  + " for the stage dependency: ["
-                  + stage + "].";
+                final String error = "Nested model failure while attempting to add model"
+                        + " for the extension profile: "
+                        + profile
+                        + " for the stage dependency: [" + stage + "].";
                 throw new AssemblyException( error, me );
             }
         }
         else
         {
-            final String error = 
-              "Unable to locate a extension provider for the stage: [ "
-              + stage + "].";
+            final String error = "Unable to locate a extension provider for the stage: [ "
+                    + stage + "].";
             throw new ProviderNotFoundException( error );
         }
     }
 
-    private DeploymentProfile[] findExtensionProfiles( StageDescriptor stage )
+    private DeploymentModel findExtensionProvider( ModelRepository repository,
+            StageModel stage, List subjects ) throws AssemblyException
     {
-        TypeRepository repository = m_context.getClassLoaderModel().getTypeRepository();
-        Type[] types = repository.getTypes( stage );
-        try
+        String path = stage.getPath();
+        if( null != path )
         {
-            return getProfiles( repository, types );
+            DeploymentModel model = m_model.getModel( path );
+            if( null == model )
+            {
+                final String error = "Could not locate a model at the address: ["
+                        + path + "] in " + this + ".";
+                throw new AssemblyException( error );
+            }
+            assembleModel( model, subjects );
+            return model;
         }
-        catch( TypeUnknownException tue )
+        else
         {
-            // will not happen
-            final String error = "An irrational condition has occured.";
-            throw new ModelRuntimeException( error, tue );
+            return findExtensionProvider( repository, stage.getStage(),
+                    subjects );
         }
     }
 
-    private DeploymentProfile[] findDependencyProfiles( DependencyDescriptor dependency )
+    private DeploymentProfile[] findServiceProfiles(
+            ReferenceDescriptor reference )
     {
-        TypeRepository repository = m_context.getClassLoaderModel().getTypeRepository();
-        Type[] types = repository.getTypes( dependency );
-        try
-        {
-            return getProfiles( repository, types );
-        }
-        catch( TypeUnknownException tue )
-        {
-            // will not happen
-            final String error = "An irrational condition has occured.";
-            throw new ModelRuntimeException( error, tue );
-        }
-    }
-
-    private DeploymentProfile[] findServiceProfiles( ReferenceDescriptor reference )
-    {
-        TypeRepository repository = m_context.getClassLoaderModel().getTypeRepository();
+        TypeRepository repository = m_context.getClassLoaderModel()
+                .getTypeRepository();
         Type[] types = repository.getTypes( reference );
         try
         {
             return getProfiles( repository, types );
         }
-        catch( TypeUnknownException tue )
+        catch ( TypeUnknownException tue )
         {
             // will not happen
             final String error = "An irrational condition has occured.";
@@ -524,15 +478,80 @@ class DefaultContainmentModelAssemblyHelper
         }
     }
 
-    private DeploymentProfile[] getProfiles( TypeRepository repository, Type[] types )
-      throws TypeUnknownException
+    private DeploymentModel findServiceProvider( ModelRepository repository,
+            ReferenceDescriptor reference, List subjects )
+            throws AssemblyException
+    {
+        DeploymentModel[] candidates = repository
+                .getCandidateProviders( reference );
+        ModelSelector selector = new DefaultModelSelector();
+        DeploymentModel model = selector.select( candidates, reference );
+        if( model != null )
+        {
+            assembleModel( model, subjects );
+            return model;
+        }
+
+        //
+        // otherwise, check for any packaged profiles that
+        // we could use to construct the model
+        //
+
+        DeploymentProfile[] profiles = findServiceProfiles( reference );
+        ProfileSelector profileSelector = new DefaultProfileSelector();
+        DeploymentProfile profile = profileSelector
+                .select( profiles, reference );
+        if( profile != null )
+        {
+            try
+            {
+                DeploymentModel solution = m_model
+                        .createDeploymentModel( profile );
+                assembleModel( solution, subjects );
+                m_model.addModel( solution );
+                return solution;
+            }
+            catch ( AssemblyException ae )
+            {
+                final String error = "Nested assembly failure while attempting to construct model"
+                        + " for the profile: ["
+                        + profile
+                        + "] for the reference: [" + reference + "].";
+                throw new AssemblyException( error, ae );
+            }
+            catch ( ModelException me )
+            {
+                final String error = "Nested model failure while attempting to add model"
+                        + " for the profile: "
+                        + profile
+                        + " for the reference: [" + reference + "].";
+                throw new AssemblyException( error, me );
+            }
+        }
+        else
+        {
+            final String error = "Unable to locate a service provider for the reference: [ "
+                    + reference + "].";
+            throw new ProviderNotFoundException( error );
+        }
+    }
+
+    DeploymentModel findServiceProvider( ReferenceDescriptor reference )
+            throws AssemblyException
     {
         ArrayList list = new ArrayList();
-        for( int i=0; i<types.length; i++ )
+        ModelRepository repository = m_context.getModelRepository();
+        return findServiceProvider( repository, reference, list );
+    }
+
+    private DeploymentProfile[] getProfiles( TypeRepository repository,
+            Type[] types ) throws TypeUnknownException
+    {
+        ArrayList list = new ArrayList();
+        for ( int i = 0; i < types.length; i++ )
         {
-            DeploymentProfile[] profiles = 
-            repository.getProfiles( types[i] );
-            for( int j=0; j<profiles.length; j++ )
+            DeploymentProfile[] profiles = repository.getProfiles( types[i] );
+            for ( int j = 0; j < profiles.length; j++ )
             {
                 list.add( profiles[j] );
             }

@@ -1,0 +1,11 @@
+
+<container>
+<classloader>
+     <classpath>
+       <artifact>artifact:jar:avalon/test/avalon-test-testcyclic</artifact>
+     </classpath>
+   </classloader>
+   <container name="sub">
+     <component name="test-a" class="org.apache.avalon.test.testcyclic.TestCyclicA"/>
+   </container>
+</container>
