@@ -99,7 +99,10 @@ public class SystemMimeTypes
     
     public String[] getExtensions( String mimetype )
     {
-        return (String[]) m_MimeTypeToExtMap.get( mimetype );
+        String[] result = (String[]) m_MimeTypeToExtMap.get( mimetype );
+        if( result == null )
+            result = new String[0];
+        return result;
     }
     
     private void processLine( String line )
