@@ -108,10 +108,10 @@ fi
 
 JVM_EXT_DIRS="$MERLIN_HOME/ext" 
 JVM_OPTS="-Djava.security.policy=$MERLIN_HOME/bin/security.policy " 
-MERLIN_BOOTSTRAP_JAR=$MERLIN_HOME/system/merlin/jars/@MERLIN_CLI_JAR@
+MERLIN_CLASSPATH=@UNIX-CLI-CLASSPATH@:$MERLIN_HOME/system/@UNIX-CLI-MAIN-PATH@
 
 # Get the run cmd
-RUN_CMD="$JAVA_HOME/bin/java $JVM_OPTS $DEBUG $MERLIN_JVM_OPTS -jar $MERLIN_BOOTSTRAP_JAR $ARGS"
+RUN_CMD="$JAVA_HOME/bin/java $JVM_OPTS $DEBUG $MERLIN_JVM_OPTS -classpath $MERLIN_CLASSPATH org.apache.avalon.merlin.cli.Main $ARGS"
 
 echo "Using MERLIN_HOME:   $MERLIN_HOME"
 echo "Using JAVA_HOME:     $JAVA_HOME"
@@ -204,13 +204,13 @@ case "$ACTION" in
 
   check)
         echo "Checking arguments to Merlin: "
-        echo "MERLIN_HOME:     $MERLIN_HOME"
-        echo "MERLIN_TMPDIR:   $MERLIN_TMPDIR"
-        echo "MERLIN_JVM_OPTS: $MERLIN_JVM_OPTS"
-        echo "JAVA_HOME:       $JAVA_HOME"
-        echo "JVM_OPTS:        $JVM_OPTS"
-        echo "CLASSPATH:       $CLASSPATH"
-        echo "RUN_CMD:         $RUN_CMD"
+        echo "MERLIN_HOME:      $MERLIN_HOME"
+        echo "MERLIN_TMPDIR:    $MERLIN_TMPDIR"
+        echo "MERLIN_JVM_OPTS:  $MERLIN_JVM_OPTS"
+        echo "JAVA_HOME:        $JAVA_HOME"
+        echo "JVM_OPTS:         $JVM_OPTS"
+        echo "MERLIN_CLASSPATH: $MERLIN_CLASSPATH"
+        echo "RUN_CMD:          $RUN_CMD"
         echo
 
         if [ -f $MERLIN_PID ]

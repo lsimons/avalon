@@ -47,13 +47,13 @@ if $cygwin; then
   [ -n "$CLASSPATH" ] && CLASSPATH=`cygpath --path --windows "$CLASSPATH"`
 fi
 
-MERLIN_BOOTSTRAP_JAR=$MERLIN_HOME/system/merlin/jars/@MERLIN_CLI_JAR@
+MERLIN_CLASSPATH=@UNIX-CLI-CLASSPATH@:$MERLIN_HOME/system/@UNIX-CLI-MAIN-PATH@
 
 echo "Starting Merlin."
 echo "================"
 echo "      Security policy: $MERLIN_HOME/bin/security.policy"
 echo "          JVM Options: $MERLIN_JVM_OPTS"
-echo "        Bootstrap JAR: $MERLIN_BOOTSTRAP_JAR"
+echo "        Bootstrap JAR: $MERLIN_CLASSPATH"
 echo ""
 
-"$JAVA" $MERLIN_JVM_OPTS "-Djava.security.policy=$MERLIN_HOME/bin/security.policy" -jar "$MERLIN_BOOTSTRAP_JAR" "$@"
+"$JAVA" $MERLIN_JVM_OPTS "-Djava.security.policy=$MERLIN_HOME/bin/security.policy" -classpath "$MERLIN_CLASSPATH" org.apache.avalon.merlin.cli.Main "$@"

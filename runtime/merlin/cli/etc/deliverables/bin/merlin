@@ -2,7 +2,7 @@
 #
 
 
-MERLIN_VERSION="3.3.0"
+MERLIN_VERSION="@@VERSION@@"
 export MERLIN_VERSION 
 
 # Checking for JAVA_HOME is required on *nix due
@@ -30,8 +30,8 @@ if [ -z "$MERLIN_HOME" ] ; then
     export MERLIN_HOME="`dirname "$ABSOLUTE_PATH"`"
 fi
 
-MERLIN_BOOTSTRAP_JAR="$MERLIN_HOME/system/merlin/jars/merlin-cli-$MERLIN_VERSION.jar"
-export MERLIN_BOOTSTRAP_JAR
+MERLIN_CLASSPATH=@UNIX-CLI-CLASSPATH@:$MERLIN_HOME/system/@UNIX-CLI-MAIN-PATH@
+export MERLIN_CLASSPATH
 
 if [ `echo $PLATFORM | grep "CYGWIN"` ] ; then
     exec "$MERLIN_HOME/bin/internal-cygwin.sh" "$@"
