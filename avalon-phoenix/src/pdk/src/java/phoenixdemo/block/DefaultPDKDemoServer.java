@@ -13,7 +13,6 @@ import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
-import org.apache.avalon.phoenix.Block;
 import phoenixdemo.api.PDKDemoServer;
 import phoenixdemo.server.PDKDemoServerImpl;
 
@@ -23,7 +22,7 @@ import phoenixdemo.server.PDKDemoServerImpl;
  */
 public class DefaultPDKDemoServer
     extends AbstractLogEnabled
-    implements Block, PDKDemoServer, Configurable, Startable, Initializable
+    implements PDKDemoServer, Configurable, Startable, Initializable
 {
     private int m_port;
     private PDKDemoServerImpl m_pdkServer;
@@ -39,6 +38,11 @@ public class DefaultPDKDemoServer
         throws Exception
     {
         m_pdkServer = new PDKDemoServerImpl();
+    }
+
+    public void message(String string)
+    {
+        System.out.println( "String passed = " + string );
     }
 
     public void start()

@@ -554,6 +554,9 @@ Legal:
             </fileset>
             <fileset dir=".">
                 <include name="lib/**"/>
+                <exclude name="lib/xdoclet*.jar"/>
+                <exclude name="lib/xjavadoc*.jar"/>
+                <exclude name="lib/xerces.jar"/>
             </fileset>
             <fileset dir="build">
                 <include name="lib/phoenix-client.jar"/>
