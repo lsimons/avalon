@@ -58,6 +58,10 @@ $ cd ../repository
 $ maven
 $ cd ../logging
 $ maven
+$ cd ../composition
+$ maven
+$ cd ../activation
+$ maven
 $ cd ../merlin
 $ maven
 ]]></source>
