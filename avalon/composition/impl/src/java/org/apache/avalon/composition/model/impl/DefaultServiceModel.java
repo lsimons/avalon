@@ -51,21 +51,25 @@
 package org.apache.avalon.composition.model.impl;
 
 import org.apache.avalon.composition.model.ServiceModel;
+import org.apache.avalon.composition.model.DeploymentModel;
 import org.apache.avalon.composition.data.ServiceDirective;
 
 /**
  * Service model exposes an exported service class.
  *
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.2 $ $Date: 2004/01/13 11:41:26 $
+ * @version $Revision: 1.3 $ $Date: 2004/01/21 00:10:27 $
  */
 public class DefaultServiceModel implements ServiceModel
 {
+    private final DeploymentModel m_provider;
     private final ServiceDirective m_directive;
     private final Class m_clazz;
 
-    public DefaultServiceModel( ServiceDirective directive, Class clazz )
+    public DefaultServiceModel( 
+      ServiceDirective directive, Class clazz, DeploymentModel provider )
     {
+        m_provider = provider;
         m_directive = directive;
         m_clazz = clazz;
     }
@@ -87,5 +91,14 @@ public class DefaultServiceModel implements ServiceModel
     public Class getServiceClass()
     {
         return m_clazz;
+    }
+
+   /**
+    * Return the service provider.  
+    * @return the model identifying the provider implementation
+    */
+    public DeploymentModel getServiceProvider()
+    {
+        return m_provider;
     }
 }

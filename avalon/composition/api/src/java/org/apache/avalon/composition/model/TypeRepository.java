@@ -51,6 +51,7 @@
 package org.apache.avalon.composition.model;
 
 import org.apache.avalon.composition.data.ComponentProfile;
+import org.apache.avalon.composition.data.DeploymentProfile;
 import org.apache.avalon.composition.model.ProfileUnknownException;
 import org.apache.avalon.meta.info.DependencyDescriptor;
 import org.apache.avalon.meta.info.StageDescriptor;
@@ -61,7 +62,7 @@ import org.apache.avalon.meta.info.Type;
  * storage and retrival of component types.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $ $Date: 2004/01/13 11:41:24 $
+ * @version $Revision: 1.4 $ $Date: 2004/01/21 00:10:27 $
  */
 public interface TypeRepository
 {
@@ -106,6 +107,14 @@ public interface TypeRepository
     Type[] getTypes( DependencyDescriptor dependency );
 
     /**
+     * Locate the set of component types capable of services the supplied
+     * dependency.
+     * @param dependency a service dependency descriptor
+     * @return a set of types capable of servicing the supplied dependency
+     */
+    Type[] getTypes( DependencyDescriptor dependency, boolean search );
+
+    /**
      * Locate the set of component types that provide the supplied extension.
      * @param stage a stage descriptor
      * @return a set of types that support the supplied stage
@@ -132,6 +141,25 @@ public interface TypeRepository
     */
     ComponentProfile getProfile( Type type, String key ) 
       throws TypeUnknownException, ProfileUnknownException;
+
+   /**
+    * Attempt to locate a packaged deployment profile meeting the 
+    * supplied dependency description.
+    *
+    * @param dependency the dependency description 
+    * @param search include profiles from parent repository in selection
+    * @return the deployment profile (possibly null) 
+    */
+    DeploymentProfile getProfile( 
+      DependencyDescriptor dependency, boolean search );
+
+   /**
+    * Return a set of local deployment profile for the supplied dependency.
+    * @param dependency the dependency descriptor
+    * @param search include profiles from parent repository in selection
+    * @return a set of profiles matching the supplied dependency
+    */
+    DeploymentProfile[] getProfiles( DependencyDescriptor dependency, boolean search );
 
 
 }

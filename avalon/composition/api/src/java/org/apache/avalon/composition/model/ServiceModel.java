@@ -56,7 +56,7 @@ import org.apache.avalon.composition.data.ServiceDirective;
  * Service model manages service exported by a container.
  *
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.2 $ $Date: 2004/01/13 11:41:24 $
+ * @version $Revision: 1.3 $ $Date: 2004/01/21 00:10:27 $
  */
 public interface ServiceModel
 {
@@ -72,4 +72,10 @@ public interface ServiceModel
     * @return the service class
     */
     Class getServiceClass();
+
+   /**
+    * Return the service provider.  
+    * @return the model identifying the provider implementation
+    */
+    public DeploymentModel getServiceProvider();
 }

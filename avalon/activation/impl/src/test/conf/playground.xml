@@ -15,9 +15,7 @@ Example block deployment descriptor.
    </classloader>
 
    <services>
-     <service type="org.apache.avalon.playground.basic.BasicService" version="1.1">
-       <source>basic</source>
-     </service>
+     <service type="org.apache.avalon.playground.basic.BasicService" version="1.1"/>
    </services>
 
    <container name="subsidiary">

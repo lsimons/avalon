@@ -79,7 +79,7 @@ import org.apache.avalon.framework.logger.Logger;
  * context.
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.10 $ $Date: 2004/01/19 21:45:07 $
+ * @version $Revision: 1.11 $ $Date: 2004/01/21 00:10:27 $
  */
 public class DefaultBlock extends AbstractBlock implements Home
 {
@@ -242,8 +242,12 @@ public class DefaultBlock extends AbstractBlock implements Home
                 throw new IllegalStateException( error );
             }
 
-            String path = service.getServiceDirective().getPath();
-            Appliance provider = (Appliance) m_block.locate( path );
+            //String path = service.getServiceDirective().getPath();
+            //Appliance provider = (Appliance) m_block.locate( path );
+
+            Appliance provider = 
+              (Appliance) m_block.locate( 
+                service.getServiceProvider() );
             if( m_logger.isDebugEnabled() )
                 m_logger.debug( "delegating: " +  method.getName() );
 

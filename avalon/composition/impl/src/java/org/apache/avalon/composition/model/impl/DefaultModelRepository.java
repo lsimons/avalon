@@ -70,7 +70,7 @@ import org.apache.avalon.meta.info.StageDescriptor;
  * a stage or service dependencies.
  *
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.2 $ $Date: 2004/01/13 11:41:26 $
+ * @version $Revision: 1.3 $ $Date: 2004/01/21 00:10:27 $
  */
 public class DefaultModelRepository implements ModelRepository
 {
@@ -117,7 +117,6 @@ public class DefaultModelRepository implements ModelRepository
         // attempt to locate a solution locally
         //
 
-System.out.println( "## resolving dep: " + dependency );
         Iterator iterator = m_models.values().iterator();
         while( iterator.hasNext() )
         {
@@ -132,7 +131,6 @@ System.out.println( "## resolving dep: " + dependency );
         // attempt to locate a solution from the parent
         //
 
-System.out.println( "## nothing local, try parent: " + m_parent );
         if( m_parent != null )
         {
             return m_parent.getModel( dependency );

@@ -124,7 +124,7 @@ import org.apache.avalon.util.exception.ExceptionHelper;
  * as a part of a containment deployment model.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.22 $ $Date: 2004/01/20 04:50:31 $
+ * @version $Revision: 1.23 $ $Date: 2004/01/21 00:10:27 $
  */
 public class DefaultContainmentModel extends DefaultDeploymentModel 
   implements ContainmentModel
@@ -208,33 +208,33 @@ public class DefaultContainmentModel extends DefaultDeploymentModel
               + DeploymentModel.SEPARATOR;
         }
 
-        ClassLoader classloader = context.getClassLoader();
+        //
+        // populate the containment model with a set of models
+        // based on the profiles contained in the supplied 
+        // containment profile
+        //
+
+        DeploymentProfile[] profiles = context.getContainmentProfile().getProfiles();
+        for( int i=0; i<profiles.length; i++ )
+        {
+            addModel( profiles[i] );
+        }
+
+        //
+        // setup the service export parameters
+        //
+
         ServiceDirective[] export = 
           context.getContainmentProfile().getExportDirectives();
         m_services = new DefaultServiceModel[ export.length ];
         for( int i=0; i<export.length; i++ )
         {
             ServiceDirective service = export[i];
-            String classname = service.getReference().getClassname();
-            try
-            {
-                Class clazz = classloader.loadClass( classname );
-                m_services[i] = new DefaultServiceModel( service, clazz ); 
-            }
-            catch( Throwable e )
-            {
-                final String error = 
-                  "Cannot load service class [" 
-                  + classname 
-                  + "].";
-                throw new ModelException( error, e );
-            }
-        }
-
-        DeploymentProfile[] profiles = context.getContainmentProfile().getProfiles();
-        for( int i=0; i<profiles.length; i++ )
-        {
-            addModel( profiles[i] );
+            Class clazz = getServiceExportClass( service );
+            DeploymentModel provider = 
+              locateImplementionProvider( service );
+            m_services[i] = 
+              new DefaultServiceModel( service, clazz, provider ); 
         }
     }
 
@@ -332,8 +332,12 @@ public class DefaultContainmentModel extends DefaultDeploymentModel
     }
 
     /**
-     * Assemble the model.
-     * @exception Exception if an error occurs during model assembly
+     * Assemble the model.  Model assembly is a process of 
+     * wiring together candidate service providers with consumers.
+     * The assembly implementation will assemble each deployment
+     * model contained within this model.
+     *
+     * @exception Exception if assembly cannot be fulfilled
      */
     public void assemble() throws AssemblyException
     {
@@ -345,7 +349,8 @@ public class DefaultContainmentModel extends DefaultDeploymentModel
             }
 
             getLogger().debug( "assembly phase" );
-            DeploymentModel[] models = m_context.getModelRepository().getModels();
+            DeploymentModel[] models = 
+              m_context.getModelRepository().getModels();
             for( int i=0; i<models.length; i++ )
             {
                 DeploymentModel model = models[i];
@@ -1773,6 +1778,103 @@ public class DefaultContainmentModel extends DefaultDeploymentModel
             final String error = 
               "Could not load the targets directive: " + url;
             throw new ModelException( error, e );
+        }
+    }
+
+   /**
+    * Return the class declared by a container service export declaration.
+    * @return the exported service interface class
+    * @exception ModelException if the class cannot be resolved
+    */
+    private Class getServiceExportClass( ServiceDirective service )
+      throws ModelException
+    {
+        String classname = service.getReference().getClassname();
+        try
+        {
+            ClassLoader classloader = m_context.getClassLoader();
+            return classloader.loadClass( classname );
+        }
+        catch( Throwable e )
+        {
+            final String error = 
+              "Cannot load service class [" 
+              + classname 
+              + "].";
+            throw new ModelException( error, e );
+        }
+    }
+
+   /**
+    * Given a service directive declared by a container, locate a model 
+    * with this containment model to map as the provider.  If not model
+    * is explicity declared, the implementation will attempt to construct
+    * a new model based on packaged profiles and add the created model to
+    * the set of models within this container.
+    * 
+    * @param service the service directive
+    * @return the implementing deployment model
+    * @exception ModelException if an implementation is not resolvable 
+    */
+    private DeploymentModel locateImplementionProvider( ServiceDirective service )
+      throws ModelException
+    {
+        final String path = service.getPath();
+        if( null != path )
+        {
+            DeploymentModel provider = getModel( path );
+            if( null == provider )
+            {
+                final String error = 
+                  "Implemention provider path [" 
+                  + path 
+                  + "] for the exported service [" 
+                  + service.getReference()
+                  + "] in the containment model "
+                  + this
+                  + " does not reference a known model.";
+               throw new ModelException( error );
+            }
+            else
+            {
+                return provider;
+            }
+        }
+        else
+        {
+            final DependencyDescriptor dependency = 
+              new DependencyDescriptor( 
+                "export", 
+                service.getReference() );
+
+            final ModelRepository repository = m_context.getModelRepository();
+            final DeploymentModel[] candidates = repository.getModels();
+            final ModelSelector selector = new DefaultModelSelector();
+            DeploymentModel provider = selector.select( candidates, dependency );
+            if( null != provider )
+            {
+                return provider;
+            }
+            else
+            {
+                TypeRepository repo = 
+                  getClassLoaderModel().getTypeRepository();
+                DeploymentProfile profile = 
+                  repo.getProfile( dependency, false );
+                if( profile != null )
+                {
+                    return addModel( profile );
+                }
+                else
+                {
+                    final String error = 
+                      "Could not locate a provider for the exported service [" 
+                        + dependency.getReference()
+                        + "] in the containment model "
+                        + this;
+                    throw new ModelException( error );
+                }
+            }
         }
     }
 }
