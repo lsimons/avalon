@@ -20,7 +20,7 @@
   <extend>${basedir}/../project.xml</extend>
 
   <id>excalibur-i18n</id>
-  <name>Excalibur i18n</name>
+  <name>Excalibur I18N</name>
   <package>org.apache.avalon.excalibur.i18n</package>
   <currentVersion>1.1</currentVersion>
 

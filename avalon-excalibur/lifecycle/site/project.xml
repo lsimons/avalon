@@ -19,11 +19,11 @@
 
   <extend>${basedir}/../project.xml</extend>
 
-  <name>Avalon Framework</name>
-  <id>avalon-framework-docs</id>
+  <name>Excalibur LifeCycle Docs</name>
+  <id>excalibur-lifecycle-docs</id>
 
-  <shortDescription>Avalon Framework API</shortDescription>
-  <description>Avalon Framework API</description>
+  <shortDescription>Excalibur LifeCycle</shortDescription>
+  <description>Excalibur LifeCycle</description>
 
   <dependencies>
     <dependency>

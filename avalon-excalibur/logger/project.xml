@@ -19,7 +19,7 @@
 <project>
     <extend>${basedir}/../project.xml</extend>
 
-    <name>excalibur-logger</name>
+    <name>Excalibur Logger</name>
     <id>excalibur-logger</id>
     <currentVersion>1.2</currentVersion>
     <inceptionYear>1997</inceptionYear>
@@ -61,6 +61,12 @@
         <dependency>
             <id>servletapi</id>
             <version>2.2</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>excalibur-i18n</groupId>
+            <artifactId>excalibur-i18n</artifactId>
+            <version>1.1</version>
         </dependency>
         
         <dependency>

@@ -3,7 +3,7 @@
 <project>
     <extend>${basedir}/../project.xml</extend>
 
-    <name>excalibur-instrument</name>
+    <name>Excalibur Instrument</name>
     <id>excalibur-instrument</id>
     <currentVersion>1.2</currentVersion>
     <inceptionYear>1997</inceptionYear>

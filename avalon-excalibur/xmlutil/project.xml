@@ -54,12 +54,12 @@ limitations under the License.
             <version>7.7</version>
             <groupId>saxon7</groupId>
         </dependency>
-
+<!--
         <dependency>
             <id>xml-commons-resolver</id>
             <version>1.1</version>
         </dependency>
-
+-->
         <dependency>
             <id>avalon-framework</id>
             <version>4.1.4</version>
