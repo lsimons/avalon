@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jardesc>
-    <jar path="C:/develop/eclipse/workspace/MerlinDeveloper Core/MerlinDeveloperCore.jar"/>
-    <options overwrite="false" compress="true" exportErrors="true" exportWarnings="true" saveDescription="true" descriptionLocation="/MerlinDeveloper Core/deploy_local.jardesc" useSourceFolders="false" buildIfNeeded="true"/>
+    <jar path="C:/develop/eclipse/workspace/org.apache.avalon.ide.eclipse.core/MerlinDeveloperCore.jar"/>
+    <options overwrite="false" compress="true" exportErrors="true" exportWarnings="true" saveDescription="true" descriptionLocation="/org.apache.avalon.ide.eclipse.core/deploy_local.jardesc" useSourceFolders="false" buildIfNeeded="true"/>
     <manifest manifestVersion="1.0" usesManifest="true" reuseManifest="false" saveManifest="false" generateManifest="true" manifestLocation="">
         <sealing sealJar="false">
             <packagesToSeal/>
@@ -9,6 +9,6 @@
         </sealing>
     </manifest>
     <selectedElements exportClassFiles="true" exportJavaFiles="false">
-        <javaElement handleIdentifier="=MerlinDeveloper Core/src"/>
+        <javaElement handleIdentifier="=org.apache.avalon.ide.eclipse.core/src"/>
     </selectedElements>
 </jardesc>
