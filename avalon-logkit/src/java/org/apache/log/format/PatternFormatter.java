@@ -7,12 +7,13 @@
  */
 package org.apache.log.format;
 
+import org.apache.avalon.framework.CascadingThrowable;
 import java.io.StringWriter;
 import java.util.Stack;
 import org.apache.log.*;
 
 /**
- * This formater formats the LogEntries according to a input pattern 
+ * This formater formats the LogEntries according to a input pattern
  * string.
  *
  * The format of each pattern element can be %[+|-]#.#{field:subformat}
@@ -25,8 +26,8 @@ import org.apache.log.*;
  *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
-public class PatternFormatter 
-    implements Formatter 
+public class PatternFormatter
+    implements Formatter
 {
     protected final static int         TYPE_TEXT            = 1;
     protected final static int         TYPE_CATEGORY        = 2;
@@ -69,8 +70,8 @@ public class PatternFormatter
      * @param index the start of pattern run
      * @return the number of characters in pattern run
      */
-    protected int addPatternRun( final Stack stack, 
-                                 final char pattern[], 
+    protected int addPatternRun( final Stack stack,
+                                 final char pattern[],
                                  int index )
     {
         final PatternRun run = new PatternRun();
@@ -96,7 +97,7 @@ public class PatternFormatter
         }
 
         //check for . sign indicating a maximum is to follow
-        if( index < pattern.length && '.' == pattern[ index ] ) 
+        if( index < pattern.length && '.' == pattern[ index ] )
         {
             index++;
 
@@ -114,22 +115,22 @@ public class PatternFormatter
 
         if( index >= pattern.length || '{' != pattern[ index ] )
         {
-            throw 
+            throw
                 new IllegalArgumentException( "Badly formed pattern at character " +
                                               index );
         }
 
         int typeStart = index;
 
-        while( index < pattern.length && 
-               pattern[ index ]!= ':' && pattern[ index ] != '}' ) 
+        while( index < pattern.length &&
+               pattern[ index ]!= ':' && pattern[ index ] != '}' )
         {
             index++;
         }
 
         int typeEnd = index - 1;
 
-        final String type = 
+        final String type =
             new String( pattern, typeStart + 1, typeEnd - typeStart );
 
         run.m_type = getTypeIdFor( type );
@@ -149,7 +150,7 @@ public class PatternFormatter
 
         if( index >= pattern.length || '}' != pattern[ index ] )
         {
-            throw new 
+            throw new
                 IllegalArgumentException("Unterminated type in pattern at character "
                                          + index );
         }
@@ -171,8 +172,8 @@ public class PatternFormatter
      * @param index the start of the text run
      * @return the number of characters in run
      */
-    protected int addTextRun( final Stack stack, 
-                              final char pattern[], 
+    protected int addTextRun( final Stack stack,
+                              final char pattern[],
                               int index )
     {
         final PatternRun run = new PatternRun();
@@ -214,14 +215,14 @@ public class PatternFormatter
      * @param rightJustify true if the string is to be right justified in it's box.
      * @param output the input string
      */
-    protected void append( final StringBuffer sb, 
-                           final int minSize, 
-                           final int maxSize, 
-                           final boolean rightJustify, 
+    protected void append( final StringBuffer sb,
+                           final int minSize,
+                           final int maxSize,
+                           final boolean rightJustify,
                            final String output )
     {
         final int size = output.length();
-    
+
         if( size < minSize )
         {
             //assert( minSize > 0 );
@@ -254,34 +255,34 @@ public class PatternFormatter
      */
     protected void appendWhiteSpace( final StringBuffer sb, int length )
     {
-        while( length >= 16 ) 
-        { 
-            sb.append( SPACE_16 ); 
-            length -= 16; 
+        while( length >= 16 )
+        {
+            sb.append( SPACE_16 );
+            length -= 16;
         }
 
-        if( length >= 8 ) 
-        { 
-            sb.append( SPACE_8 ); 
-            length -= 8; 
+        if( length >= 8 )
+        {
+            sb.append( SPACE_8 );
+            length -= 8;
         }
 
-        if( length >= 4 ) 
-        { 
-            sb.append( SPACE_4 ); 
-            length -= 4; 
+        if( length >= 4 )
+        {
+            sb.append( SPACE_4 );
+            length -= 4;
         }
 
-        if( length >= 2 ) 
-        { 
-            sb.append( SPACE_2 ); 
-            length -= 2; 
+        if( length >= 2 )
+        {
+            sb.append( SPACE_2 );
+            length -= 2;
         }
 
-        if( length >= 1 ) 
-        { 
-            sb.append( SPACE_1 ); 
-            length -= 1; 
+        if( length >= 1 )
+        {
+            sb.append( SPACE_1 );
+            length -= 1;
         }
     }
 
@@ -306,28 +307,28 @@ public class PatternFormatter
             //treat text differently as it doesn't need min/max padding
             case TYPE_TEXT: sb.append( run.m_data ); continue;
 
-            case TYPE_TIME: 
-                str = getTime( event.getTime(), run.m_format ); 
+            case TYPE_TIME:
+                str = getTime( event.getTime(), run.m_format );
                 break;
 
-            case TYPE_THROWABLE: 
-                str = getStackTrace( event.getThrowable(), run.m_format ); 
+            case TYPE_THROWABLE:
+                str = getStackTrace( event.getThrowable(), run.m_format );
                 break;
 
-            case TYPE_MESSAGE: 
-                str = getMessage( event.getMessage(), run.m_format ); 
+            case TYPE_MESSAGE:
+                str = getMessage( event.getMessage(), run.m_format );
                 break;
 
-            case TYPE_CONTEXT: 
-                str = getContext( event.getContextStack(), run.m_format ); 
+            case TYPE_CONTEXT:
+                str = getContext( event.getContextStack(), run.m_format );
                 break;
 
             case TYPE_CATEGORY:
                 str = getCategory( event.getCategory(), run.m_format );
                 break;
 
-            case TYPE_PRIORITY: 
-                str = getPriority( event.getPriority(), run.m_format ); 
+            case TYPE_PRIORITY:
+                str = getPriority( event.getPriority(), run.m_format );
                 break;
 
             default:
@@ -429,7 +430,13 @@ public class PatternFormatter
         if( null == throwable ) return "";
         final StringWriter sw = new StringWriter();
         throwable.printStackTrace( new java.io.PrintWriter( sw ) );
-        return sw.toString();
+        StringBuffer buf = new StringBuffer(sw.toString());
+
+        if (throwable instanceof CascadingThrowable) {
+            buf.append(getStackTrace(((CascadingThrowable) throwable).getCause(), format));
+        }
+
+        return buf.toString();
     }
 
     /**
@@ -443,7 +450,7 @@ public class PatternFormatter
     {
         return Long.toString( time );
     }
-  
+
     /**
      * Retrieve the type-id for a particular string.
      *
@@ -457,13 +464,13 @@ public class PatternFormatter
         else if( type.equalsIgnoreCase( TYPE_MESSAGE_STR ) ) return TYPE_MESSAGE;
         else if( type.equalsIgnoreCase( TYPE_PRIORITY_STR ) ) return TYPE_PRIORITY;
         else if( type.equalsIgnoreCase( TYPE_TIME_STR ) ) return TYPE_TIME;
-        else if( type.equalsIgnoreCase( TYPE_THROWABLE_STR ) ) 
+        else if( type.equalsIgnoreCase( TYPE_THROWABLE_STR ) )
         {
             return TYPE_THROWABLE;
         }
         else
         {
-            throw new IllegalArgumentException( "Unknown Type in pattern - " + 
+            throw new IllegalArgumentException( "Unknown Type in pattern - " +
                                                 type );
         }
     }
@@ -484,7 +491,7 @@ public class PatternFormatter
 
         while( index < size )
         {
-            if( pattern[ index ] == '%' && 
+            if( pattern[ index ] == '%' &&
                 !( index != size - 1 && pattern[ index + 1 ] == '%' ) )
             {
                 index += addPatternRun( stack, pattern, index );

@@ -32,7 +32,6 @@ public class ServletOutputLogTarget
     {
         if( null != m_context )
         {
-            //Do we really need to synchronize on this?????????????
             synchronized( m_context )
             {
                 m_context.log( message );
