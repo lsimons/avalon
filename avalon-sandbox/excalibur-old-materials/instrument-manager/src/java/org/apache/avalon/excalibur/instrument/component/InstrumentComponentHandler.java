@@ -12,14 +12,10 @@ import org.apache.avalon.excalibur.instrument.Instrumentable;
 import org.apache.avalon.excalibur.instrument.InstrumentManager;
 import org.apache.avalon.excalibur.component.ComponentHandler;
 import org.apache.avalon.excalibur.component.DefaultComponentFactory;
-//import org.apache.avalon.excalibur.component.DefaultComponentHandler;
-//import org.apache.avalon.excalibur.component.PoolableComponentHandler;
 import org.apache.avalon.excalibur.component.RoleManager;
-//import org.apache.avalon.excalibur.component.ThreadSafeComponentHandler;
 import org.apache.avalon.excalibur.logger.LogKitManager;
 import org.apache.avalon.excalibur.pool.Poolable;
 
-import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.component.ComponentManager;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.context.Context;
@@ -29,7 +25,7 @@ import org.apache.avalon.framework.thread.ThreadSafe;
 /**
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.4 $ $Date: 2002/04/03 13:18:29 $
+ * @version CVS $Revision: 1.5 $ $Date: 2002/04/10 05:39:37 $
  * @since 4.1
  */
 public abstract class InstrumentComponentHandler
@@ -60,7 +56,7 @@ public abstract class InstrumentComponentHandler
      */
     public static ComponentHandler getComponentHandler(
         final Class componentClass,
-        final Configuration config,
+        final Configuration configuration,
         final ComponentManager componentManager,
         final Context context,
         final RoleManager roleManager,
@@ -94,7 +90,7 @@ public abstract class InstrumentComponentHandler
         // Create the factory to use to create the instances of the Component.
         DefaultComponentFactory factory =
             new InstrumentDefaultComponentFactory( componentClass,
-                                                   config,
+                                                   configuration,
                                                    componentManager,
                                                    context,
                                                    roleManager,
@@ -102,22 +98,22 @@ public abstract class InstrumentComponentHandler
                                                    instrumentManager,
                                                    instrumentableName );
 
-        InstrumentComponentHandler handler;
+        ComponentHandler handler;
         if( Poolable.class.isAssignableFrom( componentClass ) )
         {
-            handler = new PoolableComponentHandler( factory, config );
+            handler = new PoolableComponentHandler( factory, configuration );
         }
         else if( ThreadSafe.class.isAssignableFrom( componentClass ) )
         {
-            handler = new ThreadSafeComponentHandler( factory, config );
+            handler = new ThreadSafeComponentHandler( factory, configuration );
         }
         else // This is a SingleThreaded component
         {
-            handler = new DefaultComponentHandler( factory, config );
+            handler = new DefaultComponentHandler( factory, configuration );
         }
         
         // Register the new handler with the instrumentManager if it exists.
-        handler.setInstrumentableName( instrumentableName );
+        ((Instrumentable)handler).setInstrumentableName( instrumentableName );
         
         return handler;
     }
