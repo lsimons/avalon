@@ -1,6 +1,10 @@
 
 <kernel>
 
+   <system host="localhost">
+     <configuration path="configuration.xml"/>
+   </system>
+
    <logging target="default" priority="DEBUG">
       <category name="/sys/logger" priority="WARN"/>
       <!--
