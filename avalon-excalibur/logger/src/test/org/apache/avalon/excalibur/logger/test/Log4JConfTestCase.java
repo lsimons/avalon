@@ -10,7 +10,7 @@ package org.apache.avalon.excalibur.logger.test;
 import java.io.IOException;
 import java.io.InputStream;
 import junit.framework.TestCase;
-import org.apache.avalon.excalibur.logger.Log4jConfLoggerManager;
+import org.apache.avalon.excalibur.logger.Log4JConfLoggerManager;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
@@ -22,12 +22,12 @@ import org.xml.sax.SAXException;
 /**
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2002/10/28 00:36:03 $
+ * @version $Revision: 1.1 $ $Date: 2002/11/01 01:34:50 $
  */
-public class Log4jConfTestCase
+public class Log4JConfTestCase
     extends TestCase
 {
-    public Log4jConfTestCase( final String name )
+    public Log4JConfTestCase( final String name )
     {
         super( name );
     }
@@ -35,16 +35,16 @@ public class Log4jConfTestCase
     public void testWrite()
         throws Exception
     {
-        final Log4jConfLoggerManager manager = getManager( "log4j.xml" );
+        final Log4JConfLoggerManager manager = getManager( "log4j.xml" );
         final Logger logger = manager.getDefaultLogger();
         logger.warn( "Some random message" );
     }
 
-    private Log4jConfLoggerManager getManager( final String resourceName )
+    private Log4JConfLoggerManager getManager( final String resourceName )
         throws Exception
     {
         final Configuration configuration = loadConfiguration( resourceName );
-        final Log4jConfLoggerManager manager = new Log4jConfLoggerManager();
+        final Log4JConfLoggerManager manager = new Log4JConfLoggerManager();
         ContainerUtil.enableLogging(manager, new ConsoleLogger());
         ContainerUtil.configure( manager, configuration );
         return manager;

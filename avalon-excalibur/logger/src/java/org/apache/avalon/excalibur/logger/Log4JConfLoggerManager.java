@@ -22,9 +22,9 @@ import org.w3c.dom.Node;
  * using specified configuration.
  *
  * @author <a href="mailto:Ole.Bulbuk at ebp.de">Ole Bulbuk</a>
- * @version $Revision: 1.2 $ $Date: 2002/10/28 01:17:34 $
+ * @version $Revision: 1.1 $ $Date: 2002/11/01 01:34:49 $
  */
-public class Log4jConfLoggerManager
+public class Log4JConfLoggerManager
     extends Log4JLoggerManager
     implements Configurable
 {
