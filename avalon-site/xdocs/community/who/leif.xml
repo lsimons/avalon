@@ -13,15 +13,11 @@
             contributions.
       </p>
       <p>
-            Leif has contributed to the
-            <a href="http://avalon.apache.org/excalibur/component/index.html">Excalibur Component Manager</a>,
-            <a href="http://avalon.apache.org/excalibur/pool/index.html">Pooling</a>,
-            <a href="http://avalon.apache.org/excalibur/datasource/index.html">DataSource</a>, and
-            <a href="http://avalon.apache.org/excalibur/thread/index.html">ThreadPooling</a> projects.
+            Leif has contributed to the Excalibur Component Manager, Pooling,
+            DataSource, and ThreadPooling projects.
             Leif was also responsible for the Instrumentation projects:
-            <a href="http://avalon.apache.org/excalibur/instrument/index.html">Instrument</a>,
-            <a href="http://avalon.apache.org/excalibur/instrument-manager/index.html">Instrument Manager</a>, and
-            <a href="http://avalon.apache.org/excalibur/instrument-client/index.html">Instrument Remote Client</a> projects.
+            Instrument, Instrument Manager, and
+            Instrument Remote Client projects.
       </p>
       <p>
             Outside of ASF, Leif also manages the <a href="http://wrapper.tanukisoftware.org">Java Service Wrapper</a> project.
