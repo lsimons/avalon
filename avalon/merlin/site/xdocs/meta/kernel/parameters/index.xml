@@ -67,7 +67,7 @@
           <tr>
             <td>parameter</td><td>0..n</td>
             <td>
-             Each parameter has a <strong>name</strong> and a <strong>value<strong>
+             Each parameter has a <strong>name</strong> and a <strong>value</strong>
              attribute. The parameters that are available can be found below.
             </td>
           </tr>
@@ -100,6 +100,7 @@
               considered unstable, and should terminate.
             </td>
           </tr>
+        </table>
       </subsection>
 
       
