@@ -200,6 +200,12 @@
             <include>**/*.properties</include>
           </includes>
         </resource>
+        <resource>
+          <directory>${basedir}/src/test/conf</directory>
+          <includes> 
+            <include>**/*</include>
+          </includes>
+        </resource>
       </resources>
     </unitTest>
 
