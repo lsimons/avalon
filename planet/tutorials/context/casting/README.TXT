@@ -5,7 +5,7 @@ Typesafe context casting
 This tutorial covers the declaration of constext castiong criteria
 and the creation of a typed context.
 
-$ maven
+$ ant
 $ merlin -execute target\classes
 
 [INFO   ] (tutorial.hello): listing values resolved from domain specific context
