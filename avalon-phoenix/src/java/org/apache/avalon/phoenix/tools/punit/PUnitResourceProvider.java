@@ -25,7 +25,8 @@ public class PUnitResourceProvider
     private PUnitComponentManager m_pUnitComponentManager;
     private Configuration m_configuration;
 
-    public PUnitResourceProvider(PUnitServiceManager pUnitServiceManager, Configuration configuration)
+    public PUnitResourceProvider( PUnitServiceManager pUnitServiceManager,
+                                  Configuration configuration )
     {
         m_pUnitServiceManager = pUnitServiceManager;
         m_pUnitComponentManager = new PUnitComponentManager(pUnitServiceManager);

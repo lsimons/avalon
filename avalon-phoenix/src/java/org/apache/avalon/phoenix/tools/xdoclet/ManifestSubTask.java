@@ -7,15 +7,13 @@
  */
 package org.apache.avalon.phoenix.tools.xdoclet;
 
-import java.io.File;
-
 /**
  * Generates Manifest file for Blocks
  *
  * @author <a href="mailto:vinay_chandran@users.sourceforge.net">Vinay Chandrasekharan</a>
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
  * @author Paul Hammant
- * @version $Revision: 1.13 $ $Date: 2002/10/02 19:39:07 $
+ * @version $Revision: 1.14 $ $Date: 2002/11/05 23:56:03 $
  */
 public class ManifestSubTask
 {

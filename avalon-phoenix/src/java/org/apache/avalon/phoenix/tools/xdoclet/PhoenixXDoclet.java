@@ -28,7 +28,7 @@ import java.lang.reflect.InvocationTargetException;
  *
  * @author <a href="mailto:vinay_chandran@users.sourceforge.net">Vinay Chandrasekharan</a>
  * @author Paul Hammant
- * @version $Revision: 1.13 $ $Date: 2002/10/22 05:58:17 $
+ * @version $Revision: 1.14 $ $Date: 2002/11/05 23:56:03 $
  * @deprecated
  */
 public class PhoenixXDoclet extends Task
@@ -37,10 +37,10 @@ public class PhoenixXDoclet extends Task
     private String m_mxinfoSubTask;
     private ManifestSubTask m_manifestSubTask;
     private Class m_metaGenerateQDoxClass;
-    private Object m_MetaGenerateTask;
+    private Object m_metaGenerateTask;
     private File m_destDir;
 
-    private static boolean WARNING_SENT;
+    private static boolean c_warningSent;
 
 
     /**
@@ -54,7 +54,7 @@ public class PhoenixXDoclet extends Task
         {
             m_metaGenerateQDoxClass =
                 Class.forName("org.apache.avalon.phoenix.tools.metagenerate.MetaGenerateTask");
-            m_MetaGenerateTask = m_metaGenerateQDoxClass.newInstance();
+            m_metaGenerateTask = m_metaGenerateQDoxClass.newInstance();
         }
         catch (Exception e)
         {
@@ -92,14 +92,14 @@ public class PhoenixXDoclet extends Task
         "*                                                                                    *",
         "**************************************************************************************" };
 
-        if (!WARNING_SENT)
+        if (!c_warningSent)
         {
             for (int i = 0; i < message.length; i++)
             {
                 String s = message[i];
                 System.out.println(s);
             }
-            WARNING_SENT = true;
+            c_warningSent = true;
         }
     }
 
@@ -113,7 +113,7 @@ public class PhoenixXDoclet extends Task
         {
             Method addFileSet =
                     m_metaGenerateQDoxClass.getMethod("addFileset", new Class[] {FileSet.class});
-            addFileSet.invoke(m_MetaGenerateTask, new Object[] {set});
+            addFileSet.invoke(m_metaGenerateTask, new Object[] {set});
 
         }
         catch (InvocationTargetException ite)
@@ -146,7 +146,7 @@ public class PhoenixXDoclet extends Task
         try
         {
             Method setDir = m_metaGenerateQDoxClass.getMethod("setDest", new Class[] {File.class});
-            setDir.invoke(m_MetaGenerateTask, new Object[] {dir});
+            setDir.invoke(m_metaGenerateTask, new Object[] {dir});
 
         }
         catch (InvocationTargetException ite)
@@ -240,7 +240,7 @@ public class PhoenixXDoclet extends Task
         {
 
             Method execute = m_metaGenerateQDoxClass.getMethod("execute", new Class[] {});
-            execute.invoke(m_MetaGenerateTask, new Object[] {});
+            execute.invoke(m_metaGenerateTask, new Object[] {});
 
         }
         catch (InvocationTargetException ite)
@@ -273,7 +273,7 @@ public class PhoenixXDoclet extends Task
         {
             Method setTaskName = m_metaGenerateQDoxClass.getMethod("setTaskName",
                     new Class[] {String.class});
-            setTaskName.invoke(m_MetaGenerateTask, new Object[] {s});
+            setTaskName.invoke(m_metaGenerateTask, new Object[] {s});
         }
         catch (InvocationTargetException ite)
         {
@@ -303,7 +303,7 @@ public class PhoenixXDoclet extends Task
         try
         {
             Method init = m_metaGenerateQDoxClass.getMethod("init", new Class[] {});
-            init.invoke(m_MetaGenerateTask, new Object[] {});
+            init.invoke(m_metaGenerateTask, new Object[] {});
 
         }
         catch (InvocationTargetException ite)
@@ -337,7 +337,7 @@ public class PhoenixXDoclet extends Task
         {
             Method setProject = m_metaGenerateQDoxClass.getMethod("setProject",
                     new Class[] {Project.class});
-            setProject.invoke(m_MetaGenerateTask, new Object[] {project});
+            setProject.invoke(m_metaGenerateTask, new Object[] {project});
 
         }
         catch (InvocationTargetException ite)

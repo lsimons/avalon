@@ -33,7 +33,8 @@ public abstract class PUnitTestCase extends TestCase
         super( name );
     }
 
-    protected void addBlock( String blockName, String serviceName, Object block , Configuration configuration)
+    protected void addBlock( String blockName, String serviceName,
+                             Object block , Configuration configuration )
     {
         PUnitBlock pBlock = new PUnitBlock( blockName, block,
                 new PUnitResourceProvider(m_pUnitServiceManager, configuration) );

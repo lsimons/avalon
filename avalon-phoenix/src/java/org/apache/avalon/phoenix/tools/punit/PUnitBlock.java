@@ -7,7 +7,6 @@
  */
 package org.apache.avalon.phoenix.tools.punit;
 
-import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.excalibur.containerkit.lifecycle.ResourceProvider;
 
 public class PUnitBlock
