@@ -83,7 +83,7 @@
     </s1>
     <s1 title="Writing the Component">
       <p>
-        John Milton wrote, "No man is an island." to communicate that we
+        John Donne wrote, "No man is an island." to communicate that we
         are all interdependent.  The same is true for the Component.  That
         is why there are different concerns regarding the Component.  In
         the section on roles we specified one of the concerns: the role.
@@ -129,7 +129,7 @@
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.6 $ $Date: 2002/01/31 15:43:52 $
+      $Revision: 1.7 $ $Date: 2002/03/22 02:33:09 $
     </legal>
   </footer>
 </document>
