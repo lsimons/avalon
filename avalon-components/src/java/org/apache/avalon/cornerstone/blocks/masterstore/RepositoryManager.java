@@ -196,6 +196,12 @@ public class RepositoryManager
 
     public static final String getName()
     {
-        return REPOSITORY_NAME + id++;
+        //
+        // bug reported by Harmeet Kodemus Dec 20, 9:00 PM
+        // relating to James usage of file based storage
+        //
+
+        // return REPOSITORY_NAME + id++;  // <-- faulty
+        return REPOSITORY_NAME + id; // <-- corrected
     }
 }
