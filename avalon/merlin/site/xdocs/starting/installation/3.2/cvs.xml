@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0"?>
 
 <!--
  ============================================================================
@@ -48,38 +48,85 @@
  Apache Software Foundation, please see http://www.apache.org/.
 -->
 
-<project>
- <title>Merlin</title>
+<document>
+    <header>
+        <title>Installation - Merlin 3.2</title>
+        <authors>
+            <person name="Stephen McConnell" email="mcconnell@apache.org"/>
+        </authors>
+    </header>
+    <body>
+        <section name="Installation - Merlin 3.2">
 
- <body>
+            <subsection name="Build Procedure">
 
-    <links>
-      <item name="Apache" href="http://apache.org/"/>
-      <item name="Avalon" href="http://avalon.apache.org/"/>
-      <item name="Framework" href="http://avalon.apache.org/product/framework/"/>
-      <item name="Containers" href="http://avalon.apache.org/product/containers/"/>
-      <item name="Components" href="http://avalon.apache.org/product/components/"/>
-    </links>
+                <p>
+                    To build the Merlin installation you need to checkout the
+                    Merlin project from CVS. The commands in this document
+                    assume a unix-style system; the procedure under windows is
+                    similar, and identical if you have <a
+                    href="http://www.cygwin.com">cygwin</a> installed.
+                </p>
+<source><![CDATA[
+$ cvs -d :pserver:anoncvs@cvs.apache.org:/home/cvspublic login
+$ cvs -z3 -d :pserver:anoncvs@cvs.apache.org:/home/cvspublic co avalon/util
+$ cvs -z3 -d :pserver:anoncvs@cvs.apache.org:/home/cvspublic co avalon/meta
+$ cvs -z3 -d :pserver:anoncvs@cvs.apache.org:/home/cvspublic co avalon/repository
+$ cvs -z3 -d :pserver:anoncvs@cvs.apache.org:/home/cvspublic co avalon/merlin
+]]></source>
 
-    <menu name="About Merlin">
-      <item name="Overview" href="/about/index.html"/>
-      <item name="Getting Started" href="/starting/index.html">
-        <item name="Installation" href="/starting/installation/index.html"/>
-        <item name="Using Merlin" href="/starting/tutorial/index.html"/>
-        <item name="Advanced Features" href="/starting/advanced/index.html"/>
-      </item>
-      <item name="Merlin System" href="/merlin/index.html"/>
-      <item name="Meta Model" href="/meta/index.html"/>
-      <item name="Tools" href="/tools/index.html"/>
-    </menu>
+                <p>
+                    Once checkout is complete you can build Merlin using <a
+                    href="http://maven.apache.org/">Maven</a> as follows:
+                </p>
 
-    <menu name="Resources">
-      <item name="Javadoc" href="/api/index.html"/>
-      <item name="Download" href="/resources/download.html"/>
-      <item name="Roadmap" href="/resources/roadmap/index.html"/>
-      <item name="DPML" href="/dpml/index.html"/>
-    </menu>
+<source><![CDATA[
+$ cd avalon/meta
+$ maven avalon:build
+$ cd ../util
+$ maven avalon:build
+$ cd ../repository
+$ maven avalon:build
+$ cd ../merlin
+$ maven merlin:install
+]]></source>
 
- </body>
+                <p>
+                    The above build procedure will create a installation
+                    directory containing the Merlin system at
+                </p>
 
-</project>
+<source><![CDATA[
++-- avalon
+  +-- merlin
+    +-- target
+      +-- merlin
+]]></source>
+
+            </subsection>
+            <subsection name="Copy the merlin directory to your preferred location.">
+                <p>
+                    Copy the 'merlin' directory to your preferred location
+                    installation location. For example, you may want to copy
+                    the installation dir to the /opt dir:
+                </p>
+
+<source><![CDATA[
+$ cp -Rf merlin/target/merlin /opt/merlin-SNAPSHOT
+$ ln -s /opt/merlin-SNAPSHOT /opt/merlin
+]]></source>
+
+                <p>
+                    Continue with the 
+                    <a href="binary.html">binary install instructions</a> 
+                    concerning the setup of environment variables to complete
+                    your installation.
+                </p>
+
+            </subsection>
+        </section>
+    </body>
+
+</document>
+
+

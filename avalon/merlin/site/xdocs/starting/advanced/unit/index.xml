@@ -71,7 +71,7 @@
     <dependency>
       <groupId>merlin</groupId>
       <artifactId>merlin-unit</artifactId>
-      <version>3.1-dev</version>
+      <version>3.2.5-dev</version>
     </dependency>
 ]]></source>
         <p>
@@ -123,44 +123,36 @@ public class ExampleTestCase extends AbstractMerlinTestCase
 
         <p>
         You can now access components established by Merlin via 
-        the component name.  For example, if your block.xml defines
-        a component named "hello" you access the component by 
-        requesting the relative path "hello".  Relative paths are 
-        resolved relative to the container defined by your block
-        definition.
+        the component path.  For example, if your block.xml defines
+        a component named "hello" in a container named "test" you 
+        access the component by requesting the path "/test/hello".  
         </p>
         <p>
         The following code fragment demonstrates the usage of the 
-        resolve method to locate a named component and a convenience 
-        getLogger() method.
+        resolve method to locate a named component.
         </p>
 <source><![CDATA[
 public void testServiceResolution() throws Exception
 {
-    Hello hello = (Hello) resolve( "hello" );
-    assertTrue( hello != null );
-    getLogger().info( "Message from hello service: " + hello.getMessage() );
+    Hello hello = (Hello) resolve( "/test/hello" );
+    assertNotHull( "hello", hello );
 }
 ]]></source>
 
       </subsection>
       <subsection name="Customizing Merlin behaviour">
         <p>
-        The abstract test case includes a constructor that allows
-        control over the deployment path, configuration, debugging 
-        and info generation policies.  Please refer to the supporting
-        javadoc for more details.
+        You can customize all of the deployment and runtime parameters
+        of the embedded merlin instance by adding a "merlin.properties"
+        file to your basedir.
+        </p>
+        <p>
+        </i>Example merlin.properties</i>
         </p>
 <source><![CDATA[
-public StandardTestCase( String name )
-{
-    super( 
-      MAVEN_TARGET_TEST_CLASSES_DIR, 
-      MERLIN_DEFAULT_CONFIG_FILE, 
-      MERLIN_DEBUG_OFF, 
-      MERLIN_INFO_OFF, 
-      name );
-    }
+merlin.info = true
+merlin.debug = true
+merlin.override = conf/config.xml
 ]]></source>
       </subsection>
     </section>

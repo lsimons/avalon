@@ -49,6 +49,7 @@
 -->
 
 <project>
+
  <title>Merlin</title>
 
  <body>
@@ -64,7 +65,10 @@
     <menu name="About Merlin">
       <item name="Overview" href="/about/index.html"/>
       <item name="Getting Started" href="/starting/index.html">
-        <item name="Installation" href="/starting/installation/index.html"/>
+        <item name="Installation" href="/starting/installation/index.html">
+          <item name="Version 3.2" href="/starting/installation/3.2/index.html"/>
+          <item name="Version 3.0" href="/starting/installation/3.0/index.html"/>
+        </item>
         <item name="Using Merlin" href="/starting/tutorial/index.html"/>
         <item name="Advanced Features" href="/starting/advanced/index.html"/>
       </item>

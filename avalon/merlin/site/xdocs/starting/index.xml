@@ -60,7 +60,7 @@
         <table>
           <tr><th>Topic</th><th>Summary</th></tr>
           <tr>
-            <td><a href="installation.html">Installation</a></td>
+            <td><a href="installation/index.html">Installation</a></td>
             <td>Installation instructions including build and verification procedures.</td>
           </tr>
           <tr>

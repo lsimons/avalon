@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0"?>
 
 <!--
  ============================================================================
@@ -48,38 +48,31 @@
  Apache Software Foundation, please see http://www.apache.org/.
 -->
 
-<project>
- <title>Merlin</title>
+<document>
+  <header>
+    <title>Installation Procedures</title>
+    <authors>
+      <person name="Stephen McConnell" email="mcconnell@apache.org"/>
+    </authors>
+  </header>
+  <body>
+    <section name="Installation Procedures">
+        <table>
+          <tr><th>Topic</th><th>Summary</th></tr>
+          <tr>
+            <td><a href="3.2/index.html">Merlin 3.2 Installation</a></td>
+            <td>Installation instructions for Merlin 3.2.</td>
+          </tr>
+          <tr>
+            <td><a href="3.0/index.html">Merlin 3.0 Installation</a></td>
+            <td>Installation instructions for Merlin 3.0.</td>
+          </tr>
+        </table>
+    </section>
+  </body>
 
- <body>
+</document>
 
-    <links>
-      <item name="Apache" href="http://apache.org/"/>
-      <item name="Avalon" href="http://avalon.apache.org/"/>
-      <item name="Framework" href="http://avalon.apache.org/product/framework/"/>
-      <item name="Containers" href="http://avalon.apache.org/product/containers/"/>
-      <item name="Components" href="http://avalon.apache.org/product/components/"/>
-    </links>
 
-    <menu name="About Merlin">
-      <item name="Overview" href="/about/index.html"/>
-      <item name="Getting Started" href="/starting/index.html">
-        <item name="Installation" href="/starting/installation/index.html"/>
-        <item name="Using Merlin" href="/starting/tutorial/index.html"/>
-        <item name="Advanced Features" href="/starting/advanced/index.html"/>
-      </item>
-      <item name="Merlin System" href="/merlin/index.html"/>
-      <item name="Meta Model" href="/meta/index.html"/>
-      <item name="Tools" href="/tools/index.html"/>
-    </menu>
 
-    <menu name="Resources">
-      <item name="Javadoc" href="/api/index.html"/>
-      <item name="Download" href="/resources/download.html"/>
-      <item name="Roadmap" href="/resources/roadmap/index.html"/>
-      <item name="DPML" href="/dpml/index.html"/>
-    </menu>
 
- </body>
-
-</project>
