@@ -8,7 +8,7 @@
     </authors>
   </header>
   <body>
-    <s1 title="Why Util Was Created">
+    <section><title>Why Util Was Created</title>
       <p>
         Util was created to enable us to find out how many processors are
         on a system programmatically.  Unfortunately Sun does not think
@@ -16,8 +16,8 @@
         Manager uses this to automatically determine how many background
         threads it wants in the backing ThreadPool.
       </p>
-    </s1>
-    <s1 title="When To Use Util">
+    </section>
+    <section><title>When To Use Util</title>
       <p>
         Usually you won't use this package directly, unless you want to
         know how many processors a system has.  You might need to add a
@@ -25,21 +25,21 @@
         environment variables or the /proc/ filesystem for a platform
         that is not currently supported.
       </p>
-    </s1>
-    <s1 title="Core Concepts">
+    </section>
+    <section><title>Core Concepts</title>
       <p>
         Util has a SystemUtil which will load the correct CPU Parser for your
         platform.  If there is no maching CPU Parser will assume that there is
         only one processor for your system.
       </p>
-      <s2 title="System Util">
+      <section><title>System Util</title>
         <p>
           The System Util will allow you to gather any platform specific
           information.  Some of the methods are simpler ways of accessing
           the System properties, and others are derived from the CPU Parser.
         </p>
-      </s2>
-      <s2 title="CPU Parser">
+      </section>
+      <section><title>CPU Parser</title>
         <p>
           The CPU Parser will allow you to gather essential information from
           your platform.  Unfortunately we cannot assume there is only one
@@ -52,13 +52,13 @@
           don't currently have access to other machines, we can't support them
           yet.
         </p>
-      </s2>
-    </s1>
+      </section>
+    </section>
   </body>
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.2 $ $Date: 2002/10/23 13:50:00 $
+      $Revision: 1.3 $ $Date: 2003/02/20 14:25:22 $
     </legal>
   </footer>
 </document>

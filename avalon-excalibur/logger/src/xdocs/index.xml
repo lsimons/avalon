@@ -8,7 +8,7 @@
       </authors>
   </header>
   <body>
-    <s1 title="Introduction">
+    <section><title>Introduction</title>
       <p>
         Find Avalon Excalibur's LogKit Management System in the
         <code>org.apache.avalon.excalibur.logger</code> package.
@@ -19,8 +19,8 @@
         to use for a particular <code>Component</code> (given the 
         <code>Component</code> is <code>Loggable</code>).
       </p>
-    </s1>
-    <s1 title="Example configurations">
+    </section>
+    <section><title>Example configurations</title>
       <p>
         Look at this example of a component definition:
       </p>
@@ -123,8 +123,8 @@
           sub-categories. 
         </dd>
       </dl>   
-    </s1>
-    <s1 title="Design principles and implementation details of the LogKit Management System">
+    </section>
+    <section><title>Design principles and implementation details of the LogKit Management System</title>
       <p>
         The first abstraction is the <code>LogKitManager</code>:
       </p>
@@ -246,12 +246,12 @@
         <code>LogKitManager</code> and pass it to <code>Component</code>s 
         implementing <code>Loggable</code>.
       </p>
-    </s1>    
+    </section>    
   </body>
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.5 $ $Date: 2002/07/09 11:18:39 $
+      $Revision: 1.6 $ $Date: 2003/02/20 14:26:57 $
     </legal>
   </footer>
 </document>

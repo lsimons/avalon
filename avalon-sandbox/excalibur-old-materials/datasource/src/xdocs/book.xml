@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<book software="Excalibur datasource" title="Excalibur datasource" copyright="@year@ The Apache Software Foundation" xmlns:xlink="http://www.w3.org/1999/xlink">
+
+  <menu label="About">
+    <menu-item href="index.html" label="Overview"/>
+    <menu-item href="http://jakarta.apache.org/avalon/excalibur/index.html" label="Excalibur Home"/>
+    <menu-item href="http://jakarta.apache.org/builds/avalon-excalibur/release" label="Download"/>
+    <menu-item label="API Docs" href="http://avalon.apache.org/api/"/>
+
+  </menu>
+
+  <menu label="Example Applications">
+    <menu-item href="examples-jdbcdatasource.html" label="JDBC Data Source"/>
+  </menu>
+
+</book>

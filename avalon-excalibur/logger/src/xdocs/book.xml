@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<book software="Excalibur logger" title="Excalibur logger" copyright="@year@ The Apache Software Foundation" xmlns:xlink="http://www.w3.org/1999/xlink">
+
+
+  <menu label="About">
+    <menu-item href="index.html" label="Overview"/>
+    <menu-item href="http://jakarta.apache.org/avalon/excalibur/index.html" label="Excalibur Home"/>
+    <menu-item href="http://jakarta.apache.org/builds/avalon-excalibur/release" label="Download"/>
+    <menu-item label="API Docs" href="http://avalon.apache.org/api/"/>
+
+  </menu>
+
+</book>
