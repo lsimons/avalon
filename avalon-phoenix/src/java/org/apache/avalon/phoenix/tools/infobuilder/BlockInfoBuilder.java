@@ -170,7 +170,8 @@ public final class BlockInfoBuilder
         throws ConfigurationException
     {
         final String name = service.getAttribute( "name" );
-        final Version version = buildVersion( service.getAttribute( "version" ) );
+        final String versionString = service.getAttribute( "version", "1.0" );
+        final Version version = buildVersion( versionString );
         return new ServiceDescriptor( name, version );
     }
 
