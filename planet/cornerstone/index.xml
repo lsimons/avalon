@@ -21,6 +21,7 @@
     </info>
     <gump>
       <id>commons-logging-api</id>
+      <alias>commons-logging</alias>
     </gump>
   </resource>
 
