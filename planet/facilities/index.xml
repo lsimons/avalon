@@ -504,4 +504,66 @@
       <include key="geronimo-spec-jms"/>
     </dependencies>
   </project>
+
+  <project basedir="console/api">
+    <info>
+      <group>avalon/console</group>
+      <name>avalon-console-api</name>
+      <version>1.0.0</version>
+      <status>SNAPSHOT</status> 
+    </info>
+    <dependencies>
+      <include key="avalon-framework-api"/>
+    </dependencies>
+  </project>
+
+  <project basedir="console/impl">
+    <info>
+      <group>avalon/console</group>
+      <name>avalon-console-impl</name>
+      <version>1.0.0</version>
+      <status>SNAPSHOT</status> 
+    </info>
+    <dependencies>
+      <include key="avalon-framework-api"/>
+      <include key="avalon-console-api"/>
+    </dependencies>
+    <plugins>
+      <include key="avalon-meta-tools"/>
+    </plugins>
+  </project>
+
+  <project basedir="console/commands">
+    <info>
+      <group>avalon/console</group>
+      <name>avalon-console-commands</name>
+      <version>1.0.0</version>
+      <status>SNAPSHOT</status> 
+    </info>
+    <dependencies>
+      <include key="avalon-framework-api"/>
+      <include key="avalon-console-api"/>
+    </dependencies>
+    <plugins>
+      <include key="avalon-meta-tools"/>
+    </plugins>
+  </project>
+
+  <project basedir="console/blocks/default">
+    <info>
+      <group>avalon/console</group>
+      <name>avalon-console-default</name>
+      <version>1.0.0</version>
+      <type>block</type>
+      <status>SNAPSHOT</status> 
+    </info>
+    <dependencies>
+      <include key="avalon-framework-api"/>
+      <include key="avalon-console-api"/>
+      <include key="avalon-console-impl"/>
+      <include key="avalon-console-commands"/>
+    </dependencies>
+  </project>
+
+
 </index>
