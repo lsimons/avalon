@@ -8,8 +8,8 @@
 package org.apache.avalon.framework.parameters;
 
 import java.io.Serializable;
-import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Iterator;
 import java.util.Properties;
 import org.apache.avalon.framework.configuration.Configuration;
@@ -28,7 +28,8 @@ public class Parameters
     implements Serializable
 {
     ///Underlying store of parameters
-    private HashMap            m_parameters = new HashMap();
+    private Map                m_parameters = new HashMap();
+    private Map                m_locks = new HashMap();
 
     private boolean            m_readOnly;
 
@@ -41,6 +42,18 @@ public class Parameters
      */
     public String setParameter( final String name, final String value )
     {
+        return this.setParameter(name, value, false);
+    }
+
+    /**
+     * Set the <code>String</code> value of a specified parameter.
+     * <p />
+     * If the specified value is <b>null</b> the parameter is removed.
+     *
+     * @return The previous value of the parameter or <b>null</b>.
+     */
+    public String setParameter( final String name, final String value, final boolean isLocked )
+    {
         checkWriteable();
 
         if( null == name )
@@ -48,16 +61,37 @@ public class Parameters
             return null;
         }
 
-        if( null == value )
+        if (Boolean.TRUE.equals((Boolean) m_locks.get(name)))
         {
-            return (String)m_parameters.remove( name );
+            return null;
         }
 
-        return (String)m_parameters.put( name, value );
+        if( null == value )
+        {
+            synchronized(this)
+            {
+                m_locks.remove(name);
+                return (String)m_parameters.remove( name );
+            }
+        }
+
+        synchronized(this)
+        {
+            m_locks.put(name, new Boolean(isLocked));
+            return (String)m_parameters.put( name, value );
+        }
     }
 
     /**
-     * Return an <code>Enumeration</code> view of all parameter names.
+     * Remove a parameter from the parameters object
+     */
+    public void removeParameter( final String name )
+    {
+        this.setParameter(name, null, false);
+    }
+
+    /**
+     * Return an <code>Iterator</code> view of all parameter names.
      *
      * @return a iterator of parameter names
      * @deprecated Use getNames() instead
@@ -97,7 +131,7 @@ public class Parameters
      * @return the value of parameter
      * @throws ParameterException
      */
-    public String getParameter( final String name ) 
+    public String getParameter( final String name )
         throws ParameterException
     {
         if( null == name )
@@ -109,7 +143,7 @@ public class Parameters
 
         if( null == test )
         {
-            throw new ParameterException( "The parameter '" + name + 
+            throw new ParameterException( "The parameter '" + name +
                                           "' does not contain a value" );
         }
 
@@ -415,12 +449,29 @@ public class Parameters
 
     /**
      * Create a <code>Parameters</code> object from a <code>Configuration</code>
-     * object.
+     * object.  This acts exactly like the following method call:
+     * <pre>
+     *     Parameters.fromConfiguration(configuration, "parameter");
+     * </pre>
      *
      * @param configuration the Configuration
      * @return This <code>Parameters</code> instance.
      */
     public static Parameters fromConfiguration( final Configuration configuration )
+        throws ConfigurationException
+    {
+        return Parameters.fromConfiguration(configuration, "parameter");
+    }
+
+    /**
+     * Create a <code>Parameters</code> object from a <code>Configuration</code>
+     * object using the supplied element name.
+     *
+     * @param configuration the Configuration
+     * @param elementName   the element name for the parameters
+     * @return This <code>Parameters</code> instance.
+     */
+    public static Parameters fromConfiguration( final Configuration configuration, final String elementName )
         throws ConfigurationException
     {
         if( null == configuration )
@@ -429,7 +480,7 @@ public class Parameters
                                               "a null Configuration" );
         }
 
-        final Configuration[] parameters = configuration.getChildren( "parameter" );
+        final Configuration[] parameters = configuration.getChildren( elementName );
         final Parameters param = new Parameters();
 
         for( int i = 0; i <  parameters.length; i++ )
@@ -438,7 +489,8 @@ public class Parameters
             {
                 final String name = parameters[ i ].getAttribute( "name" );
                 final String value = parameters[ i ].getAttribute( "value" );
-                param.setParameter( name, value );
+                final boolean isLocked = parameters[ i ].getAttributeAsBoolean( "locked", false );
+                param.setParameter( name, value, isLocked );
             }
             catch( final Exception e )
             {
@@ -459,13 +511,11 @@ public class Parameters
     {
         final Parameters parameters = new Parameters();
 
-        final Enumeration enum = properties.propertyNames();
+        final Map.Entry[] entries = (Map.Entry[]) properties.entrySet().toArray(new Map.Entry[] {});
 
-        while( enum.hasMoreElements() )
+        for ( int i = 0; i < entries.length; i++ )
         {
-            final String name = (String)enum.nextElement();
-            final String value = properties.getProperty( name );
-            parameters.setParameter( name, value );
+            parameters.setParameter( (String) entries[i].getKey(), (String) entries[i].getValue(), false );
         }
 
         return parameters;
