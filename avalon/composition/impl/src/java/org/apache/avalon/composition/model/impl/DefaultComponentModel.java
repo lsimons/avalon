@@ -68,7 +68,7 @@ import org.apache.excalibur.configuration.CascadingConfiguration;
  * Deployment model defintion.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.14 $ $Date: 2004/03/11 12:28:07 $
+ * @version $Revision: 1.15 $ $Date: 2004/03/11 13:17:44 $
  */
 public class DefaultComponentModel extends DefaultDeploymentModel 
   implements ComponentModel
@@ -527,7 +527,9 @@ public class DefaultComponentModel extends DefaultDeploymentModel
     */
     public boolean isParameterizable()
     {
-        return Parameterizable.class.isAssignableFrom( getDeploymentClass() );
+        return ( 
+          Parameterizable.class.isAssignableFrom( getDeploymentClass() ) 
+          || isaConstructorArg( Parameters.class ) );
     }
 
    /**
@@ -622,7 +624,9 @@ public class DefaultComponentModel extends DefaultDeploymentModel
     */
     public boolean isConfigurable()
     {
-        return Configurable.class.isAssignableFrom( getDeploymentClass() );
+        return ( 
+          Configurable.class.isAssignableFrom( getDeploymentClass() ) 
+          || isaConstructorArg( Configuration.class ) );
     }
 
    /**
