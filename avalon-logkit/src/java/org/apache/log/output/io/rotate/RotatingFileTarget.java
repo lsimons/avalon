@@ -66,12 +66,11 @@ public class RotatingFileTarget
         super.write( data );
 
         // if rotation is needed, close old File, create new File
-        if( m_rotateStrategy.isRotationNeeded( data ) ) 
+        final boolean rotate = 
+            m_rotateStrategy.isRotationNeeded( data, getFile() );
+        if( rotate ) 
         {
-            try
-            {
-                rotate();
-            }
+            try { rotate(); }
             catch( final IOException ioe )
             {
                 error( "Error rotating file", ioe );

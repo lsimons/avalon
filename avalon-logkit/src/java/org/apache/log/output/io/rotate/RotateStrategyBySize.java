@@ -7,6 +7,8 @@
  */
 package org.apache.log.output.io.rotate;
 
+import java.io.File;
+
 /**
  * Rotation stragety based on size written to log file.
  *
@@ -52,7 +54,7 @@ public class RotateStrategyBySize
      *  @param data the last message written to the log system
      *  @return boolean return true if log rotation is neccessary, else false
      */
-    public boolean isRotationNeeded( final String data )
+    public boolean isRotationNeeded( final String data, final File file )
     {
         m_currentSize += data.length();
         if( m_currentSize >= m_maxSize )
