@@ -65,7 +65,7 @@ import org.apache.avalon.meta.info.StageDescriptor;
  * context.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.7 $ $Date: 2003/12/05 01:27:12 $
+ * @version $Revision: 1.8 $ $Date: 2003/12/28 22:30:18 $
  */
 public interface ContainmentModel extends Model
 {
@@ -157,6 +157,13 @@ public interface ContainmentModel extends Model
     * @exception ModelException if an error occurs during model establishment
     */
     Model addModel( Profile profile ) throws ModelException;
+
+   /**
+    * Removal of a named model for the containment model.
+    *
+    * @param name the name of the subsidiary model to be removed
+    */
+    void removeModel( String name );
 
    /**
     * Return the set of service export directives.

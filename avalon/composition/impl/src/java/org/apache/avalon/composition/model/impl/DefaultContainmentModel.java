@@ -105,7 +105,7 @@ import org.apache.avalon.meta.info.Type;
  * as a part of a containment deployment model.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.10 $ $Date: 2003/12/05 01:27:12 $
+ * @version $Revision: 1.11 $ $Date: 2003/12/28 22:30:18 $
  */
 public class DefaultContainmentModel extends DefaultModel 
   implements ContainmentModel
@@ -340,10 +340,38 @@ public class DefaultContainmentModel extends DefaultModel
 
     private Model addModel( String name, Model model ) throws ModelException
     {
-        m_models.put( name, model );
-        return model;
+        synchronized( m_models )
+        {
+            m_models.put( name, model );
+            return model;
+        }
     }
 
+   /**
+    * Removal of a named model for the containment model.
+    *
+    * @param name the name of the subsidiary model to be removed
+    * @exception IllegalArgumentException if the supplied name is unknown
+    */
+    public void removeModel( String name ) throws IllegalArgumentException
+    {
+        synchronized( m_models )
+        {
+            Object model = m_models.get( name );
+            if( null == name )
+            {
+                final String error = 
+                  "No model named [" + name 
+                  + "] is referenced with the model [" 
+                  + this + "].";
+                throw new IllegalArgumentException( error ); 
+            }
+            else
+            {
+                m_models.remove( name );
+            }
+        }
+    }
 
    /**
     * Creation of a new instance of a deployment model within
