@@ -5,21 +5,22 @@
  * version 1.1, a copy of which has been included with this distribution in 
  * the LICENSE file. 
  */
-package org.apache.phoenix.engine;
+package org.apache.phoenix.engine.facilitys;
 
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.security.Policy;
-import org.apache.avalon.Component;
 import org.apache.avalon.ComponentManager;
 import org.apache.avalon.ComponentManagerException;
 import org.apache.avalon.Composer;
 import org.apache.avalon.Context;
 import org.apache.avalon.Contextualizable;
 import org.apache.avalon.Initializable;
+import org.apache.avalon.atlantis.Facility;
 import org.apache.avalon.util.io.ExtensionFileFilter;
 import org.apache.avalon.util.security.PolicyClassLoader;
+import org.apache.phoenix.engine.SarContextResources;
 
 /**
  * This component creates blocks and blockInfos.
@@ -28,7 +29,7 @@ import org.apache.avalon.util.security.PolicyClassLoader;
  */
 public class SarClassLoader
     extends PolicyClassLoader
-    implements Component, Contextualizable, Composer, Initializable
+    implements Facility, Contextualizable, Composer, Initializable
 {
     protected File              m_baseDirectory;
     protected String            m_blocksDirectory;
