@@ -64,12 +64,12 @@ public class SingleAppEmbeddor
     public Component lookup( final String role )
         throws ComponentException
     {
-        final Component component = m_application.getBlock( role );
+        final Object component = m_application.getBlock( role );
         if( null == component )
         {
             throw new ComponentException( "Unable to get reference to component " + role );
         }
-        return component;
+        return (Component)component;
     }
 
     public boolean hasComponent( final String role )
