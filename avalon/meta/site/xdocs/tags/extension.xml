@@ -11,17 +11,17 @@
 
     <section name="Javadoc Tags">
 
-      <subsection name="Configuration Tag">
-<p>The optional configuration tag allows the declaration of a validation schema with a component type.</p>
+      <subsection name="Extension Tag">
+<p>Lifecycle stages are resolved through the establishment of a component capable of service the stage dependency.  Component types declare this ability through the extension tag.</p>
       </subsection>
 
       <subsection name="Attributes">
         <table>
           <tr><th>Attribute</th><th>Required</th><th>Description</th></tr>
           <tr>
-            <td>schema</td><td>yes</td>
+            <td><p>id</p></td><td><p>yes</p></td>
             <td>
-            The validate schema name. 
+              <p>A value (normally a urn) that identifies the extension.</p>
             </td>
           </tr>
         </table>
@@ -29,15 +29,17 @@
 
       <subsection name="Example">
 
+
 <source><![CDATA[
+package net.osm.vault;
 
 /**
- * Configuration of the component by the container.
- * @param config the configuration instance
- * @exception ConfigurationException if error occurs
- * @avalon.configuration schema="your-schema-spec"
+ * Example of a component declaring a stage handling capability.
+ *
+ * @avalon.component version="0.1" name="handler"
+ * @avalon.extension id="urn:somewhere:demonstratable"
  */
-public void configure( Configuration config ) throws ConfigurationException
+public class DemoExtension
 {
   ...
 }
@@ -48,8 +50,12 @@ public void configure( Configuration config ) throws ConfigurationException
 <source><![CDATA[
 <type>
   <info>
-    <schema>your-schema-spec</schema>
+    <version>0.1.0</version>
+    <name>handler</name>
   </info>
+  <extensions>
+    <extension id="urn:somewhere:demonstratable"/>
+  </extensions>
 </type>
 ]]></source>
 
@@ -60,7 +66,7 @@ public void configure( Configuration config ) throws ConfigurationException
   <footer>
     <legal>
       Copyright (c) @year@ The Avalon Apache Project All rights reserved.
-      $Revision: 1.1 $ $Date: 2003/09/24 08:16:02 $
+      $Revision: 1.1 $ $Date: 2004/04/14 11:47:33 $
     </legal>
   </footer>
 

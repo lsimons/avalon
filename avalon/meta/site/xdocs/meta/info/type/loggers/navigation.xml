@@ -15,9 +15,10 @@
 
     <menu name="About Avalon Meta">
       <item name="Overview" href="/index.html"/>
-      <item name="Type Model" href="/meta/index.html">
+      <item name="Tag Reference" href="/tags/index.html"/>
+      <item name="Type Model" href="/meta/info/index.html">
         <item name="Type" href="/meta/info/type/index.html">
-          <item name="Info" href="/meta/info/type/info.html"/>
+          <item name="Info" href="/meta/info/type/info/index.html"/>
           <item name="Loggers" href="/meta/info/type/loggers/index.html">
             <item name="Logger" href="/meta/info/type/loggers/logger.html"/>
           </item>

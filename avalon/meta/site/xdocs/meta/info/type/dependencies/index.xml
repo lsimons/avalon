@@ -11,6 +11,15 @@
 
     <section name="Service Dependencies">
 
+      <subsection name="Description">
+<p>
+Declaration of the set of dependecies that this component type has on component suppliers.  
+</p>
+<p>
+A container will typically provide services to resolve service providers with components declaring depedencies by matching provider and dependency declarations.
+</p>
+      </subsection>
+
       <subsection name="Nested Elements">
         <table>
           <tr><th>Element</th><th>Occurance</th><th>Description</th></tr>
@@ -22,16 +31,6 @@
           </tr>
         </table>
       </subsection>
-
-      <subsection name="Description">
-<p>
-Declaration of the set of dependecies that this component type has on component suppliers.  
-</p>
-<p>
-A container will typically provide services to resolve service providers with components declaring depedencies by matching provider and dependency declarations.
-</p>
-      </subsection>
-
 
       <subsection name="Example XML">
 
@@ -51,7 +50,7 @@ A container will typically provide services to resolve service providers with co
   <footer>
     <legal>
       Copyright (c) @year@ The Avalon Apache Project All rights reserved.
-      $Revision: 1.2 $ $Date: 2003/10/30 00:44:51 $
+      $Revision: 1.3 $ $Date: 2004/04/14 11:47:32 $
     </legal>
   </footer>
 

@@ -69,7 +69,7 @@ public class Primary implements Contextualizable
   <footer>
     <legal>
       Copyright (c) @year@ The Avalon Apache Project All rights reserved.
-      $Revision: 1.2 $ $Date: 2004/03/18 12:12:22 $
+      $Revision: 1.1 $ $Date: 2004/04/14 11:47:33 $
     </legal>
   </footer>
 

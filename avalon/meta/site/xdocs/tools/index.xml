@@ -21,14 +21,6 @@ and services, and an equivalent Maven plugin.
         <table>
           <tr><th>Topic</th><th>Summary</th></tr>
           <tr>
-            <td><a href="tags/index.html">Javadoc Tags</a></td>
-            <td>
-              Reference specification of the Javadoc Tags used to 
-              support automation of component and service meta info
-              generation.
-            </td>
-          </tr>
-          <tr>
             <td><a href="ant.html">Meta Generation Ant Task</a></td>
             <td>
               An Ant task supporting generation of XML or serialized 

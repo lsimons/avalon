@@ -9,6 +9,14 @@
 
   <body>
     <section name="Lifecycle Stages">
+
+      <subsection name="Description">
+<p>
+Declaration of a set of lifecycle stage dependencies.  A container shall invoke lifecycle stages in the order corresponding to the order of the stage declarations.
+</p>
+      </subsection>
+
+
       <subsection name="Nested Elements">
         <table>
           <tr><th>Element</th><th>Occurance</th><th>Description</th></tr>
@@ -19,12 +27,6 @@
             </td>
           </tr>
         </table>
-      </subsection>
-
-      <subsection name="Description">
-<p>
-Declaration of a set of lifecycle stage dependencies.  A container shall invoke lifecycle stages in the order corresponding to the order of the stage declarations.
-</p>
       </subsection>
 
       <subsection name="Example XML">
@@ -45,7 +47,7 @@ Declaration of a set of lifecycle stage dependencies.  A container shall invoke 
   <footer>
     <legal>
       Copyright (c) @year@ The Avvalon Apache Project. All rights reserved.
-      $Revision: 1.1 $ $Date: 2003/09/24 08:16:00 $
+      $Revision: 1.2 $ $Date: 2004/04/14 11:47:32 $
     </legal>
   </footer>
 
