@@ -54,15 +54,11 @@
  */
 package org.apache.excalibur.xml.xpath;
 
-import java.util.HashMap;
 import java.util.List;
 
 import org.apache.avalon.framework.component.Component;
-import org.apache.avalon.framework.configuration.Configurable;
-import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.configuration.ConfigurationException;
-import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.thread.ThreadSafe;
+
 import org.jaxen.NamespaceContext;
 import org.jaxen.dom.DOMXPath;
 import org.w3c.dom.Node;
@@ -81,86 +77,12 @@ import org.w3c.dom.NodeList;
  * </pre>
  *
  * @author <a href="mailto:dims@yahoo.com">Davanum Srinivas</a>
- * @version CVS $Revision: 1.11 $ $Date: 2003/05/20 10:43:00 $ $Author: leosutic $
+ * @version CVS $Revision: 1.12 $ $Date: 2003/08/01 01:02:43 $ $Author: vgritsenko $
  */
-public final class JaxenProcessorImpl extends AbstractLogEnabled implements XPathProcessor, Configurable, Component, ThreadSafe, PrefixResolver
+public final class JaxenProcessorImpl
+        extends AbstractProcessorImpl
+        implements XPathProcessor, Component, ThreadSafe
 {
-    private final HashMap m_mappings = new HashMap();
-
-    public void configure( Configuration configuration ) throws ConfigurationException
-    {
-        final Configuration namespaceMappings = configuration.getChild( "namespace-mappings", true );
-        final Configuration[] namespaces = namespaceMappings.getChildren( "namespace" );
-        for( int i = 0; i < namespaces.length; i++ )
-        {
-            final String prefix = namespaces[ i ].getAttribute( "prefix" );
-            final String uri = namespaces[ i ].getAttribute( "uri" );
-            m_mappings.put( prefix, uri );
-        }
-    }
-
-    /**
-     * Use an XPath string to select a single node. XPath namespace
-     * prefixes are resolved from the context node, which may not
-     * be what you want (see the next method).
-     *
-     * @param contextNode The node to start searching from.
-     * @param str A valid XPath string.
-     * @return The first node found that matches the XPath, or null.
-     */
-    public Node selectSingleNode( final Node contextNode,
-                                  final String str )
-    {
-        return selectSingleNode(contextNode, str, this);
-    }
-
-    /**
-     *  Use an XPath string to select a nodelist.
-     *  XPath namespace prefixes are resolved from the contextNode.
-     *
-     *  @param contextNode The node to start searching from.
-     *  @param str A valid XPath string.
-     *  @return A NodeList, should never be null.
-     */
-    public NodeList selectNodeList( final Node contextNode,
-                                    final String str )
-    {
-        return selectNodeList(contextNode, str, this);
-    }
-
-    /** Evaluate XPath expression within a context.
-     *
-     * @param contextNode The context node.
-     * @param str A valid XPath string.
-     * @return expression result as boolean.
-     */
-    public boolean evaluateAsBoolean( Node contextNode, String str )
-    {
-        return evaluateAsBoolean(contextNode, str, this);
-    }
-
-    /** Evaluate XPath expression within a context.
-     *
-     * @param contextNode The context node.
-     * @param str A valid XPath string.
-     * @return expression result as number.
-     */
-    public Number evaluateAsNumber( Node contextNode, String str )
-    {
-        return evaluateAsNumber(contextNode, str, this);
-    }
-
-    /** Evaluate XPath expression within a context.
-     *
-     * @param contextNode The context node.
-     * @param str A valid XPath string.
-     * @return expression result as string.
-     */
-    public String evaluateAsString( Node contextNode, String str )
-    {
-        return evaluateAsString(contextNode, str, this);
-    }
-
     /**
      * Evaluate XPath expression within a context.
      *
@@ -179,6 +101,11 @@ public final class JaxenProcessorImpl extends AbstractLogEnabled implements XPat
         }
         catch( final Exception e )
         {
+            if (getLogger().isDebugEnabled()) {
+                getLogger().debug("Failed to evaluate '" + str + "'", e);
+            }
+
+            // ignore it
             return false;
         }
     }
@@ -201,6 +128,11 @@ public final class JaxenProcessorImpl extends AbstractLogEnabled implements XPat
         }
         catch( final Exception e )
         {
+            if (getLogger().isDebugEnabled()) {
+                getLogger().debug("Failed to evaluate '" + str + "'", e);
+            }
+
+            // ignore it
             return null;
         }
     }
@@ -223,6 +155,11 @@ public final class JaxenProcessorImpl extends AbstractLogEnabled implements XPat
         }
         catch( final Exception e )
         {
+            if (getLogger().isDebugEnabled()) {
+                getLogger().debug("Failed to evaluate '" + str + "'", e);
+            }
+
+            // ignore it
             return null;
         }
     }
@@ -245,6 +182,10 @@ public final class JaxenProcessorImpl extends AbstractLogEnabled implements XPat
         }
         catch( final Exception e )
         {
+            if (getLogger().isDebugEnabled()) {
+                getLogger().debug("Failed to evaluate '" + str + "'", e);
+            }
+
             // ignore it
             return null;
         }
@@ -269,23 +210,24 @@ public final class JaxenProcessorImpl extends AbstractLogEnabled implements XPat
         }
         catch( final Exception e )
         {
+            if (getLogger().isDebugEnabled()) {
+                getLogger().debug("Failed to evaluate '" + str + "'", e);
+            }
+
             // ignore it
             return new EmptyNodeList();
         }
     }
 
-    public String prefixToNamespace(String prefix)
-    {
-        return (String)m_mappings.get( prefix );
-    }
-
     /**
      * A Jaxen-specific wrapper for the PrefixResolver.
      */
-    private static class JaxenResolver implements NamespaceContext {
+    private static class JaxenResolver implements NamespaceContext
+    {
         private final PrefixResolver resolver;
 
-        public JaxenResolver(PrefixResolver resolver) {
+        public JaxenResolver(PrefixResolver resolver)
+        {
             this.resolver = resolver;
         }
 
