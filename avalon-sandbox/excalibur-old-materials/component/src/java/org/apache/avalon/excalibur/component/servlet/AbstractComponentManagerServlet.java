@@ -34,7 +34,7 @@ import org.apache.excalibur.instrument.ValueInstrument;
  *  and instrumentation features.
  *
  * @author <a href="mailto:leif@apache.org">Leif Mortenson</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/09/16 07:42:47 $
+ * @version CVS $Revision: 1.3 $ $Date: 2002/09/19 05:41:10 $
  * @since 4.2
  */
 public abstract class AbstractComponentManagerServlet
@@ -103,8 +103,6 @@ public abstract class AbstractComponentManagerServlet
     public void init( ServletConfig config )
         throws ServletException
     {
-        //System.out.println( "AbstractComponentManagerServlet.init( config )" );
-        
         ServletContext context = config.getServletContext();
 
         // Initialize logging for the servlet.
@@ -117,6 +115,11 @@ public abstract class AbstractComponentManagerServlet
         }
         Logger logger = loggerManager.getLoggerForCategory( "servlet" );
         m_logger = logger.getChildLogger( m_referenceName );
+        
+        if ( getLogger().isDebugEnabled() )
+        {
+            getLogger().debug( "servlet.init( config )" );
+        }
         
         // Obtain a reference to the ComponentManager
         m_componentManager =
@@ -155,11 +158,30 @@ public abstract class AbstractComponentManagerServlet
      */
     public void destroy()
     {
+        if ( getLogger().isDebugEnabled() )
+        {
+            getLogger().debug( "servlet.destroy()" );
+        }
+        
         //System.out.println( "AbstractComponentManagerServlet.destroy()" );
         // Release the ComponentManager by removing its reference.
         m_componentManager = null;
         
         super.destroy();
+        
+        // Make sure that the component manager gets collected.
+        System.gc();
+        
+        // Give the system time for the Gc to complete.  This is necessary to make sure that
+        //  the ECMServlet has time to dispose all of its managers before the Tomcat server
+        //  invalidates the current class loader.
+        try
+        {
+            Thread.sleep(250);
+        }
+        catch ( InterruptedException e )
+        {
+        }
     }
     
     /**
