@@ -175,23 +175,22 @@ class ConnectionRunner
             final String message = "Error handling connection";
             getLogger().warn( message, e );
         }
-        finally
+
+        if( null != handler )
         {
-            if( null != handler )
-            {
-                m_handlerFactory.releaseConnectionHandler( handler );
-            }
-
-            shutdownSocket();
-
-            synchronized( this )
-            {
-                m_thread = null;
-                m_runners.remove( this );
-
-                notifyAll();
-            }
+            m_handlerFactory.releaseConnectionHandler( handler );
         }
+
+        shutdownSocket();
+
+        synchronized( this )
+        {
+            m_thread = null;
+            m_runners.remove( this );
+
+            notifyAll();
+        }
+
     }
 
     /**
