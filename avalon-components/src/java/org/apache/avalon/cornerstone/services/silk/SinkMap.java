@@ -7,7 +7,7 @@
  */
 package org.apache.avalon.cornerstone.services.silk;
 
-import org.apache.avalon.excalibur.event.Sink;
+import org.apache.excalibur.event.Sink;
 
 /**
  * The SinkMap is an abstraction to allow the container to centrally manage all
@@ -15,7 +15,7 @@ import org.apache.avalon.excalibur.event.Sink;
  * of Control, while allowing a system to be reassigned at any time.
  *
  * @author <a href="bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/03/16 00:18:35 $
+ * @version CVS $Revision: 1.3 $ $Date: 2002/06/20 17:08:41 $
  */
 
 public interface SinkMap
