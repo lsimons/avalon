@@ -442,6 +442,21 @@
       </dependencies>
     </project>
 
+    <project basedir="../../runtime/test/components">
+      <info>
+        <group>avalon/test</group>
+        <name>avalon-test-components</name>
+      </info>
+      <dependencies>
+        <projects>
+          <projectref key="avalon-framework-api"/>
+        </projects>
+        <plugins>
+          <pluginref key="avalon-meta-tools"/>
+        </plugins>
+      </dependencies>
+    </project>
+
     <!--
     Avalon Repository.
     -->
@@ -747,6 +762,24 @@
         </projects>
       </dependencies>
     </project>
+
+    <!--
+    Avalon Activation.
+    -->
+
+    <project basedir="../../runtime/activation/api">
+      <info>
+        <group>avalon/activation</group>
+        <name>avalon-activation-api</name>
+        <version>2.0.0</version>
+      </info>
+      <dependencies>
+        <projects>
+          <projectref key="avalon-composition-api"/>
+        </projects>
+      </dependencies>
+    </project>
+
 
   </projects>
 
