@@ -63,7 +63,7 @@ package org.apache.avalon.excalibur.concurrent;
  * @deprecated use EDU.oswego.cs.dl.util.concurrent.ReadWriteLock instead
  *
  * @author <a href="mailto:leo.sutic@inspireinfrastructure.com">Leo Sutic</a>
- * @version CVS $Revision: 1.6 $ $Date: 2003/04/01 07:33:59 $
+ * @version CVS $Revision: 1.7 $ $Date: 2003/04/02 09:24:44 $
  * @since 4.0
  */
 public class ReadWriteLock
@@ -251,5 +251,23 @@ public class ReadWriteLock
     public boolean tryAquireWrite()
     {
         return tryAcquireWrite();
+    }
+    
+    //
+    // Methods used for unit tests
+    //
+    
+    /**
+     * Returns the number of read locks held.
+     */
+    protected synchronized int getNumReadLocksHeld() {
+        return m_numReadLocksHeld;
+    }
+    
+    /**
+     * Returns the number of write locks held.
+     */
+    protected synchronized int getNumWaitingForWrite() {
+        return m_numWaitingForWrite;
     }
 }
