@@ -60,7 +60,7 @@ public class BlockEntry
         }
     }
 
-    public synchronized void invalidate()
+    protected synchronized void invalidate()
     {
         if( null != m_invocationHandler )
         {
