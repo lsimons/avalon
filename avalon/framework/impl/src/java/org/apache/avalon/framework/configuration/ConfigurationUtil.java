@@ -52,15 +52,21 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  */
-
 package org.apache.avalon.framework.configuration;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Text;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.w3c.dom.CharacterData;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -70,7 +76,7 @@ import java.util.Iterator;
  * with configuration objects.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.13 $ $Date: 2003/03/28 19:17:32 $
+ * @version CVS $Revision: 1.14 $ $Date: 2003/04/07 08:36:58 $
  * @since 4.1.4
  */
 public class ConfigurationUtil
@@ -80,6 +86,52 @@ public class ConfigurationUtil
      */
     private ConfigurationUtil()
     {
+    }
+
+    /**
+     * Convert a DOM Element tree into a configuration tree.
+     *
+     * @param element the DOM Element
+     * @return the configuration object
+     */
+    public static Configuration toConfiguration( final Element element )
+    {
+        final DefaultConfiguration configuration =
+            new DefaultConfiguration( element.getNodeName(), "dom-created" );
+        final NamedNodeMap attributes = element.getAttributes();
+        final int length = attributes.getLength();
+        for( int i = 0; i < length; i++ )
+        {
+            final Node node = attributes.item( i );
+            final String name = node.getNodeName();
+            final String value = node.getNodeValue();
+            configuration.setAttribute( name, value );
+        }
+
+        String content = null;
+        final NodeList nodes = element.getChildNodes();
+        final int count = nodes.getLength();
+        for( int i = 0; i < count; i++ )
+        {
+            final Node node = nodes.item( i );
+            if( node instanceof Element )
+            {
+                final Configuration child = toConfiguration( (Element)node );
+                configuration.addChild( child );
+            }
+            else if( node instanceof CharacterData )
+            {
+                final CharacterData data = (CharacterData)node;
+                content += data.getData();
+            }
+        }
+
+        if( null != content )
+        {
+            configuration.setValue( content );
+        }
+
+        return configuration;
     }
 
     /**
@@ -123,7 +175,7 @@ public class ConfigurationUtil
         {
             return ser.serialize( configuration );
         }
-        catch (Exception e ) 
+        catch( Exception e )
         {
             return e.getMessage();
         }
@@ -140,10 +192,8 @@ public class ConfigurationUtil
      */
     public static boolean equals( final Configuration c1, final Configuration c2 )
     {
-        return c1.getName().equals( c2.getName() )
-            && areValuesEqual( c1, c2 )
-            && areAttributesEqual( c1, c2 )
-            && areChildrenEqual( c1, c2 );
+        return c1.getName().equals( c2.getName() ) && areValuesEqual( c1, c2 ) &&
+            areAttributesEqual( c1, c2 ) && areChildrenEqual( c1, c2 );
     }
 
     /**
@@ -240,8 +290,8 @@ public class ConfigurationUtil
     {
         final String value1 = c1.getValue( null );
         final String value2 = c2.getValue( null );
-        return ( value1 == null && value2 == null ) 
-            || ( value1 != null && value1.equals( value2 ) );
+        return ( value1 == null && value2 == null ) ||
+            ( value1 != null && value1.equals( value2 ) );
     }
 
     /**
