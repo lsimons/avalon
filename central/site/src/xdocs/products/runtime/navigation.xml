@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project>
+
+ <title>Apache Avalon Products - Runtime</title>
+
+ <body>
+    <menu>
+      <item name="Merlin" href="merlin/index.html"/>
+      <item name="Logging" href="logging/index.html"/>
+      <item name="Repository" href="repository/index.html"/>
+      <item name="Meta" href="meta/index.html"/>
+    </menu>
+ </body>
+
+</project>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project>
+
+ <title>Apache Avalon Products</title>
+
+ <body>
+    <menu>
+      <item name="Framework 4" href="af4/index.html"/>
+      <item name="Runtime" href="runtime/index.html"/>
+      <item name="Studio" href="studio/index.html"/>
+      <item name="Tools" href="tools/index.html"/>
+    </menu>
+ </body>
+
+</project>
