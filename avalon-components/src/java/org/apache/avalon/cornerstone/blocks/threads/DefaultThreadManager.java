@@ -12,7 +12,6 @@ import org.apache.avalon.cornerstone.services.threads.ThreadManager;
 import org.apache.excalibur.threadcontext.ThreadContext;
 import org.apache.avalon.excalibur.thread.ThreadPool;
 import org.apache.avalon.excalibur.thread.impl.DefaultThreadPool;
-import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
@@ -24,12 +23,11 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
  * @phoenix:block
  * @phoenix:service name="org.apache.avalon.cornerstone.services.threads.ThreadManager"
  *
- * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
  */
 public class DefaultThreadManager
     extends AbstractLogEnabled
-    implements ThreadManager, Configurable, Component
+    implements ThreadManager, Configurable
 {
     ///Map of thread pools for application
     private HashMap m_threadPools = new HashMap();
