@@ -62,6 +62,12 @@ public class DefaultClassLoaderManager
     implements ClassLoaderManager, Contextualizable, Serviceable, Initializable
 {
     /**
+     * Constant for name of element that indicates custom
+     * classloader tree to define.
+     */
+    private static final String CLASSLOADERS_ELEMENT = "classloaders";
+
+    /**
      * Component to manage "Optional Packages" aka
      * Extensions to allow programs to declare dependencies
      * on such extensions.
@@ -192,7 +198,7 @@ public class DefaultClassLoaderManager
         }
         else
         {
-            final Configuration loaderConfig = environment.getChild( "classloader" );
+            final Configuration loaderConfig = environment.getChild( CLASSLOADERS_ELEMENT );
             final Element element = ConfigurationUtil.toElement( loaderConfig );
             return m_reader.build( element );
         }
@@ -238,7 +244,7 @@ public class DefaultClassLoaderManager
      */
     private boolean isClassLoaderDefined( final Configuration environment )
     {
-        return null != environment.getChild( "classloader", false );
+        return null != environment.getChild( CLASSLOADERS_ELEMENT, false );
     }
 
     /**
