@@ -52,7 +52,7 @@ package org.apache.excalibur.mpool;
 import java.util.Iterator;
 import java.util.Random;
 import org.apache.avalon.excalibur.collections.BucketMap;
-import org.apache.excalibur.event.Queue;
+import org.apache.excalibur.event.Sink;
 import org.apache.excalibur.event.command.RepeatedCommand;
 
 /**
@@ -61,7 +61,7 @@ import org.apache.excalibur.event.command.RepeatedCommand;
  * the constructor.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/08/13 08:15:20 $
+ * @version CVS $Revision: 1.3 $ $Date: 2002/09/27 19:45:42 $
  * @since 4.1
  */
 public class DefaultPoolManager implements PoolManager
@@ -76,16 +76,16 @@ public class DefaultPoolManager implements PoolManager
         this( null );
     }
 
-    public DefaultPoolManager( final Queue commandQueue )
+    public DefaultPoolManager( final Sink commandSink )
     {
         m_keyGenerator = new Random();
         m_managerKey = m_keyGenerator.nextLong();
 
-        if( null != commandQueue )
+        if( null != commandSink )
         {
             try
             {
-                commandQueue.enqueue( new PoolManagerCommand( m_keyMap ) );
+                commandSink.enqueue( new PoolManagerCommand( m_keyMap ) );
             }
             catch( Exception e )
             {
