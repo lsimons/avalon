@@ -3,21 +3,17 @@ package org.apache.merlin.magic;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-
-import java.util.Map;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 
 import org.apache.avalon.framework.activity.Initializable;
-
+import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.logger.LogEnabled;
-
-import org.apache.avalon.framework.context.Contextualizable;
-
-import org.apache.avalon.framework.service.Serviceable;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
+import org.apache.avalon.framework.service.Serviceable;
 
 public class PluginServiceManager extends AbstractLogEnabled
     implements ServiceManager

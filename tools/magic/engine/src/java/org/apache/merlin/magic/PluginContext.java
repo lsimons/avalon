@@ -1,15 +1,15 @@
 package org.apache.merlin.magic;
 
-import bsh.Interpreter;
-
 import java.io.File;
 import java.util.Properties;
-
-import org.apache.tools.ant.Project;
+import java.util.Stack;
+import java.util.StringTokenizer;
 
 import org.apache.avalon.framework.context.Context;
-
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
+import org.apache.tools.ant.Project;
+
+import bsh.Interpreter;
 
 public class PluginContext extends AbstractLogEnabled
     implements Context 
@@ -29,12 +29,12 @@ public class PluginContext extends AbstractLogEnabled
     PluginContext( String projectname, File projectDir, Properties projectProps,
                    String pluginname, File pluginDir, File systemDir )
     {
-        m_ProjectName = projectname;
+        m_ProjectName = projectname.trim();
         m_ProjectDir = projectDir;
         m_ProjectProperties = projectProps;
         
         m_PluginDir = pluginDir;
-        m_PluginName = pluginname;
+        m_PluginName = pluginname.trim();
         
         m_SystemDir = systemDir;
         initializeAntProject();
@@ -112,7 +112,12 @@ public class PluginContext extends AbstractLogEnabled
     
     public String getProperty( String name )
     {
-        return m_ProjectProperties.getProperty( name );
+        name = name.trim();
+        String value = m_ProjectProperties.getProperty( name );
+        if( value == null )
+            return null;
+        value = value.trim();
+        return resolve( value );
     }
     
     public Project getAntProject()
@@ -128,5 +133,74 @@ public class PluginContext extends AbstractLogEnabled
     public void enableBeanShellTracing( boolean on )
     {
         Interpreter.TRACE = on;
+    }
+    
+    public String resolve( String value )
+    {
+        // optimization for common case.
+        int pos1 = value.indexOf( "${" );
+        if( pos1 < 0 )
+            return value;
+        
+        Stack stack = new Stack();
+        StringTokenizer st = new StringTokenizer( value, "${}", true );
+        
+        while( st.hasMoreTokens() )
+        {
+            String token = st.nextToken();
+            if( token.equals( "}" ) )
+            {
+                String name = (String) stack.pop();
+                String open = (String) stack.pop();
+                if( open.equals( "${" ) )
+                {
+                    String propValue = getProperty( name );
+                    if( propValue == null )
+                        push( stack, "${" + name + "}" );
+                    else
+                        push( stack, propValue );
+                }
+                else
+                {
+                    push( stack, "${" + name + "}" );
+                }
+            }
+            else
+            {
+                if( token.equals( "$" ) )
+                    stack.push( "$" );
+                else
+                {
+                    push( stack, token );
+                }
+            }
+        }
+        String result = "";
+        while( stack.size() > 0 )
+        {
+            result = (String) stack.pop() + result;
+        }
+        return result;
+    }
+    
+    private void push( Stack stack , String value )
+    {
+        if( stack.size() > 0 )
+        {
+	        String data = (String) stack.pop();
+	        if( data.equals( "${" ) )
+	        {
+	            stack.push( data );
+	            stack.push( value );
+	        }
+	        else
+	        {
+	            stack.push( data + value );
+	        }
+        }
+        else
+        {
+            stack.push( value );
+        }
     }
 }
