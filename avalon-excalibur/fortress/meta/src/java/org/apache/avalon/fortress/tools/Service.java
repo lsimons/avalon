@@ -30,7 +30,7 @@ import java.util.Set;
  * logic to serialize the service.
  *
  * @author <a href="mailto:dev@avalon.apache.org">The Avalon Team</a>
- * @version CVS $Revision: 1.11 $ $Date: 2004/02/28 15:16:27 $
+ * @version CVS $Revision: 1.1 $ $Date: 2004/04/02 08:29:44 $
  */
 final class Service
 {

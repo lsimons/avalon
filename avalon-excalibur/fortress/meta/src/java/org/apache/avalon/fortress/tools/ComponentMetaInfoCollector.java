@@ -42,7 +42,7 @@ import java.util.Map;
  * ANT task to collect all the meta information for the components.
  *
  * @author <a href="mailto:dev@avalon.apache.org">The Avalon Team</a>
- * @version CVS $Revision: 1.28 $ $Date: 2004/03/28 18:56:42 $
+ * @version CVS $Revision: 1.1 $ $Date: 2004/04/02 08:29:44 $
  */
 public final class ComponentMetaInfoCollector extends AbstractQdoxTask
 {
