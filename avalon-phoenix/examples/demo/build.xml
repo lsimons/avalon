@@ -37,6 +37,12 @@
         <fileset dir="../common/lib">
             <include name="**/*.jar"/>
         </fileset>
+        <fileset dir="../../dist/lib">
+            <include name="**/*.jar"/>
+        </fileset>
+        <fileset dir="../../dist/tools/lib">
+            <include name="**/*.jar"/>
+        </fileset>
     </path>
 
     <property name="avalon-site.dir" value="../../avalon-site"/>
