@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE document SYSTEM "dtd/document-v10.dtd">
+
+<document>
+  <header>
+    <title>Avalon Developer Documentation</title>
+    <subtitle>Multi Dimensional Separation of Concerns</subtitle>
+    <authors>
+      <person name="Berin Loritsch" email="bloritsch@apache.org"/>
+    </authors>
+  </header>
+  <body>
+    <s1 title="Separation of Concerns">
+      <p>
+        The concept of using different points of view within the the system
+        goes a long way in the overall comprehension of the system.
+      </p>
+      <p>You can get more formal information in this paper:
+        <link href="http://www.research.ibm.com/hyperspace/MDSOC.htm">Multi-Dimensional Separation of Concerns</link>.
+      </p>
+      <s2 title="What it Means">
+        <p>
+          &quot;Separation of Concerns&quot; in its simplest form is separating
+          a problem into different points of view.  For instance, the documentation
+          uses the &quot;Separation of Concerns&quot; pattern to make the documents
+          comprehensible (we have separate documents for Developers, Administrators,
+          and Block Implementers).  The documents also use the pattern with XML and
+          XSL so that the look is separated from the content.  Either can change
+          without breaking the other.
+        </p>
+        <p>
+          This pattern is less clear to point out in the code, however the concept
+          is evident.  There are several interfaces included in Avalon that identify 
+          an object's role within the system.  For instance, all Components have certain 
+          contracts -- therefore any object that implements the Component interface 
+          must comply with those Contracts.  This allows developers to manipulate 
+          Components using a standard interface, without worrying about the semantics 
+          of the implementation. They are separate concerns.
+        </p>
+      </s2>
+      <s2 title="How to Use It">
+        <p>
+          There are many ways to separate concern areas, but in Avalon
+          we use interfaces to define the concern areas addressed in
+          code.
+        </p>
+        <p>
+          Every time you use interfaces within Object Oriented Programming (OOP),
+          you are using the &quot;Separation of Concerns&quot; Pattern.  The interface
+          separates the concern of the implementation from the concern of the user
+          of the interface.  For example, every Object that can be configured
+          implements the Configurable interface.  The contract surrounding the
+          Configurable interface is that the instantiator of the object passes a
+          Configuration object to the Configurable object (see &quot;Inversion
+          of Control&quot;).  Just what the Configurable object does with the
+          passed Configuration object is irrelevant to the instantiator.
+        </p>
+      </s2>
+    </s1>
+  </body>
+  <footer>
+    <legal>
+      Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
+      $Revision: 1.5 $ $Date: 2002/01/31 15:43:52 $
+    </legal>
+  </footer>
+</document>

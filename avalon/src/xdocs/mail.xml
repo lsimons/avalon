@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE document SYSTEM "dtd/document-v10.dtd">
+
+<document>
+  <header>
+    <title>Avalon Mailing List Details</title>
+    <authors>
+      <person name="Avalon Documentation Team" email="avalon-dev@jakarta.apache.org"/>
+    </authors>
+  </header>
+  <body>
+    <s1 title="Lists">
+      <p>
+        As Avalon was previously a Java Apache project before it moved to the 
+        Jakarta Apache Project, there are two mailing list archives. The current 
+        archives and the historic archives. For details on how to subscribe to the
+        Avalon mailing lists see the Jakarta wide <link 
+        href="http://jakarta.apache.org/site/mail.html">Mailing list details</link>.
+      </p>
+      <ul>
+        <li>
+          Jakarta Apache Avalon Mailing list 
+          <link href="http://marc.theaimsgroup.com/?l=avalon-dev&amp;r=1&amp;w=2">
+            Archives
+          </link>
+        </li>
+        <li>
+          Java Apache Avalon Mailing list 
+          <link href="http://marc.theaimsgroup.com/?l=java-apache-framework&amp;r=1&amp;w=2">
+          Archives
+          </link>
+          (Historic)
+        </li>
+        <li>
+          More complete Java Apache Avalon Mailing list 
+          <link href="http://list.working-dogs.com/lists/java-apache-framework">
+            Archives
+          </link>
+          (Historic)
+        </li>
+      </ul>
+    </s1>
+  </body>
+  <footer>
+    <legal>
+      Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
+      $Revision: 1.4 $ $Date: 2002/01/31 15:43:46 $
+    </legal>
+  </footer>
+</document>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<author id="lsimons.html">
+  <honorific>Mr</honorific>
+  <firstname>Leo</firstname>
+  <surname>Simons</surname>
+  <address format="linespecific">
+    <email>mail@leosimons.com</email>
+  </address>
+  <authorblurb>
+    <para>
+      Leo Simons has been instrumental in documentation and working
+      on Avalon Phoenix.
+    </para>
+  </authorblurb>
+</author>
