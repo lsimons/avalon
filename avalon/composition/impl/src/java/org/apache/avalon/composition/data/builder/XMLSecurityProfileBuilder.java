@@ -39,7 +39,7 @@ import org.apache.avalon.meta.info.PermissionDescriptor;
  * <p>Implementation of the default security builder.</p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2004/02/29 22:25:26 $
+ * @version $Revision: 1.2 $ $Date: 2004/03/01 17:06:16 $
  */
 public final class XMLSecurityProfileBuilder
 {
@@ -48,7 +48,7 @@ public final class XMLSecurityProfileBuilder
     //-------------------------------------------------------------------
 
    /**
-    * Utility method to construct set of {@link SecurityModel} instances from a 
+    * Utility method to construct set of {@link SecurityProfile} instances from a 
     * supplied &lt;security&gt; configuration.  The security configuration may 
     * contain one or more named security profiles. 
     * <pre>
