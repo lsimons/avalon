@@ -48,18 +48,47 @@ What is the repository layout?
 A brief explanation of the source respository structure.  For more
 info, see each subproject's own README documentation:
 
-   central
-   discovery
-   planet
-   runtime
-   studio
-   tools
+   central              
+     laboratory         <--  code sandbox, latest developme# magic system home directory
 
-     
+project.home = central/systemnts
+     site               <--  XML source site documentation
+     system             <--  site transformation (XSL) resources
+   discovery            <--  service publishing and delivery system
+   planet               <--  service and component library
+     cornerstone        <--  component block library
+     facilities         <--  container extensions
+     tutorials          <--  tutorial source code
+   runtime              <--  core Avalon platform source code
+     activation         <--  service activation library
+     buildsystem        <--  (old) build system resources
+     composition        <--  service composition library
+     framework          <--  core Avalon framework
+     logging            <--  Avalon logging framework
+     logkit             <--  Avalon LogKit framework
+     merlin             <--  core merlin container runtime source
+     meta               <--  Avalon meta framework
+     repository         <--  Avalon repository framework
+     util               <--  Avalon utilities source code
+     versioning         <--  source code versioning entity documents
+   studio               <--  Avalon IDE Studio
+   tools                <--  Avalon tools
+     magic              <--  Avalon Magic Build System
 
 
-
-Where did the Avalon-Framework subproject go?
+Where did the XXXX subproject go?
 =============================================
-Don't worry, it didn't move very far. The framework sources have been
-relocated to the framework subdirectory.
+There's been quite a bit of reorganization and somethings have been
+moved, depricated, or archived.
+
+    excalibur/ecm   -->  http://excalibur.apache.org
+    fortress	    -->  http://excalibur.apache.org
+    phoenix	    -->  http://loom.codehaus.org
+
+A CVS snapshot can be found in SVN at:
+
+   https://svn.apache.org/repos/asf/avalon/cvs-migration-snapshot/
+
+More information on Avalon legacy software can be found at:
+
+   http://avalon.apache.org/products/legacy/index.html
