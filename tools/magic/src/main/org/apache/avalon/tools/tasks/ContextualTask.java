@@ -35,18 +35,14 @@ import java.io.File;
 public abstract class ContextualTask extends Task
 {
     private static final String USER_PROPERTIES = "user.properties";
-    private static final String BUILD_PROPERTIES = "build.properties";
+    private static final String PROJECT_PROPERTIES = "project.properties";
 
     private boolean m_init = false;
-    private Context m_context;
 
     public void init() throws BuildException 
     {
         if( !isInitialized() )
         {
-            final Project project = getProject();
-            setupProperties( project, project.getBaseDir() );
-            m_context = Context.getContext( project );
             m_init = true;
         }
     }
@@ -63,11 +59,19 @@ public abstract class ContextualTask extends Task
 
     public Context getContext()
     {
-        if( null == m_context )
+        final Context context = (Context) 
+          getProject().getReference( Context.KEY );
+
+        if( null == context )
         {
-            throw new IllegalStateException( "context" );
+            final Project project = getProject();
+            setupProperties( project, project.getBaseDir() );
+            return Context.getContext( project );
         }
-        return m_context;
+        else
+        {
+            return context;
+        }
     }
 
     public void mkDir( final File dir )
@@ -92,11 +96,12 @@ public abstract class ContextualTask extends Task
 
     private void setupBuildProperties( final Project project, final File dir )
     {
-        final File build = Context.getFile( dir, BUILD_PROPERTIES );
+        final File build = Context.getFile( dir, PROJECT_PROPERTIES );
         loadProperties( project, build );
     }
 
-    protected void loadProperties( final Project project, final File file ) throws BuildException
+    protected void loadProperties( 
+      final Project project, final File file ) throws BuildException
     {
         final Property props = (Property) project.createTask( "property" );
         props.init();

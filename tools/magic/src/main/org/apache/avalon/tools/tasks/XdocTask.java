@@ -108,8 +108,8 @@ public class XdocTask extends SystemTask
 
     private File getThemesDirectory()
     {
-        final File home = getHome().getHomeDirectory();
-        return new File( home, "themes" );
+        final File cache = getHome().getRepository().getCacheDirectory();
+        return new File( cache, "avalon/tools/themes" );
     }
     
     private String getOutputFormat()
