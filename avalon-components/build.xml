@@ -86,7 +86,7 @@
     <echo message="Run ant -projecthelp to get a list of targets to run"/>
   </target>
 
-  <!-- COmpile the project -->
+  <!-- Compile the project -->
   <target name="compile">
 
     <available property="jsse.present"
