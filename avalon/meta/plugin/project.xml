@@ -51,6 +51,17 @@
     </dependency>
 
     <dependency>
+      <groupId>&avalon-util-id;</groupId>
+      <artifactId>&avalon-util-i18n-id;</artifactId>
+      <version>&avalon-util-i18n-version;</version>
+    </dependency>
+
+    <dependency>
+      <id>excalibur-configuration</id>
+      <version>1.2</version>
+    </dependency>
+
+    <dependency>
       <id>ant</id>
       <version>1.5</version>
     </dependency>
@@ -76,37 +87,6 @@
       <version>2.4.0</version>
     </dependency>
 
-    <!-- xdoclet -->
-    <!--
-    <dependency>
-        <id>commons-collections</id>
-        <version>2.1</version>
-    </dependency>
-    <dependency>
-        <id>commons-logging</id>
-        <version>1.1-dev</version>
-    </dependency>
-    <dependency>
-        <id>log4j</id>
-        <version>1.2.6</version>
-    </dependency>
-    <dependency>
-        <id>xdoclet</id>
-        <version>1.2b2</version>
-    </dependency>
-    <dependency>
-        <id>xdoclet+xdoclet-module</id>
-        <version>1.2b2</version>
-    </dependency>
-    <dependency>
-        <id>xdoclet+xjavadoc</id>
-        <version>1.2b2</version>
-    </dependency>
-    <dependency>
-        <id>xdoclet+jmx-module</id>
-        <version>1.2b2</version>
-    </dependency>
-    -->
   </dependencies>
   
   <build>
