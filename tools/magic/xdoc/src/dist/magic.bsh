@@ -88,6 +88,11 @@ public class XDocPlugin extends AbstractPlugin
             copySources();
             transformNavigation( themeDir );
             transformXdocs( themeDir );
+            
+            File dir = new File( themeDir, "resources" );
+            copyResources( dir );
+            
+            dir = new File( m_Context.getProperty( "xdoc.resources.dir" ) );
             copyResources( themeDir );
         } 
         catch( RuntimeException e )
@@ -131,11 +136,10 @@ public class XDocPlugin extends AbstractPlugin
         transformTrax( fromDir, toDir, xslFile, "^.*\\.xml$", "^.*" + sep + "navigation.xml$", "." + output, "html" );
     }
     
-    private void copyResources( File themeDir )
+    private void copyResources( File fromDir )
     {
         File destDir = new File( m_Context.getProperty( "xdoc.dest.dir" ) );
         File toDir = new File( destDir, "resources" );
-        File fromDir = new File( themeDir, "resources" );
         copy( fromDir, toDir, "**/*", "" );
     }
     
