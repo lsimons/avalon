@@ -73,7 +73,7 @@ import org.xml.sax.InputSource;
  * <a href="package-summary.html#external">package summary</a>.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2003/03/22 12:07:13 $
+ * @version $Revision: 1.4 $ $Date: 2003/04/04 10:56:25 $
  */
 public final class LegacyBlockInfoReader
     extends AbstractLogEnabled
@@ -319,13 +319,11 @@ public final class LegacyBlockInfoReader
      *
      * @param config the Component Configuration
      * @return the created ComponentDescriptor
-     * @throws ConfigurationException if an error occurs
      */
     private ComponentDescriptor buildComponentDescriptor( final String classname,
                                                           final Configuration config )
-        throws ConfigurationException
     {
-        final String version = config.getChild( "version" ).getValue();
+        final String version = config.getChild( "version" ).getValue( "1.0" );
         final ArrayList attributeSet = new ArrayList();
         attributeSet.add( LegacyUtil.createVersionAttribute( version ) );
 
