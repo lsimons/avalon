@@ -256,36 +256,6 @@
       <include name="org/apache/avalon/cornerstone/blocks/**"/>
       <include name="org/apache/avalon/cornerstone/services/**"/>
     </jar>
-
-    <jar jarfile="${build.lib}/demo-httpproxy.bar"
-         basedir="${build.classes}"
-         manifest="${manifest.dir}/http-proxy-demo.mf">
-      <include name="org/apache/avalon/cornerstone/demos/httpproxy/*"/>
-    </jar>
-
-    <jar jarfile="${build.lib}/demo-xcommander.bar"
-         basedir="${build.classes}"
-         manifest="${manifest.dir}/demo-xcommander.mf">
-      <include name="org/apache/avalon/cornerstone/demos/xcommander/**"/>
-    </jar>
-
-    <jar jarfile="${build.lib}/demo-helloworld.bar"
-         basedir="${build.classes}"
-         manifest="${manifest.dir}/helloworld-demo.mf">
-      <include name="org/apache/avalon/cornerstone/demos/helloworldserver/*"/>
-    </jar>
-
-    <jar jarfile="${build.lib}/demo-soaphelloworld.bar"
-         basedir="${build.classes}"
-         manifest="${manifest.dir}/soaphelloworld-demo.mf">
-      <include name="org/apache/avalon/cornerstone/demos/soaphelloworldserver/*"/>
-    </jar>
-
-    <jar jarfile="${build.lib}/demo-simpleserver.bar"
-         basedir="${build.classes}"
-         manifest="${manifest.dir}/simpleserver-demo.mf">
-      <include name="org/apache/avalon/cornerstone/demos/simpleserver/*"/>
-    </jar>
   
   </target>
 
