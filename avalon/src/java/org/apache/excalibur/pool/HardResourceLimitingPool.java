@@ -8,9 +8,7 @@
 package org.apache.excalibur.pool;
 
 import org.apache.avalon.Initializable;
-import org.apache.avalon.Poolable;
-import org.apache.avalon.Recyclable;
-import org.apache.avalon.ThreadSafe;
+import org.apache.avalon.thread.ThreadSafe;
 
 /**
  * This is a implementation of  <code>Pool</code> that is thread safe.

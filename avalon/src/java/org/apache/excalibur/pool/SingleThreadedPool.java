@@ -8,9 +8,7 @@
 package org.apache.excalibur.pool;
 
 import org.apache.avalon.Initializable;
-import org.apache.avalon.Poolable;
-import org.apache.avalon.Recyclable;
-import org.apache.avalon.SingleThreaded;
+import org.apache.avalon.thread.SingleThreaded;
 
 /**
  * This is an <code>Pool</code> that caches Poolable objects for reuse.

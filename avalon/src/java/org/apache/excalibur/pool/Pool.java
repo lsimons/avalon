@@ -7,8 +7,7 @@
  */
 package org.apache.excalibur.pool;
 
-import org.apache.avalon.Component;
-import org.apache.avalon.Poolable;
+import org.apache.avalon.component.Component;
 
 /**
  * This is an <code>Pool</code> that caches Poolable objects for reuse.
