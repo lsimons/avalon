@@ -99,7 +99,7 @@
     <echo message="   jars       -> generates the ${Name} jar files"/>
     <echo message="   javadocs   -> generates the API documentation (java 1.2+ only)"/>
     <echo message="   install    -> installs Cornerstone into Phoenix"/>
-<!--    
+<!--
     <echo message="   docs       -> generates the ${Name} Documentation"/>
     <echo message="   dist-lite  -> generates the ${Name} distribution without the javadocs (default)"/>
     <echo message="   dist       -> generates the ${Name} distribution"/>
@@ -173,6 +173,14 @@
 
     <mkdir dir="${build.lib}"/>
 
+    <jar jarfile="${build.lib}/avalon-cornerstone-compilation.jar"
+         basedir="${build.classes}">
+      <exclude name="**/Default*"/>
+      <exclude name="**/*.xinfo"/>
+      <exclude name="**/demos/**"/>
+    </jar>
+
+
     <jar jarfile="${build.lib}/cornerstone.bar"
          basedir="${build.classes}"
          manifest="${manifest.dir}/cornerstone.mf">
@@ -243,14 +251,14 @@
     <echo message="TCP: ${test.class.path}" />
 -->
 
-    <test showSuccess="false" showBanner="false" showTrace="true" forceShowTrace="true" > 
+    <test showSuccess="false" showBanner="false" showTrace="true" forceShowTrace="true" >
       <classpath>
-        <pathelement path="${build.classes}" /> 
+        <pathelement path="${build.classes}" />
         <pathelement path="${java.class.path}" />
       </classpath>
 
       <testlet>org.apache.cornerstone.services.scheduler.test.CronTimeTriggerTestlet</testlet>
-    </test> 
+    </test>
 
   </target>
 
@@ -274,7 +282,7 @@
        <param name="-use"/>
        <param name="-doctitle" value="${Name}"/>
        <param name="-windowtitle" value="${Name} API"/>
-       <param name="-bottom" 
+       <param name="-bottom"
               value="&quot;Copyright &#169; 2001 Apache Jakarta Project. All Rights Reserved.&quot;"/>
       </doclet>
     </javadoc>
@@ -303,7 +311,7 @@
        ===================================================================
   -->
   <target name="xdocs">
-     
+
     <mkdir dir="${build.xdocs}"/>
     <mkdir dir="${build.docs}"/>
 
@@ -387,10 +395,10 @@
   <target name="install-check" unless="install.dir">
 
     <property name="install.dir" value="../jakarta-avalon-phoenix/dist"/>
-  
+
     <echo message="install.dir not specified." />
     <echo message="Guessing install.dir=${install.dir} not specified." />
-  
+
   </target>
 
   <!--
@@ -414,6 +422,7 @@
 
     <copy file="${build.lib}/${name}.bar" tofile="${dist.dir}/${name}-${version}.bar"/>
     <copy file="${build.lib}/avalon-demo.sar" tofile="${dist.dir}/avalon-demo-${version}.sar"/>
+    <copy file="${build.lib}/avalon-cornerstone-compilation.jar" tofile="${dist.dir}/avalon-cornerstone-compilation-${version}.jar"/>
 
     <chmod dir="${dist.dir}" perm="go-rwx" />
 
@@ -485,17 +494,17 @@
       <param name="dist.dir" value="${dist.name}" />
     </antcall>
 
-    <zip zipfile="${dist.base}/${dist.name}-bin.zip" 
-         basedir="${dist.name}/.." 
+    <zip zipfile="${dist.base}/${dist.name}-bin.zip"
+         basedir="${dist.name}/.."
          includes="${dist.name}/**"/>
 
     <tar longfile="gnu" tarfile="${dist.base}/${dist.name}-bin.tar">
-      <tarfileset dir="${dist.name}/.." username="avalon" group="avalon"> 
+      <tarfileset dir="${dist.name}/.." username="avalon" group="avalon">
         <include name="${dist.name}/**"/>
-      </tarfileset> 
+      </tarfileset>
     </tar>
 
-    <gzip zipfile="${dist.base}/${dist.name}-bin.tar.gz" 
+    <gzip zipfile="${dist.base}/${dist.name}-bin.tar.gz"
           src="${dist.base}/${dist.name}-bin.tar"/>
 
     <delete file="${dist.base}/${dist.name}-bin.tar"/>
@@ -505,21 +514,21 @@
       <param name="src.dist.dir" value="${dist.name}" />
     </antcall>
 
-    <zip zipfile="${dist.base}/${dist.name}-src.zip" 
-         basedir="${dist.name}/.." 
+    <zip zipfile="${dist.base}/${dist.name}-src.zip"
+         basedir="${dist.name}/.."
          includes="${dist.name}/**"/>
 
     <tar longfile="gnu" tarfile="${dist.base}/${dist.name}-src.tar" >
       <tarfileset dir="${dist.name}/.." mode="755" username="avalon" group="avalon">
         <include name="${dist.name}/build.sh"/>
-      </tarfileset> 
-      <tarfileset dir="${dist.name}/.." username="avalon" group="avalon"> 
+      </tarfileset>
+      <tarfileset dir="${dist.name}/.." username="avalon" group="avalon">
         <include name="${dist.name}/**"/>
         <exclude name="${dist.name}/build.sh"/>
       </tarfileset>
-    </tar> 
+    </tar>
 
-    <gzip zipfile="${dist.base}/${dist.name}-src.tar.gz" 
+    <gzip zipfile="${dist.base}/${dist.name}-src.tar.gz"
           src="${dist.base}/${dist.name}-src.tar"/>
 
     <delete file="${dist.base}/${dist.name}-src.tar"/>
@@ -548,5 +557,5 @@
     <delete dir="${docs.dir}" />
     <delete dir="${dist.base}" />
   </target>
- 
+
 </project>
