@@ -38,7 +38,7 @@ import org.apache.avalon.framework.logger.Logger;
  *  It is resolved when the Instrumentable actually registers the Instrument.
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.6 $ $Date: 2002/04/28 17:05:41 $
+ * @version CVS $Revision: 1.7 $ $Date: 2002/04/29 16:50:24 $
  * @since 4.1
  */
 public class InstrumentProxy
@@ -465,7 +465,7 @@ public class InstrumentProxy
      *
      * @param InstrumentSample InstrumentSample to be added.
      */
-    public void addInstrumentSample( InstrumentSample InstrumentSample )
+    private void addInstrumentSample( InstrumentSample InstrumentSample )
     {
         synchronized(this)
         {
