@@ -93,7 +93,7 @@ import org.apache.excalibur.configuration.CascadingConfiguration;
  * Deployment model defintion.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1.2.5 $ $Date: 2004/01/06 23:16:49 $
+ * @version $Revision: 1.1.2.6 $ $Date: 2004/01/07 12:48:12 $
  */
 public class DefaultComponentModel extends DefaultDeploymentModel 
   implements ComponentModel
@@ -747,6 +747,29 @@ public class DefaultComponentModel extends DefaultDeploymentModel
     }
 
    /**
+    * Return a dependency model matching the supplied descriptor. If 
+    * no model matches the supplied descriptor the implementation
+    * will return null.
+    *
+    * @param dependency the dependency descriptor
+    * @return the matching stage model
+    */
+    public DependencyModel getDependencyModel( DependencyDescriptor dependency )
+    {
+        DependencyModel[] models = getDependencyModels();
+        for( int i=0; i<models.length; i++ )
+        {
+            DependencyModel model = models[i];
+            if( dependency.equals( model.getDependency() ) )
+            {
+                return model;
+            }
+        }
+        return null;
+    }
+
+
+   /**
     * Return the stage models for this component type.
     *
     * @return the stage models
@@ -755,6 +778,29 @@ public class DefaultComponentModel extends DefaultDeploymentModel
     {
         return m_stages;
     }
+
+   /**
+    * Return a stage model matching the supplied descriptor. If 
+    * no stage model matches the supplied descriptor the implementation
+    * will return null.
+    *
+    * @param stage the stage descriptor
+    * @return the matching stage model
+    */
+    public StageModel getStageModel( StageDescriptor stage )
+    {
+        StageModel[] stages = getStageModels();
+        for( int i=0; i<stages.length; i++ )
+        {
+            StageModel model = stages[i];
+            if( stage.equals( model.getStage() ) )
+            {
+                return model;
+            }
+        }
+        return null;
+    }
+
 
    /**
     * Return the set of services produced by the model as a array of classes.
