@@ -1,7 +1,7 @@
 
 The avalon-logging package is a open logging platform suitable for 
 use by container implementators. It is based largely on the original
-excalibut logging system but with some important changes.  Firstly 
+excalibur logging system but with some important changes.  Firstly 
 it leverages the avalon-repository technology to support dynamic 
 loading of implementation strategies, secondly, it simplies the
 overall approach to target configuration, and thirdly, it applies

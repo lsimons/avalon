@@ -17,3 +17,6 @@
 
 <!ENTITY avalon-meta-tools-id "avalon-meta-tools">
 <!ENTITY avalon-meta-tools-version "1.4.dev-0">
+
+<!ENTITY avalon-meta-site-id "avalon-meta-site">
+<!ENTITY avalon-meta-site-version "1.4.dev-0">

@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<project default="jar:install-snapshot" xmlns:ant="jelly:ant" >
+  <ant:property file="${avalon.buildsystem}/project.properties" />
+</project>

@@ -9,7 +9,9 @@
   xmlns:j="jelly:core" 
   xmlns:util="jelly:util" 
   xmlns:ant="jelly:ant"
+  xmlns:artifact="avalon:artifact"
   >
+  <ant:property file="${avalon.buildsystem}/project.properties" />
 
   <ant:property name="pom.specificationVersion" value="&avalon-composition-spec;"/>
 
@@ -25,7 +27,7 @@
       value="&avalon-repository-artifact;"/>
 
   <postGoal name="test:compile">
-  
+
     <mkdir dir="${basedir}/target/test/repository/test/jars"/>
     <mkdir dir="${basedir}/target/test/ext"/>
     <mkdir dir="${basedir}/target/test/lib"/>
@@ -33,27 +35,32 @@
 
     <ant:jar jarfile="${basedir}/target/test/ext/test-a.jar"
       manifest="${basedir}/src/test/etc/a.mf"
-      includes="**/testa/*.*" basedir="${basedir}/target/test-classes">
+      includes="**/testa/*.*" 
+      basedir="${basedir}/target/test-classes">
     </ant:jar>
 
     <ant:jar jarfile="${basedir}/target/test/ext/test-b.jar"
       manifest="${basedir}/src/test/etc/b.mf"
-      includes="**/testb/*.*" basedir="${basedir}/target/test-classes">
+      includes="**/testb/*.*" 
+      basedir="${basedir}/target/test-classes">
     </ant:jar>
 
     <ant:jar jarfile="${basedir}/target/test/lib/test-c.jar"
       manifest="${basedir}/src/test/etc/c.mf"
-      includes="**/testc/*.*" basedir="${basedir}/target/test-classes">
+      includes="**/testc/*.*" 
+      basedir="${basedir}/target/test-classes">
     </ant:jar>
 
     <ant:jar jarfile="${basedir}/target/test/repository/test/jars/test-d.jar"
       manifest="${basedir}/src/test/etc/d.mf"
-      includes="**/testd/*.*" basedir="${basedir}/target/test-classes">
+      includes="**/testd/*.*" 
+      basedir="${basedir}/target/test-classes">
     </ant:jar>
 
     <ant:jar jarfile="${basedir}/target/test/repository/test/jars/test-e.jar"
       manifest="${basedir}/src/test/etc/e.mf"
-      includes="**/teste/*.*" basedir="${basedir}/target/test-classes">
+      includes="**/teste/*.*" 
+      basedir="${basedir}/target/test-classes">
     </ant:jar>
 
     <ant:jar jarfile="${basedir}/target/test/repository/test/jars/includes.jar">
@@ -80,7 +87,5 @@
     <ant:copy toDir="${basedir}/target/test/conf" filtering="true" >
       <fileset dir="${basedir}/src/test/conf"/>
     </ant:copy> 
-
   </postGoal>
-
 </project>

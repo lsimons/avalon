@@ -1,2 +1,7 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
-<project default="jar:install" />
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<project default="jar:install" xmlns:ant="jelly:ant" >
+
+  <ant:property file="${avalon.buildsystem}/project.properties" />
+  
+</project>

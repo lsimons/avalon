@@ -21,6 +21,8 @@
 
 <project default="plugin:install" xmlns:ant="jelly:ant">
 
+  <ant:property file="${avalon.buildsystem}/project.properties" />
+  
   <postGoal name="java:compile">
     <ant:copy 
       file="merlin.properties" 

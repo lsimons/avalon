@@ -21,22 +21,4 @@
   <ant:filter token="REPOSITORY_MAIN" 
       value="&avalon-repository-artifact;"/>
 
-  <postGoal name="java:compile">
-
-    <util:file var="merlinProperties" name="merlin.properties"/>
-    <j:if test="${merlinProperties.exists()}">
-      <ant:copy 
-          file="merlin.properties" 
-          toDir="${maven.build.dir}/classes" 
-          verbose="yes"
-          filtering="on">
-        <filterset>
-          <filter token="MERLIN_IMPLEMENTATION" value="&merlin-impl-artifact;"/>
-          <filter token="LOGGING_IMPLEMENTATION" value="&avalon-logging-logkit-artifact;"/>
-          <filter token="STANDARD_RUNTIME" value="&avalon-activation-artifact;"/>
-        </filterset>
-      </ant:copy>
-    </j:if>
-  </postGoal>
-
 </project>

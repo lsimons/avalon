@@ -7,3 +7,5 @@
 <!ENTITY avalon-framework-impl-id "avalon-framework-impl">
 <!ENTITY avalon-framework-impl-version "4.1.5">
 
+<!ENTITY avalon-framework-site-id "avalon-framework-site">
+<!ENTITY avalon-framework-site-version "4.1.5">

@@ -1,5 +1,8 @@
-<project default="jar:install" xmlns:ant="jelly:ant">
+<?xml version="1.0" encoding="UTF-8" ?>
 
+<project default="jar:install" xmlns:ant="jelly:ant">
+  <ant:property file="${avalon.buildsystem}/project.properties" />
+  
   <ant:property name="criteriaClass"
     value="org/apache/avalon/repository/impl/DefaultRepositoryCriteria"/>
 

@@ -1,6 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
 
-<project default="dist" xmlns:ant="jelly:ant" >
+<project default="jar:install" xmlns:ant="jelly:ant" >
 
+  <ant:property file="${avalon.buildsystem}/project.properties" />
+  
   <preGoal name="dist:prepare-bin-filesystem" >
 <echo>
 ${maven.build.dir}/production
@@ -15,4 +18,5 @@ ${maven.src.dir}
       </fileset>
     </ant:copy>
   </preGoal>
+  
 </project>

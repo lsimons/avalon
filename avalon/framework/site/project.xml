@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE project [
+  <!ENTITY % index SYSTEM "file:index.ent"> %index;
+]>
+
+<project>
+
+  <extend>${avalon.buildsystem}/project-common.xml</extend>
+
+  <groupId>&avalon-framework-id;</groupId>
+  <id>&avalon-framework-site-id;</id>
+  <currentVersion>&avalon-framework-site-version;</currentVersion>
+
+  <name>Avalon Framework Site Dcoumentation</name>
+  <shortDescription>Avalon Framework Site Documentation</shortDescription>
+  <description>Site Documentation of the Avalon Framework.</description>
+</project>

@@ -1,5 +1,7 @@
 <project default="avalon:build"  xmlns:maven="jelly:maven" xmlns:j="jelly:core" xmlns:util="jelly:util" xmlns:ant="jelly:ant">
 
+  <ant:property file="${avalon.buildsystem}/project.properties" />
+  
   <ant:property name="maven.dist.assembly.dir"
     value="${maven.build.dir}/temp"/>
   <ant:property name="maven.dist.bin.archive.dir"
@@ -257,16 +259,16 @@ The complete set of target include:
     <ant:property name="title" value="${pom.name} ${pom.currentVersion} API"/>
 
     <ant:javadoc destdir="${maven.build.dir}/docs/api" 
-	doctitle="&lt;h1&gt;${title}&lt;/h1&gt;" 
+      doctitle="&lt;h1&gt;${title}&lt;/h1&gt;" 
       noindex="false" author="true" use="true"
-	windowtitle="${title}" 
+      windowtitle="${title}" 
       bottom="${copyright}"
       additionalparam="-breakiterator -J-Xmx128m "
       packagenames="*,org.*">
 
         <classpath>
           <path refid="template.classpath"/>
-	  </classpath>
+        </classpath>
 
         <j:forEach var="child" items="${reactorProjects}">
           <sourcepath path="${child.file.parentFile}/src/java"/>
@@ -276,8 +278,8 @@ The complete set of target include:
           <group title="${packageGroup.title}" packages="${packageGroup.packages}"/>
         </j:forEach>
 
-	  <link href="${sun.j2se.link}" />
-	  <link href="${avalon.logkit.link}" />
+        <link href="${sun.j2se.link}" />
+        <link href="${avalon.logkit.link}" />
 
         <util:tokenize 
           var="listOfTags" 
