@@ -1,4 +1,4 @@
-<project default="main" basedir=".">
+<project name="Excalibur Driver Build file" default="main" basedir=".">
 
   <target name="main" depends="mega-jar"/>
 
