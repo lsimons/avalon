@@ -117,20 +117,19 @@ public class TargetTag extends BodyTagSupport
 
     public void setFeature( String value ) 
     {
-        System.out.println( "# FEATURE: " + value );
 	  if( value != null ) m_keyword = value.trim();
 	  m_mode = INSPECTION;
     }
 
     public void setExpand( String value ) 
     {
-	  if( value != null ) m_keyword = value.trim().toLowerCase();
+        setFeature( value );
 	  m_mode = ITERATION;
     }
 
     public void setResolve( String value ) 
     {
-	  if( value != null ) m_keyword = value.trim().toLowerCase();
+        setFeature( value );
 	  m_mode = DELEGATION;
     }
 
@@ -151,7 +150,6 @@ public class TargetTag extends BodyTagSupport
 
     public void setUrl( String url )
     {
-        System.out.println( "# URL: " + url  );
         m_source = url;
     }
 
@@ -409,26 +407,21 @@ public class TargetTag extends BodyTagSupport
 
         if( m_adapter != null ) return m_adapter;
 
-        System.out.println( "# ADAPTER/SRC: " + m_source );
-
         if( m_source == null )
         {
             TargetTag tag = (TargetTag) findAncestorWithClass( this, TargetTag.class );
             if( tag != null )
             {
-                System.out.println( "# ADAPTER/ENCLOSING: " + tag.getAdapter() );
                 return tag.getAdapter();
             }
             else
             {
-                System.out.println( "# ADAPTER/ROOT: " + Block.BLOCK_KEY );
                 return pageContext.findAttribute( Block.BLOCK_KEY );
             }
         }
         else
         {
             Block block = (Block) pageContext.getServletContext().getAttribute( Block.BLOCK_KEY );
-            System.out.println( "# BLOCK: " + block );
             if( block == null )
             {
                 final String error = 
@@ -441,9 +434,7 @@ public class TargetTag extends BodyTagSupport
             {
                 URL base = block.getURL();
                 URL ref = new URL( base, m_source );
-                System.out.println( "# ADAPTER/RESOLVING: " + ref );
                 object = ref.getContent();
-                System.out.println( "# ADAPTER/CONTENT: " + object );
             }
             catch( Throwable e )
             {
@@ -478,16 +469,22 @@ public class TargetTag extends BodyTagSupport
             throw new NullPointerException( error );
         }
 
-        // if the keyword is "URL" then we need to some special processing 
-        // based on the target type
-
         try
         {
 	      if(( keyword == null ) || (target == null )) return null;
             String methodName = "get" + keyword.substring(0,1).toUpperCase() 
               + keyword.substring(1,keyword.length());
             Method method = target.getClass().getMethod( methodName, new Class[0] );
-	      return method.invoke( target, new Object[0] );
+	      Object object = method.invoke( target, new Object[0] );
+
+            if( object instanceof Object[] )
+            {
+                return Arrays.asList( (Object[]) object )
+            }
+            else
+            {
+                return object;
+            }
         }
         catch( Throwable e )
         {
