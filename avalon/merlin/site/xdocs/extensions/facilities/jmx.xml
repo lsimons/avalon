@@ -36,7 +36,7 @@
         The Merlin JMX Extension is an MX4J adapter and contains everything 
         needed to expose components as MBeans, as well as the JMX Agent and
         a couple of connectors, such as the HttpConnector and Remote JMX
-        connector (JSR-160).
+        connector (JSR-160) (planned).
       </p>
       <p>
         To enable JMX, you will need to declare the JMX Facility, as well as
@@ -74,7 +74,7 @@
   <footer>
     <legal>
       Copyright (c) @year@ The Avalon Apache Project All rights reserved.
-      $Revision: 1.1 $ $Date: 2004/04/03 10:46:45 $
+      $Revision: 1.2 $ $Date: 2004/04/04 06:30:54 $
     </legal>
   </footer>
 </document>
