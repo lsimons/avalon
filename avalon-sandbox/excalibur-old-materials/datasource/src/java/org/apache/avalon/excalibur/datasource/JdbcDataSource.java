@@ -34,7 +34,7 @@ import org.apache.avalon.excalibur.pool.DefaultPoolController;
  * </pre>
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.9 $ $Date: 2001/11/01 14:25:57 $
+ * @version CVS $Revision: 1.10 $ $Date: 2001/11/02 18:57:11 $
  * @since 4.0
  */
 public class JdbcDataSource
@@ -187,7 +187,7 @@ public class JdbcDataSource
                 getLogger().warn( "Could not return Connection", e );
             }
 
-            throw new SQLException( e.getMessage() );
+            throw new NoAvailableConnectionException( e.getMessage() );
         }
     }
 
