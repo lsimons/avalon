@@ -16,15 +16,16 @@ import java.util.HashMap;
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  */
-public final class Namespace implements Serializable
+public final class Namespace 
+    implements Serializable
 {
     private static final    boolean VALIDATE_PREFIX = true;
     private static final    boolean IGNORE_PREFIX   = false;
-    private static volatile boolean m_policy        = VALIDATE_PREFIX;
+    private static volatile boolean c_policy        = VALIDATE_PREFIX;
 
     private final        String  m_prefix;
     private final        String  m_uri;
-    private final        boolean m_validate_prefix;
+    private final        boolean m_validatePrefix;
 
     /**
      * Hide constructor so that the default factory methods must be used
@@ -39,9 +40,9 @@ public final class Namespace implements Serializable
      */
     private Namespace( final String prefix, final String uri, final boolean validatePrefix )
     {
-        this.m_prefix = prefix;
-        this.m_uri = uri;
-        this.m_validate_prefix = validatePrefix;
+        m_prefix = prefix;
+        m_uri = uri;
+        m_validatePrefix = validatePrefix;
     }
 
     /**
@@ -53,7 +54,7 @@ public final class Namespace implements Serializable
      */
     public final String getPrefix()
     {
-        return this.m_prefix;
+        return m_prefix;
     }
 
     /**
@@ -63,7 +64,7 @@ public final class Namespace implements Serializable
      */
     public final String getURI()
     {
-        return this.m_uri;
+        return m_uri;
     }
 
     /**
@@ -74,27 +75,26 @@ public final class Namespace implements Serializable
     {
         boolean isEqual = false;
 
-        if ( check instanceof Namespace )
+        if( check instanceof Namespace )
         {
-            Namespace other = (Namespace) check;
-
-            if ( m_validate_prefix )
+            final Namespace other = (Namespace)check;
+            if( m_validatePrefix )
             {
-                isEqual = this.getPrefix().equals( other.getPrefix() );
+                isEqual = getPrefix().equals( other.getPrefix() );
 
-                if (isEqual)
+                if( isEqual )
                 {
-                    isEqual = this.getURI().equals( other.getURI() );
+                    isEqual = getURI().equals( other.getURI() );
                 }
             }
             else
             {
-                isEqual = this.getURI().equals( other.getURI() );
+                isEqual = getURI().equals( other.getURI() );
             }
         }
         else if ( check instanceof String )
         {
-            isEqual = this.toString().equals( check );
+            isEqual = toString().equals( check );
         }
 
         return isEqual;
@@ -105,14 +105,14 @@ public final class Namespace implements Serializable
      */
     public final String toString()
     {
-        StringBuffer xmlns = new StringBuffer("xmlns");
+        final StringBuffer xmlns = new StringBuffer("xmlns");
 
-        if ( !( "".equals( this.getPrefix() ) ) )
+        if( !( "".equals( getPrefix() ) ) )
         {
-            xmlns.append( ":" ).append( this.getPrefix() );
+            xmlns.append( ":" ).append( getPrefix() );
         }
 
-        xmlns.append( "=\"" ).append( this.getURI() ).append( "\"" );
+        xmlns.append( "=\"" ).append( getURI() ).append( "\"" );
 
         return xmlns.toString();
     }
@@ -133,8 +133,8 @@ public final class Namespace implements Serializable
         }
 
         String prefix = "";
-        String sub = xmlns.substring("xmlns".length());
-        int uristart = sub.indexOf("=\"");
+        final String sub = xmlns.substring("xmlns".length());
+        final int uristart = sub.indexOf("=\"");
 
         if (sub.charAt(0) == ':' )
         {
@@ -173,7 +173,7 @@ public final class Namespace implements Serializable
      */
     public static final Namespace getNamespace( final String xmlns )
     {
-        return Namespace.getNamespace( Namespace.prefix(xmlns), Namespace.uri(xmlns) );
+        return getNamespace( Namespace.prefix(xmlns), Namespace.uri(xmlns) );
     }
 
     /**
@@ -204,11 +204,11 @@ public final class Namespace implements Serializable
 
     public static final synchronized void setPolicy( final boolean prefixValidating )
     {
-        Namespace.m_policy = prefixValidating;
+        c_policy = prefixValidating;
     }
 
     public static final synchronized boolean getPolicy()
     {
-        return Namespace.m_policy;
+        return c_policy;
     }
 }
