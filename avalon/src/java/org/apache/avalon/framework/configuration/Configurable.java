@@ -57,12 +57,11 @@ package org.apache.avalon.framework.configuration;
 /**
  * This interface should be implemented by classes that need to be
  * configured with custom parameters before initialization.
- * <br />
+ * <br/>
  *
  * The contract surrounding a <code>Configurable</code> is that the
  * instantiating entity must call the <code>configure</code>
- * method before it is valid.  The <code>configure</code> method
- * must be called after the constructor, and before any other method.
+ * method before it is valid. 
  * <br/>
  *
  * Note that this interface is incompatible with Parameterizable.
@@ -74,10 +73,9 @@ public interface Configurable
 {
     /**
      * Pass the <code>Configuration</code> to the <code>Configurable</code>
-     * class. This method must always be called after the constructor
-     * and before any other method.
+     * class. 
      *
-     * @param configuration the class configurations.
+     * @param configuration the class configurations. Must not be <code>null</code>.
      * @throws ConfigurationException if an error occurs
      */
     void configure( Configuration configuration )
