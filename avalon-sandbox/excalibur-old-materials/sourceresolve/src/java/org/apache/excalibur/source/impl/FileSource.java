@@ -81,7 +81,7 @@ import org.apache.excalibur.source.impl.validity.FileTimeStampValidity;
  * A {@link ModifiableTraversableSource} for filesystem objects.
  *
  * @author <a href="mailto:sylvain@apache.org">Sylvain Wallez</a>
- * @version $Id: FileSource.java,v 1.5 2003/04/04 16:36:51 sylvain Exp $
+ * @version $Id: FileSource.java,v 1.6 2003/04/09 21:14:40 sylvain Exp $
  */
 
 public class FileSource implements ModifiableTraversableSource, MoveableSource
@@ -419,9 +419,17 @@ public class FileSource implements ModifiableTraversableSource, MoveableSource
     /**
      * Delete the source.
      */
-    public boolean delete()
+    public void delete() throws SourceException
     {
-        return m_file.delete();
+        if (!m_file.exists())
+        {
+            throw new SourceNotFoundException("Cannot delete non-existing file " + m_file.toString());
+        }
+        
+        if (!m_file.delete())
+        {
+            throw new SourceException("Could not delete " + m_file.toString() + " (unknown reason)");
+        } 
     }
 
     //----------------------------------------------------------------------------------
