@@ -34,6 +34,7 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
  * and installing it as appropriate.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @version $Revision: 1.29 $ $Date: 2002/02/26 11:13:04 $
  */
 public class Installer
     extends AbstractLogEnabled

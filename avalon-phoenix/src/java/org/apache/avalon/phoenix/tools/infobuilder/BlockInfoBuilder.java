@@ -25,6 +25,7 @@ import org.apache.avalon.phoenix.metainfo.ServiceDescriptor;
  * is specified in the BlockInfo specification.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @version $Revision: 1.10 $ $Date: 2002/02/26 11:13:04 $
  */
 public final class BlockInfoBuilder
     extends AbstractLogEnabled
