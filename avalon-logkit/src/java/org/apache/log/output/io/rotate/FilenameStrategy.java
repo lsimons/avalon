@@ -13,7 +13,9 @@ import java.io.File;
  * strategy for naming log files.
  * For a given base file name an implementation calculates
  * the real file name.
-*/
+ *
+ * @author <a href="mailto:bh22351@i-one.at">Bernhard Huber</a>
+ */
 public interface FilenameStrategy 
 {
     /**
