@@ -4,10 +4,14 @@
 
   <target path="/webapp-server/context">
     <configuration>
-      <web-application>/home/niclas/struts-documentation.war</web-application>
-      <context-path>/struts-docs</context-path>
+      <web-application>/home/niclas/dev/opensource/asf-svn/cocoon/build/webapp</web-application>
+      <!--
+      <web-application>/home/niclas/dev/opensource/asf-svn/cocoon/build/cocoon-2.2.0-dev/cocoon.war</web-application>
+      -->
+      <context-path>/cocoon</context-path>
       <defaults-descriptor>blocks/webappserver/etc/webdefaults.xml</defaults-descriptor>
     </configuration>
   </target>
 
 </targets>
+
