@@ -45,6 +45,7 @@ public class Installer
         ResourceManager.getPackageResources( Installer.class );
 
     private static final String    OLD_ASSEMBLY_XML  = "conf" + File.separator + "assembly.xml";
+
     private static final String    OLD_CONFIG_XML    = "conf" + File.separator + "config.xml";
     private static final String    OLD_SERVER_XML    = "conf" + File.separator + "server.xml";
     private static final String    OLD_BLOCKS        = "blocks";
@@ -58,6 +59,7 @@ public class Installer
     private static final String    SERVER_XML   = "SAR-INF/server.xml";
 
     //The names on the native filesystem
+    private static final String    FS_ASSEMBLY_XML = "SAR-INF" + File.separator + "assembly.xml";
     private static final String    FS_CONFIG_XML   = "SAR-INF" + File.separator + "config.xml";
     private static final String    FS_SERVER_XML   = "SAR-INF" + File.separator + "server.xml";
 
@@ -181,10 +183,11 @@ public class Installer
     }
 
     /**
-     * Describe 'isDeprecated' method here.
+     * Check if zipfile represents the deprecated sar format or
+     * whether it conforms to new format of using "SAR-INF/".
      *
-     * @param zipFile a value of type 'ZipFile'
-     * @return a value of type 'boolean'
+     * @param zipFile the zipfile
+     * @return true if old format, else false
      */
     private boolean isDeprecated( final ZipFile zipFile )
         throws InstallationException
@@ -278,15 +281,18 @@ public class Installer
             final String name = fixName( entry.getName() );
 
             boolean expand = true;
+            
+            boolean isJar = false;
 
             //Don't expand anything below SAR-INF directory unless they
             //are the config.xml or server.xml files which will be expanded
             //as a special case atm.
             if( name.startsWith( SAR_INF ) && 
+                !name.equals( ASSEMBLY_XML ) && 
                 !name.equals( SERVER_XML ) && 
                 !name.equals( CONFIG_XML ) )
             {
-                expand = false;
+                //expand = false;
 
                 //Grab all the jar files in the 
                 //directory SAR-INF/lib
@@ -294,8 +300,9 @@ public class Installer
                     name.endsWith( ".jar" ) && 
                     LIB.length() == name.lastIndexOf( "/" ) )
                 {
-                    final URL jar = createURL( baseURL + name );
-                    jars.add( jar );
+                    isJar = true;
+                    //final String jar = baseURL + name;
+                    //jars.add( jar );
                 }
             }
 
@@ -318,37 +325,24 @@ public class Installer
                     final String message = REZ.getString( "file-in-the-way", url, name, directory );
                     getLogger().warn( message );
                 }
+
+                if( isJar )
+                {
+                    jars.add( getURLAsString( destination ) );
+                }
             }
         }
 
         //Prepare and create Installation
-        final URL[] classPath = (URL[])jars.toArray( new URL[ 0 ] );
-        final URL assembly = createURL( baseURL + ASSEMBLY_XML );
-        final URL config = getURL( new File( directory, FS_CONFIG_XML ) );
-        final URL server = getURL( new File( directory, FS_SERVER_XML ) );
+        final String[] classPath = (String[])jars.toArray( new String[ 0 ] );
+
+        //final String assembly = baseURL + ASSEMBLY_XML;
+        final String assembly = getURLAsString( new File( directory, FS_ASSEMBLY_XML ) );
+        final String config = getURLAsString( new File( directory, FS_CONFIG_XML ) );
+        final String server = getURLAsString( new File( directory, FS_SERVER_XML ) );
         final FileDigest[] fileDigests = (FileDigest[])digests.toArray( new FileDigest[0] );
 
         return new Installation( directory, config, assembly, server, classPath, fileDigests );
-    }
-
-    /**
-     * Utility method to create a URL.
-     * Need to make sure creation does not throw a MalformedURLException.
-     *
-     * @param url the URL strun
-     * @return the created URL object
-     */
-    private URL createURL( final String url )
-    {
-        try
-        {
-            return new URL( url );
-        }
-        catch( final MalformedURLException mue )
-        {
-            //Should never occur
-            return null;
-        }
     }
 
     /**
@@ -403,10 +397,10 @@ public class Installer
             }
         }
 
-        final URL[] classPath = getClassPathForDirectory( directory );
-        final URL config = getURL( new File( directory, OLD_CONFIG_XML ) );
-        final URL assembly = getURL( new File( directory, OLD_ASSEMBLY_XML ) );
-        final URL server = getURL( new File( directory, OLD_SERVER_XML ) );
+        final String[] classPath = getClassPathForDirectory( directory );
+        final String config = getURLAsString( new File( directory, OLD_CONFIG_XML ) );
+        final String assembly = getURLAsString( new File( directory, OLD_ASSEMBLY_XML ) );
+        final String server = getURLAsString( new File( directory, OLD_SERVER_XML ) );
         final FileDigest[] fileDigests = (FileDigest[])digests.toArray( new FileDigest[0] );
 
         return new Installation( directory, config, assembly, server, classPath, fileDigests );
@@ -421,10 +415,10 @@ public class Installer
     private Installation installDeprecated( final File directory )
         throws InstallationException
     {
-        final URL[] classPath = getClassPathForDirectory( directory );
-        final URL config = getURL( new File( directory, OLD_CONFIG_XML ) );
-        final URL assembly = getURL( new File( directory, OLD_ASSEMBLY_XML ) );
-        final URL server = getURL( new File( directory, OLD_SERVER_XML ) );
+        final String[] classPath = getClassPathForDirectory( directory );
+        final String config = getURLAsString( new File( directory, OLD_CONFIG_XML ) );
+        final String assembly = getURLAsString( new File( directory, OLD_ASSEMBLY_XML ) );
+        final String server = getURLAsString( new File( directory, OLD_SERVER_XML ) );
 
         return new Installation( directory, config, assembly, server, classPath );
     }
@@ -525,15 +519,15 @@ public class Installer
      *
      * @return the list of URLs in ClassPath
      */
-    private URL[] getClassPathForDirectory( final File directory )
+    private String[] getClassPathForDirectory( final File directory )
     {
         final File blockDir = new File( directory, "blocks" );
         final File libDir = new File( directory, "lib" );
 
         final ArrayList urls = new ArrayList();
-        getURLs( urls, blockDir, new String[] { ".bar" } );
-        getURLs( urls, libDir, new String[] { ".jar", ".zip" } );
-        return (URL[])urls.toArray( new URL[0] );
+        getURLsAsStrings( urls, blockDir, new String[] { ".bar" } );
+        getURLsAsStrings( urls, libDir, new String[] { ".jar", ".zip" } );
+        return (String[])urls.toArray( new String[0] );
     }
 
     /**
@@ -544,14 +538,14 @@ public class Installer
      * @param extentions the list of extensions to match
      * @exception MalformedURLException if an error occurs
      */
-    private void getURLs( final ArrayList urls, final File directory, final String[] extensions )
+    private void getURLsAsStrings( final ArrayList urls, final File directory, final String[] extensions )
     {
         final ExtensionFileFilter filter = new ExtensionFileFilter( extensions );
         final File[] files = directory.listFiles( filter );
         if( null == files ) return;
         for( int i = 0; i < files.length; i++ )
         {
-            urls.add( getURL( files[ i ] ) );
+            urls.add( getURLAsString( files[ i ] ) );
         }
     }
 
@@ -561,9 +555,9 @@ public class Installer
      * @param file the file
      * @return the URL representation of file
      */
-    private URL getURL( final File file )
+    private String getURLAsString( final File file )
     {
-        try { return file.toURL(); }
+        try { return file.toURL().toExternalForm(); }
         catch( final MalformedURLException mue )
         {
             return null;
