@@ -241,11 +241,11 @@ Legal:
     
     <target name="test-generate">
 
-      <taskdef name="generatemeta" classname="org.apache.avalon.phoenix.metagenerate.MetaGenerateQdoxTask">
+      <taskdef name="generatemeta" classname="org.apache.avalon.phoenix.tools.metagenerate.MetaGenerateQdoxTask">
           <classpath refid="test.class.path" />
       </taskdef>
 
-      <generatemeta dest="${build.test-metagenerate}" manifestName="TestManifest.mf">
+      <generatemeta dest="${build.test-metagenerate}">
         <fileset dir="src/test">
           <include name="**/*.java"/>
         </fileset>
@@ -328,11 +328,11 @@ Legal:
 
         <mkdir dir="${build.metagenerate}"/>
 
-        <taskdef name="generatemeta" classname="org.apache.avalon.phoenix.metagenerate.MetaGenerateQdoxTask">
+        <taskdef name="generatemeta" classname="org.apache.avalon.phoenix.tools.metagenerate.MetaGenerateQdoxTask">
           <classpath refid="project.class.path" />
         </taskdef>
 
-        <generatemeta dest="${build.metagenerate}" manifestName="PhoenixManifest.mf">
+        <generatemeta dest="${build.metagenerate}">
           <fileset dir="${java.dir}">
             <include name="**/*.java"/>
           </fileset>
@@ -351,6 +351,7 @@ Legal:
             <include name="org/apache/avalon/phoenix/metainfo/**"/>
             <include name="org/apache/avalon/phoenix/metadata/**"/>
             <include name="org/apache/avalon/phoenix/tools/**"/>
+            <exclude name="org/apache/avalon/phoenix/tools/metagenerate/**"/>
         </jar>
 
         <jar jarfile="${build.lib}/phoenix-loader.jar"
@@ -389,7 +390,7 @@ Legal:
         </jar>
 
         <jar jarfile="${build.lib}/phoenix-metagenerate.jar" basedir="${build.classes}">
-            <include name="org/apache/avalon/phoenix/metagenerate/**"/>
+            <include name="org/apache/avalon/phoenix/tools/metagenerate/**"/>
         </jar>
 
     </target>
