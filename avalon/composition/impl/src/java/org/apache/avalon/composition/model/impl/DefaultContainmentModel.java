@@ -99,7 +99,7 @@ import org.apache.avalon.util.exception.ExceptionHelper;
  * as a part of a containment deployment model.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.38 $ $Date: 2004/03/01 16:31:41 $
+ * @version $Revision: 1.39 $ $Date: 2004/03/07 03:02:42 $
  */
 public class DefaultContainmentModel extends DefaultDeploymentModel 
   implements ContainmentModel
@@ -462,7 +462,7 @@ public class DefaultContainmentModel extends DefaultDeploymentModel
         if( !isAssembled() ) 
         {
              final String error = 
-               "Model is not assembled.";
+               "Model is not assembled " + this;
              throw new IllegalStateException( error );
         }
 

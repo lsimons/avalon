@@ -242,15 +242,11 @@ limitations under the License.
     </packageGroup>
     <packageGroup>
       <title>Activation</title>
-      <packages>org.apache.avalon.activation.*</packages>
+      <packages>org.apache.avalon.activation,org.apache.avalon.activation.*</packages>
     </packageGroup>
     <packageGroup>
       <title>Composition</title>
       <packages>org.apache.avalon.composition.*</packages>
-    </packageGroup>
-    <packageGroup>
-      <title>Extension</title>
-      <packages>org.apache.avalon.extension,org.apache.avalon.extension.*</packages>
     </packageGroup>
     <packageGroup>
       <title>Facilities</title>

@@ -51,7 +51,7 @@ public class Application extends AbstractLogEnabled
     */
     public void service( ServiceManager manager ) throws ServiceException
     {
-        getLogger().info( "servicing application" );
+        getLogger().info( "handing service manager" );
 
         LocationService locator = null;
         Object object = manager.lookup( "locator" );
@@ -96,7 +96,7 @@ public class Application extends AbstractLogEnabled
 
     public void dispose()
     {
-        getLogger().info( "disposal" );
+        getLogger().info( "application disposal" );
     }
 }
 

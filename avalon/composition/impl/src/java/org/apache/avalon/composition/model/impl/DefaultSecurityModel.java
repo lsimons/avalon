@@ -41,7 +41,7 @@ import org.apache.avalon.meta.info.PermissionDescriptor;
  * <p>Implementation of the default security model.</p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.5 $ $Date: 2004/02/29 22:25:26 $
+ * @version $Revision: 1.6 $ $Date: 2004/03/07 03:02:42 $
  */
 public final class DefaultSecurityModel implements SecurityModel
 {
@@ -126,7 +126,7 @@ public final class DefaultSecurityModel implements SecurityModel
             catch( Throwable e )
             {
                 final String error = 
-                  "Invalid permission descriptor [" + descriptor + "].";
+                  "Invalid permission descriptor " + descriptor + ".";
                 throw new SystemRuntimeException( error, e );
             }
         }

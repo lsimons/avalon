@@ -49,6 +49,7 @@ import org.apache.avalon.meta.info.StageDescriptor;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 
+import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.activity.Executable;
 import org.apache.avalon.framework.activity.Startable;
@@ -73,7 +74,7 @@ import org.apache.avalon.repository.Artifact;
  * A factory enabling the establishment of component instances.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.4 $ $Date: 2004/02/29 22:25:25 $
+ * @version $Revision: 1.5 $ $Date: 2004/03/07 03:02:42 $
  */
 public class DefaultComponentFactory implements ComponentFactory
 {
@@ -146,7 +147,7 @@ public class DefaultComponentFactory implements ComponentFactory
     * @param instance the component instance to etherialize
     * @return the new instance
     */
-    public void etherialize( Object instance )
+    public void etherialize( final Object instance )
     {
         try
         {
@@ -158,17 +159,71 @@ public class DefaultComponentFactory implements ComponentFactory
         }
         finally
         {
-            try
+            if( instance instanceof Startable )
             {
-                ContainerUtil.shutdown( instance );
-            }
-            catch( Throwable e )
-            {
-                if( getLogger().isWarnEnabled() )
+                getLogger().debug( "applying shutdown" );
+                try
                 {
-                    final String warning = 
-                      "Ignoring component source shutdown error.";
-                    getLogger().warn( warning, e );
+                    if( m_secure )
+                    {
+                        AccessController.doPrivileged( 
+                          new PrivilegedExceptionAction()
+                          {
+                              public Object run() throws Exception
+                              {
+                                 ((Startable)instance).stop();
+                                 return null;
+                              }
+                          }, 
+                          m_model.getAccessControlContext() );
+                    }
+                    else
+                    {
+                        ContainerUtil.stop( instance );
+                    }
+                }
+                catch( Throwable e )
+                {
+                    if( getLogger().isWarnEnabled() )
+                    {
+                        final String warning = 
+                          "Ignoring component source shutdown error.";
+                        getLogger().warn( warning, e );
+                    }
+                }
+            }
+
+            if( instance instanceof Disposable )
+            {
+                getLogger().debug( "applying disposal" );
+                try
+                {
+                    if( m_secure ) 
+                    {
+                        AccessController.doPrivileged( 
+                          new PrivilegedExceptionAction()
+                          {
+                              public Object run() throws Exception
+                              {
+                                 ((Disposable)instance).dispose();
+                                 return null;
+                              }
+                          }, 
+                          m_model.getAccessControlContext() );
+                    }
+                    else
+                    {
+                        ContainerUtil.dispose( instance );
+                    }
+                }
+                catch( Throwable e )
+                {
+                    if( getLogger().isWarnEnabled() )
+                    {
+                        final String warning = 
+                          "Ignoring component source disposal error.";
+                        getLogger().warn( warning, e );
+                    }
                 }
             }
         }
@@ -207,6 +262,7 @@ public class DefaultComponentFactory implements ComponentFactory
         {
             if( instance instanceof LogEnabled )
             {
+                getLogger().debug( "applying logger" );
                 if( m_secure ) 
                 { 
                     AccessController.doPrivileged( 
@@ -226,11 +282,11 @@ public class DefaultComponentFactory implements ComponentFactory
                 }
             }
 
-
             applyContext( instance, context );
 
             if( instance instanceof Serviceable )
             {
+                getLogger().debug( "applying service manager" );
                 if( m_secure )
                 {
                     AccessController.doPrivileged( 
@@ -252,6 +308,7 @@ public class DefaultComponentFactory implements ComponentFactory
 
             if( instance instanceof Configurable )
             {
+                getLogger().debug( "applying configuration" );
                 if( m_secure )
                 {
                     AccessController.doPrivileged( 
@@ -274,6 +331,7 @@ public class DefaultComponentFactory implements ComponentFactory
 
             if( instance instanceof Parameterizable )
             {
+                getLogger().debug( "applying parameters" );
                 if( m_secure )
                 {
                     AccessController.doPrivileged( 
@@ -305,6 +363,7 @@ public class DefaultComponentFactory implements ComponentFactory
 
             if( instance instanceof Initializable )
             {
+                getLogger().debug( "applying initialization" );
                 if( m_secure )
                 {
                     AccessController.doPrivileged( 
@@ -326,6 +385,7 @@ public class DefaultComponentFactory implements ComponentFactory
 
             if( Startable.class.isAssignableFrom( clazz ) )
             {
+                getLogger().debug( "applying statup" );
                 if( m_secure )
                 {
                     AccessController.doPrivileged( 
@@ -346,6 +406,7 @@ public class DefaultComponentFactory implements ComponentFactory
             }
             else if( Executable.class.isAssignableFrom( clazz ) )
             {
+                getLogger().debug( "applying execution" );
                 if( m_secure )
                 {
                     AccessController.doPrivileged( 
@@ -481,6 +542,19 @@ public class DefaultComponentFactory implements ComponentFactory
     {
         try
         {
+            if( args.length == 0 )
+            {
+                getLogger().debug( 
+                  "instantiating component with a null constructor" );
+            }
+            else
+            {
+                int n = args.length;
+                getLogger().debug( 
+                  "instantiating component with " 
+                  + n + " arguments." );
+            }
+
             if( m_secure )
             {
                 return AccessController.doPrivileged( 
@@ -712,6 +786,8 @@ public class DefaultComponentFactory implements ComponentFactory
         final DeploymentModel provider = model.getProvider();
         if( null == provider )
         {
+            getLogger().debug( "applying context" );
+
             //
             // its classic avalon
             //
@@ -747,6 +823,7 @@ public class DefaultComponentFactory implements ComponentFactory
         }
         else
         {
+            getLogger().debug( "applying custom context" );
             try
             {
                 ContextualizationHandler handler =
