@@ -37,14 +37,30 @@
         <component role="org.apache.avalon.phoenix.interfaces.SystemManager"
             class="org.apache.avalon.phoenix.components.manager.MX4JSystemManager"
             logger="manager" >
+
+          <!--
+            By default the Mx4J Http Adaptor will bind a webserver to all
+            network interfaces. If you wish to restrict it to only one
+            interface (say localhost) then uncomment and edit the next line.
+          -->
           <!--
           <manager-adaptor-host>localhost</manager-adaptor-host>
           -->
-          <manager-adaptor-port>8082</manager-adaptor-port>
+
           <!--
-          <enable-rmi-adaptor>true</enable-rmi-adaptor>
-          <rmi-naming-factory>com.sun.jndi.rmi.registry.RegistryContextFactory</rmi-naming-factory>
-          <stylesheets-dir>conf/xsl</stylesheets-dir>
+            This specifies the IP port which the Http Adaptor will bind on.
+          -->
+          <manager-adaptor-port>8082</manager-adaptor-port>
+
+          <!--
+            The Http Adaptor will use the $PHOENIX_HOME/conf/xsl directory
+            by default to retrieve it's stylesheets.
+          -->
+          <!-- <stylesheets-dir>conf/xsl</stylesheets-dir> -->
+
+          <!--
+            If you want the HTTPAdaptor to require authentication then you need to specify
+            a username and password in the next xml block.
           -->
           <!--
           <user>
@@ -52,6 +68,17 @@
             <password>password</password>
           </user>
           -->
+
+          <!--
+            Mx4j is capable of exporting the MBeanServer over RMI. By default this is
+            disabled but it can be enabled by specifying true in enable-rmi-adaptor element
+            and specifying a particular naming factory.
+          -->
+          <!--
+          <enable-rmi-adaptor>true</enable-rmi-adaptor>
+          <rmi-naming-factory>com.sun.jndi.rmi.registry.RegistryContextFactory</rmi-naming-factory>
+          -->
+
         </component>
 
         <!--
