@@ -20,6 +20,10 @@ package org.apache.avalon.http.impl;
 import org.apache.avalon.framework.logger.LogEnabled;
 import org.apache.avalon.framework.logger.Logger;
 
+import org.apache.avalon.framework.parameters.ParameterException;
+import org.apache.avalon.framework.parameters.Parameterizable;
+import org.apache.avalon.framework.parameters.Parameters;
+
 import org.apache.avalon.framework.service.Serviceable;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
@@ -28,18 +32,18 @@ import org.apache.avalon.http.HttpContextService;
 
 import org.mortbay.http.Authenticator;
 
-/** Wrapper for the Jetty BasicAuthenticator.
+/** Wrapper for the Jetty FormAuthenticator.
  *
- * @avalon.component name="http-authenticator-basic" lifestyle="singleton"
+ * @avalon.component name="http-authenticator-form" lifestyle="singleton"
  * @avalon.service type="org.mortbay.http.Authenticator"
  */
-public class BasicAuthenticator extends org.mortbay.http.BasicAuthenticator
-    implements Serviceable, LogEnabled
+public class FormAuthenticator extends org.mortbay.jetty.servlet.FormAuthenticator
+    implements Serviceable, LogEnabled, Parameterizable
 {
     private HttpContextService  m_Context;
     private Logger              m_Logger;
     
-    public BasicAuthenticator()
+    public FormAuthenticator()
     {
     }
     
@@ -67,6 +71,18 @@ public class BasicAuthenticator extends org.mortbay.http.BasicAuthenticator
     {
         m_Context = (HttpContextService) man.lookup( "httpcontext" );
         m_Context.setAuthenticator( this );
+    }
+    
+    public void parameterize( Parameters params )
+        throws ParameterException
+    {
+        String loginPage = params.getParameter( "login-page", null );
+        if( loginPage != null )
+            setLoginPage( loginPage );
+        
+        String errorPage = params.getParameter( "error-page", null );
+        if( errorPage != null )
+            setErrorPage( errorPage );
     }
 } 
  

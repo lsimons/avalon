@@ -28,18 +28,18 @@ import org.apache.avalon.http.HttpContextService;
 
 import org.mortbay.http.Authenticator;
 
-/** Wrapper for the Jetty BasicAuthenticator.
+/** Wrapper for the Jetty DigestAuthenticator.
  *
- * @avalon.component name="http-authenticator-basic" lifestyle="singleton"
+ * @avalon.component name="http-authenticator-digest" lifestyle="singleton"
  * @avalon.service type="org.mortbay.http.Authenticator"
  */
-public class BasicAuthenticator extends org.mortbay.http.BasicAuthenticator
+public class DigestAuthenticator extends org.mortbay.http.DigestAuthenticator
     implements Serviceable, LogEnabled
 {
     private HttpContextService  m_Context;
     private Logger              m_Logger;
     
-    public BasicAuthenticator()
+    public DigestAuthenticator()
     {
     }
     

@@ -20,6 +20,10 @@ package org.apache.avalon.http.impl;
 import org.apache.avalon.framework.logger.LogEnabled;
 import org.apache.avalon.framework.logger.Logger;
 
+import org.apache.avalon.framework.parameters.ParameterException;
+import org.apache.avalon.framework.parameters.Parameterizable;
+import org.apache.avalon.framework.parameters.Parameters;
+
 import org.apache.avalon.framework.service.Serviceable;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
@@ -28,18 +32,18 @@ import org.apache.avalon.http.HttpContextService;
 
 import org.mortbay.http.Authenticator;
 
-/** Wrapper for the Jetty BasicAuthenticator.
+/** Wrapper for the Jetty ClientCertAuthenticator
  *
- * @avalon.component name="http-authenticator-basic" lifestyle="singleton"
+ * @avalon.component name="http-authenticator-clientcert" lifestyle="singleton"
  * @avalon.service type="org.mortbay.http.Authenticator"
  */
-public class BasicAuthenticator extends org.mortbay.http.BasicAuthenticator
+public class ClientCertAuthenticator extends org.mortbay.http.ClientCertAuthenticator
     implements Serviceable, LogEnabled
 {
     private HttpContextService  m_Context;
     private Logger              m_Logger;
     
-    public BasicAuthenticator()
+    public ClientCertAuthenticator()
     {
     }
     
@@ -67,6 +71,14 @@ public class BasicAuthenticator extends org.mortbay.http.BasicAuthenticator
     {
         m_Context = (HttpContextService) man.lookup( "httpcontext" );
         m_Context.setAuthenticator( this );
+    }
+
+    public void parameterize( Parameters params )
+        throws ParameterException
+    {
+        int maxHandshakeSec = params.getParameterAsInteger( "max-handshake-sec", -1 );
+        if( maxHandshakeSec >= 0 )
+            setMaxHandShakeSeconds( maxHandshakeSec );
     }
 } 
  
