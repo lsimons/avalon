@@ -1,5 +1,5 @@
 /* 
- * Copyright 2002-2004 Apache Software Foundation
+ * Copyright 2002-2004 The Apache Software Foundation
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
  * You may obtain a copy of the License at 
@@ -31,7 +31,7 @@ import org.apache.avalon.framework.component.ComponentSelector;
  * Junit TestCase for all the monitors in Excalibur.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Id: MonitorTestCase.java,v 1.5 2004/02/26 14:28:51 niclas Exp $
+ * @version $Id: MonitorTestCase.java,v 1.6 2004/02/28 11:47:16 cziegeler Exp $
  */
 public class MonitorTestCase
     extends ExcaliburTestCase

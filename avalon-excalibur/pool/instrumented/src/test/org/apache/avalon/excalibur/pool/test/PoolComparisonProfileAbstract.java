@@ -1,5 +1,5 @@
 /* 
- * Copyright 2002-2004 Apache Software Foundation
+ * Copyright 2002-2004 The Apache Software Foundation
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
  * You may obtain a copy of the License at 
@@ -32,7 +32,7 @@ import org.apache.avalon.framework.logger.Logger;
  * Used as a basis for the PoolComparisonProfile Tests
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Id: PoolComparisonProfileAbstract.java,v 1.3 2004/02/25 10:33:18 niclas Exp $
+ * @version $Id: PoolComparisonProfileAbstract.java,v 1.4 2004/02/28 11:47:22 cziegeler Exp $
  */
 public abstract class PoolComparisonProfileAbstract
     extends TestCase

@@ -15,7 +15,7 @@
 
             <tag name="todo" description="To do:" scope="all"/>
 
-            <bottom>Copyright &#169; 1997-2003 Apache Software Foundation. All Rights Reserved.</bottom>
+            <bottom>Copyright &#169; 1997-2003 The Apache Software Foundation. All Rights Reserved.</bottom>
             <link href="http://java.sun.com/j2se/1.4.1/docs/api/"/>
             <link href="http://avalon.apache.org/framework/api/"/>
             <link href="http://avalon.apache.org/logkit/api/"/>

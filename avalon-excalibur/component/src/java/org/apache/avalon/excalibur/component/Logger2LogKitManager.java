@@ -1,5 +1,5 @@
 /*
- * Copyright 1997-2004 Apache Software Foundation
+ * Copyright 1997-2004 The Apache Software Foundation
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,7 +30,7 @@ import org.apache.log.Priority;
  * @deprecated ECM is no longer supported
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.4 $ $Date: 2004/02/25 10:33:09 $
+ * @version $Revision: 1.5 $ $Date: 2004/02/28 11:47:14 $
  */
 class Logger2LogKitManager
     implements LogKitManager

@@ -1,5 +1,5 @@
 /* 
- * Copyright 2002-2004 Apache Software Foundation
+ * Copyright 2002-2004 The Apache Software Foundation
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
  * You may obtain a copy of the License at 
@@ -33,7 +33,7 @@ import org.apache.avalon.framework.logger.ConsoleLogger;
  * Junit TestCase for the directory resource.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Id: DirectoryTestCase.java,v 1.5 2004/02/26 14:28:51 niclas Exp $
+ * @version $Id: DirectoryTestCase.java,v 1.6 2004/02/28 11:47:16 cziegeler Exp $
  */
 public class DirectoryTestCase
     extends TestCase

@@ -79,7 +79,7 @@
       <format pattern="2002-yyyy" property="year">
       </format>
     </tstamp>
-    <property name="copyright" value="Copyright &amp;copy;  Apache Software Foundation. All Rights Reserved.">
+    <property name="copyright" value="Copyright &amp;copy;  The Apache Software Foundation. All Rights Reserved.">
     </property>
     <property name="title" value="Excalibur Lifecycle Extension API 1.0 API">
     </property>
