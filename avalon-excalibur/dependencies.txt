@@ -11,7 +11,6 @@ Current at: Thu Apr  4 23:02:23 EST 2002
 * concurrent -> .
 * configuration -> framework
 * context -> framework
-* merlin -> context, configuration, framework
 * extension -> .
 * i18n -> .
 * instrument -> .
@@ -37,5 +36,6 @@ instrument-client -> framework, altrmi-client-impl, altrmi-client-interfaces, al
 * pool -> framework, collections, logkit, instrument [Unit tests: junit, testcase, junitperf]
 * testcase -> framework, component, logkit, logger
 * monitor -> framework, logkit, logger, sourceresolve [Unit tests: junit, testcase]
+* merlin -> context, configuration, framework, logkit
 * xmlbundle -> framework, logger, logkit, component, pool, sourceresolve, store
 * sourceresolve -> framework, pool
