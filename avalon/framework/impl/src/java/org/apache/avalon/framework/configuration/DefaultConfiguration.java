@@ -145,9 +145,9 @@ public class DefaultConfiguration
         else
         {
             throw new ConfigurationException
-                ( "No namespace (not even default \"\") is associated with the " +
-                  "configuration element \"" + getName() +
-                  "\" at " + getLocation() );
+                ( "No namespace (not even default \"\") is associated with the "
+                  + "configuration element \"" + getName()
+                  + "\" at " + getLocation() );
         }
     }
 
@@ -165,9 +165,9 @@ public class DefaultConfiguration
         else
         {
             throw new ConfigurationException
-                ( "No prefix (not even default \"\") is associated with the " +
-                  "configuration element \"" + getName() +
-                  "\" at " + getLocation() );
+                ( "No prefix (not even default \"\") is associated with the "
+                  + "configuration element \"" + getName()
+                  + "\" at " + getLocation() );
         }
 
     }
@@ -213,9 +213,9 @@ public class DefaultConfiguration
         }
         else
         {
-            throw new ConfigurationException( "No value is associated with the " +
-                                              "configuration element \"" + getName() +
-                                              "\" at " + getLocation() );
+            throw new ConfigurationException( "No value is associated with the "
+                                              + "configuration element \"" + getName()
+                                              + "\" at " + getLocation() );
         }
     }
 
@@ -273,9 +273,10 @@ public class DefaultConfiguration
         }
         else
         {
-            throw new ConfigurationException( "No attribute named \"" + name + "\" is " +
-                                              "associated with the configuration element \"" +
-                                              getName() + "\" at " + getLocation() );
+            throw new ConfigurationException( 
+               "No attribute named \"" + name + "\" is "
+               + "associated with the configuration element \""
+               + getName() + "\" at " + getLocation() );
         }
     }
 

@@ -52,6 +52,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  */
+
 package org.apache.avalon.framework.configuration;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -69,7 +70,7 @@ import java.util.Iterator;
  * with configuration objects.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.9 $ $Date: 2003/02/11 07:08:02 $
+ * @version $Revision: 1.10 $ $Date: 2003/02/11 07:15:42 $
  */
 public class ConfigurationUtil
 {
@@ -213,8 +214,8 @@ public class ConfigurationUtil
     {
         final String value1 = c1.getValue( null );
         final String value2 = c2.getValue( null );
-        return ( value1 == null && value2 == null ) ||
-            ( value1 != null && value1.equals( value2 ) );
+        return ( value1 == null && value2 == null ) 
+            || ( value1 != null && value1.equals( value2 ) );
     }
 
     /**
