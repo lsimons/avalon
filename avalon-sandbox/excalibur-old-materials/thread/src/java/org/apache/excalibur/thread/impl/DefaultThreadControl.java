@@ -91,7 +91,10 @@ final class DefaultThreadControl
     public synchronized void join( final long milliSeconds )
         throws IllegalStateException, InterruptedException
     {
-        m_thread.join(milliSeconds);
+        if (! isFinished() )
+        {
+            m_thread.join(milliSeconds);
+        }
     }
 
     public void interupt()
