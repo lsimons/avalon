@@ -225,12 +225,12 @@
 
 
     <target name="big-jar" depends="jar" description="Build the big jar with all dependencies included">
-      <copy file="${excalibur-altrmi-registry.jar}" todir="${build.dir}/tempjars"/>
-      <copy file="${excalibur-altrmi-common.jar}" todir="${build.dir}/tempjars"/>
-      <copy file="${excalibur-altrmi-server-impl.jar}" todir="${build.dir}/tempjars"/>
-      <copy file="${excalibur-altrmi-server-interfaces.jar}" todir="${build.dir}/tempjars"/>
-      <copy file="${excalibur-altrmi-client-impl.jar}" todir="${build.dir}/tempjars"/>
-      <copy file="${excalibur-altrmi-client-interfaces.jar}" todir="${build.dir}/tempjars"/>
+      <copy file="${altrmi-registry.jar}" todir="${build.dir}/tempjars"/>
+      <copy file="${altrmi-common.jar}" todir="${build.dir}/tempjars"/>
+      <copy file="${altrmi-server-impl.jar}" todir="${build.dir}/tempjars"/>
+      <copy file="${altrmi-server-interfaces.jar}" todir="${build.dir}/tempjars"/>
+      <copy file="${altrmi-client-impl.jar}" todir="${build.dir}/tempjars"/>
+      <copy file="${altrmi-client-interfaces.jar}" todir="${build.dir}/tempjars"/>
       <copy file="${excalibur-i18n.jar}" todir="${build.dir}/tempjars"/>
       <copy file="${excalibur-instrument.jar}" todir="${build.dir}/tempjars"/>
       <copy file="${excalibur-instrument-manager.jar}" todir="${build.dir}/tempjars"/>
