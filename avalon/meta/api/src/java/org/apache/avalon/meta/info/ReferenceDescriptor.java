@@ -29,7 +29,7 @@ import org.apache.avalon.framework.Version;
  * interface can be represented.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2004/01/24 23:20:45 $
+ * @version $Revision: 1.3 $ $Date: 2004/02/21 23:06:02 $
  */
 public final class ReferenceDescriptor
         implements Serializable
@@ -45,7 +45,9 @@ public final class ReferenceDescriptor
     private final Version m_version;
 
     /**
-     * Construct a service with specified type.
+     * Construct a service with specified type. The type argument will be 
+     * parsed for a classname and version in the form [classname]:[version]. 
+     * If not version is present a default 1.0.0 version will be assigned.
      *
      * @param type the service type spec
      * @exception NullPointerException if the classname is null
@@ -120,8 +122,9 @@ public final class ReferenceDescriptor
      */
     public boolean matches( final ReferenceDescriptor other )
     {
-        return m_classname.equals( other.m_classname )
-                && other.getVersion().complies( getVersion() );
+        if( !m_classname.equals( other.m_classname ) ) return false;
+        if( other.getVersion().complies( getVersion() ) ) return true;
+        return false;
     }
 
     /**
@@ -194,7 +197,7 @@ public final class ReferenceDescriptor
     {
         if( type.indexOf( ":" ) == -1 )
         {
-            return Version.getVersion( "" );
+            return Version.getVersion( "1.0" );
         }
         else
         {
