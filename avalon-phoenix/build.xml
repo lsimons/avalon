@@ -493,6 +493,7 @@ Legal:
       <fileset dir=".">
         <include name="README"/>
         <include name="WARNING"/>
+        <include name="LICENSE"/>
         <include name="build.bat"/>
         <include name="build.sh"/>
         <include name="build.xml"/>
@@ -501,6 +502,10 @@ Legal:
 
     <fixcrlf srcdir="${src.dist.dir}" includes="build.sh" cr="remove"/>
     <fixcrlf srcdir="${src.dist.dir}" includes="build.bat" cr="add"/>
+    <fixcrlf srcdir="${src.dist.tools}/bin" includes="*.sh" cr="remove"/>
+    <fixcrlf srcdir="${src.dist.tools}/bin" includes="ant" cr="remove"/>
+    <fixcrlf srcdir="${src.dist.tools}/bin" includes="antRun" cr="remove"/>
+    <fixcrlf srcdir="${src.dist.tools}/bin" includes="*.bat" cr="add"/>
 
     <chmod perm="+x">
       <fileset dir="${src.dist.dir}">
