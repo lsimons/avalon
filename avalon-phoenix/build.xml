@@ -250,8 +250,8 @@ Legal:
     <copy file="${script.dir}/run.sh" todir="${bin.dist.bin}"/>
 
     <chmod dir="${bin.dist.dir}" perm="go-rwx" />
-    <chmod file="${bin.dist.bin}/run.sh" perm="u+x"/>
-    <chmod file="${bin.dist.bin}/run.bat" perm="u-x"/>
+    <chmod file="${bin.dist.bin}/*.sh" perm="u+x"/>
+    <chmod file="${bin.dist.bin}/*.bat" perm="u-x"/>
     <fixcrlf srcdir="${bin.dist.dir}" includes="**/*.bat" eol="crlf" />
     <fixcrlf srcdir="${bin.dist.dir}" includes="**/*.sh" eol="lf" />
 
@@ -275,8 +275,8 @@ Legal:
       <fileset dir="${bin.dist.dir}"/>
     </copy>
 
-    <chmod file="${phoenix.home}/bin/run.sh" perm="u+x"/>
-    <chmod file="${phoenix.home}/bin/run.bat" perm="u-x"/>
+    <chmod file="${phoenix.home}/bin/*.sh" perm="u+x"/>
+    <chmod file="${phoenix.home}/bin/*.bat" perm="u-x"/>
 
   </target>
 
@@ -381,11 +381,11 @@ Legal:
 
     <tar longfile="gnu" tarfile="${dist.base}/${dist.name}-bin.tar">
       <tarfileset dir="${dist.name}/.." mode="755" username="avalon" group="avalon">
-        <include name="${dist.name}/bin/run.sh"/>
+        <include name="${dist.name}/bin/*.sh"/>
       </tarfileset>
       <tarfileset dir="${dist.name}/.." username="avalon" group="avalon">
         <include name="${dist.name}/**"/>
-        <exclude name="${dist.name}/bin/run.sh"/>
+        <exclude name="${dist.name}/bin/*.sh"/>
       </tarfileset>
     </tar>
 
