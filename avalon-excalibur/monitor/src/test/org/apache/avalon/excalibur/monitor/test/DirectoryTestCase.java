@@ -33,7 +33,7 @@ import org.apache.avalon.framework.logger.ConsoleLogger;
  * Junit TestCase for the directory resource.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Id: DirectoryTestCase.java,v 1.4 2004/02/25 10:33:18 niclas Exp $
+ * @version $Id: DirectoryTestCase.java,v 1.5 2004/02/26 14:28:51 niclas Exp $
  */
 public class DirectoryTestCase
     extends TestCase
@@ -125,7 +125,7 @@ public class DirectoryTestCase
         final DirectoryResource resource =
             new DirectoryResource( dir.getCanonicalPath() );
 
-        final DirectoryTestCaseListener listener = new DirectoryTestCaseListener();
+        final DirectoryTCListener listener = new DirectoryTCListener();
         listener.enableLogging( new ConsoleLogger() );
         resource.addPropertyChangeListener( listener );
 

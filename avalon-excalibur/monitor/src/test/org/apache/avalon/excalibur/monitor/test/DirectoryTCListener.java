@@ -27,7 +27,7 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
 /**
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
-class DirectoryTestCaseListener
+class DirectoryTCListener
     extends AbstractLogEnabled
     implements PropertyChangeListener
 {

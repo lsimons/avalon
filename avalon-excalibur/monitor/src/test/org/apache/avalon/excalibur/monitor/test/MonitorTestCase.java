@@ -31,7 +31,7 @@ import org.apache.avalon.framework.component.ComponentSelector;
  * Junit TestCase for all the monitors in Excalibur.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Id: MonitorTestCase.java,v 1.4 2004/02/25 10:33:18 niclas Exp $
+ * @version $Id: MonitorTestCase.java,v 1.5 2004/02/26 14:28:51 niclas Exp $
  */
 public class MonitorTestCase
     extends ExcaliburTestCase
@@ -112,7 +112,7 @@ public class MonitorTestCase
         {
             final Mock thirdWheel = new Mock( "test.txt" );
             thirdWheel.touch();
-            final MonitorTestCaseListener listener = new MonitorTestCaseListener();
+            final MonitorTCListener listener = new MonitorTCListener();
             listener.enableLogging( getLogEnabledLogger() );
 
             final MockResource resource = new MockResource( thirdWheel );
@@ -188,7 +188,7 @@ public class MonitorTestCase
         }
     }
 
-    private void checkForModification( final MonitorTestCaseListener listener )
+    private void checkForModification( final MonitorTCListener listener )
     {
         final long sleepTo = System.currentTimeMillis() + 1000L;
         while( System.currentTimeMillis() < sleepTo &&
