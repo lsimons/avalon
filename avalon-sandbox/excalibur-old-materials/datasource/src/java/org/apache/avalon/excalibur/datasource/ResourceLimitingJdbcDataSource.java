@@ -172,7 +172,7 @@ import org.apache.excalibur.instrument.Instrumentable;
  * </ul>
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.6 $ $Date: 2003/04/07 18:45:56 $
+ * @version CVS $Revision: 1.7 $ $Date: 2003/04/09 02:26:35 $
  * @since 4.1
  */
 public class ResourceLimitingJdbcDataSource
@@ -238,8 +238,6 @@ public class ResourceLimitingJdbcDataSource
 
             throw new NoAvailableConnectionException( e.getMessage() );
         }
-        
-        System.out.println(String.valueOf(connection));
         
         return (Connection)connection;
     }
