@@ -84,7 +84,7 @@ public class GumpTask extends SystemTask
 
     public static class Template extends FileHolder
     {
-        private String m_target = "gump";
+        private String m_target;
 
         public void setTarget( String target )
         {
@@ -394,11 +394,23 @@ public class GumpTask extends SystemTask
                       "\n      <!-- external references -->" );
                 }
                 String key = resource.getKey();
-                String alias = getKeyForResource( resource );
-                writer.write( 
-                  "\n      <depend property=\"gump.resource." + key 
-                  + "\" project=\"" + alias 
-                  + "\"/>" );
+                String id = resource.getGump().getId();
+                if( null == id )
+                {
+                    String alias = getKeyForResource( resource );
+                    writer.write( 
+                      "\n      <depend property=\"gump.resource." + key 
+                      + "\" project=\"" + alias 
+                      + "\"/>" );
+                }
+                else
+                {
+                    String alias = getKeyForResource( resource );
+                    writer.write( 
+                      "\n      <depend property=\"gump.resource." + key 
+                      + "\" project=\"" + alias 
+                      + "\" id=\"" + id + "\"/>" );
+                }
             }
         }
 
