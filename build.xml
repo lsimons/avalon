@@ -10,7 +10,7 @@
   <property file="${basedir}/user.properties"/>
   <property file="${basedir}/build.properties"/>
   <property name="reactor.xml" 
-    value="${project.home}/build/reactor.xml"/>
+    value="${project.system}/build/reactor.xml"/>
 
   <condition property="magic.env.declared" value="false">
     <isset property="ENV.MAGIC_HOME"/>
