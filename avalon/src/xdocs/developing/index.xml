@@ -13,10 +13,10 @@
     <authorgroup>
       <xi:include href="../authors/bloritsch.xml"/>
     </authorgroup>
-    <edition>Developer's Guide version 1.0 for Avalon Framework</edition>
+    <edition>Developer's Guide for Avalon Framework</edition>
     <pubdate>2001</pubdate>
     <copyright>
-      <year>2001</year>
+      <year>2001-2002</year>
       <holder>Apache Software Foundation</holder>
     </copyright>
     <legalnotice>

@@ -8,15 +8,14 @@
       <body>
   <menu name="About">
     <item name="Book Info" href="index.html"/>
-    <item name="Mr. Berin Loritsch" href="../authors/bloritsch.html"/>
     <item name="Revisions" href="changes.html"/>
   </menu>
 
   <menu name="Chapters">
-    <item name="Introduction and Overview" href="introduction.html"/>
-    <item name="Decomposing a System" href="decomposing.html"/>
-    <item name="Framework and Foundations" href="framework.html"/>
-    <item name="Implementing the Dream" href="implementing.html"/>
+    <item name="Overview" href="introduction.html"/>
+    <item name="Decomposition" href="decomposing.html"/>
+    <item name="Avalon Framework" href="framework.html"/>
+    <item name="Using the framework" href="implementing.html"/>
     <item name="Compatibility with Avalon" href="compatiblity.html"/>
     <item name="Conclusion" href="conclusion.html"/>
   </menu>
