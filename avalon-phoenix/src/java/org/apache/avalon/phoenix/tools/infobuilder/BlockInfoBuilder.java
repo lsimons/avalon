@@ -25,7 +25,7 @@ import org.apache.avalon.phoenix.metainfo.ServiceDescriptor;
  * is specified in the BlockInfo specification.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.11 $ $Date: 2002/03/16 00:11:56 $
+ * @version $Revision: 1.12 $ $Date: 2002/05/10 02:43:04 $
  */
 public final class BlockInfoBuilder
     extends AbstractLogEnabled
@@ -40,7 +40,7 @@ public final class BlockInfoBuilder
      * @param classname The classname of Block
      * @param info the BlockInfo configuration
      * @return the created BlockInfo
-     * @exception ConfigurationException if an error occurs
+     * @throws ConfigurationException if an error occurs
      */
     public BlockInfo build( final String classname, final Configuration info )
         throws Exception
@@ -94,7 +94,7 @@ public final class BlockInfoBuilder
      * @param classname The classname of Block (used for logging purposes)
      * @param configuration the dependencies configuration
      * @return the created DependencyDescriptor
-     * @exception ConfigurationException if an error occurs
+     * @throws ConfigurationException if an error occurs
      */
     private DependencyDescriptor[] buildDependencies( final String classname,
                                                       final Configuration configuration )
@@ -120,7 +120,7 @@ public final class BlockInfoBuilder
      * @param classname The classname of Block (used for logging purposes)
      * @param dependency the dependency configuration
      * @return the created DependencyDescriptor
-     * @exception ConfigurationException if an error occurs
+     * @throws ConfigurationException if an error occurs
      */
     private DependencyDescriptor buildDependency( final String classname,
                                                   final Configuration dependency )
@@ -152,7 +152,7 @@ public final class BlockInfoBuilder
      *
      * @param servicesSet the services configuration
      * @return the created ServiceDescriptor
-     * @exception ConfigurationException if an error occurs
+     * @throws ConfigurationException if an error occurs
      */
     private ServiceDescriptor[] buildServices( final Configuration servicesSet )
         throws ConfigurationException
@@ -175,7 +175,7 @@ public final class BlockInfoBuilder
      *
      * @param service the service Configuration
      * @return the created ServiceDescriptor
-     * @exception ConfigurationException if an error occurs
+     * @throws ConfigurationException if an error occurs
      */
     private ServiceDescriptor buildService( final Configuration service )
         throws ConfigurationException
@@ -197,7 +197,7 @@ public final class BlockInfoBuilder
      * @param classname The classname of Block (used to create descriptor)
      * @param block the Block Configuration
      * @return the created BlockDescriptor
-     * @exception ConfigurationException if an error occurs
+     * @throws ConfigurationException if an error occurs
      */
     private BlockDescriptor buildBlockDescriptor( final String classname,
                                                   final Configuration block )
@@ -221,7 +221,7 @@ public final class BlockInfoBuilder
      *
      * @param version the version string
      * @return the created Version object
-     * @exception ConfigurationException if an error occurs
+     * @throws ConfigurationException if an error occurs
      */
     private Version buildVersion( final String version )
         throws ConfigurationException

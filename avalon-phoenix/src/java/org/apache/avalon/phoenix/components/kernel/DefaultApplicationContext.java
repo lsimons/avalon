@@ -86,7 +86,7 @@ class DefaultApplicationContext
      * Configure frame.
      *
      * @param configuration the configuration data
-     * @exception ConfigurationException if an error occurs
+     * @throws ConfigurationException if an error occurs
      */
     public void configure( final Configuration configuration )
         throws ConfigurationException
@@ -197,7 +197,7 @@ class DefaultApplicationContext
      *
      * @param name the name of thread pool
      * @return the threadpool
-     * @exception IllegalArgumentException if the name of thread pool is
+     * @throws IllegalArgumentException if the name of thread pool is
      *            invalid or named pool does not exist
      */
     public ThreadPool getThreadPool( final String name )

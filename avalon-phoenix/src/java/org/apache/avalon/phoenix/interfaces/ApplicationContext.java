@@ -80,7 +80,7 @@ public interface ApplicationContext
      *
      * @param name the name of thread pool
      * @return the threadpool
-     * @exception IllegalArgumentException if the name of thread pool is
+     * @throws IllegalArgumentException if the name of thread pool is
      *            invalid or named pool does not exist
      */
     ThreadPool getThreadPool( String name )

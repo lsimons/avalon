@@ -30,7 +30,7 @@ import org.apache.avalon.phoenix.tools.infobuilder.BlockInfoBuilder;
  * and is in the format specified for <code>assembly.xml</code> files.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.10 $ $Date: 2002/03/16 00:11:56 $
+ * @version $Revision: 1.11 $ $Date: 2002/05/10 02:43:04 $
  */
 public class Assembler
     extends AbstractLogEnabled
@@ -61,7 +61,7 @@ public class Assembler
      * @param directory the directory Sar installed to
      * @param classPath the URL array to represent Sar ClassPath
      * @return the new SarMetaData
-     * @exception AssemblyException if an error occurs
+     * @throws AssemblyException if an error occurs
      */
     public SarMetaData assembleSar( final String name,
                                     final Configuration assembly,
@@ -110,7 +110,7 @@ public class Assembler
      *
      * @param blocks the list of Configuration objects for blocks
      * @return the BlockMetaData array
-     * @exception Exception if an error occurs
+     * @throws Exception if an error occurs
      */
     private BlockMetaData[] buildBlocks( final Configuration[] blocks,
                                          final ClassLoader classLoader )
@@ -133,7 +133,7 @@ public class Assembler
      *
      * @param block the Configuration object for block
      * @return the BlockMetaData object
-     * @exception AssemblyException if an error occurs
+     * @throws AssemblyException if an error occurs
      */
     private BlockMetaData buildBlock( final Configuration block,
                                       final ClassLoader classLoader )
@@ -167,7 +167,7 @@ public class Assembler
      * @param classname the name of Blocks class
      * @param cache the place to cache BlockInfo objects
      * @return the BlockInfo for specified block
-     * @exception VerifyException if an error occurs
+     * @throws VerifyException if an error occurs
      */
     private BlockInfo getBlockInfo( final String name,
                                     final String classname,
@@ -206,7 +206,7 @@ public class Assembler
      *
      * @param listeners the list of Configuration objects for listeners
      * @return the BlockListenerMetaData array
-     * @exception AssemblyException if an error occurs
+     * @throws AssemblyException if an error occurs
      */
     private BlockListenerMetaData[] buildBlockListeners( final Configuration[] listeners )
         throws AssemblyException
@@ -227,7 +227,7 @@ public class Assembler
      *
      * @param listener the Configuration object for listener
      * @return the BlockListenerMetaData object
-     * @exception AssemblyException if an error occurs
+     * @throws AssemblyException if an error occurs
      */
     private BlockListenerMetaData buildBlockListener( final Configuration listener )
         throws AssemblyException
@@ -252,7 +252,7 @@ public class Assembler
      *
      * @param provides the set of provides elements for block
      * @return the created DependencyMetaData array
-     * @exception ConfigurationException if config data is malformed
+     * @throws ConfigurationException if config data is malformed
      */
     private DependencyMetaData[] buildDependencyMetaDatas( final Configuration[] provides )
         throws ConfigurationException

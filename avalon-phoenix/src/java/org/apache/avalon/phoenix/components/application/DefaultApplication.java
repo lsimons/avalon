@@ -68,8 +68,8 @@ public final class DefaultApplication
      * This is only valid when isRunning() returns false,
      * otherwise it will generate an IllegalStateException.
      *
-     * @exception IllegalStateException if application is already running
-     * @exception ApplicationException if the application failed to start.
+     * @throws IllegalStateException if application is already running
+     * @throws ApplicationException if the application failed to start.
      *            the message part of exception will contain more information
      *            pertaining to why the application failed to startup
      */
@@ -116,8 +116,8 @@ public final class DefaultApplication
      * This is equivelent to  calling stop() and then start()
      * in succession.
      *
-     * @exception IllegalStateException if application is not already running
-     * @exception ApplicationException if the application failed to stop or start.
+     * @throws IllegalStateException if application is not already running
+     * @throws ApplicationException if the application failed to stop or start.
      *            the message part of exception will contain more information
      *            pertaining to why the application failed to startup/shutdown
      */
@@ -133,8 +133,8 @@ public final class DefaultApplication
      * This is only valid when isRunning() returns true,
      * otherwise it will generate an IllegalStateException.
      *
-     * @exception IllegalStateException if application is not already running
-     * @exception ApplicationException if the application failed to shutdown.
+     * @throws IllegalStateException if application is not already running
+     * @throws ApplicationException if the application failed to shutdown.
      *            the message part of exception will contain more information
      *            pertaining to why the application failed to shutodwn
      */
@@ -293,7 +293,7 @@ public final class DefaultApplication
      * Exceptions leave the blocks in an indeterminate state.
      *
      * @param name the name of phase (for logging purposes)
-     * @exception Exception if an error occurs
+     * @throws Exception if an error occurs
      */
     private final void runPhase( final String name )
         throws Exception
@@ -317,7 +317,7 @@ public final class DefaultApplication
      * has already been setup.
      *
      * @param name the name of phase (for logging purposes)
-     * @exception Exception if an error occurs
+     * @throws Exception if an error occurs
      */
     private final void doRunPhase( final String name )
         throws Exception

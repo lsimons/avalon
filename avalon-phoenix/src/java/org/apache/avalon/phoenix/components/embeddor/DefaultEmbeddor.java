@@ -151,7 +151,7 @@ public class DefaultEmbeddor
      * </ul>
      *
      * @param parameters the Parameters for embeddor
-     * @exception ParameterException if an error occurs
+     * @throws ParameterException if an error occurs
      */
     public synchronized void parameterize( final Parameters parameters )
         throws ParameterException
@@ -317,7 +317,7 @@ public class DefaultEmbeddor
     /**
      * Ask the embeddor to restart itself if this operation is supported.
      *
-     * @exception UnsupportedOperationException if restart not supported
+     * @throws UnsupportedOperationException if restart not supported
      */
     public void restart()
         throws UnsupportedOperationException
@@ -431,7 +431,7 @@ public class DefaultEmbeddor
      * default-apps-location specified in Parameters.
      * TODO: load facilities from .fars as well.
      *
-     * @exception Exception if an error occurs
+     * @throws Exception if an error occurs
      */
     protected void deployDefaultApplications()
         throws Exception
@@ -500,7 +500,7 @@ public class DefaultEmbeddor
      * setup lifecycle stages.
      *
      * @param component the component
-     * @exception Exception if an error occurs
+     * @throws Exception if an error occurs
      */
     private void setupComponent( final Component component, final String loggerName, Configuration config )
         throws Exception
@@ -548,7 +548,7 @@ public class DefaultEmbeddor
      * shutdown lifecycle stages.
      *
      * @param component the component
-     * @exception Exception if an error occurs
+     * @throws Exception if an error occurs
      */
     private void shutdownComponent( final Component component )
         throws Exception
@@ -570,7 +570,7 @@ public class DefaultEmbeddor
      * @param component the name of the component
      * @param clazz the name of interface/type
      * @return the created object
-     * @exception Exception if an error occurs
+     * @throws Exception if an error occurs
      */
     private Object createComponent( final String component, final Class clazz )
         throws Exception

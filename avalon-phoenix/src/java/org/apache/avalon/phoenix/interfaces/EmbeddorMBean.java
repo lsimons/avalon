@@ -76,7 +76,7 @@ public interface EmbeddorMBean
     /**
      * Request the embeddor to restart.
      *
-     * @exception UnsupportedOperationException if restart not a supported operation
+     * @throws UnsupportedOperationException if restart not a supported operation
      */
     void restart()
         throws UnsupportedOperationException;

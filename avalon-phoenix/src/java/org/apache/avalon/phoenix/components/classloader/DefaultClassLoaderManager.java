@@ -76,7 +76,7 @@ public class DefaultClassLoaderManager
      * </ul>
      *
      * @param context the context
-     * @exception ContextException if context does not contain common classloader
+     * @throws ContextException if context does not contain common classloader
      */
     public void contextualize( Context context )
         throws ContextException
@@ -103,7 +103,7 @@ public class DefaultClassLoaderManager
      * @param homeDirectory the base directory of application
      * @param classPath the list of URLs in applications deployment
      * @return the ClassLoader created
-     * @exception Exception if an error occurs
+     * @throws Exception if an error occurs
      */
     public ClassLoader createClassLoader( final Configuration environment,
                                           final File source,
@@ -249,7 +249,7 @@ public class DefaultClassLoaderManager
      *
      * @param configuration the configuration data
      * @param baseDirectory the applications base directory
-     * @exception ConfigurationException if an error occurs
+     * @throws ConfigurationException if an error occurs
      */
     private Policy configurePolicy( final Configuration configuration,
                                     final File baseDirectory )

@@ -45,9 +45,9 @@ public final class CLIMain
     private static final Resources REZ =
         ResourceManager.getPackageResources( CLIMain.class );
 
-    private static final String DEFAULT_LOG_FILE = 
+    private static final String DEFAULT_LOG_FILE =
         File.separator + "logs" + File.separator + "phoenix.log";
-    private static final String DEFAULT_CONF_FILE = 
+    private static final String DEFAULT_CONF_FILE =
         File.separator + "conf" + File.separator + "kernel.xml";
 
     private final static String DEFAULT_FORMAT =
@@ -91,7 +91,7 @@ public final class CLIMain
             if( !parameters.isParameter( "phoenix.configfile" ) )
             {
                 final File configFile = new File( phoenixHome + DEFAULT_CONF_FILE );
-                parameters.setParameter( "phoenix.configfile", 
+                parameters.setParameter( "phoenix.configfile",
                                          configFile.getCanonicalFile().toString() );  // setting default
             }
 
@@ -108,7 +108,7 @@ public final class CLIMain
     /**
      * Actually create and execute the main component of embeddor.
      *
-     * @exception Exception if an error occurs
+     * @throws Exception if an error occurs
      */
     private void execute( final Parameters parameters,
                           final Hashtable data,

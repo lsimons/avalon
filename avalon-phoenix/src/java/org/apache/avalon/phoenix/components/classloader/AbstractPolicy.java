@@ -95,7 +95,7 @@ abstract class AbstractPolicy
      * @param location the location of codes to apply permission set to.
      * @param signers a comma seperated string of thos who signed codebase
      * @return the new permission set
-     * @exception MalformedURLException if location string is malformed
+     * @throws MalformedURLException if location string is malformed
      */
     protected Permissions createPermissionSetFor( final String location,
                                                   final Certificate[] signers )

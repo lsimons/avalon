@@ -114,7 +114,7 @@ class LifecycleHelper
      * object if appropriate.
      *
      * @param metaData the BlockListenerMetaData
-     * @exception Exception if an error occurs when listener passes
+     * @throws Exception if an error occurs when listener passes
      *            through a specific lifecycle stage
      */
     public void startupListener( final BlockListenerMetaData metaData )
@@ -183,7 +183,7 @@ class LifecycleHelper
      * cause exceptions with useful messages to be raised.
      *
      * @param entry the entry containing Block
-     * @exception Exception if an error occurs when block passes
+     * @throws Exception if an error occurs when block passes
      *            through a specific lifecycle stage
      */
     public void startup( final BlockEntry entry )
@@ -430,7 +430,7 @@ class LifecycleHelper
      *
      * @param metaData the BlockMetaData
      * @return the newly created Block object
-     * @exception Exception if an error occurs
+     * @throws Exception if an error occurs
      */
     private Block createBlock( final BlockMetaData metaData )
         throws Exception
@@ -460,7 +460,7 @@ class LifecycleHelper
      *
      * @param name the name of component
      * @return the Configuration object
-     * @exception ConfigurationException if an error occurs
+     * @throws ConfigurationException if an error occurs
      */
     private Configuration getConfiguration( final String name, final int type )
         throws ConfigurationException
@@ -560,7 +560,7 @@ class LifecycleHelper
      * @param name the name of block that caused failure
      * @param stage the stage
      * @param t the exception thrown
-     * @exception Exception containing error
+     * @throws Exception containing error
      */
     private void fail( final String name, final int stage, final Throwable t )
         throws Exception

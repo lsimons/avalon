@@ -113,7 +113,7 @@ class PolicyClassLoader
      *
      * @param name the name of resource to look for
      * @return the Enumeration of resources
-     * @exception IOException if an input/output error occurs
+     * @throws IOException if an input/output error occurs
      */
     public Enumeration findResources( final String name )
         throws IOException
@@ -166,7 +166,7 @@ class PolicyClassLoader
      *
      * @param classPath the string representation of urls
      * @return the URL array
-     * @exception MalformedURLException if an error occurs
+     * @throws MalformedURLException if an error occurs
      */
     private URL[] createURLs( final String[] classPath )
         throws MalformedURLException
@@ -187,7 +187,7 @@ class PolicyClassLoader
      * using our <code>URLStreamHandlerFactory</code> object.
      *
      * @param url the string representation of URL
-     * @exception MalformedURLException if URL is badly formed or
+     * @throws MalformedURLException if URL is badly formed or
      *            protocol can not be found
      */
     private URL createURL( final String url )
@@ -209,7 +209,7 @@ class PolicyClassLoader
      *
      * @param scheme the scheme/protocol to create handler for
      * @return the created URLStreamHandler or null
-     * @exception MalformedURLException if an error occurs
+     * @throws MalformedURLException if an error occurs
      */
     private URLStreamHandler createHandler( final String scheme )
         throws MalformedURLException
@@ -229,7 +229,7 @@ class PolicyClassLoader
      *
      * @param url the full string representation of url
      * @return the scheme part of URL
-     * @exception MalformedURLException if an error occurs
+     * @throws MalformedURLException if an error occurs
      */
     private String parseScheme( final String url )
         throws MalformedURLException
