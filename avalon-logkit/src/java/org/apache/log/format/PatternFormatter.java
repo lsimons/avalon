@@ -25,7 +25,7 @@ import org.apache.log.*;
  *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  * @author <a href="mailto:sylvain@apache.org">Sylvain Wallez</a>
- * @version CVS $Revision: 1.13 $ $Date: 2001/07/27 08:36:17 $
+ * @version CVS $Revision: 1.14 $ $Date: 2001/07/30 11:36:07 $
  */
 public class PatternFormatter
     implements Formatter
@@ -377,7 +377,17 @@ public class PatternFormatter
             break;
 
         case TYPE_CONTEXT:
-            str = getContext( event.getContextStack(), run.m_format );
+            if( null == run.m_format || 
+                run.m_format.startsWith( "stack" ) )
+            {
+                //Print a warning out to stderr here
+                //to indicate you are using a deprecated feature?
+                str = getContext( event.getContextStack(), run.m_format );
+            }
+            else
+            {
+                str = getContextMap( event.getContextMap(), run.m_format );
+            }
             break;
 
         case TYPE_CATEGORY:
@@ -422,35 +432,49 @@ public class PatternFormatter
      * @param context the context string
      * @param format ancilliary format parameter - allowed to be null
      * @return the formatted string
+     * @deprecated Use getContextStack rather than this method
      */
     protected String getContext( final ContextStack stack, final String format )
     {
-        if( null == stack ) return "";
-
-        //TODO: Retrieve StringBuffers from a cache
-        final StringBuffer sb = new StringBuffer();
-        final int size = stack.getSize();
-
-        int sizeSpecification = Integer.MAX_VALUE;
-
-        if( null != format )
-        {
-            try { sizeSpecification = Integer.parseInt( format ); }
-            catch( final NumberFormatException nfe ) { nfe.printStackTrace(); }
-        }
-
-        return stack.toString( sizeSpecification );
+        return getContextStack( stack, format );
     }
 
     /**
-     * Correct a context string by replacing '.''s with a '_'.
+     * Utility method to format context.
      *
-     * @param context the un-fixed context
-     * @return the fixed context
+     * @param context the context string
+     * @param format ancilliary format parameter - allowed to be null
+     * @return the formatted string
      */
-    protected final String fix( final String context )
+    protected String getContextStack( final ContextStack stack, final String format )
     {
-        return context.replace( '.', '_' );
+        if( null == stack ) return "";
+
+        //No longer supported
+        /*
+        int sizeSpecification = Integer.MAX_VALUE;
+        if( null != format )
+        {
+            
+            try { sizeSpecification = Integer.parseInt( format ); }
+            catch( final NumberFormatException nfe ) { nfe.printStackTrace(); }
+        }
+        */
+
+        return stack.toString( Integer.MAX_VALUE );
+    }
+
+    /**
+     * Utility method to format context map.
+     *
+     * @param map the context map
+     * @param format ancilliary format parameter - allowed to be null
+     * @return the formatted string
+     */
+    protected String getContextMap( final ContextMap map, final String format )
+    {
+        if( null == map ) return "";
+        return map.get( format, "" ).toString();
     }
 
     /**
