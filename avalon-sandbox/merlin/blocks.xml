@@ -19,8 +19,10 @@ classpath), anad tagged configuration fragments.
    <block name="playground" path="../assembly/build/lib/avalon-assembly-demo-1.0.jar"/>
 
    <block name="demo" path="../merlin/build/lib/avalon-merlin-demo-1.0.jar">
-     <configuration target="test/standard">
-       <message>Client supplied message.</message>
+     <configuration target="test">
+       <configuration target="standard">
+         <message>Client supplied message.</message>
+       </configuration>
      </configuration>
    </block>
 
