@@ -19,12 +19,13 @@ import org.apache.avalon.Contextualizable;
 import org.apache.avalon.DefaultComponentManager;
 import org.apache.avalon.DefaultContext;
 import org.apache.avalon.Initializable;
+import org.apache.avalon.atlantis.Application;
 import org.apache.avalon.atlantis.ApplicationException;
 import org.apache.avalon.camelot.AbstractContainer;
-import org.apache.avalon.camelot.pipeline.AvalonState;
 import org.apache.avalon.camelot.ContainerException;
 import org.apache.avalon.camelot.Entry;
 import org.apache.avalon.camelot.Factory;
+import org.apache.avalon.camelot.pipeline.AvalonState;
 import org.apache.avalon.camelot.pipeline.ComponentBuilder;
 import org.apache.avalon.camelot.pipeline.ComponentManagerBuilder;
 import org.apache.avalon.camelot.pipeline.ConfigurationRepository;
@@ -45,16 +46,16 @@ import org.apache.phoenix.engine.facilities.DefaultConfigurationRepository;
 import org.apache.phoenix.engine.facilities.DefaultContextBuilder;
 import org.apache.phoenix.engine.facilities.DefaultLogManager;
 import org.apache.phoenix.engine.facilities.DefaultLoggerBuilder;
-import org.apache.phoenix.engine.facilities.DefaultPolicy;
+import org.apache.phoenix.engine.facilities.security.DefaultPolicy;
 import org.apache.phoenix.engine.facilities.DefaultThreadManager;
-import org.apache.phoenix.engine.facilities.SarClassLoader;
+import org.apache.phoenix.engine.facilities.classmanager.SarClassLoader;
 import org.apache.phoenix.engine.phases.DefaultPhase;
 import org.apache.phoenix.engine.phases.Phase;
 import org.apache.phoenix.engine.phases.Traversal;
 import org.apache.phoenix.metainfo.DependencyDescriptor;
 
 /**
- * This is the basic container of blocks. A server application 
+ * This is the basic container of blocks. A server application
  * represents an aggregation of blocks that act together to form
  * an application.
  *
@@ -63,7 +64,7 @@ import org.apache.phoenix.metainfo.DependencyDescriptor;
  */
 public class DefaultServerApplication
     extends AbstractContainer
-    implements ServerApplication
+    implements Application, Configurable, Contextualizable
 {
     protected HashMap                  m_phases           = new HashMap();
     protected BlockDAG                 m_dag              = new BlockDAG();
@@ -103,11 +104,11 @@ public class DefaultServerApplication
         throws ConfigurationException
     {
         m_configuration = configuration;
-    }    
+    }
 
-    public void init() 
-        throws Exception 
-    {        
+    public void init()
+        throws Exception
+    {
         createComponents();
 
         //setup the component manager
@@ -124,13 +125,13 @@ public class DefaultServerApplication
     {
         Phase phase = null;
 
-        phase = new DefaultPhase( Phase.FORWARD, 
+        phase = new DefaultPhase( Phase.FORWARD,
                                   new StartupPipeline(),
                                   AvalonState.BASE,
                                   AvalonState.RUNNING );
         m_phases.put( "startup", phase );
 
-        phase = new DefaultPhase( Phase.REVERSE, 
+        phase = new DefaultPhase( Phase.REVERSE,
                                   new ShutdownPipeline(),
                                   AvalonState.RUNNING,
                                   AvalonState.DISPOSED );
@@ -151,8 +152,8 @@ public class DefaultServerApplication
     public void start()
         throws Exception
     {
-        // load blocks 
-        try 
+        // load blocks
+        try
         {
             getLogger().info( "Number of blocks to load: " + m_entries.size() );
             final Phase phase = (Phase)m_phases.get( "startup" );
@@ -168,9 +169,9 @@ public class DefaultServerApplication
     public void stop()
         throws Exception
     {
-    }    
+    }
 
-    public void dispose() 
+    public void dispose()
         throws Exception
     {
         getLogger().info( "Number of blocks to unload: " + m_entries.size() );
@@ -240,8 +241,8 @@ public class DefaultServerApplication
         setupComponent( object, null, null );
     }
 
-    protected void setupComponent( final Component object, 
-                                   final String logName, 
+    protected void setupComponent( final Component object,
+                                   final String logName,
                                    final Configuration configuration )
         throws Exception
     {
@@ -275,7 +276,7 @@ public class DefaultServerApplication
         if( Phase.FORWARD == phase.getTraversal() )
         {
             final Iterator entries = list();
-            while( entries.hasNext() ) 
+            while( entries.hasNext() )
             {
                 final String name = (String)entries.next();
                 m_dag.walkGraph( name, phase );
@@ -283,9 +284,9 @@ public class DefaultServerApplication
         }
         else if( Phase.REVERSE == phase.getTraversal() )
         {
-            //TODO: 
+            //TODO:
             final Iterator entries = list();
-            while( entries.hasNext() ) 
+            while( entries.hasNext() )
             {
                 final String name = (String)entries.next();
                 //m_dag.reverseWalkGraph( name, phase );
@@ -295,7 +296,7 @@ public class DefaultServerApplication
         {
             //TODO: Does this make sense ????
             final Iterator entries = list();
-            while( entries.hasNext() ) 
+            while( entries.hasNext() )
             {
                 final String name = (String)entries.next();
                 final BlockEntry entry = (BlockEntry)getEntry( name );
@@ -320,9 +321,9 @@ public class DefaultServerApplication
     }
 
     /**
-     * Retrieve a list of RoleEntry objects that were specified 
-     * in configuration file and verify they were expected based 
-     * on BlockInfo file. Also verify that all entries specified 
+     * Retrieve a list of RoleEntry objects that were specified
+     * in configuration file and verify they were expected based
+     * on BlockInfo file. Also verify that all entries specified
      * in BlockInfo file have been provided.
      *
      * @param entry the BlockEntry describing block
@@ -337,10 +338,10 @@ public class DefaultServerApplication
         {
             final String role = roleEntrys[ i ].getRole();
             final DependencyDescriptor descriptor = entry.getBlockInfo().getDependency( role );
-            
+
             if( null == descriptor )
             {
-                final String message = "Unknown dependency " + roleEntrys[ i ].getName() + 
+                final String message = "Unknown dependency " + roleEntrys[ i ].getName() +
                     " with role " + role + " declared for Block " + name;
 
                 getLogger().warn( message );
@@ -352,9 +353,9 @@ public class DefaultServerApplication
         final DependencyDescriptor[] dependencies = entry.getBlockInfo().getDependencies();
         for( int i = 0; i < dependencies.length; i++ )
         {
-            final RoleEntry roleEntry = 
+            final RoleEntry roleEntry =
                 entry.getRoleEntry( dependencies[ i ].getRole() );
-            
+
             if( null == roleEntry )
             {
                 final String message = "Dependency " + dependencies[ i ].getRole() +
@@ -385,7 +386,7 @@ public class DefaultServerApplication
                               m_componentBuilder );
         componentManager.put( "org.apache.avalon.camelot.pipeline.ComponentManagerBuilder",
                               m_componentManagerBuilder );
-        componentManager.put( "org.apache.avalon.camelot.pipeline.ConfigurationRepository", 
+        componentManager.put( "org.apache.avalon.camelot.pipeline.ConfigurationRepository",
                               m_configurationRepository );
 
         return componentManager;

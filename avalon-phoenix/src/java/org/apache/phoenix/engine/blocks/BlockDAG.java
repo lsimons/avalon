@@ -12,9 +12,9 @@ import org.apache.avalon.AbstractLoggable;
 import org.apache.avalon.ComponentManager;
 import org.apache.avalon.ComponentManagerException;
 import org.apache.avalon.Composer;
+import org.apache.avalon.atlantis.Application;
 import org.apache.avalon.camelot.ContainerException;
 import org.apache.phoenix.Block;
-import org.apache.phoenix.engine.ServerApplication;
 import org.apache.phoenix.metainfo.DependencyDescriptor;
 import org.apache.phoenix.metainfo.ServiceDescriptor;
 
@@ -27,12 +27,12 @@ public class BlockDAG
     extends AbstractLoggable
     implements Composer
 {
-    protected ServerApplication       m_serverApplication;
+    protected Application       m_application;
 
     public void compose( final ComponentManager componentManager )
         throws ComponentManagerException
     {
-        m_serverApplication = (ServerApplication)componentManager.
+        m_application = (Application)componentManager.
             lookup( "org.apache.phoenix.engine.ServerApplication" );
     }
 
@@ -51,7 +51,7 @@ public class BlockDAG
     protected BlockEntry getBlockEntry( final String name )
         throws Exception
     {
-        return (BlockEntry)m_serverApplication.getEntry( name );
+        return (BlockEntry)m_application.getEntry( name );
         //catch( final ContainerException ce )
     }
 
@@ -61,8 +61,8 @@ public class BlockDAG
      * @param name name of BlockEntry
      * @param entry the BlockEntry
      */
-    protected void visitDependencies( final String name, 
-                                      final BlockEntry entry, 
+    protected void visitDependencies( final String name,
+                                      final BlockEntry entry,
                                       final BlockVisitor visitor )
         throws Exception
     {
@@ -74,10 +74,10 @@ public class BlockDAG
             final ServiceDescriptor serviceDescriptor = descriptors[ i ].getService();
             final String role = descriptors[ i ].getRole();
 
-            getLogger().debug( "Traversing dependency of " + name + " with role " + role + 
+            getLogger().debug( "Traversing dependency of " + name + " with role " + role +
                                " to provide service " + serviceDescriptor.getName() );
 
-            //roleEntry should NEVER be null as it is checked when 
+            //roleEntry should NEVER be null as it is checked when
             //entry is added to container
             final RoleEntry roleEntry = entry.getRoleEntry( role );
             final String dependencyName = roleEntry.getName();
@@ -97,18 +97,18 @@ public class BlockDAG
         throws Exception
     {
         getLogger().debug( "Traversing reverse dependencies for " + name );
-        
-        final Iterator entries = m_serverApplication.list();
-        while( entries.hasNext() ) 
+
+        final Iterator entries = m_application.list();
+        while( entries.hasNext() )
         {
             final String blockName = (String)entries.next();
-            final BlockEntry entry = getBlockEntry( blockName );           
+            final BlockEntry entry = getBlockEntry( blockName );
             final RoleEntry[] roles = entry.getRoleEntrys();
 
             for( int i = 0; i < roles.length; i++ )
             {
                 final String depends = roles[ i ].getName();
-                
+
                 if( depends.equals( name ) )
                 {
                     getLogger().debug( "Attempting to unload block " + blockName +
@@ -121,13 +121,13 @@ public class BlockDAG
         }
     }
 
-    protected void visitBlock( final String name, 
+    protected void visitBlock( final String name,
                                final BlockEntry entry,
                                final BlockVisitor visitor,
                                final boolean forward )
         throws Exception
     {
-        if( forward ) 
+        if( forward )
         {
             visitDependencies( name, entry, visitor );
         }

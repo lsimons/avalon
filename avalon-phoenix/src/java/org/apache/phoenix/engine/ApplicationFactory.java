@@ -7,20 +7,23 @@
  */
 package org.apache.phoenix.engine;
 
-import org.apache.avalon.Contextualizable;
-import org.apache.avalon.Loggable;
 import org.apache.avalon.atlantis.Application;
-import org.apache.avalon.configuration.Configurable;
 
 /**
- * The ServerApplication is a self-contained server component that performs a specific
- * user function. 
+ * This interface is used to create an Application.
+ * The application created is usually specific to a particular kernel.
  *
- * Example ServerApplications may be a Mail Server, File Server, Directory Server etc.
+ * Note this should eventually be moved to Atlantis.
  *
+ * @author <a href="mailto:mail@leosimons.com">Leo Simons</a>
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
-public interface ServerApplication 
-    extends Application, Contextualizable, Configurable
+public interface ApplicationFactory
 {
+    /**
+     * Create new Application.
+     *
+     * @return the new Application
+     */
+    Application createApplication();
 }

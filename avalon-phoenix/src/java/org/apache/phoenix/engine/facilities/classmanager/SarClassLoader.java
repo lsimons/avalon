@@ -5,7 +5,7 @@
  * version 1.1, a copy of which has been included with this distribution in 
  * the LICENSE file. 
  */
-package org.apache.phoenix.engine.facilities;
+package org.apache.phoenix.engine.facilities.classmanager;
 
 import java.io.File;
 import java.net.MalformedURLException;
@@ -19,7 +19,6 @@ import org.apache.avalon.Contextualizable;
 import org.apache.avalon.Initializable;
 import org.apache.avalon.atlantis.Facility;
 import org.apache.avalon.util.io.ExtensionFileFilter;
-import org.apache.avalon.util.security.PolicyClassLoader;
 import org.apache.phoenix.engine.SarContextResources;
 
 /**
@@ -52,11 +51,11 @@ public class SarClassLoader
     public void init()
         throws Exception
     {
-        final File blockDir = 
+        final File blockDir =
             (new File( m_baseDirectory, "blocks" )).getAbsoluteFile();
-        final File libDir = 
+        final File libDir =
             (new File( m_baseDirectory, "lib" )).getAbsoluteFile();
-        
+
         addURLs( blockDir, new String[] { ".bar" } );
         addURLs( libDir, new String[] { ".jar", ".zip" } );
     }
@@ -72,7 +71,7 @@ public class SarClassLoader
 
     protected void addURLs( final File[] files )
         throws MalformedURLException
-    {     
+    {
         for( int i = 0; i < files.length; i++ )
         {
             addURL( files[ i ].toURL() );
@@ -93,6 +92,6 @@ public class SarClassLoader
         }
 
         sb.append( " ]" );
-        return sb.toString();        
+        return sb.toString();
     }
 }
