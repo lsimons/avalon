@@ -39,13 +39,14 @@ import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 
 import org.apache.avalon.http.HttpRequestHandler;
+import org.apache.avalon.http.HttpContextService;
 
 import org.mortbay.http.HttpContext;
 import org.mortbay.http.HttpHandler;
 import org.mortbay.http.HttpRequest;
 import org.mortbay.http.HttpResponse;
 
-/** Wrapper for the Jetty HttpContext.
+/** Handler for requests targetted at the composition model.
  *
  * @avalon.component name="http-model-handler" lifestyle="singleton"
  * @avalon.service type="org.mortbay.http.HttpHandler"
@@ -54,11 +55,11 @@ public class ModelHandler
     implements Serviceable, Configurable, Contextualizable, LogEnabled,
                HttpHandler, CompositionListener
 {
-    private Logger           m_Logger;
-    private ContainmentModel m_Model;
-    private HttpContext      m_Context;
-    private String           m_Name;
-    private boolean          m_Started;
+    private Logger              m_Logger;
+    private ContainmentModel    m_Model;
+    private HttpContextService  m_Context;
+    private String              m_Name;
+    private boolean             m_Started;
     
     public ModelHandler()
     {
@@ -101,10 +102,15 @@ public class ModelHandler
         m_Model = (ContainmentModel) ctx.get( "urn:composition:containment.model" );
         m_Name = (String) ctx.get( "urn:avalon:name" );
     }
-   
+
+    /**  
+     * @avalon.dependency type="org.apache.avalon.http.HttpContextService"
+     *                    key="httpcontext" 
+     */
     public void service( ServiceManager man )
         throws ServiceException
     {
+        m_Context = (HttpContextService) man.lookup( "httpcontext" );
     }
     
     public void configure( Configuration conf )
@@ -116,7 +122,7 @@ public class ModelHandler
    
     public HttpContext getHttpContext()
     {
-        return m_Context;
+        return m_Context.getHttpContext();
     }
     
     public String getName()
@@ -132,7 +138,7 @@ public class ModelHandler
 
     public void initialize( HttpContext context )
     {
-        m_Context = context;
+        m_Logger.warn( "unhandled:  initialize( " + context + " );" );
     }
 
     /* Jetty LifeCycle interface */
@@ -144,11 +150,13 @@ public class ModelHandler
     
     public void start()
     {
+        m_Context.addHandler( this );
         m_Started = true;
     }
     
     public void stop()
     {
+        m_Context.removeHandler( this );
         m_Started = false;
     }
    

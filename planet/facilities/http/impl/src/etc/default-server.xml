@@ -15,25 +15,36 @@
       <artifact>jar:avalon/framework/avalon-framework-legacy#SNAPSHOT</artifact>
       <artifact>jar:avalon/logkit/avalon-logkit#2.0.0</artifact>
       <artifact>jar:avalon/http/avalon-http-impl#SNAPSHOT</artifact>
+      <artifact>jar:commons-logging/commons-logging#SNAPSHOT</artifact>
     </classpath>
   </classloader>
 
   <component name="socketlistener" class="org.apache.avalon.http.impl.SocketListenerComponent">
     <parameters>
       <parameter name="port" value="8088"/>
+      <parameter name="hostname" value="0.0.0.0"/>
     </parameters>
   </component>
     
   <component name="server" class="org.apache.avalon.http.impl.HttpServerImpl" />
   
-  <component name="context" class="org.apache.avalon.http.impl.HttpContextImpl" />
-  <component name="model-handler" class="org.apache.avalon.http.impl.ModelHandler" >
+  <component name="context" class="org.apache.avalon.http.impl.HttpContextImpl" >
     <configuration>
-      <url-path>/test</url-path>
-      <component>test</component>
+      <context-path>/niclas/testing</context-path>
     </configuration>
   </component>
-  <component name="request-log" class="org.apache.avalon.http.impl.NcsaRequestLog" />
+  
+  <component name="model-handler" class="org.apache.avalon.http.impl.ModelHandler" >
+    <configuration>
+      <index>5</index>
+    </configuration>
+  </component>
+  
+  <component name="request-log" class="org.apache.avalon.http.impl.NcsaRequestLog" >
+    <parameters>
+      <parameter name="filename" value="request.log" />
+    </parameters>
+  </component>
   
 <!--    
   <container name="model-context" >
