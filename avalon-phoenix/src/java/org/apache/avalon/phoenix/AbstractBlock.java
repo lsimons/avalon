@@ -25,15 +25,15 @@ import org.apache.avalon.framework.logger.AbstractLoggable;
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
- * @version CVS $Revision: 1.1 $ $Date: 2001/04/27 05:03:31 $
+ * @version CVS $Revision: 1.2 $ $Date: 2001/07/16 13:06:49 $
  */
 public abstract class AbstractBlock
     extends AbstractLoggable
     implements Block, Contextualizable, Composable, Configurable
 {
-    protected BlockContext           m_context;
-    protected Configuration          m_configuration;
-    protected ComponentManager       m_componentManager;
+    private BlockContext           m_context;
+    private Configuration          m_configuration;
+    private ComponentManager       m_componentManager;
 
     public void contextualize( final Context context )
     {
