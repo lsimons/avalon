@@ -10,7 +10,7 @@
   <menu label="About">
     <menu-item label="Overview" source="index.xml"/>
     <menu-item type="changes" label="Changes" source="changes.xml"/>
-    <menu-item type="external" id="api-docs" label="API Docs" href="../api/index.html"/>
+    <menu-item type="external" id="api-docs" label="API Docs" href="http://jakarta.apache.org/avalon/api/index.html"/>
   </menu>
 
   <menu label="Patterns and Design">
