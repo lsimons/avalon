@@ -313,29 +313,30 @@ public final class DefaultServerApplication
                                    final Traversal traversal )
         throws Exception
     {
-        try
+        final String[] path = m_dag.walkGraph( traversal );
+        
+        if( getLogger().isInfoEnabled() )
         {
-            final String[] path = m_dag.walkGraph( traversal );
-
-            if( getLogger().isInfoEnabled() )
-            {
-                final List pathList = Arrays.asList( path );
-                final String message = REZ.getString( "app.notice.dependency-path", name, pathList );
-                getLogger().info( message );
-                System.out.println( message );
-            }
-
-            for( int i = 0; i < path.length; i++ )
+            final List pathList = Arrays.asList( path );
+            final String message = REZ.getString( "app.notice.dependency-path", name, pathList );
+            getLogger().info( message );
+            System.out.println( message );
+        }
+        
+        for( int i = 0; i < path.length; i++ )
+        {
+            try
             {
                 final BlockEntry entry = (BlockEntry)getEntry( path[ i ] );
                 visitor.visitBlock( path[ i ], entry );
             }
-        }
-        catch( final Exception e )
-        {
-            final String message = REZ.getString( "app.error.phase.run", name );
-            getLogger().error( message, e );
-            throw e;
+            catch( final Exception e )
+            {
+                final String message = 
+                    REZ.getString( "app.error.run-phase", name, path[ i ], e.getMessage() );
+                getLogger().error( message, e );
+                throw e;
+            }
         }
     }
 }
