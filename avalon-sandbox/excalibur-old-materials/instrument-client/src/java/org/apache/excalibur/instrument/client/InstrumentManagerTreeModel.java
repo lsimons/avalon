@@ -306,19 +306,16 @@ class InstrumentManagerTreeModel
      */
     public DefaultMutableTreeNode getInstrumentableTreeNode( String name )
     {
-        synchronized( this )
+        DefaultMutableTreeNode node = (DefaultMutableTreeNode)m_elementMap.get( name );
+        if ( node != null )
         {
-            DefaultMutableTreeNode node = (DefaultMutableTreeNode)m_elementMap.get( name );
-            if ( node != null )
+            Object element = node.getUserObject();
+            if ( element instanceof InstrumentableNodeData )
             {
-                Object element = node.getUserObject();
-                if ( element instanceof InstrumentableNodeData )
-                {
-                    return node;
-                }
+                return node;
             }
-            return null;
         }
+        return null;
     }
     
     /**
@@ -330,19 +327,16 @@ class InstrumentManagerTreeModel
      */
     public DefaultMutableTreeNode getInstrumentTreeNode( String name )
     {
-        synchronized( this )
+        DefaultMutableTreeNode node = (DefaultMutableTreeNode)m_elementMap.get( name );
+        if ( node != null )
         {
-            DefaultMutableTreeNode node = (DefaultMutableTreeNode)m_elementMap.get( name );
-            if ( node != null )
+            Object element = node.getUserObject();
+            if ( element instanceof InstrumentNodeData )
             {
-                Object element = node.getUserObject();
-                if ( element instanceof InstrumentNodeData )
-                {
-                    return node;
-                }
+                return node;
             }
-            return null;
         }
+        return null;
     }
     
     /**
@@ -354,19 +348,16 @@ class InstrumentManagerTreeModel
      */
     public DefaultMutableTreeNode getInstrumentSampleTreeNode( String name )
     {
-        synchronized( this )
+        DefaultMutableTreeNode node = (DefaultMutableTreeNode)m_elementMap.get( name );
+        if ( node != null )
         {
-            DefaultMutableTreeNode node = (DefaultMutableTreeNode)m_elementMap.get( name );
-            if ( node != null )
+            Object element = node.getUserObject();
+            if ( element instanceof InstrumentSampleNodeData )
             {
-                Object element = node.getUserObject();
-                if ( element instanceof InstrumentSampleNodeData )
-                {
-                    return node;
-                }
+                return node;
             }
-            return null;
         }
+        return null;
     }
     
     private DefaultMutableTreeNode[] getLeasedSampleArray()
@@ -440,6 +431,7 @@ class InstrumentManagerTreeModel
             else
             {
                 m_root.removeAllChildren();
+                m_elementMap.clear();
                 fireTreeStructureChanged( new TreeModelEvent( this, m_root.getPath() ) );
             }
         }
@@ -449,6 +441,7 @@ class InstrumentManagerTreeModel
             {
                 // All data will change.
                 m_root.removeAllChildren();
+                m_elementMap.clear();
                 fireTreeStructureChanged( new TreeModelEvent( this, new Object[] { m_root } ) );
             }
             
