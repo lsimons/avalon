@@ -94,14 +94,16 @@ public class Home extends DataType
     // constructor
     //-------------------------------------------------------------
 
-    public Home( Project project, File index )
+    public Home( Project project, File system, File index )
     {
         setProject( project );
         m_index = index;
         log( "Building system definition." );
+
+        m_system = system;
+
         try
         {
-            m_system = m_index.getParentFile();
             String path = getCachePath( project );
             String hostsPath = project.getProperty( HOSTS_KEY );
             m_main = new Repository( project, m_system, path, hostsPath, this );
@@ -109,18 +111,13 @@ public class Home extends DataType
             String docs = getDocsCachePath( project );
             m_docs = new Repository( project, m_system, docs, hostsPath, this );
 
-            Element root = ElementHelper.getRootElement( m_index );
-            final Element resources = ElementHelper.getChild( root, "resources" );
-            final Element projects = ElementHelper.getChild( root, "projects" );
-
             //
             // construct the repository, build the definition of the available 
             // resources and projects used within the system and associate a build
             // listener
             //
 
-            buildResourceList( resources );
-            buildProjectList( projects );
+            buildList( m_index, false );
         }
         catch( Throwable e )
         {
@@ -273,43 +270,65 @@ public class Home extends DataType
     // internal
     //-------------------------------------------------------------
 
-    private void buildResourceList( Element resources )
+    private void buildList( File index, boolean remote )
     {
-        if( null == resources ) return;
+        Element root = ElementHelper.getRootElement( index );
+        final Element[] elements = ElementHelper.getChildren( root );
+        File system = index.getParentFile();
+        buildList( system, elements, remote );
+    }
 
-        Element[] resourceArray = ElementHelper.getChildren( resources, "resource" );
-        log( "resources: " + resourceArray.length, Project.MSG_VERBOSE );
-        for( int i=0; i<resourceArray.length; i++ )
+    private void buildList( File system, Element[] children, boolean remote )
+    {
+        if( null == children ) return;
+
+        log( "entry: " + children.length, Project.MSG_VERBOSE );
+        for( int i=0; i<children.length; i++ )
         {
-            Element child = resourceArray[i];
-            Resource resource = XMLDefinitionBuilder.createResource( this, child );
-            String key = resource.getKey();
-            m_resources.put( key, resource );
-            log( 
-              "resource: " + resource + " key=" + key, 
-              Project.MSG_VERBOSE );
+            Element element = children[i];
+            final String tag = element.getTagName();
+            if( isaResource( tag ) )
+            {
+                Resource resource = createResource( element, system, remote );
+                String key = resource.getKey();
+                m_resources.put( key, resource );
+                log( 
+                  "resource: " + resource 
+                  + " key=" + key, Project.MSG_VERBOSE );
+            }
+            else if( "import".equals( element.getTagName() ) )
+            { 
+                String path = element.getAttribute( "index" );
+                File index = Context.getFile( system, path );
+                buildList( index, true );
+            }
+            else
+            {
+                final String error =
+                  "Unrecognized element type \"" + tag + "\".";
+                throw new BuildException( error );
+            }
         }
     }
 
-    private void buildProjectList( Element projects )
+    private Resource createResource( Element element, File system, boolean remote )
     {
-        if( null == projects ) return;
-
-        Element[] entries = ElementHelper.getChildren( projects );
-        log( 
-          "projects: " + entries.length, 
-          Project.MSG_VERBOSE );
-        for( int i=0; i<entries.length; i++ )
+        if( remote )
         {
-            Element element = entries[i];
-            Definition definition = 
-              XMLDefinitionBuilder.createDefinition( this, element, m_system );
-            String key = definition.getKey();
-            m_resources.put( key, definition );
-            log( 
-              "project: " + definition + " key=" + key, 
-              Project.MSG_VERBOSE );
+            return XMLDefinitionBuilder.createResource( this, element );
         }
+        else
+        {
+            return XMLDefinitionBuilder.createResource( this, element, system );
+        }
+    }
+
+    private boolean isaResource( String tag )
+    {
+        return ( 
+          "resource".equals( tag ) 
+          || "project".equals( tag )
+          || "plugin".equals( tag ) );
     }
 
     private File getIndexFile()

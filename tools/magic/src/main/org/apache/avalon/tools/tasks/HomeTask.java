@@ -41,6 +41,8 @@ import org.apache.avalon.tools.project.Definition;
  */
 public class HomeTask extends ContextualTask
 {
+    public static final String SYSTEM_KEY = "project.system";
+
     private static final String CACHE_DIR_KEY = "project.home.cache.dir";
     private static final String USER_PROPERTIES = "user.properties";
     private static final String BUILD_PROPERTIES = "build.properties";
@@ -55,18 +57,32 @@ public class HomeTask extends ContextualTask
             super.init();
             Project project = getProject();
             File index = getIndexFile();
-            File system = index.getParentFile();
+            File system = getSystemHome( project, index );
             setupProperties( project, system );
             if( null == HOME )
             {
-                setupAvalonProperties( project, system );
-                HOME = new Home( project, index );
+                setupSystemProperties( project, system );
+                HOME = new Home( project, system, index );
             }
             project.addReference( Home.KEY, HOME );
             
             getProject().setNewProperty( 
               CACHE_DIR_KEY, 
               HOME.getRepository().getCacheDirectory().toString() );
+        }
+    }
+
+    private File getSystemHome( Project project, File index )
+    {
+        String system = project.getProperty( SYSTEM_KEY );
+        if(( null == system ) || "".equals( system ))
+        {
+            return index.getParentFile();
+        }
+        else
+        {
+            File anchor = project.getBaseDir();
+            return Context.getFile( anchor, system );
         }
     }
 
@@ -88,7 +104,7 @@ public class HomeTask extends ContextualTask
         readProperties( project, build );
     }
 
-    private void setupAvalonProperties( Project project, File dir )
+    private void setupSystemProperties( Project project, File dir )
     {
         File build = Context.getFile( dir, INDEX_PROPERTIES );
         readProperties( project, build );

@@ -19,6 +19,7 @@ package org.apache.avalon.tools.project.builder;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.taskdefs.Sequential;
@@ -46,6 +47,54 @@ import org.w3c.dom.Element;
  */
 public class XMLDefinitionBuilder 
 {
+    public static Resource createResource( Home home, Element element, File anchor )
+    {
+        final String tag = element.getTagName();
+
+        if( tag.equals( "resource" ) )
+          return createResource( home, element );
+          
+        //
+        // otherwise its a project or plugin defintion
+        // 
+
+        Info info = 
+          createInfo( ElementHelper.getChild( element, "info" ) );
+        String key = getDefinitionKey( element, info );
+
+        File basedir = getBasedir( anchor, element );
+       
+        ResourceRef[] resources = 
+          createResourceRefs( 
+            ElementHelper.getChild( element, "dependencies" ) );
+        
+        ResourceRef[] plugins = 
+          createPluginRefs( 
+            ElementHelper.getChild( element, "plugins" ) );
+
+        if( tag.equals( "project" ) )
+        {
+            return new Definition( 
+              home, key, basedir, info, resources, plugins );
+        }
+        else if( tag.equals( "plugin" ) )
+        {
+            TaskDef[] tasks = 
+              getTaskDefs( ElementHelper.getChild( element, "tasks" ) );
+            ListenerDef[] listeners = 
+              getListenerDefs( 
+                ElementHelper.getChild( element, "listeners" ) );
+            return new Plugin( 
+              home, key, basedir, info, resources, plugins, 
+              tasks, listeners );
+        }
+        else
+        {
+            final String error =
+              "Unrecognized project type \"" + tag + "\".";
+            throw new BuildException( error );
+        }
+    }
 
     public static Resource createResource( Home home, Element element )
     {
@@ -59,7 +108,6 @@ public class XMLDefinitionBuilder
     {
         Info info = 
           createInfo( ElementHelper.getChild( element, "info" ) );
-
         String key = getDefinitionKey( element, info );
 
         File basedir = getBasedir( anchor, element );
