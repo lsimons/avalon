@@ -403,7 +403,7 @@
     <project name="excalibur-pool">
         <package>org.apache.avalon.excalibur.pool</package>
 
-        <ant basedir="lang">
+        <ant basedir="pool">
             <depend property="framework.jar" project="jakarta-avalon"/>
             <depend property="excalibur-collections.jar" project="excalibur-collections"/>
             <depend property="excalibur-concurrent.jar" project="excalibur-concurrent"/>
@@ -418,10 +418,10 @@
         <depend project="xml-xalan2"/>
         <depend project="checkstyle"/>
         <depend project="jakarta-ant"/>
-        <work nested="lang/build/classes"/>
+        <work nested="pool/build/classes"/>
 
-        <home nested="lang"/>
-        <jar name="build/lib/excalibur-lang-@@DATE@@.jar"/>
+        <home nested="pool"/>
+        <jar name="build/lib/excalibur-pool-@@DATE@@.jar"/>
 
         <nag from="Peter Donald &lt;peter@apache.org&gt;"
             to="avalon-dev@jakarta.apache.org"/>
