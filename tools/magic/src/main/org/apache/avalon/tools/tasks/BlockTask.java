@@ -187,13 +187,11 @@ public class BlockTask extends DeclareTask
     {
         if( null != m_target )
         {
-System.out.println( "EMBEDDED: " + getPluginFile() );
             super.execute(); // generate the embedded block
             m_target = null;
         }
         if( m_standalone )
         {
-System.out.println( "STANDALONE: " + getPluginFile() );
             super.execute(); // generate the standalone block
         }
     }
