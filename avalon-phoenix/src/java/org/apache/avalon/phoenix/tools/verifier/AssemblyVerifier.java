@@ -47,7 +47,8 @@ import org.apache.excalibur.containerkit.verifier.VerifyException;
  * </ul>
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2002/06/04 08:46:22 $
+ * @version $Revision: 1.2 $ $Date: 2002/06/04 08:47:30 $
+ * @todo redo documentation and all the i18n strings
  */
 public class AssemblyVerifier
     extends AbstractLogEnabled
