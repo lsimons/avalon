@@ -19,6 +19,8 @@ limitations under the License.
 import java.io.File;
 import java.io.FileFilter;
 
+import java.util.Iterator;
+
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -50,18 +52,23 @@ import org.xml.sax.SAXException;
 public class XDocPlugin extends AbstractPlugin
     implements Serviceable
 {
+    private Object m_PreparePlugin;
+    
     private File m_BaseToDir;    
     private File m_BaseSrcDir;    
     
     public void service( ServiceManager man )
         throws ServiceException
     {
-        Object preparePlugin = man.lookup( "prepare" );
+        m_PreparePlugin = man.lookup( "prepare" );
     }
     
     public void generate()
         throws BuildException
     {
+        PreparePlugin prepare = (PreparePlugin) m_PreparePlugin;
+        prepare.init();
+        
         getLogger().info( "Start XDoc generation." );
         
         File srcDir = new File( m_Context.getProperty( "xdoc.src.dir" ) );
@@ -85,7 +92,6 @@ public class XDocPlugin extends AbstractPlugin
         
         try
         {
-            copySources();
             transformNavigation( themeDir );
             transformXdocs( themeDir );
             
@@ -114,15 +120,6 @@ public class XDocPlugin extends AbstractPlugin
         transformTrax( fromDir, toDir, xslFile, "^.*" + sep + "navigation.xml$", "", ".xml", "xml" );
     }
     
-    private void copySources()
-    {
-        File toDir = new File( m_Context.getProperty( "xdoc.build.src.dir" ) );
-        toDir.mkdirs();
-        String srcDir = m_Context.getProperty( "xdoc.src.dir" );
-        File fromDir = new File( srcDir );
-        copy( fromDir, toDir, "**/*", "**/navigation.xml" );
-    }
-    
     private void transformXdocs( File themeDir )
         throws BuildException
     {
@@ -139,21 +136,9 @@ public class XDocPlugin extends AbstractPlugin
     private void copyResources( File fromDir )
     {
         File destDir = new File( m_Context.getProperty( "xdoc.dest.dir" ) );
-        copy( fromDir, destDir, "**/*", "" );
-    }
-    
-    private void copy( File fromDir, File toDir, String includes, String excludes )
-    {
-        FileSet from = new FileSet();
-        from.setDir( fromDir );
-        from.setIncludes( includes );
-        from.setExcludes( excludes );
-        toDir.mkdirs();  /* ensure that the directory exists. */
+        PreparePlugin prepare = (PreparePlugin) m_PreparePlugin;
         
-        Copy copy = (Copy) m_Project.createTask( "copy" );
-        copy.setTodir( toDir );
-        copy.addFileset( from );
-        copy.execute();
+        prepare.copy( fromDir, destDir, "**/*", "", false );
     }
     
     private void transformTrax( File srcDir, File toDir, File xslFile, 
@@ -199,8 +184,8 @@ public class XDocPlugin extends AbstractPlugin
             }
             if( content[i].isFile() )
             {
-                String svnRoot = m_Context.getProperty( "xdoc.svn.root.xdocs" );
-                String svnSource = svnRoot + getRelSrcPath( srcDir ) + "/" + base;
+                String publicRoot = m_Context.getProperty( "xdoc.public.root.xdocs" );
+                String publicSource = publicRoot + getRelSrcPath( srcDir ) + "/" + base;
                 
                 int pos = base.lastIndexOf( '.' );
                 if( pos > 0 )
@@ -216,8 +201,9 @@ public class XDocPlugin extends AbstractPlugin
                 transformer.setParameter( "directory", getRelToPath( toDir ) );
                 transformer.setParameter( "fullpath", getRelToPath( newDest ) );
                 transformer.setParameter( "file", base );
-                transformer.setParameter( "svn-location", svnSource );
-                transformer.setParameter( "copyright", m_Context.getProperty( "xdoc.footer.copyright" ).trim() );
+                transformer.setParameter( "public-location", publicSource );
+                transformer.setParameter( "copyright", m_Context.getProperty( "xdoc.footer.copyright.text" ).trim() );
+                transformer.setParameter( "copyright_url", m_Context.getProperty( "xdoc.footer.copyright.url" ).trim() );
                 transformer.setParameter( "logoright_file", m_Context.getProperty( "xdoc.logo.right.file" ).trim() );
                 transformer.setParameter( "logoright_url", m_Context.getProperty( "xdoc.logo.right.url" ).trim() );
                 transformer.setParameter( "logoleft_file", m_Context.getProperty( "xdoc.logo.left.file" ).trim() );
@@ -255,4 +241,5 @@ public class XDocPlugin extends AbstractPlugin
         String curdir = dir.getAbsolutePath();
         return curdir.substring( basedir.length() );
     }
+    
 } 
