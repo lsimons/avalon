@@ -64,6 +64,7 @@ public final class ContextMap
      */
     public final static ContextMap getCurrentContext( final boolean autocreate )
     {
+        //Check security permission here???
         ContextMap context = (ContextMap)c_context.get();
 
         if( null == context && autocreate )
@@ -82,6 +83,7 @@ public final class ContextMap
      */
     public final static void bind( final ContextMap context )
     {
+        //Check security permission here??
         c_context.set( context );
     }
 
