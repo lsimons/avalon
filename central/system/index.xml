@@ -752,6 +752,7 @@
       </dependencies>
     </project>
 
+    <!--
     <project basedir="../../runtime/merlin/unit">
       <info>
         <group>avalon/merlin</group>
@@ -782,6 +783,7 @@
         <name>avalon-tools-bootstrap</name>
       </info>
     </project>
+    -->
 
   </projects>
 
