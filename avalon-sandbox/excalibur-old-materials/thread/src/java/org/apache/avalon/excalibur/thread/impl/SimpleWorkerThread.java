@@ -19,6 +19,7 @@ import org.apache.excalibur.threadcontext.ThreadContext;
  *
  * @author <a href="mailto:stefano@apache.org">Stefano Mazzocchi</a>
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @deprecated Only Used by deprecated code and will be removed in future
  */
 class SimpleWorkerThread
     extends WorkerThread

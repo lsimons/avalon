@@ -14,6 +14,7 @@ import org.apache.excalibur.thread.Executable;
  * an {@link Executable} object.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @deprecated Only Used by deprecated code and will be removed in future
  */
 final class ExecutableExecuteable
     implements Executable
