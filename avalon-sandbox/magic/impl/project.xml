@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project>
+    <extend>${basedir}/../project-common.xml</extend>
+
+    <name>Avalon-Magic Implementation</name>
+    <id>avalon-magic-impl</id>
+    <currentVersion>0.1a</currentVersion>
+
+    <dependencies>
+        <dependency>
+            <id>avalon-framework</id>
+            <version>4.1.4</version>
+        </dependency>
+    </dependencies>
+</project>

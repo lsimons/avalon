@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project>
+    <extend>./project-common.xml</extend>
+
+    <name>Avalon-Magic</name>
+    <id>avalon-magic</id>
+    <currentVersion>0.1a</currentVersion>
+</project>
