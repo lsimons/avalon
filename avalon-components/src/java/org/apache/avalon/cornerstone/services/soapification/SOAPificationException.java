@@ -13,19 +13,20 @@ package org.apache.avalon.cornerstone.services.soapification;
  *
  * @author <a href="mailto:Paul_Hammant@yahoo.com">Paul Hammant</a>
  */
-public class SOAPificationException extends Exception
+public class SOAPificationException
+    extends Exception
 {
-	private Throwable mContained;
-	private String mReason;
+    private Throwable mContained;
+    private String mReason;
 
     public SOAPificationException(String reason) 
     {
-		this(reason, null);
-	}
-	
+        this(reason, null);
+    }
+
     public SOAPificationException(String reason, Throwable contained) 
     {
-		mContained = contained;
-		mReason = reason;
-	}
+        mContained = contained;
+        mReason = reason;
+    }
 }
