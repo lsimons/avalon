@@ -33,6 +33,11 @@ public class Policy
     private final boolean m_test;
     private final boolean m_runtime;
 
+    public Policy()
+    {
+        this( true, true, true );
+    }
+
     public Policy( boolean build, boolean test, boolean runtime )
     {
         m_build = build;

@@ -27,16 +27,39 @@ public class ResourceRef
 {
     private String m_key;
     private Policy m_policy;
+    private String m_tag;
 
-    public ResourceRef( String key, Policy policy )
+    public ResourceRef( String key )
+    {
+        this( key, new Policy(), null );
+    }
+
+    public ResourceRef( String key, Policy policy, String tag )
     {
         m_key = key;
         m_policy = policy;
+        if( null == tag )
+        {
+            m_tag = "impl";
+        }
+        else if( "".equals( tag ) )
+        {
+            m_tag = "impl";
+        }
+        else
+        {
+            m_tag = tag;
+        }
     }
 
     public String getKey()
     {
         return m_key;
+    }
+
+    public String getTag()
+    {
+        return m_tag;
     }
 
     public Policy getPolicy()

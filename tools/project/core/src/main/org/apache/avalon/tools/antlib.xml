@@ -14,5 +14,8 @@
   <taskdef name="plugin" classname="org.apache.avalon.tools.tasks.PluginTask"/> 
   <taskdef name="xdoc" classname="org.apache.avalon.tools.tasks.XdocTask"/> 
   <taskdef name="reactor" classname="org.apache.avalon.tools.tasks.ReactorTask"/> 
+  <taskdef name="filter" classname="org.apache.avalon.tools.tasks.FilterTask"/> 
+  <taskdef name="info" classname="org.apache.avalon.tools.tasks.AnnounceTask"/> 
+  <taskdef name="artifact" classname="org.apache.avalon.tools.tasks.ArtifactTask"/> 
 
 </antlib>

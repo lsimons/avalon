@@ -180,8 +180,9 @@ public class XMLDefinitionBuilder
         {
             Element child = children[i];
             String key = child.getAttribute( "key" );
+            String tag = child.getAttribute( "tag" );
             Policy policy = createPolicy( child );
-            refs[i] = new ResourceRef( key, policy );
+            refs[i] = new ResourceRef( key, policy, tag );
         }
         return refs;
     }
@@ -195,8 +196,9 @@ public class XMLDefinitionBuilder
         {
             Element child = children[i];
             String key = child.getAttribute( "key" );
+            String tag = child.getAttribute( "tag" );
             Policy policy = createPolicy( child );
-            refs[i] = new ProjectRef( key, policy );
+            refs[i] = new ProjectRef( key, policy, tag );
         }
         return refs;
     }
@@ -210,8 +212,9 @@ public class XMLDefinitionBuilder
         {
             Element child = children[i];
             String key = child.getAttribute( "key" );
+            String tag = child.getAttribute( "tag" );
             Policy policy = createPolicy( child );
-            refs[i] = new PluginRef( key, policy );
+            refs[i] = new PluginRef( key, policy, tag );
         }
         return refs;
     }
