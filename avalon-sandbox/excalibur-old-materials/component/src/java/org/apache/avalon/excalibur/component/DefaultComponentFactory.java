@@ -13,14 +13,12 @@ import org.apache.avalon.excalibur.collections.BucketMap;
 import org.apache.avalon.excalibur.logger.LogKitManageable;
 import org.apache.avalon.excalibur.pool.ObjectFactory;
 import org.apache.avalon.framework.activity.Disposable;
-import org.apache.avalon.framework.activity.Initializable;
-import org.apache.avalon.framework.activity.Startable;
 import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.component.ComponentException;
 import org.apache.avalon.framework.component.ComponentManager;
 import org.apache.avalon.framework.component.Composable;
-import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
+import org.apache.avalon.framework.container.ContainerUtil;
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.logger.LogEnabled;
@@ -28,11 +26,9 @@ import org.apache.avalon.framework.logger.Loggable;
 import org.apache.avalon.framework.parameters.Parameterizable;
 import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.framework.service.ServiceException;
-import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
 import org.apache.avalon.framework.service.WrapperServiceManager;
 import org.apache.avalon.framework.thread.ThreadSafe;
-import org.apache.avalon.framework.container.ContainerUtil;
 import org.apache.excalibur.container.legacy.ComponentProxyGenerator;
 import org.apache.excalibur.instrument.InstrumentManageable;
 import org.apache.excalibur.instrument.InstrumentManager;
@@ -45,7 +41,7 @@ import org.apache.excalibur.instrument.Instrumentable;
  * @author <a href="mailto:paul@luminas.co.uk">Paul Russell</a>
  * @author <a href="mailto:ryan@silveregg.co.jp">Ryan Shaw</a>
  * @author <a href="mailto:leif@apache.org">Leif Mortenson</a>
- * @version CVS $Revision: 1.14 $ $Date: 2002/11/07 18:27:52 $
+ * @version CVS $Revision: 1.15 $ $Date: 2002/11/09 08:36:27 $
  * @since 4.0
  */
 public class DefaultComponentFactory
@@ -246,7 +242,7 @@ public class DefaultComponentFactory
             final ComponentManagerProxy manager =
                 new ComponentManagerProxy( m_componentManager );
             ContainerUtil.compose( component, manager );
-            
+
             // Store the mapping of the component manager to its proxy so it can
             //  be found to be decommissioned later.
             m_composableProxies.put( component, manager );
@@ -258,7 +254,7 @@ public class DefaultComponentFactory
             final ServiceManagerProxy manager =
                 new ServiceManagerProxy( m_componentManager );
             ContainerUtil.service( component, manager );
-            
+
             // Store the mapping of the component manager to its proxy so it can
             //  be found to be decommissioned later.
             m_serviceableProxies.put( component, manager );
@@ -327,7 +323,7 @@ public class DefaultComponentFactory
             getLogger().debug( "ComponentFactory decommissioning instance of " +
                                m_componentClass.getName() + "." );
         }
-        
+
         // See if we need to unwrap this component.  It may have been wrapped in a proxy
         //  by the ProxyGenerator.
         Object decommissionComponent = m_componentProxies.remove( component );
@@ -336,22 +332,22 @@ public class DefaultComponentFactory
             // It was not wrapped.
             decommissionComponent = component;
         }
-        
+
         ContainerUtil.stop( decommissionComponent );
         ContainerUtil.dispose( decommissionComponent );
-        
+
         if ( decommissionComponent instanceof Composable )
         {
             // A proxy will have been created.  Ensure that components created by it
-            //  are also released. 
+            //  are also released.
             ((ComponentManagerProxy)m_composableProxies.remove( decommissionComponent )).
                 releaseAll();
         }
-        
+
         if ( decommissionComponent instanceof Serviceable )
         {
             // A proxy will have been created.  Ensure that components created by it
-            //  are also released. 
+            //  are also released.
             ((ServiceManagerProxy)m_serviceableProxies.remove( decommissionComponent )).
                 releaseAll();
         }
@@ -460,7 +456,7 @@ public class DefaultComponentFactory
         extends WrapperServiceManager
     {
         private final ComponentManager m_realManager;
-        
+
         /** Use a BucketMap rather than an ArrayList as above because this will
          *   contain Proxy instances.  And proxy instances always return false for
          *   equals() making a test for inclusion in the list always fail. */
