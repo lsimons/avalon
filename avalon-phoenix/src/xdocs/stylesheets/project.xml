@@ -1,0 +1,48 @@
+<project name="Avalon Phoenix" href="http://jakarta.apache.org/avalon/phoenix">
+
+    <title>Avalon Phoenix</title>
+    <logo href="images/header.gif">Avalon Phoenix</logo>
+
+    <body>
+        <item name="Jakarta main" href="http://jakarta.apache.org/"/>
+        <item name="Avalon main" href="@AVALON_BASE@"/>
+
+        <menu name="Essentials">
+            <item name="Overview" href="/index.html"/>
+            <item name="Features" href="/features.html"/>
+            <item name="Getting started" href="/getting-started.html"/>
+            <item name="Download" href="http://jakarta.apache.org/builds/jakarta-avalon/release/phoenix"/>
+            <item name="Install" href="install.html"/>
+        </menu>
+
+        <menu name="Guide">
+            <item name="Architectural Overview" href="/guide-architecture.html"/>
+            <item name="Development Roles" href="/guide-roles.html"/>
+            <item name="for Administrators" href="/guide-administrator.html"/>
+            <item name="for Deployers" href="/guide-deployers.html"/>
+            <item name="for Assemblers" href="/guide-assemblers.html"/>
+            <item name="for Block Developers" href="/guide-block-developers.html" />
+            <item name="Example configuration" href="/guide-example-configuration.html" />
+        </menu>
+
+        <menu name="Reference">
+            <item name="API Docs" href="/api/index.html"/>
+            <item name="config.xml Specification" href="/reference-config-xml-specification.html"/>
+            <item name="assembly.xml Specification" href="/reference-assembly-xml-specification.html"/>
+            <item name="environment.xml Specification" href="/reference-environment-xml-specification.html"/>
+            <item name="BlockInfo Specification" href="/reference-blockinfo-specification.html" />
+        </menu>
+
+        <menu name="For Developers">
+            <item name="Changes" href="/for-developers-changes.html"/>
+            <item name="Todo" href="/for-developers-todo.html"/>
+            <item name="Coding standards" href="@AVALON_BASE@/code-standards.html"/>
+            <item name="Project Structure" href="/for-developers-project-structure.html"/>
+            <item name="CVS" href="http://jakarta.apache.org/site/cvsindex.html"/>
+            <item name="Mailing Lists" href="http://jakarta.apache.org/site/mail.html"/>
+            <item name="A Future" href="/for-developers-a-future.html"/>
+        </menu>
+
+    </body>
+
+</project>

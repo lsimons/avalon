@@ -1,17 +1,15 @@
 <?xml version="1.0"?>
 
-<!DOCTYPE document SYSTEM "dtd/document-v10.dtd">
-
 <document>
   <header>
-    <title>Avalon Phoenix - Guide - Example Configuration</title>
-    <authors>
-      <person name="Stephen McConnell" email="mcconnell@osm.net"/>
-      <person name="Gerhard Froehlich" email="g-froehlich@gmx.de"/>
-    </authors>
+    <title>Guide - Example Configuration</title>
+
+      <author name="Stephen McConnell" email="mcconnell@osm.net"/>
+      <author name="Gerhard Froehlich" email="g-froehlich@gmx.de"/>
+
   </header>
   <body>
-    <s1 title="Introduction">
+    <section name="Introduction">
       <p>This page contains a real production example of a block
       assembly and block .xinfo description based an extract from
       a B2B Enterprise Integration and Collaboration Platform developed by
@@ -19,8 +17,8 @@
       <p>This example was originally a Mailing List response to a
       some user questions!</p>
       <p>The orginal post was written by Stephen McConnell from OSM.</p>
-    </s1>
-    <s1 title="The example">
+    </section>
+    <section name="The example">
       <p>First we start with a manifest file in a jar the contains
       a block.  The manifest contains the declaration of the path
       to the block implementation.  This path is also used to
@@ -71,14 +69,14 @@ Avalon-Block: true
   dependency example there are seven "service" dependencies (i.e. 7 versioned
   interface dependencies that must be fulfilled for this block to function.
   -->
-  
+
   <dependencies>
       <!--
-      Each dependency contains a declaration of a role name and a service 
-      interface and a version that can fulfil that role. The dependency 
+      Each dependency contains a declaration of a role name and a service
+      interface and a version that can fulfil that role. The dependency
       does not say anything about where that service implementation should
-      come from (that's the job the assembly.xml file). The role element 
-      is simply the label used in the implementation of your block configure 
+      come from (that's the job the assembly.xml file). The role element
+      is simply the label used in the implementation of your block configure
       method that distinguishes a particular instance of the service.
       -->
       <dependency>
@@ -137,15 +135,15 @@ Avalon-Block: true
       ]]>
       </source>
       <p>Next is the block declaration (an extract from an <code>assembly.xml</code>
-      file). This enables the declaration of WHERE the services are coming from. 
+      file). This enables the declaration of WHERE the services are coming from.
       I.e. you may have a system with many blocks and even the potential for matching
-      services available from more that one block. The class attribute provides the 
-      link to the <code>.xinfo</code> file and the implementation class. The name 
-      is used a key within the <code>assembly.xml</code> file when wiring things together. 
-      E.g. the provide element references a block by its name - and declares that the 
-      named block will serve as the provider of the service. The role attribute matches 
-      the role element in the <code>.xinfo</code> dependency declaration.</p>      
-      The name attribute also serves a the key to lookup a configuration element in 
+      services available from more that one block. The class attribute provides the
+      link to the <code>.xinfo</code> file and the implementation class. The name
+      is used a key within the <code>assembly.xml</code> file when wiring things together.
+      E.g. the provide element references a block by its name - and declares that the
+      named block will serve as the provider of the service. The role attribute matches
+      the role element in the <code>.xinfo</code> dependency declaration.</p>
+      The name attribute also serves a the key to lookup a configuration element in
       the application configuration.xml file.
       <source><![CDATA[
 <?xml version="1.0"?>
@@ -170,18 +168,18 @@ Avalon-Block: true
 </assembly>
       ]]>
       </source>
-    <s1/>
+    <section/>
 
-    <s1 title="Why this seperation?"/>
+    <section name="Why this seperation?"/>
     <ul>
       <li>It forces structure and separation</li>
-      <li>It provides a way of managing possibly multiple versions of the 
+      <li>It provides a way of managing possibly multiple versions of the
           same interface in a single environment</li>
       <li>It enables explicit declaration of the source of service provision</li>
     </ul>
-  
-    <p>For example you can have multiple blocks providing a TimeService. 
-    One of those blocks uses an external time reference while the others 
+
+    <p>For example you can have multiple blocks providing a TimeService.
+    One of those blocks uses an external time reference while the others
     use a local time reference. The local time block
     declare dependencies on the external source time block and is periodically
     synchronised. In this example all of the TimeService services are exposing
@@ -189,13 +187,7 @@ Avalon-Block: true
     which service is the provider to another can  be explicitly controlled.
     While the time example is perhaps trivial, there are significant policy
     security implications related to service provider selection.</p>
-    </s1>
+    </section>
   </body>
-  <footer>
-    <legal>
-      Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.1 $ $Date: 2002/05/12 19:52:50 $
-    </legal>
-  </footer>
 </document>
 

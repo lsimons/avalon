@@ -1,20 +1,18 @@
 <?xml version="1.0"?>
 
-<!DOCTYPE document SYSTEM "dtd/document-v10.dtd">
-
 <document>
   <header>
-    <title>Avalon Phoenix - Guide - for Administrators</title>
-    <authors>
-      <person name="Berin Loritsch" email="bloritsch@apache.org"/>
-    </authors>
+    <title>Guide - for Administrators</title>
+
+      <author name="Berin Loritsch" email="bloritsch@apache.org"/>
+
   </header>
   <body>
-    <s1 title="Introduction">
+    <section name="Introduction">
       <p>
-        Avalon is a Server Framework that provides or will provide for 
-        central administration, server pooling, and quicker time to market.  
-        The framework defines a standard method of piecing together server 
+        Avalon is a Server Framework that provides or will provide for
+        central administration, server pooling, and quicker time to market.
+        The framework defines a standard method of piecing together server
         components and creating a server.
       </p>
       <s2 title="Target Audience">
@@ -31,12 +29,6 @@
 	  runtime.
         </p>
       </s2>
-    </s1>
+    </section>
   </body>
-  <footer>
-    <legal>
-      Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.1 $ $Date: 2002/05/12 19:52:49 $
-    </legal>
-  </footer>
 </document>

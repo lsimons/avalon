@@ -1,16 +1,14 @@
 <?xml version="1.0"?>
 
-<!DOCTYPE document SYSTEM "dtd/document-v10.dtd">
-
 <document>
   <header>
-    <title>Avalon Phoenix - Guide - for Server Assemblers</title>
-    <authors>
-      <person name="Avalon Documentation Team" email="avalon-dev@jakarta.apache.org"/>
-    </authors>
+    <title>Guide - for Server Assemblers</title>
+
+      <author name="Avalon Documentation Team" email="avalon-dev@jakarta.apache.org"/>
+
   </header>
   <body>
-    <s1 title="Who Should Read This Book?">
+    <section name="Who Should Read This Book?">
       <p>
         The Server Assemblers Guide is written for assemblers who want to assemble a
         Server Application for Phoenix. It is assumed that you are familiar with
@@ -21,27 +19,21 @@
         java programming. It does however assume you are familiar with server
         fundamentals, basic security measures, and performance tuning.
       </p>
-    </s1>
-    <s1 title="Organization">
+    </section>
+    <section name="Organization">
       <p>
         The information is organized into sections detailing a specifc aspect of
         assembling ServerApplications.
       </p>
-	 </s1>
-     <s1 title="Contents">
+	 </section>
+     <section name="Contents">
        <ol>
-         <li><link href="guide-assemblers-what-is-a-server-application.html">What is a Server Application?</link></li>
-        <li><link href="guide-assemblers-creating-a-server-application.html">How do I create a Server Application?</link></li>
-        <li><link href="reference-config-xml-specification.html">config.xml specification</link></li>
-	<li><link href="reference-assembly-xml-specification.html">assembly.xml specification</link></li>
-        <li><link href="reference-environment-xml-specification.html">environment.xml specification</link></li>
+         <li><a href="guide-assemblers-what-is-a-server-application.html">What is a Server Application?</a></li>
+        <li><a href="guide-assemblers-creating-a-server-application.html">How do I create a Server Application?</a></li>
+        <li><a href="reference-config-xml-specification.html">config.xml specification</a></li>
+	<li><a href="reference-assembly-xml-specification.html">assembly.xml specification</a></li>
+        <li><a href="reference-environment-xml-specification.html">environment.xml specification</a></li>
        </ol>
-      </s1>
+      </section>
   </body>
-  <footer>
-    <legal>
-      Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.1 $ $Date: 2002/05/12 19:52:49 $
-    </legal>
-  </footer>
 </document>

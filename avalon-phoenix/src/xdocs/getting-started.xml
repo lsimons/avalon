@@ -3,28 +3,28 @@
 <document>
 
  <header>
-  <title>Avalon Phoenix - Getting Started</title>
-  <authors>
-   <person name="Avalon Documentation Team" email="avalon-dev@jakarta.apache.org"/>
-   <person name="Leo Simons" email="email@leosimons.com"/>
-   <person name="Paul Hammant" email="Paul_Hammant@yahoo.com"/>
-  </authors>
+  <title>Getting Started</title>
+
+   <author name="Avalon Documentation Team" email="avalon-dev@jakarta.apache.org"/>
+   <author name="Leo Simons" email="email@leosimons.com"/>
+   <author name="Paul Hammant" email="Paul_Hammant@yahoo.com"/>
+
  </header>
 
 <body>
 
-<s1 title="Introduction">
+<section name="Introduction">
 
 <p>
     This document provides developers with simple documentation for getting
     started with Phoenix. For information about the overall structure of
     Avalon Framework (on which Phoenix is based), please refer to the
-    <link href="@AVALON_BASE@/framework/index.html">Framework documentation</link>.
+    <a href="@AVALON_BASE@/framework/index.html">Framework documentation</a>.
 </p>
 
 <p>
     Instructions for downloading and installing Phoenix can be found on the
-    <link href="install.html">Install</link> document.
+    <a href="install.html">Install</a> document.
 </p>
 
 <p>
@@ -32,9 +32,9 @@
     to send in patches ;)
 </p>
 
-</s1>
+</section>
 
-<s1 title="View Detailed API Documentation">
+<section name="View Detailed API Documentation">
 
 <p>
     To generate a full set of detailed API documentation for Avalon, go to the base
@@ -49,8 +49,8 @@
 
 </p>
 
-</s1>
-<s1 title="Run the HelloWorld example">
+</section>
+<section name="Run the HelloWorld example">
 
 <p>
     After you have successfully built Phoenix, you can verify that it
@@ -58,9 +58,9 @@
 </p>
 <p>
     Firstly you will need to get the demo-helloword.sar file and drop it into
-    the apps directory of Phoenix.  Get it from <link href="TODO">TODO</link> or build
-    it from its CVS - <link href="http://cvs.apache.org/viewcvs/jakarta-avalon-apps/demo/">
-    http://cvs.apache.org/viewcvs/jakarta-avalon-apps/demo/</link>.
+    the apps directory of Phoenix.  Get it from <a href="TODO">TODO</a> or build
+    it from its CVS - <a href="http://cvs.apache.org/viewcvs/jakarta-avalon-apps/demo/">
+    http://cvs.apache.org/viewcvs/jakarta-avalon-apps/demo/</a>.
 </p>
 <p>
     Then fire up phoenix with the following command:
@@ -98,8 +98,8 @@
     connection management from the Avalon-Cornerstone project, which is good as it allows us to
     share connection pooling across multiple servers.
 </p>
-</s1>
-<s1 title="The Phoenix Developer Kit - A different example">
+</section>
+<section name="The Phoenix Developer Kit - A different example">
 <p>
     This self contained kit could be considered a starter project for someone wanting to make a
     Phoenix compatible application.  The idea is that you start with this skeleton including
@@ -113,7 +113,7 @@
 </p>
 <p>
     The Phoenix development kit originates in Phoenix's CVS, but for convenience is downloadable
-    from <link href="TODO">TODO</link>.  When you have that file, unzip it and immediately launch
+    from <a href="TODO">TODO</a>.  When you have that file, unzip it and immediately launch
     ant to make the jars and sars.  There are four:
     <ol>
       <li>phoenix-demo.sar - the server app in Phoenix form</li>
@@ -154,6 +154,6 @@ java -jar phoenix-demo-client.jar localhost 7654 Hello!!!!!
     components.  We normally recommend that people should reuse components from cornerstone as
     the potential for sharing will be much higher.
 </p>
-</s1>
+</section>
 </body>
 </document>
