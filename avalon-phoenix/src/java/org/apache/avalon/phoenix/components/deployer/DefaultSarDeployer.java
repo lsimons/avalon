@@ -29,7 +29,7 @@ import org.apache.avalon.phoenix.components.kapi.SarEntry;
 import org.apache.avalon.phoenix.metadata.BlockListenerMetaData;
 import org.apache.avalon.phoenix.metadata.BlockMetaData;
 import org.apache.avalon.phoenix.metadata.SarMetaData;
-import org.apache.avalon.phoenix.tools.assembler.DefaultAssembler;
+import org.apache.avalon.phoenix.tools.assembler.Assembler;
 import org.apache.avalon.phoenix.tools.assembler.AssemblyException;
 
 /**
@@ -45,7 +45,7 @@ public class DefaultSarDeployer
         ResourceManager.getPackageResources( DefaultSarDeployer.class );
 
     private final DefaultConfigurationBuilder  m_builder  = new DefaultConfigurationBuilder();
-    private final DefaultAssembler m_assembler = new DefaultAssembler();
+    private final Assembler m_assembler = new Assembler();
 
     private Container                m_container;
     private ConfigurationRepository  m_repository;
