@@ -52,7 +52,7 @@ public class ShutdownPhase
     public void visitBlock( final String name, final BlockEntry entry )
         throws Exception
     {
-        if( State.STARTEDUP != entry.getState() ) return;
+        if( State.STARTED != entry.getState() ) return;
 
         if( getLogger().isInfoEnabled() )
         {
@@ -112,7 +112,7 @@ public class ShutdownPhase
         //Destruction stage
         getLogger().debug( REZ.getString( "shutdown.notice.destroy.pre" ) );
         entry.setInstance( null );
-        entry.setState( State.SHUTDOWN );
+        entry.setState( State.DESTROYED );
         getLogger().debug( REZ.getString( "shutdown.notice.destroy.success" ) );
 
         final String message = REZ.getString( "shutdown.error.phase.completed", name );

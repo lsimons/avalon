@@ -93,8 +93,7 @@ public class StartupPhase
     public void visitBlock( final String name, final BlockEntry entry )
         throws Exception
     {
-        if( State.BASE != entry.getState() &&
-            null != entry.getState() ) return;
+        if( State.VOID != entry.getState() ) return;
 
         if( getLogger().isInfoEnabled() )
         {
@@ -186,7 +185,7 @@ public class StartupPhase
                 getLogger().debug( REZ.getString( "startup.notice.start.success" ) );
             }
 
-            entry.setState( State.STARTEDUP );
+            entry.setState( State.STARTED );
         }
         catch( final Exception e )
         {
