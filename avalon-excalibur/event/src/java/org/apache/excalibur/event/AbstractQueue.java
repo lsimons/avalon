@@ -45,7 +45,7 @@ public abstract class AbstractQueue implements Queue
     /**
      * Set the timeout
      */
-    public void setTimeOut( final long millis )
+    public void setTimeout( final long millis )
     {
         if ( millis > 0 )
         {
