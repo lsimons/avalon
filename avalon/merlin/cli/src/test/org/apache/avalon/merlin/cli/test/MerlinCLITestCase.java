@@ -72,17 +72,17 @@ import org.apache.avalon.merlin.cli.Main;
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
  * @version $Revision: 1.1 $
  */
-public class MerlinCLITest extends TestCase
+public class MerlinCLITestCase extends TestCase
 {
     //----------------------------------------------------------
     // constructor
     //----------------------------------------------------------
 
     /**
-     * Constructor for MerlinEmbeddedTest.
+     * Constructor for MerlinCLITestCaseCase.
      * @param name the name of the testcase
      */
-    public MerlinCLITest( String name )
+    public MerlinCLITestCase( String name )
     {
         super( name );
     }
