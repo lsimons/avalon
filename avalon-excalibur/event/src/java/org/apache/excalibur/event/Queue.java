@@ -64,4 +64,5 @@ package org.apache.excalibur.event;
  */
 public interface Queue extends Source, Sink
 {
+    String ROLE = Queue.class.getName();
 }

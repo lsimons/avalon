@@ -56,10 +56,12 @@ import org.apache.avalon.framework.logger.Logger;
  * a Logger for your system.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/08/07 13:36:59 $
+ * @version CVS $Revision: 1.3 $ $Date: 2002/11/10 03:35:06 $
  */
 public interface LoggerManager
 {
+    String ROLE = LoggerManager.class.getName();
+
     /**
      * Return the Logger for the specified category.
      */
