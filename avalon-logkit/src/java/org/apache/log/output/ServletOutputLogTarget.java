@@ -55,6 +55,7 @@
 package org.apache.log.output;
 
 import javax.servlet.ServletContext;
+import org.apache.log.format.Formatter;
 
 /**
  * Generic logging interface. Implementations are based on the strategy
@@ -67,6 +68,18 @@ public class ServletOutputLogTarget
 {
     ///The servlet context written to (may be null in which case it won't log at all)
     private ServletContext m_context;
+
+    /**
+     * Constructor.
+     *
+     * @param context ServletContext to use for logging.
+     */
+    public ServletOutputLogTarget( final ServletContext context, final Formatter formatter )
+    {
+        super( formatter );
+        m_context = context;
+        open();
+    }
 
     /**
      * Constructor.
@@ -103,7 +116,6 @@ public class ServletOutputLogTarget
     public synchronized void close()
     {
         super.close();
-
         m_context = null;
     }
 }
