@@ -11,7 +11,7 @@ rem                      executed.
 rem
 rem   PHOENIX_TMPDIR     (Optional) Directory path location of temporary directory
 rem                      the JVM should use (java.io.tmpdir).  Defaults to
-rem                      $CATALINA_BASE/temp.
+rem                      $PHOENIX_BASE/temp.
 rem
 rem   JAVA_HOME          Must point at your Java Development Kit installation.
 rem
@@ -86,6 +86,6 @@ rem uncomment to get enable remote debugging
 rem set DEBUG=-Xdebug -Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=y
 
 rem Kicking the tires and lighting the fires!!!
-"%PHOENIX_JAVACMD%" %DEBUG% "-Djava.ext.dirs=%PHOENIX_HOME%\lib" "-Dphoenix.home=%PHOENIX_HOME%" "-Djava.security.policy=jar:file:%PHOENIX_HOME%/bin/phoenix-loader.jar!/META-INF/java.policy" %PHOENIX_JVM_OPTS% %PHOENIX_SECURE% -jar "%PHOENIX_HOME%\bin\phoenix-loader.jar" %1 %2 %3 %4 %5 %6 %7 %8 %9
+"%PHOENIX_JAVACMD%" %DEBUG% "-Djava.ext.dirs=%PHOENIX_HOME%\lib" "-Dphoenix.home=%PHOENIX_HOME%" "-Djava.security.policy=jar:file:%PHOENIX_HOME%/bin/phoenix-loader.jar!/META-INF/java.policy" %PHOENIX_JVM_OPTS% %PHOENIX_SM% -jar "%PHOENIX_HOME%\bin\phoenix-loader.jar" %1 %2 %3 %4 %5 %6 %7 %8 %9
 
 :end
