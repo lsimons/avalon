@@ -17,6 +17,8 @@ import org.apache.cornerstone.services.scheduler.TimeScheduler;
 import org.apache.cornerstone.services.scheduler.TimeTrigger;
 import org.apache.cornerstone.services.scheduler.Target;
 import org.apache.avalon.util.BinaryHeap;
+import org.apache.avalon.util.PriorityQueue;
+import org.apache.avalon.util.SynchronizedPriorityQueue;
 import org.apache.avalon.util.thread.ThreadContext;
 import org.apache.log.Logger;
 
@@ -34,12 +36,12 @@ public class DefaultTimeScheduler
 
     protected boolean                    m_running;
     protected Hashtable                  m_entries;
-    protected BinaryHeap                 m_priorityQueue;
+    protected PriorityQueue              m_priorityQueue;
     
     public void init()
     {
         m_entries = new Hashtable();
-        m_priorityQueue = new BinaryHeap();
+        m_priorityQueue = new SynchronizedPriorityQueue( new BinaryHeap() );
     }
 
     public void dispose()
@@ -100,6 +102,7 @@ public class DefaultTimeScheduler
         throws NoSuchElementException
     {
         final TimeScheduledEntry entry = getEntry( name );
+        entry.getTimeTrigger().reset();
         rescheduleEntry( entry, true );
     }    
 
@@ -118,23 +121,15 @@ public class DefaultTimeScheduler
 
         if( clone )
         {
-            try
-            {
-                entry = new TimeScheduledEntry( timeEntry.getName(),
-                                                timeEntry.getTimeTrigger().getClone(),  
-                                                timeEntry.getTarget() );
-                timeEntry.invalidate();
+            entry = new TimeScheduledEntry( timeEntry.getName(),
+                                            timeEntry.getTimeTrigger(),  
+                                            timeEntry.getTarget() );
+            timeEntry.invalidate();
 
-                // remove old refernce to the entry..so that next time
-                // somebody calls getEntry( name ), we will get the new valid entry.
-                m_entries.remove( timeEntry.getName() );
-                m_entries.put( timeEntry.getName(), entry );
-            }
-            catch( final CloneNotSupportedException cnse )
-            {
-                //not sure what to do with this....
-                //but this should never happen as interface TimeTrigger is Cloneable.
-            }  
+            // remove old refernce to the entry..so that next time
+            // somebody calls getEntry( name ), we will get the new valid entry.
+            m_entries.remove( timeEntry.getName() );
+            m_entries.put( timeEntry.getName(), entry );
         }
 
         //reschedule if appropriate
