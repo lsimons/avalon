@@ -26,7 +26,6 @@
   <ant:property name="merlin.home" value="${user.home}/.merlin"/>
 
   <goal name="merlin:update">
-    <!--<attainGoal name="merlin:clean"/>-->
     <attainGoal name="merlin:install"/>
     <attainGoal name="merlin:site"/>
     <attainGoal name="merlin:tutorials"/>
@@ -60,14 +59,8 @@
       goals="jar:install-snapshot"
       banner="Installing:"
       ignoreFailures="false" />
-    <attainGoal name="merlin:plugin"/>
 
-    <!-- build the plugin -->
-    <maven:reactor basedir="${basedir}"
-      includes="kernel/bootstrap/project.xml"
-      goals="jar:install"
-      banner="Installing:"
-      ignoreFailures="false" />
+    <attainGoal name="merlin:plugin"/>
 
   </goal>
 
@@ -80,7 +73,7 @@
 
     <!-- import bootstrap jar -->
     <ant:copy 
-       file="${basedir}/kernel/bootstrap/target/merlin-bootstrap-1.0.jar" 
+       file="${basedir}/kernel/bootstrap/target/merlin-bootstrap-3.0.jar" 
        toDir="${merlin.build.inst.dir}/bin/lib"/>
 
     <!-- import subproject jar files -->
@@ -138,7 +131,7 @@
   </goal>
 
   <goal name="merlin:package">
-    <maven:snapshot project="${pom}"/>    
+    <maven:snapshot project="${pom}"/>
     <j:set var="timestamp" value="${snapshotSignature.substring(7,15)}"/>
     <j:set var="package.name" value="${maven.final.name}-dist-${timestamp}"/>
 
@@ -160,7 +153,7 @@
       <fileset dir="${basedir}">
         <include name="INSTALLATION.TXT"/>
       </fileset>
-      <fileset dir="${basedir}/merlin-plugin/target">
+      <fileset dir="${basedir}/kernel/plugin/target">
         <include name="*.jar"/>
       </fileset>
       <fileset dir="${basedir}/../meta/plugin/target">
@@ -278,14 +271,14 @@
         </j:forEach>
         <sourcepath path="${basedir}/repository/spi/src/java"/>
         <sourcepath path="${basedir}/repository/impl/src/java"/>
-        <sourcepath path="${basedir}/extension-spi/src/java"/>
-        <sourcepath path="${basedir}/extension/src/java"/>
+        <sourcepath path="${basedir}/extension/spi/src/java"/>
+        <sourcepath path="${basedir}/extension/impl/src/java"/>
         <sourcepath path="${basedir}/composition/api/src/java"/>
         <sourcepath path="${basedir}/composition/spi/src/java"/>
         <sourcepath path="${basedir}/composition/impl/src/java"/>
-        <sourcepath path="${basedir}/activation-api/src/java"/>
-        <sourcepath path="${basedir}/activation-spi/src/java"/>
-        <sourcepath path="${basedir}/activation/src/java"/>
+        <sourcepath path="${basedir}/activation/api/src/java"/>
+        <sourcepath path="${basedir}/activation/spi/src/java"/>
+        <sourcepath path="${basedir}/activation/impl/src/java"/>
         <sourcepath path="${basedir}/kernel/spi/src/java"/>
         <sourcepath path="${basedir}/kernel/impl/src/java"/>
         <classpath>
