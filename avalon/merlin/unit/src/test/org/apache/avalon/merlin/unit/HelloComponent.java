@@ -55,6 +55,9 @@ import org.apache.avalon.framework.logger.LogEnabled;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Executable;
 import org.apache.avalon.framework.activity.Initializable;
+import org.apache.avalon.framework.configuration.Configurable;
+import org.apache.avalon.framework.configuration.ConfigurationException;
+import org.apache.avalon.framework.configuration.Configuration;
 
 /**
  * A sample component.  This component implements a number 
@@ -69,7 +72,7 @@ import org.apache.avalon.framework.activity.Initializable;
  * @avalon.component version="1.0" name="hello"
  */
 public class HelloComponent 
-  implements LogEnabled, Initializable, Disposable, Hello
+  implements LogEnabled, Configurable, Initializable, Disposable, Hello
 {
 
    //------------------------------------------------------------
@@ -82,6 +85,7 @@ public class HelloComponent
     */
     private Logger m_logger;
 
+    private String m_message;
 
    //------------------------------------------------------------
    // Hello
@@ -93,7 +97,7 @@ public class HelloComponent
     */
     public String getMessage()
     {
-        return "Hello";
+        return m_message;
     }
 
    //------------------------------------------------------------
@@ -109,6 +113,16 @@ public class HelloComponent
     {
         m_logger = logger;
         getLogger().info( "logging" );
+    }
+
+   /**
+    * Configuration of the component by the container.
+    * @exception Exception if a configuration error occurs
+    */
+    public void configure( Configuration config ) throws ConfigurationException
+    {
+        getLogger().info( "configuration" );
+        m_message = config.getChild( "message" ).getValue( "unknown" );
     }
 
    /**

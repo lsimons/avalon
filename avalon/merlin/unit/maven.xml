@@ -1,7 +1,7 @@
 <project default="jar:install" xmlns:maven="jelly:maven" xmlns:j="jelly:core" xmlns:util="jelly:util" xmlns:ant="jelly:ant">
 
   <ant:property name="maven.jar.manifest.extensions.add" value="false"/>
-  <ant:property file="project.properties"/>
+  <ant:property file="${basedir}/../../version.properties"/>
 
   <preGoal name="jar:jar">
     <maven:snapshot project="${pom}"/>
