@@ -331,13 +331,13 @@ directory yourself using a command such as
         <ant:mkdir dir="${maven.build.dir}"/>
         <j:if test="${api.src.present}">
             <ant:zip destfile="${maven.build.dir}/${maven.final.name}.jar">
-                <ant:zipfileset src="${maven.build.dir}/${maven.final.name}-api.jar"/>
+                <ant:zipfileset src="${pom.artifactId}-api-${pom.currentVersion}.jar"/>
             </ant:zip>
         </j:if>
         <j:if test="${impl.src.present}">
             <ant:zip destfile="${maven.build.dir}/${maven.final.name}.jar"
                     update="true">
-                <ant:zipfileset src="${maven.build.dir}/${maven.final.name}-impl.jar"/>
+                <ant:zipfileset src="${maven.build.dir}/${pom.artifactId}-impl-${pom.currentVersion}.jar"/>
             </ant:zip>
         </j:if>
     </goal>
@@ -346,7 +346,7 @@ directory yourself using a command such as
             prereqs="avalon:init,avalon:compile-api"
             description="Creates an api jar">
         <j:if test="${api.src.present}">
-            <ant:jar destfile="${maven.build.dir}/${maven.final.name}-api.jar" basedir="${api.build.dir}"/>
+            <ant:jar destfile="${maven.build.dir}/${pom.artifactId}-api-${pom.currentVersion}.jar" basedir="${api.build.dir}"/>
         </j:if>
     </goal>
 
@@ -354,7 +354,7 @@ directory yourself using a command such as
             prereqs="avalon:init,avalon:compile-impl"
             description="Creates an impl jar">
         <j:if test="${api.src.present}">
-            <ant:jar destfile="${maven.build.dir}/${maven.final.name}-impl.jar" basedir="${impl.build.dir}"/>
+            <ant:jar destfile="${maven.build.dir}/${pom.artifactId}-impl-${pom.currentVersion}.jar" basedir="${impl.build.dir}"/>
         </j:if>
     </goal>
 
