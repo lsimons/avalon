@@ -58,36 +58,23 @@ package org.apache.avalon.activation.appliance;
  * as the identifiable consumer.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2003/09/24 09:30:20 $
+ * @version $Revision: 1.2 $ $Date: 2003/10/17 03:26:28 $
  */
 public interface Home
 {
     /**
      * Resolve a object to a value.
      *
-     * @param source the context within the the resolution is applied
      * @return the resolved object
      * @throws Exception if an error occurs
      */
-    Object resolve( Object source ) throws Exception;
-
-    /**
-     * Resolve a object to a value relative to a supplied set of 
-     * interface classes.
-     *
-     * @param source the aquiring source
-     * @param ref the castable service classes 
-     * @return the resolved object
-     * @throws Exception if an error occurs
-     */
-    Object resolve( Object source, Class[] ref ) throws Exception;
+    Object resolve() throws Exception;
 
     /**
      * Release an object
      *
-     * @param source the client that obtained the intial reference
      * @param instance the object to be released
      */
-    void release( Object source, Object instance );
+    void release( Object instance );
 
 }

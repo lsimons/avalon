@@ -44,7 +44,7 @@ the LICENSE.txt file.
   the container has to manage.
   -->
   <stages>
-     <stage type="org.apache.avalon.playground.Exploitable" />
+     <stage id="urn:avalon.playground:exploitable" />
      <stage id="urn:avalon.playground:demonstratable"/>
   </stages>
 

@@ -145,14 +145,14 @@ public class DefaultLoader
 
         try
         {
-            Appliance appliance = m_kernel.getRootBlock().resolveAppliance( path );
+            Appliance appliance = m_kernel.getRootBlock().locate( path );
             if( appliance == null )
             {
                 final String problem = 
                   "Unknown appliance: " + path;
                 throw new IllegalArgumentException( problem );
             }
-            return appliance.resolve( this );
+            return appliance.resolve();
         }
         catch( Throwable e )
         {

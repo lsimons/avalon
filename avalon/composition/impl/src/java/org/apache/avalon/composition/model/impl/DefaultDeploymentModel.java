@@ -93,7 +93,7 @@ import org.apache.excalibur.configuration.CascadingConfiguration;
  * Deployment model defintion.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2003/09/24 09:32:09 $
+ * @version $Revision: 1.2 $ $Date: 2003/10/17 03:26:29 $
  */
 public class DefaultDeploymentModel extends DefaultModel implements DeploymentModel
 {
@@ -268,6 +268,7 @@ public class DefaultDeploymentModel extends DefaultModel implements DeploymentMo
     {
         return m_context.getType().getServices();
     }
+
 
    /**
     * Return TRUE is this model is capable of supporting a supplied 
@@ -587,6 +588,45 @@ public class DefaultDeploymentModel extends DefaultModel implements DeploymentMo
         return m_stages;
     }
 
+   /**
+    * Return the set of services produced by the model as a array of classes.
+    *
+    * @return the service classes
+    */
+    public Class[] getInterfaces()
+    {
+        //
+        // TODO: add a SoftReference to hold the service class array
+        // instad of generating each time
+        //
+
+        ClassLoader classLoader = m_context.getClassLoader();
+        ArrayList list = new ArrayList();
+        ServiceDescriptor[] services = getServices();
+        for( int i=0; i<services.length; i++ )
+        {
+            final ServiceDescriptor service = services[i];
+            final String classname = service.getReference().getClassname();
+            list.add( getComponentClass( classLoader, classname ) );
+        }
+
+        //
+        // if the component is an extension then add all implemented 
+        // interfaces
+        //
+
+        if( getType().getExtensions().length > 0 )
+        {
+            Class[] interfaces = getDeploymentClass().getInterfaces();
+            for( int i=0; i<interfaces.length; i++ )
+            {
+                list.add( interfaces[i] );
+            }
+        }
+
+        return (Class[]) list.toArray( new Class[0] );
+    }
+
     //==============================================================
     // implementation
     //==============================================================
@@ -615,6 +655,7 @@ public class DefaultDeploymentModel extends DefaultModel implements DeploymentMo
         {
             Class contextualizable = 
               getComponentClass( classLoader, strategy );
+
 
             if( contextualizable == null )
             {

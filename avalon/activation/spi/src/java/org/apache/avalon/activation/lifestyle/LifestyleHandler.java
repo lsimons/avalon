@@ -50,14 +50,27 @@
 
 package org.apache.avalon.activation.lifestyle;
 
-import org.apache.avalon.activation.appliance.Home;
-
 /**
  * A lifestyle handler provides support for a particular lifestyle policy.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2003/09/24 09:31:00 $
+ * @version $Revision: 1.2 $ $Date: 2003/10/17 03:26:29 $
  */
-public interface LifestyleHandler extends Home
+public interface LifestyleHandler
 {
+    /**
+     * Resolve a object to a value.
+     *
+     * @return the resolved object
+     * @throws Exception if an error occurs
+     */
+    Object resolve() throws Exception;
+
+    /**
+     * Release an object
+     *
+     * @param instance the object to be released
+     */
+    void release( Object instance );
+
 }

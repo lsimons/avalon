@@ -58,7 +58,7 @@ import org.apache.avalon.activation.lifestyle.LifestyleHandler;
  * Abstract implentation class for a lifestyle handler.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2003/09/24 09:30:44 $
+ * @version $Revision: 1.2 $ $Date: 2003/10/17 03:26:28 $
  */
 public abstract class AbstractLifestyleHandler extends AbstractLogEnabled
   implements LifestyleHandler
@@ -71,18 +71,6 @@ public abstract class AbstractLifestyleHandler extends AbstractLogEnabled
     public AbstractLifestyleHandler( Logger logger )
     {
         enableLogging( logger );
-    }
-
-    /**
-     * Resolve a object to a value.
-     *
-     * @param source the context within the the resolution is applied
-     * @return the resolved object
-     * @throws Exception if an error occurs
-     */
-    public Object resolve( Object source ) throws Exception
-    {
-        return resolve( source, new Class[0] );
     }
 
 }

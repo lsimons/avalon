@@ -58,13 +58,14 @@ import java.util.Map;
 import java.util.Hashtable;
 
 import org.apache.avalon.activation.appliance.Appliance;
+import org.apache.avalon.activation.appliance.ApplianceException;
+import org.apache.avalon.activation.appliance.ApplianceRuntimeException;
 import org.apache.avalon.activation.appliance.Home;
 import org.apache.avalon.composition.util.ExceptionHelper;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
-import org.apache.avalon.meta.info.DependencyDescriptor;
 
 /**
  * Default implementation of the framework {@link ServiceManager} interface.
@@ -141,10 +142,10 @@ class DefaultServiceManager extends AbstractLogEnabled implements ServiceManager
             throw new ServiceException( key, error );
         }
 
-        Home provider = (Home) m_map.get( key );
+        Appliance provider = (Appliance) m_map.get( key );
         try
         {
-            Object object = provider.resolve( this );
+            Object object = provider.resolve();
             String id = "" + System.identityHashCode( object );
             m_table.put( id, key );
             final String message = 
@@ -202,7 +203,7 @@ class DefaultServiceManager extends AbstractLogEnabled implements ServiceManager
 
         try
         {
-            provider.release( this, object );
+            provider.release( object );
             final String message = 
               "released service [" + id + "] from the key [" + key + "].";
             getLogger().debug( message );

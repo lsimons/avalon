@@ -60,7 +60,7 @@ import org.apache.avalon.meta.info.StageDescriptor;
  * appliance resolution.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2003/10/12 15:34:49 $
+ * @version $Revision: 1.2 $ $Date: 2003/10/17 03:26:28 $
  */
 public interface Engine
 {
@@ -69,7 +69,7 @@ public interface Engine
     * @param dependency the dependency model
     * @return the appliance
     */
-    Appliance resolveAppliance( DependencyModel dependency )
+    Appliance locate( DependencyModel dependency )
       throws Exception;
 
    /**
@@ -77,7 +77,7 @@ public interface Engine
     * @param dependency the dependency descriptor
     * @return the appliance
     */
-    Appliance resolveAppliance( DependencyDescriptor dependency )
+    Appliance locate( DependencyDescriptor dependency )
       throws Exception;
 
    /**
@@ -85,7 +85,7 @@ public interface Engine
     * @param stage the stage model
     * @return the appliance
     */
-    Appliance resolveAppliance( StageModel stage )
+    Appliance locate( StageModel stage )
       throws Exception;
 
    /**
@@ -93,7 +93,7 @@ public interface Engine
     * @param stage the stage descriptor
     * @return the appliance
     */
-    Appliance resolveAppliance( StageDescriptor stage )
+    Appliance locate( StageDescriptor stage )
       throws Exception;
 
    /**
@@ -101,6 +101,6 @@ public interface Engine
     * @param path the appliance path
     * @return the appliance
     */
-    Appliance resolveAppliance( String path )
+    Appliance locate( String path )
       throws Exception;
 }

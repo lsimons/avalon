@@ -50,6 +50,9 @@
 
 package org.apache.avalon.activation.lifestyle.impl;
 
+import java.lang.ref.WeakReference;
+import java.lang.ref.ReferenceQueue;
+
 import java.util.ArrayList;
 
 import org.apache.avalon.activation.lifecycle.Factory;
@@ -58,13 +61,14 @@ import org.apache.avalon.framework.activity.Disposable;
 
 /**
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2003/09/24 09:30:48 $
+ * @version $Revision: 1.2 $ $Date: 2003/10/17 03:26:28 $
  */
 public class TransientLifestyleHandler extends AbstractLifestyleHandler implements Disposable
 {
     private final Factory m_factory;
 
-    // TODO: change this to weak references
+    private final ReferenceQueue m_queue = new ReferenceQueue();
+
     private ArrayList m_list = new ArrayList();
 
     public TransientLifestyleHandler( Logger logger, Factory factory )
@@ -77,28 +81,29 @@ public class TransientLifestyleHandler extends AbstractLifestyleHandler implemen
      * Resolve a object to a value relative to a supplied set of 
      * interface classes.
      *
-     * @param source the aquiring source
-     * @param ref the castable service classes 
      * @return the resolved object
      * @throws Exception if an error occurs
      */
-    public Object resolve( Object source, Class[] ref ) throws Exception
+    public Object resolve() throws Exception
     {
+        // TODO: setup a background thread to check m_queue for 
+        // released references and remove them from our list, otherwise we
+        // have a memory leak due to accumulation of weak references
+
         Object instance = m_factory.newInstance();
-        m_list.add( instance );
+        WeakReference reference = new WeakReference( instance, m_queue );
+        m_list.add( reference );
         return instance;
     }
 
     /**
-     * Release an object.  The abstract implementation does nothing,
+     * Release an object. 
      *
-     * @param source the context with respect the reclaimed object is qualified
-     * @param object the object to be reclaimed
+     * @param instance the object to be reclaimed
      */
-    public void release( Object source, Object object )
+    public void release( Object instance )
     {
-        m_list.remove( object );
-        m_factory.destroy( object );
+        m_factory.destroy( instance );
     }
 
    /**
@@ -106,12 +111,17 @@ public class TransientLifestyleHandler extends AbstractLifestyleHandler implemen
     */
     public synchronized void dispose()
     {
-        Object[] instances = m_list.toArray();
-        for( int i=0; i<instances.length; i++ )
+        WeakReference[] refs = (WeakReference[]) m_list.toArray( new WeakReference[0] );
+        for( int i=0; i<refs.length; i++ )
         {
-            m_factory.destroy( instances[i] );
+            WeakReference ref = refs[i];
+            Object instance = ref.get();
+            if( instance != null )
+            {
+                m_factory.destroy( instance );
+                ref.clear();
+            }
         }
         m_list.clear();
     }
-
 }

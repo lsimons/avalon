@@ -73,7 +73,7 @@
           <item name="Properties" href="/tools/maven/properties.html"/>
         </item>
         <item name="Meta Plugin for Maven" 
-          href="http://avalon.apache.org/sandbox/avalon-meta/tools/index.html"/>
+          href="http://avalon.apache.org/meta/tools/index.html"/>
       </item>
     </menu>
 

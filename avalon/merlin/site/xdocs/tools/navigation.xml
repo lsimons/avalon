@@ -70,7 +70,7 @@
       <item name="Tools" href="/tools/index.html">
         <item name="Merlin Plugin for Maven" href="/tools/maven/index.html"/>
         <item name="Meta Plugin for Maven" 
-          href="http://avalon.apache.org/sandbox/avalon-meta/tools/index.html"/>
+          href="http://avalon.apache.org/meta/tools/index.html"/>
       </item>
     </menu>
 

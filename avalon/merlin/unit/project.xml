@@ -6,7 +6,7 @@
   <groupId>merlin</groupId>
   <id>merlin-unit</id>
   <name>Merlin Unit</name>
-  <currentVersion>3.1-dev</currentVersion>
+  <currentVersion>3.2-dev</currentVersion>
   <package>org.apache.avalon.merlin.unit</package>
 
   <inceptionYear>2003</inceptionYear>
@@ -45,25 +45,25 @@
     <dependency>
       <groupId>avalon-meta</groupId>
       <artifactId>avalon-meta-api</artifactId>
-      <version>1.1</version>
+      <version>1.2-dev</version>
     </dependency>
 
     <dependency>
       <groupId>avalon-composition</groupId>
       <artifactId>avalon-composition-api</artifactId>
-      <version>1.0b1</version>
+      <version>1.1-dev</version>
     </dependency>
 
     <dependency>
       <groupId>avalon-activation</groupId>
       <artifactId>avalon-activation-api</artifactId>
-      <version>1.0b1</version>
+      <version>1.1-dev</version>
     </dependency>
 
     <dependency>
       <groupId>merlin</groupId>
       <artifactId>merlin-kernel-spi</artifactId>
-      <version>3.1b2</version>
+      <version>3.2-dev</version>
     </dependency>
 
     <dependency>

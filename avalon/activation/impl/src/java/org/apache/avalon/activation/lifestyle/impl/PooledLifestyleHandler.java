@@ -56,7 +56,7 @@ import org.apache.avalon.framework.logger.Logger;
 /**
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2003/09/24 09:30:45 $
+ * @version $Revision: 1.2 $ $Date: 2003/10/17 03:26:28 $
  */
 public class PooledLifestyleHandler extends AbstractLifestyleHandler
 {
@@ -69,24 +69,22 @@ public class PooledLifestyleHandler extends AbstractLifestyleHandler
      * Resolve a object to a value relative to a supplied set of 
      * interface classes.
      *
-     * @param source the aquiring source
-     * @param ref the castable service classes 
      * @return the resolved object
      * @throws Exception if an error occurs
      */
-    public Object resolve( Object source, Class[] ref ) throws Exception
+    public Object resolve() throws Exception
     {
         throw new UnsupportedOperationException();
     }
 
     /**
-     * Release an object.  The abstract implementation does nothing,
+     * Release an object. 
      *
-     * @param source the context with respect the reclaimed object is qualified
-     * @param object the object to be reclaimed
+     * @param instance the object to be reclaimed
      */
-    public void release( Object source, Object object )
+    public void release( Object instance )
     {
+        throw new UnsupportedOperationException();
     }
 
 }

@@ -64,7 +64,7 @@ import org.apache.excalibur.configuration.ConfigurationUtil;
 /**
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2003/09/24 09:31:42 $
+ * @version $Revision: 1.2 $ $Date: 2003/10/17 03:26:29 $
  */
 public abstract class XMLProfileCreator
 {
@@ -123,7 +123,14 @@ public abstract class XMLProfileCreator
         {
             return true;
         }
-        return fallback ;
+        else if( string.equals( "lazy" ) || string.equals( "false" ) )
+        {
+            return false;
+        }
+        else
+        {
+            return fallback ;
+        }
     }
 
     public CategoriesDirective getCategoriesDirective( 
