@@ -1,0 +1,55 @@
+<project default="site" xmlns:maven="jelly:maven" xmlns:j="jelly:core" xmlns:util="jelly:util"
+        xmlns:deploy="deploy">
+
+    <property file="${basedir}/../project.properties"/>
+    <property file="${basedir}/project.properties"/>
+
+    <postGoal name="dist:prepare-bin-filesystem">
+        <mkdir dir="${maven.dist.bin.assembly.dir}/bin"/>
+
+        <copy todir="${maven.dist.bin.assembly.dir}/bin">
+            <fileset dir="${maven.src.dir}/bin">
+                <include name="*"/>
+            </fileset>
+        </copy>
+
+        <mkdir dir="${maven.dist.bin.assembly.dir}/lib"/>
+
+        <deploy:copy-deps todir="${maven.dist.bin.assembly.dir}/lib"/>
+    </postGoal>
+
+    <postGoal name="java:compile">
+        <attainGoal name="altrmiproxies"/>
+    </postGoal>
+
+    <goal name="altrmiproxies">
+        <taskdef name="altrmiproxies"
+                classname="org.apache.altrmi.generator.ant.ProxyGenerationTask">
+            <classpath>
+                <path refid="maven.dependency.classpath"/>
+                <pathelement path="${maven.build.dir}/classes"/>
+            </classpath>
+        </taskdef>
+
+        <mkdir dir="${maven.build.dir}/genjava"/>
+        <mkdir dir="${maven.build.dir}/classes"/>
+
+        <delete>
+            <fileset dir="${maven.build.dir}/genjava" includes="AltrmiGenerated*.java"/>
+        </delete>
+        <delete>
+            <fileset dir="${maven.build.dir}/classes" includes="AltrmiGenerated*.class"/>
+        </delete>
+
+        <altrmiproxies genname="InstrumentManagerClient"
+            srcgendir="${maven.build.dir}/genjava"
+            classgendir="${maven.build.dir}/classes"
+            interfaces="org.apache.excalibur.instrument.manager.interfaces.InstrumentManagerClient"
+            additionalfacades="org.apache.excalibur.instrument.manager.interfaces.InstrumentableDescriptor,org.apache.excalibur.instrument.manager.interfaces.InstrumentDescriptor,org.apache.excalibur.instrument.manager.interfaces.InstrumentSampleDescriptor">
+            <classpath>
+                <path refid="maven.dependency.classpath"/>
+                <pathelement path="${maven.build.dir}/classes"/>
+            </classpath>
+        </altrmiproxies>
+    </goal>
+</project>
