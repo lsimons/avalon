@@ -537,6 +537,6 @@ public class PhoenixEmbeddor
         throws Exception
     {
         final DefaultConfigurationBuilder builder = new DefaultConfigurationBuilder();
-        return builder.build( location );
+        return builder.buildFromFile( location );
     }
 }
