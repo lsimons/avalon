@@ -1,0 +1,152 @@
+
+               Building The Component
+               ======================
+
+Building from CVS
+-----------------
+
+Assuming:
+ - You have a JDK installed, $JAVA_HOME set and 'java -version' works
+ - Your directory structure follows standard CVS layout:
+
+jakarta-avalon/                   # jakarta-avalon CVS module, containing Ant
+jakarta-avalon-excalibur/              # contains build.sh, build.bat
+jakarta-avalon-excalibur/configuration   # you are here
+
+Then to build, you need only customize ant.properties (see step 6 below) and
+type './build.sh' (Unix) or 'build' (DOS). The '-projecthelp' option will
+list the available targets.
+
+
+Building from source distribution
+---------------------------------
+
+In order to build a binary distribution version of the component from a 
+source  distribution,  you must have  a Java Development Kit (JDK)  for 
+version  1.1 (or  later)  downloaded  and  installed  (version  1.3.1 
+recommended), and do the following:
+
+(0) Download and Install a Java Development Kit
+
+* Download a Java Development Kit (JDK) release (version 1.1 or later) 
+  from:
+
+    http://java.sun.com/j2se/
+
+* Install the JDK according to the instructions included with the release.
+
+* Set an environment variable JAVA_HOME to the pathname of the directory
+  into which you installed the JDK release.
+
+
+(1) Download and Install the Ant Binary Distribution
+
+* Download a binary distribution of Ant 1.4.1 from:
+
+    http://jakarta.apache.org/builds/jakarta-ant/release/v1.4.1/bin/
+
+  On a Windows platform, you will need:
+    jakarta-ant-1.4.1-bin.zip
+    jakarta-ant-1.4.1-optional.jar
+
+  On a Unix platform, you will need:
+    jakarta-ant-1.4.1-bin.tar.gz
+    jakarta-ant-1.4.1-optional.jar
+
+* Unpack the binary distribution into a convenient location so that the
+  Ant release resides in its own directory (conventionally named
+  "jakarta-ant-1.4.1").  For the purposes of the remainder of this document,
+  the symbolic name "${ant.home}" is used to refer to the full pathname of
+  the release directory.
+
+* Copy the file "jakarta-ant-1.4.1-optional.jar", downloaded above, into
+  the directory "${ant.home}/lib".  This makes available several Ant
+  extension commands that are commonly required when building Jakarta
+  based projects.
+
+* Modify the PATH environment variable to include directory
+  "${ant.home}/bin" in its list.  This makes the "ant" command line script
+  available, which will be used to actually perform the build.
+
+(2) Download and Install the JUnit Testing Package (OPTIONAL)
+
+NOTE: This is only required if you wish to run the unit tests for 
+this component
+
+* Download the JUnit unit test package (version 3.7 or later) from:
+
+    http://www.junit.org/
+
+* Unpack the package into a convenient location so that it resides in its
+  own subdirectory.
+
+* Copy the file "junit.jar", downloaded above, into the directory 
+  "${ant.home}/lib".  This makes available the unit testing tasks that are 
+  commonly required when building Jakarta based projects.
+
+(3) Download and Install Checkstyle, 2.1 or later (OPTIONAL)
+
+NOTE: This is only required if you wish to generate reports regarding code style.
+
+* Download the Checkstyle package (version 2.1 or later) from:
+
+    http://checkstyle.sourceforge.net/
+
+* Unpack the package into a convenient location so that it resides in its
+  own subdirectory.
+
+(4) Download and Install the Xalan, XSLT engine (OPTIONAL)
+
+NOTE: This is only required if you wish to generate reports for the dependency 
+analysis, checkstyle and unit testing results.
+
+* Download the Xalan package (version 2.3.1 or later) from:
+
+    http://xml.apache.org/xalan-j/
+
+* Unpack the package into a convenient location so that it resides in its
+  own subdirectory.
+
+* Copy the files "xalan.jar", and "xml-apis.jar", downloaded above, into 
+  the directory "${ant.home}/lib".  This makes available the XSLT reporting
+  capabilities.
+
+(5) Customize Build Properties For This Subproject
+
+Most Jakarta subprojects allow you to customize Ant properties (with default
+values defined in the "build.xml" file.  This is done by creating a text file
+named "ant.properties" in the source distribution directory (for property
+definitions local to this subproject) and/or your user home directory (for
+property definitions shared across subprojects).  You can use the included
+"ant.properties.sample" file as a starting point for this.
+
+External dependencies are satisfied by configuring appropriate values in your 
+ant.properties file.  The easiest way to satisfy these dependencies is to copy 
+the "ant.properties.sample" file (in the top-level directory) to "ant.properties", 
+and then edit it to suit your environment.  On Unix, this would be done as:
+
+  cd @dist.name@
+  cp ant.properties.sample ant.properties
+  emacs ant.properties
+
+NOTE:  Be *sure* that you do not check "ant.properties" in to the CVS
+repository.  This file is local to your own development environment, and
+each developer will have their own version.
+
+(6) Build A Binary Distribution
+
+Open a command line shell, and issue the following commands:
+
+  cd @dist.name@
+  ant -projecthelp
+
+If everything is installed correctly, you should see a list of the Ant
+"targets" that represent different commands you might wish to build.  By
+convention, the "jar" target creates the jar of the component. To execute 
+it, type the following commands:
+
+  cd @dist.name@
+  ant jar
+
+This will create a jar in the @dist.name@/build/lib directory that contains 
+the component.
