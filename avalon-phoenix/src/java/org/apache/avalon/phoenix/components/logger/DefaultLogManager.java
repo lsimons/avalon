@@ -7,6 +7,8 @@
  */
 package org.apache.avalon.phoenix.components.logger;
 
+import java.io.File;
+
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.excalibur.logger.LogKitLoggerManager;
@@ -15,6 +17,9 @@ import org.apache.avalon.excalibur.logger.SimpleLogKitManager;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.container.ContainerUtil;
 import org.apache.avalon.framework.context.Context;
+import org.apache.avalon.framework.context.ContextException;
+import org.apache.avalon.framework.context.Contextualizable;
+import org.apache.avalon.framework.context.DefaultContext;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.phoenix.BlockContext;
@@ -27,7 +32,7 @@ import org.apache.avalon.phoenix.interfaces.LogManager;
  */
 public class DefaultLogManager
     extends AbstractLogEnabled
-    implements LogManager
+    implements LogManager, Contextualizable
 {
     private static final Resources REZ =
         ResourceManager.getPackageResources( DefaultLogManager.class );
@@ -47,6 +52,26 @@ public class DefaultLogManager
      */
     private static final String VERSION_LOG4J =
         "org.apache.avalon.excalibur.logger.Log4JConfLoggerManager";
+
+    /**
+     * Hold the value of phoenix.home
+     */
+    private File m_phoenixHome;
+
+    public void contextualize( final Context context ) throws ContextException
+    {
+        m_phoenixHome = (File)context.get( "phoenix.home" );
+    }
+
+    private Context createLoggerManagerContext( final Context appContext )
+    {
+        final DefaultContext context = new DefaultContext( appContext );
+
+        context.put( "phoenix.home", m_phoenixHome );
+        context.makeReadOnly();
+
+        return context;
+    }
 
     /**
      * Create a Logger hierarchy for specified application.
@@ -71,7 +96,7 @@ public class DefaultLogManager
         }
         final LoggerManager loggerManager = createLoggerManager( version );
         ContainerUtil.enableLogging( loggerManager, getLogger() );
-        ContainerUtil.contextualize( loggerManager, context );
+        ContainerUtil.contextualize( loggerManager, createLoggerManagerContext( context ) );
         ContainerUtil.configure( loggerManager, logs );
         return loggerManager.getDefaultLogger();
     }
