@@ -159,8 +159,7 @@
     <mkdir dir="${build.lib}"/>
 
     <jar jarfile="${build.lib}/cornerstone.jar"
-         basedir="${build.classes}"
-         manifest="${gen.dir}/manifest.mf">
+         basedir="${build.classes}">
       <include name="org/apache/avalon/cornerstone/blocks/**"/>
       <include name="org/apache/avalon/cornerstone/services/**"/>
         <fileset dir="${gen.dir}">
@@ -178,8 +177,7 @@
     </jar>
 
     <jar jarfile="${build.lib}/cornerstone-refimpl.jar"
-         basedir="${build.classes}"
-         manifest="${gen.dir}/manifest.mf">
+         basedir="${build.classes}">
       <include name="org/apache/avalon/cornerstone/blocks/**"/>
       <fileset dir="${gen.dir}">
           <include name="**/*.xinfo"/>
@@ -199,7 +197,6 @@
           <include name="**/*.java" />
         </fileset>
         <blockinfo/>
-        <manifest manifestFile="manifest.mf" />
       </phoenix-blocks>
   </target>
 
