@@ -22,7 +22,7 @@
 
   <property name="name" value="excalibur"/>
   <property name="Name" value="Excalibur"/>
-  <property name="year" value="1999-2002"/>
+  <property name="year" value="1999-2003"/>
 
   <!-- Set the properties for intermediate directory -->
   <property name="build.dir" value="build"/>
@@ -35,7 +35,7 @@
   <property name="manifest.dir" value="${src.dir}/manifest"/>
   <property name="conf.dir" value="${src.dir}/conf"/>
   <property name="docs.dir" value="dist/docs"/>
-  <property name="www.dir" value="../../avalon-site/docs"/>
+  <property name="www.dir" value="../../avalon-site/site"/>
   
   <property name="build.xdocs" value="${build.dir}/xdocs"/>
   <property name="build.context" value="${build.dir}/documentation"/>
@@ -71,12 +71,12 @@
     <filter token="release" value="${release}"/>
     <filter token="short-version" value="${short.version}"/>
 
-    <property name="avalon.base" value="http://jakarta.apache.org/avalon"/>
-    <property name="framework.base" value="http://jakarta.apache.org/avalon/framework"/>
-    <property name="phoenix.base" value="http://jakarta.apache.org/avalon/phoenix"/>
-    <property name="cornerstone.base" value="http://jakarta.apache.org/avalon/cornerstone"/>
-    <property name="logkit.base" value="http://jakarta.apache.org/avalon/logkit"/>
-    <property name="testlet.base" value="http://jakarta.apache.org/avalon/testlet"/>
+    <property name="avalon.base" value="http://avalon.apache.org"/>
+    <property name="framework.base" value="http://avalon.apache.org/framework"/>
+    <property name="phoenix.base" value="http://avalon.apache.org/phoenix"/>
+    <property name="cornerstone.base" value="http://avalon.apache.org/cornerstone"/>
+    <property name="logkit.base" value="http://avalon.apache.org/logkit"/>
+    <property name="testlet.base" value="http://avalon.apache.org/testlet"/>
 
     <filter token="year" value="${year}"/>
     <filter token="AVALON_BASE" value="${avalon.base}"/>
@@ -128,12 +128,11 @@
 <!-- generated the list below using
 
 find .. -maxdepth 1 -mindepth 1 -type d \
-        ! -name CVS ! -name site ! -name csframework
+        ! -name CVS ! -name site ! -name csframework \
         ! -name lib ! -name tools ! -name template-product \
         -exec echo \<ant dir=\"\{\}\" target=\"site\" inheritAll=\"false\"/\> \;
 
 -->
-<ant dir="../altrmi" target="site" inheritAll="false"/>
 <ant dir="../baxter" target="site" inheritAll="false"/>
 <ant dir="../cache" target="site" inheritAll="false"/>
 <ant dir="../cli" target="site" inheritAll="false"/>
@@ -176,6 +175,12 @@ find .. -maxdepth 1 -mindepth 1 -type d \
   
   <!-- Update the www directory -->
   <target name="site-docs" depends="site">
+    <echo>
+       If you want to make life easier on yourself,
+       don't use this. It'll take ages to run 'cvs
+       commit'. Instead use the import
+       ('cvs -H import') command.
+    </echo>
 
     <mkdir dir="${www.dir}/excalibur"/>
 
