@@ -68,7 +68,7 @@ import org.apache.avalon.util.exception.ExceptionHelper;
  * 
  * @author <a href="mailto:aok123@bellsouth.net">Alex Karasulu</a>
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.16 $
+ * @version $Revision: 1.17 $
  */
 public class DefaultInitialContext extends AbstractBuilder implements InitialContext
 {
@@ -144,9 +144,9 @@ public class DefaultInitialContext extends AbstractBuilder implements InitialCon
     //------------------------------------------------------------------
         
    /** 
-    * the instantiated delegate repository factory
+    * The instantiated delegate repository factory.
     */
-    private final Factory m_delegate;
+    private final Factory m_factory;
 
    /**
     * The initial cache directory.
@@ -310,7 +310,7 @@ public class DefaultInitialContext extends AbstractBuilder implements InitialCon
 
         try
         {
-            m_delegate = createDelegate( classloader, clazz, this );
+            m_factory = createDelegate( classloader, clazz, this );
         }
         catch( Throwable e )
         {
@@ -366,7 +366,7 @@ public class DefaultInitialContext extends AbstractBuilder implements InitialCon
     */
     public Factory getInitialFactory()
     {
-        return m_delegate;
+        return m_factory;
     }
 
    /**

@@ -49,9 +49,9 @@ import org.apache.avalon.repository.util.RepositoryUtils;
  * an underlying file system.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.4 $ $Date: 2004/01/24 23:20:04 $
+ * @version $Revision: 1.5 $ $Date: 2004/02/02 00:41:24 $
  */
-public class DefaultCacheManager implements CacheManager
+public class DefaultCacheManager implements CacheManager, DefaultCacheManagerMBean
 {
     //------------------------------------------------------------------
     // immutable state 

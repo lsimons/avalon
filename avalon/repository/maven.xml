@@ -15,6 +15,13 @@
   -->
 
   <ant:property name="avalon.cli.version" value="1.3-SNAPSHOT"/>
+  <ant:property name="plugin.jar" value="avalon-util-plugin-1.0-SNAPSHOT"/>
+
+  <ant:property name="plugin.groupId" value="avalon-util"/>
+  <ant:property name="plugin.artifactId" value="avalon-util"/>
+  <ant:property name="plugin.version" value="1.0-SNAPSHOT"/>
+  <ant:property name="plugin.jar" 
+    value="${plugin.artifactId}-${plugin.version}.jar"/>
 
   <!--
   ==============================================================================
@@ -99,6 +106,12 @@
     </j:forEach>
   </goal>
 
+  <!--
+  ==============================================================================
+  clean all subprojects
+  ==============================================================================
+  -->
+
   <goal name="avalon:clean" prereqs="clean" description="Clean all subprojects.">
     <maven:reactor
       basedir="${basedir}"
@@ -109,6 +122,12 @@
       ignoreFailures="true"/>
   </goal>
 
+  <!--
+  ==============================================================================
+  build the site documentation
+  ==============================================================================
+  -->
+
   <goal name="avalon:site">
     <maven:reactor basedir="${basedir}"
       includes="platform.xml"
@@ -117,8 +136,13 @@
       ignoreFailures="false"/>
   </goal>
 
-  <goal name="avalon:dist" prereqs="avalon:build,avalon:site,xdist">
-  </goal>
+  <!--
+  ==============================================================================
+  build a formal distribution
+  ==============================================================================
+  -->
+
+  <goal name="avalon:dist" prereqs="avalon:build,avalon:site,xdist"/>
 
   <goal name="xdist"
     prereqs="xdist:build"
@@ -328,6 +352,7 @@
         <sourcepath path="${basedir}/impl/src/java"/>
         <sourcepath path="${basedir}/util/src/java"/>
         <sourcepath path="${basedir}/main/src/java"/>
+        <sourcepath path="${basedir}/cli/src/java"/>
         <classpath>
           <path refid="maven.dependency.classpath"/>
 	  </classpath>
@@ -335,22 +360,85 @@
     </ant:javadoc>
   </goal>
 
-  <postGoal name="java:prepare-filesystem">
-    <ant:available file="${maven.home}/plugins/${repo.plugin.jar}"
+  <!--
+  ==============================================================================
+  checks
+  ==============================================================================
+  -->
+
+  <goal name="validate">
+    <ant:available file="${maven.home}/plugins/${plugin.jar}"
       property="repoPluginPresent"/>
-    <j:if test="${repoPluginPresent != 'true'}">
-      <ant:echo>
+    <j:choose>
+      <j:when test="${repoPluginPresent}">
+        <echo>OK</echo>
+      </j:when>
+      <j:otherwise>
+        <ant:echo>
 #####################################################################
 #                                                                   #
 #   WARNING:                                                        #
-#   You do not have the required version of the avalon-repository   #
-#   plugin installed on your system.                                #
+#   You do not have the required version of the avalon-util-plugin  #
+#   installed on your system.                                       #
 #   Please invoke the following command                             #
 #                                                                   #
 #     $ maven avalon:setup                                          #
 #                                                                   #
 #####################################################################</ant:echo>
-    </j:if>
-  </postGoal>
+      </j:otherwise>
+    </j:choose>
+  </goal>
+
+  <goal name="avalon:setup">
+    <echo>
+Initiating download and installation of the Avalon Util Plugin.
+${plugin.artifactId}-${plugin.version}.jar</echo>
+    <j:set var="repoList">${maven.repo.remote}</j:set> 
+    <util:tokenize var="repos" delim=",">${repoList.trim()}</util:tokenize> 
+    <j:forEach var="repo" items="${repos}"> 
+      <echo>repository '${repo}'</echo> 
+      <util:file var="localPlugin" name="${maven.home}/plugins/${plugin.artifactId}-${plugin.version}.jar" /> 
+      <j:if test="${!localPlugin.exists()}"> 
+        <j:set var="remoteFile" value="${repo}/${plugin.groupId}/plugins/${plugin.artifactId}-${plugin.version}.jar" /> 
+        <echo>trying to download ${remoteFile}</echo> 
+        <j:catch var="ex"> 
+        <j:invokeStatic var="dummy" method="getFile" className="org.apache.maven.util.HttpUtils"> 
+          <j:arg type="java.lang.String" value="${remoteFile}" /> 
+          <j:arg type="java.io.File" value="${localPlugin}"/> 
+          <j:arg type="boolean" value="false"/> 
+          <j:arg type="boolean" value="true"/> 
+          <j:arg type="java.lang.String" value="${maven.proxy.host}" /> 
+          <j:arg type="java.lang.String" value="${maven.proxy.port}" /> 
+          <j:arg type="java.lang.String" value="${maven.proxy.username}" /> 
+          <j:arg type="java.lang.String" value="${maven.proxy.password}" /> 
+          <j:arg type="boolean" value="false"/> 
+        </j:invokeStatic> 
+        </j:catch> 
+      </j:if> 
+      <j:break test="${localPlugin.exists()}"/> 
+    </j:forEach>
+    <j:set var="downloaded" value="${localPlugin.exists()}"/> 
+    <j:if test="${!downloaded}"> 
+      <ant:fail message="Unable to find plug-in" /> 
+    </j:if> 
+    <j:if test="${downloaded}">
+      <ant:move file="${localPlugin}" toFile="tmp.jar"/>
+      <echo>Plugin downloaded, removing other versions</echo> 
+      <delete verbose="false"> 
+        <fileset dir="${maven.home}/plugins">
+          <include name="${plugin.artifactId}-*.jar" /> 
+          <exclude name="${plugin.artifactId}-${plugin.version}.jar" /> 
+        </fileset> 
+      </delete> 
+      <delete includeEmptyDirs="true" verbose="false"> 
+        <fileset dir="${maven.plugin.unpacked.dir}"> 
+          <include name="*.cache"/> 
+          <include name="**/.processed" /> 
+          <include name="${plugin.artifactId}-*/**" /> 
+        </fileset>
+      </delete>
+      <ant:move file="tmp.jar" toFile="${localPlugin}"/>
+    </j:if> 
+  </goal>
 
 </project>
