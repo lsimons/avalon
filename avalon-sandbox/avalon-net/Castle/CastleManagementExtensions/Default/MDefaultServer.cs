@@ -104,6 +104,29 @@ namespace Apache.Avalon.Castle.ManagementExtensions.Default
 		}
 
 		/// <summary>
+		/// Instantiates the specified type using the server domain.
+		/// </summary>
+		/// <param name="typeName"></param>
+		/// <param name="typeName"></param>
+		/// <returns></returns>
+		public Object Instantiate(String assemblyName, String typeName)
+		{
+			if (assemblyName == null)
+			{
+				throw new ArgumentNullException("assemblyName");
+			}
+			if (typeName == null)
+			{
+				throw new ArgumentNullException("typeName");
+			}
+
+			object instance = AppDomain.CurrentDomain.CreateInstanceAndUnwrap(
+				assemblyName, typeName);
+
+			return instance;
+		}
+
+		/// <summary>
 		/// TODO: Summary
 		/// </summary>
 		/// <param name="typeName"></param>
@@ -123,6 +146,33 @@ namespace Apache.Avalon.Castle.ManagementExtensions.Default
 			Object instance = Instantiate(typeName);
 			return RegisterManagedObject(instance, name);
 		}
+
+		/// <summary>
+		/// TODO: Summary
+		/// </summary>
+		/// <param name="assemblyName"></param>
+		/// <param name="typeName"></param>
+		/// <param name="name"></param>
+		/// <returns></returns>
+		public ManagedInstance CreateManagedObject(String assemblyName, String typeName, ManagedObjectName name)
+		{
+			if (assemblyName == null)
+			{
+				throw new ArgumentNullException("assemblyName");
+			}
+			if (typeName == null)
+			{
+				throw new ArgumentNullException("typeName");
+			}
+			if (name == null)
+			{
+				throw new ArgumentNullException("name");
+			}
+
+			Object instance = Instantiate(assemblyName, typeName);
+			return RegisterManagedObject(instance, name);
+		}
+
 
 		/// <summary>
 		/// TODO: Summary
@@ -171,6 +221,86 @@ namespace Apache.Avalon.Castle.ManagementExtensions.Default
 			}
 
 			registry.UnregisterManagedObject(name);
+		}
+
+		/// <summary>
+		/// Invokes an action in managed object
+		/// </summary>
+		/// <param name="name"></param>
+		/// <param name="action"></param>
+		/// <param name="args"></param>
+		/// <param name="signature"></param>
+		/// <returns></returns>
+		/// <exception cref="InvalidDomainException">If domain name is not found.</exception>
+		public Object Invoke(ManagedObjectName name, String action, Object[] args, Type[] signature)
+		{
+			if (name == null)
+			{
+				throw new ArgumentNullException("name");
+			}
+			if (action == null)
+			{
+				throw new ArgumentNullException("action");
+			}
+			return registry.Invoke(name, action, args, signature);
+		}
+
+		/// <summary>
+		/// Returns the info (attributes and operations) about the specified object.
+		/// </summary>
+		/// <param name="name"></param>
+		/// <returns></returns>
+		/// <exception cref="InvalidDomainException">If domain name is not found.</exception>
+		public ManagementInfo GetManagementInfo(ManagedObjectName name)
+		{
+			if (name == null)
+			{
+				throw new ArgumentNullException("name");
+			}
+			
+			return registry.GetManagementInfo(name);
+		}
+
+		/// <summary>
+		/// Gets an attribute value of the specified managed object.
+		/// </summary>
+		/// <param name="name"></param>
+		/// <param name="attributeName"></param>
+		/// <returns></returns>
+		/// <exception cref="InvalidDomainException">If domain name is not found.</exception>
+		public Object GetAttribute(ManagedObjectName name, String attributeName)
+		{
+			if (name == null)
+			{
+				throw new ArgumentNullException("name");
+			}
+			if (attributeName == null)
+			{
+				throw new ArgumentNullException("attributeName");
+			}
+
+			return registry.GetAttributeValue(name, attributeName);
+		}
+
+		/// <summary>
+		/// Sets an attribute value of the specified managed object.
+		/// </summary>
+		/// <param name="name"></param>
+		/// <param name="attributeName"></param>
+		/// <param name="attributeValue"></param>
+		/// <exception cref="InvalidDomainException">If domain name is not found.</exception>
+		public void SetAttribute(ManagedObjectName name, String attributeName, Object attributeValue)
+		{
+			if (name == null)
+			{
+				throw new ArgumentNullException("name");
+			}
+			if (attributeName == null)
+			{
+				throw new ArgumentNullException("attributeName");
+			}
+			
+			registry.SetAttributeValue(name, attributeName, attributeValue);
 		}
 
 		#endregion
