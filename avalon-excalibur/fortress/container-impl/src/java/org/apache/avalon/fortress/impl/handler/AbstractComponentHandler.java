@@ -67,7 +67,7 @@ import org.apache.excalibur.mpool.ObjectFactory;
  * and destroyed correctly.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.12 $ $Date: 2003/04/11 07:38:30 $
+ * @version CVS $Revision: 1.13 $ $Date: 2003/04/18 20:02:29 $
  * @since 4.0
  */
 public abstract class AbstractComponentHandler
@@ -104,13 +104,13 @@ public abstract class AbstractComponentHandler
     /**
      * @avalon.dependency type="LoggerManager"
      */
-    public void service( ServiceManager manager )
+    public void service( final ServiceManager manager )
         throws ServiceException
     {
         m_loggerManager =
-            (LoggerManager)manager.lookup( LoggerManager.ROLE );
+            (LoggerManager) manager.lookup( LoggerManager.ROLE );
         m_factory =
-            (ObjectFactory)manager.lookup( ObjectFactory.ROLE );
+            (ObjectFactory) manager.lookup( ObjectFactory.ROLE );
     }
 
     public void initialize()
@@ -121,7 +121,7 @@ public abstract class AbstractComponentHandler
         final String name = classname.substring( index + 1 );
 
         String loggerName = name.toLowerCase();
-        if( name.endsWith( "ComponentHandler" ) )
+        if ( name.endsWith( "ComponentHandler" ) )
         {
             final int endIndex = loggerName.length() - 16;
             loggerName = loggerName.substring( 0, endIndex );
@@ -131,9 +131,9 @@ public abstract class AbstractComponentHandler
         m_logger =
             m_loggerManager.getLoggerForCategory( categoryName );
 
-        if( m_factory instanceof Instrumentable )
+        if ( m_factory instanceof Instrumentable )
         {
-            addChildInstrumentable( (Instrumentable)m_factory );
+            addChildInstrumentable( (Instrumentable) m_factory );
         }
 
         addInstrument( m_request );
@@ -162,12 +162,12 @@ public abstract class AbstractComponentHandler
     public synchronized void prepareHandler()
         throws Exception
     {
-        if( m_prepared )
+        if ( m_prepared )
         {
             return;
         }
 
-        if( m_disposed )
+        if ( m_disposed )
         {
             final String message = "Attempted to prepare disposed ComponentHandler for : " +
                 m_factory.getCreatedClass().getName();
@@ -178,7 +178,7 @@ public abstract class AbstractComponentHandler
 
         doPrepare();
 
-        if( m_logger.isDebugEnabled() )
+        if ( m_logger.isDebugEnabled() )
         {
             final String message = "ComponentHandler initialized for: " +
                 m_factory.getCreatedClass().getName();
@@ -204,19 +204,19 @@ public abstract class AbstractComponentHandler
     public Object get()
         throws Exception
     {
-        if( !m_prepared )
+        if ( !m_prepared )
         {
             prepareHandler();
         }
 
-        if( m_disposed )
+        if ( m_disposed )
         {
             final String message =
                 "You cannot get a component from a disposed holder";
             throw new IllegalStateException( message );
         }
 
-        if( m_request.isActive() )
+        if ( m_request.isActive() )
         {
             m_request.increment();
         }
@@ -240,14 +240,14 @@ public abstract class AbstractComponentHandler
      */
     public void put( final Object component )
     {
-        if( !m_prepared )
+        if ( !m_prepared )
         {
             final String message =
                 "You cannot put a component in an uninitialized holder";
             throw new IllegalStateException( message );
         }
 
-        if( m_release.isActive() )
+        if ( m_release.isActive() )
         {
             m_release.increment();
         }
@@ -277,9 +277,9 @@ public abstract class AbstractComponentHandler
         {
             return m_factory.newInstance();
         }
-        catch( final Exception e )
+        catch ( final Exception e )
         {
-            if( m_logger.isErrorEnabled() )
+            if ( m_logger.isErrorEnabled() )
             {
                 final String message = "Unable to create new instance";
                 m_logger.error( message, e );
@@ -296,7 +296,7 @@ public abstract class AbstractComponentHandler
      */
     protected void disposeComponent( final Object component )
     {
-        if( null == component )
+        if ( null == component )
         {
             return;
         }
@@ -304,9 +304,9 @@ public abstract class AbstractComponentHandler
         {
             m_factory.dispose( component );
         }
-        catch( final Exception e )
+        catch ( final Exception e )
         {
-            if( m_logger.isWarnEnabled() )
+            if ( m_logger.isWarnEnabled() )
             {
                 m_logger.warn( "Error disposing component", e );
             }
@@ -323,9 +323,9 @@ public abstract class AbstractComponentHandler
         {
             ContainerUtil.dispose( m_factory );
         }
-        catch( RuntimeException e )
+        catch ( RuntimeException e )
         {
-            if( m_logger.isWarnEnabled() )
+            if ( m_logger.isWarnEnabled() )
             {
                 final String message = "Error decommissioning component: " +
                     m_factory.getCreatedClass().getName();

@@ -49,22 +49,25 @@
 */
 package org.apache.avalon.fortress.impl.role;
 
+import org.apache.avalon.fortress.RoleEntry;
+import org.apache.avalon.fortress.RoleManager;
+import org.apache.avalon.fortress.impl.handler.PerThreadComponentHandler;
+import org.apache.avalon.framework.logger.AbstractLogEnabled;
+
 import java.util.HashMap;
 import java.util.Map;
-import org.apache.avalon.fortress.RoleManager;
-import org.apache.avalon.framework.logger.AbstractLogEnabled;
 
 /**
  * The Excalibur Role Manager is used for Excalibur Role Mappings.  All of
  * the information is hard-coded.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.9 $ $Date: 2003/03/22 12:46:34 $
+ * @version CVS $Revision: 1.10 $ $Date: 2003/04/18 20:02:30 $
  * @since 4.1
  */
 public abstract class AbstractRoleManager
     extends AbstractLogEnabled
-    implements org.apache.avalon.fortress.RoleManager
+    implements RoleManager
 {
     /**
      * The classloader used to load and check roles and components.
@@ -72,17 +75,17 @@ public abstract class AbstractRoleManager
     private final ClassLoader m_loader;
 
     /**
-     * Map for shorthand to RoleEntry
+     * Map for shorthand to RoleEntry.
      */
-    private Map m_shorthands = new HashMap();
+    private final Map m_shorthands = new HashMap();
 
     /**
-     * Map for classname to RoleEntry
+     * Map for classname to RoleEntry.
      */
-    private Map m_classnames = new HashMap();
+    private final Map m_classnames = new HashMap();
 
     /**
-     * Parent <code>RoleManager</code> for nested resolution
+     * Parent <code>RoleManager</code> for nested resolution.
      */
     private final RoleManager m_parent;
 
@@ -100,22 +103,23 @@ public abstract class AbstractRoleManager
      *
      * @param parent  The parent <code>RoleManager</code>.
      */
-    public AbstractRoleManager( final org.apache.avalon.fortress.RoleManager parent )
+    public AbstractRoleManager( final RoleManager parent )
     {
         this( parent, Thread.currentThread().getContextClassLoader() );
     }
 
     /**
-     * Alternate constructor--this RoleManager has the specified
-     * parent.
+     * Create an AbstractRoleManager with the specified parent manager and the
+     * supplied classloader.
      *
-     * @param parent  The parent <code>RoleManager</code>.
+     * @param parent  The parent <code>RoleManager</code>
+     * @param loader  The class loader
      */
-    public AbstractRoleManager( final org.apache.avalon.fortress.RoleManager parent,
+    public AbstractRoleManager( final RoleManager parent,
                                 final ClassLoader loader )
     {
         ClassLoader thisLoader = loader;
-        if( null == thisLoader )
+        if ( null == thisLoader )
         {
             thisLoader = Thread.currentThread().getContextClassLoader();
         }
@@ -128,28 +132,28 @@ public abstract class AbstractRoleManager
      * Addition of a role to the role manager.
      * @param shortName the shor name for the role
      * @param role the role
-     * @param classname the class name
+     * @param className the class name
      * @param handlerClassName the handler classname
      */
-    protected void addRole( final String shortName,
-                            final String role,
-                            final String className,
-                            final String handlerClassName )
+    protected final void addRole( final String shortName,
+                                  final String role,
+                                  final String className,
+                                  final String handlerClassName )
     {
         final Class clazz;
-        Class handlerKlass;
+        final Class handlerKlass;
 
-        if( getLogger().isDebugEnabled() )
+        if ( getLogger().isDebugEnabled() )
         {
             getLogger().debug( "addRole role: name='" + shortName + "', role='" + role + "', "
-                               + "class='" + className + "', handler='" + handlerClassName + "'" );
+                + "class='" + className + "', handler='" + handlerClassName + "'" );
         }
 
         try
         {
             clazz = m_loader.loadClass( className );
         }
-        catch( final Exception e )
+        catch ( final Exception e )
         {
             final String message =
                 "Unable to load class " + className + ". Skipping.";
@@ -158,13 +162,13 @@ public abstract class AbstractRoleManager
             return;
         }
 
-        if( null != handlerClassName )
+        if ( null != handlerClassName )
         {
             try
             {
                 handlerKlass = m_loader.loadClass( handlerClassName );
             }
-            catch( final Exception e )
+            catch ( final Exception e )
             {
                 final String message = "Unable to load handler " +
                     handlerClassName + " for class " + className + ". Skipping.";
@@ -174,27 +178,32 @@ public abstract class AbstractRoleManager
         }
         else
         {
-            handlerKlass = guessHandlerFor( clazz );
+            handlerKlass = getDefaultHandler();
         }
 
-        final org.apache.avalon.fortress.RoleEntry entry = new org.apache.avalon.fortress.RoleEntry( role, shortName, clazz, handlerKlass );
+        final RoleEntry entry = new RoleEntry( role, shortName, clazz, handlerKlass );
         m_shorthands.put( shortName, entry );
         m_classnames.put( className, entry );
     }
 
-    protected Class guessHandlerFor( final Class clazz )
+    /**
+     * Get the default component handler.
+     *
+     * @return the class for {@link PerThreadComponentHandler}
+     */
+    protected final Class getDefaultHandler()
     {
-        return org.apache.avalon.fortress.impl.handler.PerThreadComponentHandler.class;
+        return PerThreadComponentHandler.class;
     }
 
-    public org.apache.avalon.fortress.RoleEntry getRoleForClassname( final String classname )
+    public final RoleEntry getRoleForClassname( final String classname )
     {
-        final org.apache.avalon.fortress.RoleEntry roleEntry = (org.apache.avalon.fortress.RoleEntry)m_classnames.get( classname );
-        if( null != roleEntry )
+        final RoleEntry roleEntry = (RoleEntry) m_classnames.get( classname );
+        if ( null != roleEntry )
         {
             return roleEntry;
         }
-        else if( null != m_parent )
+        else if ( null != m_parent )
         {
             return m_parent.getRoleForClassname( classname );
         }
@@ -205,18 +214,19 @@ public abstract class AbstractRoleManager
     }
 
     /**
-     * Return a role name relative to a supplied short name
+     * Return a role name relative to a supplied short name.
+     *
      * @param shortname the short name
      * @return the role entry
      */
-    public org.apache.avalon.fortress.RoleEntry getRoleForShortName( final String shortname )
+    public final RoleEntry getRoleForShortName( final String shortname )
     {
-        final org.apache.avalon.fortress.RoleEntry roleEntry = (org.apache.avalon.fortress.RoleEntry)m_shorthands.get( shortname );
-        if( null != roleEntry )
+        final RoleEntry roleEntry = (RoleEntry) m_shorthands.get( shortname );
+        if ( null != roleEntry )
         {
             return roleEntry;
         }
-        else if( null != m_parent )
+        else if ( null != m_parent )
         {
             return m_parent.getRoleForShortName( shortname );
         }
@@ -232,7 +242,7 @@ public abstract class AbstractRoleManager
      *
      * @return ClassLoader
      */
-    protected ClassLoader getLoader()
+    protected final ClassLoader getLoader()
     {
         return m_loader;
     }

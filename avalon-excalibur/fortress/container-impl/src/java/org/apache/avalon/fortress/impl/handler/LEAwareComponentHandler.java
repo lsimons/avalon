@@ -59,9 +59,9 @@ import org.apache.avalon.framework.context.Context;
  * calls relevent Lifecycle Extension handlers at the right time.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version CVS $Revision: 1.12 $ $Date: 2003/04/11 07:38:30 $
+ * @version CVS $Revision: 1.13 $ $Date: 2003/04/18 20:02:29 $
  */
-public class LEAwareComponentHandler
+public final class LEAwareComponentHandler
     implements ComponentHandler, Disposable
 {
     private final ComponentHandler m_componentHandler;
@@ -78,15 +78,15 @@ public class LEAwareComponentHandler
                                     final LifecycleExtensionManager extManager,
                                     final Context context )
     {
-        if( null == componentHandler )
+        if ( null == componentHandler )
         {
             throw new NullPointerException( "componentHandler" );
         }
-        if( null == extManager )
+        if ( null == extManager )
         {
             throw new NullPointerException( "extManager" );
         }
-        if( null == context )
+        if ( null == context )
         {
             throw new NullPointerException( "context" );
         }
@@ -141,7 +141,7 @@ public class LEAwareComponentHandler
         {
             m_extManager.executeReleaseExtensions( component, m_context );
         }
-        catch( Exception e )
+        catch ( Exception e )
         {
             // REVISIT(MC): we need to log this somewhere
         }

@@ -49,15 +49,14 @@
 */
 package org.apache.avalon.fortress.util;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Iterator;
 import org.apache.avalon.excalibur.logger.LogKitLoggerManager;
 import org.apache.avalon.excalibur.logger.LoggerManager;
 import org.apache.avalon.fortress.RoleManager;
+import org.apache.avalon.fortress.MetaInfoManager;
 import org.apache.avalon.fortress.impl.role.FortressRoleManager;
-import org.apache.avalon.fortress.impl.role.ServiceRoleManager;
+import org.apache.avalon.fortress.impl.role.ServiceMetaManager;
+import org.apache.avalon.fortress.impl.role.ConfigurableRoleManager;
+import org.apache.avalon.fortress.impl.role.Role2MetaInfoManager;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.configuration.Configuration;
@@ -91,6 +90,11 @@ import org.apache.excalibur.source.impl.URLSourceFactory;
 import org.apache.log.Hierarchy;
 import org.apache.log.Priority;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Iterator;
+
 /**
  * <p>The ContextManager is used to manage the values in a Container's
  * Context.  The ContainerManager uses this helper class to create the
@@ -116,10 +120,10 @@ import org.apache.log.Priority;
  * and dispose of them properly when it itself is disposed .</p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.19 $ $Date: 2003/04/11 07:39:11 $
+ * @version CVS $Revision: 1.20 $ $Date: 2003/04/18 20:02:30 $
  * @since 4.1
  */
-public class ContextManager
+public final class ContextManager
     implements ContextManagerConstants, Initializable, Disposable
 {
     private static final Configuration EMPTY_CONFIG;
@@ -181,7 +185,7 @@ public class ContextManager
      * @param rootContext the default values.
      * @param logger      logger to use when creating new components.
      */
-    public ContextManager( Context rootContext, Logger logger )
+    public ContextManager( final Context rootContext, final Logger logger )
     {
         m_rootContext = rootContext;
         m_childContext = new OverridableContext( m_rootContext );
@@ -204,13 +208,13 @@ public class ContextManager
      * <code>ContextManager</code> is responsible for destroying the
      * manager when the <code>ContextManager</code> is destroyed.
      *
-     * @param o  The object being claimed
+     * @param object  The object being claimed
      *
      * @throws IllegalArgumentException if the object is null.
      */
-    private void assumeOwnership( Object object )
+    private void assumeOwnership( final Object object )
     {
-        if( object == null )
+        if ( object == null )
         {
             throw new NullPointerException( "object: Can not assume ownership of a null!" );
         }
@@ -229,6 +233,7 @@ public class ContextManager
         initializeServiceManager();
         initializeLoggerManager();
         initializeRoleManager();
+        initializeMetaInfoManager();
         initializeCommandQueue();
         initializePoolManager();
         initializeContext();
@@ -241,19 +246,17 @@ public class ContextManager
 
     /**
      * Load the configuration file that the Container will need to operate.
-     *
-     * @throws Exception if the configuration cannot be loaded
      */
-    protected void initializeConfiguration() throws Exception
+    protected void initializeConfiguration()
     {
         try
         {
             m_containerManagerContext.put( CONFIGURATION, m_rootContext.get( CONFIGURATION ) );
         }
-        catch( ContextException ce )
+        catch ( ContextException ce )
         {
-            Configuration containerConfig = getConfiguration( CONFIGURATION, CONFIGURATION_URI );
-            if( containerConfig == null )
+            final Configuration containerConfig = getConfiguration( CONFIGURATION, CONFIGURATION_URI );
+            if ( containerConfig == null )
             {
                 // No config.
                 // Does the parent supply a logger manager?
@@ -264,7 +267,7 @@ public class ContextManager
                     // OK, done.
                     return;
                 }
-                catch( ContextException cex )
+                catch ( ContextException cex )
                 {
                     getLogger().debug( "Could not initialize the Configuration", ce );
                     // Guess there is none.
@@ -291,10 +294,10 @@ public class ContextManager
         {
             copyEntry( PARAMETERS );
         }
-        catch( ContextException ce )
+        catch ( ContextException ce )
         {
             getLogger().debug( "Could not copy Context parameters.  This may be Ok depending on "
-                               + "other configured context values." );
+                + "other configured context values." );
         }
     }
 
@@ -304,7 +307,7 @@ public class ContextManager
      *
      * @throws ContextException if the parameter does not exist
      */
-    protected void copyEntry( String key ) throws ContextException
+    protected void copyEntry( final String key ) throws ContextException
     {
         m_containerManagerContext.put( key, m_rootContext.get( key ) );
     }
@@ -316,21 +319,21 @@ public class ContextManager
     {
         Collections.sort( ownedComponents, new DestroyOrderComparator() );
         // Dispose owned components
-        Iterator ownedComponentsIter = ownedComponents.iterator();
-        while( ownedComponentsIter.hasNext() )
+        final Iterator ownedComponentsIter = ownedComponents.iterator();
+        while ( ownedComponentsIter.hasNext() )
         {
-            Object o = ownedComponentsIter.next();
+            final Object o = ownedComponentsIter.next();
 
             try
             {
-                if( getLogger().isDebugEnabled() ) getLogger().debug( "Shutting down: " + o );
+                if ( getLogger().isDebugEnabled() ) getLogger().debug( "Shutting down: " + o );
                 ContainerUtil.shutdown( o );
-                if( getLogger().isDebugEnabled() ) getLogger().debug( "Done." );
+                if ( getLogger().isDebugEnabled() ) getLogger().debug( "Done." );
             }
-            catch( Exception e )
+            catch ( Exception e )
             {
                 getLogger().warn( "Unable to dispose of owned component "
-                                  + o.getClass().getName(), e );
+                    + o.getClass().getName(), e );
             }
 
             ownedComponentsIter.remove();
@@ -346,13 +349,13 @@ public class ContextManager
      * @param defaultValue  The default value we return if the key does not
      *                      exist.
      */
-    protected Object get( Context context, String key, Object defaultValue )
+    protected Object get( final Context context, final String key, final Object defaultValue )
     {
         try
         {
             return context.get( key );
         }
-        catch( ContextException ce )
+        catch ( ContextException ce )
         {
             return defaultValue;
         }
@@ -371,7 +374,7 @@ public class ContextManager
             m_childContext.put( Queue.ROLE, m_rootContext.get( Queue.ROLE ) );
             return;
         }
-        catch( ContextException ce )
+        catch ( ContextException ce )
         {
         }
 
@@ -380,7 +383,7 @@ public class ContextManager
             m_childContext.get( Queue.ROLE );
             return;
         }
-        catch( ContextException ce )
+        catch ( ContextException ce )
         {
         }
 
@@ -403,10 +406,10 @@ public class ContextManager
         assumeOwnership( tm );
 
         // Get the context Logger Manager
-        LoggerManager loggerManager = (LoggerManager)m_childContext.get( LoggerManager.ROLE );
+        final LoggerManager loggerManager = (LoggerManager) m_childContext.get( LoggerManager.ROLE );
 
         // Get the logger for the thread manager
-        Logger tmLogger = loggerManager.getLoggerForCategory( "system.threadmgr" );
+        final Logger tmLogger = loggerManager.getLoggerForCategory( "system.threadmgr" );
 
         ContainerUtil.enableLogging( tm, tmLogger );
         ContainerUtil.parameterize( tm, buildCommandQueueConfig() );
@@ -431,18 +434,18 @@ public class ContextManager
 
         try
         {
-            Integer processors = (Integer)m_rootContext.get( "processors" );
+            final Integer processors = (Integer) m_rootContext.get( "processors" );
             p.setParameter( "processors", processors.toString() );
         }
-        catch( ContextException e )
+        catch ( ContextException e )
         {
         }
 
         try
         {
-            threadsPerProcessor = (Integer)m_rootContext.get( THREADS_CPU );
+            threadsPerProcessor = (Integer) m_rootContext.get( THREADS_CPU );
         }
-        catch( ContextException e )
+        catch ( ContextException e )
         {
             threadsPerProcessor = new Integer( 2 );
         }
@@ -451,9 +454,9 @@ public class ContextManager
 
         try
         {
-            threadBlockTimeout = (Long)m_rootContext.get( THREAD_TIMEOUT );
+            threadBlockTimeout = (Long) m_rootContext.get( THREAD_TIMEOUT );
         }
-        catch( ContextException e )
+        catch ( ContextException e )
         {
             threadBlockTimeout = new Long( 1000 );
         }
@@ -475,11 +478,11 @@ public class ContextManager
             m_childContext.put( PoolManager.ROLE, m_rootContext.get( PoolManager.ROLE ) );
             return;
         }
-        catch( ContextException ce )
+        catch ( ContextException ce )
         {
         }
 
-        PoolManager pm = new DefaultPoolManager( (Sink)m_childContext.get( Queue.ROLE ) );
+        final PoolManager pm = new DefaultPoolManager( (Sink) m_childContext.get( Queue.ROLE ) );
         assumeOwnership( pm );
         m_childContext.put( PoolManager.ROLE, pm );
     }
@@ -496,16 +499,16 @@ public class ContextManager
             m_childContext.put( RoleManager.ROLE, m_rootContext.get( RoleManager.ROLE ) );
             return;
         }
-        catch( ContextException ce )
+        catch ( ContextException ce )
         {
             getLogger().debug( "Could not copy context entry: " + RoleManager.ROLE
-                               + ".  This may be Ok depending on other configured context values." );
+                + ".  This may be Ok depending on other configured context values." );
         }
 
         Configuration roleConfig =
             getConfiguration( ROLE_MANAGER_CONFIGURATION, ROLE_MANAGER_CONFIGURATION_URI );
 
-        if( roleConfig == null )
+        if ( roleConfig == null )
         {
             // See if we can inherit from the parent...
             try
@@ -515,7 +518,7 @@ public class ContextManager
                 // OK, done.
                 return;
             }
-            catch( ContextException ce )
+            catch ( ContextException ce )
             {
                 getLogger().debug( "Could not initialize the RoleManager", ce );
                 // No RoleManager available anywhere.
@@ -524,27 +527,63 @@ public class ContextManager
         }
 
         // Get the context Logger Manager
-        LoggerManager loggerManager = (LoggerManager)m_childContext.get( LoggerManager.ROLE );
+        final LoggerManager loggerManager = (LoggerManager) m_childContext.get( LoggerManager.ROLE );
 
         // Create a logger for the role manager
-        Logger rmLogger = loggerManager.getLoggerForCategory(
+        final Logger rmLogger = loggerManager.getLoggerForCategory(
             roleConfig.getAttribute( "logger", "system.roles" ) );
 
         // Lookup the context class loader
-        ClassLoader classLoader = (ClassLoader)m_containerManagerContext.get( ClassLoader.class.getName() );
+        final ClassLoader classLoader = (ClassLoader) m_containerManagerContext.get( ClassLoader.class.getName() );
 
         // Create a parent role manager with all the default roles
-        FortressRoleManager erm = new FortressRoleManager( null, classLoader );
+        final FortressRoleManager erm = new FortressRoleManager( null, classLoader );
         erm.enableLogging( rmLogger.getChildLogger( "defaults" ) );
         erm.initialize();
 
         // Create a role manager with the configured roles
-        ServiceRoleManager rm = new ServiceRoleManager();
+        final ConfigurableRoleManager rm = new ConfigurableRoleManager();
         rm.enableLogging( rmLogger );
-        rm.initialize();
+        rm.configure(roleConfig);
 
         assumeOwnership( rm );
         m_childContext.put( org.apache.avalon.fortress.RoleManager.ROLE, rm );
+    }
+
+    /**
+     * Set up the RoleManager for the Container.
+     *
+     * @throws Exception if there is an error.
+     */
+    protected void initializeMetaInfoManager() throws Exception
+    {
+        try
+        {
+            m_childContext.put( MetaInfoManager.ROLE, m_rootContext.get( MetaInfoManager.ROLE ) );
+            return;
+        }
+        catch ( ContextException ce )
+        {
+            getLogger().debug( "Could not copy context entry: " + RoleManager.ROLE
+                + ".  This may be Ok depending on other configured context values." );
+        }
+
+        // Get the context Logger Manager
+        final LoggerManager loggerManager = (LoggerManager) m_childContext.get( LoggerManager.ROLE );
+
+        // Create a logger for the role manager
+        final Logger rmLogger = loggerManager.getLoggerForCategory( "system.meta" );
+
+        // Lookup the context class loader
+        final ClassLoader classLoader = (ClassLoader) m_containerManagerContext.get( ClassLoader.class.getName() );
+
+        // Create a parent role manager with all the default roles
+        final ServiceMetaManager smm = new ServiceMetaManager( new Role2MetaInfoManager((RoleManager)m_childContext.get(RoleManager.ROLE)), classLoader );
+        smm.enableLogging( rmLogger.getChildLogger( "defaults" ) );
+        smm.initialize();
+
+        assumeOwnership( smm );
+        m_childContext.put( org.apache.avalon.fortress.MetaInfoManager.ROLE, smm );
     }
 
     /**
@@ -556,7 +595,7 @@ public class ContextManager
      */
     protected void initializeServiceManager() throws Exception
     {
-        final ServiceManager parent = (ServiceManager)get( m_rootContext, SERVICE_MANAGER, null );
+        final ServiceManager parent = (ServiceManager) get( m_rootContext, SERVICE_MANAGER, null );
         final DefaultServiceManager manager = new DefaultServiceManager( parent );
         final DefaultServiceSelector selector = new DefaultServiceSelector();
         final URLSourceFactory file = new URLSourceFactory();
@@ -592,27 +631,27 @@ public class ContextManager
      *                   from the context.
      * @param uriKey     Get the uri from the context.
      */
-    protected Configuration getConfiguration( String configKey, String uriKey )
+    protected Configuration getConfiguration( final String configKey, final String uriKey )
     {
         try
         {
-            return (Configuration)m_rootContext.get( configKey );
+            return (Configuration) m_rootContext.get( configKey );
         }
-        catch( ContextException ce )
+        catch ( ContextException ce )
         {
             getLogger().debug( "A preloaded Configuration was not found for key: " + configKey
-                               + "  This may be Ok depending on other configured context values." );
+                + "  This may be Ok depending on other configured context values." );
         }
 
-        String configUri = null;
+        final String configUri;
         try
         {
-            configUri = (String)m_rootContext.get( uriKey );
+            configUri = (String) m_rootContext.get( uriKey );
         }
-        catch( ContextException ce )
+        catch ( ContextException ce )
         {
             getLogger().debug( "A configuration URI was not specified either: " + uriKey
-                               + "  One or the other is required." );
+                + "  One or the other is required." );
             return null;
         }
 
@@ -620,16 +659,16 @@ public class ContextManager
         Source src = null;
         try
         {
-            resolver = (SourceResolver)m_manager.lookup( SourceResolver.ROLE );
+            resolver = (SourceResolver) m_manager.lookup( SourceResolver.ROLE );
             src = resolver.resolveURI( configUri );
-            if( configBuilder == null )
+            if ( configBuilder == null )
             {
                 configBuilder = new DefaultConfigurationBuilder();
             }
 
             return configBuilder.build( src.getInputStream() );
         }
-        catch( Exception e )
+        catch ( Exception e )
         {
             getLogger().warn( "Could not read configuration file: " + configUri, e );
 
@@ -637,7 +676,11 @@ public class ContextManager
         }
         finally
         {
-            resolver.release( src );
+            if ( null != resolver )
+            {
+                resolver.release( src );
+            }
+
             m_manager.release( resolver );
         }
     }
@@ -669,7 +712,7 @@ public class ContextManager
      */
     protected Logger getLogger()
     {
-        if( m_logger == null )
+        if ( m_logger == null )
         {
             return m_primordialLogger;
         }
@@ -697,13 +740,13 @@ public class ContextManager
 
             m_childContext.put( LoggerManager.ROLE, m_rootContext.get( LoggerManager.ROLE ) );
         }
-        catch( ContextException ce )
+        catch ( ContextException ce )
         {
             // Should we set one up?
             // Try to get a configuration for it...
             Configuration loggerManagerConfig =
                 getConfiguration( LOGGER_MANAGER_CONFIGURATION, LOGGER_MANAGER_CONFIGURATION_URI );
-            if( loggerManagerConfig == null )
+            if ( loggerManagerConfig == null )
             {
                 // No config specified.
 
@@ -715,7 +758,7 @@ public class ContextManager
                     // OK, done.
                     return;
                 }
-                catch( ContextException cex )
+                catch ( ContextException cex )
                 {
                     // The parent did not supply a Logger Manager, so create an empty
                     //  configuration so that a default logger can be created.
@@ -724,24 +767,24 @@ public class ContextManager
             }
 
             // Resolve a name for the logger, taking the logPrefix into account
-            String lmDefaultLoggerName = (String)m_rootContext.get( ContextManagerConstants.LOG_CATEGORY );
-            String lmLoggerName = loggerManagerConfig.getAttribute( "logger", lmDefaultLoggerName + ".system.logkit" );
+            final String lmDefaultLoggerName = (String) m_rootContext.get( ContextManagerConstants.LOG_CATEGORY );
+            final String lmLoggerName = loggerManagerConfig.getAttribute( "logger", lmDefaultLoggerName + ".system.logkit" );
 
             // Create the default logger for the Logger Manager.
-            org.apache.log.Logger lmDefaultLogger =
+            final org.apache.log.Logger lmDefaultLogger =
                 Hierarchy.getDefaultHierarchy().getLoggerFor( lmDefaultLoggerName );
             // The default logger is not used until after the logger conf has been loaded
             //  so it is possible to configure the priority there.
             lmDefaultLogger.setPriority( Priority.DEBUG );
 
             // Create the logger for use internally by the Logger Manager.
-            org.apache.log.Logger lmLogger =
+            final org.apache.log.Logger lmLogger =
                 Hierarchy.getDefaultHierarchy().getLoggerFor( lmLoggerName );
             lmLogger.setPriority( Priority.getPriorityForName(
                 loggerManagerConfig.getAttribute( "log-level", "DEBUG" ) ) );
 
             // Setup the Logger Manager
-            LoggerManager logManager = new LogKitLoggerManager(
+            final LoggerManager logManager = new LogKitLoggerManager(
                 lmDefaultLoggerName, Hierarchy.getDefaultHierarchy(),
                 new LogKitLogger( lmDefaultLogger ), new LogKitLogger( lmLogger ) );
             ContainerUtil.contextualize( logManager, m_rootContext );
@@ -755,11 +798,11 @@ public class ContextManager
         // Since we now have a LoggerManager, we can update the this.logger field
         // if it is null and start logging to the "right" logger.
 
-        if( m_logger == null )
+        if ( m_logger == null )
         {
             getLogger().debug( "Switching to default Logger provided by LoggerManager." );
 
-            LoggerManager loggerManager = (LoggerManager)m_childContext.get( LoggerManager.ROLE );
+            final LoggerManager loggerManager = (LoggerManager) m_childContext.get( LoggerManager.ROLE );
             m_logger = loggerManager.getDefaultLogger();
         }
     }
@@ -782,12 +825,12 @@ public class ContextManager
 
             m_childContext.put( InstrumentManager.ROLE, m_rootContext.get( InstrumentManager.ROLE ) );
         }
-        catch( ContextException ce )
+        catch ( ContextException ce )
         {
             // Should we set one up?
             // Try to get a configuration for it...
             Configuration instrumentConfig = getConfiguration( INSTRUMENT_MANAGER_CONFIGURATION, INSTRUMENT_MANAGER_CONFIGURATION_URI );
-            if( instrumentConfig == null )
+            if ( instrumentConfig == null )
             {
                 // No config.
                 // Does the parent supply a logger manager?
@@ -798,7 +841,7 @@ public class ContextManager
                     // OK, done.
                     return;
                 }
-                catch( ContextException cex )
+                catch ( ContextException cex )
                 {
                 }
 
@@ -806,14 +849,14 @@ public class ContextManager
             }
 
             // Get the context Logger Manager
-            LoggerManager loggerManager = (LoggerManager)m_childContext.get( LoggerManager.ROLE );
+            final LoggerManager loggerManager = (LoggerManager) m_childContext.get( LoggerManager.ROLE );
 
             // Get the logger for the instrument manager
-            Logger imLogger = loggerManager.getLoggerForCategory(
+            final Logger imLogger = loggerManager.getLoggerForCategory(
                 instrumentConfig.getAttribute( "logger", "system.instrument" ) );
 
             // Set up the Instrument Manager
-            DefaultInstrumentManager instrumentManager = new DefaultInstrumentManager();
+            final DefaultInstrumentManager instrumentManager = new DefaultInstrumentManager();
             instrumentManager.enableLogging( imLogger );
             instrumentManager.configure( instrumentConfig );
             instrumentManager.initialize();
@@ -830,19 +873,17 @@ public class ContextManager
      * <p>The postcondition is that
      * <code>childContext.get( LoggerManager.ROLE )</code> should
      * return a valid logger manager.</p>
-     *
-     * @throws Exception if it cannot instantiate the LoggerManager
      */
-    protected void initializeAssemblyConfig() throws Exception
+    protected void initializeAssemblyConfig()
     {
         try
         {
             m_containerManagerContext.put( ASSEMBLY_CONFIGURATION, m_rootContext.get( ASSEMBLY_CONFIGURATION ) );
         }
-        catch( ContextException ce )
+        catch ( ContextException ce )
         {
-            Configuration containerConfig = getConfiguration( ASSEMBLY_CONFIGURATION, ASSEMBLY_CONFIGURATION_URI );
-            if( containerConfig == null )
+            final Configuration containerConfig = getConfiguration( ASSEMBLY_CONFIGURATION, ASSEMBLY_CONFIGURATION_URI );
+            if ( containerConfig == null )
             {
                 // No config.
                 // Does the parent supply a logger manager?
@@ -853,7 +894,7 @@ public class ContextManager
                     // OK, done.
                     return;
                 }
-                catch( ContextException cex )
+                catch ( ContextException cex )
                 {
                     // Guess there is none.
                     return;
@@ -868,27 +909,32 @@ public class ContextManager
 
     private final class DestroyOrderComparator implements Comparator
     {
-        public boolean equals( Object other )
+        public boolean equals( final Object other )
         {
             return other instanceof DestroyOrderComparator;
         }
 
-        public int compare( Object a, Object b )
+        public int hashCode()
         {
-            int typeA = typeOf( a );
-            int typeB = typeOf( b );
+            return DestroyOrderComparator.class.hashCode();
+        }
 
-            if( typeA < typeB ) return -1;
-            if( typeA > typeB ) return 1;
+        public int compare( final Object a, final Object b )
+        {
+            final int typeA = typeOf( a );
+            final int typeB = typeOf( b );
+
+            if ( typeA < typeB ) return -1;
+            if ( typeA > typeB ) return 1;
             return 0;
         }
 
-        private int typeOf( Object obj )
+        private int typeOf( final Object obj )
         {
             int retVal = 1; // Doesn't matter the type
 
-            if( obj instanceof CommandManager ) retVal = 0;
-            if( obj instanceof ThreadManager ) retVal = 2;
+            if ( obj instanceof CommandManager ) retVal = 0;
+            if ( obj instanceof ThreadManager ) retVal = 2;
 
             return retVal;
         }

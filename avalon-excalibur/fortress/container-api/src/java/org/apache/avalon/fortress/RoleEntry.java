@@ -56,9 +56,9 @@ package org.apache.avalon.fortress;
  * to enable "self-healing" configuration files.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.10 $ $Date: 2003/04/18 17:09:32 $
+ * @version $Revision: 1.11 $ $Date: 2003/04/18 20:02:29 $
  */
-public class RoleEntry
+public final class RoleEntry
 {
     private final String m_shortName;
     private final String m_role;
@@ -83,19 +83,19 @@ public class RoleEntry
                       final Class componentClass,
                       final Class handlerClass ) throws IllegalArgumentException
     {
-        if( null == role )
+        if ( null == role )
         {
             throw new IllegalArgumentException( "\"role\" cannot be null." );
         }
-        if( null == shortName )
+        if ( null == shortName )
         {
             throw new IllegalArgumentException( "\"shortname\" cannot be null." );
         }
-        if( null == componentClass )
+        if ( null == componentClass )
         {
             throw new IllegalArgumentException( "\"componentClass\" cannot be null." );
         }
-        if( null == handlerClass )
+        if ( null == handlerClass )
         {
             throw new IllegalArgumentException( "\"handlerClass\" cannot be null." );
         }

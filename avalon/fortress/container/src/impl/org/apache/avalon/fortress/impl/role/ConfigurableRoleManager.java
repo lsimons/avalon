@@ -60,7 +60,7 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
  * in the org.apache.avalon.component package.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.7 $ $Date: 2003/03/22 12:46:34 $
+ * @version CVS $Revision: 1.8 $ $Date: 2003/04/18 20:02:30 $
  * @since 4.1
  */
 public class ConfigurableRoleManager
@@ -81,7 +81,7 @@ public class ConfigurableRoleManager
      *
      * @param parent  The parent <code>RoleManager</code>.
      */
-    public ConfigurableRoleManager( RoleManager parent )
+    public ConfigurableRoleManager( final RoleManager parent )
     {
         super( parent, null );
     }
@@ -93,7 +93,7 @@ public class ConfigurableRoleManager
      * @param parent The parent <code>RoleManager</code>.
      * @param loader the classloader
      */
-    public ConfigurableRoleManager( RoleManager parent, ClassLoader loader )
+    public ConfigurableRoleManager( final RoleManager parent, final ClassLoader loader )
     {
         super( parent, loader );
     }
@@ -110,19 +110,19 @@ public class ConfigurableRoleManager
     {
         final Configuration[] roles = configuration.getChildren( "role" );
 
-        for( int i = 0; i < roles.length; i++ )
+        for ( int i = 0; i < roles.length; i++ )
         {
-            final String role = roles[ i ].getAttribute( "name" );
-            Configuration[] components = roles[ i ].getChildren( "component" );
+            final String role = roles[i].getAttribute( "name" );
+            final Configuration[] components = roles[i].getChildren( "component" );
 
-            for( int j = 0; j < components.length; j++ )
+            for ( int j = 0; j < components.length; j++ )
             {
-                final String shorthand = components[ j ].getAttribute( "shorthand" );
+                final String shorthand = components[j].getAttribute( "shorthand" );
                 final String className =
-                    components[ j ].getAttribute( "class", null );
+                    components[j].getAttribute( "class", null );
                 final String handlerClassName =
-                    components[ j ].getAttribute( "handler",
-                                                  org.apache.avalon.fortress.impl.handler.PerThreadComponentHandler.class.getName() );
+                    components[j].getAttribute( "handler",
+                        org.apache.avalon.fortress.impl.handler.PerThreadComponentHandler.class.getName() );
 
                 addRole( shorthand, role, className, handlerClassName );
             }

@@ -58,7 +58,7 @@ import org.apache.avalon.framework.logger.ConsoleLogger;
  * in the org.apache.avalon.component package.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.6 $ $Date: 2003/03/22 12:46:36 $
+ * @version CVS $Revision: 1.7 $ $Date: 2003/04/18 20:02:31 $
  * @since 4.1
  */
 public class FortressRoleManagerTestCase
@@ -80,68 +80,68 @@ public class FortressRoleManagerTestCase
         roles.initialize();
 
         checkRole( roles,
-                   "cache",
-                   "org.apache.excalibur.cache.Cache",
-                   "org.apache.excalibur.cache.impl.DefaultCache",
-                   "org.apache.avalon.fortress.impl.handler.ThreadSafeComponentHandler" );
+            "cache",
+            "org.apache.excalibur.cache.Cache",
+            "org.apache.excalibur.cache.impl.DefaultCache",
+            "org.apache.avalon.fortress.impl.handler.ThreadSafeComponentHandler" );
         checkRole( roles,
-                   "lru-cache",
-                   "org.apache.excalibur.cache.Cache",
-                   "org.apache.excalibur.cache.impl.LRUCache",
-                   "org.apache.avalon.fortress.impl.handler.ThreadSafeComponentHandler" );
+            "lru-cache",
+            "org.apache.excalibur.cache.Cache",
+            "org.apache.excalibur.cache.impl.LRUCache",
+            "org.apache.avalon.fortress.impl.handler.ThreadSafeComponentHandler" );
         checkRole( roles,
-                   "jdbc-datasource",
-                   "org.apache.avalon.excalibur.datasource.DataSourceComponent",
-                   "org.apache.avalon.excalibur.datasource.JdbcDataSource",
-                   "org.apache.avalon.fortress.impl.handler.ThreadSafeComponentHandler" );
+            "jdbc-datasource",
+            "org.apache.avalon.excalibur.datasource.DataSourceComponent",
+            "org.apache.avalon.excalibur.datasource.JdbcDataSource",
+            "org.apache.avalon.fortress.impl.handler.ThreadSafeComponentHandler" );
         checkRole( roles,
-                   "j2ee-datasource",
-                   "org.apache.avalon.excalibur.datasource.DataSourceComponent",
-                   "org.apache.avalon.excalibur.datasource.J2eeDataSource",
-                   "org.apache.avalon.fortress.impl.handler.ThreadSafeComponentHandler" );
-        if( isInformixClassExists() )
+            "j2ee-datasource",
+            "org.apache.avalon.excalibur.datasource.DataSourceComponent",
+            "org.apache.avalon.excalibur.datasource.J2eeDataSource",
+            "org.apache.avalon.fortress.impl.handler.ThreadSafeComponentHandler" );
+        if ( isInformixClassExists() )
         {
             checkRole( roles,
-                       "informix-datasource",
-                       "org.apache.avalon.excalibur.datasource.DataSourceComponent",
-                       "org.apache.avalon.excalibur.datasource.InformixDataSource",
-                       "org.apache.avalon.fortress.impl.handler.ThreadSafeComponentHandler" );
+                "informix-datasource",
+                "org.apache.avalon.excalibur.datasource.DataSourceComponent",
+                "org.apache.avalon.excalibur.datasource.InformixDataSource",
+                "org.apache.avalon.fortress.impl.handler.ThreadSafeComponentHandler" );
         }
         checkRole( roles,
-                   "monitor",
-                   "org.apache.avalon.excalibur.monitor.Monitor",
-                   "org.apache.avalon.excalibur.monitor.ActiveMonitor",
-                   "org.apache.avalon.fortress.impl.handler.ThreadSafeComponentHandler" );
+            "monitor",
+            "org.apache.avalon.excalibur.monitor.Monitor",
+            "org.apache.avalon.excalibur.monitor.ActiveMonitor",
+            "org.apache.avalon.fortress.impl.handler.ThreadSafeComponentHandler" );
         checkRole( roles,
-                   "passive-monitor",
-                   "org.apache.avalon.excalibur.monitor.Monitor",
-                   "org.apache.avalon.excalibur.monitor.PassiveMonitor",
-                   "org.apache.avalon.fortress.impl.handler.ThreadSafeComponentHandler" );
+            "passive-monitor",
+            "org.apache.avalon.excalibur.monitor.Monitor",
+            "org.apache.avalon.excalibur.monitor.PassiveMonitor",
+            "org.apache.avalon.fortress.impl.handler.ThreadSafeComponentHandler" );
         checkRole( roles,
-                   "xalan-xpath",
-                   "org.apache.excalibur.xml.xpath.XPathProcessor",
-                   "org.apache.excalibur.xml.xpath.XPathProcessorImpl",
-                   "org.apache.avalon.fortress.impl.handler.ThreadSafeComponentHandler" );
+            "xalan-xpath",
+            "org.apache.excalibur.xml.xpath.XPathProcessor",
+            "org.apache.excalibur.xml.xpath.XPathProcessorImpl",
+            "org.apache.avalon.fortress.impl.handler.ThreadSafeComponentHandler" );
         checkRole( roles,
-                   "jaxpath",
-                   "org.apache.excalibur.xml.xpath.XPathProcessor",
-                   "org.apache.excalibur.xml.xpath.JaxenProcessorImpl",
-                   "org.apache.avalon.fortress.impl.handler.ThreadSafeComponentHandler" );
+            "jaxpath",
+            "org.apache.excalibur.xml.xpath.XPathProcessor",
+            "org.apache.excalibur.xml.xpath.JaxenProcessorImpl",
+            "org.apache.avalon.fortress.impl.handler.ThreadSafeComponentHandler" );
         checkRole( roles,
-                   "resolver",
-                   "org.apache.excalibur.source.SourceResolver",
-                   "org.apache.excalibur.source.impl.SourceResolverImpl",
-                   "org.apache.avalon.fortress.impl.handler.ThreadSafeComponentHandler" );
+            "resolver",
+            "org.apache.excalibur.source.SourceResolver",
+            "org.apache.excalibur.source.impl.SourceResolverImpl",
+            "org.apache.avalon.fortress.impl.handler.ThreadSafeComponentHandler" );
         checkRole( roles,
-                   "parser",
-                   "org.apache.excalibur.xml.dom.DOMParser",
-                   "org.apache.excalibur.xml.impl.JaxpParser",
-                   "org.apache.avalon.fortress.impl.handler.PerThreadComponentHandler" );
+            "parser",
+            "org.apache.excalibur.xml.dom.DOMParser",
+            "org.apache.excalibur.xml.impl.JaxpParser",
+            "org.apache.avalon.fortress.impl.handler.PerThreadComponentHandler" );
         checkRole( roles,
-                   "xerces-parser",
-                   "org.apache.excalibur.xml.dom.DOMParser",
-                   "org.apache.excalibur.xml.impl.XercesParser",
-                   "org.apache.avalon.fortress.impl.handler.FactoryComponentHandler" );
+            "xerces-parser",
+            "org.apache.excalibur.xml.dom.DOMParser",
+            "org.apache.excalibur.xml.impl.XercesParser",
+            "org.apache.avalon.fortress.impl.handler.FactoryComponentHandler" );
     }
 
 }

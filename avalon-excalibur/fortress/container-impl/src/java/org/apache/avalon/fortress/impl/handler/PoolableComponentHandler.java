@@ -62,7 +62,7 @@ import org.apache.excalibur.mpool.PoolManager;
  * and destroyed correctly.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.7 $ $Date: 2003/03/22 12:46:33 $
+ * @version CVS $Revision: 1.8 $ $Date: 2003/04/18 20:02:29 $
  * @since 4.0
  */
 public final class PoolableComponentHandler
@@ -89,7 +89,7 @@ public final class PoolableComponentHandler
     {
         super.service( serviceManager );
         m_poolManager =
-            (PoolManager)serviceManager.lookup( PoolManager.ROLE );
+            (PoolManager) serviceManager.lookup( PoolManager.ROLE );
     }
 
     /**

@@ -47,87 +47,53 @@
  Apache Software Foundation, please see <http://www.apache.org/>.
 
 */
-package org.apache.avalon.fortress.impl;
+package org.apache.avalon.fortress.impl.role;
 
-import org.apache.avalon.framework.configuration.Configuration;
+import org.apache.avalon.fortress.MetaInfoEntry;
+import org.apache.avalon.fortress.MetaInfoManager;
+import org.apache.avalon.fortress.RoleEntry;
+import org.apache.avalon.fortress.RoleManager;
 
 /**
- * A class holding metadata about a component handler.
+ * Role2MetaInfoManager does XYZ
  *
- * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.8 $ $Date: 2003/04/18 20:02:29 $
+ * @author <a href="bloritsch.at.apache.org">Berin Loritsch</a>
+ * @version CVS Revision: 1.1 $
  */
-public final class ComponentHandlerMetaData
+public final class Role2MetaInfoManager implements MetaInfoManager
 {
-    private final String m_name;
-    private final String m_classname;
-    private final Configuration m_configuration;
-    private final boolean m_lazyActivation;
+    private final RoleManager m_manager;
 
-    /**
-     * Creation of a new impl handler meta data instance.
-     * @param name the handler name
-     * @param classname the handler classname
-     * @param configuration the handler configuration
-     * @param laxyActivation the activation policy
-     */
-    public ComponentHandlerMetaData( final String name,
-                                     final String classname,
-                                     final Configuration configuration,
-                                     final boolean lazyActivation )
+    public Role2MetaInfoManager( final RoleManager manager )
     {
-        if ( null == name )
-        {
-            throw new NullPointerException( "name" );
-        }
-        if ( null == classname )
-        {
-            throw new NullPointerException( "classname" );
-        }
-        if ( null == configuration )
-        {
-            throw new NullPointerException( "configuration" );
-        }
-
-        m_name = name;
-        m_classname = classname;
-        m_configuration = configuration;
-        m_lazyActivation = lazyActivation;
+        m_manager = manager;
     }
 
     /**
-     * Returns the handler name
-     * @return the handler name
+     * Get a <code>MetaInfoEntry</code> for a short name.  The short name is an
+     * alias for a component type.
+     *
+     * @param shortname  The shorthand name for the component type.
+     *
+     * @return the proper {@link RoleEntry}
      */
-    public String getName()
+    public MetaInfoEntry getMetaInfoForShortName( final String shortname )
     {
-        return m_name;
+        return new MetaInfoEntry( m_manager.getRoleForShortName( shortname ) );
     }
 
     /**
-     * Returns the handler classname
-     * @return the classname
+     * Get a <code>MetaInfoEntry</code> for a component type.  This facilitates
+     * self-healing configuration files where the impl reads the
+     * configuration and translates all <code>&lt;component/&gt;</code>
+     * entries to use the short hand name for readability.
+     *
+     * @param classname  The component type name
+     *
+     * @return the proper {@link RoleEntry}
      */
-    public String getClassname()
+    public MetaInfoEntry getMetaInfoForClassname( final String classname )
     {
-        return m_classname;
-    }
-
-    /**
-     * Returns the handler configuration
-     * @return the configuration
-     */
-    public Configuration getConfiguration()
-    {
-        return m_configuration;
-    }
-
-    /**
-     * Returns the handler activation policy
-     * @return the activation policy
-     */
-    public boolean isLazyActivation()
-    {
-        return m_lazyActivation;
+        return new MetaInfoEntry( m_manager.getRoleForClassname( classname ) );
     }
 }

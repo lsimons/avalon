@@ -56,7 +56,7 @@ import org.apache.avalon.fortress.RoleManager;
 /**
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.6 $ $Date: 2003/04/11 07:37:36 $
+ * @version $Revision: 1.7 $ $Date: 2003/04/18 20:02:31 $
  */
 public class AbstractRoleManagerTestCase extends TestCase
 {
@@ -71,7 +71,7 @@ public class AbstractRoleManagerTestCase extends TestCase
             Class.forName( "org.apache.avalon.excalibur.datasource.InformixDataSource" );
             m_informixClassExists = true;
         }
-        catch( Exception e )
+        catch ( Exception e )
         {
             m_informixClassExists = false;
         }
@@ -93,9 +93,9 @@ public class AbstractRoleManagerTestCase extends TestCase
         assertNotNull( "RoleEntry", roleEntry );
 
         assertEquals( "componentClass:",
-                      roleEntry.getComponentClass(), Class.forName( className ) );
+            roleEntry.getComponentClass(), Class.forName( className ) );
         assertEquals( "Role:", roleEntry.getRole(), role );
         assertEquals( "Handler:",
-                      roleEntry.getHandlerClass(), Class.forName( handlerClassname ) );
+            roleEntry.getHandlerClass(), Class.forName( handlerClassname ) );
     }
 }

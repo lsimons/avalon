@@ -57,7 +57,7 @@ import org.apache.excalibur.event.command.Command;
  * This is the command class to initialize a ComponentHandler
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.8 $ $Date: 2003/03/22 12:46:33 $
+ * @version CVS $Revision: 1.9 $ $Date: 2003/04/18 20:02:29 $
  */
 public final class PrepareHandlerCommand implements Command
 {
@@ -87,9 +87,9 @@ public final class PrepareHandlerCommand implements Command
         {
             m_handler.prepareHandler();
         }
-        catch( final Exception e )
+        catch ( final Exception e )
         {
-            if( m_logger.isErrorEnabled() )
+            if ( m_logger.isErrorEnabled() )
             {
                 m_logger.error( "Could not prepare ComponentHandler for: " + m_handler.getComponentClass().getName(), e );
             }

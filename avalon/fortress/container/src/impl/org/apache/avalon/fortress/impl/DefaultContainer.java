@@ -49,7 +49,7 @@
 */
 package org.apache.avalon.fortress.impl;
 
-import org.apache.avalon.fortress.RoleEntry;
+import org.apache.avalon.fortress.MetaInfoEntry;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
@@ -60,7 +60,7 @@ import org.apache.avalon.framework.service.ServiceManager;
  * adding configuration markup semantics to the {@link AbstractContainer}.
  *
  * @author <a href="mailto:dev@avalon.apache.org">The Avalon Team</a>
- * @version CVS $Revision: 1.11 $ $Date: 2003/04/11 07:38:30 $
+ * @version CVS $Revision: 1.12 $ $Date: 2003/04/18 20:02:29 $
  */
 public class DefaultContainer
     extends AbstractContainer
@@ -99,15 +99,15 @@ public class DefaultContainer
         throws ConfigurationException
     {
         final Configuration[] elements = config.getChildren();
-        for( int i = 0; i < elements.length; i++ )
+        for ( int i = 0; i < elements.length; i++ )
         {
-            final Configuration element = elements[ i ];
+            final Configuration element = elements[i];
             final String hint = element.getAttribute( "id", null );
-            if( null == hint )
+            if ( null == hint )
             {
                 // Only components with an id attribute are treated as components.
                 getLogger().debug( "Ignoring configuration for component, " + element.getName()
-                                   + ", because the id attribute is missing." );
+                    + ", because the id attribute is missing." );
             }
             else
             {
@@ -120,7 +120,7 @@ public class DefaultContainer
                 {
                     addComponent( metaData );
                 }
-                catch( Exception e )
+                catch ( Exception e )
                 {
                     throw new ConfigurationException( "Could not add component", e );
                 }
@@ -137,16 +137,16 @@ public class DefaultContainer
     private String getClassname( final Configuration config )
         throws ConfigurationException
     {
-        String className = null;
+        final String className;
 
-        if( "component".equals( config.getName() ) )
+        if ( "component".equals( config.getName() ) )
         {
             className = config.getAttribute( "class" );
         }
         else
         {
-            final RoleEntry roleEntry = m_roleManager.getRoleForShortName( config.getName() );
-            if( null == roleEntry )
+            final MetaInfoEntry roleEntry = m_metaManager.getMetaInfoForShortName( config.getName() );
+            if ( null == roleEntry )
             {
                 final String message = "No class found matching configuration name " +
                     "[name: " + config.getName() + ", location: " + config.getLocation() + "]";
@@ -156,7 +156,7 @@ public class DefaultContainer
             className = roleEntry.getComponentClass().getName();
         }
 
-        if( getLogger().isDebugEnabled() )
+        if ( getLogger().isDebugEnabled() )
         {
             getLogger().debug( "Configuration processed for: " + className );
         }
@@ -176,18 +176,18 @@ public class DefaultContainer
      * @throws java.lang.IllegalArgumentException if the handler specifies an unknown init
      *         policy
      */
-    private boolean isLazyComponentHandler( Configuration component )
+    private boolean isLazyComponentHandler( final Configuration component )
     {
-        String policy = component.getAttribute( "activation", "startup" );
+        final String policy = component.getAttribute( "activation", "startup" );
 
         final boolean isLazy = "request".equalsIgnoreCase( policy );
         final boolean isNonLazy = "startup".equalsIgnoreCase( policy );
 
-        if( isNonLazy )
+        if ( isNonLazy )
         {
             return false;
         }
-        else if( isLazy )
+        else if ( isLazy )
         {
             return true;
         }

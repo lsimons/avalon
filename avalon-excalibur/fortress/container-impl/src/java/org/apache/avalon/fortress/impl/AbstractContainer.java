@@ -49,23 +49,18 @@
 */
 package org.apache.avalon.fortress.impl;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
 import org.apache.avalon.excalibur.logger.LoggerManager;
 import org.apache.avalon.fortress.Container;
-import org.apache.avalon.fortress.RoleEntry;
+import org.apache.avalon.fortress.MetaInfoEntry;
+import org.apache.avalon.fortress.MetaInfoManager;
 import org.apache.avalon.fortress.RoleManager;
 import org.apache.avalon.fortress.impl.extensions.InstrumentableCreator;
-import org.apache.avalon.fortress.impl.handler.ComponentFactory;
-import org.apache.avalon.fortress.impl.handler.ComponentHandler;
-import org.apache.avalon.fortress.impl.handler.LEAwareComponentHandler;
-import org.apache.avalon.fortress.impl.handler.PrepareHandlerCommand;
-import org.apache.avalon.fortress.impl.handler.ProxyObjectFactory;
+import org.apache.avalon.fortress.impl.handler.*;
 import org.apache.avalon.fortress.impl.lookup.FortressServiceManager;
 import org.apache.avalon.fortress.impl.lookup.FortressServiceSelector;
 import org.apache.avalon.fortress.impl.role.FortressRoleManager;
+import org.apache.avalon.fortress.impl.role.Role2MetaInfoManager;
+import org.apache.avalon.fortress.impl.role.ServiceMetaManager;
 import org.apache.avalon.fortress.util.CompositeException;
 import org.apache.avalon.fortress.util.LifecycleExtensionManager;
 import org.apache.avalon.framework.activity.Disposable;
@@ -88,6 +83,11 @@ import org.apache.excalibur.instrument.Instrumentable;
 import org.apache.excalibur.mpool.ObjectFactory;
 import org.apache.excalibur.mpool.PoolManager;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
 /**
  * This abstract implementation provides basic functionality for building
  * an implementation of the {@link Container} interface.
@@ -95,34 +95,34 @@ import org.apache.excalibur.mpool.PoolManager;
  * Container's Manager can expose that to the instantiating class.
  *
  * @author <a href="mailto:dev@avalon.apache.org">The Avalon Team</a>
- * @version CVS $Revision: 1.21 $ $Date: 2003/04/11 07:38:30 $
+ * @version CVS $Revision: 1.22 $ $Date: 2003/04/18 20:02:29 $
  */
 public abstract class AbstractContainer
     extends AbstractLogEnabled
     implements Contextualizable, Serviceable, Initializable, Disposable, Container
 {
-    /** The hint map's entry to get the default component type */
+    /** The hint map's entry to get the default component type. */
     public static final String DEFAULT_ENTRY = "*";
-    /** The component map's entry to get a ServiceSelector */
+    /** The component map's entry to get a ServiceSelector. */
     public static final String SELECTOR_ENTRY = "$";
 
-    /** contains the impl's context passed in through contextualize() */
+    /** contains the impl's context passed in through contextualize(). */
     protected Context m_context;
-    /** contains the ServiceManager the impl will use, based on the one passed in through service() */
+    /** contains the ServiceManager the impl will use, based on the one passed in through service(). */
     protected ServiceManager m_serviceManager;
-    /** contains the impl's LoggerManager, which is extracted from m_serviceManager */
+    /** contains the impl's LoggerManager, which is extracted from m_serviceManager. */
     protected LoggerManager m_loggerManager;
-    /** contains the impl's PoolManager, which is extracted from m_serviceManager */
+    /** contains the impl's PoolManager, which is extracted from m_serviceManager. */
     protected PoolManager m_poolManager;
-    /** contains the impl's Queue, which is extracted from m_serviceManager */
+    /** contains the impl's Queue, which is extracted from m_serviceManager. */
     protected Queue m_commandQueue;
-    /** contains the impl's root ClassLoader, which is extracted from m_serviceManager */
+    /** contains the impl's root ClassLoader, which is extracted from m_serviceManager. */
     protected ClassLoader m_classLoader;
-    /** contains the impl's RoleManager, which is extracted from m_serviceManager */
-    protected RoleManager m_roleManager;
-    /** contains the impl's InstrumentManager, which is extracted from m_serviceManager */
+    /** contains the impl's RoleManager, which is extracted from m_serviceManager. */
+    protected MetaInfoManager m_metaManager;
+    /** contains the impl's InstrumentManager, which is extracted from m_serviceManager. */
     protected InstrumentManager m_instrumentManager;
-    /** contains the impl's LifecycleExtensionManager, which is extracted from m_serviceManager */
+    /** contains the impl's LifecycleExtensionManager, which is extracted from m_serviceManager. */
     protected LifecycleExtensionManager m_extManager;
     /**
      * Contains entries mapping roles to hint maps, where the hint map contains
@@ -135,9 +135,11 @@ public abstract class AbstractContainer
     /**
      * Pull the manager items from the context so we can use them to set up
      * the system.
-     * @param context the impl context
-     * @exception ContextException if a contexaulization error occurs
+     *
      * @avalon.context type="ClassLoader" optional="true"
+     *
+     * @param context the impl context
+     * @throws ContextException if a contexaulization error occurs
      */
     public void contextualize( final Context context )
         throws ContextException
@@ -145,9 +147,9 @@ public abstract class AbstractContainer
         m_context = context;
         try
         {
-            m_classLoader = (ClassLoader)context.get( ClassLoader.class.getName() );
+            m_classLoader = (ClassLoader) context.get( ClassLoader.class.getName() );
         }
-        catch( ContextException ce )
+        catch ( ContextException ce )
         {
             m_classLoader = Thread.currentThread().getContextClassLoader();
         }
@@ -159,7 +161,7 @@ public abstract class AbstractContainer
      * entirely self contained.
      *
      * @param serviceManager the service manager to apply to the impl
-     * @exception ServiceException is a servicing related error occurs
+     * @throws ServiceException is a servicing related error occurs
      *
      * @avalon.dependency type="LoggerManager"
      * @avalon.dependency type="PoolManager"
@@ -173,23 +175,23 @@ public abstract class AbstractContainer
     {
         // get non-optional services
 
-        m_loggerManager = (LoggerManager)serviceManager.lookup( LoggerManager.ROLE );
-        m_poolManager = (PoolManager)serviceManager.lookup( PoolManager.ROLE );
-        m_instrumentManager = (InstrumentManager)serviceManager.lookup( InstrumentManager.ROLE );
+        m_loggerManager = (LoggerManager) serviceManager.lookup( LoggerManager.ROLE );
+        m_poolManager = (PoolManager) serviceManager.lookup( PoolManager.ROLE );
+        m_instrumentManager = (InstrumentManager) serviceManager.lookup( InstrumentManager.ROLE );
 
         // get optional services, or a default if the service isn't provided
 
-        if( serviceManager.hasService( LifecycleExtensionManager.ROLE ) )
+        if ( serviceManager.hasService( LifecycleExtensionManager.ROLE ) )
         {
             m_extManager =
-                (LifecycleExtensionManager)serviceManager.lookup( LifecycleExtensionManager.ROLE );
+                (LifecycleExtensionManager) serviceManager.lookup( LifecycleExtensionManager.ROLE );
         }
         else
         {
             m_extManager = new LifecycleExtensionManager();
             m_extManager.enableLogging( getLogger() );
 
-            if( getLogger().isDebugEnabled() )
+            if ( getLogger().isDebugEnabled() )
             {
                 final String message =
                     "No Container.LIFECYCLE_EXTENSION_MANAGER is given, " +
@@ -203,23 +205,23 @@ public abstract class AbstractContainer
          * done.
          */
         boolean isInstrumentEnabled = false;
-        Iterator it = m_extManager.creatorExtensionsIterator();
-        while( it.hasNext() )
+        final Iterator it = m_extManager.creatorExtensionsIterator();
+        while ( it.hasNext() )
         {
-            if( it.next() instanceof InstrumentableCreator )
+            if ( it.next() instanceof InstrumentableCreator )
             {
                 isInstrumentEnabled = true;
             }
         }
 
-        if( !isInstrumentEnabled )
+        if ( !isInstrumentEnabled )
         {
             m_extManager.addCreatorExtension( new InstrumentableCreator( m_instrumentManager ) );
         }
 
-        if( serviceManager.hasService( Queue.ROLE ) )
+        if ( serviceManager.hasService( Queue.ROLE ) )
         {
-            m_commandQueue = (Queue)serviceManager.lookup( Queue.ROLE );
+            m_commandQueue = (Queue) serviceManager.lookup( Queue.ROLE );
         }
         else
         {
@@ -229,21 +231,32 @@ public abstract class AbstractContainer
             getLogger().warn( message );
         }
 
-        if( serviceManager.hasService( RoleManager.ROLE ) )
+        try
         {
-            m_roleManager = (RoleManager)serviceManager.lookup( RoleManager.ROLE );
+            if ( serviceManager.hasService( MetaInfoManager.ROLE ) )
+            {
+                m_metaManager = createMetaManager(
+                    (MetaInfoManager) serviceManager.lookup( MetaInfoManager.ROLE ) );
+            }
+            else if ( serviceManager.hasService( RoleManager.ROLE ) )
+            {
+                m_metaManager = createMetaManager(
+                    new Role2MetaInfoManager(
+                        (RoleManager) serviceManager.lookup( RoleManager.ROLE ) ) );
+            }
+            else
+            {
+                m_metaManager = createDefaultMetaManager();
+            }
         }
-        else
+        catch ( ServiceException se )
         {
-            try
-            {
-                m_roleManager = createDefaultRoleManager();
-            }
-            catch( final Exception e )
-            {
-                final String message = "Unable to create default role manager";
-                throw new ServiceException( RoleManager.ROLE, message, e );
-            }
+            throw se;
+        }
+        catch ( Exception e )
+        {
+            final String message = "Unable to create default role manager";
+            throw new ServiceException( MetaInfoManager.ROLE, message, e );
         }
 
         // set up our ServiceManager
@@ -256,14 +269,30 @@ public abstract class AbstractContainer
      * @return the default role manager
      * @throws Exception if unable to create role manager
      */
-    private FortressRoleManager createDefaultRoleManager()
+    private MetaInfoManager createDefaultMetaManager()
         throws Exception
     {
         final FortressRoleManager roleManager =
             new FortressRoleManager( null, m_classLoader );
         ContainerUtil.enableLogging( roleManager, getLogger().getChildLogger( "roles" ) );
         ContainerUtil.initialize( roleManager );
-        return roleManager;
+        return createMetaManager( new Role2MetaInfoManager( roleManager ) );
+    }
+
+    /**
+     * Create a default RoleManager that can be used to addRole system.
+     *
+     * @return the default role manager
+     * @throws Exception if unable to create role manager
+     */
+    private ServiceMetaManager createMetaManager( final MetaInfoManager root )
+        throws Exception
+    {
+        final ServiceMetaManager metaManager =
+            new ServiceMetaManager( root, m_classLoader );
+        ContainerUtil.enableLogging( metaManager, getLogger().getChildLogger( "roles" ) );
+        ContainerUtil.initialize( metaManager );
+        return metaManager;
     }
 
     /**
@@ -280,51 +309,55 @@ public abstract class AbstractContainer
     {
         // figure out Role
         final String classname = metaData.getClassname();
-        final RoleEntry roleEntry = m_roleManager.getRoleForClassname( classname );
-        if( null == roleEntry )
+        final MetaInfoEntry metaEntry = m_metaManager.getMetaInfoForClassname( classname );
+        if ( null == metaEntry )
         {
             final String message = "No role defined for " + classname;
             throw new IllegalArgumentException( message );
         }
 
-        if( DEFAULT_ENTRY.equals( metaData.getName() ) ||
+        if ( DEFAULT_ENTRY.equals( metaData.getName() ) ||
             SELECTOR_ENTRY.equals( metaData.getName() ) )
         {
             throw new IllegalArgumentException( "Using a reserved id name" + metaData.getName() );
         }
 
-        // create a handler for the combo of Role+MetaData
-        final ComponentHandler handler =
-            getComponentHandler( roleEntry, metaData );
-
-        final String role = roleEntry.getRole();
-
-        // put the role into our role mapper. If the role doesn't exist
-        // yet, just stuff it in as DEFAULT_ENTRY. If it does, we create a
-        // ServiceSelector and put that in as SELECTOR_ENTRY.
-        if( null != role && null != classname && null != handler )
+        Iterator it = metaEntry.getRoles();
+        while ( it.hasNext() )
         {
-            Map hintMap = (Map)m_mapper.get( role );
+            // create a handler for the combo of Role+MetaData
+            final ComponentHandler handler =
+                getComponentHandler( metaEntry, metaData );
 
-            // Initialize the hintMap if it doesn't exist yet.
-            if( null == hintMap )
+            final String role = (String) it.next();
+
+            // put the role into our role mapper. If the role doesn't exist
+            // yet, just stuff it in as DEFAULT_ENTRY. If it does, we create a
+            // ServiceSelector and put that in as SELECTOR_ENTRY.
+            if ( null != role && null != classname && null != handler )
             {
-                hintMap = createHintMap();
-                hintMap.put( DEFAULT_ENTRY, handler );
-                m_mapper.put( role, hintMap );
-            }
+                Map hintMap = (Map) m_mapper.get( role );
 
-            hintMap.put( metaData.getName(), handler );
+                // Initialize the hintMap if it doesn't exist yet.
+                if ( null == hintMap )
+                {
+                    hintMap = createHintMap();
+                    hintMap.put( DEFAULT_ENTRY, handler );
+                    m_mapper.put( role, hintMap );
+                }
 
-            if( ( !hintMap.containsKey( SELECTOR_ENTRY ) ) && ( hintMap.size() > 1 ) )
-            {
-                hintMap.put( SELECTOR_ENTRY,
-                             new FortressServiceSelector( this, role ) );
-            }
+                hintMap.put( metaData.getName(), handler );
 
-            if( metaData.getConfiguration().getAttributeAsBoolean( "default", false ) )
-            {
-                hintMap.put( DEFAULT_ENTRY, handler );
+                if ( ( !hintMap.containsKey( SELECTOR_ENTRY ) ) && ( hintMap.size() > 1 ) )
+                {
+                    hintMap.put( SELECTOR_ENTRY,
+                        new FortressServiceSelector( this, role ) );
+                }
+
+                if ( metaData.getConfiguration().getAttributeAsBoolean( "default", false ) )
+                {
+                    hintMap.put( DEFAULT_ENTRY, handler );
+                }
             }
         }
     }
@@ -332,18 +365,18 @@ public abstract class AbstractContainer
     /**
      * Get a ComponentHandler with the default constructor for the component class passed in.
      *
-     * @param roleEntry the description of the Role this handler will be for
+     * @param metaEntry the description of the Role this handler will be for
      * @param metaData the information needed to construct a ComponentHandler for the component
      * @return the component handler
      * @throws Exception if unable to provide a componenthandler
      */
-    private ComponentHandler getComponentHandler( final RoleEntry roleEntry,
+    private ComponentHandler getComponentHandler( final MetaInfoEntry metaEntry,
                                                   final ComponentHandlerMetaData metaData )
         throws Exception
     {
         // get info from params
-        ComponentHandler handler = null;
-        final String classname = roleEntry.getComponentClass().getName();
+        final ComponentHandler handler;
+        final String classname = metaEntry.getComponentClass().getName();
         final Configuration configuration = metaData.getConfiguration();
 
         try
@@ -353,7 +386,7 @@ public abstract class AbstractContainer
 
             // create the appropriate handler instance
             final ComponentHandler targetHandler =
-                (ComponentHandler)roleEntry.getHandlerClass().newInstance();
+                (ComponentHandler) metaEntry.getHandlerClass().newInstance();
 
             // do the handler lifecycle
             ContainerUtil.contextualize( targetHandler, m_context );
@@ -366,9 +399,9 @@ public abstract class AbstractContainer
             ContainerUtil.configure( targetHandler, configuration );
             ContainerUtil.initialize( targetHandler );
 
-            if( targetHandler instanceof Instrumentable )
+            if ( targetHandler instanceof Instrumentable )
             {
-                final Instrumentable instrumentable = (Instrumentable)targetHandler;
+                final Instrumentable instrumentable = (Instrumentable) targetHandler;
                 final String name = instrumentable.getInstrumentableName();
                 m_instrumentManager.registerInstrumentable( instrumentable, name );
             }
@@ -379,12 +412,12 @@ public abstract class AbstractContainer
             handler =
                 new LEAwareComponentHandler( targetHandler, m_extManager, m_context );
         }
-        catch( final Exception e )
+        catch ( final Exception e )
         {
             // if anything went wrong, the component cannot be worked with
             // and it cannot be added into the impl, so don't provide
             // a handler
-            if( getLogger().isDebugEnabled() )
+            if ( getLogger().isDebugEnabled() )
             {
                 final String message =
                     "Could not create the handler for the '" +
@@ -394,11 +427,11 @@ public abstract class AbstractContainer
             throw e;
         }
 
-        if( getLogger().isDebugEnabled() )
+        if ( getLogger().isDebugEnabled() )
         {
             final String message =
                 "Component " + classname +
-                " uses handler " + roleEntry.getHandlerClass().getName();
+                " uses handler " + metaEntry.getHandlerClass().getName();
             getLogger().debug( message );
         }
 
@@ -426,8 +459,8 @@ public abstract class AbstractContainer
         final Class clazz = m_classLoader.loadClass( classname );
         final ComponentFactory componentFactory =
             new ComponentFactory( clazz, configuration,
-                                  m_serviceManager, m_context,
-                                  m_loggerManager, m_extManager );
+                m_serviceManager, m_context,
+                m_loggerManager, m_extManager );
         return new ProxyObjectFactory( componentFactory );
     }
 
@@ -446,22 +479,22 @@ public abstract class AbstractContainer
     public Object get( final String role, final Object hint )
         throws ServiceException
     {
-        final Map hintMap = (Map)m_mapper.get( role );
+        final Map hintMap = (Map) m_mapper.get( role );
         Object value;
 
-        if( null == hintMap )
+        if ( null == hintMap )
         {
             final String key = getRoleKey( role, hint );
             final String message = "Component does not exist";
             throw new ServiceException( key, message );
         }
 
-        if( null == hint )
+        if ( null == hint )
         {
             // no hint -> try selector
             value = hintMap.get( SELECTOR_ENTRY );
 
-            if( null == value )
+            if ( null == value )
             {
                 // no selector -> use default
                 value = hintMap.get( DEFAULT_ENTRY );
@@ -473,7 +506,7 @@ public abstract class AbstractContainer
         // got a hint -> use it
         value = hintMap.get( hint );
 
-        if( null == value )
+        if ( null == value )
         {
             final String key = getRoleKey( role, hint );
             final String message = "Component does not exist";
@@ -495,6 +528,8 @@ public abstract class AbstractContainer
      *   Otherwise you will experience erratic behavior due to the nature
      *   of the asyncronous component management.
      * </div>
+     *
+     * @return the hint map implementation
      */
     protected Map createHintMap()
     {
@@ -529,22 +564,22 @@ public abstract class AbstractContainer
      */
     public boolean has( final String role, final Object hint )
     {
-        final Map hintMap = (Map)m_mapper.get( role );
+        final Map hintMap = (Map) m_mapper.get( role );
         boolean hasComponent = false;
 
-        if( null != hintMap )
+        if ( null != hintMap )
         {
             hasComponent = true;
         }
 
-        if( hasComponent )
+        if ( hasComponent )
         {
-            if( null == hint )
+            if ( null == hint )
             {
                 // no hint -> try selector
                 hasComponent = hintMap.containsKey( SELECTOR_ENTRY );
 
-                if( !hasComponent )
+                if ( !hasComponent )
                 {
                     // no hint -> try DEFAULT_ENTRY
                     hasComponent = hintMap.containsKey( DEFAULT_ENTRY );
@@ -576,19 +611,19 @@ public abstract class AbstractContainer
         final BoundedFifoBuffer buffer = new BoundedFifoBuffer( Math.max( m_components.size(), 1 ) );
 
         ComponentHandlerEntry entry;
-        while( i.hasNext() )
+        while ( i.hasNext() )
         {
-            entry = (ComponentHandlerEntry)i.next();
+            entry = (ComponentHandlerEntry) i.next();
             try
             {
                 final ComponentHandler handler = entry.getHandler();
                 // if the component is not lazy, prepare it now,
                 // otherwise, don't do anything yet
-                if( !entry.getMetaData().isLazyActivation() )
+                if ( !entry.getMetaData().isLazyActivation() )
                 {
                     // if we're doing queueing, enqueue, otherwise tell
                     // the handler to prepare itself and its components.
-                    if( null != m_commandQueue )
+                    if ( null != m_commandQueue )
                     {
                         final PrepareHandlerCommand element =
                             new PrepareHandlerCommand( handler, getLogger() );
@@ -601,7 +636,7 @@ public abstract class AbstractContainer
                 }
                 else
                 {
-                    if( getLogger().isDebugEnabled() )
+                    if ( getLogger().isDebugEnabled() )
                     {
                         final String message = "ComponentHandler (" + handler +
                             ") has specified request time initialization policy, " +
@@ -610,11 +645,11 @@ public abstract class AbstractContainer
                     }
                 }
             }
-            catch( final Exception e )
+            catch ( final Exception e )
             {
                 final String cName = entry.getMetaData().getName();
 
-                if( getLogger().isWarnEnabled() )
+                if ( getLogger().isWarnEnabled() )
                 {
                     final String message = "Could not initialize component " + cName;
                     getLogger().warn( message, e );
@@ -625,10 +660,10 @@ public abstract class AbstractContainer
 
         // if we were unable to activate one or more components,
         // throw an exception
-        if( buffer.size() > 0 )
+        if ( buffer.size() > 0 )
         {
-            throw new CompositeException( (Exception[])buffer.toArray( new Exception[ 0 ] ),
-                                          "unable to instantiate one or more components" );
+            throw new CompositeException( (Exception[]) buffer.toArray( new Exception[0] ),
+                "unable to instantiate one or more components" );
         }
     }
 
@@ -638,14 +673,14 @@ public abstract class AbstractContainer
     public void dispose()
     {
         final Iterator i = m_components.iterator();
-        while( i.hasNext() )
+        while ( i.hasNext() )
         {
-            final ComponentHandlerEntry entry = (ComponentHandlerEntry)i.next();
+            final ComponentHandlerEntry entry = (ComponentHandlerEntry) i.next();
             final ComponentHandler handler = entry.getHandler();
 
-            if( getLogger().isDebugEnabled() ) getLogger().debug( "Shutting down: " + handler );
+            if ( getLogger().isDebugEnabled() ) getLogger().debug( "Shutting down: " + handler );
             ContainerUtil.dispose( handler );
-            if( getLogger().isDebugEnabled() ) getLogger().debug( "Done." );
+            if ( getLogger().isDebugEnabled() ) getLogger().debug( "Done." );
         }
     }
 

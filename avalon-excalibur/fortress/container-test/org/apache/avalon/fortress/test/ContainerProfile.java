@@ -76,7 +76,7 @@ import org.apache.excalibur.xml.dom.DOMParser;
  * Used as a basis for the PoolComparisonProfile Tests
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version $Id: ContainerProfile.java,v 1.8 2003/04/11 07:37:57 donaldp Exp $
+ * @version $Id: ContainerProfile.java,v 1.9 2003/04/18 20:02:31 bloritsch Exp $
  */
 public final class ContainerProfile
     extends TestCase
@@ -146,13 +146,13 @@ public final class ContainerProfile
 
         final ContainerManager cm = new DefaultContainerManager( config.getContext(), new NullLogger() );
         ContainerUtil.initialize( cm );
-        DefaultContainer container = (DefaultContainer)cm.getContainer();
+        DefaultContainer container = (DefaultContainer) cm.getContainer();
         assertNotNull( container );
         long cmStop = System.currentTimeMillis();
         long cmDuration = cmStop - cmStart;
 
         // Show a summary
-        if( m_logger.isInfoEnabled() )
+        if ( m_logger.isInfoEnabled() )
         {
             m_logger.info( "Test Case: ECM_ContainerManager_StartTime" );
             m_logger.info( "     ECM time = " + ecmDuration + "ms." );
@@ -184,7 +184,7 @@ public final class ContainerProfile
         cmDuration = cmStop - cmStart;
 
         // Show a summary
-        if( m_logger.isInfoEnabled() )
+        if ( m_logger.isInfoEnabled() )
         {
             m_logger.info( "Test Case: ECM_ContainerManager_KillTime" );
             m_logger.info( "     ECM time = " + ecmDuration + "ms." );
@@ -211,7 +211,7 @@ public final class ContainerProfile
         {
             Thread.sleep( 50 );
         }
-        catch( InterruptedException e )
+        catch ( InterruptedException e )
         {
         }
         Runtime runtime = Runtime.getRuntime();
@@ -257,7 +257,7 @@ public final class ContainerProfile
     {
         String name = o.getClass().getName();
         int pos = name.lastIndexOf( '.' );
-        if( pos > 0 )
+        if ( pos > 0 )
         {
             name = name.substring( pos + 1 );
         }
@@ -292,7 +292,7 @@ public final class ContainerProfile
         resetMemory();
 
         // Show a summary
-        if( m_logger.isInfoEnabled() )
+        if ( m_logger.isInfoEnabled() )
         {
             double mult;
             mult = ( cmADuration > 0 ? ( cmBDuration * 100 / cmADuration ) / 100.0 : Float.POSITIVE_INFINITY );
@@ -316,17 +316,17 @@ public final class ContainerProfile
         {
             duration = group.go();
         }
-        catch( Throwable t )
+        catch ( Throwable t )
         {
             // Throwable could have been thrown by one of the tests.
-            if( m_throwable == null )
+            if ( m_throwable == null )
             {
                 m_throwable = t;
             }
             duration = 0;
         }
 
-        if( m_throwable != null )
+        if ( m_throwable != null )
         {
             throw new CascadingAssertionFailedError( "Exception in test thread.", m_throwable );
         }
@@ -363,23 +363,23 @@ public final class ContainerProfile
         {
             // Perform this threads part of the test.
             final int loops = ( TEST_SIZE / THREADS );
-            for( int i = 0; i < loops; i++ )
+            for ( int i = 0; i < loops; i++ )
             {
                 DOMParser parser = null;
 
                 try
                 {
-                    parser = (DOMParser)m_manager.lookup( DOMParser.ROLE );
+                    parser = (DOMParser) m_manager.lookup( DOMParser.ROLE );
 
                     // Make the loops hold the components longer than they are released, but only slightly.
                     Thread.yield();
                 }
-                catch( Throwable t )
+                catch ( Throwable t )
                 {
                     m_logger.error( "Unexpected error after " + m_getCount +
-                                    " iterations retrieved for DOMParser", t );
+                        " iterations retrieved for DOMParser", t );
 
-                    if( m_throwable == null )
+                    if ( m_throwable == null )
                     {
                         m_throwable = t;
                     }
@@ -387,7 +387,7 @@ public final class ContainerProfile
                 }
                 finally
                 {
-                    if( null != parser )
+                    if ( null != parser )
                     {
                         m_manager.release( parser );
                     }
@@ -424,17 +424,17 @@ public final class ContainerProfile
 
                 try
                 {
-                    monitor = (Monitor)m_manager.lookup( Monitor.ROLE );
+                    monitor = (Monitor) m_manager.lookup( Monitor.ROLE );
 
                     // Make the loops hold the components longer than they are released, but only slightly.
                     Thread.yield();
                 }
-                catch( Throwable t )
+                catch ( Throwable t )
                 {
                     m_logger.error( "Unexpected error after " + m_getCount +
-                                    " iterations retrieved for DataSourceComponent", t );
+                        " iterations retrieved for DataSourceComponent", t );
 
-                    if( m_throwable == null )
+                    if ( m_throwable == null )
                     {
                         m_throwable = t;
                     }
@@ -442,7 +442,7 @@ public final class ContainerProfile
                 }
                 finally
                 {
-                    if( null != monitor )
+                    if ( null != monitor )
                     {
                         m_manager.release( monitor );
                     }

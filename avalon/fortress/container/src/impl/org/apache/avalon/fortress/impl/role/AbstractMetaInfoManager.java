@@ -49,25 +49,22 @@
 */
 package org.apache.avalon.fortress.impl.role;
 
-import org.apache.avalon.fortress.RoleEntry;
+import org.apache.avalon.fortress.MetaInfoEntry;
+import org.apache.avalon.fortress.MetaInfoManager;
 import org.apache.avalon.fortress.RoleManager;
-import org.apache.avalon.fortress.impl.handler.PerThreadComponentHandler;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 
 /**
- * The Excalibur Role Manager is used for Excalibur Role Mappings.  All of
- * the information is hard-coded.
+ * Provides the foundation for MetaInfoManagers.
  *
- * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.10 $ $Date: 2003/04/18 20:02:30 $
- * @since 4.1
+ * @author <a href="bloritsch.at.apache.org">Berin Loritsch</a>
+ * @version CVS $Revision: 1.1 $
  */
-public abstract class AbstractRoleManager
-    extends AbstractLogEnabled
-    implements RoleManager
+public abstract class AbstractMetaInfoManager extends AbstractLogEnabled implements MetaInfoManager
 {
     /**
      * The classloader used to load and check roles and components.
@@ -75,48 +72,57 @@ public abstract class AbstractRoleManager
     private final ClassLoader m_loader;
 
     /**
-     * Map for shorthand to RoleEntry.
+     * Map for shorthand to MetaInfoEntry.
      */
     private final Map m_shorthands = new HashMap();
 
     /**
-     * Map for classname to RoleEntry.
+     * Map for classname to MetaInfoEntry.
      */
     private final Map m_classnames = new HashMap();
 
     /**
-     * Parent <code>RoleManager</code> for nested resolution.
+     * Parent <code>MetaInfoManager</code> for nested resolution.
      */
-    private final RoleManager m_parent;
+    private final MetaInfoManager m_parent;
 
     /**
      * Default constructor--this RoleManager has no parent.
      */
-    public AbstractRoleManager()
+    public AbstractMetaInfoManager()
     {
-        this( null );
+        this( (MetaInfoManager) null );
+    }
+
+    /**
+     * Create a MetaInfoManager with a parent manager.
+     *
+     * @param parent  The parent <code>RoleManager</code>.
+     */
+    public AbstractMetaInfoManager( final RoleManager parent )
+    {
+        this( new Role2MetaInfoManager( parent ) );
+    }
+
+    /**
+     * Create a MetaInfoManager with a parent manager.
+     *
+     * @param parent  The parent <code>MetaInfoManager</code>.
+     */
+    public AbstractMetaInfoManager( final MetaInfoManager parent )
+    {
+        this( parent, Thread.currentThread().getContextClassLoader() );
     }
 
     /**
      * Alternate constructor--this RoleManager has the specified
      * parent.
      *
-     * @param parent  The parent <code>RoleManager</code>.
-     */
-    public AbstractRoleManager( final RoleManager parent )
-    {
-        this( parent, Thread.currentThread().getContextClassLoader() );
-    }
-
-    /**
-     * Create an AbstractRoleManager with the specified parent manager and the
-     * supplied classloader.
-     *
-     * @param parent  The parent <code>RoleManager</code>
+     * @param parent  The parent <code>MetaInfoManager</code>
      * @param loader  The class loader
      */
-    public AbstractRoleManager( final RoleManager parent,
-                                final ClassLoader loader )
+    public AbstractMetaInfoManager( final MetaInfoManager parent,
+                                    final ClassLoader loader )
     {
         ClassLoader thisLoader = loader;
         if ( null == thisLoader )
@@ -129,31 +135,36 @@ public abstract class AbstractRoleManager
     }
 
     /**
-     * Addition of a role to the role manager.
-     * @param shortName the shor name for the role
-     * @param role the role
+     * Addition of a component to the meta info manager.
+     * @param role      the role associated with the component
      * @param className the class name
-     * @param handlerClassName the handler classname
+     * @param meta the properties object for the meta info
      */
-    protected final void addRole( final String shortName,
-                                  final String role,
-                                  final String className,
-                                  final String handlerClassName )
+    protected void addComponent( final String role,
+                                 final String className,
+                                 final Properties meta )
     {
-        final Class clazz;
-        final Class handlerKlass;
+        final Class klass;
+
+        MetaInfoEntry entry = (MetaInfoEntry) m_classnames.get( className );
+
+        if ( null != entry )
+        {
+            entry.addRole( role );
+            return;
+        }
 
         if ( getLogger().isDebugEnabled() )
         {
-            getLogger().debug( "addRole role: name='" + shortName + "', role='" + role + "', "
-                + "class='" + className + "', handler='" + handlerClassName + "'" );
+            getLogger().debug( "addComponent component: type='" + className +
+                "', meta='" + meta.toString() + "', " );
         }
 
         try
         {
-            clazz = m_loader.loadClass( className );
+            klass = m_loader.loadClass( className );
         }
-        catch ( final Exception e )
+        catch ( final ClassNotFoundException e )
         {
             final String message =
                 "Unable to load class " + className + ". Skipping.";
@@ -162,50 +173,42 @@ public abstract class AbstractRoleManager
             return;
         }
 
-        if ( null != handlerClassName )
+        try
         {
-            try
-            {
-                handlerKlass = m_loader.loadClass( handlerClassName );
-            }
-            catch ( final Exception e )
-            {
-                final String message = "Unable to load handler " +
-                    handlerClassName + " for class " + className + ". Skipping.";
-                getLogger().warn( message );
-                return;
-            }
-        }
-        else
-        {
-            handlerKlass = getDefaultHandler();
-        }
+            entry = new MetaInfoEntry( klass, meta );
+            entry.addRole( role );
 
-        final RoleEntry entry = new RoleEntry( role, shortName, clazz, handlerKlass );
-        m_shorthands.put( shortName, entry );
-        m_classnames.put( className, entry );
+            m_shorthands.put( entry.getConfigurationName(), entry );
+            m_classnames.put( className, entry );
+        }
+        catch ( ClassNotFoundException cfne )
+        {
+            final String message =
+                "Unable to load the handler class for " + className + ".  Skipping.";
+            getLogger().warn( message );
+        }
     }
 
     /**
-     * Get the default component handler.
+     * Get a <code>MetaInfoEntry</code> for a component type.  This facilitates
+     * self-healing configuration files where the impl reads the
+     * configuration and translates all <code>&lt;component/&gt;</code>
+     * entries to use the short hand name for readability.
      *
-     * @return the class for {@link PerThreadComponentHandler}
+     * @param classname  The component type name
+     *
+     * @return the proper {@link MetaInfoEntry}
      */
-    protected final Class getDefaultHandler()
+    public MetaInfoEntry getMetaInfoForClassname( final String classname )
     {
-        return PerThreadComponentHandler.class;
-    }
-
-    public final RoleEntry getRoleForClassname( final String classname )
-    {
-        final RoleEntry roleEntry = (RoleEntry) m_classnames.get( classname );
-        if ( null != roleEntry )
+        final MetaInfoEntry metaEntry = (MetaInfoEntry) m_classnames.get( classname );
+        if ( null != metaEntry )
         {
-            return roleEntry;
+            return metaEntry;
         }
         else if ( null != m_parent )
         {
-            return m_parent.getRoleForClassname( classname );
+            return m_parent.getMetaInfoForClassname( classname );
         }
         else
         {
@@ -214,21 +217,21 @@ public abstract class AbstractRoleManager
     }
 
     /**
-     * Return a role name relative to a supplied short name.
+     * Return the meta info relative to a supplied short name.
      *
      * @param shortname the short name
-     * @return the role entry
+     * @return the proper {@link MetaInfoEntry}
      */
-    public final RoleEntry getRoleForShortName( final String shortname )
+    public MetaInfoEntry getMetaInfoForShortName( final String shortname )
     {
-        final RoleEntry roleEntry = (RoleEntry) m_shorthands.get( shortname );
-        if ( null != roleEntry )
+        final MetaInfoEntry metaEntry = (MetaInfoEntry) m_shorthands.get( shortname );
+        if ( null != metaEntry )
         {
-            return roleEntry;
+            return metaEntry;
         }
         else if ( null != m_parent )
         {
-            return m_parent.getRoleForShortName( shortname );
+            return m_parent.getMetaInfoForShortName( shortname );
         }
         else
         {
@@ -242,9 +245,8 @@ public abstract class AbstractRoleManager
      *
      * @return ClassLoader
      */
-    protected final ClassLoader getLoader()
+    protected ClassLoader getLoader()
     {
         return m_loader;
     }
 }
-

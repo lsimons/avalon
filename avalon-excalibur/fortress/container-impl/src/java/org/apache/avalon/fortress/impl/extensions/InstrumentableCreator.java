@@ -64,12 +64,12 @@ import org.apache.excalibur.instrument.Instrumentable;
  * The InstrumentableCreator is used as a standard lifecycle
  * extension for containers that support it.
  */
-public class InstrumentableCreator extends AbstractCreator
+public final class InstrumentableCreator extends AbstractCreator
 {
     private final InstrumentManager m_instrumentManager;
     private final boolean m_instrumentEnabled;
 
-    public InstrumentableCreator( InstrumentManager instrumentManager )
+    public InstrumentableCreator( final InstrumentManager instrumentManager )
     {
         m_instrumentManager = instrumentManager;
         m_instrumentEnabled = instrumentManager != null;
@@ -78,12 +78,12 @@ public class InstrumentableCreator extends AbstractCreator
     /**
      * Assign the instrumentables and InstrumentManageables
      */
-    public void create( Object object, Context context ) throws Exception
+    public void create( final Object object, final Context context ) throws Exception
     {
-        if( m_instrumentEnabled && object instanceof Instrumentable )
+        if ( m_instrumentEnabled && object instanceof Instrumentable )
         {
-            String instrumentableName = (String)context.get( "component.name" );
-            final Instrumentable instrumentable = (Instrumentable)object;
+            final String instrumentableName = (String) context.get( "component.name" );
+            final Instrumentable instrumentable = (Instrumentable) object;
             instrumentable.setInstrumentableName( instrumentableName );
 
             // Get the name from the instrumentable in case it was changed since being set above.
@@ -92,9 +92,9 @@ public class InstrumentableCreator extends AbstractCreator
 
         }
 
-        if( m_instrumentEnabled && object instanceof InstrumentManageable )
+        if ( m_instrumentEnabled && object instanceof InstrumentManageable )
         {
-            ( (InstrumentManageable)object ).setInstrumentManager( m_instrumentManager );
+            ( (InstrumentManageable) object ).setInstrumentManager( m_instrumentManager );
         }
 
     }

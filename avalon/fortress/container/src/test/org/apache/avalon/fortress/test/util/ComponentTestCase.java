@@ -61,7 +61,7 @@ import org.apache.avalon.framework.service.DefaultServiceManager;
  * within your own code.
  *
  * @author <a href="bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.6 $ $Date: 2003/04/11 07:37:36 $
+ * @version CVS $Revision: 1.7 $ $Date: 2003/04/18 20:02:31 $
  */
 public final class ComponentTestCase
     extends TestCase
@@ -74,7 +74,7 @@ public final class ComponentTestCase
     public void testCorrectLifecycle()
         throws Exception
     {
-        final org.apache.avalon.fortress.test.util.FullLifecycleComponent component = new org.apache.avalon.fortress.test.util.FullLifecycleComponent();
+        final FullLifecycleComponent component = new FullLifecycleComponent();
         component.enableLogging( new NullLogger() );
         component.contextualize( new DefaultContext() );
         component.service( new DefaultServiceManager() );
@@ -91,13 +91,13 @@ public final class ComponentTestCase
     public void testMissingLogger()
         throws Exception
     {
-        org.apache.avalon.fortress.test.util.FullLifecycleComponent component = new org.apache.avalon.fortress.test.util.FullLifecycleComponent();
+        FullLifecycleComponent component = new FullLifecycleComponent();
 
         try
         {
             component.contextualize( new DefaultContext() );
         }
-        catch( Exception e )
+        catch ( Exception e )
         {
             return;
         }
@@ -116,7 +116,7 @@ public final class ComponentTestCase
             component.initialize();
             component.parameterize( new Parameters() );
         }
-        catch( Exception e )
+        catch ( Exception e )
         {
             return;
         }
@@ -142,7 +142,7 @@ public final class ComponentTestCase
             component.dispose();
             component.stop();
         }
-        catch( Exception e )
+        catch ( Exception e )
         {
             return;
         }
@@ -157,7 +157,7 @@ public final class ComponentTestCase
             component.enableLogging( new NullLogger() );
             component.enableLogging( new NullLogger() );
         }
-        catch( Exception e )
+        catch ( Exception e )
         {
             // test successfull
             return;
@@ -175,7 +175,7 @@ public final class ComponentTestCase
             component.contextualize( new DefaultContext() );
             component.contextualize( new DefaultContext() );
         }
-        catch( Exception e )
+        catch ( Exception e )
         {
             // test successfull
             return;
@@ -198,7 +198,7 @@ public final class ComponentTestCase
             component.parameterize( new Parameters() );
             component.parameterize( new Parameters() );
         }
-        catch( Exception e )
+        catch ( Exception e )
         {
             // test successfull
             return;
@@ -218,7 +218,7 @@ public final class ComponentTestCase
             component.configure( new DefaultConfiguration( "", "" ) );
             component.configure( new DefaultConfiguration( "", "" ) );
         }
-        catch( Exception e )
+        catch ( Exception e )
         {
             // test successfull
             return;
@@ -238,7 +238,7 @@ public final class ComponentTestCase
             component.service( new DefaultServiceManager() );
             component.service( new DefaultServiceManager() );
         }
-        catch( Exception e )
+        catch ( Exception e )
         {
             // test successfull
             return;

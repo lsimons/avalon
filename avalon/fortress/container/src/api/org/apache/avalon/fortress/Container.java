@@ -59,7 +59,7 @@ import org.apache.avalon.framework.service.ServiceException;
  * Context object.
  *
  * @author <a href="mailto:dev@avalon.apache.org">The Avalon Team</a>
- * @version CVS $Revision: 1.6 $ $Date: 2003/03/22 12:46:32 $
+ * @version CVS $Revision: 1.7 $ $Date: 2003/04/18 20:02:29 $
  * @see ContainerConstants for the contract surrounding the Container context
  * @see <a href="http://jakarta.apache.org/avalon/framework/guide-cop-in-avalon.html">COP In Avalon</a>
  */
@@ -76,6 +76,8 @@ public interface Container
      *
      * @return Object  a reference to the ComponentHandler or
      *                 ComponentSelector for the role/hint combo.
+     *
+     * @throws ServiceException if the container cannot get the component
      */
     Object get( String key, Object hint ) throws ServiceException;
 

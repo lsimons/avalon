@@ -49,9 +49,6 @@
 */
 package org.apache.avalon.fortress.impl.handler;
 
-import java.io.Serializable;
-import java.lang.reflect.Proxy;
-import java.util.ArrayList;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.activity.Startable;
@@ -68,6 +65,10 @@ import org.apache.avalon.framework.logger.Loggable;
 import org.apache.avalon.framework.parameters.Parameterizable;
 import org.apache.avalon.framework.parameters.Reparameterizable;
 import org.apache.avalon.framework.service.Serviceable;
+
+import java.io.Serializable;
+import java.lang.reflect.Proxy;
+import java.util.ArrayList;
 
 /**
  * Create a Component proxy.  Requires JDK 1.3+
@@ -105,17 +106,18 @@ final class ProxyHelper
 
     /**
      * Get the Component wrapped in the proxy.
+     *
      * @param service the service object to proxy
-     * @exception Exception if a proxy establishment error occurs
+     * @throws Exception if a proxy establishment error occurs
      */
-    public static Component createProxy( Object service ) throws Exception
+    public static Component createProxy( final Object service )
     {
         final Class clazz = service.getClass();
         final Class[] workInterfaces = guessWorkInterfaces( clazz );
 
-        return (Component)Proxy.newProxyInstance( clazz.getClassLoader(),
-                                                  workInterfaces,
-                                                  new PassThroughInvocationHandler( service ) );
+        return (Component) Proxy.newProxyInstance( clazz.getClassLoader(),
+            workInterfaces,
+            new PassThroughInvocationHandler( service ) );
     }
 
     /**
@@ -127,21 +129,21 @@ final class ProxyHelper
      *                   or specified object is not a proxy
      */
     public static Object getObject( final Object proxy )
-        throws Exception
+
     {
-        if( null == proxy )
+        if ( null == proxy )
         {
             throw new NullPointerException( "proxy" );
         }
 
-        if( !Proxy.isProxyClass( proxy.getClass() ) )
+        if ( !Proxy.isProxyClass( proxy.getClass() ) )
         {
             final String message = "object is not a proxy";
             throw new IllegalArgumentException( message );
         }
 
         final PassThroughInvocationHandler handler =
-            (PassThroughInvocationHandler)Proxy.getInvocationHandler( proxy );
+            (PassThroughInvocationHandler) Proxy.getInvocationHandler( proxy );
         return handler.getObject();
     }
 
@@ -159,7 +161,7 @@ final class ProxyHelper
         guessWorkInterfaces( clazz, list );
 
         list.add( Component.class );
-        return (Class[])list.toArray( new Class[ list.size() ] );
+        return (Class[]) list.toArray( new Class[list.size()] );
     }
 
     /**
@@ -173,26 +175,26 @@ final class ProxyHelper
     private static void guessWorkInterfaces( final Class clazz,
                                              final ArrayList list )
     {
-        if( null != clazz )
+        if ( null != clazz )
         {
             final Class[] interfaces = clazz.getInterfaces();
 
-            boolean skip = false;
-            for( int i = 0; i < interfaces.length; i++ )
+            boolean skip;
+            for ( int i = 0; i < interfaces.length; i++ )
             {
                 skip = false;
-                for( int j = 0; j < INVALID_INTERFACES.length; j++ )
+                for ( int j = 0; j < INVALID_INTERFACES.length; j++ )
                 {
-                    if( interfaces[ i ] == INVALID_INTERFACES[ j ] )
+                    if ( interfaces[i] == INVALID_INTERFACES[j] )
                     {
                         skip = true;
                         continue;
                     }
                 }
 
-                if( !skip )
+                if ( !skip )
                 {
-                    list.add( interfaces[ i ] );
+                    list.add( interfaces[i] );
                 }
             }
 

@@ -101,7 +101,7 @@ package org.apache.avalon.fortress;
  * </pre>
  *
  * @author <a href="mailto:dev@avalon.apache.org">The Avalon Team</a>
- * @version CVS $Revision: 1.5 $ $Date: 2003/03/22 12:46:32 $
+ * @version CVS $Revision: 1.6 $ $Date: 2003/04/18 20:02:29 $
  * @see ContainerManagerConstants for the contract surrounding the ContainerManager context
  */
 public interface ContainerManager
@@ -109,6 +109,8 @@ public interface ContainerManager
     /**
      * Get a reference to the managed Container.  This instance is typically cast to
      * the interface used to interact with the impl.
+     *
+     * @return the container implementation
      */
     Object getContainer();
 }

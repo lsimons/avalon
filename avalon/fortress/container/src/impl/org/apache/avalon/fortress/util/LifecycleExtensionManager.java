@@ -49,14 +49,15 @@
 */
 package org.apache.avalon.fortress.util;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.lifecycle.Accessor;
 import org.apache.avalon.lifecycle.Creator;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * <code>LifecycleExtensionManager</code> class. This class manages a list
@@ -77,9 +78,9 @@ import org.apache.avalon.lifecycle.Creator;
  * </p>
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Revision: 1.6 $ $Date: 2003/03/22 12:46:34 $
+ * @version CVS $Revision: 1.7 $ $Date: 2003/04/18 20:02:30 $
  */
-public class LifecycleExtensionManager
+public final class LifecycleExtensionManager
     extends AbstractLogEnabled
 {
     public static final String ROLE = LifecycleExtensionManager.class.getName();
@@ -96,7 +97,7 @@ public class LifecycleExtensionManager
      * @param context a <code>Context</code> instance
      * @exception Exception if an error occurs
      */
-    public void executeAccessExtensions( Object component, Context context )
+    public void executeAccessExtensions( final Object component, final Context context )
         throws Exception
     {
         executeExtensions( m_accessorExtensions.toArray(), component, context, ACCESS );
@@ -110,7 +111,7 @@ public class LifecycleExtensionManager
      * @param context a <code>Context</code> instance
      * @exception Exception if an error occurs
      */
-    public void executeReleaseExtensions( Object component, Context context )
+    public void executeReleaseExtensions( final Object component, final Context context )
         throws Exception
     {
         executeExtensions( m_accessorExtensions.toArray(), component, context, RELEASE );
@@ -124,7 +125,7 @@ public class LifecycleExtensionManager
      * @param context a <code>Context</code> instance
      * @exception Exception if an error occurs
      */
-    public void executeCreationExtensions( Object component, Context context )
+    public void executeCreationExtensions( final Object component, final Context context )
         throws Exception
     {
         executeExtensions( m_creatorExtensions.toArray(), component, context, CREATE );
@@ -138,7 +139,7 @@ public class LifecycleExtensionManager
      * @param context a <code>Context</code> instance
      * @exception Exception if an error occurs
      */
-    public void executeDestructionExtensions( Object component, Context context )
+    public void executeDestructionExtensions( final Object component, final Context context )
         throws Exception
     {
         executeExtensions( m_creatorExtensions.toArray(), component, context, DESTROY );
@@ -165,7 +166,7 @@ public class LifecycleExtensionManager
      *
      * @param extension a <code>Accessor</code> instance
      */
-    public void addAccessorExtension( Accessor extension )
+    public void addAccessorExtension( final Accessor extension )
     {
         m_accessorExtensions.add( extension );
     }
@@ -175,7 +176,7 @@ public class LifecycleExtensionManager
      *
      * @param extension a <code>Creator</code> instance
      */
-    public void addCreatorExtension( Creator extension )
+    public void addCreatorExtension( final Creator extension )
     {
         m_creatorExtensions.add( extension );
     }
@@ -186,7 +187,7 @@ public class LifecycleExtensionManager
      * @param position an <code>int</code> index value
      * @param extension a <code>Accessor</code> instance
      */
-    public void insertAccessorExtension( int position, Accessor extension )
+    public void insertAccessorExtension( final int position, final Accessor extension )
     {
         m_accessorExtensions.insert( position, extension );
     }
@@ -197,7 +198,7 @@ public class LifecycleExtensionManager
      * @param position an <code>int</code> index value
      * @param extension a <code>Creator</code> instance
      */
-    public void insertCreatorExtension( int position, Creator extension )
+    public void insertCreatorExtension( final int position, final Creator extension )
     {
         m_accessorExtensions.insert( position, extension );
     }
@@ -208,9 +209,9 @@ public class LifecycleExtensionManager
      * @param position an <code>int</code> index value
      * @return a <code>Accessor</code> instance
      */
-    public Accessor removeAccessorExtension( int position )
+    public Accessor removeAccessorExtension( final int position )
     {
-        return (Accessor)m_accessorExtensions.remove( position );
+        return (Accessor) m_accessorExtensions.remove( position );
     }
 
     /**
@@ -219,9 +220,9 @@ public class LifecycleExtensionManager
      * @param position an <code>int</code> index value
      * @return a <code>Creator</code> instance
      */
-    public Creator removeCreatorExtension( int position )
+    public Creator removeCreatorExtension( final int position )
     {
-        return (Creator)m_creatorExtensions.remove( position );
+        return (Creator) m_creatorExtensions.remove( position );
     }
 
     /**
@@ -270,9 +271,9 @@ public class LifecycleExtensionManager
      * @param index an <code>int</code> index value
      * @return a <code>Accessor</code> instance
      */
-    public Accessor getAccessorExtension( int index )
+    public Accessor getAccessorExtension( final int index )
     {
-        return (Accessor)m_accessorExtensions.get( index );
+        return (Accessor) m_accessorExtensions.get( index );
     }
 
     /**
@@ -281,9 +282,9 @@ public class LifecycleExtensionManager
      * @param index an <code>int</code> index value
      * @return a <code>Creator</code> instance
      */
-    public Creator getCreatorExtension( int index )
+    public Creator getCreatorExtension( final int index )
     {
-        return (Creator)m_creatorExtensions.get( index );
+        return (Creator) m_creatorExtensions.get( index );
     }
 
     /**
@@ -325,38 +326,38 @@ public class LifecycleExtensionManager
                                       final int type )
         throws Exception
     {
-        switch( type )
+        switch ( type )
         {
             case ACCESS:
-                for( int i = 0; i < extensions.length; ++i )
+                for ( int i = 0; i < extensions.length; ++i )
                 {
-                    ( (Accessor)extensions[ i ] ).access( component, context );
+                    ( (Accessor) extensions[i] ).access( component, context );
                 }
                 break;
 
             case RELEASE:
-                for( int i = 0; i < extensions.length; ++i )
+                for ( int i = 0; i < extensions.length; ++i )
                 {
-                    ( (Accessor)extensions[ i ] ).release( component, context );
+                    ( (Accessor) extensions[i] ).release( component, context );
                 }
                 break;
 
             case CREATE:
-                for( int i = 0; i < extensions.length; ++i )
+                for ( int i = 0; i < extensions.length; ++i )
                 {
-                    ( (Creator)extensions[ i ] ).create( component, context );
+                    ( (Creator) extensions[i] ).create( component, context );
                 }
                 break;
 
             case DESTROY:
-                for( int i = 0; i < extensions.length; ++i )
+                for ( int i = 0; i < extensions.length; ++i )
                 {
-                    ( (Creator)extensions[ i ] ).destroy( component, context );
+                    ( (Creator) extensions[i] ).destroy( component, context );
                 }
                 break;
 
             default:
-                if( getLogger().isErrorEnabled() )
+                if ( getLogger().isErrorEnabled() )
                 {
                     final String message =
                         "Incorrect extension phase specified: " + type;
@@ -394,7 +395,7 @@ public class LifecycleExtensionManager
     private final class CachedArrayList
     {
         // Empty array constant
-        private final Object[] EMPTY_ARRAY = new Object[ 0 ];
+        private final Object[] EMPTY_ARRAY = new Object[0];
 
         // Actual list for storing elements
         private final List m_proxy = Collections.synchronizedList( new ArrayList() );
