@@ -8,11 +8,13 @@
 
 <body>
 
+<!--
 <section name="Bleeding-edge only">
 	<p>If you are looking to download the source code for stable versions of the Avalon
 	projects, you're in the wrong place. You should download a source release from
     <a href="http://avalon.apache.org/srcdownload.cgi">the source download page</a>.</p>
 </section>
+-->
 <section name="About CVS">
 	<p>CVS, the Concurrent Versions System is a revision control system useful for
 	management of source code, and is the predominant version control system used at
