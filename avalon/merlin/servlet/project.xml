@@ -1,22 +1,27 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE project [
+  <!ENTITY % index SYSTEM "file:index.ent"> %index;
+]>
 
 <project>
 
   <extend>${basedir}/../../project.xml</extend>
 
-  <groupId>merlin</groupId>
-  <id>merlin-servlet</id>
+  <groupId>&merlin-id;</groupId>
+  <id>&merlin-servlet-id;</id>
+  <currentVersion>&merlin-servlet-version;</currentVersion>
+
   <name>Merlin Servlet</name>
   <package>org.apache.avalon.merlin.servlet</package>
-
-  <inceptionYear>2002</inceptionYear>
   <shortDescription>Merlin Servlet</shortDescription>
+  <inceptionYear>2002</inceptionYear>
 
   <description>
 Merlin servlet is a servlet with an embedded Merlin Kernel.
   </description>
 
   <dependencies>
+
     <dependency>
       <groupId>avalon-meta</groupId>
       <artifactId>avalon-meta-api</artifactId>
@@ -26,6 +31,7 @@ Merlin servlet is a servlet with an embedded Merlin Kernel.
         <war.bundle>true</war.bundle>
       </properties>
     </dependency>
+
     <dependency>
       <groupId>avalon-framework</groupId>
       <artifactId>avalon-framework-api</artifactId>
@@ -35,25 +41,25 @@ Merlin servlet is a servlet with an embedded Merlin Kernel.
         <war.bundle>true</war.bundle>
       </properties>
     </dependency>
+
     <dependency>
-      <groupId>avalon-composition</groupId>
-      <artifactId>avalon-composition-api</artifactId>
-      <version>${pom.currentVersion}</version>
-      <type>jar</type>
+      <groupId>&avalon-composition-id;</groupId>
+      <artifactId>&avalon-composition-api-id;</artifactId>
+      <version>&avalon-composition-api-version;</version>
       <properties>
         <war.bundle>true</war.bundle>
       </properties>
     </dependency>
 
     <dependency>
-      <groupId>merlin</groupId>
-      <artifactId>merlin-api</artifactId>
-      <version>${pom.currentVersion}</version>
-      <type>jar</type>
+      <groupId>&merlin-id;</groupId>
+      <artifactId>&merlin-api-id;</artifactId>
+      <version>&merlin-api-version;</version>
       <properties>
         <war.bundle>true</war.bundle>
       </properties>
     </dependency>
+
     <dependency>
       <groupId>avalon-repository</groupId>
       <artifactId>avalon-repository-main</artifactId>
@@ -63,10 +69,12 @@ Merlin servlet is a servlet with an embedded Merlin Kernel.
         <war.bundle>true</war.bundle>
       </properties>
     </dependency>
+
     <dependency>
       <id>servletapi</id>
       <version>2.3</version>
     </dependency>
+
   </dependencies>
   
 </project>

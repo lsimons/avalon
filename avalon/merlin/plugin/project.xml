@@ -1,11 +1,17 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE project [
+  <!ENTITY % index SYSTEM "file:index.ent"> %index;
+]>
 
 <project>
 
   <extend>${basedir}/../../project.xml</extend>
 
+  <groupId>&merlin-id;</groupId>
+  <id>&merlin-plugin-id;</id>
+  <currentVersion>&merlin-plugin-version;</currentVersion>
+
   <pomVersion>3</pomVersion>
-  <id>merlin-plugin</id>
   <name>Merlin Plugin</name>
   <description>Merlin Plugin for Maven</description>
   <shortDescription>Merlin Plugin for Maven</shortDescription>

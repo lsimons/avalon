@@ -1,16 +1,20 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE project [
+  <!ENTITY % index SYSTEM "file:index.ent"> %index;
+]>
 
 <project>
 
   <extend>${basedir}/../../project.xml</extend>
 
-  <groupId>merlin</groupId>
-  <id>merlin-impl</id>
+  <groupId>&merlin-id;</groupId>
+  <id>&merlin-impl-id;</id>
+  <currentVersion>&merlin-impl-version;</currentVersion>
+
   <name>Merlin Implementation</name>
   <package>org.apache.avalon.merlin</package>
-
-  <inceptionYear>2002</inceptionYear>
   <shortDescription>Merlin Implementation.</shortDescription>
+  <inceptionYear>2002</inceptionYear>
 
   <description>
 Merlin service management platform.
@@ -21,9 +25,9 @@ Merlin service management platform.
     <!-- merlin dependecies -->
 
     <dependency>
-      <groupId>merlin</groupId>
-      <artifactId>merlin-api</artifactId>
-      <version>${pom.currentVersion}</version>
+      <groupId>&merlin-id;</groupId>
+      <artifactId>&merlin-api-id;</artifactId>
+      <version>&merlin-api-version;</version>
       <properties>
         <avalon.classloader>spi</avalon.classloader>
       </properties>
@@ -67,25 +71,25 @@ Merlin service management platform.
     </dependency>
 
     <dependency>
-      <groupId>avalon-composition</groupId>
-      <artifactId>avalon-composition-api</artifactId>
-      <version>${pom.currentVersion}</version>
+      <groupId>&avalon-composition-id;</groupId>
+      <artifactId>&avalon-composition-api-id;</artifactId>
+      <version>&avalon-composition-api-version;</version>
       <properties>
         <avalon.classloader>api</avalon.classloader>
       </properties>
     </dependency>
     <dependency>
-      <groupId>avalon-composition</groupId>
-      <artifactId>avalon-composition-spi</artifactId>
-      <version>${pom.currentVersion}</version>
+      <groupId>&avalon-composition-id;</groupId>
+      <artifactId>&avalon-composition-spi-id;</artifactId>
+      <version>&avalon-composition-spi-version;</version>
       <properties>
         <avalon.classloader>spi</avalon.classloader>
       </properties>
     </dependency>
     <dependency>
-      <groupId>avalon-composition</groupId>
-      <artifactId>avalon-composition-impl</artifactId>
-      <version>${pom.currentVersion}</version>
+      <groupId>&avalon-composition-id;</groupId>
+      <artifactId>&avalon-composition-impl-id;</artifactId>
+      <version>&avalon-composition-impl-version;</version>
     </dependency>
 
     <dependency>
@@ -111,20 +115,6 @@ Merlin service management platform.
     </dependency>
 
     <dependency>
-      <groupId>avalon-util</groupId>
-      <artifactId>avalon-util-extension-api</artifactId>
-      <version>1.1</version>
-      <properties>
-        <avalon.classloader>api</avalon.classloader>
-      </properties>
-    </dependency>
-    <dependency>
-      <groupId>avalon-util</groupId>
-      <artifactId>avalon-util-extension-impl</artifactId>
-      <version>1.1</version>
-    </dependency>
-
-    <dependency>
       <groupId>avalon-framework</groupId>
       <artifactId>avalon-framework-api</artifactId>
       <version>4.1.5</version>
@@ -138,6 +128,19 @@ Merlin service management platform.
       <version>4.1.5</version>
     </dependency>
 
+    <dependency>
+      <groupId>avalon-util</groupId>
+      <artifactId>avalon-util-extension-api</artifactId>
+      <version>1.1</version>
+      <properties>
+        <avalon.classloader>api</avalon.classloader>
+      </properties>
+    </dependency>
+    <dependency>
+      <groupId>avalon-util</groupId>
+      <artifactId>avalon-util-extension-impl</artifactId>
+      <version>1.1</version>
+    </dependency>
     <dependency>
       <groupId>avalon-util</groupId>
       <artifactId>avalon-util-defaults</artifactId>
@@ -158,6 +161,11 @@ Merlin service management platform.
       <artifactId>avalon-util-criteria</artifactId>
       <version>1.1-SNAPSHOT</version>
     </dependency>
+    <dependency>
+      <groupId>avalon-util</groupId>
+      <artifactId>avalon-util-i18n</artifactId>
+      <version>1.0</version>
+    </dependency>
 
     <!-- excalibur dependecies -->
 
@@ -168,11 +176,6 @@ Merlin service management platform.
       <properties>
         <avalon.classloader>api</avalon.classloader>
       </properties>
-    </dependency>
-    <dependency>
-      <groupId>avalon-util</groupId>
-      <artifactId>avalon-util-i18n</artifactId>
-      <version>1.0</version>
     </dependency>
     <dependency>
       <id>excalibur-configuration</id>

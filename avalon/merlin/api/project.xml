@@ -1,16 +1,20 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE project [
+  <!ENTITY % index SYSTEM "file:index.ent"> %index;
+]>
 
 <project>
 
   <extend>${basedir}/../../project.xml</extend>
 
-  <groupId>merlin</groupId>
-  <id>merlin-api</id>
+  <groupId>&merlin-id;</groupId>
+  <id>&merlin-api-id;</id>
+  <currentVersion>&merlin-api-version;</currentVersion>
+
   <name>Merlin API</name>
   <package>org.apache.avalon.merlin</package>
-
-  <inceptionYear>2002</inceptionYear>
   <shortDescription>Merlin API</shortDescription>
+  <inceptionYear>2002</inceptionYear>
 
   <description>
 Merlin service management platform.
@@ -28,9 +32,9 @@ Merlin service management platform.
       <version>2.0-SNAPSHOT</version>
     </dependency>
     <dependency>
-      <groupId>avalon-composition</groupId>
-      <artifactId>avalon-composition-api</artifactId>
-      <version>${pom.currentVersion}</version>
+      <groupId>&avalon-composition-id;</groupId>
+      <artifactId>&avalon-composition-api-id;</artifactId>
+      <version>&avalon-composition-api-version;</version>
     </dependency>
   </dependencies>
   
