@@ -132,7 +132,7 @@ public class AsyncLogTarget
     {
         synchronized( m_list )
         {
-            final int size = m_list.size();
+            int size = m_list.size();
             while( m_queueSize <= size )
             {
                 try
@@ -145,6 +145,7 @@ public class AsyncLogTarget
                     //Maybe we should log it though for
                     //now lets ignore it
                 }
+                size = m_list.size();
             }
 
             m_list.addFirst( event );
