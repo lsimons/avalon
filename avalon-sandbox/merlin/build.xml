@@ -347,7 +347,12 @@ the LICENSE.txt file.
   </target>
 
   <target name="install" depends="update-install">
+
+    <!--
+    Create the standard installation structure.
+    -->
     <mkdir dir="${merlin.home}"/>
+    <mkdir dir="${merlin.home}/ext"/>
     <mkdir dir="${merlin.home}/lib/system"/>
     <mkdir dir="${merlin.home}/lib/shared"/>
     <mkdir dir="${merlin.home}/repository"/>
@@ -380,6 +385,10 @@ the LICENSE.txt file.
         <include name="**/*.*"/>
       </fileset>
     </copy>
+
+    <!--
+    Include a sample repository.
+    -->
     <mkdir dir="${merlin.home}/repository"/>
     <copy toDir="${merlin.home}/repository">
       <fileset dir="${src.dir}/repository">
@@ -392,6 +401,12 @@ the LICENSE.txt file.
         <include name="playground*.jar"/>
       </fileset>
     </copy>
+    <copy toDir="${merlin.home}/repository/demo/block-inf/lib">
+      <fileset dir="build/lib">
+        <include name="merlin-demo*.jar"/>
+      </fileset>
+    </copy>
+
   </target>
 
   <target name="deploy" depends="jar">
@@ -638,7 +653,7 @@ the LICENSE.txt file.
     </copy>
 
     <copy todir="${build.playground}" flatten="true">
-      <fileset dir="${src.dir}/test/config" includes="block.xml"/>
+      <fileset dir="${src.dir}/repository/demo/block-inf" includes="block.xml"/>
     </copy>
 
     <copy todir="${build.dir}/tests">
@@ -708,6 +723,49 @@ the LICENSE.txt file.
   <!--
   Misc. utilities.
   -->
+
+  <target name="james.context">
+    <available property="james.available" file="${james.home}"/>
+  </target>
+
+  <target name="james" depends="james.context" if="james.available">
+    <echo message="Building james block"/>
+    <delete file="${biuild.dir}/lib/${james.jar}"/>
+    <jar jarfile="${build.lib}/${james.jar}"
+        basedir="${src.dir}/repository/james"
+        compress="${build.compress}"
+        manifest="${src.dir}/etc/demo.mf">
+      <include name="nothing"/>
+      <zipfileset dir="${build.conf}" prefix="META-INF/">
+         <include name="LICENSE.txt"/>
+      </zipfileset>
+      <zipfileset dir="${src.dir}/repository/james/block-inf" prefix="BLOCK-INF/">
+        <include name="block.xml"/>
+        <include name="config.xml"/>
+      </zipfileset>
+      <zipfileset dir="${james.home}/build/lib" prefix="BLOCK-INF/lib/">
+        <include name="james.jar"/>
+        <include name="mailet.jar"/>
+      </zipfileset>
+      <zipfileset dir="${james.home}/lib" prefix="BLOCK-INF/lib/">
+        <include name="dnsjava-1.3.2.jar"/>
+        <include name="mail_1_3.jar"/>
+        <include name="jakarta-oro-2.0.1.jar"/>
+        <include name="activation.jar"/>
+      </zipfileset>
+      <zipfileset dir="${james.home}/phoenix-bin/lib" prefix="BLOCK-INF/lib/">
+        <include name="excalibur-io-1.1.jar"/>
+      </zipfileset>
+      <zipfileset dir="${james.home}/lib/candidates" prefix="BLOCK-INF/lib/">
+        <include name="cornerstone-threads-1.0.jar"/>
+        <include name="cornerstone-connection-1.0.jar"/>
+        <include name="cornerstone-datasources-1.0.jar"/>
+        <include name="cornerstone-scheduler-1.0.jar"/>
+        <include name="cornerstone-sockets-1.0.jar"/>
+        <include name="cornerstone-store-1.0.jar"/>
+      </zipfileset>
+    </jar>
+  </target>
 
   <target name="patch">
     <replace dir="xdocs" summary="true"
