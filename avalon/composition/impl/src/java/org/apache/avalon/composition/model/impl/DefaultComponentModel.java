@@ -89,7 +89,7 @@ import org.apache.excalibur.configuration.CascadingConfiguration;
  * Deployment model defintion.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1.2.2 $ $Date: 2004/01/04 20:19:27 $
+ * @version $Revision: 1.1.2.3 $ $Date: 2004/01/04 20:20:52 $
  */
 public class DefaultComponentModel extends DefaultModel implements ComponentModel
 {
@@ -161,8 +161,10 @@ public class DefaultComponentModel extends DefaultModel implements ComponentMode
 
         if( isConfigurable() )
         {
-            final Configuration defaults = m_context.getType().getConfiguration();
-            final Configuration explicit = m_context.getProfile().getConfiguration();
+            final Configuration defaults = 
+              m_context.getType().getConfiguration();
+            final Configuration explicit = 
+              m_context.getProfile().getConfiguration();
             final Configuration consolidated = 
               consolidateConfigurations( explicit, defaults );
             if( consolidated != null )
