@@ -20,7 +20,7 @@ table.logobar
 
 .feather
 {
-    position: abolute;
+    position: absolute;
     border-right: 1px solid #9999FF;
     width: 167px;
     padding: 0;
@@ -200,7 +200,7 @@ pre.source
 
 div.source-title
 {
-    text-decoration: italic;
+    font-style: italic;
     padding-left: 2em;
     padding-top: 0.2em;
 }
