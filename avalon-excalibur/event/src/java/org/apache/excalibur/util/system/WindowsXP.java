@@ -12,17 +12,20 @@ import java.io.InputStreamReader;
 import org.apache.excalibur.util.CPUParser;
 
 /**
- * Parses the Windows 2000 environment--the same class should work for other
- * Windows versions, but I only have one to test.
+ * Parses the Windows XP environment.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/09/25 14:52:28 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/09/26 18:38:50 $
  */
 public final class WindowsXP implements CPUParser
 {
     private final int m_processors;
     private final String m_cpuInfo;
 
+    /**
+     * Create this instance of CPUParser and gather information from
+     * the Windows XP system.
+     */
     public WindowsXP()
     {
         int procs = 1;
