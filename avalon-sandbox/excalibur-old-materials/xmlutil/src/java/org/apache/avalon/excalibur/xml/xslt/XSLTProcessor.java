@@ -65,7 +65,7 @@ import org.apache.excalibur.source.SourceResolver;
  *
  * @author <a href="mailto:ovidiu@cup.hp.com">Ovidiu Predescu</a>
  * @author <a href="mailto:proyal@apache.org">Peter Royal</a>
- * @version CVS $Id: XSLTProcessor.java,v 1.1 2002/04/24 18:23:27 proyal Exp $
+ * @version CVS $Id: XSLTProcessor.java,v 1.2 2002/04/25 07:09:53 cziegeler Exp $
  * @version 1.0
  * @since   July 11, 2001
  */
@@ -75,15 +75,6 @@ public interface XSLTProcessor extends Component
      * The role implemented by an <code>XSLTProcessor</code>.
      */
     String ROLE = XSLTProcessor.class.getName();
-
-    /**
-     * Set the {@link org.apache.excalibur.source.SourceResolver} for
-     * this instance. The <code>resolver</code> is invoked to return a
-     * <code>Source</code> object, given an HREF.
-     *
-     * @param resolver a <code>SourceResolver</code> value
-     */
-    void setSourceResolver( SourceResolver resolver );
 
     /**
      * <p>Return a <code>TransformerHandler</code> for a given

@@ -100,7 +100,7 @@ import org.apache.excalibur.xmlizer.XMLizer;
  *
  * @author <a href="mailto:ovidiu@cup.hp.com">Ovidiu Predescu</a>
  * @author <a href="mailto:proyal@apache.org">Peter Royal</a>
- * @version CVS $Id: XSLTProcessorImpl.java,v 1.1 2002/04/24 18:23:27 proyal Exp $
+ * @version CVS $Id: XSLTProcessorImpl.java,v 1.2 2002/04/25 07:09:53 cziegeler Exp $
  * @version 1.0
  * @since   July 11, 2001
  */
@@ -125,7 +125,11 @@ public class XSLTProcessorImpl extends AbstractLogEnabled
     /** Is incremental processing turned on? (default for Xalan: no) */
     protected boolean incrementalProcessing = false;
 
+    /** The source resolver */
     protected SourceResolver resolver;
+
+    /** The error handler for the transformer */
+    protected TraxErrorHandler errorHandler;
 
     /**
      * Compose. Try to get the store
@@ -136,6 +140,8 @@ public class XSLTProcessorImpl extends AbstractLogEnabled
         this.manager = manager;
         this.getLogger().debug( "XSLTProcessorImpl component initialized." );
 //        this.store = (Store)manager.lookup(Store.TRANSIENT_CACHE);
+        this.errorHandler = new TraxErrorHandler( this.getLogger() );
+        this.resolver = (SourceResolver)this.manager.lookup( SourceResolver.ROLE );
     }
 
     /**
@@ -143,11 +149,14 @@ public class XSLTProcessorImpl extends AbstractLogEnabled
      */
     public void dispose()
     {
-//        if (this.manager != null) {
+        if ( null != this.manager )
+        {
+            this.manager.release( this.resolver );
+            this.resolver = null;
 //            this.manager.release(this.store);
 //            this.store = null;
-//        }
-
+        }
+        this.errorHandler = null;
         this.manager = null;
         this.tfactoryClass = null;
         this.tfactory = null;
@@ -261,7 +270,7 @@ public class XSLTProcessorImpl extends AbstractLogEnabled
             }
             */
 
-            handler.getTransformer().setErrorListener( new TraxErrorHandler( getLogger() ) );
+            handler.getTransformer().setErrorListener( this.errorHandler );
 
             return handler;
         }
@@ -368,7 +377,7 @@ public class XSLTProcessorImpl extends AbstractLogEnabled
             {
                 tfactory = ( SAXTransformerFactory ) tfactoryClass.newInstance();
             }
-            tfactory.setErrorListener( new TraxErrorHandler( getLogger() ) );
+            tfactory.setErrorListener( this.errorHandler );
             tfactory.setURIResolver( this );
             // TODO: If we will support this feature with a different
             // transformer than Xalan we'll have to set that corresponding
@@ -519,11 +528,6 @@ public class XSLTProcessorImpl extends AbstractLogEnabled
         {
             this.resolver.release( xslSource );
         }
-    }
-
-    public void setSourceResolver( SourceResolver resolver )
-    {
-        this.resolver = resolver;
     }
 
     /**
