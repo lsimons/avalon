@@ -14,11 +14,11 @@
        token="MERLIN_IMPLEMENTATION"/>
     <x:filter key="avalon-activation-impl" feature="uri" 
        token="STANDARD_RUNTIME"/>
-    <x:filter feature="classpath" platform="windows" prefix="%MERLIN_SYSTEM%"
+    <x:filter feature="classpath" platform="windows" prefix="%MERLIN_HOME%/system"
        token="WINDOWS-CLI-CLASSPATH"/>
     <x:filter feature="path" platform="windows" 
        token="WINDOWS-CLI-MAIN-PATH"/>
-    <x:filter feature="classpath" platform="unix" prefix="$MERLIN_SYSTEM"
+    <x:filter feature="classpath" platform="unix" prefix="$MERLIN_HOME/system"
        token="UNIX-CLI-CLASSPATH"/>
     <x:filter feature="path" platform="unix"
        token="UNIX-CLI-MAIN-PATH"/>
