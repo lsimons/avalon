@@ -70,6 +70,9 @@ import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
+import org.apache.avalon.framework.configuration.Configurable;
+import org.apache.avalon.framework.configuration.Configuration;
+import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.phoenix.interfaces.Deployer;
 
 /**
@@ -78,11 +81,11 @@ import org.apache.avalon.phoenix.interfaces.Deployer;
  * application as necessary.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2003/03/22 12:07:11 $
+ * @version $Revision: 1.4 $ $Date: 2003/04/08 09:47:27 $
  */
 public class DefaultDeploymentMonitor
     extends AbstractLogEnabled
-    implements LogEnabled, Parameterizable, Serviceable, Startable, PropertyChangeListener
+    implements LogEnabled, Parameterizable, Configurable, Serviceable, Startable, PropertyChangeListener
 {
     private final static Resources REZ =
         ResourceManager.getPackageResources( DefaultDeploymentMonitor.class );
@@ -90,6 +93,7 @@ public class DefaultDeploymentMonitor
     private String m_appsDir;
     private ActiveMonitor m_monitor;
     private Deployer m_deployer;
+    private long m_frequency;
 
     /**
      * requires parameter "phoenix.apps.dir" to be set to directory
@@ -99,6 +103,12 @@ public class DefaultDeploymentMonitor
         throws ParameterException
     {
         m_appsDir = parameters.getParameter( "phoenix.apps.dir" );
+    }
+
+    public void configure( Configuration configuration )
+        throws ConfigurationException
+    {
+        m_frequency = configuration.getChild("monitor-frequency").getValueAsLong( 1000L );
     }
 
     /**
@@ -120,7 +130,7 @@ public class DefaultDeploymentMonitor
             new DirectoryResource( m_appsDir );
         resource.addPropertyChangeListener( this );
         m_monitor = new ActiveMonitor();
-        m_monitor.setFrequency( 1000L );
+        m_monitor.setFrequency( m_frequency );
         m_monitor.addResource( resource );
         m_monitor.start();
     }
