@@ -17,6 +17,7 @@
         <pathelement location="${avalon-framework.jar}"/>
         <pathelement location="${excalibur-threadcontext.jar}"/>
         <pathelement location="${excalibur-instrument.jar}"/>
+        <pathelement location="${commons-collections.jar}"/>
         <pathelement location="${excalibur-pool.jar}"/>
         <pathelement location="${checkstyle.jar}"/>
         <pathelement path="${java.class.path}"/>
