@@ -10,6 +10,10 @@
     <person name="Avalon Documentation Team" email="avalon-dev@jakarta.apache.org"/>
     <person name="Peter Donald" email="donaldp@apache.org"/>
   </authors>
+    <notice>
+      This documentation is provided for historical purposes to document the
+      beginnings of Avalon.
+    </notice>
  </header>
 
 <body>
