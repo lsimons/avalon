@@ -180,6 +180,7 @@ Legal:
        <testlet>org.apache.log.format.test.FormatterTestlet</testlet>
        <testlet>org.apache.log.output.test.OutputTargetTestlet</testlet>
        <testlet>org.apache.log.test.InheritanceTestlet</testlet>
+       <testlet>org.apache.log.util.test.UtilTestlet</testlet>
     </test>
   </target>
 
