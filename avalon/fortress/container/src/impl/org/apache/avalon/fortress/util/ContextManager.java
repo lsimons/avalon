@@ -51,6 +51,7 @@ package org.apache.avalon.fortress.util;
 
 import org.apache.avalon.excalibur.logger.LogKitLoggerManager;
 import org.apache.avalon.excalibur.logger.LoggerManager;
+import org.apache.avalon.excalibur.logger.Log4JConfLoggerManager;
 import org.apache.avalon.fortress.MetaInfoManager;
 import org.apache.avalon.fortress.RoleManager;
 import org.apache.avalon.fortress.impl.role.ConfigurableRoleManager;
@@ -116,7 +117,7 @@ import java.util.Iterator;
  * and dispose of them properly when it itself is disposed .</p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.33 $ $Date: 2003/05/28 19:03:48 $
+ * @version CVS $Revision: 1.34 $ $Date: 2003/05/29 13:15:06 $
  * @since 4.1
  */
 public final class ContextManager
@@ -160,8 +161,6 @@ public final class ContextManager
      *  user has not supplied a ServiceManager.
      */
     protected SourceResolver m_defaultSourceResolver;
-
-    protected ServiceManager m_manager;
 
     /**
      * The logger manager in use.
@@ -292,7 +291,8 @@ public final class ContextManager
         }
         catch ( ContextException ce )
         {
-            final Configuration containerConfig = getConfiguration( CONFIGURATION, CONFIGURATION_URI );
+            final Configuration containerConfig =
+                    getConfiguration( CONFIGURATION, CONFIGURATION_URI );
 
             if ( containerConfig == null )
             {
@@ -551,10 +551,6 @@ public final class ContextManager
          */
         if ( entryPresent( m_rootContext, RoleManager.ROLE ) )
         {
-            /* RoleManager is a compatibility mechanism to read in ECM roles files.  The role manager will be wrapped
-             * by a MetaInfoManager.  So we hide the RoleManager here from the contaienr implementation.
-             */
-            m_childContext.put( RoleManager.ROLE, null );
             return (RoleManager) m_rootContext.get( RoleManager.ROLE );
         }
 
@@ -574,7 +570,8 @@ public final class ContextManager
         }
 
         // Lookup the context class loader
-        final ClassLoader classLoader = (ClassLoader) m_rootContext.get( ClassLoader.class.getName() );
+        final ClassLoader classLoader =
+                (ClassLoader) m_rootContext.get( ClassLoader.class.getName() );
 
         // Create a logger for the role manager
         final Logger rmLogger = m_loggerManager.getLoggerForCategory(
@@ -622,18 +619,22 @@ public final class ContextManager
         }
         else
         {
-            final ClassLoader classLoader = (ClassLoader) m_rootContext.get( ClassLoader.class.getName() );
+            final ClassLoader classLoader =
+                    (ClassLoader) m_rootContext.get( ClassLoader.class.getName() );
 
             if ( !rmSupplied )
             {
-                final FortressRoleManager newRoleManager = new FortressRoleManager( null, classLoader );
-                newRoleManager.enableLogging( m_loggerManager.getLoggerForCategory( "system.roles" ) );
+                final FortressRoleManager newRoleManager =
+                        new FortressRoleManager( null, classLoader );
+                newRoleManager.enableLogging(
+                        m_loggerManager.getLoggerForCategory( "system.roles" ) );
                 newRoleManager.initialize();
 
                 roleManager = newRoleManager;
             }
 
-            final ServiceMetaManager metaManager = new ServiceMetaManager( new Role2MetaInfoManager( roleManager ), classLoader );
+            final ServiceMetaManager metaManager =
+                    new ServiceMetaManager( new Role2MetaInfoManager( roleManager ), classLoader );
 
             metaManager.enableLogging( m_loggerManager.getLoggerForCategory( "system.meta" ) );
             metaManager.initialize();
@@ -693,6 +694,11 @@ public final class ContextManager
         {
             manager.put( SourceResolver.ROLE, m_defaultSourceResolver );
         }
+
+        /**
+         * Role manager won't be passed here as it is now only
+         * an utility for reading ECM role files.
+         */
 
         manager.put( LoggerManager.ROLE, m_loggerManager );
         manager.put( Sink.ROLE, m_sink );
@@ -817,41 +823,94 @@ public final class ContextManager
             // Should we set one up?
             // Try to get a configuration for it...
             Configuration loggerManagerConfig =
-                    getConfiguration( LOGGER_MANAGER_CONFIGURATION, LOGGER_MANAGER_CONFIGURATION_URI );
+                    getConfiguration( LOGGER_MANAGER_CONFIGURATION,
+                            LOGGER_MANAGER_CONFIGURATION_URI );
+
+            boolean log4j = false;
+
             if ( loggerManagerConfig == null )
             {
                 // Create an empty configuration so that
                 // a default logger can be created.
                 loggerManagerConfig = EMPTY_CONFIG;
             }
+            else
+            {
+                /**
+                 * We rely on namespace handing being turned off in DefaultConfiguration
+                 * builder here. TODO: add code that test
+                 * root element for name "configuration" and for the correct Log4J
+                 * configuration namespace (not currently known to me - Anton Tagunov)
+                 * to survive if a namespace-enabled configuration has been passed to us.
+                 */
+                final String version = loggerManagerConfig.getAttribute( "version", null );
+                if ( "log4j".equals( version ) )
+                {
+                    log4j = true;
+                }
+                else if ( "log4j:configuration".equals( loggerManagerConfig.getName() ) )
+                {
+                    log4j = true;
+                }
+            }
 
-            // Resolve a name for the logger, taking the logPrefix into account
-            final String lmDefaultLoggerName = (String) m_rootContext.get( ContextManagerConstants.LOG_CATEGORY );
-            final String lmLoggerName = loggerManagerConfig.getAttribute( "logger", lmDefaultLoggerName + ".system.logkit" );
+            final String lmDefaultLoggerName =
+                    (String) m_rootContext.get( ContextManagerConstants.LOG_CATEGORY );
+            final String lmLoggerName = loggerManagerConfig.getAttribute( "logger",
+                    lmDefaultLoggerName + ( log4j ? ".system.log4j" : ".system.logkit" ) );
 
-            // Create the default logger for the Logger Manager.
-            final org.apache.log.Logger lmDefaultLogger =
-                    Hierarchy.getDefaultHierarchy().getLoggerFor( lmDefaultLoggerName );
-            // The default logger is not used until after the logger conf has been loaded
-            //  so it is possible to configure the priority there.
-            lmDefaultLogger.setPriority( Priority.DEBUG );
+            if ( log4j )
+            {
+                // this section totally not debuged, just written - Anton Tagunov
+                final Log4JConfLoggerManager logManager = new Log4JConfLoggerManager();
+                logManager.configure( loggerManagerConfig );
+                // Create the logger for use internally by the Logger Manager.
+                Logger lmLogger = logManager.getLoggerForCategory( lmLoggerName );
+                /*
+                 * We rely here on specifics of Log4JConfLoggerManager implementation:
+                 * enableLogging may be called _after_ configure.
+                 */
+                logManager.enableLogging( lmLogger );
 
-            // Create the logger for use internally by the Logger Manager.
-            final org.apache.log.Logger lmLogger =
-                    Hierarchy.getDefaultHierarchy().getLoggerFor( lmLoggerName );
-            lmLogger.setPriority( Priority.getPriorityForName(
-                    loggerManagerConfig.getAttribute( "log-level", "DEBUG" ) ) );
+                /**
+                 * Now let's compare this immature section with the mature one
+                 * bellow: we haven't made sure the default logger is at DEBUG
+                 * priority level, we haven't considered log-level attribute
+                 * on the root element to set the priority of the logger
+                 * servicing Log4LoggerManager itself. Moreover we have
+                 * enableLogging called after configure on Log4ConfLoggerManager
+                 * which is potentially explosive. Conclusion: this section
+                 * is just a scetch and needs further work. - Anton Tagunov
+                 */
 
-            // Setup the Logger Manager
-            final LoggerManager logManager = new LogKitLoggerManager(
-                    lmDefaultLoggerName, Hierarchy.getDefaultHierarchy(),
-                    new LogKitLogger( lmDefaultLogger ), new LogKitLogger( lmLogger ) );
-            ContainerUtil.contextualize( logManager, m_rootContext );
-            ContainerUtil.configure( logManager, loggerManagerConfig );
+                m_loggerManager = logManager;
+            }
+            else // LogKitLoggerManager
+            {
+                // Create the default logger for the Logger Manager.
+                final org.apache.log.Logger lmDefaultLogger =
+                        Hierarchy.getDefaultHierarchy().getLoggerFor( lmDefaultLoggerName );
+                // The default logger is not used until after the logger conf has been loaded
+                //  so it is possible to configure the priority there.
+                lmDefaultLogger.setPriority( Priority.DEBUG );
 
-            assumeOwnership( logManager );
+                // Create the logger for use internally by the Logger Manager.
+                final org.apache.log.Logger lmLogger =
+                        Hierarchy.getDefaultHierarchy().getLoggerFor( lmLoggerName );
+                lmLogger.setPriority( Priority.getPriorityForName(
+                        loggerManagerConfig.getAttribute( "log-level", "DEBUG" ) ) );
 
-            m_loggerManager = logManager;
+                // Setup the Logger Manager
+                final LoggerManager logManager = new LogKitLoggerManager(
+                        lmDefaultLoggerName, Hierarchy.getDefaultHierarchy(),
+                        new LogKitLogger( lmDefaultLogger ), new LogKitLogger( lmLogger ) );
+                ContainerUtil.contextualize( logManager, m_rootContext );
+                ContainerUtil.configure( logManager, loggerManagerConfig );
+
+                assumeOwnership( logManager );
+
+                m_loggerManager = logManager;
+            }
         }
 
         // Since we now have a LoggerManager, we can update the this.logger field
@@ -889,7 +948,8 @@ public final class ContextManager
         {
             // Should we set one up?
             // Try to get a configuration for it...
-            Configuration instrumentConfig = getConfiguration( INSTRUMENT_MANAGER_CONFIGURATION, INSTRUMENT_MANAGER_CONFIGURATION_URI );
+            Configuration instrumentConfig = getConfiguration( INSTRUMENT_MANAGER_CONFIGURATION,
+                    INSTRUMENT_MANAGER_CONFIGURATION_URI );
             if ( instrumentConfig == null )
             {
                 // No config.
