@@ -16,7 +16,6 @@
         <pathelement location="${avalon-logkit.jar}"/>
         <pathelement location="${avalon-framework.jar}"/>
         <pathelement location="${excalibur-collections.jar}"/>
-        <pathelement location="${excalibur-concurrent.jar}"/>
         <pathelement location="${excalibur-instrument.jar}"/>
         <pathelement location="${junit.jar}"/>
         <pathelement location="${checkstyle.jar}"/>
@@ -38,7 +37,6 @@
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkFramework"/>
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkLogkit"/>
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkCollections"/>
-        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkConcurrent"/>
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkInstrument"/>
     </target>
 
