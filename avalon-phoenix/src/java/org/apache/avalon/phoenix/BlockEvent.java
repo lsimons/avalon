@@ -21,7 +21,7 @@ public final class BlockEvent
     extends EventObject
 {
     private final String m_name;
-    private final Block m_block;
+    private final Object m_block;
     private final BlockInfo m_blockInfo;
 
     /**
@@ -32,7 +32,7 @@ public final class BlockEvent
      * @param blockInfo the BlockInfo object for block
      */
     public BlockEvent( final String name,
-                       final Block block,
+                       final Object block,
                        final BlockInfo blockInfo )
     {
         super( name );
@@ -70,9 +70,21 @@ public final class BlockEvent
      *
      * @return the block instance
      */
-    public Block getBlock()
+    public Object getObject()
     {
         return m_block;
+    }
+
+    /**
+     * Retrieve the block instance.
+     *
+     * @return the block instance
+     * @deprecated Use getObject() instead as this may
+     *             cause a ClassCastException
+     */
+    public Block getBlock()
+    {
+        return (Block)m_block;
     }
 
     /**
