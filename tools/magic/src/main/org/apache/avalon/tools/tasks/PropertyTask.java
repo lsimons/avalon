@@ -60,6 +60,11 @@ public class PropertyTask extends SystemTask
         m_property = property;
     }
 
+    public void setName( final String property )
+    {
+        m_property = property;
+    }
+
     public void execute() throws BuildException 
     {
         if( null == m_key )
@@ -114,6 +119,10 @@ public class PropertyTask extends SystemTask
         else if( m_feature.equals( "uri" ) )
         {
             return resource.getInfo().getURI();
+        }
+        else if( m_feature.equals( "path" ) )
+        {
+            return resource.getInfo().getPath();
         }
         else if( m_feature.equals( "spec" ) )
         {
