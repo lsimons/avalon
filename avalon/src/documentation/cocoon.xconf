@@ -74,7 +74,7 @@
       <parameter name="compiler" value="org.apache.cocoon.components.language.programming.java.Javac"/>
       <!-- Specifies which formatter to use to format source code.
            This parameter is optional. -->
-      <parameter name="code-formatter" value="org.apache.cocoon.components.language.programming.java.JstyleFormatter"/>
+<!--      <parameter name="code-formatter" value="org.apache.cocoon.components.language.programming.java.JstyleFormatter"/> -->
       <parameter name="class-loader" value="org.apache.cocoon.components.classloader.ClassLoaderManagerImpl"/>
     </java-language>
   </programming-languages>
