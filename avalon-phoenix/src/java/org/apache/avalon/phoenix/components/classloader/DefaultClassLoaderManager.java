@@ -67,7 +67,7 @@ public class DefaultClassLoaderManager
         SarURLStreamHandlerFactory factory = null;
         if( source.isFile() )
         {
-            final JarFile archive = new JarFile( source );
+            final JarFile archive = new JarFile( source, true, JarFile.OPEN_READ );
             factory = new SarURLStreamHandlerFactory( archive );
         }
 
