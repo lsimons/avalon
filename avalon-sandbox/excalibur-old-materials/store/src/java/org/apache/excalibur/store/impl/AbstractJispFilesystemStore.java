@@ -72,7 +72,7 @@ import org.apache.excalibur.store.Store;
  *
  * @author <a href="mailto:g-froehlich@gmx.de">Gerhard Froehlich</a>
  * @author <a href="mailto:vgritsenko@apache.org">Vadim Gritsenko</a>
- * @version CVS $Id: AbstractJispFilesystemStore.java,v 1.12 2003/07/14 19:06:08 cziegeler Exp $
+ * @version CVS $Id: AbstractJispFilesystemStore.java,v 1.13 2003/07/14 19:07:30 cziegeler Exp $
  */
 public abstract class AbstractJispFilesystemStore
 extends AbstractLogEnabled
@@ -83,6 +83,7 @@ implements Store, ThreadSafe {
 
     /** The database  */   
     protected IndexedObjectDatabase m_Database;
+    
     /** And the index */
     protected BTreeIndex m_Index;
 
@@ -346,7 +347,8 @@ implements Store, ThreadSafe {
     /**
      * Return the Null JispKey
      */
-    protected KeyObject getNullKey() {
+    protected KeyObject getNullKey() 
+    {
         return new JispKey().makeNullKey();
     }
     
