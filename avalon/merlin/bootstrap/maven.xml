@@ -9,10 +9,10 @@
 <ant:echo file="${basedir}/snapshot.properties">
 build.signature = ${snapshotSignature}
 </ant:echo>
-    <unzip src="${pom.getDependencyPath('avalon-repository:avalon-repository-spi')}" 
-      dest="${maven.build.dir}/classes"/>
-    <unzip src="${pom.getDependencyPath('avalon-repository:avalon-repository-impl')}" 
-      dest="${maven.build.dir}/classes"/>
+    <j:forEach var="dep" items="${pom.dependencies}">
+        <unzip src="${pom.getDependencyPath( dep.getId() )}" 
+          dest="${maven.build.dir}/classes"/>
+    </j:forEach>
   </preGoal>
 
   <goal name="build" prereqs="jar:install">

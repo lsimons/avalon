@@ -6,7 +6,7 @@
   <groupId>merlin</groupId>
   <id>merlin-unit</id>
   <name>Merlin Unit</name>
-  <currentVersion>3.2.3-dev</currentVersion>
+  <currentVersion>3.2.4-dev</currentVersion>
   <package>org.apache.avalon.merlin.unit</package>
 
   <inceptionYear>2003</inceptionYear>
@@ -21,13 +21,48 @@
 
     <dependency>
       <groupId>avalon-repository</groupId>
+      <artifactId>avalon-repository-api</artifactId>
+      <version>1.2-dev</version>
+    </dependency>
+    <dependency>
+      <groupId>avalon-repository</groupId>
       <artifactId>avalon-repository-spi</artifactId>
-      <version>1.1-dev</version>
+      <version>1.2-dev</version>
     </dependency>
     <dependency>
       <groupId>avalon-repository</groupId>
       <artifactId>avalon-repository-impl</artifactId>
+      <version>1.2-dev</version>
+    </dependency>
+    <dependency>
+      <groupId>avalon-repository</groupId>
+      <artifactId>avalon-repository-util</artifactId>
+      <version>1.2-dev</version>
+    </dependency>
+    <dependency>
+      <groupId>avalon-util</groupId>
+      <artifactId>avalon-util-env</artifactId>
+      <version>1.0-dev</version>
+    </dependency>
+    <dependency>
+      <groupId>avalon-util</groupId>
+      <artifactId>avalon-util-defaults</artifactId>
       <version>1.1-dev</version>
+    </dependency>
+    <dependency>
+      <groupId>avalon-util</groupId>
+      <artifactId>avalon-util-exception</artifactId>
+      <version>1.0-dev</version>
+    </dependency>
+    <dependency>
+      <groupId>avalon-util</groupId>
+      <artifactId>avalon-util-factory-api</artifactId>
+      <version>1.0-dev</version>
+    </dependency>
+    <dependency>
+      <groupId>avalon-util</groupId>
+      <artifactId>avalon-util-factory-impl</artifactId>
+      <version>1.0-dev</version>
     </dependency>
 
     <dependency>

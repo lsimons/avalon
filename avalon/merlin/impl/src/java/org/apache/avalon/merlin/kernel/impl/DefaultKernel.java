@@ -79,7 +79,7 @@ import org.apache.excalibur.mpool.PoolManager;
  * Implementation of the default Merlin Kernel.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.7 $ $Date: 2003/11/03 06:11:30 $
+ * @version $Revision: 1.8 $ $Date: 2003/12/03 19:04:53 $
  */
 public class DefaultKernel extends NotificationBroadcasterSupport 
   implements Kernel, DefaultKernelMBean
@@ -317,7 +317,7 @@ public class DefaultKernel extends NotificationBroadcasterSupport
     */
     public String getRepositoryDirectoryPath()
     {
-        return m_context.getRepository().getLocation();
+        return m_context.getRepository().toString();
     }
 
    /**

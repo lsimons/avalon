@@ -87,6 +87,7 @@ import org.apache.avalon.composition.model.TypeRepository;
 import org.apache.avalon.composition.logging.LoggingManager;
 import org.apache.avalon.composition.util.StringHelper;
 import org.apache.avalon.repository.Repository;
+import org.apache.avalon.repository.Artifact;
 import org.apache.avalon.repository.RepositoryException;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.configuration.Configuration;
@@ -104,7 +105,7 @@ import org.apache.avalon.meta.info.Type;
  * as a part of a containment deployment model.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.6 $ $Date: 2003/11/22 12:52:55 $
+ * @version $Revision: 1.7 $ $Date: 2003/12/03 19:04:53 $
  */
 public class DefaultContainmentModel extends DefaultModel 
   implements ContainmentModel
@@ -499,6 +500,8 @@ public class DefaultContainmentModel extends DefaultModel
         final String name = directive.getName();
         final ResourceDirective resource = directive.getResource();
         final String id = resource.getId();
+        final String group = resource.getGroup();
+        final String resourceName = resource.getName();
         final String version = resource.getVersion();
         final String type = resource.getType();
         
@@ -506,7 +509,9 @@ public class DefaultContainmentModel extends DefaultModel
         try
         {
             Repository repository = m_context.getSystemContext().getRepository();
-            final URL url = repository.getArtifact( id, version, type );
+            Artifact artifact = 
+              Artifact.createArtifact( group, resourceName, version, type );
+            final URL url = repository.getResource( artifact );
             model = createContainmentModel( name, url );
         }
         catch( RepositoryException e )

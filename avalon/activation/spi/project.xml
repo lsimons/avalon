@@ -8,7 +8,7 @@
   <id>avalon-activation-spi</id>
   <name>Avalon Activation SPI</name>
   <package>org.apache.avalon.activation</package>
-  <currentVersion>1.2.1-dev</currentVersion>
+  <currentVersion>1.2.2-dev</currentVersion>
 
   <inceptionYear>2002</inceptionYear>
   <shortDescription>Activation Service Provider Interface</shortDescription>
@@ -23,8 +23,8 @@ An API supporting component assembly and deployment and decommissioning.
 
     <dependency>
       <groupId>avalon-repository</groupId>
-      <artifactId>avalon-repository-spi</artifactId>
-      <version>1.1-dev</version>
+      <artifactId>avalon-repository-api</artifactId>
+      <version>1.2-dev</version>
     </dependency>
 
     <dependency>
@@ -53,7 +53,7 @@ An API supporting component assembly and deployment and decommissioning.
     <dependency>
       <groupId>avalon-activation</groupId>
       <artifactId>avalon-activation-api</artifactId>
-      <version>1.2-dev</version>
+      <version>1.2.1-dev</version>
     </dependency>
 
     <dependency>

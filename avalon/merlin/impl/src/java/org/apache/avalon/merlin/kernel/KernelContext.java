@@ -6,6 +6,7 @@ import java.io.File;
 import java.net.URL;
 
 import org.apache.avalon.repository.Repository;
+import org.apache.avalon.repository.provider.CacheManager;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.composition.data.TargetDirective;
 import org.apache.avalon.composition.logging.LoggingManager;
@@ -30,6 +31,12 @@ public interface KernelContext
     * @return the repository
     */
     Repository getRepository();
+
+   /**
+    * Return the cache manager
+    * @return the cache manager
+    */
+    CacheManager getCacheManager();
 
    /**
     * Return the home path

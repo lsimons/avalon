@@ -24,7 +24,7 @@ import org.apache.avalon.merlin.kernel.KernelContext;
 import org.apache.avalon.merlin.kernel.KernelException;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
-import org.apache.avalon.repository.BlockManifest;
+import org.apache.avalon.repository.provider.BlockManifest;
 import org.apache.avalon.repository.Repository;
 import org.apache.commons.cli.BasicParser;
 import org.apache.commons.cli.CommandLine;
@@ -160,7 +160,7 @@ public class CLIKernelLoader
             URL url = resolveURL( path );
             log.info( "installing: " + url );
             StringBuffer buffer = new StringBuffer();
-            BlockManifest manifest = context.getRepository().install( url, buffer );
+            BlockManifest manifest = context.getCacheManager().install( url, buffer );
             log.info( buffer.toString() );
             return;
         }

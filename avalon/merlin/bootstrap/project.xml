@@ -6,7 +6,7 @@
   <groupId>merlin</groupId>
   <id>merlin-bootstrap</id>
   <name>Merlin Kernel CLI</name>
-  <currentVersion>1.0</currentVersion>
+  <currentVersion>1.1</currentVersion>
   <package>*</package>
 
   <inceptionYear>2003</inceptionYear>
@@ -20,12 +20,17 @@
 
     <dependency>
       <groupId>avalon-repository</groupId>
-      <artifactId>avalon-repository-spi</artifactId>
-      <version>1.1-dev</version>
+      <artifactId>avalon-repository-main</artifactId>
+      <version>1.2-dev</version>
     </dependency>
     <dependency>
       <groupId>avalon-repository</groupId>
       <artifactId>avalon-repository-impl</artifactId>
+      <version>1.2-dev</version>
+    </dependency>
+    <dependency>
+      <groupId>avalon-util</groupId>
+      <artifactId>avalon-util-defaults</artifactId>
       <version>1.1-dev</version>
     </dependency>
 
