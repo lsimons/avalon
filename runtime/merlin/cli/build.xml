@@ -31,12 +31,25 @@
     </copy>
     <mkdir dir="target/merlin/lib"/>
     <mkdir dir="target/merlin/system"/>
+
+    <echo>GROUP: ${project.group}</echo>
+    <echo>NAME: ${project.name}</echo>
+
     <copy todir="target/merlin/system">
       <fileset dir="${magic.cache}">
         <include name="avalon/**"/>
         <include name="commons-cli/jars/commons-cli-1.0.jar"/>
         <exclude name="avalon/test/**"/>
         <exclude name="avalon/tools/**"/>
+        <exclude name="avalon/merlin/dist/**"/>
+        <exclude name="avalon/merlin/jars/${project.name}**"/>
+        <exclude name="avalon/planet/**"/>
+      </fileset>
+    </copy>
+    <copy todir="target/merlin/system/${project.group}/jars">
+      <fileset dir="target/deliverables/jars">
+        <include name="${project.name}*.jar"/>
+        <include name="${project.name}*.jar.*"/>
       </fileset>
     </copy>
     <copy todir="target/merlin" file="target/build/etc/merlin.properties.template"/>
