@@ -20,10 +20,10 @@
       <import plugin="org.eclipse.jdt.core"/>
       <import plugin="org.eclipse.jdt.launching"/>
       <import plugin="org.eclipse.core.runtime"/>
-      <import plugin="org.eclipse.core.boot"/>
-      <import plugin="org.junit"/>
+      <import plugin="org.eclipse.jface"/>
+      <import plugin="org.eclipse.help"/>
    </requires>
-  
+
 
    <extension
          point="org.eclipse.help.toc">
