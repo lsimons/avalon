@@ -22,6 +22,8 @@ Meta information associated with component types can be expressed directly in XM
     <td>class</td><td>Identifies a class as a component Type.</td></tr>
   <tr><td><a href="attribute.html">@avalon.attribute</a></td>
     <td>class</td><td>An attribute associated with a containing type or service.</td></tr>
+  <tr><td><a href="permission.html">@avalon.security.permission</a></td>
+    <td>class</td><td>Declaration of a requested security permission.</td></tr>
   <tr><td><a href="service.html">@avalon.service</a></td>
     <td>class</td><td>Service export declaration from a type (in a class) or Service declaration in a interface.</td></tr>
   <tr><td><a href="stage.html">@avalon.stage</a></td>
@@ -47,7 +49,7 @@ Meta information associated with component types can be expressed directly in XM
   <footer>
     <legal>
       Copyright (c) @year@ The Avalon Apache Project All rights reserved.
-      $Revision: 1.1 $ $Date: 2003/09/24 08:16:03 $
+      $Revision: 1.2 $ $Date: 2004/02/25 13:16:50 $
     </legal>
   </footer>
 
