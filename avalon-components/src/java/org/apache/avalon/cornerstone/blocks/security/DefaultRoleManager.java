@@ -22,7 +22,7 @@ import org.apache.avalon.phoenix.Block;
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 public class DefaultRoleManager
-    implements Block, RoleManager
+    implements RoleManager
 {
     protected Hashtable m_principals = new Hashtable();
 
