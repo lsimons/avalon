@@ -256,7 +256,7 @@ public final class BCELCodeGenerator
                 m_constPoolGenerator );
 
         m_instructionList.append(
-            m_instructionFactory.createLoad( Type.OBJECT, 0 ) );
+                InstructionFactory.createLoad( Type.OBJECT, 0 ) );
         m_instructionList.append(
             m_instructionFactory.createInvoke(
                 m_wrapperSuperclassName,
@@ -265,16 +265,16 @@ public final class BCELCodeGenerator
                 Type.NO_ARGS,
                 Constants.INVOKESPECIAL ) );
         m_instructionList.append(
-            m_instructionFactory.createLoad( Type.OBJECT, 0 ) );
+                InstructionFactory.createLoad( Type.OBJECT, 0 ) );
         m_instructionList.append(
-            m_instructionFactory.createLoad( Type.OBJECT, 1 ) );
+                InstructionFactory.createLoad( Type.OBJECT, 1 ) );
         m_instructionList.append(
             m_instructionFactory.createFieldAccess(
                 m_wrapperClassName,
                 WRAPPED_CLASS_FN,
                 m_classToWrapType,
                 Constants.PUTFIELD ) );
-        m_instructionList.append( m_instructionFactory.createReturn( Type.VOID ) );
+        m_instructionList.append( InstructionFactory.createReturn( Type.VOID ) );
         mg.setMaxStack();
         mg.setMaxLocals();
 
@@ -316,7 +316,7 @@ public final class BCELCodeGenerator
                 m_constPoolGenerator );
 
         m_instructionList.append(
-            m_instructionFactory.createLoad( Type.OBJECT, 0 ) );
+                InstructionFactory.createLoad( Type.OBJECT, 0 ) );
         m_instructionList.append(
             m_instructionFactory.createFieldAccess(
                 m_wrapperClassName,
@@ -324,7 +324,7 @@ public final class BCELCodeGenerator
                 m_classToWrapType,
                 Constants.GETFIELD ) );
         m_instructionList.append(
-            m_instructionFactory.createReturn( Type.OBJECT ) );
+                InstructionFactory.createReturn( Type.OBJECT ) );
 
         mg.setMaxStack();
         mg.setMaxLocals();
@@ -397,7 +397,7 @@ public final class BCELCodeGenerator
 
         // Loading the wrapped class instance onto the stack ...
         m_instructionList.append(
-            m_instructionFactory.createLoad( Type.OBJECT, 0 ) );
+                InstructionFactory.createLoad( Type.OBJECT, 0 ) );
         m_instructionList.append(
             m_instructionFactory.createFieldAccess(
                 m_wrapperClassName,
@@ -411,7 +411,7 @@ public final class BCELCodeGenerator
         for ( int i = 0; i < parameterTypes.length; ++i )
         {
             m_instructionList.append(
-                m_instructionFactory.createLoad( parameterTypes[i], stackIndex ) );
+                    InstructionFactory.createLoad( parameterTypes[i], stackIndex ) );
             stackIndex += parameterTypes[i].getSize();
         }
 
@@ -426,7 +426,7 @@ public final class BCELCodeGenerator
                 Constants.INVOKEVIRTUAL ) );
 
         // Creating return statement ...
-        m_instructionList.append( m_instructionFactory.createReturn( returnType ) );
+        m_instructionList.append( InstructionFactory.createReturn( returnType ) );
 
         mg.setMaxStack();
         mg.setMaxLocals();
@@ -481,7 +481,7 @@ public final class BCELCodeGenerator
      * @throws IllegalStateException    If this instance has not been initialized
      */
     public Method[] createImplementation( final JavaClass interfaceToImplement )
-        throws IllegalArgumentException, IllegalStateException
+        throws Exception
     {
         if ( interfaceToImplement == null )
         {
@@ -573,7 +573,7 @@ public final class BCELCodeGenerator
      * @throws NullPointerException if the <code>interfaceToImplement</code> is <code>null</code>
      */
     static Method[] extractMethods( final JavaClass interfaceToImplement )
-        throws IllegalArgumentException, NullPointerException
+        throws Exception
     {
         if ( interfaceToImplement == null )
         {
