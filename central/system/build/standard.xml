@@ -46,8 +46,6 @@
   <target name="site" depends="javadoc,xdoc"/>
 
   <target name="dist" depends="install,site"/>
-
-  <target name="gump" depends="install"/>
   
 </project>
 

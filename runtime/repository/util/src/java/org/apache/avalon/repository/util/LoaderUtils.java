@@ -50,7 +50,7 @@ public class LoaderUtils
      }
 
     /**
-     * Attempts to download and cache a remote artifact trying a set of remote
+     * Attempts to download and cache a remote artifact using a set of remote
      * repositories.  The operation is not fail fast and so it keeps trying if
      * the first repository does not have the artifact in question.
      * 
@@ -65,6 +65,7 @@ public class LoaderUtils
         String [] repositories, File root, boolean timestamping ) 
         throws RepositoryException
     {
+
         File destination = new File( root, artifact.getPath() );
 
         if( !m_online )
