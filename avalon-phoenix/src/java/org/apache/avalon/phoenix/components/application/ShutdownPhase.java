@@ -5,7 +5,7 @@
  * version 1.1, a copy of which has been included  with this distribution in
  * the LICENSE file.
  */
-package org.apache.avalon.phoenix.components.phases;
+package org.apache.avalon.phoenix.components.application;
 
 import org.apache.avalon.excalibur.container.State;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
@@ -21,7 +21,6 @@ import org.apache.avalon.phoenix.Block;
 import org.apache.avalon.phoenix.BlockEvent;
 import org.apache.avalon.phoenix.BlockListener;
 import org.apache.avalon.phoenix.components.frame.ApplicationFrame;
-import org.apache.avalon.phoenix.components.application.BlockEntry;
 import org.apache.avalon.phoenix.components.listeners.BlockListenerManager;
 
 /**
@@ -68,7 +67,7 @@ public class ShutdownPhase
         ThreadContext.setThreadContext( m_frame.getThreadContext() );
 
 
-        final BlockEvent event = 
+        final BlockEvent event =
             new BlockEvent( name, entry.getProxy(), entry.getMetaData().getBlockInfo() );
         m_listener.blockRemoved( event );
 

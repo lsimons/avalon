@@ -35,13 +35,9 @@ import org.apache.avalon.phoenix.components.frame.DefaultApplicationFrame;
 import org.apache.avalon.phoenix.components.listeners.BlockListenerManager;
 import org.apache.avalon.phoenix.components.listeners.BlockListenerSupport;
 import org.apache.avalon.phoenix.components.manager.SystemManager;
-import org.apache.avalon.phoenix.components.phases.BlockVisitor;
-import org.apache.avalon.phoenix.components.phases.ShutdownPhase;
-import org.apache.avalon.phoenix.components.phases.StartupPhase;
 import org.apache.avalon.phoenix.metadata.BlockListenerMetaData;
 import org.apache.avalon.phoenix.metadata.BlockMetaData;
 import org.apache.avalon.phoenix.metadata.SarMetaData;
-import org.apache.avalon.phoenix.metainfo.DependencyDescriptor;
 
 /**
  * This is the basic container of blocks. A server application
@@ -69,14 +65,10 @@ public final class DefaultServerApplication
     private BlockVisitor             m_startupVisitor;
     private BlockVisitor             m_shutdownVisitor;
 
-    private SarMetaData             m_metaData;
-    private ClassLoader             m_classLoader;
+    private SarMetaData              m_metaData;
+    private ClassLoader              m_classLoader;
 
     private HashMap                 m_entrys = new HashMap();
-
-    public DefaultServerApplication()
-    {
-    }
 
     public void contextualize( final Context context )
         throws ContextException
@@ -124,7 +116,7 @@ public final class DefaultServerApplication
     public void initialize()
         throws Exception
     {
-        m_frame = new DefaultApplicationFrame( m_classLoader );
+        m_frame = new DefaultApplicationFrame( m_classLoader, m_metaData );
         m_listenerManager = new BlockListenerSupport();
         m_startupVisitor = new StartupPhase();
         m_shutdownVisitor = new ShutdownPhase();
