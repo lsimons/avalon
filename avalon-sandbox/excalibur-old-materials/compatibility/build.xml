@@ -59,6 +59,13 @@
             <classpath refid="project.class.path" />
             <include name="**/*.java"/>
         </javac>
+        
+        <rmic base="${build.classes}"
+            classname="org.apache.avalon.excalibur.naming.rmi.server.RMINamingProviderImpl"
+            stubVersion="1.2">
+            <classpath refid="project.class.path" />
+            <exclude name="**/test/**"/>
+        </rmic>
 
         <!-- copy resources to same location as .class files -->
         <copy todir="${build.classes}">
