@@ -4,17 +4,19 @@
     <header>
         <title>Excalibur Component Utilities - Overview</title>
         <authors>
-            <person name="Leo Simons" email="mail@leosimons.com"/>
-            <person name="Berin Loritsch" email="bloritsch@apache.org"/>
-            <person name="Peter Donald" email="peter at apache.org"/>
-            <person name="Leif Mortenson" email="leif@tanukisoftware.com"/>
+            <person name="Avalon Documentation Team" email="dev@avalon.apache.org"/>
         </authors>
     </header>
     <body>
         <section><title>Introduction</title>
             <p>
-            This project contains utilities for managing components.  
-            In particular, the ExcaliburComponentManager.
+            This project contains utilities for managing components. ECM
+            is what we call an "avalon container", though it is somewhat
+            different in architecture to newer developments like phoenix
+            and fortress. Our intend is to someday completely replace ECM
+            with fortress.
+            In particular, this package contains the
+            ExcaliburComponentManager, usually abbreviated to ECM.
             </p>
         </section>
         <section><title>Automated Component Management</title>
@@ -32,12 +34,19 @@
     	    ContextClassLoader--unless you pass a different one in the
     	    constructor.
           </p>
-        </section>        
+        </section>
+        <section><title>The Developing with Avalon paper</title>
+            <p>
+                ECM is well-documented in the Developing with Avalon
+                whitepaper available
+                <link href="http://avalon.apache.org/developing/">here</link>.
+            </p>
+        </section>
     </body>
     <footer>
         <legal>
           Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-          $Revision: 1.6 $ $Date: 2003/02/20 14:11:02 $
+          $Revision: 1.7 $ $Date: 2003/02/21 21:28:57 $
         </legal>
     </footer>
 </document>
