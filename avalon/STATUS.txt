@@ -1,5 +1,5 @@
 APACHE AVALON PROJECT STATUS:                          -*-indented-text-*-
-Last modified at [$Date: 2002/12/20 15:47:24 $]
+Last modified at [$Date: 2003/01/19 10:39:24 $]
 
 Background:
 
@@ -16,7 +16,9 @@ Release:
     o none scheduled ATM; still defining new container plan and 
       how to best keep development of current code go ahead 
       without impacting negatively on the new work.
-    
+
+    o Phoenix released.
+          
     o past releases available from 
          http://jakarta.apache.org/builds/jakarta-avalon/
     
@@ -52,13 +54,43 @@ Resolved Issues:
     o Context contract has been updated to reflect
       current usage.
       [http://marc.theaimsgroup.com/?t=103986366100001&r=1&w=2]
-       +1: Leo Sutic, Leo Simons, Paul Hammant, Stephen McConnell,
-           Nicola Ken Barozzi
       
-    o it'd be nice to get and set up a wiki.
+    o Every committer that will propose an internal fork 
+      will have to go thru the community vote to be allowed 
+      to do that.       
+      [http://marc.theaimsgroup.com/?l=avalon-dev&m=103903695931512&w=2]
+      [http://marc.theaimsgroup.com/?t=103904717500001&r=1&w=2]
+      [http://marc.theaimsgroup.com/?t=103908800800002&r=1&w=2]
+
 
 Pending issues:
 
+
+    o Do you want that all @author tags and all reference to authors of 
+      source code files be removed from the files themselves? 
+      The information about the authors will still be present in commit 
+      messages and in the site credits.
+      [20020119]
+      +1: nicolaken
+      +0:
+      -0:
+      -1:
+      
+    o The STATUS file is a great mean of synching the community agenda. 
+      To be effective, it must be uptodate, and I can't do it all myself. 
+      Proposals should be entered as such, votes should have listed all 
+      current votes and the vote start date, and when the issue item is 
+      completed, the names of the voters are removed and it's resolved, 
+      positive or negative. Releases too should be listed.
+      I'm asking you, do you want that for each [Proposal] and [Vote] 
+      and release there be an entry in the STATUS file, that has to be 
+      updated by the original item proposal? 
+      [20020119]
+      +1: nicolaken
+      +0:
+      -0:
+      -1:      
+      
     o Coming up with a set of bylaws for the project
 
     o Define the terms for serving as a Chair
@@ -71,9 +103,39 @@ Pending issues:
       -0:
       -1:
 
-    o discussing and writing medium-to-long term roadmap 
-      regarding containers and possible avalon framework extension 
-      based on consensus development
+    o  Roadmap
+ 
+       Avalon will be focussing container development into two efforts.
+       The first one is the creation of Avalon ESCA. To this end, most 
+       existing avalon container projects will refocus to be part of
+       that goal.
+ 
+       The roadmap for this effort is roughly as follows:
+ 
+       - Milestone 1:  ECM replacement (Codename: Fortress)
+       - Milestone 2:  Proper Meta Model (Codename: Merlin3)
+       - Milestone 3:  Phoenix Compatible (Codename: Phoenix5)
+       - Milestone 4:  Profileable, pluggable container (Codename: Spearhead)
+ 
+       The second container development effort is the maintainance of existing 
+       released efforts with an existing userbase, ie phoenix. This will merge 
+       into the ESCA effort when there is an ESCA release compatible with
+       those existing efforts.
+   
+       ====================================================================
+
+          ECM --> Fortress --> Merlin3 --> Phoenix5 --> Spearhead --> ...
+                                  ^  ^          ^
+                                  |  :          |
+           Merlin1&2 (unreleased)-|  :          |
+           All other              |  :(synergy) |
+              container dev code -/  :          |
+                                     :          |
+        Phoenix4 -------------------------------/
+       
+       ====================================================================
+
+
 
     o discussing and writing short-to-medium term roadmap regarding 
       unused and/or unmaintained and/or alpha-stage software
@@ -173,14 +235,6 @@ Pending issues:
         -1: leosutic (Same reasons as info)
 
 
-    o Every committer that will propose an internal fork 
-      will have to go thru the community vote to be allowed 
-      to do that.       
-      [http://marc.theaimsgroup.com/?l=avalon-dev&m=103903695931512&w=2]
-      [http://marc.theaimsgroup.com/?t=103904717500001&r=1&w=2]
-      [http://marc.theaimsgroup.com/?t=103908800800002&r=1&w=2]
-      +1: stefano, bloritsch, nicolaken, crafterm, leosutic, leosimons
-      
     o Come up with a Meta-Info model for Context.
 
     o Define standard Context entries.
