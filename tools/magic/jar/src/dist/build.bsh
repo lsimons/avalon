@@ -83,7 +83,7 @@ public class JarPlugin extends AbstractPlugin
     {
         String projectname = m_Context.getProjectName();
         ArtifactPlugin ap = (ArtifactPlugin) m_ArtifactPlugin;
-        Artifact thisArtifact = ap.locate( projectname );
+        Artifact thisArtifact = ap.resolve( projectname );
         
         String dest = m_Context.getProperty( "jar.build.dest.dir" );
         File destDir = new File( dest );
