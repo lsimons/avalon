@@ -55,7 +55,7 @@ Merlin service management platform.
     <dependency>
       <groupId>avalon-activation</groupId>
       <artifactId>avalon-activation-impl</artifactId>
-      <version>1.2-dev</version>
+      <version>1.2.1-dev</version>
     </dependency>
 
     <dependency>

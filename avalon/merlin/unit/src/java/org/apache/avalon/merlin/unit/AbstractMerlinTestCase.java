@@ -185,6 +185,7 @@ public class AbstractMerlinTestCase extends TestCase
         map.put( "merlin.policy.info", new Boolean( info ) );
         map.put( "merlin.policy.debug", new Boolean( debug ) );
         map.put( "merlin.repository.dir", getMavenRepositoryDirectory() );
+        map.put( "merlin.base.dir", getBaseDirectory() );
 
         try
         {
@@ -267,7 +268,7 @@ public class AbstractMerlinTestCase extends TestCase
     * the test container and establish it as the reference for 
     * relative service lookups.
     */
-    public void setUp() throws Exception
+    protected void setUp() throws Exception
     {
         m_kernel.startup();
 
