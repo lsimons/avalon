@@ -12,8 +12,6 @@ import java.io.IOException;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.excalibur.io.FileUtil;
-import org.apache.avalon.excalibur.property.PropertyException;
-import org.apache.avalon.excalibur.property.PropertyUtil;
 import org.apache.avalon.framework.CascadingRuntimeException;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.configuration.Configurable;
@@ -26,6 +24,7 @@ import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.ContextException;
 import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
+import org.apache.avalon.phoenix.components.util.PropertyUtil;
 import org.apache.avalon.phoenix.interfaces.ConfigurationRepository;
 import org.apache.avalon.phoenix.interfaces.ConfigurationRepositoryMBean;
 import org.apache.excalibur.configuration.merged.ConfigurationMerger;
@@ -102,7 +101,6 @@ public class FileSystemPersistentConfigurationRepository extends AbstractLogEnab
         try
         {
             final Object opath = PropertyUtil.resolveProperty( path, m_context, false );
-
             if( opath instanceof String )
             {
                 return FileUtil.normalize( (String)opath );
@@ -115,7 +113,7 @@ public class FileSystemPersistentConfigurationRepository extends AbstractLogEnab
                 throw new ConfigurationException( message );
             }
         }
-        catch( PropertyException e )
+        catch( Exception e )
         {
             final String message = REZ.getString( "config.error.missingproperty",
                                                   configuration.getLocation() );
