@@ -12,7 +12,7 @@ package org.apache.avalon.phoenix.components.cpbuilder.metadata;
  * the default ClassLoader to use.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2002/09/01 01:53:53 $
+ * @version $Revision: 1.3 $ $Date: 2002/09/01 01:58:21 $
  */
 public class ClassLoaderSetDef
 {
@@ -114,6 +114,25 @@ public class ClassLoaderSetDef
     public JoinDef[] getJoins()
     {
         return m_joins;
+    }
+
+    /**
+     * Return true if specified name, designates a
+     * predefined ClassLoader.
+     *
+     * @return true if specified name, designates a
+     *              predefined ClassLoader.
+     */
+    public boolean isPredefined( final String name )
+    {
+        for( int i = 0; i < m_predefined.length; i++ )
+        {
+            if( m_predefined[ i ].equals( name ) )
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
