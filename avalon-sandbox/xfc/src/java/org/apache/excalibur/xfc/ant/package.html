@@ -1,0 +1,54 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<body>
+
+<p>
+<b>XFC ANT</b> - ANT Task for invoking XFC
+</p>
+
+<p>
+This package contains classes allowing you to use XFC as an ANT task.
+</p>
+
+<p>
+To use XFC as an ANT task, first define the custom task:
+
+<pre>
+  &lt;taskdef name="xfc" classname="org.apache.excalibur.xfc.ant.XFCTask"&gt;
+      &lt;classpath refid="xfc.class.path"/&gt;
+  &lt;/taskdef&gt;
+</pre>
+
+then, call the xfc task from within one of your targets:
+
+<pre>
+  &lt;xfc&gt;
+    &lt;input module="ecm"
+           context="ecm.roles:ecm.xconf"/&gt;
+    &lt;output module="fortress"
+           context="fortress-generated.roles:fortress-generated.xconf"/&gt;
+  &lt;/xfc&gt;
+</pre>
+
+</p>
+
+<!--
+<h2>Package Specification</h2>
+
+##### FILL IN ANY SPECS NEEDED BY JAVA COMPATIBILITY KIT #####
+<ul>
+  <li><a href="">##### REFER TO ANY FRAMEMAKER SPECIFICATION HERE #####</a>
+</ul>
+
+<h2>Related Documentation</h2>
+
+For overviews, tutorials, examples, guides, and tool documentation, please see:
+<ul>
+  <li><a href="">##### REFER TO NON-SPEC DOCUMENTATION HERE #####</a>
+</ul>
+-->
+
+<!-- Put @see and @since tags down here. -->
+
+</body>
+</html>
