@@ -16,7 +16,7 @@ import org.apache.avalon.framework.service.Serviceable;
  * A test component.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.4 $ $Date: 2002/10/02 11:25:56 $
+ * @version $Revision: 1.5 $ $Date: 2003/03/18 12:53:40 $
  */
 public class Component3
     implements Serviceable
@@ -25,14 +25,27 @@ public class Component3
         throws ServiceException
     {
         final Service2[] services =
-            (Service2[]) manager.lookup( Service2[].class.getName() );
+            (Service2[])manager.lookup( Service2[].class.getName() );
         System.out.println( "Passed the following services: " +
                             Arrays.asList( services ) );
         if( 3 != services.length )
         {
             final String message =
                 "Expected to get 3 services but got " + services.length;
-            throw new ServiceException( message );
+            throw new ServiceException( Service2[].class.getName(), message );
+        }
+
+        checkEntry( services, 0 );
+        checkEntry( services, 1 );
+        checkEntry( services, 2 );
+    }
+
+    private void checkEntry( final Service2[] services, final int index ) throws ServiceException
+    {
+        if( null == services[ index ] )
+        {
+            final String message = "Expected non null service entry for " + index;
+            throw new ServiceException( Service2[].class.getName(), message );
         }
     }
 }

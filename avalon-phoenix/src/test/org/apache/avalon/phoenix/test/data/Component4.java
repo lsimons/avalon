@@ -16,16 +16,18 @@ import org.apache.avalon.framework.service.Serviceable;
  * A test component.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.4 $ $Date: 2002/10/02 11:25:56 $
+ * @version $Revision: 1.5 $ $Date: 2003/03/18 12:53:40 $
  */
 public class Component4
     implements Serviceable
 {
+    private static final String KEY = Service2.ROLE + "{}";
+
     public void service( final ServiceManager manager )
         throws ServiceException
     {
         final Map services =
-            (Map)manager.lookup( Service2.ROLE + "{}" );
+            (Map)manager.lookup( KEY );
         System.out.println( "Passed the following services: " +
                             services );
 
@@ -34,7 +36,7 @@ public class Component4
         {
             final String message =
                 "Expected to get 3 services but got " + size;
-            throw new ServiceException( message );
+            throw new ServiceException( KEY, message );
         }
 
         checkService( "c2a", services );
@@ -56,7 +58,8 @@ public class Component4
             return;
         }
 
-        throw new ServiceException( "Was able to modify map " +
+        throw new ServiceException( KEY,
+                                    "Was able to modify map " +
                                     "retrieved from ServiceManager" );
     }
 
@@ -77,7 +80,7 @@ public class Component4
                 "Expected to service " + name +
                 " to be of type Service2 but was " +
                 "of type: " + service1.getClass().getName();
-            throw new ServiceException( message );
+            throw new ServiceException( KEY, message );
         }
     }
 }
