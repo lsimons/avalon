@@ -32,7 +32,7 @@
       The kernel represents the root object within a merlin system.
       It provides access to a root container and exposes operations 
       enabling system startup and shutdown. The kernel is created 
-      using a kernel factory (see <a href="embedding.html">embedding</a>). 
+      using a kernel factory (see <a href="../embedding/index.html">embedding</a>). 
       </p>
 
       <subsection name="Aspects">
