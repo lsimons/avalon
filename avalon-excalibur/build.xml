@@ -274,6 +274,35 @@ Legal:
 
   <target name="test" depends="compile" >
     <mkdir dir="${build.testdocs}"/>
+
+    <echo message="Performing Unit Tests" />
+    <junit fork="false" printsummary="yes">
+      <formatter type="plain"/>
+      <classpath>
+        <path refid="test.class.path"/>
+        <pathelement location="${build.classes}"/>
+        <pathelement location="${build.scratchpad}"/>
+      </classpath>
+      <batchtest todir="${build.reports}">
+        <fileset dir="${build.classes}">
+          <exclude name="**/test/Abstract*TestCase.class"/>
+          <exclude name="org/apache/avalon/excalibur/datasource/test/DataSourceTestCase.class"/>
+          <exclude name="org/apache/avalon/excalibur/naming/rmi/test/RMIContextTestCase.class"/>
+          <include name="**/test/*TestCase.class"/>
+        </fileset>
+        <fileset dir="${build.scratchpad}">
+          <exclude name="**/test/Abstract*TestCase.class"/>
+          <exclude name="org/apache/avalon/excalibur/monitor/test/MonitorTestCase.class"/>
+          <include name="**/test/*TestCase.class"/>
+        </fileset>
+      </batchtest>
+    </junit>
+
+  </target>
+
+
+  <target name="test-report" depends="compile" >
+    <mkdir dir="${build.testdocs}"/>
     <mkdir dir="${build.reports}"/>
 
     <echo message="Performing Unit Tests" />
