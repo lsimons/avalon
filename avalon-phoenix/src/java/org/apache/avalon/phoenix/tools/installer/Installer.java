@@ -9,6 +9,7 @@ package org.apache.avalon.phoenix.tools.installer;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -20,6 +21,9 @@ import java.util.Enumeration;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipException;
 import java.util.zip.ZipFile;
+import java.util.zip.CRC32;
+import java.util.zip.Checksum;
+import java.util.zip.CheckedInputStream;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.excalibur.io.ExtensionFileFilter;
@@ -59,7 +63,6 @@ public class Installer
 
     /**
      * Uninstall the Sar designated installation.
-     * Currently unimplemented.
      *
      * @param installation the installation
      * @exception InstallationException if an error occurs
@@ -67,9 +70,65 @@ public class Installer
     public void uninstall( final Installation installation )
         throws InstallationException
     {
-        final String message = REZ.getString( "uninstall-unsupported" );
-        getLogger().error( message );
-        //throw new InstallationException( message );
+        final FileDigest[] infos = installation.getFileDigests();
+        final Checksum checksum = new CRC32();
+                
+        if ( infos != null )
+        {
+            for ( int i = 0; i < infos.length; i++ )
+            {
+                final File file = infos[i].getFile();
+                final File parent = file.getParentFile();
+                
+                if ( file.exists() )
+                {                    
+                    final String message = REZ.getString( "skip-removal", file );
+                    
+                    if ( file.lastModified() != infos[i].getModified() )
+                    {
+                        getLogger().debug( message );                        
+                        continue;
+                    }
+
+                    checksum( file, checksum );
+
+                    if ( checksum.getValue() != infos[i].getChecksum() )
+                    {
+                        getLogger().debug( message );                        
+                        continue;
+                    }
+                        
+                    file.delete();                                                
+                    if ( parent.list().length == 0 ) parent.delete();
+                }
+            }
+        }
+    }
+    
+    /**
+     * Utility method to compute the checksum for a given file.
+     * @param file the computed file.
+     * @param checksum the checksum algorithm.
+     */
+    private void checksum( final File file, final Checksum checksum )
+    {
+        InputStream input = null;
+        checksum.reset();
+        
+        try 
+        {                           
+            input = new CheckedInputStream( new FileInputStream( file ), checksum );
+            IOUtil.toByteArray( input );
+        } 
+        catch ( IOException ioe )
+        {
+            final String message = REZ.getString( "checksum-failure", file );
+            getLogger().warn( message );
+        }     
+        finally 
+        {                        
+            IOUtil.shutdownStream( input );
+        }
     }
 
     /**
@@ -207,6 +266,7 @@ public class Installer
 
         final String baseURL = "sar:" + url.toExternalForm() + "|/";
 
+        final ArrayList digests = new ArrayList();
         final ArrayList jars = new ArrayList();
 
         final Enumeration entries = zipFile.entries();
@@ -251,7 +311,7 @@ public class Installer
                 final File destination = new File( directory, name );
                 if( !destination.exists() )
                 {
-                    expandZipEntry( zipFile, entry, destination );
+                    expandZipEntry( zipFile, entry, destination, digests );
                 }
                 else
                 {
@@ -266,8 +326,9 @@ public class Installer
         final URL assembly = createURL( baseURL + ASSEMBLY_XML );
         final URL config = getURL( new File( directory, FS_CONFIG_XML ) );
         final URL server = getURL( new File( directory, FS_SERVER_XML ) );
+        final FileDigest[] fileDigests = (FileDigest[])digests.toArray( new FileDigest[0] );
 
-        return new Installation( directory, config, assembly, server, classPath );
+        return new Installation( directory, config, assembly, server, classPath, fileDigests );
     }
 
     /**
@@ -315,6 +376,7 @@ public class Installer
                                             final ZipFile zipFile )
         throws InstallationException
     {
+        final ArrayList digests = new ArrayList();
         final File directory = getDestinationFor( file );
 
         final Enumeration entries = zipFile.entries();
@@ -331,7 +393,7 @@ public class Installer
                 final File destination = new File( directory, name );
                 if( !destination.exists() )
                 {
-                    expandZipEntry( zipFile, entry, destination );
+                    expandZipEntry( zipFile, entry, destination, digests );
                 }
                 else
                 {
@@ -341,7 +403,13 @@ public class Installer
             }
         }
 
-        return installDeprecated( directory );
+        final URL[] classPath = getClassPathForDirectory( directory );
+        final URL config = getURL( new File( directory, OLD_CONFIG_XML ) );
+        final URL assembly = getURL( new File( directory, OLD_ASSEMBLY_XML ) );
+        final URL server = getURL( new File( directory, OLD_SERVER_XML ) );
+        final FileDigest[] fileDigests = (FileDigest[])digests.toArray( new FileDigest[0] );
+
+        return new Installation( directory, config, assembly, server, classPath, fileDigests );
     }
 
     /**
@@ -398,13 +466,14 @@ public class Installer
      * @param zipFile the zip file to extract from
      * @param entry the zip entry
      * @param file the file to extract to
+     * @param digests the digests for the expanded files.
      * @exception IOException if an error occurs
      */
-    private void expandZipEntry( final ZipFile zipFile, final ZipEntry entry, final File file )
+    private void expandZipEntry( final ZipFile zipFile, final ZipEntry entry, final File file, final ArrayList digests )
         throws InstallationException
-    {
+    {        
         if( entry.isDirectory() ) return;
-
+ 
         InputStream input = null;
         OutputStream output = null;
 
@@ -412,8 +481,8 @@ public class Installer
         {
             file.getParentFile().mkdirs();
             output = new FileOutputStream( file );
-            input = zipFile.getInputStream( entry );
-            IOUtil.copy( input, output );
+            input =  zipFile.getInputStream( entry );
+            IOUtil.copy( input, output );            
         }
         catch( final IOException ioe )
         {
@@ -425,7 +494,13 @@ public class Installer
         {
             IOUtil.shutdownStream( input );
             IOUtil.shutdownStream( output );
-        }
+        }        
+        
+        final long checksum = entry.getCrc();
+        final long modified = file.lastModified();
+        final FileDigest info = new FileDigest( file, checksum, modified );
+
+        digests.add( info );
     }
 
     /**

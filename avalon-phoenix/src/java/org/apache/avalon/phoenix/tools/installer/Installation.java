@@ -34,6 +34,9 @@ public final class Installation
 
     ///ClassPath for application
     private URL[] m_classPath;
+        
+    ///Info for expanded files
+    private FileDigest[] m_fileDigests;
 
     public Installation( final File directory,
                          final URL config,
@@ -46,6 +49,17 @@ public final class Installation
         m_assembly = assembly;
         m_server = server;
         m_classPath = classPath;
+    }
+
+    public Installation( final File directory,
+                         final URL config,
+                         final URL assembly,
+                         final URL server,
+                         final URL[] classPath,
+                         final FileDigest[] fileDigests )
+    {
+        this( directory, config, assembly, server, classPath );
+        m_fileDigests = fileDigests;
     }
 
     /**
@@ -97,4 +111,14 @@ public final class Installation
     {
         return m_classPath;
     }
+    
+    /** Retrieve file digests.
+     *
+     * @return the file digest list.
+     */
+    FileDigest[] getFileDigests()
+    {
+        return m_fileDigests;
+    }    
+    
 }
