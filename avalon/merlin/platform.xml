@@ -28,12 +28,12 @@
     <dependency>
       <groupId>merlin</groupId>
       <artifactId>merlin-kernel-spi</artifactId>
-      <version>3.0b1</version>
+      <version>3.1b2</version>
     </dependency>
     <dependency>
       <groupId>merlin</groupId>
       <artifactId>merlin-kernel-impl</artifactId>
-      <version>3.0b1</version>
+      <version>3.1b2</version>
     </dependency>
 
     <!-- avalon dependecies -->
