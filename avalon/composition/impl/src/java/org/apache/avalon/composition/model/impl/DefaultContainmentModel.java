@@ -124,7 +124,7 @@ import org.apache.avalon.util.exception.ExceptionHelper;
  * as a part of a containment deployment model.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.19 $ $Date: 2004/01/16 01:29:54 $
+ * @version $Revision: 1.20 $ $Date: 2004/01/16 16:39:02 $
  */
 public class DefaultContainmentModel extends DefaultDeploymentModel 
   implements ContainmentModel
@@ -260,16 +260,17 @@ public class DefaultContainmentModel extends DefaultDeploymentModel
     */
     public long getDeploymentTimeout()
     {
-        long n = super.getDeploymentTimeout();
-        if( isAssembled() )
-        {
-            DeploymentModel[] startup = getStartupGraph();
-            for( int i=0; i<startup.length; i++ )
-            {
-                n = ( n + startup[i].getDeploymentTimeout() );
-            }
-        }
-        return n;
+        return 0;
+        //long n = super.getDeploymentTimeout();
+        //if( isAssembled() )
+        //{
+        //    DeploymentModel[] startup = getStartupGraph();
+        //    for( int i=0; i<startup.length; i++ )
+        //   {
+        //        n = ( n + startup[i].getDeploymentTimeout() );
+        //    }
+        //}
+        //return n;
     }
 
    /**

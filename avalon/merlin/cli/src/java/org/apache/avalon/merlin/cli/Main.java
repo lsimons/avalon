@@ -92,7 +92,7 @@ import org.apache.commons.cli.Options;
  * Merlin command line handler.
  * 
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.12 $
+ * @version $Revision: 1.13 $
  */
 public class Main 
 {
@@ -131,6 +131,10 @@ public class Main
         Option debug = new Option(
            "debug",
            REZ.getString( "cli-debug-description" ) );
+
+        Option audit = new Option(
+           "audit",
+           REZ.getString( "cli-audit-description" ) );
 
         Option info = new Option(
            "info",
@@ -202,6 +206,7 @@ public class Main
         options.addOption( version );
         options.addOption( info );
         options.addOption( debug );
+        options.addOption( audit );
         options.addOption( install );
         options.addOption( home );
         options.addOption( context );
@@ -337,6 +342,7 @@ public class Main
         setLanguage( criteria, line );
         setInfoPolicy( criteria, line );
         setDebugPolicy( criteria, line );
+        setAuditPolicy( criteria, line );
         setServerPolicy( criteria, line );
         setAnchorDirectory( criteria, line );
         setContextDirectory( criteria, line );
@@ -414,6 +420,14 @@ public class Main
         if( line.hasOption( "debug" ) )
         {
             criteria.put( "merlin.debug", new Boolean( true ) );
+        }
+    }
+
+    private void setAuditPolicy( Map criteria, CommandLine line )
+    {
+        if( line.hasOption( "audit" ) )
+        {
+            criteria.put( "merlin.audit", new Boolean( true ) );
         }
     }
 

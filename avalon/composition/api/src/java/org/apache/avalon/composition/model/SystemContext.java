@@ -65,7 +65,7 @@ import org.apache.avalon.framework.parameters.Parameters;
  * Defintion of a system context that exposes a system wide set of parameters.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $ $Date: 2004/01/13 11:41:24 $
+ * @version $Revision: 1.4 $ $Date: 2004/01/16 16:39:02 $
  */
 public interface SystemContext extends Context
 {
@@ -101,7 +101,7 @@ public interface SystemContext extends Context
     File getTempDirectory();
 
    /**
-    * Return the system wide repository from which resource 
+    * Return the application repository from which resource 
     * directives can be resolved.
     *
     * @return the repository
