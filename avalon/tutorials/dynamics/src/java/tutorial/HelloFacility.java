@@ -38,7 +38,7 @@ import org.apache.avalon.meta.info.ReferenceDescriptor;
  * @avalon.component name="hello" lifestyle="singleton"
  */
 public class HelloFacility 
-  implements Contextualizable, Executable
+  implements Executable
 {
 
    //---------------------------------------------------------
@@ -65,28 +65,17 @@ public class HelloFacility
 
   /**
    * Creation of a new hello facility.
-   * @param logger a logging channel
-   */
-   public HelloFacility( Logger logger )
-   {
-       m_logger = logger;
-   }
-
-   //---------------------------------------------------------
-   // Contextualizable
-   //---------------------------------------------------------
-
-  /**
-   * Contextulaization of the facility by the container during 
-   * which we are supplied with the root containment model.
    *
+   * @param logger a logging channel
    * @param context the supplied context
    * @avalon.entry key="urn:composition:containment.model" 
    *    type="org.apache.avalon.composition.model.ContainmentModel" 
    * @exception ContextException if a contextualization error occurs
    */
-   public void contextualize( Context context ) throws ContextException
+   public HelloFacility( Logger logger, Context context ) 
+     throws ContextException
    {
+       m_logger = logger;
        m_model = 
          (ContainmentModel) context.get( 
            "urn:composition:containment.model" );

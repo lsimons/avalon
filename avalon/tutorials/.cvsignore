@@ -3,3 +3,5 @@ velocity.log
 build
 target
 tutorial.jar
+build.properties
+build.xml

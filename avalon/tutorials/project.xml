@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<project>
+
+    <extend>${basedir}/master.xml</extend>
+    <id>avalon-tutorial</id>
+    
+    <!-- a short but descriptive name for the project -->
+    <name>Merlin Simple Web Server Tutorials</name>
+    <currentVersion>3.3.0-dev</currentVersion>
+
+</project>
