@@ -1,5 +1,5 @@
 APACHE AVALON PROJECT STATUS:                          -*-indented-text-*-
-Last modified at [$Date: 2003/02/07 15:12:30 $]
+Last modified at [$Date: 2003/02/08 23:39:06 $]
 
 Background:
 
@@ -116,7 +116,7 @@ Pending issues:
     o [VOTE] Do you want that we discuntinue Excalibur CLI in favor of 
       Jakarta Commons CLI?
 
-      +1: nicolaken
+      +1: nicolaken, mcconnell
       +0:
       -0:
       -1:
