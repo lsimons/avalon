@@ -47,11 +47,6 @@ library.
     
     <dependencies>
       <dependency>
-        <groupId>avalon-framework</groupId>
-        <artifactId>avalon-framework-api</artifactId>
-        <version>4.1.5</version>
-      </dependency>
-      <dependency>
         <groupId>excalibur-i18n</groupId>
         <artifactId>excalibur-i18n</artifactId>
         <version>1.2</version>
