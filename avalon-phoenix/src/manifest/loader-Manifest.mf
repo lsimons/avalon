@@ -1,0 +1,4 @@
+Manifest-Version: 1.0
+Main-Class: org.apache.phoenix.engine.loader.AvalonLoader
+Created-By: Apache Avalon Project
+
