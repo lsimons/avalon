@@ -367,7 +367,10 @@ public class Logger
      */
     public final void log( final Priority priority, final String message )
     {
-        log( priority, message, null );
+        if( m_priority.isLowerOrEqual( priority ) )
+        {
+            log( priority, message, null );
+        }
     }
 
     /**
