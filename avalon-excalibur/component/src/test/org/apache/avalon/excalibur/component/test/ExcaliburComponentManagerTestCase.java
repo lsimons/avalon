@@ -49,7 +49,7 @@ import org.apache.log.output.io.StreamTarget;
  * @deprecated ECM is no longer supported
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class ExcaliburComponentManagerTestCase extends TestCase
 {
@@ -144,7 +144,13 @@ public class ExcaliburComponentManagerTestCase extends TestCase
 
         m_manager.dispose();
 
-        checkNumberOfDisposals( momClass, dadClass, kidClass );
+        // Auto disposal for badly behaved components aren't guaranteed.
+        // This done to fix: http://marc.theaimsgroup.com/?t=106779872700001&r=1&w=2
+        if( momClass.getName().indexOf( "Good" ) > -1 &&
+            dadClass.getName().indexOf( "Good" ) > -1 ) 
+        {
+            checkNumberOfDisposals( momClass, dadClass, kidClass );
+        }
     }
 
     private void checkNumberOfDisposals( Class momClass, Class dadClass, Class kidClass )
