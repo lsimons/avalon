@@ -3,8 +3,9 @@
 <project name="Cocoon2Anakia Converter" default="convert" basedir=".">
 
     <property name="src.dir" location="${xdocs.dir}"/>
-    <property name="dest.dir" value="temp"/>
+    <property name="dest.dir" value="${user.dir}/temp"/>
     <property name="converter.xsl" location="cocoon2anakia.xsl"/>
+    <property name="book2project.xsl" location="book2project.xsl"/>
 
     <target name="prepare" unless="xdocs.dir">
         <echo message="Need to specify absolute path in xdocs.dir"/>
@@ -15,22 +16,30 @@
 
     <target name="convert" depends="prepare">
 
-        <mkdir dir="${dest.dir}" />
+        <mkdir dir="${dest.dir}/stylesheets" />
 
         <style style="${converter.xsl}"
-	       basedir="${src.dir}"
-	       outputtype="xml"
-	       extension=".xml"
-               destdir="${dest.dir}">
-          <exclude name="**/book.xml"/>
-          <include name="**/*.xml"/>
+            basedir="${src.dir}"
+            outputtype="xml"
+            extension=".xml"
+            destdir="${dest.dir}">
+            <exclude name="**/book.xml"/>
+            <include name="**/*.xml"/>
         </style>
 
-      </target>
+        <style style="${book2project.xsl}"
+            basedir="${src.dir}"
+            outputtype="xml"
+            extension="-project.xml"
+            destdir="${dest.dir}">
+            <include name="**/book.xml"/>
+        </style>
+
+    </target>
 
     <target name="update" depends="convert">
         <copy todir="${src.dir}">
-          <fileset dir="${dest.dir}"/>
+            <fileset dir="${dest.dir}"/>
         </copy>
         <delete dir="${dest.dir}"/>
     </target>
