@@ -20,7 +20,7 @@
 
     <name>excalibur-thread</name>
     <id>excalibur-thread</id>
-    <currentVersion>1.1.2-dev</currentVersion>
+    <currentVersion>1.1.2</currentVersion>
     <inceptionYear>1997</inceptionYear>
     <shortDescription>thread management components</shortDescription>
     <description>
