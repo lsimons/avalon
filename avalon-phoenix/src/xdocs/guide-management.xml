@@ -1,65 +1,85 @@
 <?xml version="1.0"?>
 
 <document>
-    <properties>
-        <title>Guide - JMX Management</title>
-        <author email="huw@?.?">Huw</author>
-    </properties>
-    <body>
-        <section name="Introduction">
-            <p>
-              JMX is..... Phoenix has a...
-            </p>
-            <subsection name="Blah">
-                <p>
-                   Blah
-                </p>
-            </subsection>
-        </section>
-        <section name="Development">
-            <p>
-              How to make block manageable
-            </p>
-            <subsection name="Java consequences">
-                <p>
-                  Blah
-                </p>
-            </subsection>
-            <subsection name="Xinfo files">
-                <p>
-                  Blah
-                </p>
-            </subsection>
-            <subsection name="Mxinfo files">
-                <p>
-                  Blah
-                </p>
-            </subsection>
-            <subsection name="Xdoclet">
-                <p>
-                  Blah
-                </p>
-            </subsection>
-        </section>
-        <section name="Actual Management">
-            <p>
-              Blah
-            </p>
-            <subsection name="Port">
-                <p>
-                  Blah
-                </p>
-            </subsection>
-            <subsection name="Server View">
-                <p>
-                  Blah
-                </p>
-            </subsection>
-            <subsection name="Bean View">
-                <p>
-                  Blah
-                </p>
-            </subsection>
-        </section>
-    </body>
+  <properties>
+    <title>Guide - JMX Management</title>
+    <author email="huw@apache.org">Huw Roberts</author>
+  </properties>
+  <body>
+    <section name="Table of Contents">
+      <table>
+        <tr>
+          <td>Section</td>
+          <td>Title</td>
+          <td>Intended Audience</td>
+        </tr>
+        <tr>
+          <td>
+            1.
+          </td>
+          <td>
+            <a href="guide-mx-structure.html">Organizing Structure for Management Data</a>
+          </td>
+          <td>
+            Everyone
+          </td>  
+        </tr>
+        <tr>
+          <td>
+            2. 
+          </td>
+          <td>
+            <a href="guide-mx-overview.html">Step by Step Overview</a>
+          </td>
+          <td>
+            Everyone
+          </td>  
+        </tr>
+        <tr>
+          <td>
+            3.
+          </td>
+          <td>
+            <a href="guide-mx-mxinfo.html">MXINFO files</a>
+          </td>
+          <td>
+            Component Authors
+          </td>  
+        </tr>
+        <tr>
+          <td>
+            4.
+          </td>
+          <td>
+            <a href="guide-mx-xdoctags.html">XDoclet Tagging</a>
+          </td>
+          <td>
+            Component Authors
+          </td>  
+        </tr>
+        <tr>
+          <td>
+            5.
+          </td>
+          <td>
+             [TODO] Container Responsibilities to Support Management
+          </td>
+          <td>
+            Container Authors
+          </td>  
+        </tr>
+        <tr>
+          <td>
+            6.
+          </td>
+          <td>
+             Link to javadocs
+          </td>
+          <td>
+            Reference
+          </td>  
+        </tr>
+      </table>
+    </section>
+  </body>
 </document>
