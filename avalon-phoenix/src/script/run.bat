@@ -50,7 +50,7 @@ if not "%PHOENIX_HOME%" == "" goto phoenix_home
 
 echo.
 echo Error: PHOENIX_HOME environment variable is not set.
-echo   This needs to be set manually for Win9x as it's command 
+echo   This needs to be set manually for Win9x as its command 
 echo   prompt scripting does not allow it to be set automatically.
 echo.
 goto end
