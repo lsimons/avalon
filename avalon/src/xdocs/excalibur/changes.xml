@@ -8,8 +8,12 @@
     <person name="Leo Simons" email="mail@leosimons.com" id="LS"/>
     <person name="Peter Donald" email="donaldp@apache.org" id="PD"/>
     <person name="Jeff Turner" email="jeff@socialchange.net.au" id="JT"/>
+    <person name="Neeme Praks" email="neeme.praks@one.ee" id="NP"/>
   </devs>
   <release version="4.0-dev" date="unreleased">
+    <action dev="NP" type="update">
+      Extensive reworking of the excalibur.i18n package (XML Resource bundles).
+    </action>
     <action dev="JT" type="update">
       Extensive additions to IOUtils so that it accepts numerous different
       stream/writer types. Also will convert streams to strings using a 
