@@ -47,7 +47,7 @@ import org.apache.avalon.composition.data.builder.XMLContainmentProfileCreator;
  * A factory enabling the establishment of new composition model instances.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.5 $ $Date: 2004/01/24 23:25:27 $
+ * @version $Revision: 1.6 $ $Date: 2004/02/07 14:03:42 $
  */
 public class DefaultModelFactory extends AbstractLogEnabled 
   implements ModelFactory
@@ -182,7 +182,7 @@ public class DefaultModelFactory extends AbstractLogEnabled
     * @param profile a containment profile 
     * @return the containment context
     */
-    public ContainmentContext createContainmentContext( ContainmentProfile profile ) 
+    private ContainmentContext createContainmentContext( ContainmentProfile profile ) 
       throws ModelException
     {
         if( profile == null )
@@ -230,7 +230,7 @@ public class DefaultModelFactory extends AbstractLogEnabled
     * @param context a potentially foreign containment context
     * @return the containment model
     */
-    public ContainmentModel createContainmentModel( ContainmentContext context )
+    private ContainmentModel createContainmentModel( ContainmentContext context )
       throws ModelException
     {
         return new DefaultContainmentModel( context );

@@ -30,7 +30,7 @@ import org.apache.avalon.logging.provider.LoggingManager;
 
 import org.apache.avalon.composition.model.ContainmentModel;
 import org.apache.avalon.composition.model.SystemContext;
-import org.apache.avalon.composition.model.impl.DefaultSystemContext;
+import org.apache.avalon.composition.model.util.SystemContextBuilder;
 
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.configuration.Configuration;
@@ -111,14 +111,14 @@ public abstract class AbstractTestCase extends TestCase
     */
     public void setUp( File base, File block ) throws Exception
     {
-        File local = new File( base, "repository" );
         InitialContext context = 
           new DefaultInitialContext( getMavenRepositoryDirectory() );
   
         long timeout = 3000;
+        File local = new File( base, "repository" );
 
         m_system = 
-          DefaultSystemContext.createSystemContext( 
+          SystemContextBuilder.createSystemContext( 
             context, base, local, ConsoleLogger.LEVEL_INFO, m_secured, timeout );
         m_logger = m_system.getLogger();
 
@@ -128,7 +128,7 @@ public abstract class AbstractTestCase extends TestCase
         //
 
         ContainmentProfile profile = setUpProfile( block );
-        m_model = m_system.getFactory().createContainmentModel( profile );
+        m_model = m_system.getModelFactory().createContainmentModel( profile );
     }
 
     protected ContainmentProfile setUpProfile( File file )
