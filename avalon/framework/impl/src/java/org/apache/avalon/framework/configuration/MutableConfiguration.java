@@ -19,7 +19,7 @@ package org.apache.avalon.framework.configuration;
  * A read/write extension of the Configuration interface.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.1 $ $Date: 2004/02/11 14:31:59 $
+ * @version CVS $Revision: 1.2 $ $Date: 2004/03/28 02:55:36 $
  * @since 4.1.6
  */
 public interface MutableConfiguration extends Configuration
@@ -152,7 +152,7 @@ public interface MutableConfiguration extends Configuration
      * is <code>true</code>, a new mutable child is created and added to 
      * this configuration before being returned.
      *
-     * @returns the child MutableConfiguration, or <code>null</code> if <code>autoCreate</code>
+     * @return the child MutableConfiguration, or <code>null</code> if <code>autoCreate</code>
      *          was false and no child by the given name existed.
      * @param name the name of the child.
      * @param autoCreate set to true to create the child node if it doesn't exist.
