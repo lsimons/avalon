@@ -12,7 +12,6 @@ import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.component.ComponentException;
 import org.apache.avalon.framework.component.ComponentSelector;
 import org.apache.avalon.framework.logger.AbstractLoggable;
-import org.apache.avalon.framework.activity.Initializable;
 
 import org.apache.avalon.excalibur.testcase.ExcaliburTestCase;
 import org.apache.avalon.excalibur.testcase.CascadingAssertionFailedError;
@@ -35,9 +34,9 @@ import java.io.Writer;
  * Junit TestCase for all the monitors in Excalibur.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version $Id: MonitorTestCase.java,v 1.4 2001/09/25 20:31:54 bloritsch Exp $
+ * @version $Id: MonitorTestCase.java,v 1.5 2001/09/26 14:16:13 bloritsch Exp $
  */
-public class MonitorTestCase extends ExcaliburTestCase implements Initializable
+public class MonitorTestCase extends ExcaliburTestCase
 {
     /**
      * The constructor for the MonitorTest
@@ -45,12 +44,6 @@ public class MonitorTestCase extends ExcaliburTestCase implements Initializable
     public MonitorTestCase( String name )
     {
         super( name );
-    }
-
-    public void initialize()
-        throws Exception
-    {
-        m_logPriority = Priority.DEBUG;
     }
 
     public void testActiveMonitor()
