@@ -68,12 +68,13 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 import org.xml.sax.ContentHandler;
+import org.xml.sax.SAXParseException;
 
 /**
  * Utility class used to load Configuration trees from XML files.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.18 $ $Date: 2003/04/06 11:23:22 $
+ * @version $Revision: 1.19 $ $Date: 2003/04/08 18:37:24 $
  */
 public class ConfigurationBuilder
 {
@@ -144,7 +145,8 @@ public class ConfigurationBuilder
             for( int i = 0; i < issues.length; i++ )
             {
                 final ValidationIssue issue = issues[ i ];
-                final String message = issue.getException().getMessage();
+                final SAXParseException exception = issue.getException();
+                final String message = exception.getMessage() + " at " + exception.getLineNumber();
                 if( issue.isWarning() )
                 {
                     logger.info( message );
