@@ -40,7 +40,8 @@ public class Locator
     /**
      * Retrieve location of component.
      * Usually references the archive (zip/jar/war/ear)
-     * which contains the name (ie classname)
+     * which contains the name (ie classname).
+     * May be null.
      *
      * @return the URL of location
      */
