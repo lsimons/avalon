@@ -320,7 +320,7 @@ directory yourself using a command such as
          ========================================================== -->
 
     <!-- build api and impl jars as well -->
-    <preGoal name="java:jar">
+    <preGoal name="jar:jar">
         <attainGoal name="avalon:custom-jar"/>
     </preGoal>
 
