@@ -27,11 +27,11 @@
         </component>
         -->
 
-        <!-- There are two kernels 
-          org.apache.avalon.phoenix.components.kernel.DefaultKernel 
+        <!-- There are two kernels
+          org.apache.avalon.phoenix.components.kernel.DefaultKernel
             - The default one.
-          org.apache.avalon.phoenix.components.kernel.beanshell.BeanShellKernel 
-            - One with a beanshell view at the application level.        
+          org.apache.avalon.phoenix.components.kernel.beanshell.BeanShellKernel
+            - One with a beanshell view at the application level.
         -->
         <component role="org.apache.avalon.phoenix.interfaces.Kernel"
             class="@KERNEL-CLASS@"
@@ -65,12 +65,12 @@
         <component role="org.apache.avalon.phoenix.interfaces.ClassLoaderManager"
             class="org.apache.avalon.phoenix.components.classloader.DefaultClassLoaderManager"
             logger="classes"/>
-        <component role="org.apache.avalon.excalibur.extension.PackageRepository"
+        <component role="org.apache.avalon.excalibur.packagemanager.ExtensionManager"
             class="org.apache.avalon.phoenix.components.extensions.DefaultExtensionManager"
             logger="packages"/>
 <!--
-        <component role="org.apache.avalon.excalibur.extension.PackageRepository"
-            class="org.apache.avalon.excalibur.extension.NoopPackageRepository"
+        <component role="org.apache.avalon.excalibur.packagemanager.ExtensionManager"
+            class="org.apache.avalon.excalibur.packagemanager.impl.NoopPackageRepository"
             logger="packages"/>
 -->
     </embeddor>

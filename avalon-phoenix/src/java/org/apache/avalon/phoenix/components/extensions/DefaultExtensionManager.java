@@ -8,8 +8,7 @@
 package org.apache.avalon.phoenix.components.extensions;
 
 import java.io.File;
-import org.apache.avalon.excalibur.extension.DefaultPackageRepository;
-import org.apache.avalon.excalibur.extension.PackageRepository;
+import org.apache.avalon.excalibur.packagemanager.ExtensionManager;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.logger.LogEnabled;
@@ -21,12 +20,12 @@ import org.apache.avalon.phoenix.interfaces.ExtensionManagerMBean;
 
 /**
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2002/07/14 01:36:29 $
+ * @version $Revision: 1.3 $ $Date: 2002/07/14 05:44:22 $
  */
 public class DefaultExtensionManager
-    extends DefaultPackageRepository
+    extends org.apache.avalon.excalibur.packagemanager.impl.DefaultExtensionManager
     implements LogEnabled, Parameterizable, Initializable, Disposable,
-    PackageRepository, ExtensionManagerMBean
+    ExtensionManager, ExtensionManagerMBean
 {
     private Logger m_logger;
     private String m_rawPath;
@@ -48,7 +47,7 @@ public class DefaultExtensionManager
         throws Exception
     {
         setPath( m_rawPath );
-        scanPath();
+        rescanPath();
     }
 
     public void dispose()

@@ -9,7 +9,7 @@ package org.apache.avalon.phoenix.components.embeddor;
 
 import java.util.HashMap;
 import java.util.Map;
-import org.apache.avalon.excalibur.extension.PackageRepository;
+import org.apache.avalon.excalibur.packagemanager.ExtensionManager;
 import org.apache.avalon.phoenix.interfaces.ConfigurationRepository;
 import org.apache.avalon.phoenix.interfaces.Deployer;
 import org.apache.avalon.phoenix.interfaces.DeployerMBean;
@@ -33,7 +33,7 @@ final class ManagementRegistration
                                     "Kernel",
                                     new Class[]{KernelMBean.class} );
     public static final ManagementRegistration EXTENSION_MANAGER =
-        new ManagementRegistration( PackageRepository.ROLE,
+        new ManagementRegistration( ExtensionManager.ROLE,
                                     "ExtensionManager",
                                     new Class[]{ExtensionManagerMBean.class} );
     public static final ManagementRegistration EMBEDDOR =
