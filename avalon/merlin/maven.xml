@@ -308,8 +308,6 @@
        <include name="INSTALL.TXT"/>
     </ant:fixcrlf>
     <ant:fixcrlf eol="crlf" srcdir="${merlin.build.inst.dir}/bin">
-      <include name="merlin"/>
-      <include name="merlinx"/>
       <include name="merlin.bat"/>
       <include name="merlinx.bat"/>
       <include name="README.TXT"/>
@@ -322,7 +320,13 @@
       <include name="wrapper.conf"/>
     </ant:fixcrlf>
     <ant:fixcrlf eol="lf" srcdir="${merlin.build.inst.dir}/bin">
-      <include name="*.sh"/>
+        <include name="merlin"/>
+        <include name="merlinx"/>
+        <include name="internal-cygwin.sh"/>
+        <include name="internal-unix.sh"/>
+        <include name="merlin.sh"/>
+        <include name="merlinx.sh"/>
+        <include name="merlin-server.sh"/>
     </ant:fixcrlf>
     <ant:chmod file="${merlin.build.inst.dir}/bin/merlin" perm="ugo+rx"/>
     <ant:chmod file="${merlin.build.inst.dir}/bin/merlinx" perm="ugo+rx"/>
@@ -369,6 +373,24 @@
     <ant:echo>Building zip distribution: ${package.name}</ant:echo>
     <ant:zip zipfile="${maven.build.dir}/${package.name}.zip">
       <zipfileset dir="${merlin.build.inst.dir}" prefix="merlin"/>
+        <include name="bin/merlin"/>
+        <include name="bin/merlinx"/>
+        <include name="bin/internal-cygwin.sh"/>
+        <include name="bin/internal-unix.sh"/>
+        <include name="bin/merlin.sh"/>
+        <include name="bin/merlinx.sh"/>
+        <include name="bin/merlin-server.sh"/>
+      </zipfileset>
+      <zipfileset dir="${merlin.build.inst.dir}" prefix="merlin">
+        <include name="**" />
+        <exclude name="bin/merlin"/>
+        <exclude name="bin/merlinx"/>
+        <exclude name="bin/internal-cygwin.sh"/>
+        <exclude name="bin/internal-unix.sh"/>
+        <exclude name="bin/merlin.sh"/>
+        <exclude name="bin/merlinx.sh"/>
+        <exclude name="bin/merlin-server.sh"/>
+      </zipfileset>
     </ant:zip>
     <checksum file="${maven.build.dir}/${package.name}.zip" fileext=".md5" />
     <j:if test="${maven_gpg_exe != null}">
@@ -379,11 +401,27 @@
       </ant:exec>
     </j:if>
 
-    <!-- TODO 755 for .sh files -->
-
     <ant:echo>Building tar distribution: ${package.name}</ant:echo>
     <ant:tar longfile="gnu" tarfile="${maven.build.dir}/${package.name}.tar">
-      <tarfileset dir="${merlin.build.inst.dir}" prefix="merlin"/>
+      <tarfileset dir="${merlin.build.inst.dir}" prefix="merlin" filemode="755" >
+        <include name="bin/merlin"/>
+        <include name="bin/merlinx"/>
+        <include name="bin/internal-cygwin.sh"/>
+        <include name="bin/internal-unix.sh"/>
+        <include name="bin/merlin.sh"/>
+        <include name="bin/merlinx.sh"/>
+        <include name="bin/merlin-server.sh"/>
+      </tarfileset>
+      <tarfileset dir="${merlin.build.inst.dir}" prefix="merlin">
+        <include name="**" />
+        <exclude name="bin/merlin"/>
+        <exclude name="bin/merlinx"/>
+        <exclude name="bin/internal-cygwin.sh"/>
+        <exclude name="bin/internal-unix.sh"/>
+        <exclude name="bin/merlin.sh"/>
+        <exclude name="bin/merlinx.sh"/>
+        <exclude name="bin/merlin-server.sh"/>
+      </tarfileset>
     </ant:tar>
     <ant:gzip 
       zipfile="${maven.build.dir}/${package.name}.tar.gz"
