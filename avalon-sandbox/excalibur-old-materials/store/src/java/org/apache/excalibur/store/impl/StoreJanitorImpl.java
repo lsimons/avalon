@@ -74,7 +74,7 @@ import org.apache.excalibur.store.StoreJanitor;
  * @author <a href="mailto:cs@ffzj0ia9.bank.dresdner.net">Christian Schmitt</a>
  * @author <a href="mailto:g-froehlich@gmx.de">Gerhard Froehlich</a>
  * @author <a href="mailto:proyal@managingpartners.com">Peter Royal</a>
- * @version CVS $Id: StoreJanitorImpl.java,v 1.10 2003/07/31 03:13:47 vgritsenko Exp $
+ * @version CVS $Id: StoreJanitorImpl.java,v 1.11 2003/07/31 13:42:20 vgritsenko Exp $
  */
 public class StoreJanitorImpl
 extends AbstractLogEnabled
@@ -90,6 +90,7 @@ implements StoreJanitor,
     private int minFreeMemory = -1;
     private int maxHeapSize = -1;
     private int threadInterval = -1;
+    private int minThreadInterval = 500;
     private boolean adaptiveThreadInterval = false;
     private int priority = -1;
     private double fraction;
@@ -210,6 +211,8 @@ implements StoreJanitor,
                 interval = minTimeToFill(maxRateOfChange) * 1000 / 2;
                 if (interval > this.threadInterval) {
                     interval = this.threadInterval;
+                } else if (interval < this.minThreadInterval) {
+                    interval = this.minThreadInterval;
                 }
                 inUse = memoryInUse();
             } else {
