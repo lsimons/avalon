@@ -91,7 +91,7 @@ import org.apache.avalon.meta.info.verifier.TypeVerifier;
  * A repository for services, types and profiles.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2003/09/24 09:32:18 $
+ * @version $Revision: 1.2 $ $Date: 2003/10/19 14:05:11 $
  */
 class Scanner extends AbstractLogEnabled
 {
@@ -380,7 +380,6 @@ class Scanner extends AbstractLogEnabled
         String classname = parseResourceName( name );
         Class clazz = getComponentClass( classname );
         Type type = TYPE_BUILDER.buildType( clazz );
-
         try
         {
             verifyType( type, clazz );

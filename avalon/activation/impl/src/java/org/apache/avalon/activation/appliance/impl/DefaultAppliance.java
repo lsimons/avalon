@@ -107,7 +107,7 @@ import org.apache.avalon.meta.info.StageDescriptor;
  * appliance instance.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.7 $ $Date: 2003/10/19 10:45:53 $
+ * @version $Revision: 1.8 $ $Date: 2003/10/19 14:05:10 $
  */
 public class DefaultAppliance extends AbstractAppliance
   implements Composite, DefaultApplianceMBean
@@ -470,7 +470,10 @@ public class DefaultAppliance extends AbstractAppliance
             {
                 getLogger().debug( 
                   "deployment (" 
-                  + lifestyle + ") [" 
+                  + lifestyle
+                  + "/"
+                  + InfoDescriptor.getCollectionPolicyKey( m_model.getCollectionPolicy() ) 
+                  + ") [" 
                   + m_model.getActivationPolicy() + "]" );
             }
 

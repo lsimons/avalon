@@ -85,7 +85,7 @@ public class TypeTestCase extends TestCase
     {
         m_reference = new ReferenceDescriptor(TypeTestCase.class.getName());
         m_key = TypeTestCase.class.getName();
-        m_descriptor = new InfoDescriptor(TypeTestCase.class.getName());
+        m_descriptor = createSimpleInfo(TypeTestCase.class.getName());
         m_loggers = new CategoryDescriptor[] {
             new CategoryDescriptor("name", new Properties())
         };
@@ -167,5 +167,10 @@ public class TypeTestCase extends TestCase
         assertEquals( "equality", type, serialized );
         assertEquals( "hashcode", type.hashCode(), serialized.hashCode() );
 
+    }
+
+    private static InfoDescriptor createSimpleInfo( String classname )
+    {
+        return new InfoDescriptor( null, classname, null, null, null, null, null);
     }
  }

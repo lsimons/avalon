@@ -70,7 +70,7 @@ import org.apache.avalon.meta.info.Type;
  *
  * TODO: Address configuration schema support
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $ $Date: 2003/10/19 06:09:32 $
+ * @version $Revision: 1.4 $ $Date: 2003/10/19 14:05:54 $
  */
 public class XMLTypeWriter
     implements TypeWriter
@@ -161,7 +161,8 @@ public class XMLTypeWriter
         }
 
         writer.write( 
-          "\n    <lifestyle collection=\"" + info.getCollectionPolicy() 
+          "\n    <lifestyle collection=\"" 
+          + InfoDescriptor.getCollectionPolicyKey( info.getCollectionPolicy() ) 
           + "\">" );
         writer.write( info.getLifestyle() );
         writer.write( "</lifestyle>" );
