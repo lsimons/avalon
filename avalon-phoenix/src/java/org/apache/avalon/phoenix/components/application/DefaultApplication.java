@@ -19,8 +19,8 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.phoenix.ApplicationListener;
 import org.apache.avalon.phoenix.BlockListener;
-import org.apache.avalon.phoenix.components.lifecycle.LifecycleHelper;
 import org.apache.avalon.phoenix.components.lifecycle.LifecycleException;
+import org.apache.avalon.phoenix.components.lifecycle.LifecycleHelper;
 import org.apache.avalon.phoenix.interfaces.Application;
 import org.apache.avalon.phoenix.interfaces.ApplicationContext;
 import org.apache.avalon.phoenix.interfaces.ApplicationException;
@@ -213,11 +213,23 @@ public final class DefaultApplication
         return (String[])m_entrys.keySet().toArray( new String[ 0 ] );
     }
 
+    /**
+     *
+     *
+     * @param name
+     * @return
+     */
     public Object getBlock( final String name )
     {
         final BlockEntry entry = (BlockEntry)m_entrys.get( name );
-        if( null == entry ) return null;
-        return entry.getProxy();
+        if( null == entry )
+        {
+            return null;
+        }
+        else
+        {
+            return entry.getProxy();
+        }
     }
 
     /**

@@ -31,7 +31,6 @@ import javax.management.ObjectName;
 import javax.management.OperationsException;
 import javax.management.QueryExp;
 import javax.management.ReflectionException;
-import org.apache.avalon.phoenix.components.manager.rmiadaptor.RMIAdaptor;
 
 /**
  * This is the RMI connection representing an MBeanServer. It is
@@ -223,20 +222,23 @@ public class RMIAdaptorImpl
         m_server.addNotificationListener( name, listener, filter, handback );
     }
 
-    public void removeNotificationListener( final ObjectName name, final NotificationListener listener )
+    public void removeNotificationListener( final ObjectName name,
+                                            final NotificationListener listener )
         throws InstanceNotFoundException, ListenerNotFoundException, RemoteException
     {
         m_server.removeNotificationListener( name, listener );
     }
 
-    public void removeNotificationListener( final ObjectName name, final ObjectName listener )
+    public void removeNotificationListener( final ObjectName name,
+                                            final ObjectName listener )
         throws InstanceNotFoundException, ListenerNotFoundException, RemoteException
     {
         m_server.removeNotificationListener( name, listener );
     }
 
     public MBeanInfo getMBeanInfo( final ObjectName name )
-        throws InstanceNotFoundException, IntrospectionException, ReflectionException, RemoteException
+        throws InstanceNotFoundException, IntrospectionException,
+        ReflectionException, RemoteException
     {
         return m_server.getMBeanInfo( name );
     }
