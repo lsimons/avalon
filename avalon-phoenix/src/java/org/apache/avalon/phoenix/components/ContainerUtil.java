@@ -34,17 +34,17 @@ import org.apache.avalon.framework.service.Serviceable;
  * a component throught it's lifecycle stages.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2002/05/11 06:32:41 $
+ * @version $Revision: 1.1 $ $Date: 2002/05/11 06:35:26 $
  * @todo Add a MissingResource exception and make all the method
  *       throw that if supplied resource (logger, context, etc)
  *       is null.
  */
-public final class ComponentUtil
+public final class ContainerUtil
 {
     /**
      * Private constructor to block instantiation.
      */
-    private ComponentUtil()
+    private ContainerUtil()
     {
     }
 
