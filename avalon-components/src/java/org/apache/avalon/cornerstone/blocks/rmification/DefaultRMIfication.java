@@ -32,12 +32,15 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
  * @phoenix:service name="org.apache.avalon.cornerstone.services.rmification.RMIfication"
  *
  * @author <a href="mailto:colus@apache.org">Eung-ju Park</a>
- * @version $Revision: 1.8 $
+ * @version $Revision: 1.9 $
  */
 public class DefaultRMIfication
     extends AbstractLogEnabled
     implements Configurable, Initializable, Disposable, RMIfication
 {
+    private static final boolean DEFAULT_CREATE_REGISTRY = true;
+
+    private boolean m_createRegistry;
     private int m_port;
     private Registry m_registry;
     private Map m_remotes;
@@ -45,6 +48,7 @@ public class DefaultRMIfication
     public void configure( final Configuration configuration )
         throws ConfigurationException
     {
+        m_createRegistry = configuration.getChild( "createRegistry", true ).getValueAsBoolean( DEFAULT_CREATE_REGISTRY );
         m_port = configuration.getChild( "port", true ).getValueAsInteger( Registry.REGISTRY_PORT );
     }
 
@@ -53,18 +57,30 @@ public class DefaultRMIfication
     {
         m_remotes = new HashMap();
 
-        m_registry = LocateRegistry.createRegistry( m_port );
-        if( getLogger().isInfoEnabled() )
+        if( m_createRegistry )
         {
-            final String message = "RMI registry created on port " + m_port;
-            getLogger().info( message );
+            m_registry = LocateRegistry.createRegistry( m_port );
+            if( getLogger().isInfoEnabled() )
+            {
+                final String message = "RMI registry created on port " + m_port;
+                getLogger().info( message );
+            }
+        }
+        else
+        {
+            m_registry = LocateRegistry.getRegistry( m_port );
+
+            if( getLogger().isInfoEnabled() )
+            {
+                final String message = "Found RMI registry on port " + m_port;
+                getLogger().info( message );
+            }
         }
     }
 
     public void dispose()
     {
         m_registry = null;
-
         m_remotes.clear();
         m_remotes = null;
     }
@@ -92,7 +108,7 @@ public class DefaultRMIfication
     {
         synchronized( m_remotes )
         {
-            final Remote remote = (Remote)m_remotes.get( publicationName );
+            final Remote remote = (Remote) m_remotes.get( publicationName );
 
             m_registry.unbind( publicationName );
             UnicastRemoteObject.unexportObject( remote, true );
