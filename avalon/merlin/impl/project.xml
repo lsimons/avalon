@@ -36,35 +36,18 @@ Merlin service management platform.
     <!-- avalon dependecies -->
 
     <dependency>
-      <groupId>avalon-repository</groupId>
-      <artifactId>avalon-repository-main</artifactId>
-      <version>2.0-SNAPSHOT</version>
+      <groupId>&avalon-repository-id;</groupId>
+      <artifactId>&avalon-repository-main-id;</artifactId>
+      <version>&avalon-repository-main-version;</version>
       <properties>
         <avalon.classloader>api</avalon.classloader>
       </properties>
     </dependency>
 
     <dependency>
-      <groupId>avalon-repository</groupId>
-      <artifactId>avalon-repository-spi</artifactId>
-      <version>2.0-SNAPSHOT</version>
-      <properties>
-        <avalon.classloader>spi</avalon.classloader>
-      </properties>
-    </dependency>
-
-    <dependency>
-      <groupId>avalon-logging</groupId>
-      <artifactId>avalon-logging-api</artifactId>
-      <version>1.0-SNAPSHOT</version>
-      <properties>
-        <avalon.classloader>api</avalon.classloader>
-      </properties>
-    </dependency>
-    <dependency>
-      <groupId>avalon-logging</groupId>
-      <artifactId>avalon-logging-spi</artifactId>
-      <version>1.0-SNAPSHOT</version>
+      <groupId>&avalon-repository-id;</groupId>
+      <artifactId>&avalon-repository-spi-id;</artifactId>
+      <version>&avalon-repository-spi-version;</version>
       <properties>
         <avalon.classloader>spi</avalon.classloader>
       </properties>
@@ -165,6 +148,23 @@ Merlin service management platform.
       <groupId>&avalon-util-id;</groupId>
       <artifactId>&avalon-util-criteria-id;</artifactId>
       <version>&avalon-util-criteria-version;</version>
+    </dependency>
+
+    <dependency>
+      <groupId>avalon-logging</groupId>
+      <artifactId>avalon-logging-api</artifactId>
+      <version>1.0-SNAPSHOT</version>
+      <properties>
+        <avalon.classloader>api</avalon.classloader>
+      </properties>
+    </dependency>
+    <dependency>
+      <groupId>avalon-logging</groupId>
+      <artifactId>avalon-logging-spi</artifactId>
+      <version>1.0-SNAPSHOT</version>
+      <properties>
+        <avalon.classloader>spi</avalon.classloader>
+      </properties>
     </dependency>
 
     <!-- excalibur dependecies -->

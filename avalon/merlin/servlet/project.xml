@@ -60,10 +60,9 @@ Merlin servlet is a servlet with an embedded Merlin Kernel.
     </dependency>
 
     <dependency>
-      <groupId>avalon-repository</groupId>
-      <artifactId>avalon-repository-main</artifactId>
-      <version>2.0-SNAPSHOT</version>
-      <type>jar</type>
+      <groupId>&avalon-repository-id;</groupId>
+      <artifactId>&avalon-repository-main-id;</artifactId>
+      <version>&avalon-repository-main-version;</version>
       <properties>
         <war.bundle>true</war.bundle>
       </properties>
