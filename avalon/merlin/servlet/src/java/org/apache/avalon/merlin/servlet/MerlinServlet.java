@@ -31,10 +31,14 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.avalon.activation.appliance.Appliance;
 import org.apache.avalon.activation.appliance.Block;
+
 import org.apache.avalon.composition.model.ContainmentModel;
+
 import org.apache.avalon.framework.logger.Logger;
+
 import org.apache.avalon.merlin.Kernel;
 import org.apache.avalon.merlin.KernelCriteria;
+
 import org.apache.avalon.repository.Artifact;
 import org.apache.avalon.repository.provider.Builder;
 import org.apache.avalon.repository.provider.InitialContext;
@@ -42,6 +46,7 @@ import org.apache.avalon.repository.provider.Factory;
 import org.apache.avalon.repository.RepositoryException;
 import org.apache.avalon.repository.main.DefaultInitialContext;
 import org.apache.avalon.repository.main.DefaultBuilder;
+
 import org.apache.avalon.util.exception.ExceptionHelper;
 import org.apache.avalon.util.env.Env;
 
@@ -106,7 +111,9 @@ public class MerlinServlet extends HttpServlet
                 MERLIN_PROPERTIES, 
                 IMPLEMENTATION_KEY );
 
-            Factory factory = context.createFactory( artifact );
+            Builder builder = context.newBuilder( artifact );
+            Factory factory = builder.getFactory();
+
             m_criteria = (KernelCriteria) factory.createDefaultCriteria();
 
             m_criteria.put( "merlin.server", "true" );

@@ -59,7 +59,7 @@ import org.apache.commons.cli.Options;
  * Merlin command line handler.
  * 
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.14 $
+ * @version $Revision: 1.15 $
  */
 public class Main 
 {
@@ -282,7 +282,8 @@ public class Main
     public Main( 
       InitialContext context, Artifact artifact, CommandLine line ) throws Exception
     {
-        Factory factory = context.createFactory( artifact );
+        Builder builder = context.newBuilder( artifact );
+        Factory factory = builder.getFactory();
         Map criteria = factory.createDefaultCriteria();
 
         //
