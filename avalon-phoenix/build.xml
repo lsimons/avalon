@@ -71,9 +71,9 @@ Legal:
   <property name="constants.file" value="org/apache/avalon/phoenix/Constants.java"/>
   <property name="xerces.jar" value="${tools.dir}/lib/xerces.jar"/>
   <property name="framework.jar" value="${lib.dir}/avalon-framework-20010912.jar"/>
-  <property name="excalibur.jar" value="${lib.dir}/avalon-excalibur-20010926.jar"/>
-  <property name="scratchpad.jar" value="${lib.dir}/avalon-scratchpad-20010919.jar"/>
-  <property name="logkit.jar" value="${lib.dir}/logkit-20010912.jar"/>
+  <property name="excalibur.jar" value="${lib.dir}/avalon-excalibur-20010928.jar"/>
+  <property name="scratchpad.jar" value="${lib.dir}/avalon-scratchpad-20010928.jar"/>
+  <property name="logkit.jar" value="${lib.dir}/logkit-20010926.jar"/>
   <property name="tools.jar" value="${java.home}/../lib/tools.jar"/>
 
   <property name="announce2txt" value="${tools.dir}/announcement2txt.xsl"/>
