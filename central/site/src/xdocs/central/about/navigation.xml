@@ -24,7 +24,7 @@
  <body>
     <menu>
       <item name="License" href="license.html"/>
-      <item name="Downloads" href="download.cgi"/>
+      <item name="Downloads" href="download.html"/>
       <item name="Installation" href="installation/index.html"/>
       <item name="Tutorials" href="tutorials/index.html"/>
       <item name="News" href="news/index.html"/>
