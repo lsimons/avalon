@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<project name="site" default="site" basedir="."
+<project name="avalon-central-site" default="site" basedir="."
     xmlns:x="antlib:org.apache.avalon.tools">
 
   <property file="build.properties"/>
@@ -18,12 +18,14 @@
     <x:javadoc title="Avalon Runtime" id="avalon-runtime" staged="true">
       <x:link href="http://java.sun.com/j2se/1.4/docs/api" />
     </x:javadoc>
-    <x:javadoc title="Avalon Magic" id="avalon-tools-magic">
-      <x:link href="http://java.sun.com/j2se/1.4/docs/api" />
-    </x:javadoc>
+    <!--
     <x:javadoc title="Avalon Facilities" id="avalon-planet-facilities">
       <x:link href="http://java.sun.com/j2se/1.4/docs/api" />
     </x:javadoc>
+    <x:javadoc title="Avalon Magic" id="avalon-tools-magic">
+      <x:link href="http://java.sun.com/j2se/1.4/docs/api" />
+    </x:javadoc>
+    -->
   </target>
 
   <target name="site" depends="standard.site">

@@ -7,10 +7,10 @@
 
   <import index="../runtime/index.xml"
      href="http://svn.apache.org/repos/asf/avalon/trunk/runtime/index.xml"/>
-
+  <!--
   <import index="../planet/index.xml"
      href="http://svn.apache.org/repos/asf/avalon/trunk/planet/index.xml"/>
-
+  -->
   <!--
   Avalon Central.
   -->
@@ -18,7 +18,7 @@
   <project basedir="site">
     <info>
       <group>avalon</group>
-      <name>site</name>
+      <name>avalon-central-site</name>
       <type>doc</type>
     </info>
     <dependencies>
