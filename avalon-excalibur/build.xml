@@ -26,7 +26,6 @@
         
         <!-- Sub projects with dependencies. -->
         <ant dir="pool" target="dist"/>               <!-- collections, concurrent -->
-        <ant dir="proxy" target="dist"/>
         <ant dir="thread" target="dist"/>             <!-- lang, pool -->
         <ant dir="component" target="dist"/>          <!-- collections, logger, pool -->
         <ant dir="util" target="dist"/>               <!-- component -->
@@ -145,7 +144,6 @@
         
         <!-- Sub projects with dependencies. -->
         <ant dir="pool" target="jar"/>               <!-- collections, concurrent -->
-        <ant dir="proxy" target="jar"/>   
         <ant dir="thread" target="jar"/>             <!-- lang, pool -->
         <ant dir="component" target="jar"/>          <!-- collections, logger, pool -->
         <ant dir="util" target="jar"/>               <!-- component -->
@@ -205,8 +203,6 @@
         <ant dir="monitor" target="docs"/>
         <ant dir="naming" target="docs"/>
         <ant dir="pool" target="docs"/>
-        <ant dir="property" target="docs"/>
-        <ant dir="proxy" target="docs"/>
         <ant dir="sourceresolve" target="docs"/>
         <ant dir="tar" target="docs"/>
         <ant dir="testcase" target="docs"/>
@@ -218,9 +214,17 @@
     </target>
 
     <!-- Generate all docs -->
-    <target name="site" description="Generate all the docs for site">
-    
+    <target name="site" depends="mega-jar" description="Generate all the docs for site">
+
         <ant dir="site" target="site"/>
+    
+        <!-- 
+          All have to be compiled in correct dependancy order first as the javadocs
+          targets require copiled classes as sanity check.  The compilation must
+          be done in the correct for thesake of dependancies.  However, the 'site'
+          targets invoked below are alphabetical because compilations havealready 
+          been done.
+        -->
             
         <!--<ant dir="fortress" target="site"/> -->
         <!--<ant dir="instrument" target="site"/>  -->
@@ -246,8 +250,6 @@
         <ant dir="monitor" target="site"/>
         <ant dir="naming" target="site"/> 
         <ant dir="pool" target="site"/>
-        <ant dir="property" target="site"/>
-        <ant dir="proxy" target="site"/>
         <ant dir="sourceresolve" target="site"/>
         <ant dir="tar" target="site"/>
         <ant dir="testcase" target="site"/>
@@ -257,6 +259,12 @@
         <ant dir="zip" target="site"/>               
 
     </target>
+
+    <!-- Generate all docs -->
+    <target name="site-docs" depends="site" description="Generate all the docs for site and Copy to site CVS">    
+        <ant dir="site" target="site-docs"/>
+    </target>
+
 
     <target name="clean">
         <delete dir="${build.dir}" />
@@ -285,8 +293,6 @@
         <ant dir="monitor" target="real-clean"/>
         <ant dir="naming" target="real-clean"/>
         <ant dir="pool" target="real-clean"/>
-        <ant dir="property" target="real-clean"/>
-        <ant dir="proxy" target="real-clean"/>
         <ant dir="site" target="clean"/>
         <ant dir="sourceresolve" target="real-clean"/>
         <ant dir="tar" target="real-clean"/>

@@ -392,10 +392,10 @@
      
     </target>
     
-    <target name="site" depends="docs" description=" Places Docs ready for hosting on website">  
+    <target name="site" depends="javadocs, docs" description=" Places Docs ready for hosting on website">  
   
-      <mkdir dir="../site/docs/${dir-name}"/>     
-      <copy todir="../site/docs/${dir-name}">
+      <mkdir dir="../site/dist/docs/${dir-name}"/>     
+      <copy todir="../site/dist/docs/${dir-name}">
         <fileset dir="${docs.dir}">
           <include name="**"/>
         </fileset>
