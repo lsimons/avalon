@@ -6,7 +6,7 @@ import java.io.File;
  * FileDigest holds file deployment information. Information 
  * used to verify if file was modified since deployment.
  */
-class FileDigest
+public class FileDigest
 {
     private final File m_file;
     private final long m_checksum;
@@ -16,7 +16,7 @@ class FileDigest
      * @param the file.
      * @param the checksum value of the file.
      */
-    FileDigest(final File file, final long checksum)
+    public FileDigest(final File file, final long checksum)
     {
         m_file = file;
         m_checksum = checksum;
@@ -26,7 +26,7 @@ class FileDigest
      *
      * @return the file.
      */
-    File getFile()
+    public File getFile()
     {
         return m_file;
     }
@@ -35,7 +35,7 @@ class FileDigest
      *
      * @return the checksum value.
      */
-    long getChecksum()
+    public long getChecksum()
     {
         return m_checksum;
     }
