@@ -95,13 +95,6 @@
       <version>1.0</version>
     </dependency>
     
-    <!-- logkit -->
-
-    <dependency>
-      <id>logkit</id>
-      <version>1.2.2</version>
-    </dependency>
-
     <!-- excalibur dependecies -->
 
     <dependency>
