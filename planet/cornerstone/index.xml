@@ -19,6 +19,9 @@
       <name>commons-logging</name>
       <version>1.0.4</version>
     </info>
+    <gump>
+      <id>commons-logging-api</id>
+    </gump>
   </resource>
 
 
