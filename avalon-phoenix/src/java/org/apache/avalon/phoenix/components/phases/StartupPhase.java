@@ -36,7 +36,7 @@ import org.apache.avalon.phoenix.components.configuration.ConfigurationRepositor
 import org.apache.avalon.phoenix.components.frame.ApplicationFrame;
 import org.apache.avalon.phoenix.components.kapi.BlockEntry;
 import org.apache.avalon.phoenix.components.kapi.BlockProxy;
-import org.apache.avalon.phoenix.components.kapi.RoleEntry;
+import org.apache.avalon.phoenix.metadata.RoleMetaData;
 import org.apache.avalon.phoenix.metainfo.BlockInfo;
 import org.apache.avalon.phoenix.metainfo.ServiceDescriptor;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
@@ -262,13 +262,13 @@ public class StartupPhase
     {
         final DefaultComponentManager componentManager = new DefaultComponentManager();
         final BlockInfo info = entry.getBlockInfo();
-        final RoleEntry[] roleEntrys = entry.getRoleEntrys();
+        final RoleMetaData[] roles = entry.getRoles();
 
-        for( int i = 0; i < roleEntrys.length; i++ )
+        for( int i = 0; i < roles.length; i++ )
         {
-            final String dependencyName = roleEntrys[ i ].getName();
+            final String dependencyName = roles[ i ].getName();
             final ServiceDescriptor serviceDescriptor =
-                info.getDependency( roleEntrys[ i ].getRole() ).getService();
+                info.getDependency( roles[ i ].getRole() ).getService();
 
             try
             {
@@ -289,7 +289,7 @@ public class StartupPhase
                     throw new ComponentException( message );
                 }
 
-                componentManager.put( roleEntrys[ i ].getRole(), 
+                componentManager.put( roles[ i ].getRole(), 
                                       (Block)dependency.getBlockProxy().getProxy() );
             }
             catch( final ContainerException ce ) {}

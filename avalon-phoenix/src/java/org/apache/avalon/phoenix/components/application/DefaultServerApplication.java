@@ -39,7 +39,7 @@ import org.apache.avalon.phoenix.components.phases.BlockVisitor;
 import org.apache.avalon.phoenix.components.phases.ShutdownPhase;
 import org.apache.avalon.phoenix.components.phases.StartupPhase;
 import org.apache.avalon.phoenix.components.kapi.BlockEntry;
-import org.apache.avalon.phoenix.components.kapi.RoleEntry;
+import org.apache.avalon.phoenix.metadata.RoleMetaData;
 import org.apache.avalon.phoenix.metainfo.BlockInfo;
 import org.apache.avalon.phoenix.metainfo.BlockInfoBuilder;
 import org.apache.avalon.phoenix.metainfo.DependencyDescriptor;
@@ -430,28 +430,28 @@ public final class DefaultServerApplication
     }
 
     /**
-     * Retrieve a list of RoleEntry objects that were specified
+     * Retrieve a list of RoleMetaData objects that were specified
      * in configuration file and verify they were expected based
      * on BlockInfo file. Also verify that all entries specified
      * in BlockInfo file have been provided.
      *
      * @param entry the BlockEntry describing block
-     * @return the list of RoleEntry objects
+     * @return the list of RoleMetaData objects
      */
     private void verifyDependenciesMap( final String name, final BlockEntry entry )
         throws Exception
     {
         //Make sure all role entries specified in config file are valid
-        final RoleEntry[] roleEntrys = entry.getRoleEntrys();
-        for( int i = 0; i < roleEntrys.length; i++ )
+        final RoleMetaData[] roles = entry.getRoles();
+        for( int i = 0; i < roles.length; i++ )
         {
-            final String role = roleEntrys[ i ].getRole();
+            final String role = roles[ i ].getRole();
             final DependencyDescriptor descriptor = entry.getBlockInfo().getDependency( role );
 
             if( null == descriptor )
             {
                 final String message = REZ.getString( "app.error.depends.unknown",
-                                                      roleEntrys[ i ].getName(),
+                                                      roles[ i ].getName(),
                                                       role,
                                                       name );
                 getLogger().warn( message );
@@ -463,10 +463,9 @@ public final class DefaultServerApplication
         final DependencyDescriptor[] dependencies = entry.getBlockInfo().getDependencies();
         for( int i = 0; i < dependencies.length; i++ )
         {
-            final RoleEntry roleEntry =
-                entry.getRoleEntry( dependencies[ i ].getRole() );
+            final RoleMetaData role = entry.getRole( dependencies[ i ].getRole() );
 
-            if( null == roleEntry )
+            if( null == role )
             {
                 final String message = REZ.getString( "app.error.depends.noprovide",
                                                       dependencies[ i ].getRole(),
