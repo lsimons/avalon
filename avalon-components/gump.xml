@@ -10,13 +10,12 @@
   <project name="jakarta-avalon-cornerstone">
     <package>org.apache.avalon.cornerstone</package>
 
-    <ant>
-      <depend property="xerces.jar" project="xml-xerces" id="parser"/>
-      <depend property="logkit.jar" project="jakarta-avalon-logkit"/>
-      <depend property="avalon-framework.jar" project="jakarta-avalon"/>
-      <depend property="junit.jar"   project="junit"/>
-    </ant>
+    <ant />
 
+    <depend project="jakarta-avalon"/>
+    <depend project="jakarta-avalon-logkit"/>
+    <depend project="xml-xerces" id="parser"/>
+    <depend project="junit"/>
     <depend project="excalibur-io"/>
     <depend project="excalibur-datasource"/>
     <depend project="excalibur-i18n"/>
@@ -27,18 +26,12 @@
     <depend project="jakarta-ant" inherit="runtime"/>
     <depend project="jakarta-velocity" inherit="runtime"/>
 
-    <!--
-    <depend project="jakarta-regexp"/>
-     -->
-
     <option project="excalibur-event"/>
     <option project="excalibur-altrmi" inherit="runtime"/>
     <option project="jakarta-bcel"/>
     <option project="jsse"/>
 
     <work nested="build/classes"/>
-    <work nested="apps/db/build/classes"/>
-    <work nested="apps/demo/build/classes"/>
 
     <home nested="build/lib"/>
     <jar name="cornerstone.jar"/>
