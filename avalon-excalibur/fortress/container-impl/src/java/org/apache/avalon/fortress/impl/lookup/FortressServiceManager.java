@@ -58,6 +58,7 @@ import org.apache.avalon.framework.service.WrapperServiceSelector;
 import org.apache.commons.collections.StaticBucketMap;
 import org.apache.avalon.fortress.Container;
 import org.apache.avalon.fortress.impl.handler.ComponentHandler;
+import org.apache.avalon.fortress.impl.AbstractContainer;
 
 /**
  * This is the Default ServiceManager for the Container.  It provides
@@ -65,7 +66,7 @@ import org.apache.avalon.fortress.impl.handler.ComponentHandler;
  * the references.
  *
  * @author <a href="mailto:avalon-dev@jakarta.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.1 $ $Date: 2003/01/27 16:55:42 $
+ * @version CVS $Revision: 1.2 $ $Date: 2003/02/04 19:39:36 $
  */
 public class FortressServiceManager
     implements ServiceManager
@@ -99,15 +100,17 @@ public class FortressServiceManager
         m_used = new StaticBucketMap();
     }
 
-    public Object lookup( final String key )
+    public Object lookup( final String role )
         throws ServiceException
     {
-        if( !m_container.has( key, null ) )
+        Lookup lookup = parseRole(role);
+
+        if( !m_container.has( lookup.role, lookup.hint ) )
         {
-            return m_parent.lookup( key );
+            return m_parent.lookup( role );
         }
 
-        final Object result = m_container.get( key, null );
+        final Object result = m_container.get( lookup.role, lookup.hint );
         if( result instanceof ServiceSelector )
         {
             return result;
@@ -115,13 +118,13 @@ public class FortressServiceManager
 
         if( result instanceof ComponentSelector )
         {
-            return new WrapperServiceSelector( key, (ComponentSelector)result );
+            return new WrapperServiceSelector( lookup.role, (ComponentSelector)result );
         }
 
         if( !( result instanceof ComponentHandler ) )
         {
             final String message = "Invalid entry in component manager";
-            throw new ServiceException( key, message );
+            throw new ServiceException( role, message );
         }
 
         try
@@ -139,19 +142,21 @@ public class FortressServiceManager
         {
             final String message =
                 "Could not return a reference to the Component";
-            throw new ServiceException( key, message, e );
+            throw new ServiceException( role, message, e );
         }
     }
 
-    public boolean hasService( final String key )
+    public boolean hasService( final String role )
     {
-        if( m_container.has( key, null ) )
+        Lookup lookup = parseRole( role );
+
+        if( m_container.has( lookup.role, lookup.hint ) )
         {
             return true;
         }
         else
         {
-            return null != m_parent ? m_parent.hasService( key ) : false;
+            return null != m_parent ? m_parent.hasService( role ) : false;
         }
     }
 
@@ -181,5 +186,35 @@ public class FortressServiceManager
         {
             handler.put( component );
         }
+    }
+
+    private Lookup parseRole( String role )
+    {
+        Lookup lookup = new Lookup();
+        lookup.role = role;
+        lookup.hint = AbstractContainer.DEFAULT_ENTRY;
+
+        if ( role.endsWith("Selector") )
+        {
+            lookup.role = role.substring(0, role.length() - "Selector".length());
+            lookup.hint = AbstractContainer.SELECTOR_ENTRY;
+        }
+
+        int index = role.lastIndexOf("/");
+
+        // needs to be further than the first character
+        if ( index > 0 )
+        {
+            lookup.role = role.substring(0, index);
+            lookup.hint = role.substring(index + 1);
+        }
+
+        return lookup;
+    }
+
+    private final static class Lookup
+    {
+        public String role;
+        public String hint;
     }
 }
