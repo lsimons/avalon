@@ -334,9 +334,8 @@ public final class DefaultServerApplication
                               m_threadManager );
         componentManager.put( "org.apache.phoenix.engine.facilities.ConfigurationRepository",
                               m_configurationRepository );
-
-        ///This isn't needed as far as I know .. should it be in CM ????
-        //componentManager.put( "org.apache.phoenix.engine.facilities.LogManager", m_logManager );
+        componentManager.put( "org.apache.phoenix.engine.facilities.LogManager", 
+                              m_logManager );
 
         return componentManager;
     }
