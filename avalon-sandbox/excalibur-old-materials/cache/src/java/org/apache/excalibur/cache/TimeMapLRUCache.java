@@ -7,24 +7,22 @@
  */
 package org.apache.avalon.excalibur.cache;
 
-import org.apache.avalon.excalibur.cache.policy.TimeMapLRUPolicy;
-import org.apache.avalon.excalibur.cache.store.MemoryStore;
-
 /**
  * TimeMapLRUCache.
  *
  * @author <a href="alag@users.sourceforge.net">Alexis Agahi</a>
+ * @deprecated Use org.apache.avalon.excalibur.cache.impl.TimeMapLRUCache
  */
 public class TimeMapLRUCache
-    extends DefaultCache
+    extends org.apache.avalon.excalibur.cache.impl.TimeMapLRUCache
 {
     public TimeMapLRUCache( final int capacity )
     {
-        this( new MemoryStore( capacity ) );
+        super( capacity );
     }
 
     public TimeMapLRUCache( final CacheStore store )
     {
-        super( new TimeMapLRUPolicy(), store );
+        super( store );
     }
 }
