@@ -10,7 +10,7 @@
 # building all components. These values are overridable in component-specific
 # ant.properties files.
 #
-# $Id: ant.properties.sample,v 1.13 2002/04/25 02:29:39 jefft Exp $
+# $Id: ant.properties.sample,v 1.14 2002/06/04 06:04:12 donaldp Exp $
 # -----------------------------------------------------------------------------
 
 
@@ -73,6 +73,10 @@ excalibur-logger.jar=${excalibur-logger.home}/excalibur-logger-1.0.jar
 # ----- Excalibur Logger -----
 excalibur-util.home=${base.path}/jakarta-avalon-excalibur/util/build/lib
 excalibur-util.jar=${excalibur-util.home}/excalibur-util-1.0.jar
+
+# ----- Excalibur Logger -----
+excalibur-i18n.home=${base.path}/jakarta-avalon-excalibur/i18n/build/lib
+excalibur-i18n.jar=${excalibur-i18n.home}/excalibur-i18n-1.0.jar
 
 # ----- Excalibur Component -----
 excalibur-component.home=${base.path}/jakarta-avalon-excalibur/component/build/lib
