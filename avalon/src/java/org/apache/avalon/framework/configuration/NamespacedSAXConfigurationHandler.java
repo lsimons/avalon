@@ -8,6 +8,7 @@
 package org.apache.avalon.framework.configuration;
 
 import java.util.ArrayList;
+import java.util.BitSet;
 import java.util.Iterator;
 import org.xml.sax.Attributes;
 import org.xml.sax.Locator;
@@ -27,8 +28,19 @@ import org.xml.sax.helpers.NamespaceSupport;
 public class NamespacedSAXConfigurationHandler
     extends SAXConfigurationHandler
 {
-    private final ArrayList m_elements = new ArrayList();
-    private final ArrayList m_prefixes = new ArrayList();
+    /**
+     * Likely number of nested configuration items. If more is
+     * encountered the lists will grow automatically.
+     */
+    private static final int EXPECTED_DEPTH = 5;
+    private final ArrayList m_elements = new ArrayList( EXPECTED_DEPTH );
+    private final ArrayList m_prefixes = new ArrayList( EXPECTED_DEPTH );
+    private final ArrayList m_values = new ArrayList( EXPECTED_DEPTH );
+    /**
+     * Contains true at index n if space in the configuration with
+     * depth n is to be preserved.
+     */
+    private final BitSet m_preserveSpace = new BitSet();
     private Configuration m_configuration;
     private Locator m_locator;
     private NamespaceSupport m_namespaceSupport = new NamespaceSupport();
@@ -55,6 +67,7 @@ public class NamespacedSAXConfigurationHandler
             ( (ArrayList)i.next() ).clear();
         }
         m_prefixes.clear();
+        m_values.clear();
         m_locator = null;
     }
 
@@ -103,25 +116,13 @@ public class NamespacedSAXConfigurationHandler
     public void characters( final char[] ch, int start, int end )
         throws SAXException
     {
-        String value = ( new String( ch, start, end ) ).trim();
-
-        if( value.equals( "" ) )
-        {
-            return;
-        }
-
-        final DefaultConfiguration configuration =
-            (DefaultConfiguration)m_elements.get( m_elements.size() - 1 );
-
-        if( 0 != configuration.getChildCount() )
-        {
-            throw new SAXException( "Not allowed to define mixed content in the " +
-                                    "element " + configuration.getName() + " at " +
-                                    configuration.getLocation() );
-        }
-
-        value = configuration.getValue( "" ) + value;
-        configuration.setValue( value );
+        // it is possible to play micro-optimization here by doing
+        // manual trimming and thus preserve some precious bits
+        // of memory, but it's really not important enough to justify
+        // resulting code complexity
+        final int depth = m_values.size() - 1;
+        final StringBuffer valueBuffer = (StringBuffer)m_values.get( depth );
+        valueBuffer.append( ch, start, end );
     }
 
     /**
@@ -137,9 +138,12 @@ public class NamespacedSAXConfigurationHandler
                             final String rawName )
         throws SAXException
     {
-        final int location = m_elements.size() - 1;
-        final Object object = m_elements.remove( location );
-        final ArrayList prefixes = (ArrayList)m_prefixes.remove( location );
+        final int depth = m_elements.size() - 1;
+        final DefaultConfiguration finishedConfiguration =
+            (DefaultConfiguration)m_elements.remove( depth );
+        final String accumulatedValue =
+            ( (StringBuffer)m_values.remove( depth ) ).toString();
+        final ArrayList prefixes = (ArrayList)m_prefixes.remove( depth );
 
         final Iterator i = prefixes.iterator();
         while( i.hasNext() )
@@ -148,9 +152,38 @@ public class NamespacedSAXConfigurationHandler
         }
         prefixes.clear();
 
-        if( 0 == location )
+        if( finishedConfiguration.getChildren().length == 0 )
         {
-            m_configuration = (Configuration)object;
+            // leaf node
+            String finishedValue;
+            if( m_preserveSpace.get( depth ) )
+            {
+                finishedValue = accumulatedValue;
+            }
+            else if( 0 == accumulatedValue.length() )
+            {
+                finishedValue = null;
+            }
+            else
+            {
+                finishedValue = accumulatedValue.trim();
+            }
+            finishedConfiguration.setValue( finishedValue );
+        }
+        else
+        {
+            final String trimmedValue = accumulatedValue.trim();
+            if( trimmedValue.length() > 0 )
+            {
+                throw new SAXException( "Not allowed to define mixed content in the " +
+                                        "element " + finishedConfiguration.getName() + " at " +
+                                        finishedConfiguration.getLocation() );
+            }
+        }
+
+        if( 0 == depth )
+        {
+            m_configuration = finishedConfiguration;
         }
 
         m_namespaceSupport.popContext();
@@ -193,6 +226,34 @@ public class NamespacedSAXConfigurationHandler
         throws SAXException
     {
         m_namespaceSupport.pushContext();
+        final DefaultConfiguration configuration =
+            createConfiguration( localName, namespaceURI, getLocationString() );
+        // depth of new configuration (not decrementing here, configuration
+        // is to be added)
+        final int depth = m_elements.size();
+        boolean preserveSpace = false; // top level element trims space by default
+
+        if( depth > 0 )
+        {
+            final DefaultConfiguration parent =
+                (DefaultConfiguration)m_elements.get( depth - 1 );
+            parent.addChild( configuration );
+            // inherits parent's space preservation policy
+            preserveSpace = m_preserveSpace.get( depth - 1 );
+        }
+
+        m_elements.add( configuration );
+        m_values.add( new StringBuffer() );
+
+        if( preserveSpace )
+        {
+            m_preserveSpace.set( depth );
+        }
+        else
+        {
+            m_preserveSpace.clear( depth );
+        }
+        
         final ArrayList prefixes = new ArrayList();
         AttributesImpl componentAttr = new AttributesImpl();
 
@@ -214,26 +275,6 @@ public class NamespacedSAXConfigurationHandler
             }
         }
 
-        final DefaultConfiguration configuration =
-            createConfiguration( localName, namespaceURI, getLocationString() );
-        final int size = m_elements.size() - 1;
-
-        if( size > -1 )
-        {
-            final DefaultConfiguration parent =
-                (DefaultConfiguration)m_elements.get( size );
-
-            if( null != parent.getValue( null ) )
-            {
-                throw new SAXException( "Not allowed to define mixed content in the " +
-                                        "element " + parent.getName() + " at " +
-                                        parent.getLocation() );
-            }
-
-            parent.addChild( configuration );
-        }
-
-        m_elements.add( configuration );
         m_prefixes.add( prefixes );
 
         final int attributesSize = componentAttr.getLength();
