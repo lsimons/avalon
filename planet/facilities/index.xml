@@ -89,6 +89,9 @@
       <include key="avalon-composition-api" runtime="false"/>
       <include key="org.mortbay.jetty"/>
     </dependencies>
+    <plugins>
+      <include key="avalon-meta-tools"/>
+    </plugins>
   </project>
 
   <project basedir="http/util">
