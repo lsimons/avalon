@@ -24,7 +24,7 @@ import org.apache.avalon.fortress.MetaInfoManager;
 /**
  * AbstractMetaInfoManagerTestCase does XYZ
  *
- * @author <a href="bloritsch.at.apache.org">Berin Loritsch</a>
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @version CVS $ Revision: 1.1 $
  */
 public abstract class AbstractMetaInfoManagerTestCase extends TestCase

@@ -16,7 +16,7 @@
 package org.apache.avalon.framework.component.test;
 
 /**
- * @author <a href="mailto:rantene@hotmail.com">Ran Tene</a>
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
 public interface RoleB
 {

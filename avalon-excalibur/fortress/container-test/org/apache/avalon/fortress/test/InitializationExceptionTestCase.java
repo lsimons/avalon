@@ -23,8 +23,8 @@ import org.apache.avalon.fortress.InitializationException;
 /**
  * InitializationExceptionTestCase does XYZ
  *
- * @author <a href="bloritsch.at.apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.4 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version CVS $Revision: 1.5 $
  */
 public class InitializationExceptionTestCase extends TestCase
 {

@@ -18,8 +18,8 @@
 package org.apache.avalon.fortress.test.data;
 
 /**
- * @author Peter Donald
- * @version $Revision: 1.10 $ $Date: 2004/02/21 13:27:01 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version $Revision: 1.11 $ $Date: 2004/02/24 22:31:21 $
  */
 public interface Role3
     extends org.apache.avalon.fortress.test.data.BaseRole

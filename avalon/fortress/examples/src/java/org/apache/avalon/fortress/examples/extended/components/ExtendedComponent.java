@@ -20,8 +20,8 @@ package org.apache.avalon.fortress.examples.extended.components;
 /**
  * Simple <code>TestComponent</code> component for testing custom extensions
  *
- * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Revision: 1.5 $ $Date: 2004/02/21 13:27:02 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version CVS $Revision: 1.6 $ $Date: 2004/02/24 22:31:21 $
  */
 public interface ExtendedComponent
 {

@@ -30,8 +30,8 @@ import java.util.Properties;
 /**
  * Provides the foundation for MetaInfoManagers.
  *
- * @author <a href="bloritsch.at.apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.7 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version CVS $Revision: 1.8 $
  */
 public abstract class AbstractMetaInfoManager extends AbstractLogEnabled implements MetaInfoManager
 {

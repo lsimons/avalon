@@ -28,8 +28,8 @@ import org.apache.avalon.framework.logger.NullLogger;
 /**
  * Fortress container example with custom extensions
  *
- * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version $Id: Main.java,v 1.8 2004/02/21 13:27:02 niclas Exp $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version $Id: Main.java,v 1.9 2004/02/24 22:31:21 niclas Exp $
  */
 public final class Main
 {

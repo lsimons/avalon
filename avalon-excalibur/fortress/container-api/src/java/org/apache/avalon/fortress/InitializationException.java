@@ -24,8 +24,8 @@ import org.apache.avalon.framework.CascadingException;
  * ContainerManager, and it is unable to create a new instance of your
  * Container.
  *
- * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.6 $ $Date: 2004/02/21 13:26:59 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version CVS $Revision: 1.7 $ $Date: 2004/02/24 22:31:19 $
  */
 public final class InitializationException extends CascadingException
 {

@@ -20,7 +20,7 @@ package org.apache.avalon.fortress.util.dag;
 /**
  * CyclicDependencyException is thrown any time the DAG verifier finds a cycle.
  *
- * @author <a href="bloritsch.at.apache.org">Berin Loritsch</a>
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @version CVS $ Revision: 1.1 $
  */
 public class CyclicDependencyException extends Exception

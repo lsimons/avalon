@@ -25,7 +25,7 @@ import org.xml.sax.helpers.AttributesImpl;
 /**
  * Test the basic public methods of SAXConfigurationHandlerTestCase.
  *
- * @author <a href="mailto:rantene@hotmail.com">Ran Tene</a>
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
 public final class SAXConfigurationHandlerTestCase extends TestCase
 {

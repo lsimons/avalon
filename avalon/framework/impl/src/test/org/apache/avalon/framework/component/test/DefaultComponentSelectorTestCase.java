@@ -23,7 +23,7 @@ import org.apache.avalon.framework.component.DefaultComponentSelector;
 /**
  * Test the basic public methods of DefaultComponentSelector.
  *
- * @author <a href="mailto:rantene@hotmail.com">Ran Tene</a>
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
 public final class DefaultComponentSelectorTestCase
     extends TestCase

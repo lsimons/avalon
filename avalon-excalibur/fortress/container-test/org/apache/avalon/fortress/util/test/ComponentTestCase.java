@@ -28,8 +28,8 @@ import org.apache.avalon.framework.service.DefaultServiceManager;
  * This class provides basic facilities for enforcing Avalon's contracts
  * within your own code.
  *
- * @author <a href="bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.3 $ $Date: 2004/02/21 13:27:01 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version CVS $Revision: 1.4 $ $Date: 2004/02/24 22:31:21 $
  */
 public final class ComponentTestCase
     extends TestCase

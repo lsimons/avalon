@@ -27,8 +27,8 @@ import org.apache.avalon.framework.logger.ConsoleLogger;
  * from a configuration hierarchy.  This is based on the DefaultRoleManager
  * in the org.apache.avalon.component package.
  *
- * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.4 $ $Date: 2004/02/21 13:27:01 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version CVS $Revision: 1.5 $ $Date: 2004/02/24 22:31:20 $
  * @since 4.1
  */
 public class ConfigurableRoleManagerTestCase

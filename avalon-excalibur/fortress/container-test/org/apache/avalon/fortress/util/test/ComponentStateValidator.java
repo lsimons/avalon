@@ -38,10 +38,8 @@ import org.apache.avalon.framework.service.Serviceable;
  *
  * Based on Avalon version from Sandbox.
  *
- * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @author <a href="mailto:mike@hihat.net">Michael McKibben</a>
- * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.2 $ $Date: 2004/02/21 13:27:01 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version CVS $Revision: 1.3 $ $Date: 2004/02/24 22:31:21 $
  */
 public final class ComponentStateValidator
 {

@@ -23,7 +23,7 @@ package org.apache.avalon.fortress.impl.factory;
  *  created wrapper for a given object for said wrapped object.
  * </p>
  *
- * @author <a href="mailto:olaf.bergner@gmx.de">Olaf Bergner</a>
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
 
 public interface WrapperClass

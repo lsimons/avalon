@@ -25,7 +25,7 @@ import org.apache.avalon.framework.configuration.DefaultConfigurationSerializer;
 /**
  * Test the basic public methods of DefaultConfigurationSerializer.
  *
- * @author <a href="mailto:leo.sutic@inspireinfrastructure.com">Leo Sutic</a>
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
 public final class DefaultConfigurationSerializerTestCase extends TestCase
 {

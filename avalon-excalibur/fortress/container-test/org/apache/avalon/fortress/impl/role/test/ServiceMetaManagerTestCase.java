@@ -29,7 +29,7 @@ import org.apache.avalon.framework.logger.NullLogger;
 /**
  * ServiceMetaManagerTestCase does XYZ
  *
- * @author <a href="bloritsch.at.apache.org">Berin Loritsch</a>
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @version CVS $ Revision: 1.1 $
  */
 public class ServiceMetaManagerTestCase extends AbstractMetaInfoManagerTestCase

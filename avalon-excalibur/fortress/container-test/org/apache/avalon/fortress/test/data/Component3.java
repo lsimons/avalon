@@ -24,8 +24,8 @@ package org.apache.avalon.fortress.test.data;
  * @x-avalon.lifestyle type=thread
  * @x-avalon.info name=component3
  *
- * @author Peter Donald
- * @version $Revision: 1.12 $ $Date: 2004/02/21 13:27:01 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version $Revision: 1.13 $ $Date: 2004/02/24 22:31:20 $
  */
 public class Component3
     implements Role3

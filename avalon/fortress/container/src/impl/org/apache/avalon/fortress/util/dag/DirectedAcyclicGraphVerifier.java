@@ -26,8 +26,7 @@ import java.util.*;
  * direction and there are no cycles or loops.  It is used to track dependencies
  * and ansure that dependencies can be loaded and unloaded in the proper order.
  *
- * @author <a href="bloritsch.at.d-haven.org">Berin Loritsch</a>
- * @author <a href="leif.at.apache.org">Leif Mortenson</a>
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @version CVS $ Revision: 1.1 $
  */
 public class DirectedAcyclicGraphVerifier

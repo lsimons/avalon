@@ -35,7 +35,7 @@ import java.util.*;
 /**
  * MetaInfoEntryTestCase does tests the meta info entry class
  *
- * @author <a href="bloritsch.at.apache.org">Berin Loritsch</a>
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @version CVS Revision: 1.1 $
  */
 public class MetaInfoEntryTestCase extends TestCase

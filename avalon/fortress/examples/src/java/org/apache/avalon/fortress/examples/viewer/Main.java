@@ -27,8 +27,8 @@ import org.apache.avalon.framework.container.ContainerUtil;
  * Fortress container example allowing you to perform lookups on components
  * via a simple swing gui.
  *
- * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version $Id: Main.java,v 1.9 2004/02/21 13:27:02 niclas Exp $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version $Id: Main.java,v 1.10 2004/02/24 22:31:22 niclas Exp $
  */
 public final class Main
 {

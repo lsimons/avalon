@@ -28,8 +28,8 @@ import org.apache.excalibur.event.command.CommandFailureHandler;
  * The default CommandFailureHandler used by Fortress to log any
  *  failures encountered while executing commands.
  *
- * @author <a href="leif.at.apache.org">Leif Mortenson</a>
- * @version CVS $Revision: 1.2 $ $Date: 2004/02/21 13:27:00 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version CVS $Revision: 1.3 $ $Date: 2004/02/24 22:31:20 $
  * @since 4.1
  */
 public class FortressCommandFailureHandler

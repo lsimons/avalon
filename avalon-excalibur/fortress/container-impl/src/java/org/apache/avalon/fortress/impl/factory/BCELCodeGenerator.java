@@ -34,7 +34,7 @@ import java.util.Set;
  *  <code>WrapperClass</code>.
  * </p>
  *
- * @author <a href="mailto:olaf.bergner@gmx.de>Olaf Bergner</a>
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
 
 public final class BCELCodeGenerator

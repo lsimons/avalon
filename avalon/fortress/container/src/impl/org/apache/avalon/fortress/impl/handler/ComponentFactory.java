@@ -40,9 +40,8 @@ import org.apache.excalibur.mpool.ObjectFactory;
 /**
  * Factory for Avalon components.
  *
- * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @author <a href="mailto:paul@luminas.co.uk">Paul Russell</a>
- * @version CVS $Revision: 1.26 $ $Date: 2004/02/21 13:27:00 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version CVS $Revision: 1.27 $ $Date: 2004/02/24 22:31:19 $
  * @since 4.0
  */
 public final class ComponentFactory

@@ -26,9 +26,8 @@ import java.util.HashMap;
 
 /**
  * 
- *
- * @author <a href="lsimons at jicarilla dot org">Leo Simons</a>
- * @version $Id: ValuedEnumTestCase.java,v 1.2 2004/02/21 13:27:02 niclas Exp $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version $Id: ValuedEnumTestCase.java,v 1.3 2004/02/24 22:31:22 niclas Exp $
  */
 public class ValuedEnumTestCase extends TestCase
 {

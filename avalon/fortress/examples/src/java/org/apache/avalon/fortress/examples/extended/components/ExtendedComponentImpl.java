@@ -31,8 +31,8 @@ import org.apache.avalon.fortress.examples.extended.extensions.SecurityManageabl
  * @x-avalon.info name=extended-component
  * @x-avalon.lifestyle type=singleton
  *
- * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Revision: 1.8 $ $Date: 2004/02/21 13:27:02 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version CVS $Revision: 1.9 $ $Date: 2004/02/24 22:31:21 $
  */
 public class ExtendedComponentImpl
     extends AbstractLogEnabled

@@ -29,8 +29,8 @@ import org.apache.avalon.framework.service.ServiceManager;
 /**
  * A testcase for the different handlers.
  *
- * @author Peter Donald
- * @version $Revision: 1.15 $ $Date: 2004/02/21 13:27:01 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version $Revision: 1.16 $ $Date: 2004/02/24 22:31:20 $
  */
 public class HandlersTestCase extends TestCase
 {

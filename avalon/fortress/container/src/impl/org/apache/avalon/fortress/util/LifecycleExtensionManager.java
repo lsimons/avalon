@@ -45,8 +45,8 @@ import java.util.List;
  * inserted.
  * </p>
  *
- * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Revision: 1.10 $ $Date: 2004/02/21 13:27:00 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version CVS $Revision: 1.11 $ $Date: 2004/02/24 22:31:20 $
  */
 public final class LifecycleExtensionManager
         extends AbstractLogEnabled

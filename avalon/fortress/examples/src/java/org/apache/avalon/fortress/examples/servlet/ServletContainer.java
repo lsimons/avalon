@@ -27,8 +27,8 @@ import javax.servlet.ServletResponse;
  * displaying the possible languages they can see the text 'hello world'
  * written in.
  *
- * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Revision: 1.7 $ $Date: 2004/02/21 13:27:02 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version CVS $Revision: 1.8 $ $Date: 2004/02/24 22:31:22 $
  */
 public final class ServletContainer extends org.apache.avalon.fortress.impl.DefaultContainer
 {

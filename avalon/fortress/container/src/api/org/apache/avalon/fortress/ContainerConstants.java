@@ -22,8 +22,8 @@ package org.apache.avalon.fortress;
  * A impl should allow these values to propagate down to child
  * containers, so that they may create child containers in turn.
  *
- * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.5 $ $Date: 2004/02/21 13:26:59 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version CVS $Revision: 1.6 $ $Date: 2004/02/24 22:31:19 $
  */
 public interface ContainerConstants
 {
