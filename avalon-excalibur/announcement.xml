@@ -24,7 +24,7 @@ server side programming.
 @name@ Excalibur contains several premade Avalon Components
 and utilities to make your server side programming easier.
 There are several pool implementations, Component management
-implamentations, and database management implementations.
+implementations, and database management implementations.
       </abstract>
       <changes version="@version@" file="changes.xml"/>
     </subproject>
