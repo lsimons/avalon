@@ -31,7 +31,7 @@ import java.net.MalformedURLException;
  * properties.
  *
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public class Artifact implements Serializable
 {
@@ -309,13 +309,32 @@ public class Artifact implements Serializable
     */
     public String toString()
     {
-        if( null != getType() )
+        if( "block".equals( getType() ) )
         {
-            return "[" + getType() + ": " + getSpecification() + "]";
+            String path = "block:" + getGroup() + "/" + getName();
+            if( getVersion() != null ) path = path + "?version=" + getVersion();
+            return path;
+        }
+        else if( "jar".equals( getType() ) )
+        {
+            String path = "artifact:" + getGroup() + "/" + getName();
+            if( getVersion() != null ) path = path + "?version=" + getVersion();
+            return path;
         }
         else
         {
-            return "[artifact: " + getSpecification() + "]";
+            String path = "artifact:" + getGroup() + "/" + getName();
+            if( getVersion() != null )
+            { 
+                path = path + "?version=" + getVersion();
+                if( getType() != null ) path = path + "&type=" + getType();
+                return path;
+            }
+            else
+            {
+                if( getType() != null ) path = path + "?type=" + getType();
+                return path;
+            }
         }
     }
 

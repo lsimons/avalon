@@ -862,6 +862,10 @@ public class DefaultFactory implements Factory
           + criteria.getLoggingImplementation() );
 
         buffer.append( 
+          "\n  ${merlin.runtime} == " 
+          + getRuntimeArtifact( criteria ).toString() );
+
+        buffer.append( 
           "\n  ${merlin.override} == " 
           + criteria.getOverridePath() );
 

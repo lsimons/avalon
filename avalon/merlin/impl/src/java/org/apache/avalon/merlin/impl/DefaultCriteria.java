@@ -55,7 +55,7 @@ import org.apache.avalon.util.criteria.PackedParameter;
  * for application to a factory.
  *
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.19 $
+ * @version $Revision: 1.20 $
  */
 public class DefaultCriteria extends Criteria implements KernelCriteria
 {
@@ -544,7 +544,7 @@ public class DefaultCriteria extends Criteria implements KernelCriteria
     */
     public Artifact getSecureRuntimeImplementation()
     {
-        String value = (String) get( MERLIN_RUNTIME_IMPLEMENTATION );
+        String value = (String) get( MERLIN_CS_RUNTIME_IMPLEMENTATION );
         return Artifact.createArtifact( value );
     }
 
