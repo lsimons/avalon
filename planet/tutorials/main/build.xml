@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<project name="avalon-tutorial-main" default="install" basedir="." 
+    xmlns:x="antlib:org.apache.avalon.tools">
+
+  <property file="build.properties"/>
+  <import file="${project.system}/build/standard.xml"/>
+
+  <target name="init" depends="standard.init">
+    <x:filter key="avalon-merlin-impl" feature="uri" 
+       token="MERLIN-IMPL-SPEC"/>
+    <x:filter key="avalon-tutorial-hello" feature="uri" 
+       token="HELLO-TUTORIAL-URI"/>
+  </target>
+
+  <target name="test" depends="standard.test">
+    <x:path id="deps"/>
+    <java classname="tutorial.Main" fork="true" dir="target\test">
+      <classpath>
+        <path refid="deps"/>
+        <pathelement location="target/deliverables/jars/${project.filename}"/>
+      </classpath>
+    </java>
+  </target>
+
+</project>
+
