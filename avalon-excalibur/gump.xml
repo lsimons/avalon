@@ -28,7 +28,7 @@
         <depend project="excalibur-xmlutil"/>
         <depend project="excalibur-testcase"/>
         <depend project="excalibur-io"/>
-	<depend project="excalibur-thread"/>
+        <depend project="excalibur-thread"/>
         <depend project="excalibur-concurrent"/>
         <depend project="excalibur-threadcontext"/>
         <depend project="excalibur-util"/>
@@ -41,7 +41,7 @@
         <depend project="rhino"/>
         <depend project="junitperf"/>
 
-	<depend project="jakarta-velocity" inherit="runtime"/>
+        <depend project="jakarta-velocity" inherit="runtime"/>
 
         <option project="jdbc"/>
         <option project="jaxen"/>
@@ -49,7 +49,7 @@
 
         <work nested="all/build/classes"/>
         <work nested="all/build/scratchpad"/>
-	<work nested="collections/build/testclasses"/>
+        <work nested="collections/build/testclasses"/>
         <work nested="monitor/build/classes"/>
 
         <home nested="all/build/lib"/>
@@ -370,7 +370,7 @@
         <depend project="jakarta-avalon" runtime="true"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
-       <work nested="datasource/build/classes"/>
+        <work nested="datasource/build/classes"/>
 
         <home nested="datasource"/>
         <jar name="build/lib/excalibur-datasource-@@DATE@@.jar"/>
@@ -401,7 +401,7 @@
         <depend project="jakarta-avalon" runtime="true"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
-       <work nested="event/build/classes"/>
+        <work nested="event/build/classes"/>
 
         <home nested="event"/>
         <jar name="build/lib/excalibur-event-@@DATE@@.jar"/>
@@ -554,31 +554,6 @@
 
         <home nested="merlin"/>
         <jar name="build/lib/excalibur-merlin-@@DATE@@.jar"/>
-
-        <nag from="Peter Donald &lt;peter@apache.org&gt;"
-            to="avalon-dev@jakarta.apache.org"/>
-    </project>
-
-    <project name="excalibur-microcontainer">
-        <package>org.apache.excalibur.microcontainer</package>
-
-        <ant basedir="microcontainer">
-            <depend property="excalibur-datasource.jar" project="excalibur-datasource"/>
-            <property name="version" value="@@DATE@@"/>
-            <property name="junit.failonerror" value="true"/>
-            <property name="do.checkstyle" value="true"/>
-            <property name="skip.dependencies" value="true"/>
-        </ant>
-
-        <depend project="jakarta-ant" inherit="runtime"/>
-        <depend project="checkstyle"/>
-        <depend project="jakarta-avalon" runtime="true"/>
-        <depend project="xml-xerces"/>
-        <depend project="xml-xalan2"/>
-        <work nested="microcontainer/build/classes"/>
-
-        <home nested="microcontainer"/>
-        <jar name="build/lib/excalibur-microcontainer-@@DATE@@.jar"/>
 
         <nag from="Peter Donald &lt;peter@apache.org&gt;"
             to="avalon-dev@jakarta.apache.org"/>

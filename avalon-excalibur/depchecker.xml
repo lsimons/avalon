@@ -3,7 +3,7 @@
 <!--
 ============================================================
                 Dependency updater
-                   Version $Revision: 1.32 $
+                   Version $Revision: 1.33 $
            Jeff Turner <jefft@apache.org>
 
 This Ant script provides "functions" to check if
@@ -435,13 +435,6 @@ To use it, type 'ant -f depchecker.xml'
             <property name="proj.jar.name" value="excalibur-datasource.jar"/>
             <property name="path" value="${excalibur-datasource.jar}"/>
             <property name="proj.home" value="${basedir}/../datasource"/>
-        </ant>
-    </target>
-    <target name="checkMicroContainer">
-        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
-            <property name="proj.jar.name" value="excalibur-microcontainer.jar"/>
-            <property name="path" value="${excalibur-microcontainer.jar}"/>
-            <property name="proj.home" value="${basedir}/../microcontainer"/>
         </ant>
     </target>
     <target name="checkMonitor">
