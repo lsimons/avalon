@@ -30,16 +30,10 @@ import java.util.Set;
  * A doclet tag handler supporting 'logger' tags.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2004/02/21 13:27:04 $
+ * @version $Revision: 1.3 $ $Date: 2004/03/11 13:44:55 $
  */
 public class SchemaTag extends AbstractTag
 {
-    /**
-     * The default logger class.
-     */
-    protected static final String CONFIGURATION_CLASS =
-            "org.apache.avalon.framework.configuration.Configuration";
-
     /**
      * The javadoc key for the logger tag.
      */
@@ -63,8 +57,11 @@ public class SchemaTag extends AbstractTag
     }
 
     /**
-     * Return a schema descriptor string if present
-     * @return the set of logger descriptos
+     * Return a schema descriptor string if present else return a null
+     * string.  The value returned corresponds to information derived from
+     * the first avalon.configuration tag declared.
+     *
+     * @return the string identifying the configuration schema
      */
     public String getConfigurationSchema()
     {
@@ -86,6 +83,7 @@ public class SchemaTag extends AbstractTag
      */
     private void setMethods()
     {
-        m_methods = getLifecycleMethods( "configure", CONFIGURATION_CLASS );
+        return findTaggedMethods( 
+          getJavaClass(), getNS() + Tags.DELIMITER + KEY );
     }
 }

@@ -33,7 +33,7 @@ import org.apache.avalon.meta.info.ReferenceDescriptor;
  * A doclet tag handler for the 'extension' tag.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2004/02/21 13:27:04 $
+ * @version $Revision: 1.3 $ $Date: 2004/03/11 13:44:55 $
  */
 public class ContextTag extends AbstractTag
 {
@@ -88,7 +88,7 @@ public class ContextTag extends AbstractTag
     }
 
    /**
-    * Return an array of StageDescriptor instances based on declared 'stage' tags.
+    * Return a single ContextDescriptor instance.
     * @return the context descriptors
     */
     public ContextDescriptor getContext()
