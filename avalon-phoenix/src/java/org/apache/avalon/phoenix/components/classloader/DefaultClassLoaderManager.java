@@ -31,6 +31,11 @@ import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
 import org.apache.avalon.phoenix.interfaces.ClassLoaderManager;
+import org.apache.avalon.phoenix.components.util.ConfigurationUtil;
+import org.apache.excalibur.policy.reader.PolicyReader;
+import org.apache.excalibur.policy.metadata.PolicyMetaData;
+import org.apache.excalibur.policy.builder.PolicyBuilder;
+import org.w3c.dom.Element;
 
 /**
  * Component that creates and manages the {@link ClassLoader}
@@ -256,10 +261,22 @@ public class DefaultClassLoaderManager
                                     final File workDirectory )
         throws ConfigurationException
     {
-        final DefaultPolicy policy =
-            new DefaultPolicy( baseDirectory, workDirectory );
-        policy.enableLogging( getLogger() );
-        policy.configure( configuration );
-        return policy;
+        final SarPolicyResolver resolver =
+            new SarPolicyResolver(baseDirectory, workDirectory );
+        setupLogger( resolver );
+        final PolicyBuilder builder = new PolicyBuilder();
+        final PolicyReader reader = new PolicyReader();
+
+        final Element element = ConfigurationUtil.toElement( configuration );
+        element.setAttribute( "version", "1.0" );
+        try
+        {
+            final PolicyMetaData policyMetaData = reader.readPolicy( element );
+            return builder.buildPolicy( policyMetaData, resolver );
+        }
+        catch( final Exception e )
+        {
+            throw new ConfigurationException( e.getMessage(), e );
+        }
     }
 }
