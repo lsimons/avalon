@@ -728,7 +728,8 @@ http://avalon.apache.org/download.cgi
 
     <!-- common dependencies -->
     <depend project="ant" inherit="runtime"/>
-    <depend project="xml-xalan2"/>
+
+    <depend project="xml-xalan2"/><!-- support for <junitreport/> -->
     <depend project="xml-xerces"/>
 
     <!-- dump out the set of dependencies -->
@@ -746,6 +747,7 @@ http://avalon.apache.org/download.cgi
     <j:if test="${api.src.present}"><jar name="target/${pom.artifactId}-@@DATE@@-api.jar"/></j:if>
     <j:if test="${impl.src.present}"><jar name="target/${pom.artifactId}-@@DATE@@-impl.jar"/></j:if>
     <javadoc nested="${component.dir}/target/docs/apidocs"/>
+    <junitreport nested="${component.dir}/target/docs/junitreports"/>
 
     <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
             to="dev@avalon.apache.org"/>

@@ -24,6 +24,7 @@
     <jar name="target/avalon-framework-@@DATE@@-api.jar" id="api"/>
     <jar name="target/avalon-framework-@@DATE@@-impl.jar" id="impl"/>
     <javadoc nested="framework/target/docs/apidocs"/>
+    <junitreport nested="framework/target/docs/junitreports"/>
 
     <nag to="dev@avalon.apache.org" from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"/>
 </project>
