@@ -52,10 +52,10 @@
               of Control</em>.  The military provides each new recruit
               with the basic things they need to operate at their rank,
               and issues commands that recruit must obey.  The same
-              principle applies in code.  Each Component is given the
+              principle applies in code.  Each component is given the
               provisions they need to operate by the instantiating
               entity (i.e. Commanding Officer in this analogy).  The
-              instantiating entity then acts on that Component how it
+              instantiating entity then acts on that component how it
               needs to act.
             </p>
 	    <p>
@@ -75,12 +75,12 @@
       <s1 title="How to Apply It">
         <p>
           <em>Inversion of Control</em> is applied in a very simple
-          manner.  Basically, it means that the Component architecture
+          manner.  Basically, it means that the component architecture
           employs a <em>passive</em> structure.  See the following code:
         </p>
         <source>
 class MyComponent 
-    implements Component, LogEnabled
+    implements LogEnabled
 {
     Logger logger;
 
@@ -117,7 +117,7 @@ class MyComponent
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.1 $ $Date: 2002/05/03 10:19:53 $
+      $Revision: 1.2 $ $Date: 2002/10/27 12:53:27 $
     </legal>
   </footer>
 </document>
