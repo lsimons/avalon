@@ -16,14 +16,14 @@
       <p>
         The source resolver of Avalon Excalibur is a component
         helping you in this task. It resolves sources from a given
-        URI. The URI can use all available protocols of the JDK.
+        URI. The URI can use all available protocols of the JVM.
         In addition own protocols can be plugged-in.
       </p>
       <p>
         The architecture of this package is simple but powerful.
         The main component is the SourceResolver. It is used
         to resolve any URI. If the SourceResolver can resolve the
-        protocol of the URI it returns a Source object. This Source
+        protocol of the URI, it returns a Source object. This Source
         object is an abstraction of the underlying resource. This
         resource can be accessed by a provided InputStream.
       </p>
@@ -37,7 +37,7 @@
       </p>
       <p>
         The Source object is handled similar to any other Avalon component.
-        After it has been used it must be released using SourceResolver.
+        After it has been used it must be released using the SourceResolver.
         In addition the implementation of the Source object can implement
         any of the lifecycle interfaces of usual components and it gets
         all the information from the SourceResolver.
@@ -51,14 +51,19 @@
       <p>
         For caching purposes the Source object offers a SourceValidity object
         which can be used in addition to the system ID of the Source to verify
-        if the cache contains a valid version of the Source object.
+        if a cache contains a valid version of the Source object.
+      </p>
+    </s1>
+    <s1 title="Projects">
+      <p>You can see the source resolving in action in the Apache Cocoon
+        project.
       </p>
     </s1>
   </body>
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.1 $ $Date: 2002/04/05 06:54:57 $
+      $Revision: 1.2 $ $Date: 2002/06/05 13:56:44 $
     </legal>
   </footer>
 </document>
