@@ -8,6 +8,7 @@
 package org.apache.avalon.excalibur.datasource;
 
 import java.util.List;
+import java.util.Date;
 import org.apache.avalon.excalibur.concurrent.Lock;
 import org.apache.avalon.excalibur.pool.DefaultPoolController;
 import org.apache.avalon.excalibur.pool.HardResourceLimitingPool;
@@ -21,7 +22,7 @@ import org.apache.avalon.framework.logger.AbstractLoggable;
  * thread to manage the number of SQL Connections.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.8 $ $Date: 2001/11/02 19:46:21 $
+ * @version CVS $Revision: 1.9 $ $Date: 2001/11/02 20:49:40 $
  * @since 4.0
  */
 public class JdbcConnectionPool
