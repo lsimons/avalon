@@ -21,7 +21,7 @@
 
   <properties>
     <author email="mcconnell@apache.org">Stephen McConnell</author>
-    <title>Cornerstone</title>
+    <title>Avalon Central</title>
   </properties>
 
   <body>
@@ -29,14 +29,15 @@
       <subsection name="Binary Downloads">
 
         <p>
-        Binary downloads of the official release of Merlin installation, tutorials, and 
+        Binary downloads of the Merlin products and 
         related documentation are available at on the following 
         <a href="http://avalon.apache.org/download.cgi">Avalon Download Mirror</a>.
         </p>
 
         <p>
-        <a href="http://www.dpml.net/merlin/distributions/?M=D">Final, interim and snapshot builds</a> of the 
-        Merlin platform are also hosted under the DPML.  Please note that interim and snapshot builds are 
+        <a href="http://www.dpml.net/merlin/distributions/?M=D">
+        Final interim and snapshot builds</a> are also hosted under 
+        the DPML.  Please note that interim and snapshot builds are 
         not subject to a formal release review process.
         </p>
 
