@@ -349,7 +349,7 @@ namespace Apache.Avalon.Castle.ManagementExtensions.Default.Strategy
 
 				CodeMethodInvokeExpression methodInv = 
 					new CodeMethodInvokeExpression(
-						new CodeFieldReferenceExpression(thisRef, "instance"), methodInfo.Name);
+					new CodeFieldReferenceExpression(thisRef, "instance"), methodInfo.Name);
 				
 				int index = 0;
 				foreach(ParameterInfo parameter in methodInfo.GetParameters())
@@ -363,7 +363,16 @@ namespace Apache.Avalon.Castle.ManagementExtensions.Default.Strategy
 					methodInv.Parameters.Add(castExp);
 				}
 
-				stmt.TrueStatements.Add(methodInv);
+				if (methodInfo.ReturnType != typeof(void))
+				{
+					CodeMethodReturnStatement retStmt = new CodeMethodReturnStatement(methodInv);
+					
+					stmt.TrueStatements.Add(retStmt);
+				}
+				else
+				{
+					stmt.TrueStatements.Add(methodInv);
+				}
 
 				method.Statements.Add(stmt);
 			}
