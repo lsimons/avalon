@@ -149,7 +149,7 @@ $ source ~/.bash_profile
 <source><![CDATA[
 $ merlin.sh -help
 usage: merlin [block] [-debug] [-config <file>] [-lang
-<code>] [-system <directory>] [-kernel <file>] [-home
+<code>] [-repository <directory>] [-kernel <file>] [-home
 <directory>] [-version] [-help]
 ...
 ]]></source>

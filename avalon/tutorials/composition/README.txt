@@ -22,7 +22,7 @@ Build and execution instructions:
 
   $ cd application/impl
   $ maven build
-  $ merlin target\*.jar -system %MAVEN_HOME% -execute
+  $ merlin -execute target\*.jar -repository %MAVEN_HOME% 
 
   [INFO   ] (application.publisher.publisher): created
   [INFO   ] (application.location.info): location: Paris
@@ -38,7 +38,7 @@ Build and execution instructions:
 
 Use the following command to include container debug level log entries for the demanding developer.
 
-  $ merlin target\*.jar -system %MAVEN_HOME% -execute -config conf\debug.xml
+  $ merlin -execute -repository %MAVEN_HOME% target\*.jar -config conf\debug.xml
 
 Summary
 -------

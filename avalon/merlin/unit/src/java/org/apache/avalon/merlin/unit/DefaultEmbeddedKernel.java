@@ -153,17 +153,27 @@ public class DefaultEmbeddedKernel implements Runnable, Kernel
     {
         m_map = map;
 
+        ClassLoader current = Thread.currentThread().getContextClassLoader();
+
         try
         {
             m_repository = createBootstrapRepository();
             Properties properties = loadBootstrapProperties();
-            ClassLoader current = Thread.currentThread().getContextClassLoader();
             m_classloader = createClassLoader( current, m_repository, properties );
         }
         catch( Throwable e )
         {
             final String error = 
               "Internal error while attempting to build the loader.";
+            System.out.println( error );
+            if( current instanceof URLClassLoader )
+            {
+                printClassLoader( (URLClassLoader) current );
+            }
+            else
+            {
+                System.out.println( "Current classloader is not a URLClassLoader." );
+            }
             throw new UnitRuntimeException( error, e );
         }
     }
@@ -199,6 +209,9 @@ public class DefaultEmbeddedKernel implements Runnable, Kernel
         {
             m_error = e;
             m_started = true;
+            printClassLoader( 
+              (URLClassLoader) Thread.currentThread().getContextClassLoader() );
+            e.printStackTrace();
         }
 
         while( m_command != EXIT )
