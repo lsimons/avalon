@@ -81,7 +81,6 @@ public class Home extends Sequential
     private String m_id;
     private String m_key;
 
-    private Project m_project;
     private Repository m_repository;
     private File m_system;
     private File m_file;
@@ -89,16 +88,6 @@ public class Home extends Sequential
     private final Hashtable m_resources = new Hashtable();
     private Definition m_definition;
     private BuildListener m_listener;
-
-    //-------------------------------------------------------------
-    // constructor
-    //-------------------------------------------------------------
-
-    public Home( Project project )
-    {
-        super();
-        m_project = project;
-    }
 
     //-------------------------------------------------------------
     // setters
@@ -183,8 +172,7 @@ public class Home extends Sequential
         }
 
         m_system = m_file.getParentFile();
-        m_project.log( "home: " + m_system, Project.MSG_DEBUG );
-
+        log( "home: " + m_system, Project.MSG_DEBUG );
 
         Element root = ElementHelper.getRootElement( m_file );
         final Element repo = ElementHelper.getChild( root, "repository" );
@@ -311,7 +299,7 @@ public class Home extends Sequential
 
     public void build( Definition definition )
     {
-        Ant ant = (Ant) m_project.createTask( "ant" );
+        Ant ant = (Ant) getProject().createTask( "ant" );
         Property property = ant.createProperty();
         property.setName( "urn:avalon.definition.key" );
         property.setValue( definition.getKey() );
@@ -369,14 +357,14 @@ public class Home extends Sequential
         if( null == resources ) return;
 
         Element[] resourceArray = ElementHelper.getChildren( resources, "resource" );
-        m_project.log( "resources: " + resourceArray.length, Project.MSG_DEBUG );
+        log( "resources: " + resourceArray.length, Project.MSG_DEBUG );
         for( int i=0; i<resourceArray.length; i++ )
         {
             Element child = resourceArray[i];
             Resource resource = XMLDefinitionBuilder.createResource( this, child );
             String key = resource.getKey();
             m_resources.put( key, resource );
-            m_project.log( 
+            log( 
               "resource: " + resource + " key=" + key, 
               Project.MSG_DEBUG );
         }
@@ -387,7 +375,7 @@ public class Home extends Sequential
         if( null == projects ) return;
 
         Element[] entries = ElementHelper.getChildren( projects );
-        m_project.log( 
+        log( 
           "projects: " + entries.length, 
           Project.MSG_DEBUG );
         for( int i=0; i<entries.length; i++ )
@@ -397,7 +385,7 @@ public class Home extends Sequential
               XMLDefinitionBuilder.createDefinition( this, element, m_system );
             String key = definition.getKey();
             m_resources.put( key, definition );
-            m_project.log( 
+            log( 
               "project: " + definition + " key=" + key, 
               Project.MSG_DEBUG );
         }
@@ -406,12 +394,12 @@ public class Home extends Sequential
     private Repository createRepository( Element repo )
     {
         Repository repository = new Repository( this, repo );
-        m_project.log( "cache: " + repository.getCacheDirectory(), Project.MSG_DEBUG );
+        log( "cache: " + repository.getCacheDirectory(), Project.MSG_DEBUG );
         String[] hosts = repository.getHosts();
-        m_project.log( "Hosts: " + hosts.length, Project.MSG_DEBUG );
+        log( "Hosts: " + hosts.length, Project.MSG_DEBUG );
         for( int i=0; i<hosts.length; i++ )
         {
-            m_project.log( "  host: " + hosts[i], Project.MSG_DEBUG ); 
+            log( "  host: " + hosts[i], Project.MSG_DEBUG ); 
         }
         return repository;
     }
