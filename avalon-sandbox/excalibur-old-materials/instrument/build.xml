@@ -106,20 +106,6 @@
     </target>
 
     <target name="compile-manager" depends="manager-dependencies, compile" description="Compile Manager source Code">
-        <javac srcdir="${client.dir}"
-            destdir="${build.client.classes}"
-            debug="${build.debug}"
-            optimize="${build.optimize}"
-            deprecation="${build.deprecation}"
-            target="1.2">
-            <classpath>
-              <path refid="project.class.path" />
-              <pathelement path="${build.manager.classes}"/>
-              <pathelement path="${build.classes}"/>
-            </classpath>
-            <include name="**/*.java"/>
-        </javac>
-
         <javac srcdir="${manager.dir}"
             destdir="${build.manager.classes}"
             debug="${build.debug}"
@@ -133,6 +119,20 @@
             <include name="**/*.java"/>
             <exclude name="org/apache/excalibur/instrument/component/*"
                      unless="ecm.present"/>
+        </javac>
+
+        <javac srcdir="${client.dir}"
+            destdir="${build.client.classes}"
+            debug="${build.debug}"
+            optimize="${build.optimize}"
+            deprecation="${build.deprecation}"
+            target="1.2">
+            <classpath>
+              <path refid="project.class.path" />
+              <pathelement path="${build.manager.classes}"/>
+              <pathelement path="${build.classes}"/>
+            </classpath>
+            <include name="**/*.java"/>
         </javac>
     </target>
 
