@@ -17,12 +17,6 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.Iterator;
 import java.util.Map;
-/*
-import org.apache.avalon.excalibur.monitor.FileResource;
-import org.apache.avalon.excalibur.monitor.Monitorable;
-import org.apache.avalon.excalibur.monitor.Resource;
-import org.apache.avalon.excalibur.monitor.SourceResource;
-*/
 import org.apache.excalibur.source.*;
 import org.apache.excalibur.source.impl.validity.TimeStampValidity;
 
@@ -30,11 +24,11 @@ import org.apache.excalibur.source.impl.validity.TimeStampValidity;
  * Description of a source which is described by an URL.
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.3 $ $Date: 2002/04/22 09:24:45 $
+ * @version CVS $Revision: 1.4 $ $Date: 2002/04/23 15:35:27 $
  */
 
-public final class URLSource
-    implements Source //, Monitorable
+public class URLSource
+    implements Source
 {
 
     /** With this parameter you can specify the method to use for a http request.
@@ -48,31 +42,31 @@ public final class URLSource
     public final String REQUEST_PARAMETERS = "org.apache.avalon.excalibur.source.Source.request.parameters";
 
     /** Identifier for file urls */
-    private final String FILE = "file:";
+    protected final String FILE = "file:";
 
     /** The last modification date or 0 */
-    private long lastModificationDate;
+    protected long lastModificationDate;
 
     /** The system id */
-    private String systemId;
+    protected String systemId;
 
     /** The URL of the source */
-    private URL url;
+    protected URL url;
 
     /** The connection for a real URL */
-    private URLConnection connection;
+    protected URLConnection connection;
 
     /** Is this a file or a "real" URL */
-    private boolean isFile;
+    protected boolean isFile;
 
     /** Are we initialized? */
-    private boolean gotInfos;
+    protected boolean gotInfos;
 
     /** The <code>SourceParameters</code> used for a post*/
-    private SourceParameters parameters;
+    protected SourceParameters parameters;
 
     /** Is this a post? */
-    private boolean isPost = false;
+    protected boolean isPost = false;
 
     /**
      * Construct a new object from a <code>URL</code>.
@@ -129,7 +123,7 @@ public final class URLSource
      * Get the last modification date and content length of the source.
      * Any exceptions are ignored.
      */
-    private void getInfos()
+    protected void getInfos()
     {
         if( !this.gotInfos )
         {
@@ -285,7 +279,7 @@ public final class URLSource
      * Check if the <code>URL</code> class supports the getUserInfo()
      * method which is introduced in jdk 1.3
      */
-    private String getUserInfo()
+    protected String getUserInfo()
     {
         if( URLSource.checkedURLClass == true )
         {
