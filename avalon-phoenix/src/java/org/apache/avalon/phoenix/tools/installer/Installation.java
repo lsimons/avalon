@@ -8,7 +8,6 @@
 package org.apache.avalon.phoenix.tools.installer;
 
 import java.io.File;
-import java.net.URL;
 
 /**
  * Descriptor for installation.
@@ -21,28 +20,28 @@ import java.net.URL;
 public final class Installation
 {
     ///Directory in which application is installed
-    private File  m_directory;
+    private File     m_directory;
 
     ///URL to block configuration data
-    private URL   m_config;
+    private String   m_config;
 
     ///URL to assembly data
-    private URL   m_assembly;
+    private String   m_assembly;
 
     ///URL to application configuration data
-    private URL   m_server;
+    private String   m_server;
 
     ///ClassPath for application
-    private URL[] m_classPath;
+    private String[] m_classPath;
         
     ///Info for expanded files
     private FileDigest[] m_fileDigests;
 
     public Installation( final File directory,
-                         final URL config,
-                         final URL assembly,
-                         final URL server,
-                         final URL[] classPath )
+                         final String config,
+                         final String assembly,
+                         final String server,
+                         final String[] classPath )
     {
         m_directory = directory;
         m_config = config;
@@ -52,10 +51,10 @@ public final class Installation
     }
 
     public Installation( final File directory,
-                         final URL config,
-                         final URL assembly,
-                         final URL server,
-                         final URL[] classPath,
+                         final String config,
+                         final String assembly,
+                         final String server,
+                         final String[] classPath,
                          final FileDigest[] fileDigests )
     {
         this( directory, config, assembly, server, classPath );
@@ -77,7 +76,7 @@ public final class Installation
      *
      * @return url to config.xml file
      */
-    public URL getConfig()
+    public String getConfig()
     {
         return m_config;
     }
@@ -87,7 +86,7 @@ public final class Installation
      *
      * @return url to assembly.xml file
      */
-    public URL getAssembly()
+    public String getAssembly()
     {
         return m_assembly;
     }
@@ -97,7 +96,7 @@ public final class Installation
      *
      * @return url to server.xml file
      */
-    public URL getServer()
+    public String getServer()
     {
         return m_server;
     }
@@ -107,7 +106,7 @@ public final class Installation
      *
      * @return the classpath
      */
-    public URL[] getClassPath()
+    public String[] getClassPath()
     {
         return m_classPath;
     }
@@ -120,5 +119,4 @@ public final class Installation
     {
         return m_fileDigests;
     }    
-    
 }
