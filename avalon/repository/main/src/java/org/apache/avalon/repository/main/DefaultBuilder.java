@@ -81,7 +81,7 @@ import org.apache.avalon.util.exception.ExceptionHelper;
  * 
  * @author <a href="mailto:aok123@bellsouth.net">Alex Karasulu</a>
  * @author $Author: mcconnell $
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public class DefaultBuilder extends AbstractBuilder implements Builder
 {
@@ -136,8 +136,8 @@ public class DefaultBuilder extends AbstractBuilder implements Builder
     * Creates a DefaultBuilder for a specific target application.
     * 
     * @param context the initial repository context
+    * @param classloader the parent classloader
     * @param artifact the reference to the application
-    * @param args the command line arguments
     * @exception Exception if a app factory creation error occurs
     */
     public DefaultBuilder( 

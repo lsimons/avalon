@@ -104,7 +104,7 @@ import org.apache.avalon.meta.info.StageDescriptor;
  * appliance instance.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.12 $ $Date: 2003/11/28 11:58:46 $
+ * @version $Revision: 1.13 $ $Date: 2003/12/08 12:49:36 $
  */
 public class DefaultAppliance extends AbstractAppliance
   implements Composite, DefaultApplianceMBean
@@ -160,6 +160,8 @@ public class DefaultAppliance extends AbstractAppliance
     * The instance factory.
     */
     private final Factory m_factory = new StandardFactory();
+
+    private Object m_instance;
 
     //-------------------------------------------------------------------
     // mutable state
@@ -511,10 +513,10 @@ public class DefaultAppliance extends AbstractAppliance
 
             if( m_model.getActivationPolicy() )
             {
-                Object instance = resolve();
+                m_instance = resolve();
                 if( getLogger().isDebugEnabled() )
                 {
-                    int id = System.identityHashCode( instance );
+                    int id = System.identityHashCode( m_instance );
                     getLogger().debug( "activated instance: " + id );
                 }
             }
@@ -531,6 +533,12 @@ public class DefaultAppliance extends AbstractAppliance
         {
             if( !m_deployment.isEnabled() ) return;
             getLogger().debug( "decommissioning phase" );
+
+            if( m_model.getActivationPolicy() )
+            {
+                m_instance = null;
+            }
+
             if( m_lifestyle != null )
             {
                 if( m_lifestyle instanceof Disposable )
