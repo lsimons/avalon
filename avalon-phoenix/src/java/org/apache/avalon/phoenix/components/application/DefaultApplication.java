@@ -342,7 +342,7 @@ public final class DefaultApplication
         throws Exception
     {
         //Setup thread context for calling visitors
-        ThreadContext.setThreadContext( m_context.getThreadContext() );
+        Thread.currentThread().setContextClassLoader( m_context.getClassLoader() );
 
         try
         {
@@ -401,7 +401,7 @@ public final class DefaultApplication
         throws Exception
     {
         //Setup thread context for calling visitors
-        ThreadContext.setThreadContext( m_context.getThreadContext() );
+        Thread.currentThread().setContextClassLoader( m_context.getClassLoader() );
 
         try
         {
