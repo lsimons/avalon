@@ -92,7 +92,7 @@
   following the bootstrap phase. The location of magic.home will be 
   establised as target/target/${gump.signature}.
   -->
-  <target name="home" depends="signature-check">
+  <target name="home" depends="jar,signature-check">
     <property name="home" location="${basedir}/target/${gump.signature}"/>
     <echo>Creating 'magic.home' in ${home}</echo>
     <mkdir dir="${home}"/>
