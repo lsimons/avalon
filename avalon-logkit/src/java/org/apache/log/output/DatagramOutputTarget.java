@@ -25,6 +25,7 @@ import org.apache.log.LogTarget;
 public class DatagramOutputTarget
     extends AbstractOutputTarget
 {
+    ///Socket on which to send datagrams
     private DatagramSocket m_socket;
 
     /**
