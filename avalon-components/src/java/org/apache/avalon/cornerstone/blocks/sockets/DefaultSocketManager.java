@@ -11,6 +11,7 @@ import java.util.HashMap;
 import org.apache.avalon.cornerstone.services.sockets.ServerSocketFactory;
 import org.apache.avalon.cornerstone.services.sockets.SocketFactory;
 import org.apache.avalon.cornerstone.services.sockets.SocketManager;
+import org.apache.avalon.framework.CascadingException;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
@@ -135,8 +136,8 @@ public class DefaultSocketManager
         }
         catch( final Exception e )
         {
-            throw new Exception( "Error creating factory with class " +
-                                 className, e );
+            throw new CascadingException( "Error creating factory with class " +
+                                          className, e );
         }
 
         ContainerUtil.enableLogging( factory, getLogger() );
