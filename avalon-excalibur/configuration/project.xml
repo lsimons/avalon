@@ -7,7 +7,7 @@
   <id>excalibur-configuration</id>
   <name>Excalibur Configuration</name>
   <package>org.apache.excalibur.configuration</package>
-  <currentVersion>1.1-RC1</currentVersion>
+  <currentVersion>1.1</currentVersion>
 
   <inceptionYear>2002</inceptionYear>
   <shortDescription>
@@ -28,12 +28,12 @@
     <dependency>
       <groupId>avalon-framework</groupId>
       <artifactId>avalon-framework-api</artifactId>
-      <version>4.1.5-RC3</version>
+      <version>4.1.5</version>
     </dependency>
     <dependency>
       <groupId>avalon-framework</groupId>
       <artifactId>avalon-framework-impl</artifactId>
-      <version>4.1.5-RC3</version>
+      <version>4.1.5</version>
     </dependency>
 
     <!-- external dependecies -->

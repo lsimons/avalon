@@ -7,4 +7,6 @@
     <attainGoal name="license"/>
   </preGoal>
 
+  <goal name="avalon:dist" prereqs="jar:install,site,dist"/>
+
 </project>
