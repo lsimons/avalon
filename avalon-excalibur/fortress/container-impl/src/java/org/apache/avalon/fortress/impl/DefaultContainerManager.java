@@ -63,6 +63,7 @@ import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.ContextException;
 import org.apache.avalon.framework.logger.ConsoleLogger;
 import org.apache.avalon.framework.logger.Logger;
+import org.apache.avalon.framework.logger.Loggable;
 import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.framework.service.DefaultServiceManager;
 import org.apache.avalon.framework.service.ServiceManager;
@@ -76,7 +77,7 @@ import org.apache.excalibur.mpool.PoolManager;
  * See that interface for a description.
  *
  * @author <a href="mailto:dev@avalon.apache.org">The Avalon Team</a>
- * @version CVS $Revision: 1.16 $ $Date: 2003/04/21 20:27:57 $
+ * @version CVS $Revision: 1.17 $ $Date: 2003/04/24 19:53:24 $
  */
 public class DefaultContainerManager
     implements Initializable, Disposable, org.apache.avalon.fortress.ContainerManager, org.apache.avalon.fortress.ContainerManagerConstants
@@ -189,15 +190,20 @@ public class DefaultContainerManager
             throw new InitializationException( message, e );
         }
 
+        if ( instance instanceof Loggable )
+        {
+            throw new InitializationException( "Loggable containers are not supported" );
+        }
+
+        if ( instance instanceof Composable )
+        {
+            throw new InitializationException( "Composable containers are not supported" );
+        }
+
         try
         {
             ContainerUtil.enableLogging( instance, m_logger );
             ContainerUtil.contextualize( instance, managerContext );
-
-            if ( instance instanceof Composable )
-            {
-                throw new InitializationException( "Composable containers are not supported" );
-            }
 
             final ServiceManager serviceManager =
                 createServiceManager( managerContext );
