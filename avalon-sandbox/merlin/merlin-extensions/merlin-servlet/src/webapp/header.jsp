@@ -52,7 +52,7 @@
       </tr>
       <tr>
         <td>
-          <p class="caption">
+          <p class="caption">&nbsp;
           <%
               for( int i=0; i<m_options.length; i++ )
               {
@@ -82,7 +82,7 @@
      </tr>
      <tr>
         <td align="left">
-          <p class="caption">
+          <p class="caption">&nbsp;
           <%
               for( int i=0; i<m_actions.length; i++ )
               {

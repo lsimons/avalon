@@ -52,10 +52,13 @@ package org.apache.avalon.merlin.servlet;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Enumeration;
+import java.net.URL;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.apache.avalon.merlin.kernel.Kernel;
 
 /**
  * Servlet implementing the Merlin Kernel interface.
@@ -64,6 +67,21 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class TestServlet extends MerlinServlet
 {
+
+    URL m_root;
+
+    public void init()
+      throws ServletException
+    {
+        super.init();
+        m_root = (URL) getServletContext().getAttribute( Kernel.BASE_URL_KEY );
+        if( m_root == null )
+        {
+            final String error = 
+              "Unable to locate the Merlin Kernel base URL for the supplied context.";
+            throw new ServletException( error );
+        }
+    }
 
     /**
      * Respond to a GET request for the content produced by
@@ -92,7 +110,7 @@ public class TestServlet extends MerlinServlet
 	writer.println("<tr>");
 	writer.println("<td>");
 	writer.println("<h1>Merlin Test Servlet Page</h1>");
-	writer.println("<p>This servlet extends the MerlinServlet and presents information about the root block.</p>");
+	writer.println("<p>This servlet extends the MerlinServlet.</p>");
 	writer.println("</td>");
 	writer.println("</tr>");
 	writer.println("</table>");
@@ -102,10 +120,10 @@ public class TestServlet extends MerlinServlet
 	writer.println("<table border=\"0\">");
 	writer.println("<tr>");
 	writer.println("<td>");
-	writer.println( "Block:" );
+	writer.println( "URL:" );
 	writer.println("</td>");
 	writer.println("<td>");
-	writer.println( getRootBlock().toString() );
+	writer.println( m_root.toString() );
 	writer.println("</td>");
 	writer.println("</tr>");
 	writer.println("</table>");

@@ -15,7 +15,7 @@ import javax.servlet.jsp.tagext.BodyContent;
 import javax.servlet.jsp.tagext.IterationTag;
 import javax.servlet.jsp.tagext.BodyTagSupport;
 
-import org.apache.avalon.merlin.block.Block;
+import org.apache.avalon.merlin.kernel.Kernel;
 
 public class TargetTag extends BodyTagSupport
 {
@@ -232,7 +232,6 @@ public class TargetTag extends BodyTagSupport
 		    //
 
 		    m_adapter = invoke( m_adapter, m_keyword );
-System.out.println("## DELAGATING: " + m_keyword + ", " + m_adapter );
 	  	    if( m_adapter != null )
                 {
 		        return BodyTag.EVAL_BODY_BUFFERED;
@@ -414,42 +413,38 @@ System.out.println("## DELAGATING: " + m_keyword + ", " + m_adapter );
             }
             else
             {
-                return pageContext.findAttribute( Block.BLOCK_KEY );
+                m_source = "";
             }
         }
-        else
+
+        URL root = (URL) pageContext.getServletContext().getAttribute( Kernel.BASE_URL_KEY );
+        if( root == null )
         {
-            Block block = (Block) pageContext.getServletContext().getAttribute( Block.BLOCK_KEY );
-            if( block == null )
-            {
-                final String error =
-                  "Servlet context attribute " + Block.BLOCK_KEY + " is null.";
-                throw new JspException( error );
-            }
-
-            Object object = null;
-            try
-            {
-                URL base = block.getURL();
-                URL ref = new URL( base, m_source );
-                object = ref.getContent();
-            }
-            catch( Throwable e )
-            {
-                final String error =
-                  "Cannot resolve target url " + m_source;
-                throw new JspException( error, e );
-            }
-
-            if( object == null )
-            {
-                final String error = "Null object reference returned for the path: " + m_source;
-                throw new JspException( error );
-            }
-
-            return object;
-
+            final String error =
+              "Servlet context attribute '" + Kernel.BASE_URL_KEY + "' is null.";
+            throw new JspException( error );
         }
+
+        Object object = null;
+        try
+        {
+            URL ref = new URL( root, m_source );
+            object = ref.getContent();
+        }
+        catch( Throwable e )
+        {
+            final String error =
+             "Cannot resolve target url " + m_source;
+            throw new JspException( error, e );
+        }
+
+        if( object == null )
+        {
+            final String error = "Null object reference returned for the path: " + m_source;
+            throw new JspException( error );
+        }
+
+        return object;
     }
 
    /**
