@@ -21,39 +21,13 @@
 
 <project>
 
- <title>Merlin</title>
+  <title>Merlin</title>
 
- <body>
-
-    <links>
-      <item name="Apache" href="http://apache.org/"/>
-      <item name="Avalon" href="http://avalon.apache.org/"/>
-      <item name="Framework" href="http://avalon.apache.org/product/framework/"/>
-      <item name="Merlin" href="http://avalon.apache.org/product/containers/"/>
-      <item name="Planet" href="http://avalon.apache.org/product/components/"/>
-    </links>
-
+  <body>
     <menu name="About Repository">
-      <item name="Overview" href="/about/index.html"/>
-      <item name="Getting Started" href="/start/index.html">
-        <item name="Installation" href="/start/install/index.html"/>
-        <item name="Tutorial" href="/start/tutorial/index.html"/>
-      </item>
-      <item name="Tools" href="/tools/index.html"/>
+      <item name="Installation" href="install/index.html"/>
+      <item name="Tutorial" href="tutorial/index.html"/>
     </menu>
-
-    <menu name="Resources">
-      <item name="Javadoc" href="/api/index.html"/>
-      <item name="Download" href="/resources/download.html"/>
-      <item name="Roadmap" href="/resources/roadmap.html"/>
-    </menu>
-
-    <menu name="Related Projects">
-      <item name="Merlin" href="http://avalon.apache.org/merlin"/>
-      <item name="Utilities" href="http://avalon.apache.org/util"/>
-      <item name="Logging" href="http://avalon.apache.org/logging"/>
-    </menu>
-
  </body>
 
 </project>
