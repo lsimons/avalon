@@ -12,10 +12,10 @@ import java.util.Iterator;
 import org.apache.avalon.excalibur.concurrent.Mutex;
 import org.apache.excalibur.event.EventHandler;
 import org.apache.excalibur.event.Source;
+import org.apache.excalibur.util.SystemUtil;
 import org.apache.avalon.excalibur.thread.ThreadControl;
 import org.apache.avalon.excalibur.thread.ThreadPool;
 import org.apache.avalon.excalibur.thread.impl.ResourceLimitingThreadPool;
-import org.apache.avalon.excalibur.util.SystemUtil;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.logger.NullLogger;
 
