@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<!DOCTYPE assembly PUBLIC "-//PHOENIX/Assembly DTD Version 1.0//EN" 
+                  "http://jakarta.apache.org/phoenix/assembly_1_0.dtd">
+
+<assembly>
+  <block class="org.apache.avalon.apps.sevak.blocks.jetty.JettySevak" name="sevak"/>
+  <block class="org.apache.avalon.apps.sevak.demo.SevakTest" name="sevakTest">
+	<provide name="sevak" role="org.apache.avalon.apps.sevak.Sevak"/>
+  </block>
+</assembly>

@@ -107,10 +107,7 @@
       <echo>* 'get-jo' in the main  *</echo>
       <echo>* build.xml build file  *</echo>    
       <echo>* to download three and *</echo>
-      <echo>* a half Mb of Jo! for  *</echo>
-      <echo>* the servlet API and   *</echo>
-      <echo>* to give EOB WAR file  *</echo>
-      <echo>* capability.           *</echo>
+      <echo>* a half Mb of Jo!      *</echo>
       <echo>*************************</echo>   
       
       <fail message="Jo needed. See above."/>   
