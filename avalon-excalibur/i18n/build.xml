@@ -9,8 +9,8 @@
       Give user a chance to override without editing this file
       (and without typing -D each time he compiles it)
     -->
-    <property file=".ant.properties"/>
-    <property file="../.ant.properties"/>
+    <property file="ant.properties"/>
+    <property file="../ant.properties"/>
     <property file="${user.home}/.ant.properties"/>
     
     <!-- Settings used to configure compile environment -->
