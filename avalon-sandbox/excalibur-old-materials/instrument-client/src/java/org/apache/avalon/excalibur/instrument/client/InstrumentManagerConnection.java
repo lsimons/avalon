@@ -9,7 +9,6 @@ package org.apache.avalon.excalibur.instrument.client;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 import org.apache.avalon.excalibur.instrument.manager.interfaces.InstrumentManagerClient;
 
@@ -23,20 +22,20 @@ import org.apache.commons.altrmi.common.AltrmiInvocationException;
 /**
  *
  * @author <a href="mailto:leif@silveregg.co.jp">Leif Mortenson</a>
- * @version CVS $Revision: 1.4 $ $Date: 2002/03/30 01:30:49 $
+ * @version CVS $Revision: 1.5 $ $Date: 2002/04/01 09:21:52 $
  * @since 4.1
  */
 class InstrumentManagerConnection
 {
-    private String m_host;
-    private int m_port;
+    private final String m_host;
+    private final int m_port;
     private boolean m_closed;
     private AltrmiHostContext m_altrmiHostContext;
     private AltrmiFactory m_altrmiFactory;
     private InstrumentManagerClient m_manager;
     
-    private ArrayList m_listeners = new ArrayList();
-    private InstrumentManagerConnectionListener[] m_listenerArray;
+    private final ArrayList m_listeners = new ArrayList();
+    private InstrumentManagerConnectionListener[] m_listenerArray = null;
     
     /*---------------------------------------------------------------
      * Constructors
@@ -96,11 +95,14 @@ class InstrumentManagerConnection
             m_altrmiFactory = new ClientClassAltrmiFactory( false );
             m_altrmiFactory.setHostContext( m_altrmiHostContext );
             
+            /*
             System.out.println("Listing Published Objects At Server...");
             String[] listOfPublishedObjectsOnServer = m_altrmiFactory.list();
-            for (int i = 0; i < listOfPublishedObjectsOnServer.length; i++) {
-                System.out.println("..[" + i + "]:" + listOfPublishedObjectsOnServer[i]);
+            for ( int i = 0; i < listOfPublishedObjectsOnServer.length; i++ )
+            {
+                System.out.println( "..[" + i + "]:" + listOfPublishedObjectsOnServer[i] );
             }
+            */
             
             m_manager = (InstrumentManagerClient)m_altrmiFactory.lookup(
                 "InstrumentManagerClient" );
@@ -108,16 +110,11 @@ class InstrumentManagerConnection
             m_closed = false;
         }
         
-        // Notify the listeners.
-        InstrumentManagerConnectionListener[] listeners = m_listenerArray;
-        if ( listeners == null )
+        // Notify the listeners outside of synchronization.
+        InstrumentManagerConnectionListener[] listenerArray = getListenerArray();
+        for ( int i = 0; i < listenerArray.length; i++ )
         {
-            listeners = updateListenerArray();
-        }
-        
-        for ( int i = 0; i < listeners.length; i++ )
-        {
-            listeners[i].opened( this );
+            listenerArray[i].opened( this );
         }
     }
     
@@ -169,16 +166,11 @@ class InstrumentManagerConnection
             }
         }
         
-        // Notify the listeners.
-        InstrumentManagerConnectionListener[] listeners = m_listenerArray;
-        if ( listeners == null )
+        // Notify the listeners outside of synchronization.
+        InstrumentManagerConnectionListener[] listenerArray = getListenerArray();
+        for ( int i = 0; i < listenerArray.length; i++ )
         {
-            listeners = updateListenerArray();
-        }
-        
-        for ( int i = 0; i < listeners.length; i++ )
-        {
-            listeners[i].closed( this );
+            listenerArray[i].closed( this );
         }
     }
     
@@ -190,34 +182,14 @@ class InstrumentManagerConnection
     {
         close();
         
-        // Notify the listeners.
-        InstrumentManagerConnectionListener[] listeners = m_listenerArray;
-        if ( listeners == null )
+        // Notify the listeners outside of synchronization.
+        InstrumentManagerConnectionListener[] listenerArray = getListenerArray();
+        for ( int i = 0; i < listenerArray.length; i++ )
         {
-            listeners = updateListenerArray();
-        }
-        
-        for ( int i = 0; i < listeners.length; i++ )
-        {
-            listeners[i].deleted( this );
+            listenerArray[i].deleted( this );
         }
     }
         
-    /**
-     * Updates the cached array of listeners so that it can be used without synchronization.
-     *
-     * @returns An array of listeners.  Will never be null and is thread safe.
-     */
-    private InstrumentManagerConnectionListener[] updateListenerArray()
-    {
-        synchronized(this)
-        {
-            m_listenerArray = new InstrumentManagerConnectionListener[ m_listeners.size() ];
-            m_listeners.toArray( m_listenerArray );
-            return m_listenerArray;
-        }
-    }
-    
     public void ping()
     {
         synchronized(this)
@@ -240,7 +212,15 @@ class InstrumentManagerConnection
         }
     }
     
-    public void addInstrumentManagerConnectionListener( InstrumentManagerConnectionListener listener )
+    /**
+     * Adds a InstrumentManagerConnectionListener to the list of listeners
+     *  which receive state updates of the connection.
+     *
+     * @param listener InstrumentManagerConnectionListener to start receiving
+     *                 state updates.
+     */
+    public void addInstrumentManagerConnectionListener(
+        InstrumentManagerConnectionListener listener )
     {
         synchronized (this)
         {
@@ -249,13 +229,42 @@ class InstrumentManagerConnection
         }
     }
     
-    public void removeInstrumentManagerConnectionListener( InstrumentManagerConnectionListener listener )
+    /**
+     * Removes a InstrumentManagerConnectionListener from the list of listeners
+     *  which receive state updates of the connection.
+     *
+     * @param listener InstrumentManagerConnectionListener to stop receiving
+     *                 state updates.
+     */
+    public void removeInstrumentManagerConnectionListener(
+        InstrumentManagerConnectionListener listener )
     {
         synchronized (this)
         {
             m_listeners.remove( listener );
             m_listenerArray = null;
         }
+    }
+    
+    /**
+     * Get a threadsafe array of the current listeners avoiding synchronization
+     *  when possible.  The contents of the returned array will never change.
+     *
+     * @return An array of the currently registered listeners
+     */
+    private InstrumentManagerConnectionListener[] getListenerArray()
+    {
+        InstrumentManagerConnectionListener[] listenerArray = m_listenerArray;
+        if ( listenerArray == null )
+        {
+            synchronized(this)
+            {
+                m_listenerArray = new InstrumentManagerConnectionListener[ m_listeners.size() ];
+                m_listeners.toArray( m_listenerArray );
+                listenerArray = m_listenerArray;
+            }
+        }
+        return listenerArray;
     }
 }
 
