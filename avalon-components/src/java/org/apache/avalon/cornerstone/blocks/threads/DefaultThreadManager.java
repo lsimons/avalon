@@ -15,7 +15,7 @@ import org.apache.avalon.excalibur.thread.impl.DefaultThreadPool;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
-import org.apache.avalon.framework.logger.AbstractLoggable;
+import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.phoenix.Block;
 
 /**
@@ -24,7 +24,7 @@ import org.apache.avalon.phoenix.Block;
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
 public class DefaultThreadManager
-    extends AbstractLoggable
+    extends AbstractLogEnabled
     implements Block, ThreadManager, Configurable
 {
     ///Map of thread pools for application
@@ -66,7 +66,7 @@ public class DefaultThreadManager
             final DefaultThreadPool threadPool =
                 new DefaultThreadPool( name, maxThreads, threadContext );
             threadPool.setDaemon( isDaemon );
-            threadPool.setLogger( getLogger() );
+            threadPool.enableLogging( getLogger() );
             m_threadPools.put( name, threadPool );
         }
         catch( final Exception e )

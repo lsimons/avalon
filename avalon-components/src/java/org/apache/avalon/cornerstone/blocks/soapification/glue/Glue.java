@@ -11,7 +11,7 @@ import electric.registry.Registry;
 import electric.registry.RegistryException;
 import electric.server.http.HTTP;
 import electric.net.http.WebServer;
-import org.apache.avalon.framework.logger.AbstractLoggable;
+import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.activity.Startable;
 import org.apache.avalon.framework.activity.Disposable;
@@ -45,7 +45,7 @@ import java.io.IOException;
  * @author <a href="mailto:Paul_Hammant@yahoo.com">Paul Hammant</>
  */
 public class Glue
-    extends AbstractLoggable
+    extends AbstractLogEnabled
     implements Block, SOAPification, Initializable, Startable, Disposable, Configurable {
 
     protected Configuration mConfiguration;

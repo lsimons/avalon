@@ -25,7 +25,7 @@ import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.Contextualizable;
-import org.apache.avalon.framework.logger.AbstractLoggable;
+import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.cornerstone.services.sockets.ServerSocketFactory;
 import org.apache.avalon.phoenix.BlockContext;
 
@@ -40,7 +40,7 @@ import org.apache.avalon.phoenix.BlockContext;
  * @author <a href="mailto:">Craig McClanahan</a>
  */
 public class TLSServerSocketFactory
-    extends AbstractLoggable
+    extends AbstractLogEnabled
     implements ServerSocketFactory, Component, Contextualizable, Configurable, Initializable
 {
     protected SSLServerSocketFactory   m_factory;

@@ -20,7 +20,7 @@ import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.component.ComponentException;
 import org.apache.avalon.framework.component.ComponentManager;
 import org.apache.avalon.framework.component.Composable;
-import org.apache.avalon.framework.logger.AbstractLoggable;
+import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.phoenix.Block;
 
 /**
@@ -29,7 +29,7 @@ import org.apache.avalon.phoenix.Block;
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
 public class DefaultPacketManager
-    extends AbstractLoggable
+    extends AbstractLogEnabled
     implements Block, PacketManager, Composable, Disposable
 {
     private HashMap             m_acceptors        = new HashMap();

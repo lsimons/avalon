@@ -21,7 +21,7 @@ import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.Contextualizable;
-import org.apache.avalon.framework.logger.AbstractLoggable;
+import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.cornerstone.services.store.Repository;
 import org.apache.avalon.cornerstone.services.store.Store;
 import org.apache.avalon.phoenix.Block;
@@ -31,7 +31,7 @@ import org.apache.avalon.phoenix.Block;
  * @author <a href="mailto:fede@apache.org">Federico Barbieri</a>
  */
 public class RepositoryManager
-    extends AbstractLoggable
+    extends AbstractLogEnabled
     implements Block, Store, Contextualizable, Composable, Configurable
 {
     private static final String   REPOSITORY_NAME  = "Repository";
