@@ -8,13 +8,22 @@
 package org.apache.phoenix.engine.facilities;
 
 import javax.management.MBeanServer;
-
-import org.apache.framework.context.Context;
-import org.apache.framework.configuration.Configuration;
+import javax.management.ObjectName;
 
 import org.apache.phoenix.facilities.Manager;
+import org.apache.phoenix.core.Kernel;
+import org.apache.phoenix.core.Embeddor;
+import org.apache.framework.context.Context;
+import org.apache.framework.context.ContextException;
+import org.apache.framework.configuration.Configuration;
+import org.apache.framework.lifecycle.StartException;
+import org.apache.framework.lifecycle.StopException;
+
+import org.apache.avalon.camelot.Deployer;
 
 import org.apache.log.Logger;
+
+import org.apache.jmx.introspector.DynamicMBeanFactory;
 
 /**
  *
@@ -22,10 +31,13 @@ import org.apache.log.Logger;
  */
 public class ManagerImpl implements Manager
 {
+    private MBeanServer mBeanServer;
+    private Logger logger;
+    private Embeddor embeddor;
+    private Deployer deployer;
+    private Kernel kernel;
+
     public ManagerImpl()
-    {
-    }
-    public ManagerImpl( MBeanServer mBeanServer )
     {
     }
 
@@ -34,32 +46,69 @@ public class ManagerImpl implements Manager
     /////////////////////////
     public void setLogger( Logger logger )
     {
+        this.logger = logger;
     }
-    public void contextualize( Context context )
+    public void contextualize( Context context ) throws ContextException
     {
+        try { this.mBeanServer = (MBeanServer)context.get( "javax.management.MBeanServer" ); }
+        catch( Exception e ) {
+            logger.error( "Invalid context - no MBeanServer supplied", e );
+            throw new ContextException( "Invalid context - no MBeanServer supplied", e ); }
+        try { this.embeddor = (Embeddor)context.get( "org.apache.framework.atlantis.core.Embeddor" ); }
+        catch( Exception e ) {
+            logger.error( "Invalid context - no Embeddor supplied", e );
+            throw new ContextException( "Invalid context - no Embeddor supplied", e ); }
+        try { this.kernel = (Kernel)context.get( "org.apache.framework.atlantis.core.Kernel" ); }
+        catch( Exception e ) {
+            logger.error( "Invalid context - no Kernel supplied", e );
+            throw new ContextException( "Invalid context - no Kernel supplied", e ); }
+        try { this.deployer = (Deployer)context.get( "org.apache.avalon.camelot.Deployer" ); }
+        catch( Exception e ) {
+            logger.error( "Invalid context - no Deployer supplied", e );
+            throw new ContextException( "Invalid context - no Deployer supplied", e ); }
     }
-    public void configure( Configuration configuration )
+    public void start() throws StartException
     {
+        try
+        {
+            mBeanServer.registerMBean(
+                DynamicMBeanFactory.create( embeddor ),
+                new ObjectName( "Embeddor" ) );
+        }
+        catch( Exception e ) { logger.error( "Unable to register MBean for Embeddor", e ); }
+        try
+        {
+            mBeanServer.registerMBean(
+                DynamicMBeanFactory.create( deployer ),
+                new ObjectName( "Deployer" ) );
+        }
+        catch( Exception e ) { logger.error( "Unable to register MBean for Deployer", e ); }
+        try
+        {
+            mBeanServer.registerMBean(
+                DynamicMBeanFactory.create( kernel ),
+                new ObjectName( "Kernel" ) );
+        }
+        catch( Exception e ) { logger.error( "Unable to register MBean for Kernel", e ); }
+        try
+        {
+            mBeanServer.registerMBean(
+                DynamicMBeanFactory.create( logger ),
+                new ObjectName( "Logger" ) );
+        }
+        catch( Exception e ) { logger.error( "Unable to register MBean for Logger", e ); }
     }
-    public void init()
+    public void stop() throws StopException
     {
-    }
-    public void start()
-    {
-    }
-    public void run()
-    {
-    }
-    public void suspend()
-    {
-    }
-    public void resume()
-    {
-    }
-    public void stop()
-    {
-    }
-    public void dispose()
-    {
+        try {
+            mBeanServer.unregisterMBean( new ObjectName( "Embeddor" ) );
+            mBeanServer.unregisterMBean( new ObjectName( "Kernel" ) );
+            mBeanServer.unregisterMBean( new ObjectName( "Deployer" ) );
+            mBeanServer.unregisterMBean( new ObjectName( "Logger" ) );
+        }
+        catch( Exception e )
+        {
+            logger.error( "error unregistering MBeans", e );
+        }
     }
 }
