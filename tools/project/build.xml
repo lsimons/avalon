@@ -60,8 +60,8 @@
   </target>
 
   <target name="test" depends="test-prepare">
-    <!--<ant dir="${target.test.dir}" />-->
-    <ant dir="${target.test.dir}/projects/gizmo" />
+    <ant dir="${target.test.dir}" />
+    <!--<ant dir="${target.test.dir}/projects/gizmo" />-->
   </target>
 
   <target name="clean">

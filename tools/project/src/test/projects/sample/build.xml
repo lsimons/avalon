@@ -2,11 +2,10 @@
 
 <project name="sample" default="dist" basedir="."
     xmlns:x="antlib:org.apache.avalon.tools" 
-    xmlns:d="plugin:demo/demo#1.0" > 
+    xmlns:d="plugin:demo/demo" > 
 
   <property file="build.properties"/>
   <import file="${project.home}/standard.xml"/>
-  <x:plugin artifact="plugin:demo/demo#1.0"/>
 
   <target name="build" depends="standard.build">
     <d:hello/>

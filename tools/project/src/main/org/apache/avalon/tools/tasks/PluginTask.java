@@ -21,6 +21,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 
+import org.apache.tools.ant.AntClassLoader;
 import org.apache.tools.ant.Task;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.BuildException;
@@ -51,7 +52,6 @@ import org.w3c.dom.Element;
 public class PluginTask extends SystemTask
 {
     private String m_id;
-    private String m_uri;
 
     public void setArtifact( String id )
     {
@@ -93,8 +93,10 @@ public class PluginTask extends SystemTask
 
             AntLibData data = new AntLibData( getProject(), file );
 
-            ClassLoader classloader = project.createClassLoader( data.getPath() );
-            String uri = data.getInfo().getURI(); 
+            AntClassLoader classloader = project.createClassLoader( data.getPath() );
+            String spec = data.getInfo().getSpec();
+            String uri = "plugin:" + spec.substring( 0, spec.indexOf( "#" ) );
+            log( "Install \"" + uri + "\"" );
 
             //
             // install the ant task defintions
@@ -109,7 +111,7 @@ public class PluginTask extends SystemTask
                 Class taskClass = classloader.loadClass( def.getClassname() );
                 String name = uri + ":" + def.getName();
                 helper.addTaskDefinition( name, taskClass );
-                log( "Added task definition \"" + name + "\"", Project.MSG_DEBUG );
+                log( "Task \"" + name + "\"" );
             }
         }
         catch( Throwable e )
