@@ -40,7 +40,6 @@ Legal:
     <property name="build.tests" value="${build.dir}/tests"/>
     <property name="build.testclasses" value="${build.dir}/testclasses"/>
     <property name="build.reports" value="${build.dir}/reports"/>
-    <property name="build.xdoclet" value="${build.dir}/xdoclet"/>
     <property name="build.metagenerate" value="${build.dir}/metagenerate"/>
     <property name="build.test-metagenerate" value="${build.dir}/test-metagenerate"/>
 
@@ -304,26 +303,6 @@ Legal:
     </target>
 
     <!-- Make .xinfo, .mxinfo and manifest automatically for blocks -->
-    <target name="phoenix-xdoclet" depends="compile">
-
-        <mkdir dir="${build.xdoclet}"/>
-
-        <taskdef name="phoenix-blocks"
-            classname="org.apache.avalon.phoenix.tools.xdoclet.PhoenixXDoclet"
-            classpathref="project.class.path"/>
-
-        <phoenix-blocks
-            destdir="${build.xdoclet}">
-            <fileset dir="${java.dir}">
-                <include name="**" />
-            </fileset>
-            <blockinfo/>
-            <mxinfo/>
-        </phoenix-blocks>
-
-    </target>
-
-    <!-- Make .xinfo, .mxinfo and manifest automatically for blocks -->
     <target name="phoenix-metagenerate" depends="compile">
 
         <mkdir dir="${build.metagenerate}"/>
@@ -342,7 +321,7 @@ Legal:
 
 
     <!-- Creates all the .jar files -->
-    <target name="jars" depends="phoenix-xdoclet, phoenix-metagenerate">
+    <target name="jars" depends="phoenix-metagenerate">
 
         <mkdir dir="${build.lib}"/>
 
@@ -374,7 +353,7 @@ Legal:
                 <include name="org/apache/avalon/phoenix/interfaces/**"/>
                 <exclude name="org/apache/avalon/phoenix/launcher/**"/>
             </fileset>
-            <fileset dir="${build.xdoclet}" >
+            <fileset dir="${build.metagenerate}" >
                 <include name="org/apache/avalon/phoenix/engine/**"/>
                 <include name="org/apache/avalon/phoenix/frontends/**"/>
                 <include name="org/apache/avalon/phoenix/components/**"/>
@@ -607,7 +586,6 @@ Legal:
         <copy todir="${src.dist.lib}">
             <fileset dir="${lib.dir}">
                 <include name="excalibur*.jar"/>
-                <include name="xdoclet/*.*"/>
                 <include name="README.txt"/>
             </fileset>
         </copy>
@@ -624,12 +602,6 @@ Legal:
             </fileset>
         </copy>
 
-        <mkdir dir="${src.dist.lib}/xdoclet"/>
-        <copy todir="${src.dist.lib}/xdoclet">
-            <fileset dir="${lib.dir}/xdoclet">
-                <include name="**"/>
-            </fileset>
-        </copy>
         <copy file="${logkit.jar}" todir="${src.dist.lib}"/>
 
         <copy todir="${src.dist.src}">
@@ -742,7 +714,6 @@ Legal:
             </fileset>
             <fileset dir=".">
                 <include name="lib/**"/>
-                <exclude name="lib/xdoclet/*.*"/>
                 <exclude name="${xerces.jar}"/>
                 <exclude name="${xml-api.jar}"/>
                 <exclude name="${xalan.jar}"/>
