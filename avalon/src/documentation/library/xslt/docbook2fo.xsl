@@ -56,23 +56,20 @@
           <fo:region-after extent=".5in" region-name="odd-footer"/>
         </fo:simple-page-master>
 
-        <fo:page-sequence-master master-name="chapter">
-          <fo:repeatable-page-master-alternatives>
-            <fo:conditional-page-master-reference master-name="title"
-                                                  page-position="first"
-                                                  odd-or-even="odd"/>
-            <fo:conditional-page-master-reference master-name="odd-page"
-                                                  odd-or-even="odd"
-                                                  blank-or-not-blank="not-blank"/>
-            <fo:conditional-page-master-reference master-name="even-page"
-                                                  page-position="last"/>
-            <fo:conditional-page-master-reference master-name="even-page"
-                                                  odd-or-even="even"/>
-          </fo:repeatable-page-master-alternatives>
-        </fo:page-sequence-master>
+        <fo:simple-page-master master-name="chapter"
+                               page-height="11in"
+                               page-width="8.5in"
+                               margin-top="1in"
+                               margin-bottom="1in"
+                               margin-left="1in"
+                               margin-right="1.25in">
+          <fo:region-before extent=".5in" region-name="odd-header"/>
+          <fo:region-body margin-top=".5in" margin-bottom=".5in"/>
+          <fo:region-after extent=".5in" region-name="odd-footer"/>
+        </fo:simple-page-master>
       </fo:layout-master-set>
 
-      <fo:page-sequence master-name="title">
+      <fo:page-sequence master-reference="title">
         <xsl:if test="bookinfo/authorgroup">
           <fo:static-content flow-name="title-footer">
             <fo:block font-family="serif"
@@ -111,7 +108,7 @@
   </xsl:template>
 
   <xsl:template match="chapter|article|appendix">
-    <fo:page-sequence force-page-count="end-on-even" master-name="chapter">
+    <fo:page-sequence force-page-count="end-on-even" master-reference="chapter">
       <fo:title><xsl:value-of select="title"/></fo:title>
       <fo:static-content flow-name="even-header">
         <fo:block text-align="start"
@@ -196,7 +193,7 @@
   </xsl:template>
 
   <xsl:template match="book/revhistory">
-    <fo:page-sequence force-page-count="end-on-even" master-name="chapter">
+    <fo:page-sequence force-page-count="end-on-even" master-reference="chapter">
       <fo:title>Revision History</fo:title>
       <fo:static-content flow-name="even-header">
         <fo:block text-align="start"
@@ -313,7 +310,7 @@
   </xsl:template>
 
   <xsl:template match="bookinfo">
-    <fo:page-sequence master-name="inside">
+    <fo:page-sequence master-reference="inside">
       <fo:flow flow-name="xsl-region-body">
         <fo:block font-weight="bold" font-size="14pt">
           <xsl:value-of select="title"/>
@@ -352,7 +349,7 @@
 
 
   <xsl:template name="authors">
-    <fo:page-sequence force-page-count="end-on-even" master-name="chapter">
+    <fo:page-sequence force-page-count="end-on-even" master-reference="chapter">
       <fo:title>About the Authors</fo:title>
       <fo:static-content flow-name="even-header">
         <fo:block text-align="start"
@@ -460,7 +457,7 @@
   </xsl:template>
 
   <xsl:template match="dedication">
-    <fo:page-sequence master-name="title">
+    <fo:page-sequence master-reference="title">
       <fo:flow flow-name="xsl-region-body">
         <xsl:for-each select="para">
           <fo:block font-style="italic" font-family="serif" space-before="3in" font-size="10pt" text-align="center">
@@ -469,7 +466,7 @@
         </xsl:for-each>
       </fo:flow>
     </fo:page-sequence>
-    <fo:page-sequence master-name="inside">
+    <fo:page-sequence master-reference="inside">
       <fo:flow flow-name="xsl-region-body">
         <fo:block> </fo:block>
       </fo:flow>
