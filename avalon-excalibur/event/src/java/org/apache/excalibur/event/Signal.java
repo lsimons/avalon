@@ -53,6 +53,13 @@ package org.apache.excalibur.event;
  * A Signal is a specific type of queue element that denotes a Control code for
  * the Queue system.
  *
+ * <p>
+ *   The interface design is heavily influenced by
+ *   <a href="mailto:mdw@cs.berkeley.edu">Matt Welsh</a>'s SandStorm server,
+ *   his demonstration of the SEDA architecture.  We have deviated where we
+ *   felt the design differences where better.
+ * </p>
+ *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  */
 public interface Signal

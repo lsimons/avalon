@@ -53,6 +53,13 @@ package org.apache.excalibur.event;
  * An <code>EventHandler</code> takes care of processing specific events in
  * an event-based architecture.
  *
+ * <p>
+ *   The interface design is heavily influenced by
+ *   <a href="mailto:mdw@cs.berkeley.edu">Matt Welsh</a>'s SandStorm server,
+ *   his demonstration of the SEDA architecture.  We have deviated where we
+ *   felt the design differences where better.
+ * </p>
+ *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  */
 public interface EventHandler
