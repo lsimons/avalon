@@ -11,7 +11,7 @@ import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.activity.Startable;
-import org.apache.avalon.phoenix.metadata.SarMetaData;
+import org.apache.avalon.phoenix.components.frame.ApplicationFrame;
 import org.apache.avalon.phoenix.Block;
 
 /**
@@ -29,10 +29,7 @@ public interface Application
 {
     String ROLE = "org.apache.avalon.phoenix.components.application.Application";
 
-    //TODO: change to pass in ClassLoader, base Logger/Hierargy, deprecated ThreadPool
-    void setup( SarMetaData metaData, ClassLoader classLoader );
-
-    //TODO: Remove these - only needed by SingleAppEmbeddor
+    void setup( ApplicationFrame frame );
     String[] getBlockNames();
     Block getBlock( String name );
 }

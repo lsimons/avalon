@@ -7,33 +7,18 @@
  */
 package org.apache.avalon.phoenix.components.application;
 
-import java.net.URL;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.excalibur.lang.ThreadContext;
-import org.apache.avalon.framework.activity.Initializable;
-import org.apache.avalon.framework.component.Component;
-import org.apache.avalon.framework.component.ComponentException;
-import org.apache.avalon.framework.component.ComponentManager;
-import org.apache.avalon.framework.component.Composable;
-import org.apache.avalon.framework.component.DefaultComponentManager;
-import org.apache.avalon.framework.configuration.Configurable;
-import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.configuration.ConfigurationException;
-import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
 import org.apache.avalon.framework.logger.AbstractLoggable;
 import org.apache.avalon.phoenix.Block;
 import org.apache.avalon.phoenix.BlockListener;
 import org.apache.avalon.phoenix.components.frame.ApplicationFrame;
-import org.apache.avalon.phoenix.components.frame.DefaultApplicationFrame;
-import org.apache.avalon.phoenix.components.manager.SystemManager;
 import org.apache.avalon.phoenix.metadata.BlockListenerMetaData;
 import org.apache.avalon.phoenix.metadata.BlockMetaData;
-import org.apache.avalon.phoenix.metadata.SarMetaData;
 
 /**
  * This is the basic container of blocks. A server application
@@ -44,7 +29,7 @@ import org.apache.avalon.phoenix.metadata.SarMetaData;
  */
 public final class DefaultServerApplication
     extends AbstractLoggable
-    implements Application, Composable, Configurable
+    implements Application
 {
     private static final Resources REZ =
         ResourceManager.getPackageResources( DefaultServerApplication.class );
@@ -52,30 +37,18 @@ public final class DefaultServerApplication
     private static final String  PHASE_STARTUP  = "startup";
     private static final String  PHASE_SHUTDOWN = "shutdown";
 
-    //the following are used for setting up facilities
-    private Configuration     m_configuration;
-    private ComponentManager  m_componentManager;
-
     //these are the facilities (internal components) of ServerApplication
     private ApplicationFrame  m_frame;
 
     private LifecycleHelper   m_lifecycle;
 
-    private SarMetaData       m_metaData;
-    private ClassLoader       m_classLoader;
-
     private HashMap           m_entrys = new HashMap();
 
-    public void compose( final ComponentManager componentManager )
-        throws ComponentException
+    public void setup( final ApplicationFrame frame )
     {
-        m_componentManager = componentManager;
-    }
-
-    public void setup( final SarMetaData metaData, final ClassLoader classLoader )
-    {
-        m_metaData = metaData;
-        m_classLoader = classLoader;
+        m_frame = frame;
+        m_lifecycle = new LifecycleHelper( this, m_frame );
+        setupLogger( m_lifecycle, "lifecycle" );
     }
 
     public String[] getBlockNames()
@@ -90,26 +63,9 @@ public final class DefaultServerApplication
         return entry.getProxy();
     }
 
-    public void configure( final Configuration configuration )
-        throws ConfigurationException
-    {
-        m_configuration = configuration;
-    }
-
-    /**
-     * Initialize application.
-     * This involves setting up the phases, the ApplicationFrame and the DAG used to run phases.
-     *
-     * @exception Exception if an error occurs
-     */
     public void initialize()
         throws Exception
     {
-        m_frame = new DefaultApplicationFrame( m_classLoader, m_metaData );
-        setupComponent( m_frame, "frame" );
-
-        m_lifecycle = new LifecycleHelper( this, m_frame );
-        setupLogger( m_lifecycle, "lifecycle" );
     }
 
     /**
@@ -120,7 +76,7 @@ public final class DefaultServerApplication
     public void start()
         throws Exception
     {
-        final BlockMetaData[] blocks = m_metaData.getBlocks();
+        final BlockMetaData[] blocks = m_frame.getMetaData().getBlocks();
         for( int i = 0; i < blocks.length; i++ )
         {
             final String blockName = blocks[ i ].getName();
@@ -158,7 +114,7 @@ public final class DefaultServerApplication
         //Setup thread context for calling visitors
         ThreadContext.setThreadContext( m_frame.getThreadContext() );
 
-        final BlockListenerMetaData[] listeners = m_metaData.getListeners();
+        final BlockListenerMetaData[] listeners = m_frame.getMetaData().getListeners();
         for( int i = 0; i < listeners.length; i++ )
         {
             try
@@ -168,39 +124,11 @@ public final class DefaultServerApplication
             catch( final Exception e )
             {
                 final String name = listeners[ i ].getName();
-                final String message = 
+                final String message =
                     REZ.getString( "bad-listener", "startup", name, e.getMessage() );
                 getLogger().error( message, e );
                 throw e;
             }
-        }
-    }
-
-    /**
-     * Setup a component in this application.
-     *
-     * @param object the component
-     * @param logName the name to use to setup logging
-     * @exception Exception if an error occurs
-     */
-    protected final void setupComponent( final Component component, final String logName )
-        throws Exception
-    {
-        setupLogger( component, logName );
-
-        if( component instanceof Composable )
-        {
-            ((Composable)component).compose( m_componentManager );
-        }
-
-        if( component instanceof Configurable )
-        {
-            ((Configurable)component).configure( m_configuration );
-        }
-
-        if( component instanceof Initializable )
-        {
-            ((Initializable)component).initialize();
         }
     }
 
@@ -216,17 +144,17 @@ public final class DefaultServerApplication
     protected final void runPhase( final String name )
         throws Exception
     {
-        final BlockMetaData[] blocks = m_metaData.getBlocks();
+        final BlockMetaData[] blocks = m_frame.getMetaData().getBlocks();
         final String[] order = DependencyGraph.walkGraph( PHASE_STARTUP == name, blocks );
 
         //Log message describing the number of blocks
-        //the phase in and the order in which they will be 
+        //the phase in and the order in which they will be
         //processed
         if( getLogger().isInfoEnabled() )
         {
             final Integer count = new Integer( blocks.length );
             final List pathList = Arrays.asList( order );
-            final String message = 
+            final String message =
                 REZ.getString( "blocks-processing", count, name, pathList );
             getLogger().info( message );
         }
