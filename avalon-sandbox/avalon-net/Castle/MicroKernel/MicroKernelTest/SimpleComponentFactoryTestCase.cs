@@ -22,6 +22,10 @@ namespace Apache.Avalon.Castle.MicroKernel.Test
 
 	using Apache.Avalon.Castle.MicroKernel;
 	using Apache.Avalon.Castle.MicroKernel.Factory;
+	using Apache.Avalon.Castle.MicroKernel.Factory.Default;
+	using Apache.Avalon.Castle.MicroKernel.Handler;
+	using Apache.Avalon.Castle.MicroKernel.Model;
+	using Apache.Avalon.Castle.MicroKernel.Model.Default;
 	using Apache.Avalon.Castle.MicroKernel.Test.Components;
 
 	/// <summary>
@@ -30,7 +34,7 @@ namespace Apache.Avalon.Castle.MicroKernel.Test
 	[TestFixture]
 	public class SimpleComponentFactoryTestCase : Assertion
 	{
-		BaseKernel kernel;
+		private BaseKernel kernel;
 
 		[SetUp]
 		public void CreateKernel()
@@ -46,18 +50,17 @@ namespace Apache.Avalon.Castle.MicroKernel.Test
 
 			kernel.AddComponent( "a", service, implementation );
 
-			ConstructorInfo constructor = implementation.GetConstructor( Type.EmptyTypes );
-			ConstructionInfo info = new ConstructionInfo( constructor, null );
+			IComponentModel model = new DefaultComponentModelBuilder(kernel).BuildModel( "a", service, implementation );
 
 			SimpleComponentFactory factory = new SimpleComponentFactory( 
-				service, implementation, new IAspect[0], new IAspect[0], info );
+				new IAspect[0], new IAspect[0], model, new Hashtable() );
 
 			Object instance = factory.Incarnate();
 
 			AssertNotNull( instance );
 			AssertNotNull( instance as IMailService );
 
-			factory.Etherialize();
+			factory.Etherialize( instance );
 		}
 
 		[Test]
@@ -71,16 +74,14 @@ namespace Apache.Avalon.Castle.MicroKernel.Test
 			kernel.AddComponent( "a", service, implementation );
 			kernel.AddComponent( "b", serviceDep, implementationDep );
 
-			ConstructorInfo constructor = 
-				implementation.GetConstructor( new Type[] { typeof(IMailService) } );
+			IComponentModel model = new DefaultComponentModelBuilder(kernel).BuildModel( 
+				"a", service, implementation );
 
 			Hashtable serv2Handler = new Hashtable();
 			serv2Handler[ serviceDep ] = kernel.GetHandlerForService( serviceDep );
 
-			ConstructionInfo info = new ConstructionInfo( constructor, serv2Handler );
-
 			SimpleComponentFactory factory = new SimpleComponentFactory( 
-				service, implementation, new IAspect[0], new IAspect[0], info );
+				new IAspect[0], new IAspect[0], model, serv2Handler );
 
 			Object instance = factory.Incarnate();
 
@@ -90,7 +91,7 @@ namespace Apache.Avalon.Castle.MicroKernel.Test
 			SimpleSpamService spamService = (SimpleSpamService) instance;
 			AssertNotNull( spamService.m_mailService );
 
-			factory.Etherialize();
+			factory.Etherialize( instance );
 		}
 
 		[Test]
@@ -107,18 +108,15 @@ namespace Apache.Avalon.Castle.MicroKernel.Test
 			kernel.AddComponent( "b", serviceDep1, implementationDep1 );
 			kernel.AddComponent( "c", serviceDep2, implementationDep2 );
 
-			ConstructorInfo constructor = 
-				implementation.GetConstructor( Type.EmptyTypes );
+			IComponentModel model = new DefaultComponentModelBuilder(kernel).BuildModel( 
+				"a", service, implementation );
 
 			Hashtable serv2Handler = new Hashtable();
 			serv2Handler[ serviceDep1 ] = kernel.GetHandlerForService( serviceDep1 );
 			serv2Handler[ serviceDep2 ] = kernel.GetHandlerForService( serviceDep2 );
 
-			ConstructionInfo info = new ConstructionInfo( constructor, serv2Handler );
-			info.Properties = service.GetProperties();
-
 			SimpleComponentFactory factory = new SimpleComponentFactory( 
-				service, implementation, new IAspect[0], new IAspect[0], info );
+				new IAspect[0], new IAspect[0], model, serv2Handler );
 
 			Object instance = factory.Incarnate();
 
@@ -131,7 +129,7 @@ namespace Apache.Avalon.Castle.MicroKernel.Test
 
 			mailMarketing.AnnoyMillionsOfPeople( "Say something" );
 
-			factory.Etherialize();
+			factory.Etherialize( instance );
 		}
 	}
 }

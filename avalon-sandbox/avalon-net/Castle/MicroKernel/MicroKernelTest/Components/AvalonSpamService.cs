@@ -36,7 +36,10 @@ namespace Apache.Avalon.Castle.MicroKernel.Test.Components
 
 		public void AnnoyPeople(String contents)
 		{
-			// TODO:  Add AvalonSpamService.AnnoyPeople implementation
+			if (m_mailService == null)
+			{
+				throw new Exception("Dependency not satisfied.");
+			}
 		}
 
 		#endregion

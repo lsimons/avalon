@@ -21,7 +21,6 @@ namespace Apache.Avalon.Castle.MicroKernel.Test.Components
 	/// </summary>
 	public class SimpleMailService : IMailService
 	{
-
 		public SimpleMailService()
 		{
 		}

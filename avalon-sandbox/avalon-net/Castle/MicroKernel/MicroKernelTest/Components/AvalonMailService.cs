@@ -21,8 +21,14 @@ namespace Apache.Avalon.Castle.MicroKernel.Test.Components
 	/// <summary>
 	/// Summary description for AvalonMailService.
 	/// </summary>
+	[AvalonComponent("mailservice", Lifestyle.Singleton)]
+	[AvalonService( typeof(IMailService) )]
 	public class AvalonMailService : IMailService, IInitializable, IConfigurable, IDisposable
 	{
+		public bool initialized;
+		public bool configured;
+		public bool disposed;
+
 		public AvalonMailService()
 		{
 		}
@@ -39,6 +45,7 @@ namespace Apache.Avalon.Castle.MicroKernel.Test.Components
 
 		public void Initialize()
 		{
+			initialized = true;
 		}
 
 		#endregion
@@ -47,6 +54,7 @@ namespace Apache.Avalon.Castle.MicroKernel.Test.Components
 
 		public void Configure(IConfiguration config)
 		{
+			configured = true;
 		}
 
 		#endregion
@@ -55,6 +63,7 @@ namespace Apache.Avalon.Castle.MicroKernel.Test.Components
 
 		public void Dispose()
 		{
+			disposed = true;
 		}
 
 		#endregion
