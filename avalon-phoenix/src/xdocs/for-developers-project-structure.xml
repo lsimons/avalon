@@ -3,9 +3,7 @@
 <document>
   <header>
     <title>Project Structure</title>
-
       <author name="Leo Simons" email="leosimons@apache.org"/>
-
   </header>
   <body>
       <section name="Introduction">
@@ -54,15 +52,11 @@ jakarta-avalon
 |
 |- src
 |  |
-|  |- compat : deprecated stuff
 |  |- conf : jar manifest
-|  |- documentation : cocoon configuration
 |  |- java : java sources
 |  |- manifest : jar manifest files
 |  |- pdk : sources for PDK
-|  |- proposal : place for ideas to nurture
 |  |- schema : DTDs for XML files
-|  |- scratchpad :  place for nonsupported, unstable code
 |  |- script : shell scripts for usage in a standalone setup
 |  |- test : unit tests
 |  |- xdocs : site documentation in xml format
