@@ -38,8 +38,8 @@
        apps. He also started AvalonDB, <!-- removed the ref since it is no longer valid -->
        <a href="http://www.jesktop.com">Jesktop</a>,
        <a href="http://incubator.apache.org/projects/altrmi/">AltRMI</a>,
-       <a href="http://www.enterpriseobjectbroker.org">Enterprise Object Broker</a>, and
-       <a href="http://www.picocontainer.org">Picocontainer</a>.
+       Enterprise Object Broker, and
+       <a href="http://docs.codehaus.org/display/PICO">Picocontainer</a>.
     </p>
    </subsection>
    <subsection name="Niclas Hedhman">

@@ -10,7 +10,7 @@
       <item name="Apache" href="http://apache.org/"/>
       <item name="Avalon" href="/index.html"/>
       <item name="Framework" href="/product/framework/index.html"/>
-      <item name="Containers" href="/product/containers/index.html"/>
+      <item name="Containment" href="/product/containers/index.html"/>
       <item name="Components" href="/product/components/index.html"/>
     </links>
 
@@ -20,10 +20,7 @@
       <item name="Community" href="/community/index.html"/>
       <item name="Products" href="/product/index.html">
         <item name="Framework" href="/product/framework/index.html"/>
-        <item name="Containers" href="/product/containers/index.html">
-          <item name="Merlin" href="http://avalon.apache.org/merlin"/>
-          <item name="Fortress" href="http://avalon.apache.org/excalibur/fortress/"/>
-        </item>
+        <item name="Containment" href="/product/containers/index.html"/>
         <item name="Components" href="/product/components/index.html"/>
       </item>
       <item name="Documentation" href="/doc/index.html"/>

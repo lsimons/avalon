@@ -184,11 +184,13 @@ cvs -z3 -d :pserver:anoncvs@cvs.apache.org:/home/cvspublic \
 </section>
 <section name="Using an IDE for CVS access">
 	
+      <!--
 	<p>Most decent IDEs these days provide CVS integration. Apache's Jakarta Project has
   an excellent section on how to configure your IDE: 
 	<a href="http://jakarta.apache.org/site/idedevelopers.html">IDE Developer's Guide</a>
   .  It applies equally well to Avalon.
-  </p>
+      </p> -->
+
 </section>
 
 </body>

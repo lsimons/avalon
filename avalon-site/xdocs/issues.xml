@@ -43,7 +43,7 @@
        <th>Reports</th>
      </tr>
      <tr>
-       <td><a href="http://issues.apache.org/jira/secure/BrowseProject.jspa?id=10423">Avalon</a></td>
+       <td><a href="http://nagoya.apache.org/jira/secure/BrowseProject.jspa?id=10423">Avalon</a></td>
        <td>Core Framework, Site docs, General Issues</td>
        <td>
          <a href="http://issues.apache.org/jira/secure/BrowseProject.jspa?id=10423&amp;report=compversions">Open Issues</a> |
@@ -53,7 +53,7 @@
        </td> 
       </tr>
       <tr> 
-       <td><a href="http://issues.apache.org/jira/secure/BrowseProject.jspa?id=10420">Fortress</a></td>
+       <td><a href="http://nagoya.apache.org/jira/secure/BrowseProject.jspa?id=10420">Fortress</a></td>
        <td>All Avalon Fortress container issues</td>
        <td>
          <a href="http://issues.apache.org/jira/secure/BrowseProject.jspa?id=10420&amp;report=compversions">Open Issues</a> |

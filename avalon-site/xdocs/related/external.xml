@@ -42,7 +42,7 @@
           </td>
 	  </tr>
 	  <tr>
-	    <td><p><a href="http://jcrontab.sf.net">Jcrontab</a></p></td>
+	    <td><p><a href="http://jcrontab.sourceforge.net">Jcrontab</a></p></td>
 	    <td>
             <p>JCrontab provides a simple Java implementation of the 
               Unix cron service. An Avalon interface is provided.</p></td>
@@ -58,7 +58,7 @@ Hibernate Wrapper</a></p></td>
           </td>
 	  </tr>
 	  <tr>
-	    <td><p><a href="http://xingu.sf.net/">Xingu Components</a></p></td>
+	    <td><p><a href="http://xingu.sourceforge.net/">Xingu Components</a></p></td>
 	    <td><p>
             A collection of Avalon components including OJB and Hibernate
             support, a business object API, ACL component, Messenging 
@@ -66,20 +66,22 @@ Hibernate Wrapper</a></p></td>
           </td>
 	  </tr>
 	  <tr>
-	    <td><p><a href="http://phoenixjms.sf.net">PhoenixJMS</a></p></td>
+	    <td><p><a href="http://phoenixjms.sourceforge.net/">PhoenixJMS</a></p></td>
 	    <td><p>An Avalon component wrapper for OpenJMS</p></td>
 	  </tr>
+        <!--
 	  <tr>
 	    <td><p><a href="http://www.enterpriseobjectbroker.org/">
               Enterprise Object Broker</a></p></td>
 	    <td><p>a "post-J2EE" application server.</p></td>
 	  </tr>
+        -->
 	  <tr>
 	    <td><p><a href="http://telnetd.sourceforge.net/">Telnetd</a></p></td>
 	    <td><p>Java telnet implementation</p></td>
 	  </tr>
 	  <tr>
-	    <td><p><a href="http://spice.sf.net">Spice</a></p></td>
+	    <td><p><a href="http://spice.codehaus.org">Spice</a></p></td>
 	    <td><p>Spice is a repository of Components which support
              Component Oriented Programming (COP) paradigms - in
              particular, the Inversion of Control (IoC) design
@@ -106,7 +108,7 @@ Hibernate Wrapper</a></p></td>
 	     <th>Description</th>
 	   </tr>
 	   <tr>
-	    <td><p><a href="http://picocontainer.org">Picocontainer</a></p></td>
+	    <td><p><a href="http://docs.codehaus.org/display/PICO">Picocontainer</a></p></td>
 	    <td><p>Picocontainer is a light weight IoC framework.</p></td>
 	  </tr>
 	  <tr>

@@ -25,18 +25,13 @@
             </td>
         </tr>
         <tr>
-          <td><a href="containers/index.html">Containers</a></td>
+          <td><a href="containers/index.html">Containment</a></td>
           <td>
               <p>
                 A container is a platform supporting the management of 
-                components. This page tries to explain how component
-                management is done in Avalon.
-              </p>
-              <p>
-                In March 2004, Avalon community decided to focus on a single
-                reference container, which is 
-                <a href="../merlin/index.html">Merlin</a>, but this page
-                also give some history on how we arrived where we are.
+                components. This page provides links to Avalon's reference
+                implementation, general containment theory, and references
+                to legacy products.
               </p>
             </td>
         </tr>
