@@ -4,7 +4,7 @@
   <extend>${basedir}/../project.xml</extend>
   <pomVersion>3</pomVersion>
   <id>avalon-meta-plugin</id>
-  <name>Avalon Meta Plugin</name>
+  <name>Avalon Meta Model Plugin</name>
   <currentVersion>1.2</currentVersion>
   <description>Avalon Plugin for Maven</description>
   <shortDescription>Avalon Plugin for Maven</shortDescription>
