@@ -191,6 +191,20 @@ Legal:
 
     <mkdir dir="${build.lib}"/>
 
+    <jar jarfile="${build.lib}/${name}-lite.jar" basedir="${build.classes}">
+      <include name="org/apache/log/*" />
+      <include name="org/apache/log/format/Formatter.class" />
+      <include name="org/apache/log/format/PatternFormatter*.class" />
+      <include name="org/apache/log/output/AbstractOutputTarget.class" />
+      <include name="org/apache/log/output/io/StreamTarget.class" />
+
+      <!-- remove them once they are removed from codebase -->
+      <!-- <exclude name="org/apache/log/FilterTarget.class" /> -->
+      <exclude name="org/apache/log/Formatter.class" />
+      <exclude name="org/apache/log/LogKit.class" />
+      <exclude name="**/test/*" />
+    </jar>
+
     <jar jarfile="${build.lib}/${name}.jar" basedir="${build.classes}">
       <include name="org/apache/log/**" />
       <exclude name="**/test/*" />
@@ -222,7 +236,6 @@ Legal:
       <doclet name="com.sun.tools.doclets.standard.Standard">
        <param name="-author"/>
        <param name="-version"/>
-       <param name="-use"/>
        <param name="-doctitle" value="${Name}"/>
        <param name="-windowtitle" value="${Name} API"/>
        <param name="-bottom"
