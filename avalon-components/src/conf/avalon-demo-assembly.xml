@@ -3,66 +3,66 @@
 <assembly>
 
   <!-- The Storage block -->
-  <block class="org.apache.cornerstone.blocks.masterstore.RepositoryManager" 
+  <block class="org.apache.avalon.cornerstone.blocks.masterstore.RepositoryManager" 
          name="objectstorage" />
    
   <!-- The Packet Manager block -->
-  <block class="org.apache.cornerstone.blocks.packet.DefaultPacketManager" 
+  <block class="org.apache.avalon.cornerstone.blocks.packet.DefaultPacketManager" 
          name="packet-manager" />
  
   <!-- The Connection Manager block -->
-  <block class="org.apache.cornerstone.blocks.connection.DefaultConnectionManager" 
+  <block class="org.apache.avalon.cornerstone.blocks.connection.DefaultConnectionManager" 
          name="connections" />
 
   <!-- The Socket Manager block -->
-  <block class="org.apache.cornerstone.blocks.sockets.DefaultSocketManager" name="sockets" />
+  <block class="org.apache.avalon.cornerstone.blocks.sockets.DefaultSocketManager" name="sockets" />
 
   <!-- The TimeScheduler block -->
-  <block class="org.apache.cornerstone.blocks.scheduler.DefaultTimeScheduler" name="scheduler"/>
+  <block class="org.apache.avalon.cornerstone.blocks.scheduler.DefaultTimeScheduler" name="scheduler"/>
 
   <!--                                        -->
   <!-- Below this section are the demo blocks -->
   <!--                                        -->
 
-  <block class="org.apache.cornerstone.demos.helloworldserver.HelloWorldServerImpl" 
+  <block class="org.apache.avalon.cornerstone.demos.helloworldserver.HelloWorldServerImpl" 
          name="helloworldserver" >
-    <provide name="sockets" role="org.apache.cornerstone.services.sockets.SocketManager"/>
+    <provide name="sockets" role="org.apache.avalon.cornerstone.services.sockets.SocketManager"/>
     <provide name="connections" 
-             role="org.apache.cornerstone.services.connection.ConnectionManager" />
+             role="org.apache.avalon.cornerstone.services.connection.ConnectionManager" />
   </block>
 
-  <block class="org.apache.cornerstone.demos.httpproxy.DefaultHttpAuditingProxyServer" 
+  <block class="org.apache.avalon.cornerstone.demos.httpproxy.DefaultHttpAuditingProxyServer" 
          name="httpproxyserver-Auditing" >
-    <provide name="sockets" role="org.apache.cornerstone.services.sockets.SocketManager"/>
+    <provide name="sockets" role="org.apache.avalon.cornerstone.services.sockets.SocketManager"/>
     <provide name="connections" 
-             role="org.apache.cornerstone.services.connection.ConnectionManager" />
+             role="org.apache.avalon.cornerstone.services.connection.ConnectionManager" />
   </block>
     
-  <block class="org.apache.cornerstone.demos.httpproxy.DefaultHttpFilteringProxyServer" 
+  <block class="org.apache.avalon.cornerstone.demos.httpproxy.DefaultHttpFilteringProxyServer" 
          name="httpproxyserver-Filtering" >
-    <provide name="sockets" role="org.apache.cornerstone.services.sockets.SocketManager"/>
+    <provide name="sockets" role="org.apache.avalon.cornerstone.services.sockets.SocketManager"/>
     <provide name="connections" 
-             role="org.apache.cornerstone.services.connection.ConnectionManager" />
+             role="org.apache.avalon.cornerstone.services.connection.ConnectionManager" />
   </block>    
 
-  <block class="org.apache.cornerstone.demos.simpleserver.SimpleServer" 
+  <block class="org.apache.avalon.cornerstone.demos.simpleserver.SimpleServer" 
          name="demoblock" >
 
     <!-- The names here must match the names specified for a Block in some conf.xml file.
     The role should be the interface mentioned in the BlockInfo (.xinfo) files  -->
 
-    <provide name="sockets" role="org.apache.cornerstone.services.sockets.SocketManager"/>
+    <provide name="sockets" role="org.apache.avalon.cornerstone.services.sockets.SocketManager"/>
     <provide name="connections"
-             role="org.apache.cornerstone.services.connection.ConnectionManager" />
-    <provide name="objectstorage" role="org.apache.cornerstone.services.store.Store"/>
+             role="org.apache.avalon.cornerstone.services.connection.ConnectionManager" />
+    <provide name="objectstorage" role="org.apache.avalon.cornerstone.services.store.Store"/>
     <provide name="scheduler" 
-             role="org.apache.cornerstone.services.scheduler.TimeScheduler"/>
+             role="org.apache.avalon.cornerstone.services.scheduler.TimeScheduler"/>
   </block>    
 
-  <block class="org.apache.cornerstone.demos.xcommander.XCommanderServer" name="xcommander-server" >
-    <provide name="sockets" role="org.apache.cornerstone.services.sockets.SocketManager"/>
+  <block class="org.apache.avalon.cornerstone.demos.xcommander.XCommanderServer" name="xcommander-server" >
+    <provide name="sockets" role="org.apache.avalon.cornerstone.services.sockets.SocketManager"/>
     <provide name="connections" 
-             role="org.apache.cornerstone.services.connection.ConnectionManager" />
+             role="org.apache.avalon.cornerstone.services.connection.ConnectionManager" />
   </block>  
 
 </assembly>

@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+
+<blockinfo>
+
+  <meta>
+    <contributors>
+      <author name="Eung-ju Park" email="colus@isoft.co.kr"/>
+    </contributors>
+  </meta>
+
+  <services>
+    <service name="org.apache.avalon.cornerstone.services.datasource.DataSourceSelector" version="1.0"/>
+  </services>
+
+</blockinfo>

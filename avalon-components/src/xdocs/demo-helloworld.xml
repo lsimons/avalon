@@ -22,7 +22,7 @@
       </p>
       <ol>
         <li>
-          <strong>org.apache.cornerstone.demos.helloworldserver package</strong> This package contains the Java source for 'Hello World' and the xinfo block descriptor.
+          <strong>org.apache.avalon.cornerstone.demos.helloworldserver package</strong> This package contains the Java source for 'Hello World' and the xinfo block descriptor.
         </li>
         <li>
           <strong>manifest/helloworld-demo.mf</strong> This contains a manifest for use in the bar file that details what's inside the block archive 'demo-helloworld.bar'
@@ -72,11 +72,11 @@ Avalon-Block: true
     </p>
 <source>
 (text snipped)
-    &lt;block class="org.apache.cornerstone.demos.helloworldserver.HelloWorldServerImpl"
+    &lt;block class="org.apache.avalon.cornerstone.demos.helloworldserver.HelloWorldServerImpl"
            name="helloworldserver" &gt;
-        &lt;provide name="sockets2" role="org.apache.cornerstone.services.sockets.SocketManager"/&gt;
+        &lt;provide name="sockets2" role="org.apache.avalon.cornerstone.services.sockets.SocketManager"/&gt;
         &lt;provide name="connections"
-                 role="org.apache.cornerstone.services.connection.ConnectionManager" /&gt;
+                 role="org.apache.avalon.cornerstone.services.connection.ConnectionManager" /&gt;
 
         &lt;configuration&gt;
           &lt;port&gt;8999&lt;/port&gt;
@@ -110,7 +110,7 @@ Avalon-Block: true
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.3 $ $Date: 2001/03/15 23:51:01 $
+      $Revision: 1.4 $ $Date: 2001/04/27 05:26:28 $
     </legal>
   </footer>
 </document>
