@@ -35,6 +35,7 @@ import org.apache.avalon.phoenix.BlockContext;
 import org.apache.avalon.phoenix.components.configuration.ConfigurationRepository;
 import org.apache.avalon.phoenix.components.frame.ApplicationFrame;
 import org.apache.avalon.phoenix.components.kapi.BlockEntry;
+import org.apache.avalon.phoenix.components.kapi.BlockProxy;
 import org.apache.avalon.phoenix.components.kapi.RoleEntry;
 import org.apache.avalon.phoenix.metainfo.BlockInfo;
 import org.apache.avalon.phoenix.metainfo.ServiceDescriptor;
@@ -190,7 +191,15 @@ public class StartupPhase
 
             entry.setState( State.STARTED );
 
-            final BlockEvent event = new BlockEvent( name, (Block)object, entry.getBlockInfo() );
+            final Block block = (Block)object;
+            final BlockInfo blockInfo = entry.getBlockInfo();
+            final Class[] interfaces = 
+                BlockUtil.getServiceClasses( block, blockInfo.getServices() );
+
+            final BlockProxy proxy = new BlockProxy( block, interfaces );
+            entry.setBlockProxy( proxy );
+
+            final BlockEvent event = new BlockEvent( name, (Block)proxy.getProxy(), blockInfo );
             m_listener.blockAdded( event );
         }
         catch( final Exception e )
@@ -280,7 +289,8 @@ public class StartupPhase
                     throw new ComponentException( message );
                 }
 
-                componentManager.put( roleEntrys[ i ].getRole(), (Block)dependency.getInstance() );
+                componentManager.put( roleEntrys[ i ].getRole(), 
+                                      (Block)dependency.getBlockProxy().getProxy() );
             }
             catch( final ContainerException ce ) {}
         }

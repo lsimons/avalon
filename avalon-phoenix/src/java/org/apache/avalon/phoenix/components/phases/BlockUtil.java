@@ -15,13 +15,31 @@ import org.apache.avalon.phoenix.metainfo.ServiceDescriptor;
  *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
 */
-public final class BlockUtil 
+final class BlockUtil 
 {
     /**
      * Private constructor to block instantiation.
      */
     private BlockUtil()
     {
+    }
+
+    public static Class[] getServiceClasses( final Block block, final ServiceDescriptor[] services )
+    {
+        final Class[] classes = new Class[ services.length + 1 ];
+        final ClassLoader classLoader = block.getClass().getClassLoader();
+
+        for( int i = 0; i < services.length; i++ )
+        {
+            try
+            {
+                classes[ i ] = classLoader.loadClass( services[ i ].getName() );
+            }
+            catch( final Throwable throwable ) {}
+        }
+
+        classes[ services.length ] = Block.class;
+        return classes;
     }
 
     public static boolean implementsService( final Block block, final ServiceDescriptor service )

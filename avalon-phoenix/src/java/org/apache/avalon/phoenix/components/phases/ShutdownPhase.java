@@ -7,23 +7,23 @@
  */
 package org.apache.avalon.phoenix.components.phases;
 
-import org.apache.avalon.framework.activity.Disposable;
-import org.apache.avalon.framework.activity.Startable;
 import org.apache.avalon.excalibur.container.Container;
 import org.apache.avalon.excalibur.container.State;
+import org.apache.avalon.excalibur.i18n.ResourceManager;
+import org.apache.avalon.excalibur.i18n.Resources;
+import org.apache.avalon.excalibur.lang.ThreadContext;
+import org.apache.avalon.framework.activity.Disposable;
+import org.apache.avalon.framework.activity.Startable;
 import org.apache.avalon.framework.component.ComponentException;
 import org.apache.avalon.framework.component.ComponentManager;
 import org.apache.avalon.framework.component.Composable;
 import org.apache.avalon.framework.logger.AbstractLoggable;
+import org.apache.avalon.phoenix.Block;
+import org.apache.avalon.phoenix.BlockEvent;
+import org.apache.avalon.phoenix.BlockListener;
 import org.apache.avalon.phoenix.components.frame.ApplicationFrame;
 import org.apache.avalon.phoenix.components.kapi.BlockEntry;
-import org.apache.avalon.excalibur.i18n.ResourceManager;
-import org.apache.avalon.excalibur.i18n.Resources;
-import org.apache.avalon.excalibur.lang.ThreadContext;
 import org.apache.avalon.phoenix.components.listeners.BlockListenerManager;
-import org.apache.avalon.phoenix.BlockListener;
-import org.apache.avalon.phoenix.BlockEvent;
-import org.apache.avalon.phoenix.Block;
 
 /**
  *
@@ -68,14 +68,16 @@ public class ShutdownPhase
             final String message = REZ.getString( "shutdown.notice.processing.name", name );
             getLogger().info( message );
         }
-        
+
         ThreadContext.setThreadContext( m_frame.getThreadContext() );
 
         final Object object = entry.getInstance();
 
-        final BlockEvent event = new BlockEvent( name, (Block)object, entry.getBlockInfo() );
+        final Object proxy = entry.getBlockProxy().getProxy();
+        final BlockEvent event = new BlockEvent( name, (Block)proxy, entry.getBlockInfo() );
         m_listener.blockRemoved( event );
-        
+        entry.getBlockProxy().invalidate();
+
         //Stoppable stage
         if( object instanceof Startable )
         {
@@ -118,6 +120,7 @@ public class ShutdownPhase
 
         //Destruction stage
         getLogger().debug( REZ.getString( "shutdown.notice.destroy.pre" ) );
+        entry.setBlockProxy( null );
         entry.setInstance( null );
         entry.setState( State.DESTROYED );
         getLogger().debug( REZ.getString( "shutdown.notice.destroy.success" ) );
