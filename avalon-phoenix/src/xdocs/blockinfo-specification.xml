@@ -28,7 +28,7 @@
         The BlockInfo file has the same name as the Block except with the extention 
         <code>.xinfo</code>. Thus if you were looking up the meta info for a block named 
         <code>com.biz.cornerstone.blocks.MyBlock</code> you would look up the resource
-        <code>com/biz/cornerstone/blocks/MyBlock.xinfo</code> in the same bar file that 
+        <code>com/biz/cornerstone/blocks/MyBlock.xinfo</code> in the same block jar file that 
         the block was packaged in. The BlockInfo file is a simple XML format. An
         example of such a file follows.
       </p>
@@ -98,7 +98,7 @@
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.6 $ $Date: 2001/11/19 12:21:32 $
+      $Revision: 1.7 $ $Date: 2001/12/22 13:04:16 $
     </legal>
   </footer>
 </document>
