@@ -107,29 +107,12 @@ Legal:
   </path>
 
   <!-- Main target -->
-  <target name="main" depends="all" />
-  <target name="all" depends="dist-lite" />
+  <target name="main" depends="all" description="generates the Phoenix distribution without the javadocs"/>
+  <target name="all" depends="dist-lite" description="generates the Phoenix jar files" />
 
   <!-- Help on usage -->
   <target name="usage">
-    <echo message=""/>
-    <echo message="${Name} Build file"/>
-    <echo message="-------------------------------------------------------------"/>
-    <echo message=""/>
-    <echo message=" available targets are:"/>
-    <echo message=""/>
-    <echo message="   all           -> generates the ${Name} jar files"/>
-    <echo message="   check         -> perform unit tests"/>
-    <echo message="   compile       -> compiles the source code"/>
-    <echo message="   javadocs      -> generates the API documentation (java 1.2+ only)"/>
-    <echo message="   docs          -> generates the ${Name} Documentation"/>
-    <echo message="   dist-lite     -> generates the ${Name} distribution without the javadocs (default)"/>
-    <echo message="   distributions -> generates the ${Name} distributions (src and binary versions)"/>
-    <echo message="   clean         -> cleans up the created directories"/>
-    <echo message="   distclean    -> cleans up all genereated files and directories"/>
-    <echo message=""/>
-    <echo message="-------------------------------------------------------------"/>
-    <echo message=""/>
+    <echo message="Use the -projecthelp option instead"/>
   </target>
 
   <target name="help" depends="usage"/>
@@ -204,7 +187,7 @@ Legal:
   </target>
 
   <!-- Compiles the source code -->
-  <target name="compile" depends="prepare">
+  <target name="compile" depends="prepare" description="compiles the source code">
 
     <mkdir dir="${build.classes}"/>
 
@@ -233,7 +216,7 @@ Legal:
   </target>
 
   <!-- Create the API documentation -->
-  <target name="javadocs">
+  <target name="javadocs" description="generates the API documentation (java 1.2+ only)">
 
     <delete dir="${build.javadocs}"/>
     <mkdir dir="${build.javadocs}"/>
@@ -271,7 +254,7 @@ Legal:
   </target>
 
   <!-- Prepares the documentation directory -->
-  <target name="docs" depends="javadocs">
+  <target name="docs" depends="javadocs" description="generates the Phoenix documentation">
 
     <mkdir dir="${build.context}"/>
     <mkdir dir="${build.xdocs}"/>
@@ -404,7 +387,7 @@ Legal:
   </target>
 
   <!-- Create the lite build -->
-  <target name="dist-lite" depends="jars">
+  <target name="dist-lite" depends="jars" description="generates the Phoenix distribution without the javadocs">
 
     <mkdir dir="${dist.dir}"/>
     <mkdir dir="${dist.bin}"/>
@@ -554,7 +537,7 @@ Legal:
   </target>
 
   <!-- Completely build all dists -->
-  <target name="dist" depends="announcement,site-docs">
+  <target name="dist" depends="announcement,site-docs" description="generates the Phoenix distribution">
     <mkdir dir="${dist.base}"/>
 
     <antcall target="bin-dist">
@@ -608,7 +591,7 @@ Legal:
   </target>
 
   <!-- Cleans up build and distribution directories -->
-  <target name="clean" depends="setup-properties">
+  <target name="clean" depends="setup-properties" description="cleans up the created directories">
     <delete dir="${build.dir}" />
     <delete dir="${dist.dir}" />
     <delete>
@@ -617,7 +600,7 @@ Legal:
   </target>
 
   <!-- Cleans absolutely everything up -->
-  <target name="distclean" depends="clean">
+  <target name="distclean" depends="clean" description="cleans up all generated files and directories">
     <delete dir="${docs.dir}" />
     <delete dir="${dist.base}" />
   </target>
