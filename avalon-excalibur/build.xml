@@ -284,7 +284,7 @@ Legal:
     <mkdir dir="${build.reports}"/>
 
     <echo message="Performing Unit Tests" />
-    <junit fork="false" printsummary="yes">
+    <junit fork="true" printsummary="yes" dir="${build.reports}">
       <formatter type="xml"/>
       <classpath refid="test.class.path"/>
       <batchtest todir="${build.reports}">
