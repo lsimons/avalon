@@ -478,7 +478,8 @@ public class DefaultEmbeddor
 
         final String PREFIX = "org.apache.avalon.phoenix.components.";
         defaults.setParameter( Deployer.ROLE, PREFIX + "deployer.DefaultDeployer" );
-        defaults.setParameter( DeploymentRecorder.ROLE, PREFIX + "deployer.PersistentDeploymentRecorder" );
+        defaults.setParameter( DeploymentRecorder.ROLE, PREFIX + "deployer.DefaultDeploymentRecorder" );
+        //defaults.setParameter( DeploymentRecorder.ROLE, PREFIX + "deployer.PersistentDeploymentRecorder" );
         defaults.setParameter( LogManager.ROLE, PREFIX + "logger.DefaultLogManager" );
         defaults.setParameter( Kernel.ROLE, PREFIX + "kernel.DefaultKernel" );
         defaults.setParameter( SystemManager.ROLE, PREFIX + "manager.NoopSystemManager" );
