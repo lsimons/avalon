@@ -66,15 +66,15 @@ import org.apache.log4j.lf5.viewer.LogBrokerMonitor;
  * Swing GUI.
  *
  * @author <a href="sylvain@apache.org">Sylvain Wallez</a>
- * @version CVS $Revision: 1.2 $ $Date: 2003/02/03 17:40:16 $
+ * @version CVS $Revision: 1.3 $ $Date: 2003/02/04 13:50:33 $
  */
 public class LF5LogTarget implements LogTarget
 {
     /** Common monitor */
-    static private LogBrokerMonitor c_defaultLogMonitor;
+    private static LogBrokerMonitor c_defaultLogMonitor;
 
     /** Default context map formatter */
-    static private Formatter        c_defaultContextFormatter = new PatternFormatter("");
+    private static Formatter        c_defaultContextFormatter = new PatternFormatter("");
 
     /** Monitor for this LogTarget */
     private LogBrokerMonitor        m_monitor;
@@ -111,7 +111,7 @@ public class LF5LogTarget implements LogTarget
     /**
      * Get the default <code>LogBrokerMonitor</code> instance.
      */
-    public synchronized static LogBrokerMonitor getDefaultMonitor()
+    public static synchronized LogBrokerMonitor getDefaultMonitor()
     {
         if( null == c_defaultLogMonitor )
         {

@@ -71,15 +71,15 @@ import org.apache.log.output.io.StreamTarget;
 public final class InheritanceTestCase
     extends TestCase
 {
-    private final static String PATTERN = "%{priority}-%{message}";
-    private final static PatternFormatter FORMATTER = new PatternFormatter( PATTERN );
+    private static final String PATTERN = "%{priority}-%{message}";
+    private static final PatternFormatter FORMATTER = new PatternFormatter( PATTERN );
 
-    private final static String PATTERN2 = "Simon saids %{priority}-%{message}";
-    private final static PatternFormatter FORMATTER2 = new PatternFormatter( PATTERN2 );
+    private static final String PATTERN2 = "Simon saids %{priority}-%{message}";
+    private static final PatternFormatter FORMATTER2 = new PatternFormatter( PATTERN2 );
 
-    private final static String MSG = "No soup for you!";
-    private final static String RMSG = "DEBUG-" + MSG;
-    private final static String R2MSG = "Simon saids DEBUG-" + MSG;
+    private static final String MSG = "No soup for you!";
+    private static final String RMSG = "DEBUG-" + MSG;
+    private static final String R2MSG = "Simon saids DEBUG-" + MSG;
 
     public InheritanceTestCase( final String name )
     {

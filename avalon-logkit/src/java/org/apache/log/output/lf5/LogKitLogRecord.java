@@ -69,7 +69,7 @@ import org.apache.log4j.lf5.LogLevel;
  * LogKit {@link LogEvent}.
  *
  * @author <a href="sylvain@apache.org">Sylvain Wallez</a>
- * @version CVS $Revision: 1.2 $ $Date: 2003/02/03 17:40:16 $
+ * @version CVS $Revision: 1.3 $ $Date: 2003/02/04 13:50:33 $
  */
 
 public class LogKitLogRecord extends LogRecord
@@ -159,7 +159,7 @@ public class LogKitLogRecord extends LogRecord
     /**
      * The <code>LogLevel</code>s corresponding to LogKit priorities.
      */
-    public final static List LOGKIT_LOGLEVELS =
+    public static final List LOGKIT_LOGLEVELS =
         Arrays.asList(new LogLevel[] {
             LogLevel.FATAL, LogLevel.ERROR, LogLevel.WARN, LogLevel.INFO, LogLevel.DEBUG
         });
