@@ -16,6 +16,7 @@
     <ant dir="i18n"/>
     <ant dir="io"/>
     <ant dir="naming"/>
+    <ant dir="tar"/>
   </target>
 
   <!-- Build a summary test report from the results of the tests of all subprojects. -->
@@ -46,6 +47,7 @@
     <ant dir="i18n" target="jar"/>
     <ant dir="io" target="jar"/>
     <ant dir="naming" target="jar"/>
+    <ant dir="tar" target="jar"/>
 
     <jlink compress="false" outfile="excalibur-all.jar">
       <mergefiles>
@@ -66,6 +68,7 @@
     <ant dir="i18n" target="real-clean"/>
     <ant dir="io" target="real-clean"/>
     <ant dir="naming" target="real-clean"/>
+    <ant dir="tar" target="real-clean"/>
 
   </target>
 
