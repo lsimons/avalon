@@ -24,7 +24,7 @@ import org.apache.avalon.excalibur.i18n.Resources;
  * read-only connection.
  *
  * @author <a href="mailto:mirceatoma@home.com">Mircea Toma</a>
- * @version CVS $Revision: 1.1 $ $Date: 2001/10/14 00:43:12 $
+ * @version CVS $Revision: 1.2 $ $Date: 2001/10/15 03:17:28 $
  */
 public class SarURLConnection extends URLConnection
 {    
@@ -40,7 +40,9 @@ public class SarURLConnection extends URLConnection
     private JarEntry m_entry;
     private Manifest m_manifest;    
     
-    /** Creates new SarURLConnection */
+    /** 
+     * Creates new SarURLConnection. 
+     */
     public SarURLConnection( URL url ) throws MalformedURLException
     {
         super( url );
@@ -64,7 +66,7 @@ public class SarURLConnection extends URLConnection
         
         m_nestedURL = new URL(spec.substring(0, separator++));
         
-        /* if separator is the last char of the nestedURL, entryName is null */
+        // if separator is the last char of the nestedURL, entryName is null
         if ( ++separator < spec.length() )
         {
             m_entryName = spec.substring( separator, spec.length() );
@@ -82,17 +84,28 @@ public class SarURLConnection extends URLConnection
         m_input = new JarInputStream( m_nestedURL.openStream() );
         m_manifest = m_input.getManifest();
         
-        if (m_entryName == null)
-        {            
-            while ( (m_entry = m_input.getNextJarEntry()) != null )
-            {
-                m_entryNames.add( m_entry.getName() );
+        if ( m_entryName.endsWith( "/" ) ) 
+        {
+            while ( ( m_entry = m_input.getNextJarEntry() ) != null )
+            {            
+                final String entryName = m_entry.getName();
+                
+                if ( entryName.startsWith( m_entryName ) )
+                {
+                    String name = entryName.substring(m_entryName.length(), entryName.length());
+                    m_entryNames.add( name );
+                }            
             }
-        } else
-        {            
+            
+            connected = true;
+        }
+        else 
+        {
             while ( ( m_entry = m_input.getNextJarEntry() ) != null )
             {
-                if ( m_entryName.equals( m_entry.getName() ) )
+                final String entryName = m_entry.getName();
+                
+                if ( m_entryName.equals( entryName ) )
                 {
                     connected = true;
                     ifModifiedSince = m_entry.getTime();
@@ -126,7 +139,7 @@ public class SarURLConnection extends URLConnection
      * Get the JarEntry info of the the read resource.
      * @return the JarEntry. <code>Null</code> if entry is a directory.
      */
-    public JarEntry getEntry() throws IOException
+    public JarEntry getJarEntry() throws IOException
     {
         connect();
         return m_entry;
@@ -136,7 +149,7 @@ public class SarURLConnection extends URLConnection
      * Get the entry names if the resource is a directory.
      * @return the entry name list. Zero size array if entry is not a directory.
      */
-    public String[] getEntryNames() throws IOException
+    public String[] list() throws IOException
     {
         connect();
         return (String[]) m_entryNames.toArray( new String[0] );
