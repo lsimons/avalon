@@ -20,8 +20,8 @@ import org.apache.avalon.phoenix.components.cpbuilder.metadata.JoinDef;
  * <ul>
  *   <li>With exception of predefined names, all ClassLoader
  *       names should be defined starting with letters or '_'
- *       and then continuing with Alpha-Numeric characters, '-'
- *       or '_'.</li>
+ *       and then continuing with Alpha-Numeric characters,
+ *       '-', '.' or '_'.</li>
  *   <li>No ClassLoader can have a parent ClassLoader that is
  *       not predefined or not defined in ClassLoaderSet.</li>
  *   <li>No "join" ClassLoader can link against a non-existent
@@ -36,7 +36,7 @@ import org.apache.avalon.phoenix.components.cpbuilder.metadata.JoinDef;
  * </ul>
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2002/09/01 03:09:31 $
+ * @version $Revision: 1.3 $ $Date: 2002/09/01 03:27:43 $
  */
 public class ClassLoaderVerifier
     extends AbstractLogEnabled
@@ -205,7 +205,8 @@ public class ClassLoaderVerifier
             final char c = name.charAt( i );
             if( !Character.isLetterOrDigit( c ) &&
                 '_' != c &&
-                '-' != c )
+                '-' != c &&
+                '.' != c )
             {
                 final String message =
                     REZ.getString( "name-invalid-char.error",
