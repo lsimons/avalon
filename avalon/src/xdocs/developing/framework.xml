@@ -343,6 +343,110 @@ public interface DocumentRepository {
 	    <classname>ComponentManager</classname>.
 	  </para>
 	</section>
+	<section>
+	  <title>Recomposable</title>
+	  <para>
+	    On rare occasions, a Component will need a new
+	    <classname>ComponentManager</classname> with new Component role
+	    mappings.  For those occasions, implement the recomposable
+	    interface.  It has a separate method from Composable called
+	    <function>recompose</function>.
+	  </para>
+	  <para>
+            The contract surrounding the interface states that the
+	    <function>recompose</function> method can be called any number of
+	    times, but never before the Component is fully initialized.  When
+	    this method is called, the Component must update itself in a safe
+	    and consistent manner.  Usually this means all processing that the
+	    Component is performing must stop before the update and resume
+	    after the update.
+	  </para>
+	</section>
+      </section>
+      <section>
+        <title>Activity</title>
+	<para>
+	  This group of interfaces refers to contracts for the life cycle of
+	  the Component.  If there is an error during any method call with this
+	  group of interfaces, then you can throw a generic Exception.
+	</para>
+	<section>
+	  <title>Disposable</title>
+	  <para>
+	    The <classname>Disposable</classname> interface is used by any
+	    Component that wants a structured way of knowing it is no longer
+	    needed.  Once a Component is disposed of, it can no longer be used.
+	    In fact, it should be awaiting garbage collection.  The interface
+	    only has one method <function>dispose</function> that has no
+	    parameters.
+	  </para>
+	  <para>
+            The contract surrounding this interface is that the
+	    <function>dispose</function> method is called once and the method
+	    is the last one called during the life of the Component.  Further
+	    implications include that the Component will no longer be used,
+	    and all resources held by this Component must be released.
+	  </para>
+	</section>
+	<section>
+	  <title>Initializable</title>
+	  <para>
+	    The <classname>Initializable</classname> interface is used by any
+	    Component that needs to create Components or perform
+	    initializations that take information from other initialization
+	    steps.  The interface only has one method
+	    <function>initialize</function> that has no parameters.
+	  </para>
+	  <para>
+            The contract surrounding this interface is that the
+	    <function>initialize</function> method is called once and the
+	    method is the last one called during the initialization sequence.
+	    Further implications include that the Component is now live, and it
+	    can be used by other Components in the system.
+	  </para>
+	</section>
+	<section>
+	  <title>Startable</title>
+	  <para>
+	    The <classname>Startable</classname> interface is used by any
+	    Component that is constantly running for the duration of its life.
+	    The interface defines two methods: <function>start</function> and
+	    <function>stop</function>.  Neither method has any parameters.
+	  </para>
+	  <para>
+            The contract surrounding this interface is that the
+	    <function>start</function> method is called once after the
+	    Component is fully initialized, and the <function>stop</function>
+	    method is called once before the Component is disposed of.  Neither
+	    method will be called more than once, and <function>start</function>
+	    will always be called before <function>stop</function>.
+	    Implications of using this interface require that the
+	    <function>start</function> and <function>stop</function> methods be
+	    conducted safely (unlike the <function>Thread.stop</function>
+	    method) and not render the system unstable.
+	  </para>
+	</section>
+	<section>
+	  <title>Suspendable</title>
+	  <para>
+	    The <classname>Suspendable</classname> interface is used by any
+	    Component that is running for the duration of its life that permits
+	    itself to be suspended.  While it is most commonly used in
+	    conjunction with the <classname>Startable</classname> interface, it
+	    is not required to do so.  The interface defines two methods:
+	    <function>suspend</function> and <function>resume</function>.
+	    Neither method has any parameters.
+	  </para>
+	  <para>
+            The contract surrounding this interface is that
+	    <function>suspend</function> and <function>resume</function> may be
+	    called any number of times, but never before the Component is
+	    initialized and started or after the Component is stopped and
+	    disposed.  Calls to <function>suspend</function> when the system is
+	    already suspended should have no effect as well as calls to
+	    <function>resume</function> when the system is already running.
+	  </para>
+	</section>
       </section>
     </section>
   </section>
