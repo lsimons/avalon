@@ -1,7 +1,7 @@
 /* ====================================================================
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 1997-2002 The Apache Software Foundation. All rights
+ * Copyright (c) 1997-2003 The Apache Software Foundation. All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -63,7 +63,7 @@ import java.util.Date;
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @author <a href="mailto:colus@apache.org">Eung-ju Park</a>
- * @version $Revision: 1.9 $ $Date: 2003/02/07 15:26:01 $
+ * @version $Revision: 1.10 $ $Date: 2003/02/09 23:33:24 $
  */
 public class RotateStrategyByDate
     implements RotateStrategy

@@ -1,7 +1,7 @@
 /* ====================================================================
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 1997-2002 The Apache Software Foundation. All rights
+ * Copyright (c) 1997-2003 The Apache Software Foundation. All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -148,7 +148,7 @@ import org.apache.log.Priority;
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  * @author <a href="mailto:sylvain@apache.org">Sylvain Wallez</a>
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.37 $ $Date: 2003/02/07 15:25:59 $
+ * @version CVS $Revision: 1.38 $ $Date: 2003/02/09 23:33:22 $
  */
 public class PatternFormatter
     implements Formatter, org.apache.log.Formatter

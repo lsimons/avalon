@@ -1,7 +1,7 @@
 /* ====================================================================
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 1997-2002 The Apache Software Foundation. All rights
+ * Copyright (c) 1997-2003 The Apache Software Foundation. All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -67,7 +67,7 @@ import org.apache.log4j.lf5.viewer.LogBrokerMonitor;
  * Swing GUI.
  *
  * @author <a href="sylvain@apache.org">Sylvain Wallez</a>
- * @version CVS $Revision: 1.4 $ $Date: 2003/02/05 09:56:26 $
+ * @version CVS $Revision: 1.5 $ $Date: 2003/02/09 23:33:24 $
  */
 public class LF5LogTarget implements LogTarget
 {
