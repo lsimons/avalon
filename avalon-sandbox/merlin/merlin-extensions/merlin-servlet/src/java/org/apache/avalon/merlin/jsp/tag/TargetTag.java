@@ -1,16 +1,12 @@
 
-package org.apache.avalon.merlin.jsp;
+package org.apache.avalon.merlin.jsp.tag;
 
 import java.util.List;
 import java.util.Iterator;
-import java.util.Enumeration;
 import java.util.Arrays;
 import java.net.URL;
 import java.io.IOException;
 import java.lang.reflect.Method;
-import java.lang.NoSuchMethodException;
-import java.lang.IllegalAccessException;
-import java.lang.reflect.InvocationTargetException;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.Tag;
@@ -29,22 +25,22 @@ public class TargetTag extends BodyTagSupport
 
    /**
     * Static value used to delcare that the tag is in an INSPECTION mode
-    * in which case the string value of the <code>feature</code> tag attribute will 
+    * in which case the string value of the <code>feature</code> tag attribute will
     * will be returned from tag evaluation.
     */
     protected static final int INSPECTION = 0;
 
    /**
-    * Static value used to delcare that the tag is in an DELEGATION mode in 
-    * which case the tag will establish a delegate Object based on the 
-    * instance returned from a getter method based on the supplied 
+    * Static value used to delcare that the tag is in an DELEGATION mode in
+    * which case the tag will establish a delegate Object based on the
+    * instance returned from a getter method based on the supplied
     * <code>delegate</code> tag attribute.
     */
     protected static final int DELEGATION = 1;
 
    /**
-    * Static value used to delcare that the tag is in an ITERATION mode in 
-    * which case the tag will establish a delegate Object based on the 
+    * Static value used to delcare that the tag is in an ITERATION mode in
+    * which case the tag will establish a delegate Object based on the
     * the first value returned from an iterator that is returned from a getter
     * method based on the supplied <code>expand</code> tag attribute.
     */
@@ -55,7 +51,7 @@ public class TargetTag extends BodyTagSupport
     //=========================================================================
 
    /**
-    * A value controlling the mechanism to source a component service.  If null, the 
+    * A value controlling the mechanism to source a component service.  If null, the
     * service is resolved based on the enclosing target.
     */
     private String m_source;
@@ -68,14 +64,14 @@ public class TargetTag extends BodyTagSupport
 
    /**
     * The name of the feature, delegate or extent that this tag establishes.
-    * A trimmed and capatilized version of the keyword is prepended with 
-    * the 'get' string to form a method name.  A method with zero arguments is then  
-    * invoked against the tag's web agent.  For example, a feature argument of "name" 
-    * will be used to construct the "getName" method. The implementations use of the 
+    * A trimmed and capatilized version of the keyword is prepended with
+    * the 'get' string to form a method name.  A method with zero arguments is then
+    * invoked against the tag's web agent.  For example, a feature argument of "name"
+    * will be used to construct the "getName" method. The implementations use of the
     * value returned from this method is mode dependent.  If the mode is INSPECTION
-    * then a string representation is supplied to the web page. If the mode is 
+    * then a string representation is supplied to the web page. If the mode is
     * DELEGATION or ITERATION the value of the adapter is replaced.  In
-    * the case of DELEGATION the adapteris replaced by the value returned 
+    * the case of DELEGATION the adapteris replaced by the value returned
     * from the derived getter method. In the case of ITERATION the adapter
     * value is replaced by the first object returned from an iterator returned from
     * the derived getter method.
@@ -83,13 +79,13 @@ public class TargetTag extends BodyTagSupport
     private String m_keyword;
 
    /**
-    * The mode of execution.  
+    * The mode of execution.
     * One of DELEGATION, ITERATION or the default INSPECTION mode.
     */
     private int m_mode = INSPECTION;
 
    /**
-    * The iterator that the tag uses to establish a adapter.  This 
+    * The iterator that the tag uses to establish a adapter.  This
     * value is established if a <code>expand</code> tag attribute is
     * delcared.  The generated getter method is used to establish the
     * iterator value.
@@ -116,19 +112,19 @@ public class TargetTag extends BodyTagSupport
     // Tag state
     //=========================================================================
 
-    public void setFeature( String value ) 
+    public void setFeature( String value )
     {
 	  if( value != null ) m_keyword = value.trim();
 	  m_mode = INSPECTION;
     }
 
-    public void setExpand( String value ) 
+    public void setExpand( String value )
     {
         setFeature( value );
 	  m_mode = ITERATION;
     }
 
-    public void setResolve( String value ) 
+    public void setResolve( String value )
     {
         setFeature( value );
 	  m_mode = DELEGATION;
@@ -160,7 +156,7 @@ public class TargetTag extends BodyTagSupport
 
    /**
     * The doStartTag implementation handles the establishment of a <code>m_adapter</code>
-    * and from this determines if body content shall be expanded or not. 
+    * and from this determines if body content shall be expanded or not.
     */
 
     public int doStartTag() throws JspException
@@ -181,11 +177,11 @@ public class TargetTag extends BodyTagSupport
 
         //
         // check if the mode is ITERATION as a result of an expand request
-        // and if so, resolve an iterator and update the adapter to 
+        // and if so, resolve an iterator and update the adapter to
         // reference the first entry in the iteration
         //
 
-	  if( m_mode == ITERATION ) 
+	  if( m_mode == ITERATION )
         {
 		try
 		{
@@ -220,8 +216,8 @@ public class TargetTag extends BodyTagSupport
 		}
             catch( Throwable e )
             {
-                 final String error = 
-                   "Unexpected exception while accessing iterator with key: " 
+                 final String error =
+                   "Unexpected exception while accessing iterator with key: "
                    + m_keyword;
                  throw new JspException( error, e );
             }
@@ -231,7 +227,7 @@ public class TargetTag extends BodyTagSupport
 		try
 	 	{
 		    //
-		    // replace the current adapter with the value returned from the 
+		    // replace the current adapter with the value returned from the
 		    // result of a keyword invocation
 		    //
 
@@ -248,7 +244,7 @@ System.out.println("## DELAGATING: " + m_keyword + ", " + m_adapter );
 		}
 		catch( Throwable e )
             {
-                final String error = 
+                final String error =
                   "Unexpected exception while resolving delegated adapter "
                   + "from keyword: " + m_keyword;
                 throw new JspException( error, e );
@@ -259,14 +255,14 @@ System.out.println("## DELAGATING: " + m_keyword + ", " + m_adapter );
     }
 
    /**
-    * The doAfterBody method is invoked if the EVAL_BODY is enabled.  We use this 
+    * The doAfterBody method is invoked if the EVAL_BODY is enabled.  We use this
     * method to determine if the iterator needs to be shuffled onto the next value
     * (and thereby possibly causing body iteration).  Otherwise control will
     * move to the doEndTag method.
     */
     public int doAfterBody() throws JspException
     {
- 
+
 	  //
 	  // Otherwise, make sure the result of body evaluation is written out
         // and access action based on the mode of operation.
@@ -277,18 +273,18 @@ System.out.println("## DELAGATING: " + m_keyword + ", " + m_adapter );
         {
 		body.writeOut(getPreviousOut());
  	  }
-	  catch (IOException e) 
-	  { 
+	  catch (IOException e)
+	  {
 		throw new JspException("Unexpected IO Exception.", e );
 	  }
 
         //
-        // In the case of ITERATION mode we need to set the adapter to the next value 
-        // in the iteration and if that value is not-null we cause the body content to 
+        // In the case of ITERATION mode we need to set the adapter to the next value
+        // in the iteration and if that value is not-null we cause the body content to
         // to be re-evaluated with a different adapter value.
 	  //
 
-	  if( m_mode == ITERATION ) 
+	  if( m_mode == ITERATION )
 	  {
 	      try
             {
@@ -313,7 +309,7 @@ System.out.println("## DELAGATING: " + m_keyword + ", " + m_adapter );
                   "Unexpected exception while resolving next iteration.", e );
             }
         }
-	  
+
 	  //
 	  // Otherwise there is nothing more to to do becuase the body has already be evaluated
 	  // relative to the established delegate.
@@ -323,8 +319,8 @@ System.out.println("## DELAGATING: " + m_keyword + ", " + m_adapter );
     }
 
    /**
-    * Tag and body rendering is complete and we can now wrap-up any actions for 
-    * the tag.  In the case of simple features this involes return the requested 
+    * Tag and body rendering is complete and we can now wrap-up any actions for
+    * the tag.  In the case of simple features this involes return the requested
     * feature value to the output stream.
     */
     public int doEndTag( ) throws JspException
@@ -338,7 +334,7 @@ System.out.println("## DELAGATING: " + m_keyword + ", " + m_adapter );
             // Under INSPECTION mode we defer writing out until now.
             // The following code handles log tag feature as well as
             // introspection based resolution of the adapter.
-            // 
+            //
 
             if( m_keyword.equals("this") )
             {
@@ -362,17 +358,17 @@ System.out.println("## DELAGATING: " + m_keyword + ", " + m_adapter );
                 {
                     if( m_adapter != null )
                     {
-                        final String error = 
-                          "Unexpected exception while invoking keyword: '" 
-                            + m_keyword + "' against adapter class: '" 
+                        final String error =
+                          "Unexpected exception while invoking keyword: '"
+                            + m_keyword + "' against adapter class: '"
                             + m_adapter.getClass().getName()
                             + "'.";
                         throw new JspException( error, e );
                     }
                     else
                     {
-                        final String error = 
-                          "Illegal attempt to resolve a feature against a null adapter."; 
+                        final String error =
+                          "Illegal attempt to resolve a feature against a null adapter.";
                         throw new JspException( error, e );
                     }
                 }
@@ -426,7 +422,7 @@ System.out.println("## DELAGATING: " + m_keyword + ", " + m_adapter );
             Block block = (Block) pageContext.getServletContext().getAttribute( Block.BLOCK_KEY );
             if( block == null )
             {
-                final String error = 
+                final String error =
                   "Servlet context attribute " + Block.BLOCK_KEY + " is null.";
                 throw new JspException( error );
             }
@@ -440,7 +436,7 @@ System.out.println("## DELAGATING: " + m_keyword + ", " + m_adapter );
             }
             catch( Throwable e )
             {
-                final String error = 
+                final String error =
                   "Cannot resolve target url " + m_source;
                 throw new JspException( error, e );
             }
@@ -457,14 +453,14 @@ System.out.println("## DELAGATING: " + m_keyword + ", " + m_adapter );
     }
 
    /**
-    * Invokes a method on an adapter based on a supplied target and keyword.  The 
+    * Invokes a method on an adapter based on a supplied target and keyword.  The
     * implementation prepends the keyword with the 'get' string, and capatilizes the first
     * character of the keyword (as per the Java Beans convention).
     */
-    Object invoke( Object target, String keyword ) 
+    Object invoke( Object target, String keyword )
     throws Exception
     {
-        if( target == null ) 
+        if( target == null )
         {
             final String error =
               "Illegal null target argument inside the adapter tag handler.";
@@ -474,7 +470,7 @@ System.out.println("## DELAGATING: " + m_keyword + ", " + m_adapter );
         try
         {
 	      if(( keyword == null ) || (target == null )) return null;
-            String methodName = "get" + keyword.substring(0,1).toUpperCase() 
+            String methodName = "get" + keyword.substring(0,1).toUpperCase()
               + keyword.substring(1,keyword.length());
             Method method = target.getClass().getMethod( methodName, new Class[0] );
 	      Object object = method.invoke( target, new Object[0] );
@@ -490,7 +486,7 @@ System.out.println("## DELAGATING: " + m_keyword + ", " + m_adapter );
         }
         catch( Throwable e )
         {
-            throw new JspException( "Invocation exception, keyword: " + keyword 
+            throw new JspException( "Invocation exception, keyword: " + keyword
               + ", class: " + target.getClass().getName(), e );
         }
     }

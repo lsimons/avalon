@@ -51,11 +51,8 @@ package org.apache.avalon.merlin.servlet;
 
 import java.io.File;
 import java.net.URL;
-import java.io.IOException;
 
 import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServlet;
 
 import org.apache.avalon.assembly.locator.DefaultLocator;
@@ -86,7 +83,7 @@ public class MerlinServlet extends HttpServlet implements Kernel
 
             if( getServletContext() == null )
             {
-                final String error = 
+                final String error =
                  "Cannot proceed. Container returned a null servlet context.";
                 throw new ServletException( error );
             }
@@ -129,9 +126,9 @@ public class MerlinServlet extends HttpServlet implements Kernel
     */
     public Block getRootBlock()
     {
-        if( m_kernel == null ) 
+        if( m_kernel == null )
         {
-            final String message = 
+            final String message =
               "Kernel has not been initialized.";
             throw new IllegalStateException( message );
         }
@@ -143,9 +140,9 @@ public class MerlinServlet extends HttpServlet implements Kernel
     */
     public void shutdown()
     {
-        if( m_kernel == null ) 
+        if( m_kernel == null )
         {
-            final String message = 
+            final String message =
               "Kernel has not been initialized.";
             throw new IllegalStateException( message );
         }
@@ -158,7 +155,7 @@ public class MerlinServlet extends HttpServlet implements Kernel
     public void destroy()
     {
         if( m_kernel != null )
-        { 
+        {
             m_kernel.shutdown();
             m_kernel = null;
         }
