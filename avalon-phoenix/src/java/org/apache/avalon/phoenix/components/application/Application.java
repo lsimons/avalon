@@ -7,7 +7,7 @@
  */
 package org.apache.avalon.phoenix.components.application;
 
-import org.apache.avalon.excalibur.container.Container;
+import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.activity.Startable;
@@ -25,7 +25,7 @@ import org.apache.avalon.phoenix.metadata.BlockMetaData;
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
 public interface Application
-    extends Container, Initializable, Startable, Disposable
+    extends Component, Initializable, Startable, Disposable
 {
     void addBlockListeners( BlockListenerMetaData[] listeners );
     void addBlocks( BlockMetaData[] blocks );
