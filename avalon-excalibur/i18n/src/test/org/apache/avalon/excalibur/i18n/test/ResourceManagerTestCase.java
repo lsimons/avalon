@@ -7,6 +7,7 @@
  */
 package org.apache.avalon.excalibur.i18n.test;
 
+import java.util.MissingResourceException;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 import junit.framework.TestCase;
@@ -26,17 +27,31 @@ public class ResourceManagerTestCase
 
     public void testClassResources()
     {
-        final Resources resources =
-            ResourceManager.getClassResources( getClass() );
+        try
+        {
+            final Resources resources =
+                ResourceManager.getClassResources( getClass() );
 
-        resources.getBundle();
+            resources.getBundle();
+        }
+        catch ( final MissingResourceException mre )
+        {
+            fail( "Unable to find class resource for class " + getClass() );
+        }
     }
 
     public void testPackageResources()
     {
-        final Resources resources =
-            ResourceManager.getPackageResources( getClass() );
+        try
+        {
+            final Resources resources =
+                ResourceManager.getPackageResources( getClass() );
 
-        resources.getBundle();
+            resources.getBundle();
+        }
+        catch ( final MissingResourceException mre )
+        {
+            fail( "Unable to find package resources for class " + getClass() );
+        }
     }
 }
