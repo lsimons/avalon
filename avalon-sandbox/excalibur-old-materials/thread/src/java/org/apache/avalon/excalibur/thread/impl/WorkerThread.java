@@ -79,7 +79,6 @@ class WorkerThread
                 if( null != m_context ) ThreadContext.setThreadContext( m_context );
                 m_work.execute();
                 m_threadControl.finish( null );
-                if( null != m_context ) ThreadContext.setThreadContext( null );
             }
             catch( final ThreadDeath threadDeath )
             {
@@ -100,6 +99,7 @@ class WorkerThread
                 debug( "done." );
                 m_work = null;
                 m_threadControl = null;
+                if( null != m_context ) ThreadContext.setThreadContext( null );
             }
 
             //should this be just notify or notifyAll ???
