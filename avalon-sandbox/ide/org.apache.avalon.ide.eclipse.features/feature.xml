@@ -2,7 +2,7 @@
 <feature
       id="org.apache.avalon.developer3"
       label="MerlinDeveloper Feature"
-      version="0.0.2"
+      version="0.0.3"
       provider-name="Apache Software Foundation"
       os="win32"
       ws="win32"
@@ -48,7 +48,7 @@
          id="org.apache.avalon.MerlinDeveloperLaunch"
          download-size="0"
          install-size="0"
-         version="0.0.2"/>
+         version="0.0.3"/>
 
    <plugin
          id="org.apache.avalon.MerlinDeveloperUI"
