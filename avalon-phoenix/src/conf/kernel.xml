@@ -16,6 +16,16 @@
             class="org.apache.avalon.phoenix.components.manager.NoopSystemManager"
             logger="manager"></component>
 
+        <!-- There are two JMX Adapters
+        
+            The default manager using Sun's reference JMX Adapter -
+              org.apache.avalon.phoenix.components.manager.DefaultManager
+        
+            The MX4J manager using Sun's reference JMX Adapter -        
+              org.apache.avalon.phoenix.components.manager.MX4JSystemManager
+        
+        -->
+
         <!-- use this one if you need the DefaultManager
         <component role="org.apache.avalon.phoenix.interfaces.SystemManager"
             class="org.apache.avalon.phoenix.components.manager.DefaultManager"
