@@ -23,10 +23,7 @@
 
     <ant:mkdir dir="${merlin.build.inst.dir}"/>
     <ant:mkdir dir="${merlin.build.inst.dir}/ext"/>
-    <ant:mkdir dir="${merlin.build.inst.dir}/lib"/>
-    <ant:copy toDir="${merlin.build.inst.dir}/lib">
-      <fileset dir="${basedir}/merlin-platform/lib"/>
-    </ant:copy>
+    <ant:mkdir dir="${merlin.build.inst.dir}/bin/lib"/>
 
     <!--
     Install the sub-project jars (meta, assembly, merlin, etc.)
@@ -50,7 +47,7 @@
       ignoreFailures="false" />
     <ant:copy 
        file="${basedir}/kernel/bootstrap/target/merlin-bootstrap-1.0.jar" 
-       toDir="${merlin.build.inst.dir}/bin"/>
+       toDir="${merlin.build.inst.dir}/bin/lib"/>
 
     <!--
     Import the dependent jar files referenced by the SMP 
@@ -81,10 +78,6 @@
 
     <attainGoal name="merlinx-install-plugin"/>
 
-    <!--<ant:copy 
-       file="${basedir}/merlin-plugin/target/merlin-plugin-1.0.jar" 
-       toDir="${merlin.build.inst.dir}/repository/merlin/jars"/>-->
-
     <!--
     Add the supporting resources.
     -->
@@ -101,6 +94,8 @@
     </ant:copy>
 
     <ant:chmod file="${merlin.build.inst.dir}/bin/merlin.sh" perm="ugo+rx"/>
+    <ant:chmod file="${merlin.build.inst.dir}/bin/merlinx.sh" perm="ugo+rx"/>
+    <ant:chmod file="${merlin.build.inst.dir}/bin/merlin-server.sh" perm="ugo+rx"/>
 
     <ant:copy toDir="${maven.build.dir}">
       <fileset dir="${basedir}">
