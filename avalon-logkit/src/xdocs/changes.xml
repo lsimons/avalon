@@ -13,6 +13,9 @@
     <action dev="MC" type="add">
       Added SMTPOutputLogTarget to enable logging to email addresses.
     </action>
+    <action dev="EP" type="add">
+      Several bug fixes. Submitted By: David Gray
+    </action>
     <action dev="LM" type="update">
       Changed the default log format so that the log entry times are formatted
       using a human friendly format.
@@ -21,7 +24,8 @@
       Rotate before write.
     </action>
     <action dev="EP" type="add">
-      Added RotateStrategyByDate to enable daily, weekly, and monthly rotation of log files.
+      Added RotateStrategyByDate to enable daily, weekly, and monthly
+      rotation of log files. Submitted By: Bernhard Huber
     </action>
   </release>
   <release version="1.0.1" date="January 31, 2001">
