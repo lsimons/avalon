@@ -450,6 +450,7 @@ public class DefaultFactory implements Factory
         factory.setTraceEnabled( criteria.isDebugEnabled() );
         factory.setWorkingDirectory( criteria.getContextDirectory() );
         factory.setTemporaryDirectory( criteria.getTempDirectory() );
+        factory.setAnchorDirectory( criteria.getAnchorDirectory() );
 
         //
         // create the parent context
