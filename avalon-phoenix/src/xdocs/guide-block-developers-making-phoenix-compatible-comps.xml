@@ -20,7 +20,7 @@
         There are a number of common sense things to remember when making or
         adapting a Java component to be reusable in Phoenix as block.
       </p>
-      <s2 title="Beanification">
+      <subsection title="Beanification">
         <p>
           <ul>
             <li>Have a public empty constructor for your main class</li>
@@ -33,12 +33,12 @@
             <li>Try to avoid Singleton concepts.  There could be multiple blocks in one sar using differnt (by design) instances of your bean</li>
           </ul>
         </p>
-      </s2>
-      <s2 title="Inversion of Control Pattern">
+      </subsection>
+      <subsection title="Inversion of Control Pattern">
          The IoC pattern is described <a href="http://jakarta.apache.org/avalon/framework/inversion-of-control.html">
          here</a>.  This means for Phoenix avoiding static concepts including loggers.
-      </s2>
-      <s2 title="Sepearation of interface and implementation">
+      </subsection>
+      <subsection title="Sepearation of interface and implementation">
         <p>
          The separation of interface/impl pattern is described <a href="http://jakarta.apache.org/avalon/framework/separation-of-interface-and-implementation.html">here</a>.
          For Phoenix is means we can (if done completely) mount the implementation jar in place where hosted client compoennts (beans, servlets etc) can use the API, bit not see the implementation.  We can also reimplement or wrap
@@ -46,8 +46,8 @@
          journal some methods, but still delegate to the real impl.  Which pluggable impl is used by Phoenix when it
          boots is determined in assembly.xml of course.
         </p>
-      </s2>
-      <s2 title="Opening up the API">
+      </subsection>
+      <subsection title="Opening up the API">
         <p>
          Given that you have divided into interface and impl, there are probably plenty of methods you
          can put method in the interface you never though might be used.  For example if you are making JDBC
@@ -61,7 +61,7 @@
         </ol>
         .. might be useful.  Just because you can only see a ServerSocket interface does not mean that others do.
         </p>
-      </s2>
+      </subsection>
     </section>
     <section name="Example compatible comp">
     <p>

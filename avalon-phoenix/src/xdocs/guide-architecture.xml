@@ -36,7 +36,7 @@
       <p>
         Phoenix application are distriuted in a single archive.
       </p>
-      <s2 title="Packaging in terms of blocks">
+      <subsection title="Packaging in terms of blocks">
         <p>
           Phoenix hosts server applications made up of blocks.  The blocks may depend on libraries
           to function correctly.  The blocks are tied together with Assembly instructions and Configured
@@ -46,8 +46,8 @@
           <title>Phoenix application in block view</title>
           <graphic srccredit="Paul Hammant, 2001" fileref="images/phoenix-app-block.jpg" format="JPEG"/>
         </figure>
-      </s2>
-      <s2 title="Packaging in terms of block jar files">
+      </subsection>
+      <subsection title="Packaging in terms of block jar files">
         <p>
           The server application is entirely contained withing one "sar" file.  Sar is "Server ARchive".
           Each block is a jar file.  The dependant libraries are regular jars (placed
@@ -58,8 +58,8 @@
           <title>Phoenix application in block jar view</title>
           <graphic srccredit="Paul Hammant, 2001" fileref="images/phoenix-app-blockjars.jpg" format="JPEG"/>
         </figure>
-      </s2>
-      <s2 title="FtpServer as a Phoenix application">
+      </subsection>
+      <subsection title="FtpServer as a Phoenix application">
       <p>
         FtpServer (part of the Avalon/Cornerstone project) is distributed in sar form.  Here is a
         view of it's blocks.  It has no third party jars that it depends on.
@@ -68,7 +68,7 @@
           <title>FtpServer, a real Phoenix application</title>
           <graphic srccredit="Paul Hammant, 2001" fileref="images/phoenix-app-ftpserver.jpg" format="JPEG"/>
         </figure>
-      </s2>
+      </subsection>
       <p>
         Notes - Phoenix does not limit the number of blocks that it allows in a sar file.  We have taksdefs for Apache's Ant
         tool for making sar files.  See the "Block Developers Guide" (left

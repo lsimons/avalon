@@ -33,7 +33,7 @@
 	the different roles that typically exist in daily use of phoenix. For each of
 	these, we provide a basic guide. We finish with a complete example.
       </p>
-        <s2 title="Target Audience">
+        <subsection title="Target Audience">
           <p>
             This documentation is aimed towards people who:
             <ul>
@@ -45,8 +45,8 @@
               <li>wish to reuse Avalon Phoenix concepts in their own application</li>
             </ul>
           </p>
-        </s2>
-        <s2 title="Contents">
+        </subsection>
+        <subsection title="Contents">
           <ol>
             <li><a href="guide-architecture.html">Architectural overview</a></li>
             <li><a href="guide-roles.html">Development roles</a></li>
@@ -56,7 +56,7 @@
             <li><a href="guide-block-developers.html">Block Developer Guide</a></li>
             <li><a href="guide-example-configuration.html">Example Configuration.</a></li>
           </ol>
-        </s2>
+        </subsection>
     </section>
     <section name="Avalon Phoenix Reference Documentation">
       <p>
