@@ -160,12 +160,14 @@ public class DataSourceTestCase
         public void run()
         {
             long end = System.currentTimeMillis() + 5000; // run for 5 seconds
+            Random rnd = new Random();
 
             while( System.currentTimeMillis() < end && this.testcase.isSuccessful )
             {
                 try
                 {
                     Connection con = this.datasource.getConnection();
+                    Thread.sleep((long) rnd.nextInt(100)); // sleep for up to 100ms
                     con.close();
                     this.testcase.connectionCount++;
                 }
@@ -173,6 +175,10 @@ public class DataSourceTestCase
                 {
                     this.testcase.isSuccessful = false;
                     this.testcase.getLogger().info( "Failed to get Connection, test failed", se );
+                }
+                catch( final InterruptedException ie )
+                {
+                    // Ignore
                 }
             }
 
