@@ -10,6 +10,15 @@
     <person name="Jeff Turner" email="jefft@apache.org" id="JT"/>
   </devs>
   <release version="4.1" date="unreleased">
+    <action dev="PD" type="add">
+      Added a method to Version to parse a Version from a string. Added accessor
+      methods to Version to allow access to major/minor/micro components of version.
+    </action>
+    <action dev="PD" type="change">
+      Updated Version class to refer to micro version rather than revision. This 
+      is to match the terminology for JDK versioning. This is just documentation 
+      changes.
+    </action>
     <action dev="JT" type="fix">
       Changed access of Enum and ValuedEnum constructors from public to
       protected, to prevent Enum users from breaking type-safety by adding new
