@@ -54,7 +54,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.excalibur.io.FileUtil;
@@ -68,10 +67,9 @@ import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.ContextException;
 import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
+import org.apache.avalon.phoenix.components.configuration.merger.ConfigurationMerger;
 import org.apache.avalon.phoenix.components.util.PropertyUtil;
 import org.apache.avalon.phoenix.interfaces.ConfigurationRepository;
-import org.apache.excalibur.configuration.merged.ConfigurationMerger;
-
 import org.xml.sax.SAXException;
 
 /**
