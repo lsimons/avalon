@@ -73,7 +73,7 @@ import org.apache.avalon.excalibur.logger.LoggerManager;
  * See that interface for a description.
  *
  * @author <a href="mailto:dev@avalon.apache.org">The Avalon Team</a>
- * @version CVS $Revision: 1.26 $ $Date: 2003/06/04 15:48:36 $
+ * @version CVS $Revision: 1.27 $ $Date: 2003/06/08 11:19:42 $
  */
 public class DefaultContainerManager
     implements Initializable, Disposable, ContainerManager, ContainerManagerConstants
@@ -95,13 +95,13 @@ public class DefaultContainerManager
             createLoggerFromContext( m_contextManager.getContainerManagerContext() ) : logger );
     }
 
-    public DefaultContainerManager( final Context initParameters )
+    public DefaultContainerManager( final Context initParameters ) throws Exception
     {
         this( initParameters, null );
     }
 
     public DefaultContainerManager( final Context initParameters,
-                                    final Logger logger )
+                                    final Logger logger ) throws Exception
     {
         this( getInitializedContextManager( initParameters, logger ), logger );
     }
@@ -112,28 +112,12 @@ public class DefaultContainerManager
      *  super constructor has been executed.
      */
     private static ContextManager getInitializedContextManager( final Context initParameters,
-                                                                Logger logger )
+                                                                Logger logger ) throws Exception
     {
         // The context manager will use an internal coonsole logger if logger is null.
         final ContextManager contextManager = new ContextManager( initParameters, logger );
-        try
-        {
-            contextManager.initialize();
-            return contextManager;
-        }
-        catch ( Exception e )
-        {
-            if ( logger == null )
-            {
-                logger = new ConsoleLogger( ConsoleLogger.LEVEL_INFO );
-            }
-            logger.fatalError( "Unable to initialize the contextManager.", e );
-
-            // What should happen now.  There needs to be a failure mode here.
-            // As is, this will result in an NPE, but it can't really be allowed
-            // to continue without having been initialized.
-            return null;
-        }
+        contextManager.initialize();
+        return contextManager;
     }
 
     protected Logger createLoggerFromContext( final Context initParameters )
