@@ -4,10 +4,19 @@
                          "./dtd/docbookx.dtd">
 
 <revhistory>
+  <revision revisionflag="changed">
+    <revnumber>1.1</revnumber>
+    <date>18 Jul 2001</date>
+    <authorinitials>BL</authorinitials>
+    <revremark>
+      Corrected errors in sample code, as well as clarified
+      thread safety contracts.
+    </revremark>
+  </revision>
   <revision revisionflag="added">
     <revnumber>1.0</revnumber>
     <date>15 Jun 2001</date>
     <authorinitials>BL</authorinitials>
-    <revremark>Initial Port from MS Word</revremark>
+    <revremark>Initial Port from MS Word.</revremark>
   </revision>
 </revhistory>
