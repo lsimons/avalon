@@ -45,82 +45,43 @@
 // Apache Software Foundation, please see <http://www.apache.org/>.
 // ============================================================================
 
-namespace Apache.Avalon.Castle.ManagementExtensions.Default
+namespace Apache.Avalon.Castle.ManagementExtensions.Remote.Server
 {
 	using System;
 	using System.Collections;
 	using System.Collections.Specialized;
 
 	/// <summary>
-	/// Summary description for Domain.
+	/// Summary description for MConnectorServerFactory.
 	/// </summary>
-	public class Domain : DictionaryBase
+	public sealed class MConnectorServerFactory
 	{
-		protected String name;
+		private static ArrayList providers;
 
-		public Domain()
+		private MConnectorServerFactory()
 		{
-			Name = "default";
 		}
 
-		public Domain(String name)
+		public static MConnectorServer CreateServer(String url, NameValueCollection properties, MServer server)
 		{
-			Name = name;
-		}
-
-		public void Add(ManagedObjectName objectName, Entry instance)
-		{
-			lock(this)
+			if (providers == null)
 			{
-				InnerHashtable.Add(objectName, instance);
+				providers = new ArrayList();
+
+				// TODO: Search for providers instead of hard code it
+				providers.Add (new Providers.HttpChannelProvider());
+				providers.Add (new Providers.TcpChannelProvider());
 			}
-		}
 
-		public bool Contains(ManagedObjectName objectName)
-		{
-			return InnerHashtable.ContainsKey(objectName);
-		}
-
-		public void Remove(ManagedObjectName objectName)
-		{
-			lock(this)
+			foreach(MServerProvider provider in providers)
 			{
-				InnerHashtable.Remove(objectName);
-			}
-		}
-
-		public String Name
-		{
-			get
-			{
-				return name;
-			}
-			set
-			{
-				name = value;
-			}
-		}
-
-		public Entry this[ManagedObjectName objectName]
-		{
-			get
-			{
-				return (Entry) InnerHashtable[objectName];
-			}
-		}
-
-		public ManagedObjectName[] ToArray()
-		{
-			lock(this)
-			{
-				int index = 0;
-				ManagedObjectName[] names = new ManagedObjectName[ Count ];
-				foreach(ManagedObjectName name in InnerHashtable.Keys)
+				if (provider.Accepts(url))
 				{
-					names[index++] = name;
+					return provider.CreateServer(url, properties, server);
 				}
-				return names;
 			}
+
+			throw new MProviderNotFoundException(url);
 		}
 	}
 }

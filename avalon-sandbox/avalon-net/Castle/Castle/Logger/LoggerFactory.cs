@@ -45,82 +45,64 @@
 // Apache Software Foundation, please see <http://www.apache.org/>.
 // ============================================================================
 
-namespace Apache.Avalon.Castle.ManagementExtensions.Default
+namespace Apache.Avalon.Castle.Logger
 {
 	using System;
-	using System.Collections;
-	using System.Collections.Specialized;
+	using System.Configuration;
+
+	using log4net;
+
+	using Apache.Avalon.Framework;
+	using Apache.Avalon.Castle.Logger.Config;
 
 	/// <summary>
-	/// Summary description for Domain.
+	/// Summary description for LoggerFactory.
 	/// </summary>
-	public class Domain : DictionaryBase
+	public sealed class LoggerFactory
 	{
-		protected String name;
+		private static LoggerFactory instance;
 
-		public Domain()
-		{
-			Name = "default";
-		}
+		private ILogger root;
 
-		public Domain(String name)
+		private LoggerFactory()
 		{
-			Name = name;
-		}
+			LoggerConfig config = (LoggerConfig)
+				ConfigurationSettings.GetConfig("Castle/Container.Logger");
 
-		public void Add(ManagedObjectName objectName, Entry instance)
-		{
-			lock(this)
+			if (config != null)
 			{
-				InnerHashtable.Add(objectName, instance);
-			}
-		}
-
-		public bool Contains(ManagedObjectName objectName)
-		{
-			return InnerHashtable.ContainsKey(objectName);
-		}
-
-		public void Remove(ManagedObjectName objectName)
-		{
-			lock(this)
-			{
-				InnerHashtable.Remove(objectName);
-			}
-		}
-
-		public String Name
-		{
-			get
-			{
-				return name;
-			}
-			set
-			{
-				name = value;
-			}
-		}
-
-		public Entry this[ManagedObjectName objectName]
-		{
-			get
-			{
-				return (Entry) InnerHashtable[objectName];
-			}
-		}
-
-		public ManagedObjectName[] ToArray()
-		{
-			lock(this)
-			{
-				int index = 0;
-				ManagedObjectName[] names = new ManagedObjectName[ Count ];
-				foreach(ManagedObjectName name in InnerHashtable.Keys)
+				switch(config.LoggerType)
 				{
-					names[index++] = name;
+					case LoggerType.Console:
+						root = new ConsoleLogger("Castle");
+						break;
+					case LoggerType.Null:
+						root = new NullLogger();
+						break;
+					case LoggerType.Log4net:
+						ILog log = LogManager.GetLogger("Castle");
+						root = new Log4netLogger(log, "Castle");
+						break;
 				}
-				return names;
 			}
+		}
+
+		public static ILogger GetLogger(String name)
+		{
+			lock(typeof(LoggerFactory))
+			{
+				if (instance == null)
+				{
+					instance = new LoggerFactory();
+				}
+			}
+
+			if (instance.root != null)
+			{
+				return instance.root.CreateChildLogger(name);
+			}
+			
+			return new ConsoleLogger("Castle").CreateChildLogger(name);
 		}
 	}
 }

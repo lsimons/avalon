@@ -45,82 +45,98 @@
 // Apache Software Foundation, please see <http://www.apache.org/>.
 // ============================================================================
 
-namespace Apache.Avalon.Castle.ManagementExtensions.Default
+namespace Apache.Avalon.Castle.ManagementExtensions.Remote
 {
 	using System;
-	using System.Collections;
-	using System.Collections.Specialized;
 
 	/// <summary>
-	/// Summary description for Domain.
+	/// Summary description for MServerProxy.
 	/// </summary>
-	public class Domain : DictionaryBase
+	public class MServerProxy : MarshalByRefObject, MServer
 	{
-		protected String name;
+		protected MServer server;
 
-		public Domain()
+		public MServerProxy(MServer server)
 		{
-			Name = "default";
-		}
-
-		public Domain(String name)
-		{
-			Name = name;
-		}
-
-		public void Add(ManagedObjectName objectName, Entry instance)
-		{
-			lock(this)
+			if (server == null)
 			{
-				InnerHashtable.Add(objectName, instance);
+				throw new ArgumentNullException("server");
 			}
+
+			this.server = server;
 		}
 
-		public bool Contains(ManagedObjectName objectName)
+		#region MServer Members
+
+		public Object Instantiate(String typeName)
 		{
-			return InnerHashtable.ContainsKey(objectName);
+			return server.Instantiate(typeName);
 		}
 
-		public void Remove(ManagedObjectName objectName)
+		public Object Instantiate(String assemblyName, String typeName)
 		{
-			lock(this)
-			{
-				InnerHashtable.Remove(objectName);
-			}
+			return server.Instantiate(assemblyName, typeName);
 		}
 
-		public String Name
+		public ManagedInstance CreateManagedObject(String typeName, ManagedObjectName name)
 		{
-			get
-			{
-				return name;
-			}
-			set
-			{
-				name = value;
-			}
+			return server.CreateManagedObject(typeName, name);
 		}
 
-		public Entry this[ManagedObjectName objectName]
+		public ManagedInstance CreateManagedObject(String assemblyName, String typeName, ManagedObjectName name)
 		{
-			get
-			{
-				return (Entry) InnerHashtable[objectName];
-			}
+			return server.CreateManagedObject(assemblyName, typeName, name);
 		}
 
-		public ManagedObjectName[] ToArray()
+		public ManagedInstance RegisterManagedObject(Object instance, ManagedObjectName name)
 		{
-			lock(this)
-			{
-				int index = 0;
-				ManagedObjectName[] names = new ManagedObjectName[ Count ];
-				foreach(ManagedObjectName name in InnerHashtable.Keys)
-				{
-					names[index++] = name;
-				}
-				return names;
-			}
+			return server.RegisterManagedObject(instance, name);
 		}
+
+		public ManagedInstance GetManagedInstance(ManagedObjectName name)
+		{
+			return server.GetManagedInstance(name);
+		}
+
+		public void UnregisterManagedObject(ManagedObjectName name)
+		{
+			server.UnregisterManagedObject(name);
+		}
+
+		public Object Invoke(ManagedObjectName name, String action, Object[] args, Type[] signature)
+		{
+			return server.Invoke(name, action, args, signature);
+		}
+
+		public ManagementInfo GetManagementInfo(ManagedObjectName name)
+		{
+			return server.GetManagementInfo(name);
+		}
+
+		public Object GetAttribute(ManagedObjectName name, String attributeName)
+		{
+			return server.GetAttribute(name, attributeName);
+		}
+
+		public void SetAttribute(ManagedObjectName name, String attributeName, Object attributeValue)
+		{
+			server.SetAttribute(name, attributeName, attributeValue);
+		}
+
+		public ManagedObjectName[] Query(ManagedObjectName query)
+		{
+			return server.Query(query);
+		}
+
+		#endregion
+
+		#region MServerConnection Members
+
+		public String[] GetDomains()
+		{
+			return server.GetDomains();
+		}
+
+		#endregion
 	}
 }

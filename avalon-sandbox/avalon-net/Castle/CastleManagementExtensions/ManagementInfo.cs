@@ -193,6 +193,12 @@ namespace Apache.Avalon.Castle.ManagementExtensions
 		{
 		}
 
+		public ManagementObjectCollection(
+			System.Runtime.Serialization.SerializationInfo info, 
+			System.Runtime.Serialization.StreamingContext context) : base(info, context)
+		{
+		}
+
 		public void Add(ManagementObject obj)
 		{
 			base.BaseAdd(obj.Name, obj);

@@ -45,82 +45,34 @@
 // Apache Software Foundation, please see <http://www.apache.org/>.
 // ============================================================================
 
-namespace Apache.Avalon.Castle.ManagementExtensions.Default
+namespace Apache.Avalon.Castle.Default.Configuration
 {
 	using System;
-	using System.Collections;
-	using System.Collections.Specialized;
+
+	using Apache.Avalon.Castle.ManagementExtensions;
 
 	/// <summary>
-	/// Summary description for Domain.
+	/// Summary description for ConfigurationManager.
 	/// </summary>
-	public class Domain : DictionaryBase
+	[ManagedComponent]
+	public class ConfigurationManager : ManagedService, MContributeLifecycle
 	{
-		protected String name;
-
-		public Domain()
+		public ConfigurationManager()
 		{
-			Name = "default";
 		}
 
-		public Domain(String name)
+		#region MContributeLifecycle Members
+
+		[ManagedOperation]
+		public void RegisterForPhases(Apache.Avalon.Castle.Core.OrchestratorNotificationSystem notification)
 		{
-			Name = name;
 		}
 
-		public void Add(ManagedObjectName objectName, Entry instance)
+		[ManagedOperation]
+		public void Perform(object target)
 		{
-			lock(this)
-			{
-				InnerHashtable.Add(objectName, instance);
-			}
 		}
 
-		public bool Contains(ManagedObjectName objectName)
-		{
-			return InnerHashtable.ContainsKey(objectName);
-		}
-
-		public void Remove(ManagedObjectName objectName)
-		{
-			lock(this)
-			{
-				InnerHashtable.Remove(objectName);
-			}
-		}
-
-		public String Name
-		{
-			get
-			{
-				return name;
-			}
-			set
-			{
-				name = value;
-			}
-		}
-
-		public Entry this[ManagedObjectName objectName]
-		{
-			get
-			{
-				return (Entry) InnerHashtable[objectName];
-			}
-		}
-
-		public ManagedObjectName[] ToArray()
-		{
-			lock(this)
-			{
-				int index = 0;
-				ManagedObjectName[] names = new ManagedObjectName[ Count ];
-				foreach(ManagedObjectName name in InnerHashtable.Keys)
-				{
-					names[index++] = name;
-				}
-				return names;
-			}
-		}
+		#endregion
 	}
 }

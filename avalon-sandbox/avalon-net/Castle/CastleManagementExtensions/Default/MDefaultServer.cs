@@ -293,6 +293,24 @@ namespace Apache.Avalon.Castle.ManagementExtensions.Default
 			registry.SetAttributeValue(name, attributeName, attributeValue);
 		}
 
+		/// <summary>
+		/// Returns an array of registered domains.
+		/// </summary>
+		/// <returns>a list of domains</returns>
+		public String[] GetDomains()
+		{
+			return registry.GetDomains();
+		}
+
+		/// <summary>
+		/// Queries the registerd components.
+		/// </summary>
+		/// <returns></returns>
+		public ManagedObjectName[] Query(ManagedObjectName query)
+		{
+			return registry.Query(query);
+		}
+
 		#endregion
 	}
 }

@@ -53,6 +53,8 @@ namespace Apache.Avalon.Castle.Controller
 	using Apache.Avalon.Castle.Controller.Config;
 	using Apache.Avalon.Castle.ManagementExtensions;
 
+	using ILogger = Apache.Avalon.Framework.ILogger;
+
 	/// <summary>
 	/// Summary description for CastleController.
 	/// </summary>
@@ -69,24 +71,32 @@ namespace Apache.Avalon.Castle.Controller
 		/// </summary>
 		private CastleConfig config;
 
+		protected ILogger logger = Logger.LoggerFactory.GetLogger("CastleController");
+
 		public CastleController()
 		{
+			logger.Debug("Constructor");
 		}
 
 		[ManagedOperation]
 		public void Create()
 		{
+			logger.Debug("Create");
+
 			InstantiateAndRegisterComponents();
 		}
 
 		[ManagedOperation]
 		public void Start()
 		{
+			logger.Debug("Start");
 		}
 
 		[ManagedOperation]
 		public void Stop()
 		{
+			logger.Debug("Stop");
+
 			// Uninstall();
 		}
 
@@ -94,12 +104,28 @@ namespace Apache.Avalon.Castle.Controller
 		{
 			foreach(ComponentDescriptor component in config.Components)
 			{
-				Instantiate(component);
+				RecursiveInstantiate(component);
 			}
 		}
 
+		private void RecursiveInstantiate(ComponentDescriptor component)
+		{
+			foreach(ComponentDescriptor child in component.Dependencies.Components)
+			{
+				RecursiveInstantiate(child);
+			}
+
+			Instantiate(component);
+		}
+
+		/// <summary>
+		/// Instantiates the component using the current MServer
+		/// </summary>
+		/// <param name="component"></param>
 		private void Instantiate(ComponentDescriptor component)
 		{
+			logger.Debug("About to instantiate {0} type {1}", component.Name, component.Typename);
+
 			ManagedObjectName name = new ManagedObjectName( component.Name );
 			String typename = component.Typename;
 
@@ -107,21 +133,32 @@ namespace Apache.Avalon.Castle.Controller
 
 			if ( !typeof(MService).IsAssignableFrom( instance.GetType() ) )
 			{
+				logger.Error("Type {0} does not implement interface MService", typename);
+
 				throw new CastleContainerException( String.Format("Type {0} must implement MService", typename) );
 			}
 
+			logger.Debug("About to register {0}", name);
 			server.RegisterManagedObject( instance, name );
 
+			logger.Debug("About to setup {0}", name);
 			Setup( name, component );
 		}
 
+		/// <summary>
+		/// Handle lifecycle methods and setup component attributes and dependencies;
+		/// </summary>
+		/// <param name="name"></param>
+		/// <param name="component"></param>
 		private void Setup(ManagedObjectName name, ComponentDescriptor component)
 		{
-			server.Invoke(name, "Create", null, null);
-
 			SetupAttributes(name, component);
 			SetupDependencies(name, component);
 
+			logger.Debug("Invoking Create on {0}", name);
+			server.Invoke(name, "Create", null, null);
+
+			logger.Debug("Invoking Start on {0}", name);
 			server.Invoke(name, "Start", null, null);
 		}
 
@@ -145,6 +182,7 @@ namespace Apache.Avalon.Castle.Controller
 
 				Object value = PerformConversion(mAtt.AttributeType, attribute.Value);
 
+				logger.Debug("Setting Attribute '{0}' value '{1}'", attribute.Name, value);
 				server.SetAttribute(name, attribute.Name, value);
 			}
 		}
@@ -175,16 +213,19 @@ namespace Apache.Avalon.Castle.Controller
 
 		public void BeforeRegister(MServer server, ManagedObjectName name)
 		{
+			logger.Debug("BeforeRegister {0}", name);
+
 			this.server = server;
 
-			System.Console.WriteLine("Configuration file {0}", 
-				AppDomain.CurrentDomain.SetupInformation.ConfigurationFile);
-
+			logger.Debug("Obtaining configuration from {0}", AppDomain.CurrentDomain.SetupInformation.ConfigurationFile);
+			
 			config = (CastleConfig) 
 				ConfigurationSettings.GetConfig("Castle/Services");
 
 			if (config == null)
 			{
+				logger.Error("Null configuration returned");
+
 				throw new InitializationException("Could not find configuration.");
 			}
 		}

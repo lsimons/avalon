@@ -45,82 +45,104 @@
 // Apache Software Foundation, please see <http://www.apache.org/>.
 // ============================================================================
 
-namespace Apache.Avalon.Castle.ManagementExtensions.Default
+namespace Apache.Avalon.Castle.ManagementExtensions.Remote.Providers
 {
 	using System;
-	using System.Collections;
 	using System.Collections.Specialized;
 
+	using Apache.Avalon.Castle.ManagementExtensions.Remote.Server;
+	using Apache.Avalon.Castle.ManagementExtensions.Remote.Client;
+
 	/// <summary>
-	/// Summary description for Domain.
+	/// Summary description for AbstractServerProvider.
 	/// </summary>
-	public class Domain : DictionaryBase
+	public abstract class AbstractServerProvider : MServerProvider, MProvider
 	{
-		protected String name;
+		private static readonly char[] SEPARATOR = new char[] { ':' };
 
-		public Domain()
+		public AbstractServerProvider()
 		{
-			Name = "default";
 		}
 
-		public Domain(String name)
-		{
-			Name = name;
-		}
+		#region MServerProvider Members
 
-		public void Add(ManagedObjectName objectName, Entry instance)
+		public bool Accepts(String url)
 		{
-			lock(this)
+			if (url == null)
 			{
-				InnerHashtable.Add(objectName, instance);
+				throw new ArgumentNullException("url", "null url for MProvider");
 			}
+
+			String[] parts = StripUrl(url);
+
+			String channel   = parts[1];
+			String formatter = parts[2];
+
+			return AcceptsChannel(channel) && AcceptsFormatter(formatter);
 		}
 
-		public bool Contains(ManagedObjectName objectName)
+		public abstract MConnectorServer CreateServer(String url, System.Collections.Specialized.NameValueCollection properties, MServer server);
+
+		#endregion
+
+		#region MServerProvider Members
+		
+		public abstract MConnector Connect(String url, System.Collections.Specialized.NameValueCollection properties);
+
+		#endregion
+
+		protected abstract bool AcceptsChannel(String channel);
+
+		protected abstract bool AcceptsFormatter(String formatter);
+
+		protected String[] StripUrl(String url)
 		{
-			return InnerHashtable.ContainsKey(objectName);
+			String[] parts = url.Split( SEPARATOR );
+
+			if (parts.Length != 4)
+			{
+				throw new InvalidUrlException(url);
+			}
+			if (parts[0] == null || !"provider".EndsWith(parts[0]))
+			{
+				throw new InvalidUrlException(url);
+			}
+
+			return parts;
 		}
 
-		public void Remove(ManagedObjectName objectName)
+		protected int GetPort(NameValueCollection properties)
 		{
-			lock(this)
+			String port = null;
+
+			if (properties != null)
 			{
-				InnerHashtable.Remove(objectName);
+				port = properties["port"];
 			}
+			
+			if (port == null || port == String.Empty)
+			{
+				port = "3334";
+			}
+
+			return Convert.ToInt32(port);
 		}
 
-		public String Name
+		protected String GetHost(NameValueCollection properties)
 		{
-			get
-			{
-				return name;
-			}
-			set
-			{
-				name = value;
-			}
-		}
+			String host = null;
 
-		public Entry this[ManagedObjectName objectName]
-		{
-			get
+			if (properties != null)
 			{
-				return (Entry) InnerHashtable[objectName];
+				host = properties["host"];
 			}
-		}
+			
+			if (host == null || host == String.Empty)
+			{
+				host = "localhost";
+			}
 
-		public ManagedObjectName[] ToArray()
-		{
-			lock(this)
-			{
-				int index = 0;
-				ManagedObjectName[] names = new ManagedObjectName[ Count ];
-				foreach(ManagedObjectName name in InnerHashtable.Keys)
-				{
-					names[index++] = name;
-				}
-				return names;
-			}
+			return host;
 		}
 	}
 }

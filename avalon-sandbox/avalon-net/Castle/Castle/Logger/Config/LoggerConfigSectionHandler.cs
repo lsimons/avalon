@@ -45,82 +45,27 @@
 // Apache Software Foundation, please see <http://www.apache.org/>.
 // ============================================================================
 
-namespace Apache.Avalon.Castle.ManagementExtensions.Default
+namespace Apache.Avalon.Castle.Logger.Config
 {
 	using System;
-	using System.Collections;
-	using System.Collections.Specialized;
+	using System.Configuration;
 
 	/// <summary>
-	/// Summary description for Domain.
+	/// Summary description for LoggerConfigSectionHandler.
 	/// </summary>
-	public class Domain : DictionaryBase
+	public class LoggerConfigSectionHandler : IConfigurationSectionHandler
 	{
-		protected String name;
-
-		public Domain()
+		public LoggerConfigSectionHandler()
 		{
-			Name = "default";
 		}
 
-		public Domain(String name)
+		#region IConfigurationSectionHandler Members
+
+		public object Create(object parent, object configContext, System.Xml.XmlNode section)
 		{
-			Name = name;
+			return new LoggerConfig(parent as LoggerConfig, section);
 		}
 
-		public void Add(ManagedObjectName objectName, Entry instance)
-		{
-			lock(this)
-			{
-				InnerHashtable.Add(objectName, instance);
-			}
-		}
-
-		public bool Contains(ManagedObjectName objectName)
-		{
-			return InnerHashtable.ContainsKey(objectName);
-		}
-
-		public void Remove(ManagedObjectName objectName)
-		{
-			lock(this)
-			{
-				InnerHashtable.Remove(objectName);
-			}
-		}
-
-		public String Name
-		{
-			get
-			{
-				return name;
-			}
-			set
-			{
-				name = value;
-			}
-		}
-
-		public Entry this[ManagedObjectName objectName]
-		{
-			get
-			{
-				return (Entry) InnerHashtable[objectName];
-			}
-		}
-
-		public ManagedObjectName[] ToArray()
-		{
-			lock(this)
-			{
-				int index = 0;
-				ManagedObjectName[] names = new ManagedObjectName[ Count ];
-				foreach(ManagedObjectName name in InnerHashtable.Keys)
-				{
-					names[index++] = name;
-				}
-				return names;
-			}
-		}
+		#endregion
 	}
 }

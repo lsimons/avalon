@@ -45,81 +45,50 @@
 // Apache Software Foundation, please see <http://www.apache.org/>.
 // ============================================================================
 
-namespace Apache.Avalon.Castle.ManagementExtensions.Default
+namespace Apache.Avalon.Castle.Logger.Config
 {
 	using System;
-	using System.Collections;
-	using System.Collections.Specialized;
+	using System.Xml;
 
 	/// <summary>
-	/// Summary description for Domain.
+	/// 
 	/// </summary>
-	public class Domain : DictionaryBase
+	internal enum LoggerType
 	{
-		protected String name;
+		Null,
+		Console,
+		Log4net
+	}
 
-		public Domain()
+	/// <summary>
+	/// Summary description for LoggerConfig.
+	/// </summary>
+	internal class LoggerConfig
+	{
+		private LoggerType Logger = LoggerType.Console;
+
+		public LoggerConfig(LoggerConfig parent, XmlNode section)
 		{
-			Name = "default";
+			ParseLoggerEntry(section);
 		}
 
-		public Domain(String name)
-		{
-			Name = name;
-		}
+		#region Parsing
 
-		public void Add(ManagedObjectName objectName, Entry instance)
+		private void ParseLoggerEntry(XmlNode loggerNode)
 		{
-			lock(this)
+			if (loggerNode != null && loggerNode.InnerText != String.Empty)
 			{
-				InnerHashtable.Add(objectName, instance);
+				Logger = (LoggerType) Enum.Parse( typeof(LoggerType), loggerNode.InnerText, true );
 			}
 		}
 
-		public bool Contains(ManagedObjectName objectName)
-		{
-			return InnerHashtable.ContainsKey(objectName);
-		}
+		#endregion
 
-		public void Remove(ManagedObjectName objectName)
-		{
-			lock(this)
-			{
-				InnerHashtable.Remove(objectName);
-			}
-		}
-
-		public String Name
+		public LoggerType LoggerType
 		{
 			get
 			{
-				return name;
-			}
-			set
-			{
-				name = value;
-			}
-		}
-
-		public Entry this[ManagedObjectName objectName]
-		{
-			get
-			{
-				return (Entry) InnerHashtable[objectName];
-			}
-		}
-
-		public ManagedObjectName[] ToArray()
-		{
-			lock(this)
-			{
-				int index = 0;
-				ManagedObjectName[] names = new ManagedObjectName[ Count ];
-				foreach(ManagedObjectName name in InnerHashtable.Keys)
-				{
-					names[index++] = name;
-				}
-				return names;
+				return this.Logger;
 			}
 		}
 	}

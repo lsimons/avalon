@@ -53,7 +53,7 @@ namespace Apache.Avalon.Castle.ManagementExtensions
 	/// Summary description for InvalidOperationException.
 	/// </summary>
 	[Serializable]
-	public class InvalidOperationException : Exception
+	public class InvalidOperationException : System.Exception
 	{
 		public InvalidOperationException()
 		{

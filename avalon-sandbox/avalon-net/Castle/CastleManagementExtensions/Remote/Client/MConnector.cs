@@ -45,82 +45,68 @@
 // Apache Software Foundation, please see <http://www.apache.org/>.
 // ============================================================================
 
-namespace Apache.Avalon.Castle.ManagementExtensions.Default
+namespace Apache.Avalon.Castle.ManagementExtensions.Remote.Client
 {
 	using System;
-	using System.Collections;
-	using System.Collections.Specialized;
+	using System.Runtime.Remoting;
+	using System.Runtime.Remoting.Channels;
 
 	/// <summary>
-	/// Summary description for Domain.
+	/// Summary description for MConnector.
 	/// </summary>
-	public class Domain : DictionaryBase
+	[Serializable]
+	public sealed class MConnector : IDisposable
 	{
-		protected String name;
+		private MServer remoteServer;
+		private IChannel channel;
 
-		public Domain()
+		internal MConnector(MServer remoteServer, IChannel channel)
 		{
-			Name = "default";
-		}
-
-		public Domain(String name)
-		{
-			Name = name;
-		}
-
-		public void Add(ManagedObjectName objectName, Entry instance)
-		{
-			lock(this)
+			if (remoteServer == null)
 			{
-				InnerHashtable.Add(objectName, instance);
+				throw new ArgumentNullException("remoteServer");
 			}
+
+			this.remoteServer = remoteServer;
+			this.channel = channel;
 		}
 
-		public bool Contains(ManagedObjectName objectName)
+		~MConnector()
 		{
-			return InnerHashtable.ContainsKey(objectName);
+			Disconnect();
 		}
 
-		public void Remove(ManagedObjectName objectName)
-		{
-			lock(this)
-			{
-				InnerHashtable.Remove(objectName);
-			}
-		}
-
-		public String Name
+		public MServer ServerConnection
 		{
 			get
 			{
-				return name;
-			}
-			set
-			{
-				name = value;
+				return remoteServer as MServer;
 			}
 		}
 
-		public Entry this[ManagedObjectName objectName]
+		public void Disconnect()
 		{
-			get
+			if (remoteServer != null)
 			{
-				return (Entry) InnerHashtable[objectName];
+				remoteServer = null;
+			}
+
+			if (channel != null)
+			{
+				ChannelServices.UnregisterChannel( channel );
+				channel = null;
 			}
 		}
 
-		public ManagedObjectName[] ToArray()
+		#region IDisposable Members
+
+		public void Dispose()
 		{
-			lock(this)
-			{
-				int index = 0;
-				ManagedObjectName[] names = new ManagedObjectName[ Count ];
-				foreach(ManagedObjectName name in InnerHashtable.Keys)
-				{
-					names[index++] = name;
-				}
-				return names;
-			}
+			GC.SuppressFinalize(this);
+			
+			Disconnect();
 		}
+
+		#endregion
 	}
 }

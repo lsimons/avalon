@@ -45,82 +45,17 @@
 // Apache Software Foundation, please see <http://www.apache.org/>.
 // ============================================================================
 
-namespace Apache.Avalon.Castle.ManagementExtensions.Default
+namespace Apache.Avalon.Castle.ManagementExtensions.Remote.Server
 {
 	using System;
-	using System.Collections;
-	using System.Collections.Specialized;
 
 	/// <summary>
-	/// Summary description for Domain.
+	/// Summary description for MServerProvider.
 	/// </summary>
-	public class Domain : DictionaryBase
+	public interface MServerProvider
 	{
-		protected String name;
+		bool Accepts(String url);
 
-		public Domain()
-		{
-			Name = "default";
-		}
-
-		public Domain(String name)
-		{
-			Name = name;
-		}
-
-		public void Add(ManagedObjectName objectName, Entry instance)
-		{
-			lock(this)
-			{
-				InnerHashtable.Add(objectName, instance);
-			}
-		}
-
-		public bool Contains(ManagedObjectName objectName)
-		{
-			return InnerHashtable.ContainsKey(objectName);
-		}
-
-		public void Remove(ManagedObjectName objectName)
-		{
-			lock(this)
-			{
-				InnerHashtable.Remove(objectName);
-			}
-		}
-
-		public String Name
-		{
-			get
-			{
-				return name;
-			}
-			set
-			{
-				name = value;
-			}
-		}
-
-		public Entry this[ManagedObjectName objectName]
-		{
-			get
-			{
-				return (Entry) InnerHashtable[objectName];
-			}
-		}
-
-		public ManagedObjectName[] ToArray()
-		{
-			lock(this)
-			{
-				int index = 0;
-				ManagedObjectName[] names = new ManagedObjectName[ Count ];
-				foreach(ManagedObjectName name in InnerHashtable.Keys)
-				{
-					names[index++] = name;
-				}
-				return names;
-			}
-		}
+		MConnectorServer CreateServer(String url, System.Collections.Specialized.NameValueCollection properties, MServer server);
 	}
 }

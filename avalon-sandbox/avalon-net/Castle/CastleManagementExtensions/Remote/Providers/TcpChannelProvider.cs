@@ -45,82 +45,115 @@
 // Apache Software Foundation, please see <http://www.apache.org/>.
 // ============================================================================
 
-namespace Apache.Avalon.Castle.ManagementExtensions.Default
+namespace Apache.Avalon.Castle.ManagementExtensions.Remote.Providers
 {
 	using System;
-	using System.Collections;
 	using System.Collections.Specialized;
 
+	using System.Runtime.Remoting;
+	using System.Runtime.Remoting.Channels;
+	using System.Runtime.Remoting.Channels.Tcp;
+
+	using Apache.Avalon.Castle.ManagementExtensions.Remote.Server;
+	using Apache.Avalon.Castle.ManagementExtensions.Remote.Client;
+
 	/// <summary>
-	/// Summary description for Domain.
+	/// Summary description for TcpChannelProvider.
 	/// </summary>
-	public class Domain : DictionaryBase
+	public class TcpChannelProvider : AbstractServerProvider
 	{
-		protected String name;
-
-		public Domain()
+		public TcpChannelProvider()
 		{
-			Name = "default";
 		}
-
-		public Domain(String name)
+	
+		protected override bool AcceptsChannel(String channel)
 		{
-			Name = name;
+			return "tcp".Equals(channel);
 		}
-
-		public void Add(ManagedObjectName objectName, Entry instance)
+	
+		protected override bool AcceptsFormatter(String formatter)
 		{
-			lock(this)
+			return true;
+		}
+	
+		public override MConnector Connect(String url, NameValueCollection properties)
+		{
+			String[] parts = StripUrl(url);
+
+			String formatter = parts[2];
+			String objectUri = parts[3];
+			String objectUrl = null;
+			
+			TcpChannel channel = CreateChannel(formatter, properties, false);
+
+			objectUrl = String.Format("{0}://{1}:{2}/{3}", 
+				"tcp", GetHost(properties), GetPort(properties), objectUri);
+
+			MServer proxy = (MServer) RemotingServices.Connect( typeof(MServerProxy), objectUrl );
+
+			return new MConnector( (MServer) proxy, channel );
+		}
+	
+		public override MConnectorServer CreateServer(String url, NameValueCollection properties, MServer server)
+		{
+			String[] parts = StripUrl(url);
+			String formatter = parts[2];
+			String objectUri = parts[3];
+			
+			TcpChannel channel = CreateChannel(formatter, properties, true);
+
+			MConnectorServer connServer = null;
+
+			if (server != null)
 			{
-				InnerHashtable.Add(objectName, instance);
+				connServer = new MConnectorServer(server, objectUri);
 			}
-		}
-
-		public bool Contains(ManagedObjectName objectName)
-		{
-			return InnerHashtable.ContainsKey(objectName);
-		}
-
-		public void Remove(ManagedObjectName objectName)
-		{
-			lock(this)
+			else
 			{
-				InnerHashtable.Remove(objectName);
+				connServer = new MConnectorServer(objectUri);
 			}
+
+			return connServer;
 		}
 
-		public String Name
+		private TcpChannel CreateChannel(String formatter, NameValueCollection properties, bool createAsServer)
 		{
-			get
-			{
-				return name;
-			}
-			set
-			{
-				name = value;
-			}
-		}
+			TcpChannel tcpChannel = null;
 
-		public Entry this[ManagedObjectName objectName]
-		{
-			get
-			{
-				return (Entry) InnerHashtable[objectName];
-			}
-		}
+			int portNum = GetPort(properties);
+			
+			bool alreadyRegistered = false;
 
-		public ManagedObjectName[] ToArray()
-		{
-			lock(this)
+			foreach(IChannel channel in ChannelServices.RegisteredChannels)
 			{
-				int index = 0;
-				ManagedObjectName[] names = new ManagedObjectName[ Count ];
-				foreach(ManagedObjectName name in InnerHashtable.Keys)
+				if (channel.ChannelName.Equals("tcp"))
 				{
-					names[index++] = name;
+					TcpChannel item = (TcpChannel) channel;
+					ChannelDataStore dataStore = (ChannelDataStore) item.ChannelData;
+					// TODO: Check if is the same channel as the url specify
+					
+					tcpChannel = item;
+					
+					alreadyRegistered = true;
+					break;
 				}
-				return names;
 			}
+
+			if (!alreadyRegistered)
+			{
+				if (createAsServer)
+				{
+					tcpChannel = new TcpChannel(portNum);
+				}
+				else
+				{
+					tcpChannel = new TcpChannel(0);
+				}
+
+				ChannelServices.RegisterChannel( tcpChannel );
+			}
+
+			return tcpChannel;
 		}
 	}
 }

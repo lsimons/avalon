@@ -45,82 +45,160 @@
 // Apache Software Foundation, please see <http://www.apache.org/>.
 // ============================================================================
 
-namespace Apache.Avalon.Castle.ManagementExtensions.Default
+namespace Apache.Avalon.Castle.ManagementExtensions.Remote.Server
 {
 	using System;
-	using System.Collections;
-	using System.Collections.Specialized;
+	using System.Runtime.Remoting;
+	using System.Runtime.Remoting.Channels;
 
 	/// <summary>
-	/// Summary description for Domain.
+	/// Summary description for MConnectorServer.
 	/// </summary>
-	public class Domain : DictionaryBase
+	[ManagedComponent]
+	public class MConnectorServer : MarshalByRefObject, MRegistrationListener, IDisposable
 	{
-		protected String name;
+		public static readonly ManagedObjectName DEFAULT_NAME = new ManagedObjectName("connector.server");
 
-		public Domain()
+		protected MServer server;
+		protected MServerProxy serverProxy;
+		protected String objectUri;
+		protected ManagedObjectName name;
+
+		private bool initDone = false;
+
+		public MConnectorServer()
 		{
-			Name = "default";
 		}
 
-		public Domain(String name)
+		public MConnectorServer(String objectUri)
 		{
-			Name = name;
+			this.objectUri = objectUri;
 		}
 
-		public void Add(ManagedObjectName objectName, Entry instance)
+		public MConnectorServer(MServer server, String objectUri) : this(objectUri)
 		{
-			lock(this)
+			if (IsProxy(server))
 			{
-				InnerHashtable.Add(objectName, instance);
+				throw new ArgumentException("Argument can't be transparent proxy", "server");
 			}
+
+			this.server = server;
+
+			RegisterServer();
 		}
 
-		public bool Contains(ManagedObjectName objectName)
+		~MConnectorServer()
 		{
-			return InnerHashtable.ContainsKey(objectName);
+			DeregisterServer();
 		}
 
-		public void Remove(ManagedObjectName objectName)
+		#region MRegistrationListener Members
+
+		public void BeforeRegister(MServer server, ManagedObjectName name)
 		{
-			lock(this)
-			{
-				InnerHashtable.Remove(objectName);
-			}
+			this.server = server;
+			this.name = name;
+
+			RegisterServer();
 		}
 
-		public String Name
+		public void AfterRegister()
+		{
+		}
+
+		public void BeforeDeregister()
+		{
+		}
+
+		public void AfterDeregister()
+		{
+			DeregisterServer();
+		}
+
+		#endregion
+
+		[ManagedAttribute]
+		public ManagedObjectName ManagedObjectName
 		{
 			get
 			{
 				return name;
 			}
-			set
-			{
-				name = value;
-			}
 		}
 
-		public Entry this[ManagedObjectName objectName]
+		[ManagedAttribute]
+		public String ServerUri
 		{
 			get
 			{
-				return (Entry) InnerHashtable[objectName];
+				return objectUri;
+			}
+			set
+			{
+				objectUri = value;
 			}
 		}
 
-		public ManagedObjectName[] ToArray()
+		[ManagedAttribute]
+		public MServer Server
 		{
-			lock(this)
+			get
 			{
-				int index = 0;
-				ManagedObjectName[] names = new ManagedObjectName[ Count ];
-				foreach(ManagedObjectName name in InnerHashtable.Keys)
+				return server;
+			}
+			set
+			{
+				if (IsProxy(value))
 				{
-					names[index++] = name;
+					throw new ArgumentException("Argument can't be transparent proxy", "server");
 				}
-				return names;
+				server = value;
 			}
 		}
+
+		private void RegisterServer()
+		{
+			if (initDone)
+			{
+				return;
+			}
+
+			if (serverProxy == null)
+			{
+				serverProxy = new MServerProxy(server);
+			}
+
+			ObjRef objref = RemotingServices.Marshal(
+				serverProxy, ServerUri, typeof(MServerProxy) );
+
+			initDone = true;
+		}
+
+		private void DeregisterServer()
+		{
+			if (initDone)
+			{
+				if (!RemotingServices.IsTransparentProxy( serverProxy ))
+				{
+					RemotingServices.Disconnect( serverProxy );
+				}
+				initDone = false;
+			}
+		}
+
+		private bool IsProxy(object obj)
+		{
+			return RemotingServices.IsTransparentProxy( obj );
+		}
+
+		#region IDisposable Members
+
+		public void Dispose()
+		{
+			DeregisterServer();
+			GC.SuppressFinalize(this);
+		}
+
+		#endregion
 	}
 }
