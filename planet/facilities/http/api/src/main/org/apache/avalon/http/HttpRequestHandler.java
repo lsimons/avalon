@@ -23,9 +23,9 @@ import org.mortbay.http.HttpRequest;
 import org.mortbay.http.HttpResponse;
 
 /**
- * Defines methods that all http handlers must implement.
+ * Defines the method that all http handlers must implement.
  *
- * <p>A http handler is a component that that runs within a  
+ * <p>A http handler is a component that runs within a  
  * container that implements support for HTTP requests and 
  * response generation.</p>
  *
