@@ -225,10 +225,17 @@ public class DemoContextProvider extends DefaultContext implements DemoContext
 <source><![CDATA[
 <type>
   <info>
-    <name>hello</name>
-    <version>1.0</version>
+    <name>demo</name>
+    <version>1.0.0</version>
+    <lifestyle>singleton</lifestyle>
+    <collection>hard</collection>
   </info>
-  <context type="tutorial.DemoContext"/>
+  <context type="tutorial.DemoContext">
+    <entry key="urn:avalon:name" />
+    <entry key="urn:avalon:partition" />
+    <entry key="urn:avalon:home" type="java.io.File" />
+    <entry key="urn:avalon:temp" type="java.io.File" />
+  </context>
 </type>
 ]]></source>
         <p>
