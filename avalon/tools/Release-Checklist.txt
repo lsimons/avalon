@@ -3,6 +3,7 @@
 - Generate announcements and HEADER.html
 - upload distributions to correct dir
 - tag CVS
+- generate www pages and upload
 - bump release ID
 - send announcements to announcements@xml.apache.org, announcements@jakarta.apache.org
 - post stories on jakarta news page, theserverside.com, freshmeat.net, www.javaworld.com, 
