@@ -26,13 +26,13 @@ public class VersionTestCase
     public void testValidVersionString()
     {
         final Version v1 = Version.getVersion( "1" );
-        assertEquals( new Version( 1, 0, 0 ), v1 );
+        assertTrue( new Version( 1, 0, 0 ).equals( v1 ) );
 
         final Version v2 = Version.getVersion( "0.3" );
-        assertEquals( new Version( 0, 3, 0 ), v1 );
+        assertTrue( new Version( 0, 3, 0 ).equals( v2 ) );
 
         final Version v3 = Version.getVersion( "78.10.03" );
-        assertEquals( new Version( 78, 10, 3 ), v1 );
+        assertTrue( new Version( 78, 10, 3 ).equals( v3 ) );
     }
 
     public void testInvalidVersionString()
