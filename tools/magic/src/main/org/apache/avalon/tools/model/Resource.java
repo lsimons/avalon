@@ -21,6 +21,7 @@ import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.taskdefs.Get;
 import org.apache.tools.ant.types.Path;
+import org.apache.tools.ant.util.FileUtils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -246,8 +247,14 @@ public class Resource
             final String host = hosts[i];
             try
             {
+
+                FileUtils utils = FileUtils.newFileUtils();
+
+                String parsed = utils.toURI( path ).substring( 5 );
+
                 final URL url = new URL( host );
-                final URL source = new URL( url, path );
+                final URL source = new URL( url, parsed );
+
                 final File tempFile = File.createTempFile( "magic_", ".temp", targetDir);
                 boolean useTimeStamps = false;
                 if( target.exists() )
