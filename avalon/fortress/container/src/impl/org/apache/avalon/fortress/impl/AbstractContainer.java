@@ -93,7 +93,7 @@ import org.apache.excalibur.mpool.PoolManager;
  * Container's Manager can expose that to the instantiating class.
  *
  * @author <a href="mailto:avalon-dev@jakarta.apache.org">The Avalon Team</a>
- * @version CVS $Revision: 1.7 $ $Date: 2003/02/04 20:33:32 $
+ * @version CVS $Revision: 1.8 $ $Date: 2003/02/05 19:00:52 $
  */
 public abstract class AbstractContainer
     extends AbstractLogEnabled
@@ -537,7 +537,7 @@ public abstract class AbstractContainer
     {
         // go over all components
         final Iterator i = m_components.iterator();
-        final BoundedFifoBuffer buffer = new BoundedFifoBuffer( m_components.size() );
+        final BoundedFifoBuffer buffer = new BoundedFifoBuffer( Math.max( m_components.size(), 1 ) );
 
         ComponentHandlerEntry entry;
         while( i.hasNext() )
