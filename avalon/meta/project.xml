@@ -5,7 +5,7 @@
   <name>Avalon Meta</name>
   <groupId>avalon-meta</groupId>
   <id>avalon-meta</id>
-  <currentVersion>1.3-RC5</currentVersion>
+  <currentVersion>1.3</currentVersion>
   <inceptionYear>2000</inceptionYear>
 
   <organization>
@@ -46,6 +46,10 @@
     <release>
       <version>1.3-RC5</version>
       <tag>SNAPSHOT_20031225</tag>
+    </release>
+    <release>
+      <version>1.3</version>
+      <tag>RELEASE_1-3</tag>
     </release>
   </releases>
 

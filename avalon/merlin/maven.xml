@@ -177,12 +177,12 @@
 
   <goal name="merlin:package">
 
-    <!--
     <j:set var="package.name" value="${maven.final.name}-dist"/>
-    -->
+    <!--
     <maven:snapshot project="${pom}"/>
     <j:set var="timestamp" value="${snapshotSignature.substring(7,15)}"/>
-    <j:set var="package.name" value="${maven.final.name}-dist-${timestamp}"/>
+    <j:set var="package.name" value="${maven.final.name}-${timestamp}"/>
+    -->
 
     <ant:echo>Building distribution: ${package.name}</ant:echo>
     <ant:zip zipfile="${maven.build.dir}/${package.name}.zip">
@@ -207,8 +207,8 @@
     <ant:delete file="${maven.build.dir}/${package.name}.tar"/>
     <checksum file="${maven.build.dir}/${package.name}.tar.gz"/>
 
-    <j:set var="docs.name" value="${maven.final.name}-docs-${timestamp}"/>
-    <!-- <j:set var="docs.name" value="${package.name}-docs"/>-->
+    <!-- <j:set var="docs.name" value="${maven.final.name}-docs-${timestamp}"/>-->
+    <j:set var="docs.name" value="${package.name}-docs"/>
 
     <ant:echo>Building doc kit: ${docs.name}</ant:echo>
     <ant:zip zipfile="${maven.build.dir}/${docs.name}.zip">
@@ -224,8 +224,8 @@
     <ant:delete file="${maven.build.dir}/${docs.name}.tar"/>
     <checksum file="${maven.build.dir}/${docs.name}.tar.gz"/>
 
-    <j:set var="tutorial.name" value="${maven.final.name}-tutorial-${timestamp}"/>
-    <!--<j:set var="tutorial.name" value="${maven.final.name}-tutorial"/>-->
+    <!--<j:set var="tutorial.name" value="${maven.final.name}-tutorial-${timestamp}"/>-->
+    <j:set var="tutorial.name" value="${maven.final.name}-tutorial"/>
 
     <ant:echo>Building tutorial kit: ${tutorial.name}</ant:echo>
     <ant:zip zipfile="${maven.build.dir}/${tutorial.name}.zip">
