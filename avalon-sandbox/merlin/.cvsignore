@@ -1,9 +1,0 @@
-ant.properties
-build
-lib
-dist
-checkstyle.cache
-kernel.log
-extensions
-distributions
-common
