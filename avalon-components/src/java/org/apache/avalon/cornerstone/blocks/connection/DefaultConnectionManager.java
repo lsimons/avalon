@@ -12,7 +12,7 @@ import java.util.HashMap;
 import org.apache.avalon.cornerstone.services.connection.ConnectionHandlerFactory;
 import org.apache.avalon.cornerstone.services.connection.ConnectionManager;
 import org.apache.avalon.cornerstone.services.threads.ThreadManager;
-import org.apache.avalon.excalibur.thread.ThreadPool;
+import org.apache.excalibur.thread.ThreadPool;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.service.ServiceException;

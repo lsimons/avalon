@@ -18,7 +18,7 @@ import org.apache.avalon.framework.service.ServiceManager;
  * to a {@link ComponentManager}.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.4 $ $Date: 2002/10/02 01:52:16 $
+ * @version $Revision: 1.5 $ $Date: 2003/03/03 13:48:55 $
  */
 class AdaptingComponentManager
     implements ComponentManager
@@ -45,11 +45,11 @@ class AdaptingComponentManager
         {
             final String error = 
               "Manager returned a non-component for the role: " + role;
-            throw new ComponentException( error, e );
+            throw new ComponentException( role, error, e );
         }
         catch( final ServiceException se )
         {
-            throw new ComponentException( se.getMessage(), se );
+            throw new ComponentException( role, se.getMessage(), se );
         }
     }
 

@@ -181,7 +181,7 @@ public class DefaultDataSourceSelector
 
         if( null == component )
         {
-            throw new ServiceException( "Unable to provide DataSourceComponent for " + hint );
+            throw new ServiceException( hint.toString(), "Unable to provide DataSourceComponent for " + hint );
         }
 
         return component;
