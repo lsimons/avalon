@@ -77,7 +77,7 @@ import org.xml.sax.InputSource;
  * from a Configuration object.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2003/09/24 08:15:30 $
+ * @version $Revision: 1.2 $ $Date: 2003/10/19 14:05:54 $
  */
 public class XMLLegacyCreator
     extends XMLTypeCreator
@@ -202,7 +202,7 @@ public class XMLLegacyCreator
             buildAttributes( info.getChild( "attributes" ) );
         final String lifestyle = InfoDescriptor.SINGLETON;
         return new InfoDescriptor( 
-          name, classname, version, lifestyle, schema, attributes );
+          name, classname, version, lifestyle, null, schema, attributes );
     }
 
     private ContextDescriptor buildPhoenixContext()

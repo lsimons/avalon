@@ -72,7 +72,7 @@ import org.apache.avalon.framework.Version;
  * name of container.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.6 $ $Date: 2003/10/19 10:29:57 $
+ * @version $Revision: 1.7 $ $Date: 2003/10/19 14:05:54 $
  */
 public final class InfoDescriptor extends Descriptor
 {
@@ -145,39 +145,16 @@ public final class InfoDescriptor extends Descriptor
     //-------------------------------------------------------------------
 
     /**
-     * Creation of a new component descriptor using a supplied name, key, version
-     * and attribute set.
+     * Creation of a new component descriptor using a classname.
      *
      * @param classname the implemetation classname
      * @exception IllegalArgumentException if the implementation key is not a classname
      */
-    public InfoDescriptor( final String classname )
-            throws IllegalArgumentException
-    {
-        this( null, classname, null, null, null, null );
-    }
-
-    /**
-     * Creation of a new info descriptor using a supplied name, key, version
-     * and attribute set.
-     *
-     * @param name the component name
-     * @param classname the implemetation classname
-     * @param version the implementation version
-     * @param attributes a set of attributes associated with the component type
-     * @exception IllegalArgumentException if the implementation key is not a classname
-     * @since 1.1
-     */
-    public InfoDescriptor( final String name,
-                           final String classname,
-                           final Version version,
-                           final String lifestyle,
-                           final String schema,
-                           final Properties attributes )
-            throws IllegalArgumentException
-    {
-        this( name, classname, version, lifestyle, null, schema, attributes );
-    }
+    //public InfoDescriptor( final String classname )
+    //        throws IllegalArgumentException
+    //{
+    //    this( null, classname, null, null, null, null, null);
+    //}
 
     /**
      * Creation of a new info descriptor using a supplied name, key, version

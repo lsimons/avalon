@@ -65,6 +65,7 @@ public class InfoDescriptorTestCase extends AbstractDescriptorTestCase
     private final String m_classname = InfoDescriptorTestCase.class.getName();
     private final Version m_version = Version.getVersion("1.2.3");
     private final String m_lifestyle = InfoDescriptor.SINGLETON;
+    private final String m_collection = InfoDescriptor.LIBERAL_KEY;
     private final String m_schema = "schema";
 
     public InfoDescriptorTestCase ( String name )
@@ -75,7 +76,7 @@ public class InfoDescriptorTestCase extends AbstractDescriptorTestCase
     protected Descriptor getDescriptor()
     {
         return new InfoDescriptor(
-          m_name, m_classname, m_version, m_lifestyle, m_schema, getProperties());
+          m_name, m_classname, m_version, m_lifestyle, m_collection, m_schema, getProperties());
     }
 
     protected void checkDescriptor( Descriptor desc )
@@ -86,6 +87,7 @@ public class InfoDescriptorTestCase extends AbstractDescriptorTestCase
         assertEquals( m_classname, info.getClassname() );
         assertEquals( m_version, info.getVersion() );
         assertEquals( m_lifestyle, info.getLifestyle() );
+        assertEquals( InfoDescriptor.getCollectionPolicy( m_collection ), info.getCollectionPolicy() );
         assertEquals( m_schema, info.getConfigurationSchema() );
     }
 
@@ -94,7 +96,7 @@ public class InfoDescriptorTestCase extends AbstractDescriptorTestCase
         try
         {
             new InfoDescriptor( 
-              m_name, null, m_version, m_lifestyle, m_schema, getProperties() );
+              m_name, null, m_version, m_lifestyle, m_collection, m_schema, getProperties() );
             fail("Did not throw the proper NullPointerException");
         }
         catch (NullPointerException npe)
@@ -105,7 +107,7 @@ public class InfoDescriptorTestCase extends AbstractDescriptorTestCase
         try
         {
             new InfoDescriptor( 
-              m_name, "foo/fake/ClassName", m_version, m_lifestyle, 
+              m_name, "foo/fake/ClassName", m_version, m_lifestyle, m_collection,
               m_schema, getProperties());
             fail("Did not throw the proper IllegalArgumentException");
         }
@@ -117,22 +119,22 @@ public class InfoDescriptorTestCase extends AbstractDescriptorTestCase
         try
         {
             new InfoDescriptor( 
-              m_name, m_classname, m_version, InfoDescriptor.POOLED, 
+              m_name, m_classname, m_version, InfoDescriptor.POOLED, m_collection, 
               m_schema, getProperties() );
             new InfoDescriptor( 
-              m_name, m_classname, m_version, InfoDescriptor.SINGLETON, 
+              m_name, m_classname, m_version, InfoDescriptor.SINGLETON, m_collection, 
               m_schema, getProperties() );
             new InfoDescriptor( 
-              m_name, m_classname, m_version, InfoDescriptor.THREAD, 
+              m_name, m_classname, m_version, InfoDescriptor.THREAD, m_collection, 
               m_schema, getProperties() );
             new InfoDescriptor( 
-              m_name, m_classname, m_version, InfoDescriptor.TRANSIENT, 
+              m_name, m_classname, m_version, InfoDescriptor.TRANSIENT, m_collection, 
               m_schema, getProperties() );
 
             // All these should pass.
 
             new InfoDescriptor( 
-              m_name, m_classname, m_version, "Fake Lifestyle", 
+              m_name, m_classname, m_version, "Fake Lifestyle", m_collection, 
               m_schema, getProperties() );
 
             fail( "Did not throw the proper IllegalArgumentException" );
