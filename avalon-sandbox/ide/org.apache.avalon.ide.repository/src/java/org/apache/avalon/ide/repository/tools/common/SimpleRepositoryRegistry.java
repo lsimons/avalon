@@ -57,7 +57,7 @@ import org.apache.avalon.ide.repository.RepositoryAgentFactory;
 import org.apache.avalon.ide.repository.RepositoryTypeRegistry;
 import org.apache.avalon.ide.repository.RepositoryTypeRegistryEvent;
 import org.apache.avalon.ide.repository.RepositoryTypeRegistryListener;
-import org.apache.avalon.ide.repository.URNDescriptor;
+import org.apache.avalon.ide.repository.RepositorySchemeDescriptor;
 
 /**
  * @author Niclas Hedhman, niclas@hedhman.org
@@ -83,14 +83,14 @@ public class SimpleRepositoryRegistry implements RepositoryTypeRegistry
      * 
      * @return A string array filled with the URNs that has been registered.
      */
-    public URNDescriptor[] getRegisteredURNs()
+    public RepositorySchemeDescriptor[] getRegisteredURNs()
     {
         synchronized( this )
         {
-            URNDescriptor[] result = new URNDescriptor[ m_Registrations.size() ];
+            RepositorySchemeDescriptor[] result = new RepositorySchemeDescriptor[ m_Registrations.size() ];
             Iterator list = m_Registrations.keySet().iterator();
             for( int i=0 ; list.hasNext() ; i++ )
-                result[i] = (URNDescriptor) list.next();
+                result[i] = (RepositorySchemeDescriptor) list.next();
             return result;
         }
     }
@@ -104,10 +104,10 @@ public class SimpleRepositoryRegistry implements RepositoryTypeRegistry
      * @param location The location containing the type of the urn to be looked up.
      * @return
      */
-    public URNDescriptor findByType( String location )
+    public RepositorySchemeDescriptor findByType( String location )
     {
         String type = normalize( location );
-        return (URNDescriptor) m_URNTypes.get( type );
+        return (RepositorySchemeDescriptor) m_URNTypes.get( type );
     }
 
     /** Returns the RepositoryAgentFactory registered with the given URN.
@@ -117,7 +117,7 @@ public class SimpleRepositoryRegistry implements RepositoryTypeRegistry
      * @throws InvalidURNException If there is no RepositoryAgentFactory registered at that
      * URN.
      */
-    public RepositoryAgentFactory getRepositoryAgentFactory( URNDescriptor urn )
+    public RepositoryAgentFactory getRepositoryAgentFactory( RepositorySchemeDescriptor urn )
     {
         synchronized( this )
         {        
@@ -136,7 +136,7 @@ public class SimpleRepositoryRegistry implements RepositoryTypeRegistry
      * @exception InvalidURNException if the URN parameter is in invalid format or is already 
      * in use.
      */
-    public void registerRepositoryAgentFactory(URNDescriptor urn, RepositoryAgentFactory factory)
+    public void registerRepositoryAgentFactory(RepositorySchemeDescriptor urn, RepositoryAgentFactory factory)
     {
         if (m_Registrations.get(urn) != null)
             return;
@@ -144,7 +144,7 @@ public class SimpleRepositoryRegistry implements RepositoryTypeRegistry
         Iterator list;
         synchronized (this)
         {
-            m_URNTypes.put( urn.getURN(), urn );
+            m_URNTypes.put( urn.getScheme(), urn );
             m_Registrations.put(urn, factory);
             list = m_Listeners.iterator();
         }
@@ -168,14 +168,14 @@ public class SimpleRepositoryRegistry implements RepositoryTypeRegistry
      * 
      * @param urn The URN to be un-registered from the RepositoryTypeRegistry.
      */
-    public void unregisterRepositoryAgentFactory( URNDescriptor urn )
+    public void unregisterRepositoryAgentFactory( RepositorySchemeDescriptor urn )
     {
         Iterator list;
         RepositoryAgentFactory factory;
         synchronized (this)
         {
             factory = (RepositoryAgentFactory) m_Registrations.get(urn);
-            m_URNTypes.remove( urn.getURN() );
+            m_URNTypes.remove( urn.getScheme() );
             if (factory == null)
                 return;
             list = m_Listeners.iterator();

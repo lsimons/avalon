@@ -47,34 +47,101 @@
  Apache Software Foundation, please see <http://www.apache.org/>.
 
 */
-package org.apache.avalon.ide.repository;
+package org.apache.avalon.ide.repository.tools.common;
 
-/** Exception that indicates a URN problem in the RepositoryTypeRegistry.
+import org.apache.avalon.ide.repository.InvalidSchemeException;
+import org.apache.avalon.ide.repository.RepositorySchemeDescriptor;
+
+/** A RepositorySchemeDescriptor container for generic purpose.
  * 
  * @author Niclas Hedhman, niclas@hedhman.org
  */
-public class InvalidURNException extends RepositoryException
+public class GenericSchemeDescriptor implements RepositorySchemeDescriptor
 {
-
-    /** Constructor with a short message of the problem.
-     * 
-     * @param message A non-localized, human-readable message in plain english, describing
-     * the problem that has occurred.
-     */
-    public InvalidURNException(String message)
+    private String m_Scheme;
+    private String m_Name;
+    private String m_Description;
+    
+    public GenericSchemeDescriptor( String prefix, String name, String desc )
+        throws InvalidSchemeException
     {
-        super(message);
+        m_Scheme = normalize( prefix );
+        m_Name = name;
+        m_Description = desc;
+    }
+    
+    /* (non-Javadoc)
+     * @see org.apache.avalon.repository.tools.RepositorySchemeDescriptor#getPrefix()
+     */
+    public String getScheme()
+    {
+        return m_Scheme;
     }
 
-    /** Constructor for nested exceptions.
-     * 
-     * @param message A non-localized, human-readable message in plain english, describing
-     * the problem that has occurred.
-     * @param cause The root cause of the exception.
+    /* (non-Javadoc)
+     * @see org.apache.avalon.repository.tools.RepositorySchemeDescriptor#getName()
      */
-    public InvalidURNException(String message, Exception cause)
+    public String getName()
     {
-        super(message, cause);
+        return m_Name;
     }
 
+    /* (non-Javadoc)
+     * @see org.apache.avalon.repository.tools.ReopsitorySchemeDescriptor#getDescription()
+     */
+    public String getDescription()
+    {
+        return m_Description;
+    }
+
+    /** Validates a Scheme name and then calls the parse() method. 
+     * 
+     * @param urn to be normalized.
+     * @return A valid type.
+     * @throws InvalidSchemeException if the Scheme contains invalid characters.
+     */
+    private String normalize(String urn) throws InvalidSchemeException
+    {
+        for (int i = 0; i < urn.length(); i++)
+        {
+            char ch = urn.charAt(i);
+            if( ch == ':')
+                break; // Anything beyond the colon could be legal.
+                
+            if (!(Character.isLetterOrDigit(ch) || ch == '-' || ch == '_' || ch == ':' ))
+            {
+                throw new InvalidSchemeException("Illegal characters in Scheme. Only Letter, Digit, dash and underscored allowed.");
+            }
+        }
+        return parse( urn );
+    }
+
+    /** Drops any trailing [location].
+     * 
+     * @param urn to be parsed for a [type].
+     * @return The type in the URN.
+     */
+    private String parse(String urn)
+    {
+        urn = urn.trim();
+        int pos = urn.indexOf(':');
+        if (pos < 0)
+            return urn;
+        return urn.substring( 0, pos );
+    }
+    
+    public String toString()
+    {
+        return m_Scheme + ":";
+    }
+    
+    public int hashCode()
+    {
+        return m_Scheme.hashCode();
+    }
+    
+    public boolean equals( Object o )
+    {
+        return m_Scheme.equals( o );
+    }
 }
