@@ -41,6 +41,8 @@ Legal:
     <property name="build.testclasses" value="${build.dir}/testclasses"/>
     <property name="build.reports" value="${build.dir}/reports"/>
     <property name="build.xdoclet" value="${build.dir}/xdoclet"/>
+    <property name="build.metagenerate" value="${build.dir}/metagenerate"/>
+    <property name="build.test-metagenerate" value="${build.dir}/test-metagenerate"/>
 
     <!-- Set the properties for source directories -->
     <property name="src.dir" value="src"/>
@@ -236,11 +238,33 @@ Legal:
         </copy>
 
     </target>
+    
+    <target name="test-generate">
 
-        <!-- Compiles the source code -->
-    <target name="test" depends="compile" description="compiles and runs unit tests">
+      <taskdef name="generatemeta" classname="org.apache.avalon.phoenix.metagenerate.MetaGenerateQdoxTask">
+          <classpath refid="test.class.path" />
+      </taskdef>
+
+      <generatemeta dest="${build.test-metagenerate}" manifestName="TestManifest.mf">
+        <fileset dir="src/test">
+          <include name="**/*.java"/>
+        </fileset>
+      </generatemeta>
+
+    </target>    
+
+    <!-- Runs the tests -->
+    <target name="test" depends="compile, test-generate" description="compiles and runs unit tests">
 
         <mkdir dir="${build.testclasses}"/>
+
+        <copy todir="${build.tests}">
+            <fileset dir="${build.test-metagenerate}">
+                <include name="**/*.xinfo"/>
+                <include name="**/*.mxinfo"/>                
+                <include name="**/*.mf"/>                 
+            </fileset>
+        </copy>
 
         <javac srcdir="${test.dir}"
             destdir="${build.testclasses}"
@@ -271,6 +295,7 @@ Legal:
             <batchtest todir="${build.tests}">
                 <fileset dir="${build.testclasses}">
                     <include name="**/test/*TestCase.class"/>
+                    <include name="**/metagenerate/*TestCase.class"/>                    
                     <exclude name="**/Abstract*"/>
                 </fileset>
             </batchtest>
@@ -298,8 +323,26 @@ Legal:
 
     </target>
 
+    <!-- Make .xinfo, .mxinfo and manifest automatically for blocks -->
+    <target name="phoenix-metagenerate" depends="compile">
+
+        <mkdir dir="${build.metagenerate}"/>
+
+        <taskdef name="generatemeta" classname="org.apache.avalon.phoenix.metagenerate.MetaGenerateQdoxTask">
+          <classpath refid="project.class.path" />
+        </taskdef>
+
+        <generatemeta dest="${build.metagenerate}" manifestName="PhoenixManifest.mf">
+          <fileset dir="${java.dir}">
+            <include name="**/*.java"/>
+          </fileset>
+        </generatemeta>
+
+    </target>
+
+
     <!-- Creates all the .jar files -->
-    <target name="jars" depends="phoenix-xdoclet">
+    <target name="jars" depends="phoenix-xdoclet, phoenix-metagenerate">
 
         <mkdir dir="${build.lib}"/>
 
@@ -343,6 +386,10 @@ Legal:
             <zipfileset dir="src/bsh" prefix="bsh/commands/">
                 <include name="**"/>
             </zipfileset>
+        </jar>
+
+        <jar jarfile="${build.lib}/phoenix-metagenerate.jar" basedir="${build.classes}">
+            <include name="org/apache/avalon/phoenix/metagenerate/**"/>
         </jar>
 
     </target>
