@@ -105,8 +105,4 @@ public class PhoenixKernel
             throw new ContainerException( "Error preparing Application", e );
         }
     }
-
-    protected void postAdd( final String name, final Entry entry )
-    {
-    }
 }
