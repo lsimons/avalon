@@ -28,7 +28,7 @@ import org.apache.metro.studio.eclipse.core.templateengine.test.AllCoreTests;
  * last change:
  * 
  */
-public class AllTests
+public class AllTests 
 {
 
     public static void main(String[] args)
