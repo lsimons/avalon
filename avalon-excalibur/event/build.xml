@@ -11,8 +11,8 @@
 
     <!-- Classpath for product -->
     <path id="project.class.path">
+        <pathelement location="${commons-collections.jar}"/>
         <pathelement location="${build.classes}"/>
-        <pathelement location="${excalibur-collections.jar}"/>
         <pathelement location="${excalibur-concurrent.jar}"/>
         <pathelement location="${excalibur-thread.jar}"/>
         <pathelement location="${excalibur-scratchpad.jar}"/>
@@ -44,7 +44,6 @@
 
     <target name="dependencies" description="Check dependencies" unless="skip.dependencies">
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkCommon"/>
-        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkCollections"/>
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkConcurrent"/>
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkFramework"/>
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkThread"/>

@@ -49,8 +49,8 @@
 */
 package org.apache.excalibur.mpool;
 
-import org.apache.avalon.excalibur.collections.Buffer;
-import org.apache.avalon.excalibur.collections.VariableSizeBuffer;
+import org.apache.commons.collections.Buffer;
+import org.apache.commons.collections.UnboundedFifoBuffer;
 import org.apache.avalon.framework.activity.Disposable;
 
 /**
@@ -58,7 +58,7 @@ import org.apache.avalon.framework.activity.Disposable;
  * Please note that this pool offers no resource limiting whatsoever.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.7 $ $Date: 2002/10/02 01:46:58 $
+ * @version CVS $Revision: 1.8 $ $Date: 2002/10/02 15:39:29 $
  * @since 4.1
  */
 public final class VariableSizePool
@@ -84,7 +84,7 @@ public final class VariableSizePool
     public VariableSizePool( ObjectFactory factory, int size, long key )
         throws Exception
     {
-        m_buffer = new VariableSizeBuffer( size );
+        m_buffer = new UnboundedFifoBuffer( size );
         m_factory = factory;
         m_key = key;
 

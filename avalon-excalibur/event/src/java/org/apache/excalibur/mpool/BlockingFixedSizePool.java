@@ -49,9 +49,9 @@
 */
 package org.apache.excalibur.mpool;
 
-import org.apache.avalon.excalibur.collections.Buffer;
-import org.apache.avalon.excalibur.collections.BufferUnderflowException;
-import org.apache.avalon.excalibur.collections.FixedSizeBuffer;
+import org.apache.commons.collections.BufferUnderflowException;
+import org.apache.commons.collections.BoundedFifoBuffer;
+import org.apache.commons.collections.Buffer;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Initializable;
 
@@ -60,7 +60,7 @@ import org.apache.avalon.framework.activity.Initializable;
  * Please note that this pool offers no resource limiting whatsoever.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.6 $ $Date: 2002/10/02 01:46:58 $
+ * @version CVS $Revision: 1.7 $ $Date: 2002/10/02 15:39:29 $
  * @since 4.1
  */
 public final class BlockingFixedSizePool
@@ -85,7 +85,7 @@ public final class BlockingFixedSizePool
         throws Exception
     {
         m_timeout = ( timeout < 1 ) ? 0 : timeout;
-        m_buffer = new FixedSizeBuffer( size );
+        m_buffer = new BoundedFifoBuffer( size );
         m_maxSize = size;
         m_factory = factory;
     }

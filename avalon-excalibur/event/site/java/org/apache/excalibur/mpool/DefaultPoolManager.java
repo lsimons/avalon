@@ -51,7 +51,9 @@ package org.apache.excalibur.mpool;
 
 import java.util.Iterator;
 import java.util.Random;
-import org.apache.avalon.excalibur.collections.BucketMap;
+import java.util.Map;
+
+import org.apache.commons.collections.StaticBucketMap;
 import org.apache.excalibur.event.Sink;
 import org.apache.excalibur.event.command.RepeatedCommand;
 
@@ -61,15 +63,15 @@ import org.apache.excalibur.event.command.RepeatedCommand;
  * the constructor.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.3 $ $Date: 2002/09/27 19:45:42 $
+ * @version CVS $Revision: 1.4 $ $Date: 2002/10/02 15:39:29 $
  * @since 4.1
  */
 public class DefaultPoolManager implements PoolManager
 {
     private final long m_managerKey;
     private final Random m_keyGenerator;
-    private final BucketMap m_keyMap = new BucketMap();
-    private final BucketMap m_factoryMap = new BucketMap();
+    private final Map m_keyMap = new StaticBucketMap();
+    private final Map m_factoryMap = new StaticBucketMap();
 
     public DefaultPoolManager()
     {
@@ -123,12 +125,12 @@ public class DefaultPoolManager implements PoolManager
 
     private static final class PoolManagerCommand implements RepeatedCommand
     {
-        private final BucketMap m_map;
+        private final Map m_map;
         private final int m_min = 4;
         private final int m_max = 256;
         private final int m_grow = 4;
 
-        protected PoolManagerCommand( BucketMap map )
+        protected PoolManagerCommand( Map map )
         {
             m_map = map;
         }

@@ -49,8 +49,8 @@
 */
 package org.apache.excalibur.event.impl;
 
-import org.apache.avalon.excalibur.collections.Buffer;
-import org.apache.avalon.excalibur.collections.VariableSizeBuffer;
+import org.apache.commons.collections.Buffer;
+import org.apache.commons.collections.UnboundedFifoBuffer;
 import org.apache.avalon.excalibur.concurrent.Mutex;
 import org.apache.excalibur.event.PreparedEnqueue;
 import org.apache.excalibur.event.SinkException;
@@ -85,12 +85,12 @@ public final class DefaultQueue extends AbstractQueue
 
         if( size > 0 )
         {
-            m_elements = new VariableSizeBuffer( size );
+            m_elements = new UnboundedFifoBuffer( size );
             maxSize = size;
         }
         else
         {
-            m_elements = new VariableSizeBuffer();
+            m_elements = new UnboundedFifoBuffer();
             maxSize = -1;
         }
 
