@@ -111,7 +111,7 @@ import org.apache.avalon.util.exception.ExceptionHelper;
  * as a part of a containment deployment model.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.13 $ $Date: 2004/01/01 13:08:56 $
+ * @version $Revision: 1.13.4.1 $ $Date: 2004/01/12 02:12:12 $
  */
 public class DefaultContainmentModel extends DefaultModel 
   implements ContainmentModel
@@ -1110,6 +1110,11 @@ public class DefaultContainmentModel extends DefaultModel
     */
     public ServiceDirective getExportDirective( Class clazz )
     {
+        // ##
+        // ## BUG
+        // ## need to resolve class agaisnt class loaded from 
+        // ## service export classname
+        // ##
         return m_context.getContainmentProfile().getExportDirective( clazz );
     }
 
