@@ -11,6 +11,7 @@ package org.apache.avalon.framework.logger;
  * Utility class to allow construction of easy components that will perform logging.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @deprecated Use {@link AbstractLogEnabled} instead.
  */
 public abstract class AbstractLoggable
     implements Loggable
