@@ -60,7 +60,7 @@ import java.util.StringTokenizer;
  * a string to a string array based on a supplied token.
  * 
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class PackedParameter extends Parameter
 {
@@ -76,8 +76,9 @@ public class PackedParameter extends Parameter
 
    /**
     * Transform a string to a string array.
-    * @param object the value to transform
-    * @return the transformed object
+    * @param key the parameter key
+    * @param delimiter the delimiter character
+    * @param defaults the default string array
     */
     public PackedParameter( 
       final String key, final String delimiter, String[] defaults ) 
@@ -86,6 +87,11 @@ public class PackedParameter extends Parameter
         m_delimiter = delimiter;
     }
 
+   /**
+    * Resolve a supplied string or string array to a sttring array value.
+    * @param value the value to resolve
+    * @exception CriteriaException if an error occurs
+    */
     public Object resolve( Object value ) 
       throws CriteriaException
     {
