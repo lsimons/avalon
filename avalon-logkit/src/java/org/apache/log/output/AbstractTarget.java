@@ -78,17 +78,17 @@ public abstract class AbstractTarget
     ///Flag indicating that log session is finished (aka target has been closed)
     private boolean m_isOpen;
 
-   /**
-    * AbstractTarget constructor.
-    */
+    /**
+     * AbstractTarget constructor.
+     */
     public AbstractTarget()
     {
     }
 
-   /**
-    * AbstractTarget constructor.
-    * @param errorHandler the error handler
-    */
+    /**
+     * AbstractTarget constructor.
+     * @param errorHandler the error handler
+     */
     public AbstractTarget( final ErrorHandler errorHandler )
     {
         if( errorHandler == null )
@@ -108,10 +108,10 @@ public abstract class AbstractTarget
         m_errorHandler = errorHandler;
     }
 
-   /**
-    * Return the open state of the target.
-    * @return TRUE if the target is open else FALSE
-    */
+    /**
+     * Return the open state of the target.
+     * @return TRUE if the target is open else FALSE
+     */
     protected synchronized boolean isOpen()
     {
         return m_isOpen;

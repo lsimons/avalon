@@ -111,7 +111,7 @@ public class FileTarget
 
         if( isOpen() )
         {
-            throw new IOException( "target must be closed before " 
+            throw new IOException( "target must be closed before "
                                    + "file property can be set" );
         }
 

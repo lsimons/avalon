@@ -262,7 +262,7 @@ public final class LogEvent
         {
             m_category = "";
         }
-        if( null == m_message ) 
+        if( null == m_message )
         {
             m_message = "";
         }

@@ -63,7 +63,7 @@ import java.io.StringWriter;
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @author <a href="mailto:sylvain@apache.org">Sylvain Wallez</a>
  * @author <a href="mailto:stuart.roebuck@adolos.com">Stuart Roebuck</a>
- * @version CVS $Revision: 1.13 $ $Date: 2003/02/09 23:33:25 $
+ * @version CVS $Revision: 1.14 $ $Date: 2003/04/17 09:13:49 $
  */
 public final class StackIntrospector
 {
@@ -130,7 +130,7 @@ public final class StackIntrospector
     public static final Class getCallerClass( final Class clazz )
         throws SecurityException
     {
-        return getCallerClass(clazz, 0);
+        return getCallerClass( clazz, 0 );
     }
 
     /**
@@ -143,7 +143,7 @@ public final class StackIntrospector
      * @exception SecurityException if an existing SecurityManager disallows construction
      *            of another SecurityManager and thus blocks method results
      */
-    public static final Class getCallerClass(final Class clazz, int stackDepthOffset) 
+    public static final Class getCallerClass( final Class clazz, int stackDepthOffset )
     {
         final Class[] stack = getCallStack().get();
 
@@ -153,7 +153,7 @@ public final class StackIntrospector
             if( clazz.isAssignableFrom( stack[ i ] ) )
             {
                 // Found : the caller is the previous stack element
-                return stack[ i + 1 + stackDepthOffset];
+                return stack[ i + 1 + stackDepthOffset ];
             }
         }
 
@@ -196,7 +196,7 @@ public final class StackIntrospector
             {
                 case 0:
                     //Strip the first line from input
-                    if( '\n' == ch ) 
+                    if( '\n' == ch )
                     {
                         state = 1;
                     }
@@ -292,7 +292,7 @@ public final class StackIntrospector
             {
                 case 0:
                     //Strip the first line from input
-                    if( '\n' == ch ) 
+                    if( '\n' == ch )
                     {
                         state = 1;
                     }
@@ -337,7 +337,7 @@ public final class StackIntrospector
                             //We are looking at the callers of Clazz
                             stack.append( method );
                             entries--;
-                            if( entries == 0 ) 
+                            if( entries == 0 )
                             {
                                 return stack.toString();
                             }

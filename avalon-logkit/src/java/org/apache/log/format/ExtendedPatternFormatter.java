@@ -72,7 +72,7 @@ import org.apache.log.util.StackIntrospector;
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version CVS $Revision: 1.12 $ $Date: 2003/04/07 11:39:06 $
+ * @version CVS $Revision: 1.13 $ $Date: 2003/04/17 09:13:46 $
  */
 public class ExtendedPatternFormatter
     extends PatternFormatter
@@ -85,26 +85,27 @@ public class ExtendedPatternFormatter
 
     private int m_callStackOffset = 0;
 
-   /**
-    * Creation of a new extended pattern formatter.
-    * @param format the format string
-    */
+    /**
+     * Creation of a new extended pattern formatter.
+     * @param format the format string
+     */
     public ExtendedPatternFormatter( final String format )
     {
         this( format, 0 );
     }
 
-   /**
-    * Creation of a new extended pattern formatter.
-    *
-    * @param format the format string
-    * @param callStackOffset the offset
-    */
+    /**
+     * Creation of a new extended pattern formatter.
+     *
+     * @param format the format string
+     * @param callStackOffset the offset
+     */
     public ExtendedPatternFormatter( final String format, final int callStackOffset )
     {
         super( format );
         m_callStackOffset = callStackOffset;
     }
+
     /**
      * Retrieve the type-id for a particular string.
      *
@@ -167,8 +168,8 @@ public class ExtendedPatternFormatter
 
         //Determine callee of user's class.  If offset is 0, we need to find
         // Logger.class.  If offset is 1, We need to find caller of Logger.class, etc.
-        final Class clazz = StackIntrospector.getCallerClass( Logger.class, m_callStackOffset - 1);
-        if (null == clazz)
+        final Class clazz = StackIntrospector.getCallerClass( Logger.class, m_callStackOffset - 1 );
+        if( null == clazz )
         {
             return "UnknownMethod";
         }

@@ -91,12 +91,12 @@ public class MemoryTarget
     ///Flag indicating whether it is possible to overite elements in array
     private boolean m_overwrite;
 
-   /**
-    * Creation of a new instance of the memory target.
-    * @param target the target to push LogEvents to
-    * @param size the event buffer size 
-    * @param threshold the priority at which to push LogEvents to next LogTarget
-    */
+    /**
+     * Creation of a new instance of the memory target.
+     * @param target the target to push LogEvents to
+     * @param size the event buffer size
+     * @param threshold the priority at which to push LogEvents to next LogTarget
+     */
     public MemoryTarget( final LogTarget target,
                          final int size,
                          final Priority threshold )

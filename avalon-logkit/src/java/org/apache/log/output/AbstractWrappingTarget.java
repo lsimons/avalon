@@ -103,7 +103,7 @@ public abstract class AbstractWrappingTarget
 
         if( m_closeWrapped && m_wrappedLogTarget instanceof Closeable )
         {
-            ((Closeable) m_wrappedLogTarget).close();
+            ( (Closeable)m_wrappedLogTarget ).close();
         }
     }
 }

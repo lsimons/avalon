@@ -56,7 +56,7 @@ package org.apache.log.util;
 
 /**
  * Interface implemented by LogTargets that are capable of being
- * closed. 
+ * closed.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */

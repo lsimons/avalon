@@ -76,21 +76,21 @@ public class TextMessageBuilder
     private final PropertyInfo[] m_properties;
     private final Formatter m_formatter;
 
-   /**
-    * Creation of a new text message builder.
-    * @param formatter the message formatter
-    */
+    /**
+     * Creation of a new text message builder.
+     * @param formatter the message formatter
+     */
     public TextMessageBuilder( final Formatter formatter )
     {
         m_properties = new PropertyInfo[ 0 ];
         m_formatter = formatter;
     }
 
-   /**
-    * Creation of a new text message builder.
-    * @param properties the property info set
-    * @param formatter the message formatter
-    */
+    /**
+     * Creation of a new text message builder.
+     * @param properties the property info set
+     * @param formatter the message formatter
+     */
     public TextMessageBuilder( final PropertyInfo[] properties,
                                final Formatter formatter )
     {
@@ -98,13 +98,13 @@ public class TextMessageBuilder
         m_formatter = formatter;
     }
 
-   /**
-    * Build a message from the supplied session for the supplied event
-    * @param session the session
-    * @param event the log event
-    * @return the message
-    * @exception JMSException if a messaging related error occurs
-    */
+    /**
+     * Build a message from the supplied session for the supplied event
+     * @param session the session
+     * @param event the log event
+     * @return the message
+     * @exception JMSException if a messaging related error occurs
+     */
     public Message buildMessage( final Session session, final LogEvent event )
         throws JMSException
     {
@@ -122,12 +122,12 @@ public class TextMessageBuilder
         }
     }
 
-   /**
-    * Set a property
-    * @param message the text message
-    * @param index the index
-    * @param event the log event
-    */
+    /**
+     * Set a property
+     * @param message the text message
+     * @param index the index
+     * @param event the log event
+     */
     private void setProperty( final TextMessage message,
                               final int index,
                               final LogEvent event )
@@ -191,7 +191,7 @@ public class TextMessageBuilder
 
     private String getStackTrace( final Throwable throwable )
     {
-        if( null == throwable ) 
+        if( null == throwable )
         {
             return "";
         }
@@ -205,7 +205,7 @@ public class TextMessageBuilder
 
     private String getContextMap( final ContextMap map, final String aux )
     {
-        if( null == map ) 
+        if( null == map )
         {
             return "";
         }

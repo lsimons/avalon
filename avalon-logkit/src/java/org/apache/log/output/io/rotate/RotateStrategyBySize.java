@@ -114,7 +114,7 @@ public class RotateStrategyBySize
     public boolean isRotationNeeded( final String data, final File file )
     {
         m_currentSize += data.length();
-        
+
         return m_currentSize >= m_maxSize;
     }
 }

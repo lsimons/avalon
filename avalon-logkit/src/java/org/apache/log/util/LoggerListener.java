@@ -54,11 +54,7 @@
  */
 package org.apache.log.util;
 
-
-
 import org.apache.log.Logger;
-
-
 
 /**
 

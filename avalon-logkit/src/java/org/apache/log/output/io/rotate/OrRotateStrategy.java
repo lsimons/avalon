@@ -77,7 +77,7 @@ public class OrRotateStrategy
 
     /**
      * Constructor
-     * @param strategies the set of rotation strategies 
+     * @param strategies the set of rotation strategies
      */
     public OrRotateStrategy( final RotateStrategy[] strategies )
     {
@@ -89,7 +89,7 @@ public class OrRotateStrategy
      */
     public void reset()
     {
-        for (int i = 0; i < m_strategies.length; i++)
+        for( int i = 0; i < m_strategies.length; i++ )
         {
             m_strategies[ i ].reset();
         }

@@ -63,7 +63,7 @@ import java.util.Date;
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @author <a href="mailto:colus@apache.org">Eung-ju Park</a>
- * @version $Revision: 1.10 $ $Date: 2003/02/09 23:33:24 $
+ * @version $Revision: 1.11 $ $Date: 2003/04/17 09:13:48 $
  */
 public class RotateStrategyByDate
     implements RotateStrategy
@@ -72,19 +72,19 @@ public class RotateStrategyByDate
     private Date m_date;
     private String m_current;
 
-   /**
-    * Creation of a new rotation strategy based on a date policy.
-    */
+    /**
+     * Creation of a new rotation strategy based on a date policy.
+     */
     public RotateStrategyByDate()
     {
         this( "yyyyMMdd" );
     }
 
-   /**
-    * Creation of a new rotation strategy based on a date policy
-    * using a supplied pattern.
-    * @param pattern the message formatting pattern
-    */
+    /**
+     * Creation of a new rotation strategy based on a date policy
+     * using a supplied pattern.
+     * @param pattern the message formatting pattern
+     */
     public RotateStrategyByDate( final String pattern )
     {
         m_format = new SimpleDateFormat( pattern );
@@ -92,22 +92,22 @@ public class RotateStrategyByDate
         m_current = m_format.format( m_date );
     }
 
-   /**
-    * Reset the strategy.
-    */
+    /**
+     * Reset the strategy.
+     */
     public void reset()
     {
         m_date.setTime( System.currentTimeMillis() );
         m_current = m_format.format( m_date );
     }
 
-   /**
-    * Test is a rotation is required.  Documentation pending ??
-    *
-    * @param data not used
-    * @param file not used
-    * @return TRUE if a rotation is required else FALSE
-    */
+    /**
+     * Test is a rotation is required.  Documentation pending ??
+     *
+     * @param data not used
+     * @param file not used
+     * @return TRUE if a rotation is required else FALSE
+     */
     public boolean isRotationNeeded( final String data, final File file )
     {
         m_date.setTime( System.currentTimeMillis() );

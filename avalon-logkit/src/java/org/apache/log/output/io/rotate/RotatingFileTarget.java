@@ -118,10 +118,10 @@ public class RotatingFileTarget
         rotate();
     }
 
-   /**
-    * Rotates the file.
-    * @exception IOException if a file access or write related error occurs
-    */
+    /**
+     * Rotates the file.
+     * @exception IOException if a file access or write related error occurs
+     */
     protected synchronized void rotate()
         throws IOException
     {
@@ -144,8 +144,8 @@ public class RotatingFileTarget
             try
             {
                 rotate();
-                
-                m_rotateStrategy.reset ();
+
+                m_rotateStrategy.reset();
             }
             catch( final IOException ioe )
             {

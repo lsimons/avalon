@@ -63,9 +63,9 @@ package org.apache.log.output;
 public class NullOutputLogTarget
     extends AbstractOutputTarget
 {
-   /**
-    * Creation of a new null log target.
-    */
+    /**
+     * Creation of a new null log target.
+     */
     public NullOutputLogTarget()
     {
         open();
