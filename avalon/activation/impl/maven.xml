@@ -1,0 +1,14 @@
+<project 
+  default="jar:install-snapshot" 
+  xmlns:maven="jelly:maven" 
+  xmlns:j="jelly:core" 
+  xmlns:util="jelly:util" 
+  xmlns:ant="jelly:ant">
+
+  <postGoal name="test:compile">
+    <mkdir dir="${basedir}/target/test-classes/repository/avalon-framework/jars"/>
+    <ant:copy toDir="${basedir}/target/test-classes/repository/avalon-framework/jars" 
+      file="${pom.getDependencyPath('avalon-framework:avalon-framework-impl')}"/>
+  </postGoal>
+
+</project>
