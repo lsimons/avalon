@@ -7,13 +7,16 @@
  */
 package org.apache.avalon.excalibur.instrument;
 
+import java.util.ArrayList;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 
 /**
  * Utility class to ease the construction of components that can be instrumented
  *  but must also implement LogEnabled.
- * Subclasses must override either <code>getChildInstrumentables</code> or
- * <code>getInstruments</code>, or both, to be of any use.
+ * <p>
+ * Subclasses should call <code>addInstrument</code> or
+ *  <code>addChildInstrumentable</code> as part of the component's
+ *  initialization.
  *
  * @author <a href="mailto:ryan.shaw@stanfordalumni.org">Ryan Shaw</a>
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
@@ -25,12 +28,77 @@ public abstract class AbstractLogEnabledInstrumentable
     /** Name of the instrumentable. */
     private String m_instrumentableName; 
     
+    /** Stores the instruments during initialization. */
+    private ArrayList m_instrumentList;
+    
+    /** Stores the child instrumentables during initialization. */
+    private ArrayList m_childList;
+    
+    /** Flag which is to used to keep track of when the Instrumentable has been registered. */
+    private boolean m_registered;
+    
+    /*---------------------------------------------------------------
+     * Constructors
+     *-------------------------------------------------------------*/
+    /**
+     * Creates a new AbstractLogEnabledInstrumentable.
+     */
+    protected AbstractLogEnabledInstrumentable()
+    {
+        m_registered = false;
+        m_instrumentList = new ArrayList();
+        m_childList = new ArrayList();
+    }
+    
+    /*---------------------------------------------------------------
+     * Methods
+     *-------------------------------------------------------------*/
+    /**
+     * Adds an Instrument to the list of Instruments published by the component.
+     *  This method may not be called after the Instrumentable has been
+     *  registered with the InstrumentManager.
+     *
+     * @param instrument Instrument to publish.
+     */
+    protected void addInstrument( Instrument instrument )
+    {
+        if ( m_registered )
+        {
+            throw new IllegalStateException( "Instruments can not be added after the " +
+                "Instrumentable is registered with the InstrumentManager." );
+        }
+        m_instrumentList.add( instrument );
+    }
+    
+    /**
+     * Adds a child Instrumentable to the list of child Instrumentables
+     *  published by the component.  This method may not be called after the
+     *  Instrumentable has been registered with the InstrumentManager.
+     * <p>
+     * Note that Child Instrumentables must be named by the caller using the
+     *  setInstrumentableName method.
+     *
+     * @param child Child Instrumentable to publish.
+     */
+    protected void addChildInstrumentable( Instrumentable child )
+    {
+        if ( m_registered )
+        {
+            throw new IllegalStateException( "Child Instrumentables can not be added after the " +
+                "Instrumentable is registered with the InstrumentManager." );
+        }
+        m_childList.add( child );
+    }
+    
+    /*---------------------------------------------------------------
+     * Instrumentable Methods
+     *-------------------------------------------------------------*/
     /**
      * Gets the name of the Instrumentable.
      *
      * @return The name used to identify a Instrumentable.
      */
-    public String getInstrumentableName() 
+    public final String getInstrumentableName() 
     {
         return m_instrumentableName;
     }
@@ -48,7 +116,7 @@ public abstract class AbstractLogEnabledInstrumentable
      *
      * @param name The name used to identify a Instrumentable.
      */
-    public void setInstrumentableName(String name) 
+    public final void setInstrumentableName(String name) 
     {
         m_instrumentableName = name;
     }
@@ -62,9 +130,19 @@ public abstract class AbstractLogEnabledInstrumentable
      *         return null.  If there are no child Instrumentables, then
      *         EMPTY_INSTRUMENTABLE_ARRAY can be returned.
      */
-    public Instrumentable[] getChildInstrumentables() 
+    public final Instrumentable[] getChildInstrumentables() 
     {
-        return Instrumentable.EMPTY_INSTRUMENTABLE_ARRAY;
+        m_registered = true;
+        if ( m_childList.size() == 0 )
+        {
+            return Instrumentable.EMPTY_INSTRUMENTABLE_ARRAY;
+        }
+        else
+        {
+            Instrumentable[] children = new Instrumentable[ m_childList.size() ];
+            m_childList.toArray( children );
+            return children;
+        }
     }
     
     /**
@@ -78,8 +156,18 @@ public abstract class AbstractLogEnabledInstrumentable
      *         the case though unless there are child Instrumentables with
      *         Instruments.
      */
-    public Instrument[] getInstruments() 
+    public final Instrument[] getInstruments() 
     {
-        return Instrumentable.EMPTY_INSTRUMENT_ARRAY;
+        m_registered = true;
+        if ( m_instrumentList.size() == 0 )
+        {
+            return Instrumentable.EMPTY_INSTRUMENT_ARRAY;
+        }
+        else
+        {
+            Instrument[] instruments = new Instrument[ m_instrumentList.size() ];
+            m_instrumentList.toArray( instruments );
+            return instruments;
+        }
     }
 }
