@@ -47,7 +47,10 @@ public class SingleAppEmbeddor
         final File directory = new File( applicationLocation );
         getDeployer().deploy( applicationName, directory.toURL() );
 
+        //TODO: Remove Kernel interface and roll functionality into 
+        //Container etc
         m_application = getKernel().getApplication( applicationName );
+        //m_application = getKernel().getEntry( applicationName ).getInstance();
     }
 
     /**
