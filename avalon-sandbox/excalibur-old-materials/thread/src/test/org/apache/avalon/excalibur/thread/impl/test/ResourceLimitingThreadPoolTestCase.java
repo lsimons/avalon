@@ -56,7 +56,7 @@ import org.apache.avalon.excalibur.thread.impl.ResourceLimitingThreadPool;
 
 /**
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.9 $ $Date: 2003/04/05 19:12:29 $
+ * @version CVS $Revision: 1.10 $ $Date: 2003/05/17 18:37:30 $
  * @since 4.1
  */
 public final class ResourceLimitingThreadPoolTestCase
@@ -183,10 +183,10 @@ public final class ResourceLimitingThreadPoolTestCase
 
         // Make sure this took about the right amount of time to get here.
         //System.out.println( "First time: " + dur );
-        if( Math.abs( dur - firstTime ) > 100 )
+        if( Math.abs( dur - firstTime ) > 500 )
         {
             fail( "Time to start all tasks, " + dur +
-                  ", was not within 100ms of the expected time, " + firstTime );
+                  ", was not within 500ms of the expected time, " + firstTime );
         }
 
         // Wait for all worker threads to complete.
@@ -205,10 +205,10 @@ public final class ResourceLimitingThreadPoolTestCase
 
         // Make sure this took about the right amount of time to get here.
         //System.out.println( "Total time: " + dur );
-        if( Math.abs( dur - totalTime ) > 100 )
+        if( Math.abs( dur - totalTime ) > 500 )
         {
             fail( "Time to complete all tasks, " + dur +
-                  ", was not within 100ms of the expected time, " + totalTime );
+                  ", was not within 500ms of the expected time, " + totalTime );
         }
 
         //System.out.println( logger.toString() );
