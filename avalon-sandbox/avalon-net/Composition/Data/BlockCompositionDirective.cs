@@ -1,4 +1,4 @@
-// Copyright 2004 Apache Software Foundation
+// Copyright 2003-2004 The Apache Software Foundation
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -23,9 +23,9 @@ namespace Apache.Avalon.Composition.Data
 	/// </summary>
 	/// <author>  <a href="mailto:mcconnell@avalon.apache.org">Stephen McConnell</a>
 	/// </author>
-	/// <version>  $Revision: 1.1 $ $Date: 2004/02/01 13:31:01 $
+	/// <version>  $Revision: 1.2 $ $Date: 2004/02/28 22:15:36 $
 	/// </version>
-	public class BlockCompositionDirective : ComponentProfile
+	public class BlockCompositionDirective : DeploymentProfile
 	{
 		/// <summary> The version identifier.</summary>
 		private ResourceDirective m_resource;
@@ -52,7 +52,7 @@ namespace Apache.Avalon.Composition.Data
 		/// description can be resolved
 		/// </param>
 		public BlockCompositionDirective(System.String name, ResourceDirective resource, TargetDirective[] targets) : 
-			base(name, resource.Type)
+			base(name, ActivationPolicy.Startup, Mode.Explicit)
 		{
 			if (resource == null)
 			{

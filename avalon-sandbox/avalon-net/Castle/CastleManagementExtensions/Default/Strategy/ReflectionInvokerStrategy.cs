@@ -1,4 +1,4 @@
-// Copyright 2004 Apache Software Foundation
+// Copyright 2003-2004 The Apache Software Foundation
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -82,6 +82,11 @@ namespace Apache.Avalon.Castle.ManagementExtensions.Default.Strategy
 			}
 
 			MethodInfo method = resolver.GetMethod(MemberResolver.BuildOperationName(action, signature));
+
+			if (method == null)
+			{
+				throw new InvalidOperationException(String.Format("Operation {0} doesn't exists for this signature.", action));
+			}
 
 			return method.Invoke(instance, args);
 		}

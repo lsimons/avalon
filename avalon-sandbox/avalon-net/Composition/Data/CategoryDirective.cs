@@ -1,4 +1,4 @@
-// Copyright 2004 Apache Software Foundation
+// Copyright 2003-2004 The Apache Software Foundation
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -37,51 +37,12 @@ namespace Apache.Avalon.Composition.Data
 	/// </summary>
 	/// <author>  <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
 	/// </author>
-	/// <version>  $Revision: 1.1 $ $Date: 2004/02/01 13:31:01 $
+	/// <version>  $Revision: 1.2 $ $Date: 2004/02/28 22:15:36 $
 	/// </version>
 	[Serializable]
 	public class CategoryDirective
 	{
-		/// <summary> Return the category name.
-		/// 
-		/// </summary>
-		/// <returns> the category name
-		/// </returns>
-		public virtual System.String Name
-		{
-			get
-			{
-				return m_name;
-			}
-			
-		}
-		/// <summary> Return the logging priority for the category.
-		/// 
-		/// </summary>
-		/// <returns> the logging priority for the category
-		/// </returns>
-		public virtual System.String Priority
-		{
-			get
-			{
-				return m_priority;
-			}
-			
-		}
-		/// <summary> Return the default log target for the category.
-		/// 
-		/// </summary>
-		/// <returns> the default target name
-		/// </returns>
-		public virtual System.String Target
-		{
-			get
-			{
-				return m_target;
-			}
-			
-		}
-		
+
 		/// <summary> Constant category priority value for debug mode.</summary>
 		public const System.String DEBUG = "DEBUG";
 		
@@ -147,6 +108,47 @@ namespace Apache.Avalon.Composition.Data
 				m_priority = null;
 			}
 		}
+
+		/// <summary> Return the category name.
+		/// 
+		/// </summary>
+		/// <returns> the category name
+		/// </returns>
+		public virtual System.String Name
+		{
+			get
+			{
+				return m_name;
+			}
+			
+		}
+		/// <summary> Return the logging priority for the category.
+		/// 
+		/// </summary>
+		/// <returns> the logging priority for the category
+		/// </returns>
+		public virtual System.String Priority
+		{
+			get
+			{
+				return m_priority;
+			}
+			
+		}
+		/// <summary> Return the default log target for the category.
+		/// 
+		/// </summary>
+		/// <returns> the default target name
+		/// </returns>
+		public virtual System.String Target
+		{
+			get
+			{
+				return m_target;
+			}
+			
+		}
+		
 		
 		public  override bool Equals(System.Object other)
 		{

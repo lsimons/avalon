@@ -1,4 +1,4 @@
-// Copyright 2004 Apache Software Foundation
+// Copyright 2003-2004 The Apache Software Foundation
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -22,45 +22,12 @@ namespace Apache.Avalon.Composition.Data
 	/// </summary>
 	/// <author>  <a href="mailto:mcconnell@osm.net">Stephen McConnell</a>
 	/// </author>
-	/// <version>  CVS $Revision: 1.1 $ $Date: 2004/02/01 13:31:01 $
+	/// <version>  CVS $Revision: 1.2 $ $Date: 2004/02/28 22:15:36 $
 	/// </version>
 	[Serializable]
 	public sealed class DependencyDirective
 	{
-		/// <summary> Return the dependency key.</summary>
-		/// <returns> the key
-		/// </returns>
-		public System.String Key
-		{
-			get
-			{
-				return m_key;
-			}
-			
-		}
-		/// <summary> Return the dependency source path.</summary>
-		/// <returns> the path
-		/// </returns>
-		public System.String Source
-		{
-			get
-			{
-				return m_source;
-			}
-			
-		}
-		/// <summary> Return the set of selection directive constraints.</summary>
-		/// <returns> the selection directive set
-		/// </returns>
-		public SelectionDirective[] SelectionDirectives
-		{
-			get
-			{
-				return m_features;
-			}
-			
-		}
-		
+
 		/// <summary> The dependency key that the directive refers to.</summary>
 		private System.String m_key;
 		
@@ -97,5 +64,40 @@ namespace Apache.Avalon.Composition.Data
 			m_features = features;
 			m_source = null;
 		}
+
+		/// <summary> Return the dependency key.</summary>
+		/// <returns> the key
+		/// </returns>
+		public System.String Key
+		{
+			get
+			{
+				return m_key;
+			}
+			
+		}
+		/// <summary> Return the dependency source path.</summary>
+		/// <returns> the path
+		/// </returns>
+		public System.String Source
+		{
+			get
+			{
+				return m_source;
+			}
+			
+		}
+		/// <summary> Return the set of selection directive constraints.</summary>
+		/// <returns> the selection directive set
+		/// </returns>
+		public SelectionDirective[] SelectionDirectives
+		{
+			get
+			{
+				return m_features;
+			}
+			
+		}
+		
 	}
 }

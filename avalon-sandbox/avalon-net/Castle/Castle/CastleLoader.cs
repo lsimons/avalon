@@ -1,4 +1,4 @@
-// Copyright 2004 Apache Software Foundation
+// Copyright 2003-2004 The Apache Software Foundation
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,17 +17,19 @@ namespace Apache.Avalon.Castle
 	using System;
 	using System.Reflection;
 
+	using Apache.Avalon.Castle.Controller;
 	using Apache.Avalon.Castle.ManagementExtensions;
 	using Apache.Avalon.Castle.ManagementExtensions.Remote.Server;
 	using Apache.Avalon.Castle.ManagementExtensions.Remote.Client;
 	using ILogger = Apache.Avalon.Framework.ILogger;
+	using MXUtil  = Apache.Avalon.Castle.Util.MXUtil;
 
 	/// <summary>
 	/// Summary description for CastleLoader.
 	/// </summary>
 	public class CastleLoader : IDisposable
 	{
-		protected static readonly ManagedObjectName CONTROLLER = 
+		public static readonly ManagedObjectName CONTROLLER = 
 			new ManagedObjectName(Castle.CASTLE_DOMAIN + ":name=Controller");
 		
 		protected MServer server;
@@ -49,6 +51,14 @@ namespace Apache.Avalon.Castle
 			Stop();
 		}
 
+		public MServer Server
+		{
+			get
+			{
+				return server;
+			}
+		}
+
 		public void Start(CastleOptions options)
 		{
 			logger.Debug("Start()");
@@ -59,14 +69,6 @@ namespace Apache.Avalon.Castle
 			if (options.EnableRemoteManagement)
 			{
 				CreateServerConnector(options.ServerConnectorUrl, null);
-			}
-		}
-
-		public MServer Server
-		{
-			get
-			{
-				return server;
 			}
 		}
 
@@ -85,7 +87,7 @@ namespace Apache.Avalon.Castle
 			{
 				if (controller != null)
 				{
-					server.Invoke(controller.Name, "Stop", null, null);
+					MXUtil.Stop( server, CONTROLLER );
 				}
 
 				MServerFactory.Release(server);
@@ -97,30 +99,23 @@ namespace Apache.Avalon.Castle
 		protected virtual void CreateMServer(CastleOptions options)
 		{
 			logger.Debug("Creating MServer");
-			
 			server = MServerFactory.CreateServer(options.DomainName, options.IsolatedDomain);
-			
-			logger.Debug("Done!");
 		}
 
 		protected virtual void CreateController(CastleOptions options)
 		{
 			logger.Debug("Creating Controller");
 
-			controller = server.CreateManagedObject( 
-				Assembly.GetExecutingAssembly().FullName, 
-				"Apache.Avalon.Castle.Controller.CastleController",
-				CONTROLLER);
+			CastleController controllerInstance = new CastleController(options);
 
-			logger.Debug("Done!");
+			logger.Debug("Registering Controller");
+			controller = server.RegisterManagedObject( controllerInstance, CONTROLLER );
 
 			logger.Debug("Invoking Create on Controller...");
-			server.Invoke(controller.Name, "Create", null, null);
-			logger.Debug("Done!");
+			MXUtil.Create( server, CONTROLLER );
 
 			logger.Debug("Invoking Start on Controller...");
-			server.Invoke(controller.Name, "Start", null, null);
-			logger.Debug("Done!");
+			MXUtil.Start( server, CONTROLLER );
 		}
 
 		protected virtual void CreateServerConnector(String url, System.Collections.Specialized.NameValueCollection properties)
@@ -149,6 +144,5 @@ namespace Apache.Avalon.Castle
 		}
 
 		#endregion
-
 	}
 }

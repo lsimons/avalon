@@ -27,11 +27,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Apache.Avalon.Repository", 
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Apache.Avalon.Composition.Data.Builder", "..\..\CompositionDataBuilder\Apache.Avalon.Composition.Data.Builder.csproj", "{87E2C42D-B81A-4919-83BC-B0977945249B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Apache.Avalon.Composition.Data.Builder", "..\..\Composition\DataBuilder\Apache.Avalon.Composition.Data.Builder.csproj", "{87E2C42D-B81A-4919-83BC-B0977945249B}"
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Apache.Avalon.Composition", "..\..\Composition\Apache.Avalon.Composition.csproj", "{1692A8F4-64AB-401A-B521-1311B5EB173E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Apache.Avalon.Composition.Logging", "..\..\Composition\Logging\Apache.Avalon.Composition.Logging.csproj", "{EEF62E78-C58A-4DA0-BA62-A416330DBF58}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Apache.Avalon.Composition.Data", "..\..\Composition\Data\Apache.Avalon.Composition.Data.csproj", "{0DB30CF7-345A-414C-8D35-10EF99911827}"
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
@@ -73,10 +77,14 @@ Global
 		{87E2C42D-B81A-4919-83BC-B0977945249B}.Debug.Build.0 = Debug|.NET
 		{87E2C42D-B81A-4919-83BC-B0977945249B}.Release.ActiveCfg = Release|.NET
 		{87E2C42D-B81A-4919-83BC-B0977945249B}.Release.Build.0 = Release|.NET
-		{1692A8F4-64AB-401A-B521-1311B5EB173E}.Debug.ActiveCfg = Debug|.NET
-		{1692A8F4-64AB-401A-B521-1311B5EB173E}.Debug.Build.0 = Debug|.NET
-		{1692A8F4-64AB-401A-B521-1311B5EB173E}.Release.ActiveCfg = Release|.NET
-		{1692A8F4-64AB-401A-B521-1311B5EB173E}.Release.Build.0 = Release|.NET
+		{EEF62E78-C58A-4DA0-BA62-A416330DBF58}.Debug.ActiveCfg = Debug|.NET
+		{EEF62E78-C58A-4DA0-BA62-A416330DBF58}.Debug.Build.0 = Debug|.NET
+		{EEF62E78-C58A-4DA0-BA62-A416330DBF58}.Release.ActiveCfg = Release|.NET
+		{EEF62E78-C58A-4DA0-BA62-A416330DBF58}.Release.Build.0 = Release|.NET
+		{0DB30CF7-345A-414C-8D35-10EF99911827}.Debug.ActiveCfg = Debug|.NET
+		{0DB30CF7-345A-414C-8D35-10EF99911827}.Debug.Build.0 = Debug|.NET
+		{0DB30CF7-345A-414C-8D35-10EF99911827}.Release.ActiveCfg = Release|.NET
+		{0DB30CF7-345A-414C-8D35-10EF99911827}.Release.Build.0 = Release|.NET
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 	EndGlobalSection

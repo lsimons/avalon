@@ -1,4 +1,4 @@
-// Copyright 2004 Apache Software Foundation
+// Copyright 2003-2004 The Apache Software Foundation
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -20,14 +20,15 @@ namespace Apache.Avalon.Castle.Controller
 
 	using Apache.Avalon.Castle.Controller.Config;
 	using Apache.Avalon.Castle.ManagementExtensions;
-
+	using MXUtil  = Apache.Avalon.Castle.Util.MXUtil;
 	using ILogger = Apache.Avalon.Framework.ILogger;
 
 	/// <summary>
 	/// Summary description for CastleController.
 	/// </summary>
+	[Serializable]
 	[ManagedComponent]
-	public class CastleController : MRegistrationListener
+	public class CastleController : MRegistrationListener, System.Runtime.Serialization.ISerializable
 	{
 		/// <summary>
 		/// 
@@ -39,72 +40,175 @@ namespace Apache.Avalon.Castle.Controller
 		/// </summary>
 		private CastleConfig config;
 
+		/// <summary>
+		/// 
+		/// </summary>
+		private CastleOptions options;
+
+		/// <summary>
+		/// 
+		/// </summary>
 		private ArrayList startupList = new ArrayList();
 
-		protected ILogger logger = Logger.LoggerFactory.GetLogger("CastleController");
+		/// <summary>
+		/// 
+		/// </summary>
+		[NonSerialized]
+		protected ILogger logger;
 
-		public CastleController()
+		/// <summary>
+		/// 
+		/// </summary>
+		protected CastleController()
 		{
-			logger.Debug("Constructor");
+			logger = Logger.LoggerFactory.GetLogger("CastleController");
 		}
 
+		/// <summary>
+		/// 
+		/// </summary>
+		public CastleController(CastleOptions options) : this()
+		{
+			this.options = options;
+		}
+
+		public CastleController(System.Runtime.Serialization.SerializationInfo info, 
+			System.Runtime.Serialization.StreamingContext context) : this()
+		{
+			options = info.GetValue( "options", typeof(CastleOptions) ) as CastleOptions;
+			config  = info.GetValue( "config", typeof(CastleConfig)  ) as CastleConfig;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		[ManagedAttribute]
+		public CastleConfig Config
+		{
+			get
+			{
+				return config;
+			}
+			set
+			{
+				config = value;
+			}
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		[ManagedAttribute]
+		public CastleOptions Options
+		{
+			get
+			{
+				return options;
+			}
+			set
+			{
+				options = value;
+			}
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
 		[ManagedOperation]
 		public void Create()
 		{
 			logger.Debug("Create");
+			
+			if (config == null) 
+			{
+				logger.Error("Configuration not available");
+				throw new InitializationException("Configuration not available");
+			}
 
 			InstantiateAndRegisterComponents();
-
-			StartQueueComponents();
 		}
 
+		/// <summary>
+		/// 
+		/// </summary>
 		[ManagedOperation]
 		public void Start()
 		{
 			logger.Debug("Start");
+
+			StartQueuedComponents();
 		}
 
+		/// <summary>
+		/// 
+		/// </summary>
 		[ManagedOperation]
 		public void Stop()
 		{
 			logger.Debug("Stop");
-
 			Undeploy();
 		}
 
+		/// <summary>
+		/// 
+		/// </summary>
 		private void InstantiateAndRegisterComponents()
+		{
+			InstantiateAndRegisterComponents( null );
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		private void InstantiateAndRegisterComponents( ManagedObjectName parent )
 		{
 			foreach(ComponentDescriptor component in config.Components)
 			{
-				RecursiveInstantiate(component);
+				RecursiveInstantiate(component, parent);
 			}
 		}
 
-		private void RecursiveInstantiate(ComponentDescriptor component)
+		/// <summary>
+		/// 
+		/// </summary>
+		private ManagedObjectName RecursiveInstantiate( ComponentDescriptor component, ManagedObjectName parent )
 		{
+			ManagedObjectName name = new ManagedObjectName( component.Name );
+
+			ArrayList children = new ArrayList();
+
 			foreach(ComponentDescriptor child in component.Dependencies.Components)
 			{
-				RecursiveInstantiate(child);
+				children.Add( RecursiveInstantiate(child, name) );
 			}
 
-			Instantiate(component);
+			Instantiate(component, name);
+
+			foreach(ManagedObjectName childName in children)
+			{
+				RegisterAsChild( childName, name );
+			}
+
+			return name;
 		}
 
+		/// <summary>
+		/// 
+		/// </summary>
 		private void Undeploy()
 		{
-			StopQueueComponents();
-			DestroyQueueComponents();
+			StopQueuedComponents();
+			DestroyQueuedComponents();
 		}
 
 		/// <summary>
 		/// Instantiates the component using the current MServer
 		/// </summary>
 		/// <param name="component"></param>
-		private void Instantiate(ComponentDescriptor component)
+		private void Instantiate(ComponentDescriptor component, ManagedObjectName name)
 		{
-			logger.Debug("About to instantiate {0} type {1}", component.Name, component.Typename);
+			logger.Debug("About to instantiate {0} type {1}", name, component.Typename);
 
-			ManagedObjectName name = new ManagedObjectName( component.Name );
 			String typename = component.Typename;
 
 			Object instance = server.Instantiate( typename );
@@ -112,7 +216,6 @@ namespace Apache.Avalon.Castle.Controller
 			if ( !typeof(MService).IsAssignableFrom( instance.GetType() ) )
 			{
 				logger.Error("Type {0} does not implement interface MService", typename);
-
 				throw new CastleContainerException( String.Format("Type {0} must implement MService", typename) );
 			}
 
@@ -136,7 +239,17 @@ namespace Apache.Avalon.Castle.Controller
 			QueueStart(name);
 		}
 
-		private void StartQueueComponents()
+		private void RegisterAsChild(ManagedObjectName name, ManagedObjectName parent)
+		{
+			if (parent == null)
+			{
+				return;
+			}
+
+			MXUtil.InvokeOn( server, parent, "AddChild", name );
+		}
+
+		private void StartQueuedComponents()
 		{
 			for(int i=0; i < startupList.Count; i++)
 			{
@@ -144,7 +257,7 @@ namespace Apache.Avalon.Castle.Controller
 			}
 		}
 
-		private void StopQueueComponents()
+		private void StopQueuedComponents()
 		{
 			object[] components = startupList.ToArray();
 			Array.Reverse( components );
@@ -154,7 +267,7 @@ namespace Apache.Avalon.Castle.Controller
 			}
 		}
 
-		private void DestroyQueueComponents()
+		private void DestroyQueuedComponents()
 		{
 			object[] components = startupList.ToArray();
 			Array.Reverse( components );
@@ -174,8 +287,7 @@ namespace Apache.Avalon.Castle.Controller
 			try
 			{
 				logger.Debug("Invoking Create on {0}", name);
-
-				server.Invoke(name, "Create", null, null);
+				MXUtil.Create( server, name );
 			}
 			catch(Exception e)
 			{
@@ -190,8 +302,7 @@ namespace Apache.Avalon.Castle.Controller
 			try
 			{
 				logger.Debug("Invoking Start on {0}", name);
-
-				server.Invoke(name, "Start", null, null);
+				MXUtil.Start( server, name );
 			}
 			catch(Exception e)
 			{
@@ -206,8 +317,7 @@ namespace Apache.Avalon.Castle.Controller
 			try
 			{
 				logger.Debug("Invoking Stop on {0}", name);
-
-				server.Invoke(name, "Stop", null, null);
+				MXUtil.Stop( server, name );
 			}
 			catch(Exception e)
 			{
@@ -220,8 +330,7 @@ namespace Apache.Avalon.Castle.Controller
 			try
 			{
 				logger.Debug("Invoking Destroy on {0}", name);
-
-				server.Invoke(name, "Destroy", null, null);
+				MXUtil.Destroy( server, name );
 			}
 			catch(Exception e)
 			{
@@ -250,7 +359,7 @@ namespace Apache.Avalon.Castle.Controller
 				Object value = PerformConversion(mAtt.AttributeType, attribute.Value);
 
 				logger.Debug("Setting Attribute '{0}' value '{1}'", attribute.Name, value);
-				server.SetAttribute(name, attribute.Name, value);
+				MXUtil.SetAttribute( server, name, attribute.Name, value );
 			}
 		}
 
@@ -281,20 +390,13 @@ namespace Apache.Avalon.Castle.Controller
 		public void BeforeRegister(MServer server, ManagedObjectName name)
 		{
 			logger.Debug("BeforeRegister {0}", name);
+			logger.Debug("Obtaining configuration from {0}", 
+				AppDomain.CurrentDomain.SetupInformation.ConfigurationFile);
 
 			this.server = server;
-
-			logger.Debug("Obtaining configuration from {0}", AppDomain.CurrentDomain.SetupInformation.ConfigurationFile);
 			
-			config = (CastleConfig) 
+			Config = (CastleConfig) 
 				ConfigurationSettings.GetConfig("Castle/Services");
-
-			if (config == null)
-			{
-				logger.Error("Null configuration returned");
-
-				throw new InitializationException("Could not find configuration.");
-			}
 		}
 
 		public void AfterDeregister()
@@ -307,6 +409,16 @@ namespace Apache.Avalon.Castle.Controller
 
 		public void BeforeDeregister()
 		{
+		}
+
+		#endregion
+
+		#region ISerializable Members
+
+		public void GetObjectData(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
+		{
+			info.AddValue( "options", options );
+			info.AddValue( "config" , config );
 		}
 
 		#endregion

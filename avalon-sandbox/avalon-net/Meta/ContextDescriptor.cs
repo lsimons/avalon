@@ -1,4 +1,4 @@
-// Copyright 2004 Apache Software Foundation
+// Copyright 2003-2004 The Apache Software Foundation
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -33,7 +33,7 @@ namespace Apache.Avalon.Meta
 	/// </summary>
 	/// <author>  <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
 	/// </author>
-	/// <version>  $Revision: 1.3 $ $Date: 2004/01/31 18:59:17 $
+	/// <version>  $Revision: 1.4 $ $Date: 2004/02/28 22:15:37 $
 	/// </version>
 	[Serializable]
 	public class ContextDescriptor : Descriptor
@@ -55,15 +55,15 @@ namespace Apache.Avalon.Meta
 		public static readonly System.String TEMP_KEY = "urn:avalon:temp";
 		
 		/// <summary> The context entry key for accessing a component classloader.</summary>
-		public static readonly System.String CLASSLOADER_KEY = "urn:avalon:classloader";
+		// public static readonly System.String CLASSLOADER_KEY = "urn:avalon:classloader";
 		
-		/// <summary> Context attribute key used to declare a custom contextualization
-		/// interface.
+		/// <summary>
+		/// Context attribute key used to declare a custom contextualization interface.
 		/// </summary>
-		// public static readonly System.String STRATEGY_KEY = "urn:avalon:context.strategy";
-		
+		public static readonly String STRATEGY_KEY = "urn:avalon:context.strategy";
+
 		/// <summary> Context interface classname.</summary>
-		// public const System.String AVALON_CONTEXT_CLASSNAME = "org.apache.avalon.framework.context.Context";
+		public static readonly System.String AVALON_CONTEXT_CLASSNAME = "Apache.Avalon.Framework.IContext";
 		
 		//---------------------------------------------------------
 		// immutable state
@@ -244,7 +244,7 @@ namespace Apache.Avalon.Meta
 		/// </summary>
 		/// <returns> the reference descriptor.
 		/// </returns>
-		virtual public Type ContextInterface
+		public virtual Type ContextInterface
 		{
 			get
 			{
@@ -257,7 +257,7 @@ namespace Apache.Avalon.Meta
 		/// </summary>
 		/// <returns> the entries contained in the context.
 		/// </returns>
-		virtual public EntryDescriptor[] Entries
+		public virtual EntryDescriptor[] Entries
 		{
 			get
 			{

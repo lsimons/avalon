@@ -1,4 +1,4 @@
-// Copyright 2004 Apache Software Foundation
+// Copyright 2003-2004 The Apache Software Foundation
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -19,7 +19,7 @@ namespace Apache.Avalon.Composition.Logging
 	using Apache.Avalon.Framework;
 	using Apache.Avalon.Composition.Data;
 
-	/*public struct LoggingManager_Fields
+	public struct ILoggingManager_Fields
 	{
 		/// <summary> Standard context key for the logging manager.</summary>
 		public readonly static System.String KEY = "urn:assembly:logging";
@@ -29,7 +29,7 @@ namespace Apache.Avalon.Composition.Logging
 		public readonly static System.String DEFAULT_TARGET = "default";
 		/// <summary> The default logging format.</summary>
 		public readonly static System.String DEFAULT_FORMAT = "[%7.7{priority}] (%{category}): %{message}\\n%{throwable}";
-	}*/
+	}
 
 	/// <summary> A <code>LoggerManager</code> that supports the management of a logging hierarchy.</summary>
 	/// <author>  <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
@@ -39,7 +39,7 @@ namespace Apache.Avalon.Composition.Logging
 		/// <summary> Add a set of category entries using the supplied categories descriptor.</summary>
 		/// <param name="descriptor">a set of category descriptors to be added under the path
 		/// </param>
-		void  AddCategories(CategoriesDirective descriptor);
+		void AddCategories(CategoriesDirective descriptor);
 		
 		/// <summary> Add a set of category entries relative to the supplied base category
 		/// path, using the supplied descriptor as the definition of subcategories.
@@ -49,7 +49,7 @@ namespace Apache.Avalon.Composition.Logging
 		/// <param name="descriptor">a set of category descriptors to be added under
 		/// the base path
 		/// </param>
-		void  AddCategories(System.String path, CategoriesDirective descriptor);
+		void AddCategories(System.String path, CategoriesDirective descriptor);
 		
 		/// <summary> Create a logging channel configured with the supplied category path,
 		/// priority and target.

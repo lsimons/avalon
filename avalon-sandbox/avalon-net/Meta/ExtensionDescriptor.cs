@@ -1,4 +1,4 @@
-// Copyright 2004 Apache Software Foundation
+// Copyright 2003-2004 The Apache Software Foundation
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -22,7 +22,7 @@ namespace Apache.Avalon.Meta
 	/// </summary>
 	/// <author>  <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
 	/// </author>
-	/// <version>  $Revision: 1.3 $ $Date: 2004/01/31 18:59:17 $
+	/// <version>  $Revision: 1.4 $ $Date: 2004/02/28 22:15:37 $
 	/// </version>
 	[Serializable]
 	public sealed class ExtensionDescriptor : Descriptor

@@ -1,4 +1,4 @@
-// Copyright 2004 Apache Software Foundation
+// Copyright 2003-2004 The Apache Software Foundation
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -41,46 +41,12 @@ namespace Apache.Avalon.Composition.Data
 	/// </seealso>
 	/// <author>  <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
 	/// </author>
-	/// <version>  $Revision: 1.1 $ $Date: 2004/02/01 13:31:01 $
+	/// <version>  $Revision: 1.2 $ $Date: 2004/02/28 22:15:36 $
 	/// </version>
 	[Serializable]
 	public class ContextDirective
 	{
-		/// <summary> Return the relative path to a source provider component that
-		/// will handle a custom contextualization phase implementation.
-		/// </summary>
-		/// <returns> the source path
-		/// </returns>
-		public virtual System.String Source
-		{
-			get
-			{
-				return m_source;
-			}
-			
-		}
-		/// <summary> Return the classname of the context implementation to use.</summary>
-		/// <returns> the classname
-		/// </returns>
-		public virtual System.String Classname
-		{
-			get
-			{
-				return m_classname;
-			}
-			
-		}
-		/// <summary> Return the set of entry directives.</summary>
-		/// <returns> the entries
-		/// </returns>
-		public virtual EntryDirective[] EntryDirectives
-		{
-			get
-			{
-				return m_entries;
-			}
-			
-		}
+
 		/// <summary> The set of entry directives.</summary>
 		private EntryDirective[] m_entries;
 		
@@ -145,6 +111,42 @@ namespace Apache.Avalon.Composition.Data
 				}
 			}
 			return null;
+		}
+
+		/// <summary> Return the relative path to a source provider component that
+		/// will handle a custom contextualization phase implementation.
+		/// </summary>
+		/// <returns> the source path
+		/// </returns>
+		public virtual System.String Source
+		{
+			get
+			{
+				return m_source;
+			}
+			
+		}
+		/// <summary> Return the classname of the context implementation to use.</summary>
+		/// <returns> the classname
+		/// </returns>
+		public virtual System.String Classname
+		{
+			get
+			{
+				return m_classname;
+			}
+			
+		}
+		/// <summary> Return the set of entry directives.</summary>
+		/// <returns> the entries
+		/// </returns>
+		public virtual EntryDirective[] EntryDirectives
+		{
+			get
+			{
+				return m_entries;
+			}
+			
 		}
 	}
 }

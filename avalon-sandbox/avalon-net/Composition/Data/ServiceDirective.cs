@@ -1,4 +1,4 @@
-// Copyright 2004 Apache Software Foundation
+// Copyright 2003-2004 The Apache Software Foundation
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -24,12 +24,10 @@ namespace Apache.Avalon.Composition.Data
 	/// </summary>
 	/// <author>  <a href="mailto:mcconnell@osm.net">Stephen McConnell</a>
 	/// </author>
-	/// <version>  CVS $Revision: 1.1 $ $Date: 2004/02/01 13:31:01 $
+	/// <version>  CVS $Revision: 1.2 $ $Date: 2004/02/28 22:15:36 $
 	/// </version>
 	public sealed class ServiceDirective : ServiceDescriptor
 	{
-		
-		
 		/// <summary> The relative path to the component implementing the service.</summary>
 		private System.String m_path;
 		

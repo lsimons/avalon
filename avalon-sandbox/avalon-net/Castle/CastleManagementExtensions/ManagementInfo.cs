@@ -1,4 +1,4 @@
-// Copyright 2004 Apache Software Foundation
+// Copyright 2003-2004 The Apache Software Foundation
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -103,6 +103,8 @@ namespace Apache.Avalon.Castle.ManagementExtensions
 	[Serializable]
 	public class ManagementOperation : ManagementObject
 	{
+		private Type[] arguments = new Type[0];
+
 		public ManagementOperation()
 		{
 		}
@@ -116,6 +118,21 @@ namespace Apache.Avalon.Castle.ManagementExtensions
 		{
 			Name = name;
 			Description = description;
+		}
+
+		public ManagementOperation(String name, String description, Type[] args)
+		{
+			Name = name;
+			Description = description;
+			arguments = args;
+		}
+
+		public Type[] Arguments
+		{
+			get
+			{
+				return arguments;
+			}
 		}
 	}
 

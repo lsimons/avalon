@@ -82,7 +82,7 @@
                 <Reference
                     Name = "log4net"
                     AssemblyName = "log4net"
-                    HintPath = "..\..\bin\log4net.dll"
+                    HintPath = "..\lib\net\1.1\release\log4net.dll"
                 />
             </References>
         </Build>
@@ -198,6 +198,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Configuration\CascadingConfiguration.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Configuration\ConfigurationCollection.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -229,6 +234,11 @@
                 />
                 <File
                     RelPath = "Context\ContextException.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Context\DefaultContext.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

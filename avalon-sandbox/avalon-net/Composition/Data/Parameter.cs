@@ -1,4 +1,4 @@
-// Copyright 2004 Apache Software Foundation
+// Copyright 2003-2004 The Apache Software Foundation
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -56,41 +56,11 @@ namespace Apache.Avalon.Composition.Data
 	/// </seealso>
 	/// <author>  <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
 	/// </author>
-	/// <version>  $Revision: 1.1 $ $Date: 2004/02/01 13:31:01 $
+	/// <version>  $Revision: 1.2 $ $Date: 2004/02/28 22:15:36 $
 	/// </version>
 	[Serializable]
 	public class Parameter
 	{
-		/// <summary> Return the classname of the parameter implementation to use.</summary>
-		/// <returns> the classname
-		/// </returns>
-		public virtual System.String Classname
-		{
-			get
-			{
-				return m_classname;
-			}
-			
-		}
-		/// <summary> Return the argument (may be null).</summary>
-		public virtual System.String Argument
-		{
-			get
-			{
-				return m_argument;
-			}
-			
-		}
-		/// <summary> Return the constructor parameters for this parameter.</summary>
-		public virtual Parameter[] Parameters
-		{
-			get
-			{
-				return m_parameters;
-			}
-			
-		}
-		
 		/// <summary> The classname to use as the parameter implementation class (defaults to java.lang.String)</summary>
 		private System.String m_classname;
 		
@@ -152,6 +122,36 @@ namespace Apache.Avalon.Composition.Data
 			
 			m_classname = classname;
 			m_parameters = parameters;
+		}
+
+		/// <summary> Return the classname of the parameter implementation to use.</summary>
+		/// <returns> the classname
+		/// </returns>
+		public virtual System.String Classname
+		{
+			get
+			{
+				return m_classname;
+			}
+			
+		}
+		/// <summary> Return the argument (may be null).</summary>
+		public virtual System.String Argument
+		{
+			get
+			{
+				return m_argument;
+			}
+			
+		}
+		/// <summary> Return the constructor parameters for this parameter.</summary>
+		public virtual Parameter[] Parameters
+		{
+			get
+			{
+				return m_parameters;
+			}
+			
 		}
 	}
 }

@@ -1,4 +1,4 @@
-// Copyright 2004 Apache Software Foundation
+// Copyright 2003-2004 The Apache Software Foundation
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -50,43 +50,11 @@ namespace Apache.Avalon.Composition.Data
 	/// </seealso>
 	/// <author>  <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
 	/// </author>
-	/// <version>  $Revision: 1.1 $ $Date: 2004/02/01 13:31:01 $
+	/// <version>  $Revision: 1.2 $ $Date: 2004/02/28 22:15:36 $
 	/// </version>
 	public class ConstructorDirective : EntryDirective
 	{
-		/// <summary> Return the constructor classname</summary>
-		/// <returns> the classname
-		/// </returns>
-		public virtual System.String Classname
-		{
-			get
-			{
-				return m_classname;
-			}
-			
-		}
-		/// <summary> Return the parameter directive if the mode is PARAM else null.</summary>
-		/// <returns> the directive
-		/// </returns>
-		public virtual Parameter[] Parameters
-		{
-			get
-			{
-				return m_params;
-			}
-			
-		}
-		/// <summary> Return the constructor single argument</summary>
-		/// <returns> the costructor argument
-		/// </returns>
-		public virtual System.String Argument
-		{
-			get
-			{
-				return m_argument;
-			}
-			
-		}
+
 		/// <summary> The constructor classname.</summary>
 		private System.String m_classname;
 		
@@ -160,6 +128,40 @@ namespace Apache.Avalon.Composition.Data
 			m_classname = classname;
 			m_params = paramsObj;
 			m_argument = null;
+		}
+
+		/// <summary> Return the constructor classname</summary>
+		/// <returns> the classname
+		/// </returns>
+		public virtual System.String Classname
+		{
+			get
+			{
+				return m_classname;
+			}
+			
+		}
+		/// <summary> Return the parameter directive if the mode is PARAM else null.</summary>
+		/// <returns> the directive
+		/// </returns>
+		public virtual Parameter[] Parameters
+		{
+			get
+			{
+				return m_params;
+			}
+			
+		}
+		/// <summary> Return the constructor single argument</summary>
+		/// <returns> the costructor argument
+		/// </returns>
+		public virtual System.String Argument
+		{
+			get
+			{
+				return m_argument;
+			}
+			
 		}
 	}
 }

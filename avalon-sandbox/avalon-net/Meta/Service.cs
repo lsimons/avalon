@@ -1,4 +1,4 @@
-// Copyright 2004 Apache Software Foundation
+// Copyright 2003-2004 The Apache Software Foundation
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -23,7 +23,7 @@ namespace Apache.Avalon.Meta
 	/// </summary>
 	/// <author>  <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
 	/// </author>
-	/// <version>  $Revision: 1.3 $ $Date: 2004/01/31 18:59:17 $
+	/// <version>  $Revision: 1.4 $ $Date: 2004/02/28 22:15:37 $
 	/// </version>
 	[Serializable]
 	public class Service : Descriptor
@@ -161,14 +161,13 @@ namespace Apache.Avalon.Meta
 		/// </returns>
 		public override System.String ToString()
 		{
-			//UPGRADE_TODO: The equivalent in .NET for method 'java.lang.Object.toString' may return a different value. 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="jlca1043"'
 			return Reference.ToString();
 		}
 
 		/// <summary> Return the service classname key.</summary>
 		/// <returns> the service classname
 		/// </returns>
-		virtual public System.Type Type
+		public virtual System.Type Type
 		{
 			get
 			{
@@ -180,7 +179,7 @@ namespace Apache.Avalon.Meta
 		/// <summary> Return the service reference.</summary>
 		/// <returns> the reference
 		/// </returns>
-		virtual public ReferenceDescriptor Reference
+		public virtual ReferenceDescriptor Reference
 		{
 			get
 			{
@@ -193,7 +192,7 @@ namespace Apache.Avalon.Meta
 		/// </summary>
 		/// <returns> the entry descriptors
 		/// </returns>
-		virtual public EntryDescriptor[] Entries
+		public virtual EntryDescriptor[] Entries
 		{
 			get
 			{
