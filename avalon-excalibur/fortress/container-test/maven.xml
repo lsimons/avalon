@@ -23,7 +23,7 @@
     <!-- Generate fortress meta descriptors                                    -->
     <!-- ===================================================================== -->
 
-    <postGoal name="java:compile">
+    <postGoal name="test:compile">
         <attainGoal name="provide-fortress-meta"/>
     </postGoal>
 
@@ -35,11 +35,9 @@
             classname="org.apache.avalon.fortress.tools.ComponentMetaInfoCollector">
             <classpath>
                 <path refid="maven.dependency.classpath"/>
-                <pathelement path="${java.build.dir}"/>
             </classpath>
         </taskdef>
 
-        <mkdir dir="${maven.build.dir}/test-classes"/>
         <fortress-collect-meta destdir="${maven.build.dir}/test-classes">
             <fileset dir="${maven.src.dir}/test"/>
         </fortress-collect-meta>
