@@ -46,13 +46,10 @@ import org.apache.log.Hierarchy;
  */
 public class DefaultApplicationFrame
     extends AbstractLoggable
-    implements ApplicationFrame, Composable, Configurable, Initializable
+    implements ApplicationFrame, Composable, Configurable
 {
     private static final Resources REZ =
         ResourceManager.getPackageResources( DefaultApplicationFrame.class );
-
-    private final static String  DEFAULT_FORMAT =
-        "%{time} [%7.7{priority}] (%{category}): %{message}\\n%{throwable}";
 
     ///Map of thread pools for application
     private HashMap      m_threadPools     = new HashMap();
@@ -69,9 +66,6 @@ public class DefaultApplicationFrame
     ///Context which application threads must execute in
     private ThreadContext m_threadContext;
 
-    ///Cached version of configuration so that accessible in init() to configure threads
-    private Configuration m_configuration;
-
     //Repository of configuration data to access
     private ConfigurationRepository m_repository;
 
@@ -84,6 +78,17 @@ public class DefaultApplicationFrame
         m_metaData = metaData;
         m_classLoader = classLoader;
         m_hierarchy = hierarchy;
+
+        //base context that all block contexts inherit from
+        final DefaultContext context = new DefaultContext();
+        context.put( BlockContext.APP_NAME, m_metaData.getName() );
+        context.put( BlockContext.APP_HOME_DIR, m_metaData.getHomeDirectory() );
+        m_context = context;
+
+        final DefaultThreadContextPolicy policy = new DefaultThreadContextPolicy();
+        final HashMap map = new HashMap( 1 );
+        map.put( ThreadContextPolicy.CLASSLOADER, m_classLoader );
+        m_threadContext = new ThreadContext( policy, map );
     }
 
     public SarMetaData getMetaData()
@@ -106,33 +111,21 @@ public class DefaultApplicationFrame
     public void configure( final Configuration configuration )
         throws ConfigurationException
     {
-        //Cache config to use in building thread pools
-        m_configuration = configuration;
-    }
-
-    /**
-     * Initialize frame.
-     * This involves creating and preparing the ClassLoader.
-     *
-     * @exception Exception if an error occurs
-     */
-    public void initialize()
-        throws Exception
-    {
-        //base context that all block contexts inherit from
-        final DefaultContext context = new DefaultContext();
-        context.put( BlockContext.APP_NAME, m_metaData.getName() );
-        context.put( BlockContext.APP_HOME_DIR, m_metaData.getHomeDirectory() );
-        m_context = context;
-
-        final DefaultThreadContextPolicy policy = new DefaultThreadContextPolicy();
-        final HashMap map = new HashMap( 1 );
-        map.put( ThreadContextPolicy.CLASSLOADER, m_classLoader );
-        m_threadContext = new ThreadContext( policy, map );
-
         //Configure thread pools
-        final Configuration threads = m_configuration.getChild( "threads" );
-        configureThreadPools( threads );
+        final Configuration[] groups = 
+            configuration.getChild( "threads" ).getChildren( "thread-group" );
+
+        if( groups.length > 0 )
+        {
+            final String message = REZ.getString( "frame.warn.thread-pools" );
+            getLogger().warn( message );
+            System.err.println( message );
+        }
+
+        for( int i = 0; i < groups.length; i++ )
+        {
+            configureThreadPool( groups[ i ] );
+        }
     }
 
     /**
@@ -225,30 +218,6 @@ public class DefaultApplicationFrame
     public ThreadPool getDefaultThreadPool()
     {
         return getThreadPool( "default" );
-    }
-
-    /**
-     * Setup thread pools based on configuration data.
-     *
-     * @param configuration the configuration data
-     * @exception ConfigurationException if an error occurs
-     */
-    private void configureThreadPools( final Configuration configuration )
-        throws ConfigurationException
-    {
-        final Configuration[] groups = configuration.getChildren( "thread-group" );
-
-        if( groups.length > 0 )
-        {
-            final String message = REZ.getString( "frame.warn.thread-pools" );
-            getLogger().warn( message );
-            System.err.println( message );
-        }
-
-        for( int i = 0; i < groups.length; i++ )
-        {
-            configureThreadPool( groups[ i ] );
-        }
     }
 
     private void configureThreadPool( final Configuration configuration )
