@@ -29,7 +29,7 @@ public interface Application
 {
     String ROLE = "org.apache.avalon.phoenix.components.application.Application";
 
-    void setup( ApplicationContext frame );
+    void setApplicationContext( ApplicationContext frame );
     String[] getBlockNames();
     Block getBlock( String name );
 }

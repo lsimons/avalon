@@ -44,7 +44,7 @@ public final class DefaultServerApplication
 
     private HashMap           m_entrys = new HashMap();
 
-    public void setup( final ApplicationContext frame )
+    public void setApplicationContext( final ApplicationContext frame )
     {
         m_frame = frame;
         m_lifecycle = new LifecycleHelper( this, m_frame );
