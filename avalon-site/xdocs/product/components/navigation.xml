@@ -15,7 +15,7 @@
     </links>
 
     <menu name="About Avalon">
-      <item name="Overview" href="/index.html"/>
+      <item name="Overview" href="/overview.html"/>
       <item name="Latest News" href="/news.html"/>
       <item name="Community" href="/community/index.html"/>
       <item name="Products" href="/product/index.html">
