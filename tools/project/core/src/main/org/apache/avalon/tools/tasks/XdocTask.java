@@ -105,9 +105,8 @@ public class XdocTask extends HomeTask
         File themeRoot = getThemesDirectory();
         File themeDir = new File( themeRoot, theme + "/" + output );
         
-        log( "   Source: " + srcDir.getAbsolutePath() );
-        log( "     Dest: " + destDir.getAbsolutePath() );
-        log( "Theme Dir: " + themeDir );
+        log( "Source: " + srcDir.getAbsolutePath() );
+        log( "Theme: " + themeDir );
         
         try
         {
