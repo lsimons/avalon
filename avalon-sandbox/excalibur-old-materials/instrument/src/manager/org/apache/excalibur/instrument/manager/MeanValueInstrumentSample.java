@@ -7,6 +7,8 @@
  */
 package org.apache.excalibur.instrument.manager;
 
+import org.apache.excalibur.instrument.manager.interfaces.InstrumentManagerClient;
+
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.configuration.DefaultConfiguration;
@@ -16,7 +18,7 @@ import org.apache.avalon.framework.configuration.DefaultConfiguration;
  *  period.
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/07/29 16:05:20 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/08/03 15:00:38 $
  * @since 4.1
  */
 class MeanValueInstrumentSample
@@ -24,28 +26,44 @@ class MeanValueInstrumentSample
 {
     /** Total of all values seen during the sample period. */
     private long m_valueTotal;
-
+    
     /*---------------------------------------------------------------
      * Constructors
      *-------------------------------------------------------------*/
     /**
      * Creates a new MeanValueInstrumentSample
      *
+     * @param instrumentProxy The InstrumentProxy which owns the
+     *                        InstrumentSample.
      * @param name The name of the new InstrumentSample.
      * @param interval The sample interval of the new InstrumentSample.
      * @param size The number of samples to store as history.  Assumes that size is at least 1.
      * @param description The description of the new InstrumentSample.
      * @param lease The length of the lease in milliseconds.
      */
-    MeanValueInstrumentSample( String name,
+    MeanValueInstrumentSample( InstrumentProxy instrumentProxy,
+                               String name,
                                long interval,
                                int size,
                                String description,
                                long lease )
     {
-        super( name, interval, size, description, lease );
+        super( instrumentProxy, name, interval, size, description, lease );
     }
-
+    
+    /*---------------------------------------------------------------
+     * InstrumentSample Methods
+     *-------------------------------------------------------------*/
+    /**
+     * Returns the type of the Instrument Sample.
+     *
+     * @return The type of the Instrument Sample.
+     */
+    public int getType()
+    {
+        return InstrumentManagerClient.INSTRUMENT_SAMPLE_TYPE_MEAN;
+    }
+    
     /*---------------------------------------------------------------
      * AbstractInstrumentSample Methods
      *-------------------------------------------------------------*/
@@ -62,7 +80,7 @@ class MeanValueInstrumentSample
         //  be affected by the old.
         m_valueCount = 0;
     }
-
+    
     /**
      * Allow subclasses to add information into the saved state.
      *
@@ -71,10 +89,10 @@ class MeanValueInstrumentSample
     protected void saveState( DefaultConfiguration state )
     {
         super.saveState( state );
-
+        
         state.setAttribute( "value-total", Long.toString( m_valueTotal ) );
     }
-
+    
     /**
      * Used to load the state, called from AbstractInstrumentSample.loadState();
      * <p>
@@ -90,10 +108,10 @@ class MeanValueInstrumentSample
         throws ConfigurationException
     {
         super.loadState( value, state );
-
+        
         m_valueTotal = state.getAttributeAsLong( "value-total" );
     }
-
+    
     /**
      * Called after a state is loaded if the sample period is not the same
      *  as the last period saved.
@@ -101,10 +119,10 @@ class MeanValueInstrumentSample
     protected void postSaveNeedsReset()
     {
         super.postSaveNeedsReset();
-
+        
         m_valueTotal = 0;
     }
-
+    
     /*---------------------------------------------------------------
      * AbstractValueInstrumentSample Methods
      *-------------------------------------------------------------*/
@@ -119,11 +137,11 @@ class MeanValueInstrumentSample
     {
         int sampleValue;
         long sampleTime;
-
+        
         synchronized(this)
         {
             update( time );
-
+            
             if ( m_valueCount > 0 )
             {
                 // Additional sample
@@ -140,7 +158,7 @@ class MeanValueInstrumentSample
             sampleValue = m_value;
             sampleTime = m_time;
         }
-
+        
         updateListeners( sampleValue, sampleTime );
     }
 }

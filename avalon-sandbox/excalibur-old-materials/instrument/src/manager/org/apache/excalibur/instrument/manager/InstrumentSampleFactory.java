@@ -8,6 +8,7 @@
 package org.apache.excalibur.instrument.manager;
 
 import org.apache.excalibur.instrument.manager.interfaces.InstrumentManagerClient;
+
 import org.apache.avalon.framework.configuration.ConfigurationException;
 
 /**
@@ -15,7 +16,7 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
  * Access to InstrumentSamples are synchronized through the ProfileDataSet.
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/07/29 16:05:20 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/08/03 15:00:38 $
  * @since 4.1
  */
 class InstrumentSampleFactory
@@ -23,6 +24,8 @@ class InstrumentSampleFactory
     /**
      * A Profile Sample Type loaded in from a Configuration.
      *
+     * @param instrumentProxy The InstrumentProxy which owns the
+     *                        InstrumentSample.
      * @param type Type of the InstrumentSample to create.
      * @param name The name of the new InstrumentSample.
      * @param interval The sample interval of the new InstrumentSample.
@@ -31,7 +34,8 @@ class InstrumentSampleFactory
      * @param lease Requested lease time in milliseconds.  A value of 0 implies
      *              that the lease will never expire.
      */
-    static InstrumentSample getInstrumentSample( int type,
+    static InstrumentSample getInstrumentSample( InstrumentProxy instrumentProxy,
+                                                 int type,
                                                  String name,
                                                  long interval,
                                                  int size,
@@ -41,74 +45,23 @@ class InstrumentSampleFactory
         switch ( type )
         {
         case InstrumentManagerClient.INSTRUMENT_SAMPLE_TYPE_MAXIMUM:
-            return new MaximumValueInstrumentSample( name, interval, size, description, lease );
-
+            return new MaximumValueInstrumentSample(
+                instrumentProxy, name, interval, size, description, lease );
+            
         case InstrumentManagerClient.INSTRUMENT_SAMPLE_TYPE_MINIMUM:
-            return new MinimumValueInstrumentSample( name, interval, size, description, lease );
-
+            return new MinimumValueInstrumentSample(
+                instrumentProxy, name, interval, size, description, lease );
+        
         case InstrumentManagerClient.INSTRUMENT_SAMPLE_TYPE_MEAN:
-            return new MeanValueInstrumentSample( name, interval, size, description, lease );
-
+            return new MeanValueInstrumentSample(
+                instrumentProxy, name, interval, size, description, lease );
+            
         case InstrumentManagerClient.INSTRUMENT_SAMPLE_TYPE_COUNTER:
-            return new CounterInstrumentSample( name, interval, size, description, lease );
-
+            return new CounterInstrumentSample(
+                instrumentProxy, name, interval, size, description, lease );
+            
         default:
             throw new IllegalArgumentException( "'" + type + "' is not a valid sample type." );
-        }
-    }
-
-    /**
-     * Resolves an instrument sample type based on a name.
-     *
-     * @param type Type of the InstrumentSample to resolve.  Accepted values are:
-     *              "max", "maximum", "min", "minimum", "mean",
-     *              "ctr", and "counter".
-     *
-     * @throws ConfigurationException if the specified sample type is unknown.
-     */
-    static int resolveInstrumentSampleType( String type )
-        throws ConfigurationException {
-
-        if ( type.equalsIgnoreCase( "max" ) || type.equalsIgnoreCase( "maximum" ) )
-        {
-            return InstrumentManagerClient.INSTRUMENT_SAMPLE_TYPE_MAXIMUM;
-        }
-        else if ( type.equalsIgnoreCase( "min" ) || type.equalsIgnoreCase( "minimum" ) )
-        {
-            return InstrumentManagerClient.INSTRUMENT_SAMPLE_TYPE_MINIMUM;
-        }
-        else if ( type.equalsIgnoreCase( "mean" ) )
-        {
-            return InstrumentManagerClient.INSTRUMENT_SAMPLE_TYPE_MEAN;
-        }
-        else if ( type.equalsIgnoreCase( "ctr" ) || type.equalsIgnoreCase( "counter" ) )
-        {
-            return InstrumentManagerClient.INSTRUMENT_SAMPLE_TYPE_COUNTER;
-        }
-        else
-        {
-            throw new ConfigurationException( "'" + type + "' is not a valid sample type." );
-        }
-    }
-
-    static String getInstrumentSampleTypeName( int type )
-    {
-        switch ( type )
-        {
-        case InstrumentManagerClient.INSTRUMENT_SAMPLE_TYPE_MAXIMUM:
-            return "maximum";
-
-        case InstrumentManagerClient.INSTRUMENT_SAMPLE_TYPE_MINIMUM:
-            return "minimum";
-
-        case InstrumentManagerClient.INSTRUMENT_SAMPLE_TYPE_MEAN:
-            return "mean";
-
-        case InstrumentManagerClient.INSTRUMENT_SAMPLE_TYPE_COUNTER:
-            return "counter";
-
-        default:
-            return "unknown-" + type;
         }
     }
 }

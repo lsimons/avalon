@@ -8,7 +8,6 @@
 package org.apache.excalibur.instrument.manager;
 
 import org.apache.excalibur.instrument.manager.interfaces.InstrumentableDescriptor;
-import org.apache.excalibur.instrument.manager.interfaces.InstrumentManagerClient;
 import org.apache.excalibur.instrument.manager.interfaces.NoSuchInstrumentableException;
 
 import org.apache.avalon.framework.configuration.Configuration;
@@ -16,22 +15,22 @@ import org.apache.avalon.framework.configuration.Configuration;
 /**
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/07/29 16:05:20 $
+ * @version CVS $Revision: 1.1 $ $Date: 2002/08/03 15:00:38 $
  * @since 4.1
  */
-public class InstrumentManagerClientImpl
-    implements InstrumentManagerClient
+public class InstrumentManagerClientLocalImpl
+    implements InstrumentManagerClientLocal
 {
     private DefaultInstrumentManager m_manager;
-
+    
     /*---------------------------------------------------------------
      * Constructors
      *-------------------------------------------------------------*/
-    public InstrumentManagerClientImpl( DefaultInstrumentManager manager )
+    public InstrumentManagerClientLocalImpl( DefaultInstrumentManager manager )
     {
         m_manager = manager;
     }
-
+    
     /*---------------------------------------------------------------
      * InstrumentManagerClient Methods
      *-------------------------------------------------------------*/
@@ -44,7 +43,7 @@ public class InstrumentManagerClientImpl
     {
         return m_manager.getName();
     }
-
+    
     /**
      * Returns the description of this InstrumentManager.
      *
@@ -54,7 +53,7 @@ public class InstrumentManagerClientImpl
     {
         return m_manager.getDescription();
     }
-
+    
     /**
      * Returns a InstrumentableDescriptor based on its name or the name of any
      *  of its children.
@@ -69,7 +68,7 @@ public class InstrumentManagerClientImpl
     public InstrumentableDescriptor getInstrumentableDescriptor( String instrumentableName )
         throws NoSuchInstrumentableException
     {
-        return m_manager.getInstrumentableDescriptor( instrumentableName );
+        return getInstrumentableDescriptorLocal( instrumentableName );
     }
 
     /**
@@ -81,9 +80,9 @@ public class InstrumentManagerClientImpl
      */
     public InstrumentableDescriptor[] getInstrumentableDescriptors()
     {
-        return m_manager.getInstrumentableDescriptors();
+        return getInstrumentableDescriptorLocals();
     }
-
+    
     /**
      * Invokes garbage collection.
      */
@@ -91,7 +90,40 @@ public class InstrumentManagerClientImpl
     {
         m_manager.invokeGarbageCollection();
     }
+    
+    /*---------------------------------------------------------------
+     * InstrumentManagerClientLocal Methods
+     *-------------------------------------------------------------*/
+    /**
+     * Returns a InstrumentableDescriptorLocal based on its name or the name
+     *  of any of its children.
+     *
+     * @param instrumentableName Name of the Instrumentable being requested.
+     *
+     * @return A Descriptor of the requested Instrumentable.
+     *
+     * @throws NoSuchInstrumentableException If the specified Instrumentable does
+     *                                   not exist.
+     */
+    public InstrumentableDescriptorLocal getInstrumentableDescriptorLocal(
+                                                    String instrumentableName )
+        throws NoSuchInstrumentableException
+    {
+        return m_manager.getInstrumentableDescriptor( instrumentableName );
+    }
 
+    /**
+     * Returns an array of Descriptors for the Instrumentables managed by this
+     *  InstrumentManager.
+     *
+     * @return An array of Descriptors for the Instrumentables managed by this
+     *  InstrumentManager.
+     */
+    public InstrumentableDescriptorLocal[] getInstrumentableDescriptorLocals()
+    {
+        return m_manager.getInstrumentableDescriptors();
+    }
+    
     /*---------------------------------------------------------------
      * Methods
      *-------------------------------------------------------------*/

@@ -7,8 +7,6 @@
  */
 package org.apache.excalibur.instrument.manager;
 
-import org.apache.excalibur.instrument.manager.interfaces.InstrumentSampleDescriptor;
-import org.apache.excalibur.instrument.manager.interfaces.InstrumentSampleListener;
 import org.apache.excalibur.instrument.manager.interfaces.InstrumentSampleSnapshot;
 
 import org.apache.avalon.framework.configuration.Configuration;
@@ -24,12 +22,19 @@ import org.apache.avalon.framework.logger.LogEnabled;
  *  InstrumentClient.
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/07/29 16:05:20 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/08/03 15:00:38 $
  * @since 4.1
  */
-public interface InstrumentSample
+interface InstrumentSample
     extends LogEnabled
 {
+    /**
+     * Returns the InstrumentProxy which owns the InstrumentSample.
+     *
+     * @return The InstrumentProxy which owns the InstrumentSample.
+     */
+    InstrumentProxy getInstrumentProxy();
+    
     /**
      * Returns true if the InstrumentSample was configured in the instrumentables
      *  section of the configuration.
@@ -37,42 +42,53 @@ public interface InstrumentSample
      * @return True if configured.
      */
     boolean isConfigured();
-
+    
     /**
      * Returns the name of the sample.
      *
      * @return The name of the sample.
      */
     String getName();
-
+    
     /**
      * Returns the sample interval.  The period of each sample in millisends.
      *
      * @return The sample interval.
      */
     long getInterval();
-
+    
     /**
      * Returns the number of samples in the sample history.
      *
      * @return The size of the sample history.
      */
     int getSize();
-
+    
     /**
      * Returns the description of the sample.
      *
      * @return The description of the sample.
      */
     String getDescription();
-
+    
+    /**
+     * Returns the type of the Instrument Sample.  Possible values include
+     *  InstrumentManagerClient.INSTRUMENT_SAMPLE_TYPE_COUNTER,
+     *  InstrumentManagerClient.INSTRUMENT_SAMPLE_TYPE_MAXIMUM,
+     *  InstrumentManagerClient.INSTRUMENT_SAMPLE_TYPE_MEAN, or
+     *  InstrumentManagerClient.INSTRUMENT_SAMPLE_TYPE_MINIMUM.
+     *
+     * @return The type of the Instrument Sample.
+     */
+    int getType();
+    
     /**
      * Returns a Descriptor for the InstrumentSample.
      *
      * @return A Descriptor for the InstrumentSample.
      */
-    InstrumentSampleDescriptor getDescriptor();
-
+    InstrumentSampleDescriptorLocal getDescriptor();
+    
     /**
      * Obtain the value of the sample.  All samples are integers, so the profiled
      * objects must measure quantity (numbers of items), rate (items/period), time in
@@ -81,14 +97,14 @@ public interface InstrumentSample
      * @return The sample value.
      */
     int getValue();
-
+    
     /**
      * Obtain the UNIX time of the beginning of the sample.
      *
      * @return The UNIX time of the beginning of the sample.
      */
     long getTime();
-
+    
     /**
      * Returns the Type of the Instrument which can use the sample.  This
      *  should be the same for all instances of a class.
@@ -99,7 +115,7 @@ public interface InstrumentSample
      * @return The Type of the Instrument which can use the sample.
      */
     int getInstrumentType();
-
+    
     /**
      * Returns the time that the current lease expires.  Permanent samples will
      *  return a value of 0.
@@ -107,21 +123,24 @@ public interface InstrumentSample
      * @return The time that the current lease expires.
      */
     long getLeaseExpirationTime();
-
+    
     /**
      * Extends the lease to be lease milliseconds from the current time.
      *
      * @param lease The length of the lease in milliseconds.
+     *
+     * @return The new lease expiration time.  Returns 0 if the sample is
+     *         permanent.
      */
-    void extendLease( long lease );
-
+    long extendLease( long lease );
+    
     /**
      * Obtains a static snapshot of the InstrumentSample.
      *
      * @return A static snapshot of the InstrumentSample.
      */
     InstrumentSampleSnapshot getSnapshot();
-
+    
     /**
      * Registers a InstrumentSampleListener with a InstrumentSample given a name.
      *
@@ -129,7 +148,7 @@ public interface InstrumentSample
      *                 InstrumentSample.
      */
     void addInstrumentSampleListener( InstrumentSampleListener listener );
-
+    
     /**
      * Unregisters a InstrumentSampleListener from a InstrumentSample given a name.
      *
@@ -137,17 +156,15 @@ public interface InstrumentSample
      *                 InstrumentSample.
      */
     void removeInstrumentSampleListener( InstrumentSampleListener listener );
-
+    
     /**
      * Saves the current state into a Configuration.
      *
-     * @param useCompactSamples Flag for whether or not InstrumentSample data
-     *                          should be saved in compact format or not.
-     *
-     * @return The state as a Configuration.
+     * @return The state as a Configuration.  Returns null if the configuration
+     *         would not contain any information.
      */
-    Configuration saveState( boolean useCompactSamples );
-
+    Configuration saveState();
+    
     /**
      * Loads the state into the InstrumentSample.
      *

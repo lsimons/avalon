@@ -12,7 +12,7 @@ package org.apache.excalibur.instrument.manager.interfaces;
  *  Instrument.
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/07/29 16:05:21 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/08/03 15:00:38 $
  * @since 4.1
  */
 public interface InstrumentDescriptor
@@ -26,6 +26,15 @@ public interface InstrumentDescriptor
     boolean isConfigured();
 
     /**
+     * Returns true if the Instrument was registered with the Instrument
+     *  Manager.
+     *
+     * @return True if registered.
+     */
+    boolean isRegistered();
+
+    
+    /**
      * Gets the name for the Instrument.  The Instrument Name is used to
      *  uniquely identify the Instrument during the configuration of the
      *  Profiler.  The value should be a string which does not contain spaces
@@ -34,69 +43,24 @@ public interface InstrumentDescriptor
      * @return The name used to identify a Instrument.
      */
     String getName();
-
+    
     /**
      * Gets the description of the Instrument.
      *
      * @return The description of the Instrument.
      */
     String getDescription();
-
+    
     /**
-     * Returns the type of the Instrument.
+     * Returns the type of the Instrument.  Possible values include
+     *  InstrumentManagerClient.INSTRUMENT_TYPE_COUNTER,
+     *  InstrumentManagerClient.INSTRUMENT_TYPE_VALUE or
+     *  InstrumentManagerClient.INSTRUMENT_TYPE_NONE, if the type was never set.
      *
      * @return The type of the Instrument.
      */
     int getType();
-
-    /**
-     * Adds a CounterInstrumentListener to the list of listeners which will
-     *  receive updates of the value of the Instrument.
-     *
-     * @param listener CounterInstrumentListener which will start receiving
-     *                 profile updates.
-     *
-     * @throws IllegalStateException If the Instrument's type is not
-     *         InstrumentManager.PROFILE_POINT_TYPE_COUNTER.
-     */
-    void addCounterInstrumentListener( CounterInstrumentListener listener );
-
-    /**
-     * Removes a InstrumentListener from the list of listeners which will
-     *  receive profile events.
-     *
-     * @param listener InstrumentListener which will stop receiving profile
-     *                 events.
-     *
-     * @throws IllegalStateException If the Instrument's type is not
-     *         InstrumentManager.PROFILE_POINT_TYPE_COUNTER.
-     */
-    void removeCounterInstrumentListener( CounterInstrumentListener listener );
-
-    /**
-     * Adds a ValueInstrumentListener to the list of listeners which will
-     *  receive updates of the value of the Instrument.
-     *
-     * @param listener ValueInstrumentListener which will start receiving
-     *                 profile updates.
-     *
-     * @throws IllegalStateException If the Instrument's type is not
-     *         InstrumentManager.PROFILE_POINT_TYPE_VALUE.
-     */
-    void addValueInstrumentListener( ValueInstrumentListener listener );
-
-    /**
-     * Removes a InstrumentListener from the list of listeners which will
-     *  receive profile events.
-     *
-     * @param listener InstrumentListener which will stop receiving profile
-     *                 events.
-     *
-     * @throws IllegalStateException If the Instrument's type is not
-     *         InstrumentManager.PROFILE_POINT_TYPE_VALUE.
-     */
-    void removeValueInstrumentListener( ValueInstrumentListener listener );
-
+    
     /**
      * Returns a InstrumentSampleDescriptor based on its name.
      *
@@ -109,7 +73,7 @@ public interface InstrumentDescriptor
      */
     InstrumentSampleDescriptor getInstrumentSampleDescriptor( String instrumentSampleName )
         throws NoSuchInstrumentSampleException;
-
+    
     /**
      * Returns a InstrumentSampleDescriptor based on its name.  If the requested
      *  sample is invalid in any way, then an expired Descriptor will be
@@ -137,7 +101,7 @@ public interface InstrumentDescriptor
                                                        int sampleSize,
                                                        long sampleLease,
                                                        int sampleType );
-
+    
     /**
      * Returns an array of Descriptors for the InstrumentSamples configured for this
      *  Instrument.

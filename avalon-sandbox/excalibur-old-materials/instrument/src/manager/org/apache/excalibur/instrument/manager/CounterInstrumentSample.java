@@ -7,7 +7,6 @@
  */
 package org.apache.excalibur.instrument.manager;
 
-import org.apache.excalibur.instrument.manager.interfaces.CounterInstrumentListener;
 import org.apache.excalibur.instrument.manager.interfaces.InstrumentManagerClient;
 
 import org.apache.avalon.framework.configuration.Configuration;
@@ -18,7 +17,7 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
  *  called during the sample period.
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/07/29 16:05:20 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/08/03 15:00:37 $
  * @since 4.1
  */
 class CounterInstrumentSample
@@ -27,34 +26,47 @@ class CounterInstrumentSample
 {
     /** The count. */
     protected int m_count;
-
+    
     /*---------------------------------------------------------------
      * Constructors
      *-------------------------------------------------------------*/
     /**
      * Creates a new CounterInstrumentSample
      *
+     * @param instrumentProxy The InstrumentProxy which owns the
+     *                        InstrumentSample.
      * @param name The name of the new InstrumentSample.
      * @param interval The sample interval of the new InstrumentSample.
      * @param size The number of samples to store as history.  Assumes that size is at least 1.
      * @param description The description of the new InstrumentSample.
      * @param lease The length of the lease in milliseconds.
      */
-    CounterInstrumentSample( String name,
+    CounterInstrumentSample( InstrumentProxy instrumentProxy,
+                             String name,
                              long interval,
                              int size,
                              String description,
                              long lease )
     {
-        super( name, interval, size, description, lease );
-
+        super( instrumentProxy, name, interval, size, description, lease );
+        
         // Set the current value to 0 initially.
         m_count = 0;
     }
-
+    
     /*---------------------------------------------------------------
      * InstrumentSample Methods
      *-------------------------------------------------------------*/
+    /**
+     * Returns the type of the Instrument Sample.
+     *
+     * @return The type of the Instrument Sample.
+     */
+    public int getType()
+    {
+        return InstrumentManagerClient.INSTRUMENT_SAMPLE_TYPE_COUNTER;
+    }
+    
     /**
      * Returns the Type of the Instrument which can use the sample.  This
      *  should be the same for all instances of a class.
@@ -67,7 +79,7 @@ class CounterInstrumentSample
     {
         return InstrumentManagerClient.INSTRUMENT_TYPE_COUNTER;
     }
-
+    
     /**
      * Obtain the value of the sample.  All samples are integers, so the profiled
      * objects must measure quantity (numbers of items), rate (items/period), time in
@@ -79,7 +91,7 @@ class CounterInstrumentSample
     {
         return m_count;
     }
-
+    
     /*---------------------------------------------------------------
      * AbstractInstrumentSample Methods
      *-------------------------------------------------------------*/
@@ -94,7 +106,7 @@ class CounterInstrumentSample
         // Counts do not propagate, so always reset the count to 0.
         m_count = 0;
     }
-
+    
     /**
      * Used to load the state, called from AbstractInstrumentSample.loadState();
      * <p>
@@ -111,7 +123,7 @@ class CounterInstrumentSample
     {
         m_count = value;
     }
-
+    
     /**
      * Called after a state is loaded if the sample period is not the same
      *  as the last period saved.
@@ -120,7 +132,7 @@ class CounterInstrumentSample
     {
         m_count = 0;
     }
-
+    
     /*---------------------------------------------------------------
      * CounterInstrumentListener Methods
      *-------------------------------------------------------------*/
@@ -136,7 +148,7 @@ class CounterInstrumentSample
         //System.out.println("CounterInstrumentSample.increment(" + instrumentName + ", " + count + ", " + time + ") : " + getName() );
         increment( count, time );
     }
-
+    
     /*---------------------------------------------------------------
      * Methods
      *-------------------------------------------------------------*/
@@ -150,17 +162,17 @@ class CounterInstrumentSample
     {
         int sampleValue;
         long sampleTime;
-
+        
         synchronized(this)
         {
             update( time );
-
+            
             m_count += count;
-
+            
             sampleValue = m_count;
             sampleTime = m_time;
         }
-
+        
         updateListeners( sampleValue, sampleTime );
     }
 }

@@ -13,12 +13,8 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 
-import org.apache.excalibur.instrument.manager.interfaces.CounterInstrumentListener;
-import org.apache.excalibur.instrument.manager.interfaces.InstrumentDescriptor;
-import org.apache.excalibur.instrument.manager.interfaces.InstrumentListener;
 import org.apache.excalibur.instrument.manager.interfaces.InstrumentManagerClient;
-import org.apache.excalibur.instrument.manager.interfaces.InstrumentSampleDescriptor;
-import org.apache.excalibur.instrument.manager.interfaces.ValueInstrumentListener;
+import org.apache.excalibur.instrument.manager.interfaces.InstrumentSampleUtils;
 
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
@@ -38,72 +34,84 @@ import org.apache.avalon.framework.logger.Logger;
  *  It is resolved when the Instrumentable actually registers the Instrument.
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/07/29 16:05:20 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/08/03 15:00:38 $
  * @since 4.1
  */
 public class InstrumentProxy
     extends AbstractLogEnabled
     implements org.apache.excalibur.instrument.InstrumentProxy, Configurable
 {
+    /** The InstrumentableProxy which owns the InstrumentProxy. */
+    private InstrumentableProxy m_instrumentableProxy;
+    
     /** Configured flag. */
     private boolean m_configured;
-
+    
+    /** Registered flag. */
+    private boolean m_registered;
+    
     /** The name used to identify a Instrument. */
     private String m_name;
-
+    
     /** The description of the Instrumente. */
     private String m_description;
-
+    
     /** The Descriptor for the Instrument. */
-    private InstrumentDescriptor m_descriptor;
-
+    private InstrumentDescriptorLocal m_descriptor;
+    
     /** Type of the Instrument */
     private int m_type;
-
+    
     /** Array of registered Counter/ValueInstrumentListeners. */
     private InstrumentListener[] m_listeners;
-
+    
     /** Map of the maintained InstrumentSamples. */
     private HashMap m_samples = new HashMap();
-
+    
     /** Optimized array of the InstrumentSamples. */
     private InstrumentSample[] m_sampleArray;
-
-    /** Optimized array of the InstrumentSampleDescriptors. */
-    private InstrumentSampleDescriptor[] m_sampleDescriptorArray;
-
+    
+    /** Optimized array of the InstrumentSampleDescriptorLocals. */
+    private InstrumentSampleDescriptorLocal[] m_sampleDescriptorArray;
+    
     /** Child logger to use for logging of new values. */
     private Logger m_valueLogger;
-
+    
     /*---------------------------------------------------------------
      * Constructors
      *-------------------------------------------------------------*/
     /**
      * Creates a new InstrumentProxy.
      *
-     * @param name The name used to identify a Instrument.
+     * @param instrumentableProxy The InstrumentableProxy which owns the
+     *                            InstrumentProxy.
+     * @param name The name used to identify a Instrumentable.
+     * @param description The description of the the Instrumentable.
      */
-    InstrumentProxy( String name )
+    InstrumentProxy( InstrumentableProxy instrumentableProxy,
+                     String name,
+                     String description )
     {
-        // Default description equals the name in case it is not set later.
-        m_description = m_name = name;
-
+        m_instrumentableProxy = instrumentableProxy;
+        m_name = name;
+        m_description = description;
+        
         // Create the descriptor
-        m_descriptor = new InstrumentDescriptorImpl( this );
+        m_descriptor = new InstrumentDescriptorLocalImpl( this );
     }
-
+    
     /*---------------------------------------------------------------
      * LogEnabled Methods
      *-------------------------------------------------------------*/
     public void enableLogging( Logger logger )
     {
         super.enableLogging( logger );
-
+        
         // Create a child logger for logging setValue and increment calls so
         //  that they can be filtered out.
         m_valueLogger = logger.getChildLogger( "values" );
     }
-
+    
     /*---------------------------------------------------------------
      * Configurable Methods
      *-------------------------------------------------------------*/
@@ -124,48 +132,50 @@ public class InstrumentProxy
         {
             // The description is optional
             m_description = configuration.getAttribute( "description", m_name );
-
+            
             if ( getLogger().isDebugEnabled() )
             {
                 getLogger().debug( "Configuring Instrument: " + m_name + " as \"" +
                     m_description + "\"" );
             }
-
+            
             m_configured = true;
-
+            
             // Configure any Samples
             Configuration[] sampleConfs = configuration.getChildren( "sample" );
             for ( int i = 0; i < sampleConfs.length; i++ )
             {
                 Configuration sampleConf = sampleConfs[i];
-
-                int sampleType = InstrumentSampleFactory.resolveInstrumentSampleType(
+                
+                int sampleType = InstrumentSampleUtils.resolveInstrumentSampleType(
                     sampleConf.getAttribute( "type" ) );
                 long sampleInterval = sampleConf.getAttributeAsLong( "interval" );
                 int sampleSize = sampleConf.getAttributeAsInteger( "size", 1 );
-
+                
                 // Build the sample name from its attributes.  This makes it
                 //  possible to avoid forcing the user to maintain a name as well.
-                String sampleName =
-                    generateSampleName( m_name, sampleType, sampleInterval, sampleSize );
-
+                String sampleName = InstrumentSampleUtils.generateFullInstrumentSampleName(
+                    m_name, sampleType, sampleInterval, sampleSize );
+                
                 String sampleDescription = sampleConf.getAttribute( "description", sampleName );
-
+                
                 if ( getLogger().isDebugEnabled() )
                 {
-                    getLogger().debug( "Configuring InstrumentSample: " + sampleName +
+                    getLogger().debug( "Configuring InstrumentSample: " + sampleName + 
                         " as \"" + sampleDescription + "\"" );
                 }
-
-                InstrumentSample instrumentSample = InstrumentSampleFactory.getInstrumentSample(
+                
+                AbstractInstrumentSample instrumentSample = 
+                    (AbstractInstrumentSample)InstrumentSampleFactory.getInstrumentSample( this,
                     sampleType, sampleName, sampleInterval, sampleSize, sampleDescription, 0 );
                 instrumentSample.enableLogging( getLogger() );
-
+                instrumentSample.setConfigured();
+                
                 addInstrumentSample( instrumentSample );
             }
         }
     }
-
+    
     /*---------------------------------------------------------------
      * InstrumentProxy Methods
      *-------------------------------------------------------------*/
@@ -178,7 +188,7 @@ public class InstrumentProxy
     public boolean isActive() {
         return m_listeners != null;
     }
-
+    
     /**
      * Increments the Instrument by a specified count.  This method should be
      *  optimized to be extremely light weight when there are no registered
@@ -194,12 +204,12 @@ public class InstrumentProxy
             throw new IllegalStateException(
                 "The proxy is not configured to handle CounterInstruments." );
         }
-
+        
         // Check the count
         if ( count <= 0 ) {
             throw new IllegalArgumentException( "Count must be a positive value." );
         }
-
+        
         // Get a local reference to the listeners, so that synchronization can be avoided.
         InstrumentListener[] listeners = m_listeners;
         if ( listeners != null )
@@ -208,7 +218,7 @@ public class InstrumentProxy
             {
                 m_valueLogger.debug( "increment() called for Instrument, " + m_name );
             }
-
+            
             long time = System.currentTimeMillis();
             for ( int i = 0; i < listeners.length; i++ )
             {
@@ -218,7 +228,7 @@ public class InstrumentProxy
             }
         }
     }
-
+    
     /**
      * Sets the current value of the Instrument.  This method is optimized
      *  to be extremely light weight when there are no registered
@@ -234,7 +244,7 @@ public class InstrumentProxy
             throw new IllegalStateException(
                 "The proxy is not configured to handle ValueInstruments." );
         }
-
+        
         // Get a local reference to the listeners, so that synchronization can be avoided.
         InstrumentListener[] listeners = m_listeners;
         if ( listeners != null )
@@ -243,7 +253,7 @@ public class InstrumentProxy
             {
                 m_valueLogger.debug( "setValue( " + value + " ) called for Instrument, " + m_name );
             }
-
+            
             long time = System.currentTimeMillis();
             for ( int i = 0; i < listeners.length; i++ )
             {
@@ -253,10 +263,20 @@ public class InstrumentProxy
             }
         }
     }
-
+    
     /*---------------------------------------------------------------
      * Methods
      *-------------------------------------------------------------*/
+    /**
+     * Returns the InstrumentableProxy which owns the InstrumentProxy.
+     *
+     * @return The InstrumentableProxy which owns the InstrumentProxy.
+     */
+    InstrumentableProxy getInstrumentableProxy()
+    {
+        return m_instrumentableProxy;
+    }
+    
     /**
      * Returns true if the Instrument was configured in the instrumentables
      *  section of the configuration.
@@ -269,6 +289,26 @@ public class InstrumentProxy
     }
 
     /**
+     * Returns true if the Instrument was registered with the Instrument
+     *  Manager.
+     *
+     * @return True if registered.
+     */
+    boolean isRegistered()
+    {
+        return m_registered;
+    }
+    
+    /**
+     * Called by the InstrumentManager whenever an Instrument assigned to
+     *  this proxy is registered.
+     */
+    void setRegistered()
+    {
+        m_registered = true;
+    }
+    
+    /**
      * Gets the name for the Instrument.  The Instrument Name is used to
      *  uniquely identify the Instrument during the configuration of the
      *  Profiler and to gain access to a InstrumentDescriptor through a
@@ -276,11 +316,11 @@ public class InstrumentProxy
      *
      * @return The name used to identify a Instrumentable.
      */
-    String getName()
+    String getName() 
     {
         return m_name;
     }
-
+    
     /**
      * Sets the description for the Instrument.  This description will
      *  be set during the configuration of the profiler if a configuration
@@ -292,7 +332,7 @@ public class InstrumentProxy
     {
         m_description = description;
     }
-
+    
     /**
      * Gets the description of the Instrument.
      *
@@ -302,17 +342,17 @@ public class InstrumentProxy
     {
         return m_description;
     }
-
+    
     /**
      * Returns a Descriptor for the Instrument.
      *
      * @return A Descriptor for the Instrument.
      */
-    InstrumentDescriptor getDescriptor()
+    InstrumentDescriptorLocal getDescriptor()
     {
         return m_descriptor;
     }
-
+    
     /**
      * Set the type of the Instrument.  Once set, the type can not be changed.
      *
@@ -337,7 +377,7 @@ public class InstrumentProxy
             }
         }
     }
-
+    
     /**
      * Returns the type of the Instrument.
      *
@@ -347,7 +387,7 @@ public class InstrumentProxy
     {
         return m_type;
     }
-
+    
     /**
      * Adds a CounterInstrumentListener to the list of listeners which will
      *  receive updates of the value of the Instrument.
@@ -366,16 +406,16 @@ public class InstrumentProxy
             throw new IllegalStateException(
                 "The proxy is not configured to handle CounterInstruments." );
         }
-
+        
         if ( getLogger().isDebugEnabled() )
         {
             getLogger().debug( "A CounterInstrumentListener was added to Instrument, " +
                 m_name + " : " + listener.getClass().getName() );
         }
-
+        
         addInstrumentListener( listener );
     }
-
+    
     /**
      * Removes a InstrumentListener from the list of listeners which will
      *  receive profile events.
@@ -394,16 +434,16 @@ public class InstrumentProxy
             throw new IllegalStateException(
                 "The proxy is not configured to handle CounterInstruments." );
         }
-
+        
         if ( getLogger().isDebugEnabled() )
         {
-            getLogger().debug( "A CounterInstrumentListener was removed from Instrument, " +
+            getLogger().debug( "A CounterInstrumentListener was removed from Instrument, " + 
                 m_name + " : " + listener.getClass().getName() );
         }
-
+        
         removeInstrumentListener( listener );
     }
-
+    
     /**
      * Adds a ValueInstrumentListener to the list of listeners which will
      *  receive updates of the value of the Instrument.
@@ -422,16 +462,16 @@ public class InstrumentProxy
             throw new IllegalStateException(
                 "The proxy is not configured to handle ValueInstruments." );
         }
-
+        
         if ( getLogger().isDebugEnabled() )
         {
             getLogger().debug( "A ValueInstrumentListener was added to Instrument, " + m_name +
                 " : " + listener.getClass().getName() );
         }
-
+        
         addInstrumentListener( listener );
     }
-
+    
     /**
      * Removes a InstrumentListener from the list of listeners which will
      *  receive profile events.
@@ -450,22 +490,22 @@ public class InstrumentProxy
             throw new IllegalStateException(
                 "The proxy is not configured to handle ValueInstruments." );
         }
-
+        
         if ( getLogger().isDebugEnabled() )
         {
             getLogger().debug( "A ValueInstrumentListener was removed from Instrument, " + m_name +
                 " : " + listener.getClass().getName() );
         }
-
+        
         removeInstrumentListener( listener );
     }
-
+    
     /**
      * Add a InstrumentSample to the Instrument.
      *
      * @param InstrumentSample InstrumentSample to be added.
      */
-    private void addInstrumentSample( InstrumentSample InstrumentSample )
+    private void addInstrumentSample( InstrumentSample instrumentSample )
     {
         synchronized(this)
         {
@@ -473,43 +513,43 @@ public class InstrumentProxy
             //  the same type.
             if ( m_type == InstrumentManagerClient.INSTRUMENT_TYPE_NONE )
             {
-                setType( InstrumentSample.getInstrumentType() );
+                setType( instrumentSample.getInstrumentType() );
             }
-            else if ( m_type != InstrumentSample.getInstrumentType() )
+            else if ( m_type != instrumentSample.getInstrumentType() )
             {
                 // The type is different.
-                throw new IllegalStateException( "The sample '" + InstrumentSample.getName() +
-                    "' had its type set to " + getTypeName( m_type ) +
-                    " by another sample.  This sample has a type of " +
-                    getTypeName( InstrumentSample.getInstrumentType() ) + " and is not compatible." );
+                throw new IllegalStateException( "The sample '" + instrumentSample.getName() + 
+                    "' had its type set to " + getTypeName( m_type ) + 
+                    " by another sample.  This sample has a type of " + 
+                    getTypeName( instrumentSample.getInstrumentType() ) + " and is not compatible." );
             }
-
+            
             // Make sure that a sample with the same name has not already been set.
-            String sampleName = InstrumentSample.getName();
+            String sampleName = instrumentSample.getName();
             if ( m_samples.get( sampleName ) != null )
             {
                 throw new IllegalStateException( "More than one sample with the same name, '" +
                     sampleName + "', can not be configured." );
             }
-
+        
             // Sample is safe to add.
-            m_samples.put( sampleName, InstrumentSample );
-
+            m_samples.put( sampleName, instrumentSample );
+            
             // Clear the optimized arrays
             m_sampleArray = null;
             m_sampleDescriptorArray = null;
-
+            
             // Add the sample as a listener for this Instrument.
             switch ( m_type )
             {
             case InstrumentManagerClient.INSTRUMENT_TYPE_COUNTER:
-                addCounterInstrumentListener( (CounterInstrumentSample)InstrumentSample );
+                addCounterInstrumentListener( (CounterInstrumentSample)instrumentSample );
                 break;
-
+                
             case InstrumentManagerClient.INSTRUMENT_TYPE_VALUE:
-                addValueInstrumentListener( (AbstractValueInstrumentSample)InstrumentSample );
+                addValueInstrumentListener( (AbstractValueInstrumentSample)instrumentSample );
                 break;
-
+                
             default:
                 throw new IllegalStateException(
                     "Don't know how to deal with the type: " + m_type );
@@ -517,6 +557,40 @@ public class InstrumentProxy
         }
     }
 
+    /**
+     * Removes an InstrumentSample from the Instrument.
+     *
+     * @param InstrumentSample InstrumentSample to be removed.
+     */
+    void removeInstrumentSample( InstrumentSample instrumentSample )
+    {
+        synchronized(this)
+        {
+            // Remove the sample from the listener list for this Instrument.
+            switch ( m_type )
+            {
+            case InstrumentManagerClient.INSTRUMENT_TYPE_COUNTER:
+                removeCounterInstrumentListener( (CounterInstrumentSample)instrumentSample );
+                break;
+                
+            case InstrumentManagerClient.INSTRUMENT_TYPE_VALUE:
+                removeValueInstrumentListener( (AbstractValueInstrumentSample)instrumentSample );
+                break;
+                
+            default:
+                throw new IllegalStateException(
+                    "Don't know how to deal with the type: " + m_type );
+            }
+            
+            // Remove the sample.
+            m_samples.remove( instrumentSample.getName() );
+            
+            // Clear the optimized arrays
+            m_sampleArray = null;
+            m_sampleDescriptorArray = null;
+        }
+    }
+    
     /**
      * Returns a InstrumentSample based on its name.
      *
@@ -531,7 +605,7 @@ public class InstrumentProxy
             return (InstrumentSample)m_samples.get( InstrumentSampleName );
         }
     }
-
+    
     /**
      * Returns an array of the InstrumentSamples in the Instrument.
      *
@@ -546,11 +620,11 @@ public class InstrumentProxy
         }
         return samples;
     }
-
+    
     /**
-     * Returns a InstrumentSampleDescriptor based on its name.  If the requested
-     *  sample is invalid in any way, then an expired Descriptor will be
-     *  returned.
+     * Returns a InstrumentSampleDescriptorLocal based on its name.  If the
+     *  requested sample is invalid in any way, then an expired Descriptor
+     *  will be returned.
      *
      * @param sampleDescription Description to assign to the new Sample.
      * @param sampleInterval Sample interval to use in the new Sample.
@@ -564,31 +638,33 @@ public class InstrumentProxy
      *                   InstrumentManagerClient.INSTRUMENT_SAMPLE_TYPE_MAXIMUM,
      *                   InstrumentManagerClient.INSTRUMENT_SAMPLE_TYPE_MEAN.
      *
-     * @return A Descriptor of the requested InstrumentSample.
+     * @return The requested InstrumentSample.
      *
      * @throws NoSuchInstrumentSampleException If the specified InstrumentSample
      *                                      does not exist.
      */
-    InstrumentSampleDescriptor createInstrumentSample( String sampleDescription,
-                                                       long sampleInterval,
-                                                       int sampleSize,
-                                                       long sampleLease,
-                                                       int sampleType )
+    InstrumentSample createInstrumentSample( String sampleDescription,
+                                             long sampleInterval,
+                                             int sampleSize,
+                                             long sampleLease,
+                                             int sampleType )
     {
-        getLogger().info("Create new sample for " + m_name + ": interval=" + sampleInterval +
+        getLogger().debug("Create new sample for " + m_name + ": interval=" + sampleInterval +
             ", size=" + sampleSize + ", lease=" + sampleLease + ", type=" +
-            InstrumentSampleFactory.getInstrumentSampleTypeName( sampleType ) );
-
+            InstrumentSampleUtils.getInstrumentSampleTypeName( sampleType ) );
+        
         // Validate the parameters
         long now = System.currentTimeMillis();
-
+        
         // Generate a name for the new sample
-        String sampleName = generateSampleName( m_name, sampleType, sampleInterval, sampleSize );
-
+        String sampleName = InstrumentSampleUtils.generateFullInstrumentSampleName(
+            m_name, sampleType, sampleInterval, sampleSize );
+        
+        InstrumentSample instrumentSample;
         synchronized( this )
         {
             // It is possible that the requested sample already exists.
-            InstrumentSample instrumentSample = getInstrumentSample( sampleName );
+            instrumentSample = getInstrumentSample( sampleName );
             if ( instrumentSample != null )
             {
                 // The requested sample already exists.
@@ -598,17 +674,21 @@ public class InstrumentProxy
             {
                 // The new sample needs to be created.
                 instrumentSample = InstrumentSampleFactory.getInstrumentSample(
-                    sampleType, sampleName, sampleInterval, sampleSize,
+                    this, sampleType, sampleName, sampleInterval, sampleSize,
                     sampleDescription, sampleLease );
                 instrumentSample.enableLogging( getLogger() );
-
+                
                 addInstrumentSample( instrumentSample );
+                
+                // Register the new sample with the InstrumentManager
+                getInstrumentableProxy().getInstrumentManager().
+                    registerLeasedInstrumentSample( instrumentSample );
             }
-
-            return instrumentSample.getDescriptor();
         }
+        
+        return instrumentSample;
     }
-
+    
     /**
      * Returns an array of Descriptors for the InstrumentSamples in the
      *  Instrument.
@@ -616,16 +696,16 @@ public class InstrumentProxy
      * @return An array of Descriptors for the InstrumentSamples in the
      *         Instrument.
      */
-    InstrumentSampleDescriptor[] getInstrumentSampleDescriptors()
+    InstrumentSampleDescriptorLocal[] getInstrumentSampleDescriptors()
     {
-        InstrumentSampleDescriptor[] descriptors = m_sampleDescriptorArray;
+        InstrumentSampleDescriptorLocal[] descriptors = m_sampleDescriptorArray;
         if ( descriptors == null )
         {
             descriptors = updateInstrumentSampleDescriptorArray();
         }
         return descriptors;
     }
-
+    
     /**
      * Common code to add a listener to the list of listeners which will
      *  receive updates of the value of the Instrument.
@@ -653,12 +733,12 @@ public class InstrumentProxy
                 System.arraycopy( oldListeners, 0, newListeners, 0, oldListeners.length );
                 newListeners[ oldListeners.length ] = listener;
             }
-
+            
             // Update the m_listeners field.
             m_listeners = newListeners;
         }
     }
-
+    
     /**
      * Common code to remove a listener from the list of listeners which will
      *  receive updates of the value of the Instrument.
@@ -706,7 +786,7 @@ public class InstrumentProxy
                         break;
                     }
                 }
-
+                
                 if ( pos < 0 )
                 {
                     // The listener was not in the list.
@@ -723,17 +803,17 @@ public class InstrumentProxy
                     if ( pos < oldListeners.length - 1 )
                     {
                         // Copy the tail of the array
-                        System.arraycopy( oldListeners, pos + 1,
+                        System.arraycopy( oldListeners, pos + 1, 
                             newListeners, pos, oldListeners.length - 1 - pos );
                     }
                 }
             }
-
+            
             // Update the m_listeners field.
             m_listeners = newListeners;
         }
     }
-
+    
     /**
      * Updates the cached array of InstrumentSamples taking synchronization into
      *  account.
@@ -746,7 +826,7 @@ public class InstrumentProxy
         {
             m_sampleArray = new InstrumentSample[ m_samples.size() ];
             m_samples.values().toArray( m_sampleArray );
-
+            
             // Sort the array.  This is not a performance problem because this
             //  method is rarely called and doing it here saves cycles in the
             //  client.
@@ -757,24 +837,24 @@ public class InstrumentProxy
                         return ((InstrumentSample)o1).getDescription().
                             compareTo( ((InstrumentSample)o2).getDescription() );
                     }
-
+                    
                     public boolean equals( Object obj )
                     {
                         return false;
                     }
                 } );
-
+            
             return m_sampleArray;
         }
     }
-
+    
     /**
-     * Updates the cached array of InstrumentSampleDescriptors taking
+     * Updates the cached array of InstrumentSampleDescriptorLocals taking
      *  synchronization into account.
      *
      * @return An array of the InstrumentSampleDescriptors.
      */
-    private InstrumentSampleDescriptor[] updateInstrumentSampleDescriptorArray()
+    private InstrumentSampleDescriptorLocal[] updateInstrumentSampleDescriptorArray()
     {
         synchronized(this)
         {
@@ -782,40 +862,49 @@ public class InstrumentProxy
             {
                 updateInstrumentSampleArray();
             }
-
+            
             m_sampleDescriptorArray =
-                new InstrumentSampleDescriptor[ m_sampleArray.length ];
+                new InstrumentSampleDescriptorLocal[ m_sampleArray.length ];
             for ( int i = 0; i < m_sampleArray.length; i++ )
             {
                 m_sampleDescriptorArray[i] = m_sampleArray[i].getDescriptor();
             }
-
+            
             return m_sampleDescriptorArray;
         }
     }
-
+    
     /**
      * Saves the current state into a Configuration.
      *
-     * @param useCompactSamples Flag for whether or not InstrumentSample data
-     *                          should be saved in compact format or not.
-     *
-     * @return The state as a Configuration.
+     * @return The state as a Configuration.  Returns null if the configuration
+     *         would not contain any information.
      */
-    Configuration saveState( boolean useCompactSamples )
+    Configuration saveState()
     {
+        boolean empty = true;
         DefaultConfiguration state = new DefaultConfiguration( "instrument", "-" );
         state.setAttribute( "name", m_name );
-
+        
         InstrumentSample[] samples = getInstrumentSamples();
         for ( int i = 0; i < samples.length; i++ )
         {
-            state.addChild( samples[i].saveState( useCompactSamples ) );
+            Configuration childState = samples[i].saveState();
+            if ( childState != null )
+            {
+                state.addChild( childState );
+                empty = false;
+            }
         }
-
+        
+        // Only return a state if it contains information.
+        if ( empty )
+        {
+            state = null;
+        }
         return state;
     }
-
+    
     /**
      * Loads the state into the Instrument.
      *
@@ -828,25 +917,56 @@ public class InstrumentProxy
     {
         synchronized( this )
         {
-            Configuration[] InstrumentSampleConfs = state.getChildren( "sample" );
-            for ( int i = 0; i < InstrumentSampleConfs.length; i++ )
+            Configuration[] instrumentSampleConfs = state.getChildren( "sample" );
+            for ( int i = 0; i < instrumentSampleConfs.length; i++ )
             {
-                Configuration InstrumentSampleConf = InstrumentSampleConfs[i];
-                String name = InstrumentSampleConf.getAttribute( "name" );
-                InstrumentSample sample = getInstrumentSample( name );
+                Configuration instrumentSampleConf = instrumentSampleConfs[i];
+                
+                int sampleType = InstrumentSampleUtils.resolveInstrumentSampleType(
+                    instrumentSampleConf.getAttribute( "type" ) );
+                long sampleInterval = instrumentSampleConf.getAttributeAsLong( "interval" );
+                int sampleSize = instrumentSampleConf.getAttributeAsInteger( "size", 1 );
+                
+                // Build the sample name from its attributes.  This makes it
+                //  possible to avoid forcing the user to maintain a name as well.
+                String fullSampleName = InstrumentSampleUtils.generateFullInstrumentSampleName(
+                    m_name, sampleType, sampleInterval, sampleSize );
+                InstrumentSample sample = getInstrumentSample( fullSampleName );
                 if ( sample == null )
                 {
-                    getLogger().warn( "InstrumentSample entry ignored while loading state because the " +
-                        "sample does not exist: " + name );
+                    // Sample does not exist, see if it is a leased sample.
+                    long leaseExpirationTime =
+                        instrumentSampleConf.getAttributeAsLong( "lease-expiration", 0 );
+                    if ( leaseExpirationTime > 0 )
+                    {
+                        
+                        String sampleName = InstrumentSampleUtils.generateInstrumentSampleName(
+                            sampleType, sampleInterval, sampleSize );
+                        String sampleDescription =
+                            instrumentSampleConf.getAttribute( "description", sampleName );
+                        
+                        AbstractInstrumentSample instrumentSample = 
+                            (AbstractInstrumentSample)InstrumentSampleFactory.getInstrumentSample(
+                            this, sampleType, fullSampleName, sampleInterval, sampleSize,
+                            sampleDescription, 0 );
+                        instrumentSample.enableLogging( getLogger() );
+                        instrumentSample.loadState( instrumentSampleConf );
+                        addInstrumentSample( instrumentSample );
+                    }
+                    else
+                    {
+                        getLogger().warn( "InstrumentSample entry ignored while loading state " +
+                            "because the sample does not exist: " + fullSampleName );
+                    }
                 }
                 else
                 {
-                    sample.loadState( InstrumentSampleConf );
+                    sample.loadState( instrumentSampleConf );
                 }
             }
         }
     }
-
+    
     /**
      * Returns the name of a Instrument type.
      *
@@ -867,20 +987,5 @@ public class InstrumentProxy
         default:
             throw new IllegalArgumentException( type + " is not a known Instrument type." );
         }
-    }
-
-    /**
-     * Generates a sample name given its parameters.
-     *
-     * @param instrumentName Name of the instrument which owns the sample.
-     */
-    private String generateSampleName( String instrumentName,
-                                       int sampleType,
-                                       long sampleInterval,
-                                       int sampleSize )
-    {
-        return instrumentName + "." +
-            InstrumentSampleFactory.getInstrumentSampleTypeName( sampleType ) + "." +
-            sampleInterval + "." + sampleSize;
     }
 }

@@ -5,7 +5,7 @@
  * version 1.1, a copy of which has been included with this distribution in
  * the LICENSE.txt file.
  */
-package org.apache.excalibur.instrument.manager.interfaces;
+package org.apache.excalibur.instrument.manager;
 
 /**
  * Objects which implement the InstrumentListener interface can register
@@ -13,7 +13,7 @@ package org.apache.excalibur.instrument.manager.interfaces;
  *  Profile Point's value.
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/07/29 16:05:21 $
+ * @version CVS $Revision: 1.1 $ $Date: 2002/08/03 15:00:38 $
  * @since 4.1
  */
 public interface ValueInstrumentListener

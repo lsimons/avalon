@@ -12,7 +12,7 @@ package org.apache.excalibur.instrument.manager.interfaces;
  *  InstrumentSample object.
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/07/29 16:05:21 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/08/03 15:00:38 $
  * @since 4.1
  */
 public interface InstrumentSampleDescriptor
@@ -24,35 +24,46 @@ public interface InstrumentSampleDescriptor
      * @return True if configured.
      */
     boolean isConfigured();
-
+    
     /**
      * Returns the name of the sample.
      *
      * @return The name of the sample.
      */
     String getName();
-
+    
     /**
      * Returns the sample interval.  The period of each sample in millisends.
      *
      * @return The sample interval.
      */
     long getInterval();
-
+    
     /**
      * Returns the number of samples in the sample history.
      *
      * @return The size of the sample history.
      */
     int getSize();
-
+    
     /**
      * Returns the description of the sample.
      *
      * @return The description of the sample.
      */
     String getDescription();
-
+    
+    /**
+     * Returns the type of the Instrument Sample.  Possible values include
+     *  InstrumentManagerClient.INSTRUMENT_SAMPLE_TYPE_COUNTER,
+     *  InstrumentManagerClient.INSTRUMENT_SAMPLE_TYPE_MAXIMUM,
+     *  InstrumentManagerClient.INSTRUMENT_SAMPLE_TYPE_MEAN, or
+     *  InstrumentManagerClient.INSTRUMENT_SAMPLE_TYPE_MINIMUM.
+     *
+     * @return The type of the Instrument Sample.
+     */
+    int getType();
+    
     /**
      * Obtain the value of the sample.  All samples are integers, so the profiled
      * objects must measure quantity (numbers of items), rate (items/period), time in
@@ -61,14 +72,14 @@ public interface InstrumentSampleDescriptor
      * @return The sample value.
      */
     int getValue();
-
+    
     /**
      * Obtain the UNIX time of the beginning of the sample.
      *
      * @return The UNIX time of the beginning of the sample.
      */
     long getTime();
-
+    
     /**
      * Returns the Type of the Instrument which can use the sample.  This
      *  should be the same for all instances of a class.
@@ -79,7 +90,7 @@ public interface InstrumentSampleDescriptor
      * @return The Type of the Instrument which can use the sample.
      */
     int getInstrumentType();
-
+    
     /**
      * Returns the time that the current lease expires.  Permanent samples will
      *  return a value of 0.
@@ -87,28 +98,22 @@ public interface InstrumentSampleDescriptor
      * @return The time that the current lease expires.
      */
     long getLeaseExpirationTime();
-
+    
+    /**
+     * Extends the lease to be lease milliseconds from the current time.
+     *
+     * @param lease The length of the lease in milliseconds.
+     *
+     * @return The new lease expiration time.  Returns 0 if the sample is
+     *         permanent.
+     */
+    long extendLease( long lease );
+    
     /**
      * Obtains a static snapshot of the InstrumentSample.
      *
      * @return A static snapshot of the InstrumentSample.
      */
     InstrumentSampleSnapshot getSnapshot();
-
-    /**
-     * Registers a InstrumentSampleListener with a InstrumentSample given a name.
-     *
-     * @param listener The listener which should start receiving updates from the
-     *                 InstrumentSample.
-     */
-    void addInstrumentSampleListener( InstrumentSampleListener listener );
-
-    /**
-     * Unregisters a InstrumentSampleListener from a InstrumentSample given a name.
-     *
-     * @param listener The listener which should stop receiving updates from the
-     *                 InstrumentSample.
-     */
-    void removeInstrumentSampleListener( InstrumentSampleListener listener );
 }
 
