@@ -12,8 +12,8 @@
   <ant:taskdef name="avalon" classname="org.apache.avalon.meta.info.ant.MetaTask">
     <classpath>
       <pathelement path="${plugin.getDependencyPath('qdox:qdox')}"/>
-      <pathelement path="${plugin.getDependencyPath('avalon/framework:avalon-framework-api')}"/>
-      <pathelement path="${plugin.getDependencyPath('avalon/framework:avalon-framework-impl')}"/>
+      <pathelement path="${plugin.getDependencyPath('avalon-framework:avalon-framework-api')}"/>
+      <pathelement path="${plugin.getDependencyPath('avalon-framework:avalon-framework-impl')}"/>
       <pathelement path="${plugin.getDependencyPath('avalon/meta:avalon-meta-tools')}"/>
       <pathelement path="${plugin.getDependencyPath('avalon/meta:avalon-meta-api')}"/>
       <pathelement path="${plugin.getDependencyPath('avalon/meta:avalon-meta-spi')}"/>
