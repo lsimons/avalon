@@ -115,6 +115,7 @@ public final class ExceptionUtil
      * @param string the string
      * @param onToken the token
      * @return the resultant array
+     * @deprecated This is an internal utility method that should not be used
      */
     public static String[] splitString( final String string, final String onToken )
     {
