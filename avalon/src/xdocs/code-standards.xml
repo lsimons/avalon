@@ -129,9 +129,7 @@ top of the file. For java files the preferred Javadoc format is:
           needed (like assumptions).
         </li>
 <li>
-Variables are declared in the inner scope regardless of
-performances unless the code really needs for performances
-(2 thousand loops every 5 seconds for example) like:
+Variables are declared in the inner scope.
 <source>
 while( myListIterator.hasNext() ) 
 {
@@ -171,11 +169,6 @@ the stuff to replace it with StringBuffer, so use:
 final String myString = "test " + "for " + "performances";
 </source>
 </li>
-<li>
-Indent comments on an 80 column basis and the code on a          
-100 column using a two more indention when you're constrained
-to wrap a line.
-</li>
         <li>
           Try not to declare a method as 'synchronized'.  If a method accesses
           a shared resource then surround accesses to that resource with
@@ -196,7 +189,10 @@ public void sharedMethod()
 </source>
 If you are within a static method, then you may have to create
 a static object whose sole purpose in life is to provide the
-lock you need.
+lock you need. Alternatively you could use the Class object for 
+the class you are in. That is, if you're in class MyClass, use 
+"MyClass.class".  That gets the object of type java.lang.Class 
+that corresponds to your class MyClass.
 </li>
 </ol>
 
