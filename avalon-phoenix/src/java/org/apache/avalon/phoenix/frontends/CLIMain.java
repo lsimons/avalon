@@ -41,8 +41,6 @@ public final class CLIMain
      */
     public void main( final String args[] )
     {
-        final CLIMain main = new CLIMain();
-
         try
         {
             final String command = "java " + getClass().getName() + " [options]";
@@ -60,7 +58,7 @@ public final class CLIMain
             final Parameters parameters = setup.getParameters();
             final String phoenixHome = System.getProperty( "phoenix.home", ".." );
             parameters.setParameter( "phoenix.home", phoenixHome );
-            main.execute( parameters );
+            execute( parameters );
         }
         catch( final Throwable throwable )
         {
@@ -140,14 +138,17 @@ public final class CLIMain
      */
     protected void forceShutdown()
     {
+        if( null == m_hook || null == m_embeddor )
+        {
+            //We were shutdown gracefully but the shutdown hook 
+            //thread was not removed. This can occur when an earlier
+            //shutdown hook caused a shutdown() request to be processed
+            return;
+        }
+
         final String message = REZ.getString( "main.abnormal-exit.notice" );
         System.out.println( message );
         System.out.flush();
-
-        //Null hook so it is not tried to be removed
-        //when we are shutting down. (Attempting to remove
-        //hook during shutdown raises an exception).
-        m_hook = null;
 
         shutdown();
     }
@@ -155,10 +156,19 @@ public final class CLIMain
     /**
      * Shut the embeddor down.
      */
-    private synchronized void shutdown()
+    public synchronized void shutdown()
     {
+        //Null hook so it is not tried to be removed
+        //when we are shutting down. (Attempting to remove
+        //hook during shutdown raises an exception).
+        m_hook = null;
+
         if( null != m_embeddor )
         {
+            final String message = REZ.getString( "main.exit.notice" );
+            System.out.println( message );
+            System.out.flush();
+
             try
             {
                 m_embeddor.dispose();
