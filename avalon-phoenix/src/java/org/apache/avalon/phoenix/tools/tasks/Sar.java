@@ -31,6 +31,11 @@ public class Sar
         emptyBehavior = "fail";
     }
 
+    public void setSarfile( final File file )
+    {
+        setZipfile( file );
+    }
+
     public void setConfig( final File config ) 
     {
         m_config = config;
