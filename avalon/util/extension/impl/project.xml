@@ -1,12 +1,17 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE project [
+  <!ENTITY % index SYSTEM "file:index.ent"> %index;
+]>
 
 <project>
-  <extend>${basedir}/../../project.xml</extend>
-  <groupId>avalon-util</groupId>
-  <id>avalon-util-extension-impl</id>
-  <name>Avalon Extension Framework</name>
-  <currentVersion>1.2.0</currentVersion>
 
+  <extend>${basedir}/../../project.xml</extend>
+
+  <groupId>&avalon-util-extension-impl-group;</groupId>
+  <id>&avalon-util-extension-impl-id;</id>
+  <currentVersion>&avalon-util-extension-impl-version;</currentVersion>
+
+  <name>Avalon Extension Framework</name>
   <inceptionYear>2002</inceptionYear>
   <shortDescription>Avalon Extension Management Implementation</shortDescription>
   <package>org.apache.avalon.extension</package>
@@ -17,9 +22,9 @@ An API supporting the management of jar file extension loading.
   
   <dependencies>
     <dependency>
-      <groupId>avalon-util</groupId>
-      <artifactId>avalon-util-extension-api</artifactId>
-      <version>1.2.0</version>
+      <groupId>&avalon-util-extension-api-group;</groupId>
+      <artifactId>&avalon-util-extension-api-id;</artifactId>
+      <version>&avalon-util-extension-api-version;</version>
     </dependency>
   </dependencies>
 

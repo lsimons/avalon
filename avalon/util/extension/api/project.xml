@@ -1,11 +1,17 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE project [
+  <!ENTITY % index SYSTEM "file:index.ent"> %index;
+]>
 
 <project>
+
   <extend>${basedir}/../../project.xml</extend>
-  <groupId>avalon-util</groupId>
-  <id>avalon-util-extension-api</id>
+
+  <groupId>&avalon-util-extension-api-group;</groupId>
+  <id>&avalon-util-extension-api-id;</id>
+  <currentVersion>&avalon-util-extension-api-version;</currentVersion>
+
   <name>Avalon Extension API</name>
-  <currentVersion>1.2.0</currentVersion>
   <inceptionYear>2002</inceptionYear>
   <shortDescription>Avalon Extension Management API</shortDescription>
   <package>org.apache.avalon.extension</package>
