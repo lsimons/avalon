@@ -406,12 +406,23 @@ public class LoaderUtils
         return destination.toURL();
     }
 
-    private static boolean isSnapshot( File file )
+    static boolean isSnapshot( File file )
     {
-        return file.getName().endsWith( "SNAPSHOT" );
+        if( file == null )
+            return false;
+        String name = file.getName();
+        int posSS = name.indexOf( "-SNAPSHOT" );
+        int posDot = name.indexOf( ".", posSS + 8 );
+        if( posDot > -1 )
+        {
+             String sub = name.substring( 0, posDot );
+             return sub.endsWith( "-SNAPSHOT" );
+        }
+        return name.endsWith( "-SNAPSHOT" );
     }
 
-    private static URL getURL( File file ) throws RepositoryException
+    private static URL getURL( File file ) 
+        throws RepositoryException
     {
         try
         {
