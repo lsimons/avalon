@@ -262,7 +262,7 @@ public class StartupPhase
     {
         final DefaultComponentManager componentManager = new DefaultComponentManager();
         final BlockInfo info = entry.getBlockInfo();
-        final RoleMetaData[] roles = entry.getRoles();
+        final RoleMetaData[] roles = entry.getBlockMetaData().getRoles();
 
         for( int i = 0; i < roles.length; i++ )
         {

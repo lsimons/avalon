@@ -22,18 +22,13 @@ import org.apache.avalon.phoenix.metadata.BlockMetaData;
 public class BlockEntry
     extends Entry
 {
-    private BlockMetaData    m_blockMetaData;
-    private BlockProxy          m_proxy;
+    private BlockMetaData   m_blockMetaData;
+    private BlockProxy      m_proxy;
 
     public BlockEntry( final BlockMetaData blockMetaData )
     {
         m_blockMetaData = blockMetaData;
         setState( State.VOID );
-    }
-
-    public String getName()
-    {
-        return m_blockMetaData.getName();
     }
 
     public BlockMetaData getBlockMetaData()
@@ -59,15 +54,5 @@ public class BlockEntry
     public void setBlockInfo( final BlockInfo blockInfo )
     {
         setInfo(  blockInfo );
-    }
-
-    public RoleMetaData getRole( final String role )
-    {
-        return m_blockMetaData.getRole( role );
-    }
-
-    public RoleMetaData[] getRoles()
-    {
-        return m_blockMetaData.getRoles();
     }
 }
