@@ -39,7 +39,7 @@ import org.apache.avalon.framework.configuration.Configuration;
  * <p><image src="doc-files/Type.gif" border="0"/></p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.4 $ $Date: 2004/02/24 21:35:31 $
+ * @version $Revision: 1.5 $ $Date: 2004/04/07 03:46:44 $
  */
 public class Type implements Serializable
 {
@@ -414,32 +414,49 @@ public class Type implements Serializable
     */
     public boolean equals(Object other)
     {
-        boolean isEqual = other instanceof Type;
-        isEqual = isEqual && m_descriptor.equals(((Type)other).m_descriptor);
-        isEqual = isEqual && m_security.equals(((Type)other).m_security);
-        isEqual = isEqual && m_configuration.equals(((Type)other).m_configuration);
-        isEqual = isEqual && m_context.equals(((Type)other).m_context);
+        if( ! (other instanceof Type )
+            return false;
+        Type t = (Type) other;
+        
+        if( ! m_descriptor.equals( t.m_descriptor ) )
+            return false;
+            
+        if( ! m_security.equals( t.m_security ) )
+            return false;
+            
+        if( ! m_configuration.equals( t.m_configuration ) )
+            return false;
+            
+        if( ! m_context.equals( t.m_context ) )
+            return false;
+            
         for( int i=0; i<m_loggers.length; i++ )
         {
-            isEqual = isEqual && m_loggers[i].equals(((Type)other).m_loggers[i]);
+            if( ! m_loggers[i].equals( t.m_loggers[i] ) )
+                return false;
         }
+        
         for( int i=0; i<m_services.length; i++ )
         {
-            isEqual = isEqual && m_services[i].equals(((Type)other).m_services[i]);
+            if( ! m_services[i].equals( t.m_services[i] ) )
+                return false;
         }
         for( int i=0; i<m_dependencies.length; i++ )
         {
-            isEqual = isEqual && m_dependencies[i].equals(((Type)other).m_dependencies[i]);
+            if( ! m_dependencies[i].equals( t.m_dependencies[i] ) )
+                return false;
         }
         for( int i=0; i<m_stages.length; i++ )
         {
-            isEqual = isEqual && m_stages[i].equals(((Type)other).m_stages[i]);
+            if( m_stages[i].equals( t.m_stages[i] ) )
+                return false;
         }
         for( int i=0; i<m_extensions.length; i++ )
         {
-            isEqual = isEqual && m_extensions[i].equals(((Type)other).m_extensions[i]);
+            if( m_extensions[i].equals( t.m_extensions[i] ) )
+                return false;
         }
-        return isEqual;
+        return true;
     }
 
    /**
