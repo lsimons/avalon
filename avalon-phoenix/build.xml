@@ -12,7 +12,8 @@ Authors:
  Berin Loritsch <bloritsch at apache.org>
  Peter Donald <peter at apache.org>
  Leo Simons <mail at leosimons.com>
-
+ Nicola Ken Barozzi <nicolaken at apache.org>
+ 
 Legal:
   Copyright (c) 1999-2002 The Apache Software Foundation. All Rights Reserved.
 
@@ -49,7 +50,8 @@ Legal:
 
     <!-- Set the properties for source directories -->
     <property name="src.dir" value="src"/>
-    <property name="java.dir" value="${src.dir}/java"/>
+    <property name="java.dir" value="${src.dir}/java"/>   
+    <property name="documentation.dir" value="${src.dir}/documentation"/>
     <property name="test.dir" value="${src.dir}/test"/>
     <property name="compat.dir" value="${src.dir}/compat"/>
     <property name="conf.dir" value="${src.dir}/conf"/>
@@ -70,6 +72,11 @@ Legal:
     <property name="framework.jar" value="${lib.dir}/avalon-framework.jar"/>
     <property name="logkit.jar" value="${lib.dir}/logkit-1.1.1.jar"/>
     <property name="tools.jar" value="${java.home}/../lib/tools.jar"/>
+    
+    <property name="announce2txt" value="${tools.dir}/announcement2txt.xsl"/>
+    <property name="announce2header" value="${tools.dir}/announcement2header.xsl"/>    
+    <property name="announce2readme" value="${tools.dir}/announcement2readme.xsl"/>    
+    <property name="announce2site" value="${tools.dir}/announcement2site.xsl"/>    
 
     <!-- Invoke 'ant get-mx4j' to get these -->
     <property name="mx4j.jar" value="mx4j/mx4j-1.1.1/lib/mx4j-jmx.jar"/>
@@ -105,9 +112,7 @@ Legal:
         <antcall target="main"/>
     </target>
 
-    <target name="all" depends="main" description="generates the Phoenix distribution">
-        <ant target="docs" antfile="docs.xml" inheritall="false" />
-    </target>
+    <target name="all" depends="main, site-all" description="generates the Phoenix distribution"/>
 
     <!-- Help on usage -->
     <target name="usage">
@@ -671,7 +676,8 @@ phoenix-punit.jar needs to be used with excalibur-containerkit-1.0.jar
                 <include name="build.sh"/>
                 <include name="build.xml"/>
                 <include name="BUILDING.txt"/>
-                <include name="docs.xml"/>
+                <include name="status.xml"/>
+                <include name="forrest.properties"/>
                 <include name="LICENSE.txt"/>
                 <include name="project.properties"/>
                 <include name="README.txt"/>
@@ -685,11 +691,7 @@ phoenix-punit.jar needs to be used with excalibur-containerkit-1.0.jar
     </target>
 
     <!-- Completely build all dists -->
-    <target name="dist" description="generates the Phoenix distribution">
-
-        <ant target="docs" antfile="docs.xml" inheritall="false" />
-        <ant target="javadocs" antfile="docs.xml" inheritall="false" />
-        <ant target="announcement" antfile="docs.xml" inheritall="false" />
+    <target name="dist" depends="site-all, announcement" description="generates the Phoenix distribution">
 
         <mkdir dir="${dist.base}"/>
 
@@ -790,9 +792,7 @@ phoenix-punit.jar needs to be used with excalibur-containerkit-1.0.jar
 
     <!-- Cleans absolutely everything up -->
     <target name="distclean" depends="clean" description="cleans up all generated files and directories">
-        <delete dir="${docs.dir}" />
         <delete dir="${dist.base}" />
-        <ant target="clean" antfile="docs.xml" inheritall="false" />
     </target>
     
 
@@ -823,7 +823,7 @@ phoenix-punit.jar needs to be used with excalibur-containerkit-1.0.jar
 
 
     <!-- Create the announcements and HEADER.html -->
-    <!--
+
     <target name="announcement">
 
         <filter token="Name" value="${Near}"/>
@@ -838,42 +838,34 @@ phoenix-punit.jar needs to be used with excalibur-containerkit-1.0.jar
         <mkdir dir="${dist.base}" />
 
         <copy todir="${build.dir}" filtering="on">
-          <fileset dir="${xdocs.dir}">
-            <include name="announcement.xml"/>
-            <include name="changes.xml"/>
+          <mapper type="flatten"/>
+          <fileset dir=".">
+            <include name="tools/announcement.xml"/>
+            <include name="status.xml"/>
           </fileset>
         </copy>
 
-        <style style="${announce2txt}" in="${build.dir}/announcement.xml" out="Announcement.txt"/>
-        <style style="${announce2header}" in="${build.dir}/announcement.xml"
-               out="${dist.base}/HEADER.html"/>
+        <style style="${announce2txt}"    in="${build.dir}/announcement.xml" 
+                                          out="Announcement.txt"/>
+        <style style="${announce2header}" in="${build.dir}/announcement.xml"          
+                                          out="${dist.base}/HEADER.html"/>
         <style style="${announce2readme}" in="${build.dir}/announcement.xml"
-               out="${dist.base}/README.html"/>
-        <style style="${announce2site}" in="${build.dir}/announcement.xml"
-               out="jakarta-news.xml"/>
+                                          out="${dist.base}/README.html"/>
+        <style style="${announce2site}"   in="${build.dir}/announcement.xml"
+                                          out="jakarta-news.xml"/>
 
       </target>
 
--->
+
     <target name="site-all"
             depends="site,javadocs"
 	    description="Update site directory">
 
-    <delete>
-      <fileset dir="${site.dir}">
-         <include name="**/*"/>
-      </fileset>
-    </delete>
+       <copy todir="${build.docs}/api" filtering="off">
+        <fileset dir="${build.javadocs}"/>
+       </copy>
 
-    <copy todir="${site.dir}" filtering="off">
-      <fileset dir="${docs.dir}"/>
-    </copy>
-
-    <copy todir="${site.dir}/api" filtering="off">
-      <fileset dir="${build.javadocs}"/>
-    </copy>
-
-  </target>
+    </target>
 
 
 
