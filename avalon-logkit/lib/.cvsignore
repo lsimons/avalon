@@ -12,3 +12,6 @@ checkstyle-*.jar
 commons-logging-*.jar
 junit-*.jar
 log4j-*.jar
+avalon-framework.LICENSE.html
+jms.jar
+mail.jar

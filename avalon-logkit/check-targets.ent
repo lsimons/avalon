@@ -174,7 +174,7 @@ A minimal build.xml would thus be:
           depends="bsf-check,checkstyle-check,javamail-check,jdbc-check,jms-check,junit-check,log4j-check,logkit-check,servletapi-check,framework-check,commons-logging-check"
       description="checks for all dependencies we know about. This is usually more than the minimum needed to build this project; actual use is not recommended."/>
   <target name="import-all-auto-dependencies"
-          depends="import-bsf,import-checkstyle,import-junit,import-log4j,import-logkit,import-commons-logging"
+          depends="import-bsf,import-checkstyle,import-junit,import-log4j,import-logkit,import-commons-logging,import-avalon-framework"
       description="checks for all dependencies we know about. This is usually more than the minimum needed to build this project; actual use is not recommended."/>
 
 <!-- BSF -->
@@ -188,7 +188,7 @@ A minimal build.xml would thus be:
     </antcall>
   </target>
 
-  <target name="import-framework" depends="setup-dependencies">
+  <target name="import-avalon-framework" depends="setup-dependencies">
     <antcall target="import-dependency">
         <param name="id" value="${framework.id}"/>
         <param name="jar.id" value="${framework.id}"/>
