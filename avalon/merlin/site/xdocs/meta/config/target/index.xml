@@ -64,13 +64,13 @@
         <table>
           <tr><th>Element</th><th>Occurance</th><th>Description</th></tr>
           <tr>
-            <td><a href="target/config.html">configuration</a></td><td>0..n</td>
+            <td><a href="config.html">configuration</a></td><td>0..n</td>
             <td>
              A target override configuration directive.
             </td>
           </tr>
           <tr>
-            <td><a href="target/categories/index.html">categories</a></td><td>0..n</td>
+            <td><a href="categories/index.html">categories</a></td><td>0..n</td>
             <td>
              A target categories directive
             </td>

@@ -62,7 +62,7 @@
 
       <subsection name="Description">
 <p>
-A configuratio directive contains arbitary content that is used by the container to construct a master configuration backed by profile and/or static confiugration information, used to create a configuration instance that will be supplied to a component type manger declared under the containing target directive.
+A configuration directive contains arbitary content that is used by the container to construct a master configuration backed by profile and/or static confiugration information, used to create a configuration instance that will be supplied to a component type manger declared under the containing target directive.
 </p>
       </subsection>
 
