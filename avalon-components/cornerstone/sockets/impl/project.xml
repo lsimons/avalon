@@ -7,7 +7,7 @@
   <groupId>cornerstone-sockets</groupId>
   <id>cornerstone-sockets-impl</id>
   <name>Cornerstone Socket Manager Implementation</name>
-  <currentVersion>SNAPSHOT</currentVersion> <!-- target 1.1 release -->
+  <currentVersion>1.1</currentVersion> 
   <package>org.apache.avalon.cornerstone.blocks.sockets</package>
 
   <inceptionYear>2001</inceptionYear>
@@ -28,12 +28,12 @@
     <dependency>
       <groupId>avalon-framework</groupId>
       <artifactId>avalon-framework-api</artifactId>
-      <version>4.1.5</version>
+      <version>4.2.0</version>
     </dependency>
     <dependency>
       <groupId>avalon-framework</groupId>
       <artifactId>avalon-framework-impl</artifactId>
-      <version>4.1.5</version>
+      <version>4.2.0</version>
     </dependency>
 
     <!-- pre JDK 1.4 dependencies -->

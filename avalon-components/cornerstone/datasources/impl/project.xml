@@ -9,7 +9,7 @@
   <name>Cornerstone Datasource</name>
 
   <!-- candidate 2.0 due to excalibur dependencies -->
-  <currentVersion>SNAPSHOT</currentVersion>
+  <currentVersion>2.0</currentVersion>
   <package>org.apache.avalon.cornerstone.blocks.datasources</package>
 
   <inceptionYear>2001</inceptionYear>
@@ -48,7 +48,7 @@
     <dependency>
       <groupId>avalon-framework</groupId>
       <artifactId>avalon-framework-api</artifactId>
-      <version>4.1.5</version>
+      <version>4.2.0</version>
     </dependency>
 
     <!-- pre JDK 1.4 dependencies -->

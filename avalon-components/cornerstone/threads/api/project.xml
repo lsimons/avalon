@@ -7,7 +7,7 @@
   <groupId>cornerstone-threads</groupId>
   <id>cornerstone-threads-api</id>
   <name>Cornerstone Threads API</name>
-  <currentVersion>SNAPSHOT</currentVersion>
+  <currentVersion>2.0</currentVersion>
   <package>org.apache.avalon.cornerstone.services.threads</package>
   <inceptionYear>2001</inceptionYear>
   <shortDescription>Cornerstone Threads API</shortDescription>
