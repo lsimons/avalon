@@ -3,7 +3,7 @@
    This is the DTD defining the Phoenix BlockInfo 1.0
    descriptor (XML) file format/syntax.
 
-   Author: Peter Donald <peter@apache.org>
+   Author: Peter Donald <peter at apache.org>
 
    A BlockInfo is an XML file used to describe Blocks and located side-by-side with
    the Block .class file. It describes the services the Block requires to operate,
