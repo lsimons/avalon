@@ -99,7 +99,6 @@
           </tr>
           <tr>
             <td>${avalon.repository.proxy.username}</td>
-            <td></td>
             <td>The proxy username.</td>
           </tr>
           <tr>
