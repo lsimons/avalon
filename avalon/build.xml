@@ -487,6 +487,10 @@ Legal:
       <param name="src.dist.dir" value="${dist.name}" />
     </antcall>
 
+    <copy todir="${dist.name}">
+      <fileset dir="${src.dist.dir}"/>
+    </copy>
+
     <zip zipfile="${dist.base}/${dist.name}-src.zip"
          basedir="${dist.name}/.."
          includes="${dist.name}/**"/>
@@ -506,6 +510,7 @@ Legal:
 
     <delete file="${dist.base}/${dist.name}-src.tar"/>
     <delete dir="${dist.name}" />
+    <delete dir="${src.dist.dir}"/>
 
   </target>
 
@@ -522,6 +527,8 @@ Legal:
   <target name="real-clean" depends="clean">
     <delete dir="${docs.dir}" />
     <delete dir="${dist.base}" />
+    <delete dir="${src.dist.dir}" />
+    <delete file="Announcement.txt" />
   </target>
 
 </project>
