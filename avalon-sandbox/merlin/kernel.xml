@@ -3,31 +3,16 @@
 
    <logging target="default" priority="DEBUG">
       <category name="/sys/logger" priority="WARN"/>
-      <target name="kernel">
+      <!--
+      <target name="default">
         <file location="kernel.log" />
       </target>
+      -->
    </logging>
 
    <categories>
       <category name="/sys" priority="INFO"/>
    </categories>
-
-   <engine>
-
-     <!--
-     <library dir=".">
-       <include name="build/lib"/>
-     </library>
-     -->
-     <!--
-     <classpath>
-       <fileset dir="build/lib">
-         <include name="avalon-merlin-demo-1.0.jar"/>
-       </fileset>
-     </classpath>
-     -->
-
-   </engine>
 
    <blocks>
      <fileset dir="../assembly/build/lib">
