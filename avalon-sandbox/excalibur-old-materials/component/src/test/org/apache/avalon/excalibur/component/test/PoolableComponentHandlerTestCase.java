@@ -10,7 +10,6 @@ package org.apache.avalon.excalibur.component.test;
 import org.apache.avalon.excalibur.component.PoolableComponentHandler;
 import org.apache.avalon.excalibur.testcase.BufferedLogger;
 import org.apache.avalon.excalibur.testcase.ExcaliburTestCase;
-import org.apache.avalon.framework.component.ComponentManager;
 
 /**
  * Test the PoolableComponentHandler.
@@ -33,15 +32,6 @@ public class PoolableComponentHandlerTestCase
     /*---------------------------------------------------------------
      * Methods
      *-------------------------------------------------------------*/
-    /**
-     * Inner access method to manager to work around a bug in the Javac compiler
-     *  when manager is referenced from the method of an inner class.  Jikes seems to
-     *  handle it Ok. :-/
-     */
-    private ComponentManager getInnerManager()
-    {
-        return manager;
-    }
 
     /*---------------------------------------------------------------
      * TestCase Methods
@@ -79,13 +69,13 @@ public class PoolableComponentHandlerTestCase
         for( int i = 0; i < size; i++ )
         {
             poolables[ i ] =
-                (PoolableTestObject)manager.lookup( PoolableTestObject.ROLE + "_" + name );
+                (PoolableTestObject)lookup( PoolableTestObject.ROLE + "_" + name );
         }
 
         // Release the components.
         for( int i = 0; i < size; i++ )
         {
-            manager.release( poolables[ i ] );
+            release( poolables[ i ] );
             poolables[ i ] = null;
         }
 
@@ -93,13 +83,13 @@ public class PoolableComponentHandlerTestCase
         for( int i = 0; i < size; i++ )
         {
             poolables[ i ] =
-                (PoolableTestObject)manager.lookup( PoolableTestObject.ROLE + "_" + name );
+                (PoolableTestObject)lookup( PoolableTestObject.ROLE + "_" + name );
         }
 
         // Release the components.
         for( int i = 0; i < size; i++ )
         {
-            manager.release( poolables[ i ] );
+            release( poolables[ i ] );
             poolables[ i ] = null;
         }
 
@@ -168,13 +158,13 @@ public class PoolableComponentHandlerTestCase
         for( int i = 0; i < size; i++ )
         {
             poolables[ i ] =
-                (PoolableTestObject)manager.lookup( PoolableTestObject.ROLE + "_" + name );
+                (PoolableTestObject)lookup( PoolableTestObject.ROLE + "_" + name );
         }
 
         // Release the components.
         for( int i = 0; i < size; i++ )
         {
-            manager.release( poolables[ i ] );
+            release( poolables[ i ] );
             poolables[ i ] = null;
         }
 
@@ -182,13 +172,13 @@ public class PoolableComponentHandlerTestCase
         for( int i = 0; i < size; i++ )
         {
             poolables[ i ] =
-                (PoolableTestObject)manager.lookup( PoolableTestObject.ROLE + "_" + name );
+                (PoolableTestObject)lookup( PoolableTestObject.ROLE + "_" + name );
         }
 
         // Release the components.
         for( int i = 0; i < size; i++ )
         {
-            manager.release( poolables[ i ] );
+            release( poolables[ i ] );
             poolables[ i ] = null;
         }
 
@@ -238,13 +228,13 @@ public class PoolableComponentHandlerTestCase
         for( int i = 0; i < size; i++ )
         {
             poolables[ i ] =
-                (PoolableTestObject)manager.lookup( PoolableTestObject.ROLE + "_" + name );
+                (PoolableTestObject)lookup( PoolableTestObject.ROLE + "_" + name );
         }
 
         // Try to get one more.  Should fail.
         try
         {
-            manager.lookup( PoolableTestObject.ROLE + "_" + name );
+            lookup( PoolableTestObject.ROLE + "_" + name );
             fail( "Attempt to get more Pollables than are in the pool should have failed." );
         }
         catch( Exception e )
@@ -255,7 +245,7 @@ public class PoolableComponentHandlerTestCase
         // Release the components.
         for( int i = 0; i < size; i++ )
         {
-            manager.release( poolables[ i ] );
+            release( poolables[ i ] );
             poolables[ i ] = null;
         }
 
@@ -298,7 +288,7 @@ public class PoolableComponentHandlerTestCase
         for( int i = 0; i < size; i++ )
         {
             poolables[ i ] =
-                (PoolableTestObject)manager.lookup( PoolableTestObject.ROLE + "_" + name );
+                (PoolableTestObject)lookup( PoolableTestObject.ROLE + "_" + name );
         }
 
         // In another thread, get and release another poolable to cause this one to wait.
@@ -310,7 +300,7 @@ public class PoolableComponentHandlerTestCase
                 {
                     logger.debug( "Lookup in second thread." );
                     PoolableTestObject poolable =
-                        (PoolableTestObject)getInnerManager().lookup( PoolableTestObject.ROLE + "_" + name );
+                        (PoolableTestObject)lookup( PoolableTestObject.ROLE + "_" + name );
 
                     // Give the main thread a chance to block
                     try
@@ -322,7 +312,7 @@ public class PoolableComponentHandlerTestCase
                     }
 
                     logger.debug( "Release in second thread." );
-                    getInnerManager().release( poolable );
+                    release( poolable );
                 }
                 catch( Exception e )
                 {
@@ -343,15 +333,15 @@ public class PoolableComponentHandlerTestCase
         // Try to get one more.  Should block until the other thread has put it back.
         logger.debug( "Lookup in main thread." );
         PoolableTestObject poolable =
-            (PoolableTestObject)manager.lookup( PoolableTestObject.ROLE + "_" + name );
+            (PoolableTestObject)lookup( PoolableTestObject.ROLE + "_" + name );
 
         logger.debug( "Release in main thread." );
-        manager.release( poolable );
+        release( poolable );
 
         // Release the components.
         for( int i = 0; i < size; i++ )
         {
-            manager.release( poolables[ i ] );
+            release( poolables[ i ] );
             poolables[ i ] = null;
         }
 
@@ -399,14 +389,14 @@ public class PoolableComponentHandlerTestCase
         for( int i = 0; i < size; i++ )
         {
             poolables[ i ] =
-                (PoolableTestObject)manager.lookup( PoolableTestObject.ROLE + "_" + name );
+                (PoolableTestObject)lookup( PoolableTestObject.ROLE + "_" + name );
         }
 
         // Try to get one more.  Should fail after 500 milliseconds.
         long start = System.currentTimeMillis();
         try
         {
-            manager.lookup( PoolableTestObject.ROLE + "_" + name );
+            lookup( PoolableTestObject.ROLE + "_" + name );
             fail( "Attempt to get more Pollables than are in the pool should have failed." );
         }
         catch( Exception e )
@@ -420,7 +410,7 @@ public class PoolableComponentHandlerTestCase
         // Release the components.
         for( int i = 0; i < size; i++ )
         {
-            manager.release( poolables[ i ] );
+            release( poolables[ i ] );
             poolables[ i ] = null;
         }
 
@@ -458,21 +448,21 @@ public class PoolableComponentHandlerTestCase
         for( int i = 0; i < 4; i++ )
         {
             poolables[ i ] =
-                (PoolableTestObject)manager.lookup( PoolableTestObject.ROLE + "_" + name );
+                (PoolableTestObject)lookup( PoolableTestObject.ROLE + "_" + name );
         }
         for( int i = 0; i < 4; i++ )
         {
-            manager.release( poolables[ i ] );
+            release( poolables[ i ] );
             poolables[ i ] = null;
         }
         for( int i = 0; i < 4; i++ )
         {
             poolables[ i ] =
-                (PoolableTestObject)manager.lookup( PoolableTestObject.ROLE + "_" + name );
+                (PoolableTestObject)lookup( PoolableTestObject.ROLE + "_" + name );
         }
         for( int i = 0; i < 4; i++ )
         {
-            manager.release( poolables[ i ] );
+            release( poolables[ i ] );
             poolables[ i ] = null;
         }
 
@@ -489,11 +479,11 @@ public class PoolableComponentHandlerTestCase
         for( int i = 0; i < 2; i++ )
         {
             poolables[ i ] =
-                (PoolableTestObject)manager.lookup( PoolableTestObject.ROLE + "_" + name );
+                (PoolableTestObject)lookup( PoolableTestObject.ROLE + "_" + name );
         }
         for( int i = 0; i < 2; i++ )
         {
-            manager.release( poolables[ i ] );
+            release( poolables[ i ] );
             poolables[ i ] = null;
         }
 
@@ -512,11 +502,11 @@ public class PoolableComponentHandlerTestCase
         for( int i = 0; i < 4; i++ )
         {
             poolables[ i ] =
-                (PoolableTestObject)manager.lookup( PoolableTestObject.ROLE + "_" + name );
+                (PoolableTestObject)lookup( PoolableTestObject.ROLE + "_" + name );
         }
         for( int i = 0; i < 4; i++ )
         {
-            manager.release( poolables[ i ] );
+            release( poolables[ i ] );
             poolables[ i ] = null;
         }
 
