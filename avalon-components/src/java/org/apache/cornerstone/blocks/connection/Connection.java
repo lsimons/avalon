@@ -18,6 +18,12 @@ import org.apache.avalon.util.thread.ThreadPool;
 import org.apache.cornerstone.services.connection.ConnectionHandler;
 import org.apache.cornerstone.services.connection.ConnectionHandlerFactory;
 
+/**
+ * Support class for the DefaultConnectionManager. 
+ * This manages an individual ServerSocket.
+ * 
+ * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
+ */
 class Connection
     extends AbstractLoggable
     implements Component, Runnable
@@ -41,8 +47,6 @@ class Connection
     public void dispose()
         throws Exception
     {
-        m_threadPool.interrupt();
-
         if( null != m_thread )
         {
             m_thread.interrupt();
