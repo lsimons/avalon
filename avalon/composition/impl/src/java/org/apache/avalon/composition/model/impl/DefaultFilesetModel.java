@@ -37,7 +37,7 @@ import org.apache.avalon.framework.logger.Logger;
  * <code>FilesetDirective</code>.
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.5 $ $Date: 2004/04/21 06:20:41 $
+ * @version $Revision: 1.6 $ $Date: 2004/04/21 17:53:52 $
  */
 public class DefaultFilesetModel extends AbstractLogEnabled
     implements FilesetModel
@@ -120,7 +120,7 @@ public class DefaultFilesetModel extends AbstractLogEnabled
      * 
      * @param anchor the base directory anchor
      */
-    public void setBaseDirectory(File anchor) {
+    private void setBaseDirectory(File anchor) {
         m_anchor = anchor;
     }
 
@@ -130,7 +130,7 @@ public class DefaultFilesetModel extends AbstractLogEnabled
      * 
      * @param includes array of <code>IncludeDirective</code> objects
      */
-    public void setIncludeDirectives(IncludeDirective[] includes) {
+    private void setIncludeDirectives(IncludeDirective[] includes) {
         m_includes = includes;
     }
 
@@ -140,7 +140,7 @@ public class DefaultFilesetModel extends AbstractLogEnabled
      * 
      * @param excludes array of <code>ExcludeDirectives</code>
      */
-    public void setExcludeDirectives(ExcludeDirective[] excludes) {
+    private void setExcludeDirectives(ExcludeDirective[] excludes) {
         m_excludes = excludes;
     }
 
@@ -152,7 +152,7 @@ public class DefaultFilesetModel extends AbstractLogEnabled
      * @param defaultIncludes array of <code>String</code> objects
      * representing a set of default fileset includes
      */
-    public void setDefaultIncludes(String[] defaultIncludes) {
+    private void setDefaultIncludes(String[] defaultIncludes) {
         if (defaultIncludes == null) {
             //m_defaultIncludes = new String[1];
             //m_defaultIncludes[0] = "*.jar";
@@ -170,7 +170,7 @@ public class DefaultFilesetModel extends AbstractLogEnabled
      * @param defaultExcludes array of <code>String</code> objects
      * representing a set of default fileset excludes
      */
-    public void setDefaultExcludes(String[] defaultExcludes) {
+    private void setDefaultExcludes(String[] defaultExcludes) {
         if (defaultExcludes == null) {
             m_defaultExcludes = new String[0];
         } else {
@@ -209,13 +209,15 @@ public class DefaultFilesetModel extends AbstractLogEnabled
                                             + " is not a directory");
         }
         
-        // New stuff...
+        // Return the directory attribute as a classpath if there are no
+        // includes
         if ( m_includes.length == 0 && m_defaultIncludes.length == 0 ) {
             m_list.add( m_anchor );
             m_logger.debug("candidates=[" + m_anchor + "]");
             return;
         }
         
+        // create a directory scanner
         DirectoryScanner ds = new DirectoryScanner();
         ds.setLogger(m_logger);
 
@@ -281,18 +283,5 @@ public class DefaultFilesetModel extends AbstractLogEnabled
             m_list.add( m_anchor );
             m_logger.debug("candidates=[" + m_anchor + "]");
         }
-/*        
-        // Original stuff...
-        if( m_includes.length > 0 ) {
-            for( int j=0; j<m_includes.length; j++ ) {
-                File file = new File( m_anchor, m_includes[j].getPath() );
-                m_logger.debug("candidates[" + j + "]=[" + file.getAbsolutePath() + "]");
-                m_list.add( file );
-            }
-        } else {
-            m_list.add( m_anchor );
-            m_logger.debug("candidates=[" + m_anchor + "]");
-        }
-*/
     }
 }
