@@ -10,17 +10,12 @@
   </devs>
 <release version="1.0b4" date="Unreleased">
   <action dev="PD" type="update">
-    Added ContextMap, updated whitepaper to describe the feature. 
-    <!--Also deprecated ContextStack in the process as it encouraged
-    bad practices.-->
+    Added ContextMap, updated whitepaper to describe the feature. Deprecated ContextStack 
+    in the process as it encouraged bad practices and has been supersceded by ContextMap.
   </action>
   <action dev="PD" type="add">
     Added ExtendedPatternFormatter to allow log messages to be formatted with 
     caller method and thread ids.
-  </action>
-  <action dev="PD" type="update">
-    Corrected Javadoc and formatters to indicate that it is possible to 
-    for ContextStack to be null in LogEvent.
   </action>
   <action dev="PD" type="update">
     Fixed bug in OutputStreamLogger so that it does not append a '\n' at end
@@ -31,16 +26,8 @@
     a log entry is written.
   </action>
   <action dev="PD" type="add">
-    Also added auxilliary method to allow retrieval of current ContextStack without 
-    creating it if it does not exist.
-  </action>
-  <action dev="PD" type="add">
     Added basic unit tests for the logkit formatters, stream and file output 
     targets, priority and logTarget inheritance and utility code.
-  </action>
-  <action dev="PD" type="add">
-    Added method to allow arbitrary ContextStacks to be bound to current thread via
-    ContextStack.bind().
   </action>
   <action dev="PD" type="update">
     Rework existing logtargets so that they are thread safe, perform better error
@@ -48,8 +35,9 @@
     have any "unsafe" methods.
   </action>
   <action dev="PD" type="update">
-    Added extra constructor to PatternFormatter so that format string may be 
-    specified at construction time.    
+    Added extra constructor to PatternFormatter so that format string is 
+    specified at construction time. Deprecated no arguements constructor
+    and setFormat() method.
   </action>
   <action dev="PD" type="add">
     Added StackIntrospector class that is amalgamation of utility code supplied by
@@ -79,10 +67,6 @@
   </action>
   <action dev="PD" type="add">
     Added XMLFormatter to enable writing logs in XML format.
-  </action>
-  <action dev="PD" type="update">
-    Implemented ContextStack.toString() and ContextStack.toString(int) to convert stack 
-    into string.
   </action>
   <action dev="PD" type="update">
     Made priority serializable.
