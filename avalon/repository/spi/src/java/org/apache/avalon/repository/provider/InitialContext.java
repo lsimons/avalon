@@ -57,10 +57,21 @@ import java.io.File;
  * The initial context established by an initial repository factory.
  *
  * @author <a href="mailto:mcconnell@osm.net">Stephen McConnell</a>
- * @version $Revision: 1.2 $ $Date: 2003/12/06 23:51:08 $
+ * @version $Revision: 1.3 $ $Date: 2003/12/07 03:15:16 $
  */
 public interface InitialContext
 {        
+   /**
+    * The property key used when resolving the default cache directory.
+    */
+    String CACHE_KEY = "avalon.repository.cache";
+
+   /**
+    * The property key used when evaluating the default remote hosts.  The
+    * value assigned to this property is a comma seperated list of urls.
+    */
+    String HOSTS_KEY = "avalon.repository.hosts";
+
     /**
      * Return cache root directory.
      * 

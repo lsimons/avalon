@@ -18,7 +18,7 @@
 
   <!--
   ###########################################################################
-  # Create the target .meta metadata.                                       #
+  # Create the avalon.implementation metadata.                              #
   # This contains the information used by the factory to identify the       #
   # the implementation artifact classpath, factory, and whatever else       #
   # we need to include this jar as the implementation strategy.             #
@@ -29,7 +29,7 @@
 
     <j:set var="impl" value="${pom.getDependency('avalon-repository:avalon-repository-impl')}"/>
 
-    <ant:echo file="${maven.build.dir}/classes/implementation.properties">
+    <ant:echo file="${maven.build.dir}/classes/avalon.implementation">
 #===================================================================#
 # Default repository implementation artifact identifier.            #
 #===================================================================#

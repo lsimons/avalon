@@ -83,7 +83,7 @@ import org.apache.avalon.excalibur.i18n.Resources;
  * 
  * @author <a href="mailto:aok123@bellsouth.net">Alex Karasulu</a>
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class DefaultFactory implements Factory
 {
@@ -107,7 +107,7 @@ public class DefaultFactory implements Factory
     //--------------------------------------------------------------------------
 
    /**
-    * Creation of a new default repository factory.
+    * Creation of a new default repository manager factory.
     * @param context the initial context
     * @exception NullPointerException if the supplied context is null
     */
@@ -130,7 +130,7 @@ public class DefaultFactory implements Factory
     {
         try
         {
-            return new RepositoryCriteria( m_context );
+            return new DefaultRepositoryCriteria( m_context );
         }
         catch( Throwable e )
         {
@@ -152,7 +152,7 @@ public class DefaultFactory implements Factory
     }
 
    /**
-    * Create a new instance of a repository administrator 
+    * Create a new instance of a repository 
     * using the supplied parameters.
     *
     * @param map a map of repository parameters
@@ -166,36 +166,26 @@ public class DefaultFactory implements Factory
         File root = getCache( map );
         String[] hosts = getHosts( map );
         ProxyContext proxy = createProxyContext( map );
-
-        CacheManager cache = 
-          new DefaultCacheManager( root, proxy );
-
-        //
-        // TODO: add a criteria key to enable selection of 
-        // either the repository or the cache manager as the 
-        // service to return
-        //
-
-        return cache.createRepository( hosts );
+        return new DefaultCacheManager( root, proxy, hosts );
     }
 
     private File getCache( Map map )
     {
         return (File) map.get( 
-            RepositoryCriteria.REPOSITORY_CACHE_DIR );
+            DefaultRepositoryCriteria.REPOSITORY_CACHE_DIR );
     }
 
     private String[] getHosts( Map map )
     {
         return (String[]) map.get( 
-            RepositoryCriteria.REPOSITORY_REMOTE_HOSTS );
+            DefaultRepositoryCriteria.REPOSITORY_REMOTE_HOSTS );
     }
 
     private ProxyContext createProxyContext( Map map )
     {
         final String proxyHostName = 
           (String) map.get( 
-            RepositoryCriteria.REPOSITORY_PROXY_HOST );
+            DefaultRepositoryCriteria.REPOSITORY_PROXY_HOST );
 
         if( null == proxyHostName )
         {
@@ -205,18 +195,18 @@ public class DefaultFactory implements Factory
         {    
             final String proxyUsername = 
               (String) map.get( 
-                RepositoryCriteria.REPOSITORY_PROXY_USERNAME );
+                DefaultRepositoryCriteria.REPOSITORY_PROXY_USERNAME );
 
             final String proxyPassword = 
               (String) map.get( 
-                RepositoryCriteria.REPOSITORY_PROXY_PASSWORD );
+                DefaultRepositoryCriteria.REPOSITORY_PROXY_PASSWORD );
 
             Authenticator authenticator = 
               new DefaultAuthenticator( proxyUsername, proxyPassword );
 
             Integer proxyPort = 
               (Integer) map.get( 
-                RepositoryCriteria.REPOSITORY_PROXY_PORT );
+                DefaultRepositoryCriteria.REPOSITORY_PROXY_PORT );
             if( null == proxyPort ) proxyPort = new Integer( 0 );
 
             return new ProxyContext( 

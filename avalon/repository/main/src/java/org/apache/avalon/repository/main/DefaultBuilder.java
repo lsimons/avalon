@@ -69,6 +69,7 @@ import org.apache.avalon.repository.RepositoryRuntimeException;
 import org.apache.avalon.repository.meta.FactoryDescriptor;
 import org.apache.avalon.repository.provider.Builder;
 import org.apache.avalon.repository.provider.InitialContext;
+import org.apache.avalon.repository.provider.CacheManager;
 import org.apache.avalon.repository.provider.Factory;
 import org.apache.avalon.util.env.Env;
 import org.apache.avalon.util.exception.ExceptionHelper;
@@ -80,17 +81,10 @@ import org.apache.avalon.util.exception.ExceptionHelper;
  * 
  * @author <a href="mailto:aok123@bellsouth.net">Alex Karasulu</a>
  * @author $Author: mcconnell $
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class DefaultBuilder extends AbstractBuilder implements Builder
 {
-    //-----------------------------------------------------------
-    // static
-    //-----------------------------------------------------------
-
-    private static final String[] DEFAULT_HOSTS = 
-      new String[]{ "http://dpml.net/","http://ibiblio.org/maven" };
-
     //-----------------------------------------------------------
     // state
     //-----------------------------------------------------------
@@ -152,8 +146,8 @@ public class DefaultBuilder extends AbstractBuilder implements Builder
         try
         {
             Factory factory = m_context.getInitialFactory();
-            m_repository = (Repository) factory.create();
-            System.out.println( "Repository: " + m_repository );
+            CacheManager manager = (CacheManager)factory.create();
+            m_repository = manager.createRepository();
         }
         catch( Throwable e )
         {
@@ -288,7 +282,7 @@ public class DefaultBuilder extends AbstractBuilder implements Builder
         }
         else
         {
-            return DEFAULT_HOSTS;
+            return null;
         }
     }
 
