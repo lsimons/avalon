@@ -19,12 +19,8 @@ namespace Apache.Avalon.Castle.MicroKernel
 	/// <summary>
 	/// Summary description for AssertUtil.
 	/// </summary>
-	internal class AssertUtil
+	public abstract class AssertUtil
 	{
-		private AssertUtil()
-		{
-		}
-
 		public static void ArgumentNotNull( object argValue, String argName )
 		{
 			if (argValue == null)

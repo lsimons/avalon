@@ -51,9 +51,9 @@ namespace Apache.Avalon.Castle.MicroKernel
 			m_key2Handler = new Hashtable(CaseInsensitiveHashCodeProvider.Default, CaseInsensitiveComparer.Default);
 			m_subsystems = new Hashtable();
 			m_facilities = new Hashtable();
-			m_handlerFactory = new SimpleHandlerFactory();
-			m_componentModelBuilder = new DefaultComponentModelBuilder(this);
-			m_lifestyleManagerFactory = new SimpleLifestyleManagerFactory();
+			HandlerFactory = new SimpleHandlerFactory();
+			ModelBuilder = new DefaultComponentModelBuilder(this);
+			LifestyleManagerFactory = new SimpleLifestyleManagerFactory();
 
 			InitializeSubsystems();
 		}
@@ -150,12 +150,9 @@ namespace Apache.Avalon.Castle.MicroKernel
 
 			IKernelFacility facility = m_facilities[ key ] as IKernelFacility;
 
-			if (facility != null)
-			{
-				m_facilities.Remove(key);
+			RemoveFacility( facility );
 
-				facility.Terminate(this);
-			}
+			m_facilities.Remove(key);
 		}
 
 		/// <summary>
@@ -270,7 +267,7 @@ namespace Apache.Avalon.Castle.MicroKernel
 		{
 			DisposeStartedInstances();
 			DisposeHandlers();
-			// DisposeFacilities();
+			DisposeFacilities();
 		}
 
 		#endregion
@@ -293,6 +290,23 @@ namespace Apache.Avalon.Castle.MicroKernel
 			{
 				IHandler handler = GetHandlerForService( vertex.Content as Type );
 				HandlerFactory.ReleaseHandler( handler );
+			}
+		}
+
+		protected virtual void DisposeFacilities()
+		{
+			foreach( IKernelFacility facility in m_facilities.Values )
+			{
+				RemoveFacility( facility );
+			}
+			m_facilities.Clear();
+		}
+
+		protected virtual void RemoveFacility( IKernelFacility facility )
+		{
+			if (facility != null)
+			{
+				facility.Terminate(this);
 			}
 		}
 

@@ -22,10 +22,6 @@ namespace Apache.Avalon.Castle.MicroKernel.Lifestyle
 	[Serializable]
 	public class UnsupportedLifestyleException : System.Exception
 	{
-		public UnsupportedLifestyleException()
-		{
-		}
-
 		public UnsupportedLifestyleException(String message) : base(message)
 		{
 		}

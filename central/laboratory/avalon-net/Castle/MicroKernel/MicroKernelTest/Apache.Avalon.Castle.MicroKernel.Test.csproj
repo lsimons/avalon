@@ -114,6 +114,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "AssertUtilTestCase.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "BaseKernelTestCase.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -130,11 +135,6 @@
                 />
                 <File
                     RelPath = "DefaultAvalonKernelTestCase.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "DefaultComponentModelBuilderTestCase.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -165,36 +165,6 @@
                 />
                 <File
                     RelPath = "SimpleComponentFactoryTestCase.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Business\Components\AbstractBusinessObject.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Business\Components\BusinessObject.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Business\Components\CustomerBusinessObject.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Business\Components\CustomerBusinessObjectImpl.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Business\Components\CustomerDataAccess.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Business\Components\CustomerDataAccessImpl.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -359,6 +329,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Lifestyle\Components\CustomComponent.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Lifestyle\Components\IComponent.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -375,6 +350,11 @@
                 />
                 <File
                     RelPath = "Lifestyle\Components\TransientComponent.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Model\DefaultComponentModelBuilderTestCase.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

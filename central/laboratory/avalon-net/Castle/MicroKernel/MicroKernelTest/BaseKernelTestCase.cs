@@ -39,7 +39,7 @@ namespace Apache.Avalon.Castle.MicroKernel.Test
 		[TearDown]
 		public void Terminate()
 		{
-			ContainerUtil.Dispose( m_container );
+			m_container.Dispose();
 		}
 
 		/// <summary>
