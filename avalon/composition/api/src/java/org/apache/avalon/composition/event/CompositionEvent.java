@@ -59,7 +59,7 @@ import org.apache.avalon.composition.model.ContainmentModel;
  * addition or removal of a subsidiary model.
  *
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.3 $ $Date: 2004/01/13 11:41:24 $
+ * @version $Revision: 1.4 $ $Date: 2004/01/21 14:16:53 $
  */
 public class CompositionEvent extends ContainmentEvent
 {
@@ -93,10 +93,10 @@ public class CompositionEvent extends ContainmentEvent
 
     public String toString()
     {
-        return "composition-event: [source: [" 
+        return "composition-event: [source: " 
           + getContainmentModel() 
-          + "], child: [" 
+          + ", child: " 
           + getChild() 
-          + "]]";
+          + "]";
     } 
 }
