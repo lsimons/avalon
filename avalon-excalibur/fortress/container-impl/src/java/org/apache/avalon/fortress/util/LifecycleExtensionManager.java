@@ -4,7 +4,7 @@
                    The Apache Software License, Version 1.1
  ============================================================================
 
- Copyright (C) @year@ The Apache Software Foundation. All rights reserved.
+ Copyright (C) 1999-2003 The Apache Software Foundation. All rights reserved.
 
  Redistribution and use in source and binary forms, with or without modifica-
  tion, are permitted provided that the following conditions are met:
@@ -77,7 +77,7 @@ import org.apache.avalon.lifecycle.Creator;
  * </p>
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Revision: 1.5 $ $Date: 2003/03/22 12:31:52 $
+ * @version CVS $Revision: 1.6 $ $Date: 2003/03/22 12:46:34 $
  */
 public class LifecycleExtensionManager
     extends AbstractLogEnabled

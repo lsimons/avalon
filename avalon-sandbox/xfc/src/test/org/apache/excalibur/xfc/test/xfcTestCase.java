@@ -4,7 +4,7 @@
                    The Apache Software License, Version 1.1
  ============================================================================
 
- Copyright (C) @year@ The Apache Software Foundation. All rights reserved.
+ Copyright (C) 1999-2003 The Apache Software Foundation. All rights reserved.
 
  Redistribution and use in source and binary forms, with or without modifica-
  tion, are permitted provided that the following conditions are met:
@@ -68,7 +68,7 @@ import org.apache.excalibur.xfc.test.util.FortressTestRig;
  * XFC TestCase.
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: xfcTestCase.java,v 1.12 2003/03/22 12:32:04 leosimons Exp $
+ * @version CVS $Id: xfcTestCase.java,v 1.13 2003/03/22 12:46:58 leosimons Exp $
  */
 public final class xfcTestCase extends TestCase
 {

@@ -4,7 +4,7 @@
                    The Apache Software License, Version 1.1
  ============================================================================
 
- Copyright (C) @year@ The Apache Software Foundation. All rights reserved.
+ Copyright (C) 1999-2003 The Apache Software Foundation. All rights reserved.
 
  Redistribution and use in source and binary forms, with or without modifica-
  tion, are permitted provided that the following conditions are met:
@@ -61,7 +61,7 @@ import org.apache.excalibur.mpool.Pool;
  *  given a single access thread.
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version $Id: MultiThreadedPoolComparisonProfile.java,v 1.6 2003/03/22 12:31:49 leosimons Exp $
+ * @version $Id: MultiThreadedPoolComparisonProfile.java,v 1.7 2003/03/22 12:46:30 leosimons Exp $
  */
 public class MultiThreadedPoolComparisonProfile
     extends PoolComparisonProfileAbstract

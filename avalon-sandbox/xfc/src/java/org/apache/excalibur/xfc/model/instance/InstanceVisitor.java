@@ -4,7 +4,7 @@
                    The Apache Software License, Version 1.1
  ============================================================================
 
- Copyright (C) @year@ The Apache Software Foundation. All rights reserved.
+ Copyright (C) 1999-2003 The Apache Software Foundation. All rights reserved.
 
  Redistribution and use in source and binary forms, with or without modifica-
  tion, are permitted provided that the following conditions are met:
@@ -58,7 +58,7 @@ package org.apache.excalibur.xfc.model.instance;
  * </p>
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: InstanceVisitor.java,v 1.4 2003/03/22 12:32:03 leosimons Exp $
+ * @version CVS $Id: InstanceVisitor.java,v 1.5 2003/03/22 12:46:56 leosimons Exp $
  */
 public interface InstanceVisitor
 {
