@@ -371,7 +371,7 @@ Legal:
 
   <target name="jar-clutil" depends="compile-clutil">
     <mkdir dir="${build.lib}"/>
-    <jar jarfile="${build.lib}/clutil.jar" basedir="${build.classes}">
+    <jar file="${build.lib}/clutil.jar" basedir="${build.classes}">
       <include name="org/apache/avalon/excalibur/cli/*" />
       <exclude name="org/apache/avalon/excalibur/cli/test/*" />
     </jar>
@@ -497,12 +497,12 @@ Legal:
 
     <mkdir dir="${build.lib}"/>
 
-    <jar jarfile="${build.lib}/avalon-${name}.jar" basedir="${build.classes}">
+    <jar file="${build.lib}/avalon-${name}.jar" basedir="${build.classes}">
       <include name="org/apache/avalon/excalibur/**"/>
       <exclude name="**/test/*"/>
     </jar>
 
-    <jar jarfile="${build.lib}/${scratchpad.name}.jar" basedir="${build.scratchpad}">
+    <jar file="${build.lib}/${scratchpad.name}.jar" basedir="${build.scratchpad}">
       <include name="org/apache/avalon/excalibur/**"/>
       <exclude name="**/test/*"/>
     </jar>
@@ -702,7 +702,7 @@ Legal:
       <fileset dir="${docs.dir}"/>
     </copy>
 
-    <zip zipfile="${dist.base}/${dist.name}-bin.zip"
+    <zip file="${dist.base}/${dist.name}-bin.zip"
          basedir="${dist.name}/.."
          includes="${dist.name}/**"/>
 
@@ -712,7 +712,7 @@ Legal:
       </tarfileset>
     </tar>
 
-    <gzip zipfile="${dist.base}/${dist.name}-bin.tar.gz"
+    <gzip file="${dist.base}/${dist.name}-bin.tar.gz"
           src="${dist.base}/${dist.name}-bin.tar"/>
 
     <delete file="${dist.base}/${dist.name}-bin.tar"/>
@@ -728,7 +728,7 @@ Legal:
 
     <delete dir="${src.dist.dir}"/>
 
-    <zip zipfile="${dist.base}/${dist.name}-src.zip"
+    <zip file="${dist.base}/${dist.name}-src.zip"
          basedir="${dist.name}/.."
          includes="${dist.name}/**"/>
 
@@ -742,7 +742,7 @@ Legal:
       </tarfileset>
     </tar>
 
-    <gzip zipfile="${dist.base}/${dist.name}-src.tar.gz"
+    <gzip file="${dist.base}/${dist.name}-src.tar.gz"
           src="${dist.base}/${dist.name}-src.tar"/>
 
     <delete file="${dist.base}/${dist.name}-src.tar"/>
