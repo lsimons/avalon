@@ -30,6 +30,8 @@
         <pathelement location="${saxpath.jar}"/>
         <pathelement location="${xml-apis.jar}"/>
         <pathelement location="${jaxen.jar}"/>
+        <pathelement location="${saxon6.jar}"/>
+        <pathelement location="${saxon7.jar}"/>
         <pathelement location="${resolver.jar}"/>
         <pathelement location="${jtidy.jar}"/>
         <pathelement path="${java.class.path}"/>
@@ -55,7 +57,15 @@
 
     <!-- Checks the environment for existing resources -->
     <target name="check-environment">
-      <available property="jaxen.present" classname="org.jaxen.dom.DOMXPath"/>
+      <available property="jaxen.present" classname="org.jaxen.dom.DOMXPath">
+        <classpath refid="project.class.path"/>
+      </available>
+      <available property="saxon6.present" classname="com.icl.saxon.expr.Expression">
+        <classpath refid="project.class.path"/>
+      </available>
+      <available property="saxon7.present" classname="net.sf.saxon.xpath.XPathEvaluator">
+        <classpath refid="project.class.path"/>
+      </available>
     </target>
 
     <target name="dependencies" description="Check dependencies" unless="skip.dependencies">
@@ -96,22 +106,23 @@
 
     <!-- Compiles the source code -->
     <target name="compile" depends="dependencies, check-environment" description="Compiles the source code">
-
         <mkdir dir="${build.classes}"/>
 
         <!-- Compile all classes excluding the tests. -->
         <javac srcdir="${java.dir}"
-            destdir="${build.classes}"
-            debug="${build.debug}"
-            optimize="${build.optimize}"
-            deprecation="${build.deprecation}"
-            target="1.2">
+               destdir="${build.classes}"
+               debug="${build.debug}"
+               optimize="${build.optimize}"
+               deprecation="${build.deprecation}"
+               target="1.2">
             <classpath refid="project.class.path" />
             <exclude name="**/Jaxen*" unless="jaxen.present"/>
+            <exclude name="**/Saxon6*" unless="saxon6.present"/>
+            <exclude name="**/Saxon7*" unless="saxon7.present"/>
             <exclude name="**/test/**"/>
         </javac>
 
-	<!-- generate fortress meta descriptors
+	<!-- Generate fortress meta descriptors
         <taskdef name="fortress-collect-meta"
                  classname="org.apache.avalon.fortress.tools.ComponentMetaInfoCollector">
             <classpath refid="project.class.path"/>
@@ -119,10 +130,8 @@
 
         <fortress-collect-meta destdir="${build.classes}">
             <fileset dir="${java.dir}"/>
-    </fortress-collect-meta>
-
-    Remove for the time being.
-    -->
+        </fortress-collect-meta>
+        Remove for the time being. -->
 
         <!-- copy resources to same location as .class files -->
         <copy todir="${build.classes}">
@@ -131,7 +140,6 @@
                 <exclude name="**/package.html"/>
             </fileset>
         </copy>
-
     </target>
 
     <!-- Compiles the unit test source code -->
@@ -140,18 +148,22 @@
 
         <!-- Copy over all of the tests applying test filters -->
         <copy todir="${build.testsrc}">
-            <fileset dir="${test.dir}"/>
+            <fileset dir="${test.dir}">
+                <exclude name="**/Jaxen*" unless="jaxen.present"/>
+                <exclude name="**/Saxon6*" unless="saxon6.present"/>
+                <exclude name="**/Saxon7*" unless="saxon7.present"/>
+            </fileset>
         </copy>
 
         <mkdir dir="${build.testclasses}"/>
 
         <!-- Compile all test classes. -->
         <javac srcdir="${build.testsrc}"
-            destdir="${build.testclasses}"
-            debug="${build.debug}"
-            optimize="${build.optimize}"
-            deprecation="${build.deprecation}"
-            target="1.2">
+               destdir="${build.testclasses}"
+               debug="${build.debug}"
+               optimize="${build.optimize}"
+               deprecation="${build.deprecation}"
+               target="1.2">
             <classpath refid="test.class.path" />
             <include name="**/*.java"/>
         </javac>
@@ -160,9 +172,11 @@
             <fileset dir="${test.dir}">
                 <exclude name="**/*.java"/>
                 <exclude name="**/package.html"/>
+                <exclude name="**/Jaxen*" unless="jaxen.present"/>
+                <exclude name="**/Saxon6*" unless="saxon6.present"/>
+                <exclude name="**/Saxon7*" unless="saxon7.present"/>
             </fileset>
         </copy>
-
     </target>
 
     <!-- Copies and filters the license. Used by jar and dist -->
@@ -178,7 +192,6 @@
 
     <!-- Creates all the .jar file -->
     <target name="jar" depends="compile, prepare-conf" description="Generates the jar files">
-
         <mkdir dir="${build.lib}"/>
 
         <jar jarfile="${build.lib}/${jar.name}"
@@ -226,15 +239,14 @@
     </target>
 
     <target name="test" depends="compile-test" description="Perform the unit tests" unless="skip.tests">
-
         <echo message="Performing Unit Tests" />
 
         <mkdir dir="${build.tests}"/>
 
         <junit fork="true"
-            haltonfailure="${junit.failonerror}"
-            printsummary="yes"
-            dir="${build.tests}">
+               haltonfailure="${junit.failonerror}"
+               printsummary="yes"
+               dir="${build.tests}">
             <classpath refid="test.class.path"/>
 
             <formatter type="xml"/>    <!-- xml reports for junitreport -->
@@ -247,11 +259,9 @@
                 </fileset>
             </batchtest>
         </junit>
-
     </target>
 
     <target name="test-reports" depends="test" description="Generate Reports for the unit tests">
-
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkBSF"/>
 
         <mkdir dir="${build.reports}/junit"/>
@@ -270,7 +280,6 @@
             <fileset dir="${build.tests}" includes="TESTS-*.xml"/>
         </delete>
         -->
-
     </target>
 
     <target name="checkstyle" if="do.checkstyle" description="Checkstyle">
@@ -321,14 +330,12 @@
             out="${build.reports}/checkstyle/delete-me.html">
             <param name="pathhack" expression="${checkstyle.pathhack}"/>
         </style>
-
     </target>
 
     <!-- Creates the distribution -->
     <target name="dist"
         depends="dist-jar, test-reports, checkstyle-report, javadocs, docs"
         description="Generates a distribution (jar + javadocs + unit tests + checkstyle reports)">
-
 
         <copy file="${build.conf}/LICENSE.txt" todir="${dist.dir}"/>
 
@@ -363,7 +370,6 @@
         description="Generates a minimal distribution (jar + javadocs)">
 
         <copy file="../LICENSE.txt" todir="${dist.dir}"/>
-
     </target>
 
     <!-- Setup the filters -->
