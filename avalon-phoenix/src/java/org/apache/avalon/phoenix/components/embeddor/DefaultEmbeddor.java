@@ -12,8 +12,6 @@ import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.excalibur.io.ExtensionFileFilter;
 import org.apache.avalon.framework.activity.Initializable;
-import org.apache.avalon.framework.atlantis.Application;
-import org.apache.avalon.phoenix.components.manager.SystemManager;
 import org.apache.avalon.framework.camelot.Container;
 import org.apache.avalon.framework.camelot.Deployer;
 import org.apache.avalon.framework.component.Composable;
@@ -26,7 +24,9 @@ import org.apache.avalon.framework.logger.AbstractLoggable;
 import org.apache.avalon.framework.parameters.ParameterException;
 import org.apache.avalon.framework.parameters.Parameterizable;
 import org.apache.avalon.framework.parameters.Parameters;
+import org.apache.avalon.phoenix.components.application.Application;
 import org.apache.avalon.phoenix.components.configuration.ConfigurationRepository;
+import org.apache.avalon.phoenix.components.manager.SystemManager;
 import org.apache.log.Hierarchy;
 import org.apache.log.LogTarget;
 import org.apache.log.Logger;
@@ -55,15 +55,15 @@ public class DefaultEmbeddor
     private static final String    DEFAULT_APPS_PATH    = PHOENIX_HOME + "/apps";
 
     private static final String    DEFAULT_DEPLOYER     =
-        System.getProperty( "phoenix.deployer", 
+        System.getProperty( "phoenix.deployer",
                             "org.apache.avalon.phoenix.components.deployer.DefaultSarDeployer" );
 
     private static final String    DEFAULT_KERNEL       =
-        System.getProperty( "phoenix.kernel", 
+        System.getProperty( "phoenix.kernel",
                             "org.apache.avalon.phoenix.components.kernel.DefaultKernel" );
 
     private static final String    DEFAULT_MANAGER      =
-        System.getProperty( "phoenix.manager", 
+        System.getProperty( "phoenix.manager",
                             "org.apache.avalon.phoenix.components.manager.NoopSystemManager" );
 
     private static final String    DEFAULT_REPOSITORY   =
