@@ -224,6 +224,13 @@
           <include>LICENSE.txt</include>
         </includes>
       </resource>
+      <resource>
+        <directory>${maven.conf.dir}</directory>
+        <targetPath>BLOCK-INF</targetPath>
+        <includes>
+          <include>block.xml</include>
+        </includes>
+      </resource>
     </resources>
     
     <jars></jars>
