@@ -63,10 +63,13 @@ import org.apache.avalon.framework.component.ComponentSelector;
  * This is a {@link ServiceSelector} implementation that can wrap around a legacy
  * {@link ComponentSelector} object effectively adapting a {@link ComponentSelector}
  * interface to a {@link ServiceSelector} interface.
+ * <p>
+ * This class implements the {@link Component} interface because it is used in
+ * environments which expect all components to implement Component.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/11/07 09:06:13 $
+ * @version CVS $Revision: 1.3 $ $Date: 2002/11/07 12:43:19 $
  */
 public class WrapperServiceSelector
     implements ServiceSelector
@@ -146,5 +149,17 @@ public class WrapperServiceSelector
     public void release( Object object )
     {
         m_selector.release( (Component)object );
+    }
+    
+    /**
+     * The {@link WrapperServiceManager} wraps ComponentSelectors in
+     *  WrapperServiceSelectors when they are looked up.  This method
+     *  makes it possible to release the original component selector.
+     *
+     * @return The {@link ComponentSelector} being wrapped.
+     */
+    ComponentSelector getWrappedComponentSelector()
+    {
+        return m_selector;
     }
 }
