@@ -71,11 +71,7 @@ import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.ServiceSelector;
 import org.apache.avalon.framework.service.Serviceable;
 import org.apache.avalon.framework.thread.ThreadSafe;
-import org.apache.excalibur.source.Source;
-import org.apache.excalibur.source.SourceException;
-import org.apache.excalibur.source.SourceFactory;
-import org.apache.excalibur.source.SourceResolver;
-import org.apache.excalibur.source.SourceUtil;
+import org.apache.excalibur.source.*;
 
 /**
  * This is the default implemenation of a {@link SourceResolver}.
@@ -89,7 +85,7 @@ import org.apache.excalibur.source.SourceUtil;
  * as the base URI instead.
  *
  * @see org.apache.excalibur.source.SourceResolver
- * 
+ *
  * @avalon.component
  * @avalon.service type=SourceResolver
  * @x-avalon.info name=resolver
@@ -97,7 +93,7 @@ import org.apache.excalibur.source.SourceUtil;
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version $Id: SourceResolverImpl.java,v 1.32 2003/05/23 16:13:40 bloritsch Exp $
+ * @version $Id: SourceResolverImpl.java,v 1.33 2003/06/07 21:01:30 bruno Exp $
  */
 public class SourceResolverImpl
     extends AbstractLogEnabled
@@ -214,95 +210,59 @@ public class SourceResolverImpl
             throw new MalformedURLException( "BaseURI is not valid, it must contain a protocol: " + baseURI );
         }
 
-        // first step: create systemID
-        String systemID;
-
         if( baseURI == null ) baseURI = m_baseURL.toExternalForm();
 
-        if( location.length() == 0 )
-        {
-            systemID = baseURI;
-        }
-        else if( location.charAt( 0 ) == '/' )
-        {
-            // windows: absolute paths can start with drive letter
-            if( location.length() > 2 && location.charAt( 2 ) == ':' )
-            {
-                systemID = "file:" + location;
-            }
-            else
-            {
-                final int protocolEnd = baseURI.indexOf( ':' );
-                systemID = baseURI.substring( 0, protocolEnd + 1 ) + location;
-            }
-        }
-        else if( location.indexOf( ":" ) > 1 )
-        {
-            systemID = location;
-        }
-        // windows: absolute paths can start with drive letter
-        else if( location.length() > 1 && location.charAt( 1 ) == ':' )
-        {
+        String systemID = location;
+        // special handling for windows file paths
+        if( location.length() > 1 && location.charAt( 1 ) == ':' )
             systemID = "file:/" + location;
+        else if( location.length() > 2 && location.charAt(0) == '/' && location.charAt(2) == ':' )
+            systemID = "file:" + location;
+
+        // determine protocol (scheme): first try to get the one of the systemID, if that fails, take the one of the baseURI
+        String protocol;
+        int protocolPos = SourceUtil.indexOfSchemeColon(systemID);
+        if( protocolPos != -1 )
+        {
+            protocol = systemID.substring( 0, protocolPos );
         }
         else
         {
-            if( baseURI.startsWith( "file:" ) == true )
-            {
-                File temp = new File( baseURI.substring( "file:".length() ), location );
-                String path = temp.getAbsolutePath();
-                // windows paths starts with drive letter
-                if( path.charAt( 0 ) != File.separatorChar )
-                {
-                    systemID = "file:/" + path;
-                }
-                else
-                {
-                    systemID = "file:" + path;
-                }
-            }
+            protocolPos = SourceUtil.indexOfSchemeColon(baseURI);
+            if( protocolPos != -1 )
+                protocol = baseURI.substring( 0, protocolPos );
             else
-            {
-                final StringBuffer buffer = new StringBuffer( baseURI );
-                if( !baseURI.endsWith( "/" ) ) buffer.append( '/' );
-                buffer.append( location );
-                systemID = buffer.toString();
-            }
-        }
-        if( getLogger().isDebugEnabled() )
-        {
-            getLogger().debug( "Resolved to systemID '" + systemID + "'" );
+                protocol = "*";
         }
 
         Source source = null;
         // search for a SourceFactory implementing the protocol
-        final int protocolPos = SourceUtil.indexOfSchemeColon(systemID);
-        if( protocolPos != -1)
+        SourceFactory factory = null;
+        try
         {
-            final String protocol = systemID.substring( 0, protocolPos );
-            SourceFactory factory = null;
-            try
-            {
-                factory = (SourceFactory)m_factorySelector.select( protocol );
-                source = factory.getSource( systemID, parameters );
-            }
-            catch( final ServiceException ce )
-            {
-                // no selector available, use fallback
-            }
-            finally
-            {
-                m_factorySelector.release( factory );
-            }
+            factory = (SourceFactory)m_factorySelector.select( protocol );
+            systemID = absolutize( factory, baseURI, systemID );
+            if( getLogger().isDebugEnabled() )
+                getLogger().debug( "Resolved to systemID : " + systemID );
+            source = factory.getSource( systemID, parameters );
+        }
+        catch( final ServiceException ce )
+        {
+            // no selector available, use fallback
+        }
+        finally
+        {
+            m_factorySelector.release( factory );
         }
 
         if( null == source )
         {
-            SourceFactory factory = null;
-
             try
             {
                 factory = (SourceFactory) m_factorySelector.select("*");
+                systemID = absolutize( factory, baseURI, systemID );
+                if( getLogger().isDebugEnabled() )
+                    getLogger().debug( "Resolved to systemID : " + systemID );
                 source = factory.getSource( systemID, parameters );
             }
             catch (ServiceException se )
@@ -316,6 +276,18 @@ public class SourceResolverImpl
         }
 
         return source;
+    }
+
+    /**
+     * Makes an absolute URI based on a baseURI and a relative URI.
+     */
+    private String absolutize( SourceFactory factory, String baseURI, String systemID )
+    {
+        if( factory instanceof URIAbsolutizer )
+            systemID = ((URIAbsolutizer)factory).absolutize(baseURI, systemID);
+        else
+            systemID = SourceUtil.absolutize(baseURI, systemID);
+        return systemID;
     }
 
     /**
