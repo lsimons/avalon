@@ -74,7 +74,7 @@ import org.apache.excalibur.instrument.ValueInstrument;
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:ryan@silveregg.co.jp">Ryan Shaw</a>
  * @author <a href="mailto:leif@apache.org">Leif Mortenson</a>
- * @version CVS $Revision: 1.1 $ $Date: 2003/11/09 12:45:26 $
+ * @version CVS $Revision: 1.2 $ $Date: 2003/12/11 14:15:33 $
  * @since 4.0
  */
 public abstract class ComponentHandler
@@ -374,7 +374,12 @@ public abstract class ComponentHandler
             throw new Exception( "[CONFLICT] lifestyle interfaces: " + componentInstance.getClass().getName() );
         }
 
-        return new ThreadSafeComponentHandler( componentInstance );
+        ThreadSafeComponentHandler handler = new ThreadSafeComponentHandler( componentInstance );
+        
+        // Use the class name as intrument name
+        handler.setInstrumentableName( componentInstance.getClass().getName() );
+        
+        return handler;
     }
 
     /*---------------------------------------------------------------
@@ -386,6 +391,7 @@ public abstract class ComponentHandler
     public ComponentHandler()
     {
         // Initialize the Instrumentable elements.
+        setInstrumentableName( "unnamed handler" );
         addInstrument( m_referencesInstrument = new ValueInstrument( "references" ) );
         addInstrument( m_getsInstrument = new CounterInstrument( "gets" ) );
         addInstrument( m_putsInstrument = new CounterInstrument( "puts" ) );
