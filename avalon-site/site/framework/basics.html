@@ -1,0 +1,718 @@
+
+  
+
+  
+  
+
+  
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+  
+  
+      
+  
+
+      
+      
+      
+      
+      
+      
+        
+         
+      
+      
+
+      
+      
+      
+      
+
+      
+      
+      
+
+      
+
+  
+  
+
+  
+  
+
+   
+   
+
+
+    
+	
+	
+
+    
+    
+      
+	
+	
+	<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+    <html>
+      <head>
+        
+        
+          <title>
+            Avalon Framework - 
+          OOP best Practices
+        
+          </title>
+        
+        
+        
+        <style type="text/css">
+          @import url("./style/tigris.css");
+          @import url("./style/maven.css");
+        </style>
+        
+        
+        
+        
+        
+        <link rel="stylesheet" href="./style/print.css" type="text/css" media="print"></link>
+        <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"></meta>
+        
+          <meta name="author" content="Leo Simons"></meta>
+          <meta name="email" content="leosimons@apache.org"></meta>
+        
+        
+        
+        
+      </head>
+
+      <body class="composite">
+
+        <div id="banner">
+          <table height="103" border="0" width="100%" cellpadding="8" cellspacing="0">
+            <tr>
+              
+              <td>
+                
+                
+                  
+                  
+                  
+                    
+                  
+                  
+                  
+                  
+                  
+                  <a href="http://jakarta.apache.org/">
+                    <img border="0" alt="Apache Software Foundation" src="http://avalon.apache.org/images/apache-avalon-logo.png" align="left"></img>
+                  </a>
+                
+              </td>
+
+              
+
+              <td>
+                <div id="login" align="right">
+                  <a href="http://apachecon.com/2003/US/index.html">
+                    <img border="0" src="http://www.apache.org/~ceki/ac2003/ac2003-150.gif"></img>
+                  </a>
+                </div>
+              </td>
+
+              
+            </tr>
+          </table>
+        </div>
+        <div id="breadcrumbs">
+          <table border="0" width="100%" cellpadding="4" cellspacing="0">
+            <tr>
+              
+              <td>
+                <div align="right">
+                  
+                  
+                  
+                    
+    
+    
+      
+      
+      
+      <a href="http://apache.org/">Apache</a>
+      
+    
+      |
+      
+      
+      <a href="http://avalon.apache.org/">Avalon</a>
+      
+    
+      |
+      
+      
+      <a href="http://avalon.apache.org/product/framework/">Framework</a>
+      
+    
+      |
+      
+      
+      <a href="http://avalon.apache.org/product/containers/">Containers</a>
+      
+    
+      |
+      
+      
+      <a href="http://avalon.apache.org/product/components/">Components</a>
+      
+    
+  
+                  
+                  
+                </div>
+              </td>
+            </tr>
+          </table>
+        </div>
+        
+        <table border="0" width="100%" cellpadding="8" cellspacing="0"> 
+          <tr valign="top">
+            <td width="20%" id="leftcol">
+              <div id="navcolumn">
+                
+
+                
+                  
+    <div>
+      <strong>About Avalon Framework</strong>
+      
+    
+    
+    
+    
+
+    <div>
+      <small>
+      	
+      	
+      		<a href="index.html">Overview</a>
+      	
+      </small>
+	  
+        
+      
+    </div>
+  
+    
+    
+    
+    
+
+    <div>
+      <small>
+      	
+      	
+      		<a href="cop/index.html">Component Oriented</a>
+      	
+      </small>
+	  
+        
+      
+    </div>
+  
+    
+    
+    
+    
+
+    <div>
+      <small>
+      	
+      	
+      		<a href="principals/index.html">Component Development</a>
+      	
+      </small>
+	  
+        
+      
+    </div>
+  
+    
+    
+    
+    
+
+    <div>
+      <small>
+      	
+      	
+      		<a href="api/index.html">Javadoc</a>
+      	
+      </small>
+	  
+        
+      
+    </div>
+  
+    </div>
+  
+                
+                
+                
+                
+
+                
+                
+                <div>
+                  <strong>Project Documentation</strong>
+                  <div>
+                    <small>
+                      <a href="./index.html">About Avalon Framework</a>
+                    </small>
+                  </div>
+                  <div>
+                    <small>
+                      <a href="./project-info.html">Project Info</a>
+                    </small>
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                  </div>
+                  <div>
+                    <small>
+                      <a href="./maven-reports.html">Project Reports</a>
+                    </small>
+                    
+					
+                    
+                    
+                      
+                      
+                    
+                      
+                      
+                    
+                      
+                      
+                    
+                    
+                    
+                    
+                  </div>
+                  
+                  
+                  
+                  
+                  
+                    <div>
+                      <small>
+                        
+                        <a href="http://maven.apache.org/development-process.html">Development Process</a>
+                      </small>
+                    </div>
+                  
+                </div>
+              
+              
+                
+                
+                
+                
+              
+                
+              </div>
+            </td>
+            <td rowspan="2">
+              <div id="bodycol">
+                
+                <div class="app">
+                  
+                  
+    <div class="h3">
+      
+      
+        <h3>
+          <a name="OOP best Practices">OOP best Practices</a>
+        </h3>
+      
+      
+    <div class="h4">
+      
+      
+        <h4>
+          <a name="Recursion Introduction">Recursion Introduction</a>
+        </h4>
+      
+      
+    <p>
+      
+        Use the same interface for communication with components of
+        the same type.  It allows the swapping of those components
+        for other components of the same type without breaking existing
+        code.
+      
+    </p>
+   
+    <p>
+      
+        If you need additional functionality, either create proxy
+        objects that implement the interface, or add it by subclassing
+        (hence the name "Recursion Introduction").  Even if
+        there is no recursion happening, it appears to operate in the
+        same manner.
+      
+    </p>
+   
+    </div>
+  
+    <div class="h4">
+      
+      
+        <h4>
+          <a name="Eliminate Case Analysis">Eliminate Case Analysis</a>
+        </h4>
+      
+      
+    <p>
+      
+        Avoid testing to see if an object is an instance of a particular
+        class.  Usually, if you think you need that approach then a
+        redesign will help immensely.
+      
+    </p>
+   
+    </div>
+  
+    <div class="h4">
+      
+      
+        <h4>
+          <a name="Reduce the Number of Arguments">Reduce the Number of Arguments</a>
+        </h4>
+      
+      
+    <p>
+      
+        Methods with a half-dozen arguments are hard to read, and can
+        usually be accomplished with an object that represents that
+        set of arguments.  It also makes it easier to track down the
+        problems.
+      
+    </p>
+   
+    </div>
+  
+    <div class="h4">
+      
+      
+        <h4>
+          <a name="Reduce the Size of Methods">Reduce the Size of Methods</a>
+        </h4>
+      
+      
+    <p>
+      
+        Most of your methods should only need to be a few lines long.
+        Methods that are very long (like 50 lines or so) are too complex,
+        and should be considered guilty of bad design until proven
+        innocent.
+      
+    </p>
+   
+    </div>
+  
+    <div class="h4">
+      
+      
+        <h4>
+          <a name="The Top of the Class Hierarchy Should be Abstract">The Top of the Class Hierarchy Should be Abstract</a>
+        </h4>
+      
+      
+    <p>
+      
+        In many cases it is beneficial to provide an abstract base class 
+        to extend for your specializations.  The majority of the 
+        functionality and behavior is well defined. This makes it easier
+        to decipher what the intents of the interface designer were.
+      
+    </p>
+   
+    </div>
+  
+    <div class="h4">
+      
+      
+        <h4>
+          <a name="Minimize Accesses to Variables">Minimize Accesses to Variables</a>
+        </h4>
+      
+      
+    <p>
+      
+        This point formalizes the principles of data hiding.  Try not
+        to expose class attributes to other classes, but protect them
+        by methods.  If an attribute changes name, then you only have
+        one place to update the code instead of hundreds.
+      
+    </p>
+   
+    </div>
+  
+    <div class="h4">
+      
+      
+        <h4>
+          <a name="Subclasses Should be Specializations">Subclasses Should be Specializations</a>
+        </h4>
+      
+      
+    <p>
+      
+        A [subclass] "is a" [superclass].  If what you
+        are trying to do is make a Component into a ComponentManager,
+        then you are violating the spirit of the framework.  A better
+        approach is to use containment in that case (i.e. a [class]
+        "has a" [external class]).
+      
+    </p>
+   
+    </div>
+  
+    <div class="h4">
+      
+      
+        <h4>
+          <a name="Split Large Classes">Split Large Classes</a>
+        </h4>
+      
+      
+    <p>
+      
+        If a class has 50+ methods, then it is most likely trying to
+        do too much.  Look at separating the functionality into
+        separate components.  Like methods that are too long, classes
+        that violate this rule should be considered guilty of wrong
+        design until proven innocent.
+      
+    </p>
+   
+    </div>
+  
+    <div class="h4">
+      
+      
+        <h4>
+          <a name="Factor Implementation Differences Into Subcomponents">Factor Implementation Differences Into Subcomponents</a>
+        </h4>
+      
+      
+    <p>
+      
+        If a subclass implements a method completely different from
+        the superclass, then it is not really a specialization.  It
+        should be split off from that class hierarchy tree.
+      
+    </p>
+   
+    </div>
+  
+    <div class="h4">
+      
+      
+        <h4>
+          <a name="Separate Methods that Do Not Communicate">Separate Methods that Do Not Communicate</a>
+        </h4>
+      
+      
+    <p>
+      
+        Sometimes in building a framework you run into a case where
+        you have different views of the same data.  In these cases,
+        you can have some attributes that describe how to generate
+        the data, and some attributes that describe the data itself.
+        It is better to separate these two views into separate classes.
+        The semantics are different enough to justify this solution.
+      
+    </p>
+   
+    </div>
+  
+    <div class="h4">
+      
+      
+        <h4>
+          <a name="Send Messages to Components instead of to This">Send Messages to Components instead of to This</a>
+        </h4>
+      
+      
+    <p>
+      
+        The point of this point is that you want to build your framework
+        based on components, and not inheritance.  Avalon takes this
+        point to heart.  In order to illustrate, I will give two examples
+        of the same thing.  The scenario is that we have a data structure
+        that we want to output to an arbitrary format.
+      
+    </p>
+   
+    <p>
+      
+        In the following example, we will use the Java 
+    <code>
+      this
+    </code>
+   
+        object and an inheritance based framework.  As you can see, this
+        would be a bear to maintain, and it won't easily be extended.
+      
+    </p>
+   
+    <div id="source">
+      <pre>
+abstract class AbstractExampleDocument 
+{
+  // skip some code ...
+public void output(Example structure) 
+{
+    if( null != structure )
+    {
+      this.format( structure );
+    }
+}
+
+  protected void format(Example structure);
+}
+      </pre>
+    </div>
+  
+    <p>
+      
+        In the next example, we will use the Avalon component based
+        architecture.  There is a clean separation between the purpose
+        of the objects, and you can exchange and extend formatting
+        without worrying about any other concerns.
+      
+    </p>
+   
+    <div id="source">
+      <pre>
+class DefaultExampleDocument 
+{
+// skip some code ...
+public void output(Example structure) 
+{
+   ExampleFormatter formatter = 
+     (ExampleFormatter) manager.lookup(Roles.FORMATTER);
+   if( null != structure ) 
+   {
+     formatter.format(structure);
+   }
+}
+}
+      </pre>
+    </div>
+  
+    <p>
+      
+        An inheritance based framework (White Box) can be converted
+        into a component based framework (Black Box) structure by
+        replacing overridden methods with method calls (message sends)
+        to components.  Component based architecture is much more
+        flexible in this regard.
+      
+    </p>
+   
+    </div>
+  
+    <div class="h4">
+      
+      
+        <h4>
+          <a name="Eliminate Implicit Parameter Passing">Eliminate Implicit Parameter Passing</a>
+        </h4>
+      
+      
+    <p>
+      
+        Just because two methods share the same information within the
+        class does not mean that it should be done in that manner.
+        Many times, the attribute that is shared should be passed
+        as a parameter of the method instead of directly accessing
+        the attribute.
+      
+    </p>
+   
+    </div>
+  
+    </div>
+  
+                  
+                  
+                  
+                  
+                  
+                </div>
+              </div>
+            </td>
+          </tr>
+        </table>
+        <div id="footer">
+          <table border="0" style="width:100%" cellpadding="4" cellspacing="0">
+            
+            <tr>
+              <td>
+                
+                  
+                    
+                    
+                      © 2000-2003, Apache Software Foundation
+                    
+                  
+                  
+                
+
+                
+              </td>
+              
+            </tr>
+          </table>
+        </div>
+      </body>
+    </html>
+  
