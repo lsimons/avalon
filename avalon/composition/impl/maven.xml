@@ -18,37 +18,38 @@
 
   <postGoal name="test:compile">
   
-    <mkdir dir="${basedir}/target/test-classes/repository/test/jars"/>
-    <mkdir dir="${basedir}/target/test-classes/ext"/>
-    <mkdir dir="${basedir}/target/test-classes/lib"/>
+    <mkdir dir="${basedir}/target/test/repository/test/jars"/>
+    <mkdir dir="${basedir}/target/test/ext"/>
+    <mkdir dir="${basedir}/target/test/lib"/>
+    <mkdir dir="${basedir}/target/test/conf"/>
 
-    <ant:jar jarfile="${basedir}/target/test-classes/ext/test-a.jar"
+    <ant:jar jarfile="${basedir}/target/test/ext/test-a.jar"
       manifest="${basedir}/src/test/etc/a.mf"
       includes="**/testa/*.*" basedir="${basedir}/target/test-classes">
     </ant:jar>
 
-    <ant:jar jarfile="${basedir}/target/test-classes/ext/test-b.jar"
+    <ant:jar jarfile="${basedir}/target/test/ext/test-b.jar"
       manifest="${basedir}/src/test/etc/b.mf"
       includes="**/testb/*.*" basedir="${basedir}/target/test-classes">
     </ant:jar>
 
-    <ant:jar jarfile="${basedir}/target/test-classes/lib/test-c.jar"
+    <ant:jar jarfile="${basedir}/target/test/lib/test-c.jar"
       manifest="${basedir}/src/test/etc/c.mf"
       includes="**/testc/*.*" basedir="${basedir}/target/test-classes">
     </ant:jar>
 
-    <ant:jar jarfile="${basedir}/target/test-classes/repository/test/jars/test-d.jar"
+    <ant:jar jarfile="${basedir}/target/test/repository/test/jars/test-d.jar"
       manifest="${basedir}/src/test/etc/d.mf"
       includes="**/testd/*.*" basedir="${basedir}/target/test-classes">
     </ant:jar>
 
-    <ant:jar jarfile="${basedir}/target/test-classes/repository/test/jars/test-e.jar"
+    <ant:jar jarfile="${basedir}/target/test/repository/test/jars/test-e.jar"
       manifest="${basedir}/src/test/etc/e.mf"
       includes="**/teste/*.*" basedir="${basedir}/target/test-classes">
     </ant:jar>
 
-    <ant:jar jarfile="${basedir}/target/test-classes/repository/test/jars/includes.jar">
-      <zipfileset dir="${maven.build.dir}/test-classes/conf" prefix="BLOCK-INF/">
+    <ant:jar jarfile="${basedir}/target/test/repository/test/jars/includes.jar">
+      <zipfileset dir="${basedir}/src/test/conf" prefix="BLOCK-INF/">
         <include name="block.xml"/>
       </zipfileset>
     </ant:jar>
@@ -62,12 +63,15 @@
       </fileset>
     </ant:delete>
 
-    <ant:copy toDir="${basedir}/target/test-classes/repository/avalon-framework/jars" 
+    <ant:copy toDir="${basedir}/target/test/repository/avalon-framework/jars" 
       file="${pom.getDependencyPath('avalon-framework:avalon-framework-impl')}"/>
-    <ant:copy toDir="${basedir}/target/test-classes/ext" 
+    <ant:copy toDir="${basedir}/target/test/ext" 
       file="${pom.getDependencyPath('avalon-framework:avalon-framework-api')}"/>
-    <ant:copy toDir="${basedir}/target/test-classes/ext" 
+    <ant:copy toDir="${basedir}/target/test/ext" 
       file="${pom.getDependencyPath('avalon-framework:avalon-framework-impl')}"/>
+    <ant:copy toDir="${basedir}/target/test/conf">
+      <fileset dir="${basedir}/src/test/conf"/>
+    </ant:copy> 
 
   </postGoal>
 
