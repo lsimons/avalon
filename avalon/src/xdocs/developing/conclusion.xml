@@ -52,7 +52,7 @@
 	on server side programming.  We use concepts and ideas from other
 	people's research.  We respond to feedback from our users.  Avalon
 	is not just designed by the five developers mentioned in the
-	introduction-the people who came up with the concepts of Inversion
+	introduction&mdash;the people who came up with the concepts of Inversion
 	of Control, Separation of Concerns, and Component Oriented
 	Programming design it.
       </para>
@@ -63,7 +63,7 @@
         was a better solution.  You can take the knowledge gained by the
         Avalon team and use it in your own systems.  You can take the
         predefined components in Excalibur and use them in your own
-        projects-they have been tested to work under heavy load without
+        projects&mdash;they have been tested to work under heavy load without
         errors.
       </para>
     </section>
