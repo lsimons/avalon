@@ -50,7 +50,7 @@
 package org.apache.excalibur.event;
 
 /**
- * The default queue implementation is a variable size queue.
+ * Provides the base functionality for the other <code>Queue</code> types.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:leo.sutic@inspireinfrastructure.com">Leo Sutic</a>
@@ -78,8 +78,9 @@ public abstract class AbstractQueue implements Queue
     }
 
     /**
-     * Default for isFull(). The method uses the maxSize() and size() methods
-     * to determine whether the queue is full.
+     * Check to see if the <code>Queue</code> is full. The method uses the
+     * <code>maxSize</code> and <code>size</code> methods to determine
+     * whether the queue is full.
      */
     public boolean isFull()
     {
@@ -88,7 +89,8 @@ public abstract class AbstractQueue implements Queue
     }
 
     /**
-     * Set the timeout
+     * Set the timeout for the <code>Queue</code> in milliseconds.  The
+     * default timeout is 0, which means that we don't wait at all.
      */
     public void setTimeout( final long millis )
     {
@@ -102,6 +104,10 @@ public abstract class AbstractQueue implements Queue
         }
     }
 
+    /**
+     * Encapsulates the logic to block the <code>Queue</code> for the amount
+     * of time specified by the timeout.
+     */
     protected void block( Object lock )
     {
         if( m_timeout > 0 )

@@ -52,9 +52,9 @@ package org.apache.excalibur.event;
 import org.apache.avalon.excalibur.concurrent.Mutex;
 
 /**
- * The default queue implementation is a variable size queue.  This queue is
- * ThreadSafe, however the overhead in synchronization costs a few extra
- * millis.
+ * An implementation of the <code>Queue</code> that has a fixed size.  Once
+ * the maximum number of elements are set, this <code>Queue</code> cannot be
+ * changed.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  */
@@ -67,8 +67,15 @@ public final class FixedSizeQueue
     private int m_end = 0;
     private int m_reserve = 0;
 
+    /**
+     * Create a <code>FixedSizedQueue</code> with the specified maximum size.
+     * The maximum size must be 1 or more.
+     */
     public FixedSizeQueue( int size )
     {
+        if ( size < 1 )
+            throw new IllegalArgument("Cannot specify an unbounded Queue");
+
         m_elements = new QueueElement[ size + 1 ];
         m_mutex = new Mutex();
     }
