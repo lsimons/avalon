@@ -32,12 +32,15 @@ public class MX4JSystemManager
     extends AbstractJMXManager
     implements Contextualizable, Configurable
 {
+    private static final String DEFAULT_NAMING_FACTORY =
+        "com.sun.jndi.rmi.registry.RegistryContextFactory";
     private static final int DEFAULT_HTTPADAPTER_PORT =
         Integer.getInteger( "phoenix.adapter.http", 8082 ).intValue();
     private int m_port;
     private boolean m_rmi;
     private File m_homeDir;
     private String m_stylesheetDir;
+    private String m_namingFactory;
 
     public void contextualize( Context context )
         throws ContextException
@@ -50,7 +53,12 @@ public class MX4JSystemManager
     {
         m_port = configuration.getChild( "manager-adaptor-port" ).
             getValueAsInteger( DEFAULT_HTTPADAPTER_PORT );
+
         m_rmi = configuration.getChild( "enable-rmi-adaptor" ).getValueAsBoolean( false );
+
+        m_namingFactory =
+            configuration.getChild( "rmi-naming-factory" ).getValue( DEFAULT_NAMING_FACTORY );
+
         final String stylesheets =
             configuration.getChild( "stylesheets-dir" ).getValue( null );
         if( null != stylesheets )
@@ -106,6 +114,8 @@ public class MX4JSystemManager
 
     private void startRMIAdaptor( MBeanServer server ) throws Exception
     {
+        System.setProperty( "java.naming.factory.initial", m_namingFactory );
+
         // Create and start the naming service
         ObjectName naming = new ObjectName( "Naming:type=rmiregistry" );
         server.createMBean( "mx4j.tools.naming.NamingService", naming, null );
