@@ -242,14 +242,25 @@ public final class DefaultConfigurationTestCase extends TestCase
         throws Exception
     {
         DefaultConfiguration a = createSimple( "1", "2" );
-        DefaultConfiguration b = createSimple( "2", "1" );
+        DefaultConfiguration b = createSimple( "1", "2" );
         
-        assertEquals( "order test", a, b );
+        assertEquals( "equal test", a, b );
         
         String value1 = a.getChild( "child" ).getValue();
         String value2 = b.getChild( "child" ).getValue();
         
         assertEquals( "value equality", value1, value2 );
+        
+        a = createSimple( "1", "2" );
+        b = createSimple( "2", "1" );
+        
+        assertTrue( "order test", ! a.equals( b ) );
+        
+        value1 = a.getChild( "child" ).getValue();
+        value2 = b.getChild( "child" ).getValue();
+        
+        assertEquals( "value equality", "1", value1 );
+        assertEquals( "value equality", "2", value2 );
     }
     
     private DefaultConfiguration createSimple( String value1, String value2 )
