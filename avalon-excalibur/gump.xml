@@ -490,6 +490,8 @@
 
         <home nested="instrument"/>
         <jar name="build/lib/excalibur-instrument-@@DATE@@.jar"/>
+        <jar name="build/lib/excalibur-instrument-manager-@@DATE@@.jar"/>
+        <jar name="build/lib/excalibur-instrument-manager-interfaces-@@DATE@@.jar"/>
 
         <nag from="Peter Donald &lt;peter@apache.org&gt;"
             to="avalon-dev@jakarta.apache.org"/>
