@@ -22,6 +22,8 @@ import org.apache.avalon.framework.context.DefaultContext;
 import org.apache.avalon.phoenix.components.application.Application;
 import org.apache.avalon.phoenix.components.application.DefaultServerApplication;
 import org.apache.avalon.phoenix.components.configuration.ConfigurationRepository;
+import org.apache.avalon.phoenix.components.frame.ApplicationFrame;
+import org.apache.avalon.phoenix.components.frame.DefaultApplicationFrame;
 import org.apache.avalon.phoenix.components.manager.SystemManager;
 import org.apache.avalon.phoenix.metadata.SarMetaData;
 import org.apache.avalon.phoenix.metadata.SarMetaData;
@@ -72,19 +74,15 @@ public class DefaultKernel
     /**
      * Prepare an application before it is initialized.
      * Overide to provide functionality.
-     * Usually used to setLogger(), contextualize, compose, configure.
      *
-     * @param name the name of application
      * @param entry the application entry
-     * @param application the application instance
      * @exception ContainerException if an error occurs
      */
-    protected void prepareApplication( final String name, final SarEntry entry )
+    protected void prepareApplication( final SarEntry entry )
         throws ContainerException
     {
+        final String name = entry.getMetaData().getName();
         final Application application = entry.getApplication();
-        final SarEntry saEntry = (SarEntry)entry;
-        final SarMetaData metaData = saEntry.getMetaData();
 
         setupLogger( application, name );
         try
@@ -98,11 +96,12 @@ public class DefaultKernel
                 ((Composable)application).compose( componentManager );
             }
 
-            application.setup( metaData, saEntry.getClassLoader() );
+            final ApplicationFrame frame = createApplicationFrame( entry );
+            application.setup( frame );
 
             if( application instanceof Configurable )
             {
-                ((Configurable)application).configure( saEntry.getConfiguration() );
+                ((Configurable)application).configure( entry.getConfiguration() );
             }
         }
         catch( final Exception e )
@@ -110,5 +109,16 @@ public class DefaultKernel
             final String message = REZ.getString( "kernel.error.entry.prepare", name );
             throw new ContainerException( message, e );
         }
+    }
+
+    private ApplicationFrame createApplicationFrame( final SarEntry entry )
+        throws Exception
+    {
+        final DefaultApplicationFrame frame = 
+            new DefaultApplicationFrame( entry.getClassLoader(), entry.getMetaData() );
+        setupLogger( entry.getApplication(), entry.getMetaData().getName() + ".frame" );
+        frame.configure( entry.getConfiguration() );
+        frame.initialize();
+        return frame;
     }
 }
