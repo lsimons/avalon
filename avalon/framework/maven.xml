@@ -39,7 +39,7 @@ The complete set of target include:
     <maven:reactor
       basedir="${basedir}"
       includes="*/project.xml"
-      excludes="site/project.xml"
+      excludes="project.xml,site/project.xml"
       goals="jar:install"
       banner="Building:"
       ignoreFailures="false"/>
