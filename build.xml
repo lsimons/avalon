@@ -3,8 +3,6 @@
 <project name="avalon-trunk" default="install" basedir="." 
   xmlns:x="antlib:org.apache.avalon.tools">
 
-  <x:home />
-  
   <available property="magic.available" classname="org.apache.avalon.tools.model.Home" >
     <classpath >
       <pathelement location="${user.home}/.ant/lib/avalon-tools-magic.jar"/>
