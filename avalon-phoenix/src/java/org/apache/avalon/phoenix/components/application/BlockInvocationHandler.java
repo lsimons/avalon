@@ -9,7 +9,7 @@ package org.apache.avalon.phoenix.components.application;
 
 import java.lang.reflect.Proxy;
 
-import org.apache.avalon.phoenix.AstractChainedInvocable;
+import org.apache.avalon.phoenix.AbstractChainedInvocable;
 
 /**
  * This makes a dynamic proxy for an object.  The object can be represented
@@ -26,9 +26,9 @@ import org.apache.avalon.phoenix.AstractChainedInvocable;
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
  * @author <a href="mailto:Paul_Hammant@yahoo.com">Paul Hammant</a>
- * @version CVS $Revision: 1.9 $ $Date: 2002/10/04 00:33:25 $
+ * @version CVS $Revision: 1.10 $ $Date: 2002/10/04 00:37:41 $
  */
-final class BlockInvocationHandler extends AstractChainedInvocable
+final class BlockInvocationHandler extends AbstractChainedInvocable
 {
     private transient Object m_object;
 
