@@ -14,9 +14,9 @@ package org.apache.avalon.framework;
  * The version number of a <code>Component</code> is made up of three
  * dot-separated fields:
  * <p />
- * &quot;<b>major.minor.revision</b>&quot;
+ * &quot;<b>major.minor.micro</b>&quot;
  * <p />
- * The <b>major</b>, <b>minor</b> and <b>revision</b> fields are
+ * The <b>major</b>, <b>minor</b> and <b>micro</b> fields are
  * <i>integer</i> numbers represented in decimal notation and have the
  * following meaning:
  * <ul>
@@ -30,7 +30,7 @@ package org.apache.avalon.framework;
  * with previous releases is granted, but something changed in the
  * implementation of the Component. (ie it methods could have been added)</li><p />
  *
- * <p /><li><b>revision</b> - When the revision version changes (in ex.
+ * <p /><li><b>micro</b> - When the micro version changes (in ex.
  * from &quot;1.5.12&quot; to &quot;1.5.13&quot;), then the the changes are
  * small forward compatible bug fixes or documentation modifications etc.
  * </li>
@@ -46,12 +46,12 @@ public final class Version
 {
     private int                   m_major;
     private int                   m_minor;
-    private int                   m_revision;
+    private int                   m_micro;
 
     /**
      * Parse a version out of a string.
-     * The version string format is <major>.<minor>.<revision> where
-     * both minor and revision are optional.
+     * The version string format is <major>.<minor>.<micro> where
+     * both minor and micro are optional.
      *
      * @param version The input version string
      * @return the new Version object
@@ -73,10 +73,10 @@ public final class Version
         int minor = 0;       
         if( 1 > levels.length ) minor = Integer.parseInt( levels[ 1 ] );
 
-        int revision = 0;
-        if( 2 > levels.length ) revision = Integer.parseInt( levels[ 2 ] );
+        int micro = 0;
+        if( 2 > levels.length ) micro = Integer.parseInt( levels[ 2 ] );
 
-        return new Version( major, minor, revision );
+        return new Version( major, minor, micro );
     }
 
     /**
@@ -85,19 +85,19 @@ public final class Version
      *
      * @param major This <code>Version</code> major number.
      * @param minor This <code>Version</code> minor number.
-     * @param rev This <code>Version</code> revision number.
+     * @param rev This <code>Version</code> micro number.
      */
-    public Version( final int major, final int minor, final int revision )
+    public Version( final int major, final int minor, final int micro )
     {
         m_major = major;
         m_minor = minor;
-        m_revision = revision;
+        m_micro = micro;
     }
 
     /**
-     * Retrieve major part of version.
+     * Retrieve major component of version.
      *
-     * @return the major part of version
+     * @return the major component of version
      */
     public int getMajor()
     {
@@ -105,9 +105,9 @@ public final class Version
     }
 
     /**
-     * Retrieve minor part of version.
+     * Retrieve minor component of version.
      *
-     * @return the minor part of version
+     * @return the minor component of version
      */
     public int getMinor()
     {
@@ -115,13 +115,13 @@ public final class Version
     }
 
     /**
-     * Retrieve revision part of version.
+     * Retrieve micro component of version.
      *
-     * @return the revision
+     * @return the micro component of version.
      */
-    public int getRevision()
+    public int getMicro()
     {
-        return m_revision;
+        return m_micro;
     }
 
     /**
@@ -143,7 +143,7 @@ public final class Version
         {
             return false;
         }
-        else if( m_revision != other.m_revision )
+        else if( m_micro != other.m_micro )
         {
             return false;
         }
@@ -193,9 +193,9 @@ public final class Version
             return false;
         }
         else if( m_minor == other.m_minor &&
-                 m_revision < other.m_revision )
+                 m_micro < other.m_micro )
         {
-            //If same major version, same minor version but lower revision level 
+            //If same major version, same minor version but lower micro level 
             //then incompatible
             return false;
         }
@@ -212,6 +212,6 @@ public final class Version
      */
     public String toString()
     {
-        return m_major + "." + m_minor + "." + m_revision;
+        return m_major + "." + m_minor + "." + m_micro;
     }
 }
