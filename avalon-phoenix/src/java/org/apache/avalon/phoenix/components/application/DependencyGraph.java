@@ -75,7 +75,6 @@ class DependencyGraph
     /**
      * Traverse dependencies of specified block.
      *
-     * @param name name of BlockMetaData
      * @param block the BlockMetaData
      */
     private static void visitDependencies( final BlockMetaData block,
@@ -96,7 +95,6 @@ class DependencyGraph
      * Traverse all reverse dependencies of specified block.
      * A reverse dependency are those that dependend on block.
      *
-     * @param name name of BlockMetaData
      * @param block the BlockMetaData
      */
     private static void visitReverseDependencies( final BlockMetaData block,
