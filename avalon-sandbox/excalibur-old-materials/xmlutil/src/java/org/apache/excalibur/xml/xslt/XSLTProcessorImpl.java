@@ -114,7 +114,7 @@ import org.xml.sax.XMLFilter;
  *
  * @author <a href="mailto:ovidiu@cup.hp.com">Ovidiu Predescu</a>
  * @author <a href="mailto:proyal@apache.org">Peter Royal</a>
- * @version CVS $Id: XSLTProcessorImpl.java,v 1.29 2003/04/05 19:39:39 leosimons Exp $
+ * @version CVS $Id: XSLTProcessorImpl.java,v 1.30 2003/04/17 10:51:56 cziegeler Exp $
  * @version 1.0
  * @since   July 11, 2001
  */
@@ -131,10 +131,13 @@ public final class XSLTProcessorImpl
     /** The store service instance */
     private Store m_store;
 
-    /** The trax TransformerFactory this component uses */
+    /** The configured transformer factory to use */
     private String m_transformerFactory;
+    /** The trax TransformerFactory this component uses */
     private SAXTransformerFactory m_factory;
-
+    /** The default TransformerFactory used by this component */
+    private SAXTransformerFactory m_defaultFactory;
+    
     /** Is the store turned on? (default is off) */
     private boolean m_useStore;
 
@@ -175,13 +178,20 @@ public final class XSLTProcessorImpl
         }
     }
 
+    /**
+     * Initialize
+     */
     public void initialize()
         throws Exception
     {
         m_errorHandler = new TraxErrorHandler( getLogger() );
         m_factory = getTransformerFactory( m_transformerFactory );
+        m_defaultFactory = m_factory;
     }
 
+    /**
+     * Disposable
+     */
     public void dispose()
     {
         if ( null != m_manager) 
@@ -229,12 +239,18 @@ public final class XSLTProcessorImpl
         m_factory = getTransformerFactory( classname );
     }
 
+    /**
+     * @see XSLTProcessor.getTransformerHandler( Source )
+     */
     public TransformerHandler getTransformerHandler( final Source stylesheet )
         throws XSLTProcessorException
     {
         return getTransformerHandler( stylesheet, null );
     }
 
+    /**
+     * @see XSLTProcessor.getTransformerHandler( Source, XMLFilter )
+     */
     public TransformerHandler getTransformerHandler( final Source stylesheet,
                                                      final XMLFilter filter )
         throws XSLTProcessorException
@@ -769,7 +785,11 @@ public final class XSLTProcessorImpl
     public void recycle() 
     {
         m_includesMap.clear();
-        m_factory = getTransformerFactory( m_transformerFactory );
+        // restore default factory
+        if ( m_factory != m_defaultFactory )
+        {
+            m_factory = m_defaultFactory;
+        }
     }
 
 }
