@@ -10,15 +10,18 @@ package org.apache.avalon.excalibur.datasource.test;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Random;
+import java.util.LinkedList;
+import java.util.Iterator;
+import org.apache.avalon.framework.component.Component;
+import org.apache.avalon.framework.component.ComponentException;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.configuration.DefaultConfiguration;
+import org.apache.avalon.excalibur.testcase.ExcaliburTestCase;
+import org.apache.avalon.excalibur.testcase.CascadingAssertionFailedError;
 import org.apache.avalon.excalibur.datasource.DataSourceComponent;
 import org.apache.avalon.excalibur.datasource.JdbcDataSource;
-import org.apache.log.Hierarchy;
-import org.apache.log.Logger;
-import org.apache.log.Priority;
-import junit.framework.TestCase;
+import org.apache.avalon.excalibur.concurrent.ThreadBarrier;
 
 /**
  * Test the DataSource Component.  I don't know how to make this generic,
@@ -28,164 +31,114 @@ import junit.framework.TestCase;
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  */
 public class DataSourceTestCase
-    extends TestCase
+    extends ExcaliburTestCase
 {
-    static final Configuration conf;
-    static final String LOCATION = "Testlet Framework";
-    static final Logger logger;
+    protected boolean isSuccessful;
+    protected ThreadBarrier barrier;
 
     public DataSourceTestCase(String name)
     {
         super(name);
     }
 
-    static
-    {
-        DefaultConfiguration dc = new DefaultConfiguration( "", LOCATION );
-        DefaultConfiguration pool = new DefaultConfiguration( "pool-controller", LOCATION );
-        DefaultConfiguration dburl = new DefaultConfiguration( "dburl", LOCATION );
-        DefaultConfiguration driver = new DefaultConfiguration( "driver", LOCATION );
-        DefaultConfiguration user = new DefaultConfiguration( "user", LOCATION );
-        DefaultConfiguration password = new DefaultConfiguration( "password", LOCATION );
-        pool.addAttribute( "min", "5" );
-        pool.addAttribute( "max", "10" );
-        dc.addChild( pool );
-        dburl.setValue( "jdbc:odbc:test" );
-        dc.addChild( dburl );
-        user.setValue( "test" );
-        dc.addChild( user );
-        password.setValue( "test" );
-        dc.addChild( password );
-        driver.setValue( "sun.jdbc.odbc.JdbcOdbcDriver" );
-        dc.addChild(driver);
-        conf = dc;
-
-        logger = Hierarchy.getDefaultHierarchy().getLoggerFor( "test" );
-        logger.setPriority( Priority.DEBUG );
-
-        try
-        {
-            logger.setLogTargets( new org.apache.log.LogTarget[]
-                                  { new org.apache.log.output.FileOutputLogTarget("test.log") } );
-        }
-        catch (Exception e)
-        {
-            // ignore
-        }
-    }
-
     public void testOverAllocation()
     {
-        boolean result = false;
-        JdbcDataSource ds = new JdbcDataSource();
-        ds.setLogger( logger );
+        DataSourceComponent ds = null;
+        this.isSuccessful = false;
+        LinkedList connectionList = new LinkedList();
 
         try
         {
-            ds.configure( conf );
-        }
-        catch( final ConfigurationException ce )
-        {
-            assertTrue( "Over Allocation Test: Could not configure", false );
-        }
+            ds = (DataSourceComponent) manager.lookup( DataSourceComponent.ROLE );
 
-        try
-        {
             for( int i = 0; i < 11; i++ )
             {
-                ds.getConnection();
+                connectionList.add( ds.getConnection() );
             }
         }
-        catch( final SQLException se )
+        catch ( SQLException se )
         {
-            result = true;
-            logger.info( "The test was successful" );
+            this.isSuccessful = true;
+            getLogger().info( "The test was successful" );
+        }
+        catch ( ComponentException ce )
+        {
+            if ( getLogger().isDebugEnabled() )
+            {
+                getLogger().debug( "There was an error in the OverAllocation test", ce );
+            }
+
+            throw new CascadingAssertionFailedError( "There was an error in the OverAllocation test", ce );
+        }
+        finally
+        {
+            assertTrue(  "The DataSourceComponent could not be retrieved.", null != ds );
+
+            Iterator connections = connectionList.iterator();
+
+            while ( connections.hasNext() )
+            {
+                try
+                {
+                    ( (Connection) connections.next() ).close();
+                }
+                catch ( SQLException se )
+                {
+                    // ignore
+                }
+            }
+
+            connectionList.clear();
+
+            manager.release( (Component) ds );
         }
 
-        ds.dispose();
-
-        assertTrue( "Over Allocation Test", result );
+        assertTrue( "Exception was not thrown when too many datasource components were retrieved.", this.isSuccessful );
     }
 
     public void testNormalUse()
     {
-        boolean result = true;
-        JdbcDataSource ds = new JdbcDataSource();
-        ds.setLogger( logger );
+        DataSourceComponent ds = null;
+        this.isSuccessful = true;
 
         try
         {
-            ds.configure( conf );
-        }
-        catch( final ConfigurationException ce )
-        {
-            logger.error( ce.getMessage(), ce );
-            assertTrue( "Over Allocation Test: could not configure", false );
-        }
+            ds = (DataSourceComponent) manager.lookup( DataSourceComponent.ROLE );
 
-        Thread one = new Thread( new ConnectionThread( this, ds ) );
-        Thread two = new Thread( new ConnectionThread( this, ds ) );
-        Thread three = new Thread( new ConnectionThread( this, ds ) );
-        Thread four = new Thread( new ConnectionThread( this, ds ) );
-        Thread five = new Thread( new ConnectionThread( this, ds ) );
-        Thread six = new Thread( new ConnectionThread( this, ds ) );
-        Thread seven = new Thread( new ConnectionThread( this, ds ) );
-        Thread eight = new Thread( new ConnectionThread( this, ds ) );
-        Thread nine = new Thread( new ConnectionThread( this, ds ) );
-        Thread ten = new Thread( new ConnectionThread( this, ds ) );
+            for (int i = 0; i < 10; i++)
+            {
+                (new Thread( new ConnectionThread( this, ds ) ) ).start();
+            }
 
-        one.start();
-        two.start();
-        three.start();
-        four.start();
-        five.start();
-        six.start();
-        seven.start();
-        eight.start();
-        nine.start();
-        ten.start();
-
-        while( one.isAlive() || two.isAlive() || three.isAlive() || four.isAlive() ||
-               five.isAlive() || six.isAlive() || seven.isAlive() || eight.isAlive() ||
-               nine.isAlive() || ten.isAlive() )
-        {
+            this.barrier = new ThreadBarrier(11);
             try
             {
-                Thread.sleep( 100 );
+                this.barrier.barrierSynchronize();
             }
-            catch( final InterruptedException ie )
+            catch(InterruptedException ie)
             {
                 // Ignore
             }
+
+            getLogger().info( "If you saw no failure messages, then the test passed" );
         }
-
-        logger.info( "If you saw no failure messages, then the test passed" );
-        assertTrue( "Normal Use Test", result );
-    }
-
-    public void runDBTest( final DataSourceComponent datasource )
-    {
-        long end = System.currentTimeMillis() + 5000; // run for 5 seconds
-
-        while( System.currentTimeMillis() < end )
+        catch ( ComponentException ce )
         {
-            try
+            if ( getLogger().isDebugEnabled() )
             {
-                Connection con = datasource.getConnection();
-                long sleeptime = (long)(Math.random() * 100.0);
-                Thread.sleep( sleeptime );
-                con.close();
+                getLogger().debug( "There was an error in the normal use test", ce );
             }
-            catch( final SQLException se )
-            {
-                logger.info( "Failed to get Connection, test failed" );
-                assertTrue( "Normal Use Test", false );
-            }
-            catch( final InterruptedException ie )
-            {
-                // Ignore
-            }
+
+            throw new CascadingAssertionFailedError( "There was an error in the normal use test", ce );
         }
+        finally
+        {
+            assertTrue(  "The DataSourceComponent could not be retrieved.", null != ds );
+
+            manager.release( (Component) ds );
+        }
+
+        assertTrue( "Normal use test failed", this.isSuccessful );
     }
 
     class ConnectionThread
@@ -194,7 +147,7 @@ public class DataSourceTestCase
         protected DataSourceComponent datasource;
         protected DataSourceTestCase testcase;
 
-        ConnectionThread( final DataSourceTestCase testcase,
+        ConnectionThread( DataSourceTestCase testcase,
                           final DataSourceComponent datasource )
         {
             this.datasource = datasource;
@@ -203,7 +156,36 @@ public class DataSourceTestCase
 
         public void run()
         {
-            testcase.runDBTest( datasource );
+            long end = System.currentTimeMillis() + 5000; // run for 5 seconds
+            Random rnd = new Random();
+
+            while( System.currentTimeMillis() < end )
+            {
+                try
+                {
+                    Connection con = this.datasource.getConnection();
+                    Thread.sleep( (long) rnd.nextInt(100) );
+                    con.close();
+                }
+                catch( final SQLException se )
+                {
+                    this.testcase.getLogger().info( "Failed to get Connection, test failed", se );
+                    this.testcase.assertTrue( "Normal Use Test", false );
+                }
+                catch( final InterruptedException ie )
+                {
+                    // Ignore
+                }
+            }
+
+            try
+            {
+                this.testcase.barrier.barrierSynchronize();
+            }
+            catch( final InterruptedException ie )
+            {
+                // Ignore
+            }
         }
     }
 }
