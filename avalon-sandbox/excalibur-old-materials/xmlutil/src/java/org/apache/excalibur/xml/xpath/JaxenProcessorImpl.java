@@ -81,9 +81,9 @@ import org.w3c.dom.NodeList;
  * </pre>
  *
  * @author <a href="mailto:dims@yahoo.com">Davanum Srinivas</a>
- * @version CVS $Revision: 1.10 $ $Date: 2003/02/27 09:24:47 $ $Author: cziegeler $
+ * @version CVS $Revision: 1.11 $ $Date: 2003/05/20 10:43:00 $ $Author: leosutic $
  */
-public final class JaxenProcessorImpl extends AbstractLogEnabled implements XPathProcessor, Configurable, Component, ThreadSafe, NamespaceContext
+public final class JaxenProcessorImpl extends AbstractLogEnabled implements XPathProcessor, Configurable, Component, ThreadSafe, PrefixResolver
 {
     private final HashMap m_mappings = new HashMap();
 
@@ -111,17 +111,7 @@ public final class JaxenProcessorImpl extends AbstractLogEnabled implements XPat
     public Node selectSingleNode( final Node contextNode,
                                   final String str )
     {
-        try
-        {
-            final DOMXPath path = new DOMXPath( str );
-            path.setNamespaceContext( this );
-            return (Node)path.selectSingleNode( contextNode );
-        }
-        catch( final Exception e )
-        {
-            // ignore it
-            return null;
-        }
+        return selectSingleNode(contextNode, str, this);
     }
 
     /**
@@ -135,18 +125,7 @@ public final class JaxenProcessorImpl extends AbstractLogEnabled implements XPat
     public NodeList selectNodeList( final Node contextNode,
                                     final String str )
     {
-        try
-        {
-            final DOMXPath path = new DOMXPath( str );
-            path.setNamespaceContext( this );
-            final List list = path.selectNodes( contextNode );
-            return new SimpleNodeList( list );
-        }
-        catch( final Exception e )
-        {
-            // ignore it
-            return new EmptyNodeList();
-        }
+        return selectNodeList(contextNode, str, this);
     }
 
     /** Evaluate XPath expression within a context.
@@ -157,16 +136,7 @@ public final class JaxenProcessorImpl extends AbstractLogEnabled implements XPat
      */
     public boolean evaluateAsBoolean( Node contextNode, String str )
     {
-        try
-        {
-            final DOMXPath path = new DOMXPath( str );
-            path.setNamespaceContext( this );
-            return path.booleanValueOf( contextNode );
-        }
-        catch( final Exception e )
-        {
-            return false;
-        }
+        return evaluateAsBoolean(contextNode, str, this);
     }
 
     /** Evaluate XPath expression within a context.
@@ -177,16 +147,7 @@ public final class JaxenProcessorImpl extends AbstractLogEnabled implements XPat
      */
     public Number evaluateAsNumber( Node contextNode, String str )
     {
-        try
-        {
-            final DOMXPath path = new DOMXPath( str );
-            path.setNamespaceContext( this );
-            return path.numberValueOf( contextNode );
-        }
-        catch( final Exception e )
-        {
-            return null;
-        }
+        return evaluateAsNumber(contextNode, str, this);
     }
 
     /** Evaluate XPath expression within a context.
@@ -197,10 +158,67 @@ public final class JaxenProcessorImpl extends AbstractLogEnabled implements XPat
      */
     public String evaluateAsString( Node contextNode, String str )
     {
+        return evaluateAsString(contextNode, str, this);
+    }
+
+    /**
+     * Evaluate XPath expression within a context.
+     *
+     * @param contextNode The context node.
+     * @param str A valid XPath string.
+     * @param resolver a PrefixResolver, used for resolving namespace prefixes
+     * @return expression result as boolean.
+     */
+    public boolean evaluateAsBoolean(Node contextNode, String str, PrefixResolver resolver)
+    {
         try
         {
             final DOMXPath path = new DOMXPath( str );
-            path.setNamespaceContext( this );
+            path.setNamespaceContext( new JaxenResolver(resolver) );
+            return path.booleanValueOf( contextNode );
+        }
+        catch( final Exception e )
+        {
+            return false;
+        }
+    }
+
+    /**
+     * Evaluate XPath expression within a context.
+     *
+     * @param contextNode The context node.
+     * @param str A valid XPath string.
+     * @param resolver a PrefixResolver, used for resolving namespace prefixes
+     * @return expression result as number.
+     */
+    public Number evaluateAsNumber(Node contextNode, String str, PrefixResolver resolver)
+    {
+        try
+        {
+            final DOMXPath path = new DOMXPath( str );
+            path.setNamespaceContext( new JaxenResolver(resolver) );
+            return path.numberValueOf( contextNode );
+        }
+        catch( final Exception e )
+        {
+            return null;
+        }
+    }
+
+    /**
+     * Evaluate XPath expression within a context.
+     *
+     * @param contextNode The context node.
+     * @param str A valid XPath string.
+     * @param resolver a PrefixResolver, used for resolving namespace prefixes
+     * @return expression result as string.
+     */
+    public String evaluateAsString(Node contextNode, String str, PrefixResolver resolver)
+    {
+        try
+        {
+            final DOMXPath path = new DOMXPath( str );
+            path.setNamespaceContext( new JaxenResolver(resolver) );
             return path.stringValueOf( contextNode );
         }
         catch( final Exception e )
@@ -209,8 +227,71 @@ public final class JaxenProcessorImpl extends AbstractLogEnabled implements XPat
         }
     }
 
-    public String translateNamespacePrefixToUri( String prefix )
+    /**
+     * Use an XPath string to select a single node.
+     *
+     * @param contextNode The node to start searching from.
+     * @param str A valid XPath string.
+     * @param resolver a PrefixResolver, used for resolving namespace prefixes
+     * @return The first node found that matches the XPath, or null.
+     */
+    public Node selectSingleNode(Node contextNode, String str, PrefixResolver resolver)
+    {
+        try
+        {
+            final DOMXPath path = new DOMXPath( str );
+            path.setNamespaceContext( new JaxenResolver(resolver) );
+            return (Node)path.selectSingleNode( contextNode );
+        }
+        catch( final Exception e )
+        {
+            // ignore it
+            return null;
+        }
+    }
+
+    /**
+     *  Use an XPath string to select a nodelist.
+     *
+     * @param contextNode The node to start searching from.
+     * @param str A valid XPath string.
+     * @param resolver a PrefixResolver, used for resolving namespace prefixes
+     * @return A List, should never be null.
+     */
+    public NodeList selectNodeList(Node contextNode, String str, PrefixResolver resolver)
+    {
+        try
+        {
+            final DOMXPath path = new DOMXPath( str );
+            path.setNamespaceContext( new JaxenResolver(resolver) );
+            final List list = path.selectNodes( contextNode );
+            return new SimpleNodeList( list );
+        }
+        catch( final Exception e )
+        {
+            // ignore it
+            return new EmptyNodeList();
+        }
+    }
+
+    public String prefixToNamespace(String prefix)
     {
         return (String)m_mappings.get( prefix );
+    }
+
+    /**
+     * A Jaxen-specific wrapper for the PrefixResolver.
+     */
+    private static class JaxenResolver implements NamespaceContext {
+        private final PrefixResolver resolver;
+
+        public JaxenResolver(PrefixResolver resolver) {
+            this.resolver = resolver;
+        }
+
+        public String translateNamespacePrefixToUri(String prefix)
+        {
+            return resolver.prefixToNamespace(prefix);
+        }
     }
 }

@@ -60,8 +60,12 @@ import org.w3c.dom.NodeList;
 /**
  * This is the interface of the XPath processor.
  *
+ * <p>All methods have two variants: one which takes a PrefixResolver as an extra
+ * argument, and one which doesn't. The {@link PrefixResolver} interface allows to provide
+ * your own namespace prefix resolving.
+ *
  * @author <a href="mailto:dims@yahoo.com">Davanum Srinivas</a>
- * @version CVS $Revision: 1.6 $ $Date: 2003/02/27 09:24:47 $ $Author: cziegeler $
+ * @version CVS $Revision: 1.7 $ $Date: 2003/05/20 10:43:00 $ $Author: leosutic $
  */
 public interface XPathProcessor
 {
@@ -98,9 +102,7 @@ public interface XPathProcessor
     String evaluateAsString( Node contextNode, String str );
 
     /**
-     * Use an XPath string to select a single node. XPath namespace
-     * prefixes are resolved from the context node, which may not
-     * be what you want (see the next method).
+     * Use an XPath string to select a single node.
      *
      * @param contextNode The node to start searching from.
      * @param str A valid XPath string.
@@ -110,11 +112,60 @@ public interface XPathProcessor
 
     /**
      *  Use an XPath string to select a nodelist.
-     *  XPath namespace prefixes are resolved from the contextNode.
      *
      *  @param contextNode The node to start searching from.
      *  @param str A valid XPath string.
      *  @return A List, should never be null.
      */
     NodeList selectNodeList( Node contextNode, String str );
+
+    /**
+     * Evaluate XPath expression within a context.
+     *
+     * @param contextNode The context node.
+     * @param str A valid XPath string.
+     * @param resolver a PrefixResolver, used for resolving namespace prefixes
+     * @return expression result as boolean.
+     */
+    boolean evaluateAsBoolean( Node contextNode, String str, PrefixResolver resolver );
+
+    /**
+     * Evaluate XPath expression within a context.
+     *
+     * @param contextNode The context node.
+     * @param str A valid XPath string.
+     * @param resolver a PrefixResolver, used for resolving namespace prefixes
+     * @return expression result as number.
+     */
+    Number evaluateAsNumber( Node contextNode, String str, PrefixResolver resolver );
+
+    /**
+     * Evaluate XPath expression within a context.
+     *
+     * @param contextNode The context node.
+     * @param str A valid XPath string.
+     * @param resolver a PrefixResolver, used for resolving namespace prefixes
+     * @return expression result as string.
+     */
+    String evaluateAsString( Node contextNode, String str, PrefixResolver resolver );
+
+    /**
+     * Use an XPath string to select a single node.
+     *
+     * @param contextNode The node to start searching from.
+     * @param str A valid XPath string.
+     * @param resolver a PrefixResolver, used for resolving namespace prefixes
+     * @return The first node found that matches the XPath, or null.
+     */
+    Node selectSingleNode( Node contextNode, String str, PrefixResolver resolver );
+
+    /**
+     *  Use an XPath string to select a nodelist.
+     *
+     * @param contextNode The node to start searching from.
+     * @param str A valid XPath string.
+     * @param resolver a PrefixResolver, used for resolving namespace prefixes
+     * @return A List, should never be null.
+     */
+    NodeList selectNodeList( Node contextNode, String str, PrefixResolver resolver );
 }

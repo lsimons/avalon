@@ -64,7 +64,6 @@ import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.thread.ThreadSafe;
-import org.apache.xml.utils.PrefixResolver;
 import org.apache.xpath.XPathAPI;
 import org.apache.xpath.objects.XObject;
 import org.w3c.dom.Node;
@@ -83,7 +82,7 @@ import org.w3c.dom.NodeList;
  * </pre>
  *
  * @author <a href="mailto:dims@yahoo.com">Davanum Srinivas</a>
- * @version CVS $Revision: 1.11 $ $Date: 2003/05/16 15:18:29 $ $Author: leosutic $
+ * @version CVS $Revision: 1.12 $ $Date: 2003/05/20 10:43:00 $ $Author: leosutic $
  */
 public final class XPathProcessorImpl extends AbstractLogEnabled implements XPathProcessor, Configurable, PrefixResolver, Component, ThreadSafe
 {
@@ -117,15 +116,7 @@ public final class XPathProcessorImpl extends AbstractLogEnabled implements XPat
     public Node selectSingleNode( final Node contextNode,
                                   final String str )
     {
-        try
-        {
-            final XObject result = XPathAPI.eval( contextNode, str, this );
-            return result.nodeset().nextNode();
-        }
-        catch( final TransformerException te )
-        {
-            return null;
-        }
+        return selectSingleNode(contextNode, str, this);
     }
 
     /**
@@ -139,15 +130,7 @@ public final class XPathProcessorImpl extends AbstractLogEnabled implements XPat
     public NodeList selectNodeList( final Node contextNode,
                                     final String str )
     {
-        try
-        {
-            final XObject result = XPathAPI.eval( contextNode, str, this );
-            return result.nodelist();
-        }
-        catch( final TransformerException te )
-        {
-            return new EmptyNodeList();
-        }
+        return selectNodeList(contextNode, str, this);
     }
 
     /** Evaluate XPath expression within a context.
@@ -158,15 +141,7 @@ public final class XPathProcessorImpl extends AbstractLogEnabled implements XPat
      */
     public boolean evaluateAsBoolean( Node contextNode, String str )
     {
-        try
-        {
-            final XObject result = XPathAPI.eval( contextNode, str, this );
-            return result.bool();
-        }
-        catch( final TransformerException te )
-        {
-            return false;
-        }
+        return evaluateAsBoolean(contextNode, str, this);
     }
 
     /** Evaluate XPath expression within a context.
@@ -177,15 +152,7 @@ public final class XPathProcessorImpl extends AbstractLogEnabled implements XPat
      */
     public Number evaluateAsNumber( Node contextNode, String str )
     {
-        try
-        {
-            final XObject result = XPathAPI.eval( contextNode, str, this );
-            return new Double( result.num() );
-        }
-        catch( final TransformerException te )
-        {
-            return null;
-        }
+        return evaluateAsNumber(contextNode, str, this);
     }
 
     /** Evaluate XPath expression within a context.
@@ -196,9 +163,64 @@ public final class XPathProcessorImpl extends AbstractLogEnabled implements XPat
      */
     public String evaluateAsString( Node contextNode, String str )
     {
+        return evaluateAsString(contextNode, str, this);
+    }
+
+    /**
+     * Evaluate XPath expression within a context.
+     *
+     * @param contextNode The context node.
+     * @param str A valid XPath string.
+     * @param resolver a PrefixResolver, used for resolving namespace prefixes
+     * @return expression result as boolean.
+     */
+    public boolean evaluateAsBoolean(Node contextNode, String str, PrefixResolver resolver)
+    {
         try
         {
-            final XObject result = XPathAPI.eval( contextNode, str, this );
+            final XObject result = XPathAPI.eval( contextNode, str, new XalanResolver(resolver) );
+            return result.bool();
+        }
+        catch( final TransformerException te )
+        {
+            return false;
+        }
+    }
+
+    /**
+     * Evaluate XPath expression within a context.
+     *
+     * @param contextNode The context node.
+     * @param str A valid XPath string.
+     * @param resolver a PrefixResolver, used for resolving namespace prefixes
+     * @return expression result as number.
+     */
+    public Number evaluateAsNumber(Node contextNode, String str, PrefixResolver resolver)
+    {
+        try
+        {
+            final XObject result = XPathAPI.eval( contextNode, str, new XalanResolver(resolver) );
+            return new Double( result.num() );
+        }
+        catch( final TransformerException te )
+        {
+            return null;
+        }
+    }
+
+    /**
+     * Evaluate XPath expression within a context.
+     *
+     * @param contextNode The context node.
+     * @param str A valid XPath string.
+     * @param resolver a PrefixResolver, used for resolving namespace prefixes
+     * @return expression result as string.
+     */
+    public String evaluateAsString(Node contextNode, String str, PrefixResolver resolver)
+    {
+        try
+        {
+            final XObject result = XPathAPI.eval( contextNode, str, new XalanResolver(resolver) );
             return result.str();
         }
         catch( final TransformerException te )
@@ -207,24 +229,82 @@ public final class XPathProcessorImpl extends AbstractLogEnabled implements XPat
         }
     }
 
-    public String getBaseIdentifier()
+    /**
+     * Use an XPath string to select a single node.
+     *
+     * @param contextNode The node to start searching from.
+     * @param str A valid XPath string.
+     * @param resolver a PrefixResolver, used for resolving namespace prefixes
+     * @return The first node found that matches the XPath, or null.
+     */
+    public Node selectSingleNode(Node contextNode, String str, PrefixResolver resolver)
     {
-        return m_baseURI;
+        try
+        {
+            final XObject result = XPathAPI.eval( contextNode, str, new XalanResolver(resolver) );
+            return result.nodeset().nextNode();
+        }
+        catch( final TransformerException te )
+        {
+            return null;
+        }
     }
 
-    public String getNamespaceForPrefix( String prefix )
+    /**
+     *  Use an XPath string to select a nodelist.
+     *
+     * @param contextNode The node to start searching from.
+     * @param str A valid XPath string.
+     * @param resolver a PrefixResolver, used for resolving namespace prefixes
+     * @return A List, should never be null.
+     */
+    public NodeList selectNodeList(Node contextNode, String str, PrefixResolver resolver)
+    {
+        try
+        {
+            final XObject result = XPathAPI.eval( contextNode, str, new XalanResolver(resolver) );
+            return result.nodelist();
+        }
+        catch( final TransformerException te )
+        {
+            return new EmptyNodeList();
+        }
+    }
+
+    public String prefixToNamespace(String prefix)
     {
         return (String)m_mappings.get( prefix );
     }
 
-    public String getNamespaceForPrefix( String prefix, Node node )
-    {
-        return getNamespaceForPrefix( prefix );
-    }
+    /**
+     * A Xalan-specific wrapper for the PrefixResolver.
+     */
+    private final class XalanResolver implements org.apache.xml.utils.PrefixResolver {
+        private final PrefixResolver resolver;
 
-    public boolean handlesNullPrefixes()
-    {
-        return false;
+        public XalanResolver(PrefixResolver resolver) {
+            this.resolver = resolver;
+        }
+
+        public String getNamespaceForPrefix(String prefix)
+        {
+            return resolver.prefixToNamespace(prefix);
+        }
+
+        public String getNamespaceForPrefix(String prefix, Node context)
+        {
+            return resolver.prefixToNamespace(prefix);
+        }
+
+        public String getBaseIdentifier()
+        {
+            return m_baseURI;
+        }
+
+        public boolean handlesNullPrefixes()
+        {
+            return false;
+        }
     }
 }
 
