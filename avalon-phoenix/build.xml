@@ -82,7 +82,7 @@ Legal:
     </path>
 
     <!-- Main target -->
-    <target name="main" depends="dist-lite-wrapper"
+    <target name="main" depends="dist-lite"
         description="generates the Phoenix distribution without the javadocs"/>
 
     <target name="rebuild" description="Rebuilds Phoenix">
@@ -90,7 +90,7 @@ Legal:
         <antcall target="main"/>
     </target>
 
-    <target name="all" depends="dist-lite" description="generates the Phoenix distribution">
+    <target name="all" depends="main" description="generates the Phoenix distribution">
         <ant target="docs" antfile="docs.xml" inheritall="false" />
     </target>
 
@@ -379,8 +379,7 @@ Legal:
         <filter token="SYSTEM-MANAGER-CLASS" value="${system.manager.impl.class}"/>
         <copy todir="${bin.dist.conf}" filtering="on">
             <fileset dir="${conf.dir}">
-                <include name="kernel.xml"/>
-                <include name="emx4j-kernel.xml"/>
+                <include name="*.xml"/>
             </fileset>
         </copy>
 
@@ -503,14 +502,20 @@ Legal:
                 <include name="README.txt"/>
             </fileset>
         </copy>
-        <mkdir dir="${src.dist.lib}/jing" />
-        <copy todir="${src.dist.lib}">
+        <mkdir dir="${src.dist.lib}/jing"/>
+        <copy todir="${src.dist.lib}/jing">
             <fileset dir="${lib.dir}/jing">
                 <include name="**"/>
             </fileset>
         </copy>
+        <mkdir dir="${src.dist.lib}/deploy"/>
+        <copy todir="${src.dist.lib}/deploy">
+            <fileset dir="${lib.dir}/deploy">
+                <include name="**"/>
+            </fileset>
+        </copy>
 
-        <mkdir dir="${src.dist.lib}/xdoclet" />
+        <mkdir dir="${src.dist.lib}/xdoclet"/>
         <copy todir="${src.dist.lib}/xdoclet">
             <fileset dir="${lib.dir}/xdoclet">
                 <include name="**"/>
@@ -591,6 +596,9 @@ Legal:
             src="${dist.base}/${dist.name}-bin.tar"/>
 
         <delete file="${dist.base}/${dist.name}-bin.tar"/>
+        
+        
+        
         <delete dir="${dist.name}" />
 
         <antcall target="src-dist">

@@ -8,5 +8,6 @@ emacs-jprj.el
 docs
 todo
 *.ipr
+*.iws
 .classpath
 .project
