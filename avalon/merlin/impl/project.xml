@@ -93,43 +93,43 @@ Merlin service management platform.
     </dependency>
 
     <dependency>
-      <groupId>avalon-meta</groupId>
-      <artifactId>avalon-meta-api</artifactId>
-      <version>1.4-SNAPSHOT</version>
+      <groupId>&avalon-meta-id;</groupId>
+      <artifactId>&avalon-meta-api-id;</artifactId>
+      <version>&avalon-meta-api-version;</version>
       <properties>
         <avalon.classloader>api</avalon.classloader>
       </properties>
     </dependency>
     <dependency>
-      <groupId>avalon-meta</groupId>
-      <artifactId>avalon-meta-spi</artifactId>
-      <version>1.4-SNAPSHOT</version>
+      <groupId>&avalon-meta-id;</groupId>
+      <artifactId>&avalon-meta-spi-id;</artifactId>
+      <version>&avalon-meta-spi-version;</version>
       <properties>
         <avalon.classloader>spi</avalon.classloader>
       </properties>
     </dependency>
     <dependency>
-      <groupId>avalon-meta</groupId>
-      <artifactId>avalon-meta-impl</artifactId>
-      <version>1.4-SNAPSHOT</version>
+      <groupId>&avalon-meta-id;</groupId>
+      <artifactId>&avalon-meta-impl-id;</artifactId>
+      <version>&avalon-meta-impl-version;</version>
     </dependency>
 
     <dependency>
-      <groupId>avalon-framework</groupId>
-      <artifactId>avalon-framework-api</artifactId>
-      <version>4.1.5</version>
+      <groupId>&avalon-framework-id;</groupId>
+      <artifactId>&avalon-framework-api-id;</artifactId>
+      <version>&avalon-framework-api-version;</version>
       <properties>
         <avalon.classloader>api</avalon.classloader>
       </properties>
     </dependency>
     <dependency>
-      <groupId>avalon-framework</groupId>
-      <artifactId>avalon-framework-impl</artifactId>
-      <version>4.1.5</version>
+      <groupId>&avalon-framework-id;</groupId>
+      <artifactId>&avalon-framework-impl-id;</artifactId>
+      <version>&avalon-framework-impl-version;</version>
     </dependency>
 
     <dependency>
-      <groupId>&avalon-util-extension-api-group;</groupId>
+      <groupId>&avalon-util-id;</groupId>
       <artifactId>&avalon-util-extension-api-id;</artifactId>
       <version>&avalon-util-extension-api-version;</version>
       <properties>
@@ -137,34 +137,34 @@ Merlin service management platform.
       </properties>
     </dependency>
     <dependency>
-      <groupId>&avalon-util-extension-impl-group;</groupId>
+      <groupId>&avalon-util-id;</groupId>
       <artifactId>&avalon-util-extension-impl-id;</artifactId>
       <version>&avalon-util-extension-impl-version;</version>
     </dependency>
     <dependency>
-      <groupId>avalon-util</groupId>
-      <artifactId>avalon-util-defaults</artifactId>
-      <version>1.2-SNAPSHOT</version>
+      <groupId>&avalon-util-id;</groupId>
+      <artifactId>&avalon-util-i18n-id;</artifactId>
+      <version>&avalon-util-i18n-version;</version>
     </dependency>
     <dependency>
-      <groupId>avalon-util</groupId>
-      <artifactId>avalon-util-env</artifactId>
-      <version>1.1-SNAPSHOT</version>
+      <groupId>&avalon-util-id;</groupId>
+      <artifactId>&avalon-util-defaults-id;</artifactId>
+      <version>&avalon-util-defaults-version;</version>
     </dependency>
     <dependency>
-      <groupId>avalon-util</groupId>
-      <artifactId>avalon-util-exception</artifactId>
-      <version>1.0</version>
+      <groupId>&avalon-util-id;</groupId>
+      <artifactId>&avalon-util-env-id;</artifactId>
+      <version>&avalon-util-env-version;</version>
     </dependency>
     <dependency>
-      <groupId>avalon-util</groupId>
-      <artifactId>avalon-util-criteria</artifactId>
-      <version>1.1-SNAPSHOT</version>
+      <groupId>&avalon-util-id;</groupId>
+      <artifactId>&avalon-util-exception-id;</artifactId>
+      <version>&avalon-util-exception-version;</version>
     </dependency>
     <dependency>
-      <groupId>avalon-util</groupId>
-      <artifactId>avalon-util-i18n</artifactId>
-      <version>1.0</version>
+      <groupId>&avalon-util-id;</groupId>
+      <artifactId>&avalon-util-criteria-id;</artifactId>
+      <version>&avalon-util-criteria-version;</version>
     </dependency>
 
     <!-- excalibur dependecies -->

@@ -23,19 +23,21 @@ An API supporting component assembly and deployment and decommissioning.
   <dependencies>
 
     <dependency>
-      <groupId>avalon-framework</groupId>
-      <artifactId>avalon-framework-api</artifactId>
-      <version>4.1.5</version>
+      <groupId>&avalon-framework-id;</groupId>
+      <artifactId>&avalon-framework-api-id;</artifactId>
+      <version>&avalon-framework-api-version;</version>
     </dependency>
-    <dependency>
-      <groupId>avalon-meta</groupId>
-      <artifactId>avalon-meta-api</artifactId>
-      <version>1.4-SNAPSHOT</version>
-    </dependency>
+
     <dependency>
       <groupId>&avalon-composition-id;</groupId>
       <artifactId>&avalon-composition-api-id;</artifactId>
       <version>&avalon-composition-api-version;</version>
+    </dependency>
+
+    <dependency>
+      <groupId>&avalon-meta-id;</groupId>
+      <artifactId>&avalon-meta-api-id;</artifactId>
+      <version>&avalon-meta-api-version;</version>
     </dependency>
 
   </dependencies>
