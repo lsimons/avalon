@@ -124,7 +124,7 @@
     <project basedir="../../runtime/framework/legacy">
       <info>
         <group>avalon/framework</group>
-        <name>avalon-framework-api</name>
+        <name>avalon-framework-legacy</name>
         <version>4.2.1</version>
       </info>
       <dependencies>
