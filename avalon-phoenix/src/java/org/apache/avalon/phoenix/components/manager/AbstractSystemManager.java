@@ -10,10 +10,10 @@ package org.apache.avalon.phoenix.components.manager;
 import java.util.HashMap;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
-import org.apache.avalon.framework.logger.AbstractLogEnabled;
+import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.activity.Startable;
-import org.apache.avalon.framework.activity.Disposable;
+import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.phoenix.interfaces.ManagerException;
 import org.apache.avalon.phoenix.interfaces.SystemManager;
 
@@ -30,82 +30,72 @@ public abstract class AbstractSystemManager
     private static final Resources REZ =
         ResourceManager.getPackageResources( AbstractSystemManager.class );
 
-    private HashMap m_entries = new HashMap();
+    private final HashMap m_entries = new HashMap();
+    private SubContext m_subContext;
+
+    public void initialize()
+        throws Exception
+    {
+        m_subContext = new SubContext( this, null, null );
+    }
 
     /**
-     * Register an object for management.
-     * The object is exported through some management scheme
-     * (typically JMX) and the management is restricted
-     * to the interfaces passed in as a parameter to method.
-     *
-     * @param name the name to register object under
-     * @param object the object
-     * @param interfaces the interfaces to register the component under
-     * @throws ManagerException if an error occurs. An error could occur if the object doesn't
-     *            implement the interfaces, the interfaces parameter contain non-instance
-     *            classes, the name is already registered etc.
-     * @throws IllegalArgumentException if object or interfaces is null
+     * @see SystemManager#register(String, Object, Class[])
      */
     public synchronized void register( final String name,
                                        final Object object,
                                        final Class[] interfaces )
         throws ManagerException, IllegalArgumentException
     {
-        checkRegister( name, object );
         if( null == interfaces )
         {
-            final String message = REZ.getString( "manager.error.interfaces.null", name );
+            final String message =
+                REZ.getString( "manager.error.interfaces.null", name );
             throw new IllegalArgumentException( message );
         }
-
         verifyInterfaces( object, interfaces );
 
-        final ManagedEntry entry =
-            new ManagedEntry( object, interfaces );
-        entry.setExportedObject( export( name, entry.getObject(), interfaces ) );
-
-        m_entries.put( name, entry );
+        doRegister( name, object, interfaces );
     }
 
     /**
-     * Register an object for management.
-     * The object is exported through some management scheme
-     * (typically JMX).
-     *
-     * @param name the name to register object under
-     * @param object the object
-     * @throws ManagerException if an error occurs such as name already registered.
-     * @throws IllegalArgumentException if object is null
+     * @see SystemManager#register(String, Object)
      */
-    public synchronized void register( final String name, final Object object )
+    public synchronized void register( final String name,
+                                       final Object object )
         throws ManagerException, IllegalArgumentException
     {
-        checkRegister( name, object );
-
-        final ManagedEntry entry =
-            new ManagedEntry( object, null );
-        entry.setExportedObject( export( name, entry.getObject(), null ) );
-        m_entries.put( name, entry );
+        doRegister( name, object, null );
     }
 
     /**
-     * Unregister named object.
-     *
-     * @param name the name of object to unregister
-     * @throws ManagerException if an error occurs such as when no such object registered.
+     * @see SystemManager#unregister(String)
      */
     public synchronized void unregister( final String name )
         throws ManagerException
     {
         final ManagedEntry entry = (ManagedEntry)m_entries.remove( name );
-
         if( null == entry )
         {
-            final String message = REZ.getString( "manager.error.unregister.noentry", name );
+            final String message =
+                REZ.getString( "manager.error.unregister.noentry", name );
             throw new ManagerException( message );
         }
 
         unexport( name, entry.getExportedObject() );
+    }
+
+    /**
+     * Returns the subcontext of the specified name.  If it does not exist it
+     * is created.
+     *
+     * @throws ManagerException if context cannot be created or retrieved
+     * @return  the subcontext with the specified name
+     */
+    public SystemManager getSubContext( String parent, String type )
+        throws ManagerException
+    {
+        return m_subContext.getSubContext( parent,type );
     }
 
     /**
@@ -131,6 +121,18 @@ public abstract class AbstractSystemManager
      */
     protected abstract void unexport( String name, Object exportedObject )
         throws ManagerException;
+
+    /**
+     * Verfify that name is well formed.
+     *
+     * @param name the name
+     * @param object the object so named
+     */
+    protected void verifyName( final String name,
+                               final Object object )
+        throws ManagerException
+    {
+    }
 
     /**
      * Verify that an interface conforms to the requirements of management medium.
@@ -196,10 +198,33 @@ public abstract class AbstractSystemManager
             throw new NullPointerException( "name" );
         }
 
+        verifyName( name, object );
+
         if( null != m_entries.get( name ) )
         {
             final String message = REZ.getString( "manager.error.register.exists", name );
             throw new ManagerException( message );
         }
+    }
+
+    /**
+     * Utility method that actually does the registration.
+     *
+     * @param name the name to register under
+     * @param object the object
+     * @param interfaces the interfaces (may be null)
+     * @throws ManagerException if error occurs
+     */
+    private void doRegister( final String name,
+                             final Object object,
+                             final Class[] interfaces )
+        throws ManagerException
+    {
+        checkRegister( name, object );
+
+        final Object exportedObject = export( name, object, interfaces );
+        final ManagedEntry entry =
+            new ManagedEntry( object, interfaces, exportedObject );
+        m_entries.put( name, entry );
     }
 }

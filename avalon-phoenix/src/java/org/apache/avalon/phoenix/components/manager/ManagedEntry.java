@@ -19,10 +19,12 @@ final class ManagedEntry
     private Object m_exportedObject;
 
     ManagedEntry( final Object object,
-                  final Class[] interfaces )
+                  final Class[] interfaces,
+                  final Object exportedObject )
     {
         m_object = object;
         m_interfaces = interfaces;
+        m_exportedObject = exportedObject;
     }
 
     Object getObject()
@@ -38,10 +40,5 @@ final class ManagedEntry
     Object getExportedObject()
     {
         return m_exportedObject;
-    }
-
-    void setExportedObject( final Object exportedObject )
-    {
-        m_exportedObject = exportedObject;
     }
 }

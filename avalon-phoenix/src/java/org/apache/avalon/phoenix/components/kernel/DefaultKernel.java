@@ -55,6 +55,7 @@ public class DefaultKernel
 
     ///SystemManager provided by Embeddor
     private SystemManager m_systemManager;
+    private SystemManager m_applicationManager;
 
     ///Configuration Repository
     private ConfigurationRepository m_repository;
@@ -76,6 +77,8 @@ public class DefaultKernel
     public void initialize()
         throws Exception
     {
+        m_applicationManager =
+            m_systemManager.getSubContext( null, "application" );
     }
 
     public void dispose()
@@ -158,10 +161,9 @@ public class DefaultKernel
             // manage application
             try
             {
-                final String managementName = name + ",type=Application";
-                m_systemManager.register( managementName,
-                                          application,
-                                          new Class[]{ApplicationMBean.class} );
+                m_applicationManager.register( name,
+                                               application,
+                                               new Class[]{ApplicationMBean.class} );
             }
             catch( final Throwable t )
             {
@@ -225,6 +227,7 @@ public class DefaultKernel
 
         ContainerUtil.enableLogging( context, createContextLogger( name ) );
         ContainerUtil.service( context, createServiceManager() );
+        ContainerUtil.initialize( context );
         return context;
     }
 
@@ -267,7 +270,7 @@ public class DefaultKernel
             // un-manage application
             try
             {
-                m_systemManager.unregister( name + ",type=Application" );
+                m_applicationManager.unregister( name );
             }
             catch( final Throwable t )
             {

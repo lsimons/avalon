@@ -57,4 +57,15 @@ public interface SystemManager
      */
     void unregister( String name )
         throws ManagerException;
+
+    /**
+     * Returns the subcontext of the specified name.  If it does not exist it
+     * is created.
+     *
+     * @param name name of the object in the parent context that will own this one
+     * @throws ManagerException if context cannot be created or retrieved
+     * @return  the subcontext with the specified name
+     */
+    SystemManager getSubContext( String name, String type )
+        throws ManagerException;
 }

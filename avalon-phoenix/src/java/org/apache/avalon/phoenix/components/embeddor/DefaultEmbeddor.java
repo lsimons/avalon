@@ -604,17 +604,22 @@ public class DefaultEmbeddor
     {
         final SystemManager systemManager =
             (SystemManager)getServiceManager().lookup( SystemManager.ROLE );
-        systemManager.register( ManagementRegistration.EMBEDDOR.getName(),
-                                this, ManagementRegistration.EMBEDDOR.getInterfaces() );
+
+        final SystemManager componentManager =
+            systemManager.getSubContext( null, "component" );
+
+        componentManager.register( ManagementRegistration.EMBEDDOR.getName(),
+                                   this,
+                                   ManagementRegistration.EMBEDDOR.getInterfaces() );
 
         for( int i = 0; i < m_entries.length; i++ )
         {
             final ManagementRegistration registration =
                 ManagementRegistration.getManagementInfoForRole( m_entries[ i ].getRole() );
-            if ( null != registration )
+            if( null != registration )
             {
-                systemManager.register( registration.getName(),
-                                        m_entries[ i ].getObject(), registration.getInterfaces() );
+                componentManager.register( registration.getName(),
+                                           m_entries[ i ].getObject(), registration.getInterfaces() );
             }
         }
     }
@@ -627,15 +632,18 @@ public class DefaultEmbeddor
     {
         final SystemManager systemManager =
             (SystemManager)getServiceManager().lookup( SystemManager.ROLE );
-        systemManager.unregister( ManagementRegistration.EMBEDDOR.getName() );
+
+        SystemManager componentManager = systemManager.getSubContext( null, "component" );
+
+        componentManager.unregister( ManagementRegistration.EMBEDDOR.getName() );
 
         for( int i = 0; i < m_entries.length; i++ )
         {
             final ManagementRegistration registration =
                 ManagementRegistration.getManagementInfoForRole( m_entries[ i ].getRole() );
-            if ( null != registration )
+            if( null != registration )
             {
-                systemManager.unregister( registration.getName() );
+                componentManager.unregister( registration.getName() );
             }
         }
     }
