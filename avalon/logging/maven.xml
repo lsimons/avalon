@@ -19,9 +19,9 @@
   ==============================================================================
   -->
 
-  <ant:property name="plugin.groupId" value="avalon-util"/>
-  <ant:property name="plugin.artifactId" value="avalon-util"/>
-  <ant:property name="plugin.version" value="1.0-SNAPSHOT"/>
+  <ant:property name="plugin.groupId" value="&avalon-util-id;"/>
+  <ant:property name="plugin.artifactId" value="&avalon-util-plugin-id;"/>
+  <ant:property name="plugin.version" value="&avalon-util-plugin-version;"/>
   <ant:property name="plugin.jar" 
     value="${plugin.artifactId}-${plugin.version}.jar"/>
 
