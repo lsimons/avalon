@@ -1,0 +1,26 @@
+===================================================================
+                       Avalon.Net - TO DO List 
+===================================================================
+
+- * Container should release shutdownorder list
+
+- Document the code
+
+- Configuration for logger (LoggerManager?)
+
+- Component Factories are not treat as a common Component 
+  (no events)
+
+- Add Extension support (should be very easy)
+
+- Add Dependency handling
+
+- Add Context support (?) This could be easily added as 
+  an extension
+  
+- A lot of Unit tests
+
+- Pass on (or create childs) LookupManager to components
+
+
+
