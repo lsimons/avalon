@@ -83,7 +83,7 @@ Legal:
   <property name="framework.jar" value="${lib.dir}/avalon-framework.jar"/>
   <property name="logkit.jar" value="${lib.dir}/logkit.jar"/>
   <property name="xerces.jar" value="${tools.dir}/lib/xerces.jar"/>
-  <property name="xalan.jar" value="${tools.dir}/lib/xalan-2.2.0-dev.jar"/>
+  <property name="xalan.jar" value="${tools.dir}/lib/xalan-2.2.0-D8.jar"/>
   <property name="bsf.jar" value="${tools.dir}/lib/bsf.jar"/>
   <property name="testlet.jar" value="${tools.dir}/lib/testlet.jar"/>
   <property name="junit.jar" value="${tools.dir}/lib/junit-3.7.jar"/>
@@ -271,6 +271,8 @@ Legal:
       <batchtest todir="${build.reports}">
         <fileset dir="${build.classes}">
           <exclude name="**/test/Abstract*TestCase.class"/>
+          <exclude name="org/apache/avalon/excalibur/datasource/test/DataSourceTestCase.class"
+                   unless="j2ee.present"/>
           <include name="**/test/*Profile.class" if="test.profile"/>
           <include name="**/test/*TestCase.class"/>
         </fileset>
@@ -325,6 +327,10 @@ Legal:
       <fileset dir="${java.dir}">
         <exclude name="org/apache/avalon/excalibur/datasource/Jdbc3Connection.java"/>
         <exclude name="org/apache/avalon/excalibur/datasource/Jdbc2Connection.java"/>
+        <exclude name="org/apache/avalon/excalibur/datasource/J2eeDataSource.java"
+                 unless="j2ee.present"/>
+        <exclude name="org/apache/avalon/excalibur/datasource/InformixDataSource.java"
+                 unless="informix.present"/>
       </fileset>
     </copy>
 
