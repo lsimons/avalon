@@ -35,6 +35,7 @@ import org.apache.avalon.meta.info.builder.tags.TypeTag;
 import org.apache.avalon.meta.info.builder.tags.ServiceTag;
 
 import org.apache.tools.ant.BuildException;
+import org.apache.tools.ant.Task;
 import org.apache.tools.ant.types.FileSet;
 
 import com.thoughtworks.qdox.ant.AbstractQdoxTask;
