@@ -48,7 +48,7 @@ set CP=%EXAMPLE_HOME%\lib\container.jar
 
 
 set _LIBJARS=
-for %%i in (%EXAMPLE_HOME%\..\commonlib\*.jar) do call %EXAMPLE_HOME%\bin\cpappend.bat %%i
+for %%i in (%EXAMPLE_HOME%\..\lib\*.jar) do call %EXAMPLE_HOME%\bin\cpappend.bat %%i
 if not "%_LIBJARS%" == "" goto run
 
 echo Unable to set CLASSPATH dynamically.
@@ -58,6 +58,6 @@ goto end
 set CP=%CP%%_LIBJARS%
 
 rem Run the example application
-%EXAMPLE_JAVACMD% -Djava.compiler="NONE" -classpath "%CP%" org.apache.excalibur.fortress.examples.simple.simple %1 %2 %3 %4 %5 %6 %7 %8 %9
+%EXAMPLE_JAVACMD% -Djava.compiler="NONE" -classpath "%CP%" org.apache.excalibur.fortress.examples.simple.Main %1 %2 %3 %4 %5 %6 %7 %8 %9
 
 :end
