@@ -2,6 +2,7 @@
 
 echo "Starting Merlin $MERLIN_VERSION."
 echo "===================="
+echo "             Platform: $PLATFORM"
 echo "            Java Home: $JAVA_HOME"
 echo "          Merlin Home: $MERLIN_HOME"
 echo "      Security policy: $MERLIN_HOME/bin/security.policy"
