@@ -7,7 +7,7 @@
  */
 package org.apache.avalon.phoenix.metainfo;
 
-import org.apache.avalon.framework.Version;
+
 
 /**
  * A descriptor that describes dependency information for Block.
@@ -16,8 +16,8 @@ import org.apache.avalon.framework.Version;
  */
 public final class DependencyDescriptor
 {
-    private final String              m_role;
-    private final ServiceDescriptor   m_service;
+    private final String m_role;
+    private final ServiceDescriptor m_service;
 
     /**
      * Constructor that has all parts as parameters.

@@ -11,27 +11,28 @@ import org.apache.avalon.excalibur.container.Info;
 
 /**
  * This descrbes information about the block that is used by administration tools and kernel.
- * 
+ *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
 public class BlockInfo
     implements Info
 {
-    private final BlockDescriptor          m_descriptor;
-    private final ServiceDescriptor[]      m_services;
-    private final DependencyDescriptor[]   m_dependencies;
+    private final BlockDescriptor m_descriptor;
+    private final ServiceDescriptor[] m_services;
+    private final DependencyDescriptor[] m_dependencies;
 
     /**
      * Basic constructor that takes as parameters all parts.
      */
-    public BlockInfo( final BlockDescriptor descriptor, 
-                      final ServiceDescriptor[] services, 
+    public BlockInfo( final BlockDescriptor descriptor,
+                      final ServiceDescriptor[] services,
                       final DependencyDescriptor[] dependencies )
     {
         m_descriptor = descriptor;
         m_services = services;
         m_dependencies = dependencies;
     }
+
     /**
      * Return meta information that is generallly only required by administration tools.
      *
@@ -43,7 +44,7 @@ public class BlockInfo
     {
         return m_descriptor;
     }
-    
+
     /**
      * This returns a list of Services that this block exports.
      *
@@ -57,7 +58,7 @@ public class BlockInfo
     /**
      * Return an array of Service dependencies that this Block depends upon.
      *
-     * @return an array of Service dependencies (may be null) 
+     * @return an array of Service dependencies (may be null)
      */
     public DependencyDescriptor[] getDependencies()
     {
@@ -79,7 +80,7 @@ public class BlockInfo
                 return m_dependencies[ i ];
             }
         }
-        
+
         return null;
     }
 }

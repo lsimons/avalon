@@ -15,8 +15,8 @@ import org.apache.avalon.framework.Version;
  */
 public class BlockDescriptor
 {
-    private final String          m_classname;
-    private final Version         m_version;
+    private final String m_classname;
+    private final Version m_version;
     //private final ConfigSchema    m_schema;
 
     public BlockDescriptor( final String classname, final Version version )
