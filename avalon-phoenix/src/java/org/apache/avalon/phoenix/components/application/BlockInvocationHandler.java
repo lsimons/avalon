@@ -7,9 +7,10 @@
  */
 package org.apache.avalon.phoenix.components.application;
 
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
-
-import org.apache.avalon.phoenix.AbstractChainedInvocable;
 
 /**
  * This makes a dynamic proxy for an object.  The object can be represented
@@ -26,12 +27,12 @@ import org.apache.avalon.phoenix.AbstractChainedInvocable;
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
  * @author <a href="mailto:Paul_Hammant@yahoo.com">Paul Hammant</a>
- * @version CVS $Revision: 1.10 $ $Date: 2002/10/04 00:37:41 $
+ * @version CVS $Revision: 1.11 $ $Date: 2002/10/11 05:59:51 $
  */
-final class BlockInvocationHandler extends AbstractChainedInvocable
+final class BlockInvocationHandler
+    implements InvocationHandler
 {
     private transient Object m_object;
-
     private transient Object m_proxy;
 
     /**
@@ -40,10 +41,11 @@ final class BlockInvocationHandler extends AbstractChainedInvocable
      * @param object the underlying object
      * @param interfaces the interfaces to proxy
      */
-    protected BlockInvocationHandler( final ClassLoader classLoader,
-                                      final Class[] interfaces )
+    protected BlockInvocationHandler( final Object object, final Class[] interfaces )
     {
-        super();
+        final ClassLoader classLoader = object.getClass().getClassLoader();
+
+        m_object = object;
         m_proxy = Proxy.newProxyInstance( classLoader, interfaces, this );
     }
 
@@ -53,7 +55,7 @@ final class BlockInvocationHandler extends AbstractChainedInvocable
      */
     public void invalidate()
     {
-        setObject( null );
+        m_object = null;
         m_proxy = null;
     }
 
@@ -65,5 +67,38 @@ final class BlockInvocationHandler extends AbstractChainedInvocable
     public Object getProxy()
     {
         return m_proxy;
+    }
+
+    /**
+     * Invoke the specified method on underlying object.
+     * This is called by proxy object.
+     *
+     * @param proxy the proxy object
+     * @param method the method invoked on proxy object
+     * @param args the arguments supplied to method
+     * @return the return value of method
+     * @throws Throwable if an error occurs
+     */
+    public Object invoke( final Object proxy,
+                          final Method method,
+                          final Object[] args )
+        throws Throwable
+    {
+        if( null != m_object )
+        {
+            try
+            {
+                return method.invoke( m_object, args );
+            }
+            catch( final InvocationTargetException ite )
+            {
+                throw ite.getTargetException();
+            }
+        }
+        else
+        {
+            throw new IllegalStateException( "Using a stale object reference "
+                                             + "to call a disposed Block." );
+        }
     }
 }
