@@ -57,6 +57,7 @@ package org.apache.excalibur.event.command;
  */
 public class NullCommandFailureHandler implements CommandFailureHandler
 {
+    public static final NullCommandFailureHandler SHARED_INSTANCE = new NullCommandFailureHandler();
     /**
      * Handle a command failure.  If a command throws an exception, it has failed.  The
      * CommandManager will call this method so that we can handle the problem effectively.
