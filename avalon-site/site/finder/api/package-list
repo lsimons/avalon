@@ -1,0 +1,4 @@
+org.apache.avalon.finder
+org.apache.avalon.finder.ecm
+org.apache.avalon.finder.ecm.info
+org.apache.avalon.finder.impl
