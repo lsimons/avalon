@@ -15,7 +15,7 @@ import org.apache.avalon.camelot.State;
  *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
-public interface Phases
+interface Phases
 {
     State      BASE        = new State( "BASE", 0 );
     State      STARTEDUP   = new State( "STARTEDUP", 10 );
