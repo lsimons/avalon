@@ -8,6 +8,30 @@
      </categories>
    </logging>
 
+   <security>
+     <certificates/>
+     <permissions>
+       <permission class="java.util.PropertyPermission" name="java.*">
+         <action>read</action>
+       </permission>
+       <permission class="java.util.PropertyPermission" name="os.*">
+         <action>read</action>
+       </permission>
+       <permission class="java.util.PropertyPermission" name="file.separator">
+         <action>read</action>
+       </permission>
+       <permission class="java.util.PropertyPermission" name="path.separator">
+         <action>read</action>
+       </permission>
+       <permission class="java.util.PropertyPermission" name="line.separator">
+         <action>read</action>
+       </permission>
+       <permission class="java.util.PropertyPermission" name="user.name">
+         <action>read</action>
+       </permission>
+     </permissions>
+   </security>
+
    <repository>
      <hosts>
        <host path="http://dpml.net/"/>

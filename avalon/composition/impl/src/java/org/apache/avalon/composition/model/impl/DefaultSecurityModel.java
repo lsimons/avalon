@@ -41,23 +41,43 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
  * <p>Implementation of the default security model.</p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2004/02/25 18:55:40 $
+ * @version $Revision: 1.2 $ $Date: 2004/02/25 20:31:01 $
  */
-public class DefaultSecurityModel implements SecurityModel
+public final class DefaultSecurityModel implements SecurityModel
 {
     //-------------------------------------------------------------------
     // static
     //-------------------------------------------------------------------
 
+    private static final String PERMISSIONS_ELEMENT = "permissions";
+    private static final String PERMISSION_ELEMENT = "permission";
+    private static final String CLASS_ATTRIBUTE = "class";
+    private static final String NAME_ATTRIBUTE = "name";
+    private static final String ACTION_ELEMENT = "action";
+    private static final String CERTIFICATES_ELEMENT = "certificates";
+    private static final String PKCS7_ELEMENT = "pkcs7";
+    private static final String X509_ELEMENT = "x509";
+
     private static final Permission[] EMPTY_PERMISSIONS = new Permission[0];
     private static final Certificate[] EMPTY_CERTIFICATES = new Certificate[0];
 
+   /**
+    * Utility method to construct a new {@link SecurityManager} from a supplied
+    * configuration. The configuration fragment may contain an optional 
+    * &lt;certificates&gt; element and an optional &lt;permissions&gt; element.
+    * The &lt;certificates&gt; element may contain 0..n &lt;certificate&gt; 
+    * elements.  The &lt;permissions&gt; element may contain 0..n &lt;permission&gt;
+    * elements. 
+    *
+    * @param config the security manager configuration
+    * @return a new security manager
+    */
     public static SecurityModel createSecurityModel( Configuration config )
       throws Exception
     {
-        Configuration certs = config.getChild( "certificates" );
+        Configuration certs = config.getChild( CERTIFICATES_ELEMENT );
         Certificate[] certificates = createCertificates( certs );
-        Configuration grant = config.getChild( "grant" );
+        Configuration grant = config.getChild( PERMISSIONS_ELEMENT );
         Permission[] permissions = createPermissions( grant );
         return new DefaultSecurityModel( certificates, permissions );
     }
@@ -170,7 +190,7 @@ public class DefaultSecurityModel implements SecurityModel
         {
             Configuration child = children[i];
             String name = child.getName();
-            if( name.equals( "pkcs7" ) )
+            if( name.equals( PKCS7_ELEMENT ) )
             {
                 Certificate[] certs = 
                   DefaultSecurityModel.createPKCS7( child );
@@ -179,7 +199,7 @@ public class DefaultSecurityModel implements SecurityModel
                     list.add( certs[j] );
                 }
             }
-            else if( name.equals( "x509" ) )
+            else if( name.equals( X509_ELEMENT ) )
             {
                 Certificate[] certs = 
                   DefaultSecurityModel.createX509( child );
@@ -272,15 +292,15 @@ public class DefaultSecurityModel implements SecurityModel
 
     private static Permission createPermission( Configuration config ) throws Exception
     {
-        String classname = config.getAttribute( "class" );
-        String name = config.getAttribute( "name", null );
+        String classname = config.getAttribute( CLASS_ATTRIBUTE );
+        String name = config.getAttribute( NAME_ATTRIBUTE, null );
         String actions = getActions( config );
         return createPermission( classname, name, actions );
     }
 
     private static String getActions( Configuration config ) throws ConfigurationException
     {
-        Configuration[] actions = config.getChildren( "action" );
+        Configuration[] actions = config.getChildren( ACTION_ELEMENT );
         if( actions.length == 0 ) return null;
         String result = "";
         for( int i=0 ; i < actions.length ; i ++ )
