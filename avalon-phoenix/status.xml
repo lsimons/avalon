@@ -9,9 +9,9 @@
     <person name="Mircea Toma" email="mirceatoma@home.com" id="MT"/>
     <person name="Stephen McConnell" email="mcconnell@osm.net" id="SM"/>
     <person name="Peter Royal" email="proyal@apache.org" id="PR"/>
-    <person name="Huw Roberts" email="huw@apache.org" id="HR"/>    
+    <person name="Huw Roberts" email="huw@apache.org" id="HR"/>
     <person name="Eung-ju Park" email="colus@apache.org" id="EP"/>
-    <person name="David W." email="daveweit@optonline.net" id="DW"/>    
+    <person name="David W." email="daveweit@optonline.net" id="DW"/>
     <person name="Nicola Ken Barozzi" email="nicolaken@apache.org" id="NKB"/>
   </developers>
 
@@ -32,49 +32,62 @@
     </actions>
     -->
   </todo>
-   
+
   <changes>
-  
+
     <!-- Sample action:
      <action dev="JB" type="fix" due-to="Joe Contributor"
              due-to-email="joec@apache.org">Fixed a bug in the Foo class.</action>
     -->
 
 <release version="4.1alpha" date="unreleased">
+    <action dev="PD" type="remove">
+        Remove several jars from the lib directory in Phoenix. They were causing
+        version conflicts with hosted applications which may want to use different
+        versions of libraries. Many of these libraries were not used by Phoenix at
+        all or could be moved to the container specific classloader. The libraries
+        that are no longer visible to the client applications include; excalibur-thread,
+        excalibur-threadcontext, excalibur-pool, excalibur-collections,
+        excalibur-instrument, excalibur-logger, excalibur-util, excalibur-extension,
+        excalibur-concurrent
+    </action>
+    <action dev="PD" type="update">
+        Move website to be based at http://avalon.apache.org/phoenix
+    </action>
     <action dev="NKB" type="update">
        Move to Forrest http://xml.apache.org/forrest/ for document generation.
-    </action>       
+    </action>
     <action dev="PH" type="add">
-       PUnit added. See http://jakarta.apache.org/avalon/phoenix/guide-punit.html
-    </action>   
+       PUnit added. See http://avalon.apache.org/phoenix/guide-punit.html
+    </action>
     <action dev="PH" type="add">
        Move to metagenerate (QDox using) instead of xdoclet for generating .xinfo and .mxinfo files.
-    </action>   
+    </action>
 </release>
 <release version="4.0.2" date="October 28, 2002">
     <action dev="PH" type="change">
         MX4J JMX upgraded to 1.1.1
-    </action>    
+    </action>
 </release>
 <release version="4.0.1" date="October 20, 2002">
     <action dev="PD" type="change">
         Fix for Logging. Some backwards compatability was formerly lost.
     </action>
     <action dev="PH" type="change">
-        MX4J JMX upgraded to 1.1.1 beta1.  
-    </action>    
+        MX4J JMX upgraded to 1.1.1 beta1.
+    </action>
     <action dev="PH" type="change">
         Some work on the wrapper for Unix.
-    </action>    
+    </action>
 </release>
-  
+
 <release version="4.0" date="September 16, 2002">
     <action dev="PD" type="add">
         Small bug fixes.  Some work on documentation.
     </action>
     <action dev="HR" type="add">
         MX4J JMX Documentation.
-    </action>    
+    </action>
 </release>
 <release version="4.0b2" date="August 26, 2002">
     <action dev="DW" type="change">
@@ -131,7 +144,7 @@
     </action>
     <action dev="PH" type="add">
         BeanShell debug tools for Kernel.
-    </action>    
+    </action>
 </release>
 <release version="4.0b" date="August 11, 2002">
     <action dev="PD" type="add">
