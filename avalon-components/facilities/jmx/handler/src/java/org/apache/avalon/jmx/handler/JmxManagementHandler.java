@@ -14,15 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.avalon.merlin.jmx.handler;
+package org.apache.avalon.jmx.handler;
 
 import org.apache.avalon.composition.event.CompositionEvent;
 import org.apache.avalon.composition.event.CompositionListener;
 import org.apache.avalon.composition.model.ComponentModel;
 import org.apache.avalon.composition.model.ContainmentModel;
 import org.apache.avalon.composition.model.DeploymentModel;
+
 import org.apache.avalon.util.i18n.ResourceManager;
 import org.apache.avalon.util.i18n.Resources;
+
 import org.apache.avalon.framework.activity.Startable;
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.ContextException;
@@ -31,8 +33,9 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
-import org.apache.avalon.merlin.jmx.ComponentRegistrationManager;
-import org.apache.avalon.merlin.jmx.ComponentRegistrationException;
+
+import org.apache.avalon.jmx.ComponentRegistrationManager;
+import org.apache.avalon.jmx.ComponentRegistrationException;
 
 /**
  * 
