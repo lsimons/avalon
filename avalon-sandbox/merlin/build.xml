@@ -267,12 +267,8 @@ the LICENSE.txt file.
   </target>
 
   <target name="context" depends="dependencies">
-    <mkdir dir="${lib.dir}"/>
     <uptodate property="uptodate" targetfile="${build.lib}/${jar.name}">
       <srcfiles dir="${src.dir}">
-        <include name="**/*.*"/>
-      </srcfiles>
-      <srcfiles dir="${lib.dir}">
         <include name="**/*.*"/>
       </srcfiles>
     </uptodate>
@@ -345,10 +341,58 @@ the LICENSE.txt file.
 
   </target>
 
-  <target name="install" depends="jar,jar-playground">
+  <target name="update-install" depends="jar,jar-playground">
       <mkdir dir="${local.repository}"/>
       <copy toDir="${local.repository}" file="${build.dir}/lib/${jar.name}"/>
-  </target> 
+  </target>
+
+  <target name="install" depends="update-install">
+    <mkdir dir="${merlin.home}"/>
+    <mkdir dir="${merlin.home}/lib/system"/>
+    <mkdir dir="${merlin.home}/lib/shared"/>
+    <mkdir dir="${merlin.home}/repository"/>
+    <copy toDir="${merlin.home}/lib/shared" file="${avalon-framework.jar}"/>
+    <copy toDir="${merlin.home}/lib/system" file="${excalibur-i18n.jar}"/>
+    <copy toDir="${merlin.home}/lib/system" file="${excalibur-configuration.jar}"/>
+    <copy toDir="${merlin.home}/lib/system" file="${excalibur-extension.jar}"/>
+    <copy toDir="${merlin.home}/lib/system" file="${excalibur-util-concurrent.jar}"/>
+    <copy toDir="${merlin.home}/lib/system" file="${excalibur-thread.jar}"/>
+    <copy toDir="${merlin.home}/lib/system" file="${excalibur-threadcontext.jar}"/>
+    <copy toDir="${merlin.home}/lib/system" file="${excalibur-pool.jar}"/>
+    <copy toDir="${merlin.home}/lib/system" file="${excalibur-event.jar}"/>
+    <copy toDir="${merlin.home}/lib/system" file="${excalibur-collections.jar}"/>
+    <copy toDir="${merlin.home}/lib/system" file="${commons-collections.jar}"/>
+    <copy toDir="${merlin.home}/lib/system" file="${avalon-logkit.jar}"/>
+    <copy toDir="${merlin.home}/lib/system" file="${avalon-meta.jar}"/>
+    <copy toDir="${merlin.home}/lib/system" file="${avalon-lifecycle.jar}"/>
+    <copy toDir="${merlin.home}/lib/system" file="${avalon-assembly.jar}"/>
+    <copy toDir="${merlin.home}/lib/system" file="${merlin.jar}"/>
+    <copy toDir="${merlin.home}/lib/system" file="${merlin-bootstrap.jar}"/>
+    <mkdir dir="${merlin.home}/bin"/>
+    <copy toDir="${merlin.home}/bin">
+      <fileset dir="${src.dir}/bin">
+        <include name="**/*.*"/>
+      </fileset>
+    </copy>
+    <mkdir dir="${merlin.home}/config"/>
+    <copy toDir="${merlin.home}/config">
+      <fileset dir="${src.dir}/config">
+        <include name="**/*.*"/>
+      </fileset>
+    </copy>
+    <mkdir dir="${merlin.home}/repository"/>
+    <copy toDir="${merlin.home}/repository">
+      <fileset dir="${src.dir}/repository">
+        <include name="**/*.*"/>
+      </fileset>
+    </copy>
+    <mkdir dir="${merlin.home}/repository/playground"/>
+    <copy toDir="${merlin.home}/repository/playground">
+      <fileset dir="../assembly/build/lib">
+        <include name="playground*.jar"/>
+      </fileset>
+    </copy>
+  </target>
 
   <target name="deploy" depends="jar">
 
@@ -412,12 +456,12 @@ the LICENSE.txt file.
         <param name="-version"/>
         <param name="-doctitle" value="${Name}"/>
         <param name="-windowtitle" value="${Name} API"/>
-        <param name="-link" value="http://java.sun.com/j2se/1.4/docs/api/"/>
-        <param name="-link" value="http://java.sun.com/j2ee/sdk_1.3/techdocs/api/"/>
-        <param name="-link" value="../../avalon/api"/>
-        <param name="-link" value="../../assembly/api"/>
-        <param name="-link" value="../../lifecycle/api"/>
-        <param name="-link" value="../../meta/api"/>
+        <param name="-link" value="${j2se.api.link}"/>
+        <param name="-link" value="${j2ee.api.link}"/>
+        <param name="-link" value="${avalon.api.link}"/>
+        <param name="-link" value="${assembly.api.link}"/>
+        <param name="-link" value="${lifecycle.api.link}"/>
+        <param name="-link" value="${meta.api.link}"/>
         <param name="-bottom"
            value="&quot;Copyright &#169; ${year} Apache Avalon Project. All Rights Reserved.&quot;"/>
       </doclet>
