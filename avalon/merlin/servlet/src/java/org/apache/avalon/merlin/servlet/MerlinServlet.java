@@ -145,7 +145,7 @@ public class MerlinServlet extends HttpServlet
 
             m_criteria.put( "merlin.server", "true" );
             m_criteria.put( "merlin.info", "true" );
-            m_criteria.put( "merlin.debug", "true" );
+            m_criteria.put( "merlin.debug", "false" );
 
             //
             // this is where we customize content based on web.xml
