@@ -88,6 +88,9 @@ class CommandInterpreterImpl extends Thread
                     execute( "login" );
                 m_Login = true; //LoginCmd throws an exception if login fails.
                 execute( waitForCommandLine() );
+            } catch( LoginException e )
+            {
+                errorMessage( "wrong password" );
             } catch( InterruptedException e )
             {
                 running = false;
@@ -131,9 +134,13 @@ class CommandInterpreterImpl extends Thread
     private String waitForCommandLine()
         throws IOException
     {
-        getOutput().write( "[" + m_Socket.getLocalAddress() + "  "  + m_CurrentNode.getPath() + "]$ " );
-        getOutput().flush();
-        String cmdline = m_Input.readLine().trim();
+        String cmdline = "";
+        while( cmdline.length() == 0 )
+        {
+            getOutput().write( "[" + m_Socket.getLocalAddress() + "  "  + m_CurrentNode.getQualifiedName() + "]$ " );
+            getOutput().flush();
+            cmdline = m_Input.readLine().trim();
+        }
         return cmdline;
     }
 
@@ -149,6 +156,7 @@ class CommandInterpreterImpl extends Thread
     {
         try
         {
+            getOutput().newLine();
             getOutput().write( message );
             getOutput().newLine();
             getOutput().flush();
