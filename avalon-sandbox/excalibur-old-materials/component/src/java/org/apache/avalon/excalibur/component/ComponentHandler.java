@@ -7,7 +7,6 @@
  */
 package org.apache.avalon.excalibur.component;
 
-import org.apache.avalon.excalibur.logger.LogKitManager;
 import org.apache.avalon.excalibur.pool.Poolable;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Initializable;
@@ -15,7 +14,6 @@ import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.component.ComponentManager;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.context.Context;
-import org.apache.avalon.framework.logger.AbstractLoggable;
 import org.apache.avalon.framework.thread.SingleThreaded;
 import org.apache.avalon.framework.thread.ThreadSafe;
 
@@ -26,13 +24,13 @@ import org.apache.avalon.framework.thread.ThreadSafe;
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:ryan@silveregg.co.jp">Ryan Shaw</a>
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/05/13 12:17:41 $
+ * @version CVS $Revision: 1.3 $ $Date: 2002/06/02 06:03:01 $
  * @since 4.0
  */
-public abstract class ComponentHandler extends AbstractLoggable
+public abstract class ComponentHandler
+    extends AbstractDualLogEnabled
     implements Initializable, Disposable
 {
-
     private Object m_referenceSemaphore = new Object();
     private int m_references = 0;
 
@@ -42,7 +40,7 @@ public abstract class ComponentHandler extends AbstractLoggable
         final ComponentManager manager,
         final Context context,
         final RoleManager roles,
-        final LogKitManager logkit )
+        final LogkitLoggerManager logkit )
         throws Exception
     {
         int numInterfaces = 0;

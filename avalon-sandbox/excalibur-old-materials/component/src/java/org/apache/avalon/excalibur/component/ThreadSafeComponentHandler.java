@@ -7,14 +7,12 @@
  */
 package org.apache.avalon.excalibur.component;
 
-import org.apache.avalon.excalibur.logger.LogKitManager;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Startable;
 import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.component.ComponentManager;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.context.Context;
-import org.apache.log.Logger;
 
 /**
  * The ThreadSafeComponentHandler to make sure components are initialized
@@ -23,10 +21,11 @@ import org.apache.log.Logger;
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:ryan@silveregg.co.jp">Ryan Shaw</a>
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/04/10 05:37:27 $
+ * @version CVS $Revision: 1.3 $ $Date: 2002/06/02 06:03:01 $
  * @since 4.0
  */
-public class ThreadSafeComponentHandler extends ComponentHandler
+public class ThreadSafeComponentHandler
+    extends ComponentHandler
 {
     private Component m_instance;
     private final DefaultComponentFactory m_factory;
@@ -43,7 +42,7 @@ public class ThreadSafeComponentHandler extends ComponentHandler
                                           final ComponentManager manager,
                                           final Context context,
                                           final RoleManager roles,
-                                          final LogKitManager logkit )
+                                          final LogkitLoggerManager logkit )
         throws Exception
     {
         this(
@@ -78,16 +77,6 @@ public class ThreadSafeComponentHandler extends ComponentHandler
         m_factory = null;
     }
 
-    public void setLogger( Logger log )
-    {
-        if( this.m_factory != null )
-        {
-            m_factory.setLogger( log );
-        }
-
-        super.setLogger( log );
-    }
-
     /**
      * Initialize the ComponentHandler.
      */
@@ -98,21 +87,26 @@ public class ThreadSafeComponentHandler extends ComponentHandler
         {
             return;
         }
+        if( null != m_factory )
+        {
+            m_factory.setLogger( getLogkitLogger() );
+            m_factory.enableLogging( getLogger() );
+        }
 
         if( m_instance == null )
         {
-            m_instance = (Component)this.m_factory.newInstance();
+            m_instance = (Component)m_factory.newInstance();
         }
 
         if( getLogger().isDebugEnabled() )
         {
-            if( this.m_factory != null )
+            if( m_factory != null )
             {
-                getLogger().debug( "ComponentHandler initialized for: " + this.m_factory.getCreatedClass().getName() );
+                getLogger().debug( "ComponentHandler initialized for: " + m_factory.getCreatedClass().getName() );
             }
             else
             {
-                getLogger().debug( "ComponentHandler initialized for: " + this.m_instance.getClass().getName() );
+                getLogger().debug( "ComponentHandler initialized for: " + m_instance.getClass().getName() );
             }
         }
 
