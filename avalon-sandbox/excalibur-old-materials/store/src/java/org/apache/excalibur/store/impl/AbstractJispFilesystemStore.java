@@ -52,18 +52,19 @@ package org.apache.excalibur.store.impl;
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.Enumeration;
+
+import com.coyotegulch.jisp.BTreeIndex;
+import com.coyotegulch.jisp.BTreeIterator;
+import com.coyotegulch.jisp.IndexedObjectDatabase;
+import com.coyotegulch.jisp.KeyNotFound;
+import com.coyotegulch.jisp.KeyObject;
 
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.thread.ThreadSafe;
 import org.apache.excalibur.store.Store;
-
-import com.coyotegulch.jisp.BTreeIndex;
-import com.coyotegulch.jisp.BTreeObjectIterator;
-import com.coyotegulch.jisp.IndexedObjectDatabase;
-import com.coyotegulch.jisp.KeyNotFound;
-import com.coyotegulch.jisp.KeyObject;
 
 /**
  * This store is based on the Jisp library
@@ -72,7 +73,7 @@ import com.coyotegulch.jisp.KeyObject;
  *
  * @author <a href="mailto:g-froehlich@gmx.de">Gerhard Froehlich</a>
  * @author <a href="mailto:vgritsenko@apache.org">Vadim Gritsenko</a>
- * @version CVS $Id: AbstractJispFilesystemStore.java,v 1.7 2003/04/05 19:39:38 leosimons Exp $
+ * @version CVS $Id: AbstractJispFilesystemStore.java,v 1.8 2003/07/14 13:58:19 cziegeler Exp $
  */
 public abstract class AbstractJispFilesystemStore
 extends AbstractLogEnabled
@@ -102,7 +103,8 @@ implements Store, ThreadSafe, Initializable {
      * Sets the repository's location
      */
     public void setDirectory(final File directory)
-    throws IOException {
+    throws IOException 
+    {
         this.m_directoryFile = directory;
 
         /* Save directory path prefix */
@@ -110,9 +112,11 @@ implements Store, ThreadSafe, Initializable {
         this.m_directoryPath += File.separator;
 
         /* Does directory exist? */
-        if (!this.m_directoryFile.exists()) {
+        if (!this.m_directoryFile.exists()) 
+        {
             /* Create it anew */
-            if (!this.m_directoryFile.mkdir()) {
+            if (!this.m_directoryFile.mkdir()) 
+            {
                 throw new IOException(
                 "Error creating store directory '" + this.m_directoryPath + "': ");
             }
@@ -209,26 +213,42 @@ implements Store, ThreadSafe, Initializable {
      * Frees some values of the data file.<br>
      * TODO: implementation
      */
-    public synchronized void free() {
-       //TODO: implementation
+    public synchronized void free() 
+    {
     }
 
     /**
      * Clear the Store of all elements
      */
     public synchronized void clear() {
-        BTreeObjectEnumeration enum = new BTreeObjectEnumeration(m_Database.createIterator(m_Index),this);
-
-        if (getLogger().isDebugEnabled()) {
+        
+        if (getLogger().isDebugEnabled()) 
+        {
             this.getLogger().debug("clear(): Clearing the database ");
         }
-        
-        while(enum.hasMoreElements()) {
-            Object tmp = enum.nextElement();
-            if (getLogger().isDebugEnabled()) {
-                this.getLogger().debug("clear(): Removing key: " + tmp.toString());
-            }
-            this.remove(tmp);
+
+        try 
+        {
+            final BTreeIterator iter = new BTreeIterator(m_Index);
+            Object tmp;
+            do 
+            {
+                tmp = iter.getKey();
+                if ( tmp != null ) 
+                {
+                    if (getLogger().isDebugEnabled()) 
+                    {
+                        this.getLogger().debug("clear(): Removing key: " + tmp.toString());
+                    }
+                    iter.moveNext();
+                    this.remove( tmp );
+                }
+            } 
+            while (tmp != null);
+        } 
+        catch (Exception ignore) 
+        {
+            getLogger().error("store(..): Exception", ignore);
         }
     }
 
@@ -284,19 +304,16 @@ implements Store, ThreadSafe, Initializable {
      * @return  Enumeration Object with all existing keys
      */
     public Enumeration keys() {
-        BTreeObjectEnumeration enum = new BTreeObjectEnumeration(m_Database.createIterator(m_Index),this);
-        return enum;
+        try {
+            BTreeObjectEnumeration enum = new BTreeObjectEnumeration(new BTreeIterator(m_Index), this);
+            return enum;
+        } catch (Exception ignore) {
+            return Collections.enumeration(Collections.EMPTY_LIST);
+        }
     }
 
     public int size() {
-        int cnt = 0;
-
-        BTreeObjectEnumeration enum = new BTreeObjectEnumeration(m_Database.createIterator(m_Index),this);
-
-        while(enum.hasMoreElements()) {
-            cnt++;
-        }
-        return cnt;
+        return m_Index.count();
     }
 
     /**
@@ -305,7 +322,8 @@ implements Store, ThreadSafe, Initializable {
      * @param key the key object
      * @return the wrapped key object
      */
-    private KeyObject wrapKeyObject(Object key) {
+    private KeyObject wrapKeyObject(Object key) 
+    {
         // TODO: Implementation of Integer and Long keys
         String skey = String.valueOf(key);
         return new JispStringKey(key.toString());
@@ -333,11 +351,12 @@ implements Store, ThreadSafe, Initializable {
         }
     }
 
-    class BTreeObjectEnumeration implements Enumeration {
-        private BTreeObjectIterator m_Iterator;
+    class BTreeObjectEnumeration implements Enumeration 
+    {
+        private BTreeIterator m_Iterator;
         private AbstractJispFilesystemStore m_Store;
 
-        public BTreeObjectEnumeration(BTreeObjectIterator iterator, AbstractJispFilesystemStore store) {
+        public BTreeObjectEnumeration(BTreeIterator iterator, AbstractJispFilesystemStore store) {
             m_Iterator = iterator;
             m_Store = store;
         }

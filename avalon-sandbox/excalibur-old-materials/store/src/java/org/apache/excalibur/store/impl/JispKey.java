@@ -57,24 +57,31 @@ import java.io.ObjectOutput;
 import com.coyotegulch.jisp.KeyObject;
 
 /**
- * Wrapper class for String Keys to be compatible with the
+ * Wrapper class for Keys to be compatible with the
  * Jisp KeyObject.
- *
- * @author <a href="mailto:g-froehlich@gmx.de">Gerhard Froehlich</a>
- * @version CVS $Id: JispStringKey.java,v 1.8 2003/07/14 13:58:19 cziegeler Exp $
+ * This will hopefully soon replace the JispStringKey implementation
+ * IT'S NOT FINISHED YET, PLEASE DON'T USE IT !!!!
+ * 
+ * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
+ * @version CVS $Id: JispKey.java,v 1.1 2003/07/14 13:58:19 cziegeler Exp $
  */
-public final class JispStringKey extends KeyObject {
-    final static long serialVersionUID = -6894793231339165076L;
+public final class JispKey extends KeyObject 
+{
+// TODO
+    //final static long serialVersionUID = -6894793231339165076L;
 
-    private String m_Key;
+    protected Object m_Key;
 
-    static private final String INIT = new String("");
+    protected int    m_KeyHashCode;
     
+    static protected final String INIT = new String("");
+    static protected final int    INIT_HASH_CODE = INIT.hashCode();
     /**
      *  Constructor for the JispStringKey object
      */
-    public JispStringKey() {
+    public JispKey() {
         m_Key = INIT;
+        m_KeyHashCode = INIT_HASH_CODE;
     }
 
     /**
@@ -82,8 +89,10 @@ public final class JispStringKey extends KeyObject {
      *
      * @param keyValue the Value of the Key as String
      */
-    public JispStringKey(String keyValue) {
+    public JispKey(Object keyValue) 
+    {
         m_Key = keyValue;
+        m_KeyHashCode = m_Key.hashCode();
     }
 
     /**
@@ -93,19 +102,35 @@ public final class JispStringKey extends KeyObject {
      * @return 0 if equal, 1 if greater, -1 if less
      */
 
-    public int compareTo(KeyObject key) {
-        if (key instanceof JispStringKey) {
-            int comp = m_Key.trim().compareTo(((JispStringKey) key).m_Key.trim());
-            if (comp == 0) {
-                return KEY_EQUAL;
-            } else {
-                if (comp < 0) {
-                    return KEY_LESS;
-                } else {
-                    return KEY_MORE;
+    public int compareTo(KeyObject key) 
+    {
+        if (key instanceof JispKey) 
+        {
+            final JispKey other = (JispKey)key;
+            if ( other.m_KeyHashCode == m_KeyHashCode ) 
+            {
+                if ( m_Key.equals(other.m_Key) ) 
+                {
+                    return KEY_EQUAL;
                 }
+                // we have the same hashcode, but different keys
+                if ( m_Key.hashCode() < other.m_Key.hashCode() ) 
+                {
+                    return KEY_LESS;
+                }
+                return KEY_MORE;
+            } 
+            else 
+            {
+                if ( m_KeyHashCode < other.m_KeyHashCode ) 
+                {
+                    return KEY_LESS;
+                }
+                return KEY_MORE;
             }
-        } else {
+        } 
+        else 
+        {
             return KEY_ERROR;
         }
     }
@@ -115,8 +140,9 @@ public final class JispStringKey extends KeyObject {
      *
      * @return a null Key
      */
-    public KeyObject makeNullKey() {
-        return new JispStringKey();
+    public KeyObject makeNullKey() 
+    {
+        return new JispKey();
     }
 
     /**
@@ -129,10 +155,9 @@ public final class JispStringKey extends KeyObject {
      * @exception IOException
      */
     public void writeExternal(ObjectOutput out)
-        throws IOException {
-        String outKey;
-        outKey = new String(m_Key);
-        out.writeUTF(outKey);
+    throws IOException 
+    {
+        out.writeObject(m_Key);
     }
 
     /**
@@ -147,18 +172,11 @@ public final class JispStringKey extends KeyObject {
      */
 
     public void readExternal(ObjectInput in)
-        throws IOException, ClassNotFoundException {
-        m_Key = in.readUTF();
+    throws IOException, ClassNotFoundException 
+    {
+        m_Key = in.readObject();
     }
 
-    /**
-     * Overrides the toString() method
-     *
-     * @return the Key as String
-     */
-    public String toString() {
-        return m_Key;
-    }
 }
 
 
