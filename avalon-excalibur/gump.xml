@@ -407,7 +407,7 @@
         <depend project="checkstyle"/>
         <depend project="jakarta-avalon" runtime="true"/>
         <depend project="excalibur-i18n" runtime="true"/>
-        <depend project="xdoclet-ant15" runtime="true"/>
+        <depend project="xdoclet-ant15" runtime="true" inherit="runtime"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
         <work nested="containerkit/build/classes"/>
