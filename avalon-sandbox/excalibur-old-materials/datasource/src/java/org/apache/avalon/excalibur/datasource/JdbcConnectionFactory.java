@@ -18,7 +18,7 @@ import java.sql.Connection;
  * The Factory implementation for JdbcConnections.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.10 $ $Date: 2002/01/26 16:58:06 $
+ * @version CVS $Revision: 1.11 $ $Date: 2002/02/26 07:49:56 $
  * @since 4.0
  */
 public class JdbcConnectionFactory extends AbstractLogEnabled implements ObjectFactory
@@ -47,8 +47,8 @@ public class JdbcConnectionFactory extends AbstractLogEnabled implements ObjectF
     }
 
     /**
-     * @ deprecated Use the new constructor with the keepalive and connectionClass
-     *              specified.
+     * @deprecated Use the new constructor with the keepalive and connectionClass
+     *             specified.
      */
     public JdbcConnectionFactory( final String url,
                                   final String username,
