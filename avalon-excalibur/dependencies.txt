@@ -15,6 +15,7 @@ Current at: Thu Apr  4 23:02:23 EST 2002
 * io -> .
 * threadcontext -> .
 * naming -> .
+* store -> framework
 * tar -> .
 * zip -> .
 * converter -> i18n
