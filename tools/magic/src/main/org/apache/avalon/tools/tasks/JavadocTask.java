@@ -44,12 +44,43 @@ import org.apache.avalon.tools.project.Policy;
  */
 public class JavadocTask extends SystemTask
 {
+    private static class Link
+    {
+        final String m_href;
+
+        public Link( String href )
+        {
+            m_href = href;
+        }
+
+        public String getHref()
+        {
+            return m_href;
+        }
+    }
+
+    private static class LocalLink extends Link
+    {
+        final File m_dir;
+
+        public LocalLink( String href, File dir )
+        {
+            super( href );
+            m_dir = dir;
+        }
+
+        public File getDir()
+        {
+            return m_dir;
+        }
+    }
+
     public static final String JAVADOC = "javadoc";
     public static final String API = "api";
     public static final String SPI = "spi";
     public static final String IMPL = "impl";
 
-    private String m_root = "{docRoot}";
+    private String m_root = "";
 
     public void setRoot( String root )
     {
@@ -70,37 +101,41 @@ public class JavadocTask extends SystemTask
         Path classpath = def.getPath( getProject(), Policy.RUNTIME );
 
         ArrayList visited = new ArrayList();
-        File api = setup( 
-          def, classpath, visited, ResourceRef.API, 
-          "api", root, null, null, false );
-        File spi = setup( 
-          def, classpath, visited, ResourceRef.SPI, 
-          "spi", root, api, m_root + "/../api/", false );
-        setup( 
-          def, classpath, visited, ResourceRef.IMPL, 
-          "impl", root, spi, m_root + "/../spi/", true );
+
+        File api = new File( root, "api" );
+        Link j2se = new Link( "http://java.sun.com/j2se/1.4/docs/api/" );
+        Link[] links = new Link[]{ j2se };
+        setup( def, classpath, visited, ResourceRef.API, api, links, "API", false );
+
+        File spi = new File( root, "spi" );
+        //LocalLink apiLink = new LocalLink( "/../api/", api );
+        //links = new Link[]{ j2se, apiLink };
+        setup( def, classpath, visited, ResourceRef.SPI, spi, links, "SPI", false );
+
+        File imp = new File( root, "impl" );
+        //LocalLink spiLink = new LocalLink( "/../spi/", spi );
+        //links = new Link[]{ j2se, apiLink, spiLink };
+        setup( def, classpath, visited, ResourceRef.IMPL, imp, links, "IMP", true );
+
     }
 
-    private File setup( 
-      Definition def, Path classpath, List visited, int category, String branch, 
-      File root, File parent, String href, boolean flag )
+    private void setup( 
+      Definition def, Path classpath, List visited, int category, File root, 
+      Link[] links, String message, boolean flag )
     {
-        File base = new File( root, branch );
-        ResourceRef[] refs = def.getQualifiedRefs( visited, category );
+        ResourceRef[] refs = 
+          def.getResourceRefs( Policy.RUNTIME, category, true );
+        //ResourceRef[] refs = def.getQualifiedRefs( visited, category );
         if( refs.length > 0 )
         {
-            log( 
-              "Javadoc preparation for category: " 
-              + branch + ", " 
-              + refs.length );
-            generate( def, classpath, refs, base, parent, href, flag );
+            log( "Javadoc " + message + " generation." );
+            generate( def, classpath, refs, root, links, flag );
         }
-        return base;
     }
 
     private void generate( 
        Definition definition, Path classpath, ResourceRef[] refs, 
-       File root, File parent, String href, boolean flag )
+       File root, Link[] links, boolean flag )
     {
         Javadoc javadoc = (Javadoc) getProject().createTask( "javadoc" );
 
@@ -134,12 +169,17 @@ public class JavadocTask extends SystemTask
             }
         }
 
-        if( null != href )
+        for( int i=0; i<links.length; i++ )
         {
-            Javadoc.LinkArgument link = javadoc.createLink();
-            link.setOffline( true );
-            link.setPackagelistLoc( parent );
-            link.setHref( href );
+            Link link = links[i];
+            Javadoc.LinkArgument arg = javadoc.createLink();
+            arg.setHref( link.getHref() );
+            if( link instanceof LocalLink )
+            {
+                LocalLink local = (LocalLink) link;
+                arg.setOffline( true );
+                arg.setPackagelistLoc( local.getDir() );
+            }
         }
 
         if( flag )

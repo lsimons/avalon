@@ -24,7 +24,6 @@ import java.io.FileInputStream;
 import java.util.List;
 import java.util.Hashtable;
 import java.util.ArrayList;
-import java.util.Properties;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -132,11 +131,27 @@ public class Home extends DataType
         }
     }
 
-    private String getCachePath( Project project )
+    private String getCachePath( Project project ) throws IOException
     {
         String path = project.getProperty( "avalon.cache" );
         if( null != path ) return path;
-        return ".cache";
+
+        Property property = (Property) project.createTask( "property" );
+        property.setEnvironment( "env" );
+        property.init();
+        property.execute();
+
+        String avalonHomePath = project.getProperty( "env.AVALON_HOME" );
+        if( null != avalonHomePath )
+        {
+            File avalonHomeDirectory = new File( avalonHomePath );
+            File cache = new File( avalonHomeDirectory, "repository" );
+            return cache.getCanonicalPath();
+        }
+        else
+        {
+            return ".cache";
+        }
     }
 
     //-------------------------------------------------------------
