@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
-<!DOCTYPE document SYSTEM "../dtd/document-v10.dtd">
+
+<!DOCTYPE document SYSTEM "dtd/document-v10.dtd">
 
 <document>
   <header>
@@ -189,7 +190,7 @@ class DefaultExampleDocument {
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.1 $ $Date: 2001/02/27 08:03:03 $
+      $Revision: 1.2 $ $Date: 2001/03/02 01:53:52 $
     </legal>
   </footer>
 </document>

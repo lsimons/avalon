@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!DOCTYPE document SYSTEM "../dtd/document-v10.dtd">
+<!DOCTYPE document SYSTEM "dtd/document-v10.dtd">
 
 <document>
   <header>
@@ -98,7 +98,7 @@ class MyComponent implements Component, Composer {
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.1 $ $Date: 2001/02/27 08:03:03 $
+      $Revision: 1.2 $ $Date: 2001/03/02 01:53:50 $
     </legal>
   </footer>
 </document>
