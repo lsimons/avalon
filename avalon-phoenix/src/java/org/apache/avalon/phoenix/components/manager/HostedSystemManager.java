@@ -7,12 +7,9 @@
  */
 package org.apache.avalon.phoenix.components.manager;
 
-import java.io.File;
 import java.util.ArrayList;
-import javax.management.Attribute;
 import javax.management.MBeanServer;
 import javax.management.MBeanServerFactory;
-import javax.management.ObjectName;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;

@@ -9,7 +9,6 @@ package org.apache.avalon.phoenix.components.configuration;
 
 import java.io.File;
 import java.io.IOException;
-
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.excalibur.io.FileUtil;
@@ -31,7 +30,6 @@ import org.apache.avalon.phoenix.interfaces.ConfigurationRepositoryMBean;
 import org.apache.excalibur.configuration.ConfigurationUtil;
 import org.apache.excalibur.configuration.merged.ConfigurationMerger;
 import org.apache.excalibur.configuration.merged.ConfigurationSplitter;
-
 import org.xml.sax.SAXException;
 
 /**

@@ -7,17 +7,16 @@
  */
 package org.apache.avalon.phoenix.test.data;
 
-import org.apache.avalon.framework.service.Serviceable;
-import org.apache.avalon.framework.service.ServiceManager;
-import org.apache.avalon.framework.service.ServiceException;
-import java.util.Arrays;
 import java.util.Map;
+import org.apache.avalon.framework.service.ServiceException;
+import org.apache.avalon.framework.service.ServiceManager;
+import org.apache.avalon.framework.service.Serviceable;
 
 /**
  * A test component.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2002/10/01 15:39:45 $
+ * @version $Revision: 1.4 $ $Date: 2002/10/02 11:25:56 $
  */
 public class Component4
     implements Serviceable

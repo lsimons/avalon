@@ -7,20 +7,20 @@
  */
 package org.apache.avalon.phoenix.components.util;
 
-import org.w3c.dom.Element;
-import org.w3c.dom.Document;
-import org.w3c.dom.Text;
-import org.apache.avalon.framework.configuration.Configuration;
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import org.apache.avalon.framework.configuration.Configuration;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Text;
 
 /**
  * This class has a bunch of utility methods to work
  * with configuration objects.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2002/09/22 08:51:09 $
+ * @version $Revision: 1.2 $ $Date: 2002/10/02 11:25:56 $
  */
 public class ConfigurationUtil
 {

@@ -30,11 +30,11 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
-import org.apache.avalon.phoenix.interfaces.ClassLoaderManager;
 import org.apache.avalon.phoenix.components.util.ConfigurationUtil;
-import org.apache.excalibur.policy.reader.PolicyReader;
-import org.apache.excalibur.policy.metadata.PolicyMetaData;
+import org.apache.avalon.phoenix.interfaces.ClassLoaderManager;
 import org.apache.excalibur.policy.builder.PolicyBuilder;
+import org.apache.excalibur.policy.metadata.PolicyMetaData;
+import org.apache.excalibur.policy.reader.PolicyReader;
 import org.w3c.dom.Element;
 
 /**

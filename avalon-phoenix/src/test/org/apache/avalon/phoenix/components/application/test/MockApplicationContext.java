@@ -7,20 +7,20 @@
  */
 package org.apache.avalon.phoenix.components.application.test;
 
-import org.apache.avalon.phoenix.interfaces.ApplicationContext;
-import org.apache.avalon.phoenix.metadata.SarMetaData;
-import org.apache.avalon.framework.logger.Logger;
+import java.io.InputStream;
+import java.util.HashMap;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
+import org.apache.avalon.framework.logger.Logger;
+import org.apache.avalon.phoenix.interfaces.ApplicationContext;
+import org.apache.avalon.phoenix.metadata.SarMetaData;
 import org.apache.excalibur.threadcontext.ThreadContext;
 import org.apache.excalibur.threadcontext.impl.DefaultThreadContextPolicy;
-import java.util.HashMap;
-import java.io.InputStream;
 
 /**
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2002/10/01 06:19:50 $
+ * @version $Revision: 1.2 $ $Date: 2002/10/02 11:25:56 $
  */
 class MockApplicationContext
     implements ApplicationContext

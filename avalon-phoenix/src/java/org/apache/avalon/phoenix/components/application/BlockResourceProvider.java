@@ -7,6 +7,13 @@
  */
 package org.apache.avalon.phoenix.components.application;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.framework.component.Component;
@@ -27,20 +34,13 @@ import org.apache.avalon.phoenix.metadata.DependencyMetaData;
 import org.apache.avalon.phoenix.metainfo.DependencyDescriptor;
 import org.apache.avalon.phoenix.metainfo.ServiceDescriptor;
 import org.apache.excalibur.containerkit.lifecycle.ResourceProvider;
-import java.util.Map;
-import java.util.HashMap;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Collections;
-import java.lang.reflect.Array;
 
 /**
  * The accessor used to access resources for a particular
  * Block or Listener.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.10 $ $Date: 2002/10/01 09:34:35 $
+ * @version $Revision: 1.11 $ $Date: 2002/10/02 11:25:55 $
  */
 class BlockResourceProvider
     extends AbstractLogEnabled
