@@ -17,11 +17,11 @@
 
 <!ENTITY avalon-util-extension-api-id "avalon-util-extension-api">
 <!ENTITY avalon-util-extension-api-group "avalon-util">
-<!ENTITY avalon-util-extension-api-version "2.0">
+<!ENTITY avalon-util-extension-api-version "1.2.0-dev">
 
 <!ENTITY avalon-util-extension-impl-id "avalon-util-extension-impl">
 <!ENTITY avalon-util-extension-impl-group "avalon-util">
-<!ENTITY avalon-util-extension-impl-version "2.0">
+<!ENTITY avalon-util-extension-impl-version "1.2.0-dev">
 
 <!ENTITY avalon-util-i18n-id "avalon-util-i18n">
 <!ENTITY avalon-util-i18n-group "avalon-util">
