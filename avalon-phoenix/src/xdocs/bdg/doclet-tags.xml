@@ -25,7 +25,7 @@
       <p>
         Using this feature requires that you markup the source code with the 
         appropriate tags and then have the build script include the
-        <code>MetaGenerateQdoxTask</code> task.  Both these steps are described
+        <code>MetaGenerateTask</code> task.  Both these steps are described
         below.
        </p>
     </section>
@@ -44,7 +44,7 @@
           <tr>
             <td>Purpose</td>
             <td>
-              Marks the class as block and tells the MetaGenerateQdoxTask to generate
+              Marks the class as block and tells the MetaGenerateTask to generate
               an xinfo file for it. 
             </td>
           </tr>
@@ -191,14 +191,14 @@
     <section name="Build Instructions">
       <p>
         To have xinfo files generated as part as your ant build
-        script, include the MetaGenerateQDoxTask like this:
+        script, include the MetaGenerateTask like this:
       </p>
       <source>
 <![CDATA[
     <!-- Make .xinfo, .mxinfo and manifest automatically for blocks -->
     <target name="metagenerate">
 
-        <taskdef name="generatemeta" classname="org.apache.avalon.phoenix.tools.metagenerate.MetaGenerateQdoxTask">
+        <taskdef name="generatemeta" classname="org.apache.avalon.phoenix.tools.metagenerate.MetaGenerateTask">
           <classpath refid="project.class.path" />
         </taskdef>
 
