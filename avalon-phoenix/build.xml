@@ -82,7 +82,7 @@ Legal:
   </path>
 
   <!-- Main target -->
-  <target name="main" depends="wrapper-dist"
+  <target name="main" depends="dist-lite-wrapper"
           description="generates the Phoenix distribution without the javadocs"/>
   <target name="all" depends="dist-lite" description="generates the Phoenix distribution">
     <ant target="docs" antfile="docs.xml" inheritall="false" />
@@ -107,7 +107,6 @@ Legal:
       <classpath refid="project.class.path"/>
     </available>
   </target>
-
 
   <!-- Prepares the build directory -->
   <target name="prepare" depends="check-environment">
@@ -219,6 +218,7 @@ Legal:
     <property name="bin.dist.apps" value="${bin.dist.dir}/apps"/>
     <property name="bin.dist.ext" value="${bin.dist.dir}/ext"/>
     <property name="bin.dist.lib" value="${bin.dist.dir}/lib"/>
+    <property name="bin.dist.conf" value="${bin.dist.dir}/conf"/>
 
     <mkdir dir="${bin.dist.bin}"/>
     <mkdir dir="${bin.dist.apps}"/>
@@ -258,16 +258,22 @@ Legal:
   </target>
 
   <!-- Create the lite build -->
-  <target name="wrapper-dist" depends="dist-lite" if="wrapper.present"
+  <target name="dist-lite-wrapper" depends="dist-lite" if="wrapper.present"
           description="generates the Phoenix binary distribution without the javadocs and with wrapper">
+
+    <!-- Wrapper filters -->
+    <filter token="app.name" value="phoenix"/>
+    <filter token="app.long.name" value="Phoenix Application Server"/>
 
     <copy file="${wrapper.jar}" todir="${bin.dist.bin}"/>
     <copy file="${wrapper.exe}" todir="${bin.dist.bin}"/>
     <copy file="${wrapper.dll}" todir="${bin.dist.bin}"/>
-    <copy file="${conf.dir}/wrapper.conf" todir="${bin.dist.bin}"/>
+
+    <chmod file="${bin.dist.bin}/wrapper" perm="u+x"/>
+    <copy file="${conf.dir}/wrapper.conf" todir="${bin.dist.conf}"/>
   </target>
 
-  <target name="install" depends="wrapper-dist,install-check-phoenix">
+  <target name="install" depends="dist-lite-wrapper,install-check-phoenix">
 
     <mkdir dir="${phoenix.home}" />
 
