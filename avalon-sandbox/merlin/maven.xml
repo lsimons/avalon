@@ -8,7 +8,6 @@
   <property name="maven.jar.manifest.extensions.add" value="true"/>
 
   <property name="maven.checkstyle.format" value="avalon"/>
-  <!--<property name="maven.jar.manifest" value="${basedir}/src/etc/project.mf"/>-->
   <property name="pom.organization.identifier" value="ASF"/>
   <property name="pom.specificationVersion" value="1.0"/>
 
@@ -31,7 +30,7 @@
 
     <maven:reactor
       basedir="${basedir}"
-      includes="*/project.xml"
+      includes="*/project.xml,merlin-extensions/merlin-jmx/project.xml,merlin-extensions/merlin-jndi/project.xml,merlin-extensions/merlin-servlet/project.xml"
       excludes="merlin-platform/*,merlin-plugin/*"
       goals="merlin-propergate"
       banner="Installing:"
@@ -262,7 +261,6 @@
     </javadoc>
   </goal>
 
-
   <!--
   Install the merlin plugin into the Maven plugin suite.
   -->
@@ -290,49 +288,9 @@
   <goal name="merlin-clean" prereqs="clean">
     <maven:reactor
       basedir="${basedir}"
-      includes="*/project.xml"
+      includes="*/project.xml,merlin-extensions/*/project.xml"
       goals="clean"
       banner="Cleaning subproject:"
-      ignoreFailures="false"/>
-  </goal>
-
-  <goal name="merlin-jar" >
-    <maven:reactor
-      basedir="${basedir}"
-      includes="*/project.xml"
-      excludes="merlin-platform/*"
-      goals="jar"
-      banner="Building jar:"
-      ignoreFailures="false"/>
-  </goal>
-
-  <goal name="merlin-snapshot" >
-    <maven:reactor
-      basedir="${basedir}"
-      includes="*/project.xml"
-      excludes="merlin-platform/*"
-      goals="jar:snapshot"
-      banner="Building shapshot:"
-      ignoreFailures="false"/>
-  </goal>
-
-  <goal name="merlin-install-snapshot" >
-    <maven:reactor
-      basedir="${basedir}"
-      includes="*/project.xml"
-      excludes="merlin-platform/*"
-      goals="jar:install-snapshot"
-      banner="Installing snapshot:"
-      ignoreFailures="false"/>
-  </goal>
-
-  <goal name="merlin-jar-install" >
-    <maven:reactor
-      basedir="${basedir}"
-      includes="*/project.xml"
-      excludes="merlin-platform/*"
-      goals="clean,jar:install"
-      banner="Installing jar:"
       ignoreFailures="false"/>
   </goal>
 

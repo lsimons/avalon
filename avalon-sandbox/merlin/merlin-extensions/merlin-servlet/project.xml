@@ -2,7 +2,7 @@
 
 <project>
 
-  <extend>${basedir}/../project.xml</extend>
+  <extend>${basedir}/../../project.xml</extend>
   <groupId>merlin</groupId>
   <id>merlin-servlet</id>
   <name>Merlin Kernel Servlet</name>
@@ -68,13 +68,22 @@ Servlet implementation that initializes an embedded Merlin Kernel.
     </dependency>
 
     <dependency>
-      <id>excalibur-lifecycle</id>
+      <groupId>avalon</groupId>
+      <artifactId>avalon-composition-spi</artifactId>
       <version>1.0</version>
       <properties>
         <war.bundle.jar>true</war.bundle.jar>
       </properties>
     </dependency>
-    
+    <dependency>
+      <groupId>avalon</groupId>
+      <artifactId>avalon-composition</artifactId>
+      <version>1.0</version>
+      <properties>
+        <war.bundle.jar>true</war.bundle.jar>
+      </properties>
+    </dependency>
+
     <dependency>
       <groupId>avalon</groupId>
       <artifactId>avalon-meta</artifactId>
@@ -83,7 +92,6 @@ Servlet implementation that initializes an embedded Merlin Kernel.
         <war.bundle.jar>true</war.bundle.jar>
       </properties>
     </dependency>
-    
     <dependency>
       <groupId>avalon</groupId>
       <artifactId>avalon-meta-spi</artifactId>
@@ -101,7 +109,6 @@ Servlet implementation that initializes an embedded Merlin Kernel.
         <war.bundle.jar>true</war.bundle.jar>
       </properties>
     </dependency>
-    
     <dependency>
       <groupId>avalon</groupId>
       <artifactId>avalon-assembly</artifactId>
@@ -111,6 +118,31 @@ Servlet implementation that initializes an embedded Merlin Kernel.
       </properties>
     </dependency>
     
+    <dependency>
+      <groupId>avalon-extension</groupId>
+      <artifactId>avalon-extension-spi</artifactId>
+      <version>1.0</version>
+      <properties>
+        <war.bundle.jar>true</war.bundle.jar>
+      </properties>
+    </dependency>
+    <dependency>
+      <groupId>avalon-extension</groupId>
+      <artifactId>avalon-extension-impl</artifactId>
+      <version>1.0</version>
+      <properties>
+        <war.bundle.jar>true</war.bundle.jar>
+      </properties>
+    </dependency>
+
+    <dependency>
+      <id>excalibur-lifecycle</id>
+      <version>1.0</version>
+      <properties>
+        <war.bundle.jar>true</war.bundle.jar>
+      </properties>
+    </dependency>
+
     <dependency>
       <id>excalibur-i18n</id>
       <version>1.0</version>
@@ -144,23 +176,6 @@ Servlet implementation that initializes an embedded Merlin Kernel.
       </properties>
     </dependency>
     
-    <dependency>
-      <groupId>avalon-extension</groupId>
-      <artifactId>avalon-extension-spi</artifactId>
-      <version>1.0</version>
-      <properties>
-        <war.bundle.jar>true</war.bundle.jar>
-      </properties>
-    </dependency>
-    <dependency>
-      <groupId>avalon-extension</groupId>
-      <artifactId>avalon-extension-impl</artifactId>
-      <version>1.0</version>
-      <properties>
-        <war.bundle.jar>true</war.bundle.jar>
-      </properties>
-    </dependency>
-
     <dependency>
       <groupId>merlin</groupId>
       <artifactId>merlin-spi</artifactId>
