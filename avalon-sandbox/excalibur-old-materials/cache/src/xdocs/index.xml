@@ -9,7 +9,7 @@
     </authors>
   </header>
   <body>
-    <s1 title="Introduction">
+    <section><title>Introduction</title>
       <warn>
         This package is under development, and the API is not
         guaranteed to be the same when it is ready for release.
@@ -23,12 +23,12 @@
         to allow for different implementations of the backing mechanism (store)
         and replacement algorithm (eg LRU, FIFO).
       </p>
-    </s1>
+    </section>
   </body>
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.5 $ $Date: 2002/07/26 15:40:03 $
+      $Revision: 1.6 $ $Date: 2003/02/20 14:09:32 $
     </legal>
   </footer>
 </document>

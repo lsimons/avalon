@@ -358,7 +358,7 @@
     <target name="docs" depends="setup-filters"> <!-- depends="javadocs" description="Generates the Docs" -->
       <mkdir dir="${docs.dir}"/>
 
-      <ant antfile="${basedir}/../cocoonbuild.xml"/>
+      <ant antfile="${basedir}/../forrestbuild.xml"/>
 
       <copy todir="${docs.dir}">
         <fileset dir="${build.docs}">
