@@ -95,7 +95,7 @@ import org.apache.excalibur.mpool.PoolManager;
  * Container's Manager can expose that to the instantiating class.
  *
  * @author <a href="mailto:dev@avalon.apache.org">The Avalon Team</a>
- * @version CVS $Revision: 1.18 $ $Date: 2003/04/04 16:09:44 $
+ * @version CVS $Revision: 1.19 $ $Date: 2003/04/04 16:17:56 $
  */
 public abstract class AbstractContainer
     extends AbstractLogEnabled
@@ -272,7 +272,7 @@ public abstract class AbstractContainer
      *
      * @param metaData the information needed to construct a ComponentHandler for the component
      * @throws IllegalArgumentException if the classname defined by the meta data
-     *   argument is undefined within the scope of the role manager
+     *         argument is undefined within the scope of the role manager
      * @throws Exception if unable to create a Handler for the component
      */
     protected void addComponent( final ComponentHandlerMetaData metaData )
@@ -309,7 +309,7 @@ public abstract class AbstractContainer
             // Initialize the hintMap if it doesn't exist yet.
             if( null == hintMap )
             {
-                hintMap = new StaticBucketMap();
+                hintMap = createHintMap();
                 hintMap.put( DEFAULT_ENTRY, handler );
                 m_mapper.put( role, hintMap );
             }
@@ -481,6 +481,24 @@ public abstract class AbstractContainer
         }
 
         return value;
+    }
+
+    /**
+     * Create the hint map for a role.  The map may have to take care for thread-safety.
+     * By default a StaticBucketMap is created, but you may change the implementation
+     * or increment the number of buckets according your needs.
+     * 
+     * <div>
+     *   <span style="font-weight:strong;text-color: red;">WARNING:</span>
+     *   This Map must be threadsafe, so either use the
+     *   <code>StaticBucketMap</code> or a synchronized <code>Map</code>.
+     *   Otherwise you will experience erratic behavior due to the nature
+     *   of the asyncronous component management.
+     * </div>
+     */
+    protected Map createHintMap()
+    {
+        return new StaticBucketMap();
     }
 
     /**
