@@ -40,7 +40,6 @@ limitations under the License.
         <dependency>
             <id>avalon-framework</id>
             <version>4.1.4</version>
-            <groupId>framework</groupId>
         </dependency>
         <dependency>
             <id>commons-httpclient</id>

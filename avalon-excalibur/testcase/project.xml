@@ -42,7 +42,6 @@ ExcaliburComponentManager, usually abbreviated to ECM.
         <dependency>
             <id>avalon-framework</id>
             <version>4.1.4</version>
-            <groupId>framework</groupId>
         </dependency>
         <dependency>
             <id>excalibur-logger</id>
