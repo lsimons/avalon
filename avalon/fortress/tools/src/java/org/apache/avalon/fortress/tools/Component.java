@@ -54,10 +54,7 @@
  */
 package org.apache.avalon.fortress.tools;
 
-import com.thoughtworks.qdox.model.DocletTag;
-import com.thoughtworks.qdox.model.JavaClass;
-import com.thoughtworks.qdox.model.JavaMethod;
-import com.thoughtworks.qdox.model.Type;
+import com.thoughtworks.qdox.model.*;
 import org.apache.avalon.fortress.MetaInfoEntry;
 import org.apache.avalon.fortress.util.dag.Vertex;
 import org.apache.tools.ant.BuildException;
@@ -71,7 +68,7 @@ import java.util.*;
  * Represents a component, and output the meta information.
  *
  * @author <a href="mailto:dev@avalon.apache.org">The Avalon Team</a>
- * @version CVS $Revision: 1.8 $ $Date: 2003/05/28 13:00:21 $
+ * @version CVS $Revision: 1.9 $ $Date: 2003/05/29 19:29:32 $
  */
 final class Component
 {
@@ -124,7 +121,8 @@ final class Component
         final DocletTag[] tags = javaClass.getTagsByName( TAG_SERVICE );
         for ( int t = 0; t < tags.length; t++ )
         {
-            final String serviceName = resolveClassName( tags[t].getNamedParameter( Component.ATTR_TYPE ) );
+            final String serviceName = resolveClassName( m_javaClass.getParentSource(),
+                    tags[t].getNamedParameter( Component.ATTR_TYPE ) );
             m_serviceNames.add( serviceName );
         }
 
@@ -135,9 +133,29 @@ final class Component
         m_repository.add( this );
     }
 
+    /**
+     * Recursively discover dependencies from the local class hierarchy.  This does not, and cannot
+     * discover dependencies from classes from other JARs.
+     */
     private void discoverDependencies()
     {
-        JavaMethod[] methods = m_javaClass.getMethods();
+        JavaClass currClass = m_javaClass;
+
+        while ( ! currClass.getFullyQualifiedName().equals("java.lang.Object") )
+        {
+            discoverDependencies( currClass );
+            currClass = currClass.getSuperJavaClass();
+        }
+    }
+
+    /**
+     * Discover the dependencies that this component class requires.
+     *
+     * @param fromClass  The JavaClass object to gather the dependency set from.
+     */
+    private void discoverDependencies( final JavaClass fromClass )
+    {
+        JavaMethod[] methods = fromClass.getMethods();
         for ( int i = 0; i < methods.length; i++ )
         {
             if ( methods[i].getName().equals( METH_SERVICE ) )
@@ -147,7 +165,8 @@ final class Component
                     DocletTag[] dependencies = methods[i].getTagsByName( TAG_DEPENDENCY );
                     for ( int d = 0; d < dependencies.length; d++ )
                     {
-                        String type = stripQuotes( dependencies[d].getNamedParameter( ATTR_TYPE ) );
+                        String type = resolveClassName( fromClass.getParentSource(),
+                                dependencies[d].getNamedParameter( ATTR_TYPE ) );
                         //String optional = dependencies[d].getNamedParameter("optional");
 
                         m_dependencyNames.add( type );
@@ -333,25 +352,34 @@ final class Component
      * @param serviceName  The service type name
      * @return  The fully qualified class name
      */
-    protected String resolveClassName( final String serviceName )
+    protected String resolveClassName( final JavaSource sourceCode, final String serviceName )
     {
-        if ( null == m_javaClass ) throw new NullPointerException( "javaClass" );
-        if ( null == serviceName ) throw new BuildException( "(" + m_javaClass.getFullyQualifiedName() + ") You must specify the service name with the \"type\" parameter" );
+        if ( null == sourceCode ) throw new NullPointerException( "sourceCode" );
+        if ( null == serviceName ) throw new BuildException( "You must specify the service name with the \"type\" parameter" );
 
         String className = stripQuotes( serviceName );
+
         if ( className != null || className.length() > 0 )
         {
             if ( className.indexOf( '.' ) < 0 )
             {
-                final Type[] types = m_javaClass.getImplements();
-                for ( int t = 0; t < types.length; t++ )
-                {
-                    final String type = types[t].getValue();
-                    final int index = type.lastIndexOf( '.' ) + 1;
+                String[] imports = sourceCode.getImports();
 
-                    if ( type.substring( index ).equals( className ) )
+                for ( int t = 0; t < imports.length; t++ )
+                {
+                    final String type = imports[t];
+                    final String tail = type.substring( type.lastIndexOf( '.' ) + 1 );
+
+                    if ( tail.equals( className ) )
                     {
                         className = type;
+                    }
+                    else if ( tail.equals( "*" ) )
+                    {
+                        final String pack = type.substring( 0, type.lastIndexOf( '.' ) );
+                        final JavaClass klass = sourceCode.getClassLibrary().getClassByName( pack + "." + serviceName );
+                        if ( null !=  klass )
+                            className = klass.getFullyQualifiedName();
                     }
                 }
             }
