@@ -19,7 +19,7 @@
 
   <extend>${basedir}/../project.xml</extend>
 
-  <id>Excalibur Configuration</id>
+  <id>excalibur-configuration</id>
   <name>Excalibur Configuration</name>
   <package>org.apache.excalibur.configuration</package>
   <currentVersion>1.1</currentVersion>
