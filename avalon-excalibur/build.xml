@@ -192,6 +192,9 @@ Legal:
     <available property="informix.present" classname="com.informix.jdbc.IfxDriver">
       <classpath refid="project.class.path"/>
     </available>
+    <available property="servlet.present" classname="javax.servlet.Servlet">
+      <classpath refid="project.class.path"/>
+    </available>
   </target>
 
   <target name="check-datasource" depends="check-environment" if="datasource.present">
@@ -208,8 +211,13 @@ Legal:
           tofile="${build.src}/org/apache/avalon/excalibur/datasource/JdbcConnection.java" />
   </target>
 
+  <target name="servlet" if="servlet.present">
+    <copy file="${java.dir}/org/apache/avalon/excalibur/logger/factory/ServletTargetFactory.java"
+          tofile="${build.src}/org/apache/avalon/logger/factory/ServletTargetFactory.java" />
+  </target>
+
   <!-- Prepares the build directory -->
-  <target name="prepare" depends="check-datasource,setup-properties,jdbc2,jdbc3">
+  <target name="prepare" depends="check-datasource,setup-properties,jdbc2,jdbc3,servlet">
     <tstamp/>
     <mkdir dir="${build.dir}"/>
   </target>
@@ -255,6 +263,7 @@ Legal:
                unless="informix.present"/>
       <exclude name="org/apache/avalon/excalibur/datasource/Jdbc2Connection.java"/>
       <exclude name="org/apache/avalon/excalibur/datasource/Jdbc3Connection.java"/>
+      <exclude name="org/apache/avalon/excalibur/logger/factory/ServletTargetFactory.java"/>
     </javac>
 
     <javac srcdir="${scratchpad.dir}"
