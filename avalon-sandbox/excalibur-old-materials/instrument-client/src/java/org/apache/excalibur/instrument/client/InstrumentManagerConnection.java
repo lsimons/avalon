@@ -37,6 +37,7 @@ import org.apache.excalibur.altrmi.client.AltrmiHostContext;
 import org.apache.excalibur.altrmi.client.AltrmiFactory;
 import org.apache.excalibur.altrmi.client.impl.socket.SocketCustomStreamHostContext;
 import org.apache.excalibur.altrmi.client.impl.ClientClassAltrmiFactory;
+import org.apache.excalibur.altrmi.client.impl.DefaultConnectionListener;
 import org.apache.excalibur.altrmi.common.AltrmiConnectionException;
 import org.apache.excalibur.altrmi.common.AltrmiInvocationException;
 
@@ -50,7 +51,7 @@ import org.apache.excalibur.instrument.manager.interfaces.InstrumentSampleUtils;
 /**
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/08/22 16:50:38 $
+ * @version CVS $Revision: 1.3 $ $Date: 2002/08/23 09:47:26 $
  * @since 4.1
  */
 class InstrumentManagerConnection
@@ -352,9 +353,13 @@ class InstrumentManagerConnection
         getLogger().debug( "open()" );
         synchronized (this)
         {
-            m_altrmiHostContext = new SocketCustomStreamHostContext( m_host, m_port );
+            SocketCustomStreamHostContext altrmiHostContext =
+                new SocketCustomStreamHostContext( m_host, m_port );
+            altrmiHostContext.setAltrmiConnectionListener( new DefaultConnectionListener( 0 ) );
+            
+            m_altrmiHostContext = altrmiHostContext;
             m_altrmiFactory = new ClientClassAltrmiFactory( false );
-            m_altrmiFactory.setHostContext( m_altrmiHostContext );
+            m_altrmiFactory.setHostContext( altrmiHostContext );
             
             /*
             System.out.println("Listing Published Objects At Server...");
@@ -478,8 +483,8 @@ class InstrumentManagerConnection
                 }
                 catch ( AltrmiInvocationException e )
                 {
-                    System.out.println("Ping Failed.");
-                    e.printStackTrace();
+                    getLogger().debug( "Ping Failed.", e );
+                    
                     // Socket was closed.
                     close();
                 }
