@@ -7,13 +7,13 @@
  */
 package org.apache.avalon.phoenix.tools.xdoclet;
 
-import java.util.List;
+import java.util.Vector;
 import xdoclet.DocletTask;
 
 /**
  *
  * @author <a href="mailto:vinay_chandran@users.sourceforge.net">Vinay Chandrasekharan</a>
- * @version $Revision: 1.3 $ $Date: 2002/04/14 04:16:24 $
+ * @version $Revision: 1.4 $ $Date: 2002/04/17 06:09:34 $
  */
 public class PhoenixXDoclet
     extends DocletTask
@@ -33,9 +33,9 @@ public class PhoenixXDoclet
         return m_manifestSubTask;
     }
 
-    protected List getSubTasks()
+    protected Vector getSubTasks()
     {
-        final List subtasks = super.getSubTasks();
+        final Vector subtasks = super.getSubTasks();
         subtasks.add( m_blockInfoSubTask );
         subtasks.add( m_manifestSubTask );
         return subtasks;
