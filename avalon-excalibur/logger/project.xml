@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- 
- Copyright 2004 Apache Software Foundation
+ Copyright 2004 The Apache Software Foundation
  Licensed  under the  Apache License,  Version 2.0  (the "License");
  you may not use  this file  except in  compliance with the License.
  You may obtain a copy of the License at 
@@ -15,12 +15,13 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
+
 <project>
     <extend>${basedir}/../project.xml</extend>
 
     <name>excalibur-logger</name>
     <id>excalibur-logger</id>
-    <currentVersion>1.0.2-dev</currentVersion>
+    <currentVersion>1.1</currentVersion>
     <inceptionYear>1997</inceptionYear>
     <shortDescription>Container utility for implementing LogEnabled/Loggable support.</shortDescription>
     <description>
@@ -32,6 +33,21 @@
         component is LogEnabled or Loggable).
     </description>
 
+    <build>
+        <sourceDirectory>${basedir}/api/src/java</sourceDirectory>
+        <!-- The other paths are added in maven.xml - yes it is ugly, but it will
+        have to do for now... I'll get some restructuring done *later*. (leosutic@apache.org) -->
+        
+        <unitTest>
+            <includes><include>**/*TestCase.class</include></includes>
+            <resources>
+                <resource>
+                    <directory>${basedir}/logkit/src/test</directory>
+                </resource>
+            </resources>
+        </unitTest>
+    </build>
+    
     <dependencies>
         <dependency>
             <id>avalon-framework</id>
@@ -75,12 +91,12 @@
         <dependency>
             <!-- testing only -->
             <id>excalibur-component</id>
-            <version>1.1</version>
+            <version>1.2</version>
         </dependency>
         <dependency>
             <!-- testing only -->
             <id>excalibur-testcase</id>
-            <version>1.1</version>
+            <version>1.2</version>
             <groupId>excalibur-component</groupId>
         </dependency>
         <dependency>
