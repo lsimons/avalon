@@ -256,7 +256,6 @@ public class MX4JSystemManager
 
         mbean.putJNDIProperty( javax.naming.Context.INITIAL_CONTEXT_FACTORY,
                                m_namingFactory );
-        //mbean.putJNDIProperty( javax.naming.Context.PROVIDER_URL, "rmi://localhost:1099" );
         // Register the JRMP adaptor in JNDI and start it
         mbean.start();
     }
