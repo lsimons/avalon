@@ -33,7 +33,7 @@
     Over time the Java Apache Server Framework project was renamed Avalon. This was in 
     recognition that the original ideas have evolved over time. Avalon became a 
     repository of general utility code, a design and testing ground for component based 
-    solutions, a micro kernel and set of generalized server orientated services. This combined 
+    solutions, a micro kernel and set of generalized server oriented services. This combined 
     with a move from the Java Apache project to the Jakarta project prompted the revision.
     At this time the kernel code was repackaged under the name Phoenix, core services 
     under the name Cornerstone and the general components was packaged under name Excalibur.
