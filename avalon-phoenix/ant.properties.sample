@@ -6,7 +6,7 @@
 # modules that Phoenix depends on.  Copy this file to ".ant.properties"
 # in the top-level source directory, and customize it as needed.
 #
-# $Id: ant.properties.sample,v 1.7 2002/03/21 08:36:13 donaldp Exp $
+# $Id: ant.properties.sample,v 1.8 2002/04/11 02:43:51 donaldp Exp $
 # -----------------------------------------------------------------------------
 
 # ----- Compile Environment Flags -----
@@ -42,6 +42,12 @@ jmx.home=${base.path}/jmx-ri_1.0.1/jmx
 jmx.lib=${jmx.home}/lib
 jmxri.jar=${jmx.lib}/jmxri.jar
 jmxtools.jar=${jmx.lib}/jmxtools.jar
+
+# ----- MX4J Open JMX Implementation, version 1.0b3 or later -----
+mx4j.home=${base.path}/mx4j-1.0b3
+mx4j.lib=${mx4j.home}/lib
+mx4j.jar=${mx4j.lib}/mx4j.jar
+mx4j-tools.jar=${mx4j.lib}/mx4j-tools.jar
 
 # ----- Checkstyle, version 2.1 or later -----
 checkstyle.home=${base.path}/checkstyle-2.1

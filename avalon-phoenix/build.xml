@@ -70,6 +70,8 @@ Legal:
         <pathelement location="${jmxri.jar}"/>
         <pathelement location="${jmxtools.jar}"/>
         <pathelement location="${wrapper.jar}"/>
+        <pathelement path="${mx4j.jar}"/>
+        <pathelement path="${mx4j-tools.jar}"/>
         <pathelement path="${checkstyle.jar}" />
         <pathelement path="${java.class.path}" />
 
@@ -99,6 +101,9 @@ Legal:
             <classpath refid="project.class.path"/>
         </available>
         <available property="jmx.present" classname="javax.management.MBeanException">
+            <classpath refid="project.class.path"/>
+        </available>
+        <available property="mx4j.present" classname="mx4j.MBeanServerImpl">
             <classpath refid="project.class.path"/>
         </available>
         <available property="wrapper.present" classname="com.silveregg.wrapper.WrapperManager">
@@ -142,6 +147,8 @@ Legal:
             <exclude name="**/*MBean.java" unless="jmx.present"/>
             <exclude name="org/apache/avalon/phoenix/components/manager/rmiadaptor/*.java"
                 unless="jmx.present"/>
+            <exclude name="org/apache/avalon/phoenix/components/manager/MX4JSystemManager.java"
+                unless="mx4j.present"/>
             <exclude name="org/apache/avalon/phoenix/components/manager/DefaultManager.java"
                 unless="jmx.present"/>
             <exclude name="org/apache/avalon/phoenix/launcher/DaemonLauncher.java"
