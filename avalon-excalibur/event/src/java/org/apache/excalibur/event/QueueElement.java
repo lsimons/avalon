@@ -26,17 +26,17 @@ public interface QueueElement
      * <pre>
      *   public interface AsyncFileTypes
      *   {
-     *       long ADDRESS = $af100000;
-     *       long FILE_OPEN = ADDRESS + 1;
-     *       long FILE_CLOSE = FILE_OPEN + 1;
+     *       long FILE_OPEN = TypeUtil.makeId(AsyncFileOpen.getClass().getName());
+     *       long FILE_CLOSE = TypeUtil.makeId(AsyncFileClose.getClass().getName());
      *   }
      * </pre>
+     *
+     * <p>
+     *   <strong>Important:</strong> The ID has to be unique for each class.
+     *   That means that if the fully qualified class name is different, then
+     *   the id's need to be different.  It also means that you must not use
+     *   multiple id's for the same class.
+     * </p>
      */
     long getType();
-
-    /**
-     * Get a handle to an attached object.  The attachment is added via the
-     * constructor, to enforce a read-only contract.
-     */
-    Object getAttachment();
 }
