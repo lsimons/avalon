@@ -7,7 +7,7 @@
 
   <extend>${basedir}/../../project.xml</extend>
 
-  <groupId>&avalon-util-extension-api-group;</groupId>
+  <groupId>&avalon-util-id;</groupId>
   <id>&avalon-util-extension-api-id;</id>
   <currentVersion>&avalon-util-extension-api-version;</currentVersion>
 
