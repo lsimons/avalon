@@ -18,7 +18,6 @@
 package org.apache.avalon.fortress.impl.extensions.test;
 
 import junit.framework.TestCase;
-import junit.framework.Assert;
 import org.apache.avalon.fortress.impl.extensions.InstrumentableCreator;
 import org.apache.avalon.framework.context.DefaultContext;
 import org.apache.avalon.lifecycle.Creator;
