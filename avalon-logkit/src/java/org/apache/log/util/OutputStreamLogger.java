@@ -76,20 +76,42 @@ public class OutputStreamLogger
     public void write( final int data ) 
         throws IOException
     {
+        checkValid();
+        
+        //Should we properly convert char using locales etc??
+        m_output.append( (char)data );
+
+        if( '\n' == data )
+        {
+            flush();
+        }
+    }
+
+    /**
+     * Flush data to underlying logger.
+     *
+     * @exception IOException if an error occurs
+     */
+    public synchronized void flush()
+        throws IOException
+    {
+        checkValid();
+
+        m_logger.log( m_priority, m_output.toString() );
+        m_output.setLength( 0 );
+    }
+
+    /**
+     * Make sure stream is valid.
+     *
+     * @exception IOException if an error occurs
+     */
+    private void checkValid()
+        throws IOException
+    {
         if( true == m_closed ) 
         {
             throw new EOFException( "OutputStreamLogger closed" );
-        }
-        
-        if( '\n' == data )
-        {
-            m_logger.log( m_priority, m_output.toString() );
-            m_output.setLength( 0 );
-        }
-        else
-        {
-            //Should we properly convert char using locales etc??
-            m_output.append( (char)data );
         }
     }
 }
