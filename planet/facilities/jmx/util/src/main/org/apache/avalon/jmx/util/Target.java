@@ -18,7 +18,8 @@ package org.apache.avalon.jmx.util;
 
 import java.util.HashMap;
 import java.util.Set;
-import javax.management.modelmbean.ModelMBeanInfo;
+
+import javax.management.DynamicMBean;
 
 /**
  * It reprensents a managed object in the managegement space.  It is a container for
@@ -73,9 +74,9 @@ public class Target
      *
      * @param topic the topic
      */
-    public void addTopic( final ModelMBeanInfo topic )
+    public void addTopic( final String name, final DynamicMBean topic )
     {
-        m_topics.put( topic.getDescription(), topic );
+        m_topics.put( name, topic );
     }
 
     /**
@@ -93,9 +94,9 @@ public class Target
      * @param name the name of the topic
      * @return  the topic of that name
      */
-    public ModelMBeanInfo getTopic( final String name )
+    public DynamicMBean getTopic( final String name )
     {
-        return ( ModelMBeanInfo ) m_topics.get( name );
+        return ( DynamicMBean ) m_topics.get( name );
     }
 
     /**

@@ -16,26 +16,21 @@
  */
 package org.apache.avalon.jmx.spi;
 
-import java.lang.reflect.Constructor;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
+
+import javax.management.DynamicMBean;
 import javax.management.MBeanServer;
 import javax.management.MalformedObjectNameException;
 import javax.management.ObjectName;
-import javax.management.modelmbean.ModelMBean;
-import javax.management.modelmbean.ModelMBeanInfo;
 
 import org.apache.avalon.composition.model.ComponentModel;
-
-import org.apache.avalon.framework.logger.Logger;
-import org.apache.avalon.framework.logger.LogEnabled;
 import org.apache.avalon.framework.activity.Disposable;
-
+import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.jmx.ComponentRegistrationException;
 import org.apache.avalon.jmx.util.MBeanInfoBuilder;
 import org.apache.avalon.jmx.util.Target;
-
 import org.apache.avalon.util.i18n.ResourceManager;
 import org.apache.avalon.util.i18n.Resources;
 
@@ -63,12 +58,8 @@ public abstract class AbstractJMXComponentRegistrationManager
 
         final MBeanServer mBeanServer = createMBeanServer();
         setMBeanServer( mBeanServer );
-        topicBuilder = new MBeanInfoBuilder();
-
-        if( topicBuilder instanceof LogEnabled )
-        {
-            ( (LogEnabled)topicBuilder).enableLogging( logger );
-        }
+        
+        topicBuilder = new MBeanInfoBuilder( logger );
     }
 
     public void dispose()
@@ -123,7 +114,7 @@ public abstract class AbstractJMXComponentRegistrationManager
             while ( i.hasNext() )
             {
                 final ObjectName objectName = 
-                  createObjectName( name, target.getTopic( ( String ) i.next() ) );
+                  createObjectName( name, ( String ) i.next() );
                 getMBeanServer().unregisterMBean( objectName );
             }
         }
@@ -199,16 +190,20 @@ public abstract class AbstractJMXComponentRegistrationManager
         throws ComponentRegistrationException
     {
         String[] nameComponents = componentModel.getQualifiedName().split( "/" );
-        StringBuffer name = new StringBuffer();
-        for ( int i = 0; i < nameComponents.length - 1; i++ )
+        String qName = componentModel.getQualifiedName();
+        if ( qName.startsWith("/") )
         {
-            String s = nameComponents[i].trim();
-            if ( s.length() > 0 )
-            {
-                name.append( "container=" ).append( nameComponents[i] ).append( ',' );
-            }
+        	qName = qName.substring(1);
         }
-        name.append( "name=" ).append( nameComponents[nameComponents.length - 1] );
+        qName = qName.replace( '/', '.' );
+        int idx = qName.lastIndexOf( '.' );
+        StringBuffer name = new StringBuffer();
+        if ( idx != -1 )
+        {
+        	name.append( "container=" ).append( qName.substring( 0, idx )).append( ',' );
+        }
+        name.append( "name=" ).append( qName.substring( idx + 1) );
+
         return name.toString();
     }
 
@@ -260,17 +255,9 @@ public abstract class AbstractJMXComponentRegistrationManager
         while ( i.hasNext() )
         {
             final String topicName = ( String ) i.next();
-            final ModelMBeanInfo topic = target.getTopic( topicName );
+            final DynamicMBean mBean = target.getTopic( topicName );
             final String targetName = target.getName();
-            final Object managedResource = target.getManagedResource();
-            Object targetObject = managedResource;
-            if ( topic.getMBeanDescriptor().getFieldValue( "proxyClassName" ) != null )
-            {
-                targetObject = createManagementProxy( topic, managedResource );
-            }
-
-            // use a proxy adapter class to manage object
-            exportTopic( topic, targetObject, targetName );
+            exportTopic( mBean, topicName, targetName );
         }
     }
 
@@ -284,96 +271,12 @@ public abstract class AbstractJMXComponentRegistrationManager
      * @throws Exception if the Topic cannot be exported
      * @return the mBean
      */
-    protected Object exportTopic( final ModelMBeanInfo topic, final Object target,
-                                  final String targetName ) throws Exception
+    protected void exportTopic( final DynamicMBean mBean,
+    		                    final String topicName,
+                                final String targetName ) throws Exception
     {
-        final Object mBean = createMBean( topic, target );
-        final ObjectName objectName = createObjectName( targetName, topic );
+        final ObjectName objectName = createObjectName( targetName, topicName );
         getMBeanServer().registerMBean( mBean, objectName );
-
-        // debugging stuff.
-        /*
-                 ModelMBean modelMBean = (ModelMBean)mBean;
-                 ModelMBeanInfo modelMBeanInfo = (ModelMBeanInfo)modelMBean.getMBeanInfo();
-                 MBeanAttributeInfo[] attList = modelMBeanInfo.getAttributes();
-                 for( int i = 0; i < attList.length; i++ )
-                 {
-            ModelMBeanAttributeInfo mbai = (ModelMBeanAttributeInfo)attList[ i ];
-            Descriptor d = mbai.getDescriptor();
-            String[] fieldNames = d.getFieldNames();
-            for( int j = 0; j < fieldNames.length; j++ )
-            {
-                String fieldName = fieldNames[ j ];
-                System.out.println( "Field name = " + fieldName +
-                                    " / value = " + d.getFieldValue( fieldName ) +
-                                    "::" +mbai.getType() + " value " +
-                modelMBean.getAttribute( mbai.getName() ) + " for " + mbai.getName() );
-            }
-                 }
-         */
-
-        return mBean;
-    }
-
-    /**
-     * Create a MBean for specified object.
-     * The following policy is used top create the MBean...
-     *
-     * @param topic the topic
-     * @param target the object to create MBean for
-     * @return the MBean to be exported
-     * @throws ComponentRegistrationException if an error occurs
-     */
-    private Object createMBean( final ModelMBeanInfo topic, final Object target ) throws
-        ComponentRegistrationException
-    {
-        final String className = topic.getClassName();
-        // Load the ModelMBean implementation class
-        Class clazz;
-        try
-        {
-            clazz = Class.forName( className );
-        }
-        catch ( Exception e )
-        {
-            final String message = 
-              REZ.getString( "jmxmanager.error.mbean.load.class", className );
-            getLogger().error( message, e );
-            throw new ComponentRegistrationException( message, e );
-        }
-
-        // Create a new ModelMBean instance
-        ModelMBean mbean = null;
-        try
-        {
-            mbean = ( ModelMBean ) clazz.newInstance();
-            mbean.setModelMBeanInfo( topic );
-        }
-        catch ( final Exception e )
-        {
-            final String message = 
-              REZ.getString( "jmxmanager.error.mbean.instantiate", className );
-            getLogger().error( message, e );
-            throw new ComponentRegistrationException( message, e );
-        }
-
-        // Set the managed resource (if any)
-        try
-        {
-            if ( null != target )
-            {
-                mbean.setManagedResource( target, "ObjectReference" );
-            }
-        }
-        catch ( Exception e )
-        {
-            final String message = 
-              REZ.getString( "jmxmanager.error.mbean.set.resource", className );
-            getLogger().error( message, e );
-            throw new ComponentRegistrationException( message, e );
-        }
-
-        return mbean;
     }
 
     /**
@@ -384,34 +287,11 @@ public abstract class AbstractJMXComponentRegistrationManager
      * @return the {@link ObjectName} representing object
      * @throws MalformedObjectNameException if malformed name
      */
-    private ObjectName createObjectName( final String name, final ModelMBeanInfo topic ) throws
+    private ObjectName createObjectName( final String name, final String topicName ) throws
         MalformedObjectNameException
     {
-        return new ObjectName( getDomain() + ":" + name + ",topic=" + topic.getDescription() );
-    }
-
-    /**
-     * Instantiates a proxy management object for the target object
-     *
-     * this should move out of bridge and into Registry, it isn't specifically for jmx
-     *
-     * @param topic the topic
-     * @param managedObject the managed object
-     * @throws Exception if a management proxy cannot be created
-     * @return the management proxy
-     */
-    private Object createManagementProxy( final ModelMBeanInfo topic, final Object managedObject ) 
-        throws Exception
-    {
-        final String proxyClassname = ( String ) topic.getMBeanDescriptor().getFieldValue(
-            "proxyClassName" );
-        final ClassLoader classLoader = managedObject.getClass().getClassLoader();
-        final Class proxyClass = classLoader.loadClass( proxyClassname );
-        final Class[] argTypes = new Class[]
-                                 {Object.class};
-        final Object[] argValues = new Object[]
-                                   {managedObject};
-        final Constructor constructor = proxyClass.getConstructor( argTypes );
-        return constructor.newInstance( argValues );
+    	final String objectName = getDomain() + ":" + name + ",topic=" + topicName;
+    	getLogger().debug("ObjectName=" + objectName);
+        return new ObjectName( objectName );
     }
 }
