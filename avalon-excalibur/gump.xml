@@ -526,6 +526,7 @@
         <package>org.apache.excalibur.microcontainer</package>
 
         <ant basedir="microcontainer">
+            <depend property="excalibur-datasource.jar" project="excalibur-datasource"/>
             <property name="version" value="@@DATE@@"/>
             <property name="junit.failonerror" value="true"/>
             <property name="do.checkstyle" value="true"/>
