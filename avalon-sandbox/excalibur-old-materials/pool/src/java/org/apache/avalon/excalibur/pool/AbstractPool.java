@@ -62,7 +62,7 @@ import org.apache.commons.collections.UnboundedFifoBuffer;
  * This is an <code>Pool</code> that caches Poolable objects for reuse.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.8 $ $Date: 2003/02/25 16:28:49 $
+ * @version CVS $Revision: 1.9 $ $Date: 2003/03/07 13:36:06 $
  * @since 4.0
  */
 public abstract class AbstractPool
@@ -187,6 +187,8 @@ public abstract class AbstractPool
                                            ": could not be instantiated.", e );
                     }
                 }
+                
+                throw e;
             }
         }
     }
