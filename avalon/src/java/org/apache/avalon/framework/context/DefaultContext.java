@@ -7,6 +7,7 @@
  */
 package org.apache.avalon.framework.context;
 
+import java.io.Serializable;
 import java.util.Hashtable;
 import java.util.Map;
 
@@ -18,10 +19,15 @@ import java.util.Map;
  * @author <a href="mailto:pier@apache.org">Pierpaolo Fumagalli</a>
  * @author <a href="mailto:stefano@apache.org">Stefano Mazzocchi</a>
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @author <a href="mailto:leo.sutic@inspireinfrastructure.com">Leo Sutic</a>
  */
 public class DefaultContext
-    implements Context
+    implements Context, Serializable
 {
+    private final static class Hidden implements Serializable {}
+    
+    private final static Hidden m_hiddenMarker = new Hidden ();
+    
     private final Map m_contextData;
     private final Context m_parent;
     private boolean m_readOnly;
@@ -81,6 +87,12 @@ public class DefaultContext
 
         if( null != data )
         {
+            if( data instanceof Hidden )
+            {
+                // Always fail.
+                throw new ContextException( "Unable to locate " + key );
+            }
+            
             if( data instanceof Resolvable )
             {
                 return ( (Resolvable)data ).resolve( this );
@@ -120,6 +132,22 @@ public class DefaultContext
         }
     }
 
+    /**
+     * Hides the item in the context.
+     * After remove(key) has been called, a get(key)
+     * will always fail, even if the parent context
+     * has such a mapping.
+     *
+     * @param key the items key
+     * @throws IllegalStateException if context is read only
+     */
+    public void hide( final Object key ) 
+        throws IllegalStateException
+    {
+        checkWriteable();
+        m_contextData.put( key, m_hiddenMarker );
+    }
+    
     /**
      * Utility method to retrieve context data.
      *

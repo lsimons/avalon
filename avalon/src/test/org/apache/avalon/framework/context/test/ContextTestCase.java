@@ -21,6 +21,7 @@ import org.apache.avalon.framework.context.Resolvable;
  * TestCase for Context.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
+ * @author <a href="mailto:leo.sutic@inspireinfrastructure.com">Leo Sutic</a>
  */
 public class ContextTestCase
     extends TestCase
@@ -138,5 +139,42 @@ public class ContextTestCase
         assertTrue ( "ok test".equals( context.get( "test" ) ) );
         assertTrue ( ! "This is an ${test}.".equals( context.get( "check" ) ) );
         assertTrue ( "This is an ok test.".equals( context.get( "check" ) ) );
+    }
+    
+    public void testHiddenItems()
+        throws ContextException
+    {
+        final DefaultContext parent = new DefaultContext();
+        parent.put( "test", "test" );
+        parent.makeReadOnly();
+        final DefaultContext child = new DefaultContext( parent );
+        child.put( "check", "check" );
+        final Context context = (Context) child;
+        
+        assertTrue ( "check".equals( context.get( "check" ) ) );
+        assertTrue ( "test".equals( context.get( "test" ) ) );
+                
+        child.hide( "test" );
+        try 
+        {
+            context.get( "test" );
+            fail( "The item \"test\" was hidden in the child context, but could still be retrieved via get()." );
+        }
+        catch (ContextException ce)
+        {
+            // Supposed to be thrown.
+        }
+        
+        child.makeReadOnly();
+        
+        try 
+        {
+            child.hide( "test" );
+            fail( "hide() did not throw an exception, even though the context is supposed to be read-only." );
+        }
+        catch (IllegalStateException ise)
+        {
+            // Supposed to be thrown.
+        }
     }
 }
