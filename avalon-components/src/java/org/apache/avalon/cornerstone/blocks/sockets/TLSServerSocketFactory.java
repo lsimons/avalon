@@ -7,6 +7,7 @@
  */
 package org.apache.avalon.cornerstone.blocks.sockets;
 
+import com.sun.net.ssl.TrustManagerFactory;
 import com.sun.net.ssl.KeyManagerFactory;
 import com.sun.net.ssl.SSLContext;
 import java.io.File;
@@ -30,7 +31,7 @@ import org.apache.avalon.cornerstone.services.sockets.ServerSocketFactory;
 import org.apache.avalon.phoenix.BlockContext;
 
 /**
- * Factory implementation for vanilla TCP sockets.
+ * Factory implementation for TLS TCP sockets.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  * @author <a href="mailto:fede@apache.org">Federico Barbieri</a>
@@ -118,10 +119,9 @@ public class TLSServerSocketFactory
     protected void initSSLFactory( final KeyStore keyStore )
         throws Exception
     {
-        /*
+        
           java.security.Security.addProvider( new sun.security.provider.Sun() );
           java.security.Security.addProvider( new com.sun.net.ssl.internal.ssl.Provider() );
-          // */
 
         // set up key manager to do server authentication
         final SSLContext sslContext = SSLContext.getInstance( m_keyStoreProtocol );
@@ -130,8 +130,11 @@ public class TLSServerSocketFactory
 
         keyManagerFactory.init( keyStore, m_keyStorePassword.toCharArray() );
 
+        final TrustManagerFactory tmf = TrustManagerFactory.getInstance(m_keyStoreAlgorithm);
+        tmf.init(keyStore);
+
         sslContext.init( keyManagerFactory.getKeyManagers(),
-                         null,
+                         tmf.getTrustManagers(),
                          new java.security.SecureRandom() );
 
         // Create socket factory
