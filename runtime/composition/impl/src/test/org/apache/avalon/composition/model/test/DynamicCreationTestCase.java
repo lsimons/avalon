@@ -94,10 +94,10 @@ public class DynamicCreationTestCase extends AbstractTestCase
             try
             {
                 widget.commission();
+                fail( "Commisioning of a non-assembled model should throw an exeption." );
             }
             catch( ModelException me )
             {
-                System.out.println( me.getMessage() );
                 // expected
             }
 
