@@ -354,6 +354,16 @@ public class ReadWriteLockTestCase
                     lock.tryAquireWrite() );
     }
 
+    private static class TestReadWriteLock extends ReadWriteLock {
+        public int getNumReadLocksHeld() {
+            return super.getNumReadLocksHeld();
+        }
+        
+        public int getNumWaitingForWrite() {
+            return super.getNumWaitingForWrite();
+        }            
+    }
+    
     /**
      * Tests a condition pointed out to me (L.Sutic) by Avi Drissman
      * <a href="drissman@acm.org">drissman@acm.org</a>. If you hold
@@ -364,31 +374,29 @@ public class ReadWriteLockTestCase
      */
     public void testDeadLock() throws Exception
     {
-        ReadWriteLock lock = new ReadWriteLock();
-        TriesReadLock rla = new TriesReadLock( lock );
-        TriesReadLock rlb = new TriesReadLock( lock );
+        TestReadWriteLock lock = new TestReadWriteLock();
         TriesWriteLock wla = new TriesWriteLock( lock );
-        TriesWriteLock wlb = new TriesWriteLock( lock );
 
         //
         // Grab a read lock.
         //
-        rla.start();
-        Thread.sleep( 100 );
-        assertTrue( rla.hasSuccess() );
+        assertTrue( lock.tryAcquireRead () );
 
         //
         // Try to grab a write lock. (The attempt stalls,
         // because we are holding a read lock.)
         //
         wla.start();
-        Thread.sleep( 100 );
-        assertTrue( !wla.hasSuccess() );
 
+        while( lock.getNumWaitingForWrite() == 0 ) {
+            Thread.sleep( 100 );
+        }
+        
         //
         // Interupt the thread waiting for the write lock...
         //
         wla.interrupt();
+        assertTrue( !wla.hasSuccess() );
 
         //
         // ...and release the read lock.
@@ -398,8 +406,8 @@ public class ReadWriteLockTestCase
         //
         // Avoid race condition.
         //
-        rla.join();
         wla.join();
+        assertTrue( !wla.hasSuccess() );
         
         //
         // Right, we are in the condition described by Drissman.
@@ -407,14 +415,10 @@ public class ReadWriteLockTestCase
         // Before the fix, the assertion immediately below
         // would fail.
         //
-        rlb.start();
-        Thread.sleep( 100 );
-        assertTrue( rlb.hasSuccess() );
+        assertTrue( lock.tryAcquireRead () );
         lock.release();
 
-        wlb.start();
-        Thread.sleep( 100 );
-        assertTrue( wlb.hasSuccess() );
+        assertTrue( lock.tryAcquireWrite () );
         lock.release();
     }
 }
