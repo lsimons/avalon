@@ -8,7 +8,6 @@
 package org.apache.avalon.phoenix.metadata;
 
 import org.apache.avalon.phoenix.metainfo.BlockInfo;
-import org.apache.avalon.phoenix.metainfo.DependencyDescriptor;
 
 /**
  * This is the structure describing each block.
