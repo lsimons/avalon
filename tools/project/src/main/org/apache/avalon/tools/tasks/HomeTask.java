@@ -61,6 +61,10 @@ public abstract class HomeTask extends Task
 
     protected void setProjectProperty( String key, String value )
     {
+        if( null == key )
+        {
+            throw new NullPointerException( "key" );
+        }
         Property props = (Property) getProject().createTask( "property" );
         props.setName( key );
         props.setValue( value );

@@ -6,5 +6,6 @@
   <taskdef name="javac" classname="org.apache.avalon.tools.tasks.JavacTask"/> 
   <taskdef name="jar" classname="org.apache.avalon.tools.tasks.JarTask"/> 
   <taskdef name="test" classname="org.apache.avalon.tools.tasks.TestTask"/> 
+  <taskdef name="xdoc" classname="org.apache.avalon.tools.tasks.XdocTask"/> 
   <taskdef name="install" classname="org.apache.avalon.tools.tasks.InstallTask"/> 
 </antlib> 
