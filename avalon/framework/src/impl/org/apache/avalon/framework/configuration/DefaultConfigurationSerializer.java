@@ -44,6 +44,22 @@ public class DefaultConfigurationSerializer
     {
         getTransformerFactory();
     }
+    
+    /**
+     * Sets the Serializer's use of indentation.  This will cause linefeeds to be added
+     *  after each element, but it does not add any indentation via spaces.
+     */
+    public void setIndent( boolean indent )
+    {
+        if ( indent )
+        {
+            m_format.put( OutputKeys.INDENT, "yes" );
+        }
+        else
+        {
+            m_format.put( OutputKeys.INDENT, "no" );
+        }
+    }
 
     /**
      * Internally set the output strream we will be using.
