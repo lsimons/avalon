@@ -150,7 +150,7 @@
     <xsl:param name="class" select="'menuitem'" />
     <a>
       <xsl:choose>
-        <xsl:when test="@selected = true() or contains( $file, @href )" >
+        <xsl:when test="@selected = true() or ( contains( $file, @href ) and local-name( ../.. ) = 'body' )" >
           <xsl:attribute name="class"><xsl:value-of select="$class" />-selected</xsl:attribute>
         </xsl:when>
         <xsl:otherwise>
