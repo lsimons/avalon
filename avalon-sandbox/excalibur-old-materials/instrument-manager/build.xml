@@ -1,0 +1,290 @@
+<?xml version="1.0"?>
+
+<project name="Excalibur Instrument Manager" default="main" basedir=".">
+
+    <!-- load per-project properties -->
+    <property file="project.properties"/>
+
+    <!--
+      Give user a chance to override without editing this file
+      (and without typing -D each time he compiles it)
+    -->
+    <property file="ant.properties"/>
+    <property file="../ant.properties"/>
+    <property file="${user.home}/.ant.properties"/>
+    
+    <!-- Settings used to configure compile environment -->
+    <property name="build.debug" value="on"/>
+    <property name="build.optimize" value="off"/>
+    <property name="build.deprecation" value="off"/>
+    <property name="build.compress" value="false"/>
+    <property name="junit.failonerror" value="false"/>
+
+    <!-- location of intermediate products -->
+    <property name="build.dir" value="build"/>
+    <property name="build.lib" value="${build.dir}/lib"/>
+    <property name="build.classes" value="${build.dir}/classes"/>
+    <property name="build.tests" value="${build.dir}/tests"/>
+    <property name="build.reports" value="${build.dir}/reports"/>
+
+    <!-- Set the properties for source directories -->
+    <property name="src.dir" value="src"/>
+    <property name="java.dir" value="${src.dir}/java"/>
+    <property name="test.dir" value="${src.dir}/test"/>
+
+    <!-- Set the properties for distribution directories -->
+    <property name="dist.dir" value="dist"/>
+    <property name="dist.javadocs" value="${dist.dir}/docs/api"/>
+
+    <!-- property to specify name of zip/jar files -->
+    <property name="dist.name" value="excalibur-${name}-${version}"/>
+    <property name="dist-client.name" value="excalibur-${name}-client-${version}"/>
+
+    <!-- property indicating directory where all distribution archives are placed -->
+    <property name="dist.base" value="distributions"/>
+
+    <!-- Classpath for product -->
+    <path id="project.class.path">
+        <pathelement path="${java.class.path}"/>
+        <pathelement location="${build.classes}"/>
+        <pathelement location="${logkit.jar}"/>
+        <pathelement location="${avalon-framework.jar}"/>
+        <pathelement location="${avalon-excalibur.jar}"/>
+        <pathelement location="${excalibur-instrument.jar}"/>
+        <pathelement location="${commons-altrmi-common.jar}"/>
+        <pathelement location="${commons-altrmi-server-impl.jar}"/>
+        <pathelement location="${commons-altrmi-server-interfaces.jar}"/>
+        <pathelement location="${junit.jar}"/>
+        <pathelement location="${checkstyle.jar}"/>
+    </path>
+        
+    <target name="main" depends="dist" description="Build the project"/>
+    <target name="rebuild" depends="clean,main" description="Rebuild the project"/>
+
+    <!-- Compiles the source code -->
+    <target name="compile" description="Compiles the source code">
+        <mkdir dir="${build.classes}"/>
+
+        <!-- Compile all classes including the tests. -->
+        <javac srcdir="${java.dir}"
+            destdir="${build.classes}"
+            debug="${build.debug}"
+            optimize="${build.optimize}"
+            deprecation="${build.deprecation}"
+            target="1.2">
+            <classpath refid="project.class.path" />
+            <src path="${test.dir}"/>
+            <include name="**/*.java"/>
+        </javac>
+
+        <!-- copy resources to same location as .class files -->
+        <copy todir="${build.classes}">
+            <fileset dir="${java.dir}">
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
+
+        <copy todir="${build.classes}">
+            <fileset dir="${test.dir}">
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
+
+    </target>
+
+    <!-- Creates all the .jar file -->
+    <target name="jar" depends="compile" description="Generates the jar files">
+
+        <mkdir dir="${build.lib}"/>
+
+        <jar jarfile="${build.lib}/${dist.name}.jar"
+            basedir="${build.classes}"
+            compress="${build.compress}">
+            <exclude name="**/test/**"/>
+            <zipfileset dir=".." prefix="META-INF/">
+                <include name="LICENSE.txt"/>
+            </zipfileset>
+        </jar>
+        
+        <jar jarfile="${build.lib}/${dist-client.name}.jar"
+            basedir="${build.classes}"
+            compress="${build.compress}">
+            <include name="**/client/**"/>
+            <exclude name="**/test/**"/>
+            <zipfileset dir=".." prefix="META-INF/">
+                <include name="LICENSE.txt"/>
+            </zipfileset>
+        </jar>
+    </target>
+
+    <!-- Creates all the Javadocs -->
+    <target name="javadocs" depends="compile" description="Generates the javadocs">
+
+        <mkdir dir="${dist.javadocs}"/>
+        <javadoc packagenames="org.apache.*"
+            sourcepath="${java.dir}"
+            destdir="${dist.javadocs}">
+            <classpath refid="project.class.path" />
+            <doclet name="com.sun.tools.doclets.standard.Standard">
+                <param name="-author"/>
+                <param name="-version"/>
+                <param name="-doctitle" value="${Name}"/>
+                <param name="-windowtitle" value="${Name} API"/>
+                <param name="-link" value="http://java.sun.com/j2se/1.4/docs/api/"/>
+                <param name="-link" value="http://java.sun.com/j2ee/sdk_1.3/techdocs/api/"/>
+                <param name="-link" value="http://jakarta.apache.org/avalon/api/"/>
+                <param name="-bottom"
+                    value="&quot;Copyright &#169; ${year} Apache Jakarta Project. All Rights Reserved.&quot;"/>
+            </doclet>
+        </javadoc>
+    </target>
+
+    <target name="test" depends="compile" description="Perform the unit tests">
+        
+        <echo message="Performing Unit Tests" />
+        
+        <mkdir dir="${build.tests}"/>
+        
+        <junit fork="true" 
+               haltonfailure="${junit.failonerror}"
+               printsummary="yes" 
+               dir="${build.tests}">
+            <classpath refid="project.class.path"/>
+
+            <formatter type="xml"/>    <!-- xml reports for junitreport -->
+            <formatter type="plain"/>  <!-- text reports for humans     -->
+
+            <batchtest todir="${build.tests}">
+                <fileset dir="${build.classes}">
+                    <include name="**/test/*TestCase.class"/>
+                    <exclude name="**/Abstract*"/>
+                </fileset>
+            </batchtest>
+        </junit>
+        
+    </target>
+
+    <target name="test-reports" depends="test" description="Generate Reports for the unit tests">
+        
+        <mkdir dir="${build.reports}/junit"/>
+        
+        <junitreport todir="${build.reports}/junit">
+            <fileset dir="${build.tests}">
+                <include name="TEST-*.xml"/>
+            </fileset>
+            <report format="frames" todir="${build.reports}/junit"/>
+        </junitreport>
+
+        <!-- Clean up the xml reports used by the junitreport task -->
+        <!--
+        <delete>
+            <fileset dir="${build.tests}" includes="TEST-*.xml"/>
+            <fileset dir="${build.tests}" includes="TESTS-*.xml"/>
+        </delete>
+        -->
+        
+    </target>
+
+    <target name="jdepend" if="do.jdepend" description="Generate Dependency Analysis Report">
+
+        <!-- this invocation of jdepend requires the CVS version of ant for the xml format -->
+        <!-- thats why you are required to define do.jdepend property to generate the report -->
+        <jdepend outputfile="${build.dir}/jdepend-results.xml" format="xml" fork="yes">
+            <classpath refid="project.class.path"/>
+            <sourcespath>
+                <pathelement location="src/java" />
+            </sourcespath>
+        </jdepend>
+
+        <mkdir dir="${build.reports}/jdepend"/>
+        <style in="${build.dir}/jdepend-results.xml" 
+               processor="trax" 
+               out="${build.reports}/jdepend/delete-me.txt" 
+               style="${ant.home}/etc/jdepend-frames.xsl"/>
+    </target>
+
+    <target name="checkstyle" if="do.checkstyle" description="Checkstyle">
+    
+        <!-- this invocation of checkstyle requires that checkstyle be downloaded and setup -->
+        <!-- thats why you are required to define do.checkstyle property to generate the report -->
+        <taskdef name="checkstyle"
+            classname="com.puppycrawl.tools.checkstyle.CheckStyleTask">
+            <classpath refid="project.class.path"/>
+        </taskdef>
+        <checkstyle
+            lcurlyType="nl"
+            lcurlyMethod="nl"
+            lcurlyOther="nl"
+            rcurly="ignore"
+            allowProtected="false"
+            allowPackage="false"
+            allowNoAuthor="false"
+            maxLineLen="100"
+            maxMethodLen="100"
+            maxConstructorLen="100"
+            memberPattern="^m_[a-z][a-zA-Z0-9]*$"
+            staticPattern="^c_[a-z][a-zA-Z0-9]*$"
+            constPattern="(^c_[a-z][a-zA-Z0-9]*$)|([A-Z_]*$)"
+            ignoreImportLen="true"
+            allowTabs="false"
+            javadocScope="protected"
+            ignoreWhitespace="true"
+            cacheFile="checkstyle.cache"
+            failOnViolation="false"
+            ignoreCastWhitespace="true">
+            <fileset dir="${java.dir}">
+                <include name="**/*.java"/>
+            </fileset>
+            <formatter type="plain"/>
+            <formatter type="xml" toFile="build/checkstyle-results.xml"/>
+        </checkstyle>
+    </target>
+
+    <target name="checkstyle-report" 
+            depends="checkstyle" 
+            if="do.checkstyle" 
+            description="Generate Checkstyle Report">
+
+        <mkdir dir="${build.reports}/checkstyle"/>
+        <style style="../tools/etc/checkstyle-frames.xsl" in="build/checkstyle-results.xml"
+            out="${build.reports}/checkstyle/delete-me.html"/>
+
+    </target>
+
+    <!-- Creates the distribution -->
+    <target name="dist" 
+            depends="jar, test-reports, jdepend, checkstyle-report, javadocs" 
+            description="Generates the jar files">
+
+        <mkdir dir="${dist.dir}"/>
+        <copy file="${build.lib}/${dist.name}.jar" todir="${dist.dir}"/>
+        <copy file="${build.lib}/${dist-client.name}.jar" todir="${dist.dir}"/>
+        <copy file="../LICENSE.txt" todir="${dist.dir}"/>
+        <copy file="../KEYS" todir="${dist.dir}"/>
+
+        <mkdir dir="${dist.base}"/>
+
+        <zip zipfile="${dist.base}/${dist.name}-bin.zip" compress="true">
+            <zipfileset dir="${dist.dir}" prefix="${dist.name}"/>
+        </zip>
+
+        <delete dir="${dist.dir}" />
+
+    </target>
+
+    <!-- Cleans up build and distribution directories -->
+    <target name="clean" description="Cleans up the project">
+        <delete file="checkstyle.cache"/>
+        <delete dir="${build.dir}" />
+        <delete dir="${dist.dir}" />
+        <delete dir="test" /> <!-- unit testing output directory -->
+        <delete>
+            <fileset dir="." includes="**/*~" defaultexcludes="no"/>
+        </delete>
+    </target>
+
+    <target name="real-clean" depends="clean" description="Cleans up the project, including distributions">
+        <delete dir="${dist.base}" />
+    </target>
+
+</project>
