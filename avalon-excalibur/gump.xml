@@ -48,6 +48,7 @@
 
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
+    <depend project="xml-xalan"/>
     <depend project="checkstyle"/>
     <work nested="extension/build/classes"/>
 
@@ -68,6 +69,7 @@
 
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
+    <depend project="xml-xalan"/>
     <depend project="checkstyle"/>
     <work nested="cache/build/classes"/>
 
@@ -87,6 +89,7 @@
 
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
+    <depend project="xml-xalan"/>
     <depend project="checkstyle"/>
     <work nested="cli/build/classes"/>
 
@@ -106,6 +109,7 @@
 
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
+    <depend project="xml-xalan"/>
     <depend project="checkstyle"/>
     <work nested="io/build/classes"/>
 
@@ -125,6 +129,7 @@
 
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
+    <depend project="xml-xalan"/>
     <depend project="checkstyle"/>
     <work nested="i18n/build/classes"/>
 
@@ -144,6 +149,7 @@
 
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
+    <depend project="xml-xalan"/>
     <depend project="checkstyle"/>
     <work nested="naming/build/classes"/>
 
@@ -163,6 +169,7 @@
 
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
+    <depend project="xml-xalan"/>
     <depend project="checkstyle"/>
     <work nested="tar/build/classes"/>
 
