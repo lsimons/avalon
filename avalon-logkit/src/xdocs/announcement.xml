@@ -20,7 +20,7 @@
     <title>@Name@ @version@</title>
     <description>
 LogKit is an easy to use logging toolkit designed for secure 
-performance orientated logging. It's design encourages integration 
+performance oriented logging. It's design encourages integration 
 into existing products with minimal impact.
     </description>
     <changes version="@version@" file="changes.xml"/>
