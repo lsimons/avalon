@@ -8,8 +8,6 @@
 
 package org.apache.avalon.excalibur.monitor.test;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.OutputStream;
@@ -21,15 +19,16 @@ import org.apache.avalon.excalibur.testcase.ExcaliburTestCase;
 import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.component.ComponentException;
 import org.apache.avalon.framework.component.ComponentSelector;
-import org.apache.avalon.framework.logger.AbstractLogEnabled;
 
 /**
  * Junit TestCase for all the monitors in Excalibur.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version $Id: MonitorTestCase.java,v 1.11 2002/06/13 13:06:27 bloritsch Exp $
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @version $Id: MonitorTestCase.java,v 1.12 2002/09/07 12:14:02 donaldp Exp $
  */
-public class MonitorTestCase extends ExcaliburTestCase
+public class MonitorTestCase
+    extends ExcaliburTestCase
 {
     /**
      * The constructor for the MonitorTest
@@ -49,10 +48,10 @@ public class MonitorTestCase extends ExcaliburTestCase
         {
             selector = (ComponentSelector)manager.lookup( Monitor.ROLE + "Selector" );
             activeMonitor = (Monitor)selector.select( "active" );
-
+            getLogger().info( "Aquired Active monitor" );
             internalTestProcedure( activeMonitor, true );
         }
-        catch( ComponentException ce )
+        catch( final ComponentException ce )
         {
             if( getLogger().isDebugEnabled() )
             {
@@ -64,7 +63,6 @@ public class MonitorTestCase extends ExcaliburTestCase
         finally
         {
             assertTrue( "The monitor selector could not be retrieved.", null != selector );
-
             selector.release( (Component)activeMonitor );
             manager.release( selector );
         }
@@ -80,7 +78,7 @@ public class MonitorTestCase extends ExcaliburTestCase
         {
             selector = (ComponentSelector)manager.lookup( Monitor.ROLE + "Selector" );
             passiveMonitor = (Monitor)selector.select( "passive" );
-
+            getLogger().info( "Aquired Passive monitor" );
             internalTestProcedure( passiveMonitor, false );
         }
         catch( ComponentException ce )
@@ -101,114 +99,49 @@ public class MonitorTestCase extends ExcaliburTestCase
         }
     }
 
-    private void internalTestProcedure( Monitor testMonitor, boolean active )
+    private void internalTestProcedure( final Monitor testMonitor,
+                                        final boolean active )
     {
         try
         {
-            long sleepTo;
-            File thirdWheel = new File( "test.txt" );
-
+            final File thirdWheel = new File( "test.txt" );
             thirdWheel.createNewFile();
+            thirdWheel.setLastModified( System.currentTimeMillis() );
+            final MonitorTestCaseListener listener = new MonitorTestCaseListener();
+            listener.enableLogging( getLogEnabledLogger() );
 
-            MonitorTestCaseListener listener = new MonitorTestCaseListener();
-            listener.enableLogging( this.getLogEnabledLogger() );
-
-            FileResource resource = new FileResource( "test.txt" );
+            final FileResource resource = new FileResource( "test.txt" );
             resource.addPropertyChangeListener( listener );
 
             testMonitor.addResource( resource );
-
-            thirdWheel.setLastModified( System.currentTimeMillis() );
+            longDelay();
 
             if( active )
             {
-                FileWriter externalWriter = new FileWriter( thirdWheel );
+                final FileWriter externalWriter = new FileWriter( thirdWheel );
                 externalWriter.write( "External Writer modification" );
                 externalWriter.flush();
                 externalWriter.close();
 
-                sleepTo = System.currentTimeMillis() + 1000L;
-
-                while( System.currentTimeMillis() < sleepTo && ( !listener.hasBeenModified() ) )
-                {
-                    try
-                    {
-                        Thread.sleep( 10 );  // sleep 10 millis per iteration
-                    }
-                    catch( final InterruptedException ie )
-                    {
-                        // ignore and keep waiting
-                    }
-                }
-
-                assertTrue( "File not changed", listener.hasBeenModified() );
+                getLogger().info( "Checking for modification on active monitor" );
+                checkForModification( listener );
             }
 
-            listener.reset();
-
-            OutputStream out = resource.setResourceAsStream();
+            final OutputStream out = resource.setResourceAsStream();
             out.write( "Test line 1\n".getBytes() );
-
-            try
-            {
-                Thread.sleep( 10 ); // sleep 10 millis at a time
-            }
-            catch( final InterruptedException ie )
-            {
-                // ignore and keep waiting
-            }
-
+            delay();
             out.flush();
             out.close();
 
-            sleepTo = System.currentTimeMillis() + 1000L;
+            checkForModification( listener );
 
-            while( System.currentTimeMillis() < sleepTo && ( !listener.hasBeenModified() ) )
-            {
-                try
-                {
-                    Thread.sleep( 10 ); // sleep 10 millis at a time
-                }
-                catch( final InterruptedException ie )
-                {
-                    // ignore and keep waiting
-                }
-            }
-
-            assertTrue( "File not changed", listener.hasBeenModified() );
-            listener.reset();
-
-            Writer write = resource.setResourceAsWriter();
+            final Writer write = resource.setResourceAsWriter();
             write.write( "Test line 2\n" );
-
-            try
-            {
-                Thread.sleep( 10 ); // sleep 10 millis at a time
-            }
-            catch( final InterruptedException ie )
-            {
-                // ignore and keep waiting
-            }
-
+            delay();
             write.flush();
             write.close();
 
-            sleepTo = System.currentTimeMillis() + 1000L;
-
-            while( System.currentTimeMillis() < sleepTo && ( !listener.hasBeenModified() ) )
-            {
-                try
-                {
-                    Thread.sleep( 10 ); // sleep 10 millis at a time
-                }
-                catch( final InterruptedException ie )
-                {
-                    // ignore and keep waiting
-                }
-            }
-
-            assertTrue( "File not changed", listener.hasBeenModified() );
-            listener.reset();
+            checkForModification( listener );
 
             resource.removePropertyChangeListener( listener );
             testMonitor.removeResource( resource );
@@ -225,40 +158,42 @@ public class MonitorTestCase extends ExcaliburTestCase
         }
     }
 
-    public static class MonitorTestCaseListener
-        extends AbstractLogEnabled
-        implements PropertyChangeListener
+    private void delay()
     {
-        private volatile boolean m_hasChanged = false;
+        delay( 10 );
+    }
 
-        public boolean hasBeenModified()
+    /**
+     * Some filesystems are not sensitive enough so you need
+     * to delay for a long enough period of time (ie 1 second).
+     */
+    private void longDelay()
+    {
+        delay( 1000 );
+    }
+
+    private void delay( final int time )
+    {
+        try
         {
-            return m_hasChanged;
+            Thread.sleep( time ); // sleep 10 millis at a time
         }
-
-        public void reset()
+        catch( final InterruptedException ie )
         {
-            m_hasChanged = false;
-        }
-
-        public void propertyChange( final PropertyChangeEvent propertyChangeEvent )
-        {
-            m_hasChanged = true;
-
-            if( getLogger().isInfoEnabled() )
-            {
-                getLogger().info( "NOTIFICATION LATENCY: " + ( System.currentTimeMillis() -
-                                                               ( (Long)propertyChangeEvent.getNewValue() ).longValue() ) +
-                                  "ms" );
-                getLogger().info( "Received notification for " +
-                                  ( (FileResource)propertyChangeEvent.getSource() ).getResourceKey() );
-                getLogger().info( propertyChangeEvent.getPropertyName() +
-                                  "\n  IS::" + (Long)propertyChangeEvent.getNewValue() +
-                                  "\n  WAS::" + (Long)propertyChangeEvent.getOldValue() +
-                                  "\n  TIME SINCE LAST MOD::" +
-                                  ( ( (Long)propertyChangeEvent.getNewValue() ).longValue() -
-                                    ( (Long)propertyChangeEvent.getOldValue() ).longValue() ) );
-            }
+            // ignore and keep waiting
         }
     }
+
+    private void checkForModification( final MonitorTestCaseListener listener )
+    {
+        final long sleepTo = System.currentTimeMillis() + 1000L;
+        while( System.currentTimeMillis() < sleepTo &&
+            (!listener.hasBeenModified()) )
+        {
+            delay();
+        }
+        assertTrue( "File not changed", listener.hasBeenModified() );
+        listener.reset();
+    }
+
 }

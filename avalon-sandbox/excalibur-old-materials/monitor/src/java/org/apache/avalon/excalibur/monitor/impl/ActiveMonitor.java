@@ -16,7 +16,7 @@ import org.apache.avalon.excalibur.monitor.Resource;
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Id: ActiveMonitor.java,v 1.1 2002/09/07 07:15:56 donaldp Exp $
+ * @version $Id: ActiveMonitor.java,v 1.2 2002/09/07 12:14:02 donaldp Exp $
  */
 public class ActiveMonitor
     extends AbstractMonitor
@@ -69,15 +69,16 @@ public class ActiveMonitor
         m_priority = priority;
     }
 
-    public final void start()
+    public void start()
         throws Exception
     {
+        m_keepRunning = true;
         m_monitorThread.setDaemon( true );
         m_monitorThread.setPriority( m_priority );
         m_monitorThread.start();
     }
 
-    public final void stop()
+    public void stop()
         throws Exception
     {
         m_keepRunning = false;
@@ -89,19 +90,11 @@ public class ActiveMonitor
         while( m_keepRunning )
         {
             long currentTestTime = System.currentTimeMillis();
-            long sleepTillTime = currentTestTime + m_frequency;
+            final long sleepTillTime = currentTestTime + m_frequency;
 
             while( (currentTestTime = System.currentTimeMillis()) < sleepTillTime )
             {
-                try
-                {
-                    Thread.sleep( sleepTillTime - currentTestTime );
-                }
-                catch( InterruptedException e )
-                {
-                    // ignore interrupted exception and keep sleeping until it's
-                    // time to wake up
-                }
+                delay( sleepTillTime - currentTestTime );
             }
 
             final Resource[] resources = getResources();
@@ -109,6 +102,19 @@ public class ActiveMonitor
             {
                 resources[ i ].testModifiedAfter( currentTestTime );
             }
+        }
+    }
+
+    private void delay( final long delay )
+    {
+        try
+        {
+            Thread.sleep( delay );
+        }
+        catch( InterruptedException e )
+        {
+            // ignore interrupted exception and keep sleeping until it's
+            // time to wake up
         }
     }
 }

@@ -18,9 +18,8 @@ import org.apache.excalibur.source.SourceException;
 import org.apache.excalibur.source.SourceValidity;
 
 /**
- *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version $Id: SourceResource.java,v 1.6 2002/08/23 05:33:59 cziegeler Exp $
+ * @version $Id: SourceResource.java,v 1.7 2002/09/07 12:14:01 donaldp Exp $
  */
 public final class SourceResource
     extends StreamResource
@@ -49,7 +48,7 @@ public final class SourceResource
      */
     public long lastModified()
     {
-        if( m_validity == null )
+        if( null == m_validity )
         {
             return System.currentTimeMillis();
         }

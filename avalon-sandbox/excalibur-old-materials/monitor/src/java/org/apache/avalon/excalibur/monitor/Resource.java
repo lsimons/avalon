@@ -22,7 +22,7 @@ import java.util.Set;
  * last modified property will be enough.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version $Id: Resource.java,v 1.9 2002/09/07 07:15:56 donaldp Exp $
+ * @version $Id: Resource.java,v 1.10 2002/09/07 12:14:01 donaldp Exp $
  */
 public abstract class Resource
     implements Modifiable
@@ -35,7 +35,7 @@ public abstract class Resource
     protected long m_previousModified = 0L;
 
     /**
-     * Required constructor.  The <code>String</code> location is transformed by
+     * Required constructor.  The {@link String} location is transformed by
      * the specific resource monitor.  For instance, a FileResource will be able
      * to convert a string representation of a path to the proper File object.
      */
@@ -62,8 +62,7 @@ public abstract class Resource
      */
     public void testModifiedAfter( long time )
     {
-        long lastModified = this.lastModified();
-
+        final long lastModified = lastModified();
         if( lastModified > m_previousModified || lastModified > time )
         {
             m_eventSupport.firePropertyChange( Resource.MODIFIED,
@@ -84,7 +83,7 @@ public abstract class Resource
 
         for( int i = 0; i < listeners.length; i++ )
         {
-            this.addPropertyChangeListener( listeners[ i ] );
+            addPropertyChangeListener( listeners[ i ] );
         }
     }
 
@@ -133,7 +132,7 @@ public abstract class Resource
      */
     public final boolean hasListeners()
     {
-        return m_eventSupport.hasListeners( this.getResourceKey() );
+        return m_eventSupport.hasListeners( getResourceKey() );
     }
 
     /**
@@ -146,7 +145,7 @@ public abstract class Resource
 
         for( int i = 0; i < listeners.length; i++ )
         {
-            this.removePropertyChangeListener( listeners[ i ] );
+            removePropertyChangeListener( listeners[ i ] );
         }
     }
 

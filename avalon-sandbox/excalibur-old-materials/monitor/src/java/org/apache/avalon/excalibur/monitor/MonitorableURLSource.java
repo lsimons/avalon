@@ -10,17 +10,15 @@ package org.apache.avalon.excalibur.monitor;
 import org.apache.excalibur.source.impl.URLSource;
 
 /**
- * This adds the <code>Monitorable</code> interface to the URLSource.
+ * This adds the {@link Monitorable} interface to the {@link URLSource}.
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.5 $ $Date: 2002/06/12 09:24:14 $
+ * @version CVS $Revision: 1.6 $ $Date: 2002/09/07 12:14:01 $
  */
-
 public class MonitorableURLSource
     extends URLSource
     implements Monitorable
 {
-
     /**
      * Constructor
      */
@@ -34,15 +32,14 @@ public class MonitorableURLSource
     public Resource getResource()
         throws Exception
     {
-        this.checkInfos();
-        if( null == this.file )
+        checkInfos();
+        if( null != file )
         {
-            return new FileResource( this.file.getAbsolutePath() );
+            return new FileResource( file.getAbsolutePath() );
         }
         else
         {
             return new SourceResource( this );
         }
     }
-
 }
