@@ -2,7 +2,7 @@
 <feature
       id="org.apache.metro.studio"
       label="MetroStudio Feature"
-      version="0.1.0"
+      version="0.1.1"
       provider-name="Apache Software Foundation"
       nl="en_US"
       primary="true"
@@ -217,7 +217,7 @@
    </license>
 
    <url>
-      <update label="MetroStudio Updates" url="http://merlin.softwarefabrik.biz/MetroStudio/updates/"/>
+      <update label="MetroStudio Updates" url="http://www.apache.org/~oberhack/updates/studio"/>
    </url>
 
    <requires>
@@ -245,18 +245,30 @@
          id="org.apache.metro.studio.core"
          download-size="0"
          install-size="0"
-         version="0.1.0"/>
+         version="0.1.1"/>
 
    <plugin
          id="org.apache.metro.studio.launch"
-         download-size="0"
+         download-size="314"
          install-size="0"
-         version="0.1.0"/>
+         version="0.1.1"/>
 
    <plugin
          id="org.apache.metro.studio.ui"
+         download-size="356"
+         install-size="0"
+         version="0.1.1"/>
+
+   <plugin
+         id="org.apache.metro.studio.tests"
          download-size="0"
          install-size="0"
-         version="0.1.0"/>
+         version="0.1.1"/>
 
+   <plugin
+         id="org.apache.metro.studio.docs"
+         download-size="0"
+         install-size="0"
+         version="0.1.1"/>
+ 
 </feature>
