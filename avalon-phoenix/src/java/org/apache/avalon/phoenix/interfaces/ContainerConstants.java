@@ -64,5 +64,8 @@ public interface ContainerConstants
      */
     String LISTENER_PARTITION = "listener";
 
+    /**
+     * The root instrumentation category for all applications.
+     */
     String ROOT_INSTRUMENT_CATEGORY = "applications";
 }
