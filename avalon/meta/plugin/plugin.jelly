@@ -73,11 +73,6 @@
   -->
   <goal name="avalon:artifact">
 
-    <!--
-    <ant:available property="jarPresent"
-        file="${maven.build.dir}/${pom.artifactId}.jar"/>
-    <j:if test="${jarPresent == 'true'}">
-    -->
       <maven:snapshot project="${pom}"/>
 
       <ant:property name="filename" 
@@ -104,37 +99,62 @@ avalon.artifact.group = ${pom.groupId}
 avalon.artifact.name = ${pom.artifactId}
 avalon.artifact.version = ${pom.currentVersion}
 avalon.artifact.signature = ${signature}
+</ant:echo>
+      <j:set var="index" value="0"/>
+      <j:forEach var="dep" items="${pom.dependencies}">
+        <j:set var="key" value="${dep.groupId}:${dep.artifactId};${dep.version}"/>
+        <j:if test="${dep.getProperty('avalon.classloader')=='api'}">
+          <j:if test="${index==0}">
+            <ant:echo file="${filename}" append="true">
+#
+# API dependencies.
+#
+</ant:echo>
+          </j:if>
+          <ant:echo file="${filename}" append="true">
+avalon.artifact.dependency.api.${index} = ${key}</ant:echo>
+          <j:set var="index" value="${index+1}"/>
+        </j:if>
+      </j:forEach>
+
+      <j:set var="index" value="0"/>
+      <j:forEach var="dep" items="${pom.dependencies}">
+        <j:set var="key" value="${dep.groupId}:${dep.artifactId};${dep.version}"/>
+        <j:if test="${dep.getProperty('avalon.classloader')=='spi'}">
+          <j:if test="${index==0}">
+            <ant:echo file="${filename}" append="true">
+
+#
+# SPI dependencies.
+#
+</ant:echo>
+          </j:if>
+          <ant:echo file="${filename}" append="true">
+avalon.artifact.dependency.spi.${index} = ${key}</ant:echo>
+          <j:set var="index" value="${index+1}"/>
+        </j:if>
+      </j:forEach>
+
+      <j:set var="index" value="0"/>
+      <j:forEach var="dep" items="${pom.dependencies}">
+        <j:set var="key" value="${dep.groupId}:${dep.artifactId};${dep.version}"/>
+        <j:if test="${dep.getProperty('avalon.classloader')==null}">
+          <j:if test="${index==0}">
+            <ant:echo file="${filename}" append="true">
 
 #
 # Implementation dependencies.
 #
 </ant:echo>
-      <j:set var="index" value="0"/>
-      <j:forEach var="dep" items="${pom.dependencies}">
-        <j:set var="key" value="${dep.groupId}:${dep.artifactId};${dep.version}"/>
-        <ant:echo file="${filename}" append="true">
-avalon.artifact.dependency.${index} = ${key}</ant:echo>
-        <j:set var="j" value="0"/>
-        <j:forEach var="p" items="${dep.properties}">
-          <j:set var="v" value="${p.substring(9,p.length())}"/>
-          <j:set var="pos" value="${v.indexOf(':')}"/>
-          <j:set var="len" value="${v.length()}"/>
-          <j:set var="key" value="${v.substring(0,pos)}"/>
-          <j:set var="value" value="${v.substring(pos,len)}"/>
+          </j:if>
           <ant:echo file="${filename}" append="true">
-avalon.dependency.${index}.${key} = ${value.substring( 1, value.length() )}</ant:echo>
-          <j:set var="j" value="${j+1}"/>
-        </j:forEach>
-        <j:set var="index" value="${index+1}"/>
+avalon.artifact.dependency.${index} = ${key}</ant:echo>
+          <j:set var="index" value="${index+1}"/>
+        </j:if>
       </j:forEach>
+
       <ant:echo file="${filename}" append="true">
 </ant:echo>
-    <!--
-    </j:if>
-    <j:if test="${jarPresent == 'false'}">
-      <ant:echo message="Ignoring artifact generation (no target jar file)."/>
-    </j:if>
-    -->
 
     <ant:property name="avalonArtifactDestination" 
        value="${maven.repo.local}/${pom.artifactDirectory}/jars"/>
