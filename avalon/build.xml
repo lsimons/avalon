@@ -69,7 +69,7 @@ Legal:
   <property name="tools.dir" value="tools"/>
   <property name="docs.dir" value="docs"/>
   <property name="www.dir" value="www"/>
-  <property name="javadocs.dir" value="${docs.dir}/api"/>
+  <property name="javadocs.dir" value="${docs.dir}/framework/api"/>
   <property name="skins.dir" value="${src.dir}/skins"/>
   <property name="avalon.skin" value="${skins.dir}/avalon/"/>
   <property name="xdocs.dir" value="${src.dir}/xdocs"/>
@@ -220,11 +220,18 @@ Legal:
        ===================================================================
   -->
   <target name="xdocs">
-  
-    <filter token="year" value="${year}"/>
-    
+     
     <mkdir dir="${build.xdocs}"/>
     <mkdir dir="${build.docs}"/>
+    <mkdir dir="${build.docs}/framework"/>
+
+    <filter token="year" value="${year}"/>
+    <filter token="AVALON_BASE" value="http://jakarta.apache.org/avalon"/>
+    <filter token="FRAMEWORK_BASE" value="http://jakarta.apache.org/avalon/framework"/>
+    <filter token="PHOENIX_BASE" value="http://jakarta.apache.org/avalon/phoenix"/>
+    <filter token="CORNERSTONE_BASE" value="http://jakarta.apache.org/avalon/cornerstone"/>
+    <filter token="LOGKIT_BASE" value="http://jakarta.apache.org/avalon/logkit"/>
+    <filter token="TESTLET_BASE" value="http://jakarta.apache.org/avalon/testlet"/>
 
     <copy todir="${build.xdocs}" filtering="on">
       <fileset dir="${xdocs.dir}">
@@ -238,13 +245,11 @@ Legal:
       </fileset>
     </copy>
 
-    <copy todir="${build.docs}" filtering="off">
-      <fileset dir="${avalon.skin}">
-        <include name="resources/**"/>
-      </fileset>
-    </copy>
-
-<!--    <replace file="${build.xdocs}/book.xml" token="@BASE_URL@" value="."/> -->
+    <stylebook targetdirectory="${build.docs}/framework"
+               book="${build.xdocs}/framework/book.xml"
+               skindirectory="${avalon.skin}">
+      <classpath refid="project.class.path" />
+    </stylebook>
 
     <stylebook targetdirectory="${build.docs}"
                book="${build.xdocs}/book.xml"
@@ -286,11 +291,11 @@ Legal:
        Create the Local site documentation
        ===================================================================
   -->
-  <target name="local-docs" depends="xdocs">
+  <target name="local-xdocs" depends="xdocs">
 
     <delete>
       <fileset dir="${docs.dir}">
-        <exclude name="api/**"/>
+        <exclude name="framework/api/**"/>
       </fileset>
     </delete>
     <mkdir dir="${docs.dir}"/>
@@ -317,12 +322,14 @@ Legal:
 
   </target>
 
+  <target name="local-docs" depends="local-javadocs,local-xdocs"/>
+
   <!--
        ===================================================================
        Update the www directory
        ===================================================================
   -->
-  <target name="site-docs" depends="local-javadocs,local-docs">
+  <target name="site-docs" depends="local-docs">
 
     <!-- delete all old documents but keep CVS directories -->
     <!-- note that by doing an include the defaultexcludes (CVS dirs) will be kept -->
