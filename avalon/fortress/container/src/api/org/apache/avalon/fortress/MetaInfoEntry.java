@@ -49,11 +49,6 @@
 */
 package org.apache.avalon.fortress;
 
-import org.apache.avalon.fortress.impl.handler.FactoryComponentHandler;
-import org.apache.avalon.fortress.impl.handler.PerThreadComponentHandler;
-import org.apache.avalon.fortress.impl.handler.PoolableComponentHandler;
-import org.apache.avalon.fortress.impl.handler.ThreadSafeComponentHandler;
-
 import java.util.*;
 
 /**
@@ -63,10 +58,15 @@ import java.util.*;
  * to enable "self-healing" configuration files.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.4 $ $Date: 2003/05/15 18:56:27 $
+ * @version $Revision: 1.5 $ $Date: 2003/05/27 15:38:31 $
  */
 public final class MetaInfoEntry
 {
+    public static final String THREADSAFE_HANDLER = "org.apache.avalon.fortress.impl.handler.ThreadSafeComponentHandler";
+    public static final String POOLABLE_HANDLER = "org.apache.avalon.fortress.impl.handler.PoolableComponentHandler";
+    public static final String FACTORY_HANDLER = "org.apache.avalon.fortress.impl.handler.FactoryComponentHandler";
+    public static final String PER_THREAD_HANDLER = "org.apache.avalon.fortress.impl.handler.PerThreadComponentHandler";
+
     private final Class m_klass;
     private final String m_configName;
     private final Class m_handler;
@@ -76,15 +76,19 @@ public final class MetaInfoEntry
     /** Translate from lifestyle to component handler. */
     private static final Map m_lifecycleMap;
     private final List m_dependencies;
+    private static final String TYPE_SINGLETON = "singleton";
+    private static final String TYPE_THREAD = "thread";
+    private static final String TYPE_POOLED = "pooled";
+    private static final String TYPE_TRANSIENT = "transient";
 
     // Initialize the scope map
     static
     {
         Map lifecycleMap = new HashMap();
-        lifecycleMap.put( "singleton", ThreadSafeComponentHandler.class.getName() );
-        lifecycleMap.put( "thread", PerThreadComponentHandler.class.getName() );
-        lifecycleMap.put( "pooled", PoolableComponentHandler.class.getName() );
-        lifecycleMap.put( "transient", FactoryComponentHandler.class.getName() );
+        lifecycleMap.put( TYPE_SINGLETON, THREADSAFE_HANDLER );
+        lifecycleMap.put( TYPE_THREAD, PER_THREAD_HANDLER );
+        lifecycleMap.put( TYPE_POOLED, POOLABLE_HANDLER );
+        lifecycleMap.put( TYPE_TRANSIENT, FACTORY_HANDLER );
 
         m_lifecycleMap = Collections.unmodifiableMap( lifecycleMap );
     }
@@ -238,7 +242,7 @@ public final class MetaInfoEntry
 
         if ( null == handler )
         {
-            handler = PerThreadComponentHandler.class.getName();
+            handler = PER_THREAD_HANDLER;
         }
 
         return handler;

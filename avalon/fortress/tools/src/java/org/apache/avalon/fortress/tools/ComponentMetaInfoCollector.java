@@ -74,7 +74,7 @@ import java.util.*;
  * ANT task to collect all the meta information for the components.
  *
  * @author <a href="mailto:dev@avalon.apache.org">The Avalon Team</a>
- * @version CVS $Revision: 1.22 $ $Date: 2003/05/27 15:01:42 $
+ * @version CVS $Revision: 1.23 $ $Date: 2003/05/27 15:38:31 $
  */
 public final class ComponentMetaInfoCollector extends AbstractQdoxTask
 {
@@ -92,10 +92,6 @@ public final class ComponentMetaInfoCollector extends AbstractQdoxTask
      * The service list destination.
      */
     private File m_serviceFile;
-    private static final String THREADSAFE_HANDLER = "org.apache.avalon.fortress.impl.handler.ThreadSafeComponentHandler";
-    private static final String POOLABLE_HANDLER = "org.apache.avalon.fortress.impl.handler.PoolableComponentHandler";
-    private static final String FACTORY_HANDLER = "org.apache.avalon.fortress.impl.handler.FactoryComponentHandler";
-    private static final String PER_THREAD_HANDLER = "org.apache.avalon.fortress.impl.handler.PerThreadComponentHandler";
     private static final String SINGLE_THREADED = "org.apache.avalon.framework.thread.SingleThreaded";
     private static final String THREAD_SAFE = "org.apache.avalon.framework.thread.ThreadSafe";
     private static final String POOLABLE = "org.apache.avalon.excalibur.pool.Poolable";
@@ -265,16 +261,16 @@ public final class ComponentMetaInfoCollector extends AbstractQdoxTask
                     {
                         if ( interfaces[i].getClass().getName().equals( THREAD_SAFE ) )
                         {
-                            handler = THREADSAFE_HANDLER;
+                            handler = MetaInfoEntry.THREADSAFE_HANDLER;
                         }
                         else if ( interfaces[i].getClass().getName().equals( POOLABLE ) ||
                             interfaces[i].getClass().getName().equals( RECYCLABLE ) )
                         {
-                            handler = POOLABLE_HANDLER;
+                            handler = MetaInfoEntry.POOLABLE_HANDLER;
                         }
                         else if ( interfaces[i].getClass().getName().equals( SINGLE_THREADED ) )
                         {
-                            handler = FACTORY_HANDLER;
+                            handler = MetaInfoEntry.FACTORY_HANDLER;
                         }
                     }
                 }
@@ -285,7 +281,7 @@ public final class ComponentMetaInfoCollector extends AbstractQdoxTask
                 }
                 else if ( handler != null )
                 {
-                    handler = ( null == fortressHandler ) ? PER_THREAD_HANDLER : stripQuotes(fortressHandler.getNamedParameter( ATTR_TYPE ));
+                    handler = ( null == fortressHandler ) ? MetaInfoEntry.PER_THREAD_HANDLER : stripQuotes(fortressHandler.getNamedParameter( ATTR_TYPE ));
                 }
 
                 if ( null != lifecycle ) comp.setAttribute( TAG_LIFESTYLE, lifecycle );
