@@ -6,6 +6,7 @@ import org.apache.log.LogEvent;
 /**
  * Generic logging interface. Implementations are based on the strategy
  * pattern.
+ *
  * @author <a href="mailto:Tommy.Santoso@osa.de">Tommy Santoso</a>
  */
 public class ServletOutputLogTarget
