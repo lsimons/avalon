@@ -23,6 +23,15 @@ import java.util.Observer;
 public class DaemonLauncher
     implements WrapperListener, Observer
 {
+    /**
+     * In order to avoid calling the Wrapper stop method recursively, we need
+     *  to keep track of whether or not the Wrapper already knows we are
+     *  stopping.  Necessary because of the way the shutdown process in
+     *  Phoenix works.   Ideally, we would unregister this Observer with
+     *  CLIMain but we can't do that for security reasons.
+     */
+    private boolean m_ignoreUpdates = false;
+    
     public Integer start( final String[] args )
     {
         Integer exitCodeInteger = null;
@@ -65,6 +74,9 @@ public class DaemonLauncher
 
     public int stop( final int exitCode )
     {
+        // To avoid recursive calls, start ignoring updates.
+        m_ignoreUpdates = true;
+        
         Main.shutdown();
         return exitCode;
     }
@@ -103,44 +115,58 @@ public class DaemonLauncher
      */
     public void update( final Observable observable, final Object arg )
     {
-        final String command = ( null != arg ) ? arg.toString() : "";
-        if( command.equals( "restart" ) )
+        if ( m_ignoreUpdates )
         {
+            // Ignore this update
             if( WrapperManager.isDebugEnabled() )
             {
-                System.out.println( "DaemonLauncher: restart requested." );
-                System.out.flush();
-            }
-
-            WrapperManager.restart();
-
-            if( WrapperManager.isDebugEnabled() )
-            {
-                //Should never get here???
-                System.out.println( "DaemonLauncher: restart completed." );
-                System.out.flush();
-            }
-        }
-        else if( command.equals( "shutdown" ) )
-        {
-            if( WrapperManager.isDebugEnabled() )
-            {
-                System.out.println( "DaemonLauncher: shutdown requested." );
-                System.out.flush();
-            }
-
-            WrapperManager.stop( 0 );
-
-            if( WrapperManager.isDebugEnabled() )
-            {
-                //Should never get here???
-                System.out.println( "DaemonLauncher: shutdown completed." );
+                System.out.println( "DaemonLauncher: " + arg +
+                    " request ignored because stop already called." );
                 System.out.flush();
             }
         }
         else
         {
-            throw new IllegalArgumentException( "Unknown action " + command );
+            Thread.dumpStack();
+            final String command = ( null != arg ) ? arg.toString() : "";
+            if( command.equals( "restart" ) )
+            {
+                if( WrapperManager.isDebugEnabled() )
+                {
+                    System.out.println( "DaemonLauncher: restart requested." );
+                    System.out.flush();
+                }
+    
+                WrapperManager.restart();
+    
+                if( WrapperManager.isDebugEnabled() )
+                {
+                    //Should never get here???
+                    System.out.println( "DaemonLauncher: restart completed." );
+                    System.out.flush();
+                }
+            }
+            else if( command.equals( "shutdown" ) )
+            {
+                if( WrapperManager.isDebugEnabled() )
+                {
+                    System.out.println( "DaemonLauncher: shutdown requested." );
+                    System.out.flush();
+                }
+    
+                WrapperManager.stop( 0 );
+    
+                if( WrapperManager.isDebugEnabled() )
+                {
+                    //Should never get here???
+                    System.out.println( "DaemonLauncher: shutdown completed." );
+                    System.out.flush();
+                }
+            }
+            else
+            {
+                throw new IllegalArgumentException( "Unknown action " + command );
+            }
         }
     }
 
