@@ -50,11 +50,11 @@ public class Artifact
             repository = DEFAULT_REPOSITORY;
         
         m_Context = context;
-        m_Repository = repository;
-        m_ArtifactId = artifactId;
-        m_GroupId = groupId;
-        m_Version = version;
-        m_Type = type;
+        m_Repository = repository.trim();
+        m_ArtifactId = artifactId.trim();
+        m_GroupId = groupId.trim();
+        m_Version = version.trim();
+        m_Type = type.trim();
     }
 
     public static Artifact resolve( PluginContext context, String artifactId )
@@ -157,6 +157,11 @@ public class Artifact
             while( ( line = br.readLine() ) != null )
             {
                 line = line.trim();
+                if( line.startsWith( "#" ) )
+                    continue;
+                int pos = line.indexOf( "//" );
+                if( pos >= 0 )
+                    line = line.substring( 0, pos ).trim();
                 if( ! line.equals( "" ) )
                     deps.add( line );
             }

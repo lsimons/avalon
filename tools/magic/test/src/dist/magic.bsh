@@ -67,11 +67,11 @@ public class JUnitPlugin extends AbstractPlugin
     private void compileTests( String classpath )
     {
         String destdirname = m_Context.getProperty( "junit.build.dest.dir" );
-        File toDir = new File( destdirname ); 
+        File toDir = new File( m_Context.getProjectDir(), destdirname ); 
         toDir.mkdirs();
                 
         String srcdirname = m_Context.getProperty( "junit.build.src.dir" );
-        File fromDir = new File( srcdirname ); 
+        File fromDir = new File( m_Context.getProjectDir(), srcdirname ); 
         
         JavacPlugin javac = (JavacPlugin) m_JavacPlugin;
         

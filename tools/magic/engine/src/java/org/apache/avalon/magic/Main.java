@@ -45,6 +45,7 @@ public class Main
     {
         String cwd = System.getProperty( "user.dir" );
         File f = new File( cwd );
+        System.setProperty( "user.dir", "{invalid.dir.to.be.seen.if.used}" );
         return f.getAbsoluteFile();
     }
     

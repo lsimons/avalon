@@ -75,6 +75,7 @@ public class Util
             int b;
             int counter = 0;
             int kbs = 0;
+            System.out.print( "Downloading " + url + " :  " );
             while( ( b = bis.read() ) != -1 )
             {
                 counter++;
