@@ -8,7 +8,6 @@
 package org.apache.avalon.excalibur.cache;
 
 import org.apache.avalon.framework.component.Component;
-import org.apache.avalon.framework.thread.ThreadSafe;
 
 /**
  * This is a cache that caches objects for reuse.
@@ -17,7 +16,7 @@ import org.apache.avalon.framework.thread.ThreadSafe;
  * @author <a href="mailto:colus@apache.org">Eung-ju Park</a>
  */
 public interface Cache
-    extends ThreadSafe, Component
+    extends Component
 {
     /**
      * Add listener.

@@ -37,50 +37,33 @@ public class DefaultCache
 
     public Object put( final Object key, final Object value )
     {
-        Object oldValue;
+        final Object oldValue = remove( key );
 
-        synchronized ( m_store )
+        if ( m_store.isFull() )
         {
-            if ( m_store.containsKey( key ) )
-            {
-                oldValue = remove( key );
-            }
-            else
-            {
-                oldValue = null;
-            }
-
-            if ( m_store.isFull() )
-            {
-                remove( m_policy.selectVictim() );
-            }
-
-            m_store.put( key, value );
-            m_policy.add( key );
-            notifyAdded( key, value );
+            remove( m_policy.selectVictim() );
         }
+
+        m_store.put( key, value );
+        m_policy.add( key );
+        notifyAdded( key, value );
 
         return oldValue;
     }
 
     public Object get( final Object key )
     {
-        Object value;
-        
-        synchronized ( m_store )
-        {
-            value = m_store.get( key );
-            m_policy.hit( key );
-        }
+        final Object value = m_store.get( key );
+        m_policy.hit( key );
 
         return value;
     }
 
     public Object remove( final Object key )
     {
-        Object value;
-        
-        synchronized ( m_store )
+        Object value = null;
+
+        if ( m_store.containsKey( key ) )
         {
             value = m_store.remove( key );
             m_policy.remove( key );
@@ -92,21 +75,15 @@ public class DefaultCache
 
     public boolean containsKey( final Object key )
     {
-        synchronized ( m_store )
-        {
-            return m_store.containsKey( key );
-        }
+        return m_store.containsKey( key );
     }
 
     public void clear()
     {
-        synchronized ( m_store )
+        final Object[] keys = m_store.keys();
+        for ( int i = 0; i < keys.length; i++ )
         {
-            final Object[] keys = m_store.keys();
-            for ( int i = 0; i < keys.length; i++ )
-            {
-                remove( keys[ i ] );
-            }
+            remove( keys[ i ] );
         }
     }
 }
