@@ -196,7 +196,7 @@ public class DefaultEmbeddor
      * <li><b>log-priority</b>, the priority at which log messages are filteres.
      * If omitted, then INFO will be default level used.</li>
      * <li><b>applications-directory</b>, the directory in which
-     * the defaul applications to be loaded by the kernel are stored
+     * the default applications to be loaded by the kernel are stored
      * (in .sar format). Defaults to ${phoenix.home}/apps</li>
      * </ul>
      *
