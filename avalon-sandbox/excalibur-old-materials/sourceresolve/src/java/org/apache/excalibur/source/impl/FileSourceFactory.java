@@ -61,6 +61,8 @@ import java.util.Map;
 import org.apache.avalon.framework.thread.ThreadSafe;
 import org.apache.excalibur.source.Source;
 import org.apache.excalibur.source.SourceFactory;
+import org.apache.excalibur.source.URIAbsolutizer;
+import org.apache.excalibur.source.SourceUtil;
 
 /**
  * A factory for filesystem-based sources (see {@link FileSource}).
@@ -71,9 +73,9 @@ import org.apache.excalibur.source.SourceFactory;
  * @x-avalon.lifestyle type=singleton
  * 
  * @author <a href="mailto:sylvain@apache.org">Sylvain Wallez</a>
- * @version $Id: FileSourceFactory.java,v 1.2 2003/05/20 20:56:43 bloritsch Exp $
+ * @version $Id: FileSourceFactory.java,v 1.3 2003/07/14 08:14:31 bruno Exp $
  */
-public class FileSourceFactory implements SourceFactory, ThreadSafe
+public class FileSourceFactory implements SourceFactory, ThreadSafe, URIAbsolutizer
 {
 
     /**
@@ -92,5 +94,14 @@ public class FileSourceFactory implements SourceFactory, ThreadSafe
     public void release(Source source)
     {
         // Nothing to do here
+    }
+
+    public String absolutize(String baseURI, String location)
+    {
+        // Call the absolutize utility method with false for the normalizePath argument.
+        // This avoids the removal of "../" from the path.
+        // This way, the "../" will be resolved by the operating system, which might
+        // do things differently e.g. in case of symbolic links.
+        return SourceUtil.absolutize(baseURI, location, false, false);
     }
 }
