@@ -27,6 +27,8 @@
   <property name="build.lib" value="${build.dir}/lib"/>
   <property name="build.src" value="${build.dir}/src"/>
   <property name="build.classes" value="${build.dir}/classes"/>
+  <property name="build.testdocs" value="${build.docs}/test"/>
+  <property name="build.reports" value="${build.dir}/reports"/>
   <property name="build.xdocs" value="${build.dir}/xdocs"/>
   <property name="build.context" value="${build.dir}/documentation"/>
 
@@ -34,6 +36,7 @@
   <property name="src.dir" value="src"/>
   <property name="lib.dir" value="lib"/>
   <property name="java.dir" value="${src.dir}/java"/>
+  <property name="test.dir" value="${src.dir}/test"/>
   <property name="manifest.dir" value="${src.dir}/manifest"/>
   <property name="conf.dir" value="${src.dir}/conf"/>
   <property name="tools.dir" value="../jakarta-avalon/tools"/>
@@ -53,6 +56,7 @@
   <property name="scratchpad.jar" value="${lib.dir}/avalon-scratchpad.jar"/>
   <property name="phoenix-client.jar" value="${lib.dir}/phoenix-client-20010912.jar"/>
   <property name="testlet.jar" value="${tools.dir}/lib/testlet.jar"/>
+  <property name="junit.jar" value="${tools.dir}/lib/junit-3.7.jar"/>
   <property name="tools.jar" value="${java.home}/../lib/tools.jar"/>
 
   <path id="project.class.path">
@@ -61,6 +65,7 @@
     <pathelement location="${scratchpad.jar}"/>
     <pathelement location="${logkit.jar}"/>
     <pathelement location="${testlet.jar}"/>
+    <pathelement location="${junit.jar}"/>
     <pathelement location="${xerces.jar}"/>
     <pathelement location="${phoenix-client.jar}"/>
     <pathelement path="${java.class.path}" />
@@ -74,9 +79,15 @@
   </path>
 
   <path id="tools.class.path">
+    <pathelement location="${junit.jar}"/>
     <pathelement location="${tools.jar}"/>
     <fileset dir="${tools.dir}/lib"/>
     <fileset dir="${tools.dir}/ext"/>
+  </path>
+
+  <path id="test.class.path">
+    <path refid="tools.class.path"/>
+    <path refid="project.class.path"/>
   </path>
 
   <!-- Main target -->
@@ -113,6 +124,7 @@
            optimize="${build.optimize}"
            deprecation="${build.deprecation}">
       <classpath refid="project.class.path" />
+      <src path="${test.dir}"/>
       <exclude name="org/apache/avalon/cornerstone/blocks/sockets/TLSServerSocketFactory.java"
                unless="jsse.present" />
       <exclude name="org/apache/avalon/cornerstone/blocks/soapification/glue/**.java"
@@ -148,17 +160,53 @@
 
   <!-- Performs unit tests -->
   <target name="test" depends="check"/>
-  <target name="check" depends="jars" description="Perform any built in tests">
+  <target name="check" depends="compile" >
+    <mkdir dir="${build.reports}"/>
 
-    <test showSuccess="true" showBanner="false" showTrace="true" forceShowTrace="true" >
+    <echo message="Performing Unit Tests" />
+    <junit fork="false" printsummary="withOutAndErr">
+      <formatter type="plain"/>
       <classpath>
-        <pathelement path="${build.classes}" />
-        <pathelement path="${java.class.path}" />
+        <path refid="test.class.path"/>
+        <pathelement location="${build.classes}"/>
       </classpath>
+      <batchtest todir="${build.reports}">
+        <fileset dir="${build.classes}">
+          <exclude name="**/test/Abstract*TestCase.class"/>
+          <include name="**/test/*TestCase.class"/>
+        </fileset>
+      </batchtest>
+    </junit>
 
-      <testlet>org.apache.avalon.cornerstone.services.scheduler.test.CronTimeTriggerTestlet</testlet>
-    </test>
+  </target>
 
+
+  <target name="test-report" depends="compile" >
+    <mkdir dir="${build.testdocs}"/>
+    <mkdir dir="${build.reports}"/>
+
+    <echo message="Performing Unit Tests" />
+    <junit fork="true" printsummary="yes" dir="${build.reports}">
+      <formatter type="xml"/>
+      <classpath>
+        <path refid="test.class.path"/>
+        <pathelement location="${build.classes}"/>
+      </classpath>
+      <batchtest todir="${build.reports}">
+        <fileset dir="${build.classes}">
+          <exclude name="**/test/Abstract*TestCase.class"/>
+          <include name="**/test/*Profile.class" if="test.profile"/>
+          <include name="**/test/*TestCase.class"/>
+        </fileset>
+      </batchtest>
+    </junit>
+
+    <junitreport todir="${build.reports}">
+      <fileset dir="${build.reports}">
+        <include name="TEST-*.xml"/>
+      </fileset>
+      <report format="frames" todir="${build.testdocs}"/>
+    </junitreport>
   </target>
 
   <!-- Create the API documentation -->
