@@ -40,10 +40,12 @@
     <xsl:value-of select="@site"/></a>.</p>
 
     <!-- print out ChangeLog if present --> 
+    <!--
     <xsl:if test="changes">
       <h3>ChangeLog for <xsl:value-of select="title"/></h3>
       <xsl:apply-templates select="changes"/>
     </xsl:if>
+    -->
   </xsl:template>
 
   <xsl:template match="abstract">
