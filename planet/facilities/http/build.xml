@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<project name="finder" default="default" basedir=".">
+<project name="http" default="default" basedir=".">
 
   <property file="build.properties"/>
   <import file="${project.system}/build/reactor.xml"/>

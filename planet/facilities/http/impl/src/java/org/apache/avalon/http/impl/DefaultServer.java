@@ -31,7 +31,7 @@ import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.activity.Startable;
 
-import org.apache.excalibur.configuration.ConfigurationUtil;
+import org.apache.avalon.util.configuration.ConfigurationUtil;
 
 import org.apache.avalon.composition.model.ComponentModel;
 

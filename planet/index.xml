@@ -6,13 +6,15 @@
      href="http://svn.apache.org/repos/asf/avalon/trunk/runtime/index.xml"/>
 
   <!--
-  Avalon Facilities
+  Avalon Facilities - Finder
   -->
 
   <project basedir="facilities/finder/api">
     <info>
       <group>avalon/finder</group>
       <name>avalon-finder-api</name>
+      <version>1.0.0</version>
+      <status>SNAPSHOT</status> 
     </info>
     <dependencies>
       <include key="avalon-framework-api"/>
@@ -23,10 +25,84 @@
     <info>
       <group>avalon/finder</group>
       <name>avalon-finder-impl</name>
+      <version>1.0.0</version>
+      <status>SNAPSHOT</status> 
     </info>
     <dependencies>
       <include key="avalon-finder-api"/>
       <include key="avalon-composition-api"/>
+    </dependencies>
+    <plugins>
+      <include key="avalon-meta-tools"/>
+    </plugins>
+  </project>
+
+  <!--
+  Avalon Facilities - HTTP
+  -->
+
+  <resource>
+    <info>
+      <group>jetty</group>
+      <name>org.mortbay.jetty</name>
+      <version>4.2.15</version>
+      <type>jar</type>
+    </info>
+  </resource>
+
+  <project basedir="facilities/http/api">
+    <info>
+      <group>avalon/http</group>
+      <name>avalon-http-api</name>
+      <version>1.0.0</version>
+      <status>SNAPSHOT</status> 
+    </info>
+    <dependencies>
+      <include key="servletapi"/>
+    </dependencies>
+  </project>
+
+  <project basedir="facilities/http/spi">
+    <info>
+      <group>avalon/http</group>
+      <name>avalon-http-spi</name>
+      <version>1.0.0</version>
+      <status>SNAPSHOT</status> 
+    </info>
+    <dependencies>
+      <include key="avalon-http-api"/>
+      <include key="avalon-composition-api"/>
+    </dependencies>
+  </project>
+
+  <project basedir="facilities/http/util">
+    <info>
+      <group>avalon/http</group>
+      <name>avalon-http-util</name>
+      <version>1.0.0</version>
+      <status>SNAPSHOT</status> 
+    </info>
+    <dependencies>
+      <include key="avalon-http-api"/>
+    </dependencies>
+    <plugins>
+      <include key="avalon-meta-tools"/>
+    </plugins>
+  </project>
+
+  <project basedir="facilities/http/impl">
+    <info>
+      <group>avalon/http</group>
+      <name>avalon-http-impl</name>
+      <version>1.0.0</version>
+      <status>SNAPSHOT</status> 
+    </info>
+    <dependencies>
+      <include key="avalon-http-spi"/>
+      <include key="avalon-http-util"/>
+      <include key="avalon-composition-api"/>
+      <include key="org.mortbay.jetty"/>
+      <include key="avalon-util-configuration"/>
     </dependencies>
     <plugins>
       <include key="avalon-meta-tools"/>

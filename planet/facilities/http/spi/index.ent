@@ -1,2 +1,0 @@
-<!ENTITY % merlin-entities SYSTEM "file:../../../../runtime/versioning/avalon-merlin.ent"> %merlin-entities;
-<!ENTITY % facilities-entities SYSTEM "file:../../../../runtime/versioning/avalon-facilities.ent"> %facilities-entities;
