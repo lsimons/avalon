@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<project>
+
+  <extend>${basedir}/../../../project.xml</extend>
+
+  <groupId>avalon-http</groupId>
+  <id>avalon-http-spi</id>
+  <name>Avalon HTTP SPI</name>
+  <package>org.apache.avalon.http</package>
+
+  <shortDescription>Avalon HTTP Server SPI</shortDescription>
+
+  <dependencies>
+    
+    <dependency>
+      <groupId>avalon-framework</groupId>
+      <artifactId>avalon-framework-api</artifactId>
+      <version>4.1.5</version>
+    </dependency>
+    <dependency>
+      <groupId>avalon-http</groupId>
+      <artifactId>avalon-http-api</artifactId>
+      <version>${pom.currentVersion}</version>
+    </dependency>
+    <dependency>
+      <groupId>avalon-composition</groupId>
+      <artifactId>avalon-composition-api</artifactId>
+      <version>${pom.currentVersion}</version>
+    </dependency>
+
+  </dependencies>
+
+</project>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<project>
+
+  <extend>${basedir}/../../../project.xml</extend>
+
+  <groupId>avalon-finder</groupId>
+  <id>avalon-finder-site</id>
+  <name>Avalon Finder Documentation</name>
+
+  <shortDescription>Avalon Finder Documentation</shortDescription>
+
+</project>

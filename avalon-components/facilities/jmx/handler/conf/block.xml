@@ -1,0 +1,20 @@
+
+<container name="jmx-facility">
+  <classloader>
+    <classpath>
+      <repository>
+        <resource id="avalon-framework:avalon-framework-api" version="4.1.5"/>
+        <resource id="avalon-composition:avalon-composition-api" version="2.0"/>
+        <resource id="avalon-merlin-jmx:merlin-jmx-management-api" version="1.0"/>
+        <resource id="avalon-merlin-jmx:merlin-jmx-management-handler" version="1.0"/>
+        <resource id="avalon-merlin-jmx:merlin-jmx-test" version="1.0"/>
+      </repository>
+    </classpath>
+  </classloader>
+
+  <include name="ComponentRegistrationManager" id="avalon-merlin-jmx:merlin-jmx-management-mx4j" version="1.0"/>
+
+  <component name="JmxManagementHandler" class="org.apache.avalon.merlin.jmx.handler.JmxManagementHandler"/>
+
+  <component name="JMXTestComponent" class="org.apache.avalon.playground.jmxtest.JMXTestComponent"/>
+</container>

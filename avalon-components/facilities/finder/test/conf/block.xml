@@ -1,0 +1,30 @@
+<container name="test">
+
+  <classloader>
+    <classpath>
+      <repository>
+        <resource id="avalon-finder:avalon-finder-api" version="SNAPSHOT"/>
+        <resource id="avalon-finder:avalon-finder-impl" version="SNAPSHOT"/>
+        <resource id="avalon-finder:avalon-finder-ecm" version="SNAPSHOT"/>
+      </repository>
+      <fileset dir="target">
+        <include name="classes"/>
+        <include name="test-classes"/>
+      </fileset>
+    </classpath>
+  </classloader>
+
+  <component name="finder" class="org.apache.avalon.finder.impl.DefaultFinder"/>
+  
+  <component name="manager" class="org.apache.avalon.finder.ecm.DefaultRoleManager">
+    <configuration>
+      <role name="widget" shorthand="widget" 
+        default-class="org.apache.avalon.finder.test.ECMWidget"/>
+    </configuration>
+  </component>
+
+  <component name="ecm" class="org.apache.avalon.finder.ecm.ECM">
+    <configuration/>
+  </component>
+
+</container>

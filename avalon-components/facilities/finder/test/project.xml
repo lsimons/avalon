@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<project>
+
+  <extend>${basedir}/../../../project.xml</extend>
+
+  <groupId>avalon-finder</groupId>
+  <id>avalon-finder-test</id>
+  <name>Avalon Finder Test</name>
+
+  <shortDescription>Avalon Finder Test</shortDescription>
+  <package>org.apache.avalon.finder</package>
+
+  <dependencies>
+
+    <!-- implementation dependencies -->
+
+    <dependency>
+      <groupId>avalon-finder</groupId>
+      <artifactId>avalon-finder-api</artifactId>
+      <version>${pom.currentVersion}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>avalon-framework</groupId>
+      <artifactId>avalon-framework-api</artifactId>
+      <version>4.1.5</version>
+    </dependency>
+
+    <!-- test dependencies -->
+
+    <dependency>
+      <groupId>merlin</groupId>
+      <artifactId>merlin-unit</artifactId>
+      <version>${pom.currentVersion}</version>
+    </dependency>
+
+  </dependencies>
+  
+</project>
