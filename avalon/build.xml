@@ -177,6 +177,13 @@ Legal:
 
     <mkdir dir="${build.classes}"/>
 
+<!--
+    <depend closure="yes"
+            cache="${dep}"
+            srcdir="${java.dir}"
+            destdir="${build.classes}" />
+-->
+
     <javac srcdir="${java.dir}"
            destdir="${build.classes}"
            debug="${debug}"
