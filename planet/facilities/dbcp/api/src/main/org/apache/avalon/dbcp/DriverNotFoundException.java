@@ -24,7 +24,8 @@ package org.apache.avalon.dbcp;
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @version $Revision: 1.1 $ $Date: 2004/05/11 21:23:02 $
  */
-public class DriverNotFoundException extends Exception {
+public class DriverNotFoundException extends Exception 
+{
 
     /**
      * Constructs a new exception with <code>null</code> as the
@@ -47,11 +48,13 @@ public class DriverNotFoundException extends Exception {
     }
 
     /**
-     * Constructs a new exception with the specified cause and a
-     * detail message of (cause==null ? null : cause.toString())
+     * Constructs a new exception with the specified cause.
+     *
+     * <p>The message will be (cause==null ? null : cause.toString())
      * (which typically contains the class and detail message of
-     * cause). This constructor is useful for exceptions that are
-     * little more than wrappers for other throwables.
+     * cause). 
+     * This constructor is useful for exceptions that are
+     * little more than wrappers for other throwables.</p>
      *  
      * @param cause the cause
      */
@@ -63,9 +66,9 @@ public class DriverNotFoundException extends Exception {
     /**
      * Constructs a new exception with the specified detail message
      * and cause.
-     * <p>
-     * Note that the detail message associated with cause is not
-     * automatically incorporated in this exception's detail message.
+     * 
+     * <p>Note that the detail message associated with cause is not
+     * automatically incorporated in this exception's detail message.</p>
      *  
      * @param message the detail message
      * @param cause the cause

@@ -75,7 +75,7 @@ public class SetResponseHeadersHandler
     /**
      * Contextulaization of the Handler.
      *
-     * @param context the supplied listener context
+     * @param ctx the supplied listener context
      *
      * @exception ContextException if a contextualization error occurs
      *

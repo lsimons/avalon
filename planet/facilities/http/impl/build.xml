@@ -8,7 +8,7 @@
 
   <target name="build" depends="standard.build">
   
-    <x:block name="default-context" embed="MAIN">
+    <x:block name="default-context">
       <x:component name="context" class="org.apache.avalon.http.impl.HttpContextImpl" />
       <x:component name="security-handler" class="org.apache.avalon.http.impl.SecurityHandler" />
   
@@ -38,14 +38,14 @@
     </x:block>
 
 
-    <x:block name="default-server"  embed="MAIN">    
+    <x:block name="default-server">    
       <x:component name="socketlistener" class="org.apache.avalon.http.impl.SocketListener" />
       <x:component name="ssllistener" class="org.apache.avalon.http.impl.JsseListener" />
       <x:component name="ajplistener" class="org.apache.avalon.http.impl.Ajp13Listener" />
       <x:component name="httpserver" class="org.apache.avalon.http.impl.HttpServerImpl" />
     </x:block>
     
-    <x:block name="hash-basic-auth"  embed="MAIN" >
+    <x:block name="hash-basic-auth">
       <x:component name="realm" class="org.apache.avalon.http.impl.HashUserRealm" >
         <x:parameters>
           <x:parameter name="name" value="default" />
@@ -55,7 +55,7 @@
       <x:component name="authenticator" class="org.mortbay.http.BasicAuthenticator" />
     </x:block>
   
-    <x:block name="hash-digest-auth"  embed="MAIN" >
+    <x:block name="hash-digest-auth" >
       <x:component name="realm" class="org.apache.avalon.http.impl.HashUserRealm" >
         <x:parameters>
           <x:parameter name="name" value="default" />
@@ -65,7 +65,7 @@
       <x:component name="authenticator" class="org.mortbay.http.DigestAuthenticator" />
     </x:block>
   
-    <x:block name="hash-clientcert-auth"  embed="MAIN" >
+    <x:block name="hash-clientcert-auth" >
       <x:component name="realm" class="org.apache.avalon.http.impl.HashUserRealm" >
         <x:parameters>
           <x:parameter name="name" value="default" />
@@ -75,7 +75,7 @@
       <x:component name="authenticator" class="org.apache.avalon.http.impl.ClientCertAuthenticator" />
     </x:block>
   
-    <x:block name="hash-form-auth"  embed="MAIN" >
+    <x:block name="hash-form-auth" >
       <x:component name="realm" class="org.apache.avalon.http.impl.HashUserRealm" >
         <x:parameters>
           <x:parameter name="name" value="default" />

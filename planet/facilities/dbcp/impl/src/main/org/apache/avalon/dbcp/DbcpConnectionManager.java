@@ -254,7 +254,7 @@ public class DbcpConnectionManager
 	/**
      * Returns a <code>java.sql.Connection</code> to the specified data source.
      * 
-     * @param name the name of the data source to obtain a connection to
+     * @param datasource the name of the data source to obtain a connection to
      * @return a <code>java.sql.Connection</code> to the specified data source
 	 */
 	public Connection getConnection(String datasource) throws SQLException {

@@ -98,7 +98,7 @@ public class ModelHandler
      * which we are supplied with the root composition model for 
      * the application.
      *
-     * @param context the supplied listener context
+     * @param ctx the supplied listener context
      *
      * @exception ContextException if a contextualization error occurs
      *

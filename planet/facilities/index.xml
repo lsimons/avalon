@@ -469,4 +469,36 @@
     </plugins>
   </project>
 
+  <project basedir="javadoc" key="avalon-planet-facilities">
+    <info>
+      <group>avalon</group>
+      <name>avalon-planet-facilities</name>
+      <version>1.0</version>
+      <type>doc</type>
+      <status>SNAPSHOT</status>
+    </info>
+    <dependencies>
+      <include key="avalon-http-api" tag="api"/>
+      <include key="avalon-db-api" tag="api"/>
+      <include key="avalon-dbcp-api" tag="api"/>
+      <include key="avalon-finder-api" tag="api"/>
+      <include key="avalon-jms-api" tag="api"/>
+      <include key="avalon-jmx-api" tag="api"/>
+      
+      <include key="avalon-jmx-spi" tag="spi"/>
+      
+      <include key="avalon-db-hsql" tag="impl"/>
+      <include key="avalon-dbcp-impl" tag="impl"/>
+      <include key="avalon-finder-impl" tag="impl"/>
+      <include key="avalon-http-impl" tag="impl"/>
+      <include key="avalon-jms-impl" tag="impl"/>
+      <include key="avalon-jmx-mx4j" tag="impl"/>
+      <include key="avalon-jmx-util" tag="impl"/>
+      <include key="avalon-jmx-handler" tag="impl"/>
+      
+      <include key="servletapi"/>
+      <include key="mailapi"/>
+      <include key="geronimo-spec-jms"/>
+    </dependencies>
+  </project>
 </index>

@@ -29,7 +29,7 @@ import org.xml.sax.SAXException;
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @version $Revision: 1.1 $
  *
- * @todo update JavaDoc
+ * TODO: update JavaDoc
  */
 
 public class DTDResolver implements EntityResolver
