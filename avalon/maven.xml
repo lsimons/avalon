@@ -8,9 +8,9 @@
     <echo>
 To build the avalon platform you need to invoke the following three goals:
 
-  $ maven plugins     <--- builds the core plugins
-  $ maven meta        <--- builds framework, utilities, meta and the meta api
-  $ maven merlin      <!-- builds repository, logging, composition, activation and merlin
+  $ maven plugins  --- builds the core plugins
+  $ maven meta     --- builds framework, utilities, meta and the meta api
+  $ maven merlin   --- builds repository, logging, composition, activation and merlin
 
 Subsequent builds can be updated using:
 
@@ -48,6 +48,12 @@ To build a project independnet of dependent project groups is possible using any
   <goal name="composition" prereqs="repository,logging,xcomposition"/>
   <goal name="activation" prereqs="composition,xactivation"/>
   <goal name="merlin" prereqs="activation,xmerlin"/>
+
+  <!-- phase 4 targets -->
+  <goal name="tutorials" prereqs="xtutorials"/>
+
+
+  <!-- local goals -->
 
   <goal name="xframework">
     <maven:reactor basedir="${basedir}"
