@@ -13,6 +13,7 @@ import java.util.Map;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
+import org.apache.avalon.framework.logger.AbstractLoggable;
 
 /**
  * Default RoleManager implementation.  It populates the RoleManager
@@ -21,11 +22,11 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:ricardo@apache.org">Ricardo Rocha</a>
  * @author <a href="mailto:giacomo@apache.org">Giacomo Pati</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/06/02 06:03:01 $
+ * @version CVS $Revision: 1.1 $ $Date: 2002/04/04 05:09:02 $
  * @since 4.0
  */
 public class DefaultRoleManager
-    extends AbstractDualLogEnabled
+    extends AbstractLoggable
     implements RoleManager, Configurable
 {
     /** Map for shorthand to role mapping */
@@ -147,16 +148,7 @@ public class DefaultRoleManager
             getLogger().debug( "looking up classname for hint " + shorthand );
         }
 
-        final String s = ( String ) hintMap.get( shorthand );
-
-        if( s == null && null != m_parent )
-        {
-            return m_parent.getDefaultClassNameForHint( role, shorthand );
-        }
-        else
-        {
-            return s;
-        }
+        return (String)hintMap.get( shorthand );
     }
 
     /**

@@ -1,8 +1,0 @@
-ant.properties
-dist
-build
-distributions
-*.el
-*.ipr
-docs
-todo
