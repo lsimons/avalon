@@ -12,12 +12,15 @@
 
    <system host="localhost"/>
 
-   <logging target="default" priority="DEBUG">
+   <logging target="default" priority="WARN">
       <category name="/sys/logger" priority="WARN"/>
+      <target name="kernel">
+        <file location="kernel.log" />
+      </target>
    </logging>
 
    <categories>
-      <category name="/sys" priority="INFO"/>
+      <category name="/sys" priority="DEBUG"/>
    </categories>
 
    <engine/>
