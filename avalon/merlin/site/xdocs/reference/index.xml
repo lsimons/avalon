@@ -43,18 +43,26 @@ including the Avalon Meta, Composition, and Activation packages.
           <tr>
             <td><a href="component/index.html">Component Specification</a></td>
             <td>
-              Formal specification of the Avalon Component model.
+              Avalon Component model specification covering component type
+              descriptors, runtime artifacts supplied by a container to a 
+              component, lifecycle management, and lifestyle management.
             </td>
           </tr>
           <tr>
             <td><a href="deployment/index.html">Deployment Specification</a></td>
             <td>
-              Formal specification of the Avalon Deployment model.
+              Avalon Deployment model specification covering the complete set
+              of component and containment directives, including classloader
+              management, container composition, container includes, composite
+              component publication and related utility directives.
             </td>
           </tr>
           <tr>
             <td><a href="system/index.html">System Specification</a></td>
-            <td>IN PREP</td>
+            <td>
+              Merlin system specification including kernel configuration 
+              directives and system deployment properties.
+            </td>
           </tr>
 
         </table>

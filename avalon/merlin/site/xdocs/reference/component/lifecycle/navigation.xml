@@ -47,11 +47,11 @@
           <item name="Artifacts" href="/reference/component/artifacts/index.html"/>
           <item name="Lifecycle" href="/reference/component/lifecycle/index.html">
             <item name="Incarnation" 
-                href="/reference/component/lifecycle/index.html#Incarnation"/>
+                href="/reference/component/lifecycle/incarnation.html"/>
             <item name="Runtime Management" 
-                href="/reference/component/lifecycle/index.html#Runtime Management"/>
+                href="/reference/component/lifecycle/runtime.html"/>
             <item name="Etherialization" 
-                href="/reference/component/lifecycle/index.html#Etherialization"/>
+                href="/reference/component/lifecycle/etherialization.html"/>
           </item>
           <item name="Lifestyle" href="/reference/component/lifestyle/index.html"/>
         </item>
