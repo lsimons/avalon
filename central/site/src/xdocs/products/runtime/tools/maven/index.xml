@@ -35,17 +35,16 @@ The Merlin Plugin for Maven includes a number of developer requirements covering
         <table>
           <tr><th>Topic</th><th>Summary</th></tr>
           <tr>
-            <td><a href="deploy.html">Goals</a></td>
+            <td><a href="meta/index.html">Meta-Info Generation</a></td>
             <td>
-              Goals supporting simulated and operational component 
-              deployment within Maven.
+              Goal supporting the automated generation of component
+              meta-info descriptors based on javadoc tag references.
             </td>
           </tr>
           <tr>
-            <td><a href="properties.html">Properties</a></td>
+            <td><a href="merlin/index.html">Merlin Deployment</a></td>
             <td>
-              Plugin properties enabling customization of plugin
-              behaviour.
+              Plugin that enabled simpluated deployment of a merlin block.
             </td>
           </tr>
         </table>

@@ -32,37 +32,21 @@
 The Merlin platform includes a set of developer tools that assist in the automation
 of different process contributing to reliable and consistant component development.
 These tools include an ant task supporting meta info generation for component types
-and services, and an equivalent Maven plugin. 
+and services and an equivalent Maven plugin. 
       </p>
       <subsection name="Index">
         <table>
           <tr><th>Topic</th><th>Summary</th></tr>
           <tr>
-            <td><a href="maven/index.html">Maven Plugin</a></td>
+            <td><a href="ant/index.html">Ant Tasks</a></td>
             <td>
-              The Merlin plugin for Maven that provides support for 
-              meta infor generation when building with the Maven tool.
-            </td>
-          </tr>
-        </table>
-      </subsection>
-      <subsection name="Related Resources">
-        <table>
-          <tr><th>Topic</th><th>Summary</th></tr>
-          <tr>
-            <td>
-<a href="http://avalon.apache.org/meta/tools/index.html">Avalon Meta Plugin</a></td>
-            <td>
-              Plugin for Maven and supporting ant task that provides automatic 
-              generation of meta-info component type descriptors.
+              Custom tasks supporting ant based development environments.
             </td>
           </tr>
           <tr>
+            <td><a href="maven/index.html">Maven Plugins</a></td>
             <td>
-<a href="http://avalon.apache.org/meta/tools/index.html">Javadoc Tags</a></td>
-            <td>
-              Reference specification of the Javadoc Tags used to 
-              support automation of component and service metainfo.
+              Custom plugins supporting the Maven development environment.
             </td>
           </tr>
         </table>
