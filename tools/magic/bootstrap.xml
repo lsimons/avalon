@@ -20,7 +20,17 @@
   <property name="target.deliverables.dir" value="${target}/deliverables"/>
   <property name="target.deliverables.jars.dir" value="${target.deliverables.dir}/jars"/>
 
-  <property name="toolkit.jar" value="${project.name}.jar"/>
+  <condition property="gump.signature.declared" value="false">
+    <isset property="gump.signature"/>
+  </condition>
+
+  <target name="gump-setup" if="gump.signature.declared">
+    <property name="toolkit.jar" value="${project.name}-${gump.signature}.jar"/>
+  </target>
+
+  <target name="setup" depends="gump-setup" unless="gump.signature.declared">
+    <property name="toolkit.jar" value="${project.name}.jar"/>
+  </target>
 
   <target name="prepare">
 
@@ -45,7 +55,7 @@
     <javac srcdir="${src.main.dir}" destdir="${target.classes.dir}"/> 
   </target>
 
-  <target name="jar" depends="compile">
+  <target name="jar" depends="compile,setup">
     <mkdir dir="${target.deliverables.jars.dir}"/>
     <jar destfile="${target.deliverables.jars.dir}/${toolkit.jar}" 
        basedir="${target.classes.dir}" 
@@ -57,6 +67,8 @@
     <copy toFile="${user.home}/.ant/lib/${project.name}.jar" 
        file="${target.deliverables.jars.dir}/${toolkit.jar}"/>
   </target>
+
+  <target name="gump" depends="jar"/>
 
   <target name="test-prepare">
     <mkdir dir="${target.test.dir}"/>
