@@ -273,12 +273,12 @@ Legal:
     <mkdir dir="${build.reports}"/>
 
     <echo message="Performing Unit Tests" />
-    <junit fork="true" printsummary="yes" dir="${build.reports}">
+    <junit fork="false" printsummary="yes" dir="${build.reports}">
       <formatter type="xml"/>
       <classpath refid="test.class.path"/>
       <batchtest todir="${build.reports}">
         <fileset dir="${build.classes}">
-          <include name="**/test/*Profile.class"/>
+          <include name="**/test/*Profile.class" if="profile.pool"/>
           <include name="**/test/*TestCase.class"/>
         </fileset>
       </batchtest>
