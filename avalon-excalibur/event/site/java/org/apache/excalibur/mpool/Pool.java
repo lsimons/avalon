@@ -68,8 +68,7 @@ package org.apache.excalibur.mpool;
  * </p>
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.5 $ $Date: 2002/09/30 16:17:02 $
+ * @version CVS $Revision: 1.6 $ $Date: 2002/10/11 12:06:46 $
  * @since 4.1.2
  */
 public interface Pool
