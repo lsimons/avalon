@@ -54,19 +54,27 @@ import java.io.File;
 import java.util.Map;
 import java.util.Hashtable;
 
-import org.apache.avalon.composition.model.SystemContext;
-import org.apache.avalon.composition.model.EntryModel;
+import org.apache.avalon.composition.model.ContainmentModel;
 import org.apache.avalon.composition.model.ContainmentContext;
 import org.apache.avalon.composition.model.ComponentContext;
+import org.apache.avalon.composition.model.DeploymentModel;
+import org.apache.avalon.composition.model.EntryModel;
 import org.apache.avalon.composition.model.ModelRuntimeException;
-import org.apache.avalon.framework.context.DefaultContext;
+import org.apache.avalon.composition.model.SystemContext;
+
+import org.apache.avalon.composition.data.DeploymentProfile;
+
 import org.apache.avalon.framework.context.ContextException;
+import org.apache.avalon.framework.context.DefaultContext;
 import org.apache.avalon.framework.logger.Logger;
+
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
-import org.apache.avalon.composition.data.DeploymentProfile;
+
 import org.apache.avalon.meta.info.Type;
 import org.apache.avalon.meta.info.EntryDescriptor;
+import org.apache.avalon.meta.info.DependencyDescriptor;
+import org.apache.avalon.meta.info.StageDescriptor;
 
 
 /**
@@ -75,7 +83,7 @@ import org.apache.avalon.meta.info.EntryDescriptor;
  * model.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1.2.2 $ $Date: 2004/01/04 20:19:27 $
+ * @version $Revision: 1.1.2.3 $ $Date: 2004/01/06 23:16:49 $
  */
 public class DefaultComponentContext extends DefaultDeploymentContext 
   implements ComponentContext
@@ -103,6 +111,8 @@ public class DefaultComponentContext extends DefaultDeploymentContext
 
     private final File m_temp;
 
+    private final ContainmentModel m_model;
+
    /**
     * Map containing context entry models 
     * keyed by entry key.
@@ -129,7 +139,8 @@ public class DefaultComponentContext extends DefaultDeploymentContext
     */
     public DefaultComponentContext( 
       Logger logger, String name, ContainmentContext context, 
-      DeploymentProfile profile, Type type, Class clazz, 
+      ContainmentModel model, DeploymentProfile profile, 
+      Type type, Class clazz, 
       File home, File temp, String partition )
     {
         super( 
@@ -156,6 +167,10 @@ public class DefaultComponentContext extends DefaultDeploymentContext
         {
             throw new NullPointerException( "profile" );
         }
+        if( model == null )
+        {
+            throw new NullPointerException( "model" );
+        }
 
         if( home.exists() && !home.isDirectory() )
         {
@@ -176,6 +191,7 @@ public class DefaultComponentContext extends DefaultDeploymentContext
         m_type = type;
         m_profile = profile;
         m_class = clazz;
+        m_model = model;
     }
 
     //==============================================================
@@ -201,6 +217,29 @@ public class DefaultComponentContext extends DefaultDeploymentContext
     {
         return m_context;
     }
+
+   /**
+    * Return a model relative to a supplied dependency.
+    * @return a matching model or null if the dependency is unresolvable
+    * @exception ModelRuntimeException if an error occurs during model establishment
+    */
+    //public DeploymentModel getModel( DependencyDescriptor dependency ) 
+    //  throws ModelRuntimeException
+    //{
+    //    return m_model.getModel( dependency );
+    //}
+
+   /**
+    * Return a model relative to a supplied stage descriptor.
+    * @param stage the stage descriptor
+    * @return model of a an stage handler or null if the stage is unresolvable
+    * @exception ModelRuntimeException if an error occurs during model establishment
+    */
+    //public DeploymentModel getModel( StageDescriptor stage ) 
+    //  throws ModelRuntimeException
+    //{
+    //    return m_model.getModel( stage );
+    //}
 
    /**
     * Return the working directory.

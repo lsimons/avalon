@@ -53,6 +53,7 @@ package org.apache.avalon.composition.model.impl;
 import java.util.Map;
 import java.util.Hashtable;
 import java.util.Iterator;
+import java.util.ArrayList;
 
 import org.apache.avalon.composition.model.DeploymentModel;
 import org.apache.avalon.composition.model.ModelRepository;
@@ -69,7 +70,7 @@ import org.apache.avalon.meta.info.StageDescriptor;
  * a stage or service dependencies.
  *
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.1.2.2 $ $Date: 2004/01/04 21:28:59 $
+ * @version $Revision: 1.1.2.3 $ $Date: 2004/01/06 23:16:49 $
  */
 public class DefaultModelRepository implements ModelRepository
 {
@@ -93,19 +94,15 @@ public class DefaultModelRepository implements ModelRepository
     // constructor
     //------------------------------------------------------------------
 
-    public DefaultModelRepository( Logger logger )
-    {
-        this( null, logger );
-    }
-
-    public DefaultModelRepository( ModelRepository parent, Logger logger )
+    public DefaultModelRepository( 
+      ModelRepository parent, Logger logger )
     {
         m_parent = parent;
         m_logger = logger;
     }
     
     //------------------------------------------------------------------
-    // ApplianceRepository
+    // ModelRepository
     //------------------------------------------------------------------
 
     /**
@@ -120,6 +117,7 @@ public class DefaultModelRepository implements ModelRepository
         // attempt to locate a solution locally
         //
 
+System.out.println( "## resolving dep: " + dependency );
         Iterator iterator = m_models.values().iterator();
         while( iterator.hasNext() )
         {
@@ -134,6 +132,7 @@ public class DefaultModelRepository implements ModelRepository
         // attempt to locate a solution from the parent
         //
 
+System.out.println( "## nothing local, try parent: " + m_parent );
         if( m_parent != null )
         {
             return m_parent.getModel( dependency );
@@ -143,7 +142,68 @@ public class DefaultModelRepository implements ModelRepository
     }
 
     /**
-     * Locate an model meeting the supplied criteria.
+     * Locate all models meeting the supplied criteria.
+     *
+     * @param stage a component stage dependency
+     * @return the candidate models
+     */
+    public DeploymentModel[] getCandidateProviders( StageDescriptor stage )
+    {
+        ArrayList list = new ArrayList();
+        Iterator iterator = m_models.values().iterator();
+        while( iterator.hasNext() )
+        {
+            DeploymentModel model = (DeploymentModel) iterator.next();
+            if( model.isaCandidate( stage ) )
+            {
+                list.add( model );
+            }
+        }
+
+        if( m_parent != null )
+        {
+            DeploymentModel[] models = m_parent.getCandidateProviders( stage );
+            for( int i=0; i<models.length; i++ )
+            {
+                list.add( models[i] );
+            }
+        }
+        return (DeploymentModel[]) list.toArray( new DeploymentModel[0] );
+    }
+
+    /**
+     * Locate all models meeting the supplied dependency criteria.
+     *
+     * @param dependency a component service dependency
+     * @return the candidate models
+     */
+    public DeploymentModel[] getCandidateProviders( 
+      DependencyDescriptor dependency )
+    {
+        ArrayList list = new ArrayList();
+        Iterator iterator = m_models.values().iterator();
+        while( iterator.hasNext() )
+        {
+            DeploymentModel model = (DeploymentModel) iterator.next();
+            if( model.isaCandidate( dependency ) )
+            {
+                list.add( model );
+            }
+        }
+
+        if( m_parent != null )
+        {
+            DeploymentModel[] models = m_parent.getCandidateProviders( dependency );
+            for( int i=0; i<models.length; i++ )
+            {
+                list.add( models[i] );
+            }
+        }
+        return (DeploymentModel[]) list.toArray( new DeploymentModel[0] );
+    }
+
+    /**
+     * Locate a model meeting the supplied criteria.
      *
      * @param stage a component stage dependency
      * @return the model
@@ -205,17 +265,18 @@ public class DefaultModelRepository implements ModelRepository
     }
 
     /**
-     * Locate an model meeting the supplied criteria.
+     * Return a sequence of all of the local models.
      *
-     * @return the model
+     * @return the model sequence
      */
     public DeploymentModel[] getModels()
     {
-        return (DeploymentModel[]) m_models.values().toArray( new DeploymentModel[0] );
+        return (DeploymentModel[]) m_models.values().toArray( 
+          new DeploymentModel[0] );
     }
 
     /**
-     * Locate an model matching the supplied name.
+     * Locate a local model matching the supplied name.
      *
      * @param name the model name
      * @return the model or null if the model name is unknown

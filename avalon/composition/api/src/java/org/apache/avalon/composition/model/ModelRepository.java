@@ -59,7 +59,7 @@ import org.apache.avalon.meta.info.StageDescriptor;
  * a stage or service dependency.
  *
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.1.2.2 $ $Date: 2004/01/04 21:28:59 $
+ * @version $Revision: 1.1.2.3 $ $Date: 2004/01/06 23:16:49 $
  */
 public interface ModelRepository
 {
@@ -78,6 +78,23 @@ public interface ModelRepository
      * @return the model
      */
     DeploymentModel getModel( DependencyDescriptor dependency );
+
+    /**
+     * Locate all models meeting the supplied dependency criteria.
+     *
+     * @param dependency a component service dependency
+     * @return the candidate models
+     */
+    DeploymentModel[] getCandidateProviders( 
+      DependencyDescriptor dependency );
+
+    /**
+     * Locate all models meeting the supplied criteria.
+     *
+     * @param stage a component stage dependency
+     * @return the candidate models
+     */
+    DeploymentModel[] getCandidateProviders( StageDescriptor stage );
 
     /**
      * Locate a model meeting the supplied criteria.

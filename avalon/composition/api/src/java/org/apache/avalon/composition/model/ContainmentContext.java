@@ -54,13 +54,17 @@ import java.io.File;
 
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.logger.Logger;
+
 import org.apache.avalon.composition.data.ContainmentProfile;
+
+import org.apache.avalon.meta.info.DependencyDescriptor;
+import org.apache.avalon.meta.info.StageDescriptor;
 
 /**
  * Defintion of a working context.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1.1.1.2.3 $ $Date: 2004/01/04 20:19:27 $
+ * @version $Revision: 1.1.1.1.2.4 $ $Date: 2004/01/06 23:16:49 $
  */
 public interface ContainmentContext extends DeploymentContext
 {
@@ -106,11 +110,19 @@ public interface ContainmentContext extends DeploymentContext
     */
     ClassLoader getClassLoader();
 
-
    /**
     * Return the model repository.
     *
     * @return the model repository
     */
     ModelRepository getModelRepository();
+
+   /**
+    * Return the parent container model. If the container is a root
+    * container, the operation shall return a null value.
+    *
+    * @return the parent containment model
+    */
+    ContainmentModel getParentContainmentModel();
+
 }
