@@ -18,7 +18,8 @@
     <target name="build-subprojects-dist">
 
         <ant dir="collections"/>
-        <ant dir="concurrent"/>
+	<ant dir="concurrent"/>
+	<ant dir="altrmi"/>
         <ant dir="instrument"/>
         <ant dir="all"/>                <!-- depends on instrument -->
         <ant dir="instrument-manager"/> <!-- depends on instrument, all -->
@@ -26,8 +27,11 @@
         <ant dir="baxter"/>
         <ant dir="bzip2"/>
         <ant dir="cache"/>
-        <ant dir="cli"/>
-        <ant dir="extension"/>
+	<ant dir="cli"/>
+	<ant dir="command"/>
+	<ant dir="event"/>
+	<ant dir="extension"/>
+	<ant dir="fortress"/>
         <ant dir="i18n"/>
         <ant dir="io"/>
         <ant dir="naming"/>
