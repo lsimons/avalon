@@ -113,6 +113,7 @@
   <xi:include href="decomposing.xml"/>
   <xi:include href="framework.xml"/>
   <xi:include href="implementing.xml"/>
+  <xi:include href="compatiblity.xml"/>
   <xi:include href="conclusion.xml"/>
   <xi:include href="changes.xml"/>
 </book>
