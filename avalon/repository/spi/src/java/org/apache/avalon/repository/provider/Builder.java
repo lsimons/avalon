@@ -57,7 +57,7 @@ import org.apache.avalon.util.factory.Factory;
  * The defintion of an application builder.
  *
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.1 $ $Date: 2003/12/04 19:34:56 $
+ * @version $Revision: 1.2 $ $Date: 2003/12/05 05:07:42 $
  */
 public interface Builder
 {        
@@ -67,5 +67,12 @@ public interface Builder
      * @return the factory
      */
     Factory getFactory();
-    
+
+    /**
+     * Gets the ClassLoader used by this builder.
+     * 
+     * @return the ClassLoader built by the builder.
+     */
+    ClassLoader getClassLoader();
+
 }
