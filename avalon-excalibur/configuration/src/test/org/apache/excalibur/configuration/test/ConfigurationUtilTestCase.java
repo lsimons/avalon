@@ -57,9 +57,9 @@ import org.apache.excalibur.configuration.ConfigurationUtil;
 import junit.framework.TestCase;
 
 /**
- * Test the basic public methods of DefaultConfiguration.
+ * Test the ConfigurationUtil class
  *
- * @author <a href="mailto:rantene@hotmail.com">Ran Tene</a>
+ * @author <a href="mailto:proyal@apache.org">Peter Royal</a>
  */
 public final class ConfigurationUtilTestCase extends TestCase
 {
@@ -67,7 +67,7 @@ public final class ConfigurationUtilTestCase extends TestCase
 
     public ConfigurationUtilTestCase()
     {
-        this( "DefaultConfiguration Test Case" );
+        this( "ConfigurationUtil Test Case" );
     }
 
     public ConfigurationUtilTestCase( String name )
@@ -86,7 +86,7 @@ public final class ConfigurationUtilTestCase extends TestCase
     }
 
     public void testBranch()
-      throws Exception
+        throws Exception
     {
         m_configuration.setAttribute( "test", "test" );
         m_configuration.setValue( "test" );
@@ -98,6 +98,66 @@ public final class ConfigurationUtilTestCase extends TestCase
         assertEquals( "test", c.getAttribute( "test" ) );
         assertEquals( "test", c.getValue() );
         assertTrue( c.getChild( "test", false ) != null );
+    }
+
+    public void testIdentityEquals()
+    {
+        assertTrue( ConfigurationUtil.equals( m_configuration, m_configuration ) );
+    }
+
+    public void testAttributeEquals()
+    {
+        DefaultConfiguration c1 = new DefaultConfiguration("a", "here");
+        DefaultConfiguration c2 = new DefaultConfiguration("a", "there");
+
+        c1.setAttribute("test", "test");
+        c2.setAttribute("test", "test");
+
+        assertTrue( ConfigurationUtil.equals( c1, c2 ) );
+    }
+
+    public void testValueEquals()
+    {
+        DefaultConfiguration c1 = new DefaultConfiguration("a", "here");
+        DefaultConfiguration c2 = new DefaultConfiguration("a", "there");
+
+        c1.setValue("test");
+        c2.setValue("test");
+
+        assertTrue( ConfigurationUtil.equals( c1, c2 ) );
+    }
+
+    public void testChildrenEquals()
+    {
+        DefaultConfiguration c1 = new DefaultConfiguration("a", "here");
+        DefaultConfiguration k1 = new DefaultConfiguration("b", "wow");
+        DefaultConfiguration c2 = new DefaultConfiguration("a", "there");
+        DefaultConfiguration k2 = new DefaultConfiguration("c", "wow");
+        DefaultConfiguration k3 = new DefaultConfiguration("c", "wow");
+
+        k3.setValue( "bigger stronger faster" );
+
+        k1.setAttribute("test", "test");
+        k2.setAttribute("test", "test");
+
+        c1.addChild( k1 );
+        c2.addChild( k2 );
+
+        assertTrue( !ConfigurationUtil.equals( c1, c2 ) );
+
+        c1.addChild( k2 );
+        c2.addChild( k1 );
+
+        assertTrue( ConfigurationUtil.equals( c1, c2 ) );
+
+        c1.addChild( k2 );
+        c1.addChild( k1 );
+        c2.addChild( k1 );
+        c2.addChild( k2 );
+        c1.addChild( k3 );
+        c2.addChild( k3 );
+
+        assertTrue( ConfigurationUtil.equals( c1, c2 ) );
     }
 }
 
