@@ -97,6 +97,7 @@
     <ant antfile="build.xml" dir="apps/hsql" target="main" inheritall="false"/>    
     <ant antfile="build.xml" dir="apps/httpproxy" target="main" inheritall="false"/>        
     <ant antfile="build.xml" dir="apps/simpleserver" target="main" inheritall="false"/>            
+    <ant antfile="build.xml" dir="apps/xcommander" target="main" inheritall="false"/>            
   </target>
 
   <target name="all" depends="main,docs" description="Generates the files including documentation"/>
@@ -468,6 +469,7 @@
     <ant antfile="build.xml" dir="apps/hsql" target="dist" inheritall="false"/>
     <ant antfile="build.xml" dir="apps/httpproxy" target="dist" inheritall="false"/>
     <ant antfile="build.xml" dir="apps/simpleserver" target="dist" inheritall="false"/>
+    <ant antfile="build.xml" dir="apps/xcommander" target="dist" inheritall="false"/>
 
     <copy todir="${dist.base}/phoenix-apps" flatten="true">
       <fileset dir="apps">
@@ -515,7 +517,24 @@
       <fileset dir="." includes="**/*~" defaultexcludes="no"/>
     </delete>
 
-    <ant antfile="build.xml" dir="apps/demo" target="clean" inheritall="false"/>
+    <ant antfile="build.xml" dir="apps/bay" target="clean"
+         inheritall="false"/>
+    <ant antfile="build.xml" dir="apps/db" target="clean"
+         inheritall="false"/>
+    <ant antfile="build.xml" dir="apps/demo" target="clean"
+         inheritall="false"/>
+    <ant antfile="build.xml" dir="apps/ftpserver" target="clean"
+         inheritall="false"/>
+    <ant antfile="build.xml" dir="apps/hsql" target="clean"
+         inheritall="false"/>
+    <ant antfile="build.xml" dir="apps/httpproxy" target="clean"
+         inheritall="false"/>
+    <ant antfile="build.xml" dir="apps/jesktop" target="clean"
+         inheritall="false"/>
+    <ant antfile="build.xml" dir="apps/simpleserver" target="clean"
+         inheritall="false"/>
+    <ant antfile="build.xml" dir="apps/xcommander" target="clean"
+         inheritall="false"/>
   </target>
 
   <!-- Cleans absolutely everything up -->
@@ -523,7 +542,24 @@
     <delete dir="${docs.dir}" />
     <delete dir="${dist.base}" />
 
-    <ant antfile="build.xml" dir="apps/demo" target="distclean" inheritall="false"/>
+    <ant antfile="build.xml" dir="apps/bay" target="distclean"
+         inheritall="false"/>
+    <ant antfile="build.xml" dir="apps/db" target="distclean"
+         inheritall="false"/>
+    <ant antfile="build.xml" dir="apps/demo" target="distclean"
+         inheritall="false"/>
+    <ant antfile="build.xml" dir="apps/ftpserver" target="distclean"
+         inheritall="false"/>
+    <ant antfile="build.xml" dir="apps/hsql" target="distclean"
+         inheritall="false"/>
+    <ant antfile="build.xml" dir="apps/httpproxy" target="distclean"
+         inheritall="false"/>
+    <ant antfile="build.xml" dir="apps/jesktop" target="distclean"
+         inheritall="false"/>
+    <ant antfile="build.xml" dir="apps/simpleserver" target="distclean"
+         inheritall="false"/>
+    <ant antfile="build.xml" dir="apps/xcommander" target="distclean"
+         inheritall="false"/>
   </target>
   
   
@@ -551,6 +587,9 @@
   </target>
   <target name="simpleserver" depends="compile" description="Delegates to build.xml in apps/simpleserver">
     <ant antfile="build.xml" dir="apps/simpleserver" target="${apps-target}" inheritall="false"/>
+  </target>  
+  <target name="xcommander" depends="compile" description="Delegates to build.xml in apps/xcommander">
+    <ant antfile="build.xml" dir="apps/xcommander" target="${apps-target}" inheritall="false"/>
   </target>  
   
 </project>
