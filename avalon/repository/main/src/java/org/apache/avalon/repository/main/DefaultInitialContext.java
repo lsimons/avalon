@@ -96,7 +96,7 @@ import org.apache.avalon.util.factory.Factory;
  * 
  * @author <a href="mailto:aok123@bellsouth.net">Alex Karasulu</a>
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class DefaultInitialContext extends AbstractBuilder implements InitialContext
 {
@@ -192,8 +192,8 @@ public class DefaultInitialContext extends AbstractBuilder implements InitialCon
         // which is default mechanism dependent.
         //
 
-        Attributes attributes = 
-          RepositoryUtils.getAttributes( m_hosts, implementation );
+        Attributes attributes = loadAttributes( m_cache, m_hosts, implementation );
+        
         FactoryDescriptor descriptor = new FactoryDescriptor( attributes );
         String factory = descriptor.getFactory();
         if( null == factory ) 
@@ -254,6 +254,19 @@ public class DefaultInitialContext extends AbstractBuilder implements InitialCon
               + clazz.getProtectionDomain().getCodeSource().getLocation() );
             buffer.append( "\n cache: " + m_cache );
             throw new RepositoryException( buffer.toString(), e );
+        }
+    }
+
+    private Attributes loadAttributes( File cache, String[] hosts, Artifact artifact )
+      throws RepositoryException
+    {
+        try
+        {
+             return RepositoryUtils.getAttributes( cache, artifact );
+        }
+        catch( RepositoryException re )
+        {
+             return RepositoryUtils.getAttributes( hosts, artifact );
         }
     }
 
