@@ -246,22 +246,40 @@ public final class DefaultApplication
         //Setup thread context for calling visitors
         ThreadContext.setThreadContext( m_context.getThreadContext() );
 
-        final BlockListenerMetaData[] listeners = m_context.getMetaData().getListeners();
-        for( int i = 0; i < listeners.length; i++ )
+	try
+	{
+	    doLoadBlockListeners();
+	}
+	finally
+	{
+	    ThreadContext.setThreadContext( null );
+	}
+    }
+
+    /**
+     * Actually perform loading of each individual Listener.
+     * Note that by this stage it is assumed that the ThreadContext 
+     * has already been setup correctly.
+     */
+    private void doLoadBlockListeners()
+	throws Exception
+    {
+	final BlockListenerMetaData[] listeners = m_context.getMetaData().getListeners();
+	for( int i = 0; i < listeners.length; i++ )
         {
-            try
-            {
-                m_lifecycle.startupListener( listeners[ i ] );
-            }
-            catch( final Exception e )
-            {
-                final String name = listeners[ i ].getName();
-                final String message =
-                    REZ.getString( "bad-listener", "startup", name, e.getMessage() );
-                getLogger().error( message, e );
-                throw e;
-            }
-        }
+	    try
+	    {
+		m_lifecycle.startupListener( listeners[ i ] );
+	    }
+	    catch( final Exception e )
+	    {
+		final String name = listeners[ i ].getName();
+		final String message =
+		    REZ.getString( "bad-listener", "startup", name, e.getMessage() );
+		getLogger().error( message, e );
+		throw e;
+	    }
+	}
     }
 
     /**
@@ -274,6 +292,30 @@ public final class DefaultApplication
      * @exception Exception if an error occurs
      */
     private final void runPhase( final String name )
+        throws Exception
+    {
+        //Setup thread context for calling visitors
+        ThreadContext.setThreadContext( m_context.getThreadContext() );
+
+	try
+	{
+	    doRunPhase( name );
+	}
+	finally
+	{
+	    ThreadContext.setThreadContext( null );
+	}
+    }
+
+    /**
+     * Actually run applications phas.
+     * By this methods calling it is assumed that ThreadContext
+     * has already been setup.
+     *
+     * @param name the name of phase (for logging purposes)
+     * @exception Exception if an error occurs
+     */
+    private final void doRunPhase( final String name )
         throws Exception
     {
         final BlockMetaData[] blocks = m_context.getMetaData().getBlocks();
@@ -291,14 +333,13 @@ public final class DefaultApplication
             getLogger().info( message );
         }
 
-        //Setup thread context for calling visitors
-        ThreadContext.setThreadContext( m_context.getThreadContext() );
-
         //All blocks about to be processed ...
         if( PHASE_STARTUP == name )
         {
             //... for startup, so indicate to applicable listeners
-            m_lifecycle.applicationStarting( new ApplicationEvent( m_sarMetaData.getName(), m_sarMetaData ) );
+	    final ApplicationEvent event = 
+		new ApplicationEvent( m_sarMetaData.getName(), m_sarMetaData );
+            m_lifecycle.applicationStarting( event );
         }
         else
         {
