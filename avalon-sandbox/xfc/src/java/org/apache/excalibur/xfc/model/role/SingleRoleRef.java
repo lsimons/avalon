@@ -4,7 +4,7 @@
                    The Apache Software License, Version 1.1
  ============================================================================
 
- Copyright (C) @year@ The Apache Software Foundation. All rights reserved.
+ Copyright (C) 1999-2003 The Apache Software Foundation. All rights reserved.
 
  Redistribution and use in source and binary forms, with or without modifica-
  tion, are permitted provided that the following conditions are met:
@@ -56,7 +56,7 @@ import org.apache.excalibur.xfc.model.Definition;
  * defines a role with a single implementation.
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: SingleRoleRef.java,v 1.1 2002/10/17 14:38:17 crafterm Exp $
+ * @version CVS $Id: SingleRoleRef.java,v 1.2 2003/03/22 11:29:16 leosimons Exp $
  */
 public class SingleRoleRef extends RoleRef
 {

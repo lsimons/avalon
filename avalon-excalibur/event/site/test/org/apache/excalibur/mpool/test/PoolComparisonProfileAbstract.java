@@ -4,7 +4,7 @@
                    The Apache Software License, Version 1.1
  ============================================================================
 
- Copyright (C) @year@ The Apache Software Foundation. All rights reserved.
+ Copyright (C) 1999-2003 The Apache Software Foundation. All rights reserved.
 
  Redistribution and use in source and binary forms, with or without modifica-
  tion, are permitted provided that the following conditions are met:
@@ -65,7 +65,7 @@ import org.apache.excalibur.mpool.VariableSizePool;
  * Used as a basis for the PoolComparisonProfile Tests
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version $Id: PoolComparisonProfileAbstract.java,v 1.6 2003/02/25 16:28:40 bloritsch Exp $
+ * @version $Id: PoolComparisonProfileAbstract.java,v 1.7 2003/03/22 11:29:07 leosimons Exp $
  */
 public abstract class PoolComparisonProfileAbstract
     extends TestCase

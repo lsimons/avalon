@@ -4,7 +4,7 @@
                    The Apache Software License, Version 1.1
  ============================================================================
 
- Copyright (C) @year@ The Apache Software Foundation. All rights reserved.
+ Copyright (C) 1999-2003 The Apache Software Foundation. All rights reserved.
 
  Redistribution and use in source and binary forms, with or without modifica-
  tion, are permitted provided that the following conditions are met:
@@ -54,7 +54,7 @@ package org.apache.excalibur.xfc.model.instance;
  * that uses role manager and has more than one provider of the role it defines.
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: MultiRoleInstance.java,v 1.4 2002/11/12 20:07:50 donaldp Exp $
+ * @version CVS $Id: MultiRoleInstance.java,v 1.5 2003/03/22 11:29:15 leosimons Exp $
  */
 public class MultiRoleInstance
     extends Instance

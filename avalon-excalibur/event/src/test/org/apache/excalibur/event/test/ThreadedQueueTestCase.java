@@ -4,7 +4,7 @@
                    The Apache Software License, Version 1.1
  ============================================================================
 
- Copyright (C) @year@ The Apache Software Foundation. All rights reserved.
+ Copyright (C) 1999-2003 The Apache Software Foundation. All rights reserved.
 
  Redistribution and use in source and binary forms, with or without modifica-
  tion, are permitted provided that the following conditions are met:
@@ -62,7 +62,7 @@ import org.apache.excalibur.event.impl.DefaultQueue;
  *
  * @author <a href="mailto:proyal@managingpartners.com">Peter Royal</a>
  * @author <a href="mailto:leo.sutic@inspireinfrastructure.com">Leo Sutic</a>
- * @version VSS $Revision: 1.11 $ $Date: 2003/02/25 16:28:26 $
+ * @version VSS $Revision: 1.12 $ $Date: 2003/03/22 11:29:07 $
  */
 public class ThreadedQueueTestCase
     extends TestCase

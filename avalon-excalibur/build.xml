@@ -340,7 +340,7 @@
 
     <!-- Generate all docs -->
     <target name="site" depends="mega-jar" description="Generate all the docs for site">
-        <ant dir="site" target="site"/>
+        <ant dir="site" target="site" inheritAll="false"/>
     </target>
 
     <!-- Generate all docs -->

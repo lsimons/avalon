@@ -4,7 +4,7 @@
                    The Apache Software License, Version 1.1
  ============================================================================
 
- Copyright (C) @year@ The Apache Software Foundation. All rights reserved.
+ Copyright (C) 1999-2003 The Apache Software Foundation. All rights reserved.
 
  Redistribution and use in source and binary forms, with or without modifica-
  tion, are permitted provided that the following conditions are met:
@@ -63,7 +63,7 @@ import org.apache.excalibur.xfc.model.Model;
  * </p>
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: Module.java,v 1.1 2002/10/02 17:32:28 crafterm Exp $
+ * @version CVS $Id: Module.java,v 1.2 2003/03/22 11:29:15 leosimons Exp $
  */
 public interface Module extends LogEnabled
 {

@@ -4,7 +4,7 @@
                    The Apache Software License, Version 1.1
  ============================================================================
 
- Copyright (C) @year@ The Apache Software Foundation. All rights reserved.
+ Copyright (C) 1999-2003 The Apache Software Foundation. All rights reserved.
 
  Redistribution and use in source and binary forms, with or without modifica-
  tion, are permitted provided that the following conditions are met:
@@ -65,7 +65,7 @@ import org.apache.log.LogTarget;
  * from a configuration file.
  *
  * @author <a href="mailto:giacomo@apache.org">Giacomo Pati</a>
- * @version CVS $Revision: 1.8 $ $Date: 2003/02/25 16:28:24 $
+ * @version CVS $Revision: 1.9 $ $Date: 2003/03/22 11:29:12 $
  * @since 4.0
  */
 public class DefaultLogTargetManager
