@@ -30,7 +30,9 @@
 
                         <xsl:otherwise>,&#160;</xsl:otherwise>
                      </xsl:choose>
-                     <a href="mailto:{@email}"><xsl:value-of select="@name" /></a>
+                     <!-- <a href="mailto:{@email}"> -->
+                      <xsl:value-of select="@name" />
+                     <!-- </a> -->
                   </xsl:for-each>
               </div>
          </xsl:if>         
