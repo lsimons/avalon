@@ -286,13 +286,6 @@ public interface Configuration
      * @pre paramName != null
      * @post getAttributeAsLong() != null
      *
-<<<<<<< Configuration.java
-=======
-     * @param name The name of the parameter you ask the value of.
-     * @return long value of attribute
-     * @exception ConfigurationException If no parameter with that name exists.
-     *                                   or if conversion to <code>long</code> fails.
->>>>>>> 1.14
      */
     long getAttributeAsLong( String name ) throws ConfigurationException;
 
