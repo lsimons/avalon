@@ -25,6 +25,7 @@ import org.apache.avalon.composition.data.ContextDirective;
 import org.apache.avalon.composition.data.EntryDirective;
 import org.apache.avalon.composition.data.ImportDirective;
 import org.apache.avalon.composition.data.ConstructorDirective;
+import org.apache.avalon.composition.model.EntryModel;
 import org.apache.avalon.composition.model.ContextModel;
 import org.apache.avalon.composition.model.ComponentModel;
 import org.apache.avalon.composition.model.ContainmentModel;
@@ -48,7 +49,7 @@ import org.apache.avalon.meta.info.EntryDescriptor;
  * a fully qualifed context can be established.</p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.9 $ $Date: 2004/02/10 16:23:33 $
+ * @version $Revision: 1.10 $ $Date: 2004/02/22 16:12:58 $
  */
 public class DefaultContextModel extends DefaultDependent implements ContextModel
 {
@@ -65,6 +66,12 @@ public class DefaultContextModel extends DefaultDependent implements ContextMode
      */
     public static final Class DEFAULT_CONTEXT_CLASS = 
       DefaultContext.class;
+
+    public static boolean isaStandardKey( String key )
+    {
+        return ( key.startsWith( "urn:avalon:" ) 
+          || key.startsWith( "urn:composition:" ));
+    }
 
     //==============================================================
     // immutable state
@@ -94,9 +101,11 @@ public class DefaultContextModel extends DefaultDependent implements ContextMode
     * establishment and uses this to set standard context entries.</p>
     *
     * @param logger the logging channel
-    * @param descriptor the contextualization stage descriptor
-    * @param directive the contextualization directive
-    * @param context the deployment context
+    * @param descriptor the contextualization stage descriptor that describes
+    *   the set of context entries that the component type is requesting
+    * @param directive the contextualization directive that describes a set 
+    *   of context entry creation strategies
+    * @param context the component model context argument
     */
     public DefaultContextModel( 
       Logger logger, ContextDescriptor descriptor, 
@@ -110,7 +119,7 @@ public class DefaultContextModel extends DefaultDependent implements ContextMode
             throw new NullPointerException( "descriptor" );
         }
 
-        if( null == context ) 
+        if( null == context )
         {
             throw new NullPointerException( "context" );
         }
@@ -132,54 +141,13 @@ public class DefaultContextModel extends DefaultDependent implements ContextMode
         for( int i=0; i<entries.length; i++ )
         {
             EntryDescriptor entry = entries[i];
+            String alias = entry.getAlias();
             final String key = entry.getKey();
-            if( key.startsWith( "urn:avalon:" ) )
+            if( isaStandardKey( key ) )
             {
-                try
-                {
-                    Object value = m_context.resolve( key );
-                    m_map.put( key, value );
-                }
-                catch( ContextException e )
-                {
-                    if( entry.isRequired() )
-                    {
-                        final String error = 
-                          REZ.getString( 
-                            "context.non-standard-avalon-key.error", key );
-                         throw new ModelException( error );
-                    }
-                }
-            }
-            else if( key.equals( ContainmentModel.KEY ) )
-            {
-                //
-                // TODO: check that the component has permission
-                // to access the containment model
-                //
-
-                m_map.put( 
-                  ContainmentModel.KEY, 
-                  context.getContainmentModel() );
-            }
-            else if( key.startsWith( "urn:composition:" ) )
-            {
-                try
-                {
-                    Object value = 
-                      m_context.getSystemContext().get( key );
-                    m_map.put( key, value );
-                }
-                catch( ContextException e )
-                {
-                    if( entry.isRequired() )
-                    {
-                        final String error = 
-                          REZ.getString( 
-                            "context.non-standard-avalon-key.error", key );
-                        throw new ModelException( error );
-                    }
-                }
+                 DefaultImportModel model = 
+                   new DefaultImportModel( entry, key, m_context );
+                 m_map.put( alias, model );
             }
             else
             {
@@ -211,16 +179,16 @@ public class DefaultContextModel extends DefaultDependent implements ContextMode
 
                     if( entryDirective instanceof ImportDirective )
                     {
+                        //
+                        // importing under an alias of a container scoped key
+                        //
+
                         ImportDirective importDirective = 
                           (ImportDirective) entryDirective;
+                        String ref = importDirective.getImportKey();
                         DefaultImportModel model = 
-                          new DefaultImportModel( 
-                            entry, 
-                            importDirective, 
-                            context, 
-                            m_map );
-                        m_context.register( model );
-                        m_map.put( key, model.getValue() );
+                          new DefaultImportModel( entry, ref, m_context );
+                        m_map.put( alias, model );
                     }
                     else if( entryDirective instanceof ConstructorDirective )
                     {
@@ -232,8 +200,7 @@ public class DefaultContextModel extends DefaultDependent implements ContextMode
                             constructor, 
                             context, 
                             m_map );
-                        m_context.register( model );
-                        m_map.put( key, model.getValue() );
+                        m_map.put( alias, model );
                     }
                     else
                     {
@@ -250,17 +217,44 @@ public class DefaultContextModel extends DefaultDependent implements ContextMode
         }
 
         m_componentContext = 
-          createComponentContext( m_context, descriptor, directive );
-
-        if( getLogger().isDebugEnabled() )
-        {
-            getLogger().debug( "context: " + m_map );
-        }
+          createComponentContext( m_context, descriptor, directive, m_map );
     }
+
     
     //==============================================================
     // ContextModel
     //==============================================================
+
+   /**
+    * Return the set of entry models associated with this context model.
+    * 
+    * @return the entry models
+    */
+    public EntryModel[] getEntryModels()
+    {
+        return (EntryModel[]) m_map.values().toArray( new EntryModel[0] );
+    }
+
+   /**
+    * Return an entry model matching the supplied key.
+    * 
+    * @return the entry model or null if tyhe key is unknown
+    */
+    public EntryModel getEntryModel( String key )
+    {
+        return (EntryModel) m_map.get( key ); 
+    }
+
+   /**
+    * Set the entry model relative to a supplied key.
+    * 
+    * @param key the entry key
+    * @param model the entry model
+    */
+    public void setEntryModel( String key, EntryModel model )
+    {
+        return m_map.put( key, model ); 
+    }
 
    /**
     * Return the class representing the contextualization stage interface.
@@ -357,8 +351,7 @@ public class DefaultContextModel extends DefaultDependent implements ContextMode
     }
 
    /**
-    * Creates a compoent context using a deployment context that 
-    * has been pre-populated with constom context entry models.
+    * Creates a component context instance.
     * 
     * @param context the deployment context
     * @param descriptor the context descriptor
@@ -369,13 +362,14 @@ public class DefaultContextModel extends DefaultDependent implements ContextMode
     *   construct the context instance
     */
     private Context createComponentContext( 
-      ComponentContext context, ContextDescriptor descriptor, ContextDirective directive )
+      ComponentContext context, ContextDescriptor descriptor, 
+      ContextDirective directive, Map map )
       throws ModelException
     {
         ClassLoader classLoader = context.getClassLoader();
         Class clazz = loadContextClass( directive, classLoader );
         validateCastingConstraint( descriptor, classLoader, clazz );
-        Context base = new DefaultContext( context );
+        Context base = new DefaultContext( map );
 
         if( clazz.equals( DefaultContext.class ) ) return base; 
 

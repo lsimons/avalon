@@ -2,12 +2,14 @@ package tutorial;
 
 import org.apache.avalon.composition.model.ContainmentModel;
 import org.apache.avalon.composition.model.DeploymentModel;
+import org.apache.avalon.composition.model.ComponentModel;
 
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.ContextException;
 import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.activity.Executable;
+import org.apache.avalon.framework.configuration.DefaultConfiguration;
 
 import org.apache.avalon.meta.info.ReferenceDescriptor;
 
@@ -75,8 +77,24 @@ public class HelloFacility
    // Executable
    //---------------------------------------------------------
 
+  /**
+   * Request for execution trigger by the container.  The implementation
+   * uses the containment model supplied during the contextualization phase
+   * to dynamically respove a reference to a deployment model capable of 
+   * supporting the Widget service interface.  The implementation uses this
+   * model to instantiate the instance.  Subsequent steps in the example 
+   * show the decommissining of the widget model, the modification of the 
+   * model state (buy updating the models configuration) and the 
+   * recommissioning of the model.  Finally a new widget instance is 
+   * resolved and we can see (via logging messages) that the widget behaviour
+   * has been modified as a result of the modification to the configuration.
+   * 
+   * @exception Exception is a runtime error occurs
+   */
    public void execute() throws Exception
    {
+       getLogger().info( "looking for a widget" );
+
        //
        // create a reference to the widget service
        //
@@ -87,16 +105,48 @@ public class HelloFacility
        // get hold of a model representing a widget deployment scenario
        //
 
-       DeploymentModel model = m_model.getModel( reference );
-       getLogger().info( "got the widget model: " + model );
+       ComponentModel model = (ComponentModel) m_model.getModel( reference );
+       getLogger().info( "got a widget model: " + model );
 
        //
        // commission the model and resolve a component instance
        //
 
+       getLogger().info( "commissioning the widget model" );
        model.commission();
        Widget widget = (Widget) model.resolve();
+       getLogger().info( "got a widget instance: " + widget );
+
+       getLogger().info( "releasing the widget" );
+       model.release( widget );
+
+       getLogger().info( "time for a change" );
+       getLogger().info( "decommissioning the widget model" );
+       model.decommission();
+
+       //
+       // create an alternative configuration and apply it to the 
+       // widget model
+       //
+
+       getLogger().info( "building alternative configuration" );
+       DefaultConfiguration message = new DefaultConfiguration( "message" );
+       message.setValue( "bonjour!" );
+       DefaultConfiguration config = new DefaultConfiguration( "config" );
+       config.addChild( message );
+       model.setConfiguration( config );
+
+       //
+       // redeploy the model and create a new instance
+       //
+
+       getLogger().info( "recommissioning the widget model" );
+       model.commission();
+       widget = (Widget) model.resolve();
        getLogger().info( "got the widget instance: " + widget );
+       model.release( widget );
+       model.decommission();
+
    }
 
    //---------------------------------------------------------

@@ -36,7 +36,7 @@ import org.apache.excalibur.configuration.ConfigurationUtil;
 /**
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $ $Date: 2004/01/24 23:25:27 $
+ * @version $Revision: 1.4 $ $Date: 2004/02/22 16:12:58 $
  */
 public class XMLComponentProfileCreator extends XMLProfileCreator
 {
@@ -243,9 +243,8 @@ public class XMLComponentProfileCreator extends XMLProfileCreator
         }
 
         final String classname = config.getAttribute( "class", null );
-        final String source = config.getAttribute( "source", null );
         EntryDirective[] entries = getEntries( config.getChildren( "entry" ) );
-        return new ContextDirective( classname, entries, source );
+        return new ContextDirective( classname, entries );
     }
 
     /**

@@ -24,7 +24,7 @@ import org.apache.avalon.framework.context.Context;
  * a fully qualifed context can be established.</p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $ $Date: 2004/01/24 23:25:25 $
+ * @version $Revision: 1.4 $ $Date: 2004/02/22 16:12:58 $
  */
 public interface ContextModel extends Dependent
 {
@@ -48,6 +48,28 @@ public interface ContextModel extends Dependent
     * 
     * @return the context object
     */
-    public Context getContext();
+    Context getContext();
+
+   /**
+    * Return the set of entry models associated with this context model.
+    * 
+    * @return the entry models
+    */
+    EntryModel[] getEntryModels();
+
+   /**
+    * Return an entry model matching the supplied key.
+    * 
+    * @return the entry model or null if tyhe key is unknown
+    */
+    EntryModel getEntryModel( String key );
+
+   /**
+    * Set the entry model relative to a supplied key.
+    * 
+    * @param key the entry key
+    * @param model the entry model
+    */
+    void setEntryModel( String key, EntryModel model );
 
 }

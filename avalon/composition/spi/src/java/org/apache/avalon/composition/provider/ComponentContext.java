@@ -35,7 +35,7 @@ import org.apache.avalon.meta.info.Type;
  * Defintion of a component deployment context.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2004/02/10 16:23:35 $
+ * @version $Revision: 1.2 $ $Date: 2004/02/22 16:12:58 $
  */
 public interface ComponentContext extends DeploymentContext
 {
@@ -123,7 +123,7 @@ public interface ComponentContext extends DeploymentContext
     * Add a context entry model to the deployment context.
     * @param model the entry model
     */
-    public void register( EntryModel model );
+    //public void register( EntryModel model );
 
    /**
     * Get a context entry from the deployment context.
@@ -131,6 +131,6 @@ public interface ComponentContext extends DeploymentContext
     * @return value the corresponding value
     * @exception ContextException if a key corresponding to the supplied alias is unknown
     */
-    Object resolve( String alias ) throws ContextException;
+    //Object resolve( String alias ) throws ContextException;
 
 }

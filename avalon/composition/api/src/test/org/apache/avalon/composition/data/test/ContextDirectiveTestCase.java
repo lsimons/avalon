@@ -30,8 +30,6 @@ import org.apache.avalon.composition.data.ContextDirective;
  */
 public class ContextDirectiveTestCase extends TestCase
 {
-    private String m_source = "../xxx";
-
     public ContextDirectiveTestCase( String name )
     {
         super( name );
@@ -71,10 +69,9 @@ public class ContextDirectiveTestCase extends TestCase
     {
         EntryDirective[] entries = new EntryDirective[0];
         ContextDirective cd = 
-          new ContextDirective( getClass().getName(), entries, m_source );
+          new ContextDirective( getClass().getName(), entries );
 
         assertEquals( "classname", getClass().getName(), cd.getClassname());
-        assertEquals( "source", m_source, cd.getSource());
         assertEquals( "entries", entries, cd.getEntryDirectives());
         assertEquals( "length", entries.length, cd.getEntryDirectives().length);
     }

@@ -50,7 +50,7 @@ import org.apache.avalon.meta.info.StageDescriptor;
  * model.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.6 $ $Date: 2004/02/10 16:23:33 $
+ * @version $Revision: 1.7 $ $Date: 2004/02/22 16:12:58 $
  */
 public class DefaultComponentContext extends DefaultDeploymentContext 
   implements ComponentContext
@@ -79,12 +79,6 @@ public class DefaultComponentContext extends DefaultDeploymentContext
     private final File m_temp;
 
     private final ContainmentModel m_model;
-
-   /**
-    * Map containing context entry models 
-    * keyed by entry key.
-    */
-    private final Map m_map = new Hashtable();
 
     //==============================================================
     // constructor
@@ -233,100 +227,4 @@ public class DefaultComponentContext extends DefaultDeploymentContext
         return m_classloader;
     }
 
-   /**
-    * Add a context entry model to the deployment context.
-    * @param model the entry model
-    * @exception IllegalArgumentException if model key is unknown
-    */
-    public void register( EntryModel model )
-    {
-        final String key = model.getKey();
-        if( m_map.get( key ) == null )
-        {
-            m_map.put( key, model );
-        }
-        else
-        {
-            final String error = 
-              REZ.getString( "deployment.registration.override.error", key );
-            throw new IllegalArgumentException( error );
-        }
-    }
-
-   /**
-    * Get a context entry from the deployment context.
-    * @param alias the entry lookup key
-    * @return value the corresponding value
-    * @exception ContextException if the key is unknown
-    * @exception ModelRuntimeException if the key is unknown
-    */
-    public Object resolve( final String alias ) throws ContextException
-    {
-        if( alias == null ) throw new NullPointerException( "alias" );
-
-        String key = alias;
-        EntryDescriptor entry = 
-          getType().getContext().getEntry( alias );
-
-        if( entry != null )
-        {
-            key = entry.getKey();
-        }
-        
-        if( key.equals( ContainmentModel.KEY ) )
-        {
-            return getContainmentModel();
-        }
-        else if( key.startsWith( "urn:composition:" ) )
-        {
-            return getSystemContext().get( key );
-        }
-        else if( key.equals( NAME_KEY ) )
-        {
-            return getName();
-        }
-        else if( key.equals( PARTITION_KEY ) )
-        {
-            return getPartitionName();
-        }
-        else if( key.equals( CLASSLOADER_KEY ) )
-        {
-            return getClassLoader();
-        }
-        else if( key.equals( HOME_KEY ) )
-        {
-            return getHomeDirectory();
-        }
-        else if( key.equals( TEMP_KEY ) )
-        {
-            return getTempDirectory();
-        }
-        else
-        {
-            Object object = m_map.get( key );
-            if( null != object )
-            {
-                final String classname = object.getClass().getName();
-                try
-                {
-                    return ((EntryModel)object).getValue();
-                }
-                catch( Throwable e )
-                {
-                    final String error = 
-                      REZ.getString( 
-                        "deployment.context.runtime-get", 
-                        key, classname );
-                    throw new ModelRuntimeException( error, e );
-                }
-            }
-            else
-            {
-                final String error = 
-                  REZ.getString( 
-                   "deployment.context.runtime-get", key );
-                throw new ModelRuntimeException( error );
-            }
-        }
-    }
 }

@@ -20,6 +20,7 @@ package org.apache.avalon.composition.model.impl;
 import java.util.Map;
 
 import org.apache.avalon.composition.model.ModelException;
+import org.apache.avalon.composition.model.ContainmentModel;
 import org.apache.avalon.composition.provider.ComponentContext;
 
 import org.apache.avalon.excalibur.i18n.ResourceManager;
@@ -36,7 +37,7 @@ import org.apache.avalon.meta.info.EntryDescriptor;
  * Default implementation of a the context entry import model.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.5 $ $Date: 2004/02/10 16:23:33 $
+ * @version $Revision: 1.6 $ $Date: 2004/02/22 16:12:58 $
  */
 public class DefaultImportModel extends DefaultEntryModel
 {
@@ -51,13 +52,11 @@ public class DefaultImportModel extends DefaultEntryModel
     // immutable state
     //==============================================================
 
-    private final ImportDirective m_directive;
-
     private final EntryDescriptor m_descriptor;
 
-    private final ComponentContext m_context;
+    private final String m_key;
 
-    private final Map m_map;
+    private final ComponentContext m_context;
 
     //==============================================================
     // mutable state
@@ -73,31 +72,44 @@ public class DefaultImportModel extends DefaultEntryModel
     * Creation of a new context entry import model.
     *
     * @param descriptor the context entry descriptor
-    * @param directive the context entry directive
+    * @param key the container scoped key
     * @param context the containment context
     */
     public DefaultImportModel( 
-      EntryDescriptor descriptor, ImportDirective directive, 
-      ComponentContext context, Map map )
+      EntryDescriptor descriptor, String key, 
+      ComponentContext context ) throws ModelException
     {
         super( descriptor );
-        if( directive == null )
+        if( key == null )
         {
-            throw new NullPointerException( "directive" );
+            throw new NullPointerException( "key" );
         }
         if( context == null )
         {
             throw new NullPointerException( "context" );
         }
-        m_descriptor = descriptor;
-        m_directive = directive;
+
+        m_key = key;
         m_context = context;
-        m_map = map;
+        m_descriptor = descriptor;
+
+        if( !DefaultContextModel.isaStandardKey( key ) )
+        {
+            final String error = 
+              REZ.getString( 
+                "context.non-standard-key.error", key );
+            throw new ModelException( error );
+        }
+
+        if( !descriptor.isVolatile() )
+        {
+            m_value = getValue();
+        }
     }
 
-    //==============================================================
-    // ContainmentContext
-    //==============================================================
+    //--------------------------------------------------------------
+    // EntryModel
+    //--------------------------------------------------------------
 
    /**
     * Return the context entry value.
@@ -106,64 +118,70 @@ public class DefaultImportModel extends DefaultEntryModel
     */
     public Object getValue() throws ModelException
     {
-        if( m_value != null )
-        {
-            return m_value;
-        }
-        
-        String target = m_descriptor.getKey();
-        String key = m_directive.getImportKey();
+        if( m_value != null ) return m_value;
+        return getStandardEntry( m_key );
+    }
 
-        Object object = null;
-        try
+
+    private Object getStandardEntry( String key )
+    {
+        if( key.startsWith( "urn:avalon:" ) )
         {
-            object = m_context.resolve( key );
+            return getStandardAvalonEntry( key );
         }
-        catch( ContextException e )
+        else if( key.startsWith( "urn:composition:" ) )
         {
-            object = m_map.get( key );
-            if( object == null )
+            return getStandardCompositionEntry( key );
+        }
+        else
+        {
+            final String error = 
+              "Unknown key [" + key + "]";
+            throw new IllegalArgumentException( error );
+        }
+    }
+
+    private Object getStandardAvalonEntry( String key )
+    {
+        if( key.equals( ComponentContext.NAME_KEY ) )
+        {
+            return m_context.getName();
+        }
+        else if( key.equals( ComponentContext.PARTITION_KEY ) )
+        {
+            return m_context.getPartitionName();
+        }
+        else if( key.equals( ComponentContext.CLASSLOADER_KEY ) )
+        {
+            return m_context.getClassLoader();
+        }
+        else if( key.equals( ComponentContext.HOME_KEY ) )
+        {
+            return m_context.getHomeDirectory();
+        }
+        else if( key.equals( ComponentContext.TEMP_KEY ) )
+        {
+            return m_context.getTempDirectory();
+        }
+        return null;
+    }
+
+    private Object getStandardCompositionEntry( String key )
+    {
+        if( key.equals( ContainmentModel.KEY ) )
+        {
+            return m_context.getContainmentModel();
+        }
+        else
+        {
+            try
             {
-                final String error = 
-                  REZ.getString( 
-                    "import.missing-entry.error", key, target );
-                    throw new ModelException( error );
+                return m_context.getSystemContext().get( key );
+            }
+            catch( ContextException e )
+            {
+                return null;
             }
         }
-
-        //
-        // validate the value before returning it
-        // (should move this code up to the context model)
-        //
-
-        String classname = m_descriptor.getClassname();
-        
-        Class clazz = null;
-        try
-        {
-            clazz = m_context.getClassLoader().loadClass( classname );
-        }
-        catch( Throwable e )
-        {
-            final String error = 
-              REZ.getString( 
-                "import.load.error", target, classname );
-            throw new ModelException( error, e );
-        }
-        
-        if( !( clazz.isAssignableFrom( object.getClass() ) ) )
-        {
-            final String error = 
-              REZ.getString( 
-                "import.type-conflict.error", key, classname, target );
-            throw new ModelException( error );
-        }
-
-        if( !m_descriptor.isVolatile() )
-        {
-            m_value = object;
-        }
-        
-        return object;
     }
 }
