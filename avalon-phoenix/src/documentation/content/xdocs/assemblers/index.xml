@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V1.1//EN" "document-v11.dtd">
+<document>
+    <header>
+        <title>Guide - for Server Assemblers</title>
+        
+    <authors><person name="Avalon Documentation Team" email="avalon-dev@jakarta.apache.org"/></authors></header>
+    <body>
+        <section><title>Who Should Read This Book?</title>
+            <p>
+              The Server Assemblers Guide is written for assemblers who want to assemble a
+              Server Application for Phoenix. It is assumed that you are familiar with
+              the basic concepts of the Phoenix framework.
+            </p>
+            <p>
+              This book concentrates on assembly, and as such requires no knowledge of
+              java programming. It does however assume you are familiar with server
+              fundamentals, basic security measures, and performance tuning.
+            </p>
+        </section>
+        <section><title>Organization</title>
+            <p>
+              The information is organized into sections detailing a specifc aspect of
+              assembling ServerApplications.
+            </p>
+        </section>
+        <section><title>Contents</title>
+            <ol>
+                <li>
+                    <link href="what-is-a-server-application.html">What is a Server Application?</link>
+                </li>
+                <li>
+                    <link href="creating-a-server-application.html">How do I create a Server Application?</link>
+                </li>
+                <li>
+                    <link href="config-xml-specification.html">config.xml specification</link>
+                </li>
+                <li>
+                    <link href="assembly-xml-specification.html">assembly.xml specification</link>
+                </li>
+                <li>
+                    <link href="environment-xml-specification.html">environment.xml specification</link>
+                </li>
+            </ol>
+        </section>
+    </body>
+</document>

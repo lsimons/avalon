@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V1.1//EN" "document-v11.dtd">
+<document>
+  <header>
+    <title>Guide - JMX Management</title>
+    
+  <authors><person name="Huw Roberts" email="huw@apache.org"/></authors></header>
+  <body>
+    <section><title>Table of Contents</title>
+      <table>
+        <tr>
+          <td>Section</td>
+          <td>Title</td>
+          <td>Intended Audience</td>
+        </tr>
+        <tr>
+          <td>
+            1.
+          </td>
+          <td>
+            <link href="guide-mx-structure.html">Organizing Structure for Management Data</link>
+          </td>
+          <td>
+            Everyone
+          </td>  
+        </tr>
+        <tr>
+          <td>
+            2. 
+          </td>
+          <td>
+            <link href="guide-mx-overview.html">Step by Step Overview</link>
+          </td>
+          <td>
+            Everyone
+          </td>  
+        </tr>
+        <tr>
+          <td>
+            3.
+          </td>
+          <td>
+            <link href="guide-mx-mxinfo.html">MXINFO files</link>
+          </td>
+          <td>
+            Component Authors
+          </td>  
+        </tr>
+        <tr>
+          <td>
+            4.
+          </td>
+          <td>
+            <link href="guide-mx-xdoctags.html">XDoclet Tagging</link>
+          </td>
+          <td>
+            Component Authors
+          </td>  
+        </tr>
+        <tr>
+          <td>
+            5.
+          </td>
+          <td>
+             [TODO] Container Responsibilities to Support Management
+          </td>
+          <td>
+            Container Authors
+          </td>  
+        </tr>
+        <tr>
+          <td>
+            6.
+          </td>
+          <td>
+             Link to javadocs
+          </td>
+          <td>
+            Reference
+          </td>  
+        </tr>
+      </table>
+    </section>
+  </body>
+</document>

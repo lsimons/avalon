@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE book PUBLIC "-//APACHE//DTD Cocoon Documentation Book V1.0//EN" "book-cocoon-v10.dtd">
+<book title="Avalon Phoenix" copyright="Avalon Phoenix" software="Avalon Phoenix">
+<menu label="Essentials">
+<menu-item href="index.html" label="Overview"/>
+<menu-item href="features.html" label="Features"/>
+<menu-item href="getting-started.html" label="Getting started"/>
+<menu-item href="http://jakarta.apache.org/builds/jakarta-avalon-phoenix" label="Download"/>
+<menu-item href="install.html" label="Install"/>
+</menu>
+<menu label="Guide">
+<menu-item href="guide-architecture.html" label="Architectural Overview"/>
+<menu-item href="guide-roles.html" label="Development Roles"/>
+<menu-item href="guide-administrator.html" label="for Administrators"/>
+<menu-item href="guide-deployers.html" label="for Deployers"/>
+<menu-item href="assemblers/index.html" label="for Assemblers"/>
+<menu-item href="bdg/index.html" label="for Block Developers"/>
+<menu-item href="mx/index.html" label="Management Guide"/>
+<menu-item href="guide-example-configuration.html" label="Example configuration"/>
+</menu>
+<menu label="Reference">
+<menu-item href="api/index.html" label="API Docs"/>
+<menu-item href="assemblers/config-xml-specification.html" label="config.xml Specification"/>
+<menu-item href="assemblers/assembly-xml-specification.html" label="assembly.xml Specification"/>
+<menu-item href="assemblers/environment-xml-specification.html" label="environment.xml Specification"/>
+<menu-item href="bdg/blockinfo-specification.html" label="BlockInfo Specification"/>
+</menu>
+<menu label="For Developers">
+<menu-item href="changes.html" label="Changes"/>
+<menu-item href="http://jakarta.apache.org/avalon/code-standards.html" label="Coding standards"/>
+<menu-item href="for-developers-project-structure.html" label="Project Structure"/>
+<menu-item href="http://jakarta.apache.org/site/cvsindex.html" label="CVS Repositories"/>
+<menu-item href="http://jakarta.apache.org/site/mail.html" label="Mailing Lists"/>
+<menu-item href="http://nagoya.apache.org/bugzilla/buglist.cgi?bug_status=UNCONFIRMED&amp;bug_status=NEW&amp;bug_status=ASSIGNED&amp;bug_status=REOPENED&amp;bug_status=RESOLVED&amp;product=Avalon&amp;component=Phoenix" label="TODO"/>
+<menu-item href="http://nagoya.apache.org/bugzilla/enter_bug.cgi?product=Avalon&amp;component=Phoenix" label="Bug Database"/>
+<menu-item href="http://nagoya.apache.org/bugzilla/enter_bug.cgi?product=Avalon&amp;component=Phoenix&amp;bug_severity=Enhancement" label="Enhancement Requests"/>
+<menu-item href="for-developers-alternate-kernel.html" label="Alternate Kernels"/>
+</menu>
+</book>

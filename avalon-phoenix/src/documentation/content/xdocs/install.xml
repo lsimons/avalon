@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V1.1//EN" "document-v11.dtd">
+<document>
+
+ <header>
+  <title>Installation</title>
+     
+ <authors><person name="Phoenix Documentation Team" email="avalon-phoenix-dev@jakarta.apache.org"/></authors></header>
+
+<body>
+
+<section><title>Installation</title>
+
+<p>
+    Phoenix runs on a variety of platforms that have installed the Java 2 Virtual Machine.
+</p>
+
+<p>
+    Everything required to run Phoenix and develope Phoenix based products comes with the
+    <link href="http://jakarta.apache.org/builds/avalon/release">distribution</link>. If
+    you wish to help develop Avalon/Phoenix then it is recomended that you obtain the full
+    source tree from <link href="http://jakarta.apache.org/getinvolved/cvsindex.html">CVS</link>
+    or from the <link href="http://jakarta.apache.org/builds/avalon/nightly/">nightly
+    builds</link>.
+</p>
+
+</section>
+
+<section><title>Compiling</title>
+
+<p>
+    Execute the relevant platform specific script (build.[sh|bat]) in the base phoenix
+    directory.
+</p>
+
+<p>
+    Executing this script will create a <em>dist</em> directory within the Phoenix
+    directory. The <em>dist</em> directory will contain the
+    compiled class files packaged into jars.
+</p>
+
+</section>
+
+</body>
+</document>

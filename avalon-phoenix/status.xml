@@ -1,0 +1,264 @@
+<?xml version="1.0"?>
+<status>
+
+  <developers>
+    <person name="Federico Barbieri" email="fede@apache.org" id="FB"/>
+    <person name="Berin Loritsch" email="bloritsch@apache.org" id="BL"/>
+    <person name="Peter Donald" email="peter@apache.org" id="PD"/>
+    <person name="Paul Hammant" email="Paul_Hammant@yahoo.com" id="PH"/>
+    <person name="Mircea Toma" email="mirceatoma@home.com" id="MT"/>
+    <person name="Stephen McConnell" email="mcconnell@osm.net" id="SM"/>
+    <person name="Nicola Ken Barozzi" email="nicolaken@apache.org" id="NKB"/>
+  </developers>
+
+  <todo>
+    <actions priority="high">
+      <action context="docs" dev="open">
+        Improve docs.
+      </action>
+    </actions>
+    <!-- Add todo items. @context is an arbitrary string. Eg:
+    <actions priority="high">
+      <action context="code" dev="SN">
+      </action>
+    </actions>
+    <actions priority="medium">
+      <action context="docs" dev="open">
+      </action>
+    </actions>
+    -->
+  </todo>
+
+  <changes>
+  
+    <!-- Add new releases here -->
+<release version="4.0a4" date="Unreleased">
+
+    <!-- Sample action:
+     <action dev="JB" type="fix" due-to="Joe Contributor"
+             due-to-email="joec@apache.org">Fixed a bug in the Foo class.</action>
+    -->
+
+    <action dev="NKB" type="update">
+       Move to Forrest http://xml.apache.org/forrest/ for document generation.
+   </action>          
+    <action dev="PD" type="add">
+        Update documentation and move to Anakia for document generation.
+   </action>
+    <action dev="PD" type="add">
+Remove deprecated functionality for deploying old style .sar files or
+deploying from a directory.
+   </action>
+    <action dev="PD" type="add">
+Remove deprecated Service interface.
+   </action>
+    <action dev="PD" type="add">
+Remove some deprecated methods from BlockContext.
+   </action>
+     <action dev="PD" type="add">
+Warn users if their blocks Work interfaces/Services implement
+any lifecycle interfaces.
+    </action>
+    <action dev="SM" type="add">
+       Allow name sub-element in block section of BlockInfo.
+   </action>
+     <action dev="PD" type="add">
+        Add "sar:" URL protocol handling to policy section in environment.xml
+        file.
+    </action>
+     <action dev="PD" type="add">
+        Blocks no longre need to implement Block interface. Block interface
+        is thus deprecated as is AbstractBlock. This was done to facilitate
+        sharing of components between multiple containers.
+    </action>
+
+     <action dev="PD" type="add">
+        Extrace Blocks to directory based on name deployed with rather than
+        .sar name (to support multiple deployments of same .sar). Submitted
+        By: Ulrich Mayring (ulim@denic.de)
+    </action>
+    <action dev="PD" type="add">
+        Rework deployer such that jars are extracted to a temporary work
+        directory and then deleted when application is undeployed. This is
+        to work around the JVM locking and caching the jars and thus allowing
+        users to redeploy applications. Submitted By: Ulrich Mayring
+ (ulim@denic.de)
+    </action>
+    <action dev="PD" type="add">
+        Updated build script so it will work when installed in a directory
+        with spaces. Submitted By: dsmiley@mitre.org (David Smiley)
+    </action>
+    <action dev="PD" type="add">
+        Use MX4J project to provide the JMX management kernel rather than
+        RI.
+    </action>
+    <action dev="PD" type="add">
+        Make phoenix use a temporary located in its hierarchy by setting
+        the JVM system property "java.io.tmp". By default this temporary
+        location is $PHOENIX_HOME/temp
+    </action>
+    <action dev="PD" type="add">
+        Rework Embeddor so that it instantiates kernel components from a
+        by reading the contents of conf/kernel.xml file.
+        Submitted By: Joerg Bauer (bauer@denic.de)
+    </action>
+    <action dev="PD" type="add">
+        Add XDoclet tasks to generate the manifest and BlockInfo files
+        based on javadoc tags inserted into Blocks java file. Originally
+        Submitted By: vinay nair (vinayc77@yahoo.com)
+    </action>
+    <action dev="SM" type="add">
+        Added javadoc to more classes and added in package.html files
+        where appropriate.
+    </action>
+    <action dev="PH" type="add">
+        Added ApplicationListener objects that implement all same
+        funcitonality as BlockListener but also provide support
+        for Application Starting/Stopping/Failure events and
+        provide access to SarMetaData. Consequently deprecated
+        BlockListener interface.
+    </action>
+    <action dev="PD" type="add">
+Enhanced DefaultManager to support authenticated connecitons.
+Submitted By: "Jorg Bauer/Denic" (bauer@denic.de)
+    </action>
+    <action dev="MT" type="change">
+Add support for Parameterizable blocks. Submitted by:
+Brian Olsen (brian@mmmanager.org)
+    </action>
+    <action dev="PD" type="add">
+Allow Blocks to declare that they are able to be exported to a Management
+subsystem (ie JMS) by making their blocks declare (Management-access-points/)
+        in their BlockInfo. Blocks will be exported to JMX with names like
+        "application=Foo,name=MrBlock,role=org.apache.MyManagementInterface"
+    </action>
+  <action dev="PD" type="change">
+    Validate the assembly.xml file and any BlockInfo files if they
+    declare the DTD correctly.
+  </action>
+  <action dev="PD" type="change">
+    Add native daemon support by using the daemon created in the
+    http://wrapper.sourceforge.net/ project. Submitted By:
+    Leif Mortenson (leif@silveregg.co.jp)
+  </action>
+  <action dev="PD" type="fix">
+    Fixed bug where application names were inapropriately prefixed
+    to log categories. Submitted By Antal Attila (atech@nolimits.ro)
+  </action>
+  <action dev="PD" type="fix">
+    Fixed bug where application names were inapropriately prefixed
+    to log categories.
+  </action>
+  <action dev="PD" type="change">
+    Allow jars contained within the .sar file to declare dependencies
+    on libraries using the standard JDK1.2+ Extension mechanism. For
+    more information about optional packages, see the document
+    Optional Package Versioning in the documentation bundle for your
+    Java2 Standard Edition package, in the file
+    guide/extensions/versioning.html.
+  </action>
+</release>
+<release version="4.0a3" date="November 13, 2001">
+  <action dev="PD" type="change">
+    Add documentation describing BlockListener.
+  </action>
+  <action dev="PD" type="change">
+    Fixed bug that allowed binary distributions to be built without
+    copying xerces.jar into correct place.
+  </action>
+</release>
+<release version="4.0a2" date="November 12, 2001">
+  <action dev="PD" type="change">
+    Update Phoenix to use the new Avalon Framework Logger interface rather than
+    directly using LogKits Logger class. This required a backwards incompatible
+    change in BlockContext. The getLogger() methods now return the Logger interface
+    rather than LogKits Logger class. If a Block implements Loggable then it will
+    be passed LogKits Logger, this is required for backwards compatability. If the
+    Block implements LogEnabled it will receive the new style Logger.
+  </action>
+  <action dev="MT" type="add">
+    Add support for undeploying and unistalling applications. Add support for separating
+    out install phase from deployment phase and persisting information about
+    application installations.
+  </action>
+  <action dev="PD" type="change">
+    Rework the application deployment format (ie .sar format) to be more in line
+    with other specifications. See docs/creating-a-server-application.html in distribution
+    for current format description. The old format is deprecated but will still work.
+  </action>
+  <action dev="PH" type="add">
+    Created the start of a Phoenix Developers Kit (PDK) that will enable
+    developers to rapidly become accustom to developing Phoenix applications.
+  </action>
+  <action dev="PD" type="add">
+    Started to incorporate the JMX code more fully into Phoenix kernel. Started
+    doing this by refactoring the base MBeans and testing using the RIs agent.
+  </action>
+  <action dev="PD" type="change">
+    Separated code that validated assembly of application into separate
+    classes. The validation is now much stricter and requires that
+    Blocks conform to established patterns. The validation phase should give
+    more reasonable explanations for violations. Extra validation checks
+    include verifying that services offered by a Block are actually interfaces,
+    that there is no circular dependencies, that declared Blocks and BlockListeners
+    actually implement Block or BlockListener interface, that the names of Blocks
+    are valid etc.
+  </action>
+</release>
+<release version="4.0a1" date="September 25, 2001">
+  <action dev="BL" type="change">
+    Too many things to enumerate here.  This is the first public release,
+    and the code is still considered alpha.  In future releases, we will
+    be much more careful to record the changes to Phoenix.
+  </action>
+</release>
+<release version="3.1a2" date="Unreleased">
+    <action dev="BL" type="add">
+      Added stylesheet to convert Stylebook markup to DocBook markup.
+    </action>
+    <action dev="BL" type="change">
+      Changed the documentation build process to use Cocoon to build
+      the site.
+    </action>
+  <action dev="PD" type="remove">
+    Legacy support for nested configuration elements in assembly file
+    removed.
+  </action>
+  <action dev="PD" type="update">
+    Simplified Loader and made it set ContextClassLoader before executing
+    Main method. It will also use the System property phoenix.home if set
+    rather than always trying to dynamically determine home directory.
+  </action>
+  <action dev="PD" type="add">
+    Added SingleAppEmbeddor to launch a kernel to load a single Application.
+    Patch supplied by "Eung-ju Park" (colus@isoft.co.kr). This is useful if
+    you need to reuse the blocks in other contexts (such as in a Servlet).
+  </action>
+  <action dev="PD" type="add">
+    Made default SystemManager a NoopSystemManager. Patch supplied
+    by "Eung-ju Park" (colus@isoft.co.kr). To re-enable RMI manager a new
+    command line switch "--remote-manager" was added.
+  </action>
+  <action dev="PD" type="update">
+    Reworked SecurityManager setup. Instead of starting a security
+    Manager inside the code it has been re-architectured so that the
+    SecurityManager is set on the command line. This was to avoid a number
+    of issues related to creating a URLClassLoader in an unprotected context
+    before setting SecurityManager. ie As AccessControllerContext was null it
+    is impossible to use ClassLoader.getResource(AsStream)(). This means that
+    defining phoenix.insecure will no longer disable the SecurityManager. The
+    replacement method is to set the native OS environment variable
+    'PHOENIX_SECURE=false'.
+  </action>
+  <action dev="PD" type="update">
+    Separate Parsing of CLI arguements into separate class (CLISetup).
+    This is to facilitate launching Phoenix as a native daemon using
+    Tomcats Services API.
+  </action>
+  <action dev="PD" type="add">
+    Started Localizing text strings throughout Phoenix. This is done using
+    ResourceManager and Resources from Avalon/Excalibur project.
+  </action>
+</release>
+      </changes>
+    </status>
