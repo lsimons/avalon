@@ -3,7 +3,7 @@
   <ant:property file="${basedir}/../build.properties"/>
   <ant:property file="${basedir}/../project.properties"/>
   <ant:property file="project.properties"/>
-  <ant:property name="merlin.build.inst" value="inst"/>
+  <ant:property name="merlin.build.inst" value="merlin"/>
   <ant:property name="merlin.build.inst.dir" value="${maven.build.dir}/${merlin.build.inst}"/>
   <ant:property name="maven.jar.manifest.extensions.add" value="true"/>
 
@@ -15,9 +15,7 @@
     description="Build the Merlin distribution." >
 
     <ant:mkdir dir="${merlin.build.inst.dir}"/>
-    <ant:mkdir dir="${merlin.build.inst.dir}/ext"/>
-    <ant:mkdir dir="${merlin.build.inst.dir}/lib/system"/>
-    <ant:mkdir dir="${merlin.build.inst.dir}/lib/shared"/>
+    <ant:mkdir dir="${merlin.build.inst.dir}/lib"/>
     <ant:copy toDir="${merlin.build.inst.dir}/lib">
       <fileset dir="${basedir}/merlin-platform/lib"/>
     </ant:copy>
@@ -30,17 +28,26 @@
 
     <maven:reactor
       basedir="${basedir}"
-      includes="*/project.xml,merlin-extensions/merlin-jmx/project.xml,merlin-extensions/merlin-jndi/project.xml,merlin-extensions/merlin-servlet/project.xml"
-      excludes="merlin-platform/*,merlin-plugin/*"
-      goals="merlin-propergate"
+      includes="**/project.xml"
+      excludes="merlin-platform/**,merlin-plugin/**,project.xml,kernel/bootstrap/*"
+      goals="jar:install-snapshot"
       banner="Installing:"
       ignoreFailures="false" />
+
+    <maven:reactor
+      basedir="${basedir}"
+      includes="kernel/bootstrap/project.xml"
+      goals="jar:install"
+      banner="Installing:"
+      ignoreFailures="false" />
+    <ant:copy 
+       file="${basedir}/kernel/bootstrap/target/merlin-bootstrap-1.0.jar" 
+       toDir="${merlin.build.inst.dir}/bin"/>
 
     <!--
     Import the dependent jar files referenced by the SMP 
     subproject into the install directory.
     -->
-
     <maven:reactor
       basedir="${basedir}"
       includes="merlin-platform/project.xml"
@@ -48,21 +55,14 @@
       banner="Resolving dependencies:"
       ignoreFailures="false"/>
 
-    <!--
-    Move spi and framework jar files into the shared library.
-    -->
-
-    <ant:move toDir="${merlin.build.inst.dir}/lib/shared">
-      <fileset dir="${merlin.build.inst.dir}/lib/system">
-        <include name="*-api-*.jar"/>
-        <include name="*-spi-*.jar"/>
-      </fileset>
-    </ant:move>
+    <attainGoal name="merlinx-install-plugin"/>
+    <!--<ant:copy 
+       file="${basedir}/merlin-plugin/target/merlin-plugin-1.0.jar" 
+       toDir="${merlin.build.inst.dir}/repository/merlin/jars"/>-->
 
     <!--
     Add the supporting resources.
     -->
-
     <ant:copy toDir="${merlin.build.inst.dir}">
       <fileset dir="${basedir}/merlin-platform/src">
         <include name="bin/**/*"/>
@@ -77,14 +77,6 @@
 
     <ant:chmod file="${merlin.build.inst.dir}/bin/merlin.sh" perm="ugo+rx"/>
 
-  </goal>
-
-  <goal name="testing">
-    <ant:copy toDir="${merlin.build.inst.dir}" flatten="true">
-      <fileset dir="${basedir}/merlin-platform/src/etc">
-        <include name="LICENSE.txt"/>
-      </fileset>
-    </ant:copy>
   </goal>
 
   <!--
@@ -109,8 +101,9 @@
   -->
   <goal name="merlin-import-external-jars">
     <j:forEach var="dep" items="${pom.dependencies}">
+      <mkdir dir="${basedir}/../target/${merlin.build.inst}/repository/${dep.artifactDirectory}/jars"/>
       <copy 
-        todir="${basedir}/../target/${merlin.build.inst}/lib/system"
+        todir="${basedir}/../target/${merlin.build.inst}/repository/${dep.artifactDirectory}/jars/"
         file="${maven.repo.local}/${dep.artifactDirectory}/jars/${dep.artifact}"/>
     </j:forEach>
   </goal>
@@ -230,20 +223,18 @@
       additionalparam="-breakiterator -J-Xmx128m -tag todo:a:ToDo: "
       packagenames="*,org.*">
         <j:forEach var="packageGroup" items="${pom.packageGroups}">
-      	  <group title="${packageGroup.title}" packages="${packageGroup.packages}"/>
+          <group title="${packageGroup.title}" packages="${packageGroup.packages}"/>
         </j:forEach>
         <sourcepath path="${basedir}/../extension-spi/src/java"/>
         <sourcepath path="${basedir}/../extension/src/java"/>
-        <!--
-        -->
         <sourcepath path="${basedir}/../composition-spi/src/java"/>
         <sourcepath path="${basedir}/../composition/src/java"/>
         <sourcepath path="${basedir}/../activation-spi/src/java"/>
         <sourcepath path="${basedir}/../activation/src/java"/>
-        <sourcepath path="${basedir}/../assembly-spi/src/java"/>
-        <sourcepath path="${basedir}/../assembly/src/java"/>
-        <sourcepath path="${basedir}/../merlin-spi/src/java"/>
-        <sourcepath path="${basedir}/../merlin-core/src/java"/>
+        <sourcepath path="${basedir}/../kernel/spi/src/java"/>
+        <sourcepath path="${basedir}/../kernel/impl/src/java"/>
+        <sourcepath path="${basedir}/../repository/spi/src/java"/>
+        <sourcepath path="${basedir}/../repository/impl/src/java"/>
         <classpath>
           <path refid="maven.dependency.classpath"/>
 	  </classpath>
@@ -286,8 +277,8 @@
   <goal name="merlin-clean" prereqs="clean">
     <maven:reactor
       basedir="${basedir}"
-      includes="*/project.xml,merlin-extensions/*/project.xml"
-      excludes="merlin-platform/*,activation-spi/*,activation/*,merlin-extensions/merlin-mgr/project.xml,merlin-extensions/merlin-jmx-agent/project.xml"
+      includes="**/project.xml"
+      excludes="merlin-platform/**,project.xml"
       goals="clean"
       banner="Cleaning subproject:"
       ignoreFailures="false"/>
