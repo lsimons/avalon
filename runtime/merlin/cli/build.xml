@@ -9,6 +9,11 @@
   <property name="merlin.zip" value="avalon-merlin-3.3.1-DEV.zip"/>
 
   <target name="init" depends="standard.init">
+
+    <x:path id="runtime" mode="RUNTIME"/>
+    <pathconvert targetos="windows" property="windows" refid="runtime"/>
+    <filter value="${windows}" token="WINDOWS-CLI-CLASSPATH"/>
+
     <x:filter key="avalon-merlin-cli" feature="version" 
        token="VERSION"/>
     <x:filter key="avalon-logging-logkit-impl" feature="uri" 
@@ -25,52 +30,58 @@
 
   <target name="package" depends="standard.package">
 
-    <mkdir dir="target/merlin"/>
-    <copy todir="target/merlin">
-      <fileset dir="target/build/etc" includes="bin/**"/>
-    </copy>
-    <mkdir dir="target/merlin/lib"/>
-    <mkdir dir="target/merlin/system"/>
-
-    <echo>GROUP: ${project.group}</echo>
-    <echo>NAME: ${project.name}</echo>
-
-    <copy todir="target/merlin/system">
-      <fileset dir="${magic.cache}">
-        <include name="avalon/**"/>
-        <include name="commons-cli/jars/commons-cli-1.0.jar"/>
-        <exclude name="avalon/test/**"/>
-        <exclude name="avalon/tools/**"/>
-        <exclude name="avalon/merlin/dist/**"/>
-        <exclude name="avalon/merlin/jars/${project.name}**"/>
-        <exclude name="avalon/planet/**"/>
-      </fileset>
-    </copy>
-    <copy todir="target/merlin/system/${project.group}/jars">
+    <x:path id="build.path" mode="BUILD"/>
+    <x:replicate refid="build.path" todir="target/system"/>
+    <copy todir="target/system/${project.group}/jars">
       <fileset dir="target/deliverables/jars">
-        <include name="${project.name}*.jar"/>
-        <include name="${project.name}*.jar.*"/>
+        <include name="${project.filename}"/>
       </fileset>
     </copy>
-    <copy todir="target/merlin" file="target/build/etc/merlin.properties.template"/>
-    <mkdir dir="target/merlin/config"/>
-    <copy todir="target/merlin/config" file="target/build/etc/kernel.xml"/>
 
     <mkdir dir="target/deliverables/dist"/>
     <zip zipfile="target/deliverables/dist/${merlin.zip}">
-      <zipfileset dir="target/merlin" prefix="merlin" filemode="755" >
+      <zipfileset dir="target/deliverables" prefix="merlin" filemode="755" >
         <include name="bin/merlin"/>
         <include name="bin/merlinx"/>
         <include name="bin/*.sh"/>
       </zipfileset>
-      <zipfileset dir="target/merlin" prefix="merlin">
-        <include name="**" />
+      <zipfileset dir="target/deliverables" prefix="merlin">
+        <include name="bin/**" />
+        <include name="config/**" />
+        <include name="lib/**" />
+        <exclude name="jars/**"/>
+        <exclude name="dist/**"/>
         <exclude name="bin/merlin"/>
         <exclude name="bin/merlinx"/>
         <exclude name="bin/*.sh"/>
       </zipfileset>
+      <zipfileset dir="target/system" prefix="merlin/system">
+        <include name="**" />
+      </zipfileset>
     </zip>
 
   </target>
+
+  <target name="xxx" depends="info">
+    <x:declare/>
+  </target>
+
+  <target name="zzz" depends="info">
+    <echo>${project.filename}</echo>
+  </target>
+
+  <!--
+  <target name="xxx" depends="info">
+    <x:package root="target/temp" key="avalon-merlin-impl"/>
+  </target>
+  -->
+
+  <!--
+  <target name="xxx" depends="info">
+    <x:foreach property="dep" key="avalon-merlin-impl">
+    </x:foreach>
+  </target>
+  -->
+
 
 </project>

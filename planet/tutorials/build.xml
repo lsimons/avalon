@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<project name="runtime" default="default" basedir="." xmlns:x="antlib:org.apache.avalon.tools">
+<project name="runtime" default="" basedir="." xmlns:x="antlib:org.apache.avalon.tools">
 
   <property file="build.properties"/>
-  <import file="${project.system}/build/reactor.xml"/>
+  <!--<import file="${project.system}/build/reactor.xml"/>-->
+
+  <x:home/>
+  <x:reactor>
+    <echo>${reactor.name}, ${basedir}/target/${reactor.path}</echo>
+  </x:reactor>
 
 </project>
