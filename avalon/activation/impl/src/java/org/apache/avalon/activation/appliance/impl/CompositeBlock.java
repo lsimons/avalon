@@ -75,7 +75,7 @@ import org.apache.avalon.framework.logger.Logger;
  * context.
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2.4.1 $ $Date: 2004/01/09 15:07:58 $
+ * @version $Revision: 1.2.4.2 $ $Date: 2004/01/12 01:12:11 $
  */
 public class CompositeBlock extends AbstractBlock implements Home
 {
@@ -237,30 +237,6 @@ public class CompositeBlock extends AbstractBlock implements Home
         {
             if( proxy == null ) throw new NullPointerException( "proxy" );
             if( method == null ) throw new NullPointerException( "method" );
-
-            //
-            // if the invocation is against java.lang.Object then
-            // delegate the operation to the block
-            //
-
-            if( method.getDeclaringClass().equals( java.lang.Object.class ) )
-            {
-                m_logger.debug( "invocation: " +  method.getName() );
-                try
-                {
-                    return method.invoke( m_block, args );
-                }
-                catch( InvocationTargetException e )
-                {
-                    final String error = 
-                      "Unexpected delegation error on java.lang.Object";
-                    throw new ApplianceException( error, e.getTargetException() );
-                }
-            }
-
-            //
-            // otherwise we are delegating to an implementation component
-            //
 
             final ContainmentModel model = m_context.getContainmentModel();
             ServiceDirective service = 

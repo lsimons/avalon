@@ -9,7 +9,7 @@
   <name>Merlin Servlet</name>
   <package>org.apache.avalon.merlin.servlet</package>
 
-  <currentVersion>3.2.3</currentVersion>
+  <currentVersion>3.2.4</currentVersion>
   <inceptionYear>2002</inceptionYear>
   <shortDescription>Merlin Servlet</shortDescription>
 
