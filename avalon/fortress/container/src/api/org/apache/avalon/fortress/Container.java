@@ -59,7 +59,7 @@ import org.apache.avalon.framework.service.ServiceException;
  * Context object.
  *
  * @author <a href="mailto:dev@avalon.apache.org">The Avalon Team</a>
- * @version CVS $Revision: 1.2 $ $Date: 2003/02/07 16:08:01 $
+ * @version CVS $Revision: 1.3 $ $Date: 2003/03/19 12:49:03 $
  * @see ContainerConstants for the contract surrounding the Container context
  * @see <a href="http://jakarta.apache.org/avalon/framework/guide-cop-in-avalon.html">COP In Avalon</a>
  */
@@ -70,7 +70,7 @@ public interface Container
      * to gain access to the ComponentHandlers and ComponentSelectors.  The
      * actual access of the ComponentHandler is delegated to the Container.
      *
-     * @param  role  The role we intend to access a Component for.
+     * @param  key  The role we intend to access a Component for.
      * @param  hint  The hint that we use as a qualifier
      *         (note: if null, the default implementation is returned).
      *
@@ -84,7 +84,7 @@ public interface Container
      * to gain access to the ComponentHandlers and ComponentSelectors.  The
      * actual access of the ComponentHandler is delegated to the Container.
      *
-     * @param  role  The role we intend to access a Component for.
+     * @param  key  The role we intend to access a Component for.
      * @param  hint  The hint that we use as a qualifier
      *         (note: if null, the default implementation is returned).
      *

@@ -14,7 +14,7 @@ package org.apache.avalon.fortress;
  * to enable "self-healing" configuration files.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2003/02/07 16:08:01 $
+ * @version $Revision: 1.3 $ $Date: 2003/03/19 12:49:31 $
  */
 public class RoleEntry
 {
@@ -28,7 +28,7 @@ public class RoleEntry
      * All arguments must be supplied.
      *
      * @param  role            Role name for this component type
-     * @param  shortname       Short name for this component type
+     * @param  shortName       Short name for this component type
      * @param  componentClass  <code>Class</code> to instantiate the
      *                         component type
      * @param  handlerClass    <code>Class</code> to instantiate the
@@ -74,7 +74,7 @@ public class RoleEntry
     {
         return m_role;
     }
-    
+
     /**
      * Get the short name for the component type.  This is used in
      * "self-healing" configuration files.
@@ -97,7 +97,7 @@ public class RoleEntry
     }
 
     /**
-    * Get the <code>Class</code> for the component type's {@link ComponentHandler}.
+    * Get the <code>Class</code> for the component type's {@link org.apache.avalon.fortress.impl.handler.ComponentHandler}.
     *
     * @return the <code>Class</code>
     */
