@@ -279,14 +279,19 @@ Legal:
     <filter token="LOGKIT_BASE" value="${logkit.base}"/>
     <filter token="TESTLET_BASE" value="${testlet.base}"/>
 
-    <copy todir="${build.context}" filtering="on" overwrite="true">
+    <copy todir="${build.context}" overwrite="true" filtering="on">
       <fileset dir="${context.dir}">
-        <exclude name="resources/**"/>
+        <exclude name="**/*.gif"/>
+        <exclude name="**/*.jpg"/>
+        <exclude name="**/*.png"/>
       </fileset>
     </copy>
-
-    <copy todir="${build.context}/resources" filtering="off">
-      <fileset dir="${context.dir}/resources"/>
+    <copy todir="${build.context}" filtering="off">
+      <fileset dir="${context.dir}">
+        <include name="**/*.gif"/>
+        <include name="**/*.jpg"/>
+        <include name="**/*.png"/>
+      </fileset>
     </copy>
 
     <java classname="org.apache.cocoon.Main" fork="true" maxmemory="128m">
@@ -401,10 +406,19 @@ Legal:
 
     <copy todir="${build.context}" overwrite="true" filtering="on">
       <fileset dir="${context.dir}">
-        <exclude name="resources/**"/>
+        <exclude name="**/*.gif"/>
+        <exclude name="**/*.jpg"/>
+        <exclude name="**/*.png"/>
       </fileset>
     </copy>
-
+    <copy todir="${build.context}" filtering="off">
+      <fileset dir="${context.dir}">
+        <include name="**/*.gif"/>
+        <include name="**/*.jpg"/>
+        <include name="**/*.png"/>
+      </fileset>
+    </copy>
+        
     <style style="${announce2txt}" in="${build.context}/xdocs/framework/announcement.xml"
            out="Announcement.txt"/>
     <style style="${announce2header}" in="${build.context}/xdocs/framework/announcement.xml"
