@@ -22,4 +22,106 @@
     Component as a Service.  In practical situations, a Service is a Component
     that has a larger scope.
   </para>
+  <section>
+    <title>Excalibur's Utitities</title>
+    <para>
+      This last section is included to give you an idea of the types of
+      Components and utilities that are included with Apache Avalon Excalibur.
+      These utilities are robust, and fully usable in production systems.  We
+      do have an unofficial staging project called "Scratchpad" where we iron
+      out implementation details for potential new utilities.  Scratchpad
+      utilities are of varying quality, and their use is not
+      guaranteed&mdash;although you may have good experience with them.
+    </para>
+    <section>
+      <title>Command Line Interface (CLI)</title>
+      <para>
+        The CLI utilities are used by a number of projects including Avalon
+	Phoenix and Apache Cocoon to process command line arguments.  It
+	provides facilities to print help responses, and to process options by
+	either a short name or a long name.
+      </para>
+    </section>
+    <section>
+      <title>Collection Utilities</title>
+      <para>
+        The collection utilities provide some enhancements to the 
+	<trademark>Java</trademark> Collections API.  Among them is the ability
+	to find the intersections between two lists and a
+	<classname>PriorityQueue</classname> that is an enhancement to
+	<classname>Stack</classname> to allow the priority of objects override
+	the simple first in/last out <classname>Stack</classname>
+	implementation.
+      </para>
+    </section>
+    <section>
+      <title>Component Management</title>
+      <para>
+        We already discussed the use of this in the previous section.  This is
+	Excalibur's most complex beast, but it provides a lot of functionality
+	in just a few classes.  It will make one distinction more than simple
+	<classname>SingleThreaded</classname> or
+	<classname>ThreadSafe</classname> for managing a component type:
+	<classname>Poolable</classname>.  If a Component implements Excalibur's
+	<classname>Poolable</classname> interface instead of the
+	<classname>SingleThreaded</classname> interface, it will maintain a
+	pool of Components and reuse instances.  Most of the time this works
+	great.  For those last remaining times where a Component cannot be
+	reused, use the <classname>SingleThreaded</classname> interface.
+      </para>
+    </section>
+    <section>
+      <title>Thread Utilities</title>
+      <para>
+        The <emphasis>concurrent</emphasis> package contains several classes
+	to assist in multithreaded programming: <classname>Lock</classname>
+	(a mutex implementation), <classname>DjikstraSemaphore</classname>,
+	<classname>ConditionalEvent</classname>, and
+	<classname>ThreadBarrier</classname>.
+      </para>
+    </section>
+    <section>
+      <title>Datasources</title>
+      <para>
+        This is modeled after the <classname>javax.sql.DataSource</classname>
+	class, but simplified.  There are two implementations of the
+	<classname>DataSourceComponent</classname>: one that pools JDBC
+	connections explicitly, and one that uses a J2EE application server's
+	<classname>javax.sql.DataSource</classname> class.
+      </para>
+    </section>
+    <section>
+      <title>Input/Output (IO) Utilities</title>
+      <para>
+        The IO utilties provide a number of <classname>FileFilter</classname>s
+	and other <classname>File</classname> and IO specific utilities.
+      </para>
+    </section>
+    <section>
+      <title>Pool Implementations</title>
+      <para>
+        The Pool implementations provide a <classname>Pool</classname> for
+	every occasion.  You have an implementation that is blazingly fast, but
+	only usable in one thread&mdash;which should be ok for implementing a
+	FlyWeight pattern.  You also have <classname>DefaultPool</classname>,
+	which does not manage the number of objects in its pool.
+	<classname>SoftResourceManagingPool</classname> decommissions objects
+	that exceed a threshold when they are returned.  Lastly,
+	<classname>HardResourceManagingPool</classname> throws an exception
+	when you have reached the maximum number of objects.  The last three
+	pools are all <classname>ThreadSafe</classname>.
+      </para>
+    </section>
+    <section>
+      <title>Property Utilities</title>
+      <para>
+        The property utilities are used in conjunction with Context objects.
+	They give you the ability to expand "variables" in your
+	<classname>Resolvable</classname> object.  It works like this:
+	<parameter>"${resource}"</parameter> will look for a Context value
+	named <parameter>"resource"</parameter> and substitute its value
+	for the symbol.
+      </para>
+    </section>
+  </section>
 </chapter>
