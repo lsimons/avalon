@@ -1,5 +1,5 @@
 /* 
- * Copyright 1999-2004 Apache Software Foundation
+ * Copyright 1999-2004 The Apache Software Foundation
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
  * You may obtain a copy of the License at 
@@ -25,7 +25,7 @@ import java.io.StringWriter;
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @author <a href="mailto:sylvain@apache.org">Sylvain Wallez</a>
  * @author <a href="mailto:stuart.roebuck@adolos.com">Stuart Roebuck</a>
- * @version CVS $Revision: 1.15 $ $Date: 2004/02/24 19:06:24 $
+ * @version CVS $Revision: 1.16 $ $Date: 2004/02/28 11:31:25 $
  */
 public final class StackIntrospector
 {
