@@ -56,7 +56,7 @@
         <mkdir dir="${cocoon.build.context}"/>
         <mkdir dir="${cocoon.build.docs}"/>
         <mkdir dir="${cocoon.build.xdocs}"/>
-        <mkdir dir="${build.dir}/work"/>
+        <mkdir dir="${cocoon.work}"/>
         
 
         <copy todir="${cocoon.build.context}" overwrite="true" filtering="on">
@@ -91,8 +91,8 @@
         <java classname="org.apache.cocoon.Main" fork="true" maxmemory="128m" failonerror="true">
             <arg value="-c${cocoon.build.context}/"/>
             <arg value="-d${cocoon.build.docs}"/>
-            <arg value="-w${build.dir}/work"/>
-            <arg value="-l${build.dir}/work/cocoon.log"/>
+            <arg value="-w${cocoon.work}"/>
+            <arg value="-l${cocoon.work}/cocoon.log"/>
             <arg value="-b${build.dir}/brokenlinks.txt"/>
             <arg value="-uERROR"/>
             <arg value="-f./build/content/xdocs/uri.properties"/>
@@ -117,8 +117,8 @@
         <java classname="org.apache.cocoon.Main" fork="true" maxmemory="128m" failonerror="true">
             <arg value="-c${cocoon.build.context}/"/>
             <arg value="-d${cocoon.build.docs}"/>
-            <arg value="-w${build.dir}/work"/>
-            <arg value="-l${build.dir}/work/cocoon.log"/>
+            <arg value="-w${cocoon.work}"/>
+            <arg value="-l${cocoon.work}/cocoon.log"/>
             <arg value="-uERROR"/>
             <arg value="index.html"/>
             <classpath>
