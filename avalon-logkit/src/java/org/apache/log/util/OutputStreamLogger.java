@@ -14,8 +14,17 @@ import org.apache.log.Priority;
 import org.apache.log.Logger;
 
 /**
- * This class is useful to redirect standard 
- * output or standard error to a Logger.
+ * Redirect an output stream to a logger.
+ * This class is useful to redirect standard output or 
+ * standard error to a Logger. An example use is
+ *
+ * <pre>
+ * final OutputStreamLogger outputStream = 
+ *     new OutputStreamLogger( logger, Priority.DEBUG );
+ * final PrintStream output = new PrintStream( outputStream, true );
+ *
+ * System.setOut( output );
+ * </pre>
  *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
@@ -34,6 +43,12 @@ public class OutputStreamLogger
     ///Flag set to true once stream closed
     private boolean             m_closed;
 
+    /**
+     * Construct OutputStreamLogger to write to a particular logger at a particular priority.
+     *
+     * @param logger the logger to write to
+     * @param priority the priority at which to log
+     */
     public OutputStreamLogger( final Logger logger, 
                                final Priority priority )
     {
@@ -52,6 +67,12 @@ public class OutputStreamLogger
         m_closed = true;
     }
 
+    /**
+     * Write a single byte of data to output stream.
+     *
+     * @param data the byte of data
+     * @exception IOException if an error occurs
+     */
     public void write( final int data ) 
         throws IOException
     {
@@ -71,5 +92,4 @@ public class OutputStreamLogger
             m_output.append( (char)data );
         }
     }
-
 }
