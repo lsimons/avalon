@@ -30,14 +30,6 @@
       ignoreFailures="false"/>
   </goal>
 
-  <postGoal name="jar:install">
-    <ant:copy toDir="${maven.repo.local}/${pom.groupId}/jars">
-      <fileset dir="${maven.build.dir}">
-        <include name="*.meta"/>
-      </fileset>
-    </ant:copy>
-  </postGoal>
-
   <postGoal name="java:prepare-filesystem">
     <ant:available file="${maven.home}/plugins/${repo.plugin.jar}"
       property="repoPluginPresent"/>
