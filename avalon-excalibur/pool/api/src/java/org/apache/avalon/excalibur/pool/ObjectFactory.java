@@ -16,17 +16,14 @@
  */
 package org.apache.avalon.excalibur.pool;
 
-import org.apache.avalon.framework.component.Component;
-
 /**
  * This is the interface for factory that is used to create objects for Pool.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.5 $ $Date: 2004/02/28 11:47:17 $
+ * @version CVS $Revision: 1.6 $ $Date: 2004/03/29 16:50:36 $
  * @since 4.0
  */
 public interface ObjectFactory
-    extends Component
 {
     Object newInstance() throws Exception;
 

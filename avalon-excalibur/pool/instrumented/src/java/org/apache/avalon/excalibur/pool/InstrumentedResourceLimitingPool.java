@@ -23,6 +23,7 @@ import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.logger.LogEnabled;
 import org.apache.avalon.framework.thread.ThreadSafe;
+
 import org.apache.excalibur.instrument.CounterInstrument;
 import org.apache.excalibur.instrument.Instrument;
 import org.apache.excalibur.instrument.Instrumentable;
@@ -40,10 +41,10 @@ import org.apache.excalibur.instrument.ValueInstrument;
  *  trimmed.  See the {@link #trim()} method for details of how trimming works.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.4 $ $Date: 2004/02/28 11:47:17 $
+ * @version CVS $Revision: 1.1 $ $Date: 2004/03/29 16:50:37 $
  * @since 4.1
  */
-public class ResourceLimitingPool
+public class InstrumentedResourceLimitingPool
     extends AbstractLogEnabled
     implements Pool, LogEnabled, Disposable, ThreadSafe, Instrumentable
 {
@@ -162,7 +163,7 @@ public class ResourceLimitingPool
      * Constructors
      *-------------------------------------------------------------*/
     /**
-     * Creates a new ResourceLimitingPool
+     * Creates a new InstrumentedResourceLimitingPool
      *
      * @param factory The ObjectFactory which will be used to create new Poolables as needed by
      *  the pool.
@@ -177,7 +178,7 @@ public class ResourceLimitingPool
      * @param trimInterval The minimum interval with which old unused poolables will be removed
      *  from the pool.  A value of 0 will cause the pool to never trim poolables.
      */
-    public ResourceLimitingPool( final ObjectFactory factory,
+    public InstrumentedResourceLimitingPool( final ObjectFactory factory,
                                  int max,
                                  boolean maxStrict,
                                  boolean blocking,

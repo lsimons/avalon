@@ -25,7 +25,7 @@ import org.apache.avalon.framework.thread.SingleThreaded;
  * This is an <code>Pool</code> that caches Poolable objects for reuse.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.5 $ $Date: 2004/02/28 11:47:17 $
+ * @version CVS $Revision: 1.6 $ $Date: 2004/03/29 16:50:37 $
  * @since 4.0
  */
 public class SingleThreadedPool
@@ -171,21 +171,10 @@ public class SingleThreadedPool
      * Get the number of used slots in Pool
      *
      * @return the number of used slots
-     * @deprecated use the official size() method instead
-     */
-    public final int getSize()
-    {
-        return m_count;
-    }
-
-    /**
-     * Get the number of used slots in Pool
-     *
-     * @return the number of used slots
      */
     public final int size()
     {
-        return getSize();
+        return m_count;
     }
 
     /**

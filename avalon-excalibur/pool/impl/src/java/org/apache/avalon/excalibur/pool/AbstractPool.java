@@ -22,6 +22,7 @@ import java.util.List;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.thread.ThreadSafe;
+
 import org.apache.commons.collections.Buffer;
 import org.apache.commons.collections.UnboundedFifoBuffer;
 
@@ -31,7 +32,7 @@ import EDU.oswego.cs.dl.util.concurrent.Mutex;
  * This is an <code>Pool</code> that caches Poolable objects for reuse.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.4 $ $Date: 2004/02/28 11:47:17 $
+ * @version CVS $Revision: 1.5 $ $Date: 2004/03/29 16:50:37 $
  * @since 4.0
  */
 public abstract class AbstractPool

@@ -29,7 +29,7 @@ import org.apache.avalon.framework.logger.Logger;
  *  Runnables have completed.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Id: LatchedThreadGroup.java,v 1.1 2004/03/17 12:12:37 mcconnell Exp $
+ * @version $Id: LatchedThreadGroup.java,v 1.2 2004/03/29 16:50:37 mcconnell Exp $
  */
 public class LatchedThreadGroup
     extends AbstractLogEnabled

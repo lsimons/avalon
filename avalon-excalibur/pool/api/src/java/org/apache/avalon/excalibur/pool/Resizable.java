@@ -20,7 +20,7 @@ package org.apache.avalon.excalibur.pool;
  * This is the interface for Pools that are not a fixed size.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.4 $ $Date: 2004/02/28 11:47:17 $
+ * @version CVS $Revision: 1.5 $ $Date: 2004/03/29 16:50:37 $
  * @since 4.0
  */
 public interface Resizable
