@@ -153,28 +153,28 @@ Legal:
     <target name="init-linux" if="is.Linux">
         <property name="is.Unix" value="true"/>
         <property name="is.shell.bash" value="true"/>
-        <property name="phoenix-wrapper.sh" value="${script.dir}/${name}-wrapper.bash"/>
+        <property name="phoenix-wrapper.sh" value="${repo.dir}/wrapper/bin/${name}-wrapper.bash"/>
         <property name="wrapper.dist.name" value="wrapper_linux_${wrapper.version}"/>
         <property name="dist.name.wrapper" value="${name}_linux_${version}"/>
     </target>
     <target name="init-solaris" if="is.SunOS">
         <property name="is.Unix" value="true"/>
         <property name="is.shell.sh" value="true"/>
-        <property name="phoenix-wrapper.sh" value="${script.dir}/${name}-wrapper.sh"/>
+        <property name="phoenix-wrapper.sh" value="${repo.dir}/wrapper/bin/${name}-wrapper.sh"/>
         <property name="wrapper.dist.name" value="wrapper_solaris_${wrapper.version}"/>
         <property name="dist.name.wrapper" value="${name}_solaris_${version}"/>
     </target>
     <target name="init-aix" if="is.AIX">
         <property name="is.Unix" value="true"/>
         <property name="is.shell.sh" value="true"/>
-        <property name="phoenix-wrapper.sh" value="${script.dir}/${name}-wrapper.sh"/>
+        <property name="phoenix-wrapper.sh" value="${repo.dir}/wrapper/bin/${name}-wrapper.sh"/>
         <property name="wrapper.dist.name" value="wrapper_aix_${wrapper.version}"/>
         <property name="dist.name.wrapper" value="${name}_aix_${version}"/>
     </target>
     <target name="init-hpux" if="is.HP-UX">
         <property name="is.Unix" value="true"/>
         <property name="is.shell.sh" value="true"/>
-        <property name="phoenix-wrapper.sh" value="${script.dir}/${name}-wrapper.sh"/>
+        <property name="phoenix-wrapper.sh" value="${repo.dir}/wrapper/bin/${name}-wrapper.sh"/>
         <property name="wrapper.dist.name" value="wrapper_hpux_${wrapper.version}"/>
         <property name="dist.name.wrapper" value="${name}_hpux_${version}"/>
     </target>
@@ -273,14 +273,14 @@ Legal:
             todir="${repo.dir}/wrapper/bin"/>
         <copy file="${repo.dir}/wrapper/${wrapper.dist.name}/lib/wrapper.jar"
             todir="${repo.dir}/wrapper/bin"/>
-        <copy file="${repo.dir}/wrapper/${wrapper.dist.name}/bin/src/sh.script.in"
+        <copy file="${repo.dir}/wrapper/${wrapper.dist.name}/src/bin/sh.script.in"
             tofile="${repo.dir}/wrapper/bin/${name}-wrapper.sh">
             <filterset>
                 <filter token="app.name" value="${name}"/>
                 <filter token="app.long.name" value="${long.name}"/>
             </filterset>
         </copy>
-        <copy file="${repo.dir}/wrapper/${wrapper.dist.name}/bin/src/bash.script.in"
+        <copy file="${repo.dir}/wrapper/${wrapper.dist.name}/src/bin/bash.script.in"
             tofile="${repo.dir}/wrapper/bin/${name}-wrapper.bash">
             <filterset>
                 <filter token="app.name" value="${name}"/>
