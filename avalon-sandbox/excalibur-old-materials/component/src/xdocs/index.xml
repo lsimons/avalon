@@ -6,7 +6,7 @@
         <authors>
             <person name="Leo Simons" email="mail@leosimons.com"/>
             <person name="Berin Loritsch" email="bloritsch@apache.org"/>
-            <person name="Peter Donald" email="peter@apache.org"/>
+            <person name="Peter Donald" email="peter at apache.org"/>
             <person name="Leif Mortenson" email="leif@tanukisoftware.com"/>
         </authors>
     </header>
@@ -37,7 +37,7 @@
     <footer>
         <legal>
           Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-          $Revision: 1.4 $ $Date: 2002/04/05 08:21:04 $
+          $Revision: 1.5 $ $Date: 2002/08/07 05:45:03 $
         </legal>
     </footer>
 </document>
