@@ -11,6 +11,7 @@ import org.apache.avalon.framework.Enum;
 
 /**
  * A type-safe enumeration of possible traversal methods.
+ *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  * @author <a href="mailto:jefft@apache.org">Jeff Turner</a>
  */
