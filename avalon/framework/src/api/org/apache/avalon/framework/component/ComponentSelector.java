@@ -20,7 +20,7 @@ package org.apache.avalon.framework.component;
  * Below is a list of things that might be considered the same role:
  *
  * <ul>
- *   <li> XMLInputAdaptor and PropertyInputAdaptor</li>
+ *   <li> XMLInputAdapter and PropertyInputAdapter</li>
  *   <li> FileGenerator   and SQLGenerator</li>
  * </ul>
  *

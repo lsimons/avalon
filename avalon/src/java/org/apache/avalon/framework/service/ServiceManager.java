@@ -23,7 +23,7 @@ package org.apache.avalon.framework.service;
  * Below is a list of things that might be considered the different roles:
  *
  * <ul>
- *   <li> InputAdaptor and OutputAdaptor</li>
+ *   <li> InputAdapter and OutputAdapter</li>
  *   <li> Store and Spool</li>
  * </ul>
  *
