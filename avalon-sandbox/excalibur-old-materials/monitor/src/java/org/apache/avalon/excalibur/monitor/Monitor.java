@@ -12,10 +12,10 @@ import org.apache.avalon.framework.component.Component;
 /**
  * The Monitor is used to actively check a set of resources to see if they have
  * changed.  It will be implemented as a Component, that can be retrieved from
- * the ComponentManager.
+ * the ComponentLocator.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version $Id: Monitor.java,v 1.7 2002/05/13 12:17:40 donaldp Exp $
+ * @version $Id: Monitor.java,v 1.8 2002/06/13 17:24:52 bloritsch Exp $
  */
 public interface Monitor
     extends Component

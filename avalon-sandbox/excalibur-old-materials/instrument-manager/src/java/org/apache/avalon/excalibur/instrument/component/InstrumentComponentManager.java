@@ -23,7 +23,7 @@ import org.apache.avalon.framework.context.Context;
 /**
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.4 $ $Date: 2002/06/04 06:40:39 $
+ * @version CVS $Revision: 1.5 $ $Date: 2002/06/13 17:24:51 $
  * @since 4.1
  */
 public class InstrumentComponentManager
@@ -108,7 +108,7 @@ public class InstrumentComponentManager
      *  manager with the InstrumentManager.
      *
      * @throws Exception If there are any problems initializing the
-     *                   ComponentManager.
+     *                   ComponentLocator.
      */
     public void initialize()
         throws Exception

@@ -25,7 +25,7 @@ import java.util.Map;
  * total number of Connection objects that are created.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.7 $ $Date: 2002/03/16 00:05:40 $
+ * @version CVS $Revision: 1.8 $ $Date: 2002/06/13 17:24:50 $
  * @since 4.0
  */
 public class JdbcConnection
@@ -202,7 +202,7 @@ public class JdbcConnection
         m_connection.setTypeMap( map );
     }
 
-    @JDBC3_START@
+/*    @JDBC3_START@
     public final void setHoldability( int holdability )
         throws SQLException
     {
@@ -285,6 +285,6 @@ public class JdbcConnection
     {
         throw new SQLException( "This is not a Jdbc 3.0 Compliant Connection" );
     }
-    @JDBC3_END@
+    @JDBC3_END@ */
 }
 

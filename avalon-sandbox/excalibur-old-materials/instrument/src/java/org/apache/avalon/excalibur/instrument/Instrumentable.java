@@ -10,14 +10,14 @@ package org.apache.avalon.excalibur.instrument;
 /**
  * The Instrumentable interface is to mark objects that can be sampled by an
  *  InstrumentManager.  The getInstruments method may or may not be called
- *  depending on whether or not the ComponentManager used to create the
+ *  depending on whether or not the ComponentLocator used to create the
  *  Component supports Instrumentables.  In most cases, an instrumentable
  *  object should always create its internal Instruments and make use of them
  *  as if instrument data were being collected.  The Instruments are optimized
  *  so as not to reduce performance when they are not being used.
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.3 $ $Date: 2002/05/13 12:28:36 $
+ * @version CVS $Revision: 1.4 $ $Date: 2002/06/13 17:24:51 $
  * @since 4.1
  */
 public interface Instrumentable

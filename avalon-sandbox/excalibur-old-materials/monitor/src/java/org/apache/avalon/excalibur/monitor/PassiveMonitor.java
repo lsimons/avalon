@@ -20,7 +20,7 @@ import org.apache.avalon.framework.thread.ThreadSafe;
 /**
  * The PassiveMonitor is used to passively check a set of resources to see if they have
  * changed.  It will be implemented as a Component, that can be retrieved from
- * the ComponentManager.  It defaults to checking every 1 minute.  The configuration
+ * the ComponentLocator.  It defaults to checking every 1 minute.  The configuration
  * looks like this:
  *
  * <pre>
@@ -34,7 +34,7 @@ import org.apache.avalon.framework.thread.ThreadSafe;
  * </pre>
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version $Id: PassiveMonitor.java,v 1.9 2002/06/13 12:59:10 bloritsch Exp $
+ * @version $Id: PassiveMonitor.java,v 1.10 2002/06/13 17:24:52 bloritsch Exp $
  */
 public final class PassiveMonitor
     extends AbstractLogEnabled

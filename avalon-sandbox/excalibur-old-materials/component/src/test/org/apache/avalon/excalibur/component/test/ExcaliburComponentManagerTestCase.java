@@ -37,7 +37,7 @@ import org.apache.log.output.io.StreamTarget;
  * it is correctly handling component lifestyle management.
  *
  * @author <a href="mailto:ryan@silveregg.co.jp">Ryan Shaw</a>
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class ExcaliburComponentManagerTestCase extends TestCase
 {
@@ -47,7 +47,7 @@ public class ExcaliburComponentManagerTestCase extends TestCase
      * involved: Mom, Dad, and Kid. Each of the three Roles can be
      * implemented by a SingleThreaded, ThreadSafe, or Poolable component.
      * The Mom and Dad components both are Composable, and they use the
-     * ComponentManager that they are provided with to obtain references
+     * ComponentLocator that they are provided with to obtain references
      * to a Kid component. The Mom and Dad components may be "Good" (they
      * properly release their Kid) or "Bad" (they don't release their Kid).
      *

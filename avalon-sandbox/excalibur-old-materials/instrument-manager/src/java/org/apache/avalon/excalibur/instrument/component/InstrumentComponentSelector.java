@@ -24,7 +24,7 @@ import org.apache.avalon.framework.context.Context;
 /**
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.4 $ $Date: 2002/06/04 06:40:39 $
+ * @version CVS $Revision: 1.5 $ $Date: 2002/06/13 17:24:51 $
  * @since 4.1
  */
 public class InstrumentComponentSelector
@@ -67,7 +67,7 @@ public class InstrumentComponentSelector
      * @param componentClass Class of the component for which the handle is
      *                       being requested.
      * @param configuration The configuration for this component.
-     * @param componentManager The ComponentManager which will be managing
+     * @param componentManager The ComponentLocator which will be managing
      *                         the Component.
      * @param context The current context object.
      * @param roleManager The current RoleManager.

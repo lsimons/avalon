@@ -12,7 +12,7 @@ package org.apache.avalon.excalibur.component;
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:paul@luminas.co.uk">Paul Russell</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/04/04 05:09:02 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/06/13 17:24:50 $
  * @since 4.0
  * @deprecated  Please use <code>ExcaliburComponentManager</code> instead
  */
@@ -24,7 +24,7 @@ public class DefaultComponentManager
         super();
     }
 
-    /** Create the ComponentManager with a Classloader */
+    /** Create the ComponentLocator with a Classloader */
     public DefaultComponentManager( final ClassLoader loader )
     {
         super( loader );

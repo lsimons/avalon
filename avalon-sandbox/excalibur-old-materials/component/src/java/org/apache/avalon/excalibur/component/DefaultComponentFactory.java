@@ -35,7 +35,7 @@ import org.apache.avalon.framework.thread.ThreadSafe;
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:paul@luminas.co.uk">Paul Russell</a>
  * @author <a href="mailto:ryan@silveregg.co.jp">Ryan Shaw</a>
- * @version CVS $Revision: 1.3 $ $Date: 2002/06/02 06:03:01 $
+ * @version CVS $Revision: 1.4 $ $Date: 2002/06/13 17:24:50 $
  * @since 4.0
  */
 public class DefaultComponentFactory
@@ -67,7 +67,7 @@ public class DefaultComponentFactory
      */
     private LogkitLoggerManager m_logkit;
 
-    /** Components created by this factory, and their associated ComponentManager
+    /** Components created by this factory, and their associated ComponentLocator
      *  proxies, if they are Composables.
      */
     private final BucketMap m_components = new BucketMap();
@@ -291,7 +291,7 @@ public class DefaultComponentFactory
     }
 
     /**
-     * Proxy <code>ComponentManager</code> class to maintain references to
+     * Proxy <code>ComponentLocator</code> class to maintain references to
      * components looked up within a <code>Composable</code> instance created
      * by this factory.
      *
@@ -342,7 +342,7 @@ public class DefaultComponentFactory
 
         /**
          * Releases all components that have been looked up through this
-         * <code>ComponentManager</code>, that have not yet been released
+         * <code>ComponentLocator</code>, that have not yet been released
          * via user code.
          */
         private void releaseAll()

@@ -24,7 +24,7 @@ import org.apache.avalon.framework.thread.ThreadSafe;
 
 /**
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/04/22 03:04:27 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/06/13 17:24:51 $
  * @since 4.1
  */
 public abstract class AbstractDataSourceCluster
@@ -32,7 +32,7 @@ public abstract class AbstractDataSourceCluster
     implements Composable, Configurable, Initializable, Disposable, ThreadSafe
 {
 
-    /** ComponentManager which created this component */
+    /** ComponentLocator which created this component */
     protected ComponentManager m_manager;
 
     protected int m_size;
@@ -85,10 +85,10 @@ public abstract class AbstractDataSourceCluster
      * Composable Methods
      *-------------------------------------------------------------*/
     /**
-     * Called by the Container to tell the component which ComponentManager
+     * Called by the Container to tell the component which ComponentLocator
      *  is controlling it.
      *
-     * @param ComponentManager which curently owns the component.
+     * @param ComponentLocator which curently owns the component.
      */
     public void compose( ComponentManager manager )
     {

@@ -14,8 +14,6 @@ import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
-import org.apache.avalon.framework.logger.LogKitLogger;
-import org.apache.avalon.framework.logger.Loggable;
 
 /**
  * The Default implementation for DataSources in Avalon.  This uses the
@@ -74,19 +72,14 @@ import org.apache.avalon.framework.logger.Loggable;
  * </ul>
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.19 $ $Date: 2002/05/02 16:02:40 $
+ * @version CVS $Revision: 1.20 $ $Date: 2002/06/13 17:24:50 $
  * @since 4.0
  */
 public class JdbcDataSource
     extends AbstractLogEnabled
-    implements DataSourceComponent, Disposable, Loggable
+    implements DataSourceComponent, Disposable
 {
     protected JdbcConnectionPool m_pool;
-
-    public void setLogger( final org.apache.log.Logger logger )
-    {
-        enableLogging( new LogKitLogger( logger ) );
-    }
 
     /**
      *  Configure and set up DB connection.  Here we set the connection

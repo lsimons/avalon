@@ -24,12 +24,12 @@ import org.apache.avalon.framework.component.Component;
  *
  * When the <code>Source</code> object is no longer needed
  * it must be released using the resolver. This is very similar like
- * looking up components from a <code>ComponentManager</code>.
+ * looking up components from a <code>ComponentLocator</code>.
  * In fact a source object can implement most lifecycle interfaces
  * like Composable, Initializable, Disposable etc.
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.4 $ $Date: 2002/05/13 12:17:40 $
+ * @version CVS $Revision: 1.5 $ $Date: 2002/06/13 17:24:52 $
  */
 
 public interface SourceResolver

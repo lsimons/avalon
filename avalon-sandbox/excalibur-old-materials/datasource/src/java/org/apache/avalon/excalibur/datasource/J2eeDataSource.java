@@ -17,8 +17,6 @@ import javax.sql.DataSource;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
-import org.apache.avalon.framework.logger.LogKitLogger;
-import org.apache.avalon.framework.logger.Loggable;
 
 /**
  * The J2EE implementation for DataSources in Cocoon.  This uses the
@@ -26,22 +24,17 @@ import org.apache.avalon.framework.logger.Loggable;
  * J2EE container pools the datasources properly.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.8 $ $Date: 2002/06/03 00:23:21 $
+ * @version CVS $Revision: 1.9 $ $Date: 2002/06/13 17:24:50 $
  * @since 4.0
  */
 public class J2eeDataSource
     extends AbstractLogEnabled
-    implements DataSourceComponent, Loggable
+    implements DataSourceComponent
 {
     public static final String JDBC_NAME = "java:comp/env/jdbc/";
     protected DataSource m_dataSource = null;
     protected String m_user;
     protected String m_password;
-
-    public void setLogger( org.apache.log.Logger logger )
-    {
-        enableLogging( new LogKitLogger( logger ) );
-    }
 
     /**
      *  Configure and set up DB connection.  Here we set the connection
