@@ -128,6 +128,10 @@
     <note><xsl:apply-templates/></note>
   </xsl:template>
 
+  <xsl:template match="warn">
+    <warning><xsl:apply-templates/></warning>
+  </xsl:template>
+
   <xsl:template match="code">
     <classname><xsl:apply-templates/></classname>
   </xsl:template>
