@@ -28,7 +28,7 @@ EXAMPLE_HOME=..
 #
 # Build the runtime classpath
 #
-for i in ${EXAMPLE_HOME}/commonlib/*.jar ; do
+for i in ${EXAMPLE_HOME}/lib/*.jar ; do
     CP=${CP}:$i
 done
 
