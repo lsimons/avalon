@@ -49,7 +49,6 @@
                 <li>singleton - an instance may be shared between 
                     multiple clients</li>
                 <li>thread - one instance per thread</li>
-                <li>pooled - each client has a unique instance managed by a pool</li>
                 <li>transient - new instance are created on demand</li>
               </ul>
             </td>

@@ -57,7 +57,7 @@ Lifecycle management encompasses the process of deployment during which artifact
           <tr>
             <td><a href="lifestyle/index.html">Lifestyle</a></td>
             <td>
-A component implementation is associated with a particular lifestyle.  A lifestyle is policy that deals with the decision to create a new component as opposed to to supplying a reference to an existing component.  Examples of lifestyle policies include "singleton", "per-thread", "pooled", and "transient".  This section of the specification describes each policy and the related semantics that a component author can assume concerning instantiation and references sharing. 
+A component implementation is associated with a particular lifestyle.  A lifestyle is policy that deals with the decision to create a new component as opposed to to supplying a reference to an existing component.  Examples of lifestyle policies include "singleton", "per-thread", and "transient".  This section of the specification describes each policy and the related semantics that a component author can assume concerning instantiation and references sharing. 
             </td>
           </tr>
         </table>

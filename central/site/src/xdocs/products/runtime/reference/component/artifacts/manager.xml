@@ -66,9 +66,9 @@ delivery interface.
 
       <subsection name="Lookup and Release Semantics">
         <p>
-Services are aquired by passing the dependency key under the lookup operation.  If no key is declared, the component can aquire the service using the value of the type attribute.  When a component no longer requires a service it can relase the service, thereby notifying the container that the service instance is no longer required.   While release of a service is optional, component authors shyould be aware that the component implementation underlying the service may be pooled. As such, release of the service may have a direct impact on memory consumption and overall performance.
+Services are aquired by passing the dependency key under the lookup operation.  If no key is declared, the component can aquire the service using the value of the type attribute.  When a component no longer requires a service it can relase the service, thereby notifying the container that the service instance is no longer required.   While release of a service is optional, component authors should be aware that the component implementation underlying the service may be pooled. As such, release of the service may have a direct impact on memory consumption and overall performance.
         </p>
-        <p><i>Example of an aquisition and relace cycle.</i></p>
+        <p><i>Example of an aquisition and release cycle.</i></p>
 <source>
    /**
     * Creation of a new instance during which a service is aquired,
