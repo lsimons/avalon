@@ -55,6 +55,8 @@ namespace Apache.Avalon.Castle.Controller.Config
 	/// </summary>
 	internal class DependencyDescriptorCollection : CollectionBase
 	{
+		protected ComponentDescriptorCollection components;
+
 		public DependencyDescriptorCollection()
 		{
 		}
@@ -69,6 +71,19 @@ namespace Apache.Avalon.Castle.Controller.Config
 			get
 			{
 				return InnerList[index] as DependencyDescriptor;
+			}
+		}
+
+		public ComponentDescriptorCollection Components
+		{
+			get
+			{
+				if (components == null)
+				{
+					components = new ComponentDescriptorCollection();
+				}
+
+				return components;
 			}
 		}
 	}

@@ -51,11 +51,21 @@ namespace Apache.Avalon.Castle.Controller.Config
 	using System.Xml;
 
 	/// <summary>
+	/// 
+	/// </summary>
+	internal enum LoggerType
+	{
+		Null,
+		Console,
+		Log4net
+	}
+
+	/// <summary>
 	/// Summary description for CastleConfig.
 	/// </summary>
 	internal class CastleConfig
 	{
-		ComponentDescriptorCollection components = new ComponentDescriptorCollection();
+		private ComponentDescriptorCollection components = new ComponentDescriptorCollection();
 
 		public CastleConfig(CastleConfig parent, XmlNode section)
 		{
@@ -63,6 +73,8 @@ namespace Apache.Avalon.Castle.Controller.Config
 
 			ParseServices(section);
 		}
+
+		#region Parsing
 
 		private void ParseServices(XmlNode section)
 		{
@@ -73,11 +85,11 @@ namespace Apache.Avalon.Castle.Controller.Config
 					continue;
 				}
 
-				ParseComponent(component);
+				ParseComponent(components, component);
 			}
 		}
 
-		private void ParseComponent(XmlNode component)
+		private void ParseComponent(ComponentDescriptorCollection comps, XmlNode component)
 		{
 			String typeName = GetAttribute( component.Attributes["type"] );
 			String name = GetAttribute( component.Attributes["name"] );
@@ -95,19 +107,19 @@ namespace Apache.Avalon.Castle.Controller.Config
 				{
 					ParseAttribute(desc, inner);
 				}
-				else if (String.Compare(inner.Name, "depends", true) == 0)
+				else if (String.Compare(inner.Name, "dependencies", true) == 0)
 				{
-					ParseDependency(desc, inner);
+					ParseDependencies(desc, inner);
 				}
 			}
 
-			components.Add(desc);
+			comps.Add(desc);
 		}
 
 		private void ParseAttribute(ComponentDescriptor component, XmlNode att)
 		{
 			String name  = GetAttribute( att.Attributes["name"] );
-			String value = GetAttribute( att.Attributes["value"] );
+			String value = att.InnerText;
 
 			AttributeDescriptor desc = 
 				new AttributeDescriptor(name, value);
@@ -115,10 +127,30 @@ namespace Apache.Avalon.Castle.Controller.Config
 			component.Attributes.Add(desc);
 		}
 
-		private void ParseDependency(ComponentDescriptor component, XmlNode att)
+		private void ParseDependencies(ComponentDescriptor component, XmlNode node)
 		{
-			String name   = GetAttribute( att.Attributes["name"] );
-			bool optional = bool.Parse( GetAttribute( att.Attributes["optional"] ) );
+			foreach(XmlNode dependency in node.ChildNodes)
+			{
+				if (dependency.NodeType != XmlNodeType.Element)
+				{
+					continue;
+				}
+
+				if (String.Compare(dependency.Name, "mcomponent", true) == 0)
+				{
+					ParseComponent( component.Dependencies.Components, dependency );
+				}
+				else if (String.Compare(dependency.Name, "depends", true) == 0)
+				{
+					ParseDependency( component, node );
+				}
+			}
+		}
+
+		private void ParseDependency(ComponentDescriptor component, XmlNode node)
+		{
+			String name   = GetAttribute( node.Attributes["name"] );
+			bool optional = bool.Parse( GetAttribute( node.Attributes["optional"] ) );
 
 			DependencyDescriptor desc = 
 				new DependencyDescriptor(name, optional);
@@ -135,6 +167,8 @@ namespace Apache.Avalon.Castle.Controller.Config
 
 			return att.Value;
 		}
+
+		#endregion
 
 		public ComponentDescriptorCollection Components
 		{

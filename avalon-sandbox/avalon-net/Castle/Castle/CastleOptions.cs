@@ -58,6 +58,8 @@ namespace Apache.Avalon.Castle
 		private String homePath;
 		private bool isolatedDomain = true;
 		private bool noJoin = false;
+		private bool remoting = true;
+		private String serverConnectorUrl = "provider:tcp:binary:server.rem";
 
 		public CastleOptions()
 		{
@@ -108,6 +110,30 @@ namespace Apache.Avalon.Castle
 			set
 			{
 				noJoin = value;
+			}
+		}
+
+		public bool EnableRemoteManagement
+		{
+			get
+			{
+				return remoting;
+			}
+			set
+			{
+				remoting = value;
+			}
+		}
+
+		public String ServerConnectorUrl
+		{
+			get
+			{
+				return serverConnectorUrl;
+			}
+			set
+			{
+				serverConnectorUrl = value;
 			}
 		}
 	}

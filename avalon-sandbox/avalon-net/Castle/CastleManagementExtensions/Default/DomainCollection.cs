@@ -63,7 +63,10 @@ namespace Apache.Avalon.Castle.ManagementExtensions.Default
 
 		public void Add(Domain domain)
 		{
-			base.BaseAdd(domain.Name, domain);
+			lock(this)
+			{
+				base.BaseAdd(domain.Name, domain);
+			}
 		}
 
 		public Domain this[String domainName]
@@ -71,6 +74,20 @@ namespace Apache.Avalon.Castle.ManagementExtensions.Default
 			get
 			{
 				return base.BaseGet(domainName) as Domain;
+			}
+		}
+
+		public String[] ToArray()
+		{
+			lock(this)
+			{
+				String[] names = new String[base.Keys.Count];
+				int index = 0;
+				foreach(String key in base.Keys)
+				{
+					names[index++] = key;
+				}
+				return names;
 			}
 		}
 

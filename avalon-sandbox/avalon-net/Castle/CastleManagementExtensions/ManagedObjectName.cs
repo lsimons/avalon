@@ -62,6 +62,7 @@ namespace Apache.Avalon.Castle.ManagementExtensions
 		protected String domain;
 		protected String literalProperties = String.Empty;
 		protected Hashtable properties;
+		protected bool allProperties;
 
 		/// <summary>
 		/// Creates a ManagedObjectName using a name pattern like
@@ -107,7 +108,11 @@ namespace Apache.Avalon.Castle.ManagementExtensions
 			String domain = info.GetString("domain");
 			String props  = info.GetString("props");
 			SetupDomain(domain);
-			SetupProperties(props);
+
+			if (props != String.Empty)
+			{
+				SetupProperties(props);
+			}
 		}
 
 		/// <summary>
@@ -158,6 +163,12 @@ namespace Apache.Avalon.Castle.ManagementExtensions
 			if (properties == null)
 			{
 				throw new ArgumentNullException("properties");
+			}
+			if (properties.Equals("*"))
+			{
+				literalProperties = "*";
+				allProperties = true;
+				return;
 			}
 
 			String [] props = properties.Split( new char[] { ',' } );

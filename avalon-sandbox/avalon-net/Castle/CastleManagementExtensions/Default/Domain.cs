@@ -70,7 +70,10 @@ namespace Apache.Avalon.Castle.ManagementExtensions.Default
 
 		public void Add(ManagedObjectName objectName, Entry instance)
 		{
-			InnerHashtable.Add(objectName, instance);
+			lock(this)
+			{
+				InnerHashtable.Add(objectName, instance);
+			}
 		}
 
 		public bool Contains(ManagedObjectName objectName)
@@ -80,7 +83,10 @@ namespace Apache.Avalon.Castle.ManagementExtensions.Default
 
 		public void Remove(ManagedObjectName objectName)
 		{
-			InnerHashtable.Remove(objectName);
+			lock(this)
+			{
+				InnerHashtable.Remove(objectName);
+			}
 		}
 
 		public String Name
@@ -100,6 +106,20 @@ namespace Apache.Avalon.Castle.ManagementExtensions.Default
 			get
 			{
 				return (Entry) InnerHashtable[objectName];
+			}
+		}
+
+		public ManagedObjectName[] ToArray()
+		{
+			lock(this)
+			{
+				int index = 0;
+				ManagedObjectName[] names = new ManagedObjectName[ Count ];
+				foreach(ManagedObjectName name in InnerHashtable.Keys)
+				{
+					names[index++] = name;
+				}
+				return names;
 			}
 		}
 	}

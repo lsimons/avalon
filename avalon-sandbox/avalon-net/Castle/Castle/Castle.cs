@@ -51,6 +51,8 @@ namespace Apache.Avalon.Castle
 	using System.IO;
 	using System.Threading;
 
+	using ILogger = Apache.Avalon.Framework.ILogger;
+
 	/// <summary>
 	/// Summary description for Castle.
 	/// </summary>
@@ -59,6 +61,8 @@ namespace Apache.Avalon.Castle
 		internal static readonly String CASTLE_DOMAIN = "apache.avalon.castle";
 
 		protected CastleOptions options;
+
+		protected ILogger logger = Logger.LoggerFactory.GetLogger("Castle");
 
 		public Castle(CastleOptions options)
 		{
@@ -72,17 +76,20 @@ namespace Apache.Avalon.Castle
 
 		public void Start()
 		{
-			System.Console.WriteLine("Castle : Starting at {0} {1}", DateTime.Now.ToShortTimeString(), DateTime.Now.ToShortDateString());
+			logger.Info("Castle : Starting at {0} {1}", DateTime.Now.ToShortTimeString(), DateTime.Now.ToShortDateString());
 
 			CastleLoader loader = new CastleLoader();
 
 			try
 			{
+				InitializeDomainHooks();
+
 				loader.Start(options);
 
 				if (!options.NoThreadJoin)
 				{
-					Thread.CurrentThread.Join();
+					// Thread.CurrentThread.Join();
+					Console.In.ReadLine();
 				}
 			}
 			catch(Exception ex)
@@ -96,7 +103,7 @@ namespace Apache.Avalon.Castle
 				loader.Stop();
 			}
 
-			System.Console.WriteLine("Castle : Service exiting at {0} {1}", DateTime.Now.ToShortTimeString(), DateTime.Now.ToShortDateString());
+			logger.Info("Castle : Service exiting at {0} {1}", DateTime.Now.ToShortTimeString(), DateTime.Now.ToShortDateString());
 		}
 
 		/// <summary>
@@ -122,6 +129,27 @@ namespace Apache.Avalon.Castle
 			}
 		}
 
-		
+		private void InitializeDomainHooks()
+		{
+			// TODO: Find out a way to handle CTRL + C for a correct clean up
+			AppDomain.CurrentDomain.DomainUnload += new EventHandler(DomainUnload);
+			AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(UnhandledException);
+			AppDomain.CurrentDomain.ProcessExit += new EventHandler(ProcessExit);
+		}
+
+		private void DomainUnload(object sender, EventArgs e)
+		{
+			logger.Info("DomainUnload catched!");
+		}
+
+		private void UnhandledException(object sender, UnhandledExceptionEventArgs e)
+		{
+			logger.Info("UnhandledException catched!");
+		}
+
+		private void ProcessExit(object sender, EventArgs e)
+		{
+			logger.Info("ProcessExit catched!");
+		}
 	}
 }

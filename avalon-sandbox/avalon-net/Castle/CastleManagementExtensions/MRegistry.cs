@@ -127,5 +127,17 @@ namespace Apache.Avalon.Castle.ManagementExtensions
 		/// <param name="attributeValue"></param>
 		/// <exception cref="InvalidDomainException">If domain name is not found.</exception>
 		void SetAttributeValue(ManagedObjectName name, String attributeName, Object attributeValue);
+
+		/// <summary>
+		/// Returns an array of registered domains.
+		/// </summary>
+		/// <returns>a list of domains</returns>
+		String[] GetDomains();
+
+		/// <summary>
+		/// Queries the registerd components.
+		/// </summary>
+		/// <returns></returns>
+		ManagedObjectName[] Query(ManagedObjectName query);
 	}
 }

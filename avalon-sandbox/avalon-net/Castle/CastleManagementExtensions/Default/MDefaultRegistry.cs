@@ -307,6 +307,31 @@ namespace Apache.Avalon.Castle.ManagementExtensions.Default
 			GetEntry(name).Invoker.SetAttributeValue(attributeName, attributeValue);
 		}
 
+		/// <summary>
+		/// Returns an array of registered domains.
+		/// </summary>
+		/// <returns>a list of domains</returns>
+		public String[] GetDomains()
+		{
+			return domains.ToArray();
+		}
+
+		/// <summary>
+		/// Queries the registerd components.
+		/// </summary>
+		/// <returns></returns>
+		public ManagedObjectName[] Query(ManagedObjectName query)
+		{
+			// TODO: several queries...
+			
+			if (query.LiteralProperties.Equals("*"))
+			{
+				return FindAllFromDomain(query.Domain);
+			}
+
+			return null;
+		}
+
 		#endregion
 
 		/// <summary>
@@ -388,6 +413,20 @@ namespace Apache.Avalon.Castle.ManagementExtensions.Default
 					// An exception here shall not stop us from continue
 				}
 			}
+		}
+
+		private ManagedObjectName[] FindAllFromDomain(String domainName)
+		{
+			try
+			{
+				Domain domain = FindDomain(domainName);
+				return domain.ToArray();
+			}
+			catch(InvalidDomainException)
+			{
+			}
+
+			return null;
 		}
 	}
 }
