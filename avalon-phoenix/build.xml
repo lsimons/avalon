@@ -349,6 +349,7 @@ Legal:
         <property name="bin.dist.apps" value="${bin.dist.dir}/apps"/>
         <property name="bin.dist.ext" value="${bin.dist.dir}/ext"/>
         <property name="bin.dist.lib" value="${bin.dist.dir}/lib"/>
+        <property name="bin.dist.container.lib" value="${bin.dist.bin}/lib"/>
         <property name="bin.dist.conf" value="${bin.dist.dir}/conf"/>
 
         <mkdir dir="${bin.dist.bin}/lib"/>
@@ -359,7 +360,7 @@ Legal:
 
         <copy file="${build.lib}/phoenix-client.jar" todir="${bin.dist.lib}/"/>
         <copy file="${build.lib}/phoenix-loader.jar" todir="${bin.dist.bin}/"/>
-        <copy file="${build.lib}/phoenix-engine.jar" todir="${bin.dist.bin}/lib"/>
+        <copy file="${build.lib}/phoenix-engine.jar" todir="${bin.dist.container.lib}"/>
 
         <copy file="${logkit.jar}" todir="${bin.dist.lib}"/>
         <copy file="${framework.jar}" todir="${bin.dist.lib}"/>
@@ -368,6 +369,11 @@ Legal:
                 <include name="excalibur*.jar"/>
             </fileset>
             <fileset dir="${lib.dir}/jing">
+                <include name="*.jar"/>
+            </fileset>
+        </copy>
+        <copy todir="${bin.dist.container.lib}">
+            <fileset dir="${lib.dir}/container">
                 <include name="*.jar"/>
             </fileset>
         </copy>
