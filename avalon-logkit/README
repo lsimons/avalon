@@ -4,12 +4,13 @@
   What is it?
   -----------
 
-  It is a lightweight, fast, securly designed logging toolkit. It is designed to integrate into existing applications.
+  It is a lightweight, fast, securly designed logging toolkit. It is designed to integrate 
+  into existing applications.
 
   Where is it?
   ------------
 
-  http://jakarta.apache.org/avalon
+  http://jakarta.apache.org/avalon/logkit
 
   Requirements
   ------------
