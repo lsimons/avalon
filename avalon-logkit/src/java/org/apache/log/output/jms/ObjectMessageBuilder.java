@@ -63,11 +63,20 @@ import org.apache.log.LogEvent;
 /**
  * Basic message factory that stores LogEvent in Message.
  *
+ * @author <a href="mailto:avalon-dev@jakarta.apache.org">Avalon Development Team</a>
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 public class ObjectMessageBuilder
     implements MessageBuilder
 {
+
+   /**
+    * Creation of a new message. 
+    * @param session the session against which the message will be created
+    * @param event the log event
+    * @return the message
+    * @exeption JMSException if a messaging error occurs
+    */
     public Message buildMessage( Session session, LogEvent event )
         throws JMSException
     {
