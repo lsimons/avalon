@@ -18,6 +18,7 @@ package org.apache.avalon.excalibur.i18n;
 
 import java.lang.ref.WeakReference;
 import java.util.HashMap;
+import java.util.Locale;
 
 /**
  * Manager for resources.
@@ -48,20 +49,55 @@ public class ResourceManager
      * Retrieve resource with specified basename.
      *
      * @param baseName the basename
+     * @param locale Locale of the requested Resources, null implies default locale
      * @param classLoader the classLoader to load resources from
+     *
+     * @return the Resources
+     */
+    public synchronized static final Resources getBaseResources( final String baseName,
+                                                                 final Locale locale,
+                                                                 final ClassLoader classLoader )
+    {
+        String cacheKey;
+        if ( locale == null )
+        {
+            cacheKey = baseName;
+        }
+        else
+        {
+            cacheKey = baseName + "-" + locale.toString();
+        }
+        
+        Resources resources = getCachedResource( cacheKey );
+        if( null == resources )
+        {
+            if ( locale == null )
+            {
+                resources = new Resources( baseName, classLoader );
+            }
+            else
+            {
+                resources = new Resources( baseName, locale, classLoader );
+            }
+            
+            putCachedResource( cacheKey, resources );
+        }
+
+        return resources;
+    }
+
+    /**
+     * Retrieve resource with specified basename.
+     *
+     * @param baseName the basename
+     * @param classLoader the classLoader to load resources from
+     *
      * @return the Resources
      */
     public synchronized static final Resources getBaseResources( final String baseName,
                                                                  final ClassLoader classLoader )
     {
-        Resources resources = getCachedResource( baseName );
-        if( null == resources )
-        {
-            resources = new Resources( baseName, classLoader );
-            putCachedResource( baseName, resources );
-        }
-
-        return resources;
+        return getBaseResources( baseName, null, classLoader );
     }
 
     /**
@@ -92,26 +128,25 @@ public class ResourceManager
     /**
      * Cache specified resource in weak reference.
      *
-     * @param baseName the resource key
+     * @param cacheKey the key used to reference the resource in the cache
      * @param resources the resources object
      */
-    private synchronized static final void putCachedResource( final String baseName,
+    private synchronized static final void putCachedResource( final String cacheKey,
                                                               final Resources resources )
     {
-        c_resources.put( baseName,
-                         new WeakReference( resources ) );
+        c_resources.put( cacheKey, new WeakReference( resources ) );
     }
 
     /**
      * Retrieve cached resource.
      *
-     * @param baseName the resource key
+     * @param cacheKey the key used to reference the resource in the cache
+     *
      * @return resources the resources object
      */
-    private synchronized static final Resources getCachedResource( final String baseName )
+    private synchronized static final Resources getCachedResource( final String cacheKey )
     {
-        final WeakReference weakReference =
-            (WeakReference)c_resources.get( baseName );
+        final WeakReference weakReference = (WeakReference)c_resources.get( cacheKey );
         if( null == weakReference )
         {
             return null;
@@ -127,11 +162,26 @@ public class ResourceManager
      * The basename is determined by name postfixed with ".Resources".
      *
      * @param name the name to use when looking up resources
+     * @param locale Locale of the requested Resources, null implies default locale
+     *
+     * @return the Resources
+     */
+    public static final Resources getResources( final String name, final Locale locale )
+    {
+        return getBaseResources( name + ".Resources", locale, null );
+    }
+
+    /**
+     * Retrieve resource for specified name.
+     * The basename is determined by name postfixed with ".Resources".
+     *
+     * @param name the name to use when looking up resources
+     *
      * @return the Resources
      */
     public static final Resources getResources( final String name )
     {
-        return getBaseResources( name + ".Resources" );
+        return getResources( name, null );
     }
 
     /**
@@ -140,11 +190,28 @@ public class ResourceManager
      * postfixed with ".Resources".
      *
      * @param clazz the Class
+     * @param locale Locale of the requested Resources, null implies default locale
+     *
+     * @return the Resources
+     */
+    public static final Resources getPackageResources( final Class clazz, final Locale locale )
+    {
+        return getBaseResources(
+            getPackageResourcesBaseName( clazz ), locale, clazz.getClassLoader() );
+    }
+
+    /**
+     * Retrieve resource for specified Classes package.
+     * The basename is determined by name of classes package
+     * postfixed with ".Resources".
+     *
+     * @param clazz the Class
+     *
      * @return the Resources
      */
     public static final Resources getPackageResources( final Class clazz )
     {
-        return getBaseResources( getPackageResourcesBaseName( clazz ), clazz.getClassLoader() );
+        return getPackageResources( clazz, null );
     }
 
     /**
@@ -153,11 +220,28 @@ public class ResourceManager
      * postfixed with "Resources".
      *
      * @param clazz the Class
+     * @param locale Locale of the requested Resources, null implies default locale
+     *
+     * @return the Resources
+     */
+    public static final Resources getClassResources( final Class clazz, final Locale locale )
+    {
+        return getBaseResources(
+            getClassResourcesBaseName( clazz ), locale, clazz.getClassLoader() );
+    }
+
+    /**
+     * Retrieve resource for specified Class.
+     * The basename is determined by name of Class
+     * postfixed with "Resources".
+     *
+     * @param clazz the Class
+     *
      * @return the Resources
      */
     public static final Resources getClassResources( final Class clazz )
     {
-        return getBaseResources( getClassResourcesBaseName( clazz ), clazz.getClassLoader() );
+        return getClassResources( clazz, null );
     }
 
     /**
@@ -166,6 +250,7 @@ public class ResourceManager
      * postfixed with ".Resources".
      *
      * @param clazz the Class
+     *
      * @return the resource basename
      */
     public static final String getPackageResourcesBaseName( final Class clazz )
@@ -199,6 +284,7 @@ public class ResourceManager
      * postfixed with "Resources".
      *
      * @param clazz the Class
+     *
      * @return the resource basename
      */
     public static final String getClassResourcesBaseName( final Class clazz )
