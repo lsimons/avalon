@@ -66,13 +66,13 @@ import org.apache.avalon.util.defaults.Defaults ;
 import org.apache.avalon.util.defaults.DefaultsFinder ;
 import org.apache.avalon.util.defaults.SimpleDefaultsFinder ;
 import org.apache.avalon.util.defaults.SystemDefaultsFinder ;
-import org.apache.avalon.util.factory.Factory ;
 
 import org.apache.avalon.repository.Repository ;
 import org.apache.avalon.repository.RepositoryException ;
 import org.apache.avalon.repository.RepositoryRuntimeException;
 import org.apache.avalon.repository.provider.InitialContext ;
 import org.apache.avalon.repository.provider.CacheManager ;
+import org.apache.avalon.repository.provider.Factory ;
 import org.apache.avalon.repository.util.RepositoryUtils ;
 
 import org.apache.avalon.excalibur.i18n.ResourceManager;
@@ -83,7 +83,7 @@ import org.apache.avalon.excalibur.i18n.Resources;
  * 
  * @author <a href="mailto:aok123@bellsouth.net">Alex Karasulu</a>
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class DefaultFactory implements Factory
 {

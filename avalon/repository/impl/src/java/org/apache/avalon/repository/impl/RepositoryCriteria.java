@@ -62,12 +62,13 @@ import java.net.MalformedURLException;
 import org.apache.avalon.repository.RepositoryException;
 import org.apache.avalon.repository.provider.InitialContext;
 
+import org.apache.avalon.util.criteria.Criteria;
+import org.apache.avalon.util.criteria.Parameter;
+import org.apache.avalon.util.criteria.PackedParameter;
 import org.apache.avalon.util.defaults.Defaults;
 import org.apache.avalon.util.defaults.DefaultsFinder;
 import org.apache.avalon.util.defaults.SimpleDefaultsFinder;
 import org.apache.avalon.util.defaults.SystemDefaultsFinder;
-import org.apache.avalon.util.factory.impl.Criteria ;
-import org.apache.avalon.util.factory.impl.Parameter ;
 
 
 /**
@@ -75,7 +76,7 @@ import org.apache.avalon.util.factory.impl.Parameter ;
  * for application to a factory.
  *
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class RepositoryCriteria extends Criteria
 {
@@ -136,11 +137,11 @@ public class RepositoryCriteria extends Criteria
    /**
     * Repository proxy password parameter descriptor.
     */
-    public static final String REPOSITORY_REMOTE_HOSTS = "avalon.repository.host";
+    public static final String REPOSITORY_REMOTE_HOSTS = "avalon.repository.hosts";
     public static final Parameter REPOSITORY_REMOTE_HOSTS_PARAM = 
-      new Parameter( 
+      new PackedParameter( 
         REPOSITORY_REMOTE_HOSTS,
-        String[].class,
+        ",",
         null );
 
    /**
@@ -148,35 +149,27 @@ public class RepositoryCriteria extends Criteria
     */
     public static final Parameter[] PARAMS = new Parameter[]{
            REPOSITORY_CACHE_DIR_PARAM,
+           REPOSITORY_REMOTE_HOSTS_PARAM,
            REPOSITORY_PROXY_HOST_PARAM,
            REPOSITORY_PROXY_PORT_PARAM,
            REPOSITORY_PROXY_USERNAME_PARAM,
-           REPOSITORY_PROXY_PASSWORD_PARAM,
-           REPOSITORY_REMOTE_HOSTS_PARAM };
+           REPOSITORY_PROXY_PASSWORD_PARAM };
 
 
    /** 
     * The name of the static defaults property resource.
     */
-    public static final String DEFAULTS = "default.properties";
+    public static final String DEFAULTS = "avalon.properties";
 
    /** 
     * recognized single keys
     */
-    private static final String [] SINGLE_KEYS = {
-        REPOSITORY_CACHE_DIR,
-        REPOSITORY_PROXY_HOST,
-        REPOSITORY_PROXY_PORT,
-        REPOSITORY_PROXY_USERNAME,
-        REPOSITORY_PROXY_PASSWORD
-    };
+    private static final String [] SINGLE_KEYS = Parameter.getKeys( PARAMS );
 
    /** 
-    * regognized multivalue keys
+    * recognized multivalue keys
     */
-    public static final String [] MULTI_VALUE_KEYS = {
-        REPOSITORY_REMOTE_HOSTS
-    };
+    public static final String [] MULTI_VALUE_KEYS = {};
 
     //--------------------------------------------------------------
     // constructor
@@ -190,13 +183,23 @@ public class RepositoryCriteria extends Criteria
     {
         super( PARAMS );
 
-        Properties bootstrap = getDefaultProperties();
+        //
+        // setup the default values aquired from the initial context
+        //
+
+        put( 
+          REPOSITORY_CACHE_DIR, 
+          context.getInitialCacheDirectory() );
+        put( 
+          REPOSITORY_REMOTE_HOSTS, 
+          context.getInitialHosts() );
 
         //
         // Create the finder (discovery policy), construct the defaults, and
         // macro expand the values.
         //
 
+        Properties bootstrap = getDefaultProperties();
         final DefaultsFinder[] finders = {
             new SimpleDefaultsFinder( new Properties[] { bootstrap }, false ), 
             new SystemDefaultsFinder() };
@@ -211,13 +214,7 @@ public class RepositoryCriteria extends Criteria
 
         String cache = 
           defaults.getProperty( REPOSITORY_CACHE_DIR );
-        if( null == cache )
-        {
-            put( 
-              REPOSITORY_CACHE_DIR, 
-              context.getInitialCacheDirectory() );
-        }
-        else
+        if( null != cache )
         {
             put( 
               REPOSITORY_CACHE_DIR, 
@@ -226,15 +223,11 @@ public class RepositoryCriteria extends Criteria
 
         try
         {
-            String[] hosts = 
-              defaults.getEnumerated( REPOSITORY_REMOTE_HOSTS );
+            String hosts = 
+              defaults.getProperty( REPOSITORY_REMOTE_HOSTS );
             if( null != hosts )
             {
                 put( REPOSITORY_REMOTE_HOSTS, hosts );
-            }
-            else
-            {
-                put( REPOSITORY_REMOTE_HOSTS, context.getInitialHosts() );
             }
         }
         catch ( Throwable e )
@@ -271,6 +264,23 @@ public class RepositoryCriteria extends Criteria
                   defaults.getProperty( REPOSITORY_PROXY_PASSWORD ) );
             }
         }
+    }
+
+    private String hostList( String message, String[] hosts )
+    {
+        StringBuffer buffer = new StringBuffer( message );
+        if( null == hosts ) 
+        {
+            buffer.append( " (null)" ); 
+            return buffer.toString();
+        }
+        buffer.append( "\n" );
+        for( int i=0; i<hosts.length; i++ )
+        {
+            if( i>0 ) buffer.append( "," );
+            buffer.append( hosts[i] );
+        }
+        return buffer.toString();      
     }
 
 

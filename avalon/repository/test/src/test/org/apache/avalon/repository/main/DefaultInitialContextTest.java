@@ -60,18 +60,18 @@ import org.apache.avalon.repository.Artifact ;
 import org.apache.avalon.repository.Repository ;
 import org.apache.avalon.repository.RepositoryException ;
 import org.apache.avalon.repository.provider.CacheManager ;
+import org.apache.avalon.repository.provider.Factory ;
 import org.apache.avalon.repository.provider.InitialContext ;
 
 import org.apache.avalon.util.env.Env;
 import org.apache.avalon.util.exception.ExceptionHelper;
-import org.apache.avalon.util.factory.Factory;
 
 /**
  * 
  * 
  * @author <a href="mailto:aok123@bellsouth.net">Alex Karasulu</a>
  * @author $Author: mcconnell $
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class DefaultInitialContextTest extends TestCase
 {
@@ -96,6 +96,22 @@ public class DefaultInitialContextTest extends TestCase
           new DefaultInitialContext( 
             getMavenRepositoryDirectory(),
             getDefaultHosts() );
+
+        assertEquals( 
+          "cache", 
+          context.getInitialCacheDirectory(), 
+          getMavenRepositoryDirectory() );
+
+        String[] defaults = getDefaultHosts();
+        String[] hosts = context.getInitialHosts();
+        assertNotNull( "hosts", hosts );
+        assertEquals( "hosts count", defaults.length, hosts.length );
+
+        for( int i=0; i<defaults.length; i++ )
+        {
+            assertEquals( 
+              "host", defaults[i], hosts[i] );
+        }
 
         Factory factory = context.getInitialFactory();
         assertNotNull( factory );

@@ -81,6 +81,7 @@ import org.apache.avalon.repository.Repository;
 import org.apache.avalon.repository.RepositoryException;
 import org.apache.avalon.repository.RepositoryRuntimeException;
 import org.apache.avalon.repository.meta.FactoryDescriptor;
+import org.apache.avalon.repository.provider.Factory;
 import org.apache.avalon.repository.provider.InitialContext;
 import org.apache.avalon.repository.util.LOADER;
 import org.apache.avalon.repository.util.RepositoryUtils;
@@ -88,7 +89,6 @@ import org.apache.avalon.repository.util.RepositoryUtils;
 import org.apache.avalon.util.env.Env;
 import org.apache.avalon.util.env.EnvAccessException;
 import org.apache.avalon.util.exception.ExceptionHelper;
-import org.apache.avalon.util.factory.Factory;
 
 
 /**
@@ -98,7 +98,7 @@ import org.apache.avalon.util.factory.Factory;
  * 
  * @author <a href="mailto:aok123@bellsouth.net">Alex Karasulu</a>
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class DefaultInitialContext extends AbstractBuilder implements InitialContext
 {
@@ -149,6 +149,18 @@ public class DefaultInitialContext extends AbstractBuilder implements InitialCon
     /**
      * Creates an initial repository context.
      * 
+     * @throws RepositoryException if an error occurs during establishment
+     */
+    public DefaultInitialContext( ) 
+        throws RepositoryException
+    {
+         this( null );
+    }
+
+
+    /**
+     * Creates an initial repository context.
+     * 
      * @param hosts a set of initial remote repository addresses 
      * @throws RepositoryException if an error occurs during establishment
      */
@@ -188,9 +200,19 @@ public class DefaultInitialContext extends AbstractBuilder implements InitialCon
         Properties avalonWork = getLocalProperties( USER_DIR, AVALON );
         
         m_cache = setupCache( cache, avalonHome, avalonWork );
-        System.out.println( "Initial-Cache: " + m_cache );
-
         m_hosts = setupHosts( hosts, avalonHome, avalonWork );
+
+        if( true )
+        {
+            System.out.println( "Initial-Cache: " + m_cache );
+            StringBuffer buffer = new StringBuffer( "Initial-Hosts: " );
+            for( int i=0; i<m_hosts.length; i++ )
+            {
+                if( i>0 ) buffer.append( "," );
+                buffer.append( m_hosts[i] );
+            }
+            System.out.println( buffer.toString() );
+        }
 
         Artifact implementation = 
           setupImplementation( artifact );
@@ -199,10 +221,7 @@ public class DefaultInitialContext extends AbstractBuilder implements InitialCon
         // Create the temporary directory to pull down files into
         //
 
-        if ( ! m_cache.exists() )
-        {
-            m_cache.mkdirs();
-        }
+        if ( ! m_cache.exists() ) m_cache.mkdirs();
 
         //
         // Build the url to access the properties of the implementation artifact
@@ -210,7 +229,6 @@ public class DefaultInitialContext extends AbstractBuilder implements InitialCon
         //
 
         Attributes attributes = loadAttributes( m_cache, m_hosts, implementation );
-        
         FactoryDescriptor descriptor = new FactoryDescriptor( attributes );
         String factory = descriptor.getFactory();
         if( null == factory ) 
