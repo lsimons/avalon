@@ -32,7 +32,6 @@ import org.apache.avalon.phoenix.Block;
 import org.apache.avalon.phoenix.BlockListener;
 import org.apache.avalon.phoenix.components.frame.ApplicationFrame;
 import org.apache.avalon.phoenix.components.frame.DefaultApplicationFrame;
-import org.apache.avalon.phoenix.components.listeners.BlockListenerSupport;
 import org.apache.avalon.phoenix.components.manager.SystemManager;
 import org.apache.avalon.phoenix.metadata.BlockListenerMetaData;
 import org.apache.avalon.phoenix.metadata.BlockMetaData;
@@ -289,7 +288,7 @@ public final class DefaultServerApplication
             try
             {
                 final BlockEntry entry = (BlockEntry)m_entrys.get( path[ i ] );
-                visitor.visitBlock( path[ i ], entry );
+                visitor.visitBlock( entry );
             }
             catch( final Exception e )
             {
