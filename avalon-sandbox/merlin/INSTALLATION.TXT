@@ -1,0 +1,19 @@
+
+PROJECT: Merlin
+====================================================================
+
+DESCRIPTION: 
+------------
+
+This directory contains the merlin system installation and related 
+resources.
+
+* merlin  -- the merlin platform installation
+
+Two Maven plugins are included in the distribution.  These files should 
+be placed in the Maven plugin directory (%MAVEN_HOME%\plugins).
+
+* merlin-plugin-1.0
+* avalon-plugin-1.0
+
+
