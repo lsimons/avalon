@@ -78,7 +78,7 @@ public class JNDITestCase extends TestCase
         Hashtable environment = new Hashtable();
         environment.put( 
           Context.INITIAL_CONTEXT_FACTORY, 
-          "org.apache.avalon.playground.jndi.StandardInitialContextFactory" );
+          "org.apache.avalon.merlin.jndi.StandardInitialContextFactory" );
         environment.put( 
           Context.URL_PKG_PREFIXES, 
           "block://localhost/" );
