@@ -79,11 +79,25 @@
             <tr>
               <td>${user.home}/avalon.properties</td>
             </tr>
+            <tr>
+              <td>${avalon.home}/avalon.properties</td>
+            </tr>
           </table>
         </subsection>
         <subsection name="Bootstrap Properties">
         <table>
           <tr><th>Property</th><th>Default Value</th><th>Description</th></tr>
+          <tr>
+            <td>${avalon.repository.implementation}</td>
+            <td></td>
+            <td>The default implementation artifact specification. The bootstrap
+            system will atrempt to locate a value for this property when 
+            the repository implementation.  If no user supplied value can be 
+            in the current working directory, ${user.home}, or ${avalon.home}
+            relative to an avalon.properties file, the implementation will 
+            resolve the default implementation from an embeded avalon.properties 
+            resource.</td>
+          </tr>
           <tr>
             <td>${avalon.repository.cache}</td>
             <td>${avalon.home}</td>
