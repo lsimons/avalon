@@ -54,9 +54,9 @@
 
             <!--
               If you wish to enable the HTTP adaptor altogether
-              then comment the following line.
+              then uncomment the following line.
             -->
-          <enable-http-adaptor>false</enable-http-adaptor>
+          <!--<enable-http-adaptor>true</enable-http-adaptor>-->
 
           <!--
             The Http Adaptor will use the $PHOENIX_HOME/conf/xsl directory
