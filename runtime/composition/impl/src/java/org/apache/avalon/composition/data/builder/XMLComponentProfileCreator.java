@@ -279,7 +279,7 @@ public class XMLComponentProfileCreator extends XMLProfileCreator
     /**
      * Utility method to create a single entry directive.
      *
-     * @param config the entry directive configuration
+     * @param conf the entry directive configuration
      * @return the entry directive
      * @throws ConfigurationException if an error occurs
      */
