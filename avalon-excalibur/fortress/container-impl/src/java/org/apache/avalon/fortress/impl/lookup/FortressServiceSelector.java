@@ -33,7 +33,7 @@ import java.util.Map;
  * the references.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.18 $ $Date: 2004/03/13 13:56:51 $
+ * @version CVS $Revision: 1.19 $ $Date: 2004/03/13 17:57:59 $
  */
 public class FortressServiceSelector
     implements ServiceSelector
@@ -101,7 +101,7 @@ public class FortressServiceSelector
         // Is this a releasable component ?
         if ( component instanceof ReleasableComponent )
         {
-            ((ReleasableComponent)component).put();
+            ((ReleasableComponent)component).releaseOnComponentHandler();
             return;
         }
         final ComponentHandler handler =

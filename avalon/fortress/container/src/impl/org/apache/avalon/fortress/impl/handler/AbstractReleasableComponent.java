@@ -23,7 +23,7 @@ import org.apache.avalon.framework.service.ServiceException;
  * Base Implementation for a releasable component.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.1 $ $Date: 2004/03/13 13:56:51 $
+ * @version CVS $Revision: 1.2 $ $Date: 2004/03/13 17:57:59 $
  * @since 1.2
  */
 public class AbstractReleasableComponent implements ReleasableComponent
@@ -50,7 +50,7 @@ public class AbstractReleasableComponent implements ReleasableComponent
     /* (non-Javadoc)
      * @see org.apache.avalon.fortress.impl.handler.HandableComponent#put(java.lang.Object)
      */
-    public void put( ) 
+    public void releaseOnComponentHandler( ) 
     {
         if ( this.initialized ) 
         {
