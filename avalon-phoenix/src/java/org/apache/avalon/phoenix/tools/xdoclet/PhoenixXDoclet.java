@@ -14,7 +14,9 @@ import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 
 import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Method;
+import java.lang.reflect.InvocationTargetException;
 
 /**
  * This task used to invoke XDoclet.  It has bee deprecated for another taskdef called
@@ -26,7 +28,8 @@ import java.lang.reflect.Method;
  *
  * @author <a href="mailto:vinay_chandran@users.sourceforge.net">Vinay Chandrasekharan</a>
  * @author Paul Hammant
- * @version $Revision: 1.11 $ $Date: 2002/10/02 04:33:13 $
+ * @version $Revision: 1.12 $ $Date: 2002/10/02 19:39:07 $
+ * @deprecated
  */
 public class PhoenixXDoclet extends Task
 {
@@ -35,7 +38,10 @@ public class PhoenixXDoclet extends Task
     private ManifestSubTask m_manifestSubTask;
     private Class m_metaGenerateQDoxClass;
     private Object m_metaGenerateQDoxTask;
+    private File m_destDir;
+
     private static boolean WARNING_SENT;
+
 
     /**
      * Construct a PhoenixXDoclet.
@@ -52,7 +58,7 @@ public class PhoenixXDoclet extends Task
         }
         catch (Exception e)
         {
-            throw new BuildException("Some problem Instanting the MetaGenerate TaskDef."
+            throw new BuildException("Some problem Instantiating the MetaGenerate TaskDef."
                 + " You will need phoenix-metagenerate.jar and qdox-1.0.jar in the classpath");
         }
     }
@@ -110,6 +116,18 @@ public class PhoenixXDoclet extends Task
             addFileSet.invoke(m_metaGenerateQDoxTask, new Object[] {set});
 
         }
+        catch (InvocationTargetException ite)
+        {
+            if (ite.getTargetException() instanceof BuildException)
+            {
+                throw (BuildException) ite.getTargetException();
+            }
+            else
+            {
+                throw new BuildException("Exception during delegation:",ite);
+            }
+
+        }
         catch (Exception e)
         {
             e.printStackTrace();
@@ -124,11 +142,23 @@ public class PhoenixXDoclet extends Task
      */
     public void setDestDir(File dir)
     {
+        m_destDir = dir;
         try
         {
             Method setDir = m_metaGenerateQDoxClass.getMethod("setDest", new Class[] {File.class});
             setDir.invoke(m_metaGenerateQDoxTask, new Object[] {dir});
 
+        }
+        catch (InvocationTargetException ite)
+        {
+            if (ite.getTargetException() instanceof BuildException)
+            {
+                throw (BuildException) ite.getTargetException();
+            }
+            else
+            {
+                throw new BuildException("Exception during delegation:",ite);
+            }
         }
         catch (Exception e)
         {
@@ -188,7 +218,20 @@ public class PhoenixXDoclet extends Task
      */
     public void execute() throws BuildException
     {
-        String manifest = m_manifestSubTask.getManifestFile();
+        String manifest = null;
+        if (m_manifestSubTask != null)
+        {
+            manifest = m_manifestSubTask.getManifestFile();
+            ManifestWriter manifestWriter = new ManifestWriter();
+            try
+            {
+                manifestWriter.write(m_destDir, manifest);
+            }
+            catch (IOException e)
+            {
+                throw new BuildException("Unable to write Manifest File: " + e.getMessage());
+            }
+        }
 
         // TODO create fake manifest.
         // an empty one will do.
@@ -199,6 +242,17 @@ public class PhoenixXDoclet extends Task
             Method execute = m_metaGenerateQDoxClass.getMethod("execute", new Class[] {});
             execute.invoke(m_metaGenerateQDoxTask, new Object[] {});
 
+        }
+        catch (InvocationTargetException ite)
+        {
+            if (ite.getTargetException() instanceof BuildException)
+            {
+                throw (BuildException) ite.getTargetException();
+            }
+            else
+            {
+                throw new BuildException("Exception during delegation:",ite);
+            }
         }
         catch (Exception e)
         {
@@ -217,8 +271,20 @@ public class PhoenixXDoclet extends Task
         super.setTaskName(s);
         try
         {
-            Method setTaskName = m_metaGenerateQDoxClass.getMethod("setTaskName", new Class[] {String.class});
+            Method setTaskName = m_metaGenerateQDoxClass.getMethod("setTaskName",
+                    new Class[] {String.class});
             setTaskName.invoke(m_metaGenerateQDoxTask, new Object[] {s});
+        }
+        catch (InvocationTargetException ite)
+        {
+            if (ite.getTargetException() instanceof BuildException)
+            {
+                throw (BuildException) ite.getTargetException();
+            }
+            else
+            {
+                throw new BuildException("Exception during delegation:",ite);
+            }
         }
         catch (Exception e)
         {
@@ -239,6 +305,17 @@ public class PhoenixXDoclet extends Task
             Method init = m_metaGenerateQDoxClass.getMethod("init", new Class[] {});
             init.invoke(m_metaGenerateQDoxTask, new Object[] {});
 
+        }
+        catch (InvocationTargetException ite)
+        {
+            if (ite.getTargetException() instanceof BuildException)
+            {
+                throw (BuildException) ite.getTargetException();
+            }
+            else
+            {
+                throw new BuildException("Exception during delegation:",ite);
+            }
         }
         catch (Exception e)
         {
@@ -262,6 +339,17 @@ public class PhoenixXDoclet extends Task
                     new Class[] {Project.class});
             setProject.invoke(m_metaGenerateQDoxTask, new Object[] {project});
 
+        }
+        catch (InvocationTargetException ite)
+        {
+            if (ite.getTargetException() instanceof BuildException)
+            {
+                throw (BuildException) ite.getTargetException();
+            }
+            else
+            {
+                throw new BuildException("Exception during delegation:",ite);
+            }
         }
         catch (Exception e)
         {
