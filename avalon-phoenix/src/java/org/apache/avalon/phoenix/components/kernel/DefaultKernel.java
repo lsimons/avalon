@@ -240,18 +240,17 @@ public class DefaultKernel
     public void addApplication( final SarMetaData metaData,
                                 final File workDirectory,
                                 final ClassLoader classLoader,
-                                final Logger logger,
-                                final Configuration server )
+                                final Logger logger )
         throws Exception
     {
         final String name = metaData.getName();
         final SarEntry entry =
-            new SarEntry( metaData, workDirectory, classLoader, logger, server );
+            new SarEntry( metaData, workDirectory, classLoader, logger );
         m_entries.put( name, entry );
 
         try
         {
-            startup( (SarEntry)entry );
+            startup( entry );
         }
         catch( final Exception e )
         {

@@ -30,8 +30,7 @@ public class BeanShellKernelProxy
     public void addApplication( final SarMetaData metaData,
                                 final File workDirectory,
                                 final ClassLoader classLoader,
-                                final Logger hierarchy,
-                                final Configuration server )
+                                final Logger logger )
         throws Exception
     {
         throw new UnsupportedOperationException( "This is not supported for non-kernel visitors" );
