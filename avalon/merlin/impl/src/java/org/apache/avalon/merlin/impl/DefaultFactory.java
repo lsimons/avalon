@@ -428,7 +428,8 @@ public class DefaultFactory implements Factory
             criteria.getTempDirectory(),
             repository,
             loggingDescriptor.getName(),
-            criteria.isDebugEnabled() );
+            criteria.isDebugEnabled(),
+            params );
 
         systemContext.put( "urn:merlin:dir", criteria.getWorkingDirectory() );
         systemContext.put( "urn:merlin:anchor", criteria.getAnchorDirectory() );
