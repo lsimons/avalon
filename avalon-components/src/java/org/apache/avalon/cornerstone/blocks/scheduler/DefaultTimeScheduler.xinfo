@@ -1,16 +1,12 @@
 <?xml version="1.0"?> 
  
 <blockinfo> 
- 
-  <meta> 
- 
-    <contributors> 
-      <author name="Peter Donald" email="donaldp@apache.org"/> 
-      <patcher name="Ram Chidambaram" email="ram.chidambaram@telus.com"/> 
-    </contributors> 
- 
-  </meta> 
- 
+
+  <!-- section to describe block -->
+  <block>
+    <version>1.0</version>
+  </block>
+
   <!-- services that are offered by this block --> 
   <services> 
     <service name="org.apache.avalon.cornerstone.services.scheduler.TimeScheduler" version="1.0" /> 

@@ -2,13 +2,10 @@
 
 <blockinfo>
 
-  <meta>
-
-    <contributors>
-      <author name="Peter Donald" email="donaldp@apache.org"/>
-    </contributors>
-
-  </meta>
+  <!-- section to describe block -->
+  <block>
+    <version>1.0</version>
+  </block>
 
   <!-- services that are offered by this block -->
   <services>

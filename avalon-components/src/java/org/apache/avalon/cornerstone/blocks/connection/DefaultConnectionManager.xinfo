@@ -2,14 +2,10 @@
 
 <blockinfo>
 
-  <meta>
-
-    <contributors>
-      <author name="Peter Donald" email="donaldp@apache.org"/>
-      <author name="Federico Barbier" email="fede@apache.org"/>
-    </contributors>
-
-  </meta>
+  <!-- section to describe block -->
+  <block>
+    <version>1.0</version>
+  </block>
 
   <!-- services that are offered by this block -->
   <services>
@@ -19,7 +15,6 @@
   <!-- services that are required by this block -->
   <dependencies>
     <dependency>
-      <role>org.apache.avalon.cornerstone.services.threads.ThreadManager</role>
       <service name="org.apache.avalon.cornerstone.services.threads.ThreadManager" version="1.0"/>
     </dependency>
  </dependencies>

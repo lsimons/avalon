@@ -2,11 +2,10 @@
 
 <blockinfo>
 
-  <meta>
-    <contributors>
-      <author name="Federico Barbier" email="fede@apache.org"/>
-    </contributors>
-  </meta>
+  <!-- section to describe block -->
+  <block>
+    <version>1.0</version>
+  </block>
 
   <!-- services that are offered by this block -->
   <services>
