@@ -52,6 +52,7 @@ Legal:
     <property name="dist.base" value="distributions"/>
     <property name="bin.dist.dir" value="dist"/>
     <property name="src.dist.dir" value="${dist.name}"/>
+    <property name="checkstyle.failOnError" value="false"/>
 
     <property name="constants.file" value="org/apache/avalon/phoenix/Constants.java"/>
     <property name="xerces.dir" value="${lib.dir}"/>
@@ -247,7 +248,7 @@ Legal:
             javadocScope="nothing"
             ignoreWhitespace="true"
             cacheFile="checkstyle.cache"
-            failOnViolation="false"
+            failOnViolation="${checkstyle.failOnError}"
             ignoreCastWhitespace="true">
             <fileset dir="${java.dir}">
                 <include name="**/*.java"/>
