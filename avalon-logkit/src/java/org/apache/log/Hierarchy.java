@@ -196,9 +196,7 @@ public class Hierarchy
 
     /**
      * Set the LoggerListener associated with hierarchy.  This is a
-     * unicast listener, so only one LoggerListener is allowed. Note that
-     * multiple listeners are not supported so an alternative is to use
-     * setLoggerListener(null)
+     * unicast listener, so only one LoggerListener is allowed.
      *
      * @param loggerListener the LoggerListener
      *
@@ -207,10 +205,7 @@ public class Hierarchy
      */
     public synchronized void addLoggerListener( final LoggerListener loggerListener )
     {
-        if ( null == loggerListener )
-        {
-            throw new NullPointerException( "loggerListener" );
-        }
+        if ( null == loggerListener ) throw new NullPointerException( "loggerListener" );
 
         if ( null == m_loggerListener )
         {
@@ -224,33 +219,18 @@ public class Hierarchy
 
     /**
      * Remove the LoggerListener associated with hierarchy.  Perform this
-     * step before adding a new one if you want to change it. Note that
-     * multiple listeners are not supported so an alternative is to use
-     * setLoggerListener(null)
+     * step before adding a new one if you want to change it.
      *
      * @param loggerListener the LoggerListener
      */
     public synchronized void removeLoggerListener( final LoggerListener loggerListener )
     {
-        if ( null == loggerListener )
-        {
-            throw new NullPointerException( "loggerListener" );
-        }
+        if ( null == loggerListener ) throw new NullPointerException( "loggerListener" );
 
         if ( null != m_loggerListener && m_loggerListener == loggerListener );
         {
             m_loggerListener = null;
         }
-    }
-
-    /**
-     * Set the LoggerListener associated with hierarchy.
-     *
-     * @param loggerListener the LoggerListener
-     */
-    public synchronized void setLoggerListener( final LoggerListener loggerListener )
-    {
-        m_loggerListener = loggerListener;
     }
 
     /**
