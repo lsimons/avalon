@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Iterator;
 
 import org.apache.excalibur.instrument.AbstractInstrument;
 import org.apache.excalibur.instrument.CounterInstrument;
@@ -35,13 +36,15 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.configuration.DefaultConfiguration;
 import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
 import org.apache.avalon.framework.configuration.DefaultConfigurationSerializer;
+import org.apache.avalon.framework.container.ContainerUtil;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
+import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.service.ServiceException;
 
 /**
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.5 $ $Date: 2002/08/05 11:51:59 $
+ * @version CVS $Revision: 1.6 $ $Date: 2002/08/06 12:58:26 $
  * @since 4.1
  */
 public class DefaultInstrumentManager
@@ -163,6 +166,9 @@ public class DefaultInstrumentManager
             m_name = configuration.getChild( "name" ).getValue( "instrument-manager" );
             m_description = configuration.getChild( "description" ).getValue( m_name );
             
+            // Create a logger to use with the connectors
+            Logger connLogger = getLogger().getChildLogger( "connector" );
+            
             // Configure the connectors
             Configuration connectorsConf = configuration.getChild( "connectors" );
             Configuration[] connectorConfs =
@@ -187,8 +193,9 @@ public class DefaultInstrumentManager
                     
                     // Initialize the new connector
                     connector.setInstrumentManager( this );
-                    connector.configure( connectorConf );
-                    connector.start();
+                    ContainerUtil.enableLogging( connector, connLogger );
+                    ContainerUtil.configure( connector, connectorConf );
+                    ContainerUtil.start( connector );
                     
                     m_connectors.add( connector );
                 }
@@ -277,6 +284,21 @@ public class DefaultInstrumentManager
         if( m_runner != null )
         {
             m_runner = null;
+        }
+        
+        // Shutdown the connectors
+        for ( Iterator iter = m_connectors.iterator(); iter.hasNext(); )
+        {
+            InstrumentManagerConnector connector = (InstrumentManagerConnector)iter.next();
+            try
+            {
+                ContainerUtil.stop( connector );
+                ContainerUtil.dispose( connector );
+            }
+            catch ( Exception e )
+            {
+                getLogger().error( "Encountered an unexpected error shutting down a connector", e );
+            }
         }
 
         saveState();

@@ -7,8 +7,11 @@
  */
 package org.apache.excalibur.instrument.manager.altrmi;
 
+import org.apache.avalon.framework.activity.Startable;
+import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
+import org.apache.avalon.framework.logger.AbstractLogEnabled;
 
 import org.apache.excalibur.instrument.manager.DefaultInstrumentManager;
 import org.apache.excalibur.instrument.manager.InstrumentManagerClientLocalImpl;
@@ -27,11 +30,12 @@ import org.apache.excalibur.altrmi.server.impl.socket.CompleteSocketCustomStream
 /**
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/08/04 10:33:33 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/08/06 12:58:26 $
  * @since 4.1
  */
 public class InstrumentManagerAltrmiConnector
-    implements InstrumentManagerConnector
+    extends AbstractLogEnabled
+    implements InstrumentManagerConnector, Configurable, Startable
 {
     /** The default port. */
     public static final int DEFAULT_PORT = 15555;
@@ -78,6 +82,7 @@ public class InstrumentManagerAltrmiConnector
     public void start()
         throws Exception
     {
+        getLogger().debug( "Starting Instrument Manager Altrmi Connector" );
         InstrumentManagerClientLocalImpl client = new InstrumentManagerClientLocalImpl( m_manager );
         
         // Create the socket server
@@ -93,14 +98,14 @@ public class InstrumentManagerAltrmiConnector
         m_server.publish( client, "InstrumentManagerClient", 
             new PublicationDescription( InstrumentManagerClient.class, additionalFacadeClasses ) );
         
-        System.out.println( "Starting CompleteSocketObjectStreamServer..." );
         m_server.start();
-        System.out.println( "Started on port: " + m_port );
+        getLogger().info( "Instrument Manager Altrmi Connector listening on port: " + m_port );
     }
     
     public void stop()
         throws Exception
     {
+        getLogger().debug( "Stopping Instrument Manager Altrmi Connector" );
         m_server.stop();
         m_server = null;
     }
