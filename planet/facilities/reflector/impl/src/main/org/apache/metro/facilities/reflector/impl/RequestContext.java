@@ -1,21 +1,18 @@
-/*
- * 1.0    1999/07/30 Niclas Hedhman     First Public Release
- *
- * Copyright (c) 1996-1999 Bali Automation. All Rights Reserved.
- *
- * Permission to use, copy, modify, and distribute this software
- * and its documentation for NON-COMMERCIAL purposes and without
- * fee is hereby granted provided that this copyright notice
- * appears in all copies. Please refer to the file "copyright.html"
- * for further important copyright and licensing information.
- *
- * BALI AUTOMATION MAKES NO REPRESENTATIONS OR WARRANTIES ABOUT THE 
- * SUITABILITY OF THE SOFTWARE, EITHER EXPRESS OR IMPLIED, INCLUDING 
- * BUT NOT LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY, 
- * FITNESS FOR A PARTICULAR PURPOSE, OR NON-INFRINGEMENT. BALI AUTOMATION
- * SHALL NOT BE LIABLE FOR ANY DAMAGES SUFFERED BY LICENSEE AS A 
- * RESULT OF USING, MODIFYING OR DISTRIBUTING THIS SOFTWARE OR ITS 
- * DERIVATIVES.
+/* 
+ * Copyright 2004 Apache Software Foundation
+ * Licensed  under the  Apache License,  Version 2.0  (the "License");
+ * you may not use  this file  except in  compliance with the License.
+ * You may obtain a copy of the License at 
+ * 
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed  under the  License is distributed on an "AS IS" BASIS,
+ * WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+ * implied.
+ * 
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 package org.apache.metro.facilities.reflector.impl;
