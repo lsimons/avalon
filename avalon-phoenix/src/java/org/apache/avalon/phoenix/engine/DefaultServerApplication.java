@@ -174,12 +174,18 @@ public final class DefaultServerApplication
     }
 
     public void dispose()
-        throws Exception
     {
         getLogger().info( "Number of blocks to unload: " + m_entries.size() );
 
-        final PhaseEntry entry = (PhaseEntry)m_phases.get( "shutdown" );
-        runPhase( entry );
+        try
+        {
+            final PhaseEntry entry = (PhaseEntry)m_phases.get( "shutdown" );
+            runPhase( entry );
+        }
+        catch( final Exception e ) 
+        {
+            getLogger().error( "Error shutting down application", e );
+        }
 
         m_entries.clear();
     }
