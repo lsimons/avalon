@@ -1,8 +1,6 @@
 <?xml version="1.0"?>
 
 <project name="Excalibur Instrument" default="main" basedir=".">
-
-
     <!--
       Give user a chance to override without editing this file
       (and without typing -D each time he compiles it)
@@ -20,12 +18,21 @@
         <pathelement location="${junit.jar}"/>
         <pathelement location="${checkstyle.jar}"/>
     </path>
+    <property name="cp" refid="project.class.path"/>
 
     <target name="main" depends="jar" description="Build the project"/>
     <target name="rebuild" depends="clean,main" description="Rebuild the project"/>
 
+    <target name="dependencies" description="Check dependencies">
+        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredClass">
+            <property name="name" value="junit.jar"/>
+            <property name="class" value="junit.framework.Test"/>
+            <property name="classpath" value="${cp}"/>
+        </ant>
+    </target>
+
     <!-- Compiles the source code -->
-    <target name="compile" description="Compiles the source code">
+    <target name="compile" depends="dependencies" description="Compiles the source code">
 
         <mkdir dir="${build.classes}"/>
 
