@@ -55,11 +55,10 @@ Legal:
     <property name="checkstyle.failOnError" value="false"/>
 
     <property name="constants.file" value="org/apache/avalon/phoenix/Constants.java"/>
-    <property name="xerces.dir" value="${lib.dir}"/>
-    <property name="xerces.file" value="xerces.jar"/>
-    <property name="xerces.jar" value="${xerces.dir}/${xerces.file}"/>
-    <property name="xalan.jar" value="${tools.dir}/lib/xalan-2.2.0-D8.jar"/>
-    <property name="framework.jar" value="${lib.dir}/avalon-framework-20021805.jar"/>
+    <property name="xml-api.jar" value="${lib.dir}/xml-apis.jar"/>
+    <property name="xerces.jar" value="${lib.dir}/xerces-2.0.1.jar"/>
+    <property name="xalan.jar" value="${lib.dir}/xalan-2.3.1.jar"/>
+    <property name="framework.jar" value="${lib.dir}/avalon-framework-20022706.jar"/>
     <property name="logkit.jar" value="${lib.dir}/logkit-1.1a.jar"/>
     <property name="jmxri.jar" value="${lib.dir}/jmxri.jar"/>
     <property name="jmxtools.jar" value="${lib.dir}/jmxtools.jar"/>
@@ -193,7 +192,7 @@ Legal:
             <exclude name="org/apache/avalon/phoenix/launcher/DaemonLauncher.java"
                 unless="wrapper.present"/>
             <exclude name="org/apache/avalon/phoenix/components/kernel/beanshell/*.java"
-                unless="beanshell.present"/>                
+                unless="beanshell.present"/>
         </javac>
 
         <copy todir="${build.classes}">
@@ -250,12 +249,12 @@ Legal:
             <include name="org/apache/avalon/phoenix/interfaces/**"/>
             <exclude name="org/apache/avalon/phoenix/launcher/**"/>
         </jar>
-        
+
         <jar jarfile="${build.lib}/phoenix-bsh-commands.jar">
             <zipfileset dir="src/bsh" prefix="bsh/commands/">
                 <include name="**"/>
             </zipfileset>
-        </jar>        
+        </jar>
 
     </target>
 
@@ -320,7 +319,7 @@ Legal:
     </target>
 
     <!-- Copy BeanShell jars -->
-    <target name="dist-beanshell" description="Copies Beanshell jars" if="beanshell.jars">    
+    <target name="dist-beanshell" description="Copies Beanshell jars" if="beanshell.jars">
         <copy file="${build.lib}/phoenix-bsh-commands.jar" todir="${bin.dist.lib}"/>
         <copy todir="${bin.dist.lib}/">
             <fileset dir="${lib.dir}">
@@ -328,7 +327,7 @@ Legal:
             </fileset>
         </copy>
     </target>
-    
+
     <!-- Create the lite build -->
     <target name="dist-lite" depends="dist-lite-jmx"
         description="generates the Phoenix distribution without the javadocs">
@@ -341,7 +340,7 @@ Legal:
 
         <mkdir dir="${bin.dist.bin}"/>
         <mkdir dir="${bin.dist.apps}"/>
-        <mkdir dir="${bin.dist.ext}"/>     
+        <mkdir dir="${bin.dist.ext}"/>
         <mkdir dir="${bin.dist.lib}"/>
         <mkdir dir="${bin.dist.conf}"/>
 
@@ -354,7 +353,7 @@ Legal:
         </copy>
         <copy file="${build.lib}/phoenix-loader.jar" todir="${bin.dist.bin}/"/>
         <copy file="${build.lib}/phoenix-engine.jar" todir="${bin.dist.bin}"/>
-        
+
         <copy file="${logkit.jar}" todir="${bin.dist.lib}"/>
         <copy file="${framework.jar}" todir="${bin.dist.lib}"/>
         <copy todir="${bin.dist.lib}">
@@ -362,17 +361,19 @@ Legal:
             <include name="excalibur*.jar"/>
           </fileset>
         </copy>
-        
+
         <copy file="${xerces.jar}" todir="${bin.dist.lib}"/>
-        <filter token="KERNEL-CLASS" value="${kernel.impl.class}"/>        
+        <copy file="${xml-api.jar}" todir="${bin.dist.lib}"/>
+        <copy file="${xalan.jar}" todir="${bin.dist.lib}"/>
+        <filter token="KERNEL-CLASS" value="${kernel.impl.class}"/>
         <copy todir="${bin.dist.conf}" filtering="on">
             <fileset dir="${conf.dir}">
                 <include name="kernel.xml"/>
             </fileset>
         </copy>
-        
+
         <antcall target="dist-beanshell"/>
-        
+
         <!--
         This was not copying for relatively local ..\jakarta-avalon\tools\lib\xerces.jar - PH
         <copy todir="${bin.dist.lib}">
@@ -473,6 +474,8 @@ Legal:
         <mkdir dir="${src.dist.javadocs}"/>
 
         <copy file="${xerces.jar}" todir="${src.dist.lib}/"/>
+        <copy file="${xml-api.jar}" todir="${src.dist.lib}/"/>
+        <copy file="${xalan.jar}" todir="${src.dist.lib}/"/>
         <copy file="${framework.jar}" todir="${src.dist.lib}"/>
         <copy todir="${src.dist.lib}">
           <fileset dir="${lib.dir}">
@@ -521,7 +524,7 @@ Legal:
     <target name="dist" description="generates the Phoenix distribution">
 
         <ant target="docs" antfile="docs.xml" inheritall="false" />
-        <ant target="javadocs" antfile="docs.xml" inheritall="false" />        
+        <ant target="javadocs" antfile="docs.xml" inheritall="false" />
         <ant target="announcement" antfile="docs.xml" inheritall="false" />
 
         <mkdir dir="${dist.base}"/>
@@ -583,7 +586,9 @@ Legal:
             <fileset dir=".">
                 <include name="lib/**"/>
                 <exclude name="lib/xdoclet/*.*"/>
-                <exclude name="lib/xerces.jar"/>
+                <exclude name="${xerces.jar}"/>
+                <exclude name="${xml-api.jar}"/>
+                <exclude name="${xalan.jar}"/>
             </fileset>
             <fileset dir="build">
                 <include name="lib/phoenix-client.jar"/>
