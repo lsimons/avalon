@@ -38,6 +38,7 @@ import org.apache.avalon.composition.data.ContainmentProfile;
 import org.apache.avalon.composition.data.ClassLoaderDirective;
 import org.apache.avalon.composition.data.FilesetDirective;
 import org.apache.avalon.composition.data.IncludeDirective;
+import org.apache.avalon.composition.data.ExcludeDirective;
 import org.apache.avalon.composition.data.PermissionDirective;
 import org.apache.avalon.composition.data.RepositoryDirective;
 import org.apache.avalon.composition.data.ResourceDirective;
@@ -91,7 +92,7 @@ import org.apache.avalon.util.i18n.Resources;
  * and the extensions package.
  * </p>
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.15 $ $Date: 2004/04/07 16:49:22 $
+ * @version $Revision: 1.16 $ $Date: 2004/04/17 19:05:14 $
  */
 public class DefaultClassLoaderModel extends AbstractLogEnabled 
     implements ClassLoaderModel
@@ -647,27 +648,24 @@ public class DefaultClassLoaderModel extends AbstractLogEnabled
     * @return the classpath
     */
     public File[] expandFileSetDirectives( 
-      File base, FilesetDirective[] filesets ) throws IOException
+      File base, FilesetDirective[] filesets ) throws IOException, IllegalStateException
     {
+        getLocalLogger().debug("base=[" + base + "]");
         ArrayList list = new ArrayList();
 
         for( int i=0; i<filesets.length; i++ )
         {
             FilesetDirective fileset = filesets[i];
             File anchor = getDirectory( base, fileset.getBaseDirectory() );
+            getLocalLogger().debug("anchor=[" + anchor + "]");
+
             IncludeDirective[] includes = fileset.getIncludes();
-            if( includes.length > 0 )
-            {
-                for( int j=0; j<includes.length; j++ )
-                {
-                    File file = new File( anchor, includes[j].getPath() );
-                    list.add( file );
-                }
-            }
-            else
-            {
-                list.add( anchor );
-            }
+            ExcludeDirective[] excludes = fileset.getExcludes();
+
+            DefaultFilesetModel fsm = new DefaultFilesetModel(
+                anchor, includes, excludes, null, null, getLocalLogger());
+            fsm.resolveFileset();
+            list.addAll(fsm.getIncludes());
         }
 
         return (File[]) list.toArray( new File[0] );
