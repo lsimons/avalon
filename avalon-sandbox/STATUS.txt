@@ -1,0 +1,104 @@
+APACHE AVALON PROJECT STATUS
+----------------------------
+This document was last modified at [$Date: 2002/11/23 17:04:23 $].
+
+
+Background
+----------
+    Apache Avalon is a project started at java.apache.org. It later became an
+    Apache Jakarta subproject. It has recently been declared a new top-level
+    project with its own PMC.
+
+    See the bottom of this file for the official resolution/
+    charter-as-it-stands. See the project website for other information.
+
+
+Project PMC members
+-------------------
+    Berin Loritsch
+    Marcus Crafter
+    Carsten Ziegeler
+    Jeff Turner
+    Leo Sutic
+    Leo Simons
+    Stephen McConnell
+    Nicola Ken Barozzi
+    Paul Hammant
+    Peter Royal
+
+    Note: Nicola Ken Barozzi is the Chair.
+
+
+Project committers
+------------------
+    jon,donaldp,charlesb,hammant,bloritsch,ramc,leosimons,neeme,jefft,
+    giacomo,colus,rana_b,mirceatoma,cziegeler,froehlich,lmccay,leif,
+    mcconnell,leosutic,jrudd,morpheus,crafterm,vinayc,proyal,nicolaken,huw,
+    ymikulski,mschier
+
+
+Project mailing lists
+---------------------
+    - avalon-dev@jakarta.apache.org (send a message to
+      avalon-dev-subscribe@jakarta.apache.org to subscribe)
+    - avalon-phoenix-dev@jakarta.apache.org (send a message to
+      avalon-phoenix-dev-subscribe@jakarta.apache.org to subscribe)
+    - avalon-apps-dev@jakarta.apache.org (send a message to
+      avalon-apps-dev-subscribe@jakarta.apache.org to subscribe)
+    - avalon-users@jakarta.apache.org (send a message to
+      avalon-users-subscribe@jakarta.apache.org to subscribe)
+
+
+Project website
+---------------
+    http://jakarta.apache.org/avalon
+
+
+Project cvs modules
+-------------------
+    - avalon-sandbox
+    - jakarta-avalon
+    - jakarta-avalon-apps
+    - jakarta-avalon-cornerstone
+    - jakarta-avalon-excalibur
+    - jakarta-avalon-logkit
+    - jakarta-avalon-phoenix
+    - jakarta-avalon-site
+
+Project releases
+----------------
+    - releases available from http://jakarta.apache.org/builds/jakarta-avalon/
+    - nightlies available from
+      http://cvs.apache.org/builds/jakarta-avalon/nightly/
+
+
+Resolved Matters
+----------------
+    - previously released software needs to be supported, including but not
+      limited to the avalon framework, avalon excalibur and avalon phoenix
+    - existing avalon users must be supported, including but not limited
+      to the XML Cocoon and Jakarta JAMES communities
+    - we want to strive for as much consensus on future developments as
+      possible taking into account the above points
+
+
+Pending Matters
+---------------
+    - coming up with a set of bylaws and charter for the project
+    - deciding on moving or not moving to avalon.apache.org
+    - discussing and writing medium-to-long term roadmap regarding containers
+      and possible avalon framework extension based on consensus development
+    - discussing and writing short-to-medium term roadmap regarding unused and/
+      or unmaintained and/or alpha-stage software packages in current CVSes
+    - discussin and writing short-to-medium term roadmap regarding possible
+      relocation of software packages that could have a better home at another
+      avalon project
+    - wrap up discussion on licensing headers in sourcefiles
+
+
+Board Resolution
+----------------
+The complete text of the resolution that was passed which created this
+project is:
+
+       <not yet available/>
