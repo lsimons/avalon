@@ -33,10 +33,12 @@ import org.apache.avalon.phoenix.components.cpbuilder.metadata.JoinDef;
  *   <li>No ClassLoader (either predefined, join or regular)
  *       can have the same name.</li>
  *   <li>The default ClassLoader must exist.</li>
+ *   <li>There must be no circular dependencies between join
+ *       classloaders.</li>
  * </ul>
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2002/09/01 03:27:43 $
+ * @version $Revision: 1.4 $ $Date: 2002/09/01 03:38:38 $
  */
 public class ClassLoaderVerifier
     extends AbstractLogEnabled
@@ -84,6 +86,8 @@ public class ClassLoaderVerifier
         message = REZ.getString( "unique-classpath-entrys.notice" );
         getLogger().info( message );
         verifyUniqueClassLoaderEntrys( set );
+
+        //TODO: Verify that the joins form a directed graph with no loops
     }
 
     /**
