@@ -63,7 +63,7 @@ package org.apache.avalon.excalibur.concurrent;
  * @deprecated use EDU.oswego.cs.dl.util.concurrent.ReadWriteLock instead
  *
  * @author <a href="mailto:leo.sutic@inspireinfrastructure.com">Leo Sutic</a>
- * @version CVS $Revision: 1.5 $ $Date: 2003/03/31 11:42:03 $
+ * @version CVS $Revision: 1.6 $ $Date: 2003/04/01 07:33:59 $
  * @since 4.0
  */
 public class ReadWriteLock
@@ -104,8 +104,6 @@ public class ReadWriteLock
         {
             while( !( m_numReadLocksHeld != -1 && m_numWaitingForWrite == 0 ) )
             {
-                System.out.println( "m_numReadLocksHeld = " + m_numReadLocksHeld );
-                System.out.println( "m_numWaitingForWrite = " + m_numWaitingForWrite );
                 m_lock.wait();
             }
             m_numReadLocksHeld++;
