@@ -7,6 +7,8 @@
  */
 package org.apache.avalon.framework;
 
+import java.io.Serializable;
+
 /**
  * This class is used to hold version information pertaining to a Component or interface.
  * <p />
@@ -43,6 +45,7 @@ package org.apache.avalon.framework;
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 public final class Version
+    implements Serializable
 {
     private int m_major;
     private int m_minor;
