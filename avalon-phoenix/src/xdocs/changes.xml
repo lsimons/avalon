@@ -16,7 +16,7 @@
     <author name="Eung-ju Park" email="colus@apache.org" id="EP"/>
     <author name="David W." email="daveweit@optonline.net" id="DW"/>
   </devs>
-<release version="4.0b" date="Unreleased">
+<release version="4.0b" date="September 15, 2002">
     <action dev="DW" type="change">
         Started creating a Administrators guide.
     </action>
