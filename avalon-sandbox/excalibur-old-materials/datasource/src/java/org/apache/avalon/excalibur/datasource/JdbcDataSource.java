@@ -43,7 +43,7 @@ import org.apache.avalon.excalibur.pool.DefaultPoolController;
  *
  * <li>The <code>max</code> attribute is used to set the maximum number of connections which
  *  will be opened.  If more concurrent connections are requested, a
- *  NoAvailableConnectionException will be thrown.  (Defaults to "3")</li
+ *  NoAvailableConnectionException will be thrown.  (Defaults to "3")</li>
  *
  * <li>The <code>connection-class</code> attribute is used to override the Connection class returned
  *  by the DataSource from calls to getConnection().  Set this to 
@@ -67,7 +67,7 @@ import org.apache.avalon.excalibur.pool.DefaultPoolController;
  * </ul>
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.15 $ $Date: 2002/02/07 07:51:07 $
+ * @version CVS $Revision: 1.16 $ $Date: 2002/02/07 08:10:56 $
  * @since 4.0
  */
 public class JdbcDataSource
