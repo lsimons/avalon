@@ -310,6 +310,11 @@ public class GumpTask extends SystemTask
             }
         }
 
+        if( m_public )
+        {
+             writer.write( "\n\n  <redistributable/>" );
+        }
+
         writer.write( "\n\n</module>\n" );
         return definitions.length;
     }
@@ -358,8 +363,8 @@ public class GumpTask extends SystemTask
         throws IOException, UnknownResourceException
     {
         String path = definition.getBaseDir().getCanonicalPath();
-        int j = getProject().getBaseDir().toString().length();
-        String basedir = path.substring( j+1 ).replace( '\\', '/' );
+
+        String basedir = resolveBaseDir( project, path );
 
         writer.write( 
           "\n\n  <project name=\"" + definition.getKey() + "\">" );
@@ -491,6 +496,19 @@ public class GumpTask extends SystemTask
         writer.write( "\n       from=\"Magic Integration &lt;dev@avalon.apache.org&gt;\"/>" );
 
         writer.write( "\n  </project>" );
+    }
+
+    private String resolveBaseDir( Project project, String path )
+    {
+        int j = getProject().getBaseDir().toString().length();
+        if( path.length() > j )
+        {
+            return path.substring( j+1 ).replace( '\\', '/' );
+        }
+        else
+        {
+            return ".";
+        }
     }
 
     private String getKeyForResource( Resource resource )

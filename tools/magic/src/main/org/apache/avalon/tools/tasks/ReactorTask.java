@@ -93,7 +93,7 @@ public class ReactorTask extends Sequential
     public void execute() throws BuildException 
     {
         final Project project = getProject();
-        m_defs = getDefinitions();
+        m_defs = getDefinitionList();
         final Definition[] defs = walkGraph();
 
         log( "Candidates: " + defs.length );
@@ -236,7 +236,7 @@ public class ReactorTask extends Sequential
         return (Definition[]) list.toArray( new Definition[0] );
     }
 
-    private List getDefinitions()
+    private List getDefinitionList()
     {
         final Project project = getProject();
         final File basedir = project.getBaseDir(); 
