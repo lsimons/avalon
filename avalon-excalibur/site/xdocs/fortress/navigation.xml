@@ -33,6 +33,9 @@
         <item name="Design Notes" href="fortress/design-notes.html"/>
       </item>
       <item name="I18N" href="i18n.html"/>
+      <item name="Logger" href="logger.html"/>
+      <item name="Lifecycle" href="lifecycle/index.html"/>
+      <item name="Thread" href="thread.html"/>
     </menu>
 
     <menu name="Resources">

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+
+ <title>Avalon Sandbox</title>
+
+ <body>
+
+    <links>
+      <item name="Apache" href="http://apache.org/"/>
+      <item name="Avalon" href="http://avalon.apache.org/"/>
+      <item name="Framework" href="http://avalon.apache.org/product/framework/"/>
+      <item name="Merlin" href="http://avalon.apache.org/product/containers/"/>
+      <item name="Planet" href="http://avalon.apache.org/product/components/"/>
+    </links>
+
+    <menu name="About Excalibur">
+      <item name="Overview" href="/index.html"/>
+      <item name="Configuration" href="configuration.html"/>
+      <item name="I18N" href="i18n/index.html"/>
+      <item name="Sourceresolver" href="sourceresolve-index.html"/>
+      <item name="Store" href="store-index.html"/>
+      <item name="ECM" href="component.html"/>
+      <item name="Event" href="event/index.html"/>
+      <item name="Fortress" href="fortress/index.html"/>
+      <item name="I18N" href="i18n.html"/>
+      <item name="Logger" href="logger.html"/>
+      <item name="Lifecycle" href="lifecycle/index.html">
+        <item name="Overview" href="lifecycle/index.html"/>
+        <item name="Extensions" href="lifecycle/extension.html"/>
+        <item name="Interfaces" href="lifecycle/interfaces.html"/>
+        <item name="Tutorial" href="lifecycle/fortress.html"/>
+      </item>
+      <item name="Thread" href="thread.html"/>
+    </menu>
+
+    <menu name="Resources">
+      <item name="Javadocs" href="http://avalon.apache.org/excalibur/api/"/>
+      <item name="Download" href="http://avalon.apache.org/download.cgi"/>
+      <item name="Where's my documentation???" href="/no-docs-available.html"/>
+    </menu>
+
+ </body>
+
+</project>
