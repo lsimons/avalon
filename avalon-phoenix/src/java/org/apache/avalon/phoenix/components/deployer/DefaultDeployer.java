@@ -139,7 +139,6 @@ public class DefaultDeployer
     {
         setupLogger( m_builder );
         setupLogger( m_verifier );
-
     }
 
     /**
