@@ -68,7 +68,7 @@ import java.util.*;
  * Represents a component, and output the meta information.
  *
  * @author <a href="mailto:dev@avalon.apache.org">The Avalon Team</a>
- * @version CVS $Revision: 1.10 $ $Date: 2003/05/29 19:56:23 $
+ * @version CVS $Revision: 1.11 $ $Date: 2003/05/29 20:23:00 $
  */
 final class Component
 {
@@ -373,28 +373,39 @@ final class Component
         {
             if ( className.indexOf( '.' ) < 0 )
             {
-                String[] imports = sourceCode.getImports();
+                className = checkPackage(sourceCode, sourceCode.getPackage(), serviceName);
 
-                for ( int t = 0; t < imports.length; t++ )
+                if ( className.equals(serviceName) )
                 {
-                    final String type = imports[t];
-                    final String tail = type.substring( type.lastIndexOf( '.' ) + 1 );
+                    String[] imports = sourceCode.getImports();
+                    for ( int t = 0; t < imports.length; t++ )
+                    {
+                        final String type = imports[t];
+                        final String tail = type.substring( type.lastIndexOf( '.' ) + 1 );
 
-                    if ( tail.equals( className ) )
-                    {
-                        className = type;
-                    }
-                    else if ( tail.equals( "*" ) )
-                    {
-                        final String pack = type.substring( 0, type.lastIndexOf( '.' ) );
-                        final JavaClass klass = sourceCode.getClassLibrary().getClassByName( pack + "." + serviceName );
-                        if ( null !=  klass )
-                            className = klass.getFullyQualifiedName();
+                        if ( tail.equals( className ) )
+                        {
+                            className = type;
+                        }
+                        else if ( tail.equals( "*" ) )
+                        {
+                            final String pack = type.substring( 0, type.lastIndexOf( '.' ) );
+                            className = checkPackage( sourceCode, pack, serviceName );
+                        }
                     }
                 }
             }
         }
 
+        return className;
+    }
+
+    private String checkPackage( final JavaSource sourceCode, final String pack, final String serviceName )
+    {
+        String className = serviceName;
+        final JavaClass klass = sourceCode.getClassLibrary().getClassByName( pack + "." + serviceName );
+        if ( null !=  klass )
+            className = klass.getFullyQualifiedName();
         return className;
     }
 }
