@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+
+<fortress>
+
+   <simple id="simple">
+     <name>Hello World!</name>
+   </simple>
+
+</fortress>
