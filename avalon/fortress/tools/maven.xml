@@ -29,6 +29,16 @@
         </j:if>
     </goal>
 
+    <preGoal name="avalon:copy-sources">
+        <ant:copy todir="${build.src.dir}">
+          <ant:fileset dir="${basedir}/../container/src/java">
+            <ant:include name="**/role/ServiceMetaManager*"/>
+            <ant:include name="**/dag/*"/>
+            <ant:include name="**/util/Service*"/>
+          </ant:fileset>
+        </ant:copy>
+    </preGoal>
+
     <!-- include the avalon-wide custom goal decorators from maven-common.xml -->
     <j:import file="${avalon.buildsystem}/maven-common.xml" inherit="true"/>
 
