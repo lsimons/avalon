@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+
+<document>
+  <header>
+    <title>Avalon for Beginners - Overview</title>
+    <authors>
+      <person name="Leo Simons" email="leosimons@apache.org"/>
+    </authors>
+  </header>
+  <body>
+    <s1 title="Introduction">
+		<p>TBD</p>
+    </s1>
+
+	<s1 title="Table of Contents">
+		<p>TBD</p>
+	</s1>
+  </body>
+  <footer>
+    <legal>
+      Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
+      $Revision: 1.1 $ $Date: 2002/06/27 16:57:18 $
+    </legal>
+  </footer>
+</document>

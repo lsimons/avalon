@@ -9,8 +9,8 @@ made me draw a parallel with the complexity of unix. An approach that
 has worked there: "Want to learn how to program unix? Start with it's
 tiny brother - minix."
 
-I think it'd be a good idea if we provide a minimalist container
-explicitly designed around educational value.
+Tweety is a minimalist container explicitly designed for educational
+purposes.
 
 Goals
 -----
@@ -42,4 +42,3 @@ If you downloaded a binary release, or a release with both binary
 and source then it is recomended you look over the documentation
 in docs/index.html - and then look into the examples/ directory
 for examples of the component in action.
-
