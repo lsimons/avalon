@@ -33,7 +33,13 @@ Generates Meta information for Fortress components.
             <groupId>excalibur-fortress</groupId>
         </dependency>
         <dependency>
-            <id>avalon-framework</id>
+            <groupId>avalon-framework</groupId>
+            <artifactId>avalon-framework-api</artifactId>
+            <version>4.1.5</version>
+        </dependency>
+        <dependency>
+            <groupId>avalon-framework</groupId>
+            <artifactId>avalon-framework-impl</artifactId>
             <version>4.1.5</version>
         </dependency>
         <dependency>

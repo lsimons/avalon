@@ -39,6 +39,7 @@
             </classpath>
         </taskdef>
 
+        <mkdir dir="${maven.build.dir}/test-classes"/>
         <fortress-collect-meta destdir="${maven.build.dir}/test-classes">
             <fileset dir="${maven.src.dir}/test"/>
         </fortress-collect-meta>
