@@ -90,12 +90,16 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
  * </p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.37 $ $Date: 2003/02/11 16:19:27 $
+ * @version CVS $Revision: 1.38 $ $Date: 2003/02/11 16:25:49 $
  */
 public class Parameters
     implements Serializable
 {
-    /** Empty Parameters object */
+    /**
+     * Empty Parameters object
+     *
+     * @since 4.1.2
+     */
     public static final Parameters EMPTY_PARAMETERS;
 
     /** Static initializer to initialize the empty Parameters object */
