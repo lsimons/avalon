@@ -33,8 +33,6 @@
     <menu-item label="Monitor" href="monitor/index.html"/>
     <menu-item label="Naming" href="naming/index.html"/>
     <menu-item label="Pool" href="pool/index.html"/>          
-    <menu-item label="Property Utils" href="property"/>
-    <menu-item label="Proxy" href="proxy/index.html"/>
     <menu-item label="Source Resolver" href="source/index.html"/>
     <menu-item label="TAR" href="tar/index.html"/>
     <menu-item label="Testcase" href="testcase/index.html"/>
