@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<project name="runtime" default="dist" basedir="." xmlns:x="antlib:org.apache.avalon.tools">
+
+  <property file="build.properties"/>
+
+  <target name="bootstrap">
+    <ant dir="${basedir}/tools/project"/>
+  </target>
+
+  <target name="integrity-check">
+    <ant inheritall="false" dir="central/system/build" antfile="integrity.xml"/>
+  </target>
+
+  <target name="clean" depends="integrity-check">
+    <ant inheritall="false" dir="runtime" target="clean"/>
+    <ant inheritall="false" dir="central" target="clean"/>
+  </target>
+
+  <target name="dist" depends="integrity-check,runtime,central"/>
+
+  <target name="runtime" depends="integrity-check">
+    <ant inheritall="false" dir="runtime" target="dist"/>
+  </target>
+
+  <target name="central" depends="integrity-check">
+    <ant inheritall="false" dir="central" target="dist"/>
+  </target>
+
+</project>
