@@ -36,7 +36,6 @@ meta.version = 1.0
 #
 # Artifact descriptor.
 # 
-
 avalon.artifact.group = ${pom.groupId}
 avalon.artifact.name = ${pom.artifactId}
 avalon.artifact.version = ${pom.currentVersion}
@@ -49,6 +48,7 @@ avalon.artifact.signature = ${signature}
           <j:if test="${dep.getType()=='jar'}">
             <j:if test="${index==0}">
               <ant:echo file="${filename}" append="true">
+
 #
 # API dependencies.
 #
@@ -105,14 +105,26 @@ avalon.artifact.dependency.${index} = ${key}</ant:echo>
         <ant:echo file="${filename}" append="true">
 
 #
-# Factory.
+# Factory classname.
 #
 
 avalon.artifact.factory = ${context.getVariable('avalon.artifact.factory')}
 </ant:echo>
       </j:if>
 
+      <j:if test="${context.getVariable('avalon.artifact.export') != null}">
+        <ant:echo file="${filename}" append="true">
+
+#
+# Service export.
+#
+
+avalon.artifact.export = ${context.getVariable('avalon.artifact.export')}
+</ant:echo>
+      </j:if>
+
       <ant:echo file="${filename}" append="true">
+
 #
 # EOF
 #
