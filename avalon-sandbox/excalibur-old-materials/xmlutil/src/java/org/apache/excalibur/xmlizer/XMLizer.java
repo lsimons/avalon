@@ -19,9 +19,8 @@ import org.xml.sax.SAXException;
  * into SAX events.
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.5 $ $Date: 2002/10/02 01:52:25 $
+ * @version CVS $Revision: 1.6 $ $Date: 2002/11/07 04:43:43 $
  */
-
 public interface XMLizer
     extends Component
 {
