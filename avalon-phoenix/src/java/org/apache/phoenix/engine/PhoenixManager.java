@@ -48,7 +48,7 @@ public class PhoenixManager
         m_parameters = parameters;
     }
 
-    public void init()
+    public void initialize()
         throws Exception
     {
         m_mBeanServer = createMBeanServer();

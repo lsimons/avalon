@@ -7,7 +7,7 @@
  */
 package org.apache.phoenix.engine.phases;
 
-import org.apache.avalon.Stoppable;
+import org.apache.avalon.activity.Startable;
 import org.apache.avalon.activity.Disposable;
 import org.apache.avalon.atlantis.ApplicationException;
 import org.apache.avalon.component.ComponentException;
@@ -66,13 +66,13 @@ public class ShutdownPhase
         final Object object = entry.getInstance();
 
         //Stoppable stage
-        if( object instanceof Stoppable )
+        if( object instanceof Startable )
         {
             getLogger().debug( "Pre-Stoppable Stage" );
 
             try
             {
-                ((Stoppable)object).stop();
+                ((Startable)object).stop();
                 getLogger().debug( "Stoppable successful." );
             }
             catch( final Exception e )

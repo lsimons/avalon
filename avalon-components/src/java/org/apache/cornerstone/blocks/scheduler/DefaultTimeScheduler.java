@@ -9,8 +9,7 @@ package org.apache.cornerstone.blocks.scheduler;
 
 import java.util.Hashtable;
 import java.util.NoSuchElementException;
-import org.apache.avalon.Startable;
-import org.apache.avalon.Stoppable;
+import org.apache.avalon.activity.Startable;
 import org.apache.avalon.activity.Disposable;
 import org.apache.avalon.activity.Initializable;
 import org.apache.avalon.logger.AbstractLoggable;
@@ -32,7 +31,7 @@ import org.apache.phoenix.Block;
  */
 public class DefaultTimeScheduler
     extends AbstractLoggable
-    implements Block, TimeScheduler, Initializable, Startable, Stoppable, Disposable, Runnable
+    implements Block, TimeScheduler, Initializable, Startable, Disposable, Runnable
 {
     protected final Object               m_monitor         = new Object();
 

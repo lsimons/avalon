@@ -7,10 +7,9 @@
  */
 package org.apache.avalon.atlantis;
 
-import org.apache.avalon.Startable;
-import org.apache.avalon.Stoppable;
 import org.apache.avalon.activity.Disposable;
 import org.apache.avalon.activity.Initializable;
+import org.apache.avalon.activity.Startable;
 import org.apache.avalon.camelot.Container;
 
 /**
@@ -24,6 +23,6 @@ import org.apache.avalon.camelot.Container;
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
 public interface Application
-    extends Container, Initializable, Startable, Stoppable, Disposable
+    extends Container, Initializable, Startable, Disposable
 {
 }

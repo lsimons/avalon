@@ -60,7 +60,7 @@ public abstract class AbstractHttpProxyServer
     public void configure( final Configuration configuration  )
         throws ConfigurationException
     {
-        m_port = configuration.getChild( "listen-port" ).getValueAsInt( 8000 );
+        m_port = configuration.getChild( "listen-port" ).getValueAsInteger( 8000 );
 
         try
         {

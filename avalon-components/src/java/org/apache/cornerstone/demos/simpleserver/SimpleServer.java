@@ -108,7 +108,7 @@ public class SimpleServer
         //trigger = new CronTimeTrigger( -1, -1, -1, -1, -1, false );
         //m_timeScheduler.addTrigger( "cron-trigger", trigger, this );
 
-        final int port = m_configuration.getChild( "port" ).getValueAsInt();
+        final int port = m_configuration.getChild( "port" ).getValueAsInteger();
         getLogger().info( "Want to open port on:" + port );
 
         final ServerSocketFactory factory =

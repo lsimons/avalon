@@ -59,7 +59,7 @@ public class HelloWorldServerImpl
     public void configure( final Configuration configuration )
         throws ConfigurationException
     {
-        m_port = configuration.getChild("port").getValueAsInt( 8000 );
+        m_port = configuration.getChild("port").getValueAsInteger( 8000 );
 
         try
         {

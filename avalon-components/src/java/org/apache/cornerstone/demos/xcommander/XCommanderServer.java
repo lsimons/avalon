@@ -91,7 +91,7 @@ public class XCommanderServer
 
         getLogger().info( "init XCommanderServer ..." );
 
-        final int port = m_configuration.getChild( "port" ).getValueAsInt();
+        final int port = m_configuration.getChild( "port" ).getValueAsInteger();
         getLogger().info( "Want to open port on:" + port );
 
         final ServerSocketFactory factory =

@@ -39,13 +39,13 @@ public class DefaultThreadManager
             final Configuration group = groups[ i ];
 
             final String name = group.getChild( "name" ).getValue();
-            final int priority = group.getChild( "priority" ).getValueAsInt( 5 );
+            final int priority = group.getChild( "priority" ).getValueAsInteger( 5 );
             final boolean isDaemon = group.getChild( "is-daemon" ).getValueAsBoolean( false );
 
-            final int minThreads = group.getChild( "min-threads" ).getValueAsInt( 5 );
-            final int maxThreads = group.getChild( "max-threads" ).getValueAsInt( 10 );
+            final int minThreads = group.getChild( "min-threads" ).getValueAsInteger( 5 );
+            final int maxThreads = group.getChild( "max-threads" ).getValueAsInteger( 10 );
             final int minSpareThreads = group.getChild( "min-spare-threads" ).
-                getValueAsInt( maxThreads - minThreads );
+                getValueAsInteger( maxThreads - minThreads );
 
             try
             {
