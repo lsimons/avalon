@@ -22,6 +22,7 @@
   <taskdef name="property" classname="org.apache.avalon.tools.tasks.PropertyTask"/> 
   <taskdef name="replicate" classname="org.apache.avalon.tools.tasks.ReplicateTask"/> 
   <taskdef name="block" classname="org.apache.avalon.tools.tasks.BlockTask"/> 
+  <taskdef name="gump" classname="org.apache.avalon.tools.tasks.GumpTask"/> 
   <typedef name="path" classname="org.apache.avalon.tools.model.MagicPath"/> 
 
 </antlib>

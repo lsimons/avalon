@@ -42,7 +42,7 @@ public class Info
         }
         final String protocol = id.substring( 0, i );
         final String spec = id.substring( i+1 );
-        return Info.create( protocol, spec);
+        return Info.create( protocol, spec );
     }
 
     public static Info create( final String type, final String id )

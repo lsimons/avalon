@@ -31,11 +31,11 @@ public class Plugin extends Definition
     private final ListenerDef[] m_listeners;
 
     public Plugin(
-      final Home home, final String key, final File basedir, final Info info,
-      final ResourceRef[] resources, final ResourceRef[] plugins,
+      final Home home, final String key, final File basedir, final String path, final Info info,
+      final Gump gump, final ResourceRef[] resources, final ResourceRef[] plugins,
       final TaskDef[] tasks, final ListenerDef[] listeners )
     {
-        super( home, key, basedir, info, resources, plugins );
+        super( home, key, basedir, path, info, gump, resources, plugins );
         m_tasks = tasks;
         m_listeners = listeners;
     }
