@@ -56,23 +56,23 @@ package org.apache.avalon.composition.model;
  * extension qualification.
  *
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.1.2.1 $ $Date: 2004/01/03 22:08:21 $
+ * @version $Revision: 1.1.2.2 $ $Date: 2004/01/04 21:28:59 $
  */
 public interface Dependent
 {
    /**
     * Set the provider model.
     * 
-    * @param the provider model
+    * @param model the provider model
     */
-    void setProvider( Model model );
+    void setProvider( DeploymentModel model );
 
    /**
     * Return the assigned provider model.
     * 
     * @return the provider model
     */
-    Model getProvider();
+    DeploymentModel getProvider();
 
    /**
     * Clean the assigned provider.

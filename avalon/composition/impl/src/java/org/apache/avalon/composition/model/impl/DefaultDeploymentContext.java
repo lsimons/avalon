@@ -50,60 +50,74 @@
 
 package org.apache.avalon.composition.model.impl;
 
-import org.apache.avalon.composition.model.Model;
-import org.apache.avalon.composition.model.DeploymentContext;
 import org.apache.avalon.composition.model.DependencyGraph;
+import org.apache.avalon.composition.model.DeploymentContext;
+
+import org.apache.avalon.framework.context.DefaultContext;
 import org.apache.avalon.framework.logger.Logger;
-import org.apache.avalon.excalibur.i18n.ResourceManager;
-import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.composition.data.Mode;
 
-
 /**
- * Abstract model base class.
+ * Default implementation of a deployment context.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1.1.1.2.2 $ $Date: 2004/01/04 20:19:27 $
+ * @version $Revision: 1.2.2.2 $ $Date: 2004/01/04 21:28:59 $
  */
-public abstract class DefaultModel
-  implements Model
+public class DefaultDeploymentContext extends DefaultContext 
+  implements DeploymentContext
 {
-    //--------------------------------------------------------------
-    // static
-    //--------------------------------------------------------------
-
-    private static final Resources REZ =
-      ResourceManager.getPackageResources( DefaultModel.class );
-
-    //--------------------------------------------------------------
+    //---------------------------------------------------------
     // immutable state
-    //--------------------------------------------------------------
+    //---------------------------------------------------------
 
-    private final DeploymentContext m_context;
+    private final String m_name;
+    private final String m_partition;
+    private final Logger m_logger;
+    private final Mode m_mode;
+    private final DependencyGraph m_graph;
 
-    //--------------------------------------------------------------
+    //---------------------------------------------------------
     // constructor
-    //--------------------------------------------------------------
+    //---------------------------------------------------------
 
    /**
-    * Creation of an abstract model.  The model associated a 
-    * name and a partition.
+    * Creation of a new deployment context.
     *
-    * @param path the profile partition
+    * @param logger the logging channel to assign
+    * @param partition the assigned partition name
     * @param name the profile name
+    * @param mode the deployment mode
+    * @param graph the parent deployment assembly graph
     */
-    public DefaultModel( DeploymentContext context )
-    { 
-        if( null == context )
+    public DefaultDeploymentContext( 
+      Logger logger, String partition, String name, 
+      Mode mode, DependencyGraph graph )
+    {
+        if( logger == null )
         {
-            throw new NullPointerException( "context" );
+            throw new NullPointerException( "logger" );
         }
-        m_context = context;
+        if( name == null )
+        {
+            throw new NullPointerException( "name" );
+        }
+        if( mode == null )
+        {
+            throw new NullPointerException( "mode" );
+        }
+
+        m_graph = new DependencyGraph( graph );
+
+        m_logger = logger;
+        m_partition = partition;
+        m_name = name;
+        m_mode = mode;
+
     }
 
-    //--------------------------------------------------------------
-    // Model
-    //--------------------------------------------------------------
+    //---------------------------------------------------------
+    // DeploymentContext
+    //---------------------------------------------------------
 
    /**
     * Return the profile name.
@@ -111,21 +125,27 @@ public abstract class DefaultModel
     */
     public String getName()
     {
-        return m_context.getName();
+        return m_name;
     }
 
    /**
-    * Return the profile path.
-    * @return the path
+    * Return the assigned partition name.
+    *
+    * @return the partition name
     */
-    public String getPath()
+    public String getPartitionName()
     {
-        if( null == m_context.getPartitionName() )
-        {
-            return SEPERATOR;
-        }
-        return m_context.getPartitionName();
+        return m_partition;
     }
+
+   /**
+    * Return the model fully qualified name.
+    * @return the fully qualified name
+    */
+    //public String getPath()
+    //{
+    //    return getQualifiedName();
+    //}
 
    /**
     * Return the model fully qualified name.
@@ -133,7 +153,14 @@ public abstract class DefaultModel
     */
     public String getQualifiedName()
     {
-        return getPath() + getName();
+        if( null == getPartitionName() )
+        {
+            return SEPARATOR;
+        }
+        else
+        {
+            return getPartitionName() + getName();
+        }
     }
 
    /**
@@ -142,43 +169,26 @@ public abstract class DefaultModel
     */
     public Mode getMode()
     {
-        return m_context.getMode();
+        return m_mode;
     }
 
    /**
-    * Return the set of models consuming this model.
-    * @return the consumers
+    * Return the assigned logger.
+    * @return the logging channel
     */
-    public Model[] getConsumerGraph()
+    public Logger getLogger()
     {
-        return m_context.getDependencyGraph().getConsumerGraph( this );
+        return m_logger;
     }
 
    /**
-    * Return the set of models supplying this model.
-    * @return the providers
+    * Return the dependency graph used to construct 
+    * deployment and decommissioning sequences.
+    *
+    * @return the dependency graph
     */
-    public Model[] getProviderGraph()
+    public DependencyGraph getDependencyGraph()
     {
-        return m_context.getDependencyGraph().getProviderGraph( this );
+        return m_graph;
     }
-
-    //--------------------------------------------------------------
-    // implementation
-    //--------------------------------------------------------------
-
-   /**
-    * Return the logging channel.
-    * @return the logger
-    */
-    protected Logger getLogger()
-    {
-        return m_context.getLogger();
-    }
-
-    public String toString()
-    {
-        return "[model: " + getQualifiedName() + "]";
-    }
-
 }

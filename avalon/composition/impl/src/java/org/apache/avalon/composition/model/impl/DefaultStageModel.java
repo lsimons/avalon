@@ -52,7 +52,6 @@ package org.apache.avalon.composition.model.impl;
 
 import java.util.ArrayList;
 
-import org.apache.avalon.composition.model.Model;
 import org.apache.avalon.composition.model.StageModel;
 import org.apache.avalon.composition.model.ModelException;
 import org.apache.avalon.composition.data.StageDirective;
@@ -68,7 +67,7 @@ import org.apache.avalon.meta.info.ExtensionDescriptor;
  * Default implementation of the stage model.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2.2.1 $ $Date: 2004/01/03 18:14:58 $
+ * @version $Revision: 1.2.2.2 $ $Date: 2004/01/04 21:28:59 $
  */
 public class DefaultStageModel extends DefaultDependent implements StageModel
 {

@@ -50,32 +50,33 @@
 
 package org.apache.avalon.composition.model;
 
+import org.apache.avalon.composition.model.DependencyGraph;
+
+import org.apache.avalon.framework.context.Context;
+import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.composition.data.Mode;
-import org.apache.avalon.meta.info.DependencyDescriptor;
-import org.apache.avalon.meta.info.ServiceDescriptor;
-import org.apache.avalon.meta.info.StageDescriptor;
 
 /**
- * Abstract model interface.
+ * Deployment context that is supplied to a deployment model.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1.1.1.2.2 $ $Date: 2004/01/04 20:19:27 $
+ * @version $Revision: 1.2.2.2 $ $Date: 2004/01/04 21:28:59 $
  */
-public interface Model
+public interface DeploymentContext extends Context 
 {
-    String SEPERATOR = "/"; // ## fix me
+    final String SEPARATOR = "/";
 
    /**
-    * Return the name of the model.
+    * Return the deployment target name.
     * @return the name
     */
     String getName();
 
    /**
-    * Return the model partition path.
-    * @return the path
+    * Return the deployment poartition.
+    * @return the partition
     */
-    String getPath();
+    String getPartitionName();
 
    /**
     * Return the model fully qualified name.
@@ -84,75 +85,22 @@ public interface Model
     String getQualifiedName();
 
    /**
-    * Return the mode of model establishment.
+    * Return the mode of establishment.
     * @return the mode
     */
     Mode getMode();
 
-    //-----------------------------------------------------------
-    // service production
-    //-----------------------------------------------------------
-    
    /**
-    * Return the set of services produced by the model.
-    * @return the services
+    * Return the assigned logger.
+    * @return the logging channel
     */
-    ServiceDescriptor[] getServices();
+    Logger getLogger();
 
    /**
-    * Return TRUE is this model is capable of supporting a supplied 
-    * depedendency.
-    * @return true if this model can fulfill the dependency
+    * Return the dependency graph used to construct 
+    * deployment and decommissioning sequences.
+    *
+    * @return the dependency graph
     */
-    boolean isaCandidate( DependencyDescriptor dependency );
-
-   /**
-    * Return TRUE is this model is capable of supporting a supplied 
-    * stage dependency.
-    * @return true if this model can fulfill the dependency
-    */
-    boolean isaCandidate( StageDescriptor stage );
-
-    //-----------------------------------------------------------
-    // composite assembly
-    //-----------------------------------------------------------
-
-    /**
-     * Returns the assembled state of the model.
-     * @return true if this model is assembled
-     */
-    boolean isAssembled();
-
-    /**
-     * Assemble the model.
-     * @exception Exception if an error occurs during model assembly
-     */
-    void assemble() throws AssemblyException;
-
-   /**
-    * Return the set of models consuming this model.
-    * @return the consumers
-    */
-    Model[] getConsumerGraph();
-
-   /**
-    * Return the set of models supplying this model.
-    * @return the providers
-    */
-    Model[] getProviderGraph();
-
-    /**
-     * Disassemble the model.
-     */
-    void disassemble();
-
-    /**
-     * Return the set of models assigned as providers.
-     * @return the providers consumed by the model
-     * @exception IllegalStateException if invoked prior to 
-     *    the completion of the assembly phase 
-     */
-    Model[] getProviders();
-
-
+    DependencyGraph getDependencyGraph();
 }

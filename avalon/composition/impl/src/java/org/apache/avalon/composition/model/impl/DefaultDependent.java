@@ -52,7 +52,7 @@ package org.apache.avalon.composition.model.impl;
 
 import java.util.ArrayList;
 
-import org.apache.avalon.composition.model.Model;
+import org.apache.avalon.composition.model.DeploymentModel;
 import org.apache.avalon.composition.model.Dependent;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.logger.Logger;
@@ -61,7 +61,7 @@ import org.apache.avalon.framework.logger.Logger;
  * Default dependent model.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1.2.2 $ $Date: 2004/01/04 20:19:27 $
+ * @version $Revision: 1.1.2.3 $ $Date: 2004/01/04 21:28:59 $
  */
 public class DefaultDependent extends AbstractLogEnabled implements Dependent
 {
@@ -69,7 +69,7 @@ public class DefaultDependent extends AbstractLogEnabled implements Dependent
     // immutable state
     //--------------------------------------------------------------
 
-    private Model m_provider;
+    private DeploymentModel m_provider;
 
     //--------------------------------------------------------------
     // constructor
@@ -79,9 +79,6 @@ public class DefaultDependent extends AbstractLogEnabled implements Dependent
     * Creation of a new stage model.
     *
     * @param logger the logging channel
-    * @param partition the partition name
-    * @param descriptor the stage descriptors
-    * @param directive the stage directive (possibly null)
     */
     public DefaultDependent( final Logger logger )
     {
@@ -99,9 +96,9 @@ public class DefaultDependent extends AbstractLogEnabled implements Dependent
    /**
     * Set the provider model.
     * 
-    * @param the provider model
+    * @param model the provider model
     */
-    public void setProvider( Model model )
+    public void setProvider( DeploymentModel model )
     {
         m_provider = model;
     }
@@ -111,7 +108,7 @@ public class DefaultDependent extends AbstractLogEnabled implements Dependent
     * 
     * @return the stage provider model
     */
-    public Model getProvider()
+    public DeploymentModel getProvider()
     {
         return m_provider;
     }

@@ -62,7 +62,7 @@ import java.util.ArrayList;
  * consumers and providers models.</p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1.2.2 $ $Date: 2004/01/04 17:23:16 $
+ * @version $Revision: 1.1.2.3 $ $Date: 2004/01/04 21:28:59 $
  */
 public class DependencyGraph
 {
@@ -96,7 +96,7 @@ public class DependencyGraph
 
     /**
      * Creation of a new dependecy graph holding a reference to a parent
-     * graph.  Model instances in the parent graph are potential providers
+     * graph.  DeploymentModel instances in the parent graph are potential providers
      * for services if no model in current assembly satisfies a dependency.
      *
      * @param parent the parent graph
@@ -131,7 +131,7 @@ public class DependencyGraph
      *
      * @param model the model to add to the graph
      */
-    public void add( final Model model )
+    public void add( final DeploymentModel model )
     {
         if( !m_models.contains( model ) )
         {
@@ -142,22 +142,22 @@ public class DependencyGraph
     /**
      * Remove a model from the dependency graph.
      *
-     * @param appliance the appliance
+     * @param model the model to remove
      */
-    public void remove( final Model model )
+    public void remove( final DeploymentModel model )
     {
         m_models.remove( model );
     }
 
     /**
-     * Get the serilized graph of {@link Model} objects
+     * Get the serilized graph of {@link DeploymentModel} objects
      * required when starting up the target. This makes sure
      * that all providers are established before their coresponding
      * consumers in the graph.
      *
      * @return the ordered list of models
      */
-    public Model[] getStartupGraph()
+    public DeploymentModel[] getStartupGraph()
     {
         try
         {
@@ -172,14 +172,14 @@ public class DependencyGraph
     }
 
     /**
-     * Get the serilized graph of {@link Model} instances
+     * Get the serilized graph of {@link DeploymentModel} instances
      * required when shutting down all the components. This makes
      * sure that all consumer shutdown actions occur before their
      * coresponding providers in graph.
      *
      * @return the ordered list of model instances
      */
-    public Model[] getShutdownGraph()
+    public DeploymentModel[] getShutdownGraph()
     {
         try
         {
@@ -193,13 +193,13 @@ public class DependencyGraph
     }
 
     /**
-     * Get the serilized graph of {@link Model} instances
+     * Get the serilized graph of {@link DeploymentModel} instances
      * that use services of the specified model.
      *
      * @param model the model
      * @return the ordered list of consumer model instances
      */
-    public Model[] getConsumerGraph( final Model model )
+    public DeploymentModel[] getConsumerGraph( final DeploymentModel model )
     {
         try
         {
@@ -214,13 +214,13 @@ public class DependencyGraph
     }
 
     /**
-     * Get the serilized graph of {@link Model} istances
+     * Get the serilized graph of {@link DeploymentModel} istances
      * that provide specified model with services.
      *
      * @param model the model
      * @return the ordered list of providers
      */
-    public Model[] getProviderGraph( final Model model )
+    public DeploymentModel[] getProviderGraph( final DeploymentModel model )
     {
         try
         {
@@ -237,7 +237,7 @@ public class DependencyGraph
     /**
      * Return an model array that does not include the provided model.
      */
-    private Model[] referencedModels( final Model model, Model[] models )
+    private DeploymentModel[] referencedModels( final DeploymentModel model, DeploymentModel[] models )
     {
         ArrayList list = new ArrayList();
         for( int i = 0; i < models.length; i++ )
@@ -247,7 +247,7 @@ public class DependencyGraph
                 list.add( models[i] );
             }
         }
-        return (Model[]) list.toArray( new Model[0] );
+        return (DeploymentModel[]) list.toArray( new DeploymentModel[0] );
     }
 
     /**
@@ -257,7 +257,7 @@ public class DependencyGraph
      * @param providers true if traversing providers, false if consumers
      * @return the list of models 
      */
-    private Model[] getComponentGraph( final Model model, final boolean providers )
+    private DeploymentModel[] getComponentGraph( final DeploymentModel model, final boolean providers )
     {
         final ArrayList result = new ArrayList();
         visitcomponent( model,
@@ -265,8 +265,8 @@ public class DependencyGraph
                 new ArrayList(),
                 result );
 
-        final Model[] returnValue = new Model[result.size()];
-        return (Model[]) result.toArray( returnValue );
+        final DeploymentModel[] returnValue = new DeploymentModel[result.size()];
+        return (DeploymentModel[]) result.toArray( returnValue );
     }
 
     /**
@@ -277,7 +277,7 @@ public class DependencyGraph
      * @param direction true if forward dependencys traced, false if dependencies reversed
      * @return the ordered model list
      */
-    private Model[] walkGraph( final boolean direction )
+    private DeploymentModel[] walkGraph( final boolean direction )
     {
         final ArrayList result = new ArrayList();
         final ArrayList done = new ArrayList();
@@ -285,8 +285,8 @@ public class DependencyGraph
         final int size = m_models.size();
         for( int i = 0; i < size; i++ )
         {
-            final Model model =
-                    (Model) m_models.get( i );
+            final DeploymentModel model =
+                    (DeploymentModel) m_models.get( i );
 
             visitcomponent( model,
                     direction,
@@ -294,8 +294,8 @@ public class DependencyGraph
                     result );
         }
 
-        final Model[] returnValue = new Model[result.size()];
-        return (Model[]) result.toArray( returnValue );
+        final DeploymentModel[] returnValue = new DeploymentModel[result.size()];
+        return (DeploymentModel[]) result.toArray( returnValue );
     }
 
     /**
@@ -307,7 +307,7 @@ public class DependencyGraph
      * @param order the order in which nodes have already been
      *             traversed
      */
-    private void visitcomponent( final Model model,
+    private void visitcomponent( final DeploymentModel model,
             final boolean direction,
             final ArrayList done,
             final ArrayList order )
@@ -337,11 +337,11 @@ public class DependencyGraph
      *
      * @param model the model
      */
-    private void visitProviders( final Model model,
+    private void visitProviders( final DeploymentModel model,
             final ArrayList done,
             final ArrayList order )
     {
-        Model[] providers = model.getProviders();
+        DeploymentModel[] providers = model.getProviders();
         for( int i = (providers.length - 1); i > -1; i-- )
         {
             visitcomponent( providers[i], true, done, order );
@@ -352,9 +352,9 @@ public class DependencyGraph
      * Traverse all consumers of a model. I.e. all models that use
      * service provided by the supplied model.
      *
-     * @param model the Model
+     * @param model the DeploymentModel
      */
-    private void visitConsumers( final Model model,
+    private void visitConsumers( final DeploymentModel model,
             final ArrayList done,
             final ArrayList order )
     {
@@ -364,13 +364,13 @@ public class DependencyGraph
         final int size = m_models.size();
         for( int i = 0; i < size; i++ )
         {
-            final Model other =
-                    (Model) m_models.get( i );
+            final DeploymentModel other =
+                    (DeploymentModel) m_models.get( i );
 
-            final Model[] providers = other.getProviders();
+            final DeploymentModel[] providers = other.getProviders();
             for( int j = 0; j < providers.length; j++ )
             {
-                Model provider = providers[j];
+                DeploymentModel provider = providers[j];
                 if( provider.equals( model ) )
                 {
                     visitcomponent( other, false, done, order );

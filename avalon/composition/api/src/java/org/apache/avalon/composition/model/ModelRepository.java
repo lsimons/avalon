@@ -59,7 +59,7 @@ import org.apache.avalon.meta.info.StageDescriptor;
  * a stage or service dependency.
  *
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.1.2.1 $ $Date: 2004/01/03 15:38:50 $
+ * @version $Revision: 1.1.2.2 $ $Date: 2004/01/04 21:28:59 $
  */
 public interface ModelRepository
 {
@@ -69,7 +69,7 @@ public interface ModelRepository
      * @param name the model name
      * @return the model or null if the model name is unknown
      */
-    Model getModel( String name );
+    DeploymentModel getModel( String name );
 
     /**
      * Locate a model meeting the supplied criteria.
@@ -77,7 +77,7 @@ public interface ModelRepository
      * @param dependency a component service dependency
      * @return the model
      */
-    Model getModel( DependencyDescriptor dependency );
+    DeploymentModel getModel( DependencyDescriptor dependency );
 
     /**
      * Locate a model meeting the supplied criteria.
@@ -85,35 +85,35 @@ public interface ModelRepository
      * @param stage a component stage dependency
      * @return the model
      */
-    Model getModel( StageDescriptor stage );
+    DeploymentModel getModel( StageDescriptor stage );
 
     /**
      * Add an model to the repository.
      *
      * @param model the model to add
      */
-    void addModel( Model model );
+    void addModel( DeploymentModel model );
 
     /**
      * Add an model to the repository.
      *
-     * @param the name to register the model under
+     * @param name the name to register the model under
      * @param model the model to add
      */
-    void addModel( String name, Model model );
+    void addModel( String name, DeploymentModel model );
 
     /**
      * Remove an model from the repository.
      *
      * @param model the model to remove
      */
-    void removeModel( Model model );
+    void removeModel( DeploymentModel model );
 
     /**
      * Locate an model meeting the supplied criteria.
      *
      * @return the model
      */
-    public Model[] getModels();
+    public DeploymentModel[] getModels();
 
 }

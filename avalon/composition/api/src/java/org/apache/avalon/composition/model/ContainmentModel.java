@@ -66,19 +66,19 @@ import org.apache.avalon.meta.info.StageDescriptor;
  * context.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.9.2.4 $ $Date: 2004/01/04 20:19:27 $
+ * @version $Revision: 1.9.2.5 $ $Date: 2004/01/04 21:28:59 $
  */
-public interface ContainmentModel extends Model
+public interface ContainmentModel extends DeploymentModel
 {
     /**
      * Get the startup sequence for the model.
      */
-    Model[] getStartupGraph();
+    DeploymentModel[] getStartupGraph();
 
     /**
      * Get the shutdown sequence for the model.
      */
-    Model[] getShutdownGraph();
+    DeploymentModel[] getShutdownGraph();
 
    /**
     * Return the logging categories. 
@@ -110,20 +110,20 @@ public interface ContainmentModel extends Model
     * Return the set of models nested within this model.
     * @return the classloader model
     */
-    Model[] getModels();
+    DeploymentModel[] getModels();
 
    /**
     * Return a model relative to a supplied name.
     * @return the named model or null if the name is unknown
     */
-    Model getModel( String name );
+    DeploymentModel getModel( String name );
 
    /**
     * Return a model relative to a supplied dependency.
     * @return a matching model or null if the dependency is unresolvable
     * @exception ModelRuntimeException if an error occurs during model establishment
     */
-    Model getModel( DependencyDescriptor dependency ) 
+    DeploymentModel getModel( DependencyDescriptor dependency ) 
       throws ModelRuntimeException;
 
    /**
@@ -132,7 +132,7 @@ public interface ContainmentModel extends Model
     * @return model of a an stage handler or null if the stage is unresolvable
     * @exception ModelRuntimeException if an error occurs during model establishment
     */
-    Model getModel( StageDescriptor stage ) 
+    DeploymentModel getModel( StageDescriptor stage ) 
       throws ModelRuntimeException;
 
    /**
@@ -143,7 +143,7 @@ public interface ContainmentModel extends Model
     * @return the model based on the derived profile
     * @exception ModelException if an error occurs during model establishment
     */
-    Model addModel( URL url ) throws ModelException;
+    DeploymentModel addModel( URL url ) throws ModelException;
 
    /**
     * Addition of a new subsidiary containment model within
@@ -165,7 +165,7 @@ public interface ContainmentModel extends Model
     * @return the model based on the supplied profile
     * @exception ModelException if an error occurs during model establishment
     */
-    Model addModel( Profile profile ) throws ModelException;
+    DeploymentModel addModel( Profile profile ) throws ModelException;
 
    /**
     * Removal of a named model for the containment model.

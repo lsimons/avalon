@@ -57,7 +57,7 @@ package org.apache.avalon.composition.model.impl;
 
 import java.util.ArrayList;
 
-import org.apache.avalon.composition.model.Model;
+import org.apache.avalon.composition.model.DeploymentModel;
 import org.apache.avalon.composition.model.ModelSelector;
 import org.apache.avalon.meta.info.DependencyDescriptor;
 import org.apache.avalon.meta.info.StageDescriptor;
@@ -70,7 +70,7 @@ import org.apache.avalon.composition.data.Mode;
  * the first profile matching the category is returned.
  *
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.1 $ $Date: 2003/09/24 09:32:11 $
+ * @version $Revision: 1.1.1.1.2.1 $ $Date: 2004/01/04 21:28:59 $
  */
 class DefaultModelSelector implements ModelSelector
 {
@@ -87,9 +87,9 @@ class DefaultModelSelector implements ModelSelector
      * @return the preferred model or null if no satisfactory 
      *    provider can be established
      */
-    public Model select( Model[] models, DependencyDescriptor dependency )
+    public DeploymentModel select( DeploymentModel[] models, DependencyDescriptor dependency )
     {
-        Model[] candidates = filterCandidateProviders( models, dependency );
+        DeploymentModel[] candidates = filterCandidateProviders( models, dependency );
         return select( candidates );
     }
 
@@ -100,9 +100,9 @@ class DefaultModelSelector implements ModelSelector
      * @return the preferred provider or null if no satisfactory 
      *    provider can be established
      */
-    public Model select( Model[] models, StageDescriptor stage )
+    public DeploymentModel select( DeploymentModel[] models, StageDescriptor stage )
     {
-        Model[] candidates = filterCandidateProviders( models, stage );
+        DeploymentModel[] candidates = filterCandidateProviders( models, stage );
         return select( candidates );
     }
 
@@ -110,34 +110,34 @@ class DefaultModelSelector implements ModelSelector
     // implementation
     //==============================================================
 
-    private Model[] filterCandidateProviders( 
-      Model[] models, DependencyDescriptor dependency )
+    private DeploymentModel[] filterCandidateProviders( 
+      DeploymentModel[] models, DependencyDescriptor dependency )
     {
         ArrayList list = new ArrayList();
         for( int i = 0; i < models.length; i++ )
         {
-            Model model = models[i];
+            DeploymentModel model = models[i];
             if( model.isaCandidate( dependency ) )
             {
                 list.add( model );
             }
         }
-        return (Model[]) list.toArray( new Model[0] );
+        return (DeploymentModel[]) list.toArray( new DeploymentModel[0] );
     }
 
-    private Model[] filterCandidateProviders( 
-      Model[] models, StageDescriptor stage )
+    private DeploymentModel[] filterCandidateProviders( 
+      DeploymentModel[] models, StageDescriptor stage )
     {
         ArrayList list = new ArrayList();
         for( int i = 0; i < models.length; i++ )
         {
-            Model model = models[i];
+            DeploymentModel model = models[i];
             if( model.isaCandidate( stage ) )
             {
                 list.add( model );
             }
         }
-        return (Model[]) list.toArray( new Model[0] );
+        return (DeploymentModel[]) list.toArray( new DeploymentModel[0] );
     }
 
     /**
@@ -150,7 +150,7 @@ class DefaultModelSelector implements ModelSelector
      * @return the preferred profile or null if no satisfactory 
      *   provider can be established
      */
-    private Model select( Model[] models )
+    private DeploymentModel select( DeploymentModel[] models )
     {
         if( models.length == 0 )
         {

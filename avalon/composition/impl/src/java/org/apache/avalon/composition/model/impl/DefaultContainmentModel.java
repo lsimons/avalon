@@ -84,7 +84,7 @@ import org.apache.avalon.composition.model.ContainmentModel;
 import org.apache.avalon.composition.model.ContainmentContext;
 import org.apache.avalon.composition.model.DependencyGraph;
 import org.apache.avalon.composition.model.ComponentModel;
-import org.apache.avalon.composition.model.Model;
+import org.apache.avalon.composition.model.DeploymentModel;
 import org.apache.avalon.composition.model.ModelException;
 import org.apache.avalon.composition.model.ModelRuntimeException;
 import org.apache.avalon.composition.model.ModelRepository;
@@ -114,9 +114,9 @@ import org.apache.avalon.util.exception.ExceptionHelper;
  * as a part of a containment deployment model.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.13.2.8 $ $Date: 2004/01/04 20:19:27 $
+ * @version $Revision: 1.13.2.9 $ $Date: 2004/01/04 21:28:59 $
  */
-public class DefaultContainmentModel extends DefaultModel 
+public class DefaultContainmentModel extends DefaultDeploymentModel 
   implements ContainmentModel
 {
     //--------------------------------------------------------------
@@ -139,7 +139,7 @@ public class DefaultContainmentModel extends DefaultModel
     {
         if( context.getPartitionName() == null )
         {
-            return SEPERATOR;
+            return SEPARATOR;
         }
         else
         {
@@ -183,13 +183,13 @@ public class DefaultContainmentModel extends DefaultModel
 
         if( null == context.getPartitionName() )
         {
-            m_partition = Model.SEPERATOR;
+            m_partition = DeploymentModel.SEPARATOR;
         }
         else
         {
             m_partition = context.getPartitionName() 
               + context.getName()
-              + Model.SEPERATOR;
+              + DeploymentModel.SEPARATOR;
         }
 
         Profile[] profiles = context.getContainmentProfile().getProfiles();
@@ -200,7 +200,7 @@ public class DefaultContainmentModel extends DefaultModel
     }
 
     //--------------------------------------------------------------
-    // Model
+    // DeploymentModel
     //--------------------------------------------------------------
 
    /**
@@ -282,10 +282,10 @@ public class DefaultContainmentModel extends DefaultModel
             }
 
             getLogger().debug( "assembly phase" );
-            Model[] models = m_context.getModelRepository().getModels();
+            DeploymentModel[] models = m_context.getModelRepository().getModels();
             for( int i=0; i<models.length; i++ )
             {
-                Model model = models[i];
+                DeploymentModel model = models[i];
                 model.assemble();
             }
 
@@ -306,10 +306,10 @@ public class DefaultContainmentModel extends DefaultModel
             }
 
             getLogger().debug( "dissassembly phase" );
-            Model[] models = m_context.getModelRepository().getModels();
+            DeploymentModel[] models = m_context.getModelRepository().getModels();
             for( int i=0; i<models.length; i++ )
             {
-                Model model = models[i];
+                DeploymentModel model = models[i];
                 model.disassemble();
             }
             m_assembly.setEnabled( false );
@@ -321,7 +321,7 @@ public class DefaultContainmentModel extends DefaultModel
      * @return the providers consumed by the model
      * @exception IllegalStateException if the model is not in an assembled state 
      */
-    public Model[] getProviders()
+    public DeploymentModel[] getProviders()
     {
         if( !isAssembled() ) 
         {
@@ -331,14 +331,14 @@ public class DefaultContainmentModel extends DefaultModel
         }
 
         ArrayList list = new ArrayList();
-        Model[] models = m_context.getModelRepository().getModels();
+        DeploymentModel[] models = m_context.getModelRepository().getModels();
         for( int i=0; i<models.length; i++ )
         {
-            Model model = models[i];
-            Model[] providers = model.getProviders();
+            DeploymentModel model = models[i];
+            DeploymentModel[] providers = model.getProviders();
             for( int j=0; j<providers.length; j++ )
             {
-                Model provider = providers[j];
+                DeploymentModel provider = providers[j];
                 final String path = provider.getPath();
                 final String root = getPartition();
                 if( !path.startsWith( root ) )
@@ -347,7 +347,7 @@ public class DefaultContainmentModel extends DefaultModel
                 }
             }
         }
-        return (Model[]) list.toArray( new Model[0] );
+        return (DeploymentModel[]) list.toArray( new DeploymentModel[0] );
     }
 
     //--------------------------------------------------------------
@@ -381,7 +381,7 @@ public class DefaultContainmentModel extends DefaultModel
     /**
      * Get the startup sequence for the model.
      */
-    public Model[] getStartupGraph()
+    public DeploymentModel[] getStartupGraph()
     {
         return m_context.getDependencyGraph().getStartupGraph();
     }
@@ -389,7 +389,7 @@ public class DefaultContainmentModel extends DefaultModel
     /**
      * Get the shutdown sequence for the model.
      */
-    public Model[] getShutdownGraph()
+    public DeploymentModel[] getShutdownGraph()
     {
         return m_context.getDependencyGraph().getShutdownGraph();
     }
@@ -420,7 +420,7 @@ public class DefaultContainmentModel extends DefaultModel
     * @return the model 
     * @exception ModelException if a model related error occurs
     */
-    public Model addModel( URL url ) throws ModelException
+    public DeploymentModel addModel( URL url ) throws ModelException
     {
         return addContainmentModel( url, null );
     }
@@ -434,12 +434,12 @@ public class DefaultContainmentModel extends DefaultModel
         return model;
     }
 
-    public Model addModel( Profile profile ) throws ModelException
+    public DeploymentModel addModel( Profile profile ) throws ModelException
     {
         if( null == profile )
           throw new NullPointerException( "profile" );
 
-        Model model = null;
+        DeploymentModel model = null;
         final String name = profile.getName();
         if( profile instanceof ContainmentProfile )
         {
@@ -484,7 +484,7 @@ public class DefaultContainmentModel extends DefaultModel
         return addModel( name, model );
     }
 
-    private Model addModel( String name, Model model ) throws ModelException
+    private DeploymentModel addModel( String name, DeploymentModel model ) throws ModelException
     {
         ModelRepository repository = m_context.getModelRepository();
         synchronized( repository )
@@ -531,7 +531,7 @@ public class DefaultContainmentModel extends DefaultModel
         ModelRepository repository = m_context.getModelRepository();
         synchronized( repository )
         {
-            Model model = (Model) repository.getModel( name );
+            DeploymentModel model = (DeploymentModel) repository.getModel( name );
             if( null == name )
             {
                 final String error = 
@@ -773,7 +773,7 @@ public class DefaultContainmentModel extends DefaultModel
         for( int i=0; i<targets.length; i++ )
         {
             TargetDirective target = targets[i];
-            Model child = model.getModel( target.getPath() );
+            DeploymentModel child = model.getModel( target.getPath() );
             if( child != null )
             {
                 if( target.getConfiguration() != null )
@@ -1032,7 +1032,7 @@ public class DefaultContainmentModel extends DefaultModel
     *
     * @return the nested model
     */
-    public Model[] getModels()
+    public DeploymentModel[] getModels()
     {
         return m_context.getModelRepository().getModels();
     }
@@ -1044,7 +1044,7 @@ public class DefaultContainmentModel extends DefaultModel
     * @return the named model or null if the name is unknown
     * @exception IllegalArgumentException if the name if badly formed
     */
-    public Model getModel( String path )
+    public DeploymentModel getModel( String path )
     {
         if( path.startsWith( "/" ) )
         {
@@ -1062,7 +1062,7 @@ public class DefaultContainmentModel extends DefaultModel
             else
             {
                 String remainder = path.substring( j+1 );
-                Model model = getModel( key );
+                DeploymentModel model = getModel( key );
                 if( model == null )
                 {
                     return null;
@@ -1098,16 +1098,16 @@ public class DefaultContainmentModel extends DefaultModel
     * @param dependency the service dependency descriptor
     * @exception ModelRuntimeException if an error occurs during model establishment
     */
-    public Model getModel( DependencyDescriptor dependency )
+    public DeploymentModel getModel( DependencyDescriptor dependency )
       throws ModelRuntimeException
     {
         //
         // if an existing model exists return it
         //
 
-        Model[] models = getModels();
+        DeploymentModel[] models = getModels();
         ModelSelector modelSelector = new DefaultModelSelector();
-        Model model = modelSelector.select( models, dependency );
+        DeploymentModel model = modelSelector.select( models, dependency );
         if( model != null ) return model;
 
         //
@@ -1165,16 +1165,16 @@ public class DefaultContainmentModel extends DefaultModel
     * @exception ModelRuntimeException if an error occurs 
     *   during model establishment
     */
-    public Model getModel( StageDescriptor stage ) 
+    public DeploymentModel getModel( StageDescriptor stage ) 
       throws ModelRuntimeException
     {
         //
         // if an existing model exists return it
         //
 
-        Model[] models = getModels();
+        DeploymentModel[] models = getModels();
         ModelSelector modelSelector = new DefaultModelSelector();
-        Model model = modelSelector.select( models, stage );
+        DeploymentModel model = modelSelector.select( models, stage );
         if( model != null ) return model;
 
         //

@@ -4,7 +4,7 @@ package org.apache.avalon.composition.model.test;
 
 import java.io.File;
 
-import org.apache.avalon.composition.model.Model;
+import org.apache.avalon.composition.model.DeploymentModel;
 import org.apache.avalon.composition.model.ComponentModel;
 import org.apache.avalon.composition.model.AbstractTestCase;
 import org.apache.avalon.composition.data.Targets;
@@ -44,7 +44,7 @@ public class TargetsTestCase extends AbstractTestCase
             {
                 TargetDirective target = targets[i];
                 final String path = target.getPath();
-                Model model = m_model.getModel( path );
+                DeploymentModel model = m_model.getModel( path );
                 if( model instanceof ComponentModel )
                 {
                     ComponentModel deployment = (ComponentModel) model;

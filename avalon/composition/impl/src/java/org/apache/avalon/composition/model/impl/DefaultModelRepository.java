@@ -54,7 +54,7 @@ import java.util.Map;
 import java.util.Hashtable;
 import java.util.Iterator;
 
-import org.apache.avalon.composition.model.Model;
+import org.apache.avalon.composition.model.DeploymentModel;
 import org.apache.avalon.composition.model.ModelRepository;
 
 import org.apache.avalon.framework.logger.Logger;
@@ -69,7 +69,7 @@ import org.apache.avalon.meta.info.StageDescriptor;
  * a stage or service dependencies.
  *
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.1.2.1 $ $Date: 2004/01/03 22:08:21 $
+ * @version $Revision: 1.1.2.2 $ $Date: 2004/01/04 21:28:59 $
  */
 public class DefaultModelRepository implements ModelRepository
 {
@@ -114,7 +114,7 @@ public class DefaultModelRepository implements ModelRepository
      * @param dependency a component service dependency
      * @return the model or null if no matching model is resolved
      */
-    public Model getModel( DependencyDescriptor dependency )
+    public DeploymentModel getModel( DependencyDescriptor dependency )
     {
         //
         // attempt to locate a solution locally
@@ -123,7 +123,7 @@ public class DefaultModelRepository implements ModelRepository
         Iterator iterator = m_models.values().iterator();
         while( iterator.hasNext() )
         {
-            Model model = (Model) iterator.next();
+            DeploymentModel model = (DeploymentModel) iterator.next();
             if( model.isaCandidate( dependency ) )
             {
                 return model;
@@ -148,12 +148,12 @@ public class DefaultModelRepository implements ModelRepository
      * @param stage a component stage dependency
      * @return the model
      */
-    public Model getModel( StageDescriptor stage )
+    public DeploymentModel getModel( StageDescriptor stage )
     {
         Iterator iterator = m_models.values().iterator();
         while( iterator.hasNext() )
         {
-            Model model = (Model) iterator.next();
+            DeploymentModel model = (DeploymentModel) iterator.next();
 
             if( model.isaCandidate( stage ) )
             {
@@ -178,7 +178,7 @@ public class DefaultModelRepository implements ModelRepository
      *
      * @param model the model to add
      */
-    public void addModel( Model model )
+    public void addModel( DeploymentModel model )
     {
         m_models.put( model.getName(), model );
     }
@@ -186,10 +186,10 @@ public class DefaultModelRepository implements ModelRepository
     /**
      * Add an model to the repository.
      *
-     * @param the name to register the model under
+     * @param name the name to register the model under
      * @param model the model to add
      */
-    public void addModel( String name, Model model )
+    public void addModel( String name, DeploymentModel model )
     {
         m_models.put( name, model );
     }
@@ -199,7 +199,7 @@ public class DefaultModelRepository implements ModelRepository
      *
      * @param model the model to remove
      */
-    public void removeModel( Model model )
+    public void removeModel( DeploymentModel model )
     {
         m_models.remove( model.getName() );
     }
@@ -209,9 +209,9 @@ public class DefaultModelRepository implements ModelRepository
      *
      * @return the model
      */
-    public Model[] getModels()
+    public DeploymentModel[] getModels()
     {
-        return (Model[]) m_models.values().toArray( new Model[0] );
+        return (DeploymentModel[]) m_models.values().toArray( new DeploymentModel[0] );
     }
 
     /**
@@ -220,9 +220,9 @@ public class DefaultModelRepository implements ModelRepository
      * @param name the model name
      * @return the model or null if the model name is unknown
      */
-    public Model getModel( String name )
+    public DeploymentModel getModel( String name )
     {
-        Model model = (Model) m_models.get( name );
+        DeploymentModel model = (DeploymentModel) m_models.get( name );
         if( model == null && m_logger != null )
         {
             m_logger.debug( 

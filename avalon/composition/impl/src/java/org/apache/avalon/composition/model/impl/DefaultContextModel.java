@@ -55,7 +55,6 @@ import java.util.Hashtable;
 import java.lang.reflect.Constructor;
 
 import org.apache.avalon.composition.model.ContextModel;
-import org.apache.avalon.composition.model.Model;
 import org.apache.avalon.composition.model.ModelException;
 import org.apache.avalon.composition.model.ComponentContext;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
@@ -76,7 +75,7 @@ import org.apache.avalon.composition.data.ConstructorDirective;
  * a fully qualifed context can be established.</p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3.2.3 $ $Date: 2004/01/04 20:19:27 $
+ * @version $Revision: 1.3.2.4 $ $Date: 2004/01/04 21:28:59 $
  */
 public class DefaultContextModel extends DefaultDependent implements ContextModel
 {
