@@ -9,6 +9,7 @@ package org.apache.excalibur.source.impl;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Method;
@@ -19,6 +20,7 @@ import java.util.Iterator;
 import java.util.Map;
 import org.apache.excalibur.source.Source;
 import org.apache.excalibur.source.SourceException;
+import org.apache.excalibur.source.SourceNotFoundException;
 import org.apache.excalibur.source.SourceParameters;
 import org.apache.excalibur.source.SourceUtil;
 import org.apache.excalibur.source.SourceValidity;
@@ -28,7 +30,7 @@ import org.apache.excalibur.source.impl.validity.TimeStampValidity;
  * Description of a source which is described by an URL.
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.9 $ $Date: 2002/05/13 12:17:40 $
+ * @version CVS $Revision: 1.10 $ $Date: 2002/05/24 09:09:29 $
  */
 
 public class URLSource
@@ -195,73 +197,80 @@ public class URLSource
     public InputStream getInputStream()
         throws IOException, SourceException
     {
-        getInfos();
-        InputStream input = null;
-        if( this.isFile == true )
+        try
         {
-            input = new FileInputStream( this.systemId.substring( FILE.length() ) );
-        }
-        else
-        {
-            if( this.connection == null )
+            getInfos();
+            InputStream input = null;
+            if( this.isFile == true )
             {
-                this.connection = this.url.openConnection();
-                /* The following requires a jdk 1.3 */
-                String userInfo = this.getUserInfo();
-                if( this.url.getProtocol().startsWith( "http" ) && userInfo != null )
-                {
-                    this.connection.setRequestProperty( "Authorization", "Basic " + SourceUtil.encodeBASE64( userInfo ) );
-                }
-
-                // do a post operation
-                if( this.connection instanceof HttpURLConnection
-                    && this.isPost )
-                {
-                    StringBuffer buffer = new StringBuffer( 2000 );
-                    String key;
-                    Iterator i = this.parameters.getParameterNames();
-                    Iterator values;
-                    String value;
-                    boolean first = true;
-                    while( i.hasNext() )
-                    {
-                        key = (String)i.next();
-                        values = this.parameters.getParameterValues( key );
-                        while( values.hasNext() == true )
-                        {
-                            value = SourceUtil.encode( (String)values.next() );
-                            if( first == false ) buffer.append( '&' );
-                            first = false;
-                            buffer.append( key.toString() );
-                            buffer.append( '=' );
-                            buffer.append( value );
-                        }
-                    }
-                    HttpURLConnection httpCon = (HttpURLConnection)connection;
-                    httpCon.setDoInput( true );
-
-                    if( buffer.length() > 1 )
-                    { // only post if we have parameters
-                        String postString = buffer.toString();
-                        httpCon.setRequestMethod( "POST" ); // this is POST
-                        httpCon.setDoOutput( true );
-                        httpCon.setRequestProperty( "Content-type", "application/x-www-form-urlencoded" );
-
-                        // A content-length header must be contained in a POST request
-                        httpCon.setRequestProperty( "Content-length", Integer.toString( postString.length() ) );
-                        java.io.OutputStream out = new java.io.BufferedOutputStream( httpCon.getOutputStream() );
-                        out.write( postString.getBytes() );
-                        out.close();
-                    }
-                    input = httpCon.getInputStream();
-                    this.connection = null; // make sure a new connection is created next time
-                    return input;
-                }
+                input = new FileInputStream( this.systemId.substring( FILE.length() ) );
             }
-            input = this.connection.getInputStream();
-            this.connection = null; // make sure a new connection is created next time
+            else
+            {
+                if( this.connection == null )
+                {
+                    this.connection = this.url.openConnection();
+                    /* The following requires a jdk 1.3 */
+                    String userInfo = this.getUserInfo();
+                    if( this.url.getProtocol().startsWith( "http" ) && userInfo != null )
+                    {
+                        this.connection.setRequestProperty( "Authorization", "Basic " + SourceUtil.encodeBASE64( userInfo ) );
+                    }
+
+                    // do a post operation
+                    if( this.connection instanceof HttpURLConnection
+                        && this.isPost )
+                    {
+                        StringBuffer buffer = new StringBuffer( 2000 );
+                        String key;
+                        Iterator i = this.parameters.getParameterNames();
+                        Iterator values;
+                        String value;
+                        boolean first = true;
+                        while( i.hasNext() )
+                        {
+                            key = (String)i.next();
+                            values = this.parameters.getParameterValues( key );
+                            while( values.hasNext() == true )
+                            {
+                                value = SourceUtil.encode( (String)values.next() );
+                                if( first == false ) buffer.append( '&' );
+                                first = false;
+                                buffer.append( key.toString() );
+                                buffer.append( '=' );
+                                buffer.append( value );
+                            }
+                        }
+                        HttpURLConnection httpCon = (HttpURLConnection)connection;
+                        httpCon.setDoInput( true );
+
+                        if( buffer.length() > 1 )
+                        { // only post if we have parameters
+                            String postString = buffer.toString();
+                            httpCon.setRequestMethod( "POST" ); // this is POST
+                            httpCon.setDoOutput( true );
+                            httpCon.setRequestProperty( "Content-type", "application/x-www-form-urlencoded" );
+
+                            // A content-length header must be contained in a POST request
+                            httpCon.setRequestProperty( "Content-length", Integer.toString( postString.length() ) );
+                            java.io.OutputStream out = new java.io.BufferedOutputStream( httpCon.getOutputStream() );
+                            out.write( postString.getBytes() );
+                            out.close();
+                        }
+                        input = httpCon.getInputStream();
+                        this.connection = null; // make sure a new connection is created next time
+                        return input;
+                    }
+                }
+                input = this.connection.getInputStream();
+                this.connection = null; // make sure a new connection is created next time
+            }
+            return input;
         }
-        return input;
+        catch (FileNotFoundException fnfe)
+        {
+            throw new SourceNotFoundException("Resource not found " + this.systemId);
+        }
     }
 
     private static boolean checkedURLClass = false;
