@@ -9,8 +9,8 @@ package org.apache.avalon.excalibur.datasource;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import org.apache.avalon.excalibur.instrument.Instrument;
-import org.apache.avalon.excalibur.instrument.Instrumentable;
+import org.apache.excalibur.instrument.Instrument;
+import org.apache.excalibur.instrument.Instrumentable;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
@@ -129,7 +129,7 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
  * </ul>
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/04/22 00:41:39 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/07/30 14:49:27 $
  * @since 4.1
  */
 public class ResourceLimitingJdbcDataSource
