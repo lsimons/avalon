@@ -10,7 +10,7 @@
       </para>
     ]]>
   </annotation>
-<!--
+
   <logkit>
     <factories>
       <factory type="file" class="org.apache.avalon.excalibur.logger.factory.FileTargetFactory"/>
@@ -22,17 +22,16 @@
         <format type="exteded">
           %7.7{priority} %5.5{time}   [%8.8{category}] (%{context}): %{message}\n%{throwable}
         </format>
-        <append>false</append>
+       </file>
      </targets>
 
      <categories>
        <category name="test" log-level="DEBUG">
          <log-target id-ref="root"/>
-
        </category>
      </categories>
   </logkit>
--->
+
   <roles>
     <role name="org.apache.avalon.excalibur.monitor.MonitorSelector"
           shorthand="monitors"
