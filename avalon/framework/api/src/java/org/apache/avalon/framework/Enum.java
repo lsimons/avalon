@@ -106,7 +106,7 @@ import java.util.Map;
  *
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.23 $ $Date: 2003/02/11 15:58:37 $
+ * @version CVS $Revision: 1.24 $ $Date: 2003/04/07 08:31:15 $
  */
 public abstract class Enum
 {
@@ -155,7 +155,7 @@ public abstract class Enum
      * Identity is tested for first, so this method runs fast.
      * The method is also declared final - I (LSutic) did this to
      * allow the JIT to inline it easily.
-     * 
+     *
      * @param other the other object
      * @return the equality status
      */
@@ -167,8 +167,8 @@ public abstract class Enum
         }
         else
         {
-            return other == this 
-                || ( other.getClass().getName().equals( this.getClass().getName() ) 
+            return other == this
+                || ( other.getClass().getName().equals( this.getClass().getName() )
                 && m_name.equals( ( (Enum)other ).m_name ) );
         }
     }
