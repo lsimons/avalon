@@ -15,9 +15,7 @@
           minotaur.apache.org and run the following command:
         </p>
 
-        <source>
-          svnpasswd 
-        </source>
+        <source>  svnpasswd</source>
 
         <p>
           The will ask you for a subversion password.  This is the user 
@@ -35,9 +33,7 @@
           avoid interaction.  The follow command line will commit with a 
           specified username and password:
         </p>
-        <source>
-          svn commit --username <i>username</i> --password <i>password</i>
-        </source>
+        <source>  svn commit --username <i>username</i> --password <i>password</i></source>
 
         <p>
           To commit with TortoiseSVN, simply right click on the directory
