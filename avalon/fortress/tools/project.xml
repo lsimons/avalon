@@ -39,6 +39,10 @@ Tools for working with Avalon-Fortress.
             <id>ant</id>
             <version>1.5.1</version>
         </dependency>
+        <dependency>
+            <id>xml-apis</id>
+            <version>2.0.2</version>
+        </dependency>
     </dependencies>
 
 </project>
