@@ -136,7 +136,7 @@ public abstract class AbstractKernel
                 //Give sub-class chance to prepare entry
                 //This performs process required before the application
                 //is ready to be initialized
-                prepareApplication( name, entry );
+                prepareApplication( entry );
 
                 application.initialize();
             }
@@ -197,11 +197,10 @@ public abstract class AbstractKernel
      * Overide to provide functionality.
      * Usually used to setLogger(), contextualize, compose, configure.
      *
-     * @param name the name of application
      * @param entry the application entry
      * @exception ContainerException if an error occurs
      */
-    protected void prepareApplication( final String name, final SarEntry entry )
+    protected void prepareApplication( final SarEntry entry )
         throws ContainerException
     {
     }
