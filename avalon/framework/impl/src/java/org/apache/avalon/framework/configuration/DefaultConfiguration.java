@@ -90,7 +90,7 @@ public class DefaultConfiguration
         {
             throw new ConfigurationException( "No value is associated with the "+
                                               "configuration element \"" + getName() +
-                                              " at " + getLocation() );
+                                              "\" at " + getLocation() );
         }
     }
 
@@ -147,7 +147,7 @@ public class DefaultConfiguration
         {
             throw new ConfigurationException( "No attribute named \"" + name + "\" is " +
                                               "associated with the configuration element \"" +
-                                              getName() + " at " + getLocation() );
+                                              getName() + "\" at " + getLocation() );
         }
     }
 
