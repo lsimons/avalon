@@ -587,7 +587,7 @@ public class DefaultContainmentModel extends DefaultDeploymentModel
     * @param model a containment or component model 
     * @return the supplied model
     */
-    public DeploymentModel addModel( DeploymentModel model )
+    public DeploymentModel addModel( DeploymentModel model ) throws ModelException
     {
         final String name = model.getName();
         return addModel( name, model );
