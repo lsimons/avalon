@@ -1,5 +1,5 @@
 APACHE AVALON PROJECT STATUS:                          -*-indented-text-*-
-Last modified at [$Date: 2003/01/20 10:32:13 $]
+Last modified at [$Date: 2003/01/20 10:49:10 $]
 
 Background:
 
@@ -74,7 +74,7 @@ Pending issues:
       +1: nicolaken, leosimons, mcconnell, leosutic, 
       +0:
       -0:
-      -1: hammant, proyal, jefft, leif, lmccay
+      -1: hammant, proyal, jefft, leif, lmccay (emeritus?)
       
     o The STATUS file is a great mean of synching the community agenda. 
       To be effective, it must be uptodate, and I can't do it all myself. 
@@ -346,7 +346,7 @@ PMC Members, pending Board approval:
 Active Committers:
 
       bloritsch,colus,crafterm,cziegeler,hammant,jefft,leif,leosimons,leosutic,
-      mirceatoma,mcconnell,nicolaken,proyal,vinayc,lmccay
+      mirceatoma,mcconnell,nicolaken,proyal,vinayc
       
 
 Inactive Committers (three months without commits):      
@@ -357,7 +357,7 @@ Inactive Committers (three months without commits):
       
 Emeritus Committers (six months without commits):            
 
-      jon,fede
+      jon,fede,lmccay?
       
       
 Invited Committers:
