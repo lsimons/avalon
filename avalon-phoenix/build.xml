@@ -322,6 +322,8 @@ Legal:
 
     <jar file="${build.lib}/phoenix-client.jar" basedir="${build.classes}">
       <include name="org/apache/avalon/phoenix/*"/>
+      <include name="org/apache/avalon/phoenix/metainfo/**"/>
+      <include name="org/apache/avalon/phoenix/metadata/**"/>
       <include name="org/apache/avalon/phoenix/tools/**"/>
     </jar>
 
@@ -343,12 +345,10 @@ Legal:
          basedir="${build.classes}"
          manifest="${manifest.dir}/engine-Manifest.mf" >
 
-      <include name="org/apache/avalon/phoenix/metainfo/**"/>
       <include name="org/apache/avalon/phoenix/engine/**"/>
       <include name="org/apache/avalon/phoenix/frontends/**"/>
       <include name="org/apache/avalon/phoenix/components/**"/>
       <exclude name="org/apache/avalon/phoenix/engine/loader/**"/>
-      <exclude name="org/apache/avalon/phoenix/tools/**"/>
     </jar>
 
   </target>
