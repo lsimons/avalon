@@ -23,6 +23,9 @@ import org.apache.log.output.io.FileTarget;
 public class RotatingFileTarget
     extends FileTarget
 {
+    ///Flag indicating whether or not file should be appended to
+    private boolean             m_append;
+
     ///The rotation strategy to be used.
     private RotateStrategy      m_rotateStrategy;
 
@@ -47,7 +50,7 @@ public class RotatingFileTarget
     /**
      * Construct RotatingFileTarget object.
      *
-     * @param append true if file is to be appended to, false otherwise     *
+     * @param append true if file is to be appended to, false otherwise
      * @param formatter Formatter to be used
      * @param rotateStrategy RotateStrategy to be used
      * @param fileStrategy FileStrategy to be used
@@ -60,6 +63,7 @@ public class RotatingFileTarget
     {
         super( null, append, formatter );
 
+        m_append = append;
         m_rotateStrategy = rotateStrategy;
         m_fileStrategy = fileStrategy;
 
@@ -72,7 +76,7 @@ public class RotatingFileTarget
         close();
 
         final File file = m_fileStrategy.nextFile();
-        setFile( file );
+        setFile( file, m_append );
         openFile();
     }
 
@@ -81,13 +85,8 @@ public class RotatingFileTarget
      */
     protected synchronized void write( final String data )
     {
-        // write the log message
-        super.write( data );
-
         // if rotation is needed, close old File, create new File
-        final boolean rotate =
-            m_rotateStrategy.isRotationNeeded( data, getFile() );
-        if( rotate )
+        if( m_rotateStrategy.isRotationNeeded( data, getFile() ) )
         {
             try { rotate(); }
             catch( final IOException ioe )
@@ -95,6 +94,9 @@ public class RotatingFileTarget
                 getErrorHandler().error( "Error rotating file", ioe, null );
             }
         }
+
+        // write the log message
+        super.write( data );
     }
 }
 
