@@ -7,7 +7,7 @@
  */
 package org.apache.avalon.excalibur.thread.impl;
 
-import org.apache.avalon.excalibur.lang.ThreadContext;
+import org.apache.excalibur.threadcontext.ThreadContext;
 import org.apache.avalon.excalibur.pool.ObjectFactory;
 import org.apache.avalon.excalibur.pool.ResourceLimitingPool;
 import org.apache.avalon.excalibur.thread.ThreadControl;
@@ -29,7 +29,7 @@ import org.apache.avalon.framework.logger.Logger;
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
  * @author <a href="mailto:stefano@apache.org">Stefano Mazzocchi</a>
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/04/04 05:09:06 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/04/09 11:32:12 $
  * @since 4.1
  */
 public class ResourceLimitingThreadPool
