@@ -41,7 +41,7 @@ import org.apache.avalon.framework.service.ServiceException;
 /**
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/08/03 15:00:37 $
+ * @version CVS $Revision: 1.3 $ $Date: 2002/08/04 10:33:33 $
  * @since 4.1
  */
 public class DefaultInstrumentManager
@@ -62,6 +62,9 @@ public class DefaultInstrumentManager
     
     /** Configuration for the InstrumentManager */
     private Configuration m_configuration;
+    
+    /** List of configured connectors. */
+    private ArrayList m_connectors = new ArrayList();
 
     /** State file. */
     private File m_stateFile;
@@ -119,13 +122,19 @@ public class DefaultInstrumentManager
      *
      * @param name The name used to identify this InstrumentManager.  Should not
      *             contain any spaces or periods.
+     *
+     * @deprecated Name should be set in the instrument configuration file.
      */
     public DefaultInstrumentManager( String name )
     {
-        m_name = name;
-        // The description defaults to the name.
-        m_description = name;
-        
+        this();
+    }
+    
+    /**
+     * Creates a new DefaultInstrumentManager.
+     */
+    public DefaultInstrumentManager()
+    {
         // Initialize the Instrumentable elements.
         m_totalMemoryInstrument = new ValueInstrument( INSTRUMENT_TOTAL_MEMORY );
         m_freeMemoryInstrument = new ValueInstrument( INSTRUMENT_FREE_MEMORY );
@@ -150,9 +159,48 @@ public class DefaultInstrumentManager
         {
             m_configuration = configuration;
 
+            // Look for a configured name and description
+            m_name = configuration.getChild( "name" ).getValue( "instrument-manager" );
+            m_description = configuration.getChild( "description" ).getValue( m_name );
+            
+            // Configure the connectors
+            Configuration connectorsConf = configuration.getChild( "connectors" );
+            Configuration[] connectorConfs =
+                connectorsConf.getChildren( "connector" );
+            for( int i = 0; i < connectorConfs.length; i++ )
+            {
+                Configuration connectorConf = connectorConfs[ i ];
+                String className = connectorConf.getAttribute( "class" );
+                // Handle aliases
+                if ( className.equals( "altrmi" ) )
+                {
+                    className = "org.apache.excalibur.instrument.manager.altrmi."
+                        + "InstrumentManagerAltrmiConnector";
+                }
+                
+                // Look for the connector class and create an instance.
+                try
+                {
+                    Class clazz = Class.forName( className );
+                    InstrumentManagerConnector connector =
+                        (InstrumentManagerConnector)clazz.newInstance();
+                    
+                    // Initialize the new connector
+                    connector.setInstrumentManager( this );
+                    connector.configure( connectorConf );
+                    connector.start();
+                    
+                    m_connectors.add( connector );
+                }
+                catch ( Exception e )
+                {
+                    throw new ConfigurationException( "Unable to create connector because: "
+                        + e );
+                }
+            }
+            
             // Configure the instrumentables.
-            Configuration instrumentablesConf =
-                configuration.getChild( "instrumentables" );
+            Configuration instrumentablesConf =	configuration.getChild( "instrumentables" );
             Configuration[] instrumentableConfs =
                 instrumentablesConf.getChildren( "instrumentable" );
             for( int i = 0; i < instrumentableConfs.length; i++ )

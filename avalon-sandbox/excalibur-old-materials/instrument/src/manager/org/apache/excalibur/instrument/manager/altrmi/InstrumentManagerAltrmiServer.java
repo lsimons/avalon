@@ -24,8 +24,11 @@ import org.apache.excalibur.altrmi.server.impl.socket.CompleteSocketCustomStream
 
 /**
  *
+ * @deprecated Please configure connectors in the instrument manager's configuration
+ *  file.
+ *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/08/03 15:00:38 $
+ * @version CVS $Revision: 1.3 $ $Date: 2002/08/04 10:33:33 $
  * @since 4.1
  */
 public class InstrumentManagerAltrmiServer
