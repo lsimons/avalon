@@ -54,6 +54,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.excalibur.io.FileUtil;
@@ -61,7 +62,6 @@ import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
-import org.apache.avalon.framework.configuration.ConfigurationUtil;
 import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
 import org.apache.avalon.framework.configuration.DefaultConfigurationSerializer;
 import org.apache.avalon.framework.context.Context;
@@ -71,7 +71,7 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.phoenix.components.util.PropertyUtil;
 import org.apache.avalon.phoenix.interfaces.ConfigurationRepository;
 import org.apache.excalibur.configuration.merged.ConfigurationMerger;
-import org.apache.excalibur.configuration.merged.ConfigurationSplitter;
+
 import org.xml.sax.SAXException;
 
 /**
@@ -81,35 +81,27 @@ import org.xml.sax.SAXException;
  * When a Configuration is retrieved from the repository, the configuration from disk is
  * <i>merged</i> with the configuration from the SAR. This merge is accompilished via
  * {@link ConfigurationMerger#merge}.
- * </p><p>
- * When a Configuration is stored in the repository, if there is no <i>transient</i>, that is,
- * configuration from the SAR, Configuration information, the first store is that. Subsequent
- * calls to storeConfiguration will persist the difference between the <i>transient</i>
- * Configuration and the passed configuration to disk. The differences are computed via
- * {@link ConfigurationSplitter#split}
  * </p>
- *
  * @author <a href="mailto:proyal@apache.org">Peter Royal</a>
  * @see org.apache.excalibur.configuration.merged.ConfigurationMerger
- * @see org.apache.excalibur.configuration.merged.ConfigurationSplitter
  */
 public class FileSystemPersistentConfigurationRepository
-    extends AbstractLogEnabled
-    implements ConfigurationRepository, Contextualizable, Configurable, Initializable
+        extends AbstractLogEnabled
+        implements ConfigurationRepository, Contextualizable, Configurable, Initializable
 {
     private static final Resources REZ =
-        ResourceManager.getPackageResources( FileSystemPersistentConfigurationRepository.class );
+            ResourceManager.getPackageResources( FileSystemPersistentConfigurationRepository.class );
 
     private final Map m_persistedConfigurations = new HashMap();
-    private final Map m_transientConfigurations = new HashMap();
-    private final Map m_mergedConfigurations = new HashMap();
 
     private Context m_context;
 
     private File m_storageDirectory;
+    private String m_debugPath;
+    private DefaultConfigurationSerializer m_serializer;
 
     public void contextualize( final Context context )
-        throws ContextException
+            throws ContextException
     {
         m_context = context;
     }
@@ -128,24 +120,50 @@ public class FileSystemPersistentConfigurationRepository
                                                   m_storageDirectory );
 
             throw new ConfigurationException( message, e );
+        }
 
+        m_debugPath = configuration.getChild( "debug-output-path" ).getValue( null );
+    }
+
+    public Configuration processConfiguration( final String application,
+                                               final String block,
+                                               final Configuration configuration )
+            throws ConfigurationException
+    {
+        final Configuration processedConfiguration =
+                doProcessConfiguration( application, block, configuration );
+
+        if( null != m_debugPath )
+        {
+            writeDebugConfiguration( application, block, processedConfiguration );
+        }
+
+        return processedConfiguration;
+    }
+
+    private Configuration doProcessConfiguration( final String application,
+                                                  final String block,
+                                                  final Configuration configuration )
+            throws ConfigurationException
+    {
+        final Configuration persistedConfiguration =
+                (Configuration)m_persistedConfigurations.get( genKey( application, block ) );
+
+        if( null != persistedConfiguration )
+        {
+            return ConfigurationMerger.merge( persistedConfiguration, configuration );
+        }
+        else
+        {
+            return configuration;
         }
     }
 
-    public Configuration processConfiguration( String application,
-                                               String block,
-                                               Configuration configuration )
-        throws ConfigurationException
-    {
-        storeConfiguration( application, block, configuration );
-        return getConfiguration( application, block );
-    }
-
     private String constructStoragePath( final Configuration configuration )
-        throws ConfigurationException
+            throws ConfigurationException
     {
         final String path =
-            configuration.getChild( "storage-directory" ).getValue( "${phoenix.home}/conf/apps" );
+                configuration.getChild( "storage-directory" ).getValue( "${phoenix.home}/conf/apps" );
 
         try
         {
@@ -172,23 +190,31 @@ public class FileSystemPersistentConfigurationRepository
     }
 
     public void initialize()
-        throws Exception
+            throws Exception
     {
         loadConfigurations();
+
+        if( null != m_debugPath )
+        {
+            FileUtil.forceMkdir( new File( m_debugPath ) );
+
+            m_serializer = new DefaultConfigurationSerializer();
+            m_serializer.setIndent( true );
+        }
     }
 
     private void loadConfigurations()
-        throws IOException, SAXException, ConfigurationException
+            throws IOException, SAXException, ConfigurationException
     {
         final File[] apps = m_storageDirectory.listFiles( new ConfigurationDirectoryFilter() );
         for( int i = 0; i < apps.length; i++ )
         {
-            loadConfigurations( apps[ i ] );
+            loadConfigurations( apps[i] );
         }
     }
 
     private void loadConfigurations( final File appPath )
-        throws IOException, SAXException, ConfigurationException
+            throws IOException, SAXException, ConfigurationException
     {
         final DefaultConfigurationBuilder builder = new DefaultConfigurationBuilder();
         final String app = appPath.getName();
@@ -197,10 +223,10 @@ public class FileSystemPersistentConfigurationRepository
         for( int i = 0; i < blocks.length; i++ )
         {
             final String block =
-                blocks[ i ].getName().substring( 0, blocks[ i ].getName().indexOf( ".xml" ) );
+                    blocks[i].getName().substring( 0, blocks[i].getName().indexOf( ".xml" ) );
 
             m_persistedConfigurations.put( genKey( app, block ),
-                                           builder.buildFromFile( blocks[ i ] ) );
+                                           builder.buildFromFile( blocks[i] ) );
 
             if( getLogger().isDebugEnabled() )
             {
@@ -215,128 +241,28 @@ public class FileSystemPersistentConfigurationRepository
         return app + '-' + block;
     }
 
-    private void persistConfiguration( final String application,
-                                       final String block,
-                                       final Configuration configuration )
-        throws SAXException, IOException, ConfigurationException
+    private void writeDebugConfiguration( final String application,
+                                          final String block,
+                                          final Configuration configuration )
     {
-        final DefaultConfigurationSerializer serializer = new DefaultConfigurationSerializer();
-        final File directory = new File( m_storageDirectory, application );
-
-        FileUtil.forceMkdir( directory );
-
-        if( getLogger().isDebugEnabled() )
+        try
         {
-            getLogger().debug( "Serializing configuration to disk [app: " + application
-                               + ", block: " + block + "]" );
-        }
+            final File temp = File.createTempFile( application + "-" + block + "-",
+                                                   ".xml",
+                                                   new File( m_debugPath ) );
 
-        serializer.setIndent( true );
-        serializer.serializeToFile( new File( directory, block + ".xml" ), configuration );
-    }
+            m_serializer.serializeToFile( temp, configuration );
 
-    public void removeConfiguration( final String application, final String block )
-        throws ConfigurationException
-    {
-        m_transientConfigurations.remove( genKey( application, block ) );
-        m_mergedConfigurations.remove( genKey( application, block ) );
-    }
-
-    private void storeConfiguration( final String application,
-                                     final String block,
-                                     final Configuration configuration )
-        throws ConfigurationException
-    {
-
-        if( m_transientConfigurations.containsKey( genKey( application, block ) ) )
-        {
-            if( !ConfigurationUtil.equals( configuration, getConfiguration( application, block ) ) )
+            if( getLogger().isDebugEnabled() )
             {
-                final Configuration layer =
-                    ConfigurationSplitter.split( configuration,
-                                                 getConfiguration( application,
-                                                                   block,
-                                                                   m_transientConfigurations ) );
-
-                m_persistedConfigurations.put( genKey( application, block ), layer );
-                m_mergedConfigurations.remove( genKey( application, block ) );
-
-                try
-                {
-                    persistConfiguration( application, block, layer );
-                }
-                catch( SAXException e )
-                {
-                    final String message =
-                        REZ.getString( "config.error.persist", application, block );
-
-                    throw new ConfigurationException( message, e );
-                }
-                catch( IOException e )
-                {
-                    final String message =
-                        REZ.getString( "config.error.persist", application, block );
-
-                    throw new ConfigurationException( message, e );
-                }
+                final String message = "Configuration written at: " + temp;
+                getLogger().debug( message );
             }
         }
-        else
+        catch( final Exception e )
         {
-            m_transientConfigurations.put( genKey( application, block ), configuration );
+            final String message = "Unable to write debug output";
+            getLogger().error( message, e );
         }
-    }
-
-    private Configuration getConfiguration( final String application,
-                                            final String block )
-        throws ConfigurationException
-    {
-        final String key = genKey( application, block );
-        if( m_mergedConfigurations.containsKey( key ) )
-        {
-            return (Configuration)m_mergedConfigurations.get( key );
-        }
-        else
-        {
-            final Configuration configuration = createMergedConfiguration( application, block );
-
-            m_mergedConfigurations.put( key, configuration );
-
-            return configuration;
-        }
-    }
-
-    private Configuration createMergedConfiguration( final String application,
-                                                     final String block )
-        throws ConfigurationException
-    {
-        final Configuration t = getConfiguration( application, block, m_transientConfigurations );
-        final Configuration p = getConfiguration( application, block, m_persistedConfigurations );
-
-        if( null == t && p == null )
-        {
-            final String message = REZ.getString( "config.error.noconfig", block, application );
-
-            throw new ConfigurationException( message );
-        }
-        else if( null == t )
-        {
-            return p;
-        }
-        else if( null == p )
-        {
-            return t;
-        }
-        else
-        {
-            return ConfigurationMerger.merge( p, t );
-        }
-    }
-
-    private Configuration getConfiguration( final String application,
-                                            final String block,
-                                            final Map repository )
-    {
-        return (Configuration)repository.get( genKey( application, block ) );
     }
 }
