@@ -4,7 +4,7 @@
   <property name="merlin.build.inst.dir" value="${maven.build.dir}/${merlin.build.inst}"/>
 
   <property name="maven.checkstyle.format" value="avalon"/>
-  <property name="maven.jar.manifest" value="${basedir}/src/etc/project.mf"/>
+  <!--<property name="maven.jar.manifest" value="${basedir}/src/etc/project.mf"/>-->
   <property name="pom.organization.identifier" value="ASF"/>
   <property name="pom.specificationVersion" value="1.0"/>
 

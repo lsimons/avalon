@@ -2,3 +2,5 @@ maven.log
 velocity.log
 build.properties
 target
+logs
+build.xml
