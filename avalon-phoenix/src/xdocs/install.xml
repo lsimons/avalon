@@ -33,7 +33,7 @@
 <s1 title="Compiling">
 
 <p>
-    Execute the relavent platform specific script (build.[sh|bat]) in the base phoenix 
+    Execute the relevant platform specific script (build.[sh|bat]) in the base phoenix 
     directory. 
 </p>    
 
