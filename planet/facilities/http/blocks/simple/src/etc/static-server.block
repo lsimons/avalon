@@ -37,7 +37,7 @@
       <parameter name="context-path" value="/static" />
       <parameter name="resource-base" value="htdocs/" />
     </parameters>
-  </context>
+  </component>
 
   <component name="resource-handler" class="org.apache.avalon.http.impl.ResourceHandler">
     <parameters>
