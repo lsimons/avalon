@@ -119,14 +119,13 @@ public final class ExceptionUtil
     public static String[] splitString( final String string, final String onToken )
     {
         final StringTokenizer tokenizer = new StringTokenizer( string, onToken );
+        final String[] result = new String[ tokenizer.countTokens() ];
 
-        final ArrayList lines = new ArrayList();
-
-        while( tokenizer.hasMoreTokens() )
+        for( int i = 0; i < result.length; i++ )
         {
-            lines.add( tokenizer.nextToken() );
+            result[ i ] = tokenizer.nextToken();
         }
 
-        return (String[])lines.toArray( new String[ 0 ] );
+        return result;
     }
 }
