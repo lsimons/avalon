@@ -17,7 +17,7 @@
       <status>SNAPSHOT</status> 
     </info>
     <dependencies>
-      <include key="avalon-framework-api"/>
+      <include key="avalon-framework-api" runtime="false"/>
     </dependencies>
   </project>
 
@@ -30,7 +30,22 @@
     </info>
     <dependencies>
       <include key="avalon-finder-api"/>
-      <include key="avalon-composition-api"/>
+      <include key="avalon-composition-api" runtime="false"/>
+    </dependencies>
+    <plugins>
+      <include key="avalon-meta-tools"/>
+    </plugins>
+  </project>
+
+  <project basedir="facilities/finder/test">
+    <info>
+      <group>avalon/finder</group>
+      <name>avalon-finder-test</name>
+    </info>
+    <dependencies>
+      <include key="avalon-finder-impl"/>
+      <include key="avalon-framework-api" runtime="false"/>
+      <include key="avalon-merlin-unit" runtime="false"/>
     </dependencies>
     <plugins>
       <include key="avalon-meta-tools"/>
