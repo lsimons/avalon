@@ -13,11 +13,7 @@ import org.apache.avalon.cornerstone.services.scheduler.Target;
 import org.apache.avalon.cornerstone.services.scheduler.TimeScheduler;
 import org.apache.avalon.cornerstone.services.scheduler.TimeTrigger;
 import org.apache.avalon.cornerstone.services.threads.ThreadManager;
-import org.apache.avalon.excalibur.collections.BinaryHeap;
-import org.apache.avalon.excalibur.collections.PriorityQueue;
-import org.apache.avalon.excalibur.collections.SynchronizedPriorityQueue;
 import org.apache.avalon.framework.activity.Disposable;
-import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.activity.Startable;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.service.ServiceException;
@@ -35,12 +31,13 @@ import org.apache.avalon.framework.service.Serviceable;
  */
 public class DefaultTimeScheduler
     extends AbstractLogEnabled
-    implements TimeScheduler, Serviceable, Initializable, Startable, Disposable, Runnable
+    implements TimeScheduler, Serviceable, Startable, Disposable, Runnable
 {
-    private boolean m_running;
-    private Hashtable m_entries;
-    private PriorityQueue m_priorityQueue;
+    private final Hashtable m_entries = new Hashtable();
+    private final PriorityQueue m_priorityQueue =
+        new SynchronizedPriorityQueue( new BinaryHeap() );
     private ThreadManager m_threadManager;
+    private boolean m_running;
 
     /**
      * @phoenix:dependency name="org.apache.avalon.cornerstone.services.threads.ThreadManager"
@@ -51,16 +48,10 @@ public class DefaultTimeScheduler
         m_threadManager = (ThreadManager)serviceManager.lookup( ThreadManager.ROLE );
     }
 
-    public void initialize()
-    {
-        m_entries = new Hashtable();
-        m_priorityQueue = new SynchronizedPriorityQueue( new BinaryHeap() );
-    }
-
     public void dispose()
     {
-        m_entries = null;
-        m_priorityQueue = null;
+        m_entries.clear();
+        m_priorityQueue.clear();
     }
 
     /**
@@ -98,8 +89,10 @@ public class DefaultTimeScheduler
         }
         catch( final NoSuchElementException nse )
         {
-            getLogger().warn( "Unexpected exception when peek() on priority queue for " +
-                              entry.getName(), nse );
+            final String message =
+                "Unexpected exception when peek() on priority queue for " +
+                entry.getName();
+            getLogger().warn( message, nse );
         }
     }
 
@@ -224,7 +217,8 @@ public class DefaultTimeScheduler
         }
         catch( final Exception e )
         {
-            getLogger().warn( "Error executing trigger " + entry.getName(), e );
+            final String message = "Error executing trigger " + entry.getName();
+            getLogger().warn( message, e );
         }
     }
 
