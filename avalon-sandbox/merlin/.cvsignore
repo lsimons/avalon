@@ -4,3 +4,6 @@ build.properties
 target
 logs
 build.xml
+activation-spi
+activation
+
