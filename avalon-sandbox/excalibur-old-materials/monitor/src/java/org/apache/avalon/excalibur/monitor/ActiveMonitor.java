@@ -32,13 +32,13 @@ import java.util.HashMap;
  *     &lt;init-resources&gt;
  *       &lt;-- This entry can be repeated for every resource you want to register immediately --&gt;
  *
- *       &lt;resource key="<i>file:./myfile.html</i>" class="<i>org.apache.avalon.excalibur.monitor.FileMonitor</i>"/&gt;
+ *       &lt;resource key="<i>file:./myfile.html</i>" class="<i>org.apache.avalon.excalibur.monitor.FileResource</i>"/&gt;
  *     &lt;/init-resources&gt;
  *   &lt;/monitor&gt;
  * </pre>
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version $Id: ActiveMonitor.java,v 1.3 2001/12/11 09:53:30 jefft Exp $
+ * @version $Id: ActiveMonitor.java,v 1.4 2001/12/11 16:14:31 bloritsch Exp $
  */
 public final class ActiveMonitor extends AbstractLoggable
     implements Monitor, Component, Startable, ThreadSafe, Configurable, Runnable
