@@ -5,7 +5,7 @@
  * version 1.1, a copy of which has been included with this distribution in
  * the LICENSE.txt file.
  */
-package org.apache.avalon.phoenix.components.deployer.installer;
+package org.apache.avalon.phoenix.components.installer;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -23,19 +23,23 @@ import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.excalibur.io.FileUtil;
 import org.apache.avalon.excalibur.io.IOUtil;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
+import org.apache.avalon.phoenix.interfaces.Installation;
+import org.apache.avalon.phoenix.interfaces.InstallationException;
+import org.apache.avalon.phoenix.interfaces.Installer;
 
 /**
  * An Installer is responsible for taking a URL for Sar
  * and installing it as appropriate.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.17 $ $Date: 2002/09/15 10:42:42 $
+ * @version $Revision: 1.6 $ $Date: 2002/09/21 02:36:03 $
  */
-public class Installer
+public class DefaultInstaller
     extends AbstractLogEnabled
+    implements Installer
 {
     private static final Resources REZ =
-        ResourceManager.getPackageResources( Installer.class );
+        ResourceManager.getPackageResources( DefaultInstaller.class );
 
     private static final String META_INF = "META-INF";
     private static final String SAR_INF = "SAR-INF";
@@ -206,7 +210,7 @@ public class Installer
             expandZipFile( zipFile, directory, workDir, jars, url );
             //Prepare and create Installation
             final String[] classPath =
-                (String[])jars.toArray( new String[ jars.size() ] );
+                (String[]) jars.toArray( new String[ jars.size() ] );
 
             final String assembly = getURLAsString( new File( directory, FS_ASSEMBLY_XML ) );
             final String config = getURLAsString( new File( directory, FS_CONFIG_XML ) );
@@ -247,7 +251,7 @@ public class Installer
         final Enumeration entries = zipFile.entries();
         while( entries.hasMoreElements() )
         {
-            final ZipEntry entry = (ZipEntry)entries.nextElement();
+            final ZipEntry entry = (ZipEntry) entries.nextElement();
             final String name = fixName( entry.getName() );
 
             if( name.startsWith( META_INF ) )

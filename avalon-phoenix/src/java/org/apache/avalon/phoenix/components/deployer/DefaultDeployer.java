@@ -29,9 +29,9 @@ import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
-import org.apache.avalon.phoenix.components.deployer.installer.Installation;
-import org.apache.avalon.phoenix.components.deployer.installer.InstallationException;
-import org.apache.avalon.phoenix.components.deployer.installer.Installer;
+import org.apache.avalon.phoenix.interfaces.Installation;
+import org.apache.avalon.phoenix.interfaces.InstallationException;
+import org.apache.avalon.phoenix.components.installer.DefaultInstaller;
 import org.apache.avalon.phoenix.interfaces.Application;
 import org.apache.avalon.phoenix.interfaces.ClassLoaderManager;
 import org.apache.avalon.phoenix.interfaces.ConfigurationRepository;
@@ -65,7 +65,7 @@ public class DefaultDeployer
 
     private final Assembler m_assembler = new Assembler();
     private final SarVerifier m_verifier = new SarVerifier();
-    private final Installer m_installer = new Installer();
+    private final DefaultInstaller m_installer = new DefaultInstaller();
     private final Map m_installations = new Hashtable();
     private LogManager m_logManager;
     private Kernel m_kernel;
