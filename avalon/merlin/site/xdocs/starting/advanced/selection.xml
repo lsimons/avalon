@@ -101,29 +101,11 @@ Component deployment profiles are co-located with the component implementation c
           directive uses the profile attribute content of the element will     
           be ignored.
         </p>
-        <p><i>block.xml</i></p>
+        <p>Extract from <i>block.xml</i></p>
 <source><![CDATA[
-<container name="tutorial">
-
-   <classloader>
-     <classpath>
-       <repository>
-         <resource id="avalon-framework:avalon-framework-impl" version="4.1.5"/>
-       </repository>
-     </classpath>
-   </classloader>
-
-   <component name="hello" class="tutorial.HelloComponent"/>
-
-   <!-- 
-   addition of a directive to include the RandomGeneratorProvider
-   component type using the profile key "secondary"
-   -->
-
    <component name="randomizer" 
-     class="tutorial.RandomGeneratorProvider" profile="secondary"/>
-
-</container>
+     class="tutorial.RandomGeneratorProvider" 
+     profile="secondary"/>
 ]]></source>
       </subsection>
 
@@ -140,9 +122,9 @@ In the logging output we see that Merlin has selected the "secondary" profile an
         </p>
 <source>
 [INFO   ] (kernel): installing: file:/${user.dir}/target/classes/
-[INFO   ] (tutorial.random-provider-secondary): configuration stage
-[INFO   ] (tutorial.random-provider-secondary): seed: 2048
-[INFO   ] (tutorial.hello): supplied random: 768785105
+[INFO   ] (tutorial.randomizer): configuration stage
+[INFO   ] (tutorial.randomizer): seed: 2048
+[INFO   ] (tutorial.hello): supplied random: 1998430032
 [INFO   ] (kernel): dissassembly phase
 [INFO   ] (kernel): disposal phase
 </source>
