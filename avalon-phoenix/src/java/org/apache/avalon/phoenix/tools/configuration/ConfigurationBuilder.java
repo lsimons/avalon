@@ -23,7 +23,7 @@ import org.xml.sax.XMLReader;
  * Utility class used to load Configuration trees from XML files.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2001/12/15 08:44:10 $
+ * @version $Revision: 1.3 $ $Date: 2002/03/21 08:18:16 $
  */
 public class ConfigurationBuilder
 {
@@ -68,15 +68,6 @@ public class ConfigurationBuilder
         reader.setEntityResolver( c_resolver );
         reader.setContentHandler( handler );
         reader.setErrorHandler( handler );
-    }
-
-    /**
-     * Build a configuration object using an InputStream.
-     */
-    public static Configuration build( final InputStream inputStream )
-        throws SAXException, ParserConfigurationException, IOException, ConfigurationException
-    {
-        return build( new InputSource( inputStream ) );
     }
 
     /**
