@@ -10,7 +10,7 @@
 # It is overridden by ../ant.properties and ~/build.properties
 # It overrides all default.properties files and ~/.ant.properties
 #
-# $Id: ant.properties.sample,v 1.7 2002/08/04 01:07:38 leif Exp $
+# $Id: ant.properties.sample,v 1.8 2002/08/07 11:46:41 leif Exp $
 # -----------------------------------------------------------------------------
 
 # ----- Compile Control Flags -----
@@ -40,15 +40,22 @@ excalibur-logger.home=${avalon-excalibur.home}/logger
 excalibur-logger.lib=${excalibur-logger.home}/build/lib
 excalibur-logger.jar=${excalibur-logger.home}/excalibur-logger-1.0.jar
 
-# ----- Excalibur Instrument -----
-excalibur-instrument.home=../instrument/build/lib
-excalibur-instrument.jar=${excalibur-instrument.home}/excalibur-instrument-0.3.jar
-
 # ----- Excalibur Pool -----
 excalibur-pool.home=${avalon-excalibur.home}/pool
 excalibur-pool.lib=${excalibur-pool.home}/build/lib
 excalibur-pool.jar=${excalibur-pool.home}/excalibur-pool-1.0.jar
 
+# ----- Excalibur Instrument -----
+excalibur-instrument.home=${avalon-excalibur.home}/instrument/dist
+excalibur-instrument.jar=${excalibur-instrument.home}/excalibur-instrument-0.3.jar
+excalibur-instrument-manager.jar=${excalibur-instrument.home}/excalibur-instrument-manager-0.3.jar
+excalibur-instrument-manager-interfaces.jar=${excalibur-instrument.home}/excalibur-instrument-manager-interfaces-0.3.jar
+
+# ----- Altrmi -----
+excalibur-altrmi.home=${avalon-excalibur.home}/altrmi/dist
+excalibur-altrmi-common.jar=${excalibur-altrmi.home}/excalibur-altrmi-common.jar
+excalibur-altrmi-server-impl.jar=${excalibur-altrmi.home}/excalibur-altrmi-server-impl.jar
+excalibur-altrmi-server-interfaces.jar=${excalibur-altrmi.home}/excalibur-altrmi-server-interfaces.jar
 
 
 # --------------------------------------------------
