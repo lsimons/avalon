@@ -4,6 +4,7 @@
 
   <x:project index="../system/index.xml"/>
   <x:prepare/>
-  <x:xdoc/>
+  <!--<x:xdoc theme="modern"/>-->
+  <x:xdoc theme="avalon2"/>
 
 </project>

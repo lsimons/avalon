@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <document>
-  <header>
-    <title>Avalon Framework - Guide - Separation of Interface and Implementation</title>
-    <authors>
-      <person name="Paul Hammant" email="Paul_Hammant@yahoo.com"/>
-      <person name="Peter Donald" email="peter at apache.org"/>
-    </authors>
-  </header>
+  <properties>
+    <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+    <title>Merlin Runtime</title>
+  </properties> 
+
   <body>
     <section name="Introduction">
       <p>

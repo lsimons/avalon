@@ -19,12 +19,11 @@
 
 <document>
 
-  <header>
-    <title>Library Directive</title>
-    <authors>
-      <person name="Stephen McConnell" email="mcconnell@apache.org"/>
-    </authors>
-  </header>
+  <properties>
+    <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+    <title>Merlin Runtime</title>
+  </properties> 
+
 
   <body>
 

@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <document>
-  <header>
-    <title>Patterns in Avalon</title>
-    <authors>
-      <person name="Avalon Documentation Team" email="dev@avalon.apache.org"/>
-    </authors>
-  </header>
+  <properties>
+    <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+    <title>Merlin Runtime</title>
+  </properties> 
+
   <body>
     <section name="Getting Started with Patterns">
       <p>

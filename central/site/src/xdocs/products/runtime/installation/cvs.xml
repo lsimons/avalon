@@ -18,12 +18,11 @@
 -->
 
 <document>
-    <header>
-        <title>Installation - Merlin CVS</title>
-        <authors>
-            <person name="Stephen McConnell" email="mcconnell@apache.org"/>
-        </authors>
-    </header>
+  <properties>
+    <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+    <title>Merlin Runtime</title>
+  </properties> 
+
     <body>
         <section name="Building Merlin from CVS">
 

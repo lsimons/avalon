@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <document>
-  <header>
-    <title>Avalon Framework - Guide - Security Concerns</title>
-    <authors>
-      <person name="Berin Loritsch" email="bloritsch@apache.org"/>
-    </authors>
-  </header>
+  <properties>
+    <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+    <title>Merlin Runtime</title>
+  </properties> 
+
   <body>
     <section name="Introduction">
       <p>

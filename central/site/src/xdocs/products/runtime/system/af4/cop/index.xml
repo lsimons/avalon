@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <document>
-  <header>
-    <title>Avalon Framework - Guide - What is COP?</title>
-    <version>1.0</version>
-    <authors>
-      <person name="Leo Simons" email="leosimons@apache.org"/>
-    </authors>
-  </header>
+  <properties>
+    <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+    <title>Merlin Runtime</title>
+  </properties> 
+
   <body>
     <section name="Introduction"> 
       <p>

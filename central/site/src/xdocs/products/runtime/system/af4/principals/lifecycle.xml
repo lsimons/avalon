@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <document>
-  <header>
-    <title>Avalon Framework - The Component Lifecycle</title>
-    <authors>
-      <person id="BL" name="Berin Loritsch" email="bloritsch@apache.org"/>
-      <person id="PD" name="Peter Donald" email="peter at apache.org"/>
-      <person id="LS" name="Leo Simons" email="mail@leosimons.com"/>
-    </authors>
-  </header>
+  <properties>
+    <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+    <title>Merlin Runtime</title>
+  </properties> 
+
   <body>
     <section name="Introduction">
       <p>
