@@ -21,6 +21,7 @@ import org.apache.avalon.composition.data.ComponentProfile;
 import org.apache.avalon.composition.data.DeploymentProfile;
 import org.apache.avalon.composition.model.ProfileUnknownException;
 import org.apache.avalon.meta.info.DependencyDescriptor;
+import org.apache.avalon.meta.info.ReferenceDescriptor;
 import org.apache.avalon.meta.info.StageDescriptor;
 import org.apache.avalon.meta.info.Type;
 
@@ -29,7 +30,7 @@ import org.apache.avalon.meta.info.Type;
  * storage and retrival of component types.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.5 $ $Date: 2004/01/24 23:25:25 $
+ * @version $Revision: 1.6 $ $Date: 2004/02/21 23:54:42 $
  */
 public interface TypeRepository
 {
@@ -73,13 +74,30 @@ public interface TypeRepository
      */
     Type[] getTypes( DependencyDescriptor dependency );
 
+   /**
+    * Locate the set of component types capable of services the supplied
+    * dependency.
+    * @param dependency a service dependency descriptor
+    * @param search if TRUE then search for solution using the parent repository
+    * @return a set of types capable of servicing the supplied dependency
+    */
+    Type[] getTypes( DependencyDescriptor dependency, boolean search );
+
+   /**
+    * Locate the set of component types capable of services the supplied
+    * reference.
+    * @param reference a service reference descriptor
+    * @return a set of types capable of servicing the supplied service reference
+    */
+    Type[] getTypes( ReferenceDescriptor reference );
+
     /**
      * Locate the set of component types capable of services the supplied
-     * dependency.
-     * @param dependency a service dependency descriptor
-     * @return a set of types capable of servicing the supplied dependency
+     * reference.
+     * @param reference a service reference descriptor
+     * @return a set of types capable of servicing the supplied service reference
      */
-    Type[] getTypes( DependencyDescriptor dependency, boolean search );
+    Type[] getTypes( ReferenceDescriptor reference, boolean search );
 
     /**
      * Locate the set of component types that provide the supplied extension.

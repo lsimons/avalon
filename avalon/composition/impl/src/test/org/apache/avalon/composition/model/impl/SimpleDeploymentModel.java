@@ -26,6 +26,7 @@ import org.apache.avalon.composition.model.Commissionable;
 
 import org.apache.avalon.meta.info.DependencyDescriptor;
 import org.apache.avalon.meta.info.ServiceDescriptor;
+import org.apache.avalon.meta.info.ReferenceDescriptor;
 import org.apache.avalon.meta.info.StageDescriptor;
 
 import org.apache.avalon.framework.logger.Logger;
@@ -120,6 +121,17 @@ public class SimpleDeploymentModel
     {
         return true;
     }
+
+   /**
+    * Return TRUE is this model is capable of supporting a supplied 
+    * service.
+    * @return true if this model can fulfill the service
+    */
+    public boolean isaCandidate( ReferenceDescriptor reference )
+    {
+        return true;
+    }
+
 
     //-----------------------------------------------------------
     // composite assembly

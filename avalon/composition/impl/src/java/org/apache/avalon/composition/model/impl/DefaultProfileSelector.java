@@ -23,6 +23,7 @@ import org.apache.avalon.composition.model.ProfileSelector;
 
 import org.apache.avalon.meta.info.DependencyDescriptor;
 import org.apache.avalon.meta.info.StageDescriptor;
+import org.apache.avalon.meta.info.ReferenceDescriptor;
 
 /**
  * Default profile selector class. The default selector selects profiles based
@@ -31,7 +32,7 @@ import org.apache.avalon.meta.info.StageDescriptor;
  * the first profile matching the category is returned.
  *
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.5 $ $Date: 2004/02/10 16:23:33 $
+ * @version $Revision: 1.6 $ $Date: 2004/02/21 23:54:42 $
  */
 class DefaultProfileSelector implements ProfileSelector
 {
@@ -63,6 +64,20 @@ class DefaultProfileSelector implements ProfileSelector
      *    no satisfactory profile can be established
      */
     public DeploymentProfile select( DeploymentProfile[] profiles, StageDescriptor stage )
+    {
+        return select( profiles );
+    }
+
+    /**
+     * Returns the preferred profile from an available selection of
+     * candidates profiles.
+     *
+     * @param profiles the set of candidate profiles
+     * @param reference a service reference
+     * @return the preferred profile or null if 
+     *    no satisfactory profile can be established
+     */
+    public DeploymentProfile select( DeploymentProfile[] profiles, ReferenceDescriptor reference )
     {
         return select( profiles );
     }

@@ -18,6 +18,7 @@
 package org.apache.avalon.composition.model;
 
 import org.apache.avalon.meta.info.DependencyDescriptor;
+import org.apache.avalon.meta.info.ReferenceDescriptor;
 import org.apache.avalon.meta.info.StageDescriptor;
 
 /**
@@ -26,7 +27,7 @@ import org.apache.avalon.meta.info.StageDescriptor;
  * a stage or service dependency.
  *
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.3 $ $Date: 2004/01/24 23:25:25 $
+ * @version $Revision: 1.4 $ $Date: 2004/02/21 23:54:42 $
  */
 public interface ModelRepository
 {
@@ -47,6 +48,14 @@ public interface ModelRepository
     DeploymentModel getModel( DependencyDescriptor dependency );
 
     /**
+     * Locate a model meeting the supplied service criteria.
+     *
+     * @param reference a version interface descriptor
+     * @return the model
+     */
+    DeploymentModel getModel( ReferenceDescriptor reference );
+
+    /**
      * Locate all models meeting the supplied dependency criteria.
      *
      * @param dependency a component service dependency
@@ -61,7 +70,17 @@ public interface ModelRepository
      * @param stage a component stage dependency
      * @return the candidate models
      */
-    DeploymentModel[] getCandidateProviders( StageDescriptor stage );
+    DeploymentModel[] getCandidateProviders( 
+      StageDescriptor stage );
+
+    /**
+     * Locate all models meeting the supplied service reference criteria.
+     *
+     * @param reference a service reference
+     * @return the candidate models
+     */
+    public DeploymentModel[] getCandidateProviders( 
+      ReferenceDescriptor reference );
 
     /**
      * Locate a model meeting the supplied criteria.

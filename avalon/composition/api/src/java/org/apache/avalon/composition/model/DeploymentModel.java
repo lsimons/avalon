@@ -26,6 +26,7 @@ import org.apache.avalon.composition.model.Resolver;
 import org.apache.avalon.meta.info.DependencyDescriptor;
 import org.apache.avalon.meta.info.ServiceDescriptor;
 import org.apache.avalon.meta.info.StageDescriptor;
+import org.apache.avalon.meta.info.ReferenceDescriptor;
 
 import org.apache.avalon.framework.logger.Logger;
 
@@ -33,7 +34,7 @@ import org.apache.avalon.framework.logger.Logger;
  * Model desribing a deployment scenario.
  *
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.14 $ $Date: 2004/02/12 05:59:41 $
+ * @version $Revision: 1.15 $ $Date: 2004/02/21 23:54:42 $
  */
 public interface DeploymentModel extends Commissionable, Resolver
 {
@@ -94,6 +95,15 @@ public interface DeploymentModel extends Commissionable, Resolver
     * @return true if this model can fulfill the dependency
     */
     boolean isaCandidate( StageDescriptor stage );
+
+   /**
+    * Return TRUE is this model is capable of supporting a supplied 
+    * service.
+    *
+    * @param reference the service reference descriptor
+    * @return true if this model can fulfill the service
+    */
+    boolean isaCandidate( ReferenceDescriptor reference );
 
     //-----------------------------------------------------------
     // composite assembly

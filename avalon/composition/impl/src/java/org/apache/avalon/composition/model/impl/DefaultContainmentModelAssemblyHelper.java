@@ -43,6 +43,7 @@ import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.meta.info.Type;
 import org.apache.avalon.meta.info.DependencyDescriptor;
 import org.apache.avalon.meta.info.ServiceDescriptor;
+import org.apache.avalon.meta.info.ReferenceDescriptor;
 import org.apache.avalon.meta.info.StageDescriptor;
 
 /**
@@ -50,7 +51,7 @@ import org.apache.avalon.meta.info.StageDescriptor;
  * a supplied path.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $ $Date: 2004/02/12 05:59:41 $
+ * @version $Revision: 1.4 $ $Date: 2004/02/21 23:54:42 $
  */
 class DefaultContainmentModelAssemblyHelper
 {
@@ -252,6 +253,14 @@ class DefaultContainmentModelAssemblyHelper
         }
     }
 
+    DeploymentModel findDependencyProvider( DependencyDescriptor dependency )
+      throws AssemblyException
+    {
+        ArrayList list = new ArrayList();
+        ModelRepository repository = m_context.getModelRepository();
+        return findDependencyProvider( repository, dependency, list );
+    }
+
     private DeploymentModel findDependencyProvider( 
       ModelRepository repository, DependencyDescriptor dependency, List subjects )
       throws AssemblyException
@@ -308,6 +317,72 @@ class DefaultContainmentModelAssemblyHelper
             throw new AssemblyException( error );
         }
     }
+
+    DeploymentModel findServiceProvider( ReferenceDescriptor reference )
+      throws AssemblyException
+    {
+        ArrayList list = new ArrayList();
+        ModelRepository repository = m_context.getModelRepository();
+        return findServiceProvider( repository, reference, list );
+    }
+
+    private DeploymentModel findServiceProvider( 
+      ModelRepository repository, ReferenceDescriptor reference, List subjects )
+      throws AssemblyException
+    {
+        DeploymentModel[] candidates = 
+          repository.getCandidateProviders( reference );
+        ModelSelector selector = new DefaultModelSelector();
+        DeploymentModel model = selector.select( candidates, reference );
+        if( model != null )
+        {
+            assembleModel( model, subjects );
+            return model;
+        }
+
+        //
+        // otherwise, check for any packaged profiles that 
+        // we could use to construct the model
+        //
+
+        DeploymentProfile[] profiles = findServiceProfiles( reference );
+        ProfileSelector profileSelector = new DefaultProfileSelector();
+        DeploymentProfile profile = profileSelector.select( profiles, reference );
+        if( profile != null ) 
+        {
+            try
+            {
+                DeploymentModel solution = m_model.createDeploymentModel( profile );
+                assembleModel( solution, subjects );
+                m_model.addModel( solution );
+                return solution;
+            }
+            catch( AssemblyException ae )
+            {
+                final String error = 
+                  "Nested assembly failure while attempting to construct model"
+                  + " for the profile: [" + profile + "] for the reference: ["
+                  + reference + "].";
+                throw new AssemblyException( error, ae );
+            }
+            catch( ModelException me )
+            {
+                final String error = 
+                  "Nested model failure while attempting to add model"
+                  + " for the profile: [" + profile + "] for the reference: ["
+                  + reference + "].";
+                throw new AssemblyException( error, me );
+            }
+        }
+        else
+        {
+            final String error = 
+              "Unable to locate a service provider for the reference: [ "
+              + reference + "].";
+            throw new AssemblyException( error );
+        }
+    }
+
 
     private DeploymentModel findExtensionProvider( 
       ModelRepository repository, StageModel stage, List subjects )
@@ -412,6 +487,22 @@ class DefaultContainmentModelAssemblyHelper
     {
         TypeRepository repository = m_context.getClassLoaderModel().getTypeRepository();
         Type[] types = repository.getTypes( dependency );
+        try
+        {
+            return getProfiles( repository, types );
+        }
+        catch( TypeUnknownException tue )
+        {
+            // will not happen
+            final String error = "An irrational condition has occured.";
+            throw new ModelRuntimeException( error, tue );
+        }
+    }
+
+    private DeploymentProfile[] findServiceProfiles( ReferenceDescriptor reference )
+    {
+        TypeRepository repository = m_context.getClassLoaderModel().getTypeRepository();
+        Type[] types = repository.getTypes( reference );
         try
         {
             return getProfiles( repository, types );

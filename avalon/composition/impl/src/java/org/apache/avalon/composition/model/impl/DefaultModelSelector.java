@@ -24,6 +24,7 @@ import org.apache.avalon.composition.model.DeploymentModel;
 import org.apache.avalon.composition.model.ModelSelector;
 
 import org.apache.avalon.meta.info.DependencyDescriptor;
+import org.apache.avalon.meta.info.ReferenceDescriptor;
 import org.apache.avalon.meta.info.StageDescriptor;
 
 
@@ -34,7 +35,7 @@ import org.apache.avalon.meta.info.StageDescriptor;
  * the first profile matching the category is returned.
  *
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.4 $ $Date: 2004/02/10 16:23:33 $
+ * @version $Revision: 1.5 $ $Date: 2004/02/21 23:54:42 $
  */
 class DefaultModelSelector implements ModelSelector
 {
@@ -70,9 +71,38 @@ class DefaultModelSelector implements ModelSelector
         return select( candidates );
     }
 
+    /**
+     * Returns the preferred model from an available selection of candidates
+     * @param models the set of candidate models 
+     * @param reference the versioned service reference
+     * @return the preferred provider or null if no satisfactory provider 
+     *    can be established
+     */
+    public DeploymentModel select( DeploymentModel[] models, ReferenceDescriptor reference )
+    {
+        DeploymentModel[] candidates = filterCandidateProviders( models, reference );
+        return select( candidates );
+    }
+
+
     //==============================================================
     // implementation
     //==============================================================
+
+    private DeploymentModel[] filterCandidateProviders( 
+      DeploymentModel[] models, ReferenceDescriptor reference )
+    {
+        ArrayList list = new ArrayList();
+        for( int i = 0; i < models.length; i++ )
+        {
+            DeploymentModel model = models[i];
+            if( model.isaCandidate( reference ) )
+            {
+                list.add( model );
+            }
+        }
+        return (DeploymentModel[]) list.toArray( new DeploymentModel[0] );
+    }
 
     private DeploymentModel[] filterCandidateProviders( 
       DeploymentModel[] models, DependencyDescriptor dependency )

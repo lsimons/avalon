@@ -46,7 +46,7 @@ import org.apache.avalon.meta.info.Type;
  * storage and retrival of component types.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.7 $ $Date: 2004/02/10 16:23:34 $
+ * @version $Revision: 1.8 $ $Date: 2004/02/21 23:54:42 $
  */
 class DefaultTypeRepository implements TypeRepository
 {
@@ -263,23 +263,47 @@ class DefaultTypeRepository implements TypeRepository
         return getTypes( dependency, true );
     }
 
-    /**
-     * Locate the set of component types in the local repository 
-     * capable of servicing the supplied dependency.
-     *
-     * @param dependency a service dependency descriptor
-     * @return a set of types capable of servicing the supplied dependency
-     */
+   /**
+    * Locate the set of component types in the local repository 
+    * capable of servicing the supplied dependency.
+    *
+    * @param dependency a service dependency descriptor
+    * @param search if TRUE then search for solution using the parent repository
+    * @return a set of types capable of servicing the supplied dependency
+    */
     public Type[] getTypes( DependencyDescriptor dependency, boolean search )
     {
-        if( dependency == null )
+        return getTypes( dependency.getReference(), search );
+    }
+
+   /**
+    * Locate the set of component types capable of services the supplied
+    * reference.
+    * @param reference a service reference descriptor
+    * @return a set of types capable of servicing the supplied service reference
+    */
+    public Type[] getTypes( ReferenceDescriptor reference )
+    {
+        return getTypes( reference, true );
+    }
+
+   /**
+    * Locate the set of component types capable of services the supplied
+    * reference.
+    * @param reference a service reference descriptor
+    * @param search if TRUE then search for solution using the parent repository
+    * @return a set of types capable of servicing the supplied service reference
+    */
+    public Type[] getTypes( ReferenceDescriptor reference, boolean search )
+    {
+        if( reference == null )
         {
-            throw new NullPointerException( "dependency" );
+            throw new NullPointerException( "reference" );
         }
 
         ArrayList list = new ArrayList();
-        ReferenceDescriptor reference = dependency.getReference();
         Type[] types = getTypes( false );
+
         for( int i=0; i<types.length; i++ )
         {
             Type type = types[i];
@@ -291,7 +315,7 @@ class DefaultTypeRepository implements TypeRepository
 
         if( search && m_parent != null )
         {
-            Type[] suppliment = m_parent.getTypes( dependency );
+            Type[] suppliment = m_parent.getTypes( reference );
             for( int i=0; i<suppliment.length; i++ )
             {
                 list.add( suppliment[i] );
@@ -300,6 +324,7 @@ class DefaultTypeRepository implements TypeRepository
 
         return (Type[]) list.toArray( new Type[0] );
     }
+
 
     /**
      * Locate the set of local component types that provide the 
