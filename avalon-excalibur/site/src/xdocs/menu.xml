@@ -14,7 +14,7 @@
   <menu name="Containers">
     <item name="Component" href="http://a/component/index.html"/>
     <item name="Fortress" href="http://a/fortress/index.html"/>
-    <item name="Merlin" href="http://a/merlin/index.html"/>
+    <item name="Merlin" href="http://jakarta.apache.org/avalon/merlin/index.html"/>
     <item name="Tweety" href="http://a/tweety/index.html"/>
   </menu>
 
@@ -44,11 +44,13 @@
     <item name="Collections" href="http://a/collections/index.html"/>
     <item name="Configuration" href="http://a/configuration/index.html"/>
     <item name="Concurrent" href="http://a/concurrent/index.html"/>
+    <item name="Container" href="http://a/container/index.html"/>
     <item name="Extension" href="http://a/extension/index.html"/>
     <item name="I/O" href="http://a/io/index.html"/>
     <item name="Internationalization" href="http://a/i18n/index.html"/>
     <item name="Logger" href="http://a/logger/index.html"/>
     <item name="Naming" href="http://a/naming/index.html"/>
+    <item name="Meta" href="http://a/meta/index.html"/>
     <item name="Pool" href="http://a/pool/index.html"/>
     <item name="Source Resolver" href="http://a/sourceresolve/index.html"/>
     <item name="TAR" href="http://a/tar/index.html"/>
