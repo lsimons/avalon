@@ -1,0 +1,4 @@
+Unlike the package name would suggest. This is *not* a simple example. In fact
+it serves as a basic application which features have been added to over time to 
+test various features of phoenix. It is recomended you don't look at this demo 
+unless you are familiar with Avalon/Phoenix.

@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+<!DOCTYPE assembly PUBLIC "-//PHOENIX/Assembly DTD Version 1.0//EN"
+                  "http://jakarta.apache.org/avalon/dtds/phoenix/assembly_1_0.dtd">
+
+<assembly>
+
+  <listener class="org.apache.avalon.testserver.SimpleListener"
+                  name="simple-listener" />
+
+  <!-- The Storage block -->
+  <block class="org.apache.avalon.cornerstone.blocks.masterstore.RepositoryManager"
+         name="objectstorage" />
+
+  <!-- The Packet Manager block -->
+  <block class="org.apache.avalon.cornerstone.blocks.packet.DefaultPacketManager"
+         name="packet-manager">
+    <provide name="thread-manager"
+             role="org.apache.avalon.cornerstone.services.threads.ThreadManager" />
+  </block>
+
+  <!-- The ThreadManager block -->
+  <block class="org.apache.avalon.cornerstone.blocks.threads.DefaultThreadManager"
+         name="thread-manager" />
+
+  <!-- The Connection Manager block -->
+  <block class="org.apache.avalon.cornerstone.blocks.connection.DefaultConnectionManager"
+         name="connections">
+    <provide name="thread-manager"
+             role="org.apache.avalon.cornerstone.services.threads.ThreadManager" />
+  </block>
+
+  <!-- The Socket Manager block -->
+  <block class="org.apache.avalon.cornerstone.blocks.sockets.DefaultSocketManager" name="sockets" />
+
+  <!-- The TimeScheduler block -->
+  <block class="org.apache.avalon.cornerstone.blocks.scheduler.DefaultTimeScheduler" name="scheduler">
+    <provide name="thread-manager"
+             role="org.apache.avalon.cornerstone.services.threads.ThreadManager" />
+  </block>
+
+  <!--                                          -->
+  <!-- Below this section are the simple server -->
+  <!--                                          -->
+
+  <block class="org.apache.avalon.testserver.SimpleServer"
+         name="simple-server" >
+
+    <!-- The names here must match the names specified for a Block in some conf.xml file.
+    The role should be the interface mentioned in the BlockInfo (.xinfo) files  -->
+
+
+    <provide name="packet-manager"
+             role="org.apache.avalon.cornerstone.services.packet.PacketManager"/>
+    <provide name="sockets" role="org.apache.avalon.cornerstone.services.sockets.SocketManager"/>
+    <provide name="connections"
+             role="org.apache.avalon.cornerstone.services.connection.ConnectionManager" />
+    <provide name="objectstorage" role="org.apache.avalon.cornerstone.services.store.Store"/>
+    <provide name="scheduler"
+             role="org.apache.avalon.cornerstone.services.scheduler.TimeScheduler"/>
+  </block>
+
+</assembly>
