@@ -35,11 +35,22 @@
     <package>org.apache.excalibur</package>
 
     <dependencies>
-        <dependency>
-            <id>avalon-framework</id>
-            <version>4.1.5</version>
-            <groupId>framework</groupId>
-        </dependency>
+
+      <!-- build deps -->
+
+      <dependency>
+        <groupId>avalon-framework</groupId>
+        <artifactId>avalon-framework-api</artifactId>
+        <version>4.1.5</version>
+      </dependency>
+
+      <!-- test deps -->
+
+      <dependency>
+        <groupId>avalon-framework</groupId>
+        <artifactId>avalon-framework-impl</artifactId>
+        <version>4.1.5</version>
+      </dependency>
 
     </dependencies>
 
