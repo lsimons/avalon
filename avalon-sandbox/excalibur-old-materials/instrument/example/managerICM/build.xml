@@ -4,15 +4,14 @@
 <!-- Container Example build file!                                           -->
 <!-- ======================================================================= -->
 
-<project name="instrument-manager-example" default="main" basedir=".">
+<project name="instrument-example-ecm" default="main" basedir=".">
 
-    <property name="avalon-framework.home" value="${basedir}/../../../jakarta-avalon"/>
+    <!--property name="avalon-framework.home" value="${basedir}/../../../../jakarta-avalon"/-->
     <!--
       Give user a chance to override without editing this file
       (and without typing -D each time he compiles it)
     -->
     <property file="ant.properties"/>
-    <property file="../ant.properties"/>
     <property file="${user.home}/.ant.properties"/>
     <property file="default.properties"/>
 
@@ -21,17 +20,17 @@
     <property name="build.classes.dir"     value="${build.dir}/classes"/>
     <property name="build.javadocs.dir"    value="${build.dir}/javadocs"/>
     <property name="lib.dir"               value="${basedir}/lib"/>
+    <property name="data.dir"              value="${basedir}/data"/>
 
     <!-- Existing directories -->
     <property name="src.dir"               value="${basedir}/src"/>
     <property name="src.java.dir"          value="${src.dir}/java"/>
-    <property name="commonlib.dir"         value="${basedir}/../commonlib"/>
 
     <!-- Define paths used by this project -->
     <path id="project.class.path">
         <fileset dir="${lib.dir}">
             <include name="**/*.jar"/>
-            <exclude name="instrument-manager-example.jar"/>
+            <exclude name="instrument-manager-example-ecm.jar"/>
         </fileset>
         <pathelement path="${build.classes.dir}" />
     </path>
@@ -44,6 +43,17 @@
     </target>
     <target name="help" depends="usage"/>
 
+    <!-- =================================================================== -->
+    <!-- Dependency Checker                                                  -->
+    <!-- =================================================================== -->
+    <target name="dependencies" description="Check dependencies" unless="skip.dependencies">
+        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkCommon"/>
+        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkFramework"/>
+        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkComponent"/>
+        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkAltrmiServer"/>
+        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkAltrmiCommon"/>
+    </target>
+    
     <!-- =================================================================== -->
     <!-- Help on usage                                                       -->
     <!-- =================================================================== -->
@@ -86,9 +96,7 @@
         <!-- Avalon Excalibur Instrument -->
         <copy file="${excalibur-instrument.jar}"
             todir="${lib.dir}" preservelastmodified="yes"/>
-
-        <!-- Avalon Excalibur Instrument Manager -->
-        <copy file="../build/lib/excalibur-instrument-manager-0.1.jar"
+        <copy file="${excalibur-instrument-manager.jar}"
             todir="${lib.dir}" preservelastmodified="yes"/>
 
         <!-- Altrmi Jars -->
@@ -104,6 +112,7 @@
     <!-- Initialize custom tasks                                             -->
     <!-- =================================================================== -->
     <target name="init" depends="collect-jars">
+        <mkdir dir="${data.dir}"/>
     </target>
 
     <!-- =================================================================== -->

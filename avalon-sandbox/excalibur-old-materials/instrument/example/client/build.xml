@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!-- ======================================================================= -->
+<!-- Container Example build file!                                           -->
+<!-- ======================================================================= -->
+
+<project name="instrument-example-client" default="main" basedir=".">
+
+    <!--
+      Give user a chance to override without editing this file
+      (and without typing -D each time he compiles it)
+    -->
+    <property file="ant.properties"/>
+    <property file="${user.home}/.ant.properties"/>
+    <property file="${basedir}/default.properties"/>
+    
+    <!-- Directories build by ant -->
+    <property name="lib.dir"               value="${basedir}/lib"/>
+
+    <!-- =================================================================== -->
+    <!-- Help on usage                                                       -->
+    <!-- =================================================================== -->
+    <target name="usage">
+        <echo message="Use the -projecthelp option instead"/>
+    </target>
+    <target name="help" depends="usage"/>
+
+    <!-- =================================================================== -->
+    <!-- Help on usage                                                       -->
+    <!-- =================================================================== -->
+    <target name="collect-jars">
+        <!-- Xerces -->
+        <copy file="${xerces.jar}" todir="${lib.dir}" preservelastmodified="yes"/>
+        
+        <!-- XML-APIs -->
+        <copy file="${xml-apis.jar}" todir="${lib.dir}" preservelastmodified="yes"/>
+        
+        <!-- Xalan -->
+        <copy file="${xalan.jar}" todir="${lib.dir}" preservelastmodified="yes"/>
+        
+        <!-- Avalong Framework Jar -->
+        <copy file="${avalon-framework.jar}"
+            todir="${lib.dir}" preservelastmodified="yes"/>
+        
+        <!-- Instrument Jars -->
+        <copy file="${excalibur-instrument-manager-interfaces.jar}"
+            todir="${lib.dir}" preservelastmodified="yes"/>
+        <copy file="${excalibur-instrument-client.jar}"
+            todir="${lib.dir}" preservelastmodified="yes"/>
+        
+        <!-- Altrmi Jars -->
+        <copy file="${excalibur-altrmi-client-impl.jar}"
+            todir="${lib.dir}" preservelastmodified="yes"/>
+        <copy file="${excalibur-altrmi-client-interfaces.jar}"
+            todir="${lib.dir}" preservelastmodified="yes"/>
+        <copy file="${excalibur-altrmi-common.jar}"
+            todir="${lib.dir}" preservelastmodified="yes"/>
+    </target>
+    
+    <!-- =================================================================== -->
+    <!-- Main target                                                         -->
+    <!-- =================================================================== -->
+    <target name="main" depends="collect-jars" description="build the runnable application">
+    </target>
+
+    <!-- =================================================================== -->
+    <!-- Creates the javadocs archive.                                       -->
+    <!-- =================================================================== -->
+    <target name="javadocs" description="Generates javadoc documentation">
+    </target>
+
+    <!-- =================================================================== -->
+    <!-- Cleans up compiled classes and generated XMLC source.               -->
+    <!-- =================================================================== -->
+    <target name="clean" description="cleans up the directory">
+        <delete dir="${lib.dir}"/>
+    </target>
+</project>
+
