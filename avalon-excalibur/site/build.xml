@@ -36,19 +36,19 @@
   <property name="conf.dir" value="${src.dir}/conf"/>
   <property name="docs.dir" value="dist/docs"/>
   <property name="www.dir" value="../../avalon-site/site"/>
-  
+
   <property name="build.xdocs" value="${build.dir}/xdocs"/>
   <property name="build.context" value="${build.dir}/documentation"/>
   <property name="build.docs" value="${build.dir}/docs"/>
   <property name="tools.dir" value="../../avalon/tools"/>
-  <property name="xdocs.dir" value="${src.dir}/xdocs"/>  
+  <property name="xdocs.dir" value="${src.dir}/xdocs"/>
   <property name="context.dir" value="../../avalon/src/documentation"/>
   <property name="tools.jar" value="${java.home}/../lib/tools.jar"/>
 
   <property name="dist.base" value="distributions"/>
 
   <property file="${basedir}/../cocoon.properties"/>
-  
+
   <path id="tools.class.path">
     <pathelement location="${junit.jar}"/>
     <pathelement location="${tools.jar}"/>
@@ -99,7 +99,7 @@
   <echo>cbs ${cocoon.build.xdocs}</echo>
     <copy todir="${cocoon.build.xdocs}/site"><fileset dir="${basedir}/src/xdocs"/></copy>
   </target>
-  
+
   <!-- Prepares the documentation directory  -->
   <target name="docs" depends="setup-docs" description="Generates the Docs">
 
@@ -108,7 +108,7 @@
     <mkdir dir="${build.context}"/>
     <mkdir dir="${build.xdocs}"/>
     <mkdir dir="${build.docs}"/>
-    <mkdir dir="${build.docs}/apps"/>  
+    <mkdir dir="${build.docs}/apps"/>
     <mkdir dir="${build.dir}/work"/>
 
     <ant antfile="${basedir}/../forrestbuild.xml"/>
@@ -121,10 +121,10 @@
       <fileset dir="${build.docs}">
         <include name="**"/>
       </fileset>
-    </copy>    
+    </copy>
   </target>
-  
-  <target name="site" depends="docs" description="Places Docs ready for hosting on website">    
+
+  <target name="site" depends="docs" description="Places Docs ready for hosting on website">
 <!-- generated the list below using
 
 find .. -maxdepth 1 -mindepth 1 -type d \
@@ -133,15 +133,8 @@ find .. -maxdepth 1 -mindepth 1 -type d \
         -exec echo \<ant dir=\"\{\}\" target=\"site\" inheritAll=\"false\"/\> \;
 
 -->
-<ant dir="../baxter" target="site" inheritAll="false"/>
-<ant dir="../cache" target="site" inheritAll="false"/>
-<ant dir="../cli" target="site" inheritAll="false"/>
-<ant dir="../collections" target="site" inheritAll="false"/>
 <ant dir="../component" target="site" inheritAll="false"/>
-<ant dir="../concurrent" target="site" inheritAll="false"/>
 <ant dir="../configuration" target="site" inheritAll="false"/>
-<ant dir="../container" target="site" inheritAll="false"/>
-<ant dir="../converter" target="site" inheritAll="false"/>
 <ant dir="../datasource" target="site" inheritAll="false"/>
 <ant dir="../event" target="site" inheritAll="false"/>
 <ant dir="../extension" target="site" inheritAll="false"/>
@@ -150,29 +143,19 @@ find .. -maxdepth 1 -mindepth 1 -type d \
 <ant dir="../instrument" target="site" inheritAll="false"/>
 <ant dir="../instrument-client" target="site" inheritAll="false"/>
 <ant dir="../instrument-manager" target="site" inheritAll="false"/>
-<ant dir="../io" target="site" inheritAll="false"/>
-<ant dir="../jprocess" target="site" inheritAll="false"/>
-<ant dir="../loader" target="site" inheritAll="false"/>
-<ant dir="../logger" target="site" inheritAll="false"/>
-<ant dir="../meta" target="site" inheritAll="false"/>
 <ant dir="../monitor" target="site" inheritAll="false"/>
-<ant dir="../naming" target="site" inheritAll="false"/>
-<ant dir="../policy" target="site" inheritAll="false"/>
 <ant dir="../pool" target="site" inheritAll="false"/>
 <ant dir="../sourceresolve" target="site" inheritAll="false"/>
 <ant dir="../store" target="site" inheritAll="false"/>
-<ant dir="../testcase" target="site" inheritAll="false"/>
 <ant dir="../thread" target="site" inheritAll="false"/>
-<ant dir="../threadcontext" target="site" inheritAll="false"/>
-<ant dir="../util" target="site" inheritAll="false"/>
 <ant dir="../xfc" target="site" inheritAll="false"/>
 <ant dir="../xmlutil" target="site" inheritAll="false"/>
   </target>
-  
-  <target name="site2" depends="docs" description="Places Docs ready for hosting on website">    
-  
-  </target>     
-  
+
+  <target name="site2" depends="docs" description="Places Docs ready for hosting on website">
+
+  </target>
+
   <!-- Update the www directory -->
   <target name="site-docs" depends="site">
     <echo>
@@ -197,6 +180,6 @@ find .. -maxdepth 1 -mindepth 1 -type d \
       <fileset dir="${docs.dir}" />
     </copy>
 
-  </target>      
-    
+  </target>
+
 </project>
