@@ -34,7 +34,7 @@ import org.apache.avalon.framework.service.Serviceable;
  */
 public class DefaultTimeScheduler
     extends AbstractLogEnabled
-    implements TimeScheduler, Serviceable, Startable, Disposable, Runnable
+    implements TimeScheduler, Serviceable, Startable, Disposable, Runnable, MonitorableTimeSchedulerMBean
 {
     private final Hashtable m_entries = new Hashtable();
     private final PriorityQueue m_priorityQueue =
