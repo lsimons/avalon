@@ -19,6 +19,7 @@ import org.apache.avalon.framework.container.ContainerUtil;
 import org.apache.avalon.framework.context.DefaultContext;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.phoenix.components.util.ResourceUtil;
+import org.apache.avalon.phoenix.BlockContext;
 import org.apache.excalibur.policy.builder.PolicyResolver;
 
 /**
@@ -26,7 +27,7 @@ import org.apache.excalibur.policy.builder.PolicyResolver;
  * (like remapping URLs).
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2002/10/02 11:25:55 $
+ * @version $Revision: 1.4 $ $Date: 2002/11/02 00:29:27 $
  */
 class SarPolicyResolver
     extends AbstractLogEnabled
@@ -46,7 +47,8 @@ class SarPolicyResolver
         map.putAll( System.getProperties() );
         m_context = new DefaultContext( map );
         m_context.put( "/", File.separator );
-        m_context.put( "app.home", baseDirectory );
+        //m_context.put( BlockContext.APP_NAME, sarName );
+        m_context.put( BlockContext.APP_HOME_DIR, baseDirectory );
         m_workDirectory = workDirectory;
         m_baseDirectory = baseDirectory;
     }

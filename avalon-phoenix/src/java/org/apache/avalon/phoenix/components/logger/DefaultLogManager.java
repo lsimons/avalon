@@ -14,12 +14,11 @@ import org.apache.avalon.excalibur.logger.LoggerManager;
 import org.apache.avalon.excalibur.logger.SimpleLogKitManager;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.container.ContainerUtil;
-import org.apache.avalon.framework.context.DefaultContext;
+import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.phoenix.BlockContext;
 import org.apache.avalon.phoenix.interfaces.LogManager;
-import org.apache.avalon.phoenix.metadata.SarMetaData;
 
 /**
  * Interface that is used to manage Log objects for a Sar.
@@ -52,30 +51,24 @@ public class DefaultLogManager
     /**
      * Create a Logger hierarchy for specified application.
      *
-     * @param metaData the metadata for application
      * @param logs the configuration data for logging
-     * @param classLoader the ClassLoader for application
+     * @param context the context in which to create loggers
      * @return the Log hierarchy
      * @throws Exception if unable to create Loggers
      */
-    public Logger createHierarchy( final SarMetaData metaData,
-                                   final Configuration logs,
-                                   final ClassLoader classLoader )
+    public Logger createHierarchy( final Configuration logs,
+                                   final Context context )
         throws Exception
     {
-        final String sarName = metaData.getName();
-
-        final DefaultContext context = new DefaultContext();
-        context.put( BlockContext.APP_NAME, sarName );
-        context.put( BlockContext.APP_HOME_DIR, metaData.getHomeDirectory() );
-        context.put( "classloader", classLoader );
 
         final String version = logs.getAttribute( "version", "1.0" );
 
         if( getLogger().isDebugEnabled() )
         {
             final String message =
-                REZ.getString( "logger-create", sarName, version );
+                REZ.getString( "logger-create",
+                               context.get( BlockContext.APP_NAME ),
+                               version );
             getLogger().debug( message );
         }
         final LoggerManager loggerManager = createLoggerManager( version );
