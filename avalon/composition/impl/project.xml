@@ -76,16 +76,15 @@
     </dependency>
 
     <dependency>
-      <groupId>avalon-util</groupId>
-      <artifactId>avalon-util-extension-api</artifactId>
-      <version>1.1</version>
+      <groupId>&avalon-util-extension-api-group;</groupId>
+      <artifactId>&avalon-util-extension-api-id;</artifactId>
+      <version>&avalon-util-extension-api-version;</version>
     </dependency>
     <dependency>
-      <groupId>avalon-util</groupId>
-      <artifactId>avalon-util-extension-impl</artifactId>
-      <version>1.1</version>
+      <groupId>&avalon-util-extension-impl-group;</groupId>
+      <artifactId>&avalon-util-extension-impl-id;</artifactId>
+      <version>&avalon-util-extension-impl-version;</version>
     </dependency>
-
     <dependency>
       <groupId>avalon-util</groupId>
       <artifactId>avalon-util-exception</artifactId>
