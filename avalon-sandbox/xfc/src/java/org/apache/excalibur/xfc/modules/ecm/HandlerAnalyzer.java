@@ -55,7 +55,7 @@ import org.apache.excalibur.xfc.modules.Constants;
 
 /**
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: HandlerAnalyzer.java,v 1.8 2003/05/03 04:11:13 donaldp Exp $
+ * @version CVS $Id: HandlerAnalyzer.java,v 1.9 2003/05/03 04:11:28 donaldp Exp $
  */
 public final class HandlerAnalyzer implements Constants
 {
@@ -68,8 +68,6 @@ public final class HandlerAnalyzer implements Constants
         "org.apache.avalon.excalibur.pool.Poolable";
     private static final String RECYCLABLE =
         "org.apache.avalon.excalibur.pool.Recyclable";
-
-    private static final String COMPONENT_INSTANCE = "component-instance";
 
     private static Map m_handlers = new HashMap();
 
