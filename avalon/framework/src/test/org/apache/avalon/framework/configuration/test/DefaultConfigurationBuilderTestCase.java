@@ -22,6 +22,7 @@ import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
  *
  * @author <a href="mailto:jefft@apache.org">Jeff Turner</a>
  * @author <a href="mailto:rantene@hotmail.com">Ran Tene</a>
+ * @author <a href="mailto:leo.sutic@inspireinfrastructure.com">Leo Sutic</a>
  */
 public final class DefaultConfigurationBuilderTestCase
     extends TestCase
@@ -110,7 +111,7 @@ public final class DefaultConfigurationBuilderTestCase
     "<?xml version=\"1.0\" ?>"+
     "<conf:config"+
     "       boolAttr=\"true\" floatAttr=\"1.32\""+
-    "       xmlns:conf=\"http://conf.com\" xmlns:a=\"http://a.com\" xmlns:b=\"http://b.com\" xmlns:c=\"http://c.com\">"+
+    "       xmlns:conf=\"http://conf.com\" xmlns:a=\"http://a.com\" xmlns:b=\"http://b.com\" xmlns:c=\"http://c.com\" xmlns:d=\"http://d.com\" xmlns:e=\"http://e.com\">"+
     "   <a:elements-a>"+
     "       <c:element name=\"a\"/>"+
     "   </a:elements-a>"+
@@ -121,6 +122,8 @@ public final class DefaultConfigurationBuilderTestCase
     "   <elements-c>"+
     "   true"+
     "   </elements-c>"+
+    "   <d:element>d:element</d:element>"+
+    "   <e:element>e:element</e:element>"+        
     "</conf:config>";
     /*
     "<?xml version=\"1.0\"?>"+
@@ -149,7 +152,7 @@ public final class DefaultConfigurationBuilderTestCase
 
         Configuration[] children;
         children = conf.getChildren();
-        assertEquals( 4, children.length );
+        assertEquals( 6, children.length );
         assertEquals( "a:elements-a", children[0].getName() );
         assertEquals( "elements-b", children[1].getName() );
         assertEquals( "b", children[1].getChild("element", false).getAttribute("name") );
@@ -157,7 +160,7 @@ public final class DefaultConfigurationBuilderTestCase
         assertEquals( "elements-c", children[3].getName() );
 
         final String[] attrNames = conf.getAttributeNames();
-        assertEquals( 6, attrNames.length );
+        assertEquals( 8, attrNames.length );
         assertEquals( "true", conf.getAttribute("boolAttr", null) );
         assertEquals( true, conf.getAttributeAsBoolean("boolAttr") );
         assertEquals( (float)1.32, conf.getAttributeAsFloat("floatAttr"), 0.0 );
@@ -187,6 +190,9 @@ public final class DefaultConfigurationBuilderTestCase
         assertEquals( "Standard getChild() lookup failed", "b:elements-b", conf.getChild( "b:elements-b", false ).getName() );
         assertEquals( "Boolean value surrounded by whitespace failed", true, conf.getChild("elements-c").getValueAsBoolean( false ) );
         assertEquals( "A value-containing element should have no child nodes", 0, conf.getChild("elements-c").getChildren().length );
+        
+        assertEquals( "d:element", conf.getChild("d:element").getValue() );
+        assertEquals( "e:element", conf.getChild("e:element").getValue() );
     }
 
 
@@ -209,7 +215,7 @@ public final class DefaultConfigurationBuilderTestCase
 
         Configuration[] children;
         children = conf.getChildren();
-        assertEquals( 4, children.length );
+        assertEquals( 6, children.length );
         assertEquals( "elements-a", children[0].getName() );
         assertEquals( "http://a.com", children[0].getNamespace() );
         assertEquals( "elements-b", children[1].getName() );
@@ -282,12 +288,12 @@ public final class DefaultConfigurationBuilderTestCase
     protected  void tearDown()
         throws Exception
     {
-        FileWriter writer = new FileWriter( m_file );
+        /*FileWriter writer = new FileWriter( m_file );
         writer.write( "" );
         writer.close();
         writer = new FileWriter( m_nsFile );
         writer.write( "" );
-        writer.close();
+        writer.close();*/
         m_builder = null;
         m_nsBuilder = null;
     }

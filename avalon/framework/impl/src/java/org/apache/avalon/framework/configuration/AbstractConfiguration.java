@@ -15,7 +15,8 @@ package org.apache.avalon.framework.configuration;
  * @author <a href="mailto:stefano@apache.org">Stefano Mazzocchi</a>
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  * @author <a href="mailto:fumagalli@exoffice.com">Pierpaolo Fumagalli</a>
- * @version CVS $Revision: 1.12 $ $Date: 2001/12/11 09:00:45 $
+ * @author <a href="mailto:leo.sutic@inspireinfrastructure.com">Leo Sutic</a>
+ * @version CVS $Revision: 1.13 $ $Date: 2002/05/06 10:46:57 $
  */
 public abstract class AbstractConfiguration
     implements Configuration
@@ -42,7 +43,7 @@ public abstract class AbstractConfiguration
     public int getValueAsInteger()
         throws ConfigurationException
     {
-        final String value = getValue();
+        final String value = getValue().trim();
         try
         {
             if( value.startsWith( "0x" ) )
@@ -103,7 +104,7 @@ public abstract class AbstractConfiguration
     public long getValueAsLong()
         throws ConfigurationException
     {
-        final String value = getValue();
+        final String value = getValue().trim();
         try
         {
             if( value.startsWith( "0x" ) )
@@ -161,7 +162,7 @@ public abstract class AbstractConfiguration
     public float getValueAsFloat()
         throws ConfigurationException
     {
-        final String value = getValue();
+        final String value = getValue().trim();
         try
         {
             return Float.parseFloat( value );
@@ -201,12 +202,12 @@ public abstract class AbstractConfiguration
     public boolean getValueAsBoolean()
         throws ConfigurationException
     {
-        final String value = getValue();
-        if( value.equals( "true" ) )
+        final String value = getValue().trim();
+        if( value.trim().equals( "true" ) )
         {
             return true;
         }
-        else if( value.equals( "false" ) )
+        else if( value.trim().equals( "false" ) )
         {
             return false;
         }
@@ -268,7 +269,7 @@ public abstract class AbstractConfiguration
     public int getAttributeAsInteger( final String name )
         throws ConfigurationException
     {
-        final String value = getAttribute( name );
+        final String value = getAttribute( name ).trim();
         try
         {
             if( value.startsWith( "0x" ) )

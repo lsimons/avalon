@@ -20,6 +20,7 @@ import org.xml.sax.helpers.DefaultHandler;
  *
  * @author <a href="mailto:fede@apache.org">Federico Barbieri</a>
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
+ * @author <a href="mailto:leo.sutic@inspireinfrastructure.com">Leo Sutic</a>
  */
 public class SAXConfigurationHandler
     extends DefaultHandler
@@ -79,13 +80,6 @@ public class SAXConfigurationHandler
         final DefaultConfiguration configuration =
             (DefaultConfiguration)m_elements.get( m_elements.size() - 1 );
 
-        if( 0 != configuration.getChildCount() )
-        {
-            throw new SAXException( "Not allowed to define mixed content in the " +
-                                    "element " + configuration.getName() + " at " +
-                                    configuration.getLocation() );
-        }
-
         value = configuration.getValue( "" ) + value;
         configuration.setValue( value );
     }
@@ -104,17 +98,35 @@ public class SAXConfigurationHandler
         throws SAXException
     {
         final int location = m_elements.size() - 1;
-        final Object object = m_elements.remove( location );
+        final DefaultConfiguration object = (DefaultConfiguration) m_elements.remove( location );
 
+        // Check for validity
+        if ( object.getValue( null ) != null && object.getChildCount() > 0 ) 
+        {
+            // Could be invalid - the configuration has children and a value.
+            // It is valid, however, to have a value consisting of just whitespace.
+            // So let's trim the value, and see if we can resolve the conflict that way.
+            if ( object.getValue("").trim().equals("") )
+            {
+                // Resolved!
+                object.setValue( null );
+            }
+            else 
+            {
+                throw new SAXException( "Not allowed to define mixed content in the " +
+                                        "element " + object.getName() + " at " +
+                                        object.getLocation() );
+            }
+        }
+        
         if( 0 == location )
         {
-            m_configuration = (Configuration)object;
+            m_configuration = object;
             final String value = m_configuration.getValue( null );
-	    if( null != value )
-	    {
-		((DefaultConfiguration)m_configuration).setValue( value.trim() );
-	    }
-
+            if( null != value )
+            {
+                ((DefaultConfiguration)m_configuration).setValue( value.trim() );
+            }
         }
     }
 
@@ -155,13 +167,6 @@ public class SAXConfigurationHandler
         {
             final DefaultConfiguration parent =
                 (DefaultConfiguration)m_elements.get( size );
-
-            if( null != parent.getValue( null ) )
-            {
-                throw new SAXException( "Not allowed to define mixed content in the " +
-                                        "element " + parent.getName() + " at " +
-                                        parent.getLocation() );
-            }
 
             parent.addChild( configuration );
         }
