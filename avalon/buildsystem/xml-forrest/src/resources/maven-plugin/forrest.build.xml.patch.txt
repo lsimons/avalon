@@ -17,10 +17,8 @@
      <property file="${project.home}/forrest.properties" />
  
 +                  <!-- !!! override property defaults with parent-files !!! -->
-+                  <property file="${project.home}/../forrest.properties" />
-+                  <property file="${project.home}/../../forrest.properties" />
-+                  <property file="${project.home}/../../../forrest.properties" />
-+                  <property file="${project.home}/../../../../forrest.properties" />
++                  <property name="parent.project.home" value="${project.home}" />
++                  <property file="${parent.project.home}/forrest.properties" />
 +
 +                  <!-- !!! override property defaults with maven plugin !!! -->
 +                  <property file="${forrest.home}/../plugin.properties" />
