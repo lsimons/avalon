@@ -21,7 +21,7 @@ import java.util.Hashtable;
  *         (Apache Software Foundation)
  * @author <a href="mailto:fumagalli@exoffice.com">Pierpaolo Fumagalli</a>
  *         (Apache Software Foundation, Exoffice Technologies)
- * @version CVS $Id: MemoryStore.java,v 1.1 2002/05/02 08:55:39 cziegeler Exp $
+ * @version CVS $Id: MemoryStore.java,v 1.2 2002/08/14 15:33:53 crafterm Exp $
  */
 public class MemoryStore
     extends AbstractLogEnabled
@@ -66,6 +66,13 @@ public class MemoryStore
      */
     public synchronized void remove(Object key) {
         table.remove(key);
+    }
+
+    /**
+     * Clear the Store of all elements 
+     */
+    public synchronized void clear() {
+        table.clear();
     }
 
     public synchronized void free() {}
