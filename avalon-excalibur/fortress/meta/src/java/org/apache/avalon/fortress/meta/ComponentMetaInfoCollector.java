@@ -208,7 +208,7 @@ public class ComponentMetaInfoCollector extends AbstractQdoxTask
      */
     private void prepareMetaInfo(Properties meta, JavaClass javaClass)
     {
-        DocletTag avalonScope = javaClass.getTagByName("avalon.scope");
+        DocletTag avalonScope = javaClass.getTagByName("avalon-ext.lifecycle");
         DocletTag fortressHandler = javaClass.getTagByName("fortress.handler");
         String scope = null;
         String handler = null;
@@ -243,13 +243,13 @@ public class ComponentMetaInfoCollector extends AbstractQdoxTask
             handler = (null == fortressHandler) ? PerThreadComponentHandler.class.getName() : fortressHandler.getValue();
         }
         
-        if ( null != scope ) meta.setProperty("avalon.scope", scope);
+        if ( null != scope ) meta.setProperty("avalon-ext.lifecycle", scope);
         if ( null != handler ) meta.setProperty("fortress.handler", handler);
         
-        DocletTag avalonConfigName = javaClass.getTagByName("avalon.configname");
-        if ( null == avalonConfigName ) avalonConfigName = javaClass.getTagByName("fortress.configname");
+        DocletTag avalonConfigName = javaClass.getTagByName("avalon-ext.name");
+        if ( null == avalonConfigName ) avalonConfigName = javaClass.getTagByName("fortress.name");
 
-        meta.setProperty("avalon.configname", (avalonConfigName == null) ? ServiceRoleManager.createShortName(javaClass.getName()) : avalonConfigName.getValue() );
+        meta.setProperty("avalon-ext.name", (avalonConfigName == null) ? ServiceRoleManager.createShortName(javaClass.getName()) : avalonConfigName.getValue() );
     }
 
     /**

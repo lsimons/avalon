@@ -64,6 +64,7 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.apache.avalon.fortress.RoleManager;
+import org.apache.avalon.fortress.impl.handler.FactoryComponentHandler;
 import org.apache.avalon.fortress.impl.handler.PerThreadComponentHandler;
 import org.apache.avalon.fortress.impl.handler.PoolableComponentHandler;
 import org.apache.avalon.fortress.impl.handler.ThreadSafeComponentHandler;
@@ -132,19 +133,20 @@ import org.apache.avalon.framework.activity.Initializable;
 public class ServiceRoleManager extends AbstractRoleManager implements Initializable
 {
     /** Translate from scope to component handler */
-    private static final Map m_scopeMap;
+    private static final Map m_lifecycleMap;
     /** Used to split words in class names */
     private static final Pattern upperCase = Pattern.compile( "([A-Z]+)" );
 
     // Initialize the scope map
     static
     {
-        Map scopes = new HashMap();
-        scopes.put( "container", ThreadSafeComponentHandler.class.getName() );
-        scopes.put( "thread", PerThreadComponentHandler.class.getName() );
-        scopes.put( "request", PoolableComponentHandler.class.getName() );
+        Map lifecycleMap = new HashMap();
+        lifecycleMap.put( "thread-safe", ThreadSafeComponentHandler.class.getName() );
+        lifecycleMap.put( "per-thread", PerThreadComponentHandler.class.getName() );
+        lifecycleMap.put( "pooled", PoolableComponentHandler.class.getName() );
+        lifecycleMap.put( "factory", FactoryComponentHandler.class.getName() );
 
-        m_scopeMap = Collections.unmodifiableMap( scopes );
+        m_lifecycleMap = Collections.unmodifiableMap( lifecycleMap );
     }
 
     /**
@@ -271,7 +273,7 @@ public class ServiceRoleManager extends AbstractRoleManager implements Initializ
             return;
         }
 
-        String shortName = meta.getProperty( "avalon.configname", createShortName( implementation ) );
+        String shortName = meta.getProperty( "avalon-ext.name", createShortName( implementation ) );
         String handler = getHandler( meta );
 
         addRole( shortName, role, implementation, handler );
@@ -285,12 +287,12 @@ public class ServiceRoleManager extends AbstractRoleManager implements Initializ
      */
     private String getHandler( Properties meta )
     {
-        String scope = meta.getProperty( "avalon.scope", null );
+        String lifecycle = meta.getProperty( "avalon-ext.lifecycle", null );
         String handler = null;
 
-        if( null != scope )
+        if( null != lifecycle )
         {
-            handler = (String)m_scopeMap.get( scope );
+            handler = (String)m_lifecycleMap.get( lifecycle );
         }
         else
         {
