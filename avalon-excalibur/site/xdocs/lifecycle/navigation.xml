@@ -19,21 +19,17 @@
       <item name="I18N" href="i18n/index.html"/>
       <item name="Sourceresolver" href="sourceresolve-index.html"/>
       <item name="Store" href="store-index.html"/>
-      <item name="Event" href="event/index.html">
-        <item href="event/event.html" name="Event"/>
-        <item href="event/command.html" name="Command"/>
-        <item href="event/mpool.html" name="MPool"/>
-        <item href="event/util.html" name="Util"/>
-        <item href="event/event-howto.html" name="Use Event Queues"/>
-        <item href="event/command-howto.html" name="Use the Command Manager"/>
-        <item href="event/mpool-howto.html" name="Use MPool"/>
-        <item href="event/util-howto.html" name="Use System Util"/>
-        <item href="event/cpuparser-howto.html" name="Extend System Util"/>
-      </item>
+      <item name="ECM" href="component.html"/>
       <item name="Event" href="event/index.html"/>
+      <item name="Fortress" href="fortress/index.html"/>
       <item name="I18N" href="i18n.html"/>
       <item name="Logger" href="logger.html"/>
-      <item name="Lifecycle" href="lifecycle/index.html"/>
+      <item name="Lifecycle" href="lifecycle/index.html">
+        <item name="Overview" href="lifecycle/index.html"/>
+        <item name="Extensions" href="lifecycle/extension.html"/>
+        <item name="Interfaces" href="lifecycle/interfaces.html"/>
+        <item name="Tutorial" href="lifecycle/fortress.html"/>
+      </item>
       <item name="Thread" href="thread.html"/>
     </menu>
 

@@ -23,6 +23,9 @@
       <item name="Event" href="event/index.html"/>
       <item name="Fortress" href="fortress/index.html"/>
       <item name="I18N" href="i18n.html"/>
+      <item name="Logger" href="logger.html"/>
+      <item name="Lifecycle" href="lifecycle/index.html"/>
+      <item name="Thread" href="thread.html"/>
     </menu>
 
     <menu name="Resources">
