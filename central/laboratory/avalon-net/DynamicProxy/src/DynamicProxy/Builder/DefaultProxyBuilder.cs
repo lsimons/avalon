@@ -29,6 +29,11 @@ namespace Apache.Avalon.DynamicProxy.Builder
 			
 		}
 
+            protected ModuleScope ModuleScope
+            {
+                get { return m_scope; }
+            }
+
 		#region IProxyBuilder Members
 
 		public virtual Type CreateInterfaceProxy(Type[] interfaces)
