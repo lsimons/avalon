@@ -12,7 +12,7 @@ package org.apache.avalon.phoenix.components.cpbuilder.metadata;
  * the default ClassLoader to use.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2002/09/01 00:51:37 $
+ * @version $Revision: 1.2 $ $Date: 2002/09/01 00:55:03 $
  */
 public class ClassloaderSetDef
 {
@@ -29,13 +29,19 @@ public class ClassloaderSetDef
     private final ClassLoaderDef[] m_classLoaders;
 
     /**
+     * The joining classloaders defined in set.
+     */
+    private final JoinDef[] m_joins;
+
+    /**
      * Construct set with specified set and ClassLoaders.
      *
      * @param aDefault the name of default ClassLoader
      * @param classLoaders the ClassLoaders in set
      */
     public ClassloaderSetDef( final String aDefault,
-                              final ClassLoaderDef[] classLoaders )
+                              final ClassLoaderDef[] classLoaders,
+                              final JoinDef[] joins )
     {
         if( null == aDefault )
         {
@@ -45,9 +51,14 @@ public class ClassloaderSetDef
         {
             throw new NullPointerException( "classLoaders" );
         }
+        if( null == joins )
+        {
+            throw new NullPointerException( "joins" );
+        }
 
         m_default = aDefault;
         m_classLoaders = classLoaders;
+        m_joins = joins;
     }
 
     /**
@@ -73,6 +84,17 @@ public class ClassloaderSetDef
     }
 
     /**
+     * Return the "join" classloaders in set.
+     *
+     * @return the "join" classloaders in set.
+     * @see #m_joins
+     */
+    public JoinDef[] getJoins()
+    {
+        return m_joins;
+    }
+
+    /**
      * Return the classloader with specified name.
      *
      * @return the classloader with specified name
@@ -85,6 +107,24 @@ public class ClassloaderSetDef
             if( classLoader.getName().equals( name ) )
             {
                 return classLoader;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Return the "join" classloader with specified name.
+     *
+     * @return the "join" classloader with specified name
+     */
+    public JoinDef getJoin( final String name )
+    {
+        for( int i = 0; i < m_joins.length; i++ )
+        {
+            final JoinDef join = m_joins[ i ];
+            if( join.getName().equals( name ) )
+            {
+                return join;
             }
         }
         return null;
