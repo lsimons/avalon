@@ -68,6 +68,10 @@ easy embedding into various environments like servlet engines.
             <id>excalibur-lifecycle</id>
             <version>1.0</version>
         </dependency>
+        <dependency>
+            <id>xml-apis</id>
+            <version>2.0.2</version>
+        </dependency>
 
         <!-- test -->
         <dependency>
