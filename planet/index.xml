@@ -288,7 +288,7 @@
     </info>
     <dependencies>
       <include key="avalon-db-api"/>
-      <include key="avalon-composition-api"/>
+      <include key="avalon-composition-api" runtime="false"/>
       <include key="concurrent"/>
       <include key="hsqldb"/>
     </dependencies>
@@ -431,7 +431,7 @@
       <name>hello</name>
     </info>
     <dependencies>
-      <include key="avalon-framework-api"/>
+      <include key="avalon-framework-api" runtime="false"/>
     </dependencies>
     <plugins>
       <include key="avalon-meta-tools"/>
@@ -444,10 +444,8 @@
       <name>dynamics</name>
     </info>
     <dependencies>
-      <include key="avalon-framework-api"/>
+      <include key="avalon-composition-api" runtime="false"/>
       <include key="avalon-framework-impl"/>
-      <include key="avalon-composition-api"/>
-      <include key="avalon-meta-api"/>
     </dependencies>
     <plugins>
       <include key="avalon-meta-tools"/>

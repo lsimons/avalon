@@ -131,7 +131,14 @@ public class ReactorTask extends Sequential
                 project.setProperty( "reactor.key", def.getKey() );
                 project.setProperty( "reactor.name", def.getInfo().getName() );
                 project.setProperty( "reactor.group", def.getInfo().getGroup() );
-                project.setProperty( "reactor.version", def.getInfo().getVersion() );
+                if( null == def.getInfo().getVersion() )
+                {
+                    project.setProperty( "reactor.version", "" );
+                }
+                else
+                {
+                    project.setProperty( "reactor.version", def.getInfo().getVersion() );
+                }
                 project.setProperty( "reactor.basedir", def.getBaseDir().toString() );
                 project.setProperty( "reactor.path", def.getInfo().getPath() );
                 project.setProperty( "reactor.uri", def.getInfo().getURI() );
