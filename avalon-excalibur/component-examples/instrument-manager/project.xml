@@ -57,12 +57,12 @@
         </dependency>
         <dependency>
             <groupId>excalibur-pool</groupId>
-            <groupId>excalibur-pool-api</groupId>
+            <artifactId>excalibur-pool-api</artifactId>
             <version>2.0</version>
         </dependency>
         <dependency>
             <groupId>excalibur-pool</groupId>
-            <groupId>excalibur-pool-impl</groupId>
+            <artifactId>excalibur-pool-impl</artifactId>
             <version>2.0</version>
         </dependency>
         <dependency>
