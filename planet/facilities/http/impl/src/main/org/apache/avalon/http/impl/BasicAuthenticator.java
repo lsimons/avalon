@@ -28,10 +28,10 @@ import org.apache.avalon.http.HttpContextService;
 
 import org.mortbay.http.Authenticator;
 
-/** Wrapper for the Jetty SocketListener.
+/** Wrapper for the Jetty BasicAuthenticator.
  *
- * @avalon.component name="http-socket-listener" lifestyle="singleton"
- * @avalon.service type="org.mortbay.http.HttpListener"
+ * @avalon.component name="http-authenticator-basic" lifestyle="singleton"
+ * @avalon.service type="org.mortbay.http.Authenticator"
  */
 public class BasicAuthenticator extends org.mortbay.http.BasicAuthenticator
     implements Serviceable, LogEnabled

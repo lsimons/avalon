@@ -36,7 +36,7 @@ import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.http.MimeTypes;
 
 /**
- * @avalon.component name="mimetypes" lifestyle="singleton"
+ * @avalon.component name="mimetypes-system" lifestyle="singleton"
  * @avalon.service  type="org.apache.avalon.http.MimeTypes"
  */
 public class SystemMimeTypes
