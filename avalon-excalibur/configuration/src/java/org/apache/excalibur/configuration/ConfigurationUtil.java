@@ -109,7 +109,7 @@ public class ConfigurationUtil
         {
             if( config.getValue( null ) != null )
             {
-                buffer.append( ">...</" + config.getName() + ">" );
+                buffer.append( ">" + config.getValue( "" ) + "</" + config.getName() + ">" );
             }
             else
             {
