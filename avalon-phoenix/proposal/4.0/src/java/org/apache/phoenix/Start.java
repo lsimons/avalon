@@ -26,10 +26,10 @@ import org.apache.framework.configuration.ConfigurationException;
 import org.apache.framework.component.DefaultComponentManager;
 
 import org.apache.avalon.camelot.Entry;
-import org.apache.avalon.util.cli.CLOptionDescriptor;
-import org.apache.avalon.util.cli.CLArgsParser;
-import org.apache.avalon.util.cli.CLOption;
-import org.apache.avalon.util.cli.CLUtil;
+import org.apache.avalon.cli.CLOptionDescriptor;
+import org.apache.avalon.cli.CLArgsParser;
+import org.apache.avalon.cli.CLOption;
+import org.apache.avalon.cli.CLUtil;
 
 import org.apache.avalon.atlantis.core.Embeddor;
 import org.apache.phoenix.engine.PhoenixEmbeddor;
@@ -47,6 +47,8 @@ import org.apache.log.Priority;
  */
 public class Start implements Disposable
 {
+    // classloader
+    private static ClassLoader cl;
     // embeddor
     private static Embeddor embeddor;
         // embeddor configuration settings
@@ -55,13 +57,13 @@ public class Start implements Disposable
                                                     "org.apache.phoenix.engine.PhoenixEmbeddor";
         private static String deployerClass;
         private static final String DEFAULT_DEPLOYER_CLASS =
-                                                    "org.apache.phoenix.engine.DefaultSarDeployer";
+                                                    "org.apache.phoenix.engine.deployer.DefaultDeployer";
         private static String mBeanServerClass;
         private static final String DEFAULT_MBEANSERVER_CLASS =
                                                     "org.apache.jmx.MBeanServerImpl";
         private static String kernelClass;
         private static final String DEFAULT_KERNEL_CLASS =
-                                                    "org.apache.phoenix.engine.DefaultKernel";
+                                                    "org.apache.phoenix.engine.PhoenixKernel";
         private static String configurationSource;
         private static final String DEFAULT_CONFIGURATION_SOURCE =
                                                     "../conf/server.xml";
@@ -71,7 +73,15 @@ public class Start implements Disposable
         private static String applicationSource;
         private static final String DEFAULT_APPLICATON_SOURCE =
                                                     "../apps";
-
+        private static int registryPort;
+        private static final int DEFAULT_REGISTRY_PORT =
+                                                    1111;
+        private static String computerName;
+        private static final String DEFAULT_COMPUTER_NAME =
+                                                    "localhost";
+        private static String adaptorName;
+        private static final String DEFAULT_ADAPTOR_NAME =
+                                                    "phoenix.manager.JMXAdaptor";
 
     // monitor these for status changes
     private static boolean singleton = false;
@@ -105,15 +115,29 @@ public class Start implements Disposable
         }
         catch( final Throwable throwable )
         {
+            System.out.println( "" );
+            System.out.println( "" );
             System.out.println( "There was an uncaught exception:" );
             System.out.println( "---------------------------------------------------------" );
             System.out.println( throwable.toString() );
+            //throwable.printStackTrace( System.out  );
             System.out.println( "---------------------------------------------------------" );
             System.out.println( "Please check the configuration files and restart phoenix." );
             System.out.println( "If the problem persists, contact the Avalon project.  See" );
             System.out.println( "http://jakarta.apache.org/avalon for more information." );
+            System.out.println( "" );
+            System.out.println( "" );
             System.exit( 1 );
         }
+    }
+
+    /**
+     * Sets the classloader to be used for loading all phoenix and application
+     * classes.
+     */
+    public void setClassLoader( ClassLoader cl )
+    {
+        this.cl = cl;
     }
 
     /////////////////////////
@@ -132,6 +156,13 @@ public class Start implements Disposable
     /////////////////////////
     private void execute( final String[] args ) throws Exception
     {
+        System.out.println( " " );
+        System.out.println( "-----------------" );
+        System.out.print(   "Phoenix 3.2a4-dev" );
+        System.out.println( " " );
+        System.out.println( "-----------------" );
+        System.out.print( "   Starting up" );
+
         try
         {
             final PrivilegedExceptionAction action = new PrivilegedExceptionAction()
@@ -156,6 +187,7 @@ public class Start implements Disposable
         this.parseCommandLineOptions( args );
         this.createEmbeddor();
 
+        System.out.print( "." );
         final Parameters parameters = new Parameters();
             parameters.setParameter( "kernel-class", this.kernelClass );
             parameters.setParameter( "deployer-class", this.deployerClass );
@@ -163,10 +195,21 @@ public class Start implements Disposable
             parameters.setParameter( "kernel-configuration-source", this.configurationSource );
             parameters.setParameter( "log-destination", this.logDestination );
             parameters.setParameter( "application-source", this.applicationSource );
+            parameters.setParameter( "registry-port", new String( ""+this.registryPort ) );
+            parameters.setParameter( "computer-name", this.computerName );
+            parameters.setParameter( "adaptor-name", this.adaptorName );
 
         // run Embeddor lifecycle
         this.embeddor.parametize( parameters );
+        System.out.print( "." );
         this.embeddor.init();
+
+        this.embeddor.setRunner( (Disposable)this );
+        System.out.print( "." );
+
+        System.out.print( "done." );
+        System.out.println( "" );
+        System.out.println( "" );
 
         this.embeddor.start();
 
@@ -178,7 +221,11 @@ public class Start implements Disposable
             try { synchronized( this ) { wait(); } }
             catch( final InterruptedException e ) {}
         }
-        embeddor.stop();
+        System.out.print( "done." ); // shutting down, that is.
+        this.embeddor = null;
+        System.out.println( "" );
+        System.out.println( "Bye-bye!" );
+        System.out.println( "" );
         System.exit( 0 );
     }
     //////////////////////
@@ -194,6 +241,14 @@ public class Start implements Disposable
         this.configurationSource = this.DEFAULT_CONFIGURATION_SOURCE;
         this.logDestination = this.DEFAULT_LOG_DESTINATION;
         this.applicationSource = this.DEFAULT_APPLICATON_SOURCE;
+        this.registryPort = this.DEFAULT_REGISTRY_PORT;
+        this.adaptorName = this.DEFAULT_ADAPTOR_NAME;
+
+        // try to get the computer name from system property
+        if( (this.computerName = System.getProperty( "computer.name" )) == null )
+            this.computerName = this.DEFAULT_COMPUTER_NAME;
+
+
         // TODO: update code below to set the code above
 
         // setup parser and get arguments
@@ -265,17 +320,13 @@ public class Start implements Disposable
         System.out.println( "\tAvailable options:");
         System.out.println( CLUtil.describeOptions( commandLineOptions ) );
     }
-    private void createEmbeddor() throws ConfigurationException
+    private void createEmbeddor() throws Exception
     {
-        try
-        {
-            Thread.currentThread().setContextClassLoader( getClass().getClassLoader() );
-            this.embeddor = (Embeddor)Class.forName( this.embeddorClass ).newInstance();
-        }
-        catch( final Exception e )
-        {
-            throw new ConfigurationException( "Failed to create Embeddor of class " +
-                                              this.embeddorClass, e );
-        }
+        //Thread.currentThread().setContextClassLoader( getClass().getClassLoader() );
+        //this.embeddor = (Embeddor)Class.forName( this.embeddorClass ).newInstance();
+        //this.embeddor = new PhoenixEmbeddor();
+        Thread.currentThread().setContextClassLoader( this.cl );
+        final Class clazz = Thread.currentThread().getContextClassLoader().loadClass( this.embeddorClass );
+        this.embeddor = (Embeddor)clazz.newInstance();
     }
 }

@@ -12,6 +12,7 @@ import java.lang.UnsupportedOperationException;
 import org.apache.framework.parameters.Parametizable;
 import org.apache.framework.lifecycle.Initializable;
 import org.apache.framework.lifecycle.Executable;
+import org.apache.framework.lifecycle.Disposable;
 
 
 /**
@@ -21,4 +22,12 @@ import org.apache.framework.lifecycle.Executable;
 public interface Embeddor
     extends Parametizable, Initializable, Executable
 {
+    /**
+     * Provide a reference to the class that loads the Embeddor.
+     * Call immediately before init().
+     *
+     * The stop() method of Embeddor calls dispose() on this
+     * object. You may pass a null value to avoid this.
+     */
+    public void setRunner( Disposable runner );
 }

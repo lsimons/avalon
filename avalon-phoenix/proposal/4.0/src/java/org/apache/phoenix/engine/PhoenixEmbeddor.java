@@ -30,6 +30,7 @@ import org.apache.framework.configuration.DefaultConfigurationBuilder;
 import org.apache.framework.lifecycle.StartException;
 import org.apache.framework.lifecycle.StopException;
 import org.apache.framework.lifecycle.InitializationException;
+import org.apache.framework.lifecycle.Disposable;
 
 import org.apache.framework.CascadingException;
 
@@ -43,7 +44,7 @@ import org.apache.avalon.atlantis.core.Kernel;
 import org.apache.avalon.atlantis.core.Embeddor;
 import org.apache.phoenix.engine.facilities.ManagerImpl;
 
-import org.apache.log.format.AvalonLogFormatter;
+import org.apache.avalon.aut.log.AvalonLogFormatter;
 import org.apache.log.output.FileOutputLogTarget;
 import org.apache.log.Logger;
 import org.apache.log.LogKit;
@@ -66,7 +67,8 @@ import org.apache.framework.logger.AbstractLoggable;
 public class PhoenixEmbeddor
     extends AbstractLoggable implements Embeddor
 {
-    private Parameters         parameters;
+    private Parameters      parameters;
+    private Disposable      runner;
 
     private Logger          logger;
     private Deployer        deployer;
@@ -108,6 +110,12 @@ public class PhoenixEmbeddor
      * kernel.</li>
      * <li><b>log-destination</b>, the file to save log
      * messages in. If omitted, no logs are written.</li>
+     * <li><b>registry-port</b>, the port that the rmiregistry should
+     * listen on and RMI objects should be registered on.</li>
+     * <li><b>computer-name</b>, the network name of this
+     * computer.</li>
+     * <li><b>adaptor-name</b>, the name used to register the
+     * JMX RMI adaptor with in the rmiregistry.</li>
      * <li>TODO: <b>facilities-directory</b>, the directory in
      * which the  facilities you wish to load into the kernel
      * are stored (in .far format).<br />
@@ -133,6 +141,12 @@ public class PhoenixEmbeddor
     {
         this.createComponents();
     }
+
+    public void setRunner( Disposable runner )
+    {
+        this.runner = runner;
+    }
+
     /**
      * This is the main method of the embeddor. It sets up the core
      * components, and then deploys the <code>Facilities</code>. These
@@ -150,8 +164,10 @@ public class PhoenixEmbeddor
         this.runDeployer();
 
         kernel.start();
+
+        logger.info("...Phoenix started.");
         // loop until <code>Shutdown</code> is created.
-        while( this.shutdown )
+        while( !this.shutdown )
         {
             // loop
 
@@ -169,6 +185,7 @@ public class PhoenixEmbeddor
      */
     public void stop()
     {
+        System.out.print( "   Shutting down..." );
         this.shutdown = true;
         synchronized( this ) { notifyAll(); }
     }
@@ -200,8 +217,10 @@ public class PhoenixEmbeddor
     private void setupComponents() throws StartException
     {
         try { this.setupLogger(); }
-        catch( Exception e ) {  logger.fatalError( "Unable to setup logger!", e );
-                                throw new StartException( "Unable to setup logger!", e ); }
+        catch( Exception e ) {  throw new StartException( "Unable to setup logger!", e ); }
+
+        logger.info("Starting Phoenix...");
+
         try { this.setupDeployer(); }
         catch( Exception e ) {  logger.fatalError( "Unable to setup deployer!", e );
                                 throw new StartException( "Unable to setup deployer!",e ); }
@@ -234,7 +253,6 @@ public class PhoenixEmbeddor
             LogKit.addLogTarget( logDest, logTarget );
             this.logger = LogKit.createLogger( LogKit.createCategory( "Phoenix", Priority.DEBUG ),
                                             new LogTarget[] { logTarget } );
-            this.logger.info( "Loader started" );
         }
         catch( final Exception e )
         {
@@ -278,7 +296,8 @@ public class PhoenixEmbeddor
         if( this.deployer instanceof Composer )
         {
             final DefaultComponentManager componentManager = new DefaultComponentManager();
-            componentManager.put( "org.apache.avalon.camelot.Container", (Container)this.kernel );
+            componentManager.addComponentInstance( "org.apache.avalon.camelot.Container", (Container)this.kernel  );
+//            componentManager.put( "org.apache.avalon.camelot.Container", (Container)this.kernel );
             ((Composer)this.deployer).compose( componentManager );
         }
     }
@@ -338,11 +357,18 @@ public class PhoenixEmbeddor
     {
         this.manager = new ManagerImpl();
         setupLogger( this.manager );
+
         this.managerContext = new DefaultContext();
         this.managerContext.put("javax.management.MBeanServer", this.mBeanServer );
         this.managerContext.put("org.apache.framework.atlantis.core.Embeddor", this );
         this.managerContext.put("org.apache.framework.atlantis.core.Kernel", this.kernel );
         this.managerContext.put("org.apache.avalon.camelot.Deployer", this.deployer );
+        this.managerContext.put( "java.rmi.registry.port",
+            this.parameters.getParameter( "registry-port", null ) );
+        this.managerContext.put( "java.rmi.registry.name",
+            this.parameters.getParameter( "computer-name", null ) );
+        this.managerContext.put( "org.apache.jmx.adaptor.name",
+            this.parameters.getParameter( "adaptor-name", null ) );
         try
         {
             this.manager.contextualize( this.managerContext );
@@ -393,6 +419,14 @@ public class PhoenixEmbeddor
             catch( Exception e ) { throw new StartException(
                         "Unable to configuration kernel from "+kernelConfigLocation, e ); }
         }
+        if( this.kernel instanceof Contextualizable )
+        {
+            // TODO: until we make the Deployer load the facilities into the kernel,
+            // create them here and put them in the kernel's Context.
+            this.createKernelContext();
+            final Contextualizable contextualizable = (Contextualizable)this.kernel;
+            contextualizable.contextualize( this.kernelContext );
+        }
 
         try
         {
@@ -403,6 +437,12 @@ public class PhoenixEmbeddor
             throw new StartException( "There was a fatal error; phoenix could not be started", e );
         }
     }
+    private void createKernelContext()
+    {
+        this.kernelContext = new DefaultContext();
+
+        kernelContext.put( "facilities.manager", this.manager );
+    }
 
     /**
      * Stop()s and disposes() the Kernel and Manager, dereferences
@@ -412,9 +452,15 @@ public class PhoenixEmbeddor
     {
         try
         {
-            kernel.stop();
-            kernel.dispose();
-            manager.stop();
+            if( kernel != null )
+            {
+                kernel.stop();
+                kernel.dispose();
+            }
+            System.out.print(".");
+            if( manager != null )
+                manager.stop();
+            System.out.print(".");
 
             kernel = null;
             manager = null;
@@ -426,6 +472,9 @@ public class PhoenixEmbeddor
             this.logger.error( "There was an error while attempting to shut down phoenix", e );
         }
         logger = null;
+        System.out.print(".");
+        this.runner.dispose();
+        this.runner = null;
         System.gc(); // make sure resources are released
     }
 }

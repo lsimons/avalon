@@ -1,0 +1,301 @@
+<?xml version="1.0"?>
+
+<!--
+==============================================================================
+
+ Avalon build file
+
+Authors:
+ Federico Barbieri <scoobie@apache.org>
+ Berin Loritsch <bloritsch@apache.org>
+ Peter Donald <donaldp@apache.org>
+ Leo Simons <mail@leosimons.com>
+
+Legal:
+  Copyright (c) 1999-2001 The Apache Software Foundation. All Rights Reserved.
+
+==============================================================================
+-->
+<project default="main" basedir=".">
+
+	<!-- general properties -->
+	<property name="name" value="Avalon"/>
+	<property name="Name" value="Avalon"/>
+	<property name="version" value="3.2a4-dev"/>
+	<property name="year" value="1999-2001"/>
+	
+	
+	<!-- BUILD Directories -->
+	<property name="build.dir" value="build"/>
+	<property name="build.lib" value="${build.dir}/lib"/>
+	<property name="build.src" value="${build.dir}/src"/>
+	<property name="build.classes" value="${build.dir}/classes"/>
+	<property name="build.javadocs" value="${build.dir}/javadocs"/>
+	<property name="build.docs" value="${build.dir}/docs"/>
+	<property name="build.xdocs" value="${build.dir}/xdocs"/>
+
+	<!-- SOURCE Directories -->
+	<property name="src.dir" value="src"/>
+	<property name="java.dir" value="${src.dir}/java"/>
+	<property name="test.dir" value="${src.dir}/test"/>
+	<property name="lib.dir" value="lib"/>
+	<property name="tools.dir" value="tools"/>
+	<property name="docs.dir" value="docs"/>
+	<property name="www.dir" value="www"/>
+	<property name="javadocs.dir" value="${docs.dir}/framework/api"/>
+	<property name="skins.dir" value="${src.dir}/skins"/>
+	<property name="avalon.skin" value="${skins.dir}/avalon/"/>
+	<property name="xdocs.dir" value="${src.dir}/xdocs"/>
+	<property name="stylesheets.dir" value="${skins.dir}"/> 
+	<property name="manifest.dir" value="${src.dir}/manifest"/> 
+	<property name="script.dir" value="${src.dir}/script"/> 
+	<property name="conf.dir" value="${src.dir}/conf"/> 
+	
+	<!-- DISTRIBUTION Directories -->
+    <property name="dist.dir" value="dist"/>
+    <property name="dist.bin" value="${dist.dir}/bin"/>
+    <property name="dist.apps" value="${dist.dir}/apps"/>
+    <property name="dist.lib" value="${dist.dir}/lib"/>
+    <property name="dist.docs" value="${dist.dir}/docs"/>
+    <property name="dist.conf" value="${dist.dir}/conf"/>
+    <property name="dist.javadocs" value="${dist.dir}/docs/api"/>
+    <property name="dist.client" value="${dist.dir}/client"/>
+
+    <!-- SOURCE DISTRIBUTION Directories -->
+	<property name="src.dist.dir" value="dist-src"/>
+    <property name="src.dist.src" value="${src.dist.dir}/src"/>
+    <property name="src.dist.docs" value="${src.dist.dir}/docs"/>
+    <property name="src.dist.javadocs" value="${src.dist.dir}/docs/api"/>
+    <property name="src.dist.lib" value="${src.dist.dir}/lib"/>
+    <property name="src.dist.tools" value="${src.dist.dir}/tools"/>
+  
+	<!-- PATH to all required libraries and sources for compile -->
+	<path id="project.class.path">
+		<fileset dir="${lib.dir}">
+			<include name="*.jar" />
+		</fileset>
+		<pathelement path="${build.classes}" />
+	</path>
+	
+	<!-- PATH to all required ant tasks -->
+	<path id="tools.class.path">
+		<pathelement path="${tools.dir}/lib/" />
+		<fileset dir="${tools.dir}/lib">
+			<include name="*.jar" />
+		</fileset>
+	</path>
+
+	<!--
+		/===================================================================\
+		|   Main target - create build and distribution                     |
+		\===================================================================/
+	-->
+	<target name="main" depends="dist-lite" />
+	
+	<!--
+		/===================================================================\
+		|   Build target - create build                                     |
+		\===================================================================/
+	-->
+	<target name="build" depends="prepare">
+		<mkdir dir="${build.classes}"/>
+		<javac srcdir="${java.dir}"
+			destdir="${build.classes}"
+			debug="${debug}"
+			optimize="${optimize}"
+			deprecation="${deprecation}">
+				<classpath refid="project.class.path" />
+				<exclude name="org/apache/avalon/datasource/J2eeDataSource.java"
+					unless="j2ee.present"/>
+		</javac>
+	</target>
+
+	<!-- prepare for build -->
+	<target name="prepare" depends="check-datasource">
+		<tstamp/>
+	    <mkdir dir="${build.dir}"/>
+	</target>
+	<!-- are jndi and jdbc present ? -->
+	<target name="check-environment">
+		<available property="jndi.present" classname="javax.naming.Context">
+			<classpath refid="project.class.path"/>
+		</available>
+		<available property="datasource.present" classname="javax.sql.DataSource">
+			<classpath refid="project.class.path"/>
+		</available>
+	</target>
+	<!-- do we have j2ee? -->
+	<target name="check-datasource" depends="check-environment" if="datasource.present">
+		<property name="j2ee.present" value="true"/>
+	</target>
+	
+	<!--
+		/===================================================================\
+		|   Jar target - create all libraries                               |
+		\===================================================================/
+	-->
+	<target name="jar" depends="build">
+		<mkdir dir="${build.lib}"/>
+		
+		<!-- avalon -->
+		<jar jarfile="${build.lib}/avalonapi.jar" basedir="${build.classes}">
+	    	<include name="org/apache/avalon/**"/>
+	    	<include name="org/apache/framework/**"/>
+	    	<exclude name="**/test/*"/>
+		</jar>
+
+		<!-- phoenix -->
+		<jar jarfile="${build.lib}/phoenix-client.jar" basedir="${build.classes}">
+			<include name="org/apache/phoenix/*"/>
+		</jar>
+		<jar jarfile="${build.lib}/phoenix-engine.jar"
+			basedir="${build.classes}"
+			manifest="${manifest.dir}/engine-Manifest.mf" >
+				<include name="org/apache/phoenix/**"/>
+				<exclude name="org/apache/phoenix/engine/loader/**" />
+		</jar>
+		<jar jarfile="${build.lib}/phoenix-loader.jar"
+			basedir="${build.classes}"
+			manifest="${manifest.dir}/loader-Manifest.mf" >
+				<include name="org/apache/phoenix/engine/loader/**" />
+		</jar>
+		<jar jarfile="${build.lib}/phoenix-shutdown.jar"
+			basedir="${build.classes}"
+			manifest="${manifest.dir}/shutdown-Manifest.mf" >
+				<include name="org/apache/phoenix/*" />
+				<include name="org/apache/avalon/atlantis/core/*" />
+		</jar>
+		
+		<!-- logkit -->
+		<jar jarfile="${build.lib}/logkit.jar" basedir="${build.classes}">
+			<include name="org/apache/log/**" />
+		</jar>
+		<!-- jmx -->
+		<jar jarfile="${build.lib}/jmx.jar" basedir="${build.classes}">
+			<include name="org/apache/jmx/**" />
+		</jar>
+		<jar jarfile="${build.lib}/jmx-client.jar"
+			 basedir="${build.classes}"
+			 manifest="${manifest.dir}/client-Manifest.mf" >
+				<include name="org/apache/jmx/**" />
+				<include name="org/apache/framework/**" />
+				<include name="org/apache/avalon/**" />
+		</jar>
+		
+	</target>
+	<!--
+		/===================================================================\
+		|   Dist target - create distribution                               |
+		\===================================================================/
+	-->
+	<target name="dist" depends="dist-lite,docs">
+		<mkdir dir="${dist.docs}"/>
+		<copy todir="${dist.docs}">
+			<fileset dir="${build.docs}"/>
+		</copy>
+
+		<mkdir dir="${dist.javadocs}"/>
+		<copy todir="${dist.javadocs}">
+			<fileset dir="${build.javadocs}"/>
+		</copy>
+	</target>
+	
+	<!-- distribution without the documentation -->
+	<target name="dist-lite" depends="jar">
+		<mkdir dir="${dist.dir}"/>
+		<mkdir dir="${dist.lib}"/>
+		<mkdir dir="${dist.bin}"/>
+		<mkdir dir="${dist.conf}"/>
+		<mkdir dir="${dist.client}"/>
+
+		<copy file="${build.lib}/avalonapi.jar" tofile="${dist.lib}/avalonapi-${version}.jar"/>
+		<copy file="${build.lib}/phoenix-client.jar" tofile="${dist.lib}/phoenix-client.jar"/>
+		<copy file="${build.lib}/phoenix-engine.jar" tofile="${dist.bin}/phoenix-engine.jar"/>
+		<copy file="${build.lib}/phoenix-loader.jar" tofile="${dist.bin}/phoenix-loader.jar"/>
+		<copy file="${build.lib}/phoenix-shutdown.jar" tofile="${dist.bin}/phoenix-shutdown.jar"/>
+		<copy file="${build.lib}/logkit.jar" tofile="${dist.lib}/logkit.jar"/>
+		<copy file="${build.lib}/jmx.jar" tofile="${dist.lib}/jmx.jar"/>
+		<copy file="${build.lib}/jmx-client.jar" tofile="${dist.client}/jmx-client.jar"/>
+		<copy todir="${dist.lib}">
+			<fileset dir="${lib.dir}" />
+		</copy>
+		<copy todir="${dist.conf}">
+			<fileset dir="${conf.dir}" />
+		</copy>
+
+		<copy file="${script.dir}/run.bat" todir="${dist.bin}"/>
+		<copy file="${script.dir}/stop.bat" todir="${dist.bin}"/>
+		<copy file="${script.dir}/run.sh" todir="${dist.bin}"/>
+		<copy file="${script.dir}/runClient.bat" todir="${dist.client}"/>
+
+		<chmod dir="${dist.dir}" perm="go-rwx" />
+		<chmod file="${dist.bin}/run.sh" perm="u+x"/>
+		<chmod file="${dist.bin}/run.bat" perm="u-x"/>
+		<chmod file="${dist.bin}/stop.bat" perm="u-x"/>
+		<chmod file="${dist.client}/runClient.bat" perm="u-x"/>
+		<fixcrlf srcdir="${dist.dir}" cr="add" includes="**/*.bat" />
+		<fixcrlf srcdir="${dist.dir}" cr="remove" includes="**/*.sh" />
+		<fixcrlf srcdir="${dist.client}" cr="add" includes="**/*.bat" />
+		<fixcrlf srcdir="${dist.client}" cr="remove" includes="**/*.sh" />
+	</target>
+
+	<!--
+		/===================================================================\
+		|   Docs target - create documentation                              |
+		\===================================================================/
+	-->
+	<target name="docs" depends="javadocs">
+	</target>
+	
+	<!-- create javadocs -->
+	<target name="javadocs">
+		<delete dir="${build.javadocs}"/>
+		<mkdir dir="${build.javadocs}"/>
+
+		<javadoc packagenames="org.apache.*"
+			sourcepath="${java.dir}"
+			destdir="${build.javadocs}">
+				<classpath refid="project.class.path" />
+				<doclet name="com.sun.tools.doclets.standard.Standard">
+					<param name="-author"/>
+					<param name="-version"/>
+					<param name="-use"/>
+					<param name="-doctitle" value="${Name}"/>
+					<param name="-windowtitle" value="${Name} Server Framework"/>
+					<param name="-bottom" 
+						value="&quot;Copyright &#169; 2001 Apache Jakarta Project. All Rights Reserved.&quot;"/>
+				</doclet>
+		</javadoc>
+	</target>
+	
+	<!-- process xdocs -->
+<!--  <target name="xdocs">
+		<mkdir dir="${build.xdocs}"/>
+		<mkdir dir="${build.docs}"/>
+
+		<filter token="year" value="${year}"/>
+		<filter token="AVALON_BASE" value="http://jakarta.apache.org/avalon"/>
+		<filter token="FRAMEWORK_BASE" value="http://jakarta.apache.org/avalon/framework"/>
+
+		<copy todir="${build.xdocs}" filtering="on">
+			<fileset dir="${xdocs.dir}">
+				<exclude name="**/images/**"/>
+			</fileset>
+		</copy>
+		<copy todir="${build.docs}" filtering="off">
+			<fileset dir="${xdocs.dir}">
+				<include name="**/images/**"/>
+			</fileset>
+		</copy>
+
+		<stylebook targetdirectory="${build.docs}"
+			book="${build.xdocs}/book.xml"
+			skindirectory="${avalon.skin}">
+				<classpath refid="project.class.path" />
+		</stylebook>
+	</target>-->
+
+</project>
+
+
+
