@@ -28,9 +28,6 @@ import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.ContextException;
 import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
-import org.apache.avalon.framework.logger.AvalonFormatter;
-import org.apache.avalon.framework.logger.LogKitLogger;
-import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.parameters.ParameterException;
 import org.apache.avalon.framework.parameters.Parameterizable;
 import org.apache.avalon.framework.parameters.Parameters;
@@ -45,10 +42,6 @@ import org.apache.avalon.phoenix.interfaces.Kernel;
 import org.apache.avalon.phoenix.interfaces.LogManager;
 import org.apache.avalon.phoenix.interfaces.PackageRepository;
 import org.apache.avalon.phoenix.interfaces.SystemManager;
-import org.apache.log.Hierarchy;
-import org.apache.log.LogTarget;
-import org.apache.log.Priority;
-import org.apache.log.output.io.FileTarget;
 
 /**
  * This is the object that is interacted with to create, manage and
@@ -64,11 +57,7 @@ public class DefaultEmbeddor
     private static final Resources REZ =
         ResourceManager.getPackageResources( DefaultEmbeddor.class );
 
-    private static final String DEFAULT_LOG_FILE = "/logs/phoenix.log";
     private static final String DEFAULT_APPS_PATH = "/apps";
-
-    private final static String DEFAULT_FORMAT =
-        "%{time} [%7.7{priority}] (%{category}): %{message}\\n%{throwable}";
 
     private EmbeddorObservable m_observable = new EmbeddorObservable();
     private Parameters m_parameters;
@@ -377,9 +366,6 @@ public class DefaultEmbeddor
     private synchronized void createComponents()
         throws Exception
     {
-        final Logger logger = createLogger();
-        enableLogging( logger );
-
         String component = null;
 
         component = m_parameters.getParameter( PackageRepository.ROLE );
@@ -405,35 +391,6 @@ public class DefaultEmbeddor
 
         component = m_parameters.getParameter( Kernel.ROLE );
         m_kernel = (Kernel)createComponent( component, Kernel.class );
-    }
-
-    /**
-     * Uses <code>org.apache.log.Hierarchy</code> to create a new
-     * logger using "Phoenix" as its category, DEBUG as its
-     * priority and the log-destination from Parameters as its
-     * destination.
-     * TODO: allow configurable priorities and multiple
-     * logtargets.
-     */
-    private Logger createLogger()
-        throws Exception
-    {
-        final String logDestination =
-            m_parameters.getParameter( "log-destination", m_phoenixHome + DEFAULT_LOG_FILE );
-        final String logPriority =
-            m_parameters.getParameter( "log-priority", "INFO" );
-        final AvalonFormatter formatter = new AvalonFormatter( DEFAULT_FORMAT );
-        final File file = new File( logDestination );
-        final FileTarget logTarget = new FileTarget( file, false, formatter );
-
-        //Create an anonymous hierarchy so no other
-        //components can get access to logging hierarchy
-        final Hierarchy hierarchy = new Hierarchy();
-        final org.apache.log.Logger logger = hierarchy.getLoggerFor( "Phoenix" );
-        logger.setLogTargets( new LogTarget[]{ logTarget } );
-        logger.setPriority( Priority.getPriorityForName( logPriority ) );
-        logger.info( "Logger started" );
-        return new LogKitLogger( logger );
     }
 
     /**
