@@ -13,6 +13,7 @@
       </library>
       <library name="lib/merlin-cli-3.3.0.jar"/>
       <library name="lib/avalon-framework-api-4.2.0.jar"/>
+      <library name="lib/avalon-framework-impl-4.2.0.jar"/>      
       <library name="lib/avalon-meta-api-1.4.0.jar"/>            
       <library name="lib/avalon-meta-spi-1.4.0.jar"/>
       <library name="lib/avalon-meta-impl-1.4.0.jar"/>
