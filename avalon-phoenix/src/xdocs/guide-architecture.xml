@@ -19,7 +19,7 @@
                 <b>Phoenix layer diagram</b>
             </center>
             <center>
-                <img src="./images/phoenix-layers.jpg"/>
+                <img src="/images/phoenix-layers.jpg"/>
             </center>
             <p>
               Shown above are three hosted server applications.  A mail server that would implement
@@ -46,7 +46,7 @@
                     <b>Phoenix application in block view</b>
                 </center>
                 <center>
-                    <img src="./images/phoenix-app-block.jpg"/>
+                    <img src="/images/phoenix-app-block.jpg"/>
                 </center>
             </subsection>
             <subsection name="Packaging in terms of block jar files">
@@ -59,7 +59,7 @@
                 <figure>
                     <title>Phoenix application in block jar view</title>
                     <center>
-                        <img src="./images/phoenix-app-blockjars.jpg"/>
+                        <img src="/images/phoenix-app-blockjars.jpg"/>
                     </center>
                 </figure>
             </subsection>
@@ -72,7 +72,7 @@
                     <b>FtpServer, a real Phoenix application</b>
                 </center>
                 <center>
-                    <img src="./images/phoenix-app-ftpserver.jpg"/>
+                    <img src="/images/phoenix-app-ftpserver.jpg"/>
                 </center>
             </subsection>
             <p>
