@@ -131,10 +131,6 @@ Legal:
         <fileset dir="${lib.dir}/container">
             <include name="*.jar"/>
         </fileset>
-        <fileset dir="${lib.dir}/deploy">
-            <include name="**/*.jar"/>
-        </fileset>
-
         <pathelement path="${target.classes}"/>
     </path>
 
@@ -822,6 +818,11 @@ Legal:
             </fileset>
         </copy>
 
+        <copy todir="${bin.dist.conf}">
+            <fileset dir="${lib.dir}/deploy/conf">
+                <include name="*.xml"/>
+            </fileset>
+        </copy>
         <copy todir="${bin.dist.apps}">
             <fileset dir="${lib.dir}/deploy/apps">
                 <include name="*.sar"/>
