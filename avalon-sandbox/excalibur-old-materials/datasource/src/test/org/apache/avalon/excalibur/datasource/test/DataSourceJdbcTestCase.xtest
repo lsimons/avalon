@@ -3,7 +3,7 @@
     <![CDATA[
       <title>DataSource Tests</title>
       <para>
-        This series of tests excersize the JDBC DataSourceComponent provided by
+        This series of tests exercise the JDBC DataSourceComponent provided by
         Excalibur.  The configuration is specified in the file located in
         <parameter>jakarta-avalon-excalibur/src/test/org/apache/avalon/excalibur/datasource/test/DataSourceJdbcTestCase.xtext</parameter>.
         You may edit the test to customize the settings.
