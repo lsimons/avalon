@@ -71,6 +71,9 @@ Legal:
     <property name="mx4j.jar" value="mx4j/mx4j-1.1/lib/mx4j-jmx.jar"/>
     <property name="mx4j-tools.jar" value="mx4j/mx4j-1.1/lib/mx4j-tools.jar"/>
 
+    <!-- Kernel implementation for BeanShell -->
+    <property name="kernel.impl.class" value="org.apache.avalon.phoenix.components.kernel.DefaultKernel"/>
+
     <path id="project.class.path">
         <pathelement location="${xerces.jar}"/>
         <pathelement location="${framework.jar}"/>
@@ -464,7 +467,6 @@ Legal:
         <copy file="${xml-api.jar}" todir="${bin.dist.lib}"/>
         <copy file="${xalan.jar}" todir="${bin.dist.lib}"/>
         <filter token="KERNEL-CLASS" value="${kernel.impl.class}"/>
-        <filter token="SYSTEM-MANAGER-CLASS" value="${system.manager.impl.class}"/>
         <copy todir="${bin.dist.conf}" filtering="on">
             <fileset dir="${conf.dir}">
                 <include name="*.xml"/>
