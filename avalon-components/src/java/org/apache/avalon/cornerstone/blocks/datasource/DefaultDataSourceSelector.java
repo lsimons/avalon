@@ -51,7 +51,7 @@ public class DefaultDataSourceSelector
 
             final String name = dataSourceConf.getAttribute( "name" );
             final String clazz = dataSourceConf.getAttribute( "type" );
-            final String driver = dataSourceConf.getChild( "driver" ).getValue();
+            final String driver = dataSourceConf.getChild( "driver", true ).getValue("");
 
             final ClassLoader classLoader = 
                 Thread.currentThread().getContextClassLoader();
@@ -59,12 +59,20 @@ public class DefaultDataSourceSelector
             DataSourceComponent component = null;
             if( null == classLoader )
             {
-                Class.forName( driver );
+                if ( ! "".equals( driver) )
+                {
+                    Class.forName( driver );
+                }
+
                 component = (DataSourceComponent)Class.forName( clazz ).newInstance();
             }
             else
             {
-                classLoader.loadClass( driver );
+                if ( ! "".equals( driver) )
+                {
+                    classLoader.loadClass( driver );
+                }
+
                 component = (DataSourceComponent)classLoader.loadClass( clazz ).newInstance();
             }
 

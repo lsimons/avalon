@@ -10,7 +10,11 @@
   </devs>
 
 <release version="3.1a2" date="Unreleased">
-  <action dev="BL" type="add">
+  <action dev="BL" type="update">
+    Make "driver" attribute optional now that Excalibur JdbcDataSource
+    allows you to specify it.  This means you can specify your driver
+    here, in the configuration for the JdbcDataSource, or in your own
+    initialization code.
   </action>
 </release>
 
