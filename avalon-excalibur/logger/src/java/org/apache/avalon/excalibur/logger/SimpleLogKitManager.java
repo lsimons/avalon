@@ -204,6 +204,7 @@ public class SimpleLogKitManager
             final String name = target.getAttribute( "name" );
             String location = target.getAttribute( "location" ).trim();
             final String format = target.getAttribute( "format", DEFAULT_FORMAT );
+            final boolean append = target.getAttributeAsBoolean( "append", true );
 
             if( '/' == location.charAt( 0 ) )
             {
@@ -219,7 +220,7 @@ public class SimpleLogKitManager
             FileTarget logTarget = null;
             try
             {
-                logTarget = new FileTarget( file.getAbsoluteFile(), true, formatter );
+                logTarget = new FileTarget( file.getAbsoluteFile(), append, formatter );
             }
             catch( final IOException ioe )
             {
