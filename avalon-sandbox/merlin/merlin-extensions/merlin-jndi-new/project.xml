@@ -2,7 +2,7 @@
 
 <project>
 
-  <extend>${basedir}/../project.xml</extend>
+  <extend>${basedir}/../../project.xml</extend>
 
   <id>merlin-jndi-new</id>
   <name>Merlin JNDI Provider</name>
