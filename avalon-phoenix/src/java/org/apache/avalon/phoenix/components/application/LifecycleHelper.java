@@ -26,6 +26,9 @@ import org.apache.avalon.framework.logger.LogEnabled;
 import org.apache.avalon.framework.logger.LogKitLogger;
 import org.apache.avalon.framework.logger.Loggable;
 import org.apache.avalon.framework.logger.Logger;
+import org.apache.avalon.framework.parameters.Parameters;
+import org.apache.avalon.framework.parameters.Parameterizable;
+import org.apache.avalon.framework.parameters.ParameterException;
 import org.apache.avalon.phoenix.Block;
 import org.apache.avalon.phoenix.BlockContext;
 import org.apache.avalon.phoenix.BlockEvent;
@@ -56,11 +59,12 @@ class LifecycleHelper
     private final static int STAGE_CONTEXT = 2;
     private final static int STAGE_COMPOSE = 3;
     private final static int STAGE_CONFIG = 4;
-    private final static int STAGE_INIT = 5;
-    private final static int STAGE_START = 6;
-    private final static int STAGE_STOP = 7;
-    private final static int STAGE_DISPOSE = 8;
-    private final static int STAGE_DESTROY = 9;
+    private final static int STAGE_PARAMETER = 5;
+    private final static int STAGE_INIT = 6;
+    private final static int STAGE_START = 7;
+    private final static int STAGE_STOP = 8;
+    private final static int STAGE_DISPOSE = 9;
+    private final static int STAGE_DESTROY = 10;
 
     //Constants to designate type of component
     private final static int TYPE_BLOCK = 0;
@@ -189,6 +193,16 @@ class LifecycleHelper
                 notice( name, stage );
                 final Configuration configuration = getConfiguration( name, TYPE_BLOCK );
                 ( (Configurable)block ).configure( configuration );
+            }
+
+            //Parameterizing stage
+            stage = STAGE_PARAMETER;
+            if( block instanceof Parameterizable )
+            {
+                notice( name, stage );
+                final Parameters parameters = Parameters.fromConfiguration( getConfiguration( name, TYPE_BLOCK ) );
+                parameters.makeReadOnly();
+                ( (Parameterizable)block ).parameterize( parameters );
             }
 
             //Initialize stage
