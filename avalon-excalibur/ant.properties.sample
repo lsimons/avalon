@@ -10,7 +10,7 @@
 # building all components. These values are overridable in component-specific
 # ant.properties files.
 #
-# $Id: ant.properties.sample,v 1.16 2002/08/04 01:07:38 leif Exp $
+# $Id: ant.properties.sample,v 1.17 2002/08/10 21:14:33 hammant Exp $
 # -----------------------------------------------------------------------------
 
 
@@ -64,7 +64,7 @@ excalibur-thread.jar=${excalibur-thread.home}/excalibur-thread-1.0.jar
 
 # ----- Excalibur Pool -----
 excalibur-pool.home=${base.path}/jakarta-avalon-excalibur/pool/build/lib
-excalibur-pool.jar=${excalibur-pool.home}/excalibur-pool-1.0.jar
+excalibur-pool.jar=${excalibur-pool.home}/excalibur-pool-1.1.jar
 
 # ----- Excalibur Logger -----
 excalibur-logger.home=${base.path}/jakarta-avalon-excalibur/logger/build/lib
@@ -104,7 +104,7 @@ excalibur-instrument.home=${base.path}/jakarta-avalon-excalibur/instrument/build
 excalibur-instrument.jar=${excalibur-instrument.home}/excalibur-instrument-0.3.jar
 
 # ----- Excalibur Instrument Manager -----
-excalibur-instrument-manager.home=${base.path}/jakarta-avalon-excalibur/instrument-manager/build/lib
+excalibur-instrument-manager.home=${base.path}/jakarta-avalon-excalibur/instrument/build/lib
 excalibur-instrument-manager-interfaces.jar=${excalibur-instrument-manager.home}/excalibur-instrument-manager-interfaces-0.3.jar
 
 # ----- Altrmi -----
