@@ -20,7 +20,7 @@
     <name>Avalon LogKit</name>
     <id>avalon-logkit</id>
     <groupId>avalon-logkit</groupId>
-    <currentVersion>2.0</currentVersion>
+    <currentVersion>2.0.dev-1</currentVersion>
     <inceptionYear>2003</inceptionYear>
     
     <shortDescription>The Avalon LogKit logging utility</shortDescription>
@@ -34,7 +34,7 @@ Avalon LogKit is the logging utility used by default in all Avalon systems.
       <connection>scm:cvs:pserver:anoncvs@cvs.apache.org:/home/cvspublic:avalon-logkit</connection>
       <url>http://cvs.apache.org/viewcvs/avalon-logkit/</url>
     </repository>
-  
+    
     <dependencies>
       <dependency>
         <id>log4j</id>
