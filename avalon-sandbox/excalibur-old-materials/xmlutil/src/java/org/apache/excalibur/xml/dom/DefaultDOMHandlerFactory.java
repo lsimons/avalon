@@ -19,7 +19,8 @@ import org.w3c.dom.Document;
 
 /**
  * @author <a href="mailto:mirceatoma@apache.org">Mircea Toma</a>
- * @version CVS $Revision: 1.6 $ $Date: 2002/10/02 01:52:25 $
+ * @version CVS $Revision: 1.7 $ $Date: 2002/11/12 23:35:10 $
+ * @avalon.component
  */
 public class DefaultDOMHandlerFactory
     extends AbstractLogEnabled
@@ -29,20 +30,24 @@ public class DefaultDOMHandlerFactory
     private final DocumentBuilderFactory m_documentBuilderFactory = DocumentBuilderFactory.newInstance();
     private DocumentBuilder m_documentBuilder;
 
-    public void initialize() throws Exception
+    public void initialize()
+        throws Exception
     {
         m_documentBuilder = m_documentBuilderFactory.newDocumentBuilder();
     }
 
-    public DOMHandler createDOMHandler() throws Exception
+    public DOMHandler createDOMHandler()
+        throws Exception
     {
         final Document document = m_documentBuilder.newDocument();
         return createDOMHandler( document );
     }
 
-    public DOMHandler createDOMHandler( Document document ) throws Exception
+    public DOMHandler createDOMHandler( final Document document )
+        throws Exception
     {
-        final TransformerHandler transformerHandler = m_transformerFactory.newTransformerHandler();
+        final TransformerHandler transformerHandler =
+            m_transformerFactory.newTransformerHandler();
         return new DefaultDOMHandler( transformerHandler, document );
     }
 }
