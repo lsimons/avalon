@@ -433,7 +433,7 @@ Legal:
     <copy file="${announce.xml}" tofile="${build.announce}" filtering="yes"/>
 
     <java classname="${xalan.main}" fork="true">
-      <arg line="-IN ${build.announce} -XSL ${announce2txt} -OUT Announcement.txt"/>
+      <arg line="-IN ${build.announce} -XSL ${announce2txt} -OUT Announcement.txt -TS"/>
       <classpath refid="tools.class.path" />
     </java>
 
