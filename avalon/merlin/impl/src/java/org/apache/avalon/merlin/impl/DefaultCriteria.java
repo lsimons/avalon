@@ -55,7 +55,7 @@ import org.apache.avalon.util.criteria.PackedParameter;
  * for application to a factory.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.25 $
+ * @version $Revision: 1.26 $
  */
 public class DefaultCriteria extends Criteria implements KernelCriteria
 {
@@ -422,12 +422,12 @@ public class DefaultCriteria extends Criteria implements KernelCriteria
     }
 
    /**
-    * Return an external logging system configuration file
-    * @return the configuration file (possibly null)
+    * Return an external logging system configuration source
+    * @return the configuration url (possibly null)
     */
-    public File getLoggingConfiguration()
+    public URL getLoggingConfiguration()
     {
-        return (File) get( MERLIN_LOGGING_CONFIG );
+        return (URL) get( MERLIN_LOGGING_CONFIG );
     }
 
    /**
