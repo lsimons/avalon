@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import org.apache.avalon.excalibur.thread.DefaultThreadPool;
 import org.apache.avalon.excalibur.thread.ThreadPool;
+import org.apache.avalon.excalibur.thread.ThreadHook;
+import org.apache.avalon.excalibur.thread.ThreadContext;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
@@ -41,7 +43,7 @@ import org.apache.avalon.excalibur.i18n.Resources;
  */
 public class DefaultApplicationFrame
     extends AbstractLoggable
-    implements ApplicationFrame, Contextualizable, Configurable, Initializable
+    implements ApplicationFrame, Contextualizable, Configurable, Initializable, ThreadHook
 {
     private static final Resources REZ =
         ResourceManager.getPackageResources( DefaultPolicy.class );
@@ -194,6 +196,16 @@ public class DefaultApplicationFrame
     }
 
     /**
+     * Called before a thread executes work.
+     * Used to initialize thread specific resources.
+     *
+     */
+    public void setupThread()
+    {
+        ThreadContext.setCurrentThreadPool( getDefaultThreadPool() );
+    }
+
+    /**
      * Setup policy based on configuration data.
      *
      * @param configuration the configuration data
@@ -233,7 +245,8 @@ public class DefaultApplicationFrame
 
             try
             {
-                final DefaultThreadPool threadPool = new DefaultThreadPool( name, maxThreads );
+                final DefaultThreadPool threadPool = 
+                    new DefaultThreadPool( name, maxThreads, this );
                 threadPool.setDaemon( isDaemon );
                 threadPool.setLogger( getLogger() );
                 m_threadPools.put( name, threadPool );
@@ -263,18 +276,14 @@ public class DefaultApplicationFrame
             final Configuration target = targets[ i ];
             final String name = target.getAttribute( "name" );
             String location = target.getAttribute( "location" ).trim();
-            final String format = target.getAttribute( "format", null );
+            final String format = target.getAttribute( "format", DEFAULT_FORMAT );
 
             if( '/' == location.charAt( 0 ) )
             {
                 location = location.substring( 1 );
             }
 
-            final AvalonFormatter formatter = new AvalonFormatter();
-
-            ///If format specified then setup formatter appropriately
-            if( null != format ) formatter.setFormat( format );
-            else formatter.setFormat( DEFAULT_FORMAT );
+            final AvalonFormatter formatter = new AvalonFormatter( format );
 
             //Specify output location for logging
             final File file = new File( m_baseDirectory, location );
