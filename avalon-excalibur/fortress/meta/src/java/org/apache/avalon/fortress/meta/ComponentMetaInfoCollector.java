@@ -80,7 +80,7 @@ import java.util.*;
  * ANT task to collect all the meta information for the components.
  *
  * @author <a href="mailto:dev@avalon.apache.org">The Avalon Team</a>
- * @version CVS $Revision: 1.19 $ $Date: 2003/05/23 16:52:53 $
+ * @version CVS $Revision: 1.20 $ $Date: 2003/05/23 16:54:57 $
  */
 public final class ComponentMetaInfoCollector extends AbstractQdoxTask
 {
@@ -301,7 +301,6 @@ public final class ComponentMetaInfoCollector extends AbstractQdoxTask
                 {
                     if (methods[i].getName().equals(METH_SERVICE))
                     {
-                        System.out.println(methods[i].getParameters()[0].getType().getValue());
                         if (methods[i].getParameters().length == 1 && methods[i].getParameters()[0].getType().getValue().equals(SERVICE_MANAGER))
                         {
                             DocletTag[] dependencies = methods[i].getTagsByName(TAG_DEPENDENCY);
@@ -309,8 +308,6 @@ public final class ComponentMetaInfoCollector extends AbstractQdoxTask
                             {
                                 String type = stripQuotes(dependencies[d].getNamedParameter(ATTR_TYPE));
                                 //String optional = dependencies[d].getNamedParameter("optional");
-
-                                System.out.println(type);
 
                                 Service service = getService(type);
                                 comp.addDependency(service);
