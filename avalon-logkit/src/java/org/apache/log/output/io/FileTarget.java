@@ -102,7 +102,7 @@ public class FileTarget
      *
      * @return the output File
      */
-    protected File getFile()
+    protected synchronized File getFile()
     {
         return m_file;
     }

@@ -61,7 +61,7 @@ public class StreamTarget
      *
      * @param data the data to be output
      */
-    protected void write( final String data )
+    protected synchronized void write( final String data )
     {
         //Cache method local version
         //so that can be replaced in another thread

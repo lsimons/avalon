@@ -56,7 +56,7 @@ public class AsyncLogTarget
      *
      * @param errorHandler the errorHandler
      */
-    public void setErrorHandler( final ErrorHandler errorHandler )
+    public synchronized void setErrorHandler( final ErrorHandler errorHandler )
     {
         super.setErrorHandler( errorHandler );
 

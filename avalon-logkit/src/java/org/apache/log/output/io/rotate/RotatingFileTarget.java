@@ -47,7 +47,7 @@ public class RotatingFileTarget
         rotate();
     }
 
-    protected void rotate()
+    protected synchronized void rotate()
         throws IOException
     {
         close();
@@ -60,7 +60,7 @@ public class RotatingFileTarget
     /**
      * Output the log message, and check if rotation is needed.
      */
-    protected void write( final String data ) 
+    protected synchronized void write( final String data ) 
     {
         // write the log message
         super.write( data );

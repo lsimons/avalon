@@ -48,7 +48,7 @@ public abstract class AbstractOutputTarget
      * @deprecated Access to formatter is not advised and this method will be removed
      *             in future iterations. It remains only for backwards compatability.
      */
-    public Formatter getFormatter()
+    public synchronized Formatter getFormatter()
     {
         return m_formatter;
     }
@@ -59,7 +59,7 @@ public abstract class AbstractOutputTarget
      * @param formatter the formatter
      * @deprecated In future this method will become protected access.
      */
-    public void setFormatter( final Formatter formatter )
+    public synchronized void setFormatter( final Formatter formatter )
     {
         writeTail();
         m_formatter = formatter;
@@ -97,7 +97,7 @@ public abstract class AbstractOutputTarget
      * Startup log session.
      *
      */
-    protected void open()
+    protected synchronized void open()
     {
         if( !isOpen() )
         {
@@ -111,7 +111,7 @@ public abstract class AbstractOutputTarget
      * Attempting to write to target after close() will cause errors to be logged.
      *
      */
-    public void close()
+    public synchronized void close()
     {
         if( isOpen() )
         {

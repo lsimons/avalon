@@ -58,7 +58,7 @@ public class MemoryTarget
      *
      * @param overwrite true if buffer should overwrite logevents in buffer, false otherwise
      */
-    protected void setOverwrite( final boolean overwrite )
+    protected synchronized void setOverwrite( final boolean overwrite )
     {
         m_overwrite = overwrite;
     }
@@ -100,7 +100,7 @@ public class MemoryTarget
      *
      * @return true if buffer is full, false otherwise
      */
-    public final boolean isFull()
+    public final synchronized boolean isFull()
     {
         return m_buffer.length == m_used;
     }
@@ -113,7 +113,7 @@ public class MemoryTarget
      * @param event the incoming LogEvent
      * @return true if should push, false otherwise
      */
-    protected boolean shouldPush( final LogEvent event )
+    protected synchronized boolean shouldPush( final LogEvent event )
     {
         return ( m_threshold.isLowerOrEqual( event.getPriority() ) || isFull() );
     }

@@ -27,8 +27,6 @@ import org.apache.log.LogEvent;
 public class NormalizedJDBCTarget
     extends DefaultJDBCTarget
 {
-    //private NormalizedColumn  m_category;
-    //private NormalizedColumn  m_priority;
     private HashMap  m_categoryIDs = new HashMap();
     private HashMap  m_priorityIDs = new HashMap();
 
@@ -70,7 +68,7 @@ public class NormalizedJDBCTarget
         }
     }
 
-    protected int getID( final String tableName, final HashMap idMap, final String instance )
+    protected synchronized int getID( final String tableName, final HashMap idMap, final String instance )
         throws SQLException
     {
         final Integer id = (Integer)idMap.get( instance );

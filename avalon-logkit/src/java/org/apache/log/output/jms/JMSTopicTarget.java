@@ -65,7 +65,7 @@ public class JMSTopicTarget
         return m_session;
     }
 
-    protected void openConnection()
+    protected synchronized void openConnection()
     {
         try
         {
@@ -87,7 +87,7 @@ public class JMSTopicTarget
         }
     }
 
-    protected void closeConnection()
+    protected synchronized void closeConnection()
     {
         try
         {
