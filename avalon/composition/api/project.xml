@@ -8,7 +8,7 @@
   <id>avalon-composition-api</id>
   <name>Avalon Composition API</name>
   <package>org.apache.avalon.assembly</package>
-  <currentVersion>1.2.2</currentVersion>
+  <currentVersion>2.0-DEV</currentVersion>
 
   <inceptionYear>2002</inceptionYear>
   <shortDescription>Avalon Composition SPI</shortDescription>
