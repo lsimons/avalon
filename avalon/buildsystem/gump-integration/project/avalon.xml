@@ -7,6 +7,38 @@
     </description>
     <cvs repository="avalon"></cvs>
 
+    <project name="avalon">
+        <!-- deprecated! -->
+
+        <!-- can't just reference the new avalon-framework project here
+             because we go from 1 to multiple jars. This is a copied
+             descriptor. -->
+
+        <package>org.apache.avalon</package>
+        <ant target="dist" basedir="framework">
+            <property name="project.version" value="@@DATE@@"></property>
+        </ant>
+
+        <depend project="ant"></depend>
+        <depend inherit="runtime" project="ant"></depend>
+        <depend project="xml-xalan2"></depend>
+        <depend project="xml-xerces"></depend>
+
+          <depend runtime="true" project="junit"></depend>
+          <depend runtime="true" project="jakarta-log4j"></depend>
+          <depend runtime="true" project="avalon-logkit"></depend>
+
+        <work nested="framework/target/classes"></work>
+        <work nested="framework/target/api-classes"></work>
+        <work nested="framework/target/impl-classes"></work>
+        <work nested="framework/target/test-classes"></work>
+
+        <home nested="framework"></home>
+        <jar name="target/avalon-framework-@@DATE@@.jar" id="combined"></jar>
+        <javadoc nested="framework/target/docs/apidocs"></javadoc>
+
+        <nag to="dev@avalon.apache.org" from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"></nag>
+    </project>
 
     <project href="http://cvs.apache.org/viewcvs.cgi/*checkout*/avalon/buildsystem/gump-integration/project/avalon-framework.xml"></project>
 
