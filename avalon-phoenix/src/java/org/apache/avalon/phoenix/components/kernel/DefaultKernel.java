@@ -35,6 +35,7 @@ import org.apache.avalon.phoenix.interfaces.ConfigurationValidator;
 import org.apache.avalon.phoenix.interfaces.Kernel;
 import org.apache.avalon.phoenix.interfaces.KernelMBean;
 import org.apache.avalon.phoenix.interfaces.SystemManager;
+import org.apache.excalibur.instrument.InstrumentManager;
 
 /**
  * The ServerKernel is the core of the Phoenix system.
@@ -77,6 +78,9 @@ public class DefaultKernel
     //Configuration Validator
     private ConfigurationValidator m_validator;
 
+    //Instrument Manager
+    private InstrumentManager m_instrumentManager;
+
     private final HashMap m_entries = new HashMap();
 
     private boolean m_addInvalidApplications;
@@ -88,6 +92,7 @@ public class DefaultKernel
         m_repository = (ConfigurationRepository)serviceManager.
             lookup( ConfigurationRepository.ROLE );
         m_validator = (ConfigurationValidator)serviceManager.lookup( ConfigurationValidator.ROLE );
+        m_instrumentManager = (InstrumentManager)serviceManager.lookup( InstrumentManager.ROLE );
     }
 
     public void configure( final Configuration configuration )
@@ -312,13 +317,14 @@ public class DefaultKernel
 
     private ServiceManager createServiceManager()
     {
-        final DefaultServiceManager componentManager = new DefaultServiceManager();
-        componentManager.put( SystemManager.ROLE, m_systemManager );
-        componentManager.put( ConfigurationRepository.ROLE, m_repository );
-        componentManager.put( ConfigurationValidator.ROLE, m_validator );
-        componentManager.put( Kernel.ROLE, this );
-        componentManager.makeReadOnly();
-        return componentManager;
+        final DefaultServiceManager serviceManager = new DefaultServiceManager();
+        serviceManager.put( SystemManager.ROLE, m_systemManager );
+        serviceManager.put( ConfigurationRepository.ROLE, m_repository );
+        serviceManager.put( ConfigurationValidator.ROLE, m_validator );
+        serviceManager.put( InstrumentManager.ROLE, m_instrumentManager );
+        serviceManager.put( Kernel.ROLE, this );
+        serviceManager.makeReadOnly();
+        return serviceManager;
     }
 
     public void removeApplication( final String name )
