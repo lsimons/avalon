@@ -30,16 +30,9 @@ import org.apache.metro.studio.eclipse.ui.panels.ServerSettingsPanel;
 
 /**
  * @author <a href="mailto:dev@avalon.apache.org">Metro Development Team</a>
- * 22.08.2004
- * last change:
- * 
  */
 public class PreferencesController
 {
-
-    /**
-     * 
-     */
     public PreferencesController()
     {
         super();
@@ -47,24 +40,23 @@ public class PreferencesController
     
     private void serverApplyClicked(ChannelEvent event)
     {
-		event.getValue(ServerSettingsPanel.SERVER_DEPLOY);
-		event.getValue(ServerSettingsPanel.SERVER_LANG);
-		event.getValue(ServerSettingsPanel.SERVER_ROOT_BLOCK);
-		event.getValue(ServerSettingsPanel.SERVER_ROOT_FACILITY);
-		event.getValue(ServerSettingsPanel.SERVER_STARTUP_JAR);
-
+        event.getValue( ServerSettingsPanel.SERVER_DEPLOY );
+        event.getValue( ServerSettingsPanel.SERVER_LANG );
+        event.getValue( ServerSettingsPanel.SERVER_ROOT_BLOCK );
+        event.getValue( ServerSettingsPanel.SERVER_ROOT_FACILITY );
+        event.getValue( ServerSettingsPanel.SERVER_STARTUP_JAR );
     }
     
     private void serverWindowCreated(ChannelEvent event)
     {
         MetroEnvironment env = new MetroEnvironment();
         
-		event.putValue(ServerSettingsPanel.SERVER_DEPLOY, "");
-		event.putValue(ServerSettingsPanel.SERVER_LANG, ServerEnvironment.DEFAULT_LANG);
-		event.putValue(ServerSettingsPanel.SERVER_ROOT_BLOCK, env.getMerlinHome());
-		event.putValue(ServerSettingsPanel.SERVER_ROOT_FACILITY, "");
-		event.putValue(ServerSettingsPanel.SERVER_STARTUP_JAR, "");
-
+        event.putValue( ServerSettingsPanel.SERVER_DEPLOY, "" );
+        event.putValue( ServerSettingsPanel.SERVER_LANG, ServerEnvironment.DEFAULT_LANG );
+        String merlinHome = env.getMerlinHome();
+        event.putValue( ServerSettingsPanel.SERVER_ROOT_BLOCK, merlinHome );
+        event.putValue( ServerSettingsPanel.SERVER_ROOT_FACILITY, "" );
+        event.putValue( ServerSettingsPanel.SERVER_STARTUP_JAR, "" );
     }
 
     /**
@@ -73,34 +65,32 @@ public class PreferencesController
      */
     public void initialize()
     {
-        
         try
         {
-            ViewChannel channel = new ViewChannel("server");
+            ViewChannel channel = new ViewChannel( "server" );
             
-            channel.addControlClickedListener(ServerSettingsPanel.SERVER_APPLY, new ChannelListener (){
-                public ChannelEvent notify(ChannelEvent event) throws ChannelException
+            channel.addControlClickedListener( ServerSettingsPanel.SERVER_APPLY, new ChannelListener()
+            {
+                public ChannelEvent notify( ChannelEvent event ) 
+                    throws ChannelException
                 {
-                    serverApplyClicked(event);                    
+                    serverApplyClicked( event );
                     return event;
-            
                 }          
             });
             
-            channel.addWindowCreatedListener(ServerSettingsPanel.SERVER_PANEL, new ChannelListener (){
-                public ChannelEvent notify(ChannelEvent event) throws ChannelException
+            channel.addWindowCreatedListener( ServerSettingsPanel.SERVER_PANEL, new ChannelListener()
+            {
+                public ChannelEvent notify( ChannelEvent event ) 
+                    throws ChannelException
                 {
-                    serverWindowCreated(event);                    
+                    serverWindowCreated( event );
                     return event;
-            
                 }          
             });
-
-        } catch (ChannelException e)
+        } catch( ChannelException e )
         {
             e.printStackTrace();
         }
-
     }
-
 }

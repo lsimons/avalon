@@ -51,38 +51,38 @@ public class NewMetroProjectWizardController
         super();
     }
     
-    private ChannelEvent selectionListClicked(ChannelEvent event)
+    private ChannelEvent selectionListClicked( ChannelEvent event )
     {
-
-        String help = BlockProjectManager.getResourceHelp(event.getValue(NewMetroProjectSelectionPage.SELECTION_CONTROL_SELECTED));
-        event.putValue("resource.help", help);
-		return event;
+        String helpKey = event.getValue( NewMetroProjectSelectionPage.SELECTION_CONTROL_SELECTED );
+        String help = BlockProjectManager.getResourceHelp( helpKey );
+        event.putValue( "resource.help", help );
+        return event;
     }
     
-    private ChannelEvent selectionApplyClicked(ChannelEvent event)
+    private ChannelEvent selectionApplyClicked( ChannelEvent event )
     {
         try
         {
-            String projectName = event.getValue(NewMetroProjectWizard.NEW_PROJECT_NAME);
-            String templateName = event.getValue(NewMetroProjectSelectionPage.SELECTION_CONTROL_SELECTED);
+            String projectName = event.getValue( NewMetroProjectWizard.NEW_PROJECT_NAME );
+            String templateName = event.getValue( NewMetroProjectSelectionPage.SELECTION_CONTROL_SELECTED );
 
-            IProject project = BlockProjectManager.create(projectName, templateName);
-            project.refreshLocal(IResource.DEPTH_INFINITE, null);
-        } catch (CoreException e)
+            IProject project = BlockProjectManager.create( projectName, templateName );
+            project.refreshLocal( IResource.DEPTH_INFINITE, null );
+        } catch( CoreException e )
         {
-
             e.printStackTrace();
         }
 
 
-		return event;
+        return event;
     }
     
-    private ChannelEvent selectionWindowCreated(ChannelEvent event)
+    private ChannelEvent selectionWindowCreated( ChannelEvent event )
     {
-        rm = ResourceTemplateManager.load(ResourceTemplateManager.DEFAULT_CONFIG_PATH);
-        event.putValueArray(NewMetroProjectSelectionPage.SELECTION_CONTROL_LIST, BlockProjectManager.listTemplateNames());
-		return event;
+        rm = ResourceTemplateManager.load( ResourceTemplateManager.DEFAULT_CONFIG_PATH );
+        String[] names = BlockProjectManager.listTemplateNames();
+        event.putValueArray( NewMetroProjectSelectionPage.SELECTION_CONTROL_LIST, names );
+        return event;
     }
 
     /**
@@ -91,13 +91,14 @@ public class NewMetroProjectWizardController
      */
     public void initialize()
     {
-        
         try
-        {
-            ViewChannel channel = new ViewChannel("newBlockWizard");
+        { 
+            ViewChannel channel = new ViewChannel( "newBlockWizard" );
             
-            channel.addControlClickedListener(NewMetroProjectSelectionPage.SELECTION_CONTROL, new ChannelListener (){
-                public ChannelEvent notify(ChannelEvent event) throws ChannelException
+            channel.addControlClickedListener( NewMetroProjectSelectionPage.SELECTION_CONTROL, new ChannelListener ()
+            {
+                public ChannelEvent notify( ChannelEvent event ) 
+                    throws ChannelException
                 {
                     selectionListClicked(event);                    
                     return event;
@@ -105,19 +106,22 @@ public class NewMetroProjectWizardController
                 }          
             });
 
-            channel.addControlClickedListener(NewMetroProjectWizard.NEW_PROJECT_FINISH, new ChannelListener (){
-                public ChannelEvent notify(ChannelEvent event) throws ChannelException
+            channel.addControlClickedListener( NewMetroProjectWizard.NEW_PROJECT_FINISH, new ChannelListener()
+            {
+                public ChannelEvent notify( ChannelEvent event ) 
+                    throws ChannelException
                 {
-                    selectionApplyClicked(event);                    
+                    selectionApplyClicked( event );
                     return event;
-            
                 }          
             });
             
-            channel.addWindowCreatedListener(NewMetroProjectSelectionPage.SELECTION_PANEL, new ChannelListener (){
-                public ChannelEvent notify(ChannelEvent event) throws ChannelException
+            channel.addWindowCreatedListener( NewMetroProjectSelectionPage.SELECTION_PANEL, new ChannelListener()
+            {
+                public ChannelEvent notify( ChannelEvent event ) 
+                    throws ChannelException
                 {
-                    event = selectionWindowCreated(event);                    
+                    event = selectionWindowCreated( event );
                     return event;
             
                 }          
@@ -127,7 +131,5 @@ public class NewMetroProjectWizardController
         {
             e.printStackTrace();
         }
-
     }
-
 }
