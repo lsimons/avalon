@@ -131,6 +131,9 @@ Legal:
     <available property="jmx.present" classname="javax.management.MBeanException">
       <classpath refid="project.class.path"/>
     </available>
+    <available property="wrapper.present" classname="com.silveregg.wrapper.WrapperManager">
+      <classpath refid="project.class.path"/>
+    </available>
   </target>
 
   <!-- Setup the filters -->
@@ -240,6 +243,8 @@ Legal:
       <exclude name="**/*MBean.java" unless="jmx.present"/>
       <exclude name="org/apache/avalon/phoenix/components/manager/DefaultManager.java" 
                unless="jmx.present"/>
+      <exclude name="org/apache/avalon/phoenix/launcher/DaemonLauncher.java" 
+               unless="wrapper.present"/>
     </javac>
 
     <copy todir="${build.classes}">
