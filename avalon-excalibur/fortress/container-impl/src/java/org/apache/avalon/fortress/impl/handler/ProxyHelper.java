@@ -82,7 +82,7 @@ import org.apache.avalon.framework.service.Serviceable;
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
  */
-final class ProxyHelper
+public final class ProxyHelper
 {
     /**
      * The list interfaces that will not be proxied.
