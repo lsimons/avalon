@@ -1,0 +1,83 @@
+<?xml version="1.0"?>
+
+<!--
+     For more information on xdocs, see
+     http://maven.apache.org/reference/plugins/xdoc/
+
+     to render, run:
+        maven site:generate
+
+     Note, most all normal XHTML tags will work here
+     (like anchor for links, etc.) just LEAVE OUT style info!
+
+     don't forget to update the navigation.xml file too
+     (and delete this).
+	
+-->
+
+<?xml version="1.0"?>
+<document>
+
+  <properties>
+    <author email="nospam@foo.com">Jon S. Stevens</author>
+    <author email="mrsmith@foo.com">Mr. Smith</author>
+    <title></title>
+  </properties>
+
+  <meta name="keyword" content="jakarta, java"/>
+
+  
+<body>
+
+<section name="Section 1">
+<p>
+This is section 1.
+</p>
+
+<table>
+<tr>
+    <td>This is a table</td>
+</tr>
+</table>
+
+<ul>
+
+    <li>This is an unordered list.</li>
+</ul>
+
+</section>
+
+<section name="Section 2">
+<p>
+This is section 2.
+</p>
+
+<ol>
+    <li>This is an ordered list.</li>
+</ol>
+
+</section>
+
+<section name="Section 3">
+<p>
+This is section 3.
+</p>
+
+<source>
+    Anything within this tag is rendered as a "box"
+    with lines and &lt;pre&gt;&lt;/pre&gt; tags around it.
+</source>
+
+    <subsection name="Subsection of Section 3">
+    <p>
+        This is the subsection 3.
+    </p>
+    </subsection>
+
+</section>
+
+</body>
+</document>
+
+
+
