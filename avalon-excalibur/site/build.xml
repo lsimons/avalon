@@ -110,7 +110,6 @@
     <copy todir="${cocoon.build.xdocs}/jprocess"><fileset dir="${basedir}/../jprocess/src/xdocs"/></copy>
     <copy todir="${cocoon.build.xdocs}/logger"><fileset dir="${basedir}/../logger/src/xdocs"/></copy>
     <copy todir="${cocoon.build.xdocs}/merlin"><fileset dir="${basedir}/../merlin/src/xdocs"/></copy>
-    <copy todir="${cocoon.build.xdocs}/microcontainer"><fileset dir="${basedir}/../microcontainer/src/xdocs"/></copy>
     <copy todir="${cocoon.build.xdocs}/monitor"><fileset dir="${basedir}/../monitor/src/xdocs"/></copy>
     <copy todir="${cocoon.build.xdocs}/naming"><fileset dir="${basedir}/../naming/src/xdocs"/></copy>
     <copy todir="${cocoon.build.xdocs}/pool"><fileset dir="${basedir}/../pool/src/xdocs"/></copy>
@@ -176,7 +175,6 @@
     <style in="${cocoon.build.xdocs}/jprocess/book.xml" out="${cocoon.build.xdocs}/jprocess/menu.xml" style="${tools.dir}/book2project.xsl"/>
     <style in="${cocoon.build.xdocs}/logger/book.xml" out="${cocoon.build.xdocs}/logger/menu.xml" style="${tools.dir}/book2project.xsl"/>
     <style in="${cocoon.build.xdocs}/merlin/book.xml" out="${cocoon.build.xdocs}/merlin/menu.xml" style="${tools.dir}/book2project.xsl"/>
-    <style in="${cocoon.build.xdocs}/microcontainer/book.xml" out="${cocoon.build.xdocs}/microcontainer/menu.xml" style="${tools.dir}/book2project.xsl"/>
     <style in="${cocoon.build.xdocs}/monitor/book.xml" out="${cocoon.build.xdocs}/monitor/menu.xml" style="${tools.dir}/book2project.xsl"/>
     <style in="${cocoon.build.xdocs}/naming/book.xml" out="${cocoon.build.xdocs}/naming/menu.xml" style="${tools.dir}/book2project.xsl"/>
     <style in="${cocoon.build.xdocs}/pool/book.xml" out="${cocoon.build.xdocs}/pool/menu.xml" style="${tools.dir}/book2project.xsl"/>
