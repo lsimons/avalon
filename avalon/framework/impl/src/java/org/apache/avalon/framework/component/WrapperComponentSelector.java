@@ -64,7 +64,8 @@ import org.apache.avalon.framework.service.ServiceException;
  * interface to a {@link ServiceSelector} interface.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.8 $ $Date: 2003/02/11 07:13:45 $
+ * @version CVS $Revision: 1.9 $ $Date: 2003/03/12 12:08:45 $
+ * @since 4.1.4
  */
 public class WrapperComponentSelector
     implements ComponentSelector
