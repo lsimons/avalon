@@ -106,7 +106,7 @@ public class EventThreadPool
     {
         if( object instanceof WorkerThread )
         {
-            destroyWorker( (WorkerThread)object );
+            destroyWorker( ( WorkerThread ) object );
         }
     }
 
@@ -122,7 +122,7 @@ public class EventThreadPool
      */
     protected WorkerThread getWorker()
     {
-        final WorkerThread thread = (WorkerThread)m_pool.acquire();
+        final WorkerThread thread = ( WorkerThread ) m_pool.acquire();
         if( null == thread )
         {
             final String message =
@@ -135,16 +135,20 @@ public class EventThreadPool
 
     protected void releaseWorker( final WorkerThread worker )
     {
-        try
+        worker.interrupted();
+
+        if( m_pool != null )
         {
-            worker.interrupted();
             m_pool.release( worker );
         }
-        catch( Throwable e )
+        else
         {
-            // trying to figure out why a NullPointer exeception can occur ...
-            System.err.println( "Unexpected condition while releasing worker: " + worker );
-            e.printStackTrace();
+            final String message = "ThreadPool disposed before workerThread has finished. "
+                + "Please call dispose(Worker) before." + worker;
+
+            System.err.println( message );
+
+            Thread.currentThread().dumpStack();
         }
     }
 }

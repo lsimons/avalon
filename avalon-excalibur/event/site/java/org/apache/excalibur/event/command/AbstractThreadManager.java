@@ -52,7 +52,7 @@ package org.apache.excalibur.event.command;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
-import EDU.oswego.cs.dl.util.concurrent.ReentrantLock;
+
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
@@ -60,6 +60,8 @@ import org.apache.excalibur.event.EventHandler;
 import org.apache.excalibur.event.Source;
 import org.apache.excalibur.thread.ThreadControl;
 import org.apache.excalibur.thread.ThreadPool;
+
+import EDU.oswego.cs.dl.util.concurrent.ReentrantLock;
 
 /**
  * Abstract base class for a ThreadManager that has a single ThreadPool for
@@ -207,12 +209,16 @@ public abstract class AbstractThreadManager extends AbstractLogEnabled
                 if( m_pipelines.isEmpty() )
                 {
                     m_done = true;
-                    m_threadControl.join( 1000 );
                 }
             }
             finally
             {
                 m_mutex.release();
+            }
+
+            if( m_done )
+            {
+                m_threadControl.join( 1000 );
             }
         }
         catch( InterruptedException ie )
@@ -234,32 +240,33 @@ public abstract class AbstractThreadManager extends AbstractLogEnabled
 
         try
         {
+            // Aquire mutex to clear pipelines and set the m_done flag
             m_mutex.acquire();
             try
             {
                 m_done = true;
-                m_threadControl.join( 1000 );
-
                 Iterator it = m_controls.iterator();
 
                 while( it.hasNext() )
                 {
-                    ( (ThreadControl)it.next() ).join( 1000 );
+                    ( ( ThreadControl ) it.next() ).join( 1000 );
                 }
-
                 m_pipelines.clear();
 
             }
             finally
             {
+                //  C.K. We must release the mutex to give the manager thread a chance to terminate.
                 m_mutex.release();
             }
+            m_threadControl.join( 1000 );
         }
         catch( InterruptedException ie )
         {
             // ignore for now
         }
     }
+
 
     /**
      * Get rid of the ThreadManager.
@@ -268,7 +275,36 @@ public abstract class AbstractThreadManager extends AbstractLogEnabled
     {
         deregisterAll();
 
+        if( m_threadControl != null && !m_threadControl.isFinished() )
+        {
+            if( getLogger().isErrorEnabled() )
+            {
+                getLogger().error( "The ThreadManager management thread is still active." );
+            }
+        }
+
         m_threadControl = null;
+    }
+
+    /**
+     * Return the thread controlls of all active threads
+     * (excluding the ThreadManager management thread)
+     */
+    protected ThreadControl[] getThreadControls()
+    {
+        try
+        {
+            m_mutex.acquire();
+            return ( ThreadControl[] ) m_controls.toArray( new ThreadControl[0] );
+        }
+        catch( InterruptedException ie )
+        {
+            return new ThreadControl[0];
+        }
+        finally
+        {
+            m_mutex.release();
+        }
     }
 
     /**
@@ -289,7 +325,7 @@ public abstract class AbstractThreadManager extends AbstractLogEnabled
 
                     while( i.hasNext() )
                     {
-                        PipelineRunner nextRunner = (PipelineRunner)i.next();
+                        PipelineRunner nextRunner = ( PipelineRunner ) i.next();
                         ThreadControl control = null;
 
                         while( control == null )
@@ -330,8 +366,11 @@ public abstract class AbstractThreadManager extends AbstractLogEnabled
 
                 while( it.hasNext() )
                 {
-                    ThreadControl control = (ThreadControl)it.next();
-                    if( control.isFinished() ) it.remove();
+                    ThreadControl control = ( ThreadControl ) it.next();
+                    if( control.isFinished() )
+                    {
+                        it.remove();
+                    }
                 }
 
                 m_mutex.release();
@@ -386,7 +425,7 @@ public abstract class AbstractThreadManager extends AbstractLogEnabled
             {
                 try
                 {
-                    handler.handleEvents( sources[ i ].dequeueAll() );
+                    handler.handleEvents( sources[i].dequeueAll() );
                 }
                 catch( RuntimeException e )
                 {
