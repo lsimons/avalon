@@ -54,6 +54,19 @@
       <artifactId>&avalon-logkit-id;</artifactId>
       <version>&avalon-logkit-version;</version>
     </dependency>
+
+    <dependency>
+      <groupId>&avalon-activation-id;</groupId>
+      <artifactId>&avalon-activation-api-id;</artifactId>
+      <version>&avalon-activation-api-version;</version>
+    </dependency>
+    <dependency>
+      <groupId>&avalon-activation-id;</groupId>
+      <artifactId>&avalon-activation-impl-id;</artifactId>
+      <version>&avalon-activation-impl-version;</version>
+    </dependency>
+
+
   </dependencies>
 
 </project>
