@@ -24,9 +24,9 @@
  *    itself, if and wherever such third-party acknowledgments
  *    normally appear.
  *
- * 4. The names "D-Haven" and "Apache Software Foundation"
- *    must not be used to endorse or promote products derived from this
- *    software without prior written permission. For written
+ * 4. The names "Jakarta", "Avalon", "Excalibur" and "Apache Software
+ *    Foundation" must not be used to endorse or promote products derived
+ *    from this software without prior written permission. For written
  *    permission, please contact apache@apache.org.
  *
  * 5. Products derived from this software may not be called "Apache",
@@ -67,7 +67,7 @@ import java.util.Set;
  * logic to serialize the service.
  *
  * @author <a href="mailto:dev@avalon.apache.org">The Avalon Team</a>
- * @version CVS $Revision: 1.8 $ $Date: 2003/05/15 18:56:28 $
+ * @version CVS $Revision: 1.9 $ $Date: 2003/12/01 18:01:30 $
  */
 final class Service
 {
