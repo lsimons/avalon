@@ -88,6 +88,7 @@ public class HomeTask extends ContextualTask
             project.setProperty( "project.uri", info.getURI() );
             project.setProperty( "project.type", info.getType() );
             project.setProperty( "project.filename", info.getFilename() );
+            project.setProperty( "project.short", info.getShortFilename() );
         }
     }
 
