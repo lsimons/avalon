@@ -12,7 +12,7 @@
   </appender>
 
   <appender name="FILE" class="org.apache.log4j.FileAppender">
-    <param name="File" value="output.log"/>
+    <param name="File" value="${user.dir}/output.log"/>
     <layout class="org.apache.log4j.PatternLayout">
       <param name="ConversionPattern" value="%d{ABSOLUTE} %-5p [%c{1}] %m%n"/>
     </layout>
