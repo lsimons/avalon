@@ -25,6 +25,6 @@ public interface CommandInterpreter
     
     ContainmentModel getCurrentContainer();
     
-    void setCurrentNode( ContainmentModel node );
+    void setCurrentContainer( ContainmentModel node );
 }
 
