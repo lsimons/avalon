@@ -124,5 +124,18 @@
     </plugins>
   </project>
 
+  <project basedir="configuration/defaults">
+    <info>
+      <group>avalon/tutorial</group>
+      <name>avalon-tutorial-config-defaults</name>
+    </info>
+    <dependencies>
+      <include key="avalon-framework-impl"/>
+    </dependencies>
+    <plugins>
+      <include key="avalon-meta-tools"/>
+    </plugins>
+  </project>
+
 
 </system>
