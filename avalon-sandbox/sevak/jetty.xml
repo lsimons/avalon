@@ -103,8 +103,8 @@
   <target name="checkNeccesaryJars" depends="checkJettyJars" unless="jetty.present">
       <echo>****************************</echo>
       <echo>* Please execute target    *</echo>
-      <echo>* 'get-jetty' in the main  *</echo>
-      <echo>* build.xml build file     *</echo>    
+      <echo>* 'get-jetty' in           *</echo>
+      <echo>* hetty.xml build file     *</echo>    
       <echo>* to download six mega-    *</echo>
       <echo>* bytes of Jetty from      *</echo>
       <echo>* Sourceforge              *</echo>
