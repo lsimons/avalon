@@ -131,17 +131,8 @@ public class Definition extends Resource
     public File getDocDirectory()
     {
         final File cache = getHome().getDocsRepository().getCacheDirectory();
-        final File root = new File( cache, getInfo().getGroup() );
-        final File artifact = new File( root, getInfo().getName() );
-        final String version = getInfo().getVersion();
-        if( null == version )
-        {
-            return artifact;
-        }
-        else
-        {
-            return new File( artifact, version );
-        }
+        final String spec = getInfo().getSpecification( "/", "/" );
+        return new File( cache, spec );
     }
 
     public String toString()

@@ -43,12 +43,7 @@ public class Home extends DataType
     public static final String KEY = "project.home";
     public static final String HOME_KEY = "project.home";
     public static final String INDEX_KEY = "project.index";
-    public static final String MAGIC_HOME_KEY = "magic.home";
-
     public static final String HOSTS_KEY = "project.hosts";
-    public static final String MAIN_CACHE_KEY = "magic.main.cache";
-    public static final String DOCS_CACHE_KEY = "magic.docs.cache";
-
 
     //-------------------------------------------------------------
     // immutable state

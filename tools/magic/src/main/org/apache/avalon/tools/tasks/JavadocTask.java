@@ -101,19 +101,10 @@ public class JavadocTask extends SystemTask
             {
                 final Resource resource = home.getResource( m_key );
                 final File cache = home.getDocsRepository().getCacheDirectory();
-                final File group = new File( cache, resource.getInfo().getGroup() );
-                final File docs = new File( group, resource.getInfo().getName() );
                 final String category = ResourceRef.getCategoryName( m_tag );
-                final String version = resource.getInfo().getVersion();
-                if(( null == version ) || "".equals( version ))
-                {
-                    return new File( docs, category );
-                }
-                else
-                {
-                    final File vDir = new File( docs, version );
-                    return new File( vDir, category );
-                }
+                final String spec = 
+                  resource.getInfo().getSpecification( "/", "/" );
+                return new File( cache, spec + "/" + category );
             }
         }
 

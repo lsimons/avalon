@@ -209,8 +209,18 @@ public class XMLDefinitionBuilder
         final String type =
           ElementHelper.getValue( 
             ElementHelper.getChild( info, "type" ) );
+        final String status =
+          ElementHelper.getValue( 
+            ElementHelper.getChild( info, "status" ) );
 
-        return new Info( group, name, version, type );
+        if( Info.SNAPSHOT.equalsIgnoreCase( status ) )
+        {
+            return new Info( group, name, version, type, true );
+        }
+        else
+        {
+            return new Info( group, name, version, type, false );
+        }
     }
 
     private static ResourceRef[] createResourceRefs( final Element element )
@@ -258,7 +268,7 @@ public class XMLDefinitionBuilder
         final boolean test =
           ElementHelper.getBooleanAttribute( element, "test", defTest );
         final boolean runtime =
-          ElementHelper.getBooleanAttribute( element, "runtime", defRuntime );
+          ElementHelper.getBooleanAttribute( element, "runtime", build );
         return new Policy( build, test, runtime );
     }
 }

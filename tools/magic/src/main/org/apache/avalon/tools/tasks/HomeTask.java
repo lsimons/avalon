@@ -36,6 +36,8 @@ import java.io.FileNotFoundException;
  */
 public class HomeTask extends ContextualTask
 {
+    private static final String INDEX_PROPERTIES = "index.properties";
+
     private String m_path;
 
     public void setIndex( final String path )
@@ -51,8 +53,17 @@ public class HomeTask extends ContextualTask
 
         Magic system = Magic.getSystem( project );
         Home home = system.getHome( project, m_path );
+        File root = getHomeDirectory( home );
+
         project.setProperty( Home.HOME_KEY, getHomePath( home ) );
         project.setProperty( Home.INDEX_KEY, getIndexPath( home ) );
+
+        File homeProperties = new File( root, INDEX_PROPERTIES );
+        loadProperties( project, homeProperties );
+
+        File userHomeProperties = new File( root, USER_PROPERTIES );
+        loadProperties( project, userHomeProperties );
+
         project.addReference( Home.KEY, home );
 
         final String key = getKey();
@@ -69,7 +80,16 @@ public class HomeTask extends ContextualTask
             {
                 project.setProperty( "project.version", version );
             }
+            else
+            {
+                project.setProperty( "project.version", "" );
+            }
         }
+    }
+
+    private File getHomeDirectory( Home home )
+    {
+        return home.getIndex().getParentFile();
     }
 
     private String getHomePath( Home home )

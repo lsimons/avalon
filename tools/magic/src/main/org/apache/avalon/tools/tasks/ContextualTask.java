@@ -34,8 +34,8 @@ import java.io.File;
  */
 public abstract class ContextualTask extends Task
 {
-    private static final String USER_PROPERTIES = "user.properties";
-    private static final String PROJECT_PROPERTIES = "project.properties";
+    public static final String USER_PROPERTIES = "user.properties";
+    public static final String MODULE_PROPERTIES = "module.properties";
 
     private boolean m_init = false;
 
@@ -84,19 +84,10 @@ public abstract class ContextualTask extends Task
 
     protected void setupProperties( final Project project, final File dir )
     {
-        setupUserProperties( project, dir );
-        setupBuildProperties( project, dir );
-    }
-
-    private void setupUserProperties( final Project project, final File dir )
-    {
         final File user = Context.getFile( dir, USER_PROPERTIES );
         loadProperties( project, user );
-    }
 
-    private void setupBuildProperties( final Project project, final File dir )
-    {
-        final File build = Context.getFile( dir, PROJECT_PROPERTIES );
+        final File build = Context.getFile( dir, MODULE_PROPERTIES );
         loadProperties( project, build );
     }
 

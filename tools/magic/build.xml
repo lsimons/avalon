@@ -3,9 +3,8 @@
 <project name="avalon-tools-magic" default="install" basedir="." 
     xmlns:x="antlib:org.apache.avalon.tools">
 
-  <x:home index="../../central/system"/>
-
-  <import file="${magic.templates}/standard.xml"/>
+  <property file="build.properties"/>
+  <import file="${project.home}/build/standard.xml"/>
 
   <target name="javadoc" depends="prepare">
     <x:javadoc title="Avalon Magic" id="avalon-tools-magic">
@@ -14,7 +13,6 @@
   </target>
 
   <target name="test" depends="standard.test">
-    <ant dir="target/test/temp/demo" target="install"/>
     <mkdir dir="${basedir}/target/deliverables/demos"/>
     <zip destfile="${basedir}/target/deliverables/demos/demo.zip"
       basedir="etc/test/demo"/>
@@ -34,7 +32,7 @@
     <echo>
 magic properties
 ----------------
-magic.system:    ${magic.home}
+magic.home:      ${magic.home}
 magic.cache:     ${magic.cache}
 magic.docs:      ${magic.docs}
 magic.templates: ${magic.templates}
@@ -47,6 +45,10 @@ project.index:   ${project.index}
 project.group:   ${project.group}
 project.name:    ${project.name}
     </echo>
+  </target>
+
+  <target name="validate" depends="standard.test">
+    <ant dir="target/test/temp/demo" target="install"/>
   </target>
 
 </project>
