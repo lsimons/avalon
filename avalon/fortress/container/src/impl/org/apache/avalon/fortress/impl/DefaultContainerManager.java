@@ -65,6 +65,7 @@ import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.framework.service.DefaultServiceManager;
 import org.apache.avalon.framework.service.ServiceManager;
+import org.apache.excalibur.container.lifecycle.LifecycleExtensionManager;
 import org.apache.excalibur.event.Queue;
 import org.apache.excalibur.instrument.InstrumentManager;
 import org.apache.excalibur.mpool.PoolManager;
@@ -74,7 +75,7 @@ import org.apache.excalibur.mpool.PoolManager;
  * See that interface for a description.
  *
  * @author <a href="mailto:dev@avalon.apache.org">The Avalon Team</a>
- * @version CVS $Revision: 1.5 $ $Date: 2003/02/25 16:28:33 $
+ * @version CVS $Revision: 1.6 $ $Date: 2003/03/07 13:14:21 $
  */
 public class DefaultContainerManager
     implements Initializable, Disposable, org.apache.avalon.fortress.ContainerManager, org.apache.avalon.fortress.ContainerManagerConstants
