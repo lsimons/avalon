@@ -129,6 +129,9 @@ Legal:
     <available property="log4j.present" classname="org.apache.log4j.Category">
       <classpath refid="project.class.path"/>
     </available>
+    <available property="jdk14.present" classname="java.util.logging.Logger">
+      <classpath refid="project.class.path"/>
+    </available>
 
     <property name="dist.dir" value="dist"/>
     <property name="dist.bin" value="${dist.dir}/bin"/>
@@ -165,6 +168,8 @@ Legal:
       <src path="${test.dir}"/>
       <exclude name="org/apache/avalon/framework/logger/Log4JLogger.java"
                unless="log4j.present"/>
+      <exclude name="org/apache/avalon/framework/logger/Jdk14Logger.java"
+               unless="jdk14.present"/>
     </javac>
   </target>
 

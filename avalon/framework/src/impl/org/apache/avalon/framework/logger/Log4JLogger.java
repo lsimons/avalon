@@ -11,7 +11,7 @@ import org.apache.log4j.Category;
 import org.apache.log4j.Priority;
 
 /**
- * The default LogKit wrapper class for Logger.
+ * The default Log4J wrapper class for Logger.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  */
