@@ -14,7 +14,7 @@ import org.apache.avalon.framework.logger.ConsoleLogger;
 /**
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.4 $ $Date: 2002/11/05 02:59:04 $
+ * @version CVS $Revision: 1.5 $ $Date: 2003/03/19 11:53:04 $
  * @since 4.1
  */
 public class Main
@@ -70,7 +70,7 @@ public class Main
                 showUsage();
                 System.exit( 1 );
             }
-            defaultStateFileName = args[0];
+            defaultStateFileName = args[1];
             break;
             
         default:
