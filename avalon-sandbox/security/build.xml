@@ -1,0 +1,38 @@
+
+<project name="security" default="all" basedir="." >
+
+  <target name="prepare" >
+    <property file="build.properties" />
+  </target>
+  
+  <target name="compile" depends="prepare" >
+    <mkdir dir="${build.classes}" />
+    <javac 
+        srcdir="${java.dir}"
+        destdir="${build.classes}"
+        debug="${build.debug}"
+        optimize="${build.optimize}"
+        deprecation="${build.deprecation}">
+    </javac>
+  </target>
+  
+  <target name="package" depends="compile" >
+  
+    <jar jarfile="main.jar" basedir="${build.classes}" includes="Main.class, OuterContainer.class" />
+    <jar jarfile="outer.jar" basedir="${build.classes}" includes="OuterContainerImpl*.class, InnerContainer.class" />
+    <jar jarfile="inner.jar" basedir="${build.classes}" includes="InnerContainerImpl*.class, Component.class" />
+    <jar jarfile="component.jar" basedir="${build.classes}" includes="ComponentImpl.class" />
+  </target>
+  
+  <target name="all" depends="package" />
+
+  <target name="clean" depends="prepare" >
+  
+    <delete dir="build/" />
+    <delete file="main.jar" />
+    <delete file="outer.jar" />
+    <delete file="inner.jar" />
+    <delete file="component.jar" />
+    
+  </target>
+</project>
