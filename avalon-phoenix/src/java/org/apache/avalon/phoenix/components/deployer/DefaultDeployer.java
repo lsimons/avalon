@@ -25,6 +25,7 @@ import org.apache.avalon.phoenix.interfaces.Application;
 import org.apache.avalon.phoenix.interfaces.ClassLoaderManager;
 import org.apache.avalon.phoenix.interfaces.ConfigurationRepository;
 import org.apache.avalon.phoenix.interfaces.Deployer;
+import org.apache.avalon.phoenix.interfaces.DeploymentRecorder;
 import org.apache.avalon.phoenix.interfaces.DeploymentException;
 import org.apache.avalon.phoenix.interfaces.Kernel;
 import org.apache.avalon.phoenix.interfaces.LogManager;
@@ -54,12 +55,12 @@ public class DefaultDeployer
     private final Assembler          m_assembler     = new Assembler();
     private final SarVerifier        m_verifier      = new SarVerifier();
     private final Installer          m_installer     = new Installer();
-    private final HashMap            m_installations = new HashMap();
 
     private LogManager               m_logManager;
     private Kernel                   m_kernel;
     private ConfigurationRepository  m_repository;
     private ClassLoaderManager       m_classLoaderManager;
+    private DeploymentRecorder       m_recorder;
 
     /**
      * Retrieve relevent services needed to deploy.
@@ -74,6 +75,7 @@ public class DefaultDeployer
         m_repository = (ConfigurationRepository)componentManager.lookup( ConfigurationRepository.ROLE );
         m_classLoaderManager = (ClassLoaderManager)componentManager.lookup( ClassLoaderManager.ROLE );
         m_logManager = (LogManager)componentManager.lookup( LogManager.ROLE );
+        m_recorder = (DeploymentRecorder)componentManager.lookup( DeploymentRecorder.ROLE );
     }
 
     public void initialize()
@@ -106,8 +108,11 @@ public class DefaultDeployer
                 m_repository.storeConfiguration( name, blocks[i], null );
             }
             
-            final Installation installation = (Installation)m_installations.get( name );
+            final Installation installation = m_recorder.fetchInstallation( name );
             m_installer.uninstall( installation );
+            
+            //erase installation information
+            m_recorder.recordInstallation( name, null);
         }
         catch ( final Exception e )
         {
@@ -127,8 +132,14 @@ public class DefaultDeployer
     {
         try
         {
-            final Installation installation = m_installer.install( location );
-            m_installations.put( name, installation );
+            Installation installation = m_recorder.fetchInstallation( name );
+            
+            if ( null == installation )
+            {
+                //fresh installation
+                installation = m_installer.install( location );            
+                m_recorder.recordInstallation( name, installation );
+            }
 
             final Configuration config = getConfigurationFor( installation.getConfig() );
             final Configuration server = getConfigurationFor( installation.getServer() );
