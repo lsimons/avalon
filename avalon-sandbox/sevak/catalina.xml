@@ -194,9 +194,6 @@
       <zipfileset dir="${catalina.download}/bin" prefix="common/lib">
           <include name="*.jar"/>
       </zipfileset>
-      <zipfileset dir="${build.lib}" prefix="server/lib">
-          <include name="sevak-catalina-impl.jar"/>
-      </zipfileset>
       <zipfileset dir="${conf.demo.dir}" prefix="conf">
           <include name="tomcat-users.xml"/>
       </zipfileset>
