@@ -61,18 +61,7 @@ public class DefaultKernel
         m_repository = (ConfigurationRepository)componentManager.lookup( ConfigurationRepository.ROLE );
     }
 
-
     public void initialize()
-        throws Exception
-    {
-    }
-
-    public void start()
-        throws Exception
-    {
-    }
-
-    public void stop()
         throws Exception
     {
     }
