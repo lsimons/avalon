@@ -36,6 +36,20 @@ namespace Apache.Avalon.DynamicProxy.Builder
 			return generator.GenerateCode( theClass );
 		}
 
+		public Type CreateCustomInterfaceProxy(Type[] interfaces, EnhanceTypeDelegate enhance, 
+			ScreenInterfacesDelegate screenInterfaces)
+		{
+			InterfaceProxyGenerator generator = new InterfaceProxyGenerator(enhance, screenInterfaces);
+			return generator.GenerateCode( interfaces );
+		}
+
+		public Type CreateCustomClassProxy(Type theClass, EnhanceTypeDelegate enhance, 
+			ScreenInterfacesDelegate screenInterfaces)
+		{
+			ClassProxyGenerator generator = new ClassProxyGenerator(enhance, screenInterfaces);
+			return generator.GenerateCode( theClass );
+		}
+
 		#endregion
 	}
 }

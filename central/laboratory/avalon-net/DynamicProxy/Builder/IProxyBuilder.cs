@@ -23,6 +23,12 @@ namespace Apache.Avalon.DynamicProxy.Builder
 	{
 		Type CreateInterfaceProxy( Type[] interfaces );
 
+		Type CreateCustomInterfaceProxy( Type[] interfaces, EnhanceTypeDelegate enhance, 
+			ScreenInterfacesDelegate screenInterfaces );
+
 		Type CreateClassProxy( Type theClass );
+
+		Type CreateCustomClassProxy( Type theClass, EnhanceTypeDelegate enhance, 
+			ScreenInterfacesDelegate screenInterfaces );
 	}
 }
