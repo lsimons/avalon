@@ -65,7 +65,7 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
  * from a configuration file.
  *
  * @author <a href="mailto:giacomo@apache.org">Giacomo Pati</a>
- * @version CVS $Revision: 1.3 $ $Date: 2002/08/07 13:36:59 $
+ * @version CVS $Revision: 1.4 $ $Date: 2002/11/26 07:44:45 $
  * @since 4.0
  */
 public class DefaultLogTargetFactoryManager
@@ -173,15 +173,21 @@ public class DefaultLogTargetFactoryManager
             }
             catch( final ClassNotFoundException cnfe )
             {
-                throw new ConfigurationException( "cannot find LogTargetFactory class " + factoryClass, cnfe );
+                final String message =
+                    "cannot find LogTargetFactory class " + factoryClass;
+                throw new ConfigurationException( message, cnfe );
             }
             catch( final InstantiationException ie )
             {
-                throw new ConfigurationException( "cannot instantiate LogTargetFactory class " + factoryClass, ie );
+                final String message =
+                    "cannot instantiate LogTargetFactory class " + factoryClass;
+                throw new ConfigurationException( message, ie );
             }
             catch( final IllegalAccessException iae )
             {
-                throw new ConfigurationException( "cannot access LogTargetFactory class " + factoryClass, iae );
+                final String message =
+                    "cannot access LogTargetFactory class " + factoryClass;
+                throw new ConfigurationException( message, iae );
             }
 
             ContainerUtil.enableLogging( logTargetFactory, getLogger() );
@@ -191,7 +197,9 @@ public class DefaultLogTargetFactoryManager
             }
             catch( final ContextException ce )
             {
-                throw new ConfigurationException( "cannot contextualize LogTargetFactory " + factoryClass, ce );
+                final String message =
+                    "cannot contextualize LogTargetFactory " + factoryClass;
+                throw new ConfigurationException( message, ce );
             }
             ContainerUtil.configure( logTargetFactory, confs[ i ] );
 
@@ -202,7 +210,9 @@ public class DefaultLogTargetFactoryManager
 
             if( getLogger().isDebugEnabled() )
             {
-                getLogger().debug( "added new LogTargetFactory of type " + factoryType );
+                final String message =
+                    "added new LogTargetFactory of type " + factoryType;
+                getLogger().debug( message );
             }
             m_factories.put( factoryType, logTargetFactory );
         }
