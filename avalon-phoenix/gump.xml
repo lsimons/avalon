@@ -57,6 +57,7 @@
   </project>
 
   <project name="xdoclet-ant14">
+    <depend project="jakarta-log4j" runtime="true"/>
     <jar name="lib/xdoclet/xdoclet-20021804.jar"/>
     <jar name="lib/xdoclet/xjavadoc-20021804.jar"/>
   </project>
