@@ -236,9 +236,13 @@ public class HttpContextImpl
         m_HttpContext.setTempDirectory( m_TemporaryDir );
         m_HttpContext.setRequestLog( m_RequestLog );
         m_HttpContext.setResourceBase( m_ResourceBase.getAbsolutePath() );
-        m_HttpContext.setAuthenticator( m_Authenticator );
-        m_HttpContext.setRealm( m_UserRealm );
-        m_HttpContext.setRealmName( m_UserRealm.getName() ); // Is this necessary?
+        if( m_Authenticator != null )
+            m_HttpContext.setAuthenticator( m_Authenticator );
+        if( m_UserRealm != null )
+        {
+            m_HttpContext.setRealm( m_UserRealm );
+            m_HttpContext.setRealmName( m_UserRealm.getName() ); // Is this necessary?
+        }
         
         if( m_MaxCacheSize > 0 )
             m_HttpContext.setMaxCacheSize( m_MaxCacheSize );        
