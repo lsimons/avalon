@@ -5,10 +5,10 @@
   <extend>${basedir}/../common-project.xml</extend>
 
   <id>avalon-mds-impl</id>
-  <name>Avalon MDS API</name>
+  <name>Avalon MDS Implementation</name>
   <package>org.apache.avalon.mds.impl</package>
 
-  <shortDescription>Avalon MDS API</shortDescription>
+  <shortDescription>Avalon MDS Implementation</shortDescription>
 
   <dependencies>
 
@@ -52,7 +52,7 @@
     <dependency>
       <groupId>avalon-composition</groupId>
       <artifactId>avalon-composition-api</artifactId>
-      <version>${pom.currentVersion}</version>
+      <version>3.3.0</version>
     </dependency>
 
     <dependency>
@@ -60,7 +60,4 @@
       <version>2.3</version>
     </dependency>
   </dependencies>
-
-
-
 </project>
