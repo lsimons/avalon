@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Created-By: Apache Avalon
+Extension-Name: apache-bank
+Specification-Vendor: Apache Software Foundation
+Specification-Version: 1.0
+Implementation-Vendor: Apache Software Foundation
+Implementation-Vendor-Id: ASF
+Implementation-Version: 1.0
+Extension-List: merlin 
+merlin-Extension-Name: avalon-merlin
+merlin-Specification-Version: 2.0
+merlin-Implementation-Version: 2.1
+merlin-Implementation-Vendor-Id: ASF
