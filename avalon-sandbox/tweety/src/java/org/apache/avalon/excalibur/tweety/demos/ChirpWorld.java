@@ -17,7 +17,7 @@ import org.apache.avalon.framework.service.*;
 import org.apache.avalon.framework.container.*;
 
 /**
- * Just... chirps :-)
+ * Does nothing but chirp whenever an avalon lifecycle method is called on it.
  *
  *@author     <a href="mailto:nicolaken@krysalis.org">Nicola Ken Barozzi</a>
  *@author     <a href="mailto:leosimons@apache.org">Leo Simons</a>
