@@ -2,7 +2,8 @@
 
 <project name="runtime" default="dist" basedir="." xmlns:x="antlib:org.apache.avalon.tools">
 
-  <property file="build.properties"/>
+  <property file="${basedir}/user.properties"/>
+  <property file="${basedir}/build.properties"/>
   <property name="system.dir" value="${basedir}/central/system"/>
   <property name="reactor.path" value="${system.dir}/build/reactor.xml"/>
 
@@ -12,6 +13,7 @@
 
   <target name="init">
     <ant inheritall="false" dir="${system.dir}/setup" antfile="integrity.xml"/>
+    <ant dir="." antfile="${reactor.path}" target="init"/>
   </target>
 
   <target name="clean" depends="init">
