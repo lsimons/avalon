@@ -257,7 +257,8 @@ Legal:
            destdir="${build.classes}"
            debug="${debug}"
            optimize="${optimize}"
-           deprecation="${deprecation}">
+           deprecation="${deprecation}"
+           target="1.2">
       <classpath>
         <path refid="project.class.path" />
         <path refid="tools.class.path"/>
