@@ -30,7 +30,7 @@ import org.apache.excalibur.instrument.ValueInstrument;
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:ryan@silveregg.co.jp">Ryan Shaw</a>
  * @author <a href="mailto:leif@apache.org">Leif Mortenson</a>
- * @version CVS $Revision: 1.4 $ $Date: 2002/08/06 16:28:37 $
+ * @version CVS $Revision: 1.5 $ $Date: 2002/08/18 14:40:22 $
  * @since 4.0
  */
 public abstract class ComponentHandler
@@ -101,7 +101,8 @@ public abstract class ComponentHandler
      * @param roleManager The current RoleManager.
      * @param loggerManager The current LogKitLoggerManager.
      * @param instrumentManager The current InstrumentManager (May be null).
-     * @param instrumentableName The name of the handler.
+     * @param instrumentableName The instrumentable name to assign to
+     *                           components created by the handler.
      *
      * @throws Exception If there were any problems obtaining a ComponentHandler
      */
@@ -163,7 +164,8 @@ public abstract class ComponentHandler
         }
 
         // Set the instrumentable name of the handler.
-        ((Instrumentable)handler).setInstrumentableName( instrumentableName );
+        ((Instrumentable)handler).setInstrumentableName(
+            ExcaliburComponentManager.INSTRUMENTABLE_NAME + "." + instrumentableName );
 
         return handler;
     }
