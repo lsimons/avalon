@@ -3,16 +3,24 @@ package org.apache.avalon.attributes;
 import java.lang.reflect.Field;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
+import java.util.HashSet;
+import java.util.HashMap;
 
 class DefaultCachedRepository implements CachedRepository {
+    
+    private final static Collection EMPTY_COLLECTION = new ArrayList (0);
     
     private final Set classAttributes = new HashSet ();
     private final Map fields = new HashMap ();
     private final Map methods = new HashMap ();
     private final Map constructors = new HashMap ();
     
-    public DefaultCachedRepository (Class clazz, AttributeRepositoryClass repo) throws Exception {
+    public DefaultCachedRepository (Class clazz, AttributeRepositoryClass repo) {
         // ---- Fix up class attributes
         this.classAttributes.addAll (repo.getClassAttributes ());
         this.classAttributes.addAll (getInheritableClassAttributes (clazz.getSuperclass ()));
@@ -28,13 +36,18 @@ class DefaultCachedRepository implements CachedRepository {
             String key = Util.getSignature (m);
             
             Set attributes = new HashSet ();
-            attributes.addAll ((Collection) repo.getMethodAttributes ().get (key));
+            
+            if (repo.getMethodAttributes ().containsKey (key)) {
+                attributes.addAll ((Collection) repo.getMethodAttributes ().get (key));
+            }
             attributes.addAll (getInheritableMethodAttributes (clazz.getSuperclass (), m.getName (), m.getParameterTypes ()));
             for (int j = 0; j < ifs.length; j++) {
                 attributes.addAll (getInheritableMethodAttributes (ifs[j], m.getName (), m.getParameterTypes ()));
             }
             
-            this.methods.put (m, attributes);
+            if (attributes.size () > 0) {
+                this.methods.put (m, attributes);
+            }
         }
         
         // --- Just copy constructor attributes (they aren't inherited)
@@ -42,7 +55,10 @@ class DefaultCachedRepository implements CachedRepository {
         for (int i = 0; i < constructors.length; i++) {
             Constructor ctor = constructors[i];
             String key = Util.getSignature (ctor);
-            this.constructors.put (ctor, repo.getConstructorAttributes ().get (key));
+            
+            if (repo.getConstructorAttributes ().containsKey (key)) {
+                this.constructors.put (ctor, repo.getConstructorAttributes ().get (key));
+            }
         }
         
         // --- Just copy field attributes (they aren't inherited)
@@ -50,7 +66,9 @@ class DefaultCachedRepository implements CachedRepository {
         for (int i = 0; i < fields.length; i++) {
             Field f = fields[i];
             String key = f.getName ();
-            this.fields.put (f, repo.getFieldAttributes ().get (key));
+            if (repo.getFieldAttributes ().containsKey (key)) {
+                this.fields.put (f, repo.getFieldAttributes ().get (key));
+            }
         }
     }
     
@@ -60,7 +78,7 @@ class DefaultCachedRepository implements CachedRepository {
         Iterator iter = attrs.iterator ();
         while (iter.hasNext ()) {
             Object attr = iter.next ();
-            if (Attributes.hasAttribute (attr.getClass (), Inheritable.class)) {
+            if (Attributes.hasAttributeType (attr.getClass (), Inheritable.class)) {
                 result.add (attr);
             }
         }
@@ -115,19 +133,32 @@ class DefaultCachedRepository implements CachedRepository {
         return result;
     }
     
-    public Collection getAttributes () throws Exception {
+    public Collection getAttributes () {
         return classAttributes;
     }
     
-    public Collection getAttributes (Field f) throws Exception {
-        return (Collection) fields.get (f);
+    public Collection getAttributes (Field f) {
+        if (fields.containsKey (f)) {
+            return (Collection) fields.get (f);
+        } else {
+            return EMPTY_COLLECTION;
+        }
+        
     }
     
-    public Collection getAttributes (Method m) throws Exception {
-        return (Collection) methods.get (m);
+    public Collection getAttributes (Method m) {
+        if (methods.containsKey (m)) {
+            return (Collection) methods.get (m);
+        } else {
+            return EMPTY_COLLECTION;
+        }
     }
     
-    public Collection getAttributes (Constructor c) throws Exception {
-        return (Collection) constructors.get (c);
+    public Collection getAttributes (Constructor c) {
+        if (constructors.containsKey (c)) {
+            return (Collection) constructors.get (c);
+        } else {
+            return EMPTY_COLLECTION;
+        }
     }   
 }
