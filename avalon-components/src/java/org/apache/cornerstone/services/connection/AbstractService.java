@@ -18,12 +18,14 @@ import org.apache.avalon.Context;
 import org.apache.avalon.Contextualizable;
 import org.apache.avalon.Disposable;
 import org.apache.avalon.Initializable;
+import org.apache.avalon.Loggable;
 import org.apache.avalon.configuration.Configurable;
 import org.apache.avalon.configuration.Configuration;
 import org.apache.avalon.configuration.ConfigurationException;
 import org.apache.avalon.util.thread.ThreadPool;
 import org.apache.cornerstone.services.sockets.ServerSocketFactory;
 import org.apache.cornerstone.services.sockets.SocketManager;
+import org.apache.log.Logger;
 import org.apache.phoenix.Block;
 import org.apache.phoenix.BlockContext;
 
@@ -57,6 +59,16 @@ public abstract class AbstractService
     }
 
     protected abstract ConnectionHandlerFactory createFactory();
+
+    public void setLogger( final Logger logger )
+    {
+        super.setLogger( logger );
+
+        if( m_factory instanceof Loggable )
+        {
+            ((Loggable)m_factory).setLogger( logger );
+        }
+    }
     
     public void contextualize( final Context context )
     {
@@ -101,6 +113,11 @@ public abstract class AbstractService
     public void init() 
         throws Exception
     {
+        if( m_factory instanceof Initializable )
+        {
+            ((Initializable)m_factory).init();
+        }
+
         if( null == m_connectionName )
         {
             final StringBuffer sb = new StringBuffer();
