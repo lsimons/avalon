@@ -1,82 +1,60 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
+<article><articleinfo><authorgroup/></articleinfo><title>Avalon Contributors</title>
 
-<document>
+<section><title>Contributors</title>
 
- <header>
-  <title>Avalon Contributors</title>
-  <authors>
-   <person name="Avalon Documentation Team" email="avalon-dev@jakarta.apache.org"/>
-  </authors>
- </header>
-
-<body>
-
-<s1 title="Contributors">
-
-<p>
+<para>
 The people listed below have made significant contributions to Avalon by 
 working long and hard to make quality software for the rest of the world to use. 
 Contributors to the Avalon Project should be extremely proud of themselves.
-</p>
+</para>
 
-<p>
+<para>
 If you would like to become a contributor, please see the Todo document to find 
 areas where you can contribute effectively. If there is nothing in there that 
 suits your interest, but you still have ideas, please feel free to suggest them 
 on the mailing list.
-</p>
+</para>
 
-<p>
+<para>
 The table is listed in alphabetic order.
-</p>
+</para>
 
-<p>
-<table>
-<tr>
-    <td>Federico Barbieri</td>
-    <td><link href="mailto:fede@apache.org">fede@apache.org</link></td>
-</tr>    
-<tr>
-    <td>Charles Benett</td>
-    <td><link href="mailto:charles@benett1.demon.co.uk">charles@benett1.demon.co.uk</link></td>
-</tr>    
-<tr>
-    <td><link href="donaldp.html">Peter Donald</link></td>
-    <td><link href="mailto:peter@apache.org">peter@apache.org</link></td>
-</tr>    
-<tr>
-    <td>Pierpaolo Fumagalli</td>
-    <td><link href="mailto:pier@apache.org">pier@apache.org</link></td>
-</tr>    
-<tr>
-    <td><link href="hammant.html">Paul Hammant</link></td>
-    <td><link href="mailto:Paul_Hammant@yahoo.com">Paul_Hammant@yahoo.com</link></td>
-</tr>  
-<tr>
-    <td>Roberto Lo Giacco</td>
-    <td><link href="mailto:rlogiacco@mail.com">rlogiacco@mail.com</link></td>
-</tr>    
-<tr>
-    <td>Serge Knystautas</td>
-    <td><link href="mailto:sergek@lokitech.com">sergek@lokitech.com</link></td>
-</tr>    
-<tr>
-    <td><link href="bloritsch.html">Berin Loritsch</link></td>
-    <td><link href="mailto:bloritsch@apache.org">bloritsch@apache.org</link></td>
-</tr>    
-<tr>
-    <td><link href="stefano.html">Stefano Mazzocchi</link></td>
-    <td><link href="mailto:stefano@apache.org">stefano@apache.org</link></td>
-</tr>    
-<tr>
-    <td>Leo Simons</td>
-    <td><link href="mailto:mail@leosimons.com">mail@leosimons.com</link></td>
-</tr>  
-</table>
+<para>
+<table><tgroup cols="20"><tbody><row>
+    <entry>Federico Barbieri</entry>
+    <entry><ulink uri="mailto:fede@apache.org">fede@apache.org</ulink></entry>
+</row><row>
+    <entry>Charles Benett</entry>
+    <entry><ulink uri="mailto:charles@benett1.demon.co.uk">charles@benett1.demon.co.uk</ulink></entry>
+</row><row>
+    <entry><ulink uri="donaldp.html">Peter Donald</ulink></entry>
+    <entry><ulink uri="mailto:peter@apache.org">peter@apache.org</ulink></entry>
+</row><row>
+    <entry>Pierpaolo Fumagalli</entry>
+    <entry><ulink uri="mailto:pier@apache.org">pier@apache.org</ulink></entry>
+</row><row>
+    <entry><ulink uri="hammant.html">Paul Hammant</ulink></entry>
+    <entry><ulink uri="mailto:Paul_Hammant@yahoo.com">Paul_Hammant@yahoo.com</ulink></entry>
+</row><row>
+    <entry>Roberto Lo Giacco</entry>
+    <entry><ulink uri="mailto:rlogiacco@mail.com">rlogiacco@mail.com</ulink></entry>
+</row><row>
+    <entry>Serge Knystautas</entry>
+    <entry><ulink uri="mailto:sergek@lokitech.com">sergek@lokitech.com</ulink></entry>
+</row><row>
+    <entry><ulink uri="bloritsch.html">Berin Loritsch</ulink></entry>
+    <entry><ulink uri="mailto:bloritsch@apache.org">bloritsch@apache.org</ulink></entry>
+</row><row>
+    <entry><ulink uri="stefano.html">Stefano Mazzocchi</ulink></entry>
+    <entry><ulink uri="mailto:stefano@apache.org">stefano@apache.org</ulink></entry>
+</row><row>
+    <entry>Leo Simons</entry>
+    <entry><ulink uri="mailto:mail@leosimons.com">mail@leosimons.com</ulink></entry>
+</row></tbody></tgroup></table>
 
-</p>
+</para>
 
-</s1>
+</section>
 
-</body>
-</document>
+</article>
