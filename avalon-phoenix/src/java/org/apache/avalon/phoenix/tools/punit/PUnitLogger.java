@@ -7,9 +7,8 @@
  */
 package org.apache.avalon.phoenix.tools.punit;
 
-import org.apache.avalon.framework.logger.Logger;
-
 import java.util.ArrayList;
+import org.apache.avalon.framework.logger.Logger;
 
 /**
  * PunitLogger
@@ -19,14 +18,14 @@ import java.util.ArrayList;
 public class PUnitLogger
     implements Logger
 {
-    private ArrayList m_messages = new ArrayList();
+    private final ArrayList m_messages = new ArrayList();
 
     /**
      * Get a logged entry.
      * @param startsWith This term
      * @return The full term
      */
-    public String get( String startsWith )
+    public String get( final String startsWith )
     {
         final int size = m_messages.size();
         for( int i = 0; i < size; i++ )

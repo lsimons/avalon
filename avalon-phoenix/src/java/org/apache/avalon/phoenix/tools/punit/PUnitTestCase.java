@@ -7,13 +7,9 @@
  */
 package org.apache.avalon.phoenix.tools.punit;
 
-import org.apache.avalon.phoenix.containerkit.lifecycle.LifecycleHelper;
-import org.apache.avalon.phoenix.containerkit.lifecycle.LifecycleException;
-import org.apache.avalon.framework.logger.ConsoleLogger;
-import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.service.DefaultServiceManager;
 import junit.framework.TestCase;
-import java.util.ArrayList;
+import org.apache.avalon.framework.configuration.Configuration;
+import org.apache.avalon.phoenix.containerkit.lifecycle.LifecycleException;
 
 /**
  * PUnitTestCase
@@ -21,7 +17,7 @@ import java.util.ArrayList;
  */
 public abstract class PUnitTestCase extends TestCase implements PUnit
 {
-    private PUnitHelper m_pUnitHelper = new PUnitHelper();
+    private final PUnitHelper m_pUnitHelper = new PUnitHelper();
 
 
     /**
@@ -36,7 +32,7 @@ public abstract class PUnitTestCase extends TestCase implements PUnit
      * PUnitTestCase
      * @param name The method name for JUnit
      */
-    public PUnitTestCase( String name )
+    public PUnitTestCase( final String name )
     {
         super( name );
     }
@@ -46,7 +42,7 @@ public abstract class PUnitTestCase extends TestCase implements PUnit
      * @param startsWith For an expression that starts with this
      * @return The logged entry.
      */
-    public final String lookupInLog( String startsWith )
+    public final String lookupInLog( final String startsWith )
     {
         return m_pUnitHelper.lookupInLog( startsWith );
     }
@@ -56,7 +52,7 @@ public abstract class PUnitTestCase extends TestCase implements PUnit
      * @param startsWith For an expression that starts with this
      * @return true or not
      */
-    public boolean logHasEntry( String startsWith )
+    public boolean logHasEntry( final String startsWith )
     {
         return m_pUnitHelper.logHasEntry( startsWith );
     }

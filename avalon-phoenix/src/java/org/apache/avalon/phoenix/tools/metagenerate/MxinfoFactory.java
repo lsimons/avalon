@@ -34,7 +34,7 @@ public class MxinfoFactory
      * @param destDir
      * @param javaClass
      */
-    public MxinfoFactory(File destDir, JavaClass javaClass)
+    public MxinfoFactory( final File destDir, final JavaClass javaClass )
     {
         m_javaClass = javaClass;
         m_destDir = destDir;
@@ -46,25 +46,25 @@ public class MxinfoFactory
      */
     public void generate() throws IOException
     {
-        File file = new File(m_destDir,
-                m_javaClass.getFullyQualifiedName().replace('.', File.separatorChar) + ".mxinfo");
+        final File file = new File( m_destDir,
+                                    m_javaClass.getFullyQualifiedName().replace( '.', File.separatorChar ) + ".mxinfo" );
         file.getParentFile().mkdirs();
-        m_mxinfo = new MxinfoHelper(file);
+        m_mxinfo = new MxinfoHelper( file );
         m_mxinfo.writeHeader(
-                m_javaClass.getTagByName("phoenix:mx-topic").getNamedParameter("name"));
+            m_javaClass.getTagByName( "phoenix:mx-topic" ).getNamedParameter( "name" ) );
         // m_attributes
         JavaMethod[] methods = m_javaClass.getMethods();
-        for (int j = 0; j < methods.length; j++)
+        for( int j = 0; j < methods.length; j++ )
         {
-            makeAttribute(methods[j], m_mxinfo);
+            makeAttribute( methods[ j ], m_mxinfo );
         }
         writeAttributes();
         m_mxinfo.writeOperationsHeader();
         // operations
         methods = m_javaClass.getMethods();
-        for (int j = 0; j < methods.length; j++)
+        for( int j = 0; j < methods.length; j++ )
         {
-            makeOperation(methods[j], m_mxinfo);
+            makeOperation( methods[ j ], m_mxinfo );
         }
         writeOperations();
         m_mxinfo.writeFooter();
@@ -73,19 +73,18 @@ public class MxinfoFactory
 
     private void writeOperations() throws IOException
     {
-        m_mxinfo.writeOperations(m_operations);
+        m_mxinfo.writeOperations( m_operations );
     }
 
-    private void makeAttribute(JavaMethod method, MxinfoHelper mxinfo) throws IOException
+    private void makeAttribute( final JavaMethod method, final MxinfoHelper mxinfo )
     {
-
-        DocletTag attribute = method.getTagByName("phoenix:mx-attribute");
-        if (attribute != null)
+        final DocletTag attribute = method.getTagByName( "phoenix:mx-attribute" );
+        if( attribute != null )
         {
-            String attributeName = getName(method.getName());
-            DocletTag tag = method.getTagByName("phoenix:mx-description");
+            String attributeName = getName( method.getName() );
+            DocletTag tag = method.getTagByName( "phoenix:mx-description" );
             String comment;
-            if (tag == null)
+            if( tag == null )
             {
                 comment = method.getComment();
             }
@@ -95,78 +94,77 @@ public class MxinfoFactory
             }
             Type attributeType = method.getReturns();
             String attributeTypeString =
-                    attributeType.getValue() + (attributeType.isArray() ? "[]" : "");
+                attributeType.getValue() + ( attributeType.isArray() ? "[]" : "" );
 
-            NamedXmlSnippet attr = mxinfo.makeAttrLines(attributeName,
-                    "\"" + comment + "\"",
-                    attributeTypeString);
-            m_attributes.add(attr);
+            NamedXmlSnippet attr = mxinfo.makeAttrLines( attributeName,
+                                                         "\"" + comment + "\"",
+                                                         attributeTypeString );
+            m_attributes.add( attr );
         }
     }
 
     private void writeAttributes() throws IOException
     {
-        m_mxinfo.writeAttributes(m_attributes);
+        m_mxinfo.writeAttributes( m_attributes );
     }
 
-    private String makeOperation(JavaMethod method, MxinfoHelper mxinfo) throws IOException
+    private void makeOperation( final JavaMethod method, final MxinfoHelper mxinfo ) throws IOException
     {
         String xml = "";
-        DocletTag attribute = method.getTagByName("phoenix:mx-operation");
-        if (attribute != null)
+        final DocletTag attribute = method.getTagByName( "phoenix:mx-operation" );
+        if( attribute != null )
         {
             String operationName = method.getName();
             String description = method.getComment();
             Type type = method.getReturns();
 
-            String typeString = type.getValue() + (type.isArray() ? "[]" : "");
+            String typeString = type.getValue() + ( type.isArray() ? "[]" : "" );
 
-            xml = xml + mxinfo.makeOperationHeader(operationName, description, typeString);
+            xml = xml + mxinfo.makeOperationHeader( operationName, description, typeString );
             JavaParameter[] params = method.getParameters();
-            for (int i = 0; i < params.length; i++)
+            for( int i = 0; i < params.length; i++ )
             {
-                xml = xml + makeOperationParameter(params[i], method, mxinfo);
+                xml = xml + makeOperationParameter( params[ i ], method, mxinfo );
 
             }
             xml = xml + mxinfo.makeOperationFooter();
-            NamedXmlSnippet operation = new NamedXmlSnippet(operationName,xml);
-            m_operations.add(operation);
+            NamedXmlSnippet operation = new NamedXmlSnippet( operationName, xml );
+            m_operations.add( operation );
         }
-        return xml;
     }
 
-    private String makeOperationParameter(JavaParameter param, JavaMethod method,
-                                         MxinfoHelper mxinfo) throws IOException
+    private String makeOperationParameter( final JavaParameter param, final JavaMethod method,
+                                           final MxinfoHelper mxinfo ) throws IOException
     {
-        String paramName = param.getName();
-        DocletTag[] paramTags = method.getTagsByName("param");
+        final String paramName = param.getName();
+        final DocletTag[] paramTags = method.getTagsByName( "param" );
         String paramDescription = "";
-        for (int k = 0; k < paramTags.length; k++)
+        for( int k = 0; k < paramTags.length; k++ )
         {
-            String paramTagValue = paramTags[k].getValue().trim();
-            if (paramTagValue.startsWith(paramName))
+            String paramTagValue = paramTags[ k ].getValue().trim();
+            if( paramTagValue.startsWith( paramName ) )
             {
                 paramDescription = paramTagValue.substring(
-                        paramTagValue.indexOf(" ") + 1, paramTagValue.length());
+                    paramTagValue.indexOf( " " ) + 1, paramTagValue.length() );
             }
         }
-        Type paramType = param.getType();
-        String paramTypeString = paramType.getValue() + (paramType.isArray() ? "[]" : "");
-        return mxinfo.makeOperationParameter(paramName, paramDescription, paramTypeString);
+        final Type paramType = param.getType();
+        final String paramTypeString = paramType.getValue() + ( paramType.isArray() ? "[]" : "" );
+        return mxinfo.makeOperationParameter( paramName, paramDescription, paramTypeString );
     }
 
-    private String getName(final String name)
+    private String getName( final String name )
     {
         String retval = name;
-        if (retval.startsWith("set") || retval.startsWith("get"))
+        if( retval.startsWith( "set" ) || retval.startsWith( "get" ) )
         {
-            retval = retval.substring(3, retval.length());
-            retval = retval.substring(0, 1).toLowerCase() + retval.substring(1, retval.length());
+            retval = retval.substring( 3, retval.length() );
+            retval = retval.substring( 0, 1 ).toLowerCase() + retval.substring( 1, retval.length() );
         }
-        else if (retval.startsWith("is"))
+        else if( retval.startsWith( "is" ) )
         {
-            retval = retval.substring(2, retval.length());
-            retval = retval.substring(0, 1).toLowerCase() + retval.substring(1, retval.length());
+            retval = retval.substring( 2, retval.length() );
+            retval = retval.substring( 0, 1 ).toLowerCase() + retval.substring( 1, retval.length() );
         }
         return retval;
     }

@@ -12,7 +12,7 @@ import java.io.FileFilter;
 
 class ConfigurationFileFilter implements FileFilter
 {
-    public boolean accept( File pathname )
+    public boolean accept( final File pathname )
     {
         return pathname.isFile() && pathname.getName().endsWith( ".xml" );
     }

@@ -38,7 +38,7 @@ import org.xml.sax.InputSource;
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
  * @author <a href="mailto:huw@mmlive.com">Huw Roberts</a>
- * @version $Revision: 1.4 $ $Date: 2002/09/06 11:35:10 $
+ * @version $Revision: 1.5 $ $Date: 2003/02/22 04:03:27 $
  */
 public final class MBeanInfoBuilder
     extends AbstractLogEnabled
@@ -355,11 +355,11 @@ public final class MBeanInfoBuilder
         // additional info needed for modelMbean to work
         final Descriptor descriptor = info.getDescriptor();
         descriptor.setField( "currencyTimeLimit", new Integer( 1 ) );
-        if( isReadable )
+        if( null != readMethod )
         {
             descriptor.setField( "getMethod", readMethod.getName() );
         }
-        if( isWriteable )
+        if( null != writeMethod )
         {
             descriptor.setField( "setMethod", writeMethod.getName() );
         }
@@ -431,7 +431,7 @@ public final class MBeanInfoBuilder
                                                         final Configuration config )
         throws ConfigurationException
     {
-        ModelMBeanOperationInfo info;
+        final ModelMBeanOperationInfo info;
 
         if( config == null )
         {
@@ -497,7 +497,7 @@ public final class MBeanInfoBuilder
      * @throws ConfigurationException if configuration not structured corretly
      * @return the descriptor
      */
-    private MBeanParameterInfo buildParameterInfo( Configuration paramConfig )
+    private MBeanParameterInfo buildParameterInfo( final Configuration paramConfig )
         throws ConfigurationException
     {
         final String name = paramConfig.getAttribute( "name" );

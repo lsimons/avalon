@@ -13,10 +13,10 @@ final class ConfigurationKey
 
     private final String m_block;
 
-    public ConfigurationKey( String application, String block )
+    public ConfigurationKey( final String application, final String block )
     {
-        this.m_application = application;
-        this.m_block = block;
+        m_application = application;
+        m_block = block;
     }
 
     public int hashCode()
@@ -24,7 +24,7 @@ final class ConfigurationKey
         return this.getApplication().hashCode() + this.getBlock().hashCode();
     }
 
-    public boolean equals( Object obj )
+    public boolean equals( final Object obj )
     {
         if( obj instanceof ConfigurationKey )
         {

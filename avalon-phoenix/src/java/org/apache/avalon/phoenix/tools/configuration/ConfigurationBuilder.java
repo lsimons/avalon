@@ -21,7 +21,7 @@ import org.xml.sax.XMLReader;
  * Utility class used to load Configuration trees from XML files.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.10 $ $Date: 2002/10/01 07:40:27 $
+ * @version $Revision: 1.11 $ $Date: 2003/02/22 04:03:29 $
  */
 public class ConfigurationBuilder
 {
@@ -122,7 +122,7 @@ public class ConfigurationBuilder
      * Build a configuration object using an URI, and
      * optionally validate the xml against the DTD.
      */
-    public static Configuration build( final String uri, boolean validate )
+    public static Configuration build( final String uri, final boolean validate )
         throws SAXException, ParserConfigurationException, IOException
     {
         return build( new InputSource( uri ), validate );
@@ -141,7 +141,7 @@ public class ConfigurationBuilder
      * Build a configuration object using an XML InputSource object, and
      * optionally validate the xml against the DTD.
      */
-    public static Configuration build( final InputSource input, boolean validate )
+    public static Configuration build( final InputSource input, final boolean validate )
         throws SAXException, ParserConfigurationException, IOException
     {
         final XMLReader reader = createXMLReader();

@@ -69,7 +69,7 @@ public class MxinfoHelper
         "",
         "</mxinfo>"};
 
-    private FileWriter m_output;
+    private final FileWriter m_output;
 
     /**
      * Construct
@@ -86,7 +86,7 @@ public class MxinfoHelper
      * @param topic The topic
      * @throws IOException If a problem writing output
      */
-    public void writeHeader( String topic ) throws IOException
+    public void writeHeader( final String topic ) throws IOException
     {
         for( int i = 0; i < HEADER.length; i++ )
         {
@@ -112,10 +112,8 @@ public class MxinfoHelper
      * @param attrName The attribute name
      * @param description The description
      * @param type The type
-     * @throws IOException If a problem writing output
      */
-    public NamedXmlSnippet makeAttrLines( String attrName, String description, String type )
-        throws IOException
+    public NamedXmlSnippet makeAttrLines( final String attrName, final String description, final String type )
     {
         String xml = "";
         for( int i = 0; i < ATTRIBUTE.length; i++ )
@@ -134,7 +132,7 @@ public class MxinfoHelper
      * @param attributes A list of attributes
      * @throws IOException If a problem writing output
      */
-    public void writeAttributes( List attributes ) throws IOException
+    public void writeAttributes( final List attributes ) throws IOException
     {
         Collections.sort( attributes );
         for( Iterator iterator = attributes.iterator(); iterator.hasNext(); )
@@ -163,7 +161,7 @@ public class MxinfoHelper
      * @param type The type
      * @throws IOException If a problem writing output
      */
-    public String makeOperationHeader( String operName, String description, String type )
+    public String makeOperationHeader( final String operName, final String description, final String type )
         throws IOException
     {
         String xml = "";
@@ -199,7 +197,7 @@ public class MxinfoHelper
      * @param type The type
      * @throws IOException If a problem writing output
      */
-    public String makeOperationParameter( String paramName, String description, String type )
+    public String makeOperationParameter( final String paramName, final String description, final String type )
         throws IOException
     {
         String xml = "";
@@ -219,7 +217,7 @@ public class MxinfoHelper
      * @param operations A list of operations
      * @throws IOException If a problem writing output
      */
-    public void writeOperations( List operations ) throws IOException
+    public void writeOperations( final List operations ) throws IOException
     {
         Collections.sort( operations );
         for( Iterator iterator = operations.iterator(); iterator.hasNext(); )
@@ -257,10 +255,10 @@ public class MxinfoHelper
      * @param replacement To replace with.
      * @return The resulting string.
      */
-    protected String replaceString( final String source, String term, String replacement )
+    protected String replaceString( final String source, final String term, final String replacement )
     {
         String retval = source;
-        int ix = retval.indexOf( term );
+        final int ix = retval.indexOf( term );
         if( ix != -1 )
         {
             retval =

@@ -24,9 +24,9 @@ import org.apache.avalon.phoenix.containerkit.lifecycle.ResourceProvider;
 public class PUnitResourceProvider
     implements ResourceProvider
 {
-    private ServiceManager m_serviceManager;
-    private Configuration m_configuration;
-    private Logger m_logger;
+    private final ServiceManager m_serviceManager;
+    private final Configuration m_configuration;
+    private final Logger m_logger;
 
     /**
      * PUnitResourceProvider
@@ -84,7 +84,7 @@ public class PUnitResourceProvider
      * @return The comp mgr
      * @throws Exception If a problem
      */
-    public ComponentManager createComponentManager( Object object ) throws Exception
+    public ComponentManager createComponentManager( final Object object ) throws Exception
     {
         return new WrapperComponentManager( m_serviceManager );
     }

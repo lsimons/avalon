@@ -20,7 +20,7 @@ public class MX4JLoggerAdapter extends Logger
      * This is really bad.  A static way of introducing a logger to a tool.
      * @param logger the Avalon logger.
      */
-    public static void setLogger(org.apache.avalon.framework.logger.Logger logger)
+    public static void setLogger(final org.apache.avalon.framework.logger.Logger logger)
     {
         avalonLogger = logger;
     }
@@ -33,7 +33,7 @@ public class MX4JLoggerAdapter extends Logger
      * @param message the message to log.
      * @param throwable a message that may be sent.
      */
-    protected void log(int level, Object message, Throwable throwable)
+    protected void log(final int level, final Object message, final Throwable throwable)
     {
         switch (level)
         {

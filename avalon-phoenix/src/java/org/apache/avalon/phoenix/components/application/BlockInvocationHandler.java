@@ -27,7 +27,7 @@ import java.lang.reflect.Proxy;
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
  * @author <a href="mailto:Paul_Hammant@yahoo.com">Paul Hammant</a>
- * @version CVS $Revision: 1.11 $ $Date: 2002/10/11 05:59:51 $
+ * @version CVS $Revision: 1.12 $ $Date: 2003/02/22 04:03:25 $
  */
 final class BlockInvocationHandler
     implements InvocationHandler
@@ -41,7 +41,7 @@ final class BlockInvocationHandler
      * @param object the underlying object
      * @param interfaces the interfaces to proxy
      */
-    protected BlockInvocationHandler( final Object object, final Class[] interfaces )
+    BlockInvocationHandler( final Object object, final Class[] interfaces )
     {
         final ClassLoader classLoader = object.getClass().getClassLoader();
 

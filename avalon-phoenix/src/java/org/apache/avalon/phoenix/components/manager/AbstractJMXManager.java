@@ -24,7 +24,7 @@ import org.apache.avalon.phoenix.interfaces.ManagerException;
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
  * @author <a href="mailto:Huw@mmlive.com">Huw Roberts</a>
- * @version $Revision: 1.6 $ $Date: 2002/12/07 08:57:51 $
+ * @version $Revision: 1.7 $ $Date: 2003/02/22 04:03:27 $
  */
 public abstract class AbstractJMXManager
     extends AbstractSystemManager
@@ -137,7 +137,7 @@ public abstract class AbstractJMXManager
         return m_mBeanServer;
     }
 
-    protected void setMBeanServer( MBeanServer mBeanServer )
+    protected void setMBeanServer( final MBeanServer mBeanServer )
     {
         m_mBeanServer = mBeanServer;
     }
@@ -170,7 +170,7 @@ public abstract class AbstractJMXManager
      */
     protected Target createTarget( final String name,
                                    final Object object,
-                                   Class[] interfaces )
+                                   final Class[] interfaces )
     {
         final Target target = new Target( name, object );
         try
@@ -286,7 +286,7 @@ public abstract class AbstractJMXManager
         }
 
         // Create a new ModelMBean instance
-        ModelMBean mbean = null;
+        ModelMBean mbean;
         try
         {
             mbean = (ModelMBean)clazz.newInstance();

@@ -14,7 +14,7 @@ import org.apache.avalon.framework.info.ComponentInfo;
  *
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003/01/18 16:43:43 $
+ * @version $Revision: 1.2 $ $Date: 2003/02/22 04:03:28 $
  */
 public class DefaultComponentBundle
     implements ComponentBundle
@@ -42,7 +42,7 @@ public class DefaultComponentBundle
         return m_componentInfo;
     }
 
-    public InputStream getResourceAsStream( String resource )
+    public InputStream getResourceAsStream( final String resource )
     {
         return m_classLoader.getResourceAsStream( resource );
     }

@@ -20,39 +20,39 @@ import org.apache.avalon.phoenix.interfaces.ConfigurationValidatorMBean;
 public class NoopConfigurationValidator
     implements ConfigurationValidator, ConfigurationValidatorMBean
 {
-    public void addSchema( String application, String block, String schemaType, String url )
+    public void addSchema( final String application, final String block, final String schemaType, final String url )
         throws ConfigurationException
     {
     }
 
-    public void removeSchema( String application, String block )
+    public void removeSchema( final String application, final String block )
     {
     }
 
-    public boolean isValid( String application, String block, Configuration configuration )
-        throws ConfigurationException
-    {
-        return true;
-    }
-
-    public boolean isFeasiblyValid( String application, String block, Configuration configuration )
+    public boolean isValid( final String application, final String block, final Configuration configuration )
         throws ConfigurationException
     {
         return true;
     }
 
-    public String getSchema( String application, String block )
-    {
-        return null;
-    }
-
-    public String getSchemaType( String application, String block )
-    {
-        return null;
-    }
-
-    public boolean isValid( String application, String block, String configurationXml )
+    public boolean isFeasiblyValid( final String application, final String block, final Configuration configuration )
         throws ConfigurationException
+    {
+        return true;
+    }
+
+    public String getSchema( final String application, final String block )
+    {
+        return null;
+    }
+
+    public String getSchemaType( final String application, final String block )
+    {
+        return null;
+    }
+
+    public boolean isValid( final String application, final String block, final String configurationXml )
+
     {
         return true;
     }

@@ -8,8 +8,8 @@
 package org.apache.avalon.phoenix.components.assembler;
 
 import java.util.ArrayList;
-import java.util.Map;
 import java.util.List;
+import java.util.Map;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.framework.configuration.Configuration;
@@ -28,7 +28,7 @@ import org.apache.avalon.phoenix.containerkit.metadata.PartitionMetaData;
  * and is in the format specified for <tt>assembly.xml</tt> files.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2003/01/26 23:32:43 $
+ * @version $Revision: 1.4 $ $Date: 2003/02/22 04:03:25 $
  */
 public class Assembler
     extends AbstractLogEnabled
@@ -155,7 +155,7 @@ public class Assembler
         {
             final String message =
                 REZ.getString( "block-entry-malformed", block.getLocation(), ce.getMessage() );
-            throw new AssemblyException( message );
+            throw new AssemblyException( message, ce );
         }
     }
 
@@ -206,7 +206,7 @@ public class Assembler
                 REZ.getString( "listener-entry-malformed",
                                listener.getLocation(),
                                ce.getMessage() );
-            throw new AssemblyException( message );
+            throw new AssemblyException( message, ce );
         }
     }
 

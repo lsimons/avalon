@@ -9,8 +9,8 @@ package org.apache.avalon.phoenix.tools.metagenerate;
 
 import com.thoughtworks.qdox.model.DocletTag;
 import com.thoughtworks.qdox.model.JavaClass;
-import java.io.IOException;
 import java.io.File;
+import java.io.IOException;
 import org.apache.avalon.framework.tools.ant.FormatEnum;
 import org.apache.tools.ant.BuildException;
 
@@ -27,13 +27,13 @@ public class MetaGenerateTask
      * Inheritence : should parent classes of blocks be queried too?
      * @param inheritance
      */
-    public void setInheritance( boolean inheritance )
+    public void setInheritance( final boolean inheritance )
     {
         //TODO: Do inheritance based on markup rather than based on task run
         //m_inheritance = inheritance;
     }
 
-    public void setDest( File destDir )
+    public void setDest( final File destDir )
     {
         super.setDestDir( destDir );
     }

@@ -16,7 +16,7 @@ final class ManagedEntry
     private final Class[] m_interfaces;
 
     ///Object representation when exported (usually a proxy)
-    private Object m_exportedObject;
+    private final Object m_exportedObject;
 
     ManagedEntry( final Object object,
                   final Class[] interfaces,

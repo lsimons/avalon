@@ -10,8 +10,8 @@ package org.apache.avalon.phoenix.components.kernel;
 import java.io.File;
 import java.util.Map;
 import org.apache.avalon.framework.logger.Logger;
-import org.apache.avalon.phoenix.interfaces.Application;
 import org.apache.avalon.phoenix.containerkit.registry.PartitionProfile;
+import org.apache.avalon.phoenix.interfaces.Application;
 
 /**
  * This is the structure describing each server application before it is loaded.

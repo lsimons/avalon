@@ -7,18 +7,17 @@
  */
 package org.apache.avalon.phoenix.components.kernel.beanshell;
 
+import java.io.File;
+import java.util.Map;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.phoenix.containerkit.registry.PartitionProfile;
 import org.apache.avalon.phoenix.interfaces.Application;
 import org.apache.avalon.phoenix.interfaces.Kernel;
 
-import java.io.File;
-import java.util.Map;
-
 public class BeanShellKernelProxy
     implements Kernel
 {
-    private transient Kernel m_kernel;
+    private final transient Kernel m_kernel;
 
     /**
      * Construct a Proxy to the Kernel that does not implement all methods.
@@ -28,12 +27,12 @@ public class BeanShellKernelProxy
         m_kernel = kernel;
     }
 
-    public void addApplication(PartitionProfile profile,
-                               File homeDirectory, File workDirectory,
-                               ClassLoader classLoader,
-                               Logger logger,
-                               Map classloaders)
-            throws Exception
+    public void addApplication( final PartitionProfile profile,
+                                final File homeDirectory, final File workDirectory,
+                                final ClassLoader classLoader,
+                                final Logger logger,
+                                final Map classloaders )
+        throws Exception
     {
         throw new UnsupportedOperationException( "This is not supported for non-kernel visitors" );
     }

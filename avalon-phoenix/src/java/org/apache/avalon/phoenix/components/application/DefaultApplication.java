@@ -22,19 +22,15 @@ import org.apache.avalon.phoenix.ApplicationListener;
 import org.apache.avalon.phoenix.BlockListener;
 import org.apache.avalon.phoenix.components.ContainerConstants;
 import org.apache.avalon.phoenix.components.util.ComponentMetaDataConverter;
+import org.apache.avalon.phoenix.containerkit.lifecycle.LifecycleException;
+import org.apache.avalon.phoenix.containerkit.lifecycle.LifecycleHelper;
+import org.apache.avalon.phoenix.containerkit.registry.ComponentProfile;
+import org.apache.avalon.phoenix.containerkit.registry.PartitionProfile;
 import org.apache.avalon.phoenix.interfaces.Application;
 import org.apache.avalon.phoenix.interfaces.ApplicationContext;
 import org.apache.avalon.phoenix.interfaces.ApplicationException;
 import org.apache.avalon.phoenix.interfaces.ApplicationMBean;
 import org.apache.avalon.phoenix.metadata.SarMetaData;
-import org.apache.avalon.phoenix.containerkit.lifecycle.LifecycleException;
-import org.apache.avalon.phoenix.containerkit.lifecycle.LifecycleHelper;
-import org.apache.avalon.phoenix.containerkit.registry.ComponentProfile;
-import org.apache.avalon.phoenix.containerkit.registry.PartitionProfile;
-import org.apache.avalon.phoenix.containerkit.lifecycle.LifecycleException;
-import org.apache.avalon.phoenix.containerkit.lifecycle.LifecycleHelper;
-import org.apache.avalon.phoenix.containerkit.registry.ComponentProfile;
-import org.apache.avalon.phoenix.containerkit.registry.PartitionProfile;
 import org.apache.excalibur.threadcontext.ThreadContext;
 
 /**
@@ -60,7 +56,7 @@ public final class DefaultApplication
 
     private ApplicationContext m_context;
 
-    private HashMap m_entries = new HashMap();
+    private final HashMap m_entries = new HashMap();
 
     /**
      * ResourceProvider for blocks.
@@ -75,7 +71,7 @@ public final class DefaultApplication
     /**
      * Object to support notification of ApplicationListeners.
      */
-    private ListenerSupport m_listenerSupport = new ListenerSupport();
+    private final ListenerSupport m_listenerSupport = new ListenerSupport();
 
     /**
      * Object to support running objects through lifecycle phases.
@@ -90,7 +86,7 @@ public final class DefaultApplication
     ///////////////////////
     // LifeCycle Methods //
     ///////////////////////
-    public void enableLogging( Logger logger )
+    public void enableLogging( final Logger logger )
     {
         super.enableLogging( logger );
         setupLogger( m_lifecycleHelper );
@@ -492,7 +488,7 @@ public final class DefaultApplication
      * @throws Exception if an error occurs when block passes
      *            through a specific lifecycle stage
      */
-    public void startup( final BlockEntry entry )
+    private void startup( final BlockEntry entry )
         throws Exception
     {
         final Object block =
@@ -518,7 +514,7 @@ public final class DefaultApplication
      *
      * @param entry the entry containing Block
      */
-    public void shutdown( final BlockEntry entry )
+    private void shutdown( final BlockEntry entry )
         throws LifecycleException
     {
         m_listenerSupport.fireBlockRemovedEvent( entry );
@@ -528,8 +524,8 @@ public final class DefaultApplication
         {
             //Remove block from Management system
             m_exportHelper.unexportBlock( m_context,
-                                          entry.getProfile(),
-                                          object );
+                                          entry.getProfile()
+            );
             entry.invalidate();
 
             m_lifecycleHelper.shutdown( entry.getName(),
@@ -550,7 +546,7 @@ public final class DefaultApplication
      * @throws Exception if an error occurs when listener passes
      *            through a specific lifecycle stage
      */
-    public void startupListener( final ComponentProfile profile )
+    private void startupListener( final ComponentProfile profile )
         throws Exception
     {
         final String name = profile.getMetaData().getName();

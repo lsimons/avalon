@@ -8,8 +8,8 @@
 package org.apache.avalon.phoenix.interfaces;
 
 import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.context.Context;
+import org.apache.avalon.framework.logger.Logger;
 
 /**
  * Interface that is used to manage Log objects for a Sar.

@@ -8,9 +8,9 @@
 package org.apache.avalon.phoenix.components.application;
 
 import java.util.ArrayList;
-import org.apache.avalon.phoenix.containerkit.registry.ComponentProfile;
-import org.apache.avalon.phoenix.containerkit.metadata.DependencyMetaData;
 import org.apache.avalon.framework.info.DependencyDescriptor;
+import org.apache.avalon.phoenix.containerkit.metadata.DependencyMetaData;
+import org.apache.avalon.phoenix.containerkit.registry.ComponentProfile;
 
 /**
  *

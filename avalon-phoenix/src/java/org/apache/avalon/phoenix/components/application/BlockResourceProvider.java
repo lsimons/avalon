@@ -21,15 +21,15 @@ import org.apache.avalon.framework.component.WrapperComponentManager;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.context.Context;
+import org.apache.avalon.framework.info.DependencyDescriptor;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.framework.service.DefaultServiceManager;
 import org.apache.avalon.framework.service.ServiceManager;
-import org.apache.avalon.framework.info.DependencyDescriptor;
 import org.apache.avalon.phoenix.containerkit.lifecycle.ResourceProvider;
-import org.apache.avalon.phoenix.containerkit.registry.ComponentProfile;
 import org.apache.avalon.phoenix.containerkit.metadata.DependencyMetaData;
+import org.apache.avalon.phoenix.containerkit.registry.ComponentProfile;
 import org.apache.avalon.phoenix.interfaces.Application;
 import org.apache.avalon.phoenix.interfaces.ApplicationContext;
 
@@ -38,7 +38,7 @@ import org.apache.avalon.phoenix.interfaces.ApplicationContext;
  * Block or Listener.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.14 $ $Date: 2003/01/25 15:47:17 $
+ * @version $Revision: 1.15 $ $Date: 2003/02/22 04:03:25 $
  */
 class BlockResourceProvider
     extends AbstractLogEnabled
@@ -87,7 +87,7 @@ class BlockResourceProvider
     {
         final ComponentProfile profile = getProfileFor( entry );
         final ClassLoader classLoader = m_context.getClassLoader();
-        String classname = profile.getInfo().getDescriptor().getImplementationKey();
+        final String classname = profile.getInfo().getDescriptor().getImplementationKey();
         final Class clazz = classLoader.loadClass( classname );
         return clazz.newInstance();
     }

@@ -26,6 +26,7 @@ import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
 import org.apache.avalon.phoenix.components.application.DefaultApplication;
+import org.apache.avalon.phoenix.containerkit.registry.PartitionProfile;
 import org.apache.avalon.phoenix.interfaces.Application;
 import org.apache.avalon.phoenix.interfaces.ApplicationContext;
 import org.apache.avalon.phoenix.interfaces.ApplicationMBean;
@@ -34,8 +35,6 @@ import org.apache.avalon.phoenix.interfaces.ConfigurationValidator;
 import org.apache.avalon.phoenix.interfaces.Kernel;
 import org.apache.avalon.phoenix.interfaces.KernelMBean;
 import org.apache.avalon.phoenix.interfaces.SystemManager;
-import org.apache.avalon.phoenix.containerkit.metadata.PartitionMetaData;
-import org.apache.avalon.phoenix.containerkit.registry.PartitionProfile;
 
 /**
  * The ServerKernel is the core of the Phoenix system.
@@ -78,7 +77,7 @@ public class DefaultKernel
     //Configuration Validator
     private ConfigurationValidator m_validator;
 
-    private HashMap m_entries = new HashMap();
+    private final HashMap m_entries = new HashMap();
 
     private boolean m_addInvalidApplications;
 
@@ -91,7 +90,7 @@ public class DefaultKernel
         m_validator = (ConfigurationValidator)serviceManager.lookup( ConfigurationValidator.ROLE );
     }
 
-    public void configure( Configuration configuration )
+    public void configure( final Configuration configuration )
         throws ConfigurationException
     {
         m_addInvalidApplications =
@@ -322,7 +321,7 @@ public class DefaultKernel
         return componentManager;
     }
 
-    public void removeApplication( String name )
+    public void removeApplication( final String name )
         throws Exception
     {
         final SarEntry entry = (SarEntry)m_entries.remove( name );

@@ -54,9 +54,9 @@ final class ManagementRegistration
                                     new Class[]{ConfigurationValidatorMBean.class} );
     //TODO: Need information for SystemManager?
 
-    private String m_role;
-    private String m_name;
-    private Class[] m_interfaces;
+    private final String m_role;
+    private final String m_name;
+    private final Class[] m_interfaces;
 
     private ManagementRegistration( final String role, final String name, final Class[] interfaces )
     {

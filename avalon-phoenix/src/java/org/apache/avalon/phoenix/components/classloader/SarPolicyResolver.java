@@ -18,8 +18,8 @@ import org.apache.avalon.framework.CascadingException;
 import org.apache.avalon.framework.container.ContainerUtil;
 import org.apache.avalon.framework.context.DefaultContext;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
-import org.apache.avalon.phoenix.components.util.ResourceUtil;
 import org.apache.avalon.phoenix.BlockContext;
+import org.apache.avalon.phoenix.components.util.ResourceUtil;
 import org.apache.excalibur.policy.builder.PolicyResolver;
 
 /**
@@ -27,7 +27,7 @@ import org.apache.excalibur.policy.builder.PolicyResolver;
  * (like remapping URLs).
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.4 $ $Date: 2002/11/02 00:29:27 $
+ * @version $Revision: 1.5 $ $Date: 2003/02/22 04:03:26 $
  */
 class SarPolicyResolver
     extends AbstractLogEnabled
@@ -53,7 +53,7 @@ class SarPolicyResolver
         m_baseDirectory = baseDirectory;
     }
 
-    public Policy createPolicy( Map grants )
+    public Policy createPolicy( final Map grants )
         throws Exception
     {
         final SarPolicy sarPolicy = new SarPolicy( grants );
@@ -79,7 +79,7 @@ class SarPolicyResolver
         }
     }
 
-    public String resolveTarget( String target )
+    public String resolveTarget( final String target )
     {
         try
         {

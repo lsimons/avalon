@@ -7,6 +7,8 @@
  */
 package org.apache.avalon.phoenix.containerkit.demo;
 
+import java.util.HashMap;
+import java.util.Map;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.framework.parameters.ParameterException;
@@ -19,8 +21,6 @@ import org.apache.avalon.phoenix.containerkit.lifecycle.ResourceProvider;
 import org.apache.avalon.phoenix.containerkit.metadata.ComponentMetaData;
 import org.apache.avalon.phoenix.containerkit.metadata.MetaDataBuilder;
 import org.apache.avalon.phoenix.containerkit.metadata.PartitionMetaData;
-import java.util.Map;
-import java.util.HashMap;
 
 /**
  * This is a simple ServiceKernel.
@@ -30,7 +30,7 @@ import java.util.HashMap;
  * in a format similar to merged assembly.xml/config.xml from Phoenix.</p>
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003/01/18 16:43:43 $
+ * @version $Revision: 1.2 $ $Date: 2003/02/22 04:03:28 $
  */
 public class SimpleServiceKernel
     extends AbstractServiceKernel

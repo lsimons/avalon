@@ -352,7 +352,6 @@ public class DefaultDeployer
     }
 
     private PartitionProfile assembleListenerProfile( final PartitionMetaData metaData )
-        throws Exception
     {
         final ArrayList componentSet = new ArrayList();
         final ComponentMetaData[] components = metaData.getComponents();

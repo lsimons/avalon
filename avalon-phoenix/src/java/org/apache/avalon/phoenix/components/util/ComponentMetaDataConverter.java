@@ -12,20 +12,20 @@ import java.util.ArrayList;
 import org.apache.avalon.framework.info.Attribute;
 import org.apache.avalon.framework.info.ComponentInfo;
 import org.apache.avalon.phoenix.components.ContainerConstants;
+import org.apache.avalon.phoenix.containerkit.metadata.ComponentMetaData;
+import org.apache.avalon.phoenix.containerkit.registry.ComponentProfile;
+import org.apache.avalon.phoenix.containerkit.registry.PartitionProfile;
 import org.apache.avalon.phoenix.metadata.BlockListenerMetaData;
 import org.apache.avalon.phoenix.metadata.BlockMetaData;
 import org.apache.avalon.phoenix.metadata.DependencyMetaData;
 import org.apache.avalon.phoenix.metadata.SarMetaData;
 import org.apache.avalon.phoenix.metainfo.BlockInfo;
-import org.apache.avalon.phoenix.containerkit.metadata.ComponentMetaData;
-import org.apache.avalon.phoenix.containerkit.registry.ComponentProfile;
-import org.apache.avalon.phoenix.containerkit.registry.PartitionProfile;
 
 /**
  * Convert a {@link ComponentMetaData} into a {@link BlockMetaData}.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003/01/25 15:47:17 $
+ * @version $Revision: 1.3 $ $Date: 2003/02/22 04:03:28 $
  */
 public class ComponentMetaDataConverter
 {

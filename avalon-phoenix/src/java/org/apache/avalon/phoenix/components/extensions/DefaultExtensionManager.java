@@ -9,10 +9,10 @@ package org.apache.avalon.phoenix.components.extensions;
 
 import java.io.File;
 import java.util.ArrayList;
+import org.apache.avalon.excalibur.i18n.ResourceManager;
+import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.excalibur.packagemanager.ExtensionManager;
 import org.apache.avalon.excalibur.packagemanager.OptionalPackage;
-import org.apache.avalon.excalibur.i18n.Resources;
-import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.logger.LogEnabled;
@@ -24,7 +24,7 @@ import org.apache.avalon.phoenix.interfaces.ExtensionManagerMBean;
 
 /**
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.6 $ $Date: 2002/11/01 22:41:37 $
+ * @version $Revision: 1.7 $ $Date: 2003/02/22 04:03:27 $
  */
 public class DefaultExtensionManager
     extends org.apache.avalon.excalibur.packagemanager.impl.DefaultExtensionManager

@@ -33,7 +33,7 @@ import org.apache.avalon.phoenix.containerkit.registry.ComponentProfile;
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.1 $ $Date: 2003/01/18 16:43:43 $
+ * @version $Revision: 1.2 $ $Date: 2003/02/22 04:03:28 $
  */
 public abstract class AbstractServiceKernel
     extends AbstractLogEnabled
@@ -68,7 +68,7 @@ public abstract class AbstractServiceKernel
      * The resource provider to use to provide resources
      * for all the components.
      */
-    private Map m_entrySet = new HashMap();
+    private final Map m_entrySet = new HashMap();
 
     //private PhaseProcessor m_processor;
 

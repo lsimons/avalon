@@ -7,19 +7,20 @@
  */
 package org.apache.avalon.phoenix.tools.punit;
 
-import org.apache.avalon.phoenix.containerkit.lifecycle.LifecycleHelper;
-import org.apache.avalon.phoenix.containerkit.lifecycle.LifecycleException;
-import org.apache.avalon.framework.activity.Initializable;
-import org.apache.avalon.framework.logger.ConsoleLogger;
-import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.service.DefaultServiceManager;
 import java.util.ArrayList;
+import org.apache.avalon.framework.activity.Initializable;
+import org.apache.avalon.framework.configuration.Configuration;
+import org.apache.avalon.framework.logger.ConsoleLogger;
+import org.apache.avalon.framework.service.DefaultServiceManager;
+import org.apache.avalon.phoenix.containerkit.lifecycle.LifecycleException;
+import org.apache.avalon.phoenix.containerkit.lifecycle.LifecycleHelper;
 
 /**
  * PUnit helper
  * @author Paul Hammant
  */
-public final class PUnitHelper implements PUnit, Initializable
+public final class PUnitHelper
+    implements PUnit, Initializable
 {
     private LifecycleHelper m_lifecycleHelper;
     private ArrayList m_blocks;
@@ -31,7 +32,7 @@ public final class PUnitHelper implements PUnit, Initializable
      * @param startsWith For an expression that starts with this
      * @return The logged entry.
      */
-    public final String lookupInLog( String startsWith )
+    public final String lookupInLog( final String startsWith )
     {
         return m_logger.get( startsWith );
     }
@@ -41,7 +42,7 @@ public final class PUnitHelper implements PUnit, Initializable
      * @param startsWith For an expression that starts with this
      * @return true or not
      */
-    public boolean logHasEntry( String startsWith )
+    public boolean logHasEntry( final String startsWith )
     {
         return m_logger.contains( startsWith );
     }

@@ -16,10 +16,10 @@ import java.io.File;
  */
 public class SarMetaData
 {
-    private String m_name;
-    private File m_homeDirectory;
-    private BlockMetaData[] m_blocks;
-    private BlockListenerMetaData[] m_listeners;
+    private final String m_name;
+    private final File m_homeDirectory;
+    private final BlockMetaData[] m_blocks;
+    private final BlockListenerMetaData[] m_listeners;
 
     public SarMetaData( final String name,
                         final File homeDirectory,

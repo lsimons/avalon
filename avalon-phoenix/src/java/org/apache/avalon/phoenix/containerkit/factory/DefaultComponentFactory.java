@@ -19,7 +19,7 @@ import org.apache.avalon.framework.tools.infobuilder.InfoBuilder;
  * that simply creates components from a {@link java.lang.ClassLoader}.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003/01/18 16:43:43 $
+ * @version $Revision: 1.2 $ $Date: 2003/02/22 04:03:28 $
  */
 public class DefaultComponentFactory
     extends AbstractLogEnabled
@@ -106,7 +106,7 @@ public class DefaultComponentFactory
     protected ComponentBundle newBundle( final String implementationKey )
         throws Exception
     {
-        ComponentBundle bundle;
+        final ComponentBundle bundle;
         final ComponentInfo info = createComponentInfo( implementationKey );
         bundle = new DefaultComponentBundle( info, getClassLoader() );
         return bundle;
