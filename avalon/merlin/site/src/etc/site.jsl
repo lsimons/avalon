@@ -1,53 +1,5 @@
 <?xml version="1.0"?>
-
-<!--
- ============================================================================
-                   The Apache Software License, Version 1.1
- ============================================================================
-
- Copyright (C) 1999-2002 The Apache Software Foundation. All rights reserved.
-
- Redistribution and use in source and binary forms, with or without modifica-
- tion, are permitted provided that the following conditions are met:
-
- 1. Redistributions of  source code must  retain the above copyright  notice,
-    this list of conditions and the following disclaimer.
-
- 2. Redistributions in binary form must reproduce the above copyright notice,
-    this list of conditions and the following disclaimer in the documentation
-    and/or other materials provided with the distribution.
-
- 3. The end-user documentation included with the redistribution, if any, must
-    include  the following  acknowledgment:  "This product includes  software
-    developed  by the  Apache Software Foundation  (http://www.apache.org/)."
-    Alternately, this  acknowledgment may  appear in the software itself,  if
-    and wherever such third-party acknowledgments normally appear.
-
- 4. The names "Jakarta", "Apache Avalon", "Avalon Framework" and
-    "Apache Software Foundation"  must not be used to endorse or promote
-    products derived  from this  software without  prior written
-    permission. For written permission, please contact apache@apache.org.
-
- 5. Products  derived from this software may not  be called "Apache", nor may
-    "Apache" appear  in their name,  without prior written permission  of the
-    Apache Software Foundation.
-
- THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES,
- INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
- FITNESS  FOR A PARTICULAR  PURPOSE ARE  DISCLAIMED.  IN NO  EVENT SHALL  THE
- APACHE SOFTWARE  FOUNDATION  OR ITS CONTRIBUTORS  BE LIABLE FOR  ANY DIRECT,
- INDIRECT, INCIDENTAL, SPECIAL,  EXEMPLARY, OR CONSEQUENTIAL  DAMAGES (INCLU-
- DING, BUT NOT LIMITED TO, PROCUREMENT  OF SUBSTITUTE GOODS OR SERVICES; LOSS
- OF USE, DATA, OR  PROFITS; OR BUSINESS  INTERRUPTION)  HOWEVER CAUSED AND ON
- ANY  THEORY OF LIABILITY,  WHETHER  IN CONTRACT,  STRICT LIABILITY,  OR TORT
- (INCLUDING  NEGLIGENCE OR  OTHERWISE) ARISING IN  ANY WAY OUT OF THE  USE OF
- THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
- This software  consists of voluntary contributions made  by many individuals
- on  behalf of the Apache Software  Foundation. For more  information on the
- Apache Software Foundation, please see http://www.apache.org/.
--->
-
+<!-- stylesheet to be used -->
 <jsl:stylesheet select="$doc"
   xmlns:define="jelly:define"
   xmlns:j="jelly:core"
@@ -58,10 +10,21 @@
   xmlns:doc="doc"
   xmlns="dummy" trim="false">
   <jsl:template match="document" trim="false">
+    <j:useBean var="navbean" class="org.apache.maven.NavBean"/>
+	<j:set var="location" value="${outFile.substring(destdir.length())}"/>
+	<util:replace var="location" oldChar="\" newChar="/" value="${location}"/>
 
-    <x:doctype name="html"
-      publicId="-//CollabNet//DTD XHTML 1.0 Transitional//EN"
-      systemId="http://www.collabnet.com/dtds/collabnet_transitional_10.dtd"/>
+    <!-- Stores location for publish date / version -->
+    <j:set var="date">${maven.xdoc.date}</j:set>
+      
+	<j:setProperties 
+		object="${navbean}"
+  		document="${doc}"
+  		location="${location}"/>
+	
+	<x:doctype name="html"
+      publicId="-//W3C//DTD XHTML 1.0 Transitional//EN"
+      systemId="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"/>
 
     <html>
       <head>
@@ -76,14 +39,19 @@
         <x:if select="not($nav/title)">
           <title>${pom.name} - ${docTitle}</title>
         </x:if>
-        <j:set var="tigrisCss" value='"${relativePath}/style/tigris.css"'/>
-        <j:set var="mavenCss" value='"${relativePath}/style/maven.css"'/>
-        <j:set var="osmCss" value='"${relativePath}/style/osm.css"'/>
+        
         <style type="text/css"><![CDATA[
-          @import url(${tigrisCss});
-          @import url(${mavenCss});
-          @import url(${osmCss});
+          @import url("${relativePath}/style/tigris.css");
+          @import url("${relativePath}/style/maven.css");
         ]]></style>
+        
+        <util:file var="projectCssFile" name="${maven.docs.src}/style/project.css"/>
+        <j:if test="${projectCssFile.exists()}">
+          <style type="text/css"><![CDATA[
+            @import url("${relativePath}/style/project.css");
+          ]]></style>
+        </j:if>
+        
         <!-- FIXME: once someone works out how to stop this breaking
         <x:element name="script"><x:attribute name="type">text/javascript</x:attribute>
           if (document.layers) {
@@ -93,13 +61,23 @@
             </x:element>
         -->
         <link rel="stylesheet" type="text/css" href="${relativePath}/style/print.css" media="print"/>
+        <meta http-equiv="Content-Type" content="text/html; charset=${outputencoding}"></meta>
         <x:forEach var="author" select="./properties/author">
-          <meta name="author" value="${author.text}"/>
-          <meta name="email" value="${author.attribute('email').value}"/>
+          <meta name="author" content="${author.text}"/>
+          <meta name="email" content="${author.attribute('email').value}"/>
         </x:forEach>
+        
+        <jsl:applyTemplates select="$doc/document/head/*"/>
+        
       </head>
 
-      <body class="composite" marginwidth="0" marginheight="0">
+      <x:element name="body"><j:whitespace trim="true">
+        <x:attribute name="class">composite</x:attribute>
+        <x:forEach var="attr" select="$doc/document/body/@*">
+          <x:attribute name="${attr.name}">${attr.value}</x:attribute>
+        </x:forEach>
+        </j:whitespace>
+
         <div id="banner">
           <table border="0" cellspacing="0" cellpadding="8" width="100%" height="103">
             <tr>
@@ -126,16 +104,17 @@
                 </j:if>
               </td>
 
+              <!-- project logo and link -->
+
               <td>
                 <div align="right" id="login">
                   <a href='http://apachecon.com/2003/US/index.html'>
-                    <img border='0' src='http://www.apache.org/~ceki/ac2003/ac2003-150.gif'/>
+                    <img border='0' 
+                      src='http://www.apache.org/~ceki/ac2003/ac2003-150.gif'/>
                   </a>
                 </div>
               </td>
 
-
-              <!-- project logo and link -->
               <!--
               <td>
                 <div align="right" id="login">
@@ -145,7 +124,6 @@
                     <j:if test="${!image.startsWith('http://')}">
                       <j:set var="image" value="${relativePath}${image}"/>
                     </j:if>
-
                     <a href="${pom.url}">
                       <img src="${image}" align="right" alt="${pom.name}" border="0"/>
                     </a>
@@ -156,7 +134,6 @@
             </tr>
           </table>
         </div>
-
         <div id="breadcrumbs">
           <table border="0" cellspacing="0" cellpadding="4" width="100%">
             <tr>
@@ -184,22 +161,21 @@
             </tr>
           </table>
         </div>
-
         <!-- Body of the page -->
         <table border="0" cellspacing="0" cellpadding="8" width="100%"> <!--id="main" -->
           <tr valign="top">
-            <td id="leftcol" width="200">
+            <td id="leftcol" width="20%">
               <div id="navcolumn">
-                <j:if test="${context.findVariable('maven.xdoc.date') == 'navigation-top'}">
+                <j:if test="${date == 'navigation-top'}">
                   <div>
-                    <small>Last published: ${buildDate}</small>
+                    <small>Last published: ${build.date}</small>
                   </div>
                 </j:if>
 
                 <x:if select="$nav">
-                  <jsl:applyTemplates select="$nav/body/menu"/>
+                  <jsl:applyTemplates select="$nav/body/menu[not(@type) | @type='header'] | $nav/body/search"/>
                 </x:if>
-
+                
                 <!-- Standard Maven Navigation -->
                 <j:set var="fileName">${file}</j:set>
 
@@ -210,13 +186,11 @@
                 <j:if test="${includeProjectDocumentation.equals('yes')}">
                 <div>
                   <strong>Project Documentation</strong>
-                  <!--
                   <div>
                     <small>
-                      <a href="${relativePath}/index.html">Front Page</a>
+                      <a href="${relativePath}/index.html">About ${pom.name}</a>
                     </small>
                   </div>
-                  -->
                   <div>
                     <small>
                       <a href="${relativePath}/project-info.html">Project Info</a>
@@ -260,127 +234,41 @@
                     <small>
                       <a href="${relativePath}/maven-reports.html">Project Reports</a>
                     </small>
-                    <j:choose>
-                      <j:when test="${!pom.reports.isEmpty()}">
-                        <!--
-                         | Check to see if we need to include the report
-                         | links in this document.  The only time we
-                         | need to do this is when the current document
-                         | either the maven-reports.xml doc (the page
-                         | is displayed when clicking on Project
-                         | Reports) or when the current document is one
-                         | of the actual reports (in which case we want
-                         | to leave the project report links expanded.
-                         |-->
-                         <j:set var="includeReportLinks" value="false"/>
-                         <j:forEach var="report" items="${reports}">
-                           <j:set var="linkWithXmlExt" value="${report.link}.xml"/>
-                           <j:if test="${relativePath == '.' and (fileName.endsWith('maven-reports.xml') or fileName.endsWith(linkWithXmlExt))}">
-                            <j:set var="includeReportLinks" value="true"/>
-                          </j:if>
-                        </j:forEach>
-                        <!--
-                         | If we need to include the report links, then
-                         | do so.  This is determined by the above
-                         | block.
-                         |-->
-                        <j:if test="${includeReportLinks == 'true'}">
-                          <j:forEach var="report" items="${reports}">
-                            <div>
-                              <small>
-                                <a href="${relativePath}/${report.link}.html">
-                                  ${report.name}
-                                </a>
-                              </small>
-                            </div>
-                          </j:forEach>
-                        </j:if>
-                      </j:when>
-                      <j:otherwise>
-                        <!-- The old static method -->
-                        <util:tokenize var="projectReportFiles" delim=",">${maven.xdoc.projectReports}</util:tokenize>
-                        <j:forEach var="reportFile" items="${projectReportFiles}">
-                          <j:if test="${relativePath == '.' and fileName.endsWith(reportFile.trim())}">
-                            <util:available file="${maven.docs.src}/tasks.xml">
-                              <div>
-                                <small>
-                                  <a href="${relativePath}/tasks.html">Tasks</a>
-                                </small>
-                              </div>
-                            </util:available>
-                            <util:available file="${maven.gen.docs}/task-list.xml">
-                              <div>
-                                <small>
-                                  <a href="${relativePath}/task-list.html">Task List</a>
-                                </small>
-                              </div>
-                            </util:available>
-                            <util:available file="${maven.docs.src}/changes.xml">
-                              <div>
-                                <small>
-                                  <a href="${relativePath}/changes.html">Changes</a>
-                                </small>
-                              </div>
-                            </util:available>
-                            <j:if test="${!empty(pom.repository.connection)}">
-                              <div>
-                                <small>
-                                  <a href="${relativePath}/changelog-report.html">Change Log</a>
-                                </small>
-                              </div>
-                              <div>
-                                <small>
-                                  <a href="${relativePath}/developer-activity-report.html">Developer Activity</a>
-                                </small>
-                              </div>
-                              <div>
-                                <small>
-                                  <a href="${relativePath}/file-activity-report.html">File Activity</a>
-                                </small>
-                              </div>
-                            </j:if>
-                            <j:if test="${unitTestSourcesPresent}">
-                              <div>
-                                <small>
-                                  <a href="${relativePath}/junit-report.html">Unit Tests</a>
-                                </small>
-                              </div>
-                            </j:if>
-                            <j:if test="${sourcesPresent}">
-                              <div>
-                                <small>
-                                  <a href="${relativePath}/jdepend-report.html">Metric Results</a>
-                                </small>
-                              </div>
-                              <div>
-                                <small>
-                                  <a href="${relativePath}/checkstyle-report.html">Checkstyle Report</a>
-                                </small>
-                              </div>
-                              <div>
-                                <small>
-                                  <a href="${relativePath}/javadoc.html">Javadoc Report</a>
-                                </small>
-                              </div>
-                            </j:if>
-                            <util:available file="${maven.docs.dest}/clover">
-                              <div>
-                                <small>
-                                  <a href="${relativePath}/clover/index.html">Clover Test Coverage</a>
-                                </small>
-                              </div>
-                            </util:available>
-                            <util:available file="${maven.gen.docs}/cactus-report.xml">
-                              <div>
-                                <small>
-                                  <a href="${relativePath}/cactus-report.html">Cactus Tests</a>
-                                </small>
-                              </div>
-                            </util:available>
-                          </j:if>
-                        </j:forEach>
-                      </j:otherwise>
-                    </j:choose>
+                    
+					<!--
+                     | Check to see if we need to include the report
+                     | links in this document.  The only time we
+                     | need to do this is when the current document
+                     | either the maven-reports.xml doc (the page
+                     | is displayed when clicking on Project
+                     | Reports) or when the current document is one
+                     | of the actual reports (in which case we want
+                     | to leave the project report links expanded.
+                     |-->
+                    <j:set var="includeReportLinks" value="false"/>
+                    <j:forEach var="report" items="${reports}">
+                      <j:set var="linkWithXmlExt" value="${report.link}.xml"/>
+                      <j:if test="${relativePath == '.' and (fileName.endsWith('maven-reports.xml') or fileName.endsWith(linkWithXmlExt))}">
+                      <j:set var="includeReportLinks" value="true"/>
+                      </j:if>
+                    </j:forEach>
+                    
+                    <!--
+                     | If we need to include the report links, then
+                     | do so.  This is determined by the above
+                     | block.
+                     |-->
+                    <j:if test="${includeReportLinks == 'true'}">
+                      <j:forEach var="report" items="${reports}">
+                        <div>
+                          <small>
+                            <a href="${relativePath}/${report.link}.html">
+                              ${report.name}
+                            </a>
+                          </small>
+                        </div>
+                      </j:forEach>
+                    </j:if>
                   </div>
                   <j:if test="${pom.reports.isEmpty()}">
                     <j:if test="${sourcesPresent}">
@@ -403,7 +291,6 @@
                       </j:if>
                     </j:if>
                   </j:if>
-                  <!--
                   <j:set var="devProcess" value="false"/>
                   <util:available file="${maven.docs.src}/development-process.xml">
                     <j:set var="devProcess" value="true"/>
@@ -423,22 +310,26 @@
                       </small>
                     </div>
                   </j:if>
-                  -->
-                  <div>
-                    <small>
-                      <a href="${relativePath}/license.html">License</a>
-                    </small>
-                  </div>
                 </div>
               </j:if>
-                <j:if test="${context.findVariable('maven.xdoc.date') == 'navigation-bottom'}">
+              
+                <j:set var="poweredbyimage">${maven.xdoc.poweredby.image}</j:set>
+                <j:set var="poweredbytitle">${maven.xdoc.poweredby.title}</j:set>
+                <j:set var="poweredbyurl">${maven.xdoc.poweredby.url}</j:set>
+                <j:if test="${!empty(poweredbyimage)}">
+                	<div style="margin-top: 20px; width: 100%; text-align: center;">
+                		<a href="${poweredbyurl}" title="${poweredbytitle}"><img alt="${maven.xdoc.poweredby.title}" style="border: 1px solid black" src="${relativePath}/images/logos/${poweredbyimage}"/></a>
+                	</div>
+                </j:if>
+              
+                <j:if test="${date == 'navigation-bottom'}">
                   <div>
                     <small>Last published: ${build.date}</small>
                   </div>
                 </j:if>
               </div>
             </td>
-            <td>
+            <td rowspan="2">
               <div id="bodycol">
                 <!-- Insert MAIN body here -->
                 <div class="app">
@@ -455,34 +346,35 @@
           </tr>
         </table>
         <div id="footer">
-          <table border="0" cellspacing="0" cellpadding="4">
+          <table style='width:100%' border="0" cellspacing="0" cellpadding="4">
+            <jsl:applyTemplates select="$nav/body/footer"/>
             <tr>
               <td>
                 <j:if test="${!empty(pom.organization.name)}">
                   <j:if test="${!empty(pom.inceptionYear)}">
                     <j:if test="${pom.inceptionYear == mavenCurrentYear}">
-                      <!-- FIXME &copy; -->${mavenCurrentYear}, ${pom.organization.name}
+                      &#169; ${mavenCurrentYear}, ${pom.organization.name}
                     </j:if>
                     <j:if test="${pom.inceptionYear != mavenCurrentYear}">
-                      <!-- FIXME &copy; --> ${pom.inceptionYear}-${mavenCurrentYear}, ${pom.organization.name}
+                      &#169; ${pom.inceptionYear}-${mavenCurrentYear}, ${pom.organization.name}
                     </j:if>
                   </j:if>
                   <j:if test="${empty(pom.inceptionYear)}">
-                    <!-- FIXME &copy; --> ${mavenCurrentYear}, ${pom.organization.name}
+                    &#169; ${mavenCurrentYear}, ${pom.organization.name}
                   </j:if>
                 </j:if>
 
-                <j:if test="${context.findVariable('maven.xdoc.date') == 'bottom'}">
+                <j:if test="${date == 'bottom'}">
                   - Last published: ${build.date}
                 </j:if>
               </td>
-              <j:if test="${context.findVariable('maven.xdoc.date') == 'bottom-right'}">
-                <td align="right">Last published: ${build.date}</td>
+              <j:if test="${date == 'bottom-right'}">
+                <td style='width: auto; text-align:right'>Last published: ${build.date}</td>
               </j:if>
             </tr>
           </table>
         </div>
-      </body>
+      </x:element>
     </html>
   </jsl:template>
 
@@ -500,11 +392,23 @@
   </jsl:template>
 
   <jsl:template match="item" trim="false">
+    <x:set var="item" select="."/>
+    <x:set var="_name" select="string(@name)"/>
+    <x:set var="_link" select="string(@href)"/>
+    <x:set var="_img" select="string(@img)"/>
+
     <div>
-      <j:set var="_name"><x:expr select="@name"/></j:set>
-      <j:set var="_link"><x:expr select="@href"/></j:set>
-      <small><doc:itemLink name="${_name}" link="${_link}"/></small>
-      <jsl:applyTemplates select="item"/>
+      <small>
+      	<j:if test="${navbean.isSelected(item.get(0))}">
+      		<b><doc:itemLink name="${_name}" link="${_link}" img="${_img}"/></b>
+      	</j:if>
+      	<j:if test="${!navbean.isSelected(item.get(0))}">
+      		<doc:itemLink name="${_name}" link="${_link}" img="${_img}"/>
+      	</j:if>
+      </small>
+	  <j:if test="${!navbean.isCollapsed(item.get(0))}">
+        <jsl:applyTemplates select="item"/>
+      </j:if>
     </div>
   </jsl:template>
 
@@ -513,15 +417,37 @@
     <j:set var="linkCount" value="1"/>
     <x:forEach var="link" select="item">
       <j:if test="${linkCount != 1}">|</j:if>
-      <j:set var="_name">
-        <x:expr select="@name"/>
-      </j:set>
-      <j:set var="_link">
-        <x:expr select="@href"/>
-      </j:set>
+      <j:set var="_name"><x:expr select="@name"/></j:set>
+      <j:set var="_link"><x:expr select="@href"/></j:set>
       <doc:itemLink name="${_name}" link="${_link}"/>
       <j:set var="linkCount" value="${1+linkCount}"/>
     </x:forEach>
+  </jsl:template>
+
+  <!-- Google site search -->
+  <jsl:template match="search" trim="false">
+    <!-- Search code: http://www.google.com/searchcode.html -->
+    <!-- Google logos: http://www.google.com/stickers.html -->
+    <!-- Terms: http://www.google.com./services/terms_free.html -->
+    <div>
+      <strong>Search ${pom.name}</strong>
+      <form method="get" action="http://www.google.com/search">
+        <a class="navlink" href="http://www.google.com">
+          <img src="http://www.google.com/logos/Logo_25wht.gif" 
+               alt="Google" border="0" />
+        </a><p/>
+        <j:set var="siteURL" value="${pom.url}"/>
+        <!-- google fails on urls that end with / -->
+        <j:if test="${siteURL.endsWith('/')}">
+          <j:set var="URLLength" value="${siteURL.length() - 1}"/>
+          <j:set var="siteURL" value="${siteURL.substring(0, URLLength.intValue())}"/>
+        </j:if>
+        <input type="text" size="15" name="q" maxlength="255" value=""/>
+        <input type="submit" value="Go" name="btnG"/>
+        <input type="hidden" name="domains" value="${siteURL}"/>
+        <input type="hidden" id="search" name="sitesearch" value="${siteURL}"/>
+      </form>
+    </div>
   </jsl:template>
 
   <!-- process a documentation section -->
@@ -553,6 +479,14 @@
     <div id="source">
       <pre><x:expr select="."/></pre>
     </div>
+  </jsl:template>
+
+  <jsl:template match="footer" trim="false">
+    <tr>
+      <td>
+        <jsl:applyTemplates select="*"/>
+      </td>
+    </tr>
   </jsl:template>
 
   <jsl:template match="table" trim="false">
@@ -627,13 +561,15 @@
         <x:element name="tr"><j:whitespace trim="true">
           <x:attribute name="class">${rowMode}</x:attribute>
           <j:set var="_goalName"><x:expr select="./name" /></j:set>
-          <td width='200'><a name="${_goalName}">${_goalName}</a></td>
-          <td><jsl:applyTemplates select="description" /></td>
+          <td width='20%'><a name="${_goalName}">${_goalName}</a></td>
+          <td width='80%'><jsl:applyTemplates select="description" /></td>
 </j:whitespace></x:element>
       </jsl:template>   
       
       <jsl:template match="description">
-        <x:expr select="."/>
+        <jsl:copy trim="false">
+          <jsl:applyTemplates trim="false"/>
+        </jsl:copy>
       </jsl:template>
 
       <!--************************-->
@@ -680,6 +616,12 @@
         <br/>
       </jsl:template>
 
+  <!-- remove the space at the end of parsed "a" anchors -->
+  <jsl:template match="a" trim="false">
+    <jsl:copy trim="true">
+      <jsl:applyTemplates trim="true"/>
+    </jsl:copy>
+  </jsl:template>
 
   <!-- copy any other elements through -->
   <jsl:template match="*" trim="false">
