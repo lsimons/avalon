@@ -75,7 +75,7 @@ Legal:
   <property name="xalan.jar" value="${tools.dir}/lib/xalan-2.2.0-D8.jar"/>
   <property name="framework.jar" value="${lib.dir}/avalon-framework-20011110.jar"/>
   <property name="excalibur.jar" value="${lib.dir}/avalon-excalibur-20011120.jar"/>
-  <property name="scratchpad.jar" value="${lib.dir}/avalon-scratchpad-20011120.jar"/>
+  <property name="scratchpad.jar" value="${lib.dir}/avalon-scratchpad-20011122.jar"/>
   <property name="logkit.jar" value="${lib.dir}/logkit-1.0.jar"/>
   <property name="tools.jar" value="${java.home}/../lib/tools.jar"/>
 
