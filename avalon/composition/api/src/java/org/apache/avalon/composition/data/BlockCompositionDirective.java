@@ -17,20 +17,22 @@
 
 package org.apache.avalon.composition.data;
 
+import org.apache.avalon.repository.Artifact;
+
 /**
  * A block reference directive contains an identifier and verion of 
  * a local resource to be included by reference into 
  * a container.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.6 $ $Date: 2004/03/11 01:30:38 $
+ * @version $Revision: 1.7 $ $Date: 2004/05/01 17:03:42 $
  */
 public class BlockCompositionDirective extends DeploymentProfile
 {
     /**
      * The version identifier.
      */
-    private final ResourceDirective m_resource;
+    private final Artifact m_artifact;
 
     /**
      * Nested targets.
@@ -41,41 +43,41 @@ public class BlockCompositionDirective extends DeploymentProfile
      * Creation of a new resource directive.
      * @param name the name to assign to the container 
      *   established by the composition directive
-     * @param resource a resource reference from which a block 
+     * @param artifact an artifact from which a block 
      *   description can be resolved
      */
     public BlockCompositionDirective( 
-      final String name, ResourceDirective resource )
+      final String name, Artifact artifact )
     {
-        this( name, resource, new TargetDirective[0] );
+        this( name, artifact, new TargetDirective[0] );
     }
 
     /**
      * Creation of a new resource directive.
      * @param name the name to assign to the container 
      *   established by the composition directive
-     * @param resource a resource reference from which a block 
+     * @param artifact an artifact from which a block 
      *   description can be resolved
      */
     public BlockCompositionDirective( 
-      final String name, ResourceDirective resource, TargetDirective[] targets )
+      final String name, Artifact artifact, TargetDirective[] targets )
     {
         super( name, DeploymentProfile.ENABLED, Mode.EXPLICIT, null );
-        if( resource == null )
+        if( artifact == null )
         {
-            throw new NullPointerException( "resource" );
+            throw new NullPointerException( "artifact" );
         }
-        m_resource = resource;
+        m_artifact = artifact;
         m_targets = targets;
     }
 
     /**
-     * Return the resource reference.
-     * @return the resource
+     * Return the artifact reference.
+     * @return the artifact
      */
-    public ResourceDirective getResource()
+    public Artifact getArtifact()
     {
-        return m_resource;
+        return m_artifact;
     }
 
     /**

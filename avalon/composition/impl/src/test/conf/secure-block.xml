@@ -4,18 +4,8 @@
 
    <classloader>
      <classpath>
-       <repository>
-         <resource id="avalon-framework:avalon-framework-impl" version="@FRAMEWORK_IMPL_VERSION@"/>
-       </repository>
+       <artifact>avalon-framework/avalon-framework-impl#@FRAMEWORK_IMPL_VERSION@</artifact>
      </classpath>
-     <grant>
-       <permission class="java.util.PropertyPermission" name="org.apache" >
-         <action>read</action>
-         <action>write</action>
-       </permission>
-       <permission class="java.lang.RuntimePermission" name="getClassLoader" />
-       <permission class="java.security.AllPermission" />
-     </grant>
    </classloader>
 
 </container>

@@ -36,7 +36,6 @@ import org.apache.avalon.composition.data.ContainmentProfile;
 import org.apache.avalon.composition.data.ComponentProfile;
 import org.apache.avalon.composition.data.NamedComponentProfile;
 import org.apache.avalon.composition.data.DeploymentProfile;
-import org.apache.avalon.composition.data.ResourceDirective;
 import org.apache.avalon.composition.data.TargetDirective;
 import org.apache.avalon.composition.data.builder.XMLTargetsCreator;
 import org.apache.avalon.composition.data.builder.ContainmentProfileBuilder;
@@ -85,7 +84,7 @@ import org.apache.avalon.util.i18n.Resources;
  * as a part of a containment deployment model.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.43 $ $Date: 2004/03/17 10:39:10 $
+ * @version $Revision: 1.44 $ $Date: 2004/05/01 17:03:43 $
  */
 public class DefaultContainmentModel extends DefaultDeploymentModel 
   implements ContainmentModel
@@ -1009,20 +1008,12 @@ public class DefaultContainmentModel extends DefaultDeploymentModel
     private ContainmentModel createContainmentModel( 
       BlockCompositionDirective directive ) throws ModelException
     {
-        final String name = directive.getName();
-        final ResourceDirective resource = directive.getResource();
-        final String id = resource.getId();
-        final String group = resource.getGroup();
-        final String resourceName = resource.getName();
-        final String version = resource.getVersion();
-        final String type = resource.getType();
-        
+        final String name = directive.getName();        
         ContainmentModel model = null;
         try
         {
             Repository repository = m_context.getSystemContext().getRepository();
-            Artifact artifact = 
-              Artifact.createArtifact( group, resourceName, version, type );
+            Artifact artifact =  directive.getArtifact();
             final URL url = repository.getResource( artifact );
             model = createContainmentModel( name, url );
         }

@@ -40,8 +40,6 @@ import org.apache.avalon.composition.data.FilesetDirective;
 import org.apache.avalon.composition.data.IncludeDirective;
 import org.apache.avalon.composition.data.ExcludeDirective;
 import org.apache.avalon.composition.data.PermissionDirective;
-import org.apache.avalon.composition.data.RepositoryDirective;
-import org.apache.avalon.composition.data.ResourceDirective;
 import org.apache.avalon.composition.model.ClassLoaderModel;
 import org.apache.avalon.composition.model.TypeRepository;
 import org.apache.avalon.composition.model.ServiceRepository;
@@ -92,7 +90,7 @@ import org.apache.avalon.util.i18n.Resources;
  * and the extensions package.
  * </p>
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.18 $ $Date: 2004/04/21 03:21:04 $
+ * @version $Revision: 1.19 $ $Date: 2004/05/01 17:03:43 $
  */
 public class DefaultClassLoaderModel extends AbstractLogEnabled 
     implements ClassLoaderModel
@@ -440,46 +438,14 @@ public class DefaultClassLoaderModel extends AbstractLogEnabled
             }
         }
 
-        RepositoryDirective[] repositories = 
-          directive.getClasspathDirective().getRepositoryDirectives();
+        Artifact[] artifacts = 
+          directive.getClasspathDirective().getArtifacts();
 
-        if( repositories.length > 0 ) 
+        for( int i=0; i<artifacts.length; i++ )
         {
-            if( getLogger().isDebugEnabled() )
-            {
-                getLogger().debug( 
-                  "repository declarations: " 
-                  + repositories.length );
-            }
-        }
-
-        for( int i=0; i<repositories.length; i++ )
-        {
-            ResourceDirective[] resources = repositories[i].getResources();
-            if( getLogger().isDebugEnabled() )
-            {
-                getLogger().debug( "repository " + i 
-                + " contains " 
-                + resources.length 
-                + " entries." );
-            }
-
-            for( int j=0; j<resources.length; j++ )
-            {
-                ResourceDirective resource = resources[j];
-                String id = resource.getId();
-                String version = resource.getVersion();
-                if( resource.getType().equals( "jar" ) )
-                {
-                  URL url = repository.getResource(
-                    Artifact.createArtifact(
-                      resource.getGroup(),
-                      resource.getName(),
-                      resource.getVersion(),
-                      resource.getType() ) );
-                    classpath.add( url.toString() );
-                }
-            }
+            Artifact artifact = artifacts[i];
+            URL url = repository.getResource( artifact );
+            classpath.add( url.toString() );
         }
 
         return (String[]) classpath.toArray( new String[0] );

@@ -28,7 +28,7 @@ import java.net.URL;
  * properties.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.8 $
+ * @version $Revision: 1.9 $
  */
 public class Artifact implements Serializable
 {
@@ -242,7 +242,7 @@ public class Artifact implements Serializable
 
     /**
      * Gets the artifact specification for this Artifact
-     * in the form <group>[:<name>][;<version>].
+     * in the form [group]/[name]#[version].
      * 
      * @return the artifact specification
      */
@@ -252,17 +252,14 @@ public class Artifact implements Serializable
         final String name = getName();
 
         StringBuffer buffer = new StringBuffer() ;
-        buffer.append( getGroup() ) ;
-        if( !name.equals( group ) )
-        {
-            buffer.append( ':' ) ;
-            buffer.append( name ) ;
-        }
-
+        buffer.append( group );
+        buffer.append( SEP );
+        buffer.append( name );
+        
         String version = getVersion();
         if( version != null )
         {
-            buffer.append( ';' ) ;
+            buffer.append( '#' ) ;
             buffer.append( version ) ;
         }
 
@@ -308,15 +305,11 @@ public class Artifact implements Serializable
     {
         if( "block".equals( getType() ) )
         {
-            String path = "block:" + getGroup() + "/" + getName();
-            if( getVersion() != null ) path = path + "#" + getVersion();
-            return path;
+            return "block:" + getSpecification();
         }
         else if( "jar".equals( getType() ) )
         {
-            String path = "artifact:" + getGroup() + "/" + getName();
-            if( getVersion() != null ) path = path + "#" + getVersion();
-            return path;
+            return "artifact:" + getSpecification();
         }
         else
         {

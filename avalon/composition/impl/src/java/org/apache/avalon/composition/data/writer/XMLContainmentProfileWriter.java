@@ -30,18 +30,18 @@ import org.apache.avalon.composition.data.ComponentProfile;
 import org.apache.avalon.composition.data.ClassLoaderDirective;
 import org.apache.avalon.composition.data.ClasspathDirective;
 import org.apache.avalon.composition.data.LibraryDirective;
-import org.apache.avalon.composition.data.ResourceDirective;
-import org.apache.avalon.composition.data.RepositoryDirective;
 import org.apache.avalon.composition.data.ServiceDirective;
 import org.apache.avalon.composition.data.FilesetDirective;
 import org.apache.avalon.composition.data.IncludeDirective;
 import org.apache.avalon.composition.data.ExcludeDirective;
 
+import org.apache.avalon.repository.Artifact;
+
 /**
  * Write {@link ContainmentProfile} objects to a stream as xml documents.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.5 $ $Date: 2004/04/16 20:12:34 $
+ * @version $Revision: 1.6 $ $Date: 2004/05/01 17:03:43 $
  */
 public class XMLContainmentProfileWriter extends XMLComponentProfileWriter
 {
@@ -239,43 +239,12 @@ public class XMLContainmentProfileWriter extends XMLComponentProfileWriter
             }
         }
 
-        RepositoryDirective[] repositories = classpath.getRepositoryDirectives();
-        if( repositories.length > 0 )
+        Artifact[] artifacts = classpath.getArtifacts();
+        for( int i=0; i<artifacts.length; i++ )
         {
-            for( int i=0; i<repositories.length; i++ )
-            {
-                writeRepositoryDirective( writer, repositories[i], padding );
-            }
+            writeArtifactDirective( writer, artifacts[i], padding );
         }
-
         writer.write( "\n" + pad + "</classpath>" );
-    }
-
-    /**
-     * Write out xml representation of a repository.
-     *
-     * @param writer the writer
-     * @param repository the repository directives
-     * @param pad character offset
-     * @throws IOException if unable to write xml
-     */
-    private void writeRepositoryDirective( 
-      final Writer writer, 
-      final RepositoryDirective repository,
-      String pad )
-      throws IOException
-    {
-        ResourceDirective[] resources = repository.getResources();
-        if( resources.length > 0 )
-        {
-            final String padding = pad + INDENT;
-            writer.write( "\n" + pad + "<repository>" );
-            for( int i=0; i<resources.length; i++ )
-            {
-                writeResourceDirective( writer, resources[i], padding  );
-            }
-            writer.write( "\n" + pad + "</repository>" );
-        }
     }
 
     /**
@@ -320,25 +289,17 @@ public class XMLContainmentProfileWriter extends XMLComponentProfileWriter
      * Write out xml representation of the classloader
      *
      * @param writer the writer
-     * @param resource a resource directive
+     * @param artifact an artifact directive
      * @param pad character offset
      * @throws IOException if unable to write xml
      */
-    private void writeResourceDirective( 
-      final Writer writer, final ResourceDirective resource, String pad )
+    private void writeArtifactDirective( 
+      final Writer writer, final Artifact artifact, String pad )
       throws IOException
     {
-        writer.write( "\n" + pad + "<resource" );
-        writer.write( " id=\"" + resource.getId() + "\"" );
-        if( resource.getVersion() != null )
-        {
-            writer.write( " version=\"" + resource.getVersion() + "\"" );
-            if( !resource.getType().equals( "jar" ) )
-            {
-                writer.write( " type=\"" + resource.getType() + "\"" );
-            }
-        }
-        writer.write( "/>" );
+        writer.write( "\n" + pad + "<artifact>" );
+        writer.write( artifact.getSpecification() );
+        writer.write( "</artifact>" );
     }
 
     /**
@@ -406,7 +367,9 @@ public class XMLContainmentProfileWriter extends XMLComponentProfileWriter
     {
         writer.write( "\n" + pad + "<include name=\"" );
         writer.write( directive.getName() + "\" id=\"" );
-        writer.write( directive.getResource().getId() + "\" version=\"" );
-        writer.write( directive.getResource().getVersion() + "\"/>" );
+        writer.write( directive.getArtifact().getGroup() );
+        writer.write( "/" );
+        writer.write( directive.getArtifact().getName() + "\" version=\"" );
+        writer.write( directive.getArtifact().getVersion() + "\"/>" );
     }
 }
