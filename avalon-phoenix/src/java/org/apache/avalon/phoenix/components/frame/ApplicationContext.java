@@ -16,14 +16,14 @@ import org.apache.avalon.phoenix.metadata.SarMetaData;
 import org.apache.log.Logger;
 
 /**
- * Manage the "frame" in which Applications operate.
+ * Manage the "context" in which Applications operate.
  *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
-public interface ApplicationFrame
+public interface ApplicationContext
     extends Component
 {
-    String ROLE = "org.apache.avalon.phoenix.components.frame.ApplicationFrame";
+    String ROLE = "org.apache.avalon.phoenix.components.frame.ApplicationContext";
 
     SarMetaData getMetaData();
     ThreadContext getThreadContext();

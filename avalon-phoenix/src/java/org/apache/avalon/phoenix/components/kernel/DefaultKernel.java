@@ -23,8 +23,8 @@ import org.apache.avalon.framework.logger.AbstractLoggable;
 import org.apache.avalon.phoenix.components.application.Application;
 import org.apache.avalon.phoenix.components.application.DefaultServerApplication;
 import org.apache.avalon.phoenix.components.configuration.ConfigurationRepository;
-import org.apache.avalon.phoenix.components.frame.ApplicationFrame;
-import org.apache.avalon.phoenix.components.frame.DefaultApplicationFrame;
+import org.apache.avalon.phoenix.components.frame.ApplicationContext;
+import org.apache.avalon.phoenix.components.frame.DefaultApplicationContext;
 import org.apache.avalon.phoenix.components.manager.SystemManager;
 import org.apache.avalon.phoenix.metadata.SarMetaData;
 import org.apache.log.Hierarchy;
@@ -118,7 +118,7 @@ public class DefaultKernel
                 application = new DefaultServerApplication();
                 setupLogger( application, name );
 
-                final ApplicationFrame frame = createApplicationFrame( entry );
+                final ApplicationContext frame = createApplicationContext( entry );
                 application.setup( frame );
 
                 application.initialize();
@@ -175,24 +175,24 @@ public class DefaultKernel
         }
     }
 
-    private ApplicationFrame createApplicationFrame( final SarEntry entry )
+    private ApplicationContext createApplicationContext( final SarEntry entry )
         throws Exception
     {
-        final DefaultApplicationFrame frame =
-            new DefaultApplicationFrame( entry.getMetaData(), 
-                                         entry.getClassLoader(),
-                                         entry.getHierarchy() );
+        final DefaultApplicationContext context =
+            new DefaultApplicationContext( entry.getMetaData(), 
+                                           entry.getClassLoader(),
+                                           entry.getHierarchy() );
 
         setupLogger( entry.getApplication(), entry.getMetaData().getName() + ".frame" );
 
-        if( frame instanceof Composable )
+        if( context instanceof Composable )
         {
             final ComponentManager componentManager = createComponentManager();
-            ((Composable)frame).compose( componentManager );
+            ((Composable)context).compose( componentManager );
         }
 
-        frame.configure( entry.getConfiguration() );
-        return frame;
+        context.configure( entry.getConfiguration() );
+        return context;
     }
 
     private ComponentManager createComponentManager()

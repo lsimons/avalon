@@ -16,7 +16,7 @@ import org.apache.avalon.excalibur.lang.ThreadContext;
 import org.apache.avalon.framework.logger.AbstractLoggable;
 import org.apache.avalon.phoenix.Block;
 import org.apache.avalon.phoenix.BlockListener;
-import org.apache.avalon.phoenix.components.frame.ApplicationFrame;
+import org.apache.avalon.phoenix.components.frame.ApplicationContext;
 import org.apache.avalon.phoenix.metadata.BlockListenerMetaData;
 import org.apache.avalon.phoenix.metadata.BlockMetaData;
 
@@ -38,13 +38,13 @@ public final class DefaultServerApplication
     private static final String  PHASE_SHUTDOWN = "shutdown";
 
     //these are the facilities (internal components) of ServerApplication
-    private ApplicationFrame  m_frame;
+    private ApplicationContext  m_frame;
 
     private LifecycleHelper   m_lifecycle;
 
     private HashMap           m_entrys = new HashMap();
 
-    public void setup( final ApplicationFrame frame )
+    public void setup( final ApplicationContext frame )
     {
         m_frame = frame;
         m_lifecycle = new LifecycleHelper( this, m_frame );

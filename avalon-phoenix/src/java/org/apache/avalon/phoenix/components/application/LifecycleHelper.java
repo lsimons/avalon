@@ -29,7 +29,7 @@ import org.apache.avalon.phoenix.BlockContext;
 import org.apache.avalon.phoenix.BlockEvent;
 import org.apache.avalon.phoenix.BlockListener;
 import org.apache.avalon.phoenix.components.frame.DefaultBlockContext;
-import org.apache.avalon.phoenix.components.frame.ApplicationFrame;
+import org.apache.avalon.phoenix.components.frame.ApplicationContext;
 import org.apache.avalon.phoenix.metadata.BlockMetaData;
 import org.apache.avalon.phoenix.metadata.BlockListenerMetaData;
 import org.apache.avalon.phoenix.metadata.DependencyMetaData;
@@ -65,7 +65,7 @@ class LifecycleHelper
     private final static int TYPE_LISTENER  = 1;
 
     ///Frame in which block executes
-    private ApplicationFrame     m_frame;
+    private ApplicationContext   m_frame;
 
     /**
      * The Application which this phase is associated with.
@@ -86,7 +86,7 @@ class LifecycleHelper
      * @param frame the frame in which this helper operates
      */
     protected LifecycleHelper( final Application application,
-                               final ApplicationFrame frame )
+                               final ApplicationContext frame )
     {
         m_application = application;
         m_frame = frame;

@@ -11,7 +11,7 @@ import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.activity.Startable;
-import org.apache.avalon.phoenix.components.frame.ApplicationFrame;
+import org.apache.avalon.phoenix.components.frame.ApplicationContext;
 import org.apache.avalon.phoenix.Block;
 
 /**
@@ -29,7 +29,7 @@ public interface Application
 {
     String ROLE = "org.apache.avalon.phoenix.components.application.Application";
 
-    void setup( ApplicationFrame frame );
+    void setup( ApplicationContext frame );
     String[] getBlockNames();
     Block getBlock( String name );
 }

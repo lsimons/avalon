@@ -31,11 +31,11 @@ public class DefaultBlockContext
     private static final Resources REZ =
         ResourceManager.getPackageResources( DefaultBlockContext.class );
 
-    private ApplicationFrame  m_frame;
-    private Logger            m_logger;
-    private boolean           m_warningEmitted;
+    private ApplicationContext  m_frame;
+    private Logger              m_logger;
+    private boolean             m_warningEmitted;
 
-    public DefaultBlockContext( final String name, final ApplicationFrame frame )
+    public DefaultBlockContext( final String name, final ApplicationContext frame )
     {
         super( (Context)null );
         m_frame = frame;
