@@ -20,7 +20,6 @@ package org.apache.avalon.fortress.test;
 import junit.framework.TestCase;
 import org.apache.avalon.fortress.MetaInfoEntry;
 import org.apache.avalon.fortress.RoleEntry;
-import org.apache.avalon.fortress.util.Service;
 import org.apache.avalon.fortress.impl.handler.FactoryComponentHandler;
 import org.apache.avalon.fortress.impl.handler.PerThreadComponentHandler;
 import org.apache.avalon.fortress.impl.handler.PoolableComponentHandler;
