@@ -1,15 +1,20 @@
-<?xml version="1.0" encoding="UTF-8"?>
-      <!DOCTYPE book PUBLIC "-//APACHE//DTD Cocoon Documentation Book V1.0//EN" "book-cocoon-v10.dtd">
+<?xml version="1.0"?>
 
-<book software="Excalibur logger" title="Excalibur logger" copyright="@year@ The Apache Software Foundation" xmlns:xlink="http://www.w3.org/1999/xlink">
+<book software="Excalibur Logger"
+      title="Avalon Excalibur Documentation - Logger"
+      copyright="@year@ The Apache Software Foundation">
 
+  <project label="Back to Avalon" href="@AVALON_BASE@" />
+  <project label="Back to Excalibur" href="../index.html" />
 
   <menu label="About">
-    <menu-item href="index.html" label="Overview"/>
-    <menu-item href="http://avalon.apache.org/excalibur/index.html" label="Excalibur Home"/>
-    <menu-item href="http://avalon.apache.org/bindownload.cgi" label="Download"/>
-    <menu-item label="API Docs" href="http://avalon.apache.org/excalibur/logger/api/"/>
+    <menu-item label="Overview" href="index.html"/>
+    <menu-item type="external" id="ExcaliburHome" label="Excalibur Home" href="http://jakarta.apache.org/avalon/excalibur/index.html"/>    
+    <menu-item type="external" id="downloads" label="Download" href="http://jakarta.apache.org/builds/jakarta-avalon/apps"/>
+    <menu-item type="external" id="api-docs" label="API Docs" href="api/index.html"/>
 
   </menu>
 
 </book>
+
+

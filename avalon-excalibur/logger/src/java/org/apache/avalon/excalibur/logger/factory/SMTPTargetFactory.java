@@ -1,62 +1,20 @@
 /*
-
- ============================================================================
-                   The Apache Software License, Version 1.1
- ============================================================================
-
- Copyright (C) 1999-2003 The Apache Software Foundation. All rights reserved.
-
- Redistribution and use in source and binary forms, with or without modifica-
- tion, are permitted provided that the following conditions are met:
-
- 1. Redistributions of  source code must  retain the above copyright  notice,
-    this list of conditions and the following disclaimer.
-
- 2. Redistributions in binary form must reproduce the above copyright notice,
-    this list of conditions and the following disclaimer in the documentation
-    and/or other materials provided with the distribution.
-
- 3. The end-user documentation included with the redistribution, if any, must
-    include  the following  acknowledgment:  "This product includes  software
-    developed  by the  Apache Software Foundation  (http://www.apache.org/)."
-    Alternately, this  acknowledgment may  appear in the software itself,  if
-    and wherever such third-party acknowledgments normally appear.
-
- 4. The names "Jakarta", "Avalon", "Excalibur" and "Apache Software Foundation"
-    must not be used to endorse or promote products derived from this  software
-    without  prior written permission. For written permission, please contact
-    apache@apache.org.
-
- 5. Products  derived from this software may not  be called "Apache", nor may
-    "Apache" appear  in their name,  without prior written permission  of the
-    Apache Software Foundation.
-
- THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES,
- INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
- FITNESS  FOR A PARTICULAR  PURPOSE ARE  DISCLAIMED.  IN NO  EVENT SHALL  THE
- APACHE SOFTWARE  FOUNDATION  OR ITS CONTRIBUTORS  BE LIABLE FOR  ANY DIRECT,
- INDIRECT, INCIDENTAL, SPECIAL,  EXEMPLARY, OR CONSEQUENTIAL  DAMAGES (INCLU-
- DING, BUT NOT LIMITED TO, PROCUREMENT  OF SUBSTITUTE GOODS OR SERVICES; LOSS
- OF USE, DATA, OR  PROFITS; OR BUSINESS  INTERRUPTION)  HOWEVER CAUSED AND ON
- ANY  THEORY OF LIABILITY,  WHETHER  IN CONTRACT,  STRICT LIABILITY,  OR TORT
- (INCLUDING  NEGLIGENCE OR  OTHERWISE) ARISING IN  ANY WAY OUT OF THE  USE OF
- THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
- This software  consists of voluntary contributions made  by many individuals
- on  behalf of the Apache Software  Foundation. For more  information on the
- Apache Software Foundation, please see <http://www.apache.org/>.
-
-*/
+ * Copyright (C) The Apache Software Foundation. All rights reserved.
+ *
+ * This software is published under the terms of the Apache Software License
+ * version 1.1, a copy of which has been included  with this distribution in
+ * the LICENSE.txt file.
+ */
 package org.apache.avalon.excalibur.logger.factory;
 
-import javax.mail.Address;
 import javax.mail.Session;
+import javax.mail.Address;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
+
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.context.ContextException;
-import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.log.LogTarget;
 import org.apache.log.format.Formatter;
 import org.apache.log.output.net.SMTPOutputLogTarget;
@@ -97,7 +55,7 @@ import org.apache.log.output.net.SMTPOutputLogTarget;
  * <p>
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Revision: 1.12 $ $Date: 2003/05/27 07:30:28 $
+ * @version CVS $Revision: 1.1 $ $Date: 2002/05/23 19:42:55 $
  * @since 4.1
  */
 public class SMTPTargetFactory
@@ -106,17 +64,22 @@ public class SMTPTargetFactory
     /**
      * Creates an SMTPOutputLogTarget based on a Configuration
      *
-     * @param config a <code>Configuration</code> instance
+     * @param configuration a <code>Configuration</code> instance
      * @return <code>LogTarget</code> instance
      * @exception ConfigurationException if an error occurs
      */
     public final LogTarget createTarget( final Configuration config )
         throws ConfigurationException
     {
+        if( m_context == null )
+        {
+            throw new ConfigurationException( "Context not available" );
+        }
+
         try
         {
             return new SMTPOutputLogTarget(
-                getSession( config ),
+                getSession(),
                 getToAddresses( config ),
                 getFromAddress( config ),
                 getSubject( config ),
@@ -155,45 +118,19 @@ public class SMTPTargetFactory
     }
 
     /**
-     * Helper method to create a JavaMail <code>Session</code> object.
-     *
-     * If your session object has simple needs, you can nest a configuration element
-     * named <b>session</b> containing name-value pairs that are passed to
-     * <code>Session.getInstance()</code>.
-     *
-     * If no configuration is found, a <code>Session</code> will be loaded from this
-     * factory's context object.
-     *
-     * You can override this method if you need ot obtain the JavaMail session using
-     * some other means.
+     * Helper method to obtain the JavaMail <code>Session</code> object
+     * from this factories context object. Override this method if you
+     * need to obtain the JavaMail session using some other way.
      *
      * @return JavaMail <code>Session</code> instance
      * @exception ContextException if an error occurs
-     * @exception ConfigurationException if invalid session configuration
      */
-    protected Session getSession( Configuration config )
-        throws ContextException, ConfigurationException
+    protected Session getSession()
+        throws ContextException
     {
-        final Configuration sessionConfig = config.getChild( "session", false );
-
-        if( null == sessionConfig )
-        {
-            final String contextkey =
-                m_configuration.getAttribute( "context-key", "session-context" );
-
-            if( m_context == null )
-            {
-                throw new ConfigurationException( "Context not available" );
-            }
-
-            return (Session)m_context.get( contextkey );
-        }
-        else
-        {
-            return Session.getInstance(
-                Parameters.toProperties(
-                    Parameters.fromConfiguration( sessionConfig ) ) );
-        }
+        final String contextkey =
+            m_configuration.getAttribute( "context-key", "session-context" );
+        return (Session) m_context.get( contextkey );
     }
 
     /**
@@ -223,7 +160,7 @@ public class SMTPTargetFactory
     }
 
     /**
-     * Helper method to obtain the <i>to</i> address/es from the
+     * Helper method to obtain the <i>to</i> address/es from the 
      * given configuration.
      *
      * @param config <code>Configuration</code> instance
@@ -235,11 +172,11 @@ public class SMTPTargetFactory
         throws ConfigurationException, AddressException
     {
         final Configuration[] toAddresses = config.getChildren( "to" );
-        final Address[] addresses = new Address[ toAddresses.length ];
+        final Address[] addresses = new Address[toAddresses.length];
 
-        for( int i = 0; i < toAddresses.length; ++i )
+        for (int i = 0; i < toAddresses.length; ++i)
         {
-            addresses[ i ] = createAddress( toAddresses[ i ].getValue() );
+            addresses[i] = createAddress( toAddresses[i].getValue() );
         }
 
         return addresses;

@@ -1,59 +1,18 @@
 /*
-
- ============================================================================
-                   The Apache Software License, Version 1.1
- ============================================================================
-
- Copyright (C) 1999-2003 The Apache Software Foundation. All rights reserved.
-
- Redistribution and use in source and binary forms, with or without modifica-
- tion, are permitted provided that the following conditions are met:
-
- 1. Redistributions of  source code must  retain the above copyright  notice,
-    this list of conditions and the following disclaimer.
-
- 2. Redistributions in binary form must reproduce the above copyright notice,
-    this list of conditions and the following disclaimer in the documentation
-    and/or other materials provided with the distribution.
-
- 3. The end-user documentation included with the redistribution, if any, must
-    include  the following  acknowledgment:  "This product includes  software
-    developed  by the  Apache Software Foundation  (http://www.apache.org/)."
-    Alternately, this  acknowledgment may  appear in the software itself,  if
-    and wherever such third-party acknowledgments normally appear.
-
- 4. The names "Jakarta", "Avalon", "Excalibur" and "Apache Software Foundation"
-    must not be used to endorse or promote products derived from this  software
-    without  prior written permission. For written permission, please contact
-    apache@apache.org.
-
- 5. Products  derived from this software may not  be called "Apache", nor may
-    "Apache" appear  in their name,  without prior written permission  of the
-    Apache Software Foundation.
-
- THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES,
- INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
- FITNESS  FOR A PARTICULAR  PURPOSE ARE  DISCLAIMED.  IN NO  EVENT SHALL  THE
- APACHE SOFTWARE  FOUNDATION  OR ITS CONTRIBUTORS  BE LIABLE FOR  ANY DIRECT,
- INDIRECT, INCIDENTAL, SPECIAL,  EXEMPLARY, OR CONSEQUENTIAL  DAMAGES (INCLU-
- DING, BUT NOT LIMITED TO, PROCUREMENT  OF SUBSTITUTE GOODS OR SERVICES; LOSS
- OF USE, DATA, OR  PROFITS; OR BUSINESS  INTERRUPTION)  HOWEVER CAUSED AND ON
- ANY  THEORY OF LIABILITY,  WHETHER  IN CONTRACT,  STRICT LIABILITY,  OR TORT
- (INCLUDING  NEGLIGENCE OR  OTHERWISE) ARISING IN  ANY WAY OUT OF THE  USE OF
- THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
- This software  consists of voluntary contributions made  by many individuals
- on  behalf of the Apache Software  Foundation. For more  information on the
- Apache Software Foundation, please see <http://www.apache.org/>.
-
-*/
+ * Copyright (C) The Apache Software Foundation. All rights reserved.
+ *
+ * This software is published under the terms of the Apache Software License
+ * version 1.1, a copy of which has been included  with this distribution in
+ * the LICENSE.txt file.
+ */
 package org.apache.avalon.excalibur.logger;
 
+import java.util.HashMap;
+import java.util.Map;
 import org.apache.avalon.framework.logger.Log4JLogger;
-import org.apache.avalon.framework.logger.LogEnabled;
 import org.apache.avalon.framework.logger.Logger;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.spi.LoggerRepository;
+import org.apache.log4j.Category;
+import org.apache.log4j.Hierarchy;
 
 /**
  * Log4JLoggerManager implementation.  This is the interface used to get instances of
@@ -61,146 +20,105 @@ import org.apache.log4j.spi.LoggerRepository;
  * leaves that as an excercise for Log4J's construction.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @author <a href="http://cvs.apache.org/~atagunov">Anton Tagunov</a>
- * @version CVS $Revision: 1.18 $ $Date: 2003/06/12 18:57:45 $
+ * @version CVS $Revision: 1.1 $ $Date: 2002/04/04 02:34:14 $
  * @since 4.1
  */
-public class Log4JLoggerManager extends AbstractLoggerManager
-    implements LoggerManager, LogEnabled
+public class Log4JLoggerManager
+    implements LoggerManager
 {
-    /** The hierarchy private to Log4JManager */
-    private final LoggerRepository m_hierarchy;
+    /** Map for name to logger mapping */
+    final private Map m_loggers = new HashMap();
+
+    /** The root logger to configure */
+    private String m_prefix;
+
+    /** The hierarchy private to LogKitManager */
+    private Hierarchy m_hierarchy;
+
+    /** The default logger used for this system */
+    final private Logger m_defaultLogger;
 
     /**
-     * Creates a new <code>DefaultLog4JManager</code>. It will use a new <code>Hierarchy</code>.
+     * Creates a new <code>DefaultLogKitManager</code>. It will use a new <code>Hierarchy</code>.
      */
     public Log4JLoggerManager()
     {
-        this( LogManager.getLoggerRepository() );
+        this( Category.getDefaultHierarchy() );
     }
 
     /**
-     * Creates a new <code>DefaultLog4JManager</code> with an existing <code>Hierarchy</code>.
+     * Creates a new <code>DefaultLogKitManager</code> with an existing <code>Hierarchy</code>.
      */
-    public Log4JLoggerManager( final LoggerRepository hierarchy )
+    public Log4JLoggerManager( final Hierarchy hierarchy )
     {
-        this( (String) null, hierarchy, (String) null, (Logger) null, (Logger) null );
+        this( null, hierarchy );
     }
 
     /**
-     * Creates a new <code>DefaultLog4JManager</code> using
+     * Creates a new <code>DefaultLogKitManager</code> using
      * specified logger name as root logger.
      */
     public Log4JLoggerManager( final String prefix )
     {
-        this( prefix, (LoggerRepository) null, (String) null, (Logger) null, (Logger) null );
+        this( prefix, Category.getDefaultHierarchy() );
     }
 
     /**
-     * Creates a new <code>DefaultLog4JManager</code> with an existing <code>Hierarchy</code> using
+     * Creates a new <code>DefaultLogKitManager</code> with an existing <code>Hierarchy</code> using
      * specified logger name as root logger.
      */
-    public Log4JLoggerManager( final String prefix,
-                               final LoggerRepository hierarchy )
+    public Log4JLoggerManager( final String prefix, final Hierarchy hierarchy )
     {
-        this( prefix, hierarchy, (String) null, (Logger) null, (Logger) null );
+        this( prefix, hierarchy,
+              new Log4JLogger( hierarchy.getInstance( "" ) ) );
     }
 
     /**
-     * Creates a new <code>DefaultLog4JManager</code> using
+     * Creates a new <code>DefaultLogKitManager</code> with an existing <code>Hierarchy</code> using
      * specified logger name as root logger.
      */
-    public Log4JLoggerManager( final String prefix, final String switchToCategory )
+    public Log4JLoggerManager( final String prefix, final Hierarchy hierarchy, final Logger defaultLogger )
     {
-        this( prefix, (LoggerRepository) null, switchToCategory, (Logger) null, (Logger) null );
+        m_prefix = prefix;
+        m_hierarchy = hierarchy;
+        m_defaultLogger = defaultLogger;
     }
 
     /**
-     * Creates a new <code>DefaultLog4JManager</code> with an existing <code>Hierarchy</code> using
-     * specified logger name as root logger.
+     * Retrieves a Logger from a category name. Usually
+     * the category name refers to a configuration attribute name.  If
+     * this LogKitManager does not have the match the default Logger will
+     * be returned and a warning is issued.
+     *
+     * @param categoryName  The category name of a configured Logger.
+     * @return the Logger.
      */
-    public Log4JLoggerManager( final String prefix,
-                               final LoggerRepository hierarchy,
-                               final String switchToCategory )
+    public final Logger getLoggerForCategory( final String categoryName )
     {
-        this( prefix, hierarchy, switchToCategory, (Logger) null, (Logger) null );
-    }
+        Logger logger = (Logger)m_loggers.get( categoryName );
 
-    /**
-     * Creates a new <code>DefaultLog4JManager</code> with an existing <code>Hierarchy</code> using
-     * specified logger name as root logger.
-     */
-    public Log4JLoggerManager( final String prefix,
-                               final LoggerRepository hierarchy,
-                               final Logger defaultLogger )
-    {
-        this( prefix, hierarchy, (String) null, defaultLogger, defaultLogger );
-    }
-
-    /**
-     * Creates a new <code>DefaultLog4JManager</code> with an existing <code>Hierarchy</code> using
-     * specified logger name as root logger.
-     */
-    public Log4JLoggerManager( final String prefix,
-                               final LoggerRepository hierarchy,
-                               final Logger defaultLogger,
-                               final Logger logger )
-    {
-        this( prefix, hierarchy, (String) null, defaultLogger, logger );
-    }
-
-    /**
-     * Creates a new <code>DefaultLog4JManager</code>.
-     * @param prefix to prepend to every category name on 
-     *         <code>getLoggerForCategory()</code>
-     * @param hierarchy a Log4J LoggerRepository to run with
-     * @param switchToCategory if this parameter is not null
-     *         after <code>start()</code>
-     *         <code>LogKitLoggerManager</code> will start
-     *         to log its own debug and error messages to
-     *         a logger obtained via
-     *         <code>this.getLoggerForCategory( switchToCategory )</code>.
-     *         Note that prefix will be prepended to
-     *         the value of <code>switchToCategory</code> also.
-     * @param defaultLogger the logger to override the default
-     *         logger configured by Log4J; probably should be
-     *         null to allow users set up whatever logger they
-     *         like as the root logger via Log4J configuration
-     * @param logger the logger to log our own initialization
-     *         messages (currently we have none) and to log
-     *         errors (currently this functionality is not used
-     *         either)
-     */
-    public Log4JLoggerManager( final String prefix,
-                               final LoggerRepository hierarchy,
-                               final String switchToCategory,
-                               final Logger defaultLogger,
-                               final Logger logger )
-    {
-        super( prefix, switchToCategory, defaultLogger );
-
-        if ( hierarchy == null )
+        if( null != logger )
         {
-            // is this an analog of new Hierarchy() or an
-            // analog of Hierarchy.getDefaultHierarchy()?
-            // we should have an analog of new Hierarchy() here
-            // I guess - Anton Tagunov
-            m_hierarchy = LogManager.getLoggerRepository();
-        }
-        else
-        {
-            m_hierarchy = hierarchy;
+            if( m_defaultLogger.isDebugEnabled() )
+            {
+                m_defaultLogger.debug( "Logger for category " + categoryName + " returned" );
+            }
+            return logger;
         }
 
-        if ( logger != null )
+        if( m_defaultLogger.isDebugEnabled() )
         {
-            this.enableLogging( logger );
+            m_defaultLogger.debug( "Logger for category " + categoryName
+                                   + " not defined in configuration. New Logger created and returned" );
         }
+
+        logger = new Log4JLogger( m_hierarchy.getInstance( categoryName ) );
+        m_loggers.put( categoryName, logger );
+        return logger;
     }
 
-    /* Actaully create the Logger */
-    protected Logger doGetLoggerForCategory( final String fullCategoryName )
+    public final Logger getDefaultLogger()
     {
-        return new Log4JLogger( m_hierarchy.getLogger( fullCategoryName ) );
+        return m_defaultLogger;
     }
 }

@@ -49,9 +49,11 @@
 */
 package org.apache.avalon.excalibur.logger.log4j;
 
-import org.apache.avalon.framework.configuration.Configurable;
+import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.configuration.Configuration;
+import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.ConfigurationException;
+import org.apache.log4j.spi.LoggerRepository;
 import org.apache.avalon.framework.configuration.ConfigurationUtil;
 import org.apache.log4j.Hierarchy;
 import org.apache.log4j.Level;
@@ -81,7 +83,7 @@ import org.w3c.dom.NodeList;
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="http://cvs.apache.org/~atagunov">Anton Tagunov</a>
- * @version CVS $Revision: 1.2 $ $Date: 2003/06/12 18:57:45 $
+ * @version CVS $Revision: 1.1 $ $Date: 2003/06/11 10:52:10 $
  * @since 4.0
  */
 public class Log4JConfAdapter extends Log4JAdapter implements Configurable

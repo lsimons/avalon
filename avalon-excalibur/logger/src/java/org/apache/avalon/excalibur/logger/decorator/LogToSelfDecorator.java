@@ -73,7 +73,7 @@ import org.apache.avalon.excalibur.logger.util.LoggerSwitch;
  * a recursion error happens.
  *
  * @author <a href="http://cvs.apache.org/~atagunov">Anton Tagunov</a>
- * @version CVS $Revision: 1.2 $ $Date: 2003/06/11 12:07:12 $
+ * @version CVS $Revision: 1.1 $ $Date: 2003/06/11 10:52:10 $
  * @since 4.0
  */
 public class LogToSelfDecorator extends LoggerManagerDecorator
@@ -147,12 +147,7 @@ public class LogToSelfDecorator extends LoggerManagerDecorator
         final Logger preferred = m_loggerManager.getLoggerForCategory( m_switchTo );
         if ( m_logger.isDebugEnabled() )
         {
-            /**
-             * We have to identify ourselves now via 'LogToSelfDecorator:'
-             * because we are likely to be logging to a shared bootstrap
-             * logger, not to a dedicated category Logger.
-             */
-            final String message = "LogToSelfDecorator: switching logging to '" + 
+            final String message = "LoggerManager: switching logging to '" + 
                     m_switchTo + "'";
             m_logger.debug( message );
         }
@@ -161,11 +156,7 @@ public class LogToSelfDecorator extends LoggerManagerDecorator
 
         if ( m_logger.isDebugEnabled() )
         {
-            /**
-             * We do not have to identify ourselves now, we're already logging
-             * to a proper category.
-             */
-            final String message = "Have switched logging to '" + 
+            final String message = "LoggerManager: have switched logging to '" + 
                     m_switchTo + "'";
             m_logger.debug( message );
         }

@@ -63,7 +63,7 @@ import org.apache.avalon.framework.logger.Log4JLogger;
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="http://cvs.apache.org/~atagunov">Anton Tagunov</a>
- * @version CVS $Revision: 1.2 $ $Date: 2003/06/11 12:07:12 $
+ * @version CVS $Revision: 1.1 $ $Date: 2003/06/11 10:52:10 $
  * @since 4.0
  */
 public class Log4JAdapter extends AbstractLogEnabled implements LoggerManager
@@ -78,19 +78,10 @@ public class Log4JAdapter extends AbstractLogEnabled implements LoggerManager
 
     /**
      * Return the Logger for the specified category.
-     * Log4J probably won't like the "" category name 
-     * so we shall better return its getRootLogger() instead.
      */
     public Logger getLoggerForCategory( final String categoryName )
     {
-        if ( null == categoryName || categoryName.length() == 0 )
-        {
-            return getDefaultLogger();
-        }
-        else
-        {
-            return new Log4JLogger( m_hierarchy.getLogger( categoryName ) );
-        }
+        return new Log4JLogger( m_hierarchy.getLogger( categoryName ) );
     }
 
     /**
@@ -99,6 +90,6 @@ public class Log4JAdapter extends AbstractLogEnabled implements LoggerManager
      */
     public Logger getDefaultLogger()
     {
-        return new Log4JLogger( m_hierarchy.getRootLogger() );
+        return getLoggerForCategory( "" );
     }
 }
