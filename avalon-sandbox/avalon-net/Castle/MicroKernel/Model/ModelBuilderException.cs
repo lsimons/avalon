@@ -12,17 +12,22 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Apache.Avalon.Castle.MicroKernel
+namespace Apache.Avalon.Castle.MicroKernel.Model
 {
 	using System;
 
 	/// <summary>
-	/// Summary description for IResolver.
+	/// Summary description for ModelBuilderException.
 	/// </summary>
-	public interface IResolver
+	[Serializable]
+	public class ModelBuilderException : System.Exception
 	{
-		object Resolve();
+		public ModelBuilderException()
+		{
+		}
 
-		void Release( object instance );
+		public ModelBuilderException(String message) : base(message)
+		{
+		}
 	}
 }

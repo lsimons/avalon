@@ -12,22 +12,27 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Apache.Avalon.Castle.MicroKernel
+namespace Apache.Avalon.Castle.MicroKernel.Concerns.Default
 {
 	using System;
 
+	using Apache.Avalon.Framework;
+	using Apache.Avalon.Castle.MicroKernel.Model;
+
 	/// <summary>
-	/// Summary description for HandlerException.
+	/// Summary description for ContextConcern.
 	/// </summary>
-	[Serializable]
-	public class HandlerException : System.Exception
+	public class ContextConcern : AbstractConcern, ICommissionConcern
 	{
-		public HandlerException( String message ) : base(message)
+		public ContextConcern(IConcern next) : base(next)
 		{
 		}
 
-		public HandlerException( String message, Exception ex ) : base(message, ex)
+		public override void Apply(IComponentModel model, object component)
 		{
+			ContainerUtil.Contextualize( component, model.Context );
+
+			base.Apply( model, component );
 		}
 	}
 }

@@ -16,13 +16,13 @@ namespace Apache.Avalon.Castle.MicroKernel
 {
 	using System;
 
-	/// <summary>
-	/// Summary description for IResolver.
-	/// </summary>
-	public interface IResolver
-	{
-		object Resolve();
+	using Apache.Avalon.Castle.MicroKernel.Model;
 
-		void Release( object instance );
+	/// <summary>
+	/// Summary description for ILifestyleManagerFactory.
+	/// </summary>
+	public interface ILifestyleManagerFactory
+	{
+		ILifestyleManager Create( IComponentFactory factory, IComponentModel model );
 	}
 }

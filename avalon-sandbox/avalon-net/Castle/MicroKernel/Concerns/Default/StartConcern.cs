@@ -12,28 +12,27 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Apache.Avalon.Castle.MicroKernel.Handlers
+namespace Apache.Avalon.Castle.MicroKernel.Concerns.Default
 {
 	using System;
 
+	using Apache.Avalon.Framework;
+	using Apache.Avalon.Castle.MicroKernel.Model;
+
 	/// <summary>
-	/// Summary description for SimpleHandlerFactory.
+	/// Summary description for StartConcern.
 	/// </summary>
-	public class SimpleHandlerFactory : IHandlerFactory
+	public class StartConcern : AbstractConcern, ICommissionConcern
 	{
-		public SimpleHandlerFactory()
+		public StartConcern(IConcern next) : base(next)
 		{
 		}
 
-		#region IHandlerFactory Members
-
-		public IHandler CreateHandler(Type service, Type implementation)
+		public override void Apply(IComponentModel model, object component)
 		{
-			SimpleHandler handler = new SimpleHandler( service, implementation );
+			ContainerUtil.Start( component );
 
-			return handler;
+			base.Apply( model, component );
 		}
-
-		#endregion
 	}
 }

@@ -16,13 +16,17 @@ namespace Apache.Avalon.Castle.MicroKernel
 {
 	using System;
 
-	/// <summary>
-	/// Summary description for IResolver.
-	/// </summary>
-	public interface IResolver
-	{
-		object Resolve();
+	using Apache.Avalon.Castle.MicroKernel.Concerns;
+	using Apache.Avalon.Castle.MicroKernel.Model;
 
-		void Release( object instance );
+	/// <summary>
+	/// Summary description for AvalonKernel.
+	/// </summary>
+	public interface AvalonKernel : Kernel
+	{
+		ConcernManager Concerns
+		{
+			get;
+		}
 	}
 }

@@ -12,22 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Apache.Avalon.Castle.MicroKernel
+namespace Apache.Avalon.Castle.MicroKernel.Concerns
 {
 	using System;
 
 	/// <summary>
-	/// Summary description for State.
+	/// Summary description for IDecommissionConcern.
 	/// </summary>
-	public enum State
+	public interface IDecommissionConcern : IConcern
 	{
-		/// <summary>
-		/// 
-		/// </summary>
-		Valid,
-		/// <summary>
-		/// 
-		/// </summary>
-		WaitingDependency
 	}
 }

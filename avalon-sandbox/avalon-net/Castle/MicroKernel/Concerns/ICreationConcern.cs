@@ -12,17 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Apache.Avalon.Castle.MicroKernel
+namespace Apache.Avalon.Castle.MicroKernel.Concerns
 {
 	using System;
 
-	/// <summary>
-	/// Summary description for IResolver.
-	/// </summary>
-	public interface IResolver
-	{
-		object Resolve();
+	using Apache.Avalon.Castle.MicroKernel.Model;
+	using Apache.Avalon.Castle.MicroKernel.Factory;
 
-		void Release( object instance );
+	/// <summary>
+	/// Summary description for ICreationConcern.
+	/// </summary>
+	public interface ICreationConcern : IConcern
+	{
+		object Apply( IComponentModel model, IComponentFactory factory );
 	}
 }

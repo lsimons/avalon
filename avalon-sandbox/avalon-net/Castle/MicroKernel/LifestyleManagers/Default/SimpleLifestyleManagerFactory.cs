@@ -12,17 +12,28 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Apache.Avalon.Castle.MicroKernel
+namespace Apache.Avalon.Castle.MicroKernel.Lifestyle.Default
 {
 	using System;
+	
+	using Apache.Avalon.Castle.MicroKernel.Model;
 
 	/// <summary>
-	/// Summary description for IResolver.
+	/// Summary description for SimpleLifestyleManagerFactory.
 	/// </summary>
-	public interface IResolver
+	public class SimpleLifestyleManagerFactory : ILifestyleManagerFactory
 	{
-		object Resolve();
+		public SimpleLifestyleManagerFactory()
+		{
+		}
 
-		void Release( object instance );
+		#region ILifestyleManagerFactory Members
+
+		public ILifestyleManager Create( IComponentFactory factory, IComponentModel model )
+		{
+			return new TransientLifestyleManager( factory );
+		}
+
+		#endregion
 	}
 }

@@ -12,17 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Apache.Avalon.Castle.MicroKernel
+namespace Apache.Avalon.Castle.MicroKernel.Model
 {
 	using System;
 
 	/// <summary>
-	/// Summary description for IResolver.
+	/// Summary description for IComponentModelBuilder.
 	/// </summary>
-	public interface IResolver
+	public interface IComponentModelBuilder
 	{
-		object Resolve();
-
-		void Release( object instance );
+		IComponentModel BuildModel( String key, Type service, Type implementation );
 	}
 }

@@ -12,17 +12,27 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Apache.Avalon.Castle.MicroKernel
+namespace Apache.Avalon.Castle.MicroKernel.Concerns.Default
 {
 	using System;
 
-	/// <summary>
-	/// Summary description for IResolver.
-	/// </summary>
-	public interface IResolver
-	{
-		object Resolve();
+	using Apache.Avalon.Framework;
+	using Apache.Avalon.Castle.MicroKernel.Model;
 
-		void Release( object instance );
+	/// <summary>
+	/// Summary description for InitializeConcern.
+	/// </summary>
+	public class InitializeConcern : AbstractConcern, ICommissionConcern
+	{
+		public InitializeConcern(IConcern next) : base(next)
+		{
+		}
+
+		public override void Apply(IComponentModel model, object component)
+		{
+			ContainerUtil.Initialize( component );
+			
+			base.Apply( model, component );
+		}
 	}
 }

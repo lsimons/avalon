@@ -16,13 +16,36 @@ namespace Apache.Avalon.Castle.MicroKernel
 {
 	using System;
 
-	/// <summary>
-	/// Summary description for IResolver.
-	/// </summary>
-	public interface IResolver
-	{
-		object Resolve();
+	using Apache.Avalon.Castle.MicroKernel.Concerns;
+	using Apache.Avalon.Castle.MicroKernel.Model;
 
-		void Release( object instance );
+	/// <summary>
+	/// Specialization of BaseKernel to adhere to Avalon 
+	/// constraints and semantics.
+	/// </summary>
+	public class DefaultKernel : BaseKernel, AvalonKernel
+	{
+		protected ConcernManager m_concerns = new ConcernManager();
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public DefaultKernel()
+		{
+			m_handlerFactory = new Handler.Default.DefaultHandlerFactory();
+			m_lifestyleManagerFactory = new Lifestyle.Default.SimpleLifestyleManagerFactory();
+		}
+
+		#region AvalonKernel Members
+
+		public ConcernManager Concerns
+		{
+			get
+			{
+				return m_concerns;
+			}
+		}
+
+		#endregion
 	}
 }

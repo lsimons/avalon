@@ -19,33 +19,42 @@ namespace Apache.Avalon.Castle.MicroKernel
 	using System.Collections.Specialized;
 
 	using Apache.Avalon.DynamicProxy;
+	using Apache.Avalon.Castle.MicroKernel.Model;
 
 	/// <summary>
 	/// Summary description for BaseKernel.
 	/// </summary>
 	public class BaseKernel : Kernel
 	{
-		protected ArrayList m_aspectBefore = new ArrayList();
+		protected ArrayList m_aspectBefore;
 
-		protected ArrayList m_aspectAfter = new ArrayList();
+		protected ArrayList m_aspectAfter;
 
-		protected ArrayList m_concerns = new ArrayList();
+		protected Hashtable m_components;
 
-		protected Hashtable m_components = new Hashtable(CaseInsensitiveHashCodeProvider.Default, CaseInsensitiveComparer.Default);
+		protected Hashtable m_services;
 
-		protected Hashtable m_services = new Hashtable();
+		protected Hashtable m_dependencyToSatisfy;
 
-		protected Hashtable m_dependencyToSatisfy = new Hashtable();
+		protected IHandlerFactory m_handlerFactory;
 
-		protected IHandlerFactory m_handlerFactory = new Handlers.SimpleHandlerFactory();
+		protected ILifestyleManagerFactory m_lifestyleManagerFactory;
 
-		protected ILifestyleManagerFactory m_lifestyleManagerFactory = new LifestyleManagers.SimpleLifestyleManagerFactory();
+		protected IComponentModelBuilder m_componentModelBuilder;
 
 		/// <summary>
 		/// 
 		/// </summary>
 		public BaseKernel()
 		{
+			m_aspectBefore = new ArrayList();
+			m_aspectAfter = new ArrayList();
+			m_components = new Hashtable(CaseInsensitiveHashCodeProvider.Default, CaseInsensitiveComparer.Default);
+			m_services = new Hashtable();
+			m_dependencyToSatisfy = new Hashtable();
+			m_handlerFactory = new Handler.Default.SimpleHandlerFactory();
+			m_lifestyleManagerFactory = new Lifestyle.Default.SimpleLifestyleManagerFactory();
+			m_componentModelBuilder = new Model.Default.DefaultComponentModelBuilder( this );
 		}
 
 		#region Kernel Members
@@ -75,8 +84,9 @@ namespace Apache.Avalon.Castle.MicroKernel
 				throw new ArgumentException("The specified implementation does not implement the service interface");
 			}
 
-			IHandler handler = HandlerFactory.CreateHandler( service, implementation );
+			IComponentModel model = ModelBuilder.BuildModel( key, service, implementation );
 
+			IHandler handler = HandlerFactory.CreateHandler( model );
 			handler.Init ( this );
 
 			m_components[ key ] = handler;
@@ -146,6 +156,19 @@ namespace Apache.Avalon.Castle.MicroKernel
 			{
 				AssertUtil.ArgumentNotNull( value, "value" );
 				m_lifestyleManagerFactory = value;
+			}
+		}
+
+		public IComponentModelBuilder ModelBuilder
+		{
+			get
+			{
+				return m_componentModelBuilder;
+			}
+			set
+			{
+				AssertUtil.ArgumentNotNull( value, "value" );
+				m_componentModelBuilder = value;
 			}
 		}
 

@@ -12,15 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Apache.Avalon.Castle.MicroKernel
+namespace Apache.Avalon.Castle.MicroKernel.Concerns
 {
 	using System;
 
 	/// <summary>
-	/// Summary description for ILifestyleManagerFactory.
+	/// Summary description for ICommissionConcern.
 	/// </summary>
-	public interface ILifestyleManagerFactory
+	public interface ICommissionConcern : IConcern
 	{
-		ILifestyleManager Create( IComponentFactory factory );
 	}
 }

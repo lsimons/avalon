@@ -12,24 +12,27 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Apache.Avalon.Castle.MicroKernel.LifestyleManagers
+namespace Apache.Avalon.Castle.MicroKernel.Concerns.Default
 {
 	using System;
 
+	using Apache.Avalon.Framework;
+	using Apache.Avalon.Castle.MicroKernel.Model;
+
 	/// <summary>
-	/// Summary description for SimpleLifestyleManagerFactory.
+	/// Summary description for CreationConcern.
 	/// </summary>
-	public class SimpleLifestyleManagerFactory : ILifestyleManagerFactory
+	public class CreationConcern : AbstractConcern, ICreationConcern
 	{
-		public SimpleLifestyleManagerFactory()
+		public CreationConcern(IConcern next) : base(next)
 		{
 		}
 
-		#region ILifestyleManagerFactory Members
+		#region ICreationConcern Members
 
-		public ILifestyleManager Create(IComponentFactory factory)
+		public object Apply(IComponentModel model, IComponentFactory factory)
 		{
-			return new TransientLifestyleManager( factory );
+			return factory.Incarnate();
 		}
 
 		#endregion

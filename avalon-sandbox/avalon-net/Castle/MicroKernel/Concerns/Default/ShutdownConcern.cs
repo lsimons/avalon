@@ -12,27 +12,27 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Apache.Avalon.Castle.MicroKernel
+namespace Apache.Avalon.Castle.MicroKernel.Concerns.Default
 {
 	using System;
 
-	/// <summary>
-	/// Summary description for IHandler.
-	/// </summary>
-	public interface IHandler : IResolver
-	{
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="kernel"></param>
-		void Init( Kernel kernel );
+	using Apache.Avalon.Framework;
+	using Apache.Avalon.Castle.MicroKernel.Model;
 
-		/// <summary>
-		/// 
-		/// </summary>
-		State ActualState
+	/// <summary>
+	/// Summary description for ShutdownConcern.
+	/// </summary>
+	public class ShutdownConcern : AbstractConcern, IDecommissionConcern
+	{
+		public ShutdownConcern(IConcern next) : base(next)
 		{
-			get;
+		}
+
+		public override void Apply(IComponentModel model, object component)
+		{
+			ContainerUtil.Shutdown( component );
+
+			base.Apply( model, component );
 		}
 	}
 }

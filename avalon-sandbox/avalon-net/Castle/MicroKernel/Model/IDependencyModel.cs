@@ -12,34 +12,28 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Apache.Avalon.Castle.MicroKernel.LifestyleManagers
+namespace Apache.Avalon.Castle.MicroKernel.Model
 {
 	using System;
 
 	/// <summary>
-	/// Summary description for TransientLifestyleManager.
+	/// Summary description for IDependencyModel.
 	/// </summary>
-	public class TransientLifestyleManager : ILifestyleManager
+	public interface IDependencyModel
 	{
-		private IComponentFactory m_componentFactory;
-
-		public TransientLifestyleManager(IComponentFactory componentFactory)
+		Type Service
 		{
-			m_componentFactory = componentFactory;
+			get;
 		}
 
-		#region IResolver Members
-
-		public object Resolve()
+		String LookupKey
 		{
-			return m_componentFactory.Incarnate();
+			get;
 		}
 
-		public void Release()
+		bool Optional
 		{
-			m_componentFactory.Etherialize();
+			get;
 		}
-
-		#endregion
 	}
 }
