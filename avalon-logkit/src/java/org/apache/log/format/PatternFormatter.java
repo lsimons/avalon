@@ -25,7 +25,7 @@ import org.apache.log.*;
  *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  * @author <a href="mailto:sylvain@apache.org">Sylvain Wallez</a>
- * @version CVS $Revision: 1.11 $ $Date: 2001/07/26 17:34:21 $
+ * @version CVS $Revision: 1.12 $ $Date: 2001/07/27 05:08:50 $
  */
 public class PatternFormatter
     implements Formatter
@@ -425,6 +425,8 @@ public class PatternFormatter
      */
     protected String getContext( final ContextStack stack, final String format )
     {
+        if( null == stack ) return "";
+
         //TODO: Retrieve StringBuffers from a cache
         final StringBuffer sb = new StringBuffer();
         final int size = stack.getSize();
