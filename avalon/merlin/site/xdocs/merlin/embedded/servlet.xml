@@ -76,31 +76,35 @@
           <i>MerlinServlet.java</i>
         </p>
 <source>
-package org.apache.avalon.merlin.servlet;
-
-import java.io.File;
-import java.net.URL;
-import java.io.IOException;
-
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServlet;
-
-import org.apache.avalon.assembly.locator.DefaultLocator;
-import org.apache.avalon.merlin.kernel.Kernel;
-import org.apache.avalon.merlin.kernel.impl.DefaultKernel;
-
 /**
  * Servlet that handles the establishment of a Merlin Kernel
  * and registration of the kernel base URL under the servlet 
- * context using the key {@link Kernel.BASE_URL_KEY}.
- *
+ * context using the key.
+ * 
+ * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
 public class MerlinServlet extends HttpServlet
 {
-    private DefaultKernel m_kernel;
+    //----------------------------------------------------------
+    // static
+    //----------------------------------------------------------
+
+    private static final String MERLIN_PROPERTIES = "merlin.properties";
+
+    private static final String IMPLEMENTATION_KEY = "merlin.implementation";
+
+    //----------------------------------------------------------
+    // state
+    //----------------------------------------------------------
+
+    private KernelCriteria m_criteria;
+
+    private Kernel m_kernel;
+
+    //----------------------------------------------------------
+    // Servlet
+    //----------------------------------------------------------
 
     /**
      * Initializes Servlet by the web server container.
@@ -112,35 +116,71 @@ public class MerlinServlet extends HttpServlet
     {
         try
         {
-            ClassLoader loader = Thread.currentThread().getContextClassLoader();
+            //
+            // get the working directory and classloader
+            //
 
-            String homePath = getServletContext().getRealPath( "." );
-            File home = new File( homePath );
+            ClassLoader classloader = MerlinServlet.class.getClassLoader();
+            String path = getServletContext().getRealPath( "." );
+            File base = new File( path );
 
-            String blockPath = getInitParameter( "block", "BLOCK-INF/block.xml" );
-            URL block = new File( home, blockPath ).toURL();
+            //
+            // create the initial context using the merlin system as the 
+            // initial cache
+            //
 
-            DefaultLocator context = new DefaultLocator();
-            context.put( "urn:merlin:home", home );
-            context.put( "urn:merlin:system", home );
-            context.put( "urn:merlin:classloader.common", loader );
-            context.put( "urn:merlin:classloader.system", loader );
-            context.put( "urn:merlin:debug", "WARN" );
-            context.put( "urn:merlin:logging.priority", "INFO" );
-            context.put( "urn:merlin:block.url", block );
-            context.makeReadOnly();
+            InitialContextFactory initial = 
+              new DefaultInitialContextFactory( "merlin", base );
+            initial.setParentClassLoader( classloader );
+            InitialContext context = initial.createInitialContext();
 
-            m_kernel = new DefaultKernel();
-            m_kernel.contextualize( context );
-            m_kernel.initialize();
+            //
+            // grab the merlin implmentation artifact descriptor
+            //
 
-            getServletContext().setAttribute( Kernel.BASE_URL_KEY, m_kernel.getURL() );
+            Artifact artifact = 
+              DefaultBuilder.createImplementationArtifact( 
+                classloader, 
+                null,
+                base, 
+                MERLIN_PROPERTIES, 
+                IMPLEMENTATION_KEY );
 
-            log( "kernel established" );
+            //
+            // create and customize the kernel criteria
+            //
+
+            Builder builder = context.newBuilder( artifact );
+            Factory factory = builder.getFactory();
+            m_criteria = (KernelCriteria) factory.createDefaultCriteria();
+            m_criteria.put( "merlin.server", "true" );
+            m_criteria.put( "merlin.info", "true" );
+            m_criteria.put( "merlin.debug", "false" );
+
+            //
+            // this is where we customize content based on web.xml
+            // (currently not implemented - lets see what we can do with 
+            // with merlin.properties first of all)
+            //
+
+            m_kernel = (Kernel) factory.create( m_criteria );
+            System.out.println("kernel established");
+
+            //
+            // publish the root containment model as a context attribute
+            // (this is basically exposing too much - need to wrap this
+            // in a holder that allows lookup by service interface and 
+            // version
+            //
+
+            getServletContext().setAttribute( 
+              "urn:composition:root", m_kernel.getModel() );
         }
-        catch( Exception e )
+        catch( Throwable e )
         {
-            throw new ServletException( "Initialization error.", e );
+            final String error = ExceptionHelper.packException( e, true );
+            System.out.println( error );
+            throw new ServletException( error, e );
         }
     }
 
@@ -150,25 +190,27 @@ public class MerlinServlet extends HttpServlet
     public void destroy()
     {
         if( m_kernel != null )
-        { 
-            m_kernel.shutdown();
-            m_kernel = null;
-        }
-    }
+        {
 
-    private String getInitParameter( final String name, final String defaultValue )
-    {
-        final String value = getInitParameter( name );
-        if ( null == value )
-        {
-            return defaultValue;
-        }
-        else
-        {
-            return value;
+            System.out.println("tearing down");
+            
+            try
+            {
+                m_kernel.shutdown();
+            }
+            catch( Throwable e )
+            {
+                final String error =
+                  "Runnable kernel shutdown failure.";
+                final String msg = ExceptionHelper.packException( error, e, true );
+                throw new RuntimeException( msg, null );
+            }
+            finally
+            {
+                m_kernel = null;
+            }
         }
     }
-}
 </source>
       </subsection>
     </section>
@@ -177,7 +219,7 @@ public class MerlinServlet extends HttpServlet
   <footer>
     <legal>
       Copyright (c) @year@ The Avalon Apache Project All rights reserved.
-      $Revision: 1.2 $ $Date: 2004/04/03 05:34:14 $
+      $Revision: 1.3 $ $Date: 2004/04/03 05:45:25 $
     </legal>
   </footer>
 </document>
