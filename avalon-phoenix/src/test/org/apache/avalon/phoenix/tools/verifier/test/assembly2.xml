@@ -16,11 +16,11 @@
     <block class="org.apache.avalon.phoenix.test.data.Component3"
         name="c3">
         <provide name="c2a"
-            role="org.apache.avalon.phoenix.test.data.Service2"/>
+            role="org.apache.avalon.phoenix.test.data.Service2[]"/>
         <provide name="c2b"
-            role="org.apache.avalon.phoenix.test.data.Service2"/>
+            role="org.apache.avalon.phoenix.test.data.Service2[]"/>
         <provide name="c2c"
-            role="org.apache.avalon.phoenix.test.data.Service2"/>
+            role="org.apache.avalon.phoenix.test.data.Service2[]"/>
     </block>
 
 </assembly>
