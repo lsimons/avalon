@@ -76,7 +76,7 @@ import org.apache.avalon.framework.logger.Logger;
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:proyal@apache.org">Peter Royal</a>
- * @version CVS $Revision: 1.31 $ $Date: 2003/07/21 15:54:47 $
+ * @version CVS $Revision: 1.32 $ $Date: 2003/07/28 18:22:53 $
  * @since 4.1
  */
 public class AbstractJdbcConnection
@@ -86,6 +86,9 @@ public class AbstractJdbcConnection
     protected Connection m_connection;
     private Object m_proxy;
     protected Pool m_pool;
+    
+    /** The maximum time since a connection was last used before it will be pinged. */
+    protected int m_testAge;
     protected PreparedStatement m_testStatement;
     protected SQLException m_testException;
     protected long m_lastUsed = System.currentTimeMillis();
@@ -130,11 +133,28 @@ public class AbstractJdbcConnection
      */
     public AbstractJdbcConnection( final Connection connection, final String keepAlive )
     {
+        this( connection, keepAlive, 5000 );
+    }
+
+    /**
+     * @param connection a driver specific JDBC connection to be wrapped.
+     * @param keepAlive a query which will be used to check the statis of the connection after it
+     *                  has been idle.  A null value will cause the keep alive feature to
+     *                  be disabled.
+     * @param keepAliveAge the maximum age in milliseconds since a connection was last
+     *                     used before it must be pinged using the keepAlive query.  Ignored
+     *                     if keepAlive is null.
+     */
+    public AbstractJdbcConnection( final Connection connection,
+                                   final String keepAlive,
+                                   final int keepAliveAge )
+    {
         m_connection = connection;
 
         // subclasses can override initialize()
         this.initialize();
 
+        m_testAge = keepAliveAge;
         if( null == keepAlive || "".equals( keepAlive.trim() ) )
         {
             m_testStatement = null;
@@ -214,9 +234,9 @@ public class AbstractJdbcConnection
 
         long age = System.currentTimeMillis() - m_lastUsed;
         
-        // If the connection has not been used for 5 seconds, then make
-        //  sure it is still alive.
-        if ( ( m_testStatement != null ) && ( age > ( 5 * 1000 ) ) )
+        // If the connection has not been used for for longer than the keep alive age,
+        //  then make sure it is still alive.
+        if ( ( m_testStatement != null ) && ( age > m_testAge ) )
         {
             if( getLogger().isDebugEnabled() )
             {

@@ -84,7 +84,7 @@ import org.apache.excalibur.instrument.Instrumentable;
  *       blocking="<i>true</i>" timeout="<i>-1</i>"
  *       trim-interval="<i>60000</i>" auto-commit="true"
  *       connection-class="<i>my.overrided.ConnectionClass</i>"&gt;
- *       &lt;keep-alive disable="false"&gt;select 1&lt;/keep-alive&gt;
+ *       &lt;keep-alive disable="false" age="5000"&gt;select 1&lt;/keep-alive&gt;
  *     &lt;/pool-controller&gt;
  *     &lt;driver&gt;<i>com.database.jdbc.JdbcDriver</i>&lt;/driver&gt;
  *     &lt;dburl&gt;<i>jdbc:driver://host/mydb</i>&lt;/dburl&gt;
@@ -156,8 +156,8 @@ import org.apache.excalibur.instrument.Instrumentable;
  * connection from a call to getConnection(), the connection is first
  * used to ping the database to make sure that it is still alive.
  * Setting the <code>disable</code> attribute to true will disable
- * this feature.  (Defaults to a query of "SELECT 1" and being
- * enabled)</li>
+ * this feature.  Setting the <code>age</code> allows the 5 second age to
+ * be overridden.  (Defaults to a query of "SELECT 1" and being enabled)</li>
  *
  * <li>The <code>driver</code> element is used to specify the driver
  * to use when connecting to the database.  The specified class must
@@ -177,7 +177,7 @@ import org.apache.excalibur.instrument.Instrumentable;
  * @x-avalon.lifestyle type=singleton
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.8 $ $Date: 2003/05/20 20:44:43 $
+ * @version CVS $Revision: 1.9 $ $Date: 2003/07/28 18:22:54 $
  * @since 4.1
  */
 public class ResourceLimitingJdbcDataSource
@@ -267,6 +267,7 @@ public class ResourceLimitingJdbcDataSource
         final String passwd = configuration.getChild( "password" ).getValue( null );
 
         final Configuration controller = configuration.getChild( "pool-controller" );
+        final int keepAliveAge = controller.getChild( "keep-alive" ).getAttributeAsInteger( "age", 5000 );
         String keepAlive = controller.getChild( "keep-alive" ).getValue( "SELECT 1" );
         final boolean disableKeepAlive =
             controller.getChild( "keep-alive" ).getAttributeAsBoolean( "disable", false );
@@ -342,7 +343,7 @@ public class ResourceLimitingJdbcDataSource
         }
 
         final JdbcConnectionFactory factory = new JdbcConnectionFactory
-            ( dburl, user, passwd, autoCommit, keepAlive, connectionClass );
+            ( dburl, user, passwd, autoCommit, keepAlive, keepAliveAge, connectionClass );
 
         factory.enableLogging( getLogger() );
 

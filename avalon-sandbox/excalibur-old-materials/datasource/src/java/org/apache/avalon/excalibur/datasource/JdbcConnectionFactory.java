@@ -64,7 +64,7 @@ import org.apache.avalon.framework.logger.LogEnabled;
  * The Factory implementation for JdbcConnections.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.20 $ $Date: 2003/04/29 02:58:39 $
+ * @version CVS $Revision: 1.21 $ $Date: 2003/07/28 18:22:53 $
  * @since 4.0
  */
 public class JdbcConnectionFactory extends AbstractLogEnabled implements ObjectFactory
@@ -74,6 +74,7 @@ public class JdbcConnectionFactory extends AbstractLogEnabled implements ObjectF
     private final String m_password;
     private final boolean m_autoCommit;
     private final String m_keepAlive;
+    private final int m_keepAliveAge;
     private final String m_connectionClass;
     private Class m_class;
     private static final String DEFAULT_KEEPALIVE = "SELECT 1";
@@ -127,11 +128,39 @@ public class JdbcConnectionFactory extends AbstractLogEnabled implements ObjectF
                                   final String keepAlive,
                                   final String connectionClass )
     {
+        this( url, username, password, autoCommit, keepAlive, 5000, connectionClass );
+    }
+
+    /**
+     * Creates and configures a new JdbcConnectionFactory.
+     *
+     * @param url full JDBC database url.
+     * @param username username to use when connecting to the database.
+     * @param password password to use when connecting to the database.
+     * @param autoCommit true if connections to the database should operate with auto commit
+     *                   enabled.
+     * @param keepAlive a query which will be used to check the statis of a connection after it
+     *                  has been idle.  A null value will cause the keep alive feature to
+     *                  be disabled.
+     * @param keepAliveAge the maximum age in milliseconds since a connection was last
+     *                     used before it must be pinged using the keepAlive query.  Ignored
+     *                     if keepAlive is null.
+     * @param connectionClass class of connections created by the factory.
+     */
+    public JdbcConnectionFactory( final String url,
+                                  final String username,
+                                  final String password,
+                                  final boolean autoCommit,
+                                  final String keepAlive,
+                                  final int keepAliveAge,
+                                  final String connectionClass )
+    {
         this.m_dburl = url;
         this.m_username = username;
         this.m_password = password;
         this.m_autoCommit = autoCommit;
         this.m_keepAlive = keepAlive;
+        this.m_keepAliveAge = keepAliveAge;
         this.m_connectionClass = connectionClass;
 
         try
@@ -208,7 +237,7 @@ public class JdbcConnectionFactory extends AbstractLogEnabled implements ObjectF
 
         try
         {
-            jdbcConnection = getProxy( connection, this.m_keepAlive );
+            jdbcConnection = getProxy( connection, this.m_keepAlive, this.m_keepAliveAge );
         }
         catch( Exception e )
         {
@@ -254,22 +283,24 @@ public class JdbcConnectionFactory extends AbstractLogEnabled implements ObjectF
         }
     }
 
-    private Connection getProxy( Connection conn, String keepAlive )
+    private Connection getProxy( Connection conn, String keepAlive, int keepAliveAge )
     {
         ProxiedJdbcConnection handler = null;
 
         try
         {
             Constructor builder = m_class.getConstructor( new Class[]{Connection.class,
-                                                                      String.class} );
-            handler = (ProxiedJdbcConnection)builder.newInstance( new Object[]{conn, keepAlive} );
+                                                                      String.class,
+                                                                      Integer.TYPE } );
+            handler = (ProxiedJdbcConnection)builder.newInstance(
+                new Object[]{conn, keepAlive, new Integer( keepAliveAge ) } );
         }
         catch( Exception e )
         {
             final String msg = "Could not create the proper invocation handler, "
                     + "defaulting to AbstractJdbcConnection";
             getLogger().error( msg, e );
-            handler = new AbstractJdbcConnection( conn, keepAlive );
+            handler = new AbstractJdbcConnection( conn, keepAlive, keepAliveAge );
         }
 
         final Connection connection = (Connection)Proxy.newProxyInstance(
