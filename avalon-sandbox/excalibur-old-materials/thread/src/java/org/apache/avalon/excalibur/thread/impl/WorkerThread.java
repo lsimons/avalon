@@ -33,6 +33,8 @@ class WorkerThread
     private ThreadContext m_context;
     private boolean m_alive;
 
+    private String m_name;
+
     /**
      * Allocates a new <code>Worker</code> object.
      */
@@ -41,13 +43,11 @@ class WorkerThread
                             final Pool pool,
                             final ThreadContext context )
     {
-        super( group, name );
-
+        super( group, "" );
+        m_name = name;
         m_pool = pool;
         m_context = context;
-
         m_work = null;
-
         m_alive = true;
 
         setDaemon( false );
@@ -76,6 +76,7 @@ class WorkerThread
 
             try
             {
+                Thread.currentThread().setName( m_name );
                 if( null != m_context ) ThreadContext.setThreadContext( m_context );
                 m_work.execute();
                 m_threadControl.finish( null );
