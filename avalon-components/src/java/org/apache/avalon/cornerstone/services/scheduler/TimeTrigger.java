@@ -8,7 +8,8 @@
 package org.apache.avalon.cornerstone.services.scheduler;
 
 /**
- * This is the marker interface for time-based Triggers.
+ * A kind of trigger that makes the determination to go off based
+ * on time.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
  * @author <a href="mailto:ram.chidambaram@telus.com">Ram Chidambaram</a>
@@ -17,9 +18,11 @@ public interface TimeTrigger
     extends Trigger
 {
     /**
-     * Retrieve the next time at trigger activates relative to another time.
+     * Returns the next time after the given <tt>moment</tt> when
+     * this trigger goes off.
      *
-     * @return the time at which the trigger activates
+     * @param moment base point in milliseconds
+     * @return the time in milliseconds when this trigger goes off
      */
-    long getTimeAfter( long time );
+    long getTimeAfter( long moment );
 }
