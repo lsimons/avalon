@@ -133,24 +133,36 @@
 
     <!-- Generate one jar functionally equivalent to the old avalon-excalibur.jar -->
     <target name="jar" description="Generates avalon-excalibur.jar">
+        <ant dir="datasource" target="jar"/>
         <ant dir="all" target="all"/>
         <ant dir="cli" target="jar"/>
+        <ant dir="component" target="jar"/>
         <ant dir="collections" target="jar"/>
         <ant dir="concurrent" target="jar"/>
         <ant dir="i18n" target="jar"/>
         <ant dir="io" target="jar"/>
         <ant dir="naming" target="jar"/>
+        <ant dir="logger" target="jar"/>
+        <ant dir="pool" target="jar"/>
+        <ant dir="testcase" target="jar"/>
+        <ant dir="util" target="jar"/>
         <ant dir="instrument" target="jar"/>
         <jlink compress="false" outfile="avalon-excalibur-tmp.jar">
             <mergefiles>
                 <fileset dir=".">
+                    <include name="datasource/build/lib/*.jar"/>
                     <include name="all/build/lib/excalibur-core.jar"/>
                     <include name="cli/build/lib/*.jar"/>
+                    <include name="component/build/lib/*.jar"/>
                     <include name="collections/build/lib/*.jar"/>
                     <include name="concurrent/build/lib/*.jar"/>
                     <include name="i18n/build/lib/*.jar"/>
                     <include name="io/build/lib/*.jar"/>
                     <include name="naming/build/lib/*.jar"/>
+                    <include name="logger/build/lib/*.jar"/>
+                    <include name="pool/build/lib/*.jar"/>
+                    <include name="testcase/build/lib/*.jar"/>
+                    <include name="util/build/lib/*.jar"/>
                     <include name="instrument/build/lib/*.jar"/>
                 </fileset>
             </mergefiles>
@@ -201,6 +213,7 @@
         <ant dir="naming" target="jar"/>
         <ant dir="tar" target="jar"/>
         <ant dir="zip" target="jar"/>
+        <ant dir="datasource" target="jar"/>
 
         <jlink compress="false" outfile="excalibur-all-tmp.jar">
             <mergefiles>
@@ -213,11 +226,11 @@
         <jar jarfile="excalibur-all.jar" compress="true">
             <zipfileset src="excalibur-all-tmp.jar" />
         </jar>
-        <delete file="excalibur-avalon-tmp.jar"/>
+        <delete file="excalibur-all-tmp.jar"/>
     </target>
 
     <!-- Generate all docs -->
-    <target name="docs" description="Generate all the docs">	    
+    <target name="docs" description="Generate all the docs">
         <!--<ant dir="fortress" target="docs"/> -->
         <!--<ant dir="instrument" target="docs"/>  -->
         <!--<ant dir="instrument-client" target="docs"/-->  <!-- depends on instrument-manager -->
