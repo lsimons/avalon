@@ -24,17 +24,17 @@
       <import plugin="org.apache.avalon.MerlinDeveloperCore"/>
    </requires>
 
+
    <extension
          id="merlinBuilder"
          name="Merlin Builder"
          point="org.eclipse.core.resources.builders">
       <builder>
          <run
-               class="org.apache.avalon.ide.eclipse.merlin.builder.MerlinBuilder">
+               class="org.apache.avalon.ide.eclipse.merlin.builder.MerlinBuilderFactory">
          </run>
       </builder>
    </extension>
-
    <extension
          id="merlinProjectNature"
          name="MerlinDeveloperProjectNature"
@@ -44,16 +44,9 @@
                class="org.apache.avalon.ide.eclipse.merlin.nature.MerlinProjectNature">
          </run>
       </runtime>
-   </extension>
-   <extension
-         id="merlinConfigNature"
-         name="MerlinConfigNature"
-         point="org.eclipse.core.resources.natures">
-      <runtime>
-         <run
-               class="org.apache.avalon.ide.eclipse.merlin.nature.MerlinContainerConfigNature">
-         </run>
-      </runtime>
+      <builder
+            id="org.apache.avalon.MerlinDeveloperLaunch.merlinBuilder">
+      </builder>
    </extension>
    <extension
          point="org.eclipse.debug.core.launchConfigurationTypes">
@@ -85,8 +78,8 @@
       <shortcut
             label="Merlin Container"
             icon="icons/merlin_light.gif"
-            class="org.apache.avalon.ide.eclipse.merlin.launch.MerlinLaunchShortcut"
             modes="run, debug"
+            class="org.apache.avalon.ide.eclipse.merlin.launch.MerlinLaunchShortcut"
             id="org.apache.avalon.ide.eclipse.merlin.launch.merlinLaunchShortcut">
          <perspective
                id="org.eclipse.jdt.ui.JavaPerspective">

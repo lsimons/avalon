@@ -22,10 +22,9 @@
       <import plugin="org.apache.avalon.MerlinDeveloperCore"/>
       <import plugin="org.apache.avalon.MerlinDeveloperLaunch"/>
       <import plugin="org.eclipse.jface.text"/>
-      <import plugin="org.eclipse.ui.workbench.texteditor"/>
-      <import plugin="org.eclipse.ui.editors"/>
       <import plugin="org.eclipse.jdt.ui"/>
    </requires>
+
 
    <extension
          point="org.eclipse.jdt.ui.javadocCompletionProcessor">
@@ -35,7 +34,6 @@
             id="avalonJavadocProcessor">
       </javadocCompletionProcessor>
    </extension>
-
    <extension
          point="org.eclipse.ui.newWizards">
       <category
@@ -62,8 +60,8 @@
          point="org.eclipse.ui.editors">
       <editor
             name="Image Viewer"
-            icon="icons/sample.gif"
             extensions="jpg, gif"
+            icon="icons/sample.gif"
             class="org.apache.avalon.ide.eclipse.merlin.ui.tools.ImageViewerEditor"
             id="Viewer.editors.XMLEditor">
       </editor>
@@ -71,7 +69,7 @@
    <extension
          point="org.eclipse.ui.preferencePages">
       <page
-            name="Merlin Container"
+            name="MerlinDeveloper"
             class="org.apache.avalon.ide.eclipse.merlin.preferences.MerlinMainPreferencePage"
             id="org.apache.avalon.MerlinMainPreferencePage">
       </page>

@@ -62,6 +62,9 @@ public class MerlinDeveloperLaunch extends AbstractUIPlugin
         plugin = this;
         try
         {
+            // activate EnterpriseDeveloper if present
+            Platform.getPlugin("biz.softwarefabrik.j4ee.core");
+            
             resourceBundle =
                 ResourceBundle.getBundle(
                     "org.apache.avalon.ide.eclipse.merlin.launch.MerlinDeveloperLaunchResources");

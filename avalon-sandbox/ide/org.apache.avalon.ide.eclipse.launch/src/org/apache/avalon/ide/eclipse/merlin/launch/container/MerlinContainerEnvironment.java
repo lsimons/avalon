@@ -29,10 +29,7 @@ public class MerlinContainerEnvironment
 
         try
         {
-            DefaultsBuilder db = new DefaultsBuilder("merlin", null);
-            Object obj = db.getHomeProperties();
-            
-            Object o = obj;
+            new DefaultsBuilder("merlin", null);
             
         } catch (Exception e)
         {
