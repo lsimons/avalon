@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE project [
+  <!ENTITY % index SYSTEM "file:index.ent"> %index;
+]>
 
 <project>
 
   <extend>${basedir}/../project.xml</extend>
 
-  <groupId>avalon-util</groupId>
-  <id>avalon-util-i18n</id>
+  <groupId>&avalon-util-id;</groupId>
+  <id>&avalon-util-i18n-id;</id>
+  <currentVersion>&avalon-util-i18n-version;</currentVersion>
+
   <name>Avalon Util Internationalization</name>
   <package>org.apache.avalon.util.i18n</package>
-  <currentVersion>1.0</currentVersion>
 
   <inceptionYear>2004</inceptionYear>
   <shortDescription>Internationalization and Localization routines.</shortDescription>

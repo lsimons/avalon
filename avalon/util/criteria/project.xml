@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE project [
+  <!ENTITY % index SYSTEM "file:index.ent"> %index;
+]>
 
 <project>
 
   <extend>${basedir}/../project.xml</extend>
 
-  <groupId>avalon-util</groupId>
-  <id>avalon-util-criteria</id>
+  <groupId>&avalon-util-id;</groupId>
+  <id>&avalon-util-criteria-id;</id>
+  <currentVersion>&avalon-util-criteria-version;</currentVersion>
+
   <name>Avalon Util Criteria</name>
   <package>org.apache.avalon.util.criteria</package>
-  <currentVersion>1.1-SNAPSHOT</currentVersion>
 
   <inceptionYear>2002</inceptionYear>
   <shortDescription>Parameterized map implementation.</shortDescription>
