@@ -69,7 +69,7 @@ package org.apache.excalibur.mpool;
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.4 $ $Date: 2002/08/13 08:15:20 $
+ * @version CVS $Revision: 1.5 $ $Date: 2002/09/30 16:17:02 $
  * @since 4.1.2
  */
 public interface Pool
@@ -78,6 +78,8 @@ public interface Pool
      * Acquire an instance of the pooled object.
      *
      * @return the pooled Object instance
+     *
+     * @throws Exception if the Pool is not able to return an object.
      */
     Object acquire() throws Exception;
 
@@ -92,6 +94,8 @@ public interface Pool
      * Create a new instance of the object being pooled.
      *
      * @return the pooled Object instance
+     *
+     * @throws Exception if the instance cannot be created
      */
     Object newInstance() throws Exception;
 }

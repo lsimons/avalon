@@ -99,6 +99,10 @@ public final class TPCThreadManager extends AbstractThreadManager implements Par
      *     <td>1000</td>
      *   </tr>
      * </table>
+     *
+     * @param parameters  The Parameters object
+     *
+     * @throws ParameterException if there is a problem with the parameters.
      */
     public void parameterize( Parameters parameters ) throws ParameterException
     {

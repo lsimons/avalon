@@ -66,11 +66,15 @@ public interface EventHandler
 {
     /**
      * Handle one event at a time.
+     *
+     * @param element  The element that the EventHandler must process
      */
     void handleEvent( Object element );
 
     /**
      * Handle a whole array of events at a time.
+     *
+     * @param elements  The array of elements that the EventHandler must process
      */
     void handleEvents( Object[] elements );
 }

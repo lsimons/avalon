@@ -71,12 +71,16 @@ public interface EventPipeline
     /**
      * There can be many different sources to merge into a pipeline.  For the
      * CommandManager, there is only one sink.
+     *
+     * @return the array of sources that feed the handler
      */
     Source[] getSources();
 
     /**
      * Returns the reference to the EventHandler that the events from all the
      * Sinks get merged into.
+     *
+     * @return the handler for the pipeline
      */
     EventHandler getEventHandler();
 }

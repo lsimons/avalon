@@ -98,13 +98,17 @@ public interface Source
      * zero-sized array in case of a timeout while attempting to
      * obtain the mutex or if there is nothing left on the queue.
      *
-     * @return At most <code>num</code> <code>QueueElement</code>s from the
+     * @param num  The maximum number of elements to dequeue
+     *
+     * @return At most <code>num</code> elements from the
      *         queue
      */
     Object[] dequeue( int num );
 
     /**
      * Returns the number of elements waiting in this queue.
+     *
+     * @return the number of elements in the queue
      */
     int size();
 

@@ -60,11 +60,15 @@ public interface ThreadManager
 {
     /**
      * Register an EventPipeline with the ThreadManager.
+     *
+     * @param pipeline  The pipeline to register
      */
     void register( EventPipeline pipeline );
 
     /**
      * Deregister an EventPipeline with the ThreadManager
+     *
+     * @param pipeline  The pipeline to unregister
      */
     void deregister( EventPipeline pipeline );
 

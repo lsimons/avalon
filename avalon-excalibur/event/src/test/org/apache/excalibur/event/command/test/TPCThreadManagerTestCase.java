@@ -69,6 +69,11 @@ import junit.framework.TestCase;
  */
 public class TPCThreadManagerTestCase extends TestCase
 {
+    /**
+     * Constructor for JUnit
+     *
+     * @param name  The name of the test
+     */
     public TPCThreadManagerTestCase( String name )
     {
         super( name );
@@ -98,6 +103,8 @@ public class TPCThreadManagerTestCase extends TestCase
      * <p>
      * The test is not foolproof, it probably depends on preemtive
      * threads management.
+     *
+     * @throws Exception on error
      */
     public void testThreadContention() throws Exception
     {

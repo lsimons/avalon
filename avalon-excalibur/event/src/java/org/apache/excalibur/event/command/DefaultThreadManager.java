@@ -63,6 +63,11 @@ import org.apache.excalibur.thread.ThreadPool;
  */
 public class DefaultThreadManager extends AbstractThreadManager
 {
+    /**
+     * Create a new ThreadManager with the associated ThreadPool.
+     *
+     * @param pool  The ThreadPool we will use.
+     */
     public DefaultThreadManager( final ThreadPool pool )
     {
         setThreadPool( pool );

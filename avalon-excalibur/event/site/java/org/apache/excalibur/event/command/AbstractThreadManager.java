@@ -71,25 +71,51 @@ import org.apache.excalibur.thread.ThreadPool;
 public abstract class AbstractThreadManager extends AbstractLogEnabled
     implements Runnable, ThreadManager, Initializable, Disposable
 {
+    /** The Mutex used in this ThreadManager */
     private final Mutex m_mutex = new Mutex();
+
+    /** The pipelines we are managing */
     private final HashMap m_pipelines = new HashMap();
+
+    /** The controls we have */
     private final LinkedList m_controls = new LinkedList();
+
+    /** The ThreadPool we are using */
     private ThreadPool m_threadPool;
+
+    /** The ThreadControl for the ThreadManager itself */
     private ThreadControl m_threadControl;
+
+    /** Whether we are done or not */
     private volatile boolean m_done = false;
+
+    /** The number of milliseconds to sleep before runngin again: 1000 (1 sec.) */
     private long m_sleepTime = 1000L;
+
+    /** Whether this class has been initialized or not */
     private volatile boolean m_initialized = false;
 
+    /** Return whether the thread manager has been initialized or not */
     protected boolean isInitialized()
     {
         return m_initialized;
     }
 
+    /**
+     * Set the amount of time to sleep between checks on the queue
+     *
+     * @param sleepTime  Number of milliseconds
+     */
     protected void setSleepTime( long sleepTime )
     {
         m_sleepTime = sleepTime;
     }
 
+    /**
+     * Set the ThreadPool we are using
+     *
+     * @param threadPool  The ThreadPool
+     */
     protected void setThreadPool( ThreadPool threadPool )
     {
         if( null == m_threadPool )
@@ -102,6 +128,11 @@ public abstract class AbstractThreadManager extends AbstractLogEnabled
         }
     }
 
+    /**
+     * Set up the ThreadManager.  All required parameters must have already been set.
+     *
+     * @throws Exception if there is any problem setting up the ThreadManager
+     */
     public void initialize() throws Exception
     {
         if( null == m_threadPool )
@@ -115,6 +146,8 @@ public abstract class AbstractThreadManager extends AbstractLogEnabled
 
     /**
      * Register an EventPipeline with the ThreadManager.
+     *
+     * @param pipeline  The pipeline we are registering
      */
     public void register( EventPipeline pipeline )
     {
@@ -152,6 +185,8 @@ public abstract class AbstractThreadManager extends AbstractLogEnabled
 
     /**
      * Deregister an EventPipeline with the ThreadManager
+     *
+     * @param pipeline  The pipeline we are de-registering
      */
     public void deregister( EventPipeline pipeline )
     {
@@ -226,6 +261,9 @@ public abstract class AbstractThreadManager extends AbstractLogEnabled
         }
     }
 
+    /**
+     * Get rid of the ThreadManager.
+     */
     public void dispose()
     {
         deregisterAll();
@@ -233,6 +271,10 @@ public abstract class AbstractThreadManager extends AbstractLogEnabled
         m_threadControl = null;
     }
 
+    /**
+     * The code that is run in the background to manage the ThreadPool and the
+     * EventPipelines
+     */
     public void run()
     {
         try
@@ -311,17 +353,30 @@ public abstract class AbstractThreadManager extends AbstractLogEnabled
         }
     }
 
+    /**
+     * The PipelineRunner class pulls all the events from the Source, and puts them in the EventHandler.
+     * Both of those objects are part of the EventPipeline.
+     */
     public static final class PipelineRunner
         extends AbstractLogEnabled
         implements Runnable
     {
+        /** The pipeline we are managing */
         private final EventPipeline m_pipeline;
 
+        /**
+         * Create a PipelineRunner.
+         *
+         * @param pipeline  The EventPipeline we are running
+         */
         protected PipelineRunner( EventPipeline pipeline )
         {
             m_pipeline = pipeline;
         }
 
+        /**
+         * The code that actually pulls the events from the Sources and sends them to the event handler
+         */
         public void run()
         {
             Source[] sources = m_pipeline.getSources();

@@ -62,6 +62,8 @@ public interface RepeatedCommand extends DelayedCommand
      * as long as the CommandManager is running.  If the value is above 0,
      * the Command repeats only for that specific amount of times before it
      * is removed from the system.
+     *
+     * @return the number of times the command repeats
      */
     int getNumberOfRepeats();
 
@@ -69,6 +71,8 @@ public interface RepeatedCommand extends DelayedCommand
      * Gets the repeat interval so that the CommandQueue keeps it for the
      * specified amount of time before enqueuing it again.  This value must
      * not be negative.
+     *
+     * @return the number of milliseconds between each repeat
      */
     long getRepeatInterval();
 }
