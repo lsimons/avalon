@@ -6,7 +6,7 @@
 # modules that Phoenix depends on.  Copy this file to ".ant.properties"
 # in the top-level source directory, and customize it as needed.
 #
-# $Id: ant.properties.sample,v 1.12 2002/07/15 15:54:19 proyal Exp $
+# $Id: ant.properties.sample,v 1.13 2002/07/30 12:10:48 donaldp Exp $
 # -----------------------------------------------------------------------------
 
 # ----- Compile Environment Flags -----
@@ -36,12 +36,6 @@ base.path=/opt
 # Windows
 #wrapper.exe=${wrapper.home}/bin/Wrapper.exe
 #wrapper.dll=${wrapper.home}/lib/Wrapper.dll
-
-# ----- Java Management Extensions (JMX) RI, version 1.0.1 or later -----
-#jmx.home=${base.path}/jmx-1_0_1-ri/jmx
-#jmx.lib=${jmx.home}/lib
-#jmxri.jar=${jmx.lib}/jmxri.jar
-#jmxtools.jar=${jmx.lib}/jmxtools.jar
 
 # ----- MX4J Open JMX Implementation, version 1.1 or later -----
 mx4j.home=${base.path}/mx4j-1.1
