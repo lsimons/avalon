@@ -8,6 +8,10 @@
     <person name="Leo Simons" email="mail@leosimons.com" id="LS"/>
   </devs>
   <release version="4.0-dev" date="unreleased">
+    <action dev="BL" type="add">
+      Added "ROLE" attribute to DataSource--to comply with practices
+      outlined in whitepaper.
+    </action>
   </release>
   <release version="4.0b3" date="June 6, 2001">
     <action dev="BL" type="update">
