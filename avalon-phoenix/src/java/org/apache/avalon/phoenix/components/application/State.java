@@ -14,7 +14,7 @@ import org.apache.avalon.framework.ValuedEnum;
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
-final class State
+public final class State
     extends ValuedEnum
 {
     /**
