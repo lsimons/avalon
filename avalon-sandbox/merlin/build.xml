@@ -245,8 +245,8 @@ the LICENSE.txt file.
 
      <mkdir dir="${common.dir}"/>
      <copy todir="${common.dir}" file="${avalon-framework.jar}"/>
-     <copy todir="${common.dir}" file="${excalibur-i18n.jar}"/>
      <copy todir="${common.dir}" file="${avalon-meta.jar}"/>
+     <copy todir="${common.dir}" file="${excalibur-i18n.jar}"/>
      <copy todir="${common.dir}" file="${logkit.jar}"/>
      <copy todir="${common.dir}" file="${excalibur-configuration.jar}"/>
 
