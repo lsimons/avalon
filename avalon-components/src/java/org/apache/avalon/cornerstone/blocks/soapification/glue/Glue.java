@@ -39,28 +39,22 @@ import org.apache.avalon.phoenix.Block;
  * jnet.jar
  * jsse.jar
  *
+ * @phoenix:service name="org.apache.avalon.cornerstone.services.soapification.SOAPification"
+ *
  * @author <a href="mailto:Paul_Hammant@yahoo.com">Paul Hammant</>
  */
 public class Glue
     extends AbstractLogEnabled
-    implements Block, SOAPification, Initializable, Startable, Disposable, Configurable
+    implements Block, SOAPification, Configurable, Startable
 {
-
     protected Configuration mConfiguration;
     protected int mPort;
     protected String mBindingAddress;
     protected WebServer mWebServer;
     protected String mBaseName;
 
-    public void initialize()
-    {
-    }
-
-    public void dispose()
-    {
-    }
-
-    public void configure( Configuration configuration ) throws ConfigurationException
+    public void configure( final Configuration configuration )
+        throws ConfigurationException
     {
         mConfiguration = configuration;
         mPort = configuration.getChild( "port" ).getValueAsInteger( 8765 );
@@ -140,7 +134,7 @@ public class Glue
 
     public static void main( String[] args ) throws Exception
     {
-        Glue glue = new Glue();
+        final Glue glue = new Glue();
         glue.mPort = 1234;
         glue.mBindingAddress = "127.0.0.1";
         glue.mBaseName = "soap";

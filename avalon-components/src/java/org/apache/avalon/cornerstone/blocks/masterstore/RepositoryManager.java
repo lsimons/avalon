@@ -27,6 +27,8 @@ import org.apache.avalon.phoenix.Block;
 
 /**
  *
+ * @phoenix:service name="org.apache.avalon.cornerstone.services.store.Store"
+ *
  * @author <a href="mailto:fede@apache.org">Federico Barbieri</a>
  */
 public class RepositoryManager

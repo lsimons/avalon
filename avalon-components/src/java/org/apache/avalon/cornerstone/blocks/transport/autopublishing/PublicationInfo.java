@@ -8,30 +8,19 @@
 package org.apache.avalon.cornerstone.blocks.transport.autopublishing;
 
 /**
- * Class PublicationInfo
- *
  *
  * @author Paul Hammant <a href="mailto:Paul_Hammant@yahoo.com">Paul_Hammant@yahoo.com</a>
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class PublicationInfo
 {
+    private final String m_publishAsName;
+    private final String m_interfaceToPublish;
 
-    private final String mPublishAsName;
-    private final String mInterfaceToPublish;
-
-    /**
-     * Constructor PublicationInfo
-     *
-     *
-     * @param publishAsName
-     * @param interfaceToPublish
-     *
-     */
     public PublicationInfo( String publishAsName, String interfaceToPublish )
     {
-        mPublishAsName = publishAsName;
-        mInterfaceToPublish = interfaceToPublish;
+        m_publishAsName = publishAsName;
+        m_interfaceToPublish = interfaceToPublish;
     }
 
     /**
@@ -43,18 +32,11 @@ public class PublicationInfo
      */
     public String getPublishAsName()
     {
-        return mPublishAsName;
+        return m_publishAsName;
     }
 
-    /**
-     * Method getInterfaceToPublish
-     *
-     *
-     * @return
-     *
-     */
     public String getInterfaceToPublish()
     {
-        return mInterfaceToPublish;
+        return m_interfaceToPublish;
     }
 }

@@ -37,21 +37,21 @@ import org.apache.excalibur.altrmi.server.impl.classretrievers.JarFileClassRetri
 import org.apache.excalibur.altrmi.server.impl.classretrievers.NoClassRetriever;
 
 /**
- * Class AbstractPublisher
- *
+ * @phoenix:service name="org.apache.excalibur.altrmi.server.AltrmiPublisher"
  *
  * @author Paul Hammant <a href="mailto:Paul_Hammant@yahoo.com">Paul_Hammant@yahoo.com</a>
- * @version $Revision: 1.14 $
+ * @version $Revision: 1.15 $
  */
-public abstract class AbstractPublisher extends AbstractLogEnabled
+public abstract class AbstractPublisher
+    extends AbstractLogEnabled
     implements AltrmiPublisher, Startable, Composable, Contextualizable, Configurable,
     Initializable, Block
 {
 
-    protected AbstractServer m_AbstractServer;
-    private ClassRetriever m_ClassRetriever;
-    protected AltrmiAuthenticator m_AltrmiAuthenticator;
-    protected File mBaseDirectory;
+    protected AbstractServer m_abstractServer;
+    private ClassRetriever m_classRetriever;
+    protected AltrmiAuthenticator m_altrmiAuthenticator;
+    protected File m_baseDirectory;
 
     /**
      * Pass the <code>Configuration</code> to the <code>Configurable</code>
@@ -80,7 +80,7 @@ public abstract class AbstractPublisher extends AbstractLogEnabled
 
                     if( url.startsWith( "./" ) )
                     {
-                        File file = new File( mBaseDirectory, url.substring( 2, url.length() ) );
+                        File file = new File( m_baseDirectory, url.substring( 2, url.length() ) );
 
                         vector.add( file.toURL() );
                     }
@@ -101,11 +101,11 @@ public abstract class AbstractPublisher extends AbstractLogEnabled
 
             vector.copyInto( urls );
 
-            m_ClassRetriever = new JarFileClassRetriever( urls );
+            m_classRetriever = new JarFileClassRetriever( urls );
         }
         else if( classRetrieverType.equals( "none" ) )
         {
-            m_ClassRetriever = new NoClassRetriever();
+            m_classRetriever = new NoClassRetriever();
         }
         else
         {
@@ -114,31 +114,18 @@ public abstract class AbstractPublisher extends AbstractLogEnabled
         }
     }
 
-    /**
-     * Method contextualize
-     *
-     *
-     *
-     * @param context
-     *
-     */
     public void contextualize( final Context context )
     {
-        mBaseDirectory = ( (BlockContext)context ).getBaseDirectory();
+        m_baseDirectory = ( (BlockContext)context ).getBaseDirectory();
     }
 
     /**
-     * Method compose
-     *
-     *
-     * @param manager
-     *
-     * @throws ComponentException
-     *
+     * @phoenix:dependency name="org.apache.excalibur.altrmi.server.AltrmiAuthenticator"
      */
-    public void compose( ComponentManager manager ) throws ComponentException
+    public void compose( ComponentManager manager )
+        throws ComponentException
     {
-        m_AltrmiAuthenticator =
+        m_altrmiAuthenticator =
             (AltrmiAuthenticator)manager.lookup( AltrmiAuthenticator.class.getName() );
     }
 
@@ -151,8 +138,8 @@ public abstract class AbstractPublisher extends AbstractLogEnabled
      */
     public void initialize() throws Exception
     {
-        m_AbstractServer.setClassRetriever( m_ClassRetriever );
-        m_AbstractServer.setAuthenticator( m_AltrmiAuthenticator );
+        m_abstractServer.setClassRetriever( m_classRetriever );
+        m_abstractServer.setAuthenticator( m_altrmiAuthenticator );
     }
 
     /**
@@ -170,7 +157,7 @@ public abstract class AbstractPublisher extends AbstractLogEnabled
     public void publish( Object implementation, String asName, Class interfaceToExpose )
         throws PublicationException
     {
-        m_AbstractServer.publish( implementation, asName, interfaceToExpose );
+        m_abstractServer.publish( implementation, asName, interfaceToExpose );
     }
 
     /**
@@ -189,7 +176,7 @@ public abstract class AbstractPublisher extends AbstractLogEnabled
         Object implementation, String asName, PublicationDescription publicationDescription )
         throws PublicationException
     {
-        m_AbstractServer.publish( implementation, asName, publicationDescription );
+        m_abstractServer.publish( implementation, asName, publicationDescription );
     }
 
     /**
@@ -205,7 +192,7 @@ public abstract class AbstractPublisher extends AbstractLogEnabled
      */
     public void unPublish( Object o, String s ) throws PublicationException
     {
-        m_AbstractServer.unPublish( o, s );
+        m_abstractServer.unPublish( o, s );
     }
 
     /**
@@ -222,7 +209,7 @@ public abstract class AbstractPublisher extends AbstractLogEnabled
      */
     public void replacePublished( Object o, String s, Object o1 ) throws PublicationException
     {
-        m_AbstractServer.replacePublished( o, s, o1 );
+        m_abstractServer.replacePublished( o, s, o1 );
     }
 
     /**
@@ -232,7 +219,7 @@ public abstract class AbstractPublisher extends AbstractLogEnabled
      */
     public void start() throws Exception
     {
-        m_AbstractServer.start();
+        m_abstractServer.start();
     }
 
     /**
@@ -242,7 +229,7 @@ public abstract class AbstractPublisher extends AbstractLogEnabled
      */
     public void stop() throws Exception
     {
-        m_AbstractServer.stop();
+        m_abstractServer.stop();
     }
 
     /**
@@ -257,11 +244,11 @@ public abstract class AbstractPublisher extends AbstractLogEnabled
      */
     public MethodInvocationHandler getMethodInvocationHandler( MethodRequest request, String publishedName )
     {
-        return m_AbstractServer.getMethodInvocationHandler( request, publishedName );
+        return m_abstractServer.getMethodInvocationHandler( request, publishedName );
     }
 
     public MethodInvocationHandler getMethodInvocationHandler(String publishedName)
     {
-        return m_AbstractServer.getMethodInvocationHandler( publishedName );
+        return m_abstractServer.getMethodInvocationHandler( publishedName );
     }
 }

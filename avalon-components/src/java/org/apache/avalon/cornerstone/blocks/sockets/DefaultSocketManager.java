@@ -25,6 +25,8 @@ import org.apache.avalon.phoenix.Block;
 /**
  * Implementation of SocketManager.
  *
+ * @phoenix:service name="org.apache.avalon.cornerstone.services.sockets.SocketManager"
+ *
  * @author <a href="mailto:fede@apache.org">Federico Barbieri</a>
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */

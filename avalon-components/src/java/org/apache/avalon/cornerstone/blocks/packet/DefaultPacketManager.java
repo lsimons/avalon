@@ -24,6 +24,8 @@ import org.apache.avalon.phoenix.Block;
 /**
  * This is the service through which PacketManagement occurs.
  *
+ * @phoenix:service name="org.apache.avalon.cornerstone.services.packet.PacketManager"
+ *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 public class DefaultPacketManager
@@ -33,6 +35,9 @@ public class DefaultPacketManager
     private HashMap m_acceptors = new HashMap();
     private ThreadManager m_threadManager;
 
+    /**
+     * @phoenix:dependency name="org.apache.avalon.cornerstone.services.threads.ThreadManager"
+     */
     public void compose( final ComponentManager componentManager )
         throws ComponentException
     {

@@ -22,18 +22,17 @@ import org.apache.excalibur.altrmi.common.AltrmiAuthentication;
 import org.apache.excalibur.altrmi.common.AltrmiConnectionException;
 
 /**
- * Class AbstractSubscriber
- *
+ * @phoenix:service name="org.apache.excalibur.altrmi.client.AltrmiInterfaceLookup"
  *
  * @author Paul Hammant <a href="mailto:Paul_Hammant@yahoo.com">Paul_Hammant@yahoo.com</a>
- * @version $Revision: 1.10 $
+ * @version $Revision: 1.11 $
  */
-public abstract class AbstractSubscriber extends AbstractLogEnabled
+public abstract class AbstractSubscriber
+    extends AbstractLogEnabled
     implements AltrmiInterfaceLookup, Configurable, Initializable, Block
 {
-
-    protected AltrmiFactory mAltrmiFactory;
-    protected AltrmiHostContext mHostContext;
+    protected AltrmiFactory m_altrmiFactory;
+    protected AltrmiHostContext m_hostContext;
 
     /**
      * Pass the <code>Configuration</code> to the <code>Configurable</code>
@@ -49,11 +48,11 @@ public abstract class AbstractSubscriber extends AbstractLogEnabled
 
         if( proxyClassLocation.equals( "client" ) )
         {
-            mAltrmiFactory = new ClientClassAltrmiFactory( false );
+            m_altrmiFactory = new ClientClassAltrmiFactory( false );
         }
         else if( proxyClassLocation.equals( "server" ) )
         {
-            mAltrmiFactory = new ServerClassAltrmiFactory( false );
+            m_altrmiFactory = new ServerClassAltrmiFactory( false );
         }
         else
         {
@@ -61,50 +60,20 @@ public abstract class AbstractSubscriber extends AbstractLogEnabled
         }
     }
 
-    /**
-     * Method lookup
-     *
-     *
-     * @param publishedName
-     *
-     * @return
-     *
-     * @throws AltrmiConnectionException
-     *
-     */
     public Object lookup( String publishedName ) throws AltrmiConnectionException
     {
-        return mAltrmiFactory.lookup( publishedName );
+        return m_altrmiFactory.lookup( publishedName );
     }
 
-    /**
-     * Method lookup
-     *
-     *
-     * @param publishedName
-     * @param authentication
-     *
-     * @return
-     *
-     * @throws AltrmiConnectionException
-     *
-     */
     public Object lookup( String publishedName, AltrmiAuthentication authentication )
         throws AltrmiConnectionException
     {
-        return mAltrmiFactory.lookup( publishedName, authentication );
+        return m_altrmiFactory.lookup( publishedName, authentication );
     }
 
-    /**
-     * Method getTextToSignForAuthentication
-     *
-     *
-     * @return
-     *
-     */
     public String getTextToSignForAuthentication()
     {
-        return mAltrmiFactory.getTextToSignForAuthentication();
+        return m_altrmiFactory.getTextToSignForAuthentication();
     }
 
     /**
@@ -116,21 +85,16 @@ public abstract class AbstractSubscriber extends AbstractLogEnabled
      */
     public void initialize() throws Exception
     {
-        mAltrmiFactory.setHostContext( mHostContext );
+        m_altrmiFactory.setHostContext( m_hostContext );
     }
 
-    /**
-     * Method close
-     *
-     *
-     */
     public void close()
     {
-        mAltrmiFactory.close();
+        m_altrmiFactory.close();
     }
 
     public String[] list()
     {
-        return mAltrmiFactory.list();
+        return m_altrmiFactory.list();
     }
 }

@@ -30,18 +30,17 @@ import org.apache.excalibur.altrmi.server.impl.socket.AbstractPartialSocketStrea
 
 
 /**
- * Class AbstractStreamPublisher
- *
+ * @phoenix:service name="org.apache.excalibur.altrmi.server.AltrmiPublisher"
  *
  * @author Paul Hammant <a href="mailto:Paul_Hammant@yahoo.com">Paul_Hammant@yahoo.com</a>
  * @author Mike Miller.
  * @author Peter Royal.
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
-public class SocketStreamPublisher extends AbstractPublisher
-        implements ConnectionHandlerFactory
+public class SocketStreamPublisher
+    extends AbstractPublisher
+    implements ConnectionHandlerFactory
 {
-
     protected SocketManager m_socketManager;
     protected ConnectionManager m_connectionManager;
     private int m_port;
@@ -87,17 +86,13 @@ public class SocketStreamPublisher extends AbstractPublisher
     }
 
     /**
-     * Method compose
-     *
-     *
-     * @param manager
-     *
-     * @throws ComponentException
-     *
+     * @phoenix:dependency name="org.apache.excalibur.altrmi.server.AltrmiAuthenticator"
+     * @phoenix:dependency name="org.apache.avalon.cornerstone.services.sockets.SocketManager"
+     * @phoenix:dependency name="org.apache.avalon.cornerstone.services.connection.ConnectionManager"
      */
-    public final void compose(ComponentManager manager) throws ComponentException
+    public final void compose(ComponentManager manager)
+        throws ComponentException
     {
-
         super.compose(manager);
 
         m_socketManager = (SocketManager) manager.lookup(SocketManager.ROLE);
@@ -127,10 +122,9 @@ public class SocketStreamPublisher extends AbstractPublisher
      */
     public ConnectionHandler createConnectionHandler() throws Exception
     {
-
         final PartialSocketStreamConnectionHandler handler =
             new PartialSocketStreamConnectionHandler(
-                (AbstractPartialSocketStreamServer) m_AbstractServer );
+                (AbstractPartialSocketStreamServer) m_abstractServer );
 
         setupLogger( handler );
 
@@ -154,9 +148,9 @@ public class SocketStreamPublisher extends AbstractPublisher
      */
     public void initialize() throws Exception
     {
-        m_AbstractServer = (AbstractPartialSocketStreamServer) Class.forName(m_socketStreamServerClass).newInstance();
+        m_abstractServer = (AbstractPartialSocketStreamServer) Class.forName(m_socketStreamServerClass).newInstance();
 
-        setupLogger( m_AbstractServer );
+        setupLogger( m_abstractServer );
         super.initialize();
         m_connectionManager.connect( "SocketStreamListener", makeServerSocket(), this );
     }

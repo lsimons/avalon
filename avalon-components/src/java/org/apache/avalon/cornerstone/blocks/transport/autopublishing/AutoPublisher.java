@@ -22,31 +22,20 @@ import org.apache.excalibur.altrmi.server.AltrmiPublisher;
 import org.apache.excalibur.altrmi.server.PublicationException;
 
 /**
- * Class AutoPublisher
- *
  * Publishes so configured services automatically after block start().
  *
  *
  * @author Paul Hammant <a href="mailto:Paul_Hammant@yahoo.com">Paul_Hammant@yahoo.com</a>
- * @version $Revision: 1.8 $
+ * @version $Revision: 1.9 $
  */
-public class AutoPublisher implements Configurable, ApplicationListener
+public class AutoPublisher
+    implements Configurable, ApplicationListener
 {
-
     private String m_publisherName;
     private AltrmiPublisher m_altrmiPublisher;
     private Map m_publications;
     private Vector m_events = new Vector();
 
-    /**
-     * Method configure
-     *
-     *
-     * @param configuration
-     *
-     * @throws ConfigurationException
-     *
-     */
     public void configure( final Configuration configuration ) throws ConfigurationException
     {
 
@@ -66,13 +55,6 @@ public class AutoPublisher implements Configurable, ApplicationListener
         }
     }
 
-    /**
-     * Method blockAdded
-     *
-     *
-     * @param event
-     *
-     */
     public void blockAdded( final BlockEvent event )
     {
 
@@ -87,35 +69,14 @@ public class AutoPublisher implements Configurable, ApplicationListener
         }
     }
 
-    /**
-     * Method blockRemoved
-     *
-     *
-     * @param event
-     *
-     */
     public void blockRemoved( final BlockEvent event )
     {
     }
 
-    /**
-     * Method applicationStarting
-     *
-     *
-     * @param event
-     *
-     * @throws Exception
-     *
-     */
     public void applicationStarting( ApplicationEvent event ) throws Exception
     {
     }
 
-    /**
-     * Method applicationStarted
-     *
-     *
-     */
     public void applicationStarted()
     {
 
@@ -144,11 +105,6 @@ public class AutoPublisher implements Configurable, ApplicationListener
         }
     }
 
-    /**
-     * Method applicationStopping
-     *
-     *
-     */
     public void applicationStopping()
     {
 
@@ -174,22 +130,10 @@ public class AutoPublisher implements Configurable, ApplicationListener
         }
     }
 
-    /**
-     * Method applicationStopped
-     *
-     *
-     */
     public void applicationStopped()
     {
     }
 
-    /**
-     * Method applicationFailure
-     *
-     *
-     * @param e
-     *
-     */
     public void applicationFailure( Exception e )
     {
     }

@@ -20,6 +20,8 @@ import org.apache.avalon.phoenix.Block;
  * Block implementation of the DocumentBuilderFactory service.  That service being
  * a non abstract/static clone of the javax.xml.parsers class of the same name.
  *
+ * @phoenix:service name="org.apache.avalon.cornerstone.services.dom.DocumentBuilderFactory"
+ *
  * @author <a href="mailto:Paul_Hammant@yahoo.com">Paul Hammant</a>
  */
 public class DOMBuilderFactory

@@ -21,6 +21,8 @@ import org.xml.sax.SAXNotSupportedException;
  * Block implementation of the SAXParserFactory service.  That service being
  * a non abstract/static clone of the javax.xml.parsers class of the same name.
  *
+ * @phoenix:service name="org.apache.avalon.cornerstone.services.sax.SAXParserFactory"
+ *
  * @author <a href="mailto:Paul_Hammant@yahoo.com">Paul Hammant</a>
  */
 public class SAXParserFactoryImpl
