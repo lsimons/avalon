@@ -29,7 +29,7 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
  * and installing it as appropriate.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.15 $ $Date: 2002/09/15 02:39:42 $
+ * @version $Revision: 1.16 $ $Date: 2002/09/15 02:41:47 $
  */
 public class Installer
     extends AbstractLogEnabled
@@ -205,24 +205,18 @@ public class Installer
         try
         {
             expandZipFile( zipFile, directory, workDir, jars, url );
-
-            //Retrieve name of environment file
-            //need to check existence to support backwards compatability
-            final File envFile = new File( directory, FS_ENV_XML );
-
             //Prepare and create Installation
             final String[] classPath =
                 (String[])jars.toArray( new String[ jars.size() ] );
 
             final String assembly = getURLAsString( new File( directory, FS_ASSEMBLY_XML ) );
             final String config = getURLAsString( new File( directory, FS_CONFIG_XML ) );
-            final String environment = getURLAsString( envFile );
-            final long timestamp = System.currentTimeMillis();
+            final String environment = getURLAsString( new File( directory, FS_ENV_XML ) );
 
             success = true;
             return new Installation( file, directory, workDir,
                                      config, assembly, environment,
-                                     classPath, timestamp );
+                                     classPath );
         }
         finally
         {

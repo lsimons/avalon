@@ -16,7 +16,7 @@ import java.io.File;
  * jars in Classpath, config files and installation directory.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2002/09/15 02:38:25 $
+ * @version $Revision: 1.4 $ $Date: 2002/09/15 02:41:47 $
  */
 public final class Installation
 {
@@ -41,17 +41,13 @@ public final class Installation
     ///ClassPath for application
     private final String[] m_classPath;
 
-    ///Installation timestamp
-    private final long m_timestamp;
-
     public Installation( final File source,
                          final File directory,
                          final File workDirectory,
                          final String config,
                          final String assembly,
                          final String environment,
-                         final String[] classPath,
-                         final long timestamp )
+                         final String[] classPath )
     {
         m_source = source;
         m_directory = directory;
@@ -60,7 +56,6 @@ public final class Installation
         m_assembly = assembly;
         m_environment = environment;
         m_classPath = classPath;
-        m_timestamp = timestamp;
     }
 
     /**
@@ -133,14 +128,5 @@ public final class Installation
     public String[] getClassPath()
     {
         return m_classPath;
-    }
-
-    /** Retrieve the timestamp.
-     *
-     * @return the timestamp when installation occured.
-     */
-    public long getTimestamp()
-    {
-        return m_timestamp;
     }
 }
