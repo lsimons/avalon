@@ -31,6 +31,12 @@ import org.eclipse.core.resources.IProject;
 
 /**
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * 
+ * To use a templateResource you have to follow the following steps:
+ * 
+ *  - setTemplateSourcePath()       path where to find the template
+ *  - setParameter()                see tools.DynProjectParam
+ *  - createTemplate(destinationPathFileName, templateSourceFileName)
  *  
  */
 public class TemplateResource
