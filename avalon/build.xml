@@ -397,8 +397,8 @@ Legal:
             <arg value="-c${build.context}/"/>
 	    <arg value="-d${build.docs}"/>
 	    <arg value="-k${build.context}/logkit.xconf"/>
-            <arg value="-w${build.dir}/work"/>
-            <arg value="-l${build.dir}/work/cocoon.log"/>
+	    <arg value="-w${build.dir}/work"/>
+	    <!--            <arg value="-l${build.dir}/work/cocoon.log"/> -->
             <arg value="-uERROR"/>
             <arg value="index.html"/>
             <classpath>
