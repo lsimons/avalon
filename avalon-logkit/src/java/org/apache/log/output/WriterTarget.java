@@ -26,7 +26,7 @@ public class WriterTarget
     protected Writer             m_output;
 
     /**
-     * COnstruct target with a specific writer and formatter.
+     * Construct target with a specific writer and formatter.
      *
      * @param writer the writer
      * @param formatter the formatter
@@ -34,7 +34,12 @@ public class WriterTarget
     public WriterTarget( final Writer writer, final Formatter formatter )
     {
         super( formatter );
-        setWriter( writer );
+
+        if( null != writer )
+        {
+            setWriter( writer );
+            open();
+        }
     }
 
     /**
@@ -49,14 +54,8 @@ public class WriterTarget
        {
            throw new NullPointerException( "writer property must not be null" );
        }
-       
-       if( null != m_output )
-       {
-           close();
-       }
-       
+
        m_output = writer;
-       open();
     }
 
     /**
@@ -85,7 +84,14 @@ public class WriterTarget
     public synchronized void close()
     {
         super.close();
+        shutdownWriter();
+    }
 
+    /**
+     * Shutdown Writer.
+     */
+    protected synchronized void shutdownWriter()
+    {
         final Writer writer = m_output;
         m_output = null;
 
