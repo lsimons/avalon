@@ -5,7 +5,7 @@
  * version 1.1, a copy of which has been included  with this distribution in
  * the LICENSE.txt file.
  */
-package org.apache.avalon.excalibur.xml.xslt;
+package org.apache.excalibur.xml.xslt;
 
 import javax.xml.transform.ErrorListener;
 import javax.xml.transform.SourceLocator;
@@ -18,7 +18,7 @@ import org.apache.avalon.framework.logger.Logger;
  * Warnings and errors are ignored.
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Id: TraxErrorHandler.java,v 1.4 2002/07/10 08:53:17 donaldp Exp $
+ * @version CVS $Id: TraxErrorHandler.java,v 1.5 2003/01/22 02:18:17 jefft Exp $
  */
 class TraxErrorHandler
     implements ErrorListener

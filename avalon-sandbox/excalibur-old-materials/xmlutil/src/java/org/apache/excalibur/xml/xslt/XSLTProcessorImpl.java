@@ -5,7 +5,7 @@
  * version 1.1, a copy of which has been included  with this distribution in
  * the LICENSE.txt file.
  */
-package org.apache.avalon.excalibur.xml.xslt;
+package org.apache.excalibur.xml.xslt;
 
 import java.io.File;
 import java.io.IOException;
@@ -64,7 +64,7 @@ import org.xml.sax.XMLFilter;
  *
  * @author <a href="mailto:ovidiu@cup.hp.com">Ovidiu Predescu</a>
  * @author <a href="mailto:proyal@apache.org">Peter Royal</a>
- * @version CVS $Id: XSLTProcessorImpl.java,v 1.22 2003/01/14 09:39:36 cziegeler Exp $
+ * @version CVS $Id: XSLTProcessorImpl.java,v 1.23 2003/01/22 02:18:17 jefft Exp $
  * @version 1.0
  * @since   July 11, 2001
  */
