@@ -658,9 +658,261 @@ this.manager.initialize();
   </section>
   <section>
     <title>Using the Component</title>
+    <para>
+      Now that we have created our Components, we will want to use them.  You
+      access Components the same way regardless of how they were instantiated
+      or managed.  You must implement the Composable interface to get a
+      reference to the ComponentManager.   The ComponentManager holds all the
+      references to the Components you need.  For the sake of our discussion,
+      we will assume that the ComponentManager given to us is configured in the
+      same manner as the final Configuration file in the last section.  This
+      means that we have a Repository, a Guardian, and two DataSources.
+    </para>
+    <section>
+      <title>Rules for Using the Component Management Infrastructure</title>
+      <para>
+        The Component management infrastructure requires that you release any
+	Component for which you have obtained a reference.  The reason for this
+	restriction is so that the Component's resources can be properly
+	managed.  A ComponentManager is designed for instances when you have
+	multiple types of Components with distinct roles.  A ComponentSelector
+	is designed for instances when you have multiple types of Components
+	with the same role.  Another unique aspect of the ComponentSelector is
+	that it is a Component by design.  This enables us to get a
+	ComponentSelector from a ComponentManager.
+      </para>
+      <para>
+        There are two valid approaches for handling references to external
+	Components.  You can obtain your references during initialization, and
+	release them during disposal.  You may also encapsulate the Component
+	handling in a try/catch/finally block.  Each has its advantages and
+	disadvantages.
+      </para>
+      <section>
+        <title>Initialization and Disposal Approach</title>
+	<programlisting>
+<![CDATA[
+class MyClass implements Composable, Disposable {
+    ComponentManager manager;
+    Guardian myGuard;
 
-<!-- PLACEHOLDER -->
+    /**
+     * Obtain a reference to a guard and keep the reference to
+     * the ComponentManager.
+     */
+    public void compose(ComponentManager manager)
+    throws ComponentException {
+        if (this.manager == null) {
+            this.manager = manager;
+            myGuard = (Guardian) this.manager.lookup(Guardian.ROLE);
+        }
+    }
 
+    /**
+     * This is the method that uses the Guardian.
+     */
+    public void myMethod() throws SecurityException {
+        this.myGuard.checkPermission(new BasicPermission("test"));
+    }
+
+    /**
+     * Get rid of our references
+     */
+    public void dispose() {
+        this.manager.release(this.myGuard);
+        this.myGuard = null;
+        this.manager = null;
+    }
+}
+]]>
+	</programlisting>
+	<para>
+	  As you can see by the sample code, this is easy to follow.  The
+	  object gets a reference to a Guardian Component when it first
+	  receives the ComponentManager.  If you could be guaranteed that the
+	  Guardian Component was ThreadSafe, then this is all that is
+	  necessary.  Unfortunately, you cannot guarantee this for the long
+	  term.  To properly manage resources, we must release the Component
+	  when we are done with it.  That's why we kept a reference to the
+	  ComponentManager.
+	</para>
+	<para>
+	  The main disadvantage of this approach comes into play when you are
+	  dealing with pooled Components.  The reference of the Component is
+	  kept for the life of this object.  It might not be a problem if the
+	  object had a short life span, but if it was a Component managed by
+	  the Excalibur component management architecture, its life span is as
+	  long as the Component whose reference it has.  What this means is
+	  that we are essentially turning the Component's pool into a Factory.
+	</para>
+	<para>
+	  The main advantage of this approach is that the code is very clear on
+	  how a Component is obtained and released.  You don't have to have any
+	  understanding of exception handling.
+	</para>
+	<para>
+	  One other nuance is that you are tying the existence of the Guardian
+	  to the ability to initialize this object.  Once an Exception is
+	  thrown during the initialization phase of an object, you must assume
+	  that the object is not valid.  Sometimes you want to fail if a
+	  required Component does not exist so this is not a problem.  You do
+	  need to be aware of this implication when you are designing your
+	  Components though.
+	</para>
+      </section>
+      <section>
+        <title>Exception Handling Approach</title>
+	<programlisting>
+<![CDATA[
+class MyClass implements Composable, Disposable {
+    ComponentManager manager;
+
+    /**
+     * Obtain a reference to a guard and keep the reference to
+     * the ComponentManager.
+     */
+    public void compose(ComponentManager manager)
+    throws ComponentException {
+        if (this.manager == null) {
+            this.manager = manager;
+        }
+    }
+
+    /**
+     * This is the method that gets the Guardian.
+     */
+    public void myMethod() throws SecurityException {
+        Guardian myGuard = null;
+        try {
+            myGuard = (Guardian) this.manager.lookup(Guardian.ROLE);
+            this.criticalSection(myGuard);
+        } catch (ComponentException ce) {
+            throw new SecurityException(ce.getMessage());
+        } catch (SecurityException se) {
+            throw se;
+        } finally {
+            if (myGuard != null) {
+                this.manager.release(myGuard);
+            }
+        }
+    }
+
+    /**
+     * Perform critical part of code.
+     */
+    public void criticalSection(Guardian myGuard) throws SecurityException {
+        myGuard.checkPermission(new BasicPermission("test"));
+    }
+}
+]]>
+	</programlisting>
+	<para>
+	  As you can see, the code is a bit more complex.  In order to
+	  understand it, you have to understand Exception handling.  This is
+	  not necessarily a problem, because most Java developers know how to
+	  handle them.  You don't have to worry so much about the Component
+	  life style with this approach, because we are releasing it as soon
+	  as we no longer need it.
+	</para>
+	<para>
+	  The main disadvantage of this approach is the added complexity of the
+	  exception handling code.  In order to minimize the complexity and
+	  make the code more maintainable, we extracted the working code into
+	  another method.  Keep in mind that we can get the reference to as
+	  many Components as we possibly want inside the try block.
+	</para>
+	<para>
+	  The main advantage of this approach is that you are managing your
+	  Component references more efficiently.  Again, there is no real
+	  difference if you are using ThreadSafe Components, but it makes a
+	  real difference when you have pooled Components.  There is a slight
+	  overhead dealing with getting a new reference every time you use a
+	  Component, but the likelihood of being forced to create a new
+	  instance of the Component is minimized.
+	</para>
+	<para>
+	  Just like the Initialization and Disposal Approach, you have to
+	  understand a subtle nuance.  The Exception Handling Approach does not
+	  fail on initialization if the Component is missing from the manager.
+	  As mentioned before, this is not entirely bad.  Many times, you want
+	  an object to exist, but it is not a failure if a required Component
+	  is missing.
+	</para>
+      </section>
+    </section>
+    <section>
+      <title>Getting Components from a ComponentSelector</title>
+      <para>
+        For most operations, you will only need the ComponentManager.  Since we
+	decided that we needed multiple instances of the DataSourceComponent,
+	we need to know how to get the instance we want.  ComponentSelectors
+	are a little trickier than ComponentManagers because we are dealing
+	with hints to get the reference we need.  A Component has a specific
+	Role, and this contract is well documented.  However, sometimes we need
+	to select one of many Components for a Role.  A ComponentSelector uses
+	an arbitrary object for the hint.  Most of the time, the object is a
+	String, although you might want to use a Locale object to get a proper
+	internationalization Component.
+      </para>
+      <para>
+        In our system we have set up, we chose to use Strings to select the
+	correct instance of the DataSourceComponent.  We even gave ourselves a
+	Configuration element that references the exact string we need to get
+	the right Component.  This is a good practice to follow, as it makes it
+	easier on administrators of a system.  It is easier for an
+	administrator to see a reference to another Component than it is for
+	them to remember magic values for the configuration.
+      </para>
+      <para>
+        Conceptually, getting a Component from a ComponentSelector is no
+	different than getting a Component from a ComponentManager.  You just
+	have one more step.  Remember that a ComponentSelector is a Component.
+	The ComponentManager will be set up to return the ComponentSelector
+	when you lookup its role.  You then need to select the component from
+	the selector.  To demonstrate, I will extend the code from the
+	Exception Handling Approach discussed previously.
+      </para>
+      <programlisting>
+<![CDATA[
+public void myMethod() throws Exception {
+    ComponentSelector dbSelector = null;
+    DataSourceComponent datasource = null;
+    try {
+        dbSelector = (ComponentSelector)
+                this.manager.lookup(DataSourceComponent.ROLE + "Selector");
+        datasource = (DataSourceComponent)
+                dbSelector.select(this.useDb);
+
+        this.process(datasource.getConnection());
+    } catch (Exception e) {
+        throw e;
+    } finally {
+        if (datasource != null) {
+            dbSelector.release(datasource);
+        }
+
+        if (dbSelector != null) {
+            this.manager.release(dbSelector);
+        }
+    }
+}
+]]>
+      </programlisting>
+      <para>
+        As you can see, we got the reference to the ComponentSelector using the
+	Role specified for the Component.  We followed the Role naming
+	guidelines outlined in a previous chapter by adding the "Selector"
+	suffix to the Role name.  It is also perfectly acceptable to use a
+	static interface for all the Role names in your system to minimize the
+	number of String concatenation in your code.
+      </para>
+      <para>
+        Next, we obtained the reference to the DataSourceComponent from the
+	ComponentSelector.  Our sample code assumed that we had already pulled
+	the required information from the Configuration object and placed it in
+	a class variable named "useDb".
+      </para>
+    </section>
   </section>
   <section>
     <title>Excalibur's Utitities</title>
