@@ -1,5 +1,5 @@
 APACHE AVALON PROJECT STATUS:                          -*-indented-text-*-
-Last modified at [$Date: 2003/02/01 10:01:43 $]
+Last modified at [$Date: 2003/02/01 10:15:33 $]
 
 Background:
 
@@ -13,9 +13,8 @@ Background:
        
 Release:
 
-    o none scheduled ATM; still defining new container plan and 
-      how to best keep development of current code go ahead 
-      without impacting negatively on the new work.
+    o We are in the midst of putting together a Release Plan for 
+      all Avalon technologies, codenamed ACR (Avalon Coordinated Release)
 
     o Phoenix released.
           
@@ -69,7 +68,7 @@ Resolved Issues:
       Proposal: [http://marc.theaimsgroup.com/?l=avalon-dev&m=104339946013500&w=2]
       Result:   [http://marc.theaimsgroup.com/?l=avalon-dev&m=104400855421800&w=2]
 
-    o The STATUS file is a great mean of synching the community agenda. 
+    o The STATUS file is a great means of synching the community agenda. 
       For each [Proposal] and [Vote] 
       and release there be an entry in the STATUS file, that has to be 
       updated by the original item proposal.
@@ -87,6 +86,14 @@ Resolved Issues:
       
 Pending issues:
       
+    o [VOTE] Do you want that we discuntinue Excalibur CLI in favor of 
+      Jakarta Commons CLI?
+
+      +1: nicolaken
+      +0:
+      -0:
+      -1:
+     
     o Coming up with a set of bylaws for the project
 
     o Define the terms for serving as a Chair
