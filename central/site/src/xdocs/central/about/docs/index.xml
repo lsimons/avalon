@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+  <properties>
+    <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+    <title>Avalon Central</title>
+  </properties> 
+
+  <body>
+    <section name="Avalon Documentation">
+      <table>
+        <tr>
+	  <th>Section</th>
+	  <th>Description</th>
+	</tr>
+	<tr>
+	  <td><a href="installation/index.html">Installation</a></td>
+	  <td>How to download and install the Avalon platform</td>
+	</tr>
+	<tr>
+	  <td><a href="basic/index.html">Basic Tutorials</a></td>
+	  <td>A set of basic, introductory tutorials</td>
+	</tr>
+	<tr>
+	  <td><a href="advanced/index.html">Advanced Tutorials</a></td>
+	  <td>A set of tutorials on advanced features for developers</td>
+	</tr>
+	<tr>
+	  <td><a href="cop/index.html">Component Oriented Programming</a></td>
+	  <td>Documents on design patterns such as Inversion of Control, 
+              Separation of Concerns and other aspects of COP</td>
+	</tr>
+	<tr>
+	  <td><a href="http://wiki.apache.org/avalon/FrequentlyAskedQuestions">FAQ</a></td>
+	  <td>Answers to Fequently Asked Questions</td>
+	</tr>
+      </table>
+    </section>
+  </body>
+</document>
+
