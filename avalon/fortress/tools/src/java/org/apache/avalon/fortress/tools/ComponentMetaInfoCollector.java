@@ -185,6 +185,14 @@ public class ComponentMetaInfoCollector extends AbstractQdoxTask
             {
                 m_services.add(javaClass.getFullyQualifiedName());
             }
+            else if ( (tag = javaClass.getTagByName( "avalon.service" )) != null )
+            {
+                String className = tag.getValue();
+                if ( null != className && className.length() > 0 )
+                {
+                    m_services.add( className );
+                }
+            }
             else
             {
                 tag = javaClass.getTagByName( "avalon.component" );
