@@ -19,6 +19,8 @@ package org.apache.avalon.tools.project;
 
 import java.io.File;
 
+import org.apache.avalon.tools.home.Home;
+
 /**
  * Defintion of a project. 
  *
@@ -30,11 +32,11 @@ public class Plugin extends Definition
     private final TaskDef[] m_tasks;
 
     public Plugin(
-      String key, File basedir, Info info, 
-      ResourceRef[] resources, ProjectRef[] projects, PluginRef[] plugins, 
+      Home home, String key, File basedir, Info info, 
+      ResourceRef[] resources, ResourceRef[] plugins, 
       TaskDef[] tasks )
     {
-        super( key, basedir, info, resources, projects, plugins );
+        super( home, key, basedir, info, resources, plugins );
         m_tasks = tasks;
     }
 

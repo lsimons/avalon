@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.SimpleTimeZone;
 import java.util.TimeZone;
+import java.util.List;
 
 import org.apache.tools.ant.Task;
 import org.apache.tools.ant.Project;
@@ -60,7 +61,8 @@ public class ArtifactTask extends SystemTask
     public void execute() throws BuildException 
     {
         String key = getContext().getKey();
-        Definition def = getHome().getDefinition( key );
+        ResourceRef ref = new ResourceRef( key );
+        Definition def = getHome().getDefinition( ref );
         File artifact = getArtifactFile( def );
 
         m_factory = getProject().getProperty( FACTORY_KEY );
@@ -80,20 +82,24 @@ public class ArtifactTask extends SystemTask
 
         if( file.exists() )
         {
+            //
+            // TODO : check if the index.xml was modified
+            //
+
             if( file.lastModified() > artifact.lastModified() )
             {
-                return;
+                if( getHome().getIndexLastModified() < file.lastModified() )
+                {
+                    return;
+                }
             }
         }
 
         try
         {
-
             log( "Creating meta directive" );
-
             file.createNewFile();
             final OutputStream output = new FileOutputStream( file );
-
             try
             {
                 writeMetaDescriptor( output, def, artifact );
@@ -206,8 +212,8 @@ public class ArtifactTask extends SystemTask
     private void writeClasspath( final Writer writer, final Definition def )
         throws IOException
     {
-        ResourceRef[] refs = getRuntimeRefs( def );
-        ResourceRef[] apis = getRefs( refs, "api" );
+        ArrayList visited = new ArrayList();
+        ResourceRef[] apis = getQualifiedRefs( def, visited, ResourceRef.API );
         if( apis.length > 0 )
         {
             writer.write( "\n" );
@@ -217,7 +223,7 @@ public class ArtifactTask extends SystemTask
             String lead = "avalon.artifact.dependency.api";
             writeRefs( writer, apis, lead );
         }
-        ResourceRef[] spis = getRefs( refs, "spi" );
+        ResourceRef[] spis = getQualifiedRefs( def, visited, ResourceRef.SPI );
         if( spis.length > 0 )
         {
             writer.write( "\n" );
@@ -228,7 +234,7 @@ public class ArtifactTask extends SystemTask
             writeRefs( writer, spis, lead );
         }
 
-        ResourceRef[] impl = getRefs( refs, "impl" );
+        ResourceRef[] impl = getQualifiedRefs( def, visited, ResourceRef.IMPL );
         if( impl.length > 0 )
         {
             writer.write( "\n" );
@@ -240,33 +246,17 @@ public class ArtifactTask extends SystemTask
         }
     }
 
-    private ResourceRef[] getRuntimeRefs( final Definition def )
+    private ResourceRef[] getQualifiedRefs( final Definition def, final List visited, int category )
     {
         ArrayList list = new ArrayList();
-        ResourceRef[] resources = 
-          getHome().getRepository().getResourceRefs( def, Policy.RUNTIME );
-        for( int i=0; i<resources.length; i++ )
-        {
-            ResourceRef ref = resources[i];
-            Policy policy = ref.getPolicy();
-            if( policy.isRuntimeEnabled() )
-            {
-                list.add( ref );
-            }
-        }
-        return (ResourceRef[]) list.toArray( new ResourceRef[0] );
-    }
-
-    private ResourceRef[] getRefs( final ResourceRef[] refs, String category )
-    {
-        ArrayList list = new ArrayList();
+        ResourceRef[] refs = def.getResourceRefs( Policy.RUNTIME, category, true );
         for( int i=0; i<refs.length; i++ )
         {
             ResourceRef ref = refs[i];
-            String tag = ref.getTag();
-            if( category.equals( tag ) )
+            if( !visited.contains(  ref ) )
             {
                 list.add( ref );
+                visited.add( ref );
             }
         }
         return (ResourceRef[]) list.toArray( new ResourceRef[0] );

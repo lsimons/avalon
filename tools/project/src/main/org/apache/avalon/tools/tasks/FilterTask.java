@@ -35,8 +35,6 @@ import org.apache.avalon.tools.home.Home;
 import org.apache.avalon.tools.project.Resource;
 import org.apache.avalon.tools.project.Definition;
 import org.apache.avalon.tools.project.ResourceRef;
-import org.apache.avalon.tools.project.ProjectRef;
-import org.apache.avalon.tools.project.PluginRef;
 
 /**
  * Build a set of projects taking into account dependencies within the 

@@ -25,31 +25,45 @@ package org.apache.avalon.tools.project;
  */
 public class ResourceRef 
 {
+    public static final int ANY = -1;
+    public static final int API = 0;
+    public static final int SPI = 1;
+    public static final int IMPL = 2;
+
     private String m_key;
     private Policy m_policy;
-    private String m_tag;
+    private int m_tag;
 
-    public ResourceRef( String key )
+    public static int getCategory( String category )
     {
-        this( key, new Policy(), null );
-    }
-
-    public ResourceRef( String key, Policy policy, String tag )
-    {
-        m_key = key;
-        m_policy = policy;
-        if( null == tag )
+        if( "api".equals( category ) )
         {
-            m_tag = "impl";
+            return API;
         }
-        else if( "".equals( tag ) )
+        else if( "spi".equals( category ) )
         {
-            m_tag = "impl";
+            return SPI;
+        }
+        else if( "impl".equals( category ) )
+        {
+            return IMPL;
         }
         else
         {
-            m_tag = tag;
+            return ANY;
         }
+    }
+
+    public ResourceRef( String key )
+    {
+        this( key, new Policy(), ANY );
+    }
+
+    public ResourceRef( String key, Policy policy, int tag )
+    {
+        m_key = key;
+        m_policy = policy;
+        m_tag = tag;
     }
 
     public String getKey()
@@ -57,7 +71,7 @@ public class ResourceRef
         return m_key;
     }
 
-    public String getTag()
+    public int getTag()
     {
         return m_tag;
     }
@@ -65,6 +79,18 @@ public class ResourceRef
     public Policy getPolicy()
     {
         return m_policy;
+    }
+
+    public boolean matches( int category )
+    {
+        if(( ANY == category ) || ( ANY == m_tag ))
+        {
+            return true;
+        }
+        else
+        {
+            return ( m_tag == category );
+        }
     }
 
     public boolean equals( Object other )

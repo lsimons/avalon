@@ -179,7 +179,10 @@ public class DeclareTask extends SystemTask
     {
         writer.write( "\n  <classpath>" );
         final String pad = "    ";
-        ResourceRef[] resources = getHome().getRepository().getResourceRefs( def );
+        ResourceRef[] resources = 
+          def.getResourceRefs( Policy.RUNTIME, ResourceRef.ANY, true );
+
+        //  getHome().getRepository().getResourceRefs( def );
         writeResourceRefs( writer, pad, resources );
         writeResource( writer, pad, def );
         writer.write( "\n  </classpath>" );

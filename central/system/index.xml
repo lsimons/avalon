@@ -106,12 +106,10 @@
         <version>2.0.0</version>
       </info>
       <dependencies>
-        <resources>
-          <resourceref key="log4j" runtime="false"/>
-          <resourceref key="servletapi" runtime="false"/>
-          <resourceref key="mailapi" runtime="false"/>
-          <resourceref key="jms" runtime="false"/>
-        </resources>
+        <include key="log4j" runtime="false"/>
+        <include key="servletapi" runtime="false"/>
+        <include key="mailapi" runtime="false"/>
+        <include key="jms" runtime="false"/>
       </dependencies>
     </project>
 
@@ -126,9 +124,7 @@
         <version>4.2.0</version>
       </info>
       <dependencies>
-        <projects>
-          <projectref key="avalon-logkit" runtime="false" test="false"/>
-        </projects>
+        <include key="avalon-logkit" runtime="false" test="false"/>
       </dependencies>
     </project>
 
@@ -139,9 +135,7 @@
         <version>4.2.0</version>
       </info>
       <dependencies>
-        <projects>
-          <projectref key="avalon-framework-api"/>
-        </projects>
+        <include key="avalon-framework-api"/>
       </dependencies>
     </project>
 
@@ -160,13 +154,11 @@
       <info>
         <group>avalon/util</group>
         <name>avalon-util-configuration</name>
-        <version>1.0-dev</version>
+        <version>1.0.0</version>
       </info>
       <dependencies>
-        <projects>
-          <projectref key="avalon-framework-api"/>
-          <projectref key="avalon-framework-impl"/>
-        </projects>
+        <include key="avalon-framework-api"/>
+        <include key="avalon-framework-impl"/>
       </dependencies>
     </project>
 
@@ -185,9 +177,7 @@
         <version>1.2.1</version>
       </info>
       <dependencies>
-        <projects>
-          <projectref key="avalon-util-env"/>
-        </projects>
+        <include key="avalon-util-env"/>
       </dependencies>
     </project>
 
@@ -230,9 +220,7 @@
         <version>1.2.0</version>
       </info>
       <dependencies>
-        <projects>
-          <projectref key="avalon-util-extension-api"/>
-        </projects>
+        <include key="avalon-util-extension-api"/>
       </dependencies>
     </project>
 
@@ -243,9 +231,7 @@
         <version>1.1.1</version>
       </info>
       <dependencies>
-        <projects>
-          <projectref key="avalon-framework-api"/>
-        </projects>
+        <include key="avalon-framework-api"/>
       </dependencies>
     </project>
 
@@ -260,10 +246,8 @@
         <version>1.4.0</version>
       </info>
       <dependencies>
-        <projects>
-          <projectref key="avalon-framework-api"/>
-          <projectref key="avalon-framework-impl" compile="false" test="true"/>
-        </projects>
+        <include key="avalon-framework-api"/>
+        <include key="avalon-framework-impl" compile="false" test="true" runtime="false"/>
       </dependencies>
     </project>
 
@@ -274,9 +258,7 @@
         <version>1.4.0</version>
       </info>
       <dependencies>
-        <projects>
-          <projectref key="avalon-meta-api"/>
-        </projects>
+        <include key="avalon-meta-api"/>
       </dependencies>
     </project>
 
@@ -287,11 +269,9 @@
         <version>1.4.0</version>
       </info>
       <dependencies>
-        <projects>
-          <projectref key="avalon-meta-spi"/>
-          <projectref key="avalon-util-i18n"/>
-          <projectref key="avalon-util-configuration"/>
-        </projects>
+        <include key="avalon-meta-spi"/>
+        <include key="avalon-util-i18n"/>
+        <include key="avalon-util-configuration"/>
       </dependencies>
     </project>
 
@@ -302,12 +282,8 @@
         <version>1.4.0</version>
       </info>
       <dependencies>
-        <projects>
-          <projectref key="avalon-meta-impl"/>
-        </projects>
-        <resources>
-          <resourceref key="qdox"/>
-        </resources>
+        <include key="avalon-meta-impl"/>
+        <include key="qdox"/>
       </dependencies>
       <tasks>
         <taskdef name="meta" class="org.apache.avalon.meta.info.ant.MetaTask"/>
@@ -324,13 +300,11 @@
         <name>avalon-test-dynamics</name>
       </info>
       <dependencies>
-        <projects>
-          <projectref key="avalon-framework-impl"/>
-        </projects>
-        <plugins>
-          <pluginref key="avalon-meta-tools"/>
-        </plugins>
+        <include key="avalon-framework-impl"/>
       </dependencies>
+      <plugins>
+        <include key="avalon-meta-tools"/>
+      </plugins>
     </project>
 
     <project basedir="../../runtime/test/playground">
@@ -339,14 +313,12 @@
         <name>avalon-test-playground</name>
       </info>
       <dependencies>
-        <projects>
-          <projectref key="avalon-framework-impl"/>
-          <projectref key="avalon-util-lifecycle"/>
-        </projects>
-        <plugins>
-          <pluginref key="avalon-meta-tools"/>
-        </plugins>
+        <include key="avalon-framework-impl"/>
+        <include key="avalon-util-lifecycle"/>
       </dependencies>
+      <plugins>
+        <include key="avalon-meta-tools"/>
+      </plugins>
     </project>
 
     <project basedir="../../runtime/test/testa">
@@ -355,14 +327,12 @@
         <name>avalon-test-testa</name>
       </info>
       <dependencies>
-        <projects>
-          <projectref key="avalon-framework-api"/>
-          <projectref key="avalon-util-configuration"/>
-        </projects>
-        <plugins>
-          <pluginref key="avalon-meta-tools"/>
-        </plugins>
+        <include key="avalon-framework-api"/>
+        <include key="avalon-util-configuration"/>
       </dependencies>
+      <plugins>
+        <include key="avalon-meta-tools"/>
+      </plugins>
     </project>
 
     <project basedir="../../runtime/test/testb">
@@ -371,13 +341,11 @@
         <name>avalon-test-testb</name>
       </info>
       <dependencies>
-        <projects>
-          <projectref key="avalon-framework-api"/>
-        </projects>
-        <plugins>
-          <pluginref key="avalon-meta-tools"/>
-        </plugins>
+        <include key="avalon-framework-api"/>
       </dependencies>
+      <plugins>
+        <include key="avalon-meta-tools"/>
+      </plugins>
     </project>
 
     <project basedir="../../runtime/test/testc">
@@ -386,13 +354,11 @@
         <name>avalon-test-testc</name>
       </info>
       <dependencies>
-        <projects>
-          <projectref key="avalon-framework-api"/>
-        </projects>
-        <plugins>
-          <pluginref key="avalon-meta-tools"/>
-        </plugins>
+        <include key="avalon-framework-api"/>
       </dependencies>
+      <plugins>
+        <include key="avalon-meta-tools"/>
+      </plugins>
     </project>
 
     <project basedir="../../runtime/test/testd">
@@ -401,13 +367,11 @@
         <name>avalon-test-testd</name>
       </info>
       <dependencies>
-        <projects>
-          <projectref key="avalon-framework-api"/>
-        </projects>
-        <plugins>
-          <pluginref key="avalon-meta-tools"/>
-        </plugins>
+        <include key="avalon-framework-api"/>
       </dependencies>
+      <plugins>
+        <include key="avalon-meta-tools"/>
+      </plugins>
     </project>
 
     <project basedir="../../runtime/test/teste">
@@ -416,13 +380,11 @@
         <name>avalon-test-teste</name>
       </info>
       <dependencies>
-        <projects>
-          <projectref key="avalon-framework-api"/>
-        </projects>
-        <plugins>
-          <pluginref key="avalon-meta-tools"/>
-        </plugins>
+        <include key="avalon-framework-api"/>
       </dependencies>
+      <plugins>
+        <include key="avalon-meta-tools"/>
+      </plugins>
     </project>
 
     <project basedir="../../runtime/test/includes">
@@ -431,14 +393,12 @@
         <name>avalon-test-includes</name>
       </info>
       <dependencies>
-        <projects>
-          <projectref key="avalon-test-playground" build="false" runtime="false"/>
-          <projectref key="avalon-test-testa" build="false" runtime="false"/>
-          <projectref key="avalon-test-testb" build="false" runtime="false"/>
-          <projectref key="avalon-test-testc" build="false" runtime="false"/>
-          <projectref key="avalon-test-testd" build="false" runtime="false"/>
-          <projectref key="avalon-test-teste" build="false" runtime="false"/>
-        </projects>
+        <include key="avalon-test-playground" build="false" runtime="false"/>
+        <include key="avalon-test-testa" build="false" runtime="false"/>
+        <include key="avalon-test-testb" build="false" runtime="false"/>
+        <include key="avalon-test-testc" build="false" runtime="false"/>
+        <include key="avalon-test-testd" build="false" runtime="false"/>
+        <include key="avalon-test-teste" build="false" runtime="false"/>
       </dependencies>
     </project>
 
@@ -448,13 +408,11 @@
         <name>avalon-test-components</name>
       </info>
       <dependencies>
-        <projects>
-          <projectref key="avalon-framework-api"/>
-        </projects>
-        <plugins>
-          <pluginref key="avalon-meta-tools"/>
-        </plugins>
+        <include key="avalon-framework-api"/>
       </dependencies>
+      <plugins>
+        <include key="avalon-meta-tools"/>
+      </plugins>
     </project>
 
     <!--
@@ -476,9 +434,7 @@
         <version>2.0.0</version>
       </info>
       <dependencies>
-        <projects>
-          <projectref key="avalon-repository-api"/>
-        </projects>
+        <include key="avalon-repository-api"/>
       </dependencies>
     </project>
 
@@ -489,9 +445,7 @@
         <version>2.0.0</version>
       </info>
       <dependencies>
-        <projects>
-          <projectref key="avalon-repository-api"/>
-        </projects>
+        <include key="avalon-repository-api"/>
       </dependencies>
     </project>
 
@@ -502,9 +456,7 @@
         <version>2.0.0</version>
       </info>
       <dependencies>
-        <projects>
-          <projectref key="avalon-repository-main" runtime="false"/>
-        </projects>
+        <include key="avalon-repository-main" runtime="false"/>
       </dependencies>
     </project>
 
@@ -515,15 +467,13 @@
         <version>2.0.0</version>
       </info>
       <dependencies>
-        <projects>
-          <projectref key="avalon-repository-spi"/>
-          <projectref key="avalon-repository-util"/>
-          <projectref key="avalon-util-exception"/>
-          <projectref key="avalon-util-env"/>
-          <projectref key="avalon-util-i18n"/>
-          <projectref key="avalon-util-criteria"/>
-          <projectref key="avalon-util-defaults"/>
-        </projects>
+        <include key="avalon-repository-spi"/>
+        <include key="avalon-repository-util"/>
+        <include key="avalon-util-exception"/>
+        <include key="avalon-util-env"/>
+        <include key="avalon-util-i18n"/>
+        <include key="avalon-util-criteria"/>
+        <include key="avalon-util-defaults"/>
       </dependencies>
     </project>
 
@@ -535,12 +485,8 @@
         <version>2.0.0</version>
       </info>
       <dependencies>
-        <projects>
-          <projectref key="avalon-repository-main"/>
-        </projects>
-        <resources>
-          <resourceref key="commons-cli"/>
-        </resources>
+        <include key="avalon-repository-main"/>
+        <include key="commons-cli"/>
       </dependencies>
     </project>
 
@@ -551,11 +497,9 @@
         <version>2.0.0</version>
       </info>
       <dependencies>
-        <projects>
-          <projectref key="avalon-repository-impl" test="false"/>
-          <projectref key="avalon-repository-main"/>
-          <projectref key="avalon-framework-impl" test="true"/>
-        </projects>
+        <include key="avalon-repository-impl" test="false"/>
+        <include key="avalon-repository-main"/>
+        <include key="avalon-framework-impl" test="true"/>
       </dependencies>
     </project>
 
@@ -578,11 +522,9 @@
         <version>1.0.0</version>
       </info>
       <dependencies>
-        <projects>
-          <projectref key="avalon-logging-api"/>
-          <projectref key="avalon-repository-spi"/>
-          <projectref key="avalon-framework-api"/>
-        </projects>
+        <include key="avalon-logging-api"/>
+        <include key="avalon-repository-spi"/>
+        <include key="avalon-framework-api"/>
       </dependencies>
     </project>
 
@@ -593,10 +535,8 @@
         <version>1.0.0</version>
       </info>
       <dependencies>
-        <projects>
-          <projectref key="avalon-logging-spi"/>
-          <projectref key="avalon-repository-main" runtime="false"/>
-        </projects>
+        <include key="avalon-logging-spi"/>
+        <include key="avalon-repository-main" runtime="false"/>
       </dependencies>
     </project>
 
@@ -607,12 +547,8 @@
         <version>1.0.0</version>
       </info>
       <dependencies>
-        <projects>
-          <projectref key="avalon-logging-impl" runtime="false"/>
-        </projects>
-        <resources>
-          <resourceref key="log4j"/>
-        </resources>
+        <include key="avalon-logging-impl" runtime="false"/>
+        <include key="log4j"/>
       </dependencies>
     </project>
 
@@ -623,10 +559,8 @@
         <version>1.0.0</version>
       </info>
       <dependencies>
-        <projects>
-          <projectref key="avalon-logging-spi" runtime="false"/>
-          <projectref key="avalon-logkit"/>
-        </projects>
+        <include key="avalon-logging-spi" runtime="false"/>
+        <include key="avalon-logkit"/>
       </dependencies>
     </project>
 
@@ -637,11 +571,9 @@
         <version>1.0.0</version>
       </info>
       <dependencies>
-        <projects>
-          <projectref key="avalon-logging-logkit-api"/>
-          <projectref key="avalon-logging-impl" runtime="false"/>
-          <projectref key="avalon-util-configuration"/>
-        </projects>
+        <include key="avalon-logging-logkit-api"/>
+        <include key="avalon-logging-impl" runtime="false"/>
+        <include key="avalon-util-configuration"/>
       </dependencies>
     </project>
 
@@ -652,10 +584,8 @@
         <version>1.0.0</version>
       </info>
       <dependencies>
-        <projects>
-          <projectref key="avalon-logging-logkit-api" runtime="false"/>
-          <projectref key="avalon-repository-main" runtime="false"/>
-        </projects>
+        <include key="avalon-logging-logkit-api" runtime="false"/>
+        <include key="avalon-repository-main" runtime="false"/>
       </dependencies>
     </project>
 
@@ -666,10 +596,8 @@
         <version>1.0.0</version>
       </info>
       <dependencies>
-        <projects>
-          <projectref key="avalon-logging-logkit-api" runtime="false"/>
-          <projectref key="avalon-repository-main" runtime="false"/>
-        </projects>
+        <include key="avalon-logging-logkit-api" runtime="false"/>
+        <include key="avalon-repository-main" runtime="false"/>
       </dependencies>
     </project>
 
@@ -680,10 +608,8 @@
         <version>1.0.0</version>
       </info>
       <dependencies>
-        <projects>
-          <projectref key="avalon-logging-logkit-api" runtime="false"/>
-          <projectref key="avalon-repository-main" runtime="false"/>
-        </projects>
+        <include key="avalon-logging-logkit-api" runtime="false"/>
+        <include key="avalon-repository-main" runtime="false"/>
       </dependencies>
     </project>
 
@@ -694,17 +620,15 @@
         <version>1.0.0</version>
       </info>
       <dependencies>
-        <projects>
-          <projectref key="avalon-logging-logkit-impl" test="false"/>
-          <projectref key="avalon-logging-log4j" test="false"/>
-          <projectref key="avalon-logging-logkit-syslog" test="false"/>
-          <projectref key="avalon-logging-logkit-socket" test="false"/>
-          <projectref key="avalon-logging-logkit-datagram" test="false"/>
-          <projectref key="avalon-repository-main"/>
-          <projectref key="avalon-logging-impl"/>
-          <projectref key="avalon-framework-impl"/>
-          <projectref key="avalon-repository-test" build="false" test="false" runtime="false"/>
-        </projects>
+        <include key="avalon-logging-logkit-impl" test="false"/>
+        <include key="avalon-logging-log4j" test="false"/>
+        <include key="avalon-logging-logkit-syslog" test="false"/>
+        <include key="avalon-logging-logkit-socket" test="false"/>
+        <include key="avalon-logging-logkit-datagram" test="false"/>
+        <include key="avalon-repository-main"/>
+        <include key="avalon-logging-impl"/>
+        <include key="avalon-framework-impl"/>
+        <include key="avalon-repository-test" build="false" test="false" runtime="false"/>
       </dependencies>
     </project>
 
@@ -719,12 +643,10 @@
         <version>2.0.0</version>
       </info>
       <dependencies>
-        <projects>
-          <projectref key="avalon-util-extension-api"/>
-          <projectref key="avalon-repository-api"/>
-          <projectref key="avalon-logging-spi"/>
-          <projectref key="avalon-meta-api"/>
-        </projects>
+        <include key="avalon-util-extension-api"/>
+        <include key="avalon-repository-api"/>
+        <include key="avalon-logging-api"/>
+        <include key="avalon-meta-api"/>
       </dependencies>
     </project>
 
@@ -735,9 +657,8 @@
         <version>2.0.0</version>
       </info>
       <dependencies>
-        <projects>
-          <projectref key="avalon-composition-api"/>
-        </projects>
+        <include key="avalon-composition-api"/>
+        <include key="avalon-logging-spi"/>
       </dependencies>
     </project>
 
@@ -745,21 +666,19 @@
       <info>
         <group>avalon/composition</group>
         <name>avalon-composition-impl</name>
-        <version>2.0.1-dev</version>
+        <version>2.0.1</version>
       </info>
       <dependencies>
-        <projects>
-          <projectref key="avalon-composition-spi"/>
-          <projectref key="avalon-repository-main"/>
-          <projectref key="avalon-meta-impl"/>
-          <projectref key="avalon-util-configuration"/>
-          <projectref key="avalon-util-extension-impl"/>
-          <projectref key="avalon-util-lifecycle"/>
-          <projectref key="avalon-logging-impl" build="false" test="true"/>
-          <projectref key="avalon-test-dynamics" build="false" test="true" runtime="false"/>
-          <projectref key="avalon-test-includes" build="false" test="true" runtime="false"/>
-          <projectref key="avalon-logging-test" build="false" test="false" runtime="false"/>
-        </projects>
+        <include key="avalon-composition-spi"/>
+        <include key="avalon-repository-main"/>
+        <include key="avalon-meta-impl"/>
+        <include key="avalon-util-configuration"/>
+        <include key="avalon-util-extension-impl"/>
+        <include key="avalon-util-lifecycle"/>
+        <include key="avalon-logging-impl" build="false" test="true"/>
+        <include key="avalon-test-dynamics" build="false" test="true" runtime="false"/>
+        <include key="avalon-test-includes" build="false" test="true" runtime="false"/>
+        <include key="avalon-logging-test" build="false" test="false" runtime="false"/>
       </dependencies>
     </project>
 
@@ -774,9 +693,7 @@
         <version>2.0.0</version>
       </info>
       <dependencies>
-        <projects>
-          <projectref key="avalon-composition-api"/>
-        </projects>
+        <include key="avalon-composition-api"/>
       </dependencies>
     </project>
 
@@ -787,17 +704,15 @@
         <version>2.0.0</version>
       </info>
       <dependencies>
-        <projects>
-          <projectref key="avalon-util-lifecycle"/>
-          <projectref key="avalon-util-i18n"/>
-          <projectref key="avalon-util-defaults"/>
-          <projectref key="avalon-repository-spi"/>
-          <projectref key="avalon-composition-spi"/>
-          <projectref key="avalon-composition-impl" build="false" test="true" runtime="false"/>
-          <projectref key="avalon-activation-api"/>
-          <projectref key="avalon-test-components" build="false" test="true" runtime="false"/>
-          <projectref key="avalon-test-playground" build="false" test="true" runtime="false"/>
-        </projects>
+        <include key="avalon-util-lifecycle"/>
+        <include key="avalon-util-i18n"/>
+        <include key="avalon-util-defaults"/>
+        <include key="avalon-repository-spi"/>
+        <include key="avalon-composition-spi"/>
+        <include key="avalon-composition-impl" build="false" test="true" runtime="false"/>
+        <include key="avalon-activation-api"/>
+        <include key="avalon-test-components" build="false" test="true" runtime="false"/>
+        <include key="avalon-test-playground" build="false" test="true" runtime="false"/>
       </dependencies>
     </project>
 
@@ -812,9 +727,7 @@
         <version>3.3.0</version>
       </info>
       <dependencies>
-        <projects>
-          <projectref key="avalon-composition-api"/>
-        </projects>
+        <include key="avalon-composition-api"/>
       </dependencies>
     </project>
 
@@ -825,12 +738,18 @@
         <version>3.3.0</version>
       </info>
       <dependencies>
-        <projects>
-          <projectref key="avalon-merlin-api"/>
-          <projectref key="avalon-composition-impl"/>
-          <projectref key="avalon-repository-main"/>
-          <projectref key="avalon-util-configuration"/>
-        </projects>
+        <include key="avalon-framework-api" tag="api"/>
+        <include key="avalon-util-extension-api" tag="api"/>
+        <include key="avalon-merlin-api" tag="api"/>
+        <include key="avalon-repository-api" tag="api"/>
+        <include key="avalon-util-lifecycle" tag="api"/>
+        <include key="avalon-meta-spi" tag="spi"/>
+        <include key="avalon-repository-spi" tag="spi"/>
+        <include key="avalon-logging-spi" tag="spi"/>
+        <include key="avalon-composition-spi" tag="spi"/>
+        <include key="avalon-composition-impl" tag="impl"/>
+        <include key="avalon-util-configuration" tag="impl"/>
+        <include key="avalon-repository-main" runtime="false"/>
       </dependencies>
     </project>
 

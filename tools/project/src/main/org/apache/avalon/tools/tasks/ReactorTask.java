@@ -42,9 +42,9 @@ import org.apache.tools.ant.types.Path;
 
 import org.apache.avalon.tools.home.Context;
 import org.apache.avalon.tools.home.Home;
+import org.apache.avalon.tools.project.Plugin;
 import org.apache.avalon.tools.project.Definition;
-import org.apache.avalon.tools.project.ProjectRef;
-import org.apache.avalon.tools.project.PluginRef;
+import org.apache.avalon.tools.project.ResourceRef;
 
 /**
  * Build a set of projects taking into account dependencies within the 
@@ -98,16 +98,9 @@ public class ReactorTask extends SystemTask
     public void execute() throws BuildException 
     {
         final Project project = getProject();
-        log( "Finding project defintions." );
-        long now = System.currentTimeMillis();
+        log( "Preparing build sequence." );
         m_defs = getDefinitions();
-        long discovery = System.currentTimeMillis() - now;
-
-        log( "Discovery took: (" + discovery + " msecs.)" );
-        log( "Build sequence for projects." );
         final Definition[] defs = walkGraph();
-        long graph = System.currentTimeMillis() - discovery - now;
-        log( "Sequence established: (" + graph + " msecs.)" );
         project.log( BANNER );
         for( int i=0; i<defs.length; i++ )
         {
@@ -190,24 +183,34 @@ public class ReactorTask extends SystemTask
     private Definition[] getProviders( final Definition def )
     {
         final ArrayList list = new ArrayList();
-        final ProjectRef[] refs = def.getProjectRefs();
+        final ResourceRef[] refs = def.getResourceRefs();
         for( int i=0; i<refs.length; i++ )
         {
-            final Definition d = getHome().getDefinition( refs[i] );
-            if( m_defs.contains( d ) )
+            ResourceRef ref = refs[i];
+            if( getHome().isaDefinition( ref ) )
             {
-                list.add( d );
+                final Definition d = getHome().getDefinition( ref );
+                if( m_defs.contains( d ) )
+                {
+                    list.add( d );
+                }
             }
         }
-        final PluginRef[] prefs = def.getPluginRefs();
-        for( int i=0; i<prefs.length; i++ )
+
+        final ResourceRef[] plugins = def.getPluginRefs();
+        for( int i=0; i<plugins.length; i++ )
         {
-            final Definition d = getHome().getPlugin( prefs[i] );
-            if( m_defs.contains( d ) )
+            ResourceRef ref = plugins[i];
+            if( getHome().isaDefinition( ref ) )
             {
-                list.add( d );
+                final Definition plugin = getHome().getPlugin( ref );
+                if( m_defs.contains( plugin ) )
+                {
+                    list.add( plugin );
+                }
             }
         }
+
         return (Definition[]) list.toArray( new Definition[0] );
     }
 
@@ -265,7 +268,8 @@ public class ReactorTask extends SystemTask
                 final String key = getProjectName( dir );
                 if( null != key )
                 {
-                    list.add( getHome().getDefinition( key ) );
+                    ResourceRef ref = new ResourceRef( key );
+                    list.add( getHome().getDefinition( ref ) );
                 }
                 else
                 {

@@ -84,14 +84,16 @@ public class PluginTask extends SystemTask
 
             Info info = Info.create( id );
             Project project = getProject();
-            Resource resource = new Resource( info );
-            File file = getHome().getRepository().getResource( project, resource );
+            Resource resource = new Resource( getHome(), info );
+            File file = resource.getArtifact( project );
+
+            //File file = getHome().getRepository().getResource( project, resource );
 
             //
             // create a utility data object from the defintion
             //
 
-            AntLibData data = new AntLibData( getProject(), file );
+            AntLibData data = new AntLibData( getHome(), getProject(), file );
 
             AntClassLoader classloader = project.createClassLoader( data.getPath() );
             String spec = data.getInfo().getSpec();
@@ -126,7 +128,7 @@ public class PluginTask extends SystemTask
         private final Path m_path = new Path( project );
         private final TaskDef[] m_tasks;
 
-        public AntLibData( Project project, File file ) throws Exception
+        public AntLibData( Home home, Project project, File file ) throws Exception
         {
             Element root = ElementHelper.getRootElement( file );
             Element infoElement = ElementHelper.getChild( root, "info" );
@@ -142,9 +144,10 @@ public class PluginTask extends SystemTask
                 String type = child.getTagName();
                 String value = ElementHelper.getValue( child );
                 Info info = Info.create( type, value );
-                Resource resource = new Resource( info );
-                File jar = 
-                  getHome().getRepository().getResource( project, resource );
+                Resource resource = new Resource( home, info );
+                File jar = resource.getArtifact( project );
+                //File jar = 
+                //  getHome().getRepository().getResource( project, resource );
                 m_path.createPathElement().setLocation( jar );
             }
         }
