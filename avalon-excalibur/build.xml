@@ -180,7 +180,7 @@ Legal:
     <available property="servlet.present" classname="javax.servlet.Servlet">
       <classpath refid="project.class.path"/>
     </available>
-    <available property="ims.present" classname="javax.jms.Queue">
+    <available property="jms.present" classname="javax.jms.Queue">
       <classpath refid="project.class.path"/>
     </available>
   </target>
