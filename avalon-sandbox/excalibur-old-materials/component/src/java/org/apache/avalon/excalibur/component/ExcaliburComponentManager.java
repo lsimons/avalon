@@ -37,7 +37,7 @@ import org.apache.excalibur.instrument.Instrumentable;
  * @author <a href="mailto:paul@luminas.co.uk">Paul Russell</a>
  * @author <a href="mailto:ryan@silveregg.co.jp">Ryan Shaw</a>
  * @author <a href="mailto:leif@apache.org">Leif Mortenson</a>
- * @version CVS $Revision: 1.19 $ $Date: 2002/11/07 06:37:53 $
+ * @version CVS $Revision: 1.20 $ $Date: 2002/11/07 18:26:23 $
  * @since 4.0
  */
 public class ExcaliburComponentManager
@@ -648,7 +648,10 @@ public class ExcaliburComponentManager
             m_logkit = new LogkitLoggerManager( null, logkit );
         }
     }
-/*-------------------------------------------------------------*/
+
+    /*---------------------------------------------------------------
+     * InstrumentManageable Methods
+     *-------------------------------------------------------------*/
     /**
      * Sets the InstrumentManager for child components.  Can be for special
      * purpose components, however it is used mostly internally.
