@@ -17,6 +17,8 @@
         <pathelement location="${avalon-logkit.jar}"/> <!-- deprecated -->
         <pathelement location="${logkit.jar}"/>
         <pathelement location="${checkstyle.jar}"/>
+        <pathelement location="${excalibur-fortress-tools.jar}"/>
+        <pathelement location="${qdox.jar}"/>
         <pathelement location="${excalibur-logger.jar}"/>
         <pathelement location="${excalibur-sourceresolve.jar}"/>
         <pathelement path="${java.class.path}"/>
@@ -53,6 +55,7 @@
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkLogkit"/>
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkFramework"/>
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkSourceResolve"/>
+        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkFortressTools"/>
    </target>
 
     <target name="dependencies-test" depends="dist-jar, dependencies"
@@ -84,6 +87,16 @@
             <classpath refid="project.class.path" />
             <include name="**/*.java"/>
         </javac>
+
+        <!-- generate fortress meta descriptors -->
+        <taskdef name="fortress-collect-meta"
+                 classname="org.apache.avalon.fortress.tools.ComponentMetaInfoCollector">
+            <classpath refid="project.class.path"/>
+        </taskdef>
+
+        <fortress-collect-meta destdir="${build.classes}">
+            <fileset dir="${java.dir}"/>
+        </fortress-collect-meta>
 
         <!-- copy resources to same location as .class files -->
         <copy todir="${build.classes}">
