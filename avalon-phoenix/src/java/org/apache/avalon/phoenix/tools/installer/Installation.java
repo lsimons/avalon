@@ -20,25 +20,28 @@ import java.io.File;
 public final class Installation
 {
     ///The source of installation (usually a directory in .sar format or a .sar file)
-    private File     m_source;
+    private final File         m_source;
 
     ///Directory in which application is installed
-    private File     m_directory;
+    private final File         m_directory;
 
     ///URL to block configuration data
-    private String   m_config;
+    private final String       m_config;
 
     ///URL to assembly data
-    private String   m_assembly;
+    private final String       m_assembly;
 
     ///URL to application configuration data
-    private String   m_server;
+    private final String       m_server;
 
     ///ClassPath for application
-    private String[] m_classPath;
+    private final String[]     m_classPath;
         
     ///Info for expanded files
-    private FileDigest[] m_fileDigests;
+    private final FileDigest[] m_digests;
+    
+    ///Installation timestamp
+    private final long         m_timestamp;
 
     public Installation( final File source,
                          final File directory,
@@ -46,7 +49,8 @@ public final class Installation
                          final String assembly,
                          final String server,
                          final String[] classPath,
-                         final FileDigest[] fileDigests )
+                         final FileDigest[] digests,
+                         final long timestamp )
     {
         m_source = source;
         m_directory = directory;
@@ -54,7 +58,8 @@ public final class Installation
         m_assembly = assembly;
         m_server = server;
         m_classPath = classPath;
-        m_fileDigests = fileDigests;
+        m_digests = digests;
+        m_timestamp = timestamp;
     }
 
     /**
@@ -124,6 +129,15 @@ public final class Installation
      */
     FileDigest[] getFileDigests()
     {
-        return m_fileDigests;
+        return m_digests;
     }    
+    
+    /** Retrieve the timestamp.
+     *
+     * @return the timestamp when installation occured.
+     */
+    long getTimestamp()
+    {
+        return m_timestamp;
+    }
 }
