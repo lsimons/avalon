@@ -58,47 +58,48 @@
            <th>Keyword</th><th>Description</th></tr>
            <tr>
              <td>kern</td>
-             <td></td>
+             <td>kernel messages</td>
            </tr>
            <tr>
              <td>user</td>
-             <td></td>
+             <td>generic user-level messages (default)</td>
            </tr>
            <tr>
              <td>mail</td>
-             <td></td>
+             <td>mail subsystem</td>
            </tr>
            <tr>
              <td>daemon</td>
-             <td></td>
+             <td>other system daemons</td>
            </tr>
            <tr>
              <td>auth</td>
-             <td></td>
+             <td>security/authorization messages (DEPRECATED Use
+LOG_AUTHPRIV instead)</td>
            </tr>
            <tr>
              <td>syslog</td>
-             <td></td>
+             <td>messages generated internally by syslogd</td>
            </tr>
            <tr>
              <td>lpr</td>
-             <td></td>
+             <td>line printer subsystem</td>
            </tr>
            <tr>
              <td>news</td>
-             <td></td>
+             <td>USENET news subsystem</td>
            </tr>
            <tr>
              <td>uucp</td>
-             <td></td>
+             <td>UUCP subsystem</td>
            </tr>
            <tr>
              <td>cron</td>
-             <td></td>
+             <td>clock daemon (cron and at)</td>
            </tr>
            <tr>
              <td>authpriv</td>
-             <td></td>
+             <td>security/authorization messages (private)</td>
            </tr>
            <tr>
              <td>ftp</td>
@@ -106,35 +107,35 @@
            </tr>
            <tr>
              <td>local0</td>
-             <td></td>
+             <td>reserved for local use</td>
            </tr>
            <tr>
              <td>local1</td>
-             <td></td>
+             <td>reserved for local use</td>
            </tr>
            <tr>
              <td>local2</td>
-             <td></td>
+             <td>reserved for local use</td>
            </tr>
            <tr>
              <td>local3</td>
-             <td></td>
+             <td>reserved for local use</td>
            </tr>
            <tr>
              <td>local4</td>
-             <td></td>
+             <td>reserved for local use</td>
            </tr>
            <tr>
              <td>local5</td>
-             <td></td>
+             <td>reserved for local use</td>
            </tr>
            <tr>
              <td>local6</td>
-             <td></td>
+             <td>reserved for local use</td>
            </tr>
            <tr>
              <td>local7</td>
-             <td></td>
+             <td>reserved for local use</td>
            </tr>
          </table>
       </subsection>
