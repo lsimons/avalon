@@ -8,7 +8,6 @@
 package org.apache.phoenix.engine;
 
 import org.apache.avalon.camelot.Entry;
-import org.apache.avalon.component.ComponentManager;
 import org.apache.avalon.configuration.Configuration;
 import org.apache.avalon.context.Context;
 import org.apache.log.Logger;
@@ -21,10 +20,9 @@ import org.apache.log.Logger;
 public class ServerApplicationEntry
     extends Entry
 {
-    protected Logger            m_logger;
-    protected Context           m_context;
-    protected ComponentManager  m_componentManager;
-    protected Configuration     m_configuration;
+    private Logger            m_logger;
+    private Context           m_context;
+    private Configuration     m_configuration;
 
     public Logger getLogger()
     {
@@ -44,16 +42,6 @@ public class ServerApplicationEntry
     public void setContext( final Context context )
     {
         m_context = context;;
-    }
-
-    public ComponentManager getComponentManager()
-    {
-        return m_componentManager;
-    }
-
-    public void setComponentManager( final ComponentManager componentManager )
-    {
-        m_componentManager = componentManager;
     }
 
     public Configuration getConfiguration()
