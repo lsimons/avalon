@@ -81,7 +81,7 @@ public class DefaultConfiguration
     /**
      * Returns the namespace of this configuration element
      * @return a <code>String</code> value
-     * @exception ConfigurationException if an error occurs
+     * @throws ConfigurationException if an error occurs
      */
     public String getNamespace() throws ConfigurationException
     {
@@ -101,7 +101,7 @@ public class DefaultConfiguration
     /**
      * Returns the prefix of the namespace
      * @return a <code>String</code> value
-     * @exception ConfigurationException if prefix is not present (<code>null</code>).
+     * @throws ConfigurationException if prefix is not present (<code>null</code>).
      */
     protected String getPrefix() throws ConfigurationException
     {
@@ -135,7 +135,7 @@ public class DefaultConfiguration
      * @param defaultValue the default value to return if value malformed or empty
      * @return a <code>String</code> value
      */
-    public String getValue( final String defaultValue ) 
+    public String getValue( final String defaultValue )
     {
         if( null != m_value )
         {
@@ -151,7 +151,7 @@ public class DefaultConfiguration
      * Returns the value of the configuration element as a <code>String</code>.
      *
      * @return a <code>String</code> value
-     * @exception ConfigurationException If the value is not present.
+     * @throws ConfigurationException If the value is not present.
      */
     public String getValue() throws ConfigurationException
     {
@@ -207,7 +207,7 @@ public class DefaultConfiguration
      *
      * @param name a <code>String</code> value
      * @return a <code>String</code> value
-     * @exception ConfigurationException If the attribute is not present.
+     * @throws ConfigurationException If the attribute is not present.
      */
     public String getAttribute( final String name )
         throws ConfigurationException
@@ -419,7 +419,7 @@ public class DefaultConfiguration
     /**
      * heck if this configuration is writeable.
      *
-     * @exception IllegalStateException if this configuration s read-only
+     * @throws IllegalStateException if this configuration s read-only
      */
     protected final void checkWriteable()
         throws IllegalStateException

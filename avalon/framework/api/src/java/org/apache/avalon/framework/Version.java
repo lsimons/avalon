@@ -55,8 +55,8 @@ public final class Version
      *
      * @param version The input version string
      * @return the new Version object
-     * @exception NumberFormatException if an error occurs
-     * @exception IllegalArgumentException if an error occurs
+     * @throws NumberFormatException if an error occurs
+     * @throws IllegalArgumentException if an error occurs
      */
     public static Version getVersion( final String version )
         throws NumberFormatException, IllegalArgumentException
@@ -70,16 +70,16 @@ public final class Version
 
         final int major = Integer.parseInt( levels[ 0 ] );
 
-        int minor = 0;       
-        if( 1 < levels.length ) 
-        { 
-            minor = Integer.parseInt( levels[ 1 ] ); 
+        int minor = 0;
+        if( 1 < levels.length )
+        {
+            minor = Integer.parseInt( levels[ 1 ] );
         }
 
         int micro = 0;
-        if( 2 < levels.length ) 
-        { 
-            micro = Integer.parseInt( levels[ 2 ] ); 
+        if( 2 < levels.length )
+        {
+            micro = Integer.parseInt( levels[ 2 ] );
         }
 
         return new Version( major, minor, micro );
@@ -187,7 +187,7 @@ public final class Version
      * If this <code>Version</code> is compatible with the specified one, then
      * <b>true</b> is returned, otherwise <b>false</b>. Be careful when using
      * this method since, in example, version 1.3.7 is compliant to version
-     * 1.3.6, while the opposite is not. 
+     * 1.3.6, while the opposite is not.
      * <p />
      * The following example displays the expected behaviour and results of version.
      * <pre>
@@ -195,7 +195,7 @@ public final class Version
      * final Version v2 = new Version( 1, 3 , 7 );
      * final Version v3 = new Version( 1, 4 , 0 );
      * final Version v4 = new Version( 2, 0 , 1 );
-     * 
+     *
      * assert(   v1.complies( v1 ) );
      * assert( ! v1.complies( v2 ) );
      * assert(   v2.complies( v1 ) );
@@ -223,7 +223,7 @@ public final class Version
         else if( m_minor == other.m_minor &&
                  m_micro < other.m_micro )
         {
-            //If same major version, same minor version but lower micro level 
+            //If same major version, same minor version but lower micro level
             //then incompatible
             return false;
         }

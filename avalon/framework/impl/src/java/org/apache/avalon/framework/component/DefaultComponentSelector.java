@@ -28,7 +28,7 @@ public class DefaultComponentSelector
      *
      * @param hint the hint to retrieve Component
      * @return the Component
-     * @exception ComponentException if an error occurs
+     * @throws ComponentException if an error occurs
      */
     public Component select( Object hint )
         throws ComponentException
@@ -51,7 +51,7 @@ public class DefaultComponentSelector
      * @param hint the hint to retrieve Component
      * @return <code>true</code> if the Component exists
      */
-    public boolean hasComponent( final Object hint ) 
+    public boolean hasComponent( final Object hint )
     {
         boolean componentExists = false;
 
@@ -111,7 +111,7 @@ public class DefaultComponentSelector
     /**
      * Check if this component manager is writeable.
      *
-     * @exception IllegalStateException if this component manager is read-only
+     * @throws IllegalStateException if this component manager is read-only
      */
     protected final void checkWriteable()
         throws IllegalStateException

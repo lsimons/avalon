@@ -21,7 +21,7 @@ public interface Resolvable
      *
      * @param context the contextwith respect which to resolve
      * @return the resolved object
-     * @exception ContextException if an error occurs
+     * @throws ContextException if an error occurs
      */
     Object resolve( Context context )
         throws ContextException;

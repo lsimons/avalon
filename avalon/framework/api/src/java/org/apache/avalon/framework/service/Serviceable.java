@@ -17,8 +17,8 @@ package org.apache.avalon.framework.service;
  * The <code>Serviceable</code> is able to use <code>Object</code>s managed
  * by the <code>ServiceManager</code> it was initialized with.  As part
  * of the contract with the system, the instantiating entity must call
- * the <code>compose</code> method before the <code>Serviceable</code> 
- * can be considered valid. 
+ * the <code>compose</code> method before the <code>Serviceable</code>
+ * can be considered valid.
  *
  * @author <a href="mailto:fede@apache.org">Federico Barbieri</a>
  * @author <a href="mailto:pier@apache.org">Pierpaolo Fumagalli</a>
@@ -39,7 +39,7 @@ public interface Serviceable
      *
      * @param manager The <code>ServiceManager</code> which this
      *                <code>Serviceable</code> uses.
-     * @exception ServiceException if an error occurs
+     * @throws ServiceException if an error occurs
      */
     void service( ServiceManager manager )
         throws ServiceException;

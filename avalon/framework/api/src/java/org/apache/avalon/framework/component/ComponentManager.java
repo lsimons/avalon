@@ -62,7 +62,7 @@ public interface ComponentManager
      *
      * @param role The role name of the <code>Component</code> to retrieve.
      * @return the desired component
-     * @exception ComponentException if an error occurs
+     * @throws ComponentException if an error occurs
      */
     Component lookup( String role )
         throws ComponentException;

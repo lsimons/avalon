@@ -63,7 +63,7 @@ public interface ServiceManager
      *
      * @param role The role name of the <code>Object</code> to retrieve.
      * @return an <code>Object</code> value
-     * @exception ServiceException if an error occurs
+     * @throws ServiceException if an error occurs
      */
     Object lookup( String role )
         throws ServiceException;
@@ -79,7 +79,7 @@ public interface ServiceManager
     /**
      * Return the <code>Object</code> when you are finished with it.  This
      * allows the <code>ServiceManager</code> to handle the End-Of-Life Lifecycle
-     * events associated with the <code>Object</code>.  Please note, that no 
+     * events associated with the <code>Object</code>.  Please note, that no
      * Exception should be thrown at this point.  This is to allow easy use of the
      * ServiceManager system without having to trap Exceptions on a release.
      *

@@ -51,7 +51,7 @@ public class DefaultComponentManager
      *
      * @param role the role
      * @return the Component
-     * @exception ComponentException if an error occurs
+     * @throws ComponentException if an error occurs
      */
     public Component lookup( final String role )
         throws ComponentException
@@ -79,7 +79,7 @@ public class DefaultComponentManager
      * @param role role of the component you are lokking for
      * @return <code>true</code> if the component manager has a component with that role
      */
-    public boolean hasComponent( final String role ) 
+    public boolean hasComponent( final String role )
     {
         boolean componentExists = false;
 
@@ -171,7 +171,7 @@ public class DefaultComponentManager
     /**
      * Check if this component manager is writeable.
      *
-     * @exception IllegalStateException if this component manager is read-only
+     * @throws IllegalStateException if this component manager is read-only
      */
     protected final void checkWriteable()
         throws IllegalStateException

@@ -72,7 +72,7 @@ public class Parameters
      * @param name a <code>String</code> value
      * @param value a <code>String</code> value
      * @return The previous value of the parameter or <b>null</b>.
-     * @exception IllegalStateException if the Parameters object is read-only
+     * @throws IllegalStateException if the Parameters object is read-only
      */
     public String setParameter( final String name, final String value )
         throws IllegalStateException
@@ -268,7 +268,7 @@ public class Parameters
         try
         {
             final String value = getParameter( name, null );
-            if ( value == null ) 
+            if ( value == null )
 	    {
                 return defaultValue;
             }
@@ -356,7 +356,7 @@ public class Parameters
         try
         {
             final String value = getParameter( name, null );
-            if( value == null ) 
+            if( value == null )
 	    {
                 return defaultValue;
             }
@@ -407,7 +407,7 @@ public class Parameters
         try
         {
             final String value = getParameter( name, null );
-            if( value == null ) 
+            if( value == null )
 	    {
                 return defaultValue;
             }
@@ -427,8 +427,8 @@ public class Parameters
      *
      * @param name the parameter name
      * @return the value
-     * @exception ParameterException if an error occurs
-     * @exception ParameterException
+     * @throws ParameterException if an error occurs
+     * @throws ParameterException
      */
     public boolean getParameterAsBoolean( final String name )
         throws ParameterException
@@ -525,7 +525,7 @@ public class Parameters
     /**
      * Checks is this <code>Parameters</code> object is writeable.
      *
-     * @exception IllegalStateException if this <code>Parameters</code> object is read-only
+     * @throws IllegalStateException if this <code>Parameters</code> object is read-only
      */
     protected final void checkWriteable()
         throws IllegalStateException
@@ -545,7 +545,7 @@ public class Parameters
      *
      * @param configuration the Configuration
      * @return This <code>Parameters</code> instance.
-     * @exception ConfigurationException if an error occurs
+     * @throws ConfigurationException if an error occurs
      */
     public static Parameters fromConfiguration( final Configuration configuration )
         throws ConfigurationException
@@ -560,7 +560,7 @@ public class Parameters
      * @param configuration the Configuration
      * @param elementName   the element name for the parameters
      * @return This <code>Parameters</code> instance.
-     * @exception ConfigurationException if an error occurs
+     * @throws ConfigurationException if an error occurs
      */
     public static Parameters fromConfiguration( final Configuration configuration,
                                                 final String elementName )

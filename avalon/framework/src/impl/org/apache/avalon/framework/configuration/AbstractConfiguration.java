@@ -16,7 +16,7 @@ package org.apache.avalon.framework.configuration;
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  * @author <a href="mailto:fumagalli@exoffice.com">Pierpaolo Fumagalli</a>
  * @author <a href="mailto:leo.sutic@inspireinfrastructure.com">Leo Sutic</a>
- * @version CVS $Revision: 1.14 $ $Date: 2002/05/09 09:59:40 $
+ * @version CVS $Revision: 1.15 $ $Date: 2002/05/10 03:00:48 $
  */
 public abstract class AbstractConfiguration
     implements Configuration
@@ -37,7 +37,7 @@ public abstract class AbstractConfiguration
      * Hexadecimal numbers begin with 0x, Octal numbers begin with 0o and binary
      * numbers begin with 0b, all other values are assumed to be decimal.
      *
-     * @exception ConfigurationException if an error occurs
+     * @throws ConfigurationException if an error occurs
      * @return the value
      */
     public int getValueAsInteger()
@@ -98,7 +98,7 @@ public abstract class AbstractConfiguration
      * Hexadecimal numbers begin with 0x, Octal numbers begin with 0o and binary
      * numbers begin with 0b, all other values are assumed to be decimal.
      *
-     * @exception ConfigurationException if an error occurs
+     * @throws ConfigurationException if an error occurs
      * @return the value
      */
     public long getValueAsLong()
@@ -156,7 +156,7 @@ public abstract class AbstractConfiguration
     /**
      * Returns the value of the configuration element as a <code>float</code>.
      *
-     * @exception ConfigurationException if an error occurs
+     * @throws ConfigurationException if an error occurs
      * @return the value
      */
     public float getValueAsFloat()
@@ -196,7 +196,7 @@ public abstract class AbstractConfiguration
     /**
      * Returns the value of the configuration element as a <code>boolean</code>.
      *
-     * @exception ConfigurationException if an error occurs
+     * @throws ConfigurationException if an error occurs
      * @return the value
      */
     public boolean getValueAsBoolean()
@@ -263,7 +263,7 @@ public abstract class AbstractConfiguration
      * numbers begin with 0b, all other values are assumed to be decimal.
      *
      * @param name the name of the attribute
-     * @exception ConfigurationException if an error occurs
+     * @throws ConfigurationException if an error occurs
      * @return the value
      */
     public int getAttributeAsInteger( final String name )
@@ -328,7 +328,7 @@ public abstract class AbstractConfiguration
      * numbers begin with 0b, all other values are assumed to be decimal.
      *
      * @param name the name of the attribute
-     * @exception ConfigurationException if an error occurs
+     * @throws ConfigurationException if an error occurs
      * @return the value
      */
     public long getAttributeAsLong( final String name )
@@ -391,7 +391,7 @@ public abstract class AbstractConfiguration
      * <code>float</code>.
      *
      * @param name the name of the attribute
-     * @exception ConfigurationException if an error occurs
+     * @throws ConfigurationException if an error occurs
      * @return the value
      */
     public float getAttributeAsFloat( final String name )
@@ -435,7 +435,7 @@ public abstract class AbstractConfiguration
      * <code>boolean</code>.
      *
      * @param name the name of the attribute
-     * @exception ConfigurationException if an error occurs
+     * @throws ConfigurationException if an error occurs
      * @return the value
      */
     public boolean getAttributeAsBoolean( final String name )

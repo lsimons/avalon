@@ -20,12 +20,12 @@ public interface Recomposable
      * Repass the <code>ComponentManager</code> to the <code>composer</code>.
      * The <code>Composable</code> implementation should use the specified
      * <code>ComponentManager</code> to acquire the components it needs for
-     * execution. It should also drop references to any components it 
+     * execution. It should also drop references to any components it
      * retrieved from old ComponentManager.
      *
      * @param componentManager The <code>ComponentManager</code> which this
      *                <code>Composable</code> uses.
-     * @exception ComponentException if an error occurs
+     * @throws ComponentException if an error occurs
      */
     void recompose( ComponentManager componentManager )
         throws ComponentException;

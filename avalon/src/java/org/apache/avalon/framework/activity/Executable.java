@@ -22,7 +22,7 @@ public interface Executable
     /**
      * Execute the action associated with this component.
      *
-     * @exception Exception if an error occurs
+     * @throws Exception if an error occurs
      */
     void execute()
         throws Exception;

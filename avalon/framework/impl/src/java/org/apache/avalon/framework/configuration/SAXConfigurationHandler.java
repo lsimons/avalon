@@ -77,7 +77,7 @@ public class SAXConfigurationHandler
      * @param ch a <code>char[]</code> of data
      * @param start offset in the character array from which to start reading
      * @param end length of character data
-     * @exception SAXException if an error occurs
+     * @throws SAXException if an error occurs
      */
     public void characters( final char[] ch, int start, int end )
         throws SAXException
@@ -97,7 +97,7 @@ public class SAXConfigurationHandler
      * @param namespaceURI a <code>String</code> value
      * @param localName a <code>String</code> value
      * @param rawName a <code>String</code> value
-     * @exception SAXException if an error occurs
+     * @throws SAXException if an error occurs
      */
     public void endElement( final String namespaceURI,
                             final String localName,
@@ -162,7 +162,7 @@ public class SAXConfigurationHandler
      * @param localName a <code>String</code> value
      * @param rawName a <code>String</code> value
      * @param attributes an <code>Attributes</code> value
-     * @exception SAXException if an error occurs
+     * @throws SAXException if an error occurs
      */
     public void startElement( final String namespaceURI,
                               final String localName,
@@ -219,7 +219,7 @@ public class SAXConfigurationHandler
     /**
      * This just throws an exception on a parse error.
      * @param exception the parse error
-     * @exception SAXException if an error occurs
+     * @throws SAXException if an error occurs
      */
     public void error( final SAXParseException exception )
         throws SAXException
@@ -230,7 +230,7 @@ public class SAXConfigurationHandler
     /**
      * This just throws an exception on a parse error.
      * @param exception the parse error
-     * @exception SAXException if an error occurs
+     * @throws SAXException if an error occurs
      */
     public void warning( final SAXParseException exception )
         throws SAXException
@@ -241,7 +241,7 @@ public class SAXConfigurationHandler
     /**
      * This just throws an exception on a parse error.
      * @param exception the parse error
-     * @exception SAXException if an error occurs
+     * @throws SAXException if an error occurs
      */
     public void fatalError( final SAXParseException exception )
         throws SAXException

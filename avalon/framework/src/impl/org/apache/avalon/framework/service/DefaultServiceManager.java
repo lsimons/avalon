@@ -52,7 +52,7 @@ public class DefaultServiceManager
      *
      * @param role the role
      * @return the Object
-     * @exception ServiceException if an error occurs
+     * @throws ServiceException if an error occurs
      */
     public Object lookup( final String role )
         throws ServiceException
@@ -79,7 +79,7 @@ public class DefaultServiceManager
      * @param role  a string identifying the role to check.
      * @return True if the object exists, False if it does not.
      */
-    public boolean hasService( final String role ) 
+    public boolean hasService( final String role )
     {
         boolean objectExists = false;
 
@@ -160,7 +160,7 @@ public class DefaultServiceManager
     /**
      * Checks if this service manager is writeable.
      *
-     * @exception IllegalStateException if this service manager is read-only
+     * @throws IllegalStateException if this service manager is read-only
      */
     protected final void checkWriteable()
         throws IllegalStateException
