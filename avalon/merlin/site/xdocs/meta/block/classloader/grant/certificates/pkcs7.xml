@@ -20,7 +20,7 @@
 <document>
 
   <header>
-    <title>X509 Directive</title>
+    <title>PKCS7 Directive</title>
     <authors>
       <person name="Stephen McConnell" email="mcconnell@apache.org"/>
       <person name="Niclas Hedhman" email="niclas@hedhman.org"/>
@@ -28,16 +28,16 @@
   </header>
 
   <body>
-    <section name="X509 Directive">
+    <section name="PKCS7 Directive">
 
       <subsection name="Attributes">
         <table>
           <tr><th>Attribute</th><th>Required</th><th>Description</th></tr>
           <tr>
-            <td>href</td><td>no</td>
+            <td>href</td><td>yes</td>
             <td>
-              If a href attribute is specified, the certificate is read
-              from the given URL.
+              The name of the file containing 0, one or many PKCS#7 encoded
+              certificates.
             </td>
           </tr>
         </table>
@@ -45,9 +45,8 @@
 
       <subsection name="Description">
 <p>
-Each &lt;x509&gt; element can either contain the X.509 certificate(s) in the
-body of the element OR be referenced by the href attribute. The href
-has higher prescedence.
+Each &lt;pkcs7&gt; element only points to a PKCS#7 encoded file.
+The &quot;href&quot; attribute is any valid URL.
 </p>
       </subsection>
 
@@ -57,32 +56,9 @@ The following example block.xml demonstrates the inclusion of three blocks withi
 </p>
 
 <source><![CDATA[
-<classloader>
-  <classpath>
-    <repository>
-      <resource id="james:mail" version="1.3"/>
-      <resource id="james:activation" version="1.0"/>
-      <resource id="james:mailet-api" version="1.0"/>
-    </repository>
-  </classpath>
-  <grant>
-    <permission class="java.lang.RuntimePermission" name="getClassLoader" />
-    <permission class="java.util.PropertyPermission" name="java.*" >
-      <action>read</action>
-    </permission>
-    <permission class="java.util.PropertyPermission" name="org.apache.*" >
-      <action>read</action>
-      <action>write</action>
-    </permission>
     <certificates>
-      <x509 href="http://niclas.hedhman.org/certs/signature.x509" />
+      <pkcs7 href="http://niclas.hedhman.org/certs/signature.cert" />
     </certificates>
-  </grant>
-    
-  <!-- include blocks here -->
-
-  <include name="james" id="james:block" type="xml"/>
-</classloader>
 ]]></source>
 
      </subsection>

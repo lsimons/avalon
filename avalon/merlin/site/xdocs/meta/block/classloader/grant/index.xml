@@ -34,13 +34,13 @@
         <table>
           <tr><th>Element</th><th>Occurance</th><th>Description</th></tr>
           <tr>
-            <td><a href="permission.html">permission</a></td><td>0..n</td>
+            <td><a href="permission/index.html">permission</a></td><td>0..n</td>
             <td>
              The permission descriptor.
             </td>
           </tr>
           <tr>
-            <td><a href="certificates.html">certificates</a></td><td>0..1</td>
+            <td><a href="certificates/index.html">certificates</a></td><td>0..1</td>
             <td>
              The certificates descriptor. In this nested element, one can list
              the certificates required for the code sources. Either X.509 or
@@ -62,23 +62,16 @@
 
       <subsection name="Example XML">
 <source><![CDATA[
-<classloader>
-  <classpath>
-    <repository>
-      <resource id="tutorial:composition-api" version="1.0"/>
-    </repository>
-  </classpath>
   <grant>
     <permission class="java.lang.RuntimePermission" name="getClassLoader" />
     <permission class="java.util.PropertyPermission" name="java.*" >
       <action>read</action>
     </permission>
-    <permission class="java.util.PropertyPermission" name="com.mycompany.*" >
+    <permission class="java.util.FilePermission" name="com.mycompany.*" >
       <action>read</action>
       <action>write</action>
     </permission>
   </grant>
-</classloader>
 ]]></source>
       </subsection>
 
