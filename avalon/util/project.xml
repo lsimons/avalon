@@ -6,8 +6,8 @@
   <id>avalon-util</id>
   <name>Avalon Utilities</name>
   <package>org.apache.avalon.util</package>
-  <shortDescription>Avaon Utilities</shortDescription>
-  <currentVersion>1.0-RC4</currentVersion>
+  <shortDescription>Avalon Utilities</shortDescription>
+  <currentVersion>1.0</currentVersion>
 
   <organization>
     <name>Apache Software Foundation</name>
@@ -29,6 +29,10 @@
     <release>
       <version>1.0-RC4</version>
       <tag>SNAPSHOT_20031224</tag>
+    </release>
+    <release>
+      <version>1.0</version>
+      <tag>RELEASE_1-0</tag>
     </release>
   </releases>
 

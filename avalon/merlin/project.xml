@@ -6,7 +6,7 @@
   <groupId>merlin</groupId>
   <id>merlin</id>
   <name>Avalon Merlin</name>
-  <currentVersion>3.2-RC</currentVersion>
+  <currentVersion>3.2</currentVersion>
 
   <organization>
     <name>Apache Software Foundation</name>
@@ -206,6 +206,10 @@
     <release>
       <version>3.2-20031225</version>
       <tag>SNAPSHOT_20031225</tag>
+    </release>
+    <release>
+      <version>3.2</version>
+      <tag>RELEASE_3-2</tag>
     </release>
   </releases>
 
