@@ -18,4 +18,16 @@
    </requires>
 
 
+   <extension
+         point="org.apache.avalon.ide.eclipse.repository.agent">
+      <scheme
+            name="Test Repository Agent"
+            prefix="testrepo"
+            class="org.apache.avalon.ide.repository.testrepo.TestRepoRepositoryAgentFactory">
+         <description>
+            This Repository Agent only exists to aid in the creation of the Repository View Plug-In and should not be used beyond that.
+         </description>
+      </scheme>
+   </extension>
+
 </plugin>
