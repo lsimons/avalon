@@ -9,36 +9,22 @@ package org.apache.avalon.phoenix.tools.punit;
 
 import org.apache.excalibur.containerkit.lifecycle.LifecycleHelper;
 import org.apache.excalibur.containerkit.lifecycle.LifecycleException;
+import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.logger.ConsoleLogger;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.service.DefaultServiceManager;
-import junit.framework.TestCase;
 import java.util.ArrayList;
 
 /**
- * PUnitTestCase
+ * PUnit helper
  * @author Paul Hammant
  */
-public abstract class PUnitTestCase extends TestCase implements PUnit
+public final class PUnitHelper implements PUnit, Initializable
 {
-    private PUnitHelper m_pUnitHelper = new PUnitHelper();
-
-
-    /**
-     * PUnitTestCase
-     */
-    public PUnitTestCase()
-    {
-    }
-
-    /**
-     * PUnitTestCase
-     * @param name The method name for JUnit
-     */
-    public PUnitTestCase( String name )
-    {
-        super( name );
-    }
+    private LifecycleHelper m_lifecycleHelper;
+    private ArrayList m_blocks;
+    private DefaultServiceManager m_serviceManager;
+    private PUnitLogger m_logger;
 
     /**
      * Query the log
@@ -47,7 +33,7 @@ public abstract class PUnitTestCase extends TestCase implements PUnit
      */
     public final String lookupInLog( String startsWith )
     {
-        return m_pUnitHelper.lookupInLog( startsWith );
+        return m_logger.get( startsWith );
     }
 
     /**
@@ -57,17 +43,20 @@ public abstract class PUnitTestCase extends TestCase implements PUnit
      */
     public boolean logHasEntry( String startsWith )
     {
-        return m_pUnitHelper.logHasEntry( startsWith );
+        return m_logger.contains( startsWith );
     }
 
     /**
-     * Setup as per Junit
+     * Initialize
      * @throws Exception If a problem
      */
-    protected void setUp() throws Exception
+    public void initialize() throws Exception
     {
-        m_pUnitHelper.initialize();
-        super.setUp();
+        m_logger = new PUnitLogger();
+        m_lifecycleHelper = new LifecycleHelper();
+        m_lifecycleHelper.enableLogging( new ConsoleLogger() );
+        m_serviceManager = new DefaultServiceManager();
+        m_blocks = new ArrayList();
     }
 
     /**
@@ -82,7 +71,14 @@ public abstract class PUnitTestCase extends TestCase implements PUnit
                              final Object block,
                              final Configuration configuration )
     {
-        m_pUnitHelper.addBlock(blockName, serviceName, block, configuration);
+        final PUnitResourceProvider resourceProvider =
+            new PUnitResourceProvider( m_serviceManager, configuration, m_logger );
+        final PUnitBlockEntry pBlock = new PUnitBlockEntry( blockName, block, resourceProvider );
+        m_blocks.add( pBlock );
+        if( serviceName != null )
+        {
+            m_serviceManager.put( serviceName, block );
+        }
     }
 
     /**
@@ -92,7 +88,13 @@ public abstract class PUnitTestCase extends TestCase implements PUnit
     public void startup() throws LifecycleException
     {
 
-        m_pUnitHelper.startup();
+        for( int i = 0; i < m_blocks.size(); i++ )
+        {
+            final PUnitBlockEntry block = (PUnitBlockEntry)m_blocks.get( i );
+            m_lifecycleHelper.startup( block.getBlockName(),
+                                       block.getBlock(),
+                                       block.getResourceProvider() );
+        }
     }
 
     /**
@@ -101,6 +103,11 @@ public abstract class PUnitTestCase extends TestCase implements PUnit
      */
     public void shutdown() throws LifecycleException
     {
-        m_pUnitHelper.shutdown();
+        final int size = m_blocks.size();
+        for( int i = 0; i < size; i++ )
+        {
+            final PUnitBlockEntry block = (PUnitBlockEntry)m_blocks.get( i );
+            m_lifecycleHelper.shutdown( block.getBlockName(), block.getBlock() );
+        }
     }
 }

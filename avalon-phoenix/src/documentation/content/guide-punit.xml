@@ -11,7 +11,8 @@
         Phoenix has a component/lifecycle aware unit test framework called PUnit.  It has no requirements on 
         external meta information.  As such it could be used for unit testing for a wide range of Avalon-Framework 
         enabled components.  Having said that, usage requires some knowledge of multi component applications and
-        the order of component lifecycling.
+        the order of component lifecycling. PUnit builds on JUnit.  You should have testing experience of 
+        <link href="http://www.junit.org">JUnit<link> before using PUnit.
       </p>
     </section>
     <section><title>Example Usage</title>
@@ -101,7 +102,7 @@ public class PUnitTestCaseTestCase extends PUnitTestCase
 }      
       </source>
       <p>
-        What is shown here is a sinle block being manually instantiated, and registered with PUnit 
+        What is shown here is a single block being manually instantiated, and registered with PUnit 
         (addBlock).  Configuration rather than being from a file, is handed in from this source 
         via DefaultConfigurationBuilder (see its other methods for more flexibility).  The method 
         startup() is causing the components (one only in this case) to be started. After the normal 
