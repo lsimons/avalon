@@ -85,7 +85,7 @@ import org.apache.avalon.util.criteria.PackedParameter;
  * for application to a factory.
  *
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.11 $
+ * @version $Revision: 1.12 $
  */
 public class DefaultCriteria extends Criteria implements KernelCriteria
 {
@@ -205,7 +205,7 @@ public class DefaultCriteria extends Criteria implements KernelCriteria
             new Parameter( 
               MERLIN_DEBUG, Boolean.class, new Boolean( false ) ),
             new Parameter( 
-              MERLIN_SERVER, Boolean.class, new Boolean( false ) ),
+              MERLIN_SERVER, Boolean.class, new Boolean( true ) ),
             new Parameter( 
               MERLIN_AUTOSTART, Boolean.class, new Boolean( true ) ),
             new Parameter( 
