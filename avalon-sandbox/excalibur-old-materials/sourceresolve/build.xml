@@ -15,6 +15,7 @@
         <pathelement location="${build.classes}"/>
         <pathelement location="${avalon-framework.jar}"/>
         <pathelement location="${checkstyle.jar}"/>
+        <pathelement location="${commons-httpclient.jar}"/>
         <pathelement path="${java.class.path}"/>
     </path>
 
@@ -28,12 +29,23 @@
     <path id="test.class.path">
         <pathelement location="${build.testclasses}"/>
         <pathelement location="${junit.jar}"/>
+        <pathelement location="${commons-logging.jar}"/>	
         <path refid="project.class.path"/>
     </path>
     <property name="cp" refid="test.class.path"/>
 
     <target name="main" depends="test,jar" description="Build the project"/>
     <target name="rebuild" depends="clean,main" description="Rebuild the project"/>
+
+    <!-- Checks the environment for existing resources -->
+    <target name="check-environment" description="Checks environment">
+        <available property="commons-httpclient.present" classname="org.apache.commons.httpclient.HttpClient">
+            <classpath refid="project.class.path"/>
+        </available>
+        <available property="commons-logging.present" classname="org.apache.commons.logging.LogSource">
+            <classpath refid="test.class.path"/>
+        </available>
+    </target>
 
     <target name="dependencies" description="Check dependencies" unless="skip.dependencies">
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkCommon"/>
@@ -49,7 +61,7 @@
 
 
     <!-- Compiles the source code -->
-    <target name="compile" depends="dependencies" description="Compiles the source code">
+    <target name="compile" depends="dependencies, check-environment" description="Compiles the source code">
 
         <mkdir dir="${build.classes}"/>
 
@@ -62,6 +74,8 @@
             target="1.2">
             <classpath refid="project.class.path" />
             <include name="**/*.java"/>
+	    <exclude name="**/HTTPClient*"
+	            unless="commons-httpclient.present"/>
         </javac>
 
         <!-- copy resources to same location as .class files -->
@@ -96,6 +110,8 @@
             target="1.2">
             <classpath refid="test.class.path" />
             <include name="**/*.java"/>
+	    <exclude name="**/HTTPClient*"
+	            unless="commons-httpclient.present"/>
         </javac>
 
         <copy todir="${build.testclasses}">
@@ -188,6 +204,8 @@
                 <fileset dir="${build.testclasses}">
                     <include name="**/test/*TestCase.class"/>
                     <exclude name="**/Abstract*"/>
+		    <exclude name="**/test/HTTPClient*"
+		             unless="commons-httpclient.present"/>
                 </fileset>
             </batchtest>
 
