@@ -50,6 +50,7 @@
         <pathelement location="${logkit.jar}"/>
         <pathelement location="${avalon-framework.jar}"/>
         <pathelement location="${avalon-excalibur.jar}"/>
+        <pathelement location="${excalibur-collections.jar}"/>
         <pathelement location="${excalibur-instrument.jar}"/>
         <pathelement location="${commons-altrmi-common.jar}"/>
         <pathelement location="${commons-altrmi-server-impl.jar}"/>
