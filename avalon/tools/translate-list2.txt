@@ -1,4 +1,0 @@
-org.apache.avalon|org.apache.avalon.framework
-org.apache.phoenix|org.apache.avalon.phoenix
-org.apache.excalibur|org.apache.avalon.excalibur
-org.apache.cornerstone|org.apache.avalon.cornerstone
