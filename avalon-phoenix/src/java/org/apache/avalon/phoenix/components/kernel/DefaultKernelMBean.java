@@ -26,7 +26,7 @@ public class DefaultKernelMBean
      * Utility method called to define manageable 
      * objects attributes and operations.
      */
-    protected void defineManageableObject()
+    protected void defineObject()
     {
         addAttribute( "applicationNames", false );
 
