@@ -56,7 +56,7 @@ Legal:
 
     <property name="constants.file" value="org/apache/avalon/phoenix/Constants.java"/>
     <property name="xml-api.jar" value="${lib.dir}/xml-apis.jar"/>
-    <property name="xerces.jar" value="${lib.dir}/xerces-2.0.1.jar"/>
+    <property name="xerces.jar" value="${lib.dir}/xercesImpl-2.0.2.jar"/>
     <property name="xalan.jar" value="${lib.dir}/xalan-2.3.1.jar"/>
     <property name="framework.jar" value="${lib.dir}/avalon-framework-20020713.jar"/>
     <property name="logkit.jar" value="${lib.dir}/logkit-1.1a.jar"/>
