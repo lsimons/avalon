@@ -1,7 +1,0 @@
-<project default="jar:install">
-
-  <preGoal name="jar:jar">
-    <attainGoal name="avalon:meta"/>
-  </preGoal>
-
-</project>
