@@ -22,7 +22,7 @@ public class FacadeFactory extends AbstractLogEnabled
             try
             {
                 if( getLogger().isDebugEnabled() )
-                    getLogger().debug( "Creating Script Facade: " + context.getProjectName() );
+                    getLogger().debug( "Creating Script Facade: " + bshFile );
                 ScriptFacade facade = new ScriptFacade( context );
                 if( facade instanceof LogEnabled )
                 {

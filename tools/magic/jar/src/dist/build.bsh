@@ -52,21 +52,25 @@ public class JarPlugin extends AbstractPlugin
     {
         String manifestName = m_Context.getProperty( "jar.manifest" );
         File srcManifest = new File( manifestName ); 
+        if( srcManifest.exists() )
+        {
+            String destDirName = m_Context.getProperty( "jar.manifest.build.dir" );
+            File toDir = new File( destDirName ); 
+            toDir.mkdirs();
 
-        String destDirName = m_Context.getProperty( "jar.manifest.build.dir" );
-        File toDir = new File( destDirName ); 
-        toDir.mkdirs();
-        
-        getLogger().info( "Copying " + srcManifest + " to " + toDir );
-        
-        Copy copy = (Copy) m_Project.createTask( "copy" );
-        copy.setTodir( toDir );
-        copy.setFile( srcManifest );
-        copy.init();
-        copy.execute();
-        
-        File manifest = new File( toDir, srcManifest.getName() );
-        return manifest;
+            getLogger().info( "Copying " + srcManifest + " to " + toDir );
+
+            Copy copy = (Copy) m_Project.createTask( "copy" );
+            copy.setTodir( toDir );
+            copy.setFile( srcManifest );
+            copy.init();
+            copy.execute();
+
+            File manifest = new File( toDir, srcManifest.getName() );
+            return manifest;
+        }
+        else
+            return null;
     }
         
     private void createJar( File manifest )
@@ -81,7 +85,7 @@ public class JarPlugin extends AbstractPlugin
         /* Set the destination */
         jar.setDestFile( jarFile );
         jar.setBasedir( fromDir );
-        
+
         jar.init();
         jar.execute(); 
     }
