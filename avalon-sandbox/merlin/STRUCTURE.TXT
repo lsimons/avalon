@@ -14,12 +14,18 @@ STRUCTURE:
     |
     +-- assembly                 assembly implementation
     +-- assembly-spi             assembly SPI interfaces and classes
+    +-- composition              composition implementation
+    +-- composition-spi          composition SPI interfaces and classes
+    +-- extension                optional jar manegement implementation
+    +-- extension-spi            optional jar manegement  SPI interfaces and classes
     +-- merlin-cli               merlin command line handler
     +-- merlin-core              merlin kernel, block, and container 
     +-- merlin-spi               merlin SPI interfaces and classes
     +-- merlin-plugin            plugin for Maven 
     +-- merlin-extensions        
         +- merlin-jndi           merlin JNDI connector
+        +- merlin-jndi-new       extended JNDI implementation (work-in-progress)
+        +- merlin-jmx            merlin JMX adapter implementation (work-in-progress)
         +- merlin-servlet        merlin Servlet utilities
     +-- merlin-platform          site and installation resources
         +- src                   resources used to build a merlin installation
@@ -42,16 +48,14 @@ The Merlin project requires the Maven project management tool.
 
 If you have already a MERLIN_HOME environment variable defined, then all
 you need to do is invoke the merlin-install goal (although it is 
-recommended that discard current jar file beforehand).
+recommended to discard installed jar files beforehand).
 
   $ maven merlin-install
 
 The merlin-dist goal builds a Merlin installation directory under the 
 default /target/inst.  Please note that the installation build 
 does not generate a demonstration apps at this time (this should be 
-resolved shortly through the addition of a merlin plugin for Maven).  For
-the moment a old version of a demonstration block is included in the CVS
-to enable validation of an installation.
+resolved shortly).
 
   $ maven merlin-dist
 
@@ -79,6 +83,6 @@ root merlin directory.
 
 Finally, please keep in mind that while Merlin is nearing completion and 
 readiness for a first release, it is still alpha, APIs are changing, and 
-much of the documentation needs to be updated.
+documentation is evolving.
 
 SJM 15 April 2003
