@@ -10,7 +10,7 @@
   Where is it?
   ------------
 
-  http://jakarta.apache.org/avalon/logkit
+  http://avalon.apache.org/logkit
 
   Requirements
   ------------
