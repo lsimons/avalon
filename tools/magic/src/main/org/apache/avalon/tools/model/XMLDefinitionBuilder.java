@@ -240,7 +240,10 @@ public class XMLDefinitionBuilder
         final String alias =
           ElementHelper.getValue( 
             ElementHelper.getChild( info, "alias" ) );
-        return new Gump( alias );
+        final String id =
+          ElementHelper.getValue( 
+            ElementHelper.getChild( info, "id" ) );
+        return new Gump( alias, id );
     }
 
     private static ResourceRef[] createResourceRefs( final Element element )
