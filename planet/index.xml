@@ -319,6 +319,81 @@
   </project>
 
   <!--
+  Avalon JMS.
+  -->
+
+  <resource>
+    <info>
+      <group>geronimo-spec</group>
+      <name>geronimo-spec-jms</name>
+      <version>DEV</version>
+      <type>jar</type>
+    </info>
+  </resource>
+
+  <resource>
+    <info>
+      <group>commons-messenger</group>
+      <name>commons-messenger</name>
+      <version>1.0-dev-8</version>
+      <type>jar</type>
+    </info>
+  </resource>
+
+  <resource>
+    <info>
+      <group>commons-digester</group>
+      <name>commons-digester</name>
+      <version>1.5</version>
+      <type>jar</type>
+    </info>
+  </resource>
+
+  <project basedir="facilities/jms/api">
+    <info>
+      <group>avalon/jms</group>
+      <name>avalon-jms-api</name>
+      <version>1.0.0</version>
+      <status>SNAPSHOT</status> 
+    </info>
+    <dependencies>
+      <include key="geronimo-spec-jms"/>
+      <include key="commons-messenger"/>
+    </dependencies>
+  </project>
+
+  <project basedir="facilities/jms/impl">
+    <info>
+      <group>avalon/jms</group>
+      <name>avalon-jms-impl</name>
+      <version>1.0.0</version>
+      <status>SNAPSHOT</status> 
+    </info>
+    <dependencies>
+      <include key="avalon-jms-api"/>
+      <include key="avalon-composition-api"/>
+      <include key="commons-digester"/>
+      <include key="avalon-framework-impl"/>
+    </dependencies>
+    <plugins>
+      <include key="avalon-meta-tools"/>
+    </plugins>
+  </project>
+
+  <project basedir="facilities/jms/test">
+    <info>
+      <group>avalon/jms</group>
+      <name>avalon-jms-test</name>
+    </info>
+    <dependencies>
+      <include key="avalon-jms-impl"/>
+    </dependencies>
+    <plugins>
+      <include key="avalon-meta-tools"/>
+    </plugins>
+  </project>
+
+  <!--
   Avalon Tutorials.
   -->
 
