@@ -25,7 +25,7 @@ public class PeriodicTimeTrigger
     /**
      * Creates a periodic trigger. It goes off the first time after
      * <tt>offset</tt> milliseconds from the time it was
-     * <tt>reset</tt> and then every <tt>offset</tt>
+     * <tt>reset</tt> and then every <tt>period</tt>
      * milliseconds. The trigger is <tt>reset</tt> as
      * part of its construction.
      *
