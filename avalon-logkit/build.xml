@@ -85,7 +85,7 @@ Legal:
 
   <property name="servlet.jar" value="${lib.dir}/servlet.jar"/>
   <property name="mail.jar" value="${lib.dir}/mail.jar"/>
-  <property name="jakarta-site.dir" value="../jakarta-site2"/>
+  <property name="jakarta-site.dir" value="../jakarta-site"/>
   <property name="framework.jar" value="../jakarta-avalon/build/lib/avalon-framework.jar"/>
 
   <path id="project.class.path">
