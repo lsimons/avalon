@@ -118,7 +118,8 @@ public class PhoenixKernel extends AbstractKernel implements ServerKernel
         }
         catch( Exception e )
         {
-            this.logger.error( "There was an error adding "+name+" to the JMX Manager", e );
+            if( this.logger != null )
+                this.logger.error( "There was an error adding "+name+" to the JMX Manager", e );
         }
 
         super.add( name, entry );

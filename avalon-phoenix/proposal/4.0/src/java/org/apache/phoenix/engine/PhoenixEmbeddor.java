@@ -34,6 +34,7 @@ import org.apache.framework.lifecycle.InitializationException;
 import org.apache.framework.lifecycle.Disposable;
 
 import org.apache.framework.CascadingException;
+import org.apache.framework.CascadingThrowable;
 
 import org.apache.avalon.camelot.Container;
 import org.apache.avalon.camelot.CamelotUtil;
@@ -56,12 +57,6 @@ import org.apache.framework.logger.AbstractLoggable;
 
 /**
  *
- * TODO:
- * - improve exception handling, implement Reconfigurable and Recontextualizable.
- * - figure out if run() can be better than it is now; I'm not entirely at home
- * with threading stuff.
- * - fix imports.
- *
  * @author <a href="mailto:fede@apache.org">Federico Barbieri</a>
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  * @author <a href="mail@leosimons.com">Leo Simons</a>
@@ -72,7 +67,6 @@ public class PhoenixEmbeddor
     private Parameters      parameters;
     private Disposable      runner;
 
-    private Logger          logger;
     private Deployer        deployer;
         private DefaultContext      deployerContext;
     private Manager         manager;
@@ -160,6 +154,8 @@ public class PhoenixEmbeddor
      */
     public void start() throws StartException
     {
+        try
+        {
         // setup core handler components
         this.setupComponents();
         // deploy facilities and applications
@@ -167,7 +163,8 @@ public class PhoenixEmbeddor
 
         kernel.start();
 
-        logger.info("...Phoenix started.");
+        getLogger().info("==============================================================");
+        getLogger().info("...Phoenix started.");
         // loop until <code>Shutdown</code> is created.
         while( !this.shutdown )
         {
@@ -179,6 +176,14 @@ public class PhoenixEmbeddor
         }
         // we can shut everything down now...
         handleShutdown();
+        }
+        catch( StartException se )
+        {
+            if( getLogger() != null )
+                getLogger().fatalError( "Problem running embeddor", se );
+
+            throw se;
+        }
     }
 
     /**
@@ -201,16 +206,16 @@ public class PhoenixEmbeddor
     private void createComponents() throws InitializationException
     {
         try { this.createLogger(); }
-        catch( Exception e ) {  logger.fatalError( "Unable to create logger!", e );
+        catch( Exception e ) {  getLogger().fatalError( "Unable to create logger!", e );
                                 throw new InitializationException( "Unable to create logger!", e ); }
         try { this.createDeployer(); }
-        catch( Exception e ) { logger.fatalError( "Unable to create deployer!", e );
+        catch( Exception e ) { getLogger().fatalError( "Unable to create deployer!", e );
                                throw new InitializationException( "Unable to create deployer!", e ); }
         try { this.createManager(); }
-        catch( Exception e ) { logger.fatalError( "Unable to create manager!", e );
+        catch( Exception e ) { getLogger().fatalError( "Unable to create manager!", e );
                                throw new InitializationException( "Unable to create manager!", e ); }
         try { this.createKernel(); }
-        catch( Exception e ) { logger.fatalError( "Unable to create kernel!", e );
+        catch( Exception e ) { getLogger().fatalError( "Unable to create kernel!", e );
                                throw new InitializationException( "Unable to create kernel!", e ); }
     }
     /**
@@ -221,16 +226,17 @@ public class PhoenixEmbeddor
         try { this.setupLogger(); }
         catch( Exception e ) {  throw new StartException( "Unable to setup logger!", e ); }
 
-        logger.info("Starting Phoenix...");
+        getLogger().info("Starting Phoenix...");
+        getLogger().info("==============================================================");
 
         try { this.setupDeployer(); }
-        catch( Exception e ) {  logger.fatalError( "Unable to setup deployer!", e );
+        catch( Exception e ) {  getLogger().fatalError( "Unable to setup deployer!", e );
                                 throw new StartException( "Unable to setup deployer!",e ); }
         try { this.setupManager(); }
-        catch( Exception e ) {  logger.fatalError( "Unable to setup manager!", e );
+        catch( Exception e ) {  getLogger().fatalError( "Unable to setup manager!", e );
                                 throw new StartException( "Unable to setup manager!",e ); }
         try { this.setupKernel(); }
-        catch( Exception e ) {  logger.fatalError( "Unable to setup kernel!", e );
+        catch( Exception e ) {  getLogger().fatalError( "Unable to setup kernel!", e );
                                 throw new StartException( "Unable to setup kernel!",e ); }
     }
     /**
@@ -253,8 +259,8 @@ public class PhoenixEmbeddor
             logTarget.setFormatter( formatter );
 
             LogKit.addLogTarget( logDest, logTarget );
-            this.logger = LogKit.createLogger( LogKit.createCategory( "Phoenix", Priority.DEBUG ),
-                                            new LogTarget[] { logTarget } );
+            setLogger( LogKit.createLogger( LogKit.createCategory( "Phoenix", Priority.INFO ),
+                                            new LogTarget[] { logTarget } ) );
         }
         catch( final Exception e )
         {
@@ -477,9 +483,8 @@ public class PhoenixEmbeddor
         }
         catch( Exception e )
         {
-            this.logger.error( "There was an error while attempting to shut down phoenix", e );
+            getLogger().error( "There was an error while attempting to shut down phoenix", e );
         }
-        logger = null;
         System.out.print(".");
         this.runner.dispose();
         this.runner = null;
