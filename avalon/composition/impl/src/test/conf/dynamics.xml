@@ -1,8 +1,0 @@
-
-<container name="test">
-   <classloader>
-     <classpath>
-       <fileset dir="../test-classes"/>
-     </classpath>
-   </classloader>
-</container>
