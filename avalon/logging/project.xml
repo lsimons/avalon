@@ -145,7 +145,7 @@
         </includes>
       </resource>
       <resource>
-        <directory>${basedir}/../</directory>
+        <directory>${basedir}</directory>
         <includes>
           <include>LICENSE.txt</include>
         </includes>

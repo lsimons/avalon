@@ -59,7 +59,7 @@
 
     <maven:reactor basedir="${basedir}"
       includes="**/project.xml"
-      excludes="project.xml"
+      excludes="project.xml,test/project.xml,**test/project.xml"
       goals=""
       banner="Building:"
       ignoreFailures="false"
@@ -100,6 +100,14 @@
         </j:if>
       </j:if>
     </j:forEach>
+
+    <maven:reactor basedir="${basedir}"
+      includes="test/project.xml"
+      goals=""
+      banner="Testing:"
+      ignoreFailures="false"
+      postProcessing="false" />
+
   </goal>
 
   <!--
@@ -300,7 +308,7 @@
 
     <maven:reactor basedir="${basedir}"
       includes="**/project.xml"
-      excludes="**/target/**,project.xml"
+      excludes="**/target/**,project.xml,**/test/project.xml"
       banner="Building:"
       ignoreFailures="false"
       postProcessing="true" />
@@ -324,7 +332,7 @@
 
     <maven:reactor basedir="${basedir}"
       includes="**/project.xml"
-      excludes="project.xml,logkit/test/**.*"
+      excludes="project.xml,**/test/**.*"
       banner="Site Prep:"
       ignoreFailures="false"
       postProcessing="true" />
