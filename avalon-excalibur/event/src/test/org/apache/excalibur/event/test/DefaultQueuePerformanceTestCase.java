@@ -15,9 +15,9 @@ import org.apache.avalon.excalibur.event.DefaultQueue;
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  */
-public final class DefaultQueuePerformanceQueueTestCase extends AbstractQueueTestCase
+public final class DefaultQueuePerformanceTestCase extends AbstractQueueTestCase
 {
-    public DefaultQueuePerformanceQueueTestCase( String name )
+    public DefaultQueuePerformanceTestCase( String name )
     {
         super( name );
     }
