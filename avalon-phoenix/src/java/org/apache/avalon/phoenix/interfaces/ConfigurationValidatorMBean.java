@@ -72,7 +72,7 @@ public interface ConfigurationValidatorMBean
      * @return schema type, or null if none exists
      * @phoenix:mx-operation
      */
-    String getSchemaType( final String application, final String block );
+    String getSchemaType( String application, String block );
 
     /**
      * Get the XML that represents the schema for the specified application and block.
@@ -83,7 +83,7 @@ public interface ConfigurationValidatorMBean
      * @return schema as string, or null if none exists
      * @phoenix:mx-operation
      */
-    String getSchema( final String application, final String block );
+    String getSchema( String application, String block );
 
     /**
      * Check to see if configuration is valid.
