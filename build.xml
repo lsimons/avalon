@@ -72,6 +72,7 @@
       <x:url href="http://avalon.apache.org/"/>
       <x:svn repository="avalon-svn" dir="trunk"/>
       <x:license file="central/system/license/LICENSE.TXT"/>
+      <x:nag to="dev@avalon.apache.org"/>
     </x:gump>
   </target>
 
