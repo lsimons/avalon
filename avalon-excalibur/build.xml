@@ -42,11 +42,11 @@
 
                                       fortress/container-api/
                                       fortress/container-impl/
+                                      fortress/bean/
                                       fortress/container-test/
                                       fortress/migration/
                                       fortress/meta/
                                       fortress/examples/
-                                      fortress/bean/
                             "/>
     <filelist id="subprojects.filelist" dir="." files="${subprojects}"/>
 
