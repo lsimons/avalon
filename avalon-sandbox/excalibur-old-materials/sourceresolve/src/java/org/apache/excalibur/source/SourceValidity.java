@@ -70,7 +70,7 @@ import java.io.Serializable;
  * is returned by the first invocation!
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.5 $ $Date: 2002/12/15 11:56:48 $
+ * @version CVS $Revision: 1.6 $ $Date: 2003/01/13 13:14:12 $
  */
 public interface SourceValidity
     extends Serializable
@@ -87,9 +87,17 @@ public interface SourceValidity
     /**
      * Check if the component is still valid.
      * This is only true, if the incoming Validity is of the same
-     * type and has the same values.
-     * The invocation order is that the isValid method of the
-     * old Validity object is called with the new one as a parameter
+     * type and has the "same" values. 
+     * The invocation order is that the isValid
+     * method of the old Validity object is called with the new one as a
+     * parameter.
+     * @return -1 is returned, if the validity object is not valid anymore
+     *          +1 is returned, if the validity object is still valid
+     *          0  is returned, if the validity check could not be performed.
+     *             In this case, the new validity object is not usable. Examples
+     *             for this are: when the validity objects have different types,
+     *             or when one validity object for any reason is not able to
+     *             get the required information.
      */
-    boolean isValid( SourceValidity newValidity );
+    int isValid( SourceValidity newValidity );
 }

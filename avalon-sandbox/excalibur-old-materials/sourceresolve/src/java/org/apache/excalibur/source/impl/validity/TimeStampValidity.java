@@ -60,7 +60,7 @@ import org.apache.excalibur.source.SourceValidity;
  * A validation object for time-stamps.
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.4 $ $Date: 2002/12/15 11:56:48 $
+ * @version CVS $Revision: 1.5 $ $Date: 2003/01/13 13:14:12 $
  */
 public final class TimeStampValidity
     implements SourceValidity
@@ -84,15 +84,15 @@ public final class TimeStampValidity
         return 0;
     }
 
-    public boolean isValid( SourceValidity newValidity )
+    public int isValid( SourceValidity newValidity )
     {
         if( newValidity instanceof TimeStampValidity )
         {
             final long timeStamp =
                 ( (TimeStampValidity)newValidity ).getTimeStamp();
-            return m_timeStamp == timeStamp;
+            return (m_timeStamp == timeStamp ? +1 : 1);
         }
-        return false;
+        return -1;
     }
 
     public long getTimeStamp()

@@ -60,7 +60,7 @@ import org.apache.excalibur.source.SourceValidity;
  * A validation object which is always valid.
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.4 $ $Date: 2002/12/15 11:56:48 $
+ * @version CVS $Revision: 1.5 $ $Date: 2003/01/13 13:14:12 $
  */
 public final class NOPValidity
     implements SourceValidity
@@ -79,9 +79,13 @@ public final class NOPValidity
         return 1;
     }
 
-    public boolean isValid( final SourceValidity newValidity )
+    public int isValid( final SourceValidity newValidity )
     {
-        return newValidity instanceof NOPValidity;
+        if (newValidity instanceof NOPValidity)
+        {
+            return 1;
+        }
+        return -1;
     }
 
     public String toString()

@@ -68,7 +68,7 @@ import org.apache.excalibur.source.SourceValidity;
  * required.
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.1 $ $Date: 2003/01/10 12:54:37 $
+ * @version CVS $Revision: 1.2 $ $Date: 2003/01/13 13:14:12 $
  */
 public final class DeferredAggregatedValidity
         extends AbstractAggregatedValidity
@@ -108,7 +108,7 @@ public final class DeferredAggregatedValidity
         return 1;
     }
 
-    public boolean isValid( final SourceValidity validity )
+    public int isValid( final SourceValidity validity )
     {
         AbstractAggregatedValidity aggregatedValidity = null;
         
@@ -122,22 +122,29 @@ public final class DeferredAggregatedValidity
             ArrayList otherList = aggregatedValidity.m_list;
             if( m_list.size() != otherList.size() )
             {
-                return false;
+                return -1;
             }
 
             for(int i=0; i < m_list.size(); i++) {
                 final SourceValidity srcA = this.getValidity(i);
-                if ( srcA.isValid() < 1) {
+                int result = srcA.isValid();
+                if ( result == -1) 
+                {
+                    return -1;
+                }
+                if ( result == 0 )
+                {
                     final SourceValidity srcB = aggregatedValidity.getValidity(i);
-                    if( !srcA.isValid( srcB ) )
+                    result = srcA.isValid( srcB );
+                    if ( result < 1)
                     {
-                        return false;
+                        return result;
                     }
                 }
             }
-            return true;
+            return 1;
         }
-        return false;
+        return -1;
     }
 
     public String toString()
