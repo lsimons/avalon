@@ -191,7 +191,7 @@
     <info>
       <group>avalon/tools</group>
       <name>magic-xdoc-plugin</name>
-      <type>plugin</type>
+      <type>jar</type>
     </info>
     <dependencies>
       <include key="avalon-tools-magic"/>
