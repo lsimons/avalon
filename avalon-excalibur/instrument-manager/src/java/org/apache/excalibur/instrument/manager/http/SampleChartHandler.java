@@ -53,7 +53,9 @@ import com.sun.image.codec.jpeg.JPEGCodec;
 import com.sun.image.codec.jpeg.JPEGEncodeParam;
 import com.sun.image.codec.jpeg.JPEGImageEncoder;
 
+import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import java.io.BufferedInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -71,7 +73,7 @@ import org.apache.excalibur.instrument.manager.interfaces.NoSuchInstrumentSample
 /**
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.1 $ $Date: 2003/11/09 16:36:33 $
+ * @version CVS $Revision: 1.2 $ $Date: 2004/01/08 09:16:00 $
  * @since 4.1
  */
 public class SampleChartHandler
@@ -203,7 +205,37 @@ public class SampleChartHandler
         
         // Paint the chart onto the Graphics object of the BufferedImage.
         chart.setSize( bi.getWidth(), bi.getHeight() );
-        chart.paintComponent( bi.createGraphics() );
+        
+        Graphics g;
+        try
+        {
+            g = bi.createGraphics();
+        }
+        catch ( NoClassDefFoundError e )
+        {
+            // On Headless UNIX machines this error will be thrown when attempting to
+            //  create an graphic.  The AWT libraries require a native library that
+            //  only exists on UNIX system which have X-Windows installed.  This is
+            //  never a problem on Windows systems.
+            
+            // Rather than giving the user nothing, send them a preprepared jpeg file
+            //  that notifies them of the problem.
+            String imageResource = "noawtlibs.jpg";
+            BufferedInputStream is =
+                new BufferedInputStream( getClass().getResourceAsStream( imageResource ) );
+            byte[] noAWTLibs;
+            try {
+                noAWTLibs = new byte[is.available()];
+                is.read( noAWTLibs, 0, noAWTLibs.length );
+            } finally {
+                is.close();
+            }
+            // Now write the error image out to the client.
+            os.write( noAWTLibs );
+            return;
+        }
+        
+        chart.paintComponent( g );
 
         // Encode the BufferedImage as a JPEG image and write it to the output stream.
         JPEGImageEncoder encoder = JPEGCodec.createJPEGEncoder( os );
