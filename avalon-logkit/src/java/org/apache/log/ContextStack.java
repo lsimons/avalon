@@ -50,7 +50,7 @@ public class ContextStack
      * @param autocreate true if a ContextStack is to be created if it doesn't exist
      * @return the current ContextStack
      */
-    public final static ContextStack getCurrentContext( final boolean autocreate )
+    final static ContextStack getCurrentContext( final boolean autocreate )
     {
         ContextStack context = (ContextStack)c_context.get();
 
@@ -62,16 +62,6 @@ public class ContextStack
         }
 
         return context;
-    }
-
-    /**
-     * Bind a particular ContextStack to current thread.
-     *
-     * @param context the context stack (may be null)
-     */
-    public final static void bind( final ContextStack context )
-    {
-        c_context.set( context );
     }
 
     /**
