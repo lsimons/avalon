@@ -54,6 +54,10 @@ import java.util.Iterator;
 import org.apache.commons.collections.StaticBucketMap;
 import org.apache.excalibur.event.EventHandler;
 import org.apache.excalibur.event.Source;
+import org.apache.excalibur.event.DequeueInterceptor;
+import org.apache.excalibur.event.Queue;
+import org.apache.excalibur.event.impl.NullDequeueInterceptor;
+import EDU.oswego.cs.dl.util.concurrent.PooledExecutor;
 
 /**
  * This is a <code>ThreadManager</code> which provides a threadpool per
@@ -197,6 +201,65 @@ public final class TPSPThreadManager implements Runnable, ThreadManager
             {
                 handler.handleEvents( sources[ i ].dequeueAll() );
             }
+        }
+    }
+
+    public static final class SourceDequeueInterceptor implements DequeueInterceptor
+    {
+        private final Source m_source;
+        private final PooledExecutor m_threadPool;
+        private final int m_threshold;
+        private final DequeueInterceptor m_parent;
+
+        public SourceDequeueInterceptor( Source source, PooledExecutor threadPool, int threshold )
+        {
+            if (source == null) throw new NullPointerException("source");
+            if (threadPool == null) throw new NullPointerException("threadPool");
+
+            m_source = source;
+            m_threadPool = threadPool;
+            m_threshold = threshold;
+            m_parent = (source instanceof Queue) ? ((Queue)source).getDequeueInterceptor()
+                         : new NullDequeueInterceptor();
+        }
+
+        /**
+         * An operation executed before dequeing events from
+         * the queue. The Source is passed in so the implementation
+         * can determine to execute based on the queue properties.
+         *
+         * <p>
+         *   This method is called once at the beginning of any <code>dequeue</code>
+         *   method regardless of how many queue elements are dequeued.
+         * </p>
+         *
+         * @since Feb 10, 2003
+         *
+         * @param context  The source from which the dequeue is performed.
+         */
+        public void before( Source context )
+        {
+            if (m_source.size() > m_threshold) m_threadPool.createThreads(1);
+            m_parent.before(context);
+        }
+
+        /**
+         * An operation executed after dequeing events from
+         * the queue. The Source is passed in so the implementation
+         * can determine to execute based on the queue properties.
+         *
+         * <p>
+         *   This method is called once at the end of any <code>dequeue</code>
+         *   method regardless of how many queue elements are dequeued.
+         * </p>
+         *
+         * @since Feb 10, 2003
+         *
+         * @param context  The source from which the dequeue is performed.
+         */
+        public void after( Source context )
+        {
+            m_parent.after(context);
         }
     }
 }
