@@ -3,7 +3,7 @@
 <!--
 ============================================================
                 Dependency updater
-                   Version $Revision: 1.41 $
+                   Version $Revision: 1.42 $
            Jeff Turner <jefft@apache.org>
 
 This Ant script provides "functions" to check if
@@ -324,6 +324,13 @@ To use it, type 'ant -f depchecker.xml'
             <property name="proj.jar.name" value="excalibur-thread.jar"/>
             <property name="path" value="${excalibur-thread.jar}"/>
             <property name="proj.home" value="${basedir}/../thread"/>
+        </ant>
+    </target>
+    <target name="checkInfo">
+        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
+            <property name="proj.jar.name" value="excalibur-info.jar"/>
+            <property name="path" value="${excalibur-info.jar}"/>
+            <property name="proj.home" value="${basedir}/../info"/>
         </ant>
     </target>
     <target name="checkI18n">
