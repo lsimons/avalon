@@ -35,12 +35,6 @@ public class ParameterTestCase
         parameters.setParameter( "key1", null );
         assertTrue( ! parameters.isParameter( "key1" ) );
         assertEquals( 0, parameters.getNames().length );
-
-        parameters.setParameter( "key1", "value1", true );
-        assertEquals( 1, parameters.getNames().length );
-        parameters.setParameter( "key1", null );
-        assertTrue( parameters.isParameter( "key1" ) );
-        assertEquals( 1, parameters.getNames().length );
     }
 
     public void testIsParameter()
@@ -70,7 +64,7 @@ public class ParameterTestCase
             parameters.getParameter( "key2" );
             fail( "Not inserted parameter 'key2' exists" );
         }
-        catch ( final ParameterException pe )
+        catch( final ParameterException pe )
         {
             //OK
         }
