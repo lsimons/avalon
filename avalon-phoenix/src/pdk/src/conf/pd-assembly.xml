@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+
+<assembly>
+
+  <block class="phoenixdemo.block.DefaultPDKDemoServer" name="phoenixdemo-server" >
+  </block>
+
+</assembly>
