@@ -21,11 +21,11 @@ import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
+import org.apache.avalon.framework.configuration.DefaultConfiguration;
 import org.apache.avalon.framework.configuration.DefaultConfigurationSerializer;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.phoenix.interfaces.ConfigurationValidator;
 import org.apache.avalon.phoenix.interfaces.ConfigurationValidatorMBean;
-import org.apache.excalibur.configuration.ConfigurationUtil;
 import org.iso_relax.verifier.Schema;
 import org.iso_relax.verifier.Verifier;
 import org.iso_relax.verifier.VerifierConfigurationException;
@@ -75,7 +75,8 @@ public class JarvConfigurationValidator
      *   </li>
      * </ol>
      *
-     * @see http://iso-relax.sourceforge.net/apiDoc/org/iso_relax/verifier/VerifierFactory.html#newInstance(java.lang.String)
+     * @see <a href="http://iso-relax.sourceforge.net/apiDoc/org/iso_relax/verifier/VerifierFactory.html#newInstance(java.lang.String)">
+     *    http://iso-relax.sourceforge.net/apiDoc/org/iso_relax/verifier/VerifierFactory.html#newInstance(java.lang.String)</a>
      */
     public void configure( Configuration configuration )
         throws ConfigurationException
@@ -180,7 +181,9 @@ public class JarvConfigurationValidator
         throws ConfigurationException
     {
         final Schema schema = (Schema)m_schemas.get( createKey( application, block ) );
-        final Configuration branched = ConfigurationUtil.branch( configuration, "root" );
+        final DefaultConfiguration branched = new DefaultConfiguration( "root" );
+        branched.addAll( configuration );
+        branched.makeReadOnly();
 
         if( null == schema )
         {
