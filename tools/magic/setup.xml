@@ -44,12 +44,12 @@
     <echo message="Using home directory: ${magic.home}"/>
     <mkdir dir="${magic.home}"/>
 
-    <property file="${magic.home}/magic.properties"/>
     <property file="${magic.home}/user.properties"/>
+    <property file="${magic.home}/magic.properties"/>
 
     <!-- Create the artifact cache. -->
-    <property name="magic.main" value="${magic.home}/main"/>
-    <mkdir dir="${magic.main}"/>
+    <property name="magic.cache" value="${magic.home}/main"/>
+    <mkdir dir="${magic.cache}"/>
 
     <!-- Create the docs cache. -->
     <property name="magic.docs" value="${magic.home}/docs"/>
@@ -57,7 +57,7 @@
 
     <!-- Create the magic group cache dir. -->
     <property name="magic.bar.destination" 
-      value="${magic.main}/${magic.group}"/>
+      value="${magic.cache}/${magic.group}"/>
     <mkdir dir="${magic.bar.destination}/bars"/>
 
     <!-- Pull down the latest version of magic. -->
