@@ -1,0 +1,24 @@
+<project name="Avalon.Net" default="build">
+
+  <property name="framework.dir" value="csframework"/>
+  <property name="container.dir" value="cscontainer"/>
+
+  <target name="framework" description="Build the AvalonFramework">
+    <nant buildfile="${framework.dir}/AvalonFramework.build"/>
+  </target>
+
+  <target name="container" depends="copyDependencies" description="Build the AvalonContainer">
+    <nant buildfile="${container.dir}/AvalonContainer.build"/>
+  </target>
+
+  <target name="copyDependencies" description="Copy AvalonFramework dll before compile Container">
+    <copy todir="${container.dir}/bin">
+      <fileset basedir="${framework.dir}/bin">
+        <includes name="*.dll"/>
+      </fileset>
+    </copy>
+  </target>
+
+  <target name="build" depends="framework,container" />
+
+</project>

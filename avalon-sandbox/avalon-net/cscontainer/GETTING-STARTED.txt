@@ -1,0 +1,21 @@
+To get started with the .NET implementations of Avalon,
+you have to install the following tools:
+
+Nant  -> http://nant.sourceforge.net
+Nunit -> http://nunit.org
+
+We cannot provide them for you due to licensing issues.
+Nant is a 100% .NET implmented build tool inspired by
+ANT (http://ant.apache.org).  It is licensed under the
+GPL, but if you install it separately as a tool (preferred)
+then all is well.  NUnit is a testing framework inspired
+by JUnit (http://junit.org), and has an installer for
+you.
+
+Once everything is installed, you can type:
+
+> nant
+
+to build the Avalon project.
+
+
