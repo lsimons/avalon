@@ -13,4 +13,5 @@
   *) www.javaworld.com
   *) www.javalobby.com
   *) www.jguru.com
+  *) www.slashdot.org
   (and follow them up)
