@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+
+<book software="LogKit" 
+      title="LogKit Documentation" 
+      copyright="@year@ The Apache Software Foundation">
+
+  <project label="Back to Avalon" href="@AVALON_BASE@" />
+
+  <menu label="About">
+    <menu-item label="Overview" source="index.xml"/>
+    <menu-item label="Features" source="features.xml"/>
+<!--
+    <menu-item label="Getting Started" source="getting-started.xml"/>
+    <menu-item label="Installation" source="install.xml"/>
+    <menu-item label="Todo" source="todo.xml"/>
+-->
+    <menu-item type="changes" label="Changes" source="changes.xml"/>
+    <menu-item type="external" id="api-docs" label="API Docs" href="api/index.html"/>
+  </menu>
+
+</book>
+
+
