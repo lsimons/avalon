@@ -93,7 +93,7 @@
       <programlisting>
 <![CDATA[
 public class DatabaseDocumentRepository
-extends AbstractLoggable
+extends AbstractLogEnabled
 implements DocumentRepository , Configurable, Composable, Initializable,
            Disposable, Component, ThreadSafe
 {
@@ -125,7 +125,7 @@ implements DocumentRepository , Configurable, Composable, Initializable,
         {
             this.dbResource = conf.getChild("dbpool").getValue();
             getLogger().debug("Using database pool: " + this.dbResource);
-            // Notice the getLogger()?  This is from AbstractLoggable
+            // Notice the getLogger()?  This is from AbstractLogEnabled
             // which I extend for just about all my components.
         }
     }
@@ -251,17 +251,21 @@ class ContainerComponent implements Component, Initializable, Disposable
     public void initialize()
         throws Exception
     {
-        this.docs.setLogger(Heirarchy.getLoggerFor("document.repository"));
+        Logger docLogger = new LogKitLogger( Hierarchy.defaultHierarchy()
+                                             .getLoggerFor( "document" ) );
+
+        this.docs.enableLogging( docLogger.childLogger( "repository" ) );
+        this.guard.enableLogging( docLogger.childLogger( "security" ) );
 
         DefaultConfiguration pool = new DefaultConfiguration("dbpool");
         pool.setValue("main-pool");
         DefaultConfiguration conf = new DefaultConfiguration("");
         conf.addChild(pool);
 
-        this.manager.addComponent(DocumentRepository.ROLE, this.docs);
-        this.manager.addComponent(GuardianComponent.ROLE, this.guard);
-        this.docs.compose(this.manager);
-        this.guard.compose(this.manager);
+        this.manager.addComponent( DocumentRepository.ROLE, this.docs );
+        this.manager.addComponent( GuardianComponent.ROLE, this.guard );
+        this.docs.compose( this.manager );
+        this.guard.compose( this.manager );
 
         this.docs.configure(conf);
 
@@ -429,8 +433,11 @@ class ContainerComponent implements Component, Initializable, Disposable
                                         DocumentGuardianComponent.class,
                                         null, this.manager, null, null);
 
-        this.docs.setLogger(Heirarchy.getLoggerFor("document.repository"));
-        this.guard.setLogger(Heirarchy.getLoggerFor("document.security"));
+        Logger docLogger = new LogKitLogger( Hierarchy.defaultHierarchy()
+                                             .getLoggerFor( "document" ) );
+
+        this.docs.enableLogging( docLogger.childLogger( "repository" ) );
+        this.guard.enableLogging( docLogger.childLogger( "security" ) );
 
         this.manager.addComponent(DocumentRepository.ROLE, this.docs);
         this.manager.addComponent(GuardianComponent.ROLE, this.guard);
@@ -533,10 +540,10 @@ class ContainerComponent implements Component, Initializable, Disposable {
         DefaultConfigurationBuilder builder = new DefaultConfigurationBuilder();
         Configuration sysConfig = builder.buildFromFile("./conf/system.xconf");
 
-        this.manager.setLogger(Hierarchy.getDefaultHierarchy()
-                               .getLoggerFor("document"));
-        this.manager.contextualize(new DefaultContext());
-        this.manager.configure(sysConfig);
+        this.manager.setLogger(  Hierarchy.getDefaultHierarchy()
+                                          .getLoggerFor("document") );
+        this.manager.contextualize( new DefaultContext() );
+        this.manager.configure( sysConfig );
         this.manager.initialize();
     }
 
@@ -647,14 +654,14 @@ Configuration roleConfig = builder.build(
             .getResourceAsStream("/org/apache/bizserver/docs/document.roles"));
 
 DefaultRoleManager roles = new DefaultRoleManager();
-roles.setLogger(Hierarchy.getDefaultHierarchy().getLoggerFor("document.roles"));
+roles.enableLogging(Hierarchy.getDefaultHierarchy().getLoggerFor("document.roles"));
 roles.configure(roleConfig);
 
-this.manager.setLogger(Hierarchy.getDefaultHierarchy()
-                       .getLoggerFor("document"));
-this.manager.contextualize(new DefaultContext());
-this.manager.setRoleManager(roles);
-this.manager.configure(sysConfig);
+this.manager.setLogger( Hierarchy.getDefaultHierarchy()
+                           .getLoggerFor("document") );
+this.manager.contextualize( new DefaultContext() );
+this.manager.setRoleManager( roles );
+this.manager.configure( sysConfig );
 this.manager.initialize();
 ]]>
           </programlisting>

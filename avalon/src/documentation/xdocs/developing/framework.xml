@@ -194,8 +194,8 @@ public interface DocumentRepository extends Component
         <orderedlist>
           <listitem>
             <para>
-              <function>setLogger</function>
-              [<classname>Loggable</classname>]
+              <function>enableLogging</function>
+              [<classname>LogEnabled</classname>]
             </para>
           </listitem>
           <listitem>
@@ -585,7 +585,7 @@ public interface DocumentRepository extends Component
           <para>
             The contract surrounding this interface is that the
             <function>contextualize</function> method is called once during the
-            life of a Component, after <classname>Loggable</classname> but
+            life of a Component, after <classname>LogEnabled</classname> but
             before any other initialization method.
           </para>
         </section>
@@ -624,17 +624,28 @@ public interface DocumentRepository extends Component
           Inversion of Control pattern.
         </para>
         <section>
-          <title>Loggable</title>
+          <title>LogEnabled</title>
           <para>
             Every Component that needs a Logger instance implements this
             interface.  The interface has one method named
-            <function>setLogger</function> and passes Avalon LogKit's
+            <function>enableLogging</function> and passes Avalon Framework's
             <classname>Logger</classname> instance to the Component.
           </para>
           <para>
             The contract surrounding this method is that it is called only
             once during the Component's lifecycle before any other
             initialization step.
+          </para>
+        </section>
+        <section>
+          <title>Logger</title>
+          <para>
+            The <classname>Logger</classname> interface is used to abstract
+            away the differences in logging libraries.  It provides only a
+            client API.  Avalon Framework provides three wrapper classes that
+            implement this interface: <classname>LogKitLogger</classname> for
+            LogKit, <classname>Log4jLogger</classname> for Log4J, and
+            <classname>Jdk14Logger</classname> for JDK 1.4 logging.
           </para>
         </section>
       </section>
