@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<project>
+
+  <extend>${basedir}/../project.xml</extend>
+  <id>merlin-jmx-test</id>
+  <name>JMX Facility Test</name>
+  <package>org.apache.avalon.playground.jmxtest</package>
+  <shortDescription>JMX Facility Test</shortDescription>
+  <description>
+    JMX Facility Test
+  </description>
+  
+  <dependencies>
+    <dependency>
+      <groupId>avalon-framework</groupId>
+      <artifactId>avalon-framework-api</artifactId>
+      <version>4.1.5</version>
+    </dependency>
+  </dependencies>
+</project>

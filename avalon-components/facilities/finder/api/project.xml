@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<project>
+
+  <extend>${basedir}/../../../project.xml</extend>
+
+  <groupId>avalon-finder</groupId>
+  <id>avalon-finder-api</id>
+  <name>Avalon Finder API</name>
+  <package>org.apache.avalon.finder</package>
+  
+  <shortDescription>Avalon Finder API</shortDescription>
+
+</project>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<project>
+
+  <extend>${basedir}/../../../project.xml</extend>
+
+  <groupId>avalon-http</groupId>
+  <id>avalon-http-api</id>
+  <name>Avalon HTTP API</name>
+  <package>org.apache.avalon.http</package>
+
+  <shortDescription>Avalon HTTP Server API</shortDescription>
+
+  <dependencies>
+    
+    <dependency>
+      <groupId>servletapi</groupId>
+      <artifactId>servletapi</artifactId>
+      <version>2.3</version>
+    </dependency>
+
+  </dependencies>
+
+</project>

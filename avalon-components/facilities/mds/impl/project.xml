@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<project>
+
+  <extend>${basedir}/../../../project.xml</extend>
+
+  <groupId>avalon-mds</groupId>
+  <id>avalon-mds-impl</id>
+  <name>Avalon MDS API</name>
+  <package>org.apache.avalon.mds.impl</package>
+
+  <shortDescription>Avalon MDS API</shortDescription>
+
+  <dependencies>
+
+    <dependency>
+      <groupId>geronimo-spec</groupId>
+      <artifactId>geronimo-spec-jms</artifactId>
+      <version>DEV</version>
+    </dependency>
+
+    <dependency>
+      <groupId>commons-messenger</groupId>
+      <artifactId>commons-messenger</artifactId>
+      <version>SNAPSHOT</version>
+    </dependency>
+
+    <dependency>
+       <groupId>avalon-mds</groupId>
+       <artifactId>avalon-mds-api</artifactId>
+       <version>${pom.currentVersion}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>commons-digester</groupId>
+      <artifactId>commons-digester</artifactId>
+      <version>1.5</version>
+    </dependency>
+
+
+    <dependency>
+      <groupId>avalon-framework</groupId>
+      <artifactId>avalon-framework</artifactId>
+      <version>4.1.5</version>
+    </dependency>
+
+    <dependency>
+      <groupId>avalon-meta</groupId>
+      <artifactId>avalon-meta-api</artifactId>
+      <version>1.4-SNAPSHOT</version>
+    </dependency>
+
+    <dependency>
+      <groupId>avalon-composition</groupId>
+      <artifactId>avalon-composition-api</artifactId>
+      <version>${pom.currentVersion}</version>
+    </dependency>
+
+    <dependency>
+      <id>servletapi</id>
+      <version>2.3</version>
+    </dependency>
+  </dependencies>
+
+
+
+</project>

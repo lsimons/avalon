@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<project>
+
+  <extend>${basedir}/../../../project.xml</extend>
+
+  <groupId>avalon-mds</groupId>
+  <id>avalon-mds-api</id>
+  <name>Avalon MDS API</name>
+  <package>org.apache.avalon.mds</package>
+
+  <shortDescription>Avalon MDS API</shortDescription>
+
+  <dependencies>
+
+    <dependency>
+      <groupId>geronimo-spec</groupId>
+      <artifactId>geronimo-spec-jms</artifactId>
+      <version>DEV</version>
+    </dependency>
+
+    <dependency>
+      <groupId>commons-messenger</groupId>
+      <artifactId>commons-messenger</artifactId>
+      <version>SNAPSHOT</version>
+    </dependency>
+
+  </dependencies>
+
+</project>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<project>
+
+  <groupId>avalon-db</groupId>
+  <name>Avalon Database</name>
+
+  <shortDescription>Avalon Database Project Template.</shortDescription>
+
+  <packageGroups>
+    <packageGroup>
+      <title>Avalon Database API</title>
+      <packages>org.apache.avalon.db</packages>
+    </packageGroup>
+    <packageGroup>
+      <title>Avalon Database Implementation</title>
+      <packages>org.apache.avalon.db.*</packages>
+    </packageGroup>
+  </packageGroups>
+
+  <build>
+
+    <nagEmailAddress>dev@avalon.apache.org</nagEmailAddress>
+    <sourceDirectory>${basedir}/src/java</sourceDirectory>
+    <unitTestSourceDirectory>${basedir}/src/test</unitTestSourceDirectory>
+
+    <unitTest>
+      <includes>
+        <include>**/*TestCase.*</include>
+      </includes>
+      <excludes>
+        <exclude>**/Abstract*.*</exclude>
+      </excludes>
+      <resources>
+        <resource>
+          <directory>${basedir}/src/test</directory>
+          <includes> 
+            <include>**/*.dtd</include>
+            <include>**/*.properties</include>
+            <include>**/*.x*</include>
+          </includes>
+        </resource>
+      </resources>
+    </unitTest>
+    
+    <resources>
+      <resource>
+        <directory>${basedir}/src/java</directory>
+        <includes>
+          <include>**/*.dtd</include>
+          <include>**/*.properties</include>
+          <include>**/*.x*</include>
+        </includes>
+      </resource>
+      <resource>
+        <directory>${basedir}/conf</directory>
+        <targetPath>BLOCK-INF</targetPath>
+        <includes>
+          <include>block.xml</include>
+        </includes>
+      </resource>
+    </resources>
+    
+    <jars></jars>
+  </build>
+
+</project>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<project>
+
+  <extend>${basedir}/../project.xml</extend>
+  <id>merlin-jmx-management-api</id>
+  <name>JMX Management API</name>
+  <package>org.apache.avalon.merlin.jmx</package>
+  <shortDescription>JMX Management API</shortDescription>
+  <description>
+    This API is about a simple interface where a component can be registered
+    and unregistered.
+  </description>
+  
+  <dependencies>
+    <dependency>
+      <groupId>avalon-framework</groupId>
+      <artifactId>avalon-framework-api</artifactId>
+      <version>4.1.5</version>
+    </dependency>
+    <dependency>
+      <groupId>avalon-composition</groupId>
+      <artifactId>avalon-composition-api</artifactId>
+      <version>2.0-SNAPSHOT</version>
+    </dependency>
+  </dependencies>
+</project>
