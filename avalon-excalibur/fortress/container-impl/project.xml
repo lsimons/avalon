@@ -82,6 +82,10 @@ easy embedding into various environments like servlet engines.
             <id>xalan</id>
             <version>2.5.1</version>
         </dependency>
+        <dependency>
+            <id>xerces</id>
+            <version>2.3.0</version>
+        </dependency>
 
         <!-- circular! -->
         <dependency>
