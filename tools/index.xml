@@ -11,6 +11,8 @@
     </info>
     <gump>
       <classpath/>
+      <alias>ant</alias>
+      <id>ant</id>
     </gump>
   </resource>
 
