@@ -618,5 +618,14 @@
     <delete dir="${docs.dir}" />
     <delete dir="${dist.dir}" />
   </target>
+  
+
+  <target name="apps-jars" depends="jars">
+    <ant antfile="build.xml" dir="apps/ftpserver" target="jars"/>
+  </target>
+
+   
+  
+
 
 </project>
