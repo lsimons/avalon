@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<project name="connection" default="default" basedir=".">
+<project name="cornerstone-connection" default="default" basedir=".">
 
   <property file="build.properties"/>
   <import file="${project.system}/build/reactor.xml"/>
