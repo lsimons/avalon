@@ -21,7 +21,7 @@ import org.apache.avalon.framework.logger.AbstractLoggable;
  * thread to manage the number of SQL Connections.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.3 $ $Date: 2001/08/09 08:20:09 $
+ * @version CVS $Revision: 1.4 $ $Date: 2001/08/14 14:30:26 $
  * @since 4.0
  */
 public class JdbcConnectionPool
@@ -30,6 +30,7 @@ public class JdbcConnectionPool
 {
     private Thread                 m_initThread;
     private final boolean          m_autoCommit;
+    private boolean                m_noConnections = false;
 
     public JdbcConnectionPool( final JdbcConnectionFactory factory, final DefaultPoolController controller, final int min, final int max, final boolean autoCommit)
         throws Exception
@@ -58,9 +59,13 @@ public class JdbcConnectionPool
     {
         if (! m_initialized)
         {
-            if (m_initThread == null)
+            if (m_noConnections)
             {
-                throw new IllegalStateException("You cannot get a Connection before the pool is initialized");
+                throw new IllegalStateException("There are no connections in the pool, check your settings.");
+            }
+            else if (m_initThread == null)
+            {
+                throw new IllegalStateException("You cannot get a Connection before the pool is initialized.");
             }
             else
             {
@@ -71,7 +76,10 @@ public class JdbcConnectionPool
         JdbcConnection obj = (JdbcConnection) super.get();
 
         if (obj.isClosed()) {
-            getLogger().debug("JdbcConnection was closed, creating one to take its place");
+            if (getLogger().isDebugEnabled())
+            {
+                getLogger().debug("JdbcConnection was closed, creating one to take its place");
+            }
 
             try {
                 m_mutex.lock();
@@ -88,7 +96,10 @@ public class JdbcConnectionPool
             }
             catch (Exception e)
             {
-                getLogger().warn("Could not get an open connection", e);
+                if (getLogger().isWarnEnabled())
+                {
+                    getLogger().warn("Could not get an open connection", e);
+                }
                 throw e;
             }
             finally
@@ -111,9 +122,21 @@ public class JdbcConnectionPool
 
             if (this.size() > 0) {
                 m_initialized = true;
+            } else {
+                this.m_noConnections = true;
+
+                if (getLogger().isFatalErrorEnabled())
+                {
+                    getLogger().fatalError("Excalibur could not create any connections.  " +
+                                           "Examine your settings to make sure they are correct.  " +
+                                           "Make sure you can connect with the same settings on your machine.");
+                }
             }
         } catch (Exception e) {
-            getLogger().debug("JdbcConnectionPool.run()", e);
+            if (getLogger().isDebugEnabled())
+            {
+                getLogger().debug("Caught an exception during initialization", e);
+            }
         }
     }
 }

@@ -21,7 +21,7 @@ import org.apache.avalon.excalibur.pool.DefaultPoolController;
  * <code>java.sql.DriverManager</code>.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.6 $ $Date: 2001/08/07 10:57:07 $
+ * @version CVS $Revision: 1.7 $ $Date: 2001/08/14 14:30:27 $
  * @since 4.0
  */
 public class JdbcDataSource
@@ -138,10 +138,10 @@ public class JdbcDataSource
             {
                 if (getLogger().isDebugEnabled())
                 {
-                    getLogger().debug("Error on configuration", e);
+                    getLogger().debug("Error configuring JdbcDataSource", e);
                 }
 
-                throw new ConfigurationException("Error on configuration", e);
+                throw new ConfigurationException("Error configuring JdbcDataSource", e);
             }
         }
     }
@@ -153,9 +153,9 @@ public class JdbcDataSource
         try { return (Connection) m_pool.get(); }
         catch( final Exception e )
         {
-            if (getLogger().isErrorEnabled())
+            if (getLogger().isWarnEnabled())
             {
-                getLogger().error( "Could not return Connection", e );
+                getLogger().warn( "Could not return Connection", e );
             }
 
             throw new SQLException( e.getMessage() );
