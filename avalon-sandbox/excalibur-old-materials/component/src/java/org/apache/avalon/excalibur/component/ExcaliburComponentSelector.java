@@ -33,7 +33,7 @@ import org.apache.avalon.framework.thread.ThreadSafe;
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:paul@luminas.co.uk">Paul Russell</a>
- * @version CVS $Revision: 1.3 $ $Date: 2002/04/25 14:40:23 $
+ * @version CVS $Revision: 1.4 $ $Date: 2002/05/13 12:17:41 $
  * @since 4.0
  */
 public class ExcaliburComponentSelector
@@ -407,7 +407,7 @@ public class ExcaliburComponentSelector
         if( null == handler )
         {
             getLogger().warn( "Attempted to release a " + component.getClass().getName() +
-                " but its handler could not be located." );
+                              " but its handler could not be located." );
             return;
         }
 

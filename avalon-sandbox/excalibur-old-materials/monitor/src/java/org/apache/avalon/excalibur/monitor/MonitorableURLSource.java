@@ -7,16 +7,13 @@
  */
 package org.apache.avalon.excalibur.monitor;
 
-import java.io.IOException;
-import java.net.URL;
-import java.util.Map;
 import org.apache.excalibur.source.impl.URLSource;
 
 /**
  * This adds the <code>Monitorable</code> interface to the URLSource.
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/04/24 08:25:42 $
+ * @version CVS $Revision: 1.3 $ $Date: 2002/05/13 12:17:40 $
  */
 
 public class MonitorableURLSource
@@ -27,7 +24,9 @@ public class MonitorableURLSource
     /**
      * Constructor
      */
-    public MonitorableURLSource() {}
+    public MonitorableURLSource()
+    {
+    }
 
     /**
      *  Get the corresponding Resource object for monitoring.
@@ -45,6 +44,5 @@ public class MonitorableURLSource
             return new SourceResource( this );
         }
     }
-
 
 }

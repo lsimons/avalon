@@ -35,9 +35,9 @@ import org.apache.avalon.framework.thread.ThreadSafe;
  * </pre>
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version $Id: ActiveMonitor.java,v 1.10 2002/04/21 21:47:49 donaldp Exp $
+ * @version $Id: ActiveMonitor.java,v 1.11 2002/05/13 12:17:40 donaldp Exp $
  */
-public final class ActiveMonitor 
+public final class ActiveMonitor
     extends AbstractLogEnabled
     implements Monitor, Startable, ThreadSafe, Configurable, Runnable
 {

@@ -8,12 +8,11 @@
 package org.apache.avalon.excalibur.thread.impl.test;
 
 import java.util.HashMap;
-import org.apache.avalon.framework.logger.ConsoleLogger;
-import org.apache.avalon.excalibur.thread.ThreadPool;
+import junit.framework.TestCase;
 import org.apache.avalon.excalibur.thread.impl.DefaultThreadPool;
+import org.apache.avalon.framework.logger.ConsoleLogger;
 import org.apache.excalibur.threadcontext.ThreadContext;
 import org.apache.excalibur.threadcontext.impl.DefaultThreadContextPolicy;
-import junit.framework.TestCase;
 
 /**
  * TestCase for DefaultThreadPool.

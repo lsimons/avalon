@@ -7,13 +7,13 @@
  */
 package org.apache.avalon.excalibur.thread.impl;
 
-import org.apache.excalibur.threadcontext.ThreadContext;
 import org.apache.avalon.excalibur.pool.Pool;
 import org.apache.avalon.excalibur.pool.Poolable;
 import org.apache.avalon.excalibur.thread.ThreadControl;
 import org.apache.avalon.framework.activity.Executable;
 import org.apache.avalon.framework.logger.LogEnabled;
 import org.apache.avalon.framework.logger.Logger;
+import org.apache.excalibur.threadcontext.ThreadContext;
 
 /**
  * This class extends the Thread class to add recyclable functionalities.

@@ -29,11 +29,11 @@ import org.apache.avalon.framework.component.Component;
  * like Composable, Initializable, Disposable etc.
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.3 $ $Date: 2002/05/10 07:54:09 $
+ * @version CVS $Revision: 1.4 $ $Date: 2002/05/13 12:17:40 $
  */
 
 public interface SourceResolver
-   extends Component
+    extends Component
 {
     String ROLE = SourceResolver.class.getName();
 

@@ -15,7 +15,7 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.configuration.DefaultConfiguration;
 
 /**
- * The CascadingConfiguration is a classic Configuration backed by parent 
+ * The CascadingConfiguration is a classic Configuration backed by parent
  * Configuration.  Operations such as getChild return a CascadingConfiguration
  * encapsulating both a primary and parent configuration.  Requests for attribute
  * values are resolved against the base configuration initially.  If the result
@@ -30,14 +30,14 @@ public class CascadingConfiguration implements Configuration
     // state
     //=============================================================================
 
-   /**
-    * The primary configuration.
-    */
+    /**
+     * The primary configuration.
+     */
     private final Configuration m_base;
 
-   /**
-    * The fallback configuration.
-    */
+    /**
+     * The fallback configuration.
+     */
     private final Configuration m_parent;
 
     //=============================================================================
@@ -46,19 +46,19 @@ public class CascadingConfiguration implements Configuration
 
     /**
      * Create a CascadingConfiguration with specified parent.  The base
-     * configuration shall override a parent configuration on request for 
+     * configuration shall override a parent configuration on request for
      * attribute values and configuration body values.  Unresolved request
      * are redirected up the parent chain until a classic configuration is
-     * reached.  Request for child configurations will return a 
-     * new CascadingConfiguration referencing the child of the base and 
+     * reached.  Request for child configurations will return a
+     * new CascadingConfiguration referencing the child of the base and
      * the child of the primary (i.e. a child configuration chain).
      *
      * @param base the base Configuration
-     * @param parent the parent Configuration 
+     * @param parent the parent Configuration
      */
-    public CascadingConfiguration( final Configuration base , final Configuration parent )
+    public CascadingConfiguration( final Configuration base, final Configuration parent )
     {
-        if( base == null ) 
+        if( base == null )
         {
             m_base = new DefaultConfiguration( "-", null );
         }
@@ -66,7 +66,7 @@ public class CascadingConfiguration implements Configuration
         {
             m_base = base;
         }
-        if( parent == null ) 
+        if( parent == null )
         {
             m_parent = new DefaultConfiguration( "-", null );
         }
@@ -132,19 +132,19 @@ public class CascadingConfiguration implements Configuration
      * @param child The name of the child node.
      * @param createNew If <code>true</code>, a new <code>Configuration</code>
      * will be created and returned if the specified child does not exist in either
-     * the base or parent configuratioin. If <code>false</code>, <code>null</code> 
-     * will be returned when the specified child doesn't exist in either the base or 
+     * the base or parent configuratioin. If <code>false</code>, <code>null</code>
+     * will be returned when the specified child doesn't exist in either the base or
      * the parent.
      * @return Configuration
      */
     public Configuration getChild( String child, boolean createNew )
     {
-        if( createNew ) 
+        if( createNew )
         {
             return getChild( child );
         }
         Configuration c = m_base.getChild( child, false );
-        if( child != null ) 
+        if( child != null )
         {
             return c;
         }
@@ -153,27 +153,27 @@ public class CascadingConfiguration implements Configuration
 
     /**
      * Return an <code>Array</code> of <code>Configuration</code>
-     * elements containing all node children of both base and parent configurations. 
+     * elements containing all node children of both base and parent configurations.
      * The array order will reflect the order in the source config file, commencing
      * with the base configuration.
      *
-     * @return All child nodes 
+     * @return All child nodes
      */
     public Configuration[] getChildren()
     {
-        Configuration[] b = m_base.getChildren( );
-        Configuration[] p = m_parent.getChildren( );
+        Configuration[] b = m_base.getChildren();
+        Configuration[] p = m_parent.getChildren();
         Configuration[] result = new Configuration[ b.length + p.length ];
-        System.arraycopy(b, 0, result, 0, b.length );
-        System.arraycopy(p, 0, result, b.length, p.length );
+        System.arraycopy( b, 0, result, 0, b.length );
+        System.arraycopy( p, 0, result, b.length, p.length );
         return result;
     }
 
     /**
      * Return an <code>Array</code> of <code>Configuration</code>
-     * elements containing all node children with the specified name from 
+     * elements containing all node children with the specified name from
      * both base and parent configurations. The array
-     * order will reflect the order in the source config file commencing 
+     * order will reflect the order in the source config file commencing
      * with the base configuration.
      *
      * @param name The name of the children to get.
@@ -184,8 +184,8 @@ public class CascadingConfiguration implements Configuration
         Configuration[] b = m_base.getChildren( name );
         Configuration[] p = m_parent.getChildren( name );
         Configuration[] result = new Configuration[ b.length + p.length ];
-        System.arraycopy(b, 0, result, 0, b.length );
-        System.arraycopy(p, 0, result, b.length, p.length );
+        System.arraycopy( b, 0, result, 0, b.length );
+        System.arraycopy( p, 0, result, b.length, p.length );
         return result;
     }
 
@@ -198,30 +198,30 @@ public class CascadingConfiguration implements Configuration
      * <tt>conf.getAttributeNames()[0]</tt>, then it is liable to break if a
      * different XML parser is used.
      * </p>
-     * @return an array of all attribute names 
+     * @return an array of all attribute names
      */
     public String[] getAttributeNames()
     {
         java.util.Vector vector = new java.util.Vector();
         String[] names = m_base.getAttributeNames();
         String[] names2 = m_parent.getAttributeNames();
-        for( int i=0; i<names.length; i++ )
+        for( int i = 0; i < names.length; i++ )
         {
-            vector.add( names[i] );
+            vector.add( names[ i ] );
         }
-        for( int i=0; i<names2.length; i++ )
+        for( int i = 0; i < names2.length; i++ )
         {
-            if( vector.indexOf( names2[i] ) < 0 ) 
+            if( vector.indexOf( names2[ i ] ) < 0 )
             {
-                vector.add( names2[i] );
+                vector.add( names2[ i ] );
             }
         }
-        return (String[]) vector.toArray( new String[0] );
+        return (String[])vector.toArray( new String[ 0 ] );
     }
 
     /**
      * Return the value of specified attribute.  If the base configuration
-     * does not contain the attribute, the equivialent operation is applied to 
+     * does not contain the attribute, the equivialent operation is applied to
      * the parent configuration.
      *
      * @param paramName The name of the parameter you ask the value of.
@@ -281,7 +281,6 @@ public class CascadingConfiguration implements Configuration
         }
     }
 
-
     /**
      * Return the <code>float</code> value of the specified parameter contained
      * in this node.
@@ -301,7 +300,6 @@ public class CascadingConfiguration implements Configuration
             return m_parent.getAttributeAsFloat( paramName );
         }
     }
-
 
     /**
      * Return the <code>boolean</code> value of the specified parameter contained
@@ -328,7 +326,7 @@ public class CascadingConfiguration implements Configuration
      * Return the <code>String</code> value of the node.
      *
      * @return the value of the node.
-     * @exception ConfigurationException May be raised by underlying 
+     * @exception ConfigurationException May be raised by underlying
      *                                   base or parent configuration.
      */
     public String getValue() throws ConfigurationException
@@ -342,7 +340,6 @@ public class CascadingConfiguration implements Configuration
             return m_parent.getValue();
         }
     }
-
 
     /**
      * Return the <code>int</code> value of the node.
@@ -436,7 +433,6 @@ public class CascadingConfiguration implements Configuration
         }
     }
 
-
     /**
      * Returns the value of the configuration element as an <code>int</code>.
      * If the configuration value is not set, the default value will be
@@ -457,7 +453,6 @@ public class CascadingConfiguration implements Configuration
             return m_parent.getValueAsInteger( defaultValue );
         }
     }
-
 
     /**
      * Returns the value of the configuration element as a <code>long</code>.
@@ -480,7 +475,6 @@ public class CascadingConfiguration implements Configuration
         }
     }
 
-
     /**
      * Returns the value of the configuration element as a <code>float</code>.
      * If the configuration value is not set, the default value will be
@@ -502,7 +496,6 @@ public class CascadingConfiguration implements Configuration
         }
     }
 
-
     /**
      * Returns the value of the configuration element as a <code>boolean</code>.
      * If the configuration value is not set, the default value will be
@@ -523,7 +516,6 @@ public class CascadingConfiguration implements Configuration
             return m_parent.getValueAsBoolean( defaultValue );
         }
     }
-
 
     /**
      * Returns the value of the attribute specified by its name as a

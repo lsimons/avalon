@@ -7,19 +7,17 @@
  */
 package org.apache.avalon.excalibur.thread.impl;
 
-import org.apache.excalibur.threadcontext.ThreadContext;
-
 import org.apache.avalon.excalibur.instrument.Instrument;
 import org.apache.avalon.excalibur.instrument.Instrumentable;
 import org.apache.avalon.excalibur.pool.ObjectFactory;
 import org.apache.avalon.excalibur.pool.ResourceLimitingPool;
 import org.apache.avalon.excalibur.thread.ThreadControl;
 import org.apache.avalon.excalibur.thread.ThreadPool;
-
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Executable;
 import org.apache.avalon.framework.logger.LogEnabled;
 import org.apache.avalon.framework.logger.Logger;
+import org.apache.excalibur.threadcontext.ThreadContext;
 
 /**
  * A Thread Pool which can be configured to have a hard limit on the maximum number of threads
@@ -33,7 +31,7 @@ import org.apache.avalon.framework.logger.Logger;
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
  * @author <a href="mailto:stefano@apache.org">Stefano Mazzocchi</a>
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version CVS $Revision: 1.3 $ $Date: 2002/05/10 14:46:39 $
+ * @version CVS $Revision: 1.4 $ $Date: 2002/05/13 12:17:38 $
  * @since 4.1
  */
 public class ResourceLimitingThreadPool
@@ -48,7 +46,7 @@ public class ResourceLimitingThreadPool
 
     /** Instrumentable Name assigned to this Instrumentable */
     private String m_instrumentableName;
-    
+
     /*---------------------------------------------------------------
      * Constructors
      *-------------------------------------------------------------*/
@@ -302,9 +300,9 @@ public class ResourceLimitingThreadPool
      */
     public Instrumentable[] getChildInstrumentables()
     {
-        return new Instrumentable[] { m_pool };
+        return new Instrumentable[]{m_pool};
     }
-    
+
     /*---------------------------------------------------------------
      * Methods
      *-------------------------------------------------------------*/
@@ -332,7 +330,7 @@ public class ResourceLimitingThreadPool
             throw new IllegalStateException( "Unable to access thread pool due to " + e );
         }
     }
-    
+
     /**
      * Return the number of worker threads in the pool.
      *

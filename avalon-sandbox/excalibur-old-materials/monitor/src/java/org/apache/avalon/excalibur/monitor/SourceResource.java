@@ -20,7 +20,7 @@ import org.apache.excalibur.source.SourceValidity;
 /**
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version $Id: SourceResource.java,v 1.3 2002/04/24 12:35:37 cziegeler Exp $
+ * @version $Id: SourceResource.java,v 1.4 2002/05/13 12:17:40 donaldp Exp $
  */
 public final class SourceResource
     extends StreamResource
@@ -72,14 +72,15 @@ public final class SourceResource
      * Sets the resource value with an OutputStream
      */
     public InputStream getResourceAsStream()
-    throws IOException
+        throws IOException
     {
-        try {
+        try
+        {
             return m_source.getInputStream();
         }
-        catch (SourceException se)
+        catch( SourceException se )
         {
-            throw new IOException("SourceException: " + se.getMessage());
+            throw new IOException( "SourceException: " + se.getMessage() );
         }
     }
 
@@ -87,7 +88,7 @@ public final class SourceResource
      * Sets the resource value with a Writer
      */
     public Reader getResourceAsReader()
-    throws IOException
+        throws IOException
     {
         return new InputStreamReader( getResourceAsStream() );
     }
@@ -96,7 +97,7 @@ public final class SourceResource
      * Sets the resource value with an OutputStream
      */
     public OutputStream setResourceAsStream()
-    throws IOException
+        throws IOException
     {
         throw new IOException( "setResourceAsStream() not supported for URLResource" );
     }
@@ -105,7 +106,7 @@ public final class SourceResource
      * Sets the resource value with a Writer
      */
     public Writer setResourceAsWriter()
-    throws IOException
+        throws IOException
     {
         throw new IOException( "setResourceAsWriter() not supported for URLResource" );
     }

@@ -17,14 +17,18 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.Iterator;
 import java.util.Map;
-import org.apache.excalibur.source.*;
+import org.apache.excalibur.source.Source;
+import org.apache.excalibur.source.SourceException;
+import org.apache.excalibur.source.SourceParameters;
+import org.apache.excalibur.source.SourceUtil;
+import org.apache.excalibur.source.SourceValidity;
 import org.apache.excalibur.source.impl.validity.TimeStampValidity;
 
 /**
  * Description of a source which is described by an URL.
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.8 $ $Date: 2002/05/02 10:25:24 $
+ * @version CVS $Revision: 1.9 $ $Date: 2002/05/13 12:17:40 $
  */
 
 public class URLSource
@@ -71,14 +75,16 @@ public class URLSource
     /**
      * Constructor
      */
-    public URLSource() {}
+    public URLSource()
+    {
+    }
 
     /**
      * Initialize a new object from a <code>URL</code>.
      * @param parameters This is optional
      */
-    public void init(URL url,
-                     Map parameters )
+    public void init( URL url,
+                      Map parameters )
         throws IOException
     {
         this.systemId = url.toExternalForm();

@@ -26,7 +26,7 @@ import org.apache.avalon.framework.thread.ThreadSafe;
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:ryan@silveregg.co.jp">Ryan Shaw</a>
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/04/04 05:09:02 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/05/13 12:17:41 $
  * @since 4.0
  */
 public abstract class ComponentHandler extends AbstractLoggable
@@ -206,7 +206,7 @@ public abstract class ComponentHandler extends AbstractLoggable
         // This method is not abstract to make the class backwards compatible.
         throw new IllegalStateException( "This method must be overridden." );
     }
-    
+
     /**
      * Returns the current number of references.
      *

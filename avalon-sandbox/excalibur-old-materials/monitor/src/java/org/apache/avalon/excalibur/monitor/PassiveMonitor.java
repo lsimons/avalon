@@ -34,9 +34,9 @@ import org.apache.avalon.framework.thread.ThreadSafe;
  * </pre>
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version $Id: PassiveMonitor.java,v 1.7 2002/04/21 21:47:49 donaldp Exp $
+ * @version $Id: PassiveMonitor.java,v 1.8 2002/05/13 12:17:40 donaldp Exp $
  */
-public final class PassiveMonitor 
+public final class PassiveMonitor
     extends AbstractLoggable
     implements Monitor, ThreadSafe, Configurable
 {

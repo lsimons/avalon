@@ -26,9 +26,9 @@ import java.io.Writer;
  * OutputStream has been closed.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version $Id: FileResource.java,v 1.4 2002/04/21 21:47:49 donaldp Exp $
+ * @version $Id: FileResource.java,v 1.5 2002/05/13 12:17:40 donaldp Exp $
  */
-public class FileResource 
+public class FileResource
     extends StreamResource
 {
     private final File m_file;
@@ -61,8 +61,8 @@ public class FileResource
     /**
      * Sets the resource value with an OutputStream
      */
-    public InputStream getResourceAsStream() 
-	throws IOException
+    public InputStream getResourceAsStream()
+        throws IOException
     {
         return new FileInputStream( m_file );
     }
@@ -70,8 +70,8 @@ public class FileResource
     /**
      * Sets the resource value with a Writer
      */
-    public Reader getResourceAsReader() 
-	throws IOException
+    public Reader getResourceAsReader()
+        throws IOException
     {
         return new FileReader( m_file );
     }
@@ -79,8 +79,8 @@ public class FileResource
     /**
      * Sets the resource value with an OutputStream
      */
-    public OutputStream setResourceAsStream() 
-	throws IOException
+    public OutputStream setResourceAsStream()
+        throws IOException
     {
         return new ResourceOutputStream( new FileOutputStream( m_file ), this );
     }
@@ -88,8 +88,8 @@ public class FileResource
     /**
      * Sets the resource value with a Writer
      */
-    public Writer setResourceAsWriter() 
-	throws IOException
+    public Writer setResourceAsWriter()
+        throws IOException
     {
         return new ResourceWriter( new FileWriter( m_file ), this );
     }
