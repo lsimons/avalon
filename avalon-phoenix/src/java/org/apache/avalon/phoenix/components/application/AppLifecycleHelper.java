@@ -114,7 +114,7 @@ class AppLifecycleHelper
         }
     }
 
-    ListenerSupport getAppListenerSupport()
+    ListenerSupport getListenerSupport()
     {
         return m_listenerSupport;
     }
