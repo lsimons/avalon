@@ -18,6 +18,7 @@
       <name>avalon-tutorial-hello</name>
     </info>
     <dependencies>
+      <include key="avalon-merlin-unit" runtime="false"/>
       <include key="avalon-framework-api" runtime="false"/>
     </dependencies>
     <plugins>
