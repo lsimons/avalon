@@ -7,8 +7,6 @@
  */
 package org.apache.avalon.phoenix.metainfo;
 
-import org.apache.avalon.excalibur.container.Info;
-
 /**
  * This class contains meta-information of use to administative
  * tools and the kernel. It describes the services offered by a type
@@ -19,7 +17,6 @@ import org.apache.avalon.excalibur.container.Info;
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 public class BlockInfo
-    implements Info
 {
     private final BlockDescriptor m_descriptor;
     private final ServiceDescriptor[] m_services;
