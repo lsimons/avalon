@@ -32,6 +32,9 @@
       <version>1.2.8</version>
       <type>jar</type>
     </info>
+    <gump>
+      <alias>logging-log4j</alias>
+    </gump>
   </resource>
 
   <resource>
@@ -41,6 +44,9 @@
       <version>2.3</version>
       <type>jar</type>
     </info>
+    <gump>
+      <alias>jakarta-servletapi-4</alias>
+    </gump>
   </resource>
 
   <resource>
@@ -68,6 +74,9 @@
       <version>DEV</version>
       <type>jar</type>
     </info>
+    <gump>
+      <alias>jms</alias> <!-- CHEAT - this will link to sun's jms -->
+    </gump>
   </resource>
 
   <!--
