@@ -61,14 +61,14 @@ list (avalon-dev@jakarta.apache.org) and ask your specific questions there.
 
 <section name="Wish List">
 
-    <subsection title="Separate and Antify Validation code">
+    <subsection name="Separate and Antify Validation code">
       <p>
       Refactor block validation code. Write an Ant taks that uses this
       and validates the block jar files and another task that validates the
       assembly.xml file.
       </p>
     </subsection>
-    <subsection title="Log messages">
+    <subsection name="Log messages">
       <p>
       Refactor Log messages so that they are structured in a manner more
       suitable for administrators rather than developers.
@@ -78,7 +78,7 @@ list (avalon-dev@jakarta.apache.org) and ask your specific questions there.
       </p>
     </subsection>
 
-    <subsection title="Generated Configurations">
+    <subsection name="Generated Configurations">
       <p>
       Define and implement a smart way to generate Avalon configurations.
       Define configuration template containing default configuration,
@@ -88,7 +88,7 @@ list (avalon-dev@jakarta.apache.org) and ask your specific questions there.
       </p>
     </subsection>
 
-    <subsection title="Time Scheduler changes">
+    <subsection name="Time Scheduler changes">
       <p>
       Rework the DefaultTimeScheduler so that entrys are removed from heap when
       reset. Otherwise it could lead to excessive buildup of invalidated entries
@@ -96,14 +96,14 @@ list (avalon-dev@jakarta.apache.org) and ask your specific questions there.
       </p>
     </subsection>
 
-    <subsection title="Opening some tightly kernel-coupled services">
+    <subsection name="Opening some tightly kernel-coupled services">
       <p>
       Rework kernel so that ConfigurationRepository, Logging and Management can
       be routed through ServerApplications.
       </p>
     </subsection>
 
-    <subsection title="Virtual File System / Jars within Jars">
+    <subsection name="Virtual File System / Jars within Jars">
       <p>
       Implement a simple read-only VFS so that .sar files do not need to be
       expanded.
@@ -113,14 +113,14 @@ list (avalon-dev@jakarta.apache.org) and ask your specific questions there.
       </p>
     </subsection>
 
-    <subsection title="Thread pooling">
+    <subsection name="Thread pooling">
       <p>
       Rework kernel so that thread boundaries are respected and secure. This essentially
       involves using ThreadPools to execute phases and for management.
       </p>
     </subsection>
 
-    <subsection title="JNDI service">
+    <subsection name="JNDI service">
       <p>
       Determine if we need a naming service. If so provide a simple JNDI based naming
       service possibly built on top of cadastre.
@@ -130,7 +130,7 @@ list (avalon-dev@jakarta.apache.org) and ask your specific questions there.
       </p>
     </subsection>
 
-    <subsection title="Block Management remotely">
+    <subsection name="Block Management remotely">
       <p>
       Separate out and specify the way in which different parts of system are managed.
       ie Compare how remote Management of Blocks could occur vs Deployer/Kernel/Embeddor
@@ -138,14 +138,14 @@ list (avalon-dev@jakarta.apache.org) and ask your specific questions there.
       </p>
     </subsection>
 
-    <subsection title="Hot deployment">
+    <subsection name="Hot deployment">
       <p>
       A standard system for hot deploying and undeploying. This may require the building
       of FileMonitors that will read a file when it is changed.
       </p>
     </subsection>
 
-    <subsection title="Reconfiguration">
+    <subsection name="Reconfiguration">
       <p><strong>This has a few facets:</strong></p>
       <p>
       A standard reconfiguration system.  This may require the building
@@ -167,14 +167,14 @@ list (avalon-dev@jakarta.apache.org) and ask your specific questions there.
 
     </subsection>
 
-    <subsection title="Proxy Interfaces">
+    <subsection name="Proxy Interfaces">
       <p>
       Currently services are provided via a proxy interface. Rework kernel so that
       the proxy interface can be turned off via a command-line switch.
       </p>
     </subsection>
 
-    <subsection title="Management Console">
+    <subsection name="Management Console">
       <p>
       Management console/Client interface. CLI version aswell as a GUI version.
       </p>
@@ -183,7 +183,7 @@ list (avalon-dev@jakarta.apache.org) and ask your specific questions there.
       </p>
     </subsection>
 
-    <subsection title="Default JNDI Contexts">
+    <subsection name="Default JNDI Contexts">
       <p>
       Avalon should provide default JNDI contexts
       that Block implementers can extend and use like
@@ -191,7 +191,7 @@ list (avalon-dev@jakarta.apache.org) and ask your specific questions there.
       </p>
     </subsection>
 
-    <subsection title="Java Messaging Service">
+    <subsection name="Java Messaging Service">
       <p>
       JMS (Java Messaging Service) for the Connection Manager. It
       will provide a standard and flexible connection service and
@@ -200,7 +200,7 @@ list (avalon-dev@jakarta.apache.org) and ask your specific questions there.
       </p>
     </subsection>
 
-    <subsection title="Server Pools">
+    <subsection name="Server Pools">
       <p>
       Support for server pools.  Several Phoenix servers should be able
       to pool resources and act as one server regardless of VM, or
@@ -208,7 +208,7 @@ list (avalon-dev@jakarta.apache.org) and ask your specific questions there.
       </p>
     </subsection>
 
-    <subsection title="Block loading remotely">
+    <subsection name="Block loading remotely">
       <p>
       Remote loading of Blocks. Phoenix should be able to pull a block
       at run time from a remote server, check the signature, and run it
@@ -217,7 +217,7 @@ list (avalon-dev@jakarta.apache.org) and ask your specific questions there.
       </p>
     </subsection>
 
-    <subsection title="Remote Control">
+    <subsection name="Remote Control">
       <p>
       Write some code to remotely control Phoenix. (This will most likely be
       rolled into JMX support).
@@ -227,7 +227,7 @@ list (avalon-dev@jakarta.apache.org) and ask your specific questions there.
       </p>
     </subsection>
 
-    <subsection title="Transactions">
+    <subsection name="Transactions">
       <p>
       Define and implement some Transaction pattern for the Repository. Maybe JTA?
       </p>
@@ -235,20 +235,20 @@ list (avalon-dev@jakarta.apache.org) and ask your specific questions there.
 </section>
 
 <section name="Ongoing work">
-    <subsection title="Help needed!">
+    <subsection name="Help needed!">
       <p>
       We can really use some help here! This is a top priority and all
       contributions will be welcomed.
       </p>
     </subsection>
 
-    <subsection title="Documentation">
+    <subsection name="Documentation">
       <p>
       Write all documentation.
       </p>
     </subsection>
 
-    <subsection title="JavaDocs">
+    <subsection name="JavaDocs">
       <p>
       Update JavaDocs for decent developer documentation.
       </p>
@@ -258,7 +258,7 @@ list (avalon-dev@jakarta.apache.org) and ask your specific questions there.
 
 <section name="Very Important Work to Complete">
 
-    <subsection title="Java Management eXtentions">
+    <subsection name="Java Management eXtentions">
       <p>
       JMX (Java Management eXtentions) for central management of
       Avalon. If JMX cannot be done due to licensing, we should

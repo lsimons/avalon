@@ -36,7 +36,7 @@
       <p>
         Phoenix application are distriuted in a single archive.
       </p>
-      <subsection title="Packaging in terms of blocks">
+      <subsection name="Packaging in terms of blocks">
         <p>
           Phoenix hosts server applications made up of blocks.  The blocks may depend on libraries
           to function correctly.  The blocks are tied together with Assembly instructions and Configured
@@ -47,7 +47,7 @@
           <graphic srccredit="Paul Hammant, 2001" fileref="images/phoenix-app-block.jpg" format="JPEG"/>
         </figure>
       </subsection>
-      <subsection title="Packaging in terms of block jar files">
+      <subsection name="Packaging in terms of block jar files">
         <p>
           The server application is entirely contained withing one "sar" file.  Sar is "Server ARchive".
           Each block is a jar file.  The dependant libraries are regular jars (placed
@@ -59,7 +59,7 @@
           <graphic srccredit="Paul Hammant, 2001" fileref="images/phoenix-app-blockjars.jpg" format="JPEG"/>
         </figure>
       </subsection>
-      <subsection title="FtpServer as a Phoenix application">
+      <subsection name="FtpServer as a Phoenix application">
       <p>
         FtpServer (part of the Avalon/Cornerstone project) is distributed in sar form.  Here is a
         view of it's blocks.  It has no third party jars that it depends on.

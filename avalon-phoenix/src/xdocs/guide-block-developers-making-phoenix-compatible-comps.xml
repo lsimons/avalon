@@ -20,7 +20,7 @@
         There are a number of common sense things to remember when making or
         adapting a Java component to be reusable in Phoenix as block.
       </p>
-      <subsection title="Beanification">
+      <subsection name="Beanification">
         <p>
           <ul>
             <li>Have a public empty constructor for your main class</li>
@@ -34,11 +34,11 @@
           </ul>
         </p>
       </subsection>
-      <subsection title="Inversion of Control Pattern">
+      <subsection name="Inversion of Control Pattern">
          The IoC pattern is described <a href="http://jakarta.apache.org/avalon/framework/inversion-of-control.html">
          here</a>.  This means for Phoenix avoiding static concepts including loggers.
       </subsection>
-      <subsection title="Sepearation of interface and implementation">
+      <subsection name="Sepearation of interface and implementation">
         <p>
          The separation of interface/impl pattern is described <a href="http://jakarta.apache.org/avalon/framework/separation-of-interface-and-implementation.html">here</a>.
          For Phoenix is means we can (if done completely) mount the implementation jar in place where hosted client compoennts (beans, servlets etc) can use the API, bit not see the implementation.  We can also reimplement or wrap
@@ -47,7 +47,7 @@
          boots is determined in assembly.xml of course.
         </p>
       </subsection>
-      <subsection title="Opening up the API">
+      <subsection name="Opening up the API">
         <p>
          Given that you have divided into interface and impl, there are probably plenty of methods you
          can put method in the interface you never though might be used.  For example if you are making JDBC

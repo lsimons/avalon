@@ -33,7 +33,7 @@
 	the different roles that typically exist in daily use of phoenix. For each of
 	these, we provide a basic guide. We finish with a complete example.
       </p>
-        <subsection title="Target Audience">
+        <subsection name="Target Audience">
           <p>
             This documentation is aimed towards people who:
             <ul>
@@ -46,7 +46,7 @@
             </ul>
           </p>
         </subsection>
-        <subsection title="Contents">
+        <subsection name="Contents">
           <ol>
             <li><a href="guide-architecture.html">Architectural overview</a></li>
             <li><a href="guide-roles.html">Development roles</a></li>
