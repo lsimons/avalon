@@ -33,10 +33,6 @@
 
  <xsl:template match="action">
   <li>
-   
-   <xsl:if test = "@type">
-     <icon src="images/{@type}.jpg" alt="{@type}"/>
-   </xsl:if>
    <xsl:apply-templates/>
    <xsl:text>(</xsl:text><xsl:value-of select="@dev"/><xsl:text>)</xsl:text>
 
