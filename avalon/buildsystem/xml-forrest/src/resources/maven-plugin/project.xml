@@ -4,7 +4,7 @@
     <pomVersion>3</pomVersion>
     <id>maven-forrest-plugin</id>
     <name>Maven Forrest Plug-in</name>
-    <currentVersion>1.0</currentVersion>
+    <currentVersion>1.1</currentVersion>
     <shortDescription>Java Documentation Management Tool</shortDescription>
     <url>http://xml.apache.org/forrest/</url>
     <inceptionYear>2003</inceptionYear>
@@ -92,26 +92,24 @@
         </dependency>-->
 
         <!-- xml stuff -->
-        <dependencies>
-            <dependency>
-                <id>xml-apis</id>
-                <version>2.0.2</version>
-            </dependency>
-            <dependency>
-                <id>xercesImpl</id>
-                <version>2.4.0</version>
-                <groupId>xerces</groupId>
-            </dependency>
-            <dependency>
-                <id>xmlParserAPIs</id>
-                <version>2.2.1</version>
-                <groupId>xerces</groupId>
-            </dependency>
-            <dependency>
-                <id>xalan</id>
-                <version>2.5.1</version>
-            </dependency>
-        </dependencies>
+        <dependency>
+            <id>xml-apis</id>
+            <version>2.0.2</version>
+        </dependency>
+        <dependency>
+            <id>xercesImpl</id>
+            <version>2.4.0</version>
+            <groupId>xerces</groupId>
+        </dependency>
+        <dependency>
+            <id>xmlParserAPIs</id>
+            <version>2.2.1</version>
+            <groupId>xerces</groupId>
+        </dependency>
+        <dependency>
+            <id>xalan</id>
+            <version>2.5.1</version>
+        </dependency>
         <dependency>
             <id>batik-all</id>
             <version>1.5b5</version>
@@ -261,7 +259,7 @@
         </dependency>
         <dependency>
             <id>excalibur-sourceresolve</id>
-            <version>1.0</version>
+            <version>1.0.1</version>
         </dependency>
         <dependency>
             <id>excalibur-store</id>
