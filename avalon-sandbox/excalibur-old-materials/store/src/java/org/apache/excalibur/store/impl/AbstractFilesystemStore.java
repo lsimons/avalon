@@ -21,7 +21,7 @@ import java.util.Enumeration;
  *
  * @author ?
  * @author <a href="mailto:vgritsenko@apache.org">Vadim Gritsenko</a>
- * @version CVS $Id: AbstractFilesystemStore.java,v 1.1 2002/05/02 10:04:05 cziegeler Exp $
+ * @version CVS $Id: AbstractFilesystemStore.java,v 1.2 2002/05/06 12:16:15 cziegeler Exp $
  */
 public abstract class AbstractFilesystemStore
 extends AbstractLogEnabled
@@ -286,6 +286,18 @@ implements Store, ThreadSafe {
      */
     protected String decode( String filename )
     {
+        // if the key is longer than 127 bytes a File.separator
+        // is added each 127 bytes
+        if (filename.length() > 127) {
+            int c = filename.length() / 127;
+            int pos = c * 127;
+            StringBuffer out = new StringBuffer(filename);
+            while (pos > 0) {
+                out.delete(pos,pos+1);
+                pos -= 127;
+            }
+            filename = out.toString();
+        }
         return java.net.URLDecoder.decode( filename );
     }
 
@@ -324,7 +336,7 @@ implements Store, ThreadSafe {
      * it may normally happen). For this reason, it's highly recommended
      * (even if not mandated) that Strings be used as keys.
      */
-    public String encode(String s) {
+    protected String encode(String s) {
         final StringBuffer out = new StringBuffer( s.length() );
         final ByteArrayOutputStream buf = new ByteArrayOutputStream( 32 );
         final OutputStreamWriter writer = new OutputStreamWriter( buf );
@@ -370,6 +382,13 @@ implements Store, ThreadSafe {
             }
         }
 
+        // if the key is longer than 127 bytes add a File.separator
+        // each 127 bytes
+        int pos = 127;
+        while (out.length() > pos) {
+            out.insert(pos, File.separatorChar);
+            pos += 127;
+        }
         return out.toString();
     }
 

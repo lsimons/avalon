@@ -38,7 +38,7 @@ import java.util.NoSuchElementException;
  * @author <a href="mailto:g-froehlich@gmx.de">Gerhard Froehlich</a>
  * @author <a href="mailto:dims@yahoo.com">Davanum Srinivas</a>
  * @author <a href="mailto:vgritsenko@apache.org">Vadim Gritsenko</a>
- * @version CVS $Id: MRUMemoryStore.java,v 1.1 2002/05/02 08:55:39 cziegeler Exp $
+ * @version CVS $Id: MRUMemoryStore.java,v 1.2 2002/05/06 12:16:15 cziegeler Exp $
  */
 public final class MRUMemoryStore
 extends AbstractLogEnabled
@@ -116,8 +116,7 @@ implements Store, Parameterizable, Composable, Disposable, ThreadSafe {
                     try {
                         Object value = this.cache.remove(key);
                         if(checkSerializable(value)) {
-                             persistentStore.store(getFileName(key.toString()),
-                                                   value);
+                             persistentStore.store(key, value);
                         }
                     } catch (IOException ioe) {
                         getLogger().error("Error in dispose()", ioe);
@@ -192,7 +191,7 @@ implements Store, Parameterizable, Composable, Disposable, ThreadSafe {
 
         /** try to fetch from filesystem */
         if (this.persistent) {
-            value = this.persistentStore.get(getFileName(key.toString()));
+            value = this.persistentStore.get(key);
             if (value != null) {
                 try {
                     if(!this.cache.containsKey(key)) {
@@ -222,7 +221,7 @@ implements Store, Parameterizable, Composable, Disposable, ThreadSafe {
         this.cache.remove(key);
         this.mrulist.remove(key);
         if(this.persistent && key != null) {
-            this.persistentStore.remove(getFileName(key.toString()));
+            this.persistentStore.remove(key);
         }
     }
 
@@ -281,8 +280,7 @@ implements Store, Parameterizable, Composable, Disposable, ThreadSafe {
                     // Swap object on fs.
                     if(checkSerializable(value)) {
                         try {
-                            this.persistentStore.store(
-                                getFileName(key.toString()), value);
+                            this.persistentStore.store(key, value);
                         } catch(Exception e) {
                             getLogger().error("Error storing object on fs", e);
                         }
@@ -311,16 +309,5 @@ implements Store, Parameterizable, Composable, Disposable, ThreadSafe {
         return (object instanceof java.io.Serializable);
     }
 
-    /**
-     * This method puts together a filename for
-     * the object, which shall be stored on the
-     * filesystem.
-     *
-     * @param key The key of the object
-     * @return the filename of the key
-     */
-    private String getFileName(String key) {
-        return URLEncoder.encode(key.toString());
-    }
 }
 
