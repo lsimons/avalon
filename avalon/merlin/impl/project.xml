@@ -118,7 +118,7 @@ Merlin service management platform.
     <dependency>
       <groupId>avalon-extension</groupId>
       <artifactId>avalon-extension-spi</artifactId>
-      <version>1.0</version>
+      <version>1.1</version>
       <properties>
         <avalon.classloader>api</avalon.classloader>
       </properties>
@@ -126,7 +126,7 @@ Merlin service management platform.
     <dependency>
       <groupId>avalon-extension</groupId>
       <artifactId>avalon-extension-impl</artifactId>
-      <version>1.0</version>
+      <version>1.1</version>
     </dependency>
 
     <dependency>
