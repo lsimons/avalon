@@ -68,7 +68,7 @@ import java.util.*;
  * Represents a component, and output the meta information.
  *
  * @author <a href="mailto:dev@avalon.apache.org">The Avalon Team</a>
- * @version CVS $Revision: 1.15 $ $Date: 2003/06/17 20:56:38 $
+ * @version CVS $Revision: 1.16 $ $Date: 2003/06/18 13:16:48 $
  */
 final class Component
 {
@@ -205,7 +205,7 @@ final class Component
         DocletTag avalonConfigName = m_javaClass.getTagByName( TAG_INFO );
         if ( null == avalonConfigName ) avalonConfigName = m_javaClass.getTagByName( TAG_NAME );
 
-        String name = org.apache.avalon.fortress.util.Service.createShortName(m_javaClass.getName());
+        String name = MetaInfoEntry.createShortName(m_javaClass.getName());
 
         if ( avalonConfigName != null )
         {

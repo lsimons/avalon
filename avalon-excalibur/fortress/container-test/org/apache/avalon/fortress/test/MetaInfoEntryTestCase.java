@@ -237,22 +237,22 @@ public class MetaInfoEntryTestCase extends TestCase
         String start = "Regular";
         String end   = "regular";
 
-        assertEquals( end, Service.createShortName(start));
+        assertEquals( end, MetaInfoEntry.createShortName(start));
 
         start = "TwoWords";
         end = "two-words";
 
-        assertEquals( end, Service.createShortName(start));
+        assertEquals( end, MetaInfoEntry.createShortName(start));
 
         start = "MANYcaps";
         end = "manycaps";
 
-        assertEquals( end, Service.createShortName( start ) );
+        assertEquals( end, MetaInfoEntry.createShortName( start ) );
 
         start = "MANYcapsAndWords";
         end = "manycaps-and-words";
 
-        assertEquals( end, Service.createShortName( start ) );
+        assertEquals( end, MetaInfoEntry.createShortName( start ) );
     }
 
     private void checkMetaInfoEntry( MetaInfoEntry entry, Class handler, String name, boolean oneRole )
