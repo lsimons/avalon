@@ -65,20 +65,33 @@ public class DefaultPolicy
         final HashMap keyStores = configureKeyStores( keyStoreConfigurations );
 
         final Configuration[] grants = configuration.getChildren( "grant" );
-        configureGrants( grants, keyStores );
+        if( 0 != grants.length )
+        {
+            configureGrants( grants, keyStores );
+        }
+        else
+        {
+            final String message = REZ.getString( "policy.notice.full-perms" );
+            getLogger().info( message );
+            final Permissions permissions = createPermissionSetFor( getInclusiveURL(), null );
+            permissions.add( new AllPermission() );
+        }
+    }
+
+    private URL getInclusiveURL()
+    {
+        try { return new URL( "file:/-" ); }
+        catch( final MalformedURLException mue )
+        {
+            //Never happens
+            return null;
+        }
     }
 
     private void setupDefaultPermissions()
     {
-        URL url = null;
-        try { url = new URL( "file:/-" ); }
-        catch( final MalformedURLException mue )
-        {
-            //Never happens
-        }
-
         //these properties straight out ot ${java.home}/lib/security/java.policy
-        final Permissions permissions = createPermissionSetFor( url, null );
+        final Permissions permissions = createPermissionSetFor( getInclusiveURL(), null );
 
         permissions.add( new PropertyPermission( "os.name", "read" ) );
         permissions.add( new PropertyPermission( "os.arch", "read" ) );

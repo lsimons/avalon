@@ -15,6 +15,8 @@ import org.apache.avalon.framework.context.ContextException;
 import org.apache.avalon.framework.context.DefaultContext;
 import org.apache.avalon.phoenix.BlockContext;
 import org.apache.log.Logger;
+import org.apache.avalon.excalibur.i18n.ResourceManager;
+import org.apache.avalon.excalibur.i18n.Resources;
 
 /**
  * Context via which Blocks communicate with container.
@@ -25,8 +27,12 @@ public class DefaultBlockContext
     extends DefaultContext
     implements BlockContext
 {
+    private static final Resources REZ =
+        ResourceManager.getPackageResources( DefaultBlockContext.class );
+
     private ApplicationFrame  m_frame;
     private Logger            m_baseLogger;
+    private boolean           m_warningEmitted;
 
     public DefaultBlockContext( final Logger logger, final ApplicationFrame applicationFrame )
     {
@@ -88,6 +94,13 @@ public class DefaultBlockContext
      */
     public ThreadPool getThreadPool( final String category )
     {
+        if( !m_warningEmitted )
+        {
+            final String message = REZ.getString( "context.warn.threadpool", getName() );
+            System.err.println( message );
+            m_warningEmitted = true;
+        }
+
         return m_frame.getThreadPool( category );
     }
 
