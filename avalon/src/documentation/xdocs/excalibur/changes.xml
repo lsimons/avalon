@@ -11,6 +11,15 @@
     <person name="Neeme Praks" email="neeme.praks@one.ee" id="NP"/>
   </devs>
   <release version="4.0-dev" date="unreleased">
+    <action dev="BL" type="add">
+      Add new configuration element "driver" to JdbcDataSource so that
+      the class is loaded in the current context classloader when the
+      component is first set up.
+    </action>
+    <action dev="BL" type="update">
+      Optimize all logging functions to make it easier for JVMs to decide
+      whether or not to concatenate strings for log messages.
+    </action>
     <action dev="NP" type="update">
       Extensive reworking of the excalibur.i18n package (XML Resource bundles).
     </action>
