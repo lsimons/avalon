@@ -2,41 +2,40 @@
 
 <kernel>
 
-   <logging>
-     <categories priority="info" name="kernel">
-       <category name="logger" priority="debug"/>
-     </categories>
-   </logging>
+  <system>
+    <artifact spec="avalon-logging/avalon-logkit-impl#1.0-SNAPSHOT"/>
+  </system>
 
-   <security>
-     <certificates/>
-     <permissions>
-       <permission class="java.util.PropertyPermission" name="java.*">
-         <action>read</action>
-       </permission>
-       <permission class="java.util.PropertyPermission" name="os.*">
-         <action>read</action>
-       </permission>
-       <permission class="java.util.PropertyPermission" name="file.separator">
-         <action>read</action>
-       </permission>
-       <permission class="java.util.PropertyPermission" name="path.separator">
-         <action>read</action>
-       </permission>
-       <permission class="java.util.PropertyPermission" name="line.separator">
-         <action>read</action>
-       </permission>
-       <permission class="java.util.PropertyPermission" name="user.name">
-         <action>read</action>
-       </permission>
-     </permissions>
-   </security>
+  <security>
+    <profile name="default">
+      <permissions>
+        <permission class="java.util.PropertyPermission" name="java.*">
+          <action>read</action>
+        </permission>
+        <permission class="java.util.PropertyPermission" name="os.*">
+          <action>read</action>
+        </permission>
+        <permission class="java.util.PropertyPermission" name="file.separator">
+          <action>read</action>
+        </permission>
+        <permission class="java.util.PropertyPermission" name="path.separator">
+          <action>read</action>
+        </permission>
+        <permission class="java.util.PropertyPermission" name="line.separator">
+          <action>read</action>
+        </permission>
+        <permission class="java.util.PropertyPermission" name="user.name">
+          <action>read</action>
+        </permission>
+      </permissions>
+    </profile>
+  </security>
 
-   <repository>
-     <hosts>
-       <host path="http://dpml.net/"/>
-       <host path="http://www.ibiblio.org/maven/"/>
-     </hosts>
-   </repository>
+  <repository>
+    <hosts>
+      <host path="http://dpml.net/"/>
+      <host path="http://www.ibiblio.org/maven/"/>
+    </hosts>
+  </repository>
 
 </kernel>

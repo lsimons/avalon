@@ -203,14 +203,11 @@ public abstract class AbstractTestCase extends TestCase
       throws Exception
     {
         Artifact[] artifacts = getArtifactsToRegister( config );
-        for( int i=0; i<artifacts.length; i++ )
-        {
-            Artifact artifact = artifacts[i];
-            factory.addFactoryArtifact( artifact );
-        }
+        factory.setFactoryArtifacts( artifacts );
     }
 
-    private static Artifact[] getArtifactsToRegister( Configuration config ) throws Exception
+    private static Artifact[] getArtifactsToRegister( 
+      Configuration config ) throws Exception
     {
         Configuration[] children = 
           config.getChildren( "artifact" );
@@ -326,7 +323,8 @@ public abstract class AbstractTestCase extends TestCase
                 Env.getEnvVariable( "MAVEN_HOME_LOCAL" ) );
             if( null != local ) return local;
 
-            return System.getProperty( "user.home" ) + File.separator + ".maven";
+            return System.getProperty( "user.home" ) 
+              + File.separator + ".maven";
 
         }
         catch( Throwable e )

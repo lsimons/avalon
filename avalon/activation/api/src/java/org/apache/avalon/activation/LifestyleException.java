@@ -17,22 +17,35 @@
 
 package org.apache.avalon.activation;
 
-import org.apache.avalon.composition.model.Commissionable;
-import org.apache.avalon.composition.model.Resolver;
-
 /**
- * A lifestyle handler provides support for a particular lifestyle policy.
+ * Exception to indicate that there was an lifestyle related runtime error.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2004/02/10 16:18:42 $
+ * @version $Revision: 1.1 $ $Date: 2004/03/04 03:42:30 $
  */
-public interface LifestyleManager extends Commissionable, Resolver
+public final class LifestyleException
+        extends ApplianceException
 {
-    /**
-     * Release and finalize the supplied object.
-     *
-     * @param instance the object to be released
-     */
-    void finalize( Object instance );
 
+    /**
+     * Construct a new <code>LifestyleException</code> instance.
+     *
+     * @param message The detail message for this exception.
+     */
+    public LifestyleException( final String message )
+    {
+        this( message, null );
+    }
+
+    /**
+     * Construct a new <code>LifestyleException</code> instance.
+     *
+     * @param message The detail message for this exception.
+     * @param throwable the root cause of the exception
+     */
+    public LifestyleException( final String message, final Throwable throwable )
+    {
+        super( message, throwable );
+    }
 }
+

@@ -87,7 +87,7 @@ public abstract class AbstractTestCase extends TestCase
     public ContainmentModel setUp( String path ) throws Exception
     {
         //
-        // grab the platform configuration
+        // grab the system configuration
         //
 
         Configuration config = getConfiguration( SYS_CONF );
@@ -102,12 +102,16 @@ public abstract class AbstractTestCase extends TestCase
         InitialContext context = setUpInitialContext( test, sysConfig );
 
         //
-        // create a system context and add a test repository to use during 
-        // testcase execution
+        // create a system context factory and start profiling the 
+        // system we want to run
         //
 
         SystemContextFactory factory = 
           new DefaultSystemContextFactory( context );
+
+        //
+        // setup the security profiles
+        //
 
         Configuration secConfig = config.getChild( "security" );
         SecurityProfile[] profiles = 
@@ -115,17 +119,27 @@ public abstract class AbstractTestCase extends TestCase
         factory.setSecurityProfiles( profiles );
         factory.setSecurityEnabled( true );
 
+        //
+        // create a local application repository to use during test
+        // execution
+        //
+
         Repository repository = 
           createTestRepository( context, new File( test, "repository" ) );
         factory.setRepository( repository );
 
+        //
+        // and create the system context and grab the model factory
+        // so we can construct a model of the test deployment scenario
+        //
+
         SystemContext system = factory.createSystemContext();
+        ModelFactory modelFactory = system.getModelFactory();
 
         //
         // create a containment model using the supplied path
         //
 
-        ModelFactory modelFactory = system.getModelFactory();
         File confDir = new File( test, "conf" );
         File source = new File( confDir, path );
 
@@ -153,18 +167,16 @@ public abstract class AbstractTestCase extends TestCase
         return initial.createInitialContext();
     }
 
-    private void registerSystemArtifacts( InitialContextFactory factory, Configuration config )
+    private void registerSystemArtifacts( 
+      InitialContextFactory factory, Configuration config )
       throws Exception
     {
         Artifact[] artifacts = getArtifactsToRegister( config );
-        for( int i=0; i<artifacts.length; i++ )
-        {
-            Artifact artifact = artifacts[i];
-            factory.addFactoryArtifact( artifact );
-        }
+        factory.setFactoryArtifacts( artifacts );
     }
 
-    private static Artifact[] getArtifactsToRegister( Configuration config ) throws Exception
+    private static Artifact[] getArtifactsToRegister( 
+      Configuration config ) throws Exception
     {
         Configuration[] children = 
           config.getChildren( "artifact" );

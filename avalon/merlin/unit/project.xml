@@ -33,14 +33,13 @@
     <unitTestSourceDirectory>${basedir}/src/test/</unitTestSourceDirectory>
 
     <unitTest>
-      <!--
+      <!-- -->
       <includes>
         <include>**/*Test.*</include>
         <include>**/*TestCase.*</include>
       </includes>
-      -->
+      <!-- -->
       <excludes>
-        <exclude>**/*.*</exclude>
         <exclude>**/Abstract*.*</exclude>
       </excludes>
       <resources>

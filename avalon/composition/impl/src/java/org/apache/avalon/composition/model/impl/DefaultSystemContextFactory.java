@@ -62,7 +62,7 @@ import org.apache.avalon.excalibur.i18n.Resources;
  * Implementation of a system context that exposes a system wide set of parameters.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $ $Date: 2004/03/01 16:31:41 $
+ * @version $Revision: 1.4 $ $Date: 2004/03/04 03:42:30 $
  */
 public class DefaultSystemContextFactory implements SystemContextFactory
 {
@@ -101,6 +101,8 @@ public class DefaultSystemContextFactory implements SystemContextFactory
     private Class m_runtime;
 
     private Artifact m_artifact;
+
+    private Artifact m_lifestyle;
 
     private String m_name = "system";
 
@@ -143,6 +145,11 @@ public class DefaultSystemContextFactory implements SystemContextFactory
     public void setRuntime( Artifact artifact )
     {
         m_artifact = artifact;
+    }
+
+    public void setLifestyleArtifact( Artifact artifact )
+    {
+        m_lifestyle = artifact;
     }
 
     public void setRuntime( Class clazz )
@@ -222,6 +229,7 @@ public class DefaultSystemContextFactory implements SystemContextFactory
           m_context, 
           getParentContext(), 
           getRuntimeArtifact(), 
+          getLifestyleArtifact(), 
           getRuntimeClass(), 
           getLoggingManager(), 
           getBaseDirectory(), 
@@ -259,6 +267,7 @@ public class DefaultSystemContextFactory implements SystemContextFactory
 
     public TargetDirective[] getTargetDirectives()
     {
+        if( null == m_targets ) return new TargetDirective[0];
         return m_targets;
     }
 
@@ -352,16 +361,6 @@ public class DefaultSystemContextFactory implements SystemContextFactory
     }
 
    /**
-    * Return the system default grants directive.
-    * @return the grants directive
-    */
-    public SecurityModel getSecurityModel()
-    {
-        if( null != m_security ) return m_security; 
-        return new DefaultSecurityModel();
-    }
-
-   /**
     * Return the class implementating the runtime.
     * @return the runtime class
     */
@@ -380,6 +379,15 @@ public class DefaultSystemContextFactory implements SystemContextFactory
     }
 
    /**
+    * Return the artifact referencing the lifestyle factory.
+    * @return the lifestyle factory artifact
+    */
+    public Artifact getLifestyleArtifact()
+    {
+        return m_lifestyle;
+    }
+
+   /**
     * Utility method to create the LoggingManager.
     * @param criteria the kernel creation criteria
     * @param config the kernel configuration 
@@ -388,7 +396,7 @@ public class DefaultSystemContextFactory implements SystemContextFactory
     private LoggingManager createLoggingManager()
     {
         Artifact[] artifacts = 
-          m_context.getRegistry().getCandidates( 
+          m_context.getRepository().getCandidates( 
             LoggingManager.class );
         if( artifacts.length < 1 )
         {
