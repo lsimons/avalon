@@ -134,7 +134,7 @@ public final class TPCThreadManager extends AbstractThreadManager implements Par
         m_threadPool.setMinimumPoolSize( 2 ); // at least two threads
         m_threadPool.setMaximumPoolSize( ( m_processors * m_threadsPerProcessor ) + 1 );
         m_threadPool.setKeepAliveTime( getSleepTime() );
-        m_threadPool.waitWhenBlocked();
+        m_threadPool.discardWhenBlocked();
 
         if( null == getLogger() )
         {
