@@ -34,7 +34,7 @@ import org.apache.excalibur.instrument.ValueInstrument;
 /**
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 abstract class AbstractSocketServer
     extends AbstractLogEnabledInstrumentableStartable
@@ -232,11 +232,14 @@ abstract class AbstractSocketServer
                     // Set the SO_TIMEOUT for the socket.
                     socket.setSoTimeout( m_soTimeout );
                     
-                    final String remoteHost = socket.getInetAddress().getHostName();
-                    final String remoteIP = socket.getInetAddress().getHostAddress();
+                    // Set the TCP_NO_DELAY flag for the socket to improve performance.
+                    socket.setTcpNoDelay( true );
                     
-                    getLogger().debug(
-                        "Accepted a connection from " + remoteHost + " (" + remoteIP + ")" );
+                    if ( getLogger().isDebugEnabled() )
+                    {
+                        String remoteIP = socket.getInetAddress().getHostAddress();
+                        getLogger().debug( "Accepted a connection from " + remoteIP );
+                    }
                     
                     // Increment the number of open sockets.  This is done here rather than in
                     //  handleSocketInner so that it will be incremented before we request a
