@@ -87,10 +87,11 @@ easy embedding into various environments like servlet engines.
             <version>2.3.0</version>
         </dependency>
 
+        <!-- "Solves" the cyclic dependency problem for a while -->
         <dependency>
-            <id>avalon-fortress-tools</id>
-            <version>1.1-dev</version>
-            <groupId>avalon-fortress</groupId>
+            <id>excalibur-fortress-tools</id>
+            <version>1.0</version>
+            <groupId>excalibur-fortress</groupId>
         </dependency>
 
         <!-- dependencies for tools -->
