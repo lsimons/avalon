@@ -20,12 +20,10 @@ project.home: ${project.home}
                 fork="true">
             <ant:classpath>
                 <ant:fileset dir="${maven.repo.local}">
-                  <j:forEach var="dep" items="${pom.dependencies}">
-                    <ant:include name="${dep.artifactDirectory}/jars/${dep.artifact}"/>
-                  </j:forEach>
-                  <j:forEach var="dep" items="${plugin.dependencies}">
-                    <ant:include name="${dep.artifactDirectory}/jars/${dep.artifact}"/>
-                  </j:forEach>
+                    <j:forEach var="dep" items="${plugin.dependencies}">
+                      <ant:include name="${dep.artifactDirectory}/jars/${dep.artifact}"/>
+                    </j:forEach>
+                    <ant:pathelement path="${forrest.home}/WEB-INF/classes"/>
                 </ant:fileset>
             </ant:classpath>
             <ant:jvmarg value="-Dforrest.home=${forrest.home}"/>

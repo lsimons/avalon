@@ -21,9 +21,14 @@
     </menu>
 
     <menu label="Reference">
-        <menu-item label="Changes" href="changes.html"/>
+        <!--<menu-item label="Changes" href="changes.html"/>-->
         <menu-item label="API Docs" href="http://avalon.apache.org/framework/api/index.html"/>
         <menu-item label="The Lifecycle" href="reference-the-lifecycle.html"/>
         <menu-item label="Containers" href="reference-containers.html"/>
+    </menu>
+
+    <menu label="Reports">
+      <menu-item href="maven-reports.html" label="Maven-generated reports"/>
+      <menu-item href="project-info.html" label="Maven-generated project info"/>
     </menu>
 </book>
