@@ -70,15 +70,56 @@
               specified in milliseconds.
             </td>
           </tr>
+          <tr>
+            <td>configuration</td>
+            <td>
+              If you don't specify a &lt;src&gt; element, you MUST specifiy the
+              complete Log4J configuration in this element. That mean that this
+              &lt;configuration&gt; element corresponds to the root node of a
+              Log4J configuration. See below for an example.
+            </td>
+          </tr>
         </table>
       </subsection>
-      <subsection name="Example">
+      <subsection name="Example - External Reference">
 <source><![CDATA[
     <logging>
       <src>conf/log4j.xml</src>
       <!-- Check for Update once every minute. -->
       <update>60000</update>
     </logging>
+]]></source>
+      </subsection>
+      <subsection name="Example - Embedded Configuration">
+<source><![CDATA[
+<logging>
+  <configuration>
+    <appender name="FILE" class="org.apache.log4j.FileAppender">
+      <param name="BufferedIO" value="true" />
+      <param name="File" value="application.log" />
+
+      <layout class="org.apache.log4j.PatternLayout">
+        <param name="ConversionPattern" value="%t %-5p %c{2} - %m%n"/>
+      </layout>
+    </appender>
+
+    <appender name="STDOUT" class="org.apache.log4j.ConsoleAppender">
+      <layout class="org.apache.log4j.PatternLayout">
+        <param name="ConversionPattern" value="%d %-5p [%t] %C{2} (%F:%L) - %m%n"/>
+      </layout>
+    </appender>
+
+    <category name="org.apache.avalon.merlin.activation">
+      <priority value="debug"/>
+      <appender-ref ref="STDOUT"/>
+    </category>
+
+    <root>
+      <priority value="error"/>
+      <appender-ref ref="FILE"/>
+    </root>
+  </configuration>
+</logging>
 ]]></source>
       </subsection>
     </section>

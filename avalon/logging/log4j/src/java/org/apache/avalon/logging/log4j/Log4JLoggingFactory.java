@@ -30,6 +30,7 @@ import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 
 import org.apache.avalon.framework.configuration.Configuration;
+import org.apache.avalon.framework.configuration.ConfigurationUtil;
 
 import org.apache.avalon.logging.provider.LoggingCriteria;
 import org.apache.avalon.logging.provider.LoggingFactory;
@@ -42,11 +43,13 @@ import org.apache.avalon.repository.provider.Factory;
 import org.apache.log4j.PropertyConfigurator;
 import org.apache.log4j.xml.DOMConfigurator;
 
+import org.w3c.dom.Element;
+
 /**
  * A Log4J factory.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public class Log4JLoggingFactory
     implements LoggingFactory
@@ -143,19 +146,28 @@ public class Log4JLoggingFactory
         m_BaseDirectory = criteria.getBaseDirectory();
 
         final Configuration config = criteria.getConfiguration();
-        Configuration srcConf = config.getChild( "src" );
-        Configuration updateConf = config.getChild( "update" );
-        String src = srcConf.getValue();
-        src = resolveSource( src );
-        System.out.println( src );
-        long updateInterval = updateConf.getValueAsLong( 0 );
-        if( updateInterval > 0 )
+        Configuration srcConf = config.getChild( "src", false );
+        if( srcConf != null )
         {
-            configureWithWatch( src, updateInterval );
+            Configuration updateConf = config.getChild( "update" );
+            String src = srcConf.getValue();
+            src = resolveSource( src );
+            System.out.println( src );
+            long updateInterval = updateConf.getValueAsLong( 0 );
+            if( updateInterval > 0 )
+            {
+                configureWithWatch( src, updateInterval );
+            }
+            else
+            {
+                configureWithOutWatch( src );
+            }
         }
         else
         {
-            configureWithOutWatch( src );
+            Configuration log4jNode = config.getChild( "configuration" );
+            Element node = ConfigUtil.toElement( log4jNode );
+            DOMConfigurator.configure( node );
         }
         return new LoggingManagerImpl();
     }
