@@ -169,7 +169,7 @@ the LICENSE.txt file.
       </filterset>
     </copy>
     <copy todir="${build.conf}" flatten="true">
-      <fileset dir="${src.dir}/etc" includes="kernel.xml"/>
+      <fileset dir="${src.dir}/etc" includes="kernel.xml" />
     </copy>
 
     <mkdir dir="${build.lib}"/>
@@ -180,6 +180,7 @@ the LICENSE.txt file.
        manifest="${src.dir}/etc/project.mf">
       <exclude name="**/test/**"/>
       <exclude name="**/playground/**"/>
+      <exclude name="**/*.zip"/>
       <zipfileset dir="${build.conf}" prefix="META-INF/">
         <include name="LICENSE.txt"/>
       </zipfileset>
