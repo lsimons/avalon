@@ -1,43 +1,36 @@
 <?xml version="1.0"?>
-
-<!DOCTYPE document SYSTEM "dtd/document-v10.dtd">
-
 <document>
-
  <header>
-  <title>Avalon Phoenix - Features</title>
-  <authors>
-    <person name="Leo Simons" email="leosimons@apache.org"/>
-  </authors>
+  <title>Features</title>
+  <author name="Leo Simons" email="leosimons@apache.org"/>
  </header>
-
 <body>
 
-<s1 title="Introduction">
+<section name="Introduction">
 
 <p>This document is not complete yet...</p>
 
-</s1>
+</section>
 
-<s1 title="Extensible architecture">
+<section name="Extensible architecture">
 	<p>Phoenix is written as an extensible micro-kernel. This allows you to:</p>
 	<ul>
 		<li>Customise behaviour quickly</li>
 		<li>Plug in extra functionality effortlessly</li>
 		<li>remove unneeded functionality for a small footprint</li>
 	</ul>
-</s1>
+</section>
 
-<s1 title="Flexible environment">
+<section name="Flexible environment">
 	<p>Phoenix has native support for use in the following environments:</p>
 	<ul>
 		<li>command-line stand-alone program</li>
 		<li>Unix daemon</li>
 		<li>Embedded in other programs (including servlet engines)</li>
 	</ul>
-</s1>
+</section>
 
-<s1 title="Integrated management">
+<section name="Integrated management">
 	<p>Phoenix enables JMX management of your software:</p>
 	<ul>
 		<li>All aspects of phoenix itself are manageable, including
@@ -46,9 +39,9 @@
 		their lifecycle (configuration, startup/shutdown, etc) and
 		everything else you mark as manageable.</li>
 	</ul>
-</s1>
+</section>
 
-<s1 title="Ease and speed up application development">
+<section name="Ease and speed up application development">
 	<p>Phoenix is a container for (server) applications. It can host
 	multiple applications within the same JVM, while keeping them securely
 	isolated from each other.</p>
@@ -70,7 +63,7 @@
 	<p>Phoenix leverages the Avalon Framework, making it compatible with other
 	Avalon-based projects like Excalibur and Cornerstone, enabling you to
 	easily reuse their functionality.</p>
-</s1>
+</section>
 
 </body>
 </document>

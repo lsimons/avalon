@@ -1,18 +1,13 @@
 <?xml version="1.0"?>
-
-<!DOCTYPE document SYSTEM "dtd/document-v10.dtd">
-
 <document>
   <header>
-    <title>Avalon Phoenix - Overview</title>
-    <authors>
-      <person name="Berin Loritsch" email="bloritsch@apache.org"/>
-      <person name="Peter Donald" email="peter@apache.org"/>
-      <person name="Paul Hammant" email="Paul_Hammant@yahoo.com"/>
-    </authors>
+    <title>Overview</title>
+      <author name="Berin Loritsch" email="bloritsch@apache.org"/>
+      <author name="Peter Donald" email="peter@apache.org"/>
+      <author name="Paul Hammant" email="Paul_Hammant@yahoo.com"/>
   </header>
   <body>
-    <s1 title="Introduction">
+    <section name="Introduction">
       <p>
         Phoenix is a micro-kernel designed and implemented on top of the Avalon
         framework. It is both an API to program to and a reference implementation.
@@ -23,22 +18,22 @@
         server pools, and other facilities aimed at reducing the time to market. The API
         defines a standard method of piecing togther server components and creating a server.
       </p>
-    </s1>
-    <s1 title="Documentation is coming">
+    </section>
+    <section name="Documentation is coming">
       <p>
         Some of the information on this site is currently a bit out of date. We are
 	working hard to fix this. If you come across any incosistencies or have a
 	problem, please don't hesitate to contact us through the mailing list. Thank
 	you.
       </p>
-    </s1>
-    <s1 title="Guide to Avalon Phoenix">
+    </section>
+    <section name="Guide to Avalon Phoenix">
       <p>
         This guide starts with an architectural overview of Phoenix. Then, we identify
 	the different roles that typically exist in daily use of phoenix. For each of
 	these, we provide a basic guide. We finish with a complete example.
       </p>
-        <s2 title="Target Audience">
+        <subsection name="Target Audience">
           <p>
             This documentation is aimed towards people who:
             <ul>
@@ -50,31 +45,25 @@
               <li>wish to reuse Avalon Phoenix concepts in their own application</li>
             </ul>
           </p>
-        </s2>
-        <s2 title="Contents">
+        </subsection>
+        <subsection name="Contents">
           <ol>
-            <li><link href="guide-architecture.html">Architectural overview</link></li>
-            <li><link href="guide-roles.html">Development roles</link></li>
-            <li><link href="guide-administrators.html">Administrator Guide</link></li>
-            <li><link href="guide-deployers.html">Application Deployer Guide</link></li>
-            <li><link href="guide-assembler.html">Server Application Assembler Guide</link></li>
-            <li><link href="guide-block-developers.html">Block Developer Guide</link></li>
-            <li><link href="guide-example-configuration.html">Example Configuration.</link></li>
+            <li><a href="guide-architecture.html">Architectural overview</a></li>
+            <li><a href="guide-roles.html">Development roles</a></li>
+            <li><a href="guide-administrators.html">Administrator Guide</a></li>
+            <li><a href="guide-deployers.html">Application Deployer Guide</a></li>
+            <li><a href="assemblers/index.html">Server Application Assembler Guide</a></li>
+            <li><a href="bdg/index.html">Block Developer Guide</a></li>
+            <li><a href="guide-example-configuration.html">Example Configuration.</a></li>
           </ol>
-        </s2>
-    </s1>
-    <s1 title="Avalon Phoenix Reference Documentation">
+        </subsection>
+    </section>
+    <section name="Avalon Phoenix Reference Documentation">
       <p>
          Besides the
-         <link href="api/index.html">Javadocs</link>, we have the
-         <link href="guide-architecture.html">Architectural overview</link> to look at.
+         <a href="api/index.html">Javadocs</a>, we have the
+         <a href="guide-architecture.html">Architectural overview</a> to look at.
       </p>
-    </s1>
+    </section>
   </body>
-  <footer>
-    <legal>
-      Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.7 $ $Date: 2002/05/12 19:52:49 $
-    </legal>
-  </footer>
 </document>

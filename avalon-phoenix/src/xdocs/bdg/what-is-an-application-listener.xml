@@ -1,31 +1,29 @@
 <?xml version="1.0"?>
 
-<!DOCTYPE document SYSTEM "dtd/document-v10.dtd">
-
 <document>
   <header>
-    <title>Avalon Phoenix - Guide - What is an Application Listener?</title>
-    <authors>
+    <title>Guide - What is an Application Listener?</title>
+
       <person id="PH" name="Paul Hammant" email="Paul_Hammant@yahoo.com"/>
-    </authors>
+
   </header>
   <body>
-    <s1 title="Introduction">
+    <section name="Introduction">
       <p>
         This is very similar to <em>BlockListener</em> in that it is notified
         during lifecycle of blocks and application.  In Java terms the
         <em>ApplicationListener</em> interface extends <em>BlockListener</em>
         so it is always informd of both types of events
       </p>
-    </s1>
-    <s1 title="Events notified">
+    </section>
+    <section name="Events notified">
       <p>
         ApplicationListener components are created before any Blocks are
         created in an Application. They receive notifications before and
         after the Applictaion is started and stopped.
       </p>
-    </s1>
-    <s1 title="How to make a block listener">
+    </section>
+    <section name="How to make a block listener">
       <p>
         Like normal blocks, an application listener can be <em>LogEnabled</em>
         and take configuration via <em>Configurable</em>.  The special feature
@@ -38,22 +36,16 @@
       <source>
         &lt;listener class="pkg.MyApplicationListener" name="a-suitable-name" /&gt;
       </source>
-    </s1>
-     <s1 title="Guide Contents">
+    </section>
+     <section name="Guide Contents">
        <ol>
-        <li><link href="guide-block-developers-what-is-a-block.html">What is a block?</link></li>
-        <li><link href="guide-block-developers-what-is-a-block-listener.html">What is a block listener?</link></li>
+        <li><a href="what-is-a-block.html">What is a block?</a></li>
+        <li><a href="what-is-a-block-listener.html">What is a block listener?</a></li>
         <li>What is an application listener?</li>
-        <li><link href="guide-block-developers-creating-a-block.html">How do I create a block?</link></li>
-        <li><link href="guide-block-developers-making-phoenix-compatible-comps.html">How do I make my components phoenix-compatible?</link></li>
-        <li><link href="reference-blockinfo-specification.html">BlockInfo specification</link></li>
+        <li><a href="creating-a-block.html">How do I create a block?</a></li>
+        <li><a href="making-phoenix-compatible-comps.html">How do I make my components phoenix-compatible?</a></li>
+        <li><a href="blockinfo-specification.html">BlockInfo specification</a></li>
        </ol>
-      </s1>
+      </section>
   </body>
-  <footer>
-    <legal>
-      Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.1 $ $Date: 2002/05/12 19:52:49 $
-    </legal>
-  </footer>
 </document>
