@@ -98,7 +98,7 @@ import java.util.Iterator;
  * validity object must be the same until discardValidity is called!
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.8 $ $Date: 2002/12/15 11:56:48 $
+ * @version CVS $Revision: 1.9 $ $Date: 2002/12/15 12:18:57 $
  */
 public interface Source
 {
@@ -175,4 +175,16 @@ public interface Source
      * source implementation, like an expires date, HTTP headers etc.
      */
     Iterator getParameterNames();
+    
+    /**
+     * Does this source point to a directory?
+     */
+    boolean isDirectory();
+    
+    /**
+     * Return the URIs of the children
+     * The returned URIs are relative to the URI of the parent
+     * (this object)
+     */
+    Iterator getChildrenLocations();
 }

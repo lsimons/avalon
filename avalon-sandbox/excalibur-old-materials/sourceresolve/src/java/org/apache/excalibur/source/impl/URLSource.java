@@ -63,6 +63,8 @@ import java.lang.reflect.Method;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -75,7 +77,7 @@ import org.apache.excalibur.source.impl.validity.TimeStampValidity;
  * FIXME: Get mime-type
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.14 $ $Date: 2002/12/15 11:56:48 $
+ * @version CVS $Revision: 1.15 $ $Date: 2002/12/15 12:18:57 $
  */
 public class URLSource
     extends AbstractSource
@@ -395,5 +397,32 @@ public class URLSource
         // reset connection
         this.connection = null;
         super.discardValidity();
+    }
+
+    /**
+     * Does this source point to a directory?
+     */
+    public boolean isDirectory()
+    {
+    	if ( null != this.file ) 
+    	{
+    		return this.file.isDirectory();
+    	}
+    	return false;
+    }
+    
+    /**
+     * Return the URIs of the children
+     * The returned URIs are relative to the URI of the parent
+     * (this object)
+     */
+    public Iterator getChildrenLocations() 
+    {
+    	if ( null != this.file && this.file.isDirectory() )
+    	{
+    		final String[] files = this.file.list();
+    		return Arrays.asList(files).iterator();
+    	}
+    	return Collections.EMPTY_LIST.iterator();
     }
 }
