@@ -5,14 +5,8 @@ OVERRIDE YES
 -- Document Type Definitions --
 PUBLIC "-//APACHE//DTD Documentation V1.1//EN"
        "dtd/document-v11.dtd"
-PUBLIC "-//APACHE//DTD Specification V1.1//EN"
-       "dtd/specification-v11.dtd"
-PUBLIC "-//APACHE//DTD FAQ V1.1//EN"
-       "dtd/faq-v11.dtd"
 PUBLIC "-//APACHE//DTD Changes V1.1//EN"
        "dtd/changes-v11.dtd"
-PUBLIC "-//APACHE//DTD Todo V1.1//EN"
-       "dtd/todo-v11.dtd"
 PUBLIC "-//APACHE//DTD Cocoon Documentation Book V1.0//EN"
        "dtd/book-cocoon-v10.dtd"
 
