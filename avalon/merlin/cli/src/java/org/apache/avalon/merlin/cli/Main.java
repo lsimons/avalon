@@ -92,7 +92,7 @@ import org.apache.commons.cli.Options;
  * Merlin command line handler.
  * 
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public class Main 
 {
@@ -616,57 +616,6 @@ public class Main
         {
             final String error = 
               "Internal error while attempting to access MERLIN_HOME environment.";
-            final String message = 
-              ExceptionHelper.packException( error, e, true );
-            throw new RuntimeException( message );
-        }
-    }
-
-   /**
-    * Return the maven repository directory.
-    * @return the maven repository directory
-    */
-    private static File getMavenRepositoryDirectory()
-    {
-        return new File( getMavenHomeDirectory(), "repository" );
-    }
-
-   /**
-    * Return the maven home directory.
-    * @return the maven home directory
-    */
-    private static File getMavenHomeDirectory()
-    {
-        return new File( getMavenHome() );
-    }
-
-   /**
-    * Return the maven home path.
-    * @return the maven home directory path
-    */
-    private static String getMavenHome()
-    {
-        try
-        {
-            String local = 
-              System.getProperty( 
-                "maven.home.local", 
-                Env.getEnvVariable( "MAVEN_HOME_LOCAL" ) );
-            if( null != local ) return local;
-
-            String maven = 
-              System.getProperty( 
-                "maven.home", 
-                Env.getEnvVariable( "MAVEN_HOME" ) );
-            if( null != maven ) return maven;
-
-            return System.getProperty( "user.home" ) + File.separator + ".maven";
-
-        }
-        catch( Throwable e )
-        {
-            final String error = 
-              "Internal error while attempting to access environment.";
             final String message = 
               ExceptionHelper.packException( error, e, true );
             throw new RuntimeException( message );
