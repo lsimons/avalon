@@ -29,7 +29,7 @@ import org.apache.avalon.repository.Artifact;
  * new initial context.
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.7 $
+ * @version $Revision: 1.8 $
  */
 public interface InitialContextFactory
 {
@@ -50,6 +50,12 @@ public interface InitialContextFactory
         InitialContext.CACHE_KEY,
         InitialContext.HOSTS_KEY,
         InitialContext.FACTORY_ARTIFACTS_KEY };
+
+   /**
+    * Return the home directory value direved from the application key.
+    * @return the home directory.
+    */
+    File getHomeDirectory();
 
    /**
     * Register a set of factory artifacts.

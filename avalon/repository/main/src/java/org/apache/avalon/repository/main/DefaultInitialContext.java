@@ -72,7 +72,7 @@ import org.apache.avalon.util.exception.ExceptionHelper;
  * methods using the newly configured ClassLoader.
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.25 $
+ * @version $Revision: 1.26 $
  */
 public class DefaultInitialContext extends AbstractBuilder implements InitialContext
 {
@@ -146,9 +146,10 @@ public class DefaultInitialContext extends AbstractBuilder implements InitialCon
      * @throws RepositoryException if an error occurs during establishment
      */
     DefaultInitialContext( 
-      String key, ClassLoader parent, Artifact artifact, Artifact[] candidates, File base, File cache, 
-      String proxyHost, int proxyPort, String proxyUsername, String proxyPassword, 
-      String[] hosts, boolean online ) 
+      String key, ClassLoader parent, Artifact artifact, 
+      Artifact[] candidates, File base, File cache, 
+      String proxyHost, int proxyPort, String proxyUsername, 
+      String proxyPassword, String[] hosts, boolean online ) 
       throws RepositoryException
     {
         if( null == key ) throw new NullPointerException( "key" ); 
