@@ -88,7 +88,7 @@
   <property name="framework.jar" value="${lib.dir}/avalon-framework.jar"/>
   <property name="excalibur.jar" value="${lib.dir}/avalon-excalibur.jar"/>
   <property name="scratchpad.jar" value="${lib.dir}/avalon-scratchpad.jar"/>
-  <property name="phoenix-client.jar" value="${lib.dir}/phoenix-client.jar"/>
+  <property name="phoenix-client.jar" value="${lib.dir}/phoenix-client-20010912.jar"/>
   <property name="testlet.jar" value="${tools.dir}/lib/testlet.jar"/>
   <property name="tools.jar" value="${java.home}/../lib/tools.jar"/>
 
