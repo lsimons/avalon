@@ -19,6 +19,7 @@
         <pathelement location="${excalibur-altrmi-generator.jar}"/>
         <pathelement location="${excalibur-instrument-manager-interfaces.jar}"/>
         <pathelement location="${checkstyle.jar}"/>
+        <pathelement path="${java.class.path}"/>
     </path>
         
     <path id="tools.class.path">
