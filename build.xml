@@ -72,7 +72,7 @@
 
   <target name="gump">
     <x:home/>
-    <x:gump description="Magic Test Module" 
+    <x:gump description="Avalon SVN" 
          public="true" filename="gump.xml">
       <x:url href="http://avalon.apache.org/"/>
       <x:svn repository="avalon-svn" dir="trunk"/>
