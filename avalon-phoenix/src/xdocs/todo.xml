@@ -1,0 +1,171 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE document SYSTEM "dtd/document-v10.dtd">
+
+<document>
+
+ <header>
+  <title>Phoenix Todo</title>
+  <authors>
+   <person name="Avalon Documentation Team" email="bloritsch@apache.org"/>
+  </authors>
+ </header>
+
+<body>
+
+<s1 title="Todo">
+
+<p>
+This document describes functionality that is either missing or not finished 
+within Phoenix.
+</p>
+
+<p>
+Wish List functionality is stuff that we would like to see implemented, but is 
+not critical for release. This is the area where you can take ownership of a 
+part of the project and contribute back.
+</p>
+
+<p>
+Critical Before Release is stuff that we feel is holding up the release of 
+Avalon.
+</p>
+
+<p>
+If you are a new developer to Phoenix or even an existing developer, these are 
+areas where you can take ownership and help complete. Please do not ask us how 
+you can help, but rather specific questions about how you think that these items 
+should be implemented. It is up to you to take initiative and provide solutions 
+to the missing functionality described below. ;-) 
+</p>
+
+<p>
+Documentation is *always* appreciated in any form. There are two ways to provide 
+helpful documentation. The first way is to write up HTML or straight text 
+documentation and send it to one of the primary authors directly (we are also 
+willing to give you CVS write access if you wish). The second way is to post 
+Questions/Answers to the FAQ under the Avalon sections there. 
+There is a Getting Started document named 
+"getting-started.html" that could always use additional documentation, examples 
+and clarification. You need to take the initiative and just start writing down 
+your thoughts and concerns and questions and answers and then giving those back 
+to us.
+</p>
+
+<p>
+If you need more detailed help, please send mail to the mailing list 
+(avalon-dev@jakarta.apache.org) and ask your specific questions there.
+</p>
+
+</s1>
+
+<s1 title="Wish List">
+
+<ul>
+    <li>
+      Define and implement a smart way to generate Avalon configurations.
+      Define configuration template containing default configuration,
+      user configuration file to overwrite or append configurations to template,
+      implement code to merge all servers configuration file to a single Avalon
+      configuration file.
+    </li>
+
+    <li>
+      Rework the DefaultTimeScheduler so that entrys are removed from heap when
+      reset. Otherwise it could lead to excessive buildup of invalidated entries 
+      if many are reset but remain in heap.
+    </li>
+
+    <li>
+      A standard reconfiguration system.  This may require the building
+      of FileMonitors that will read a file when it is changed.  Any
+      kind of block or component that extends the Reconfigurable interface
+      gets sent the new configuration.
+    </li>
+
+    <li>
+      Create Avalon/Phoenix icons and images for documentations/servers. We need a
+      standard icon for "powered by Phoenix" that meshes with our logo!
+    </li>
+
+    <li>
+      Define and implement needed stuff to allow hot and warm reconfiguration at
+      runtime.
+    </li>
+
+    <li>
+      Avalon should provide default JNDI contexts
+      that Block implementers can extend and use like
+      Context, EventContext, and DirectoryContext.
+    </li>
+
+    <li>
+      JMS (Java Messaging Service) for the Connection Manager. It
+      will provide a standard and flexible connection service and
+      messaging service. It allows for both point to point messaging
+      and multicast messaging (subscriber/provider). 
+    </li>
+
+    <li>
+      Connection Pooling for JDBC connections, Socket connections, JMS
+      connections, etc. (Maybe extending the store interface?)
+    </li>
+
+    <li>
+      Support for sending log events to a database.  Not all logging
+      systems will want to send information to the filesystem.
+    </li>
+
+    <li>
+      Persistent Store should be able to optionally store in a database.
+    </li>
+
+    <li>
+      Support for server pools.  Several Phoenix servers should be able
+      to pool resources and act as one server regardless of VM, or
+      physical machine they are on.
+    </li>
+
+    <li>
+      Remote loading of Blocks. Phoenix should be able to pull a block
+      at run time from a remote server, check the signature, and run it
+      with proper permissions.  This would allow for the possibility of
+      automatically upgrading blocks.
+    </li>
+
+    <li>
+      Write some code to remotely control Phoenix. (This will most likely be 
+      rolled into JMX support).
+    </li>
+
+    <li>
+      Define and implement some Transaction pattern for the Repository. Maybe JTA?
+    </li>
+
+    <li>
+      Write all documentation.
+    </li>
+
+    <li>
+      Update JavaDocs for decent developer documentation.
+    </li>
+
+</ul>
+
+</s1>
+
+<s1 title="Critical Before Release">
+
+<ul>
+    <li>
+      JMX (Java Management eXtentions) for central management of
+      Avalon. If JMX cannot be done due to licensing, we should
+      make the current beginnings of central management more
+      robust.
+    </li>
+</ul>            
+
+</s1>
+
+</body>
+</document>
