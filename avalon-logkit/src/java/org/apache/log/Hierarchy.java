@@ -19,7 +19,6 @@ import org.apache.log.util.DefaultErrorHandler;
  *  @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
 public class Hierarchy
-    implements ErrorHandler
 {
     ///Format of default formatter
     private static final String  FORMAT =
@@ -57,7 +56,7 @@ public class Hierarchy
     public Hierarchy()
     {
         m_errorHandler = new DefaultErrorHandler();
-        m_rootLogger = new Logger( this, "", null, null );
+        m_rootLogger = new Logger( new InnerErrorHandler(), "", null, null );
 
         //Setup default output target to print to console
         final PatternFormatter formatter = new PatternFormatter( FORMAT );
@@ -135,7 +134,7 @@ public class Hierarchy
      */
     public void log( final String message, final Throwable throwable )
     {
-        error( message, throwable, null );
+        m_errorHandler.error( message, throwable, null );
     }
 
     /**
@@ -150,18 +149,22 @@ public class Hierarchy
         log( message, null );
     }
 
-    /**
-     * Log an unrecoverable error.
-     *
-     * @param message the error message
-     * @param throwable the exception associated with error (may be null)
-     * @param event the LogEvent that caused error, if any (may be null)
-     */
-    public void error( final String message, 
-                       final Throwable throwable, 
-                       final LogEvent event )
+    private class InnerErrorHandler
+        implements ErrorHandler
     {
-        m_errorHandler.error( message, throwable, event );
+        /**
+         * Log an unrecoverable error.
+         *
+         * @param message the error message
+         * @param throwable the exception associated with error (may be null)
+         * @param event the LogEvent that caused error, if any (may be null)
+         */
+        public void error( final String message, 
+                           final Throwable throwable, 
+                           final LogEvent event )
+        {
+            m_errorHandler.error( message, throwable, event );
+        }
     }
 
     /**
