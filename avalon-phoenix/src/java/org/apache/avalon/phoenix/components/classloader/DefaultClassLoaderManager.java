@@ -196,7 +196,7 @@ public class DefaultClassLoaderManager
                     extension.getSpecificationVendor(),
                     extension.getSpecificationVersion(),
                     extension.getImplementationVendor(),
-                    extension.getImplementationVendorId(),
+                    extension.getImplementationVendorID(),
                     extension.getImplementationVersion(),
                     extension.getImplementationURL()
                 };
