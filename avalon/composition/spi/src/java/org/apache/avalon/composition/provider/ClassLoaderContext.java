@@ -15,23 +15,28 @@
  * limitations under the License.
  */
 
-package org.apache.avalon.composition.model;
+package org.apache.avalon.composition.provider;
 
 import java.io.File;
 import java.net.URL;
 
-import org.apache.avalon.framework.context.Context;
-import org.apache.avalon.framework.logger.Logger;
-import org.apache.avalon.repository.Repository;
+import org.apache.avalon.composition.data.ClassLoaderDirective;
+import org.apache.avalon.composition.model.TypeRepository;
+import org.apache.avalon.composition.model.ServiceRepository;
+
 import org.apache.avalon.extension.manager.OptionalPackage;
 import org.apache.avalon.extension.manager.ExtensionManager;
-import org.apache.avalon.composition.data.ClassLoaderDirective;
+
+import org.apache.avalon.framework.context.Context;
+import org.apache.avalon.framework.logger.Logger;
+
+import org.apache.avalon.repository.Repository;
 
 /**
  * Defintion of a working context.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2004/01/24 23:25:25 $
+ * @version $Revision: 1.1 $ $Date: 2004/02/10 16:23:35 $
  */
 public interface ClassLoaderContext extends Context
 {

@@ -33,10 +33,18 @@ import org.apache.avalon.playground.basic.BasicService;
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
-
-public class ComplexComponent extends AbstractLogEnabled
+public class ComplexComponent
         implements ComplexService, Serviceable, Initializable, Startable, Disposable
 {
+    //-----------------------------------------------------------------
+    // immutable
+    //-----------------------------------------------------------------
+
+    private final Logger m_logger;
+
+    //-----------------------------------------------------------------
+    // mutable
+    //-----------------------------------------------------------------
 
     private ServiceManager m_manager;
     private SimpleService m_simple;
@@ -44,9 +52,18 @@ public class ComplexComponent extends AbstractLogEnabled
     private Thread m_thread;
     protected boolean m_continue = false;
 
-    //=================================================================
+    //-----------------------------------------------------------------
+    // constructor
+    //-----------------------------------------------------------------
+
+    public ComplexComponent( Logger logger )
+    {
+        m_logger = logger;
+    }
+
+    //-----------------------------------------------------------------
     // Serviceable
-    //=================================================================
+    //-----------------------------------------------------------------
 
     /**
      * Pass the <code>ServiceManager</code> to the <code>Serviceable</code>.
@@ -66,6 +83,10 @@ public class ComplexComponent extends AbstractLogEnabled
         m_manager = manager;
     }
 
+    private Logger getLogger()
+    {
+        return m_logger;
+    }
 
     //=======================================================================
     // Initializable

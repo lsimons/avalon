@@ -15,22 +15,12 @@
  * limitations under the License.
  */
 
-package org.apache.avalon.composition.runtime;
+package org.apache.avalon.composition.model.impl;
 
-import org.apache.avalon.composition.model.DeploymentModel;
 
-/**
- * A factory enabling the establishment of runtime handlers.
- *
- * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2004/02/07 22:52:16 $
- */
-public interface RuntimeFactory 
+public class CustomException extends Exception
 {
-   /**
-    * Resolve a runtime handler for a model.
-    * @param model the deployment model
-    * @return the runtime appliance
-    */
-    Commissionable getRuntime( DeploymentModel model );
-}
+    public CustomException()
+    {
+    }
+} 

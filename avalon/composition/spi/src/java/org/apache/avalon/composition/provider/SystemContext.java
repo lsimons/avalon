@@ -15,11 +15,11 @@
  * limitations under the License.
  */
 
-package org.apache.avalon.composition.model;
+package org.apache.avalon.composition.provider;
 
 import java.io.File;
 
-import org.apache.avalon.composition.runtime.RuntimeFactory;
+import org.apache.avalon.composition.model.DeploymentModel;
 
 import org.apache.avalon.logging.provider.LoggingManager;
 
@@ -33,7 +33,7 @@ import org.apache.avalon.framework.parameters.Parameters;
  * Defintion of a system context that exposes a system wide set of parameters.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.7 $ $Date: 2004/02/07 22:46:42 $
+ * @version $Revision: 1.1 $ $Date: 2004/02/10 16:23:35 $
  */
 public interface SystemContext extends Context
 {
@@ -43,13 +43,6 @@ public interface SystemContext extends Context
     * @return the factory
     */
     ModelFactory getModelFactory();
-
-   /**
-    * Return the runtime factory.
-    *
-    * @return the factory
-    */
-    RuntimeFactory getRuntimeFactory();
 
    /**
     * Return the base directory from which relative references 
@@ -129,4 +122,39 @@ public interface SystemContext extends Context
     * @return the code security enabled status
     */
     boolean isCodeSecurityEnabled();
+
+    //------------------------------------------------------------------
+    // runtime operations
+    //------------------------------------------------------------------
+
+   /**
+    * Request the commissioning of a runtime for a supplied deployment 
+    * model.
+    * @param model the deployment model 
+    * @exception Exception of a commissioning error occurs
+    */
+    void commission( DeploymentModel model ) throws Exception;
+
+   /**
+    * Request the decommissioning of a runtime for a supplied deployment 
+    * model.
+    * @param model the deployment model 
+    * @exception Exception of a commissioning error occurs
+    */
+    void decommission( DeploymentModel model );
+
+   /**
+    * Request resolution of an object from the runtime.
+    * @param model the deployment model
+    * @exception Exception if a deployment error occurs
+    */
+    Object resolve( DeploymentModel model ) throws Exception;
+
+   /**
+    * Request the release of an object from the runtime.
+    * @param model the deployment model
+    * @param instance the object to release
+    * @exception Exception if a deployment error occurs
+    */
+    void release( DeploymentModel model, Object instance );
 }

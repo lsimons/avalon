@@ -15,11 +15,13 @@
  * limitations under the License.
  */
 
-package org.apache.avalon.composition.model;
+package org.apache.avalon.composition.model.impl;
+
 
 import org.apache.avalon.composition.data.Mode;
+import org.apache.avalon.composition.model.DeploymentModel;
+import org.apache.avalon.composition.model.AssemblyException;
 import org.apache.avalon.composition.model.Commissionable;
-import org.apache.avalon.composition.model.Resolver;
 
 import org.apache.avalon.meta.info.DependencyDescriptor;
 import org.apache.avalon.meta.info.ServiceDescriptor;
@@ -27,47 +29,63 @@ import org.apache.avalon.meta.info.StageDescriptor;
 
 import org.apache.avalon.framework.logger.Logger;
 
-/**
- * Model desribing a deployment scenario.
- *
- * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.13 $ $Date: 2004/02/10 16:23:33 $
- */
-public interface DeploymentModel extends Commissionable, Resolver
+
+public class SimpleDeploymentModel 
+    implements DeploymentModel
 {
-    String SEPARATOR = "/";
+    private long m_timeout;
+    private Commissionable m_commissionable;
 
-    String DEPLOYMENT_TIMEOUT_KEY = "urn:composition:deployment.timeout";
-
+    SimpleDeploymentModel( Commissionable c, long timeout )
+    {
+        m_timeout = timeout;
+        m_commissionable = c;
+    }
+    
    /**
     * Return the name of the model.
     * @return the name
     */
-    String getName();
+    public String getName()
+    {
+        return "dummy";
+    }
 
    /**
     * Return the model partition path.
     * @return the path
     */
-    String getPath();
+    public String getPath()
+    {
+        return "/dummy";
+    }
 
    /**
     * Return the model fully qualified name.
     * @return the fully qualified name
     */
-    String getQualifiedName();
+    public String getQualifiedName()
+    {
+        return "/dummy";
+    }
 
    /**
     * Return the mode of model establishment.
     * @return the mode
     */
-    Mode getMode();
+    public Mode getMode()
+    {
+        return null;
+    }
 
    /**
     * Return the assigned logging channel.
     * @return the logging channel
     */
-    Logger getLogger();
+    public Logger getLogger()
+    {
+        return null;
+    }
 
     //-----------------------------------------------------------
     // service production
@@ -77,71 +95,105 @@ public interface DeploymentModel extends Commissionable, Resolver
     * Return the set of services produced by the model.
     * @return the services
     */
-    ServiceDescriptor[] getServices();
+    public ServiceDescriptor[] getServices()
+    {
+        return new ServiceDescriptor[0];
+    }
 
    /**
     * Return TRUE is this model is capable of supporting a supplied 
     * depedendency.
     * @return true if this model can fulfill the dependency
     */
-    boolean isaCandidate( DependencyDescriptor dependency );
+    public boolean isaCandidate( DependencyDescriptor dependency )
+    {
+        return true;
+    }
 
    /**
     * Return TRUE is this model is capable of supporting a supplied 
     * stage dependency.
     * @return true if this model can fulfill the dependency
     */
-    boolean isaCandidate( StageDescriptor stage );
+    public boolean isaCandidate( StageDescriptor stage )
+    {
+        return true;
+    }
 
     //-----------------------------------------------------------
     // composite assembly
     //-----------------------------------------------------------
 
-    /**
-     * Returns the assembled state of the model.
-     * @return true if this model is assembled
-     */
-    boolean isAssembled();
+   /**
+    * Returns the assembled state of the model.
+    * @return true if this model is assembled
+    */
+    public boolean isAssembled()
+    {
+        return true;
+    }
 
     /**
      * Assemble the model.
      * @exception Exception if an error occurs during model assembly
      */
-    void assemble() throws AssemblyException;
+    public void assemble() throws AssemblyException
+    {
+    }
 
    /**
     * Return the set of models consuming this model.
     * @return the consumers
     */
-    DeploymentModel[] getConsumerGraph();
+    public DeploymentModel[] getConsumerGraph()
+    {
+        return null;
+    }
 
    /**
     * Return the set of models supplying this model.
     * @return the providers
     */
-    DeploymentModel[] getProviderGraph();
+    public DeploymentModel[] getProviderGraph()
+    {
+        return null;
+    }
 
-    /**
-     * Disassemble the model.
-     */
-    void disassemble();
+   /**
+    * Disassemble the model.
+    */
+    public void disassemble(){}
 
-    /**
-     * Return the set of models assigned as providers.
-     * @return the providers consumed by the model
-     * @exception IllegalStateException if invoked prior to 
-     *    the completion of the assembly phase 
-     */
-    DeploymentModel[] getProviders();
+   /**
+    * Return the set of models assigned as providers.
+    * @return the providers consumed by the model
+    * @exception IllegalStateException if invoked prior to 
+    *    the completion of the assembly phase 
+    */
+    public DeploymentModel[] getProviders()
+    {
+        return null;
+    }
 
    /** 
-    * Return the default deployment timeout value declared in the 
-    * kernel configuration.  The implementation looks for a value
-    * assigned under the property key "urn:composition:deployment.timeout"
-    * and defaults to 1000 msec if undefined.
+    * Returns the maximum allowable time for deployment.
     *
-    * @return the default deployment timeout value
+    * @return the maximum time expressed in millisecond of how 
+    * long a deployment may take.
     */
-   long getDeploymentTimeout();
+    public long getDeploymentTimeout()
+    {
+        return m_timeout;
+    }
+
+    public Object resolve() throws Exception{ return null; }
+    public void release( Object object ){};
+
+    public void commission() throws Exception
+    {
+        m_commissionable.commission();
+    }
+
+    public void decommission(){};
 
 }

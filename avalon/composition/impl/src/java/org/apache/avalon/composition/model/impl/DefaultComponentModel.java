@@ -21,22 +21,23 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Properties;
 
+import org.apache.avalon.composition.data.DependencyDirective;
+import org.apache.avalon.composition.data.StageDirective;
+import org.apache.avalon.composition.data.ContextDirective;
+import org.apache.avalon.composition.data.Mode;
 import org.apache.avalon.composition.model.AssemblyException;
 import org.apache.avalon.composition.model.ContextModel;
 import org.apache.avalon.composition.model.DependencyModel;
 import org.apache.avalon.composition.model.ComponentModel;
-import org.apache.avalon.composition.model.ComponentContext;
 import org.apache.avalon.composition.model.DeploymentModel;
 import org.apache.avalon.composition.model.ModelRepository;
 import org.apache.avalon.composition.model.ModelException;
 import org.apache.avalon.composition.model.ModelRuntimeException;
-import org.apache.avalon.composition.model.SystemContext;
 import org.apache.avalon.composition.model.StageModel;
-import org.apache.avalon.composition.data.DependencyDirective;
-import org.apache.avalon.composition.data.StageDirective;
+import org.apache.avalon.composition.provider.SystemContext;
+import org.apache.avalon.composition.provider.ComponentContext;
+
 import org.apache.avalon.logging.data.CategoriesDirective;
-import org.apache.avalon.composition.data.ContextDirective;
-import org.apache.avalon.composition.data.Mode;
 
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
@@ -61,7 +62,7 @@ import org.apache.excalibur.configuration.CascadingConfiguration;
  * Deployment model defintion.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.5 $ $Date: 2004/01/24 23:25:27 $
+ * @version $Revision: 1.6 $ $Date: 2004/02/10 16:23:33 $
  */
 public class DefaultComponentModel extends DefaultDeploymentModel 
   implements ComponentModel
@@ -592,8 +593,10 @@ public class DefaultComponentModel extends DefaultDeploymentModel
 
    /**
     * Return the parameters to be applied to the component.
+    * If the the component type does not implementation the 
+    * Parameterizable interface, the implementation returns null. 
     *
-    * @return the parameters
+    * @return the assigned parameters
     */
     public Parameters getParameters()
     {

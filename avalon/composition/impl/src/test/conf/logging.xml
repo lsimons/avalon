@@ -14,7 +14,7 @@
     </file>
   </targets>
 
-  <categories priority="warn" target="simple"/>
+  <categories priority="info" target="simple"/>
 
   <logger name="kernel.logger"/>
 

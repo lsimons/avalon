@@ -28,15 +28,15 @@ import org.apache.avalon.composition.data.ClassLoaderDirective;
 import org.apache.avalon.composition.data.builder.ContainmentProfileBuilder;
 import org.apache.avalon.composition.data.builder.XMLContainmentProfileCreator;
 import org.apache.avalon.composition.model.ClassLoaderModel;
-import org.apache.avalon.composition.model.ClassLoaderContext;
 import org.apache.avalon.composition.model.ContainmentModel;
-import org.apache.avalon.composition.model.ContainmentContext;
-import org.apache.avalon.composition.model.ComponentContext;
 import org.apache.avalon.composition.model.ComponentModel;
-import org.apache.avalon.composition.model.ModelFactory;
 import org.apache.avalon.composition.model.ModelException;
-import org.apache.avalon.composition.model.SystemContext;
 import org.apache.avalon.composition.model.DependencyGraph;
+import org.apache.avalon.composition.provider.ModelFactory;
+import org.apache.avalon.composition.provider.SystemContext;
+import org.apache.avalon.composition.provider.ContainmentContext;
+import org.apache.avalon.composition.provider.ComponentContext;
+import org.apache.avalon.composition.provider.ClassLoaderContext;
 
 import org.apache.avalon.logging.provider.LoggingManager;
 import org.apache.avalon.logging.data.CategoriesDirective;
@@ -57,7 +57,7 @@ import org.apache.avalon.meta.info.Type;
  * A utility class that handles creation of a component model context.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2004/02/07 19:31:08 $
+ * @version $Revision: 1.2 $ $Date: 2004/02/10 16:23:33 $
  */
 class DefaultContainmentModelComponentHelper
 {

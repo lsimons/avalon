@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.avalon.composition.model;
+package org.apache.avalon.composition.provider;
 
 import org.apache.avalon.composition.model.DependencyGraph;
 
@@ -27,7 +27,7 @@ import org.apache.avalon.composition.data.Mode;
  * Deployment context that is supplied to a deployment model.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.4 $ $Date: 2004/01/24 23:25:25 $
+ * @version $Revision: 1.1 $ $Date: 2004/02/10 16:23:35 $
  */
 public interface DeploymentContext extends Context 
 {

@@ -1,12 +1,16 @@
 
 
-package org.apache.avalon.composition.model;
+package org.apache.avalon.composition.model.test;
 
 import java.io.File;
 
 import org.apache.avalon.repository.Artifact;
 
-import org.apache.avalon.composition.model.util.SystemContextBuilder;
+import org.apache.avalon.composition.model.ComponentModel;
+import org.apache.avalon.composition.model.ContainmentModel;
+import org.apache.avalon.composition.model.DeploymentModel;
+import org.apache.avalon.composition.provider.SystemContext;
+import org.apache.avalon.composition.provider.ModelFactory;
 
 import org.apache.avalon.repository.provider.InitialContext;
 import org.apache.avalon.repository.main.DefaultInitialContext;

@@ -21,23 +21,28 @@ import java.io.File;
 import java.net.URL;
 import java.security.Permission;
 
-import org.apache.avalon.composition.model.ClassLoaderContext;
+import org.apache.avalon.composition.data.ClassLoaderDirective;
 import org.apache.avalon.composition.model.TypeRepository;
 import org.apache.avalon.composition.model.ServiceRepository;
+import org.apache.avalon.composition.provider.ClassLoaderContext;
+
 import org.apache.avalon.repository.Repository;
+
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
+
 import org.apache.avalon.extension.manager.OptionalPackage;
 import org.apache.avalon.extension.manager.ExtensionManager;
+
 import org.apache.avalon.framework.context.DefaultContext;
 import org.apache.avalon.framework.logger.Logger;
-import org.apache.avalon.composition.data.ClassLoaderDirective;
+
 
 /**
  * Implementation of a system context that exposes a system wide set of parameters.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.4 $ $Date: 2004/01/24 23:25:27 $
+ * @version $Revision: 1.5 $ $Date: 2004/02/10 16:23:33 $
  */
 public class DefaultClassLoaderContext extends DefaultContext 
   implements ClassLoaderContext

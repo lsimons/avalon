@@ -21,16 +21,15 @@ import java.io.File;
 import java.util.Map;
 import java.util.Hashtable;
 
+import org.apache.avalon.composition.data.ComponentProfile;
 import org.apache.avalon.composition.model.ContainmentModel;
-import org.apache.avalon.composition.model.ContainmentContext;
-import org.apache.avalon.composition.model.ComponentContext;
 import org.apache.avalon.composition.model.DeploymentModel;
 import org.apache.avalon.composition.model.EntryModel;
 import org.apache.avalon.composition.model.ModelRuntimeException;
-import org.apache.avalon.composition.model.SystemContext;
 import org.apache.avalon.composition.model.DependencyGraph;
-
-import org.apache.avalon.composition.data.ComponentProfile;
+import org.apache.avalon.composition.provider.SystemContext;
+import org.apache.avalon.composition.provider.ContainmentContext;
+import org.apache.avalon.composition.provider.ComponentContext;
 
 import org.apache.avalon.framework.context.ContextException;
 import org.apache.avalon.framework.context.DefaultContext;
@@ -51,7 +50,7 @@ import org.apache.avalon.meta.info.StageDescriptor;
  * model.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.5 $ $Date: 2004/02/07 17:41:28 $
+ * @version $Revision: 1.6 $ $Date: 2004/02/10 16:23:33 $
  */
 public class DefaultComponentContext extends DefaultDeploymentContext 
   implements ComponentContext

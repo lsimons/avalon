@@ -15,11 +15,13 @@
  * limitations under the License.
  */
 
-package org.apache.avalon.composition.model;
+package org.apache.avalon.composition.provider;
 
 import java.io.File;
 
 import org.apache.avalon.composition.data.ComponentProfile;
+import org.apache.avalon.composition.model.ContainmentModel;
+import org.apache.avalon.composition.model.EntryModel;
 
 import org.apache.avalon.framework.context.ContextException;
 import org.apache.avalon.framework.logger.Logger;
@@ -33,7 +35,7 @@ import org.apache.avalon.meta.info.Type;
  * Defintion of a component deployment context.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.5 $ $Date: 2004/02/07 17:41:28 $
+ * @version $Revision: 1.1 $ $Date: 2004/02/10 16:23:35 $
  */
 public interface ComponentContext extends DeploymentContext
 {

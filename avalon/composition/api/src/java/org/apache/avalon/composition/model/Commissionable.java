@@ -15,14 +15,14 @@
  * limitations under the License.
  */
 
-package org.apache.avalon.composition.runtime;
+package org.apache.avalon.composition.model;
 
 /**
  * The Comissionable interface defines the contract for an manager 
  * of deployable components. 
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2004/02/06 15:27:14 $
+ * @version $Revision: 1.1 $ $Date: 2004/02/10 16:23:33 $
  */
 public interface Commissionable
 {

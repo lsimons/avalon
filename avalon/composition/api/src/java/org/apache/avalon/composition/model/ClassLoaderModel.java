@@ -31,7 +31,7 @@ import org.apache.avalon.framework.logger.Logger;
  * a fully qualifed classpath can be established.</p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.4 $ $Date: 2004/01/24 23:25:25 $
+ * @version $Revision: 1.5 $ $Date: 2004/02/10 16:23:33 $
  */
 public interface ClassLoaderModel
 {
@@ -101,7 +101,7 @@ public interface ClassLoaderModel
     Certificate[] getCertificates();
     
    /**
-    * Creation of a classloader context using this model as the 
+    * Creation of a classloader model using this model as the 
     * relative parent.
     *
     * @param logger the logging channel 
@@ -109,9 +109,9 @@ public interface ClassLoaderModel
     * @param implied any implied urls
     * @return a new classloader context
     */
-    ClassLoaderContext createChildContext( 
-      Logger logger, ContainmentProfile profile, URL[] implied );
-      
+    ClassLoaderModel createClassLoaderModel( 
+      Logger logger, ContainmentProfile profile, URL[] implied ) throws ModelException;
+
    /** 
     * Return the security Permissions defined for this ClassLoaderModel.
     * 

@@ -6,10 +6,7 @@
   xmlns:ant="jelly:ant">
 
   <postGoal name="test:compile">
-
-    <!--<attainGoal name="avalon:meta"/>-->
-
-   
+  
     <mkdir dir="${basedir}/target/test/repository/test/jars"/>
     <mkdir dir="${basedir}/target/test/ext"/>
     <mkdir dir="${basedir}/target/test/lib"/>

@@ -18,8 +18,8 @@
 package org.apache.avalon.composition.model.impl;
 
 import org.apache.avalon.composition.model.DependencyGraph;
-import org.apache.avalon.composition.model.DeploymentContext;
-import org.apache.avalon.composition.model.SystemContext;
+import org.apache.avalon.composition.provider.SystemContext;
+import org.apache.avalon.composition.provider.DeploymentContext;
 
 import org.apache.avalon.framework.context.DefaultContext;
 import org.apache.avalon.framework.logger.Logger;
@@ -29,7 +29,7 @@ import org.apache.avalon.composition.data.Mode;
  * Default implementation of a deployment context.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.5 $ $Date: 2004/01/24 23:25:27 $
+ * @version $Revision: 1.6 $ $Date: 2004/02/10 16:23:33 $
  */
 public class DefaultDeploymentContext extends DefaultContext 
   implements DeploymentContext

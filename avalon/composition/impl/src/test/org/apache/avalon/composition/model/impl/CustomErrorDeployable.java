@@ -15,30 +15,24 @@
  * limitations under the License.
  */
 
-package org.apache.avalon.composition.runtime;
+package org.apache.avalon.composition.model.impl;
 
-/**
- * The Resolver interface defines the contract for instance access and 
- * release.
- *
- * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2004/02/06 15:27:14 $
- */
-public interface Resolver
+import org.apache.avalon.composition.model.Commissionable;
+
+public class CustomErrorDeployable 
+    implements Commissionable
 {
-    /**
-     * Resolve a object to a value.
-     *
-     * @return the resolved object
-     * @throws Exception if an error occurs
-     */
-    Object resolve() throws Exception;
+    CustomErrorDeployable()
+    {
+    }
+    
+    public void commission() 
+        throws Exception
+    {
+        throw new CustomError();
+    }
 
-    /**
-     * Release an object
-     *
-     * @param instance the object to be released
-     */
-    void release( Object instance );
-
+    public void decommission()
+    {
+    }
 }
