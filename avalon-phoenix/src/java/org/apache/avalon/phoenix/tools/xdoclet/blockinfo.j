@@ -8,6 +8,13 @@
   <block>
     <XDtClass:ifHasClassTag tagName="phoenix:block" paramName="name"><name><XDtClass:classTagValue tagName="phoenix:block" paramName="name"/></name></XDtClass:ifHasClassTag>
     <version><XDtClass:classTagValue tagName="phoenix:block" paramName="version" default="1.0"/></version>
+    <XDtMethod:ifHasMethod name="configure" parameters="org.apache.avalon.framework.configuration.Configuration">
+      <XDtMethod:setCurrentMethod name="configure" parameters="org.apache.avalon.framework.configuration.Configuration">
+        <XDtMethod:ifHasMethodTag tagName="phoenix:configuration-schema">
+    <schema-type><XDtMethod:methodTagValue tagName="phoenix:configuration-schema" paramName="type"/></schema-type>
+        </XDtMethod:ifHasMethodTag>
+      </XDtMethod:setCurrentMethod>
+    </XDtMethod:ifHasMethod>
   </block>
 
   <!-- services that are offered by this block -->
@@ -49,5 +56,4 @@
       </XDtMethod:setCurrentMethod>
     </XDtMethod:ifHasMethod>
   </dependencies>
-
 </blockinfo>
