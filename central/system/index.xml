@@ -155,7 +155,7 @@
     <info>
       <group>avalon/framework</group>
       <name>avalon-framework-api</name>
-      <version>4.2.1</version>
+      <version>4.3.0</version>
       <status>SNAPSHOT</status> <!-- impact on derived versions ? -->
     </info>
   </project>
@@ -164,7 +164,8 @@
     <info>
       <group>avalon/framework</group>
       <name>avalon-framework-legacy</name>
-      <version>4.2.1</version>
+      <version>4.3.0</version>
+      <status>SNAPSHOT</status>
     </info>
     <dependencies>
       <include key="avalon-framework-api"/>
@@ -176,7 +177,8 @@
     <info>
       <group>avalon/framework</group>
       <name>avalon-framework-impl</name>
-      <version>4.2.1</version>
+      <version>4.3.0</version>
+      <status>SNAPSHOT</status>
     </info>
     <dependencies>
       <include key="avalon-framework-api" tag="api"/>
@@ -317,7 +319,8 @@
     <info>
       <group>avalon/meta</group>
       <name>avalon-meta-tools</name>
-      <version>1.4.0</version>
+      <version>1.4.1</version>
+      <status>SNAPSHOT</status>
     </info>
     <dependencies>
       <include key="avalon-meta-impl"/>
@@ -464,7 +467,8 @@
     <info>
       <group>avalon/repository</group>
       <name>avalon-repository-api</name>
-      <version>2.0.0</version>
+      <version>2.1.0</version> <!-- artifact uri additions -->
+      <status>SNAPSHOT</status>
     </info>
   </project>
 
@@ -494,7 +498,8 @@
     <info>
       <group>avalon/repository</group>
       <name>avalon-repository-impl</name>
-      <version>2.0.0</version>
+      <version>2.1.0</version>
+      <status>SNAPSHOT</status>
     </info>
     <dependencies>
       <include key="avalon-repository-main" runtime="false"/>
@@ -505,7 +510,8 @@
     <info>
       <group>avalon/repository</group>
       <name>avalon-repository-main</name>
-      <version>2.0.0</version>
+      <version>2.1.0</version>
+      <status>SNAPSHOT</status>
     </info>
     <dependencies>
       <include key="avalon-repository-spi"/>
@@ -523,7 +529,8 @@
     <info>
       <group>avalon/repository</group>
       <name>avalon-repository-cli</name>
-      <version>2.0.0</version>
+      <version>2.1.0</version>
+      <status>SNAPSHOT</status>
     </info>
     <dependencies>
       <include key="avalon-repository-main"/>
@@ -535,7 +542,6 @@
     <info>
       <group>avalon/repository</group>
       <name>avalon-repository-test</name>
-      <version>2.0.0</version>
     </info>
     <dependencies>
       <include key="avalon-repository-impl" test="false"/>
@@ -586,7 +592,8 @@
     <info>
       <group>avalon/logging</group>
       <name>avalon-logging-log4j</name>
-      <version>1.0.0</version>
+      <version>1.0.1</version>
+      <status>SNAPSHOT</status>
     </info>
     <dependencies>
       <include key="avalon-logging-impl" runtime="false"/>
@@ -610,7 +617,8 @@
     <info>
       <group>avalon/logging</group>
       <name>avalon-logging-logkit-impl</name>
-      <version>1.0.0</version>
+      <version>1.0.1</version>
+      <status>SNAPSHOT</status>
     </info>
     <dependencies>
       <include key="avalon-logging-logkit-api"/>
@@ -623,7 +631,8 @@
     <info>
       <group>avalon/logging</group>
       <name>avalon-logging-logkit-datagram</name>
-      <version>1.0.0</version>
+      <version>1.0.1</version>
+      <status>SNAPSHOT</status>
     </info>
     <dependencies>
       <include key="avalon-logging-logkit-api" runtime="false"/>
@@ -635,7 +644,8 @@
     <info>
       <group>avalon/logging</group>
       <name>avalon-logging-logkit-socket</name>
-      <version>1.0.0</version>
+      <version>1.0.1</version>
+      <status>SNAPSHOT</status>
     </info>
     <dependencies>
       <include key="avalon-logging-logkit-api" runtime="false"/>
@@ -647,7 +657,8 @@
     <info>
       <group>avalon/logging</group>
       <name>avalon-logging-logkit-syslog</name>
-      <version>1.0.0</version>
+      <version>1.0.1</version>
+      <status>SNAPSHOT</status>
     </info>
     <dependencies>
       <include key="avalon-logging-logkit-api" runtime="false"/>
@@ -659,7 +670,6 @@
     <info>
       <group>avalon/logging</group>
       <name>avalon-logging-test</name>
-      <version>1.0.0</version>
     </info>
     <dependencies>
       <include key="avalon-logging-logkit-impl" test="false"/>
@@ -744,7 +754,8 @@
     <info>
       <group>avalon/activation</group>
       <name>avalon-activation-impl</name>
-      <version>2.0.0</version>
+      <version>2.0.1</version>
+      <status>SNAPSHOT</status>
     </info>
     <dependencies>
       <include key="avalon-util-lifecycle"/>
@@ -830,6 +841,7 @@
       <include key="avalon-meta-spi" tag="spi"/>
       <include key="avalon-repository-spi" tag="spi"/>
       <include key="avalon-logging-spi" tag="spi"/>
+      <include key="avalon-logging-impl" tag="impl"/>
       <include key="avalon-composition-spi" tag="spi"/>
       <include key="avalon-composition-impl" tag="impl"/>
       <include key="avalon-util-configuration" tag="impl"/>
