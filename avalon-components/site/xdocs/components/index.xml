@@ -23,7 +23,7 @@
             the same thread pool.
             </p>
           </td>
-          <td>IN-PROCESS</td>
+          <td>CANDIDATE</td>
         </tr>
         <tr><td><a href="datasource.html">Deatsource</a></td>
           <td>
@@ -34,7 +34,7 @@
             ready to use DataSourceComponents.
             </p>
           </td>
-          <td>IN-PROCESS</td>
+          <td>CANDIDATE</td>
         </tr>
         <tr><td><a href="scheduler.html">Scheduler</a></td>
           <td>
@@ -47,7 +47,7 @@
            CronTimeTrigger and PeriodicTimeTigger.
            </p>
           </td>
-          <td>IN-PROCESS</td>
+          <td>CANDIDATE</td>
         </tr>
         <tr><td><a href="sockets.html">Sockets</a></td>
           <td>
@@ -57,7 +57,7 @@
             DefaultSocketManager component.
             </p>
           </td>
-          <td>IN-PROCESS</td>
+          <td>CANDIDATE</td>
         </tr>
         <tr><td><a href="store.html">Store</a></td>
           <td>
@@ -70,7 +70,7 @@
               local file system for storage.
               </p>
           </td>
-          <td>IN-PROCESS</td>
+          <td>CANDIDATE</td>
         </tr>
         <tr><td><a href="threads.html">Threads</a></td>
           <td>

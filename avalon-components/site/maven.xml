@@ -1,4 +1,4 @@
-<project default="build" xmlns:maven="jelly:maven" xmlns:j="jelly:core" xmlns:util="jelly:util"   xmlns:ant="jelly:ant">
+<project default="site" xmlns:maven="jelly:maven" xmlns:j="jelly:core" xmlns:util="jelly:util"   xmlns:ant="jelly:ant">
 
   <preGoal name="site">
     <attainGoal name="license"/>
@@ -20,8 +20,16 @@
         <j:forEach var="packageGroup" items="${pom.packageGroups}">
       	  <group title="${packageGroup.title}" packages="${packageGroup.packages}"/>
         </j:forEach>
-        <sourcepath path="${basedir}/../threads/api/src/java"/>
-        <sourcepath path="${basedir}/../threads/impl/src/java"/>
+        <sourcepath path="${basedir}/../threads-api/src/java"/>
+        <sourcepath path="${basedir}/../threads-impl/src/java"/>
+        <sourcepath path="${basedir}/../connection-api/src/java"/>
+        <sourcepath path="${basedir}/../connection-impl/src/java"/>
+        <sourcepath path="${basedir}/../datasources-api/src/java"/>
+        <sourcepath path="${basedir}/../datasources-impl/src/java"/>
+        <sourcepath path="${basedir}/../sockets-api/src/java"/>
+        <sourcepath path="${basedir}/../sockets-impl/src/java"/>
+        <sourcepath path="${basedir}/../store-api/src/java"/>
+        <sourcepath path="${basedir}/../store-impl/src/java"/>
         <classpath>
           <path refid="maven.dependency.classpath"/>
 	  </classpath>

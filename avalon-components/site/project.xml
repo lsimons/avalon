@@ -14,25 +14,51 @@
 
   <dependencies>
     <dependency>
-      <groupId>avalon</groupId>
-      <artifactId>avalon-framework</artifactId>
+      <id>avalon-framework</id>
       <version>4.1.4</version>
     </dependency>
     <!-- excalibur dependencies -->
     <dependency>
-      <groupId>excalibur</groupId>
-      <artifactId>excalibur-thread</artifactId>
+      <id>excalibur-thread</id>
       <version>1.1.1</version>
     </dependency>
     <dependency>
-      <groupId>excalibur</groupId>
-      <artifactId>excalibur-event</artifactId>
-      <version>2.0</version>
+      <id>excalibur-event</id>
+      <version>1.0.3</version>
+    </dependency>
+    <dependency>
+      <id>excalibur-datasource</id>
+      <version>1.1.1</version>
     </dependency>
     <!-- local dependencies -->
     <dependency>
-      <groupId>cornerstone</groupId>
+      <groupId>cornerstone-threads</groupId>
       <artifactId>cornerstone-threads</artifactId>
+      <version>1.0</version>
+    </dependency>
+    <dependency>
+      <groupId>cornerstone-connection</groupId>
+      <artifactId>cornerstone-connection</artifactId>
+      <version>1.0</version>
+    </dependency>
+    <dependency>
+      <groupId>cornerstone-datasources</groupId>
+      <artifactId>cornerstone-datasources</artifactId>
+      <version>1.0</version>
+    </dependency>
+    <dependency>
+      <groupId>cornerstone-scheduler</groupId>
+      <artifactId>cornerstone-scheduler</artifactId>
+      <version>1.0</version>
+    </dependency>
+    <dependency>
+      <groupId>cornerstone-sockets</groupId>
+      <artifactId>cornerstone-sockets</artifactId>
+      <version>1.0</version>
+    </dependency>
+    <dependency>
+      <groupId>cornerstone-store</groupId>
+      <artifactId>cornerstone-store</artifactId>
       <version>1.0</version>
     </dependency>
 

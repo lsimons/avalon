@@ -20,6 +20,8 @@
         <item name="Merlin" href="/examples/merlin/index.html">
           <item name="Threads" href="/examples/merlin/threads.html"/>
         </item>
+        <item name="Fortress" href="/examples/fortress.html"/>
+        <item name="Phoenix" href="/examples/phoenix.html"/>
       </item>
       <item name="Developer Info" href="/notes/index.html"/>
     </menu>
