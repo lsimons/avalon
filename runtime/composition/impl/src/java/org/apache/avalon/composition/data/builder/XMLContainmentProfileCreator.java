@@ -551,7 +551,7 @@ public class XMLContainmentProfileCreator extends XMLProfileCreator
         }
         else if( null != config.getAttribute( "id", null ) )
         {
-            System.out.println( "Using deprecated include format (see attrifact attribute).");
+            System.out.println( "Using deprecated include format (see artifact attribute).");
             Artifact artifact = createResourceDirective( config );
             TargetDirective[] targets = createTargetDirectives( config );
             return new BlockCompositionDirective( name, artifact, targets );
