@@ -129,7 +129,7 @@
                   
                   
                   <a href="http://avalon.apache.org/">
-                    <img border="0" alt="Apache Software Foundation" src="http://avalon.apache.org/images/apache-avalon-logo.png" align="left"></img>
+                    <img border="0" alt="The Apache Software Foundation" src="http://avalon.apache.org/images/apache-avalon-logo.png" align="left"></img>
                   </a>
                 
               </td>
@@ -228,21 +228,7 @@
       <small>
       	
       	
-      		<a href="../../../meta/index.html">Meta Model</a>
-      	
-      </small>
-	  
-        
-    
-    
-    
-    
-
-    <div>
-      <small>
-      	
-      	
-      		<a href="../../../meta/info/index.html">Descriptors</a>
+      		<a href="../../../meta/index.html">Type Model</a>
       	
       </small>
 	  
@@ -427,26 +413,6 @@
       	
       	
       		<a href="../../../meta/info/attributes/index.html">Attributes</a>
-      	
-      </small>
-	  
-        
-      
-    </div>
-  
-      
-    </div>
-  
-    
-    
-    
-    
-
-    <div>
-      <small>
-      	
-      	
-      		<a href="../../../meta/data/index.html">Directives</a>
       	
       </small>
 	  
@@ -770,7 +736,7 @@
    
     <td>
       
-             Declaration of the set of service that the component type provides.
+             Declaration of the set of services that the component type provides.
             
     </td>
    </tr>
@@ -863,6 +829,7 @@ information about the component type.
       
     <p>
       Configuration instances supplied to the builder shall correspond to the 
+
     <a href="http://avalon.apache.org/dtds/meta/type_1_1.dtd">type DTD</a>
   .  
 The structure of a Type XML document is described below:
@@ -883,12 +850,12 @@ The structure of a Type XML document is described below:
 
 
     &lt;!--
-    Defintion of a single component info descriptor.
+    Definition of a single component info descriptor.
     --&gt;
 
     &lt;info&gt;
 
-      &lt;!-- the name of the component (character restrictions appply) --&gt;
+      &lt;!-- the name of the component (character restrictions apply) --&gt;
 
       &lt;name&gt;my-component&lt;/name&gt;
 
@@ -896,7 +863,7 @@ The structure of a Type XML document is described below:
 
       &lt;version&gt;1.2.1&lt;/version&gt;
 
-      &lt;!-- the set of attribibutes associated with the type
+      &lt;!-- the set of attributes associated with the type
          (attribute names and values are examples only) --&gt;
 
       &lt;attributes&gt;
@@ -909,7 +876,7 @@ The structure of a Type XML document is described below:
     &lt;/info&gt;
 
     &lt;!--
-    The set of logging catagories the component uses. 
+    The set of logging categories the component uses. 
     --&gt;
 
     &lt;loggers&gt;
@@ -949,7 +916,7 @@ The structure of a Type XML document is described below:
     of supplying.  Each service declared under the services element
     may be referenced by other component info descriptions as a 
     dependency.  A container is responsible for the assembly of 
-    components based on the connection of supply components to 
+    components based on the connection of supplier components to 
     consumer components via a common service description. 
     --&gt;
 
@@ -957,7 +924,7 @@ The structure of a Type XML document is described below:
 
       &lt;!-- 
       The service element declares the classname of an service 
-      interface and the version identifier the qualifies the service 
+      interface and the version identifier that qualify as the service 
       version.  The default version value is 1.0.
       --&gt;
 
@@ -968,9 +935,9 @@ The structure of a Type XML document is described below:
         &lt;attributes&gt;
 
            &lt;!--
-           Attributes qualifying a service implementation may be included
+           Attributes qualifying as service implementation may be included
            as supplementary information to the attributes declared under
-           a ServiceDefintion.
+           a ServiceDefinition.
            --&gt;
 
         &lt;/attributes&gt;
@@ -1047,7 +1014,7 @@ The structure of a Type XML document is described below:
                   
                     
                     
-                      © 2000-2004, Apache Software Foundation
+                      © 2000-2004, The Apache Software Foundation
                     
                   
                   

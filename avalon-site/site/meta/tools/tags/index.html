@@ -129,7 +129,7 @@
                   
                   
                   <a href="http://avalon.apache.org/">
-                    <img border="0" alt="Apache Software Foundation" src="http://avalon.apache.org/images/apache-avalon-logo.png" align="left"></img>
+                    <img border="0" alt="The Apache Software Foundation" src="http://avalon.apache.org/images/apache-avalon-logo.png" align="left"></img>
                   </a>
                 
               </td>
@@ -228,7 +228,7 @@
       <small>
       	
       	
-      		<a href="../../meta/index.html">Meta Model</a>
+      		<a href="../../meta/index.html">Type Model</a>
       	
       </small>
 	  
@@ -659,7 +659,9 @@ Meta information associated with component types can be expressed directly in XM
     </td>
    
     <td>
-      Identifies a class as a component Type.
+      Identifies a class as a component implementation and the 
+        requirement for the generation of a component type 
+        descriptor.
     </td>
    </tr>
   
@@ -683,7 +685,10 @@ Meta information associated with component types can be expressed directly in XM
     </td>
    
     <td>
-      An attribute associated with a containing type or service.
+      
+      Declaration of an attribute name and value to be associated with
+      a component type info descriptor.
+    
     </td>
    </tr>
   
@@ -696,30 +701,6 @@ Meta information associated with component types can be expressed directly in XM
 
     
     <tr class="a">
-    <td>
-      
-    <a href="permission.html">@avalon.security.permission</a>
-  
-    </td>
-   
-    <td>
-      class
-    </td>
-   
-    <td>
-      Declaration of a requested security permission.
-    </td>
-   </tr>
-  
-    
-      
-        
-      
-      
-    
-
-    
-    <tr class="b">
     <td>
       
     <a href="service.html">@avalon.service</a>
@@ -731,31 +712,9 @@ Meta information associated with component types can be expressed directly in XM
     </td>
    
     <td>
-      Service export declaration from a type (in a class) or Service declaration in a interface.
-    </td>
-   </tr>
-  
-    
-      
-      
-        
-      
-    
-
-    
-    <tr class="a">
-    <td>
-      
-    <a href="stage.html">@avalon.stage</a>
-  
-    </td>
-   
-    <td>
-      class
-    </td>
-   
-    <td>
-      Lifecycle stage dependency declaration.
+      Declaration by a component of a exported service that may 
+      be used by a container when fulfilling the service dependencies
+      exposed by other components.
     </td>
    </tr>
   
@@ -770,6 +729,30 @@ Meta information associated with component types can be expressed directly in XM
     <tr class="b">
     <td>
       
+    <a href="stage.html">@avalon.stage</a>
+  
+    </td>
+   
+    <td>
+      class
+    </td>
+   
+    <td>
+      Declaration of a lifecycle stage dependency.
+    </td>
+   </tr>
+  
+    
+      
+      
+        
+      
+    
+
+    
+    <tr class="a">
+    <td>
+      
     <a href="extension.html">@avalon.extension</a>
   
     </td>
@@ -779,7 +762,39 @@ Meta information associated with component types can be expressed directly in XM
     </td>
    
     <td>
-      Lifecycle stage handling capability declaration.
+      Declaration of the export of a lifecycle stage handling capability
+      that may be used by a container when resolving lifecycle stage 
+      dependencies.
+    </td>
+   </tr>
+  
+    
+      
+        
+      
+      
+    
+
+    
+    <tr class="b">
+    <td>
+      
+    <a href="permission.html">@avalon.security.permission</a>
+  
+    </td>
+   
+    <td>
+      
+    </td>
+   
+    <td>
+      
+      Declaration of a requested security permission. The tag may appear 
+      in both class and method scope.  The convention is to declare 
+      permission statements as close to the usage as possible (i.e. at 
+      the method declaration), however, permission statements will be 
+      aggregated for the component type.
+    
     </td>
    </tr>
   
@@ -799,11 +814,11 @@ Meta information associated with component types can be expressed directly in XM
     </td>
    
     <td>
-      enableLogging
+      method
     </td>
    
     <td>
-      Logging channel name declaration.
+      Declaration of a child logging channel name used by the component.
     </td>
    </tr>
   
@@ -823,11 +838,11 @@ Meta information associated with component types can be expressed directly in XM
     </td>
    
     <td>
-      configure
+      method
     </td>
    
     <td>
-      Configuration validation schema declaration.
+      Declaration of a configuration validation schema.
     </td>
    </tr>
   
@@ -847,11 +862,11 @@ Meta information associated with component types can be expressed directly in XM
     </td>
    
     <td>
-      contextualize
+      method
     </td>
    
     <td>
-      Declaration of a specialized context class.
+      Declares of a specialized context interface.
     </td>
    </tr>
   
@@ -871,11 +886,11 @@ Meta information associated with component types can be expressed directly in XM
     </td>
    
     <td>
-      contextualize
+      method
     </td>
    
     <td>
-      Context entry declaration.
+      Declaration of a context entry dependency.
     </td>
    </tr>
   
@@ -895,7 +910,7 @@ Meta information associated with component types can be expressed directly in XM
     </td>
    
     <td>
-      service
+      method
     </td>
    
     <td>
@@ -928,7 +943,7 @@ Meta information associated with component types can be expressed directly in XM
                   
                     
                     
-                      © 2000-2004, Apache Software Foundation
+                      © 2000-2004, The Apache Software Foundation
                     
                   
                   
