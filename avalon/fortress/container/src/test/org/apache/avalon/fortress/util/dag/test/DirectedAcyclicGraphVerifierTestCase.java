@@ -59,14 +59,14 @@ import org.apache.avalon.fortress.util.dag.*;
 
 
 /**
- * DirectedAcyclicGraphVerifierTest.java does XYZ
+ * DirectedAcyclicGraphVerifierTestCase.java does XYZ
  *
  * @author <a href="bloritsch.at.d-haven.org">Berin Loritsch</a>
  * @version CVS $ Revision: 1.1 $
  */
-public class DirectedAcyclicGraphVerifierTest extends TestCase
+public class DirectedAcyclicGraphVerifierTestCase extends TestCase
 {
-    public DirectedAcyclicGraphVerifierTest( String name )
+    public DirectedAcyclicGraphVerifierTestCase( String name )
     {
         super( name );
     }
