@@ -3,6 +3,6 @@ avalon-framework-impl
 avalon-meta-api
 avalon-meta-spi
 avalon-meta-impl 
-excalibur-configuration 
+avalon-util-configuration 
 qdox
 ant

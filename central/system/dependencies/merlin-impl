@@ -1,22 +1,22 @@
-avalon-framework-api
+avalon-framework-api        avalon.classloader=api
 avalon-framework-impl
-merlin-api
-avalon-repository-api
-avalon-repository-spi
-merlin-composition-api
-merlin-composition-spi
+merlin-api                  avalon.classloader=spi
+avalon-repository-api       avalon.classloader=api
+avalon-repository-spi       avalon.classloader=spi
+merlin-composition-api      avalon.classloader=api
+merlin-composition-spi      avalon.classloader=spi
 merlin-composition-impl
-avalon-meta-api
-avalon-meta-spi
+avalon-meta-api             avalon.classloader=api
+avalon-meta-spi             avalon.classloader=spi
 avalon-meta-impl
-avalon-util-extension-api
+avalon-util-extension-api   avalon.classloader=api
 avalon-util-extension-impl
 avalon-util-i18n
 avalon-util-defaults
 avalon-util-env
 avalon-util-exception
 avalon-util-criteria
-avalon-logging-api
-avalon-logging-spi
-excalibur-lifecycle-api
-excalibur-configuration
+avalon-logging-api          avalon.classloader=api
+avalon-logging-spi          avalon.classloader=spi
+excalibur-lifecycle-api     avalon.classloader=api
+avalon-util-configuration
