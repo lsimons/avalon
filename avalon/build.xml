@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+
+<project name="avalon" default="main" basedir=".">
+  
+  <target name="main" >
+    <exec executable="maven" dir="framework" failonerror="true"/>
+    <exec executable="maven" dir="meta" failonerror="true"/>
+    <exec executable="maven" dir="util" failonerror="true"/>
+    <exec executable="maven" dir="repository" failonerror="true"/>
+    <exec executable="maven" dir="merlin" failonerror="true"/>
+  </target>
+  
+  <target name="clean" >
+    <exec executable="maven" dir="framework" >
+      <arg line="clean" />
+    </exec>
+    <exec executable="maven" dir="meta" >
+      <arg line="clean" />
+    </exec>
+    <exec executable="maven" dir="util" >
+      <arg line="clean" />
+    </exec>
+    <exec executable="maven" dir="repository" >
+      <arg line="clean" />
+    </exec>
+    <exec executable="maven" dir="merlin" >
+      <arg line="clean" />
+    </exec>
+  </target>  
+</project>
