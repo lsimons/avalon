@@ -4,7 +4,7 @@
                    The Apache Software License, Version 1.1
  ============================================================================
 
- Copyright (C) 1999-2002 The Apache Software Foundation. All rights reserved.
+ Copyright (C) 1999-2004 The Apache Software Foundation. All rights reserved.
 
  Redistribution and use in source and binary forms, with or without modifica-
  tion, are permitted provided that the following conditions are met:
@@ -56,26 +56,48 @@ import org.apache.avalon.activation.appliance.Deployable;
 import org.apache.avalon.activation.appliance.DeploymentException;
 import org.apache.avalon.activation.appliance.FatalDeploymentException;
 
+/**
+ * A deployment request handler.
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version $Revision: 1.2 $ $Date: 2004/01/04 15:23:01 $
+ */
 class DeploymentRequest
 {
-    private Deployable m_Deployable;
-    private boolean   m_Completed;
-    private boolean   m_Interrupted;
-    private Thread    m_DeploymentThread;
-    private Throwable m_Exception;
+    //------------------------------------------------------------
+    // immutable state
+    //------------------------------------------------------------
+
+    private final Deployable m_deployable;
+    private final Thread m_deploymentThread;
     
+    //------------------------------------------------------------
+    // mutable state
+    //------------------------------------------------------------
+
+    private boolean   m_completed;
+    private boolean   m_interrupted;
+    private Throwable m_exception;
+
+    //------------------------------------------------------------
+    // constructor
+    //------------------------------------------------------------
+
     DeploymentRequest( Deployable deployable, Thread deploymentThread )
     {
-        m_Deployable = deployable;
-        m_Completed = false;
-        m_Interrupted = false;
-        m_Exception = null;
-        m_DeploymentThread = deploymentThread;
+        m_deployable = deployable;
+        m_completed = false;
+        m_interrupted = false;
+        m_exception = null;
+        m_deploymentThread = deploymentThread;
     }
+
+    //------------------------------------------------------------
+    // implementation
+    //------------------------------------------------------------
 
     Deployable getDeployable()
     {
-        return m_Deployable;
+        return m_deployable;
     }
 
     void waitForCompletion( long timeout )
@@ -85,28 +107,55 @@ class DeploymentRequest
         {
             wait( timeout );
             processException();
-            if( m_Completed )
+            if( m_completed )
+            {
                 return;
-            m_DeploymentThread.interrupt();
+            }
+            m_deploymentThread.interrupt();
             wait( timeout );
             processException();
-            if( m_Interrupted || m_Completed )
-                throw new DeploymentException( "Deployable '" + m_Deployable + "' hanged during deployment and was interrupted." );
-            throw new FatalDeploymentException( "Deployable '" + m_Deployable + "' hanged during deployment and could not be interrupted." );
+            if( m_interrupted || m_completed )
+            {
+                final String error = 
+                  "deployment target: [" 
+                  + m_deployable 
+                  + "] did not respond within the timeout period: [" 
+                  + timeout
+                  + "] and was successfully interrupted.";
+                throw new DeploymentException( error );
+            }
+            else
+            {
+                final String error = 
+                  "deployment target: [" 
+                  + m_deployable 
+                  + "] did not respond within the timeout period: [" 
+                  + timeout
+                  + "] and failed to respond to an interrupt.";
+                throw new FatalDeploymentException( error );
+            }
         }
     }
 
     private void processException()
         throws Exception
     {
-        if( m_Exception != null )
+        if( m_exception != null )
         {
-            if( m_Exception instanceof Exception )
-                throw (Exception) m_Exception;
-            else if( m_Exception instanceof Error )
-                throw (Error) m_Exception;
+            if( m_exception instanceof Exception )
+            {
+                throw (Exception) m_exception;
+            }
+            else if( m_exception instanceof Error )
+            {
+                throw (Error) m_exception;
+            }
             else
-                throw new InvocationTargetException( m_Exception, "Unknown Throwable type, neither Exception nor Error." );
+            {
+                final String error = 
+                  "Unexpected deployment error.";
+                throw new InvocationTargetException( m_exception, error );
+            }
         }
     }
 
@@ -114,19 +163,19 @@ class DeploymentRequest
     {
         synchronized( this )
         {
-            m_Completed = true;
+            m_completed = true;
             notifyAll();
         }
     }
 
     void interrupted()
     {
-        m_Interrupted = true;
+        m_interrupted = true;
     }
 
     void exception( Throwable e )
     {
-        m_Exception = e;
+        m_exception = e;
     }
 }
 

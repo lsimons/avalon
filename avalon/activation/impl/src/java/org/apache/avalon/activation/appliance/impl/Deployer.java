@@ -4,7 +4,7 @@
                    The Apache Software License, Version 1.1
  ============================================================================
 
- Copyright (C) 1999-2002 The Apache Software Foundation. All rights reserved.
+ Copyright (C) 1999-2004 The Apache Software Foundation. All rights reserved.
 
  Redistribution and use in source and binary forms, with or without modifica-
  tion, are permitted provided that the following conditions are met:
@@ -56,23 +56,50 @@ import org.apache.avalon.composition.model.ContainmentModel;
 
 import org.apache.avalon.framework.logger.Logger;
 
+/**
+ * Runnable deployment thread.
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version $Revision: 1.2 $ $Date: 2004/01/04 15:23:01 $
+ */
 class Deployer
     implements Runnable
 {
-    static private int  m_ThreadCounter = 0;
+    //------------------------------------------------------------
+    // static
+    //------------------------------------------------------------
+
+    static private int m_ThreadCounter = 0;
     
-    private Logger      m_Logger;
-    private Thread      m_DeploymentThread;
-    private SimpleFIFO  m_DeploymentFIFO;
+    //------------------------------------------------------------
+    // immutable state
+    //------------------------------------------------------------
+
+    private final Logger m_logger;
+    private final SimpleFIFO m_deploymentFIFO;
+
+    //------------------------------------------------------------
+    // mutable static
+    //------------------------------------------------------------
+
+    private Thread      m_deploymentThread;
     
+    //------------------------------------------------------------
+    // constructor
+    //------------------------------------------------------------
+
     Deployer( Logger logger )
     {
-        m_Logger = logger;
-        m_DeploymentFIFO = new SimpleFIFO();
+        m_logger = logger;
+        m_deploymentFIFO = new SimpleFIFO();
         
-        m_DeploymentThread = new Thread( this, "Deployer - " + m_ThreadCounter++ );
-        m_DeploymentThread.start();
+        m_deploymentThread = 
+          new Thread( this, "Deployer - " + m_ThreadCounter++ );
+        m_deploymentThread.start();
     }
+
+    //------------------------------------------------------------
+    // implementation
+    //------------------------------------------------------------
 
     /** Deploys the given Deployable, and allows a maximum time
      *  for the deployment to complete.
@@ -88,51 +115,65 @@ class Deployer
     void deploy( Deployable deployable, long timeout )
         throws Exception
     {
-        if( deployable == null ) 
+        if( deployable == null )
+        {
             throw new NullPointerException( "deployable" );
-        if( m_Logger.isDebugEnabled() )
-            m_Logger.debug( "Deployer: deploy - " + deployable );
-        DeploymentRequest req = new DeploymentRequest( deployable, m_DeploymentThread );
-        m_DeploymentFIFO.put( req );
+        }
+        if( m_logger.isDebugEnabled() )
+        {
+            m_logger.debug( "Deployer: deploy - " + deployable );
+        }
+        DeploymentRequest req = 
+          new DeploymentRequest( deployable, m_deploymentThread );
+        m_deploymentFIFO.put( req );
         req.waitForCompletion( timeout );
     }
 
-    /** Disposal of the Deployer.
-     *
+    /** 
+     * Disposal of the Deployer.
      * The Deployer allocates a deployment thread, which needs to be
      * disposed of before releasing the Deployer reference.
      **/
     void dispose()
     {
-        if( m_Logger.isDebugEnabled() )
-            m_Logger.debug( "Deployer: dispose deployer " );
-        m_DeploymentThread.interrupt();
+        if( m_logger.isDebugEnabled() )
+        {
+            m_logger.debug( "Deployer: dispose deployer " );
+        }
+        m_deploymentThread.interrupt();
     }
     
     public void run()
     {
-        if( m_Logger.isDebugEnabled() )
-            m_Logger.debug( "Deployer: DeploymentThread started." );
+        if( m_logger.isDebugEnabled() )
+        {
+            m_logger.debug( "Deployer: DeploymentThread started." );
+        }
         try
         {
             while( true )
             {
-                DeploymentRequest req = (DeploymentRequest) m_DeploymentFIFO.get();
+                DeploymentRequest req = (DeploymentRequest) m_deploymentFIFO.get();
                 Deployable deployable = req.getDeployable();
                 try
                 {
                     deployable.deploy();
                     req.done();
-                } catch( InterruptedException e )
+                } 
+                catch( InterruptedException e )
                 {
                     req.interrupted();
-                } catch( Throwable e )
+                } 
+                catch( Throwable e )
                 {
                     req.exception( e );
                 }
             }
-        } catch( InterruptedException e )
-        {} // ignore, part of dispose();
-        m_DeploymentThread = null;
+        } 
+        catch( InterruptedException e )
+        { 
+            // ignore, part of dispose();
+        }
+        m_deploymentThread = null;
     }
 }
