@@ -29,7 +29,7 @@ import org.apache.avalon.repository.Artifact;
  * new initial context.
  * 
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.1.2.1 $
  */
 public interface InitialContextFactory
 {
@@ -73,6 +73,35 @@ public interface InitialContextFactory
     * @param cache the repository cache directory
     */
     void setCacheDirectory( File cache );
+
+   /**
+    * Set the proxy host name.  If not supplied proxy usage will be 
+    * disabled.
+    *
+    * @param host the proxy host name
+    */
+    void setProxyHost( String host );
+
+   /**
+    * Set the proxy host port.
+    *
+    * @param port the proxy port
+    */
+    void setProxyPort( int port );
+
+   /**
+    * Set the proxy username.
+    *
+    * @param username the proxy username
+    */
+    void setProxyUsername( String username );
+
+   /**
+    * Set the proxy account password.
+    *
+    * @param password the proxy password
+    */
+    void setProxyPassword( String password );
 
    /**
     * Set the initial hosts to be used by a repository cache manager 

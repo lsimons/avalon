@@ -40,6 +40,7 @@ import java.util.StringTokenizer;
 import java.util.jar.Manifest;
 import java.util.jar.JarFile;
 import java.util.zip.ZipEntry;
+import java.net.Authenticator;
 
 import javax.naming.NamingException;
 import javax.naming.NamingEnumeration;
@@ -52,6 +53,7 @@ import org.apache.avalon.repository.RepositoryRuntimeException;
 import org.apache.avalon.repository.meta.FactoryDescriptor;
 import org.apache.avalon.repository.provider.Factory;
 import org.apache.avalon.repository.provider.InitialContext;
+import org.apache.avalon.repository.provider.RepositoryCriteria;
 import org.apache.avalon.repository.provider.Builder;
 import org.apache.avalon.repository.util.LoaderUtils;
 import org.apache.avalon.repository.util.RepositoryUtils;
@@ -68,7 +70,7 @@ import org.apache.avalon.util.exception.ExceptionHelper;
  * 
  * @author <a href="mailto:aok123@bellsouth.net">Alex Karasulu</a>
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.20 $
+ * @version $Revision: 1.20.2.1 $
  */
 public class DefaultInitialContext extends AbstractBuilder implements InitialContext
 {
@@ -81,64 +83,6 @@ public class DefaultInitialContext extends AbstractBuilder implements InitialCon
     */
     public static final String BLOCK_GROUP_KEY = "Block-Group";
 
-   /**
-    * The name of the properties file to be searched for confiuration
-    * properties.  Seaches will be conducted on the current directory and 
-    * the user's home directory.
-    */
-    public static final String AVALON_PROPERTIES = "avalon.properties";
-
-   /**
-    * Return the Avalon system common directory.  This directory is 
-    * is used as the default root directory against which the 
-    * default application repository is established.  
-    * 
-    * @return the avalon system home directory.
-    */
-    public static File getAvalonHome()
-    {
-        try
-        {
-            String path = 
-              System.getProperty( "avalon.home", Env.getEnvVariable( "AVALON_HOME" ) );
-
-            if( null != path )
-            {
-                return new File( path ).getCanonicalFile();
-            }
-            else
-            {
-                return new File(
-                  System.getProperty( "user.home" ) 
-                  + File.separator 
-                  + ".avalon" ).getCanonicalFile();
-            }
-        }
-        catch( Throwable e )
-        {
-            final String error = 
-              "Internal error while attempting to access symbol AVALON_HOME.";
-            final String message = 
-              ExceptionHelper.packException( error, e, true );
-            throw new RuntimeException( message );
-        }
-    }
-
-    //------------------------------------------------------------------
-    // private static 
-    //------------------------------------------------------------------
-
-    private static final String AVALON_IMPL_PROPERTIES = 
-       "avalon.properties";
-
-    private static final File USER_HOME = 
-      new File( System.getProperty( "user.home" ) );
-
-    private static final String[] DEFAULT_INITIAL_HOSTS = 
-      new String[]{
-        "http://dpml.net/", 
-        "http://ibiblio.org/maven" };
-
     //------------------------------------------------------------------
     // immutable state 
     //------------------------------------------------------------------
@@ -149,7 +93,7 @@ public class DefaultInitialContext extends AbstractBuilder implements InitialCon
     private final String m_key;
         
    /** 
-    * The instantiated delegate repository factory.
+    * The instantiated delegate cache manager factory.
     */
     private final Factory m_factory;
 
@@ -168,173 +112,11 @@ public class DefaultInitialContext extends AbstractBuilder implements InitialCon
     */
     private final File m_base;
 
+    private final Repository m_repository;
+
     // ------------------------------------------------------------------------
     // constructors
     // ------------------------------------------------------------------------
-
-    /**
-     * Creates an initial repository context.
-     * 
-     * @deprecated use {@link DefaultInitialContextFactory}
-     * @throws RepositoryException if an error occurs during establishment
-     */
-    public DefaultInitialContext( ) 
-        throws RepositoryException
-    {
-         this( (File) null );
-    }
-
-    /**
-     * Creates an initial repository context.
-     * 
-     * @deprecated use {@link DefaultInitialContextFactory}
-     * @param cache the cache directory
-     * @throws RepositoryException if an error occurs during establishment
-     */
-    public DefaultInitialContext( File cache ) 
-        throws RepositoryException
-    {
-         this( cache, null );
-    }
-
-    /**
-     * Creates an initial repository context.
-     * 
-     * @deprecated use {@link DefaultInitialContextFactory}
-     * @param hosts a set of initial remote repository addresses 
-     * @throws RepositoryException if an error occurs during establishment
-     */
-    public DefaultInitialContext( String[] hosts ) 
-        throws RepositoryException
-    {
-         this( (File) null, hosts );
-    }
-
-    /**
-     * Creates an initial repository context.
-     * 
-     * @deprecated use {@link DefaultInitialContextFactory}
-     * @param hosts a set of initial remote repository addresses 
-     * @param cache the cache directory
-     * @throws RepositoryException if an error occurs during establishment
-     */
-    public DefaultInitialContext( File cache, String[] hosts ) 
-        throws RepositoryException
-    {
-         this( (Artifact) null, cache, hosts );
-    }
-    
-    /**
-     * Creates an initial repository context.
-     *
-     * @deprecated use {@link DefaultInitialContextFactory}
-     * @param artifact an artifact referencing the default implementation
-     * @param cache the cache directory
-     * @param hosts a set of initial remote repository addresses 
-     * @throws RepositoryException if an error occurs during establishment
-     */
-    public DefaultInitialContext( 
-      Artifact artifact, File cache, String[] hosts ) 
-      throws RepositoryException
-    {
-        this( 
-          null, null, artifact, cache, hosts );
-    }
-
-    /**
-     * Creates an initial repository context.
-     *
-     * @deprecated use {@link DefaultInitialContextFactory}
-     * @param base the base working directory
-     * @param loader the parent classloader
-     * @param artifact an artifact referencing the default implementation
-     * @param cache the cache directory
-     * @param hosts a set of initial remote repository addresses 
-     * @throws RepositoryException if an error occurs during establishment
-     */
-    public DefaultInitialContext( 
-      File base, ClassLoader loader, Artifact artifact, File cache, String[] hosts ) 
-      throws RepositoryException
-    {
-        m_key = "avalon";
-
-        m_base = setupBaseDirectory( base );
-        m_cache = setupCache( cache, base );
-        m_hosts = setupHosts( hosts, base );
-
-        Artifact implementation = setupImplementation( artifact );
-        ClassLoader parent = setupClassLoader( loader );
-
-        //
-        // Create the temporary directory to pull down files into
-        //
-
-        if ( ! m_cache.exists() ) m_cache.mkdirs();
-
-        //
-        // Build the url to access the properties of the implementation artifact
-        // which is default mechanism dependent.
-        //
-
-        Attributes attributes = loadAttributes( m_cache, m_hosts, implementation );
-        FactoryDescriptor descriptor = new FactoryDescriptor( attributes );
-        String factory = descriptor.getFactory();
-        if( null == factory ) 
-        {
-            final String error = 
-              "Required property 'avalon.artifact.factory' not present in artifact: "
-              + implementation + " under the active cache: [" + m_cache + "] using the "
-              + "attribute sequence: " + attributes;
-            throw new IllegalArgumentException( error );
-        }
-
-        //
-        // Grab all of the dependents in one hit because this is 
-        // the implementation so we can ignore api/spi spread.
-        //
-
-        Artifact[] dependencies = descriptor.getDependencies();
-
-        int n = dependencies.length;
-        URL[] urls = new URL[ n + 1];
-        for( int i=0; i<n; i++ )
-        {
-            urls[i] = LoaderUtils.getResource( 
-              dependencies[i], m_hosts, m_cache, true );
-        }
-
-        urls[ n ] = LoaderUtils.getResource( 
-            implementation, m_hosts, m_cache, true );
-
-        //
-        // create the classloader
-        //
-        
-        ClassLoader classloader = new URLClassLoader( urls, parent );
-        Class clazz = loadFactoryClass( classloader, factory );
-
-        //
-        // load the actual repository implementation 
-        //
-
-        try
-        {
-            m_factory = createDelegate( classloader, clazz, this );
-        }
-        catch( Throwable e )
-        {
-            final String error = 
-              "Unable to establish a factory for the supplied artifact:";
-            StringBuffer buffer = new StringBuffer( error );
-            buffer.append( "\n artifact: " + implementation );
-            buffer.append( "\n build: " + descriptor.getBuild() );
-            buffer.append( "\n factory: " + descriptor.getFactory() );
-            buffer.append( "\n source: " 
-              + clazz.getProtectionDomain().getCodeSource().getLocation() );
-            buffer.append( "\n cache: " + m_cache );
-            throw new RepositoryException( buffer.toString(), e );
-        }
-    }
 
     /**
      * Creates an initial repository context.
@@ -347,7 +129,9 @@ public class DefaultInitialContext extends AbstractBuilder implements InitialCon
      * @throws RepositoryException if an error occurs during establishment
      */
     DefaultInitialContext( 
-      String key, ClassLoader parent, Artifact artifact, File base, File cache, String[] hosts ) 
+      String key, ClassLoader parent, Artifact artifact, File base, File cache, 
+      String proxyHost, int proxyPort, String proxyUsername, String proxyPassword, 
+      String[] hosts ) 
       throws RepositoryException
     {
         if( null == key ) throw new NullPointerException( "key" ); 
@@ -361,6 +145,8 @@ public class DefaultInitialContext extends AbstractBuilder implements InitialCon
         m_base = base;
         m_cache = cache;
         m_hosts = hosts;
+
+        setupProxy( proxyHost, proxyPort, proxyUsername, proxyPassword );
 
         Attributes attributes = loadAttributes( m_cache, m_hosts, artifact );
         FactoryDescriptor descriptor = new FactoryDescriptor( attributes );
@@ -400,12 +186,17 @@ public class DefaultInitialContext extends AbstractBuilder implements InitialCon
         Class clazz = loadFactoryClass( classloader, factory );
 
         //
-        // load the actual repository implementation 
+        // load the cache manager factory implementation 
         //
 
         try
         {
             m_factory = createDelegate( classloader, clazz, this );
+            RepositoryCriteria criteria = 
+              (RepositoryCriteria) m_factory.createDefaultCriteria();
+            criteria.setCacheDirectory( m_cache );
+            criteria.setHosts( m_hosts );
+            m_repository = (Repository) m_factory.create( criteria );
         }
         catch( Throwable e )
         {
@@ -421,10 +212,36 @@ public class DefaultInitialContext extends AbstractBuilder implements InitialCon
             throw new RepositoryException( buffer.toString(), e );
         }
     }
-  
+
+    private void setupProxy( 
+      final String host, final int port, final String username, final String password )
+    {
+        if( null == host ) return;
+        Properties system = System.getProperties();
+        system.put( "proxySet", "true" );
+        system.put( "proxyHost", host );
+        system.put( "proxyPort", String.valueOf( port ) );
+        if( null != username )
+        {
+            Authenticator authenticator = 
+              new DefaultAuthenticator( username, password );
+            Authenticator.setDefault( authenticator );
+        }
+    }
+
     // ------------------------------------------------------------------------
     // InitialContext
     // ------------------------------------------------------------------------
+
+    public String getProperty( final String key )
+    {
+        return null;
+    }
+
+    public Repository getRepository()
+    {
+        return m_repository;
+    }
 
     /**
      * Return the application key.  The value of the key may be used 
@@ -666,156 +483,5 @@ public class DefaultInitialContext extends AbstractBuilder implements InitialCon
         {
              return RepositoryUtils.getAttributes( hosts, artifact );
         }
-    }
-
-    private ClassLoader setupClassLoader( ClassLoader classloader )
-    {
-        if( null != classloader ) return classloader;
-        return DefaultInitialContext.class.getClassLoader();
-    }
-
-    private File setupCache( File cache, File base )
-    {
-        if( null != cache ) return cache;
-        return setupDefaultCache( base );
-    }
-
-    private String[] setupHosts( String[] hosts, File base )
-    {
-        if( null != hosts ) return RepositoryUtils.getCleanPaths( hosts );
-        return setupDefaultHosts( base );
-    }
-
-    private Artifact setupImplementation( Artifact artifact )
-    {
-        if( null != artifact ) return artifact;
-        return getDefaultImplementation( );
-    }
-
-   /**
-    * Build the properties that declare the default repository
-    * implementation that was assigned at build time.
-    */
-    private static Properties createDefaultProperties()
-    {
-        final String path = AVALON_IMPL_PROPERTIES;
-        try
-        {
-            Properties properties = new Properties();
-            ClassLoader classloader = DefaultInitialContext.class.getClassLoader();
-            InputStream input = classloader.getResourceAsStream( path );
-            if( input == null ) 
-            {
-                final String error = 
-                  "Missing resource: [" + path + "]";
-                throw new Error( error );
-            }
-            properties.load( input );
-            return properties;
-        }
-        catch ( Throwable e )
-        {
-            final String error = 
-              "Internal error. " 
-              + "Unable to locate the standard repository implementation directive.";
-            RepositoryException re = new RepositoryException( error, e );
-            re.printStackTrace( System.err );
-            return null;
-        }
-    }
-
-    private static Artifact getDefaultImplementation()
-    {
-        Properties properties = createDefaultProperties();
-        String spec = properties.getProperty( 
-          InitialContext.IMPLEMENTATION_KEY );
-        if( null == spec )
-        {
-            final String error =
-              "Missing avalon.properties resource.";
-            throw new IllegalStateException( error );
-        }
-        return Artifact.createArtifact( spec );
-    }
-
-    private File setupBaseDirectory( File base )
-    {
-        if( null != base ) return base;
-        return getBaseDirectory();
-    }
-
-    private String[] setupDefaultHosts( File base )
-    {
-        String homeValue = getUserProperties().getProperty( HOSTS_KEY );
-        String workValue = getWorkProperties( base ).getProperty( HOSTS_KEY, homeValue );
-        String value = System.getProperty( HOSTS_KEY , workValue );
-        if( null == value ) return DEFAULT_INITIAL_HOSTS;
-        return expandHosts( value );
-    }
-
-    private static File setupDefaultCache( File base )
-    {
-        String homeValue = getUserProperties().getProperty( CACHE_KEY );
-        String workValue = getWorkProperties( base ).getProperty( CACHE_KEY, homeValue );
-        String value = System.getProperty( CACHE_KEY , workValue );
-        if( null != value ) return new File( value  );
-        return getDefaultCache();
-    }
-
-    private static File getDefaultCache()
-    {
-        return new File( getAvalonHome(), "repository" );
-    }
-
-    private static File getBaseDirectory()
-    {
-        String base = System.getProperty( "basedir" );
-        if( null != base )
-        {
-            return new File( base );
-        }
-        return new File( System.getProperty( "user.dir" ) );
-    }
-
-    private static Properties getLocalProperties( 
-      File dir, String filename ) 
-    {
-        Properties properties = new Properties();
-        if( null == dir ) return properties;
-        File file = new File( dir, filename );
-        if( !file.exists() ) return properties;
-        try
-        {
-            properties.load( new FileInputStream( file ) );
-            return properties;
-        }
-        catch( Throwable e )
-        {
-            final String error = 
-              "Unexpected exception while attempting to read properties from: " 
-              + file;
-            throw new RepositoryRuntimeException( error, e );
-        }
-    }
-
-    private static String[] expandHosts( String arg )
-    {
-        ArrayList list = new ArrayList();
-        StringTokenizer tokenizer = new StringTokenizer( arg, "," );
-        while( tokenizer.hasMoreTokens() )
-        {
-            list.add( tokenizer.nextToken() );
-        }
-        return (String[]) list.toArray( new String[0] );
-    }
-
-    private static Properties getUserProperties()
-    {
-        return getLocalProperties( USER_HOME, AVALON_PROPERTIES );
-    }
-
-    private static Properties getWorkProperties( File base )
-    {
-        return getLocalProperties( base, AVALON_PROPERTIES );
     }
 }

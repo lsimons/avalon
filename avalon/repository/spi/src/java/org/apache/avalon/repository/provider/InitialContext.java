@@ -22,6 +22,7 @@ import java.io.File;
 import java.util.jar.Manifest;
 
 import org.apache.avalon.repository.Artifact;
+import org.apache.avalon.repository.Repository;
 import org.apache.avalon.repository.RepositoryException;
 
 
@@ -29,9 +30,9 @@ import org.apache.avalon.repository.RepositoryException;
  * The initial context established by an initial repository factory.
  *
  * @author <a href="mailto:mcconnell@osm.net">Stephen McConnell</a>
- * @version $Revision: 1.9 $ $Date: 2004/02/18 02:23:58 $
+ * @version $Revision: 1.9.2.1 $ $Date: 2004/02/19 07:30:27 $
  */
-public interface InitialContext
+public interface InitialContext 
 {        
    /**
     * The property key used when resolving the default implementation
@@ -50,17 +51,45 @@ public interface InitialContext
     */
     String HOSTS_KEY = "avalon.repository.hosts";
 
+    String PROXY_HOST_KEY = "avalon.repository.proxy.host";
+    String PROXY_PORT_KEY = "avalon.repository.proxy.port";
+    String PROXY_USERNAME_KEY = "avalon.repository.proxy.username";
+    String PROXY_PASSWORD_KEY = "avalon.repository.proxy.password";
+
     String LINE = 
       "\n-----------------------------------------------------------";
 
-    /**
-     * Return the application key.  The value of the key may be used 
-     * to resolve property files by using the convention 
-     * [key].properties.
-     * 
-     * @return the application key.
-     */
+   /**
+    * Return the application key.  The value of the key may be used 
+    * to resolve property files by using the convention 
+    * [key].properties.
+    * 
+    * @return the application key.
+    */
     String getApplicationKey();
+
+   /**
+    * <p>Get the value of a property. If the property value does not 
+    * exists a null value will be returned.  Property value resolution
+    * shall take into account the following ordered property sources
+    * (resolved relative to the application key):</p>
+    * <ul>
+    * <li>system properties</li>
+    * <li>working directory properties</li>
+    * <li>user properties</li>
+    * <li>application properties</li>
+    * </ul>
+    *
+    * @return the property value
+    */
+    String getProperty( String key );
+
+    /**
+     * Return cache root directory.
+     * 
+     * @return the cache directory
+     */
+    File getInitialCacheDirectory();
 
     /**
      * Return the base working directory.
@@ -69,13 +98,6 @@ public interface InitialContext
      */
     File getInitialWorkingDirectory();
 
-    /**
-     * Return cache root directory.
-     * 
-     * @return the cache directory
-     */
-    File getInitialCacheDirectory();
-    
     /**
      * Return the initial set of host names.
      * @return the host names sequence
@@ -87,6 +109,12 @@ public interface InitialContext
     * @return the initial repository factory
     */
     Factory getInitialFactory();
+
+   /**
+    * Return the repository.
+    * @return the repository
+    */
+    Repository getRepository();
 
    /**
     * Create a factory builder using a supplied artifact.
