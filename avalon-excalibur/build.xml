@@ -733,10 +733,6 @@ Legal:
 
     <mkdir dir="${src.dist.dir}" />
 
-    <copy todir="${src.dist.tools}">
-      <fileset dir="${tools.dir}"/>
-    </copy>
-
     <copy todir="${src.dist.lib}">
       <fileset dir="${lib.dir}">
         <include name="bytecode.jar" />
