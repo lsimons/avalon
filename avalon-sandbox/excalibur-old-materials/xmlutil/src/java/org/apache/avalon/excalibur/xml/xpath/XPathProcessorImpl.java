@@ -7,12 +7,19 @@
  */
 package org.apache.avalon.excalibur.xml.xpath;
 
-import org.apache.avalon.framework.logger.AbstractLoggable;
-import org.apache.avalon.framework.thread.ThreadSafe;
+import java.util.HashMap;
+import javax.xml.transform.TransformerException;
+import org.apache.xpath.objects.XObject;
 import org.apache.xpath.XPathAPI;
+import org.apache.xml.utils.PrefixResolver;
+import org.apache.avalon.framework.component.Component;
+import org.apache.avalon.framework.thread.ThreadSafe;
+import org.apache.avalon.framework.configuration.Configurable;
+import org.apache.avalon.framework.configuration.ConfigurationException;
+import org.apache.avalon.framework.configuration.Configuration;
+import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import javax.xml.transform.TransformerException;
 
 /**
  * This class defines the implementation of the {@link XPathProcessor}
@@ -27,12 +34,28 @@ import javax.xml.transform.TransformerException;
  * </pre>
  *
  * @author <a href="mailto:dims@yahoo.com">Davanum Srinivas</a>
- * @version CVS $Revision: 1.3 $ $Date: 2002/07/10 08:53:17 $ $Author: donaldp $
+ * @version CVS $Revision: 1.4 $ $Date: 2002/08/01 21:35:39 $ $Author: mirceatoma $
  */
-public final class XPathProcessorImpl
-    extends AbstractLoggable
-    implements XPathProcessor, ThreadSafe
+public final class XPathProcessorImpl extends AbstractLogEnabled implements XPathProcessor, Configurable, PrefixResolver, Component, ThreadSafe
 {
+    
+    private String m_baseURI;
+    private final HashMap m_mappings = new HashMap();
+        
+    public void configure(Configuration configuration) throws ConfigurationException 
+    {
+        final Configuration namespaceMappings = configuration.getChild( "namespace-mappings", true );
+        m_baseURI = namespaceMappings.getAttribute( "base-uri", null);
+        
+        final Configuration[] namespaces = namespaceMappings.getChildren( "namespace" );
+        for ( int i = 0; i < namespaces.length; i++ ) 
+        {
+            final String prefix = namespaces[i].getAttribute( "prefix" );
+            final String uri = namespaces[i].getAttribute( "uri" );
+            m_mappings.put( prefix, uri );
+        }
+    }
+
     /**
      * Use an XPath string to select a single node. XPath namespace
      * prefixes are resolved from the context node, which may not
@@ -47,7 +70,8 @@ public final class XPathProcessorImpl
     {
         try
         {
-            return XPathAPI.selectSingleNode( contextNode, str );
+            final XObject result = XPathAPI.eval( contextNode, str, this );
+            return result.nodeset().nextNode();
         }
         catch( final TransformerException te )
         {
@@ -68,11 +92,82 @@ public final class XPathProcessorImpl
     {
         try
         {
-            return XPathAPI.selectNodeList( contextNode, str );
+            final XObject result = XPathAPI.eval( contextNode, str, this );
+            return result.nodelist();
         }
         catch( final TransformerException te )
         {
             return new EmptyNodeList();
         }
     }
+    
+    /** Evaluate XPath expression within a context.
+     *
+     * @param contextNode The context node.
+     * @param str A valid XPath string.
+     * @return expression result as boolean.
+     */
+    public boolean evaluateAsBoolean(Node contextNode, String str) 
+    {
+        try
+        {
+            final XObject result = XPathAPI.eval( contextNode, str, this );
+            return result.bool();
+        }
+        catch( final TransformerException te )
+        {
+            return false;
+        }
+    }    
+        
+    /** Evaluate XPath expression within a context.
+     *
+     * @param contextNode The context node.
+     * @param str A valid XPath string.
+     * @return expression result as number.
+     */
+    public Number evaluateAsNumber(Node contextNode, String str) {
+        try
+        {
+            final XObject result = XPathAPI.eval( contextNode, str, this );
+            return new Double(result.num());
+        }
+        catch( final TransformerException te )
+        {
+            return null;
+        }
+    }
+        
+    /** Evaluate XPath expression within a context.
+     *
+     * @param contextNode The context node.
+     * @param str A valid XPath string.
+     * @return expression result as string.
+     */
+    public String evaluateAsString(Node contextNode, String str) {
+        try
+        {
+            final XObject result = XPathAPI.eval( contextNode, str, this );
+            return result.str();
+        }
+        catch( final TransformerException te )
+        {
+            return null;
+        }
+    }
+    
+    public String getBaseIdentifier() 
+    {
+        return m_baseURI;
+    }
+    
+    public String getNamespaceForPrefix( String prefix ) 
+    {
+        return (String)m_mappings.get( prefix );
+    }
+    
+    public String getNamespaceForPrefix( String prefix, Node node ) 
+    {
+        return getNamespaceForPrefix( prefix );
+    }    
 }

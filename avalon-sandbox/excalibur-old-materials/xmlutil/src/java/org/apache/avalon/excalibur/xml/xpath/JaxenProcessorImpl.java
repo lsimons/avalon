@@ -7,12 +7,19 @@
  *****************************************************************************/
 package org.apache.avalon.excalibur.xml.xpath;
 
+import java.util.HashMap;
 import java.util.List;
-import org.apache.avalon.framework.logger.AbstractLoggable;
-import org.apache.avalon.framework.thread.ThreadSafe;
+import org.apache.avalon.framework.configuration.Configurable;
+import org.apache.avalon.framework.configuration.ConfigurationException;
+import org.apache.avalon.framework.configuration.Configuration;
+import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.jaxen.dom.DOMXPath;
+import org.apache.avalon.framework.component.Component;
+import org.apache.avalon.framework.thread.ThreadSafe;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.jaxen.NamespaceContext;
+
 
 /**
  * This class defines the implementation of the {@link XPathProcessor}
@@ -27,12 +34,24 @@ import org.w3c.dom.NodeList;
  * </pre>
  *
  * @author <a href="mailto:dims@yahoo.com">Davanum Srinivas</a>
- * @version CVS $Revision: 1.4 $ $Date: 2002/07/10 08:53:17 $ $Author: donaldp $
+ * @version CVS $Revision: 1.5 $ $Date: 2002/08/01 21:35:39 $ $Author: mirceatoma $
  */
-public final class JaxenProcessorImpl
-    extends AbstractLoggable
-    implements XPathProcessor, ThreadSafe
+public final class JaxenProcessorImpl extends AbstractLogEnabled implements XPathProcessor, Configurable, Component, ThreadSafe, NamespaceContext
 {
+    private final HashMap m_mappings = new HashMap();
+        
+    public void configure(Configuration configuration) throws ConfigurationException 
+    {
+        final Configuration namespaceMappings = configuration.getChild( "namespace-mappings", true );        
+        final Configuration[] namespaces = namespaceMappings.getChildren( "namespace" );
+        for ( int i = 0; i < namespaces.length; i++ ) 
+        {
+            final String prefix = namespaces[i].getAttribute( "prefix" );
+            final String uri = namespaces[i].getAttribute( "uri" );
+            m_mappings.put( prefix, uri );
+        }
+    }
+    
     /**
      * Use an XPath string to select a single node. XPath namespace
      * prefixes are resolved from the context node, which may not
@@ -48,7 +67,8 @@ public final class JaxenProcessorImpl
         try
         {
             final DOMXPath path = new DOMXPath( str );
-            return (Node)path.selectSingleNode( (Object)contextNode );
+            path.setNamespaceContext( this );
+            return (Node)path.selectSingleNode( contextNode );
         }
         catch( final Exception e )
         {
@@ -71,7 +91,8 @@ public final class JaxenProcessorImpl
         try
         {
             final DOMXPath path = new DOMXPath( str );
-            final List list = path.selectNodes( (Object)contextNode );
+            path.setNamespaceContext( this );
+            final List list = path.selectNodes( contextNode );
             return new SimpleNodeList( list );
         }
         catch( final Exception e )
@@ -80,4 +101,68 @@ public final class JaxenProcessorImpl
             return new EmptyNodeList();
         }
     }
+    
+    /** Evaluate XPath expression within a context.
+     *
+     * @param contextNode The context node.
+     * @param str A valid XPath string.
+     * @return expression result as boolean.
+     */
+    public boolean evaluateAsBoolean(Node contextNode, String str) {
+        try
+        {
+            final DOMXPath path = new DOMXPath( str );
+            path.setNamespaceContext( this );
+            return path.booleanValueOf( contextNode );
+        }
+        catch( final Exception e )
+        {
+            return false;
+        }
+    }
+    
+    /** Evaluate XPath expression within a context.
+     *
+     * @param contextNode The context node.
+     * @param str A valid XPath string.
+     * @return expression result as number.
+     */
+    public Number evaluateAsNumber( Node contextNode, String str ) 
+    {
+        try
+        {
+            final DOMXPath path = new DOMXPath( str );
+            path.setNamespaceContext( this );
+            return path.numberValueOf( contextNode );
+        }
+        catch( final Exception e )
+        {
+            return null;
+        }
+    }
+        
+    /** Evaluate XPath expression within a context.
+     *
+     * @param contextNode The context node.
+     * @param str A valid XPath string.
+     * @return expression result as string.
+     */
+    public String evaluateAsString(Node contextNode, String str) 
+    {
+        try
+        {
+            final DOMXPath path = new DOMXPath( str );
+            path.setNamespaceContext( this );
+            return path.stringValueOf( contextNode );
+        }
+        catch( final Exception e )
+        {
+            return null;
+        }
+    }    
+    
+    public String translateNamespacePrefixToUri( String prefix ) 
+    {
+        return (String)m_mappings.get( prefix );
+    }    
 }
