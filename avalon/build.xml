@@ -106,28 +106,18 @@ Legal:
   </path>
 
   <path id="tools.class.path">
+    <pathelement location="${xerces.jar}"/>
     <pathelement location="${testlet.jar}"/>
-    <pathelement location="${stylebook.jar}"/>
     <fileset dir="${tools.dir}/lib">
       <include name="*.jar" />
       <exclude name="testlet.jar"/>
-      <exclude name="stylebook*"/>
     </fileset>
   </path>
 
-
-  <!--
-       ===================================================================
-                                  Main target
-       ===================================================================
-  -->
+  <!-- Main target -->
   <target name="main" depends="jar" />
 
-  <!--
-       ===================================================================
-                                  Help on usage
-       ===================================================================
-  -->
+  <!-- Help on usage -->
   <target name="usage">
     <echo message=""/>
     <echo message="${Name} Build file"/>
@@ -152,11 +142,7 @@ Legal:
 
   <target name="help" depends="usage"/>
 
- <!--
-       ===================================================================
-       Set up dist properties
-       ===================================================================
-  -->
+  <!-- Set up dist properties -->
   <target name="setup-properties" >
 
     <property name="dist.dir" value="dist"/>
@@ -174,11 +160,7 @@ Legal:
     <property name="src.dist.tools" value="${src.dist.dir}/tools"/>
   </target>
 
-  <!--
-       ===================================================================
-                  Checks the environment for existing resources
-       ===================================================================
-  -->
+  <!-- Checks the environment for existing resources -->
   <target name="check-environment">
     <available property="jndi.present" classname="javax.naming.Context">
       <classpath refid="project.class.path"/>
@@ -192,22 +174,14 @@ Legal:
     <property name="j2ee.present" value="true"/>
   </target>
 
-  <!--
-       ===================================================================
-                         Prepares the build directory
-       ===================================================================
-  -->
+  <!-- Prepares the build directory -->
   <target name="prepare" depends="check-datasource,setup-properties">
     <tstamp/>
     <mkdir dir="${build.dir}"/>
 
   </target>
 
-  <!--
-       ===================================================================
-                        Compiles the source code
-       ===================================================================
-  -->
+  <!-- Compiles the source code -->
   <target name="compile" depends="prepare">
 
     <mkdir dir="${build.classes}"/>
@@ -286,11 +260,7 @@ Legal:
     </jar>
   </target>
 
-  <!--
-       ===================================================================
-                     Prepares the documentation directory
-       ===================================================================
-  -->
+  <!-- Prepares the documentation directory -->
   <target name="xdocs">
 
     <mkdir dir="${build.xdocs}"/>
@@ -318,27 +288,26 @@ Legal:
       </fileset>
     </copy>
 
-<!--
-    <taskdef name="stylebook" classname="org.apache.stylebook.StyleBookAntTask">
+    <taskdef name="stylebook" classname="org.apache.tools.ant.taskdefs.optional.StyleBook">
       <classpath refid="tools.class.path"/>
     </taskdef>
--->
+
     <stylebook targetdirectory="${build.docs}/framework"
                book="${build.xdocs}/framework/book.xml"
                skindirectory="${avalon.skin}">
-      <classpath refid="project.class.path" />
+      <classpath refid="tools.class.path" />
     </stylebook>
 
     <stylebook targetdirectory="${build.docs}/excalibur"
                book="${build.xdocs}/excalibur/book.xml"
                skindirectory="${avalon.skin}">
-      <classpath refid="project.class.path" />
+      <classpath refid="tools.class.path" />
     </stylebook>
 
     <stylebook targetdirectory="${build.docs}"
                book="${build.xdocs}/book.xml"
                skindirectory="${avalon.skin}">
-      <classpath refid="project.class.path" />
+      <classpath refid="tools.class.path" />
     </stylebook>
 
   </target>
