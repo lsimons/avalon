@@ -3,7 +3,7 @@
 <project>
 
   <extend>${basedir}/../project.xml</extend>
-  <id>merlin-jmx-management-api</id>
+  <id>avalon-jmx-management-api</id>
   <name>JMX Management API</name>
   <package>org.apache.avalon.merlin.jmx</package>
   <shortDescription>JMX Management API</shortDescription>
@@ -21,7 +21,7 @@
     <dependency>
       <groupId>avalon-composition</groupId>
       <artifactId>avalon-composition-api</artifactId>
-      <version>2.0-SNAPSHOT</version>
+      <version>3.3.0</version>
     </dependency>
   </dependencies>
 </project>

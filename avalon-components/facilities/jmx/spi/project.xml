@@ -3,7 +3,7 @@
 <project>
 
   <extend>${basedir}/../project.xml</extend>
-  <id>merlin-jmx-management-spi</id>
+  <id>avalon-jmx-management-spi</id>
   <name>JMX Management SPI</name>
   <package>org.apache.avalon.merlin.jmx.spi</package>
   <shortDescription>JMX Management SPI</shortDescription>
@@ -20,16 +20,16 @@
     <dependency>
       <groupId>avalon-composition</groupId>
       <artifactId>avalon-composition-api</artifactId>
-      <version>2.0-SNAPSHOT</version>
+      <version>3.3.0</version>
     </dependency>
     <dependency>
-      <groupId>avalon-merlin-jmx</groupId>
-      <artifactId>merlin-jmx-management-api</artifactId>
+      <groupId>avalon-jmx</groupId>
+      <artifactId>avalon-jmx-management-api</artifactId>
       <version>${pom.currentVersion}</version>
     </dependency>
     <dependency>
-      <groupId>avalon-merlin-jmx</groupId>
-      <artifactId>merlin-jmx-util</artifactId>
+      <groupId>avalon-jmx</groupId>
+      <artifactId>avalon-jmx-util</artifactId>
       <version>${pom.currentVersion}</version>
     </dependency>
     <dependency>
