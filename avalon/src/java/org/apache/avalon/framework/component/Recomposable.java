@@ -12,6 +12,7 @@ package org.apache.avalon.framework.component;
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  * @version 1.0
+ * @deprecated Use {@link org.apache.avalon.framework.service.Serviceable} instead.
  */
 public interface Recomposable
     extends Composable

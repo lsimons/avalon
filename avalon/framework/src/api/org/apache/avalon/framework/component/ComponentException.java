@@ -17,6 +17,7 @@ import org.apache.avalon.framework.CascadingException;
  * @author <a href="mailto:fumagalli@exoffice.com">Pierpaolo Fumagalli</a>
  * @author <a href="mailto:fede@apache.org">Federico Barbieri</a>
  * @author <a href="mailto:stefano@apache.org">Stefano Mazzocchi</a>
+ * @deprecated Use {@link org.apache.avalon.framework.service.ServiceException} instead.
  */
 public class ComponentException
     extends CascadingException

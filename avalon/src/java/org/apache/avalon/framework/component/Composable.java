@@ -24,6 +24,7 @@ package org.apache.avalon.framework.component;
  * @author <a href="mailto:pier@apache.org">Pierpaolo Fumagalli</a>
  * @author <a href="mailto:stefano@apache.org">Stefano Mazzocchi</a>
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
+ * @deprecated Use {@link org.apache.avalon.framework.service.Serviceable} instead.
  */
 public interface Composable
 {
