@@ -57,6 +57,7 @@ import org.apache.excalibur.source.impl.ResourceSourceFactory;
 import org.apache.excalibur.source.impl.SourceResolverImpl;
 import org.apache.excalibur.source.impl.URLSourceFactory;
 
+import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -84,7 +85,7 @@ import java.util.Iterator;
  * and dispose of them properly when it itself is disposed .</p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.52 $ $Date: 2004/03/28 18:56:42 $
+ * @version CVS $Revision: 1.53 $ $Date: 2004/04/03 18:10:34 $
  * @since 4.1
  */
 public class ContextManager
@@ -593,11 +594,31 @@ public class ContextManager
         frm.enableLogging( rmLogger.getChildLogger( "defaults" ) );
         frm.initialize();
 
-        // Create a role manager with the configured roles
-        final ConfigurableRoleManager rm = new ConfigurableRoleManager( frm );
-        rm.enableLogging( rmLogger );
-        rm.configure( roleConfig );
+        RoleManager rm;
+        if ( entryPresent( m_rootContext, ROLE_MANAGER_CLASS ) )
+        {
+            Class clazz = (Class)m_rootContext.get( ROLE_MANAGER_CLASS );
+            // Test if the class implements a constructor to pass into the parent
+            try 
+            {
+                Constructor parentAwareConstructor = clazz.getConstructor(new Class[] {RoleManager.class});
+                rm = (RoleManager)parentAwareConstructor.newInstance(new Object[] {frm});
+            }
+            catch (NoSuchMethodException ignore )
+            {
+                rm = (RoleManager)clazz.newInstance();
+            }
+        } 
+        else
+        {
+            // Create a role manager with the configured roles
+            rm = new ConfigurableRoleManager( frm );
+        } 
 
+        ContainerUtil.enableLogging(rm, rmLogger );
+        ContainerUtil.configure( rm, roleConfig );
+        ContainerUtil.initialize( rm );
+        
         assumeOwnership( rm );
         return rm;
     }
