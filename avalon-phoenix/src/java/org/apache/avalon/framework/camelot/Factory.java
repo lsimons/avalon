@@ -17,6 +17,8 @@ import org.apache.avalon.framework.component.Component;
 public interface Factory
     extends Component
 {
+    String ROLE = "org.apache.avalon.framework.camelot.Factory";
+
     /**
      * Create a component whos position is indicated by locator.
      *
