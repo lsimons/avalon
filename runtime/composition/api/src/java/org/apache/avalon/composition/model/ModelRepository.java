@@ -94,8 +94,9 @@ public interface ModelRepository
      * Add an model to the repository.
      *
      * @param model the model to add
+     * @exception DuplicateNameException if the name is already bound
      */
-    void addModel( DeploymentModel model );
+    void addModel( DeploymentModel model ) throws DuplicateNameException;
 
     /**
      * Add an model to the repository.
@@ -103,10 +104,17 @@ public interface ModelRepository
      * @param name the name to register the model under
      * @param model the model to add
      */
-    void addModel( String name, DeploymentModel model );
+    void addModel( String name, DeploymentModel model ) throws DuplicateNameException;
 
     /**
-     * Remove an model from the repository.
+     * Remove a named model from the repository.
+     *
+     * @param name the name of the model to remove
+     */
+    void removeModel( String name );
+
+    /**
+     * Remove a model from the repository.
      *
      * @param model the model to remove
      */

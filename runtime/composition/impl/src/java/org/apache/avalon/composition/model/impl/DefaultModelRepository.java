@@ -24,6 +24,7 @@ import java.util.ArrayList;
 
 import org.apache.avalon.composition.model.DeploymentModel;
 import org.apache.avalon.composition.model.ModelRepository;
+import org.apache.avalon.composition.model.DuplicateNameException;
 
 import org.apache.avalon.framework.logger.Logger;
 
@@ -247,8 +248,10 @@ public class DefaultModelRepository implements ModelRepository
      * @param model the model to add
      */
     public void addModel( DeploymentModel model )
+      throws DuplicateNameException
     {
-        m_models.put( model.getName(), model );
+        final String name = model.getName();
+        addModel( name, model );
     }
 
     /**
@@ -258,18 +261,33 @@ public class DefaultModelRepository implements ModelRepository
      * @param model the model to add
      */
     public void addModel( String name, DeploymentModel model )
+      throws DuplicateNameException
     {
+        if( null != m_models.get( name ) )
+        {
+            throw new DuplicateNameException( name );
+        }
         m_models.put( name, model );
     }
 
     /**
-     * Remove an model from the repository.
+     * Remove a model from the repository.
      *
      * @param model the model to remove
      */
     public void removeModel( DeploymentModel model )
     {
-        m_models.remove( model.getName() );
+        removeModel( model.getName() );
+    }
+
+    /**
+     * Remove a named model from the repository.
+     *
+     * @param name the name of the model to remove
+     */
+    public void removeModel( String name )
+    {
+        m_models.remove( name );
     }
 
     /**
