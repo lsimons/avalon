@@ -205,6 +205,7 @@ Legal:
 
     <copy todir="${build.context}" filtering="on">
       <fileset dir="${context.dir}">
+        <exclude name="diagrams/**"/>
         <exclude name="resources/**"/>
         <exclude name="xdocs/**"/>
       </fileset>
@@ -316,6 +317,7 @@ Legal:
     <!-- Base pointers for non-xdocs documentation. Override these in .ant.properties to link to local docs -->
     <copy todir="${build.context}" filtering="on">
       <fileset dir="${context.dir}">
+        <exclude name="diagrams/**"/>
         <exclude name="resources/**"/>
         <exclude name="xdocs"/>
       </fileset>
