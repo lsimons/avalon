@@ -231,28 +231,6 @@ Legal:
 
   <!--
        ===================================================================
-       Update the www directory
-       ===================================================================
-  -->
-  <target name="site-docs" depends="local-javadocs">
-
-    <!-- delete all old documents but keep CVS directories -->
-    <!-- note that by doing an include the defaultexcludes (CVS dirs) will be kept -->
-    <delete>
-      <fileset dir="${www.dir}">
-        <include name="**"/>
-      </fileset>
-    </delete>
-
-    <mkdir dir="${www.dir}"/>
-    <copy todir="${www.dir}">
-      <fileset dir="${docs.dir}" />
-    </copy>
-
-  </target>
-
-  <!--
-       ===================================================================
                      Prepares the documentation directory
        ===================================================================
   -->
@@ -274,7 +252,6 @@ Legal:
     <copy todir="${build.docs}" filtering="off">
       <fileset dir="${xdocs.dir}">
         <include name="**/images/**"/>
-        <include name="**/resources/**"/>
       </fileset>
     </copy>
 
@@ -283,6 +260,50 @@ Legal:
                skindirectory="${avalon.skin}">
       <classpath refid="project.class.path" />
     </stylebook>
+
+  </target>
+
+  <!--
+       ===================================================================
+       Create the Local site documentation
+       ===================================================================
+  -->
+  <target name="local-xdocs" depends="xdocs">
+
+    <delete>
+      <fileset dir="${docs.dir}">
+        <exclude name="api/**"/>
+      </fileset>
+    </delete>
+    <mkdir dir="${docs.dir}"/>
+
+    <copy todir="${docs.dir}">
+      <fileset dir="${build.docs}" />
+    </copy>
+
+  </target>
+
+  <target name="local-docs" depends="local-javadocs,local-xdocs"/>
+
+  <!--
+       ===================================================================
+       Update the www directory
+       ===================================================================
+  -->
+  <target name="site-docs" depends="local-docs">
+
+    <!-- delete all old documents but keep CVS directories -->
+    <!-- note that by doing an include the defaultexcludes (CVS dirs) will be kept -->
+    <delete>
+      <fileset dir="${www.dir}">
+        <include name="**"/>
+      </fileset>
+    </delete>
+
+    <mkdir dir="${www.dir}"/>
+    <copy todir="${www.dir}">
+      <fileset dir="${docs.dir}" />
+    </copy>
 
   </target>
 
