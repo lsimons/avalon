@@ -22,6 +22,8 @@ import org.apache.avalon.framework.component.Component;
 public interface Deployer
     extends Component
 {
+    String ROLE = "org.apache.avalon.framework.camelot.Deployer";
+
     /**
      * Deploy a resource indicate by url to location.
      *
