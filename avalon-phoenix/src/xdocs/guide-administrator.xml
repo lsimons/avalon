@@ -141,7 +141,7 @@ package examplecomp.block;
 
 /**
  * TODO: describe PhoenixXDoclet setup.
- * @phoenix:mx name="daveq.jms.JmsServiceMBean"
+ * @phoenix:mx name="examplecomp.block.WebServerMBean"
  */
 public class WebServerBlock
     extends AbstractLoggable
