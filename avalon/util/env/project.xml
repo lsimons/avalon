@@ -2,7 +2,7 @@
 
 <project>
 
-  <extend>${basedir}/../../project.xml</extend>
+  <extend>${basedir}/../project.xml</extend>
 
   <groupId>avalon-util</groupId>
   <id>avalon-util-env</id>
