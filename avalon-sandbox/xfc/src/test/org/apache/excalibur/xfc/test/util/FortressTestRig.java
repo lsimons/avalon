@@ -62,7 +62,7 @@ import org.apache.excalibur.xfc.modules.fortress.FortressSerializer;
  * Module API.
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: FortressTestRig.java,v 1.7 2003/03/22 12:46:58 leosimons Exp $
+ * @version CVS $Id: FortressTestRig.java,v 1.8 2003/05/03 04:11:07 donaldp Exp $
  */
 public final class FortressTestRig extends Fortress
 {
@@ -87,7 +87,7 @@ public final class FortressTestRig extends Fortress
         {
             m_roles = new DefaultConfiguration( "", "" );
             roleref.accept( this );
-            return m_roles.getChildren()[0];
+            return m_roles.getChildren()[ 0 ];
         }
     }
 }

@@ -50,7 +50,6 @@
 package org.apache.excalibur.xfc.modules.ecm;
 
 import java.io.File;
-
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
@@ -72,7 +71,7 @@ import org.apache.excalibur.xfc.modules.Constants;
  * of the <code>generate</code> method defined in {@link ECM}.
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: ECMGenerator.java,v 1.10 2003/03/22 12:46:57 leosimons Exp $
+ * @version CVS $Id: ECMGenerator.java,v 1.11 2003/05/03 04:11:13 donaldp Exp $
  */
 public class ECMGenerator
     extends AbstractLogEnabled
@@ -127,7 +126,7 @@ public class ECMGenerator
 
         if( getLogger().isDebugEnabled() )
         {
-            final String message = 
+            final String message =
                 "Identified total of " + roles.length + " roles";
             getLogger().debug( message );
         }
@@ -155,7 +154,7 @@ public class ECMGenerator
 
         if( getLogger().isDebugEnabled() )
         {
-            final String message = 
+            final String message =
                 "Identified total of " + instances.length + " component instances";
             getLogger().debug( message );
         }

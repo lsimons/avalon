@@ -62,7 +62,7 @@ import org.apache.excalibur.xfc.modules.ecm.HandlerAnalyzer;
  * internal ECM methods that are otherwise not available from the normal Module API.
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: ECMTestRig.java,v 1.9 2003/03/22 12:46:58 leosimons Exp $
+ * @version CVS $Id: ECMTestRig.java,v 1.10 2003/05/03 04:11:07 donaldp Exp $
  */
 public final class ECMTestRig extends ECM
 {
@@ -93,9 +93,7 @@ public final class ECMTestRig extends ECM
         {
             m_roles = new DefaultConfiguration( "", "" );
             roleref.accept( this );
-            return m_roles.getChildren()[0];
+            return m_roles.getChildren()[ 0 ];
         }
     }
 }
-
-

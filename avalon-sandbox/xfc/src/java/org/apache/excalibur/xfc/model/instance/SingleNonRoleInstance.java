@@ -57,7 +57,7 @@ import org.apache.avalon.framework.configuration.Configuration;
  * implementation.
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: SingleNonRoleInstance.java,v 1.6 2003/03/22 12:46:56 leosimons Exp $
+ * @version CVS $Id: SingleNonRoleInstance.java,v 1.7 2003/05/03 04:11:12 donaldp Exp $
  */
 public class SingleNonRoleInstance
     extends Instance
@@ -74,9 +74,9 @@ public class SingleNonRoleInstance
      * @param handler component handler name
      */
     public SingleNonRoleInstance( final String role,
-        final String clazz,
-        final Configuration[] config,
-        final String handler )
+                                  final String clazz,
+                                  final Configuration[] config,
+                                  final String handler )
     {
         super( clazz, config, handler );
         m_role = role;
