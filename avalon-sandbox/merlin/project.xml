@@ -52,7 +52,7 @@
       <email>mcconnell@apache.org</email>
       <organization>OSM</organization>
       <roles>
-        <role>Architecture and development.</role>
+        <role>Release Manager.</role>
       </roles>
     </developer>
     <developer>
@@ -68,7 +68,7 @@
       <id>bloritsch</id>
       <email>bloritsch@apache.org</email>
       <roles>
-        <role>Code enhancements.</role>
+        <role>Code enhancements and lots of test cases.</role>
       </roles>
     </developer>
     <developer>
