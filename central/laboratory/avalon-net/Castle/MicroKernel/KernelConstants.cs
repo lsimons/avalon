@@ -17,14 +17,33 @@ namespace Apache.Avalon.Castle.MicroKernel
 	using System;
 
 	/// <summary>
-	/// Summary description for KernelConstants.
+	/// Holds general Subsystem's names.
 	/// </summary>
 	public abstract class KernelConstants
 	{
+		/// <summary>
+		/// Identifies the ConfigurationManager subsystem.
+		/// </summary>
 		public static readonly String CONFIGURATION = "configuration";
 
+		/// <summary>
+		/// Identifies the LoggerManager subsystem.
+		/// </summary>
 		public static readonly String LOGGER = "logger";
 
+		/// <summary>
+		/// Identifies the ContextManager subsystem.
+		/// </summary>
 		public static readonly String CONTEXT = "context";
+
+		/// <summary>
+		/// Identifies the LookupCriteriaMatcher subsystem.
+		/// </summary>
+		public static readonly String LOOKUP = "lookup";
+
+		/// <summary>
+		/// Identifies the EventManager subsystem.
+		/// </summary>
+		public static readonly String EVENTS = "events";
 	}
 }

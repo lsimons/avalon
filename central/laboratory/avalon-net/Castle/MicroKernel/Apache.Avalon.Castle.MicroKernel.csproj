@@ -80,14 +80,14 @@
                     HintPath = "C:\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.XML.dll"
                 />
                 <Reference
-                    Name = "Apache.Avalon.DynamicProxy"
-                    AssemblyName = "Apache.Avalon.DynamicProxy"
-                    HintPath = "..\bin\Apache.Avalon.DynamicProxy.dll"
-                />
-                <Reference
                     Name = "Apache.Avalon.Framework"
                     AssemblyName = "Apache.Avalon.Framework"
-                    HintPath = "..\bin\Apache.Avalon.Framework.dll"
+                    HintPath = "..\..\bin\Apache.Avalon.Framework.dll"
+                />
+                <Reference
+                    Name = "Apache.Avalon.DynamicProxy"
+                    AssemblyName = "Apache.Avalon.DynamicProxy"
+                    HintPath = "..\..\bin\Apache.Avalon.DynamicProxy.dll"
                 />
             </References>
         </Build>
@@ -399,16 +399,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Subsystems\Configuration\Default\AvalonConfigurationSectionHandler.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Subsystems\Configuration\Default\ContainerConfiguration.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "Subsystems\Configuration\Default\DefaultConfigurationManager.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -424,22 +414,37 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Subsystems\Events\EventManagerData.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Subsystems\Events\IEventManager.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Subsystems\Events\Default\EventManager.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Subsystems\Logger\ILoggerManager.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Subsystems\Logger\Default\AvalonLoggerSectionHandler.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Subsystems\Logger\Default\LoggerConfiguration.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "Subsystems\Logger\Default\LoggerManager.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Subsystems\Lookup\ILookupCriteriaMatcher.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Subsystems\Lookup\Default\LookupCriteriaMatcher.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

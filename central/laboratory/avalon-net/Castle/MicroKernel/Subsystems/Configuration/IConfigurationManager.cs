@@ -31,5 +31,21 @@ namespace Apache.Avalon.Castle.MicroKernel.Subsystems.Configuration
 		/// <param name="model"></param>
 		/// <returns></returns>
 		IConfiguration GetConfiguration( String componentName );
+
+		/// <summary>
+		/// Implementation should associate a configuration for
+		/// the component name.
+		/// </summary>
+		/// <param name="componentName"></param>
+		/// <param name="configuration"></param>
+		void Add( String componentName, IConfiguration configuration );
+
+		/// <summary>
+		/// Returns configurations available.
+		/// </summary>
+		IConfiguration[] Configurations
+		{
+			get;
+		}
 	}
 }

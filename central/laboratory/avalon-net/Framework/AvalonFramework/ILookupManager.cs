@@ -57,5 +57,14 @@ namespace Apache.Avalon.Framework
 		/// </remarks>
 		/// <param name="resource">The resource we are releasing.</param>
 		void Release(object resource);
+
+		/// <summary>
+		/// Returns a component instance that matches the specified 
+		/// criteria.
+		/// </summary>
+		/// <param name="role">A String identifying the lookup name to check.</param>
+		/// <param name="criteria">A specific criteria</param>
+		/// <returns>Component instance</returns>
+		object LookUp( string role, object criteria );
 	}
 }

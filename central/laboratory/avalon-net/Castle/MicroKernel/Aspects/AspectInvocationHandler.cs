@@ -36,17 +36,8 @@ namespace Apache.Avalon.Castle.MicroKernel.Aspects
 
 		#region IInvocationHandler Members
 
-		public object Invoke(object proxy, MethodBase method, params object[] arguments)
+		public object Invoke(object proxy, MethodInfo method, params object[] arguments)
 		{
-			Type[] parameters = new Type[arguments.Length];
-
-			for(int i=0; i < arguments.Length; i++ )
-			{
-				parameters[i] = arguments[i].GetType();
-			}
-
-			MethodInfo targetMethod = m_target.GetType().GetMethod( method.Name, parameters );
-			
 			Object returnValue = null;
 			Exception exceptionThrowed = null;
 
@@ -54,7 +45,7 @@ namespace Apache.Avalon.Castle.MicroKernel.Aspects
 
 			try
 			{
-				targetMethod.Invoke( m_target, arguments );
+				method.Invoke( m_target, arguments );
 			}
 			catch(Exception ex)
 			{

@@ -33,25 +33,28 @@ namespace Apache.Avalon.Castle.MicroKernel.Test
 	public class DefaultConfigurationManagerTestCase : Assertion
 	{
 		[Test]
-		public void TestUsage()
+		public void TestAdd()
 		{
 			DefaultConfigurationManager config = new DefaultConfigurationManager();
-			IConfiguration componentConfig = config.GetConfiguration( "component1" );
+			
+			config.Add( "key1", new DefaultConfiguration() );
+			config.Add( "key2", new DefaultConfiguration() );
 
-			AssertNotNull( componentConfig );
-			AssertEquals( "johndoe", componentConfig.GetChild("name", true).Value );
-			AssertEquals( "1099", componentConfig.GetChild("port", true).Value );
+			AssertEquals( 2, config.Configurations.Length );
 		}
 
 		[Test]
-		public void TestNoContentConfig()
+		public void TestObtention()
 		{
 			DefaultConfigurationManager config = new DefaultConfigurationManager();
-			IConfiguration componentConfig = config.GetConfiguration( "component2" );
+			
+			config.Add( "key1", new DefaultConfiguration() );
+			config.Add( "key2", new DefaultConfiguration() );
 
-			AssertNotNull( componentConfig );
-			AssertEquals( 0, componentConfig.Attributes.Count );
-			AssertEquals( 0, componentConfig.Children.Count );
+			AssertNotNull( config.GetConfiguration( "key1" ) );
+			AssertNotNull( config.GetConfiguration( "key2" ) );
+			AssertNotNull( config.GetConfiguration( "KeY1" ) );
+			AssertEquals( DefaultConfiguration.EmptyConfiguration, config.GetConfiguration( "key3" ) );
 		}
 	}
 }

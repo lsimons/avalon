@@ -20,6 +20,9 @@ namespace Apache.Avalon.Castle.MicroKernel
 
 	using Apache.Avalon.DynamicProxy;
 	using Apache.Avalon.Castle.MicroKernel.Model;
+	using Apache.Avalon.Castle.MicroKernel.Subsystems.Lookup.Default;
+	using Apache.Avalon.Castle.MicroKernel.Subsystems.Events;
+	using Apache.Avalon.Castle.MicroKernel.Subsystems.Events.Default;
 
 	/// <summary>
 	/// Summary description for BaseKernel.
@@ -58,6 +61,9 @@ namespace Apache.Avalon.Castle.MicroKernel
 			m_handlerFactory = new Handler.Default.SimpleHandlerFactory();
 			m_lifestyleManagerFactory = new Lifestyle.Default.SimpleLifestyleManagerFactory();
 			m_componentModelBuilder = new Model.Default.DefaultComponentModelBuilder( this );
+
+			AddSubsystem( KernelConstants.LOOKUP, new LookupCriteriaMatcher() );
+			AddSubsystem( KernelConstants.EVENTS, new EventManager() );
 		}
 
 		#region Kernel Members
@@ -94,7 +100,7 @@ namespace Apache.Avalon.Castle.MicroKernel
 
 			m_components[ key ] = handler;
 
-			OnNewHandler( service, handler );
+			OnNewHandler( key, service, implementation, handler );
 		}
 
 		/// <summary>
@@ -146,6 +152,12 @@ namespace Apache.Avalon.Castle.MicroKernel
 			{
 				return (IHandler) m_components[ key ];
 			}
+		}
+
+		public IHandler GetHandler( String key, object criteria )
+		{
+			// TODO: IHandler GetHandler( String key, object criteria )
+			return null;
 		}
 
 		public IHandlerFactory HandlerFactory
@@ -259,10 +271,16 @@ namespace Apache.Avalon.Castle.MicroKernel
 
 		#endregion
 
-		private void OnNewHandler( Type service, IHandler handler )
+		private void OnNewHandler( String key, Type service, Type implementation, IHandler handler )
 		{
 			m_services[ service ] = handler;
+			
+			RaiseDependencyEvent( service, handler );
+			RaiseSubsystemNewComponentEvent( key, service, implementation );
+		}
 
+		private void RaiseDependencyEvent( Type service, IHandler handler )
+		{
 			lock(m_dependencyToSatisfy)
 			{
 				if (!m_dependencyToSatisfy.Contains( service ))
@@ -275,6 +293,18 @@ namespace Apache.Avalon.Castle.MicroKernel
 
 				m_dependencyToSatisfy.Remove( service );
 			}
+		}
+
+		private void RaiseSubsystemNewComponentEvent( String key, Type service, Type implementation )
+		{
+			IEventManager eventManager = (IEventManager) GetSubsystem( KernelConstants.EVENTS );
+
+			if (eventManager == null)
+			{
+				return;
+			}
+
+			eventManager.OnComponentAdded( new EventManagerData( key, service, implementation ) );
 		}
 	}
 }

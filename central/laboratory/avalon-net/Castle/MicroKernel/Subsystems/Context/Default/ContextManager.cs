@@ -25,7 +25,7 @@ namespace Apache.Avalon.Castle.MicroKernel.Subsystems.Context.Default
 	{
 		public ContextManager()
 		{
-			CreateDefault
+			
 		}
 
 		#region IContextManager Members
@@ -53,10 +53,11 @@ namespace Apache.Avalon.Castle.MicroKernel.Subsystems.Context.Default
 		{
 			DefaultContext context = new DefaultContext();
 
+			/*
 			foreach(AvalonEntryAttribute entry in entries)
 			{
 				
-			}
+			}*/
 
 			context.MakeReadOnly();
 

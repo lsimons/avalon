@@ -24,6 +24,15 @@ namespace Apache.Avalon.Castle.MicroKernel.Subsystems.Logger
 	/// </summary>
 	public interface ILoggerManager : IKernelSubsystem
 	{
+
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="loggerName"></param>
+		/// <param name="implementationName"></param>
+		/// <param name="loggerAtt"></param>
+		/// <returns></returns>
 		ILogger CreateLogger( String loggerName, String implementationName, AvalonLoggerAttribute loggerAtt );
 	}
 }
