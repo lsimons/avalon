@@ -39,7 +39,7 @@ public void dumpInfo()
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.1 $ $Date: 2002/09/26 18:22:06 $
+      $Revision: 1.2 $ $Date: 2002/10/23 13:50:00 $
     </legal>
   </footer>
 </document>
