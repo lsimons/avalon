@@ -32,13 +32,14 @@ the LICENSE.txt file.
     <pathelement location="${excalibur-thread.jar}"/>
     <pathelement location="${excalibur-threadcontext.jar}"/>
     <pathelement location="${excalibur-event.jar}"/>
+    <pathelement location="${avalon-assembly-spi.jar}"/>
     <pathelement location="${avalon-assembly.jar}"/>
     <pathelement location="${avalon-meta.jar}"/>
     <pathelement location="${avalon-lifecycle.jar}"/>
+    <pathelement location="${merlin-spi.jar}"/>
     <pathelement location="${merlin-bootstrap.jar}"/>
     <pathelement location="${build.classes}"/>
     <pathelement location="${checkstyle.jar}"/>
-    <!--<pathelement location="${xml-apis.jar}"/>-->
     <pathelement path="${java.class.path}"/>
   </path>
 
@@ -53,7 +54,7 @@ the LICENSE.txt file.
     <pathelement location="${build.testclasses}"/>
   </path>
 
-  <target name="main" depends="jar,jar-playground,deploy" description="Build the project"/>
+  <target name="main" depends="jar,jar-playground" description="Build the project"/>
   <target name="rebuild" depends="clean,main" description="Rebuild the project"/>
   <target name="all" depends="rebuild,docs" description="Rebuild the project"/>
 
@@ -73,6 +74,14 @@ the LICENSE.txt file.
   <target name="bootstrap-context">
     <uptodate property="bootstrap-uptodate" targetfile="${merlin-bootstrap.jar}">
       <srcfiles dir="../merlin-bootstrap/src">
+        <include name="**/*.*"/>
+      </srcfiles>
+    </uptodate>
+  </target>
+
+  <target name="spi-context">
+    <uptodate property="spi-uptodate" targetfile="${merlin-spi.jar}">
+      <srcfiles dir="../merlin-spi/src">
         <include name="**/*.*"/>
       </srcfiles>
     </uptodate>
@@ -132,11 +141,14 @@ the LICENSE.txt file.
         <available property="bootstrap.present"
                classname="${merlin-bootstrap.key}"
                classpathref="project.class.path" />
+        <available property="spi.present"
+               classname="${merlin-spi.key}"
+               classpathref="project.class.path" />
   </target>
 
   <target name="dependencies" depends="external-dependencies,assembly,bootstrap" description="Check dependencies"/>
 
-  <target name="external-dependencies" depends="check-framework,check-i18n,check-configuration,check-extension,check-event,check-excalibur-util-concurrent,check-commons-collections,check-excalibur-collections,check-avalon-logkit,check-thread,check-thread-context,check-pool,check-lifecycle,check-meta,check-assembly,check-bootstrap"/>
+  <target name="external-dependencies" depends="check-framework,check-i18n,check-configuration,check-extension,check-event,check-excalibur-util-concurrent,check-commons-collections,check-excalibur-collections,check-avalon-logkit,check-thread,check-thread-context,check-pool,check-lifecycle,check-meta,check-assembly,check-bootstrap,check-spi"/>
 
   <target name="check-framework" depends="flags" unless="framework.present">
       <mkdir dir="${local.repository}"/>
@@ -266,6 +278,14 @@ the LICENSE.txt file.
 		usetimestamp="true"/>
   </target>
 
+  <target name="check-spi" depends="flags" unless="spi.present">
+      <mkdir dir="${local.repository}"/>
+	<get src="${merlin-spi.path}"
+		dest="${local.repository}/${merlin-spi.name}"
+		verbose="true"
+		usetimestamp="true"/>
+  </target>
+
   <target name="context" depends="dependencies">
     <uptodate property="uptodate" targetfile="${build.lib}/${jar.name}">
       <srcfiles dir="${src.dir}">
@@ -373,6 +393,7 @@ the LICENSE.txt file.
     <copy toDir="${merlin.home}/lib/system" file="${avalon-assembly.jar}"/>
     <copy toDir="${merlin.home}/lib/system" file="${merlin.jar}"/>
     <copy toDir="${merlin.home}/lib/system" file="${merlin-bootstrap.jar}"/>
+    <copy toDir="${merlin.home}/lib/system" file="${merlin-spi.jar}"/>
     <mkdir dir="${merlin.home}/bin"/>
     <copy toDir="${merlin.home}/bin">
       <fileset dir="${src.dir}/bin">
@@ -409,40 +430,6 @@ the LICENSE.txt file.
 
   </target>
 
-  <target name="deploy" depends="jar">
-
-     <mkdir dir="${common.dir}"/>
-     <copy todir="${common.dir}" file="${avalon-framework.jar}"/>
-     <copy todir="${common.dir}" file="${avalon-meta.jar}"/>
-     <copy todir="${common.dir}" file="${excalibur-i18n.jar}"/>
-     <copy todir="${common.dir}" file="${avalon-logkit.jar}"/>
-     <copy todir="${common.dir}" file="${excalibur-configuration.jar}"/>
-
-     <mkdir dir="${lib.dir}"/>
-     <copy todir="${lib.dir}" file="${build.lib}/${jar.name}"/>
-     <copy todir="${lib.dir}" file="${excalibur-collections.jar}"/>
-     <copy todir="${lib.dir}" file="${excalibur-extension.jar}"/>
-     <copy todir="${lib.dir}" file="${excalibur-event.jar}"/>
-     <copy todir="${lib.dir}" file="${commons-collections.jar}"/>
-     <copy todir="${lib.dir}" file="${excalibur-util-concurrent.jar}"/>
-     <copy todir="${lib.dir}" file="${excalibur-threadcontext.jar}"/>
-     <copy todir="${lib.dir}" file="${excalibur-pool.jar}"/>
-     <copy todir="${lib.dir}" file="${excalibur-thread.jar}"/>
-     <copy todir="${lib.dir}" file="${avalon-lifecycle.jar}"/>
-     <copy todir="${lib.dir}" file="${avalon-assembly.jar}"/>
-     <copy todir="${lib.dir}" file="${merlin-bootstrap.jar}"/>
-     <!--
-     <copy todir="${lib.dir}" preservelastmodified="true">
-       <fileset dir="${tools.dir}/lib">
-         <include name="xerces-2.0.1.jar"/>
-         <include name="xml-apis.jar"/>
-         <include name="xalan-2.3.1.jar"/>
-       </fileset>
-     </copy>
-     -->
-  </target>
-
-
   <!-- Creates all the Javadocs -->
   <target name="javadocs" depends="compile" 
           description="Generates the javadocs" unless="skip.javadocs">
@@ -477,6 +464,7 @@ the LICENSE.txt file.
         <param name="-link" value="${assembly.api.link}"/>
         <param name="-link" value="${lifecycle.api.link}"/>
         <param name="-link" value="${meta.api.link}"/>
+        <param name="-link" value="${merlin-spi.api.link}"/>
         <param name="-bottom"
            value="&quot;Copyright &#169; ${year} Apache Avalon Project. All Rights Reserved.&quot;"/>
       </doclet>
