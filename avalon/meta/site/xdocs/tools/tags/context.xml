@@ -59,7 +59,7 @@ public class Primary implements Contextualizable
     <version>1.3.0</version>
     <name>primary-component</name>
   </info>
-  <context type="net.osm.CustomComponent"/>
+  <context type="net.osm.CustomContext"/>
 </type>
 ]]></source>
       </subsection>
@@ -69,7 +69,7 @@ public class Primary implements Contextualizable
   <footer>
     <legal>
       Copyright (c) @year@ The Avalon Apache Project All rights reserved.
-      $Revision: 1.1 $ $Date: 2003/09/24 08:16:02 $
+      $Revision: 1.2 $ $Date: 2004/03/18 12:12:22 $
     </legal>
   </footer>
 
