@@ -33,7 +33,7 @@ import org.apache.avalon.framework.service.Serviceable;
  * a component throught it's lifecycle stages.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2002/05/15 11:24:43 $
+ * @version $Revision: 1.4 $ $Date: 2002/05/16 21:00:03 $
  */
 public final class ContainerUtil
 {
@@ -67,8 +67,8 @@ public final class ContainerUtil
      *        in which case the specified object must not implement LogEnabled.
      * @throws IllegalArgumentException if the object is LogEnabled but Logger is null
      */
-    public static void logEnable( final Object object,
-                                  final Logger logger )
+    public static void enableLogging( final Object object,
+                                      final Logger logger )
     {
         if( object instanceof LogEnabled )
         {
