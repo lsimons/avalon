@@ -26,8 +26,7 @@
 
   <body>
 
-    <section name="Avalon Logging">
-      <subsection name="Logging System API">
+    <section name="Avalon Logging API">
         <p>
         The logging API is divided into two sections - one dealing with 
         meta data directives, and the second dealing with the logging
@@ -54,46 +53,42 @@
         <a href="/api/org/apache/avalon/logging/provider/LoggingCriteria.html">
         LoggingCriteria</a> interface.
         </p>
-      </subsection>
+
       <subsection name="Standard Properties">
         <p>
         The following table details the set of standard properties 
         supported by Logging System.
         </p>
         <table>
-          <tr><th>Property</th><th>Default Value</th><th>Description</th></tr>
+          <tr><th>Property</th><th>Description</th></tr>
           <tr>
             <td>avalon.logging.configuration</td>
-            <td></td>
             <td>URL referencing an external logging system configuration.</td>
           </tr>
           <tr>
             <td>avalon.logging.bootstrap</td>
-            <td></td>
             <td>A logging channel to be used during the bootstrapping phase. Classic
             logging priority values of DEBUG, INFO, WARN, ERROR may be assigned and 
             will be resolved to a console logger with an equivalent priority.</td>
           </tr>
           <tr>
             <td>avalon.logging.basedir</td>
-            <td></td>
             <td>The base directory to use when constructing file based log targets.
             Defaults to the initial working directory declared by the repository
             initial context.</td>
           </tr>
           <tr>
             <td>avalon.logging.debug</td>
-            <td>false</td>
-            <td>Debug flag used to override all logging channels to debug priority.</td>
+            <td>Debug flag used to override all logging channels to debug priority.
+            The default falue is 'false'.</td>
           </tr>
           <tr>
             <td>avalon.logging.update</td>
-            <td>0</td>
             <td>
               If the value is larger than zero, the <strong>update</strong> is
               how many millisecond between re-configuring the logging system. Not
               all logging system will support this property, in which case it is
-              completely ignored.
+              completely ignored. The default value is 0.
             </td>
           </tr>
         </table>

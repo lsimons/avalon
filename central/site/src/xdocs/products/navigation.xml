@@ -24,7 +24,7 @@
  <body>
     <menu>
       <item name="Merlin Runtime" href="runtime/index.html"/>
-      <item name="Merlin Studio" href="studio/index.html"/>
+      <!-- <item name="Merlin Studio" href="studio/index.html"/> -->
       <item name="Merlin Discovery" href="discovery/index.html"/>
     </menu>
  </body>

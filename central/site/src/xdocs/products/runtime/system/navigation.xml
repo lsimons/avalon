@@ -23,7 +23,6 @@
   <body>
     <menu>
       <item name="Meta" href="meta/index.html"/>
-      <item name="Framework" href="af4/index.html"/>
       <item name="Composition" href="composition.html"/>
       <item name="Activation" href="activation.html"/>
       <item name="Repository" href="repository/index.html"/>

@@ -7,7 +7,6 @@
 
   <body>
     <section name="Avalon Logging">
-      <subsection name="Overview">
         <p>
         The Avalon Logging system is a container-side service that defines
         a framework for the logging system plugins.  The framework is 
@@ -32,7 +31,6 @@
         Alternative strategies include the <a href="logkit/index.html">Log4J</a> 
         implementation.
         </p>
-      </subsection>
     </section>
   </body>
 </document>

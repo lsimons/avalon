@@ -20,7 +20,7 @@
     <title>Logkit - Whitepaper</title>
   </properties>
   <body>
-    <section name="Abstract">
+    <section name="LogKit Whitepaper">
       <p>
         Logging is an integral component to any software development project.
         During the development stages it offers a valuable source of debugging
@@ -29,8 +29,7 @@
         problems as they arise. This whitepaper describes the design and 
         implementation of LogKit.
       </p>
-    </section>
-    <section name="Introduction">
+      <subsection name="Introduction">
       <p>
         LogKit, began life as a facade for a more complex logging toolkit. 
         During development it was found that existing toolkits were complex and
@@ -50,8 +49,8 @@
         for filtering log events, multiple listeners (aka LogTargets) per 
         category and delayed serialization of events.
       </p>
-    </section>
-    <section name="Structure and Elements">
+    </subsection>
+    <subsection name="Structure and Elements">
       <p>
         The most basic components of LogKit are the Logger, the LogEvent and the
         LogTarget. The Logger represents the client interface to the logging 
@@ -60,8 +59,8 @@
         with the LogEvent, usually it is recorded to a file, a database or 
         transmitted over the network.
       </p>
-    </section>
-    <section name="Priorities">
+    </subsection>
+    <subsection name="Priorities">
       <p>
         One of the advantages of a logging toolkit is fine grain control over 
         which statements get printed. At some times during development you may 
@@ -140,8 +139,8 @@ if( logger.isDebugEnabled() )
     logger.debug( message );
 }
       </source>
-    </section>
-    <section name="Categories">
+    </subsection>
+    <subsection name="Categories">
       <p>
         In a complex system it is often not enough to suppress logging based on
         priority. For instance you may wish to log the network subsystem with 
@@ -179,8 +178,8 @@ if( logger.isDebugEnabled() )
         When a logger has it's logger set or unset, it updates the cached 
         version of it's child loggers.
       </p>
-    </section>
-    <section name="Log Targets">
+    </subsection>
+    <subsection name="Log Targets">
       <p>
         In LogKit, LogTargets are the destination of LogEvents. Decoupling 
         LogEvent generation from handling allows developers to change 
@@ -193,7 +192,8 @@ if( logger.isDebugEnabled() )
         between loggers. Like Priority inheritance, LogTarget inheritance does 
         not suffer any runtime performance penalty.
       </p>
-      <section name="Filters">
+    </subsection>
+    <subsection name="Filters">
         <p>
           Filters are a special kind of LogTarget. Instead of writing to an 
           output destination they are used to filter out LogEvents or modify 
@@ -208,8 +208,8 @@ if( logger.isDebugEnabled() )
           case you would use a PriorityFilter to filter out non-FATAL_ERROR 
           messages for pager log target.
         </p>
-      </section>
-      <section name="AsyncLogTarget">
+    </subsection>
+    <subsection name="AsyncLogTarget">
         <p>
           AsyncLogTarget is another kind of special LogTarget. It takes a log 
           event and copies it into a queue so that another thread can actually 
@@ -228,9 +228,8 @@ thread.setPriority( Thread.MIN_PRIORITY );
 thread.start();
 logger.setLogTargets( new LogTarget[] { asyncTarget } );
         </source>
-      </section>
-    </section>
-    <section name="Formatters">
+    </subsection>
+    <subsection name="Formatters">
       <p>
         LogTargets that write to a serial or unstructured store (ie filesystem 
         or network based LogTargets) need some method to serialize the LogEvent
@@ -276,8 +275,8 @@ output: DEBUG   123   [network   ]: This is another debug message
         the method that called the Logger method to generate the LogEvent. The 
         "thread" field displays the name of the current thread.
       </p>
-    </section>
-    <section name="Context">
+    </subsection>
+    <subsection name="Context">
       <p>
         In many systems you need to include extra information depending in logs
         that depends on information not included in the LogEvent. For instance 
@@ -345,66 +344,9 @@ context.set( "jvmid", myJvmId );
 context.makeReadOnly();
 //bind new ContextMap to current thread and subthreads
 ContextMap.bind( context );
+
       </source>
-    </section>
-    <section name="Examples" >
-      <p>
-        One of the best ways to learn how to use a toolkit is to see an
-        example in action. With that heres some example uses of LogKit. The 
-        first example is in a simple application while the next example is in a
-        servlet. The servlet example demonstrates the usage of filters.
-      </p>
-      <source>
-Logger logger = Hierarchy.getDefaultHierarchy().getLoggerFor("myCategory");
-logger.setPriority( Priority.DEBUG );
-logger.debug( "This is a debug message" );
-      </source>
-      <source>
-//Create a Log filter that writes to servlet Containers log
-//If priority greater than ERROR
-PriorityFilter filter = new PriorityFilter(Priority.ERROR);
-filter.addTarget( new ServletOutputLogTarget(context) );
-
-String logName = getInitParameter("log-name");
-if( null == logName ) 
-    logName = "myservlet.log";
-
-final String path = context.getRealPath("/") + "/WEB-INF/logs/" + logName ;
-
-//Create a logger to write to a file as specified
-//with servlet init parameters
-final String pattern = "%7.7{priority} %5.5{time}   [%8.8{category}] " +
-    "(%{context}): %{message}\\n%{throwable}";
-    
-final PatternFormatter formatter = new PatternFormatter( pattern );
-final File file = new File( path );
-
-//open file target in append mode
-FileTarget target = new FileTarget( file, true, formatter );
-
-//Create logger
-myLogger = Hierarchy.getDefaultHierarchy().getLoggerFor("myServlet");
-
-//Set log targets of logger
-myLogger.setLogTargets( new LogTarget[] { target, filter } );
-String logLevel = getInitParameter("log-priority");
-
-if( null == logLevel ) 
-    logLevel = "DEBUG";
-    
-//Set log targets parameter based on init parameters
-Priority priority = Priority.getPriorityForName( logLevel );
-myLogger.setPriority( priority );
-      </source>
-    </section>
-    <section name="Conclusion">
-      <p>
-        LogKit is a friendly, easy to use logging toolkit. It is high 
-        performing and easily integrated into existing products. By design it 
-        does not specify any configuration format but instead encourages users 
-        to integrate it into their existing products. It also is designed to run
-        in a secure environment by limiting client access to hierarchies.
-      </p>
+    </subsection>
     </section>
   </body>
 </document>

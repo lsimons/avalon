@@ -27,7 +27,7 @@
 
 
   <body>
-    <section name="Merlin CLI (Command Line Interface)">
+    <section name="Merlin CLI">
       <subsection name="Overview">
       <p>
 Merlin CLI is the command line interface to the Merlin system. It provides support for the declaration of the root block directive, a working home directory, a kernel directive, and other parameters qualifying debug output and language policy.
