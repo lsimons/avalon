@@ -19,10 +19,11 @@
 
 <project>
 
- <title>Apache Avalon Central</title>
+ <title>Avalon Central</title>
 
  <body>
     <menu>
+      <item name="Init" href="init.html"/>
       <item name="Javac" href="javac.html"/>
       <item name="Jar" href="jar.html"/>
       <item name="Bar" href="bar.html"/>
