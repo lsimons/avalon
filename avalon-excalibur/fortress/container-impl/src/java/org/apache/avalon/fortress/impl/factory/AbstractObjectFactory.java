@@ -219,8 +219,8 @@ public abstract class AbstractObjectFactory implements ObjectFactory, Instrument
      * Get a list of interfaces to proxy by scanning through
      * all interfaces a class implements.
      *
-     * @param clazz the class
-     * @param list the list of current work interfaces
+     * @param clazz           the class
+     * @param workInterfaces  the set of current work interfaces
      */
     private static void guessWorkInterfaces( final Class clazz,
                                              final Set workInterfaces )
