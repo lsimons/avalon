@@ -11,7 +11,7 @@
 
   <property name="name" value="cornerstone"/>
   <property name="Name" value="Cornerstone"/>
-  <property name="version" value="0.7"/>
+  <property name="version" value="0.8"/>
   <property name="year" value="1999-2001"/>
 
   <property name="build.debug" value="on"/>
@@ -101,10 +101,6 @@
         classpathref="project.class.path"
         property="SAXParserFactory.present"/>
 
-    <available classname="org.apache.excalibur.altrmi.common.MethodReply"
-        classpathref="project.class.path"
-        property="AltRMI.present"/>
-
     <available classname="java.beans.XMLDecoder"
         classpathref="project.class.path"
         property="LTPJB.present"/>
@@ -136,12 +132,6 @@
                unless="SAXParserFactory.present" />
       <exclude name="org/apache/avalon/cornerstone/services/sax/**.java"
                unless="SAXParserFactory.present" />
-      <exclude name="org/apache/avalon/cornerstone/blocks/masterstore/xml/**.java"
-               unless="LTPJB.present" />
-      <exclude name="org/apache/avalon/cornerstone/blocks/transport/**/*.java"
-               unless="AltRMI.present" />
-      <exclude name="org/apache/avalon/cornerstone/blocks/channels/*.java"
-               unless="nio.present" />
       <exclude name="org/apache/avalon/cornerstone/services/channels/*.java"
                unless="nio.present" />
     </javac>
