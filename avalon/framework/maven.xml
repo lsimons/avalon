@@ -112,6 +112,16 @@ The complete set of target include:
         <ant:include name="docs/**"/>
       </ant:fileset>
     </ant:copy>
+
+    <!-- Add composite jar -->
+    <ant:jar jarfile="${maven.build.dir}/${maven.final.name}.jar"
+        compress="true" manifest="manifest.mf">
+      <ant:fileset dir="api/target/classes"/>
+      <ant:fileset dir="impl/target/classes"/>
+    </ant:jar>
+    <ant:copy todir="${maven.dist.bin.assembly.dir}" 
+       file="${maven.build.dir}/${maven.final.name}.jar"/>
+
   </goal>
 
   <goal
