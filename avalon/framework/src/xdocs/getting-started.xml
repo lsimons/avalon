@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V1.1//EN" "document-v11.dtd">
+<document>
+  <header>
+    <title>Avalon Framework - Getting Started</title>
+    <authors>
+      <person name="Leo Simons" email="leosimons@apache.org"/>
+    </authors>
+  </header>
+  <body>
+    <section>
+<title>Introduction</title>
+      <p>If you are completely new to Avalon, the Framework sub-project is not
+      the easiest place to start. We suggest you take a look at the
+      <link href="http://avalon.apache.org/phoenix/getting-started.html">Avalon Phoenix Getting Started document</link>
+      first, as it will take you through downloading, installing and then
+      running something (a very simple server program) much more concrete.</p>
+
+      <p>Probably the next smart step is to learn by example. Take a look at
+      one or two of the <link href="http://avalon.apache.org/apps/index.html">applications</link>
+      that use Avalon and at how well these are set up, and at some of the
+      available <link href="http://avalon.apache.org/excalibur/index.html">components (in Excalibur)</link>
+      and <link href="http://avalon.apache.org/cornerstone/index.html">services (in Cornerstone)</link>
+      Avalon offers.</p>
+
+      <p>You will find that the Framework has an important role in each and
+      every one of these. To learn what that role is and how it fulfills this
+      role, you should read our guide, which starts with a summary of
+      <link href="guide-oop-best-practices.html">OOP best practices</link>.</p>
+
+      <p>When you get stuck in sources, documentation, and the mailing list archive,
+      post your questions to the mailing list (information on it is
+      <link href="http://jakarta.apache.org/site/mail.html">here</link>). For
+      many, Avalon poses a steep learning curve, and we'll try and help you
+      flatten it as much as we can.</p>
+    </section>
+  </body>
+</document>
