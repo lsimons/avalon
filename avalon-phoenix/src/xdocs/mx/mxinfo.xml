@@ -6,33 +6,20 @@
     <author email="huw@apache.org">Huw Roberts</author>
   </properties>
   <body>
-    <section name="Outline">
-      <ul>
-        <li>
-          specified in the DTD, available here.[TODO]
-        </li>
-        <li>
-          explain the various elements
-        </li>
-        <li>
-          explain runtime requirements
-        </li>
-      </ul>
-    </section>
-    <section name="Overview" >
+    <section name="Introduction" >
       <p>
-        The mxinfo file is contains information about how the object it describes can be managed.  It
+        The MXINFO file is contains information about how the object it describes can be managed.  It
         includes functional information intended for the management application, and descriptive data
         to help guide the user.
       </p>
       <p>
-        An mxinfo file is created at design time, either automatically using xdoclet tags (TODO described here) 
+        An mxinfo file is created at design time, either automatically using xdoclet tags (<a href="xdoctags.html">described here</a>) 
         or by hand.  At startup the mxinfo file is parsed, and in conjuntion with class introspection 
         is used to define the in-memory metadata for the management of the target object.
       </p>
       <p>
         A target object is not restricted to having a single mxinfo file, although the specifics of how that
-        works is dependant on the container (described [TODO] here).  Similarly it is expected that
+        works is dependant on the management component.  Similarly it is expected that
         at runtime the mxinfo file will be located in the classpath of the Target class, in the same
         package as that class, but this is also under the control of the Container.  Finally, its worth
         pointing out that an mxinfo file generated from interface can be applied to
