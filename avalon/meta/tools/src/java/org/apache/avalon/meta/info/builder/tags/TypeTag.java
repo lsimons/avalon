@@ -89,7 +89,7 @@ import com.thoughtworks.qdox.model.JavaClass;
  * </table>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2003/09/24 08:16:18 $
+ * @version $Revision: 1.2 $ $Date: 2003/10/04 11:51:25 $
  */
 public class TypeTag extends AbstractTag
 {
@@ -165,6 +165,6 @@ public class TypeTag extends AbstractTag
 
     private Version getVersion(DocletTag tag)
     {
-        return Version.getVersion( getNamedParameter( tag, VERSION_PARAM, "" ) );
+        return Version.getVersion( getNamedParameter( tag, VERSION_PARAM, "1.0" ) );
     }
 }

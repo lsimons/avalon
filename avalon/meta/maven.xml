@@ -1,6 +1,6 @@
-<project default="avalon:build"  xmlns:maven="jelly:maven" xmlns:j="jelly:core" xmlns:util="jelly:util" xmlns:ant="jelly:ant">
+<project default="avalon:plugin"  xmlns:maven="jelly:maven" xmlns:j="jelly:core" xmlns:util="jelly:util" xmlns:ant="jelly:ant">
 
-  <ant:property name="meta.plugin.version" value="1.1"/>
+  <ant:property name="meta.plugin.version" value="1.2-SNAPSHOT"/>
 
   <ant:property name="maven.ui.banner.background" value="#fff"/>
   <ant:property name="maven.ui.banner.foreground" value="#000"/>
@@ -44,7 +44,7 @@ The complete set of target include:
   avalon:build
   avalon:build-snapshot
   avalon:dist
-  avalon:plugin
+  avalon:plugin ---------- default goal
   avalon:site
     </echo>
 
