@@ -5,10 +5,10 @@
   <extend>${basedir}/../common-project.xml</extend>
   
   <id>avalon-mds-test</id>
-  <name>Avalon MDS API</name>
+  <name>Avalon MDS Test</name>
   <package>org.apache.avalon.mds</package>
 
-  <shortDescription>Avalon MDS API</shortDescription>
+  <shortDescription>Avalon MDS Test</shortDescription>
 
   <dependencies>
 
