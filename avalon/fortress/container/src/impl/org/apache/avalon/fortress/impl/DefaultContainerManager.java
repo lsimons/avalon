@@ -52,6 +52,7 @@ package org.apache.avalon.fortress.impl;
 import org.apache.avalon.excalibur.logger.LoggerManager;
 import org.apache.avalon.fortress.InitializationException;
 import org.apache.avalon.fortress.MetaInfoManager;
+import org.apache.avalon.fortress.RoleManager;
 import org.apache.avalon.fortress.util.ContextManager;
 import org.apache.avalon.fortress.util.LifecycleExtensionManager;
 import org.apache.avalon.framework.activity.Disposable;
@@ -77,7 +78,7 @@ import org.apache.excalibur.mpool.PoolManager;
  * See that interface for a description.
  *
  * @author <a href="mailto:dev@avalon.apache.org">The Avalon Team</a>
- * @version CVS $Revision: 1.17 $ $Date: 2003/04/24 19:53:24 $
+ * @version CVS $Revision: 1.18 $ $Date: 2003/05/22 14:56:07 $
  */
 public class DefaultContainerManager
     implements Initializable, Disposable, org.apache.avalon.fortress.ContainerManager, org.apache.avalon.fortress.ContainerManagerConstants
@@ -242,7 +243,7 @@ public class DefaultContainerManager
         addService( PoolManager.ROLE, managerContext, serviceManager );
         addService( InstrumentManager.ROLE, managerContext, serviceManager );
         addService( MetaInfoManager.ROLE, managerContext, serviceManager );
-        //addService( RoleManager.ROLE, managerContext, serviceManager );
+        addService( RoleManager.ROLE, managerContext, serviceManager );
         addService( LifecycleExtensionManager.ROLE, managerContext, serviceManager );
         serviceManager.makeReadOnly();
 
