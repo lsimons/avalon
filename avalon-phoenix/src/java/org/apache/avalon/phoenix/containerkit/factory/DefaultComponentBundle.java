@@ -8,13 +8,13 @@
 package org.apache.avalon.phoenix.containerkit.factory;
 
 import java.io.InputStream;
-import org.apache.avalon.framework.info.ComponentInfo;
+import org.apache.avalon.phoenix.framework.info.ComponentInfo;
 
 /**
  *
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003/02/22 04:03:28 $
+ * @version $Revision: 1.3 $ $Date: 2003/03/01 03:39:46 $
  */
 public class DefaultComponentBundle
     implements ComponentBundle

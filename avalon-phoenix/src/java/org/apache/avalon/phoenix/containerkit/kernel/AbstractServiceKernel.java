@@ -16,7 +16,7 @@ import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.container.ContainerUtil;
-import org.apache.avalon.framework.info.ComponentInfo;
+import org.apache.avalon.phoenix.framework.info.ComponentInfo;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.phoenix.containerkit.factory.ComponentBundle;
 import org.apache.avalon.phoenix.containerkit.factory.ComponentFactory;
@@ -33,7 +33,7 @@ import org.apache.avalon.phoenix.containerkit.registry.ComponentProfile;
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.3 $ $Date: 2003/02/22 05:34:45 $
+ * @version $Revision: 1.4 $ $Date: 2003/03/01 03:39:46 $
  */
 public abstract class AbstractServiceKernel
     extends AbstractLogEnabled

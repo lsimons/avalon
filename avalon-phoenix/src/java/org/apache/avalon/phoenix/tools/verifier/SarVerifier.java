@@ -10,8 +10,8 @@ package org.apache.avalon.phoenix.tools.verifier;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.framework.logger.Logger;
-import org.apache.avalon.framework.tools.verifier.InfoVerifier;
-import org.apache.avalon.framework.tools.verifier.VerifyException;
+import org.apache.avalon.phoenix.framework.tools.verifier.InfoVerifier;
+import org.apache.avalon.phoenix.framework.tools.verifier.VerifyException;
 import org.apache.avalon.phoenix.components.ContainerConstants;
 import org.apache.avalon.phoenix.containerkit.metadata.ComponentMetaData;
 import org.apache.avalon.phoenix.containerkit.registry.ComponentProfile;
@@ -44,7 +44,7 @@ import org.apache.avalon.phoenix.containerkit.verifier.AssemblyVerifier;
  * </ul>
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.31 $ $Date: 2003/02/22 04:03:30 $
+ * @version $Revision: 1.32 $ $Date: 2003/03/01 03:39:48 $
  */
 public class SarVerifier
     extends AssemblyVerifier

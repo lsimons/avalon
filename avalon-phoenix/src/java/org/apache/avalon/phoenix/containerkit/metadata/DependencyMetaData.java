@@ -7,13 +7,13 @@
  */
 package org.apache.avalon.phoenix.containerkit.metadata;
 
-import org.apache.avalon.framework.info.Attribute;
-import org.apache.avalon.framework.info.FeatureDescriptor;
+import org.apache.avalon.phoenix.framework.info.Attribute;
+import org.apache.avalon.phoenix.framework.info.FeatureDescriptor;
 
 /**
  * The {@link DependencyMetaData} is the mapping of a component as a dependency
  * of another component. Each component declares dependencies (via
- * {@link org.apache.avalon.framework.info.ComponentInfo})
+ * {@link org.apache.avalon.phoenix.framework.info.ComponentInfo})
  * and for each dependency there must be a coressponding DependencyMetaData which
  * has a matching key. The name value in {@link DependencyMetaData} object must refer
  * to another Component that implements a service as specified in DependencyInfo.
@@ -22,7 +22,7 @@ import org.apache.avalon.framework.info.FeatureDescriptor;
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.2 $ $Date: 2003/02/22 04:03:28 $
+ * @version $Revision: 1.3 $ $Date: 2003/03/01 03:39:46 $
  */
 public final class DependencyMetaData
     extends FeatureDescriptor

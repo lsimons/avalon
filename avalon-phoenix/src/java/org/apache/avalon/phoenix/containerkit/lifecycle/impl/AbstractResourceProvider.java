@@ -18,9 +18,9 @@ import org.apache.avalon.framework.component.DefaultComponentManager;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.DefaultContext;
-import org.apache.avalon.framework.info.ComponentInfo;
-import org.apache.avalon.framework.info.ContextDescriptor;
-import org.apache.avalon.framework.info.EntryDescriptor;
+import org.apache.avalon.phoenix.framework.info.ComponentInfo;
+import org.apache.avalon.phoenix.framework.info.ContextDescriptor;
+import org.apache.avalon.phoenix.framework.info.EntryDescriptor;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.framework.service.DefaultServiceManager;
@@ -44,7 +44,7 @@ import org.apache.avalon.phoenix.containerkit.metadata.DependencyMetaData;
  * {@link org.apache.avalon.phoenix.containerkit.verifier.AssemblyVerifier}</p>
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003/02/22 04:03:28 $
+ * @version $Revision: 1.3 $ $Date: 2003/03/01 03:39:46 $
  */
 public abstract class AbstractResourceProvider
     extends AbstractLogEnabled

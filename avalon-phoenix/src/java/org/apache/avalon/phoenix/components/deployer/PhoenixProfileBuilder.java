@@ -18,15 +18,15 @@ import org.apache.avalon.phoenix.components.assembler.Assembler;
 import org.apache.avalon.phoenix.components.ContainerConstants;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.logger.Logger;
-import org.apache.avalon.framework.info.ComponentInfo;
-import org.apache.avalon.framework.tools.infobuilder.LegacyUtil;
+import org.apache.avalon.phoenix.framework.info.ComponentInfo;
+import org.apache.avalon.phoenix.framework.tools.infobuilder.LegacyUtil;
 import java.util.Map;
 import java.util.ArrayList;
 
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003/03/01 01:07:44 $
+ * @version $Revision: 1.2 $ $Date: 2003/03/01 03:39:45 $
  */
 public class PhoenixProfileBuilder
     extends AbstractLogEnabled

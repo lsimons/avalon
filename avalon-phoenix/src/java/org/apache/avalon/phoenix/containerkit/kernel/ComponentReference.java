@@ -7,14 +7,14 @@
  */
 package org.apache.avalon.phoenix.containerkit.kernel;
 
-import org.apache.avalon.framework.info.ComponentInfo;
+import org.apache.avalon.phoenix.framework.info.ComponentInfo;
 
 /**
  * This interface defines a resource returned from the
  * {@link ComponentDirectory}.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003/01/18 16:43:43 $
+ * @version $Revision: 1.2 $ $Date: 2003/03/01 03:39:46 $
  */
 public interface ComponentReference
 {

@@ -10,7 +10,7 @@ package org.apache.avalon.phoenix.containerkit.kernel.processor;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import org.apache.avalon.framework.info.DependencyDescriptor;
+import org.apache.avalon.phoenix.framework.info.DependencyDescriptor;
 import org.apache.avalon.phoenix.containerkit.kernel.ComponentStore;
 import org.apache.avalon.phoenix.containerkit.metadata.ComponentMetaData;
 import org.apache.avalon.phoenix.containerkit.metadata.DependencyMetaData;
@@ -22,7 +22,7 @@ import org.apache.avalon.phoenix.containerkit.registry.ComponentProfile;
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.1 $ $Date: 2003/01/18 16:43:43 $
+ * @version $Revision: 1.2 $ $Date: 2003/03/01 03:39:46 $
  */
 public class DependencyMap
 {

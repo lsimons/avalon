@@ -8,9 +8,9 @@
 package org.apache.avalon.phoenix.components.deployer;
 
 import java.io.InputStream;
-import org.apache.avalon.framework.info.ComponentInfo;
+import org.apache.avalon.phoenix.framework.info.ComponentInfo;
 import org.apache.avalon.framework.logger.Logger;
-import org.apache.avalon.framework.tools.infobuilder.LegacyBlockInfoReader;
+import org.apache.avalon.phoenix.framework.tools.infobuilder.LegacyBlockInfoReader;
 import org.apache.avalon.phoenix.containerkit.factory.DefaultComponentFactory;
 
 /**
@@ -18,7 +18,7 @@ import org.apache.avalon.phoenix.containerkit.factory.DefaultComponentFactory;
  * that makes sure {@link ComponentInfo} is loaded via BlockInfo loader.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2003/02/22 04:03:27 $
+ * @version $Revision: 1.4 $ $Date: 2003/03/01 03:39:45 $
  */
 public class PhoenixComponentFactory
     extends DefaultComponentFactory

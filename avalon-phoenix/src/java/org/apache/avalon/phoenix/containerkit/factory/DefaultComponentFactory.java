@@ -9,17 +9,17 @@ package org.apache.avalon.phoenix.containerkit.factory;
 
 import java.util.Map;
 import java.util.WeakHashMap;
-import org.apache.avalon.framework.info.ComponentInfo;
+import org.apache.avalon.phoenix.framework.info.ComponentInfo;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.logger.Logger;
-import org.apache.avalon.framework.tools.infobuilder.InfoBuilder;
+import org.apache.avalon.phoenix.framework.tools.infobuilder.InfoBuilder;
 
 /**
  * The default implementation of {@link ComponentFactory}
  * that simply creates components from a {@link java.lang.ClassLoader}.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2003/02/22 05:34:45 $
+ * @version $Revision: 1.4 $ $Date: 2003/03/01 03:39:46 $
  */
 public class DefaultComponentFactory
     extends AbstractLogEnabled

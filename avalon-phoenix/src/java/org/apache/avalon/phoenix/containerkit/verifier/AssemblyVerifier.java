@@ -11,11 +11,11 @@ import java.util.ArrayList;
 import java.util.Stack;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
-import org.apache.avalon.framework.info.ComponentInfo;
-import org.apache.avalon.framework.info.DependencyDescriptor;
-import org.apache.avalon.framework.info.ServiceDescriptor;
+import org.apache.avalon.phoenix.framework.info.ComponentInfo;
+import org.apache.avalon.phoenix.framework.info.DependencyDescriptor;
+import org.apache.avalon.phoenix.framework.info.ServiceDescriptor;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
-import org.apache.avalon.framework.tools.verifier.VerifyException;
+import org.apache.avalon.phoenix.framework.tools.verifier.VerifyException;
 import org.apache.avalon.phoenix.containerkit.metadata.DependencyMetaData;
 import org.apache.avalon.phoenix.containerkit.registry.ComponentProfile;
 
@@ -40,11 +40,11 @@ import org.apache.avalon.phoenix.containerkit.registry.ComponentProfile;
  *   <li>Verify that the Class objects for component implement the
  *       service interfaces.</li>
  *   <li>Verify that the Class is a valid Avalon Component as per the
- *       rules in {@link org.apache.avalon.framework.tools.verifier.ComponentVerifier} object.</li>
+ *       rules in {@link org.apache.avalon.phoenix.framework.tools.verifier.ComponentVerifier} object.</li>
  * </ul>
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2003/03/01 01:54:33 $
+ * @version $Revision: 1.4 $ $Date: 2003/03/01 03:39:46 $
  */
 public class AssemblyVerifier
     extends AbstractLogEnabled

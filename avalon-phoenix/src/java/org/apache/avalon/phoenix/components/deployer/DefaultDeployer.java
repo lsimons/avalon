@@ -21,7 +21,7 @@ import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.context.DefaultContext;
-import org.apache.avalon.framework.info.SchemaDescriptor;
+import org.apache.avalon.phoenix.framework.info.SchemaDescriptor;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.service.ServiceException;
@@ -342,7 +342,7 @@ public class DefaultDeployer
         {
             m_verifier.verifySar( profile, classLoader );
         }
-        catch( org.apache.avalon.framework.tools.verifier.VerifyException e )
+        catch( org.apache.avalon.phoenix.framework.tools.verifier.VerifyException e )
         {
             throw new VerifyException( e.getMessage(), e.getCause() );
         }

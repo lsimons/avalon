@@ -1,0 +1,46 @@
+<html>
+<body>
+A set of classes supporting the representation of information about a
+component type.
+
+<h3>Overview</h3>
+<p>This package includes a set of classes supporting the representation of
+information about a component type.  This information is refered to as
+component meta-info.  Component meta-info deals primarily with the
+declaration of the services implemented by a component type, the service
+dependecies that a component type has on other components, and lastly,
+general information of the component including its name, implementation
+version and related features.<p>
+
+<h3>Package Structure (UML)</h3>
+<p><img src="doc-files/uml.gif" border="0" ></p>
+
+<p>The info package allows many of the descriptors to contain
+extra attributes. These attributes offer mechanisms via which
+the container can determine extra information about a
+component. This information may or may not determine the behaviour
+of the container towards the component.</p>
+
+<p>For example a component that declared a attribute "avalon.mx enabled=true"
+on a service it provided would indicate to the container that the service
+is part of the management interface of the component. However it is up to
+the container to recognize the significance of the attribute and if supported
+the attribute should be acted.</p>
+
+<p>To ease the development of containers and components this document will
+document a set of common attributes that are common across containers.
+However it should be noted that any container provider is allowed to create
+a set of new attributes that the particular container is capable of handling.
+It should be noted that these attributes will usually be in a container
+specific namespace.</p>
+
+<p>Any container is welcome to create their own namespace in which they can
+define any attributes they see fit. The namespace should be equal to the
+shortname of the container. For example if the
+<a href="http://jakarta.apache.org/avalon/phoenix">Phoenix</a> container wanted
+to add extra attributes it would use a namespace "phoenix" while the Fortress
+container would use the "fortress" namespace.</p>
+
+</body>
+
+</html>

@@ -7,7 +7,7 @@
  */
 package org.apache.avalon.phoenix.containerkit.registry;
 
-import org.apache.avalon.framework.info.ComponentInfo;
+import org.apache.avalon.phoenix.framework.info.ComponentInfo;
 import org.apache.avalon.phoenix.containerkit.metadata.ComponentMetaData;
 
 /**
@@ -18,7 +18,7 @@ import org.apache.avalon.phoenix.containerkit.metadata.ComponentMetaData;
  * construct a specific instance of the component.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003/01/18 16:43:44 $
+ * @version $Revision: 1.2 $ $Date: 2003/03/01 03:39:46 $
  */
 public class ComponentProfile
 {

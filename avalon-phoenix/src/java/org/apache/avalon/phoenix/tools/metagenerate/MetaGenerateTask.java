@@ -11,7 +11,7 @@ import com.thoughtworks.qdox.model.DocletTag;
 import com.thoughtworks.qdox.model.JavaClass;
 import java.io.File;
 import java.io.IOException;
-import org.apache.avalon.framework.tools.ant.FormatEnum;
+import org.apache.avalon.phoenix.framework.tools.ant.FormatEnum;
 import org.apache.tools.ant.BuildException;
 
 /**
@@ -19,7 +19,7 @@ import org.apache.tools.ant.BuildException;
  * @author Paul Hammant
  */
 public class MetaGenerateTask
-    extends org.apache.avalon.framework.tools.ant.MetaGenerateTask
+    extends org.apache.avalon.phoenix.framework.tools.ant.MetaGenerateTask
 {
     //private boolean m_inheritance = true;
 
