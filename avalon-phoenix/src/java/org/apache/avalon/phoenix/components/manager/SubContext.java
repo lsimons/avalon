@@ -114,6 +114,11 @@ class SubContext
             final String message = "type cannot be null or empty";
             throw new ManagerException( message );
         }
+        else if( null != name && this.m_type == null )
+        {
+            final String message = "cannot request a named subcontext here";
+            throw new ManagerException( message );
+        }
 
         // get from list if possible
         final String key = contextKey( name, type );
