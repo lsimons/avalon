@@ -187,9 +187,7 @@ public class JUnitTestTask extends SystemTask
     private File getUnitTestResourcesDirectory( File build )
     {
         File etc = new File( build, "etc" );
-        File test = new File( etc, "test" );
-        File unit = new File( test, "unit" );
-        return unit;
+        return new File( etc, "test" );
     }
 
     private void copyCompileResource( File src, File classes )

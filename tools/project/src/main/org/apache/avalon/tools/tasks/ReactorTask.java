@@ -57,6 +57,8 @@ public class ReactorTask extends SystemTask
 {
     private static final String BANNER = 
       "------------------------------------------------------------------------";
+
+    private String m_target;
     private Path m_path;
     private List m_defs;
 
@@ -65,38 +67,47 @@ public class ReactorTask extends SystemTask
         if( !isInitialized() )
         {
             super.init();
-            m_path = new Path( getProject() );
         }
+    }
+
+    public void setTarget( final String target )
+    {
+        m_target = target;
     }
 
     public void addConfigured( final Path path )
     {
-        m_path.add( path );
+        getPath().add( path );
     }
 
     public void addConfigured( final DirSet dirset )
     {
-        m_path.addDirset( dirset );
+        getPath().addDirset( dirset );
     }
 
     public void addConfigured( final FileSet fileset )
     {
-        m_path.addFileset( fileset );
+        getPath().addFileset( fileset );
     }
 
     public void addConfigured( final FileList list ) 
     {
-        m_path.addFilelist( list );
+        getPath().addFilelist( list );
     }
 
     public void execute() throws BuildException 
     {
         final Project project = getProject();
         log( "Finding project defintions." );
+        long now = System.currentTimeMillis();
         m_defs = getDefinitions();
+        long discovery = System.currentTimeMillis() - now;
+
+        log( "Discovery took: (" + discovery + " msecs.)" );
         log( "Build sequence for projects." );
         final Definition[] defs = walkGraph();
-        log( "Sequence established:" );
+        long graph = System.currentTimeMillis() - discovery - now;
+        log( "Sequence established: (" + graph + " msecs.)" );
         project.log( BANNER );
         for( int i=0; i<defs.length; i++ )
         {
@@ -118,12 +129,25 @@ public class ReactorTask extends SystemTask
         }
     }
 
+    private Path getPath()
+    {
+        if( null == m_path )
+        {
+            m_path = new Path( getProject() );
+        }
+        return m_path;
+    }
+
     public void build( final Definition definition )
     {
         final Ant ant = (Ant) getProject().createTask( "ant" );
         ant.setDir( definition.getBasedir() );
         ant.setInheritRefs( false );
         ant.setInheritAll( false );
+        if( null != m_target )
+        {
+            ant.setTarget( m_target );
+        }
         ant.init();
         ant.execute();
     }
@@ -189,10 +213,47 @@ public class ReactorTask extends SystemTask
 
     private List getDefinitions()
     {
-        final ArrayList list = new ArrayList();
         final Project project = getProject();
-        final File basedir = project.getBaseDir();
-        final String[] names = m_path.list();
+        final File basedir = project.getBaseDir(); 
+        if( null == m_path )
+        {
+            return getLocalDefinitions( project, basedir );
+        }
+        else
+        {
+            return getExplicitDefinitions( project, basedir );
+        }
+    }
+
+    private List getLocalDefinitions( Project project, File basedir )
+    {
+        try
+        {
+            final ArrayList list = new ArrayList();
+            String path = basedir.getCanonicalPath();
+            Definition[] defs = getHome().getDefinitions();
+            for( int i=0; i<defs.length; i++ )
+            {
+                Definition def = defs[i];
+                String base = def.getBasedir().getCanonicalPath();
+                if( base.startsWith( path ) )
+                {
+                    list.add( def );
+                }
+            }
+            return list;
+        }
+        catch( IOException ioe )
+        {
+            throw new BuildException( ioe );
+        }
+    }
+
+    private List getExplicitDefinitions( Project project, File basedir )
+    {
+        final ArrayList list = new ArrayList();
+
+        final String[] names = getPath().list();
         for( int i=0; i<names.length; i++ )
         {
             final String path = names[i];
