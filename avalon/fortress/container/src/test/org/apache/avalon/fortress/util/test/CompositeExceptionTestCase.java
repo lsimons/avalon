@@ -85,6 +85,7 @@ public class CompositeExceptionTestCase extends TestCase
         final StringBuffer msg = new StringBuffer();
         for ( int i = 0; i < m_exceptions.length; i++ )
         {
+            if ( i > 0 ) msg.append( '\n' );
             msg.append( m_exceptions[i].getMessage() );
         }
         final String message = msg.toString();

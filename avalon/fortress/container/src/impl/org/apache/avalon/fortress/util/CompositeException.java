@@ -25,6 +25,7 @@ public final class CompositeException extends Exception
             final StringBuffer msg = new StringBuffer();
             for ( int i = 0; i < ex.length; i++ )
             {
+                if (i > 0) msg.append('\n');
                 msg.append( ex[i].getMessage() );
             }
             m_message = msg.toString();

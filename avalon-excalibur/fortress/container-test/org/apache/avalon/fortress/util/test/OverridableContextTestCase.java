@@ -50,99 +50,44 @@
 package org.apache.avalon.fortress.util.test;
 
 import junit.framework.TestCase;
-import org.apache.avalon.fortress.util.CompositeException;
+import org.apache.avalon.fortress.util.OverridableContext;
+import org.apache.avalon.framework.context.ContextException;
+import org.apache.avalon.framework.context.DefaultContext;
 
 /**
- * CompositeExceptionTestCase does XYZ
+ * OverridableContextTestCase does XYZ
  *
  * @author <a href="bloritsch.at.apache.org">Berin Loritsch</a>
  * @version CVS $ Revision: 1.1 $
  */
-public class CompositeExceptionTestCase extends TestCase
+public class OverridableContextTestCase extends TestCase
 {
-    private Exception[] m_exceptions;
-
-    public CompositeExceptionTestCase( String name )
+    public OverridableContextTestCase( String name )
     {
         super( name );
     }
 
-    public void setUp()
+    public void testOverride() throws Exception
     {
-        m_exceptions = new Exception[2];
-        m_exceptions[0] = new RuntimeException( "Test1" );
-        m_exceptions[1] = new RuntimeException( "Test2" );
-    }
+        OverridableContext context = new OverridableContext( new DefaultContext() );
+        context.put( "name", "value" );
 
-    public void testRegularCreation()
-    {
-        CompositeException exc = new CompositeException( m_exceptions );
-        assertNotNull( exc );
-        assertNotNull( exc.getMessage() );
-        assertTrue( null == exc.getCause() );
-        assertNotNull( exc.getExceptions() );
+        assertNotNull( context.get( "name" ) );
+        assertEquals( "value", context.get( "name" ) );
 
-        final StringBuffer msg = new StringBuffer();
-        for ( int i = 0; i < m_exceptions.length; i++ )
-        {
-            if ( i > 0 ) msg.append( '\n' );
-            msg.append( m_exceptions[i].getMessage() );
-        }
-        final String message = msg.toString();
+        context.put( "name", "" );
 
-        assertEquals( message, exc.getMessage() );
+        assertNotNull( context.get( "name" ) );
+        assertEquals( "", context.get( "name" ) );
 
-        Exception[] exceptions = exc.getExceptions();
-        assertEquals( m_exceptions.length, exceptions.length );
-
-        for ( int i = 0; i < exceptions.length; i++ )
-        {
-            assertEquals( m_exceptions[i], exceptions[i] );
-        }
-    }
-
-    public void testNestedCreation()
-    {
-        final String message = "Message";
-        CompositeException exc = new CompositeException( m_exceptions, message );
-        assertNotNull( exc );
-        assertNotNull( exc.getMessage() );
-        assertTrue( null == exc.getCause() );
-        assertNotNull( exc.getExceptions() );
-
-        assertEquals( message, exc.getMessage() );
-
-        Exception[] exceptions = exc.getExceptions();
-        assertEquals( m_exceptions.length, exceptions.length );
-
-        for ( int i = 0; i < exceptions.length; i++ )
-        {
-            assertEquals( m_exceptions[i], exceptions[i] );
-        }
-    }
-
-    public void testIllegalArgument()
-    {
-        try
-        {
-            new CompositeException( null );
-            fail( "Did not throw an IllegalArgumentException" );
-        }
-        catch ( IllegalArgumentException iae )
-        {
-            // SUCCESS!!
-        }
-        catch ( Exception e )
-        {
-            fail( "Threw the wrong exception: " + e.getClass().getName() );
-        }
+        context.put( "name", null );
 
         try
         {
-            new CompositeException( new Exception[]{} );
-            fail( "Did not throw an IllegalArgumentException" );
+            context.get( "name" );
+            fail( "Did not throw the expected exception" );
         }
-        catch ( IllegalArgumentException iae )
+        catch ( ContextException ce )
         {
             // SUCCESS!!
         }
