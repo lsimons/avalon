@@ -101,11 +101,13 @@ class Connection
             }
             catch( final IOException ioe )
             {
-                getLogger().error( "Exception accepting connection", ioe );
+                final String message = "Exception accepting connection";
+                getLogger().error( message, ioe );
             }
             catch( final Exception e )
             {
-                getLogger().error( "Exception executing runner", e );
+                final String message = "Exception executing runner";
+                getLogger().error( message, e );
             }
         }
 
@@ -183,7 +185,8 @@ class ConnectionRunner
         }
         catch( final Exception e )
         {
-            getLogger().warn( "Error handling connection", e );
+            final String message = "Error handling connection";
+            getLogger().warn( message, e );
         }
         finally
         {
@@ -192,14 +195,7 @@ class ConnectionRunner
                 m_handlerFactory.releaseConnectionHandler( handler );
             }
 
-            try
-            {
-                m_socket.close();
-            }
-            catch( final IOException ioe )
-            {
-                getLogger().warn( "Error shutting down connection", ioe );
-            }
+            shutdownSocket();
 
             synchronized( this )
             {
@@ -208,6 +204,22 @@ class ConnectionRunner
 
                 notifyAll();
             }
+        }
+    }
+
+    /**
+     * Utility method for shutting down associated socket.
+     */
+    private void shutdownSocket()
+    {
+        try
+        {
+            m_socket.close();
+        }
+        catch( final IOException ioe )
+        {
+            final String message = "Error shutting down connection";
+            getLogger().warn( message, ioe );
         }
     }
 }
