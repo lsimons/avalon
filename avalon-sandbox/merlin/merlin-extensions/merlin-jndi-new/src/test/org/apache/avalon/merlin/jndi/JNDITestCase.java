@@ -82,7 +82,6 @@ public class JNDITestCase extends TestCase
         environment.put( 
           Context.URL_PKG_PREFIXES, 
           "block://localhost/" );
-
     }
 
     public void testInitialContext() throws Exception

@@ -2,7 +2,7 @@
 
 <project>
 
-  <extend>${basedir}/../../project.xml</extend>
+  <extend>${basedir}/../project.xml</extend>
   <groupId>merlin</groupId>
   <id>merlin-servlet</id>
   <name>Merlin Kernel Servlet</name>
@@ -189,4 +189,67 @@ Servlet implementation that initializes an embedded Merlin Kernel.
 
   </dependencies>
   
+  <build>
+
+    <sourceDirectory>${basedir}/src/java</sourceDirectory>
+    <unitTestSourceDirectory>${basedir}/src/test</unitTestSourceDirectory>
+
+    <unitTest>
+      <includes>
+        <include>**/*TestCase*</include>
+      </includes>
+      <excludes>
+      </excludes>
+      <resources>
+        <resource>
+          <directory>${basedir}/src/test</directory>
+          <includes> 
+            <include>**/*.dtd</include>
+            <include>**/*.properties</include>
+            <include>**/*.xinfo</include>
+            <include>**/*.xtype</include>
+            <include>**/*.xprofile</include>
+            <include>**/*.xconfig</include>
+            <include>**/*.xml</include>
+            <include>**/*.xservice</include>
+            <include>**/*.mf</include>
+            <include>**/*.jar</include>
+          </includes>
+        </resource>
+        <resource>
+          <directory>${maven.conf.dir}</directory>
+          <includes> 
+            <include>**/*.properties</include>
+          </includes>
+        </resource>
+      </resources>
+    </unitTest>
+
+    <integrationUnitTestPatterns></integrationUnitTestPatterns>
+    
+    <resources>
+      <resource>
+        <directory>${basedir}/src/java</directory>
+        <includes>
+          <include>**/*.dtd</include>
+          <include>**/*.properties</include>
+          <include>**/*.xinfo</include>
+          <include>**/*.xtype</include>
+          <include>**/*.xprofile</include>
+          <include>**/*.xconfig</include>
+          <include>**/*.xml</include>
+          <include>**/*.xservice</include>
+        </includes>
+      </resource>
+      <resource>
+        <directory>${maven.conf.dir}</directory>
+        <includes>
+          <include>**/*.properties</include>
+        </includes>
+      </resource>
+    </resources>
+    
+    <jars></jars>
+  </build>
+
 </project>
