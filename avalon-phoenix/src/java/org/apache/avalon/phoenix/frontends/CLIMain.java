@@ -64,10 +64,9 @@ public final class CLIMain
         catch( final Throwable throwable )
         {
             handleException( throwable );
-            System.exit( 1 );
         }
 
-        System.exit( 0 );
+        System.exit( m_exitCode );
     }
 
     /**
