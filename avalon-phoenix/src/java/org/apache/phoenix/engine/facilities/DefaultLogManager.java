@@ -9,9 +9,6 @@ package org.apache.phoenix.engine.facilities;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.Iterator;
 import org.apache.avalon.AbstractLoggable;
 import org.apache.avalon.Context;
 import org.apache.avalon.Contextualizable;
@@ -51,7 +48,7 @@ public class DefaultLogManager
     {
         final Configuration[] targets = configuration.getChildren( "log-target" );
         configureTargets( m_baseName, m_baseDirectory, targets );
-        
+
         final Configuration[] categories = configuration.getChildren( "category" );
         configureCategories( m_baseName, categories );
 
@@ -61,9 +58,9 @@ public class DefaultLogManager
           LogKit.setGlobalPriority( priority );
         */
     }
-  
-    protected void configureTargets( final String baseName, 
-                                     final File baseDirectory, 
+
+    protected void configureTargets( final String baseName,
+                                     final File baseDirectory,
                                      final Configuration[] targets )
         throws ConfigurationException
     {
@@ -73,35 +70,35 @@ public class DefaultLogManager
             final String name = baseName + '.' + target.getAttribute( "name" );
             String location = target.getAttribute( "location" ).trim();
             final String format = target.getAttribute( "format", null );
-            
+
             if( '/' == location.charAt( 0 ) )
             {
                 location = location.substring( 1 );
             }
-            
+
             final File file = new File( baseDirectory, location );
-            
+
             final FileOutputLogTarget logTarget = new FileOutputLogTarget();
             final AvalonLogFormatter formatter = new AvalonLogFormatter();
             formatter.setFormat( "%{time} [%7.7{priority}] <<%{category}>> " +
                                  "(%{context}): %{message}\\n%{throwable}" );
             logTarget.setFormatter( formatter );
-            
+
             try { logTarget.setFilename( file.getAbsolutePath() ); }
             catch( final IOException ioe )
             {
                 throw new ConfigurationException( "Error initializing log files", ioe );
             }
-            
-            if( null != format ) 
+
+            if( null != format )
             {
                 logTarget.setFormat( format );
             }
-            
+
             LogKit.addLogTarget( name, logTarget );
         }
     }
-    
+
     protected void configureCategories( final String baseName, final Configuration[] categories )
         throws ConfigurationException
     {
@@ -111,7 +108,7 @@ public class DefaultLogManager
             String name = category.getAttribute( "name" );
             final String target = baseName + '.' + category.getAttribute( "target" );
             final String priority = category.getAttribute( "priority" );
-            
+
             if( name.trim().equals( "" ) )
             {
                 name = baseName;
@@ -120,15 +117,15 @@ public class DefaultLogManager
             {
                 name = baseName + '.' + name;
             }
-            
-            final Category logCategory = 
+
+            final Category logCategory =
                 LogKit.createCategory( name, LogKit.getPriorityForName( priority ) );
             final LogTarget logTarget = LogKit.getLogTarget( target );
             LogTarget logTargets[] = null;
-            
+
             if( null != target ) logTargets = new LogTarget[] { logTarget };
-            
-            LogKit.createLogger( logCategory, logTargets );    
+
+            LogKit.createLogger( logCategory, logTargets );
         }
     }
 }
