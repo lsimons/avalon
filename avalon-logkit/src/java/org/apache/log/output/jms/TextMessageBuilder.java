@@ -7,10 +7,10 @@
  */
 package org.apache.log.output.jms;
 
-import javax.jms.Message;
-import javax.jms.TextMessage;
-import javax.jms.Session;
 import javax.jms.JMSException;
+import javax.jms.Message;
+import javax.jms.Session;
+import javax.jms.TextMessage;
 import org.apache.log.LogEvent;
 
 /**
@@ -28,6 +28,18 @@ public class TextMessageBuilder
         {
             final TextMessage message = session.createTextMessage();
             message.setText( event.getMessage() );
+
+            /*
+              message.setStringProperty(JMS_PROP_MSG_TYPE, JMS_PROP_MSG_TYPE_VALUE);
+              message.setStringProperty(JMS_PROP_HOST, ip);
+              message.setLongProperty(JMS_PROP_TIME, smessage.time);
+              message.setStringProperty(JMS_PROP_CHANNEL, sm.channel);
+              message.setStringProperty(JMS_PROP_LOGGER, sm.loggerClassname);
+              message.setStringProperty(JMS_PROP_MESSAGE, msg);
+              message.setIntProperty( JP_PRIORITY, event.getsm.level );
+              message.setStringProperty(JMS_PROP_THREAD, threadName);
+            */
+
             return message;
         }
     }
