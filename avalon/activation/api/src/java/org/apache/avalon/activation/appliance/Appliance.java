@@ -50,57 +50,60 @@
 
 package org.apache.avalon.activation.appliance;
 
-import org.apache.avalon.composition.model.StageModel;
-import org.apache.avalon.composition.model.DependencyModel;
+import java.net.URL;
+import java.util.Map;
+
+import org.apache.avalon.composition.model.Model;
+import org.apache.avalon.composition.model.DeploymentModel;
+import org.apache.avalon.framework.configuration.Configuration;
+import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.meta.info.DependencyDescriptor;
+import org.apache.avalon.meta.info.ServiceDescriptor;
+import org.apache.avalon.meta.info.ReferenceDescriptor;
 import org.apache.avalon.meta.info.StageDescriptor;
+import org.apache.avalon.meta.info.Type;
+import org.apache.avalon.composition.data.ContextDirective;
+import org.apache.avalon.composition.data.CategoriesDirective;
 
 /**
- * The Engine interface defines the contract for service that provide
- * appliance resolution.
+ * An Appliance is the basic tool merlin wraps around a component to
+ * provide support for lifecycle and lifestyle management. Different
+ * implementations of Appliance can be plugged into the merlin system
+ * to allow merlin to manage a variety of components.
+ *
+ * The name appliance is used to call up an association with a kitchen
+ * utility like a microwave. Merlin acts as a chef in his kitchen, and uses
+ * various appliances to "cook up" various components as the restaurant
+ * customers (which can be other components or systems on the other end
+ * on the planet) ask for them.
+ *
+ * An appliance manages the establishment of a component
+ * type relative to a deployment criteria. Once established, an appliance
+ * provides support for the deployment of component instances on request.
+ * An appliance is responsible for component lifestyle and lifecycle
+ * management during the deployment and decommission cycles.
+ *
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2003/09/24 09:31:00 $
+ * @version $Revision: 1.1 $ $Date: 2003/10/12 15:34:49 $
  */
-public interface Engine
+public interface Appliance extends Deployable, Home
 {
-   /**
-    * Return an appliance relative to a supplied dependency model.
-    * @param dependency the dependency model
-    * @return the appliance
-    */
-    Appliance resolveAppliance( DependencyModel dependency )
-      throws Exception;
+    static final String MBEAN_SERVER_KEY = "urn:avalon:mbean-server";
 
-   /**
-    * Return an appliance relative to a supplied dependency descriptor.
-    * @param dependency the dependency descriptor
-    * @return the appliance
-    */
-    Appliance resolveAppliance( DependencyDescriptor dependency )
-      throws Exception;
+    /**
+     * Return the model backing the appliance.
+     * @return the model that the appliance is managing
+     */
+    Model getModel();
 
-   /**
-    * Return an appliance relative to a supplied stage model.
-    * @param stage the stage model
-    * @return the appliance
-    */
-    Appliance resolveAppliance( StageModel stage )
-      throws Exception;
+    /**
+     * Test if this appliance is enabled.  An appliance is enabled unless
+     * explicitly disabled by an assembly directive, or implicity disabled
+     * as a result of an assembly failure.
+     *
+     * @return TRUE if the appliance is enabled.
+     */
+    boolean isEnabled();
 
-   /**
-    * Return an appliance relative to a supplied stage descriptor.
-    * @param stage the stage descriptor
-    * @return the appliance
-    */
-    Appliance resolveAppliance( StageDescriptor stage )
-      throws Exception;
-
-   /**
-    * Return an appliance relative to a supplied path.
-    * @param path the appliance path
-    * @return the appliance
-    */
-    Appliance resolveAppliance( String path )
-      throws Exception;
 }

@@ -50,60 +50,29 @@
 
 package org.apache.avalon.activation.appliance;
 
-import java.net.URL;
-import java.util.Map;
-
-import org.apache.avalon.composition.model.Model;
-import org.apache.avalon.composition.model.DeploymentModel;
-import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.parameters.Parameters;
-import org.apache.avalon.meta.info.DependencyDescriptor;
-import org.apache.avalon.meta.info.ServiceDescriptor;
-import org.apache.avalon.meta.info.ReferenceDescriptor;
-import org.apache.avalon.meta.info.StageDescriptor;
-import org.apache.avalon.meta.info.Type;
-import org.apache.avalon.composition.data.ContextDirective;
-import org.apache.avalon.composition.data.CategoriesDirective;
-
 /**
- * An Appliance is the basic tool merlin wraps around a component to
- * provide support for lifecycle and lifestyle management. Different
- * implementations of Appliance can be plugged into the merlin system
- * to allow merlin to manage a variety of components.
- *
- * The name appliance is used to call up an association with a kitchen
- * utility like a microwave. Merlin acts as a chef in his kitchen, and uses
- * various appliances to "cook up" various components as the restaurant
- * customers (which can be other components or systems on the other end
- * on the planet) ask for them.
- *
- * An appliance manages the establishment of a component
- * type relative to a deployment criteria. Once established, an appliance
- * provides support for the deployment of component instances on request.
- * An appliance is responsible for component lifestyle and lifecycle
- * management during the deployment and decommission cycles.
- *
+ * The Deployable interface defines the contract for an object 
+ * that can be deployed.  Deployment at this level of abstract 
+ * concerns the handling of actions proceeding component 
+ * resolution for a particula appliance instance.  
+ * Deployment is equivalent to the notion of initialization.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2003/09/24 09:30:57 $
+ * @version $Revision: 1.1 $ $Date: 2003/10/12 15:34:49 $
  */
-public interface Appliance extends Deployable, Home
+public interface Deployable
 {
-    static final String MBEAN_SERVER_KEY = "urn:avalon:mbean-server";
+   /**
+    * Commission the appliance. 
+    *
+    * @exception Exception if a deployment error occurs
+    */
+    void deploy() throws Exception;
 
-    /**
-     * Return the model backing the appliance.
-     * @return the model that the appliance is managing
-     */
-    Model getModel();
-
-    /**
-     * Test if this appliance is enabled.  An appliance is enabled unless
-     * explicitly disabled by an assembly directive, or implicity disabled
-     * as a result of an assembly failure.
-     *
-     * @return TRUE if the appliance is enabled.
-     */
-    boolean isEnabled();
+   /**
+    * Invokes the decommissioning phase.  Once a appliance is 
+    * decommissioned it may be re-commissioned.
+    */
+    void decommission();
 
 }

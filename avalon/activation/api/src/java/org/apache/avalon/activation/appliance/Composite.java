@@ -55,7 +55,7 @@ package org.apache.avalon.activation.appliance;
  * complete assembly assesment and fulfillment provess may be performed.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2003/09/24 09:30:58 $
+ * @version $Revision: 1.1 $ $Date: 2003/10/12 15:34:49 $
  */
 public interface Composite
 {
