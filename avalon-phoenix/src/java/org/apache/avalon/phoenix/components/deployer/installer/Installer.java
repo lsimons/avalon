@@ -34,7 +34,7 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
  * and installing it as appropriate.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2002/05/11 02:05:13 $
+ * @version $Revision: 1.2 $ $Date: 2002/05/13 21:09:31 $
  */
 public class Installer
     extends AbstractLogEnabled
@@ -111,13 +111,13 @@ public class Installer
 
         try
         {
-            FileUtil.deleteDirectory( workDir );
+            FileUtil.deleteDirectory( installation.getWorkDirectory() );
         }
         catch( final IOException ioe )
         {
             final String message =
                 REZ.getString( "nodelete-workdir.error",
-                               workDir,
+                               installation.getWorkDirectory(),
                                ioe.getMessage() );
             getLogger().warn( message, ioe );
         }
