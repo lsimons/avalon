@@ -57,6 +57,7 @@
   </header>
   <body>
     <section name="Advanced Features">
+
       <subsection name="Profile Selection">
         <p>
 In the <a href="profiles.html">Profile tutorial</a> we covered the mechanisms used to establish a pre-configured deployment profile. In this tutorial we update the &lt;classname&gt;.xprofile to include multiple named profiles and show how you can select a specific profile when declaring a component in block descriptor.
@@ -65,6 +66,7 @@ In the <a href="profiles.html">Profile tutorial</a> we covered the mechanisms us
 Component deployment profiles are co-located with the component implementation class under an .xprofile resource.
         </p>
       </subsection>
+
       <subsection name="Adding multiple profiles">
         <p>
           The RandomGeneratorProvider.xprofile is updated to include 
@@ -73,7 +75,6 @@ Component deployment profiles are co-located with the component implementation c
         <p><i>RandomGeneratorProvider.xprofile</i></p>
 <source><![CDATA[
 <?xml version="1.0"?>
-
 <profiles>
 
   <profile name="primary">
@@ -91,6 +92,7 @@ Component deployment profiles are co-located with the component implementation c
 </profiles>
 ]]></source>
       </subsection>
+
       <subsection name="Component declaration using a named profile">
         <p>
           A &lt;component&gt; element may contain the <strong>profile</strong>
@@ -123,6 +125,8 @@ Component deployment profiles are co-located with the component implementation c
 
 </container>
 ]]></source>
+      </subsection>
+
       <subsection name="Executing the tutorial">
         <p>
         Build and run the tutorial.
