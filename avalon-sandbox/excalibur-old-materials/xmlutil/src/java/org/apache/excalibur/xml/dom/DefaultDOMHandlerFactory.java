@@ -23,7 +23,7 @@ import org.apache.avalon.framework.thread.ThreadSafe;
 
 /**
  * @author <a href="mailto:mirceatoma@apache.org">Mircea Toma</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/08/06 19:58:18 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/08/12 21:08:35 $
  */
 public class DefaultDOMHandlerFactory extends AbstractLogEnabled implements DOMHandlerFactory, Configurable, Initializable, Component, ThreadSafe
 {   
@@ -47,11 +47,9 @@ public class DefaultDOMHandlerFactory extends AbstractLogEnabled implements DOMH
     public DOMHandler createDOMHandler() throws Exception
     {
         final Document document = m_documentBuilder.newDocument();
-        final DOMResult result = new DOMResult( document );
         final TransformerHandler transformerHandler = m_transformerFactory.newTransformerHandler();
-        transformerHandler.setResult( result );
         
-        return new DefaultDOMHandler( transformerHandler, result, m_ignoreComments, m_ignoreWhitespaces );
+        return new DefaultDOMHandler( transformerHandler, document, m_ignoreComments, m_ignoreWhitespaces );
     }        
         
 }

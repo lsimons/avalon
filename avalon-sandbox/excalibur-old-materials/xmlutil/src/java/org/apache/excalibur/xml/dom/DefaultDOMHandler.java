@@ -15,27 +15,29 @@ import org.apache.avalon.excalibur.xml.ContentHandlerWrapper;
 
 /**
  * @author <a href="mailto:mirceatoma@apache.org">Mircea Toma</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/08/06 19:58:18 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/08/12 21:08:35 $
  */
 public class DefaultDOMHandler 
     extends ContentHandlerWrapper
     implements DOMHandler
 {    
-    private final DOMResult m_result;
+    private final Document m_document;
     private final boolean m_ignoreWhitespaces;
     private final boolean m_ignoreComments;
     
-    public DefaultDOMHandler( TransformerHandler handler, DOMResult result , boolean ignoreComments, boolean ignoreWhitespaces )
+    public DefaultDOMHandler( TransformerHandler handler, Document document, boolean ignoreComments, boolean ignoreWhitespaces )
     {
         super( handler, handler );
-        m_result = result;
+        m_document = document;
         m_ignoreComments = ignoreComments;
         m_ignoreWhitespaces = ignoreWhitespaces;
+        
+        handler.setResult( new DOMResult( m_document ) );
     }
     
     public Document getDocument()
     {
-        return (Document)m_result.getNode();
+        return m_document;
     }
     
     public void ignorableWhitespace( final char[] ch, final int start, final int len )
