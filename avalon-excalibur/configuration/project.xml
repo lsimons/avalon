@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <project>
-    <extend>${basedir}/../project-common.xml</extend>
+    <extend>${avalon.buildsystem}/project-common.xml</extend>
 
     <name>Configuration</name>
     <id>excalibur-configuration</id>
