@@ -15,7 +15,7 @@ import java.text.SimpleDateFormat;
  * Rotation stragety based on SimpleDateFormat.
  *
  * @author <a href="mailto:colus@apache.org">Eung-ju Park</a>
- * @version $Revision: 1.1 $ $Date: 2002/02/21 11:34:07 $
+ * @version $Revision: 1.2 $ $Date: 2002/02/21 12:17:34 $
  */
 public class RotateStrategyByDate
     implements RotateStrategy
@@ -41,8 +41,8 @@ public class RotateStrategyByDate
         m_date.setTime( System.currentTimeMillis() );
         if ( m_current.equals( m_format.format( m_date ) ) )
         {
-            return true;
+            return false;
         }
-        return false;
+        return true;
     }
 }
