@@ -5,11 +5,11 @@
  * version 1.1, a copy of which has been included with this distribution in
  * the LICENSE file.
  */
-package org.apache.avalon.framework.atlantis;
+package org.apache.avalon.phoenix.components.manager;
 
-import org.apache.avalon.framework.activity.Startable;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Initializable;
+import org.apache.avalon.framework.activity.Startable;
 import org.apache.avalon.framework.component.Component;
 
 /**
@@ -22,7 +22,7 @@ import org.apache.avalon.framework.component.Component;
 public interface SystemManager
     extends Component, Initializable, Startable, Disposable
 {
-    String ROLE = "org.apache.avalon.framework.atlantis.SystemManager";
+    String ROLE = "org.apache.avalon.phoenix.components.manager.SystemManager";
 
     /**
      * Register an object for management.

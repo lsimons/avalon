@@ -5,13 +5,13 @@
  * version 1.1, a copy of which has been included with this distribution in
  * the LICENSE file.
  */
-package org.apache.avalon.framework.atlantis;
+package org.apache.avalon.phoenix.components.manager;
 
 import java.util.HashMap;
 import org.apache.avalon.framework.logger.AbstractLoggable;
 
 /**
- * This is abstract implementation of SystemManager. 
+ * This is abstract implementation of SystemManager.
  *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
@@ -42,8 +42,8 @@ public abstract class AbstractSystemManager
      * @param name the name to register object under
      * @param object the object
      * @param interfaces the interfaces to register the component under
-     * @exception ManagerException if an error occurs. An error could occur if the object doesn't 
-     *            implement the interfaces, the interfaces parameter contain non-instance 
+     * @exception ManagerException if an error occurs. An error could occur if the object doesn't
+     *            implement the interfaces, the interfaces parameter contain non-instance
      *            classes, the name is already registered etc.
      * @exception IllegalArgumentException if object or interfaces is null
      */
@@ -99,7 +99,7 @@ public abstract class AbstractSystemManager
         throws ManagerException
     {
         final ManagedEntry entry = (ManagedEntry)m_entrys.remove( name );
-        
+
         if( null == entry )
         {
             throw new ManagerException( "No such entry" );
@@ -109,14 +109,14 @@ public abstract class AbstractSystemManager
     }
 
     /**
-     * Export the object to the particular management medium using 
+     * Export the object to the particular management medium using
      * the supplied object and interfaces.
      * This needs to be implemented by subclasses.
      *
      * @param name the name of object
      * @param object the object
      * @param interfaces the interfaces
-     * @return the exported object 
+     * @return the exported object
      * @exception ManagerException if an error occurs
      */
     protected abstract Object export( String name, Object object, Class[] interfaces )

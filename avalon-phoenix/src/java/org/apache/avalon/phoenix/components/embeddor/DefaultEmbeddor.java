@@ -14,7 +14,7 @@ import org.apache.avalon.excalibur.io.ExtensionFileFilter;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.atlantis.Application;
 import org.apache.avalon.framework.atlantis.Embeddor;
-import org.apache.avalon.framework.atlantis.SystemManager;
+import org.apache.avalon.phoenix.components.manager.SystemManager;
 import org.apache.avalon.framework.camelot.Container;
 import org.apache.avalon.framework.camelot.Deployer;
 import org.apache.avalon.framework.component.Composable;
@@ -56,17 +56,23 @@ public class DefaultEmbeddor
     private static final String    DEFAULT_APPS_PATH    = PHOENIX_HOME + "/apps";
 
     private static final String    DEFAULT_DEPLOYER     =
-        System.getProperty( "phoenix.deployer", "org.apache.avalon.phoenix.components.deployer.DefaultSarDeployer" );
+        System.getProperty( "phoenix.deployer", 
+                            "org.apache.avalon.phoenix.components.deployer.DefaultSarDeployer" );
 
     private static final String    DEFAULT_KERNEL       =
-        System.getProperty( "phoenix.kernel", "org.apache.avalon.phoenix.components.kernel.DefaultKernel" );
+        System.getProperty( "phoenix.kernel", 
+                            "org.apache.avalon.phoenix.components.kernel.DefaultKernel" );
 
     private static final String    DEFAULT_MANAGER      =
-        System.getProperty( "phoenix.manager", "org.apache.avalon.framework.atlantis.NoopSystemManager" );
+        System.getProperty( "phoenix.manager", 
+                            "org.apache.avalon.phoenix.components.manager.NoopSystemManager" );
 
     private static final String    DEFAULT_REPOSITORY   =
         System.getProperty( "phoenix.repository",
                             "org.apache.avalon.phoenix.components.configuration.DefaultConfigurationRepository" );
+
+    private final static String  DEFAULT_FORMAT =
+        "%{time} [%7.7{priority}] <<%{category}>> (%{context}): %{message}\\n%{throwable}";
 
     private Parameters     m_parameters;
 
@@ -312,8 +318,7 @@ public class DefaultEmbeddor
 
         final FileOutputLogTarget logTarget = new FileOutputLogTarget( logDestination );
         final AvalonFormatter formatter = new AvalonFormatter();
-        formatter.setFormat( "%{time} [%7.7{priority}] <<%{category}>> " +
-                             "(%{context}): %{message}\\n%{throwable}" );
+        formatter.setFormat( DEFAULT_FORMAT );
         logTarget.setFormatter( formatter );
 
         //Create an anonymous hierarchy so no other
