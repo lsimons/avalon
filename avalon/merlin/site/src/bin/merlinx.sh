@@ -35,6 +35,7 @@ if $cygwin; then
   [ -n "$CLASSPATH" ] && CLASSPATH=`cygpath --path --unix "$CLASSPATH"`
 fi
 
+
 # Checking for REPOSITORY
 if [ "$MAVEN_HOME_LOCAL" = "" ] 
 then
@@ -42,7 +43,9 @@ then
 else
  REPOSITORY="$MAVEN_HOME_LOCAL/repository"
 fi
+
 JAVA=$JAVA_HOME/bin/java
+MERLIN_BOOTSTRAP_JAR=$MERLIN_HOME/bin/lib/merlin-cli-3.2.jar
 
 # switch necessary paths to Windows format before running java
 if $cygwin; then
@@ -52,6 +55,13 @@ if $cygwin; then
   [ -n "$CLASSPATH" ] && CLASSPATH=`cygpath --path --windows "$CLASSPATH"`
 fi
 
-RUN_CMD="\"$JAVA\" \"-Djava.security.policy=$MERLIN_HOME/bin/security.policy\" \"-Djava.ext.dirs=$MERLIN_HOME/ext\" -jar \"$MERLIN_HOME/bin/lib/merlin-cli-3.2.jar\" \"-system $REPOSITORY\" \"-repository $REPOSITORY\" \"$@\""
-echo "RUN CMD IS: $RUN_CMD"
-exec $RUN_CMD
+echo "Starting Merlin."
+echo "================"
+echo "      Security policy: $MERLIN_HOME/bin/security.policy"
+echo "  Extension directory: $MERLIN_HOME/ext"
+echo "        Bootstrap JAR: $MERLIN_BOOTSTRAP_JAR"
+echo "               System: $REPOSITORY"
+echo "           Repository: $REPOSITORY"
+echo ""
+
+"$JAVA" $MERLIN_JVM_OPTS "-Djava.security.policy=$MERLIN_HOME/bin/security.policy" "-Djava.ext.dirs=$MERLIN_HOME/ext" -jar "$MERLIN_BOOTSTRAP_JAR" -system "$REPOSITORY" -repository "$REPOSITORY" $@
