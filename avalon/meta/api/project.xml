@@ -5,17 +5,15 @@
 
 <project>
 
-  <extend>${basedir}/../project.xml</extend>
+  <extend>${basedir}/../../project.xml</extend>
 
   <groupId>&avalon-meta-id;</groupId>
   <id>&avalon-meta-api-id;</id>
   <currentVersion>&avalon-meta-api-version;</currentVersion>
 
-  <id>avalon-meta-api</id>
   <name>Avalon Meta Model API</name>
   <package>org.apache.avalon.meta</package>
 
-  <!--<currentVersion>1.3</currentVersion>-->
   <inceptionYear>2002</inceptionYear>
   <shortDescription>Meta Model API</shortDescription>
   

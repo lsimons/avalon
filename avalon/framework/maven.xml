@@ -46,25 +46,12 @@
       <j:forEach var="child" items="${reactorProjects}">
         <ant:fileset dir="${child.file.parentFile}/target">
           <ant:include name="${child.artifactId}-${child.currentVersion}.jar"/>
+          <ant:include name="${child.artifactId}-${child.currentVersion}.jar.asc"/>
+          <ant:include name="${child.artifactId}-${child.currentVersion}.jar.md5"/>
+          <ant:include name="${child.artifactId}-${child.currentVersion}.jar.meta"/>
         </ant:fileset>
       </j:forEach>
     </ant:copy>
-
-    <j:forEach var="child" items="${reactorProjects}">
-      <j:set var="path" value="${child.artifactId}-${child.currentVersion}"/>
-      <util:file var="jarFile" name="${maven.build.dir}/jars/${path}.jar"/>
-      <j:if test="${jarFile.exists()}">
-        <checksum file="${jarFile}" fileext=".md5" />
-        <j:if test="${maven_gpg_exe != null}">
-          <ant:exec executable="${maven_gpg_exe}">
-            <ant:arg value="-a"/>
-            <ant:arg value="--yes"/>
-            <ant:arg value="-b"/>
-            <ant:arg value="${jarFile}"/>
-          </ant:exec>
-        </j:if>
-      </j:if>
-    </j:forEach>
 
     <!-- Add composite jar -->
     <ant:jar jarfile="${maven.build.dir}/jars/${maven.final.name}.jar"

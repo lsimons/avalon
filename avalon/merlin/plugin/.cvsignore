@@ -4,3 +4,4 @@ velocity.log
 snapshot.properties
 .classpath
 .project
+build.properties
