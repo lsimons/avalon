@@ -12,6 +12,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLStreamHandler;
 import java.net.URLStreamHandlerFactory;
+import java.util.jar.JarFile;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 
@@ -20,7 +21,7 @@ import org.apache.avalon.excalibur.i18n.Resources;
  * protocol handler.
  *
  * @author <a href="mailto:mirceatoma@home.com">Mircea Toma</a>
- * @version CVS $Revision: 1.6 $ $Date: 2001/10/27 22:47:10 $
+ * @version CVS $Revision: 1.7 $ $Date: 2001/10/27 23:04:25 $
  */
 class SarURLStreamHandlerFactory
     extends URLStreamHandler
@@ -30,6 +31,18 @@ class SarURLStreamHandlerFactory
         ResourceManager.getPackageResources( SarURLStreamHandlerFactory.class );
 
     private static final String PROTOCOL = "sar";
+
+    private JarFile m_archive;
+
+    /**
+     * Create a factory for a specific archive
+     *
+     * @param archive the archive for "sar:" protocol
+     */
+    public SarURLStreamHandlerFactory( final JarFile archive )
+    {
+        m_archive = archive;
+    }
 
     /**
      * Creates a new <code>URLStreamHandler</code> instance with the specified

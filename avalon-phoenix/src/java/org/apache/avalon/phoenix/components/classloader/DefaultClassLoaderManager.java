@@ -9,6 +9,7 @@ package org.apache.avalon.phoenix.components.classloader;
 
 import java.io.File;
 import java.net.URL;
+import java.util.jar.JarFile;
 import java.security.Policy;
 import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.configuration.Configuration;
@@ -60,8 +61,16 @@ public class DefaultClassLoaderManager
         //TODO: Load Extensions from Package Repository as required
         //TODO: Determine parentClassLoader in a safer fashion
         final ClassLoader parentClassLoader = Thread.currentThread().getContextClassLoader();
-        //final ZipFile zipFile = new ZipFile();
-        final SarURLStreamHandlerFactory factory = new SarURLStreamHandlerFactory();
+
+        //If source is not a file then there will be no need to pass in 
+        //a URLStreamHandler factory anyway so we can just pass in null
+        SarURLStreamHandlerFactory factory = null;
+        if( source.isFile() )
+        {
+            final JarFile archive = new JarFile( source );
+            factory = new SarURLStreamHandlerFactory( archive );
+        }
+
         return new PolicyClassLoader( classPath, parentClassLoader, factory, policy );
     }
 
