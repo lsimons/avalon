@@ -101,11 +101,14 @@ public class Hierarchy
      * @param message a message to log
      * @param t a Throwable to log
      */
-    public void log( final String message, final Throwable t )
+    public void log( final String message, final Throwable throwable )
     {
         //TODO: replace this with an error handler
         System.err.println( "Error: " + message );
-        t.printStackTrace();
+        if( null != throwable )
+        {
+            throwable.printStackTrace();
+        }
     }
 
     /**
@@ -116,8 +119,7 @@ public class Hierarchy
      */
     public void log( final String message )
     {
-        //TODO: replace this with an error handler
-        System.err.println( "Error: " + message );
+        log( message, null );
     }
 
     /**
