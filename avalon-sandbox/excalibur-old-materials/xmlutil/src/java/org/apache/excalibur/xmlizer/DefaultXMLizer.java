@@ -34,7 +34,7 @@ import java.util.Map;
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
  * @author <a href="mailto:mirceatoma@apache.org">Mircea Toma</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/12/07 01:00:51 $
+ * @version CVS $Revision: 1.3 $ $Date: 2003/01/14 08:29:08 $
  */
 public final class DefaultXMLizer extends AbstractLogEnabled
         implements XMLizer, Serviceable, Configurable, ThreadSafe, Component
@@ -49,13 +49,21 @@ public final class DefaultXMLizer extends AbstractLogEnabled
 
     public void configure( Configuration configuration ) throws ConfigurationException
     {
-        final Configuration[] parsers = configuration.getChildren("parser");
+        final Configuration[] parsers = configuration.getChildren("parsers");
         for ( int i = 0; i < parsers.length; i++ )
         {
             final Configuration parser = parsers[i];
             final String mimeType = parser.getAttribute("mime-type");
             final String role = parser.getAttribute("parser");
             m_mimeTypes.put(mimeType, role);
+            if ( getLogger().isDebugEnabled() )
+            {
+                getLogger().debug("XMLizer: Registering parser '"+role+"' for mime-type '"+mimeType+"'.");
+            }
+        }
+        if ( getLogger().isDebugEnabled() )
+        {
+            getLogger().debug("XMLizer: Default parser is '"+Parser.ROLE+"'.");
         }
     }
 
