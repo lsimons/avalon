@@ -106,8 +106,8 @@ Legal:
     <property name="cli.jar" value="${repo.dir}/cli/cli-1.0/cli-1.0.jar"/>
 
     <!-- Invoke ant get-configkit' to get these -->
-    <property name="configkit.jar" value="${repo.dir}/spice-configkit/spice-configkit-1.1/spice-configkit-1.1.jar"/>
-    <fileset id="configkit.fileset" dir="${repo.dir}/spice-configkit/spice-configkit-1.1/lib"/>
+    <property name="configkit.jar" value="${repo.dir}/spice-configkit/spice-configkit-1.1.1/spice-configkit-1.1.1.jar"/>
+    <fileset id="configkit.fileset" dir="${repo.dir}/spice-configkit/spice-configkit-1.1.1/lib"/>
 
     <path id="project.class.path">
         <pathelement location="${xerces.jar}"/>
@@ -142,6 +142,7 @@ Legal:
         <pathelement location="${target.testclasses}"/>
         <pathelement location="${junit.jar}"/>
         <path refid="project.class.path"/>
+        <fileset refid="configkit.fileset"/>
     </path>
 
     <!-- =================================================================== -->
@@ -459,7 +460,7 @@ Legal:
     <!-- Get the jars from the configkit project. -->
     <target name="get-configkit" description="Get the Spice ConfigKit distribution from SourceForge.">
         <mkdir dir="${repo.dir}/spice-configkit"/>
-        <get src="http://osdn.dl.sourceforge.net/sourceforge/spice/spice-configkit-1.1.tar.gz"
+        <get src="http://osdn.dl.sourceforge.net/sourceforge/spice/spice-configkit-1.1.1.tar.gz"
             dest="${repo.dir}/spice-configkit/spice-configkit.tar.gz"
             verbose="true"
             usetimestamp="true"/>
@@ -616,6 +617,7 @@ Legal:
                 <exclude name="**/*.java"/>
             </fileset>
         </copy>
+        <copy file="src/schema/catalog.xml" tofile="${target.testclasses}/META-INF/spice/catalog.xml"/>
 
         <mkdir dir="${target.tests}"/>
 

@@ -74,7 +74,7 @@ import org.xml.sax.InputSource;
  * <a href="package-summary.html#external">package summary</a>.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.6 $ $Date: 2003/04/05 04:25:43 $
+ * @version $Revision: 1.7 $ $Date: 2003/04/05 11:21:10 $
  */
 public final class LegacyBlockInfoReader
     extends AbstractLogEnabled
@@ -97,7 +97,7 @@ public final class LegacyBlockInfoReader
         throws Exception
     {
         final InputSource input = new InputSource( inputStream );
-        final Configuration configuration = ConfigurationBuilder.build( input, false );
+        final Configuration configuration = ConfigurationBuilder.build( input, ConfigurationBuilder.BLOCKINFO_SCHEMA, getLogger() );
         return build( implementationKey, configuration );
     }
 

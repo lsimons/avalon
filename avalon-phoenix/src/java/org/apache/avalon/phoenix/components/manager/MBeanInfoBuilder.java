@@ -81,7 +81,7 @@ import org.xml.sax.InputSource;
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
  * @author <a href="mailto:huw@mmlive.com">Huw Roberts</a>
- * @version $Revision: 1.8 $ $Date: 2003/03/22 12:07:10 $
+ * @version $Revision: 1.9 $ $Date: 2003/04/05 11:21:09 $
  */
 public final class MBeanInfoBuilder
     extends AbstractLogEnabled
@@ -574,7 +574,7 @@ public final class MBeanInfoBuilder
             final InputSource source = new InputSource( stream );
 
             // build with validation against DTD
-            return ConfigurationBuilder.build( source, true );
+            return ConfigurationBuilder.build( source, ConfigurationBuilder.MXINFO_SCHEMA, getLogger() );
         }
         catch( Exception e )
         {

@@ -66,7 +66,7 @@ import org.xml.sax.InputSource;
  * Abstract class which TestCases can extend.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.10 $ $Date: 2003/04/05 04:25:45 $
+ * @version $Revision: 1.11 $ $Date: 2003/04/05 11:21:10 $
  */
 public class AbstractContainerTestCase
     extends TestCase
@@ -83,7 +83,10 @@ public class AbstractContainerTestCase
         assembler.enableLogging( new ConsoleLogger() );
         final URL resource = getClass().getResource( config );
         assertNotNull( "Config resource: " + config, resource );
-        final Configuration assembly = ConfigurationBuilder.build( new InputSource( resource.toExternalForm() ), true );
+        final Configuration assembly =
+            ConfigurationBuilder.build( new InputSource( resource.toExternalForm() ),
+                                        ConfigurationBuilder.ASSEMBLY_SCHEMA,
+                                        new ConsoleLogger() );
         final Map parameters = new HashMap();
         parameters.put( ContainerConstants.ASSEMBLY_NAME, "test" );
         parameters.put( ContainerConstants.ASSEMBLY_CONFIG, assembly );

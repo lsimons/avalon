@@ -290,9 +290,14 @@ public class DefaultDeployer
             //m_baseWorkDirectory
             installation = m_installer.install( name, location );
 
-            final Configuration config = getConfigurationFor( installation, ContainerConstants.INSTALL_CONFIG );
-            final Configuration environment = getConfigurationFor( installation, ContainerConstants.INSTALL_ENVIRONMENT );
-            final Configuration assembly = getConfigurationFor( installation, ContainerConstants.INSTALL_ASSEMBLY );
+            final Configuration config =
+                getConfigurationFor( installation, ContainerConstants.INSTALL_CONFIG, null );
+            final Configuration environment =
+                getConfigurationFor( installation, ContainerConstants.INSTALL_ENVIRONMENT, null );
+            final Configuration assembly =
+                getConfigurationFor( installation,
+                                     ContainerConstants.INSTALL_ASSEMBLY,
+                                     ConfigurationBuilder.ASSEMBLY_SCHEMA );
 
             final File homeDirectory =
                 (File)installation.get( ContainerConstants.INSTALL_HOME );
@@ -482,13 +487,13 @@ public class DefaultDeployer
      * @return the Configuration
      * @throws DeploymentException if an error occurs
      */
-    private Configuration getConfigurationFor( final Map install, final String key )
+    private Configuration getConfigurationFor( final Map install, final String key, final String schema )
         throws DeploymentException
     {
         final String location = (String)install.get( key );
         try
         {
-            return ConfigurationBuilder.build( new InputSource( location ), false );
+            return ConfigurationBuilder.build( new InputSource( location ), schema, getLogger() );
         }
         catch( final Exception e )
         {
