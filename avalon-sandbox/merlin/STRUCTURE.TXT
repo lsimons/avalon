@@ -12,32 +12,33 @@ STRUCTURE:
 
   merlin
     |
-    +-- assembly                 assembly implementation
-    +-- assembly-spi             assembly SPI interfaces and classes
+    +-- activation               activation implementation
+    +-- activation-spi           activation SPI interfaces and classes
     +-- composition              composition implementation
     +-- composition-spi          composition SPI interfaces and classes
     +-- extension                jar manegement implementation
     +-- extension-spi            jar manegement SPI interfaces and classes
-    +-- merlin-cli               merlin command line handler
-    +-- merlin-core              merlin kernel, block, and container 
-    +-- merlin-spi               merlin SPI interfaces and classes
-    +-- merlin-plugin            plugin for Maven 
+    +-- kernel                   
+        +- bootstrap             kernel bootstrap
+        +- spi                   kernel interfaces
+        +- impl                  kernel implementation
+    +-- merlin-plugin            plugin for Maven
     +-- merlin-extensions        
-        +- merlin-jndi           merlin JNDI connector
+        +- merlin-jndi           merlin JNDI connector (work-in-progress)
         +- merlin-jndi-new       extended JNDI implementation (work-in-progress)
         +- merlin-jmx            merlin JMX adapter implementation (work-in-progress)
-        +- merlin-servlet        merlin Servlet utilities
+        +- merlin-servlet        merlin Servlet utilities (work-in-progress) 
     +-- merlin-platform          site and installation resources
         +- src                   resources used to build a merlin installation
         +- tutorials             several merlin tutorials
         +- examples              example applications
         +- target
            +- docs               generate site documentation
-    +-- meta                     meta package implementation
-    +-- meta-spi                 meta SPI interfaces and classes
-    +-- meta-tools               meta info generator task
-    +-- target
-        +- inst                  the generated installation (see 
+    +-- repository
+        +- spi                   resource repository interfaces
+        +- impl                  resource repository implementation
+    +-- target                   generated build
+        +- merlin                the generated installation (see 
                                  build procedure detailed below)
 
 
@@ -46,32 +47,27 @@ BUILD PROCEDURE:
 
 The Merlin project requires the Maven project management tool.
 
-If you have already a MERLIN_HOME environment variable defined, then all
-you need to do is invoke the merlin-install goal (although it is 
-recommended to discard installed jar files beforehand).
-
-  $ maven merlin-install
-
 The merlin-dist goal builds a Merlin installation directory under the 
-default /target/inst.  Please note that the installation build 
-does not generate a demonstration apps at this time (this should be 
-resolved shortly).
+default /target/merlin.
 
   $ maven merlin-dist
 
 Following the creation of an installation you need to declare the environment 
 variable MERLIN_HOME with a value corresponding to the directory in which you
 choose to deploy the merlin system.  Please also make sure that you include
-MERLIN_HOME/bin in your PATH environment variable.  You can then copy the inst
+MERLIN_HOME/bin in your PATH environment variable.  You can then move the merlin
 directory to MERLIN_HOME following which the Merlin command line utilities 
 should function properly.  You can confirm this (on NT) by opening a new DOS 
 window and invoking the following command:
 
-  $ merlin -help
+  $ merlin -version
 
 Support for the installation and execution of Merlin as an NT process is 
 now included in the package (refer bin directory) - special thanks to Leif
-for helping to set this up.
+for helping to set this up.  When updating an existing installation, the 
+maven goal merlin-libs invokes the classic merlin-dist and updates your local
+merlin repository.  This is often convinient if you are frequently updating 
+the merlin core. 
 
 For additional information please check the documentation and also use the 
 Avalon Users list (subscription details in the doc).  The merlin-site goal 
@@ -82,7 +78,7 @@ root merlin directory.
   $ maven merlin-site
 
 Finally, please keep in mind that while Merlin is nearing completion and 
-readiness for a first release, it is still alpha, APIs are changing, and 
-documentation is evolving.
+readiness for a first release, it should be considered as beta software as 
+APIs are changing, and documentation is evolving.
 
-SJM 15 April 2003
+SJM 17 August 2003
