@@ -22,9 +22,8 @@ import org.apache.avalon.excalibur.cache.ReplacementPolicy;
 public class TimeMapLRUPolicy
     implements ReplacementPolicy
 {
-
-    protected TreeMap m_timeToKeyMap;
-    protected HashMap m_keyToTimeMap;
+    private TreeMap m_timeToKeyMap;
+    private HashMap m_keyToTimeMap;
 
     private long m_time;
     private Object m_lock;
