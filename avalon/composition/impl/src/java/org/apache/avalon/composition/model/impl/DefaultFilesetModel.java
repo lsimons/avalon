@@ -18,6 +18,7 @@
 package org.apache.avalon.composition.model.impl;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import org.apache.avalon.composition.data.ExcludeDirective;
@@ -36,7 +37,7 @@ import org.apache.avalon.framework.logger.Logger;
  * <code>FilesetDirective</code>.
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2004/04/17 19:05:14 $
+ * @version $Revision: 1.2 $ $Date: 2004/04/20 00:03:32 $
  */
 public class DefaultFilesetModel extends AbstractLogEnabled
     implements FilesetModel
@@ -180,7 +181,70 @@ public class DefaultFilesetModel extends AbstractLogEnabled
      * the base directory anchor and produces an array of files
      * to include in the classpath.
      */
-    public void resolveFileset() throws IllegalStateException {
+    public void resolveFileset() throws IOException, IllegalStateException {
+/*        
+
+        // New stuff...
+        DirectoryScanner ds = new DirectoryScanner();
+
+        // Supply the directory scanner with our base directory anchor
+        ds.setBasedir( m_anchor );
+        m_logger.debug( "ds.basedir=[" + ds.getBasedir() + "]" );
+
+        // Any default excludes to add?
+        for (int i = 0; i < m_defaultExcludes.length; i++ )
+        {
+            ds.addDefaultExclude( m_defaultExcludes[i] );
+        }
+
+        // Supply the directory scanner with our set of includes.
+        // The scanner wants the includes in the form of String[],
+        // but we have them in the form of IncludeDirective[].
+        // So.. we need to first convert...
+        String[] includes = new String[ m_includes.length ];
+        if (m_includes.length == 0)
+        {
+            for (int i = 0; i < m_defaultIncludes.length; i++)
+            {
+                includes[i] = m_defaultIncludes[i];
+            }
+        }
+        else
+        {
+            for (int i = 0; i < m_includes.length; i++ )
+            {
+                includes[i] = m_includes[i].getPath();
+            }
+        }
+        ds.setIncludes( includes );
+
+        // Same thing for the set of excludes...
+        String[] excludes = new String[ m_excludes.length ];
+        for (int i = 0; i < m_excludes.length; i++ )
+        {
+            excludes[i] = m_excludes[i].getPath();
+        }
+        ds.setExcludes( excludes );
+
+
+        // Make the scanner pay attention to filesystem case sensitivity
+        ds.setCaseSensitive( true );
+
+        // Scan the directory (which doesn't do much right now) and output
+        // some stuff to debug
+        ds.scan();
+        m_logger.debug( ds.toString() );
+        String[] candidates = ds.getIncludedFiles();
+        if ( candidates.length > 0 ) {
+            for (int i = 0; i < candidates.length; i++) {
+                File file = new File( m_anchor, candidates[i] );
+                m_list.add( file );
+            }
+        } else {
+            m_list.add( m_anchor );
+        }
+*/
+        // Original stuff...
         if( m_includes.length > 0 ) {
             for( int j=0; j<m_includes.length; j++ ) {
                 File file = new File( m_anchor, m_includes[j].getPath() );

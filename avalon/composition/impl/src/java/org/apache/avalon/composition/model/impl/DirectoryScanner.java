@@ -19,6 +19,7 @@ package org.apache.avalon.composition.model.impl;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -37,11 +38,10 @@ import org.apache.avalon.util.env.Env;
  * 
  * @author Apache Ant Development Team (Kuiper, Umasankar, Atherton, and Levy-Lambert)
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $ $Date: 2004/04/19 18:13:09 $
+ * @version $Revision: 1.4 $ $Date: 2004/04/20 00:03:32 $
  */
 public class DirectoryScanner {
 
-    /** Is OpenVMS the operating system we're running on? */
     private static final boolean ON_VMS = Env.isOpenVMS();
     
     /**
@@ -143,6 +143,9 @@ public class DirectoryScanner {
      */
     protected Vector dirsDeselected;
     
+    /** Whether or not our results were built by a slow scan. */
+    protected boolean haveSlowResults = false;
+
     /**
      * Whether or not the file system should be treated as a case sensitive
      * one.
@@ -218,6 +221,21 @@ public class DirectoryScanner {
      *                <code>null</code>.
      * @param str     The path to match, as a String. Must not be
      *                <code>null</code>.
+     *
+     * @return <code>true</code> if the pattern matches against the string,
+     *         or <code>false</code> otherwise.
+     */
+    protected static boolean matchPath(String pattern, String str) {
+        return ScannerUtils.matchPath(pattern, str);
+    }
+
+    /**
+     * Tests whether or not a given path matches a given pattern.
+     *
+     * @param pattern The pattern to match against. Must not be
+     *                <code>null</code>.
+     * @param str     The path to match, as a String. Must not be
+     *                <code>null</code>.
      * @param isCaseSensitive Whether or not matching should be performed
      *                        case sensitively.
      *
@@ -245,6 +263,28 @@ public class DirectoryScanner {
      */
     public static boolean match(String pattern, String str) {
         return ScannerUtils.match(pattern, str);
+    }
+
+    /**
+     * Tests whether or not a string matches against a pattern.
+     * The pattern may contain two special characters:<br>
+     * '*' means zero or more characters<br>
+     * '?' means one and only one character
+     *
+     * @param pattern The pattern to match against.
+     *                Must not be <code>null</code>.
+     * @param str     The string which must be matched against the pattern.
+     *                Must not be <code>null</code>.
+     * @param isCaseSensitive Whether or not matching should be performed
+     *                        case sensitively.
+     *
+     *
+     * @return <code>true</code> if the string matches against the pattern,
+     *         or <code>false</code> otherwise.
+     */
+    protected static boolean match(String pattern, String str,
+                                   boolean isCaseSensitive) {
+        return ScannerUtils.match(pattern, str, isCaseSensitive);
     }
 
     /**
@@ -436,6 +476,27 @@ public class DirectoryScanner {
     }
 
     /**
+     * Sets the selectors that will select the filelist.
+     *
+     * @param selectors specifies the selectors to be invoked on a scan
+     */
+    public void setSelectors(FileSelector[] selectors) {
+        this.selectors = selectors;
+    }
+
+
+    /**
+     * Returns whether or not the scanner has included all the files or
+     * directories it has come across so far.
+     *
+     * @return <code>true</code> if all files and directories which have
+     *         been found so far have been included.
+     */
+    public boolean isEverythingIncluded() {
+        return everythingIncluded;
+    }
+
+    /**
      * Scans the base directory for files which match at least one include
      * pattern and don't match any exclude patterns. If there are selectors
      * then the files must pass muster there, as well.
@@ -614,7 +675,9 @@ public class DirectoryScanner {
      * @see #dirsExcluded
      * @see #slowScan
      */
-    protected void scandir(File dir, String vpath, boolean fast) throws IOException {
+    protected void scandir(File dir, String vpath, boolean fast)
+        throws IOException
+    {
         if (dir == null) {
             throw new IOException("dir must not be null.");
         } else if (!dir.exists()) {
@@ -855,9 +918,22 @@ public class DirectoryScanner {
     }
 
     /**
-     * temporary table to speed up the various scanning methods below
+     * Returns the names of the files which matched at least one of the
+     * include patterns and none of the exclude patterns.
+     * The names are relative to the base directory.
      *
-     * @since Ant 1.6
+     * @return the names of the files which matched at least one of the
+     *         include patterns and none of the exclude patterns.
+     */
+    public String[] getIncludedFiles() {
+        String[] files = new String[filesIncluded.size()];
+        filesIncluded.copyInto(files);
+        Arrays.sort(files);
+        return files;
+    }
+
+    /**
+     * temporary table to speed up the various scanning methods below
      */
     private Map fileListMap = new HashMap();
 

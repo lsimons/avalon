@@ -92,7 +92,7 @@ import org.apache.avalon.util.i18n.Resources;
  * and the extensions package.
  * </p>
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.16 $ $Date: 2004/04/17 19:05:14 $
+ * @version $Revision: 1.17 $ $Date: 2004/04/20 00:03:32 $
  */
 public class DefaultClassLoaderModel extends AbstractLogEnabled 
     implements ClassLoaderModel
@@ -647,7 +647,7 @@ public class DefaultClassLoaderModel extends AbstractLogEnabled
     *   file references will be resolved
     * @return the classpath
     */
-    public File[] expandFileSetDirectives( 
+    public File[] expandFileSetDirectives ( 
       File base, FilesetDirective[] filesets ) throws IOException, IllegalStateException
     {
         getLocalLogger().debug("base=[" + base + "]");
