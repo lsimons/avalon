@@ -28,12 +28,12 @@ public interface ThreadControl
         throws IllegalStateException, InterruptedException;
 
     /**
-     * Call Thread.interupt() on thread being controlled.
+     * Call {@link Thread#interrupt()} on thread being controlled.
      *
      * @throws IllegalStateException if isValid() == false
      * @throws SecurityException if caller does not have permission to call interupt()
      */
-    void interupt()
+    void interrupt()
         throws IllegalStateException, SecurityException;
 
     /**
