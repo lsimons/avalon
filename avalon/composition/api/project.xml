@@ -1,16 +1,20 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE project [
+  <!ENTITY % index SYSTEM "file:index.ent"> %index;
+]>
 
 <project>
 
   <extend>${basedir}/../../project.xml</extend>
 
-  <groupId>avalon-composition</groupId>
-  <id>avalon-composition-api</id>
+  <groupId>&avalon-composition-id;</groupId>
+  <id>&avalon-composition-api-id;</id>
+  <currentVersion>&avalon-composition-api-version;</currentVersion>
+
   <name>Avalon Composition API</name>
   <package>org.apache.avalon.assembly</package>
-
-  <inceptionYear>2002</inceptionYear>
   <shortDescription>Avalon Composition SPI</shortDescription>
+  <inceptionYear>2002</inceptionYear>
 
   <description>
 An API supporting component composition.
