@@ -8,6 +8,9 @@
   tools for threading, pooling, datasources, command-line interface (CLI)
   option parsing and more.
 
+  It also contains several containers and libraries that aid in building
+  containers.
+
   Where is it?
   ------------
 
@@ -79,6 +82,32 @@
   current situation. In time, we hope to make the distinction between Commons
   and Exclibur much less prominent.
 
+  Some of the components in excalibur have been moved into Jakarta Commons;
+  we keep them in excalibur cvs only for backwards compatibility.
+
+
+  Relation with Apache Commons
+  ----------------------------
+
+  Users are also encouraged to take a look at the Apache Commons project
+  (http://commons.apache.org/), a new project @ apache dedicated to reusable
+  components. The relationships between Avalon Excalibur, Jakarta Commons
+  and the new Apache Commons are only currently being defined.
+
+  It is likely that there will be a lot of synergy between Avalon Excalibur
+  and Apache Commons. Some of the code currently in the excalibur CVS might
+  move to Apache Commons if it makes sense to do so.
+
+  This is not something to worry about; the code will not change and the
+  developers will be the same guys 'n gals :D
+
+  Relation with Jakarta Turbine
+  -----------------------------
+
+  Users are also encouraged to look at the subproject of Jakarta Turbine
+  called Fulcrum (http://jakarta.apache.org/turbine/fulcrum/), which contains
+  various services related to web development. Work is underway to make fulcrum
+  and the services it offers completely avalon-compatbile.
 
   Problems?
   ---------
