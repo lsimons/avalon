@@ -9,15 +9,15 @@ package org.apache.excalibur.datasource;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import org.apache.avalon.Component;
-import org.apache.avalon.ThreadSafe;
+import org.apache.avalon.component.Component;
+import org.apache.avalon.thread.ThreadSafe;
 import org.apache.avalon.configuration.Configurable;
 
 /**
  * The standard interface for DataSources in Avalon.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.1 $ $Date: 2001/04/17 03:07:46 $
+ * @version CVS $Revision: 1.2 $ $Date: 2001/04/18 13:15:48 $
  */
 public interface DataSourceComponent
     extends Component, Configurable, ThreadSafe

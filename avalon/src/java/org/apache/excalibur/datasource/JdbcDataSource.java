@@ -9,10 +9,10 @@ package org.apache.excalibur.datasource;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import org.apache.avalon.AbstractLoggable;
 import org.apache.avalon.Disposable;
 import org.apache.avalon.configuration.Configuration;
 import org.apache.avalon.configuration.ConfigurationException;
+import org.apache.avalon.logger.AbstractLoggable;
 
 /**
  * The Default implementation for DataSources in Avalon.  This uses the
@@ -20,7 +20,7 @@ import org.apache.avalon.configuration.ConfigurationException;
  * <code>java.sql.DriverManager</code>.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.1 $ $Date: 2001/04/17 03:07:46 $
+ * @version CVS $Revision: 1.2 $ $Date: 2001/04/18 13:15:48 $
  */
 public class JdbcDataSource
     extends AbstractLoggable
