@@ -1,6 +1,6 @@
 #! /usr/bin/env python
 #
-# Mass string translation for java files (change Wanted re for other files)
+# Mass string translation for java/xml files (change Wanted re for other files)
 #
 # Author: Peter Donald <donaldp@apache.org>
 #
@@ -53,7 +53,7 @@ def main():
 	sys.exit(bad)
 
 # Change this regular expression to select a different set of files
-Wanted = '^[a-zA-Z0-9_]+\.java$'
+Wanted = '^[a-zA-Z0-9_\-]+\.(java|xml|xinfo)$'
 def wanted(name):
 	return None <> re.match(Wanted, name)
 
