@@ -36,6 +36,7 @@ import org.apache.avalon.util.defaults.Defaults;
 import org.apache.avalon.util.defaults.DefaultsFinder;
 import org.apache.avalon.util.defaults.SimpleDefaultsFinder;
 import org.apache.avalon.util.defaults.SystemDefaultsFinder;
+import org.apache.avalon.util.defaults.DefaultsBuilder;
 
 
 /**
@@ -43,7 +44,7 @@ import org.apache.avalon.util.defaults.SystemDefaultsFinder;
  * for application to a factory.
  *
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class DefaultRepositoryCriteria extends Criteria
 {
@@ -152,85 +153,106 @@ public class DefaultRepositoryCriteria extends Criteria
         super( PARAMS );
 
         //
-        // setup the default values aquired from the initial context
+        // create the consolidated properties
         //
-
-        put( 
-          REPOSITORY_CACHE_DIR, 
-          context.getInitialCacheDirectory() );
-        put( 
-          REPOSITORY_REMOTE_HOSTS, 
-          context.getInitialHosts() );
-
-        //
-        // Create the finder (discovery policy), construct the defaults, and
-        // macro expand the values.
-        //
-
-        Properties bootstrap = getDefaultProperties();
-        final DefaultsFinder[] finders = {
-            new SimpleDefaultsFinder( new Properties[] { bootstrap }, false ), 
-            new SystemDefaultsFinder() };
-        
-        Defaults defaults = new Defaults( SINGLE_KEYS, MULTI_VALUE_KEYS, finders );
-        Defaults.macroExpand( defaults, new Properties[]{ System.getProperties() } );
-
-        //
-        // Here we start to populate the empty repository configuration using
-        // the values stored in the defaults.
-        //
-
-        String cache = 
-          defaults.getProperty( REPOSITORY_CACHE_DIR );
-        if( null != cache )
-        {
-            put( 
-              REPOSITORY_CACHE_DIR, 
-              new File( cache ) );
-        }
 
         try
         {
-            String hosts = 
-              defaults.getProperty( REPOSITORY_REMOTE_HOSTS );
-            if( null != hosts )
+
+            final String key = context.getApplicationKey();
+            final File work = context.getInitialWorkingDirectory();
+            Properties bootstrap = getDefaultProperties();
+            DefaultsBuilder builder = new DefaultsBuilder( key, work );
+            Properties properties = 
+              builder.getConsolidatedProperties( bootstrap, SINGLE_KEYS );
+
+            //
+            // override values aquired from the initial context
+            //
+
+            put( 
+              REPOSITORY_CACHE_DIR, 
+              context.getInitialCacheDirectory() );
+            put( 
+              REPOSITORY_REMOTE_HOSTS, 
+              context.getInitialHosts() );
+
+            //
+            // Create the finder (discovery policy), construct the defaults, and
+            // macro expand the values.
+            //
+            //
+            //final DefaultsFinder[] finders = {
+            //    new SimpleDefaultsFinder( new Properties[] { bootstrap }, false ), 
+            //    new SystemDefaultsFinder() };
+            // 
+            //Defaults defaults = new Defaults( SINGLE_KEYS, MULTI_VALUE_KEYS, finders );
+            //Defaults.macroExpand( defaults, new Properties[]{ System.getProperties() } );
+            //
+
+            //
+            // Here we start to populate the empty repository criteria using
+            // the values from the consilidated defaults
+            //
+
+            String cache = 
+              properties.getProperty( REPOSITORY_CACHE_DIR );
+            if( null != cache )
             {
-                put( REPOSITORY_REMOTE_HOSTS, hosts );
+                put( 
+                  REPOSITORY_CACHE_DIR, 
+                  new File( cache ) );
+            }
+
+            try
+            {
+                String hosts = 
+                  properties.getProperty( REPOSITORY_REMOTE_HOSTS );
+                if( null != hosts )
+                {
+                    put( REPOSITORY_REMOTE_HOSTS, hosts );
+                }
+            }
+            catch ( Throwable e )
+            {
+                final String error = 
+                  "Failed to set remote repositories.";
+                throw new RepositoryException( error, e );
+            }
+
+            if( properties.containsKey( REPOSITORY_PROXY_HOST ) )
+            {    
+                put(
+                  REPOSITORY_PROXY_HOST, 
+                  new Integer( properties.getProperty( REPOSITORY_PROXY_HOST ) ) );
+    
+                if( properties.containsKey( REPOSITORY_PROXY_PORT ) )
+                {
+                    put(
+                      REPOSITORY_PROXY_PORT, 
+                      new Integer( properties.getProperty( REPOSITORY_PROXY_PORT ) ) );
+                }
+    
+                if( properties.containsKey( REPOSITORY_PROXY_USERNAME ) )
+                {
+                    put(
+                      REPOSITORY_PROXY_USERNAME, 
+                      properties.getProperty( REPOSITORY_PROXY_USERNAME ) );
+                }
+
+                if( properties.containsKey( REPOSITORY_PROXY_PASSWORD ) )
+                {
+                    put(
+                      REPOSITORY_PROXY_PASSWORD, 
+                      properties.getProperty( REPOSITORY_PROXY_PASSWORD ) );
+                }
             }
         }
-        catch ( Throwable e )
+        catch( IOException ioe )
         {
             final String error = 
-              "Failed to set remote repositories.";
-            throw new RepositoryException( error, e );
-        }
-
-        if( defaults.containsKey( REPOSITORY_PROXY_HOST ) )
-        {    
-            put(
-              REPOSITORY_PROXY_HOST, 
-              new Integer( defaults.getProperty( REPOSITORY_PROXY_HOST ) ) );
-
-            if( defaults.containsKey( REPOSITORY_PROXY_PORT ) )
-            {
-                put(
-                  REPOSITORY_PROXY_PORT, 
-                  new Integer( defaults.getProperty( REPOSITORY_PROXY_PORT ) ) );
-            }
-
-            if( defaults.containsKey( REPOSITORY_PROXY_USERNAME ) )
-            {
-                put(
-                  REPOSITORY_PROXY_USERNAME, 
-                  defaults.getProperty( REPOSITORY_PROXY_USERNAME ) );
-            }
-
-            if( defaults.containsKey( REPOSITORY_PROXY_PASSWORD ) )
-            {
-                put(
-                  REPOSITORY_PROXY_PASSWORD, 
-                  defaults.getProperty( REPOSITORY_PROXY_PASSWORD ) );
-            }
+              "Failed to resolve repository parameters.";
+            throw new RepositoryException( error, ioe );
         }
     }
 
