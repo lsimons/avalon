@@ -23,6 +23,10 @@ import org.apache.avalon.framework.Version;
  */
 public final class BlockInfoBuilder
 {
+    private BlockInfoBuilder()
+    {
+    }
+
     public static BlockInfo build( final Configuration info )
         throws Exception
     {
