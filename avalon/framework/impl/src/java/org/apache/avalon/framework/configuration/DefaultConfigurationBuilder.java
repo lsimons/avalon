@@ -94,6 +94,12 @@ public class DefaultConfigurationBuilder
         }
     }
 
+    public Configuration build( final String uri )
+        throws SAXException, IOException, ConfigurationException
+    {
+        return build( new InputSource( uri ) );
+    }
+
     public Configuration build( final InputSource input )
         throws SAXException, IOException, ConfigurationException
     {
