@@ -57,12 +57,18 @@
             <pathelement location="zip/src/test"/>
         </path>
 
+    <!-- Classpath for product -->
+        <path id="jdepend.class.path">
+            <pathelement path="${java.class.path}"/>
+            <pathelement location="${checkstyle.jar}"/>
+        </path>
+
         <!-- this invocation of jdepend requires the CVS version of ant for the xml format -->
         <!-- thats why you are required to define do.jdepend property to generate the report -->
         <jdepend outputfile="${build.dir}/jdepend-results.xml" format="xml" fork="yes">
-            <classpath refid="project.class.path"/>
+            <classpath refid="jdepend.class.path"/>
             <sourcespath>
-                <pathelement location="src/java" />
+                <path refid="java.src" />
             </sourcespath>
         </jdepend>
 
