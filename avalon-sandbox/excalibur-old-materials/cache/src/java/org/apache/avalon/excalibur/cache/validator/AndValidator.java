@@ -10,7 +10,7 @@ package org.apache.avalon.excalibur.cache.validator;
 import org.apache.avalon.excalibur.cache.CacheValidator;
 
 /**
- * @author <a href="mailto:colus@isoft.co.kr">Eung-ju Park</a>
+ * @author <a href="mailto:colus@apache.org">Eung-ju Park</a>
  */
 public class AndValidator
     implements CacheValidator

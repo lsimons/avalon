@@ -10,7 +10,7 @@ package org.apache.avalon.excalibur.cache;
 /**
  * Validating cache proxy.
  *
- * @author <a href="mailto:colus@isoft.co.kr">Eung-ju Park</a>
+ * @author <a href="mailto:colus@apache.org">Eung-ju Park</a>
  * @author <a href="mailto:anryoshi@user.sourceforge.net">Antti Koivunen"</a>
  */
 public final class ValidatingCache
@@ -55,7 +55,7 @@ public final class ValidatingCache
     {
         return m_cache.capacity();
     }
-   
+
     public int size()
     {
         return m_cache.size();
