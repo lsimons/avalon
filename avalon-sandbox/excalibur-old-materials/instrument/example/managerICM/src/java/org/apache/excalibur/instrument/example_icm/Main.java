@@ -5,7 +5,7 @@
  * version 1.1, a copy of which has been included with this distribution in
  * the LICENSE.txt file.
  */
-package org.apache.excalibur.instrument.example;
+package org.apache.excalibur.instrument.example_icm;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -37,7 +37,7 @@ import org.apache.log.Priority;
  * Note, this code ignores exceptions to keep the code simple.
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/07/29 16:05:19 $
+ * @version CVS $Revision: 1.1 $ $Date: 2002/08/03 14:59:39 $
  * @since 4.1
  */
 public class Main
