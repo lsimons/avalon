@@ -35,12 +35,8 @@ public interface QueueElement
     long getType();
 
     /**
-     * Get a handle to an attached object.
+     * Get a handle to an attached object.  The attachment is added via the
+     * constructor, to enforce a read-only contract.
      */
     Object getAttachment();
-
-    /**
-     * Attach an object to the element.
-     */
-    void attach( Object attachment );
 }
