@@ -11,8 +11,8 @@ if [ "$AVALON_TOOLS" = "" ] ; then
     elif [ -d tools ] ; then 
         AVALON_TOOLS=tools
     else
-        echo "Unable to locate tools directory at "
-        echo "../jakarta-avalon/tools/ or tools/. "
+        echo "Unable to locate tools directory at"
+        echo "../jakarta-avalon/tools/ or tools/."
         echo "Aborting."
         exit 1
     fi
