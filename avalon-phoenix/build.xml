@@ -107,7 +107,7 @@ Legal:
 
     <!-- Invoke ant get-configkit' to get these -->
     <property name="configkit.jar" value="${repo.dir}/spice-configkit/spice-configkit-1.1.1/spice-configkit-1.1.1.jar"/>
-    <fileset id="configkit.fileset" dir="${repo.dir}/spice-configkit/spice-configkit-1.1.1/lib"/>
+    <fileset id="configkit.fileset" dir="${repo.dir}" includes="spice-configkit/spice-configkit-1.1.1/lib"/>
 
     <!-- Invoke ant get-classman' to get these -->
     <property name="classman.jar" value="${repo.dir}/spice-classman/spice-classman-1.0/spice-classman-1.0.jar"/>
