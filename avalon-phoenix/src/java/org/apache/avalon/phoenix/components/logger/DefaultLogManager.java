@@ -9,11 +9,12 @@ package org.apache.avalon.phoenix.components.logger;
 
 import java.io.File;
 import org.apache.avalon.excalibur.logger.DefaultLogKitManager;
+import org.apache.avalon.excalibur.logger.LogKitManager;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.context.DefaultContext;
 import org.apache.avalon.framework.logger.AbstractLoggable;
 import org.apache.avalon.phoenix.BlockContext;
-import org.apache.log.Logger;
+import org.apache.log.Hierarchy;
 
 /**
  * Interface that is used to manage Log objects for a Sar.
@@ -24,7 +25,9 @@ public class DefaultLogManager
     extends AbstractLoggable
     implements LogManager
 {
-    public Logger createLogger( final String name, final File baseDirectory, final Configuration logs )
+    public Hierarchy createHierarchy( final String name, 
+                                      final File baseDirectory, 
+                                      final Configuration logs )
         throws Exception
     {
         final DefaultContext context = new DefaultContext();
@@ -38,15 +41,15 @@ public class DefaultLogManager
             setupLogger( manager );
             manager.contextualize( context );
             manager.configure( logs );
-            return manager.getLogger( name );
+            return manager.getHierarchy();
         }
         else if( version.equals( "1.1" ) )
         {
-            final DefaultLogKitManager manager = new DefaultLogKitManager();
+            final DefaultLogKitManager manager = new DefaultLogKitManager( name );
             setupLogger( manager );
             manager.contextualize( context );
             manager.configure( logs );
-            return manager.getLogger( name );
+            return manager.getHierarchy();
         }
         else
         {
