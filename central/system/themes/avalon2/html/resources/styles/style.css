@@ -50,13 +50,14 @@ table.logobar
     display: block;
     color: white;
     padding-left: 10px;
+    font-size: 10pt; 
 }
 
 .title
 {
     display: block;
     color: white;
-    font-size: 150%; 
+    font-size: 18pt; 
     color: #FFFFFF; 
     padding-left: 3px; 
     padding-right: 3px; 
@@ -75,7 +76,7 @@ table.logobar
     border-bottom: 1px solid #003399;
     display: block;
     height: 2em;
-    font-size: 75%;
+    font-size: 8pt;
     vertical-align: middle;
 }
 
@@ -83,7 +84,7 @@ table.logobar
 {
     float:left;
     margin-left: 1em;
-    font-size: 75%;
+    font-size: 8pt;
     padding-top: 4px;
     padding-bottom: 4px;
     padding-left: 6px;
@@ -94,7 +95,7 @@ table.logobar
 {
     float:left;
     margin-left: 1em;
-    font-size: 75%;
+    font-size: 8pt;
     padding-top: 4px;
     padding-bottom: 4px;
     padding-left: 6px;
@@ -105,7 +106,7 @@ table.logobar
 {
     float: right;
     margin-right: 1em;
-    font-size: 75%;
+    font-size: 8pt;
     padding-top: 4px;
     padding-bottom: 4px;
     padding-left: 6px;
@@ -116,7 +117,7 @@ table.logobar
 {
     float: right;
     margin-right: 1em;
-    font-size: 75%;
+    font-size: 8pt;
     padding-top: 4px;
     padding-bottom: 4px;
     padding-left: 6px;
@@ -127,17 +128,21 @@ table.logobar
 {
     position: absolute;
     right: 0px;
-    width: 150px;
+    width: 180px;
     background-color: #F8F8F8;
     color: black;
-    font-size: 75%;
     padding-top: 3px;
     padding-bottom: 3px;
+    font-size: 8pt;
+    text-align: right;
+    margin-top: 5px;
+    margin-right: 5px;
 }
 
 .menu
 {
     border-bottom: 1px #800000 solid;
+
 }
 
 div.no-border
@@ -148,10 +153,10 @@ div.no-border
 .menuitem
 {
     display: block;
-    padding-left: 1em;
-    padding-right: 1em;
     margin-left: 1em;
     margin-right: 1em;
+    padding-left: 0em;
+    padding-right: 0em;
     padding-top: 0.2em;
     padding-bottom: 0.2em;
     margin-top: 2px;
@@ -163,8 +168,6 @@ div.no-border
     display: block;
     padding-left: 1em;
     padding-right: 1em;
-    margin-left: 1em;
-    margin-right: 1em;
     padding-top: 0.2em;
     padding-bottom: 0.2em;
     margin-top: 2px;
@@ -177,21 +180,20 @@ div.no-border
 {
     background-color: white;
     color: black;
-    margin-right: 160px;
+    margin-right: 190px;
     min-height: 400px;
 }
 
 .section
 {
     margin-top: 2em;
-    margin-left: 3em;
-    margin-right: 1em;
+    margin-left: 2.5em;
+    margin-right: 0em;
 }
 
 .section-header
 {
     display: block;
-    font-size: 150%; 
     text-align:left; 
     border-bottom:solid 1px #333333; 
     margin-left: -1em;
@@ -204,25 +206,25 @@ div.no-border
 .subsection
 {
     margin-top: 1em;
-    margin-left: 1em;
-    margin-right: 1em;
 }
 
-.subsection-header
+.section-header, .subsection-header
 {
-    font-size: 120%;
+    font-size: 160%;
+    margin-bottom: 1em;
 }
 
 .footer
 {
     background-color: white;
     color: black;
-    border-top: 3px solid #B0B0B0;
+    border-top: 1px solid;
     margin-top: 30px;
     margin-bottom: 20px;
     margin-right: 160px;
     margin-left: 2em;
     padding-top: 2px;
+    padding-bottom: 30px;
     font-size: 75%;
     font-family: Verdana, Tahoma, Helvetica, Sans-Serif;
     font-style: italic;
@@ -232,6 +234,8 @@ div.no-border
 {
     margin-left: 1em;
     margin-right: 1em;
+    margin-bottom: 1em;
+    font-size: 72%;
 }
 
 .views
@@ -295,7 +299,8 @@ table
     border-left: 1px solid #333333;
     border-top: 1px solid #333333;
     border-bottom: 1px solid #333333;
-    margin: 1em;
+    margin-top: 1em;
+    margin-right: 1em;
     padding: 0;
     border-spacing: 0;
     border-collapse: separate;
@@ -445,4 +450,9 @@ a.menuitem-selected:focus
 img
 {
     border: none;
+}
+
+p, td
+{
+    font-size: 88%;
 }
