@@ -123,7 +123,7 @@ import org.apache.avalon.util.exception.ExceptionHelper;
  * as a part of a containment deployment model.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.13.2.10 $ $Date: 2004/01/06 23:16:49 $
+ * @version $Revision: 1.13.2.11 $ $Date: 2004/01/07 12:49:14 $
  */
 public class DefaultContainmentModel extends DefaultDeploymentModel 
   implements ContainmentModel
@@ -1400,6 +1400,9 @@ public class DefaultContainmentModel extends DefaultDeploymentModel
     */
     public DeploymentModel getModel( String path )
     {
+        ContainmentModel parent = 
+          m_context.getParentContainmentModel();
+
         if( path.equals( "" ) )
         {
             return this;
@@ -1411,9 +1414,9 @@ public class DefaultContainmentModel extends DefaultDeploymentModel
             // root container
             //
 
-            if( null != m_context.getParentContainmentModel() )
+            if( null != parent )
             {
-                return m_context.getParentContainmentModel().getModel( path );
+                return parent.getModel( path );
             }
             else
             {
@@ -1436,8 +1439,47 @@ public class DefaultContainmentModel extends DefaultDeploymentModel
             // repository
             //
 
-            if( path.indexOf( "/" ) < 0 )
+            final String root = getRootName( path );
+
+            if( root.equals( ".." ) )
             {
+                //
+                // its a relative reference in the form "../xxx/yyy" 
+                // in which case we simply redirect "xxx/yyy" to the 
+                // parent container
+                //
+ 
+                if( null != parent )
+                {
+                    final String remainder = getRemainder( root, path );
+                    return parent.getModel( remainder );
+                }
+                else
+                {
+                    final String error = 
+                      "Supplied path ["
+                      + path 
+                      + "] references a container above the root container.";
+                    throw new IllegalArgumentException( error );
+                }
+            }
+            else if( root.equals( "." ) )
+            {
+                //
+                // its a path with a redundant "./xxx/yyy" which is 
+                // equivalent to "xxx/yyy"
+                //
+ 
+                final String remainder = getRemainder( root, path );
+                return getModel( remainder );
+            }
+            else if( path.indexOf( "/" ) < 0 )
+            {
+                // 
+                // its a path in the form "xxx" so we can use this
+                // to lookup and return a local child
+                //
+
                 return m_context.getModelRepository().getModel( path );
             }
             else
@@ -1447,7 +1489,6 @@ public class DefaultContainmentModel extends DefaultDeploymentModel
                 // getModel to the container
                 //
 
-                final String root = getRootName( path );
                 DeploymentModel model = 
                   m_context.getModelRepository().getModel( root );
                 if( model != null )
