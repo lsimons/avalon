@@ -5,12 +5,12 @@
  * version 1.1, a copy of which has been included with this distribution in
  * the LICENSE.txt file.
  */
-package org.apache.avalon.cornerstone.blocks.source;
+package org.apache.avalon.cornerstone.blocks.datasources;
 
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import org.apache.avalon.cornerstone.services.source.DataSourceSelector;
+import org.apache.avalon.cornerstone.services.datasources.DataSourceSelector;
 import org.apache.avalon.excalibur.datasource.DataSourceComponent;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Initializable;
@@ -44,7 +44,7 @@ import org.apache.avalon.framework.logger.LogEnabled;
  * </pre>
  *
  * @phoenix:block
- * @phoenix:service name="org.apache.avalon.cornerstone.services.source.DataSourceSelector"
+ * @phoenix:service name="org.apache.avalon.cornerstone.services.datasources.DataSourceSelector"
  *
  * @author <a href="mailto:avalon-dev@jakarta.apache.org">Avalon Development Team</a>
  */
