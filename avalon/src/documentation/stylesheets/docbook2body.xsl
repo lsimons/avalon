@@ -7,11 +7,10 @@
     <body>
       <title><xsl:value-of select="title"/></title>
       <center>
-        <table width="80%">
+        <table width="100%">
           <tr>
-            <td bgcolor="#F3DD61">
-              <br/><center><b><font color="#000000" face="arial,helvetica,sanserif"><xsl:value-of select="title"/><xsl:if test="subtitle"><xsl:text>: </xsl:text><xsl:value-of select="subtitle"/></xsl:if></font></b></center>
-              <br/>
+            <td bgcolor="#99aabb">
+              <center><b><font size="+2" color="#000000" face="arial,helvetica,sanserif"><xsl:value-of select="title"/><xsl:if test="subtitle"><xsl:text>: </xsl:text><xsl:value-of select="subtitle"/></xsl:if></font></b></center>
             </td>
           </tr>
         </table>
@@ -77,9 +76,8 @@
       <center>
         <table width="80%">
           <tr>
-            <td bgcolor="#F3DD61">
-              <br/><center><b><font color="#000000" face="arial,helvetica,sanserif"><xsl:text>Author: </xsl:text><xsl:value-of select="honorific"/><xsl:text>. </xsl:text><xsl:value-of select="firstname"/><xsl:text> </xsl:text><xsl:value-of select="surname"/></font></b></center>
-              <br/>
+            <td bgcolor="#99aabb">
+              <center><b><font size="+2" color="#000000" face="arial,helvetica,sanserif"><xsl:text>Author: </xsl:text><xsl:value-of select="honorific"/><xsl:text>. </xsl:text><xsl:value-of select="firstname"/><xsl:text> </xsl:text><xsl:value-of select="surname"/></font></b></center>              
             </td>
           </tr>
         </table>
@@ -141,11 +139,10 @@
     <body>
       <title>Revision History</title>
       <center>
-        <table width="80%">
+        <table width="100%">
           <tr>
-            <td bgcolor="#F3DD61">
-              <br/><center><b><font color="#000000" face="arial,helvetica,sanserif">Revision History</font></b></center>
-              <br/>
+            <td bgcolor="#99aabb">
+              <center><b><font size="+2" color="#000000" face="arial,helvetica,sanserif">Revision History</font></b></center>
             </td>
           </tr>
         </table>
