@@ -24,6 +24,13 @@ How to get started
 ==================
 
 The easiest way is to download and install the Eclipse IDE.
+You should then go to
+    Window -> Preferences -> Import...
+and select the file
+    $CVSROOT/avalon-sandbox/ide/eclipse.prefs 
+
+This will ensure a common Eclipse formatter.
+
 
 Then select the menus;
     File -> Import -> Existing Project Into Workspace
