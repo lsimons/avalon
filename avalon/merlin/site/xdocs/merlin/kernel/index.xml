@@ -62,16 +62,25 @@
     <section name="Merlin Kernel">
 
     <p>
-Merlin separates the concepts of <strong>Kernel</strong> and <strong>Container</strong>. A kernel manages <em>resources</em> (Objects) whereas a container manages <em>services</em>. Merlin provides a default kernel that manages a container hierarchy: <a href="../../api/org/apache/avalon/merlin/kernel/impl/DefaultKernel.html">DefaultKernel</a>. It handles overall management, including startup, shutdown, extension management, and other system-wide tasks.
+      Merlin separates the concepts of <strong>Kernel</strong> and 
+      <strong>Container</strong>. A kernel manages <em>resources</em> (Objects)
+      whereas a container manages <em>services</em>. Merlin provides a default 
+      kernel that manages a container hierarchy: <a 
+      href="../../api/org/apache/avalon/merlin/kernel/impl/DefaultKernel.html">
+      DefaultKernel</a>. It handles overall management, including startup, 
+      shutdown, extension management, and other system-wide tasks.
     </p>
 
     <p>
-The kernel provides a set of bootstrap services (like a logging service) and context entries to the (root) container it is managing. It subsequently publishes established entries and services (derived from container deployment) towards kernel clients.
+      The kernel provides a set of bootstrap services (like a logging service) 
+      and context entries to the (root) container it is managing. It 
+      subsequently publishes established entries and services (derived from 
+      container deployment) towards kernel clients.
     </p>
 
-    <p><em>
-Kernel to Container conceptual relationship:
-    </em></p>
+    <p>
+      <em>Kernel to Container conceptual relationship:</em>
+    </p>
 
     <img src="./../../images/overview.gif" />
 
@@ -80,5 +89,3 @@ Kernel to Container conceptual relationship:
 </body>
 
 </document>
-
-
