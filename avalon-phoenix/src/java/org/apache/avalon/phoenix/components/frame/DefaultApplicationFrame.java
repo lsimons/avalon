@@ -77,10 +77,13 @@ public class DefaultApplicationFrame
 
     private SarMetaData m_metaData;
 
-    public DefaultApplicationFrame( final ClassLoader classLoader, final SarMetaData metaData )
+    public DefaultApplicationFrame( final SarMetaData metaData, 
+                                    final ClassLoader classLoader, 
+                                    final Hierarchy hierarchy )
     {
         m_metaData = metaData;
         m_classLoader = classLoader;
+        m_hierarchy = hierarchy;
     }
 
     public SarMetaData getMetaData()
@@ -103,17 +106,6 @@ public class DefaultApplicationFrame
     public void configure( final Configuration configuration )
         throws ConfigurationException
     {
-        //Configure Logging
-        final Configuration logs = configuration.getChild( "logs" );
-        final DefaultLogManager manager = new DefaultLogManager();
-        try
-        {
-            m_hierarchy = manager.createHierarchy( m_metaData.getName(), m_metaData.getHomeDirectory(), logs ); 
-        }
-        catch( final Exception e )
-        {
-        }
-
         //Cache config to use in building thread pools
         m_configuration = configuration;
     }

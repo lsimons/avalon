@@ -22,6 +22,7 @@ import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
 import org.apache.avalon.framework.logger.AbstractLoggable;
 import org.apache.avalon.phoenix.components.application.Application;
 import org.apache.avalon.phoenix.components.classloader.ClassLoaderManager;
+import org.apache.avalon.phoenix.components.logger.LogManager;
 import org.apache.avalon.phoenix.components.configuration.ConfigurationRepository;
 import org.apache.avalon.phoenix.components.kernel.Kernel;
 import org.apache.avalon.phoenix.metadata.BlockListenerMetaData;
@@ -32,6 +33,7 @@ import org.apache.avalon.phoenix.tools.assembler.AssemblyException;
 import org.apache.avalon.phoenix.tools.installer.Installation;
 import org.apache.avalon.phoenix.tools.installer.Installer;
 import org.apache.avalon.phoenix.tools.verifier.SarVerifier;
+import org.apache.log.Hierarchy;
 
 /**
  * Deploy .sar files into a kernel using this class.
@@ -50,6 +52,7 @@ public class DefaultDeployer
     private final SarVerifier        m_verifier   = new SarVerifier();
     private final Installer          m_installer  = new Installer();
 
+    private LogManager               m_logManager;
     private Kernel                   m_kernel;
     private ConfigurationRepository  m_repository;
     private ClassLoaderManager       m_classLoaderManager;
@@ -66,6 +69,7 @@ public class DefaultDeployer
         m_kernel = (Kernel)componentManager.lookup( Kernel.ROLE );
         m_repository = (ConfigurationRepository)componentManager.lookup( ConfigurationRepository.ROLE );
         m_classLoaderManager = (ClassLoaderManager)componentManager.lookup( ClassLoaderManager.ROLE );
+        m_logManager = (LogManager)componentManager.lookup( LogManager.ROLE );
     }
 
     public void initialize()
@@ -123,8 +127,11 @@ public class DefaultDeployer
             //Setup configuration for all the applications blocks
             setupConfiguration( name, metaData, config.getChildren() );
 
+            final Configuration logs = server.getChild( "logs" );
+            final Hierarchy hierarchy = m_logManager.createHierarchy( metaData, logs );
+
             //Finally add application to kernel
-            m_kernel.addApplication( metaData, classLoader, server );
+            m_kernel.addApplication( metaData, classLoader, hierarchy, server );
 
             final String message =
                 REZ.getString( "deploy.notice.sar.add", name, installation.getClassPath() );
