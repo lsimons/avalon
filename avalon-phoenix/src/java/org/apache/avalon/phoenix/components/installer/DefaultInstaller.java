@@ -36,7 +36,7 @@ import org.apache.avalon.phoenix.interfaces.Installer;
  * and installing it as appropriate.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.7 $ $Date: 2002/09/21 02:43:51 $
+ * @version $Revision: 1.8 $ $Date: 2002/09/21 02:48:22 $
  */
 public class DefaultInstaller
     extends AbstractLogEnabled
@@ -567,14 +567,14 @@ public class DefaultInstaller
         if( !m_baseWorkDirectory.exists() )
         {
             final String message =
-                REZ.getString( "deploy.create-dir.notice",
+                REZ.getString( "install.create-dir.notice",
                                m_baseWorkDirectory );
             getLogger().info( message );
 
             if( !m_baseWorkDirectory.mkdirs() )
             {
                 final String error =
-                    REZ.getString( "deploy.workdir-nocreate.error",
+                    REZ.getString( "install.workdir-nocreate.error",
                                    m_baseWorkDirectory );
                 throw new Exception( error );
             }
@@ -583,7 +583,7 @@ public class DefaultInstaller
         if( !m_baseWorkDirectory.isDirectory() )
         {
             final String message =
-                REZ.getString( "deploy.workdir-notadir.error",
+                REZ.getString( "install.workdir-notadir.error",
                                m_baseWorkDirectory );
             throw new Exception( message );
         }
