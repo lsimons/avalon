@@ -33,13 +33,19 @@ import java.io.InputStream;
 import java.util.ArrayList;
 
 /**
- * Utility class supporting DOM content handling.
+ * Utility class supporting the translation of DOM content into local child, children, 
+ * attribute and value values.
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
 public class ElementHelper
 {
+   /**
+    * Return the root element of the supplied file.
+    * @para definition the file to load
+    * @exception BuildException if the error occurs during root element establishment
+    */
     public static Element getRootElement( final File definition )
       throws BuildException
     {
@@ -88,6 +94,11 @@ public class ElementHelper
         }
     }
 
+   /**
+    * Return the root element of the supplied input stream.
+    * @para input the input stream containing a XML definition
+    * @exception BuildException if the error occurs during root element establishment
+    */
     public static Element getRootElement( final InputStream input )
       throws Exception
     {
@@ -113,6 +124,12 @@ public class ElementHelper
         }
     }
 
+   /**
+    * Return a named child relative to a supplied element.
+    * @param root the parent DOM element
+    * @param name the name of a child element
+    * @return the child element of null if the child does not exist
+    */
     public static Element getChild( final Element root, final String name )
     {
         if( null == root ) return null;
@@ -122,6 +139,12 @@ public class ElementHelper
         return (Element) list.item( 0 );
     }
 
+   /**
+    * Return all children matching the supplied element name.
+    * @param root the parent DOM element
+    * @param name the name against which child element will be matched
+    * @return the array of child elements with a matching name
+    */
     public static Element[] getChildren( final Element root, final String name )
     {
         if( null == root ) return new Element[0];
@@ -139,6 +162,11 @@ public class ElementHelper
         return (Element[]) result.toArray( new Element[0] );
     }
 
+   /**
+    * Return all children of the supplied parent.
+    * @param root the parent DOM element
+    * @return the array of all children
+    */
     public static Element[] getChildren( final Element root )
     {
         if( null == root ) return new Element[0];
@@ -157,6 +185,11 @@ public class ElementHelper
         return (Element[]) result.toArray( new Element[0] );
     }
 
+   /**
+    * Return the value of an element.
+    * @param node the DOM node
+    * @return the node value
+    */
     public static String getValue( final Element node )
     {
         if( null == node ) return null;
@@ -167,11 +200,24 @@ public class ElementHelper
         return node.getNodeValue(); 
     }
 
+   /**
+    * Return the value of an element attribute.
+    * @param node the DOM node
+    * @param key the attribute key
+    * @return the attribute value or null if the attribute is undefined
+    */
     public static String getAttribute( final Element node, final String key )
     {
         return getAttribute( node, key, null );
     }
 
+   /**
+    * Return the value of an element attribute.
+    * @param node the DOM node
+    * @param key the attribute key
+    * @param def the default value if the attribute is undefined
+    * @return the attribute value or the default value if undefined
+    */
     public static String getAttribute( final Element node, final String key, final String def )
     {
         if( null == node ) return def;
@@ -180,11 +226,24 @@ public class ElementHelper
         return value;
     }
 
+   /**
+    * Return the value of an element attribute as a boolean
+    * @param node the DOM node
+    * @param key the attribute key
+    * @return the attribute value as a boolean or false if undefined
+    */
     public static boolean getBooleanAttribute( final Element node, final String key )
     {
         return getBooleanAttribute( node, key, false );
     }
 
+   /**
+    * Return the value of an element attribute as a boolean.
+    * @param node the DOM node
+    * @param key the attribute key
+    * @param def the default value if the attribute is undefined
+    * @return the attribute value or the default value if undefined
+    */
     public static boolean getBooleanAttribute( final Element node, final String key, final boolean def )
     {
         if( null == node ) return def;
