@@ -7,10 +7,9 @@
  */
 package org.apache.excalibur.store;
 
-import org.apache.avalon.framework.component.Component;
-
 import java.io.IOException;
 import java.util.Enumeration;
+import org.apache.avalon.framework.component.Component;
 
 /**
  * A Store is an object managing arbitrary data. It holds data stored
@@ -28,7 +27,7 @@ import java.util.Enumeration;
  *         (Apache Software Foundation)
  * @author <a href="mailto:fumagalli@exoffice.com">Pierpaolo Fumagalli</a>
  *         (Apache Software Foundation, Exoffice Technologies)
- * @version CVS $Id: Store.java,v 1.2 2002/05/06 09:02:59 cziegeler Exp $
+ * @version CVS $Id: Store.java,v 1.3 2002/07/14 01:28:01 donaldp Exp $
  */
 public interface Store
     extends Component
@@ -37,21 +36,21 @@ public interface Store
     String ROLE = Store.class.getName();
 
     /** The role for a transient store */
-    String TRANSIENT_STORE = ROLE+"/TransientStore";
+    String TRANSIENT_STORE = ROLE + "/TransientStore";
     /** The role for a persistent store (this is an alias for ROLE) */
     String PERSISTENT_STORE = ROLE;
 
     /**
      * Get the object associated to the given unique key.
      */
-    Object get(Object key);
+    Object get( Object key );
 
     /**
      * Store the given object. It is up to the
      * caller to ensure that the key has a persistent state across
      * different JVM executions.
      */
-    void store(Object key, Object value) throws IOException;
+    void store( Object key, Object value ) throws IOException;
 
     /**
      * Try to free some used memory. The transient store can simply remove
@@ -63,12 +62,12 @@ public interface Store
     /**
      * Remove the object associated to the given key.
      */
-    void remove(Object key);
+    void remove( Object key );
 
     /**
      * Indicates if the given key is associated to a contained object.
      */
-    boolean containsKey(Object key);
+    boolean containsKey( Object key );
 
     /**
      * Returns the list of used keys as an Enumeration of Objects.
