@@ -11,7 +11,7 @@
     <property name="version" value="0.7"/>
 
     <!-- Set the installation variables for Cornerstone/Phoenix -->
-    <property name="phoenix.home" value="../../avalon-phoenix/dist"/>
+    <property name="phoenix.home" value="../../lib/deploy"/>
     <property name="install.dir" value="${phoenix.home}/apps"/>
 
     <!-- Set the properties for intermediate directory -->
