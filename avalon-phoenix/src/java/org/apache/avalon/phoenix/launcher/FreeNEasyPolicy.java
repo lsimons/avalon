@@ -8,10 +8,10 @@
  */
 package org.apache.avalon.phoenix.launcher;
 
-import java.security.Policy;
-import java.security.PermissionCollection;
 import java.security.CodeSource;
+import java.security.PermissionCollection;
 import java.security.Permissions;
+import java.security.Policy;
 
 /**
  * Default polic class to give every code base all permssions.

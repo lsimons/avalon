@@ -7,12 +7,11 @@
  */
 package org.apache.avalon.phoenix.tools.metagenerate.test;
 
-import junit.framework.TestCase;
-
-import java.io.FileReader;
 import java.io.File;
-import java.io.LineNumberReader;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.LineNumberReader;
+import junit.framework.TestCase;
 
 public class IntegrationTestCase extends TestCase
 {

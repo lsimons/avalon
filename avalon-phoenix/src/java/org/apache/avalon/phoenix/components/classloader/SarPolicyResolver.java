@@ -9,15 +9,15 @@ package org.apache.avalon.phoenix.components.classloader;
 
 import java.io.File;
 import java.net.URL;
+import java.security.Policy;
 import java.util.HashMap;
 import java.util.Map;
-import java.security.Policy;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
+import org.apache.avalon.framework.CascadingException;
+import org.apache.avalon.framework.container.ContainerUtil;
 import org.apache.avalon.framework.context.DefaultContext;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
-import org.apache.avalon.framework.container.ContainerUtil;
-import org.apache.avalon.framework.CascadingException;
 import org.apache.avalon.phoenix.components.util.ResourceUtil;
 import org.apache.excalibur.policy.builder.PolicyResolver;
 
@@ -26,7 +26,7 @@ import org.apache.excalibur.policy.builder.PolicyResolver;
  * (like remapping URLs).
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2002/09/25 21:16:34 $
+ * @version $Revision: 1.3 $ $Date: 2002/10/02 11:25:55 $
  */
 class SarPolicyResolver
     extends AbstractLogEnabled

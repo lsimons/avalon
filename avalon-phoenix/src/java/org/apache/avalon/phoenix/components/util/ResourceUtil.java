@@ -7,15 +7,15 @@
  */
 package org.apache.avalon.phoenix.components.util;
 
-import org.apache.avalon.framework.configuration.ConfigurationException;
 import java.io.File;
 import java.net.MalformedURLException;
+import org.apache.avalon.framework.configuration.ConfigurationException;
 
 /**
  * A utility class for working with resources in default sar layout.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2002/09/06 09:42:35 $
+ * @version $Revision: 1.2 $ $Date: 2002/10/02 11:25:56 $
  */
 public class ResourceUtil
 {

@@ -7,16 +7,16 @@
  */
 package org.apache.avalon.phoenix.components.manager;
 
-import java.util.Iterator;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import javax.management.MBeanServer;
 import javax.management.MBeanServerFactory;
+import org.apache.avalon.excalibur.i18n.ResourceManager;
+import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
-import org.apache.avalon.excalibur.i18n.Resources;
-import org.apache.avalon.excalibur.i18n.ResourceManager;
 
 /**
  * This component is responsible for managing phoenix instance.

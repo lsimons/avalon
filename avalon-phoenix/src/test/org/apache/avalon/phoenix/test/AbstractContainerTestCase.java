@@ -7,20 +7,20 @@
  */
 package org.apache.avalon.phoenix.test;
 
+import java.io.File;
+import java.net.URL;
 import junit.framework.TestCase;
+import org.apache.avalon.framework.configuration.Configuration;
+import org.apache.avalon.framework.logger.ConsoleLogger;
 import org.apache.avalon.phoenix.metadata.SarMetaData;
 import org.apache.avalon.phoenix.tools.assembler.Assembler;
 import org.apache.avalon.phoenix.tools.configuration.ConfigurationBuilder;
-import org.apache.avalon.framework.logger.ConsoleLogger;
-import org.apache.avalon.framework.configuration.Configuration;
-import java.io.File;
-import java.net.URL;
 
 /**
  * Abstract class which TestCases can extend.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2002/10/01 06:16:59 $
+ * @version $Revision: 1.2 $ $Date: 2002/10/02 11:25:56 $
  */
 public class AbstractContainerTestCase
     extends TestCase

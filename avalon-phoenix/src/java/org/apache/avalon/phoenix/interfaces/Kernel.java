@@ -7,10 +7,10 @@
  */
 package org.apache.avalon.phoenix.interfaces;
 
+import java.io.File;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.phoenix.metadata.SarMetaData;
-import java.io.File;
 
 /**
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>

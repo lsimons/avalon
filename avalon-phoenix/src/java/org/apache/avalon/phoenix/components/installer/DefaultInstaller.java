@@ -22,11 +22,11 @@ import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.excalibur.io.FileUtil;
 import org.apache.avalon.excalibur.io.IOUtil;
-import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.activity.Initializable;
-import org.apache.avalon.framework.parameters.Parameters;
+import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.parameters.ParameterException;
 import org.apache.avalon.framework.parameters.Parameterizable;
+import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.phoenix.interfaces.Installation;
 import org.apache.avalon.phoenix.interfaces.InstallationException;
 import org.apache.avalon.phoenix.interfaces.Installer;
@@ -36,7 +36,7 @@ import org.apache.avalon.phoenix.interfaces.Installer;
  * and installing it as appropriate.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.9 $ $Date: 2002/09/25 12:46:00 $
+ * @version $Revision: 1.10 $ $Date: 2002/10/02 11:25:55 $
  */
 public class DefaultInstaller
     extends AbstractLogEnabled

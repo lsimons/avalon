@@ -9,10 +9,10 @@ package org.apache.avalon.phoenix.components.util;
 
 import java.util.ArrayList;
 import org.apache.avalon.framework.Version;
+import org.apache.avalon.framework.info.Attribute;
 import org.apache.avalon.framework.info.ComponentDescriptor;
 import org.apache.avalon.framework.info.ComponentInfo;
 import org.apache.avalon.framework.info.FeatureDescriptor;
-import org.apache.avalon.framework.info.Attribute;
 import org.apache.avalon.phoenix.metainfo.BlockDescriptor;
 import org.apache.avalon.phoenix.metainfo.BlockInfo;
 import org.apache.avalon.phoenix.metainfo.DependencyDescriptor;
@@ -22,7 +22,7 @@ import org.apache.avalon.phoenix.metainfo.ServiceDescriptor;
  * Convert a {@link org.apache.avalon.framework.info.ComponentInfo} into a {@link org.apache.avalon.phoenix.metainfo.BlockInfo}.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2002/09/30 22:59:46 $
+ * @version $Revision: 1.3 $ $Date: 2002/10/02 11:25:56 $
  */
 public class ComponentInfoConverter
 {

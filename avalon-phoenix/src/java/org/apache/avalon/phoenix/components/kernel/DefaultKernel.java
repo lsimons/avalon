@@ -7,8 +7,8 @@
  */
 package org.apache.avalon.phoenix.components.kernel;
 
-import java.util.HashMap;
 import java.io.File;
+import java.util.HashMap;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.framework.CascadingException;

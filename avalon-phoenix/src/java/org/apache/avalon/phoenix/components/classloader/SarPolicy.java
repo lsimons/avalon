@@ -11,9 +11,9 @@ import java.security.CodeSource;
 import java.security.PermissionCollection;
 import java.security.Permissions;
 import java.util.Map;
+import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.logger.LogEnabled;
 import org.apache.avalon.framework.logger.Logger;
-import org.apache.avalon.framework.activity.Initializable;
 import org.apache.excalibur.policy.runtime.DefaultPolicy;
 
 /**

@@ -7,12 +7,12 @@
  */
 package org.apache.avalon.phoenix.interfaces;
 
+import java.io.InputStream;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.phoenix.metadata.SarMetaData;
 import org.apache.excalibur.threadcontext.ThreadContext;
-import java.io.InputStream;
 
 /**
  * Manage the "context" in which Applications operate.
