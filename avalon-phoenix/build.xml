@@ -263,6 +263,7 @@ Legal:
 
     <filter token="year" value="${year}"/>
     <filter token="AVALON_BASE" value="http://jakarta.apache.org/avalon"/>
+    <filter token="FRAMEWORK_BASE" value="http://jakarta.apache.org/avalon/framework"/>
 
     <copy todir="${build.xdocs}" filtering="on">
       <fileset dir="${xdocs.dir}">
