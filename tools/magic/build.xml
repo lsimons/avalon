@@ -23,8 +23,8 @@
   <target name="package" depends="standard.package">
     <x:bar/>
   </target>
-
-  <target name="install" depends="standard.install">
+  
+  <target name="update" depends="install">
     <mkdir dir="${user.home}/.ant/lib"/>
     <copy toDir="${user.home}/.ant/lib" 
        file="${basedir}/target/deliverables/jars/${project.filename}"/>

@@ -31,7 +31,7 @@
     </path>
     <taskdef name="unbar" classpath="magic.path"
       classname="org.apache.avalon.tools.tasks.UnbarTask"/>
-    <property name="magic.cache" value="${magic.home}/cache"/>
+    <property name="magic.cache" value="${magic.home}/main"/>
     <unbar repository="${magic.cache}" 
       href="http://www.dpml.net/avalonx/supplemental/bars/avalonx-supplemental-1.0.bar"/>
   </target>
