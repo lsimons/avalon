@@ -305,6 +305,9 @@ Legal:
 
         <copy todir="${target.testclasses}">
             <fileset dir="${test.dir}"/>
+            <fileset dir="${java.dir}">
+                <exclude name="**/*.java"/>
+            </fileset>
         </copy>
 
         <mkdir dir="${target.tests}"/>
@@ -396,8 +399,10 @@ Legal:
             </zipfileset>
         </jar>
 
-        <jar jarfile="${target.lib}/phoenix-metagenerate.jar" basedir="${target.classes}">
-            <include name="org/apache/avalon/phoenix/tools/metagenerate/**"/>
+        <jar jarfile="${target.lib}/phoenix-tools.jar" basedir="${target.classes}">
+            <include name="org/apache/avalon/phoenix/tools/**"/>
+            <include name="org/apache/avalon/phoenix/framework/**"/>
+            <exclude name="org/apache/avalon/phoenix/tools/punit/**"/>
         </jar>
 
         <jar jarfile="${target.lib}/phoenix-punit.jar" basedir="${target.classes}">
