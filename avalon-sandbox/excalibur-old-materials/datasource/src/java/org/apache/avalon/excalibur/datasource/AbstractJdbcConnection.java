@@ -72,7 +72,7 @@ import org.apache.avalon.framework.logger.Logger;
  * object.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.25 $ $Date: 2003/03/05 18:59:00 $
+ * @version CVS $Revision: 1.26 $ $Date: 2003/03/06 19:47:47 $
  * @since 4.1
  */
 public class AbstractJdbcConnection
@@ -319,12 +319,6 @@ public class AbstractJdbcConnection
         else
         {
             retVal = executeMethod.invoke(this, args);
-        }
-        
-        
-        if ( getLogger().isDebugEnabled())
-        {
-            getLogger().debug(((null == executeMethod) ? "connection" : "implemented:") + method.getName());
         }
         
         return retVal;
