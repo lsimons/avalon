@@ -101,6 +101,7 @@ Legal:
         <available property="servlet.present" classname="javax.servlet.Servlet">
             <classpath refid="project.class.path"/>
         </available>
+        <available property="jmx-ri.present" file="${jmxri.jar}"/>
         <available property="jmx.present" classname="javax.management.MBeanException">
             <classpath refid="project.class.path"/>
         </available>
@@ -268,7 +269,7 @@ Legal:
     </target>
 
     <!-- Create the lite build -->
-    <target name="dist-lite-jmx" depends="jars" if="jmx.present">
+    <target name="dist-lite-jmx" depends="jars" if="jmx-ri.present">
         <property name="bin.dist.lib" value="${bin.dist.dir}/lib"/>
         <mkdir dir="${bin.dist.lib}"/>
 
