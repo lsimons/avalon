@@ -7,7 +7,7 @@
     <maven:reactor basedir="${basedir}"
       includes="**/project.xml"
       excludes="**/target/**,project.xml"
-      goals="jar:install"
+      goals=""
       banner="Building:"
       ignoreFailures="false" />
   </goal>
@@ -48,8 +48,7 @@
         <sourcepath path="${basedir}/defaults/src/java"/>
         <sourcepath path="${basedir}/env/src/java"/>
         <sourcepath path="${basedir}/exception/src/java"/>
-        <sourcepath path="${basedir}/factory/api/src/java"/>
-        <sourcepath path="${basedir}/factory/impl/src/java"/>
+        <sourcepath path="${basedir}/criteria/src/java"/>
         <classpath>
           <path refid="maven.dependency.classpath"/>
 	  </classpath>
