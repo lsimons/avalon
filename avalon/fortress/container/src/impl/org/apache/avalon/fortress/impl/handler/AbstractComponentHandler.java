@@ -35,7 +35,7 @@ import org.apache.excalibur.mpool.ObjectFactory;
  * and destroyed correctly.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.18 $ $Date: 2004/02/28 15:16:25 $
+ * @version CVS $Revision: 1.19 $ $Date: 2004/03/13 13:56:51 $
  * @since 4.0
  */
 public abstract class AbstractComponentHandler
@@ -243,7 +243,12 @@ public abstract class AbstractComponentHandler
     {
         try
         {
-            return m_factory.newInstance();
+            final Object component = m_factory.newInstance();
+            if ( component instanceof ReleasableComponent )
+            {
+                ((ReleasableComponent) component).initialize( this );
+            }
+            return component;
         }
         catch ( final Exception e )
         {

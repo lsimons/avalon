@@ -19,6 +19,7 @@ package org.apache.avalon.fortress.impl.lookup;
 
 import org.apache.avalon.fortress.Container;
 import org.apache.avalon.fortress.impl.handler.ComponentHandler;
+import org.apache.avalon.fortress.impl.handler.ReleasableComponent;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceSelector;
 
@@ -32,7 +33,7 @@ import java.util.Map;
  * the references.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.17 $ $Date: 2004/02/28 15:16:25 $
+ * @version CVS $Revision: 1.18 $ $Date: 2004/03/13 13:56:51 $
  */
 public class FortressServiceSelector
     implements ServiceSelector
@@ -70,7 +71,12 @@ public class FortressServiceSelector
         {
             final ComponentHandler handler = getHandler( hint );
             final Object component = handler.get();
-            m_used.put( new ComponentKey( component ), handler );
+            // we only have to keep track of components that don't implement
+            // the ReleasableComponent interface
+            if ( !(component instanceof ReleasableComponent) )
+            {
+                m_used.put( new ComponentKey( component ), handler );
+            }
             return component;
         }
         catch ( final ServiceException ce )
@@ -92,6 +98,12 @@ public class FortressServiceSelector
 
     public void release( final Object component )
     {
+        // Is this a releasable component ?
+        if ( component instanceof ReleasableComponent )
+        {
+            ((ReleasableComponent)component).put();
+            return;
+        }
         final ComponentHandler handler =
             (ComponentHandler) m_used.remove( new ComponentKey( component ) );
         if ( null != handler )
