@@ -23,7 +23,7 @@ import org.apache.commons.altrmi.common.AltrmiAuthenticationException;
  *
  *
  * @author Paul Hammant <a href="mailto:Paul_Hammant@yahoo.com">Paul_Hammant@yahoo.com</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class DefaultAuthenticator extends AbstractLogEnabled
         implements AltrmiAuthenticator, Initializable, Block
@@ -55,10 +55,10 @@ public class DefaultAuthenticator extends AbstractLogEnabled
      * @throws AltrmiAuthenticationException
      *
      */
-    public Long checkAuthority(AltrmiAuthentication authentication, String publishedName)
+    public void checkAuthority(AltrmiAuthentication authentication, String publishedName)
             throws AltrmiAuthenticationException
     {
-        return mAltrmiAuthenticator.checkAuthority(authentication, publishedName);
+        mAltrmiAuthenticator.checkAuthority(authentication, publishedName);
     }
 
     /**
