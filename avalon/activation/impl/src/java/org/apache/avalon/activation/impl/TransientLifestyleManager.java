@@ -25,13 +25,12 @@ import java.util.ArrayList;
 import org.apache.avalon.activation.ComponentFactory;
 
 import org.apache.avalon.composition.model.ComponentModel;
-import org.apache.avalon.composition.provider.LifestyleManager;
 
 import org.apache.avalon.meta.info.InfoDescriptor;
 
 /**
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.4 $ $Date: 2004/03/10 10:52:17 $
+ * @version $Revision: 1.5 $ $Date: 2004/03/17 10:30:07 $
  */
 public class TransientLifestyleManager extends AbstractLifestyleManager
 {

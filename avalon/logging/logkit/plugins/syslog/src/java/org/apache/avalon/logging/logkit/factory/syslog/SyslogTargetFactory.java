@@ -17,7 +17,6 @@
 
 package org.apache.avalon.logging.logkit.factory.syslog;
 
-import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
@@ -33,7 +32,6 @@ import org.apache.avalon.util.i18n.Resources;
 
 import org.apache.log.LogTarget;
 import org.apache.log.format.Formatter;
-import org.apache.log.output.net.SocketOutputTarget;
 
 /**
  * SyslogTargetFactory
@@ -59,7 +57,7 @@ import org.apache.log.output.net.SocketOutputTarget;
  * </p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $ $Date: 2004/03/08 11:32:01 $
+ * @version $Revision: 1.4 $ $Date: 2004/03/17 10:30:08 $
  */
 public class SyslogTargetFactory implements LogTargetFactory
 {

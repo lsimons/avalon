@@ -20,11 +20,9 @@ package org.apache.avalon.activation.impl;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.lang.reflect.Proxy;
 import java.lang.reflect.UndeclaredThrowableException;
 
 import org.apache.avalon.activation.ApplianceException;
-import org.apache.avalon.activation.ApplianceRuntimeException;
 
 import org.apache.avalon.composition.model.DeploymentModel;
 import org.apache.avalon.composition.model.ContainmentModel;

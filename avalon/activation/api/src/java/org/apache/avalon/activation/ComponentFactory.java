@@ -17,15 +17,13 @@
 
 package org.apache.avalon.activation;
 
-import org.apache.avalon.composition.model.DeploymentModel;
-
 /**
  * A factory that provides object instantiation. A instance factory will
  * typically encapsulate component constuction semantic, lifecycle processing
  * and end-of-life processing.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2004/02/10 16:18:42 $
+ * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
 public interface ComponentFactory 
 {

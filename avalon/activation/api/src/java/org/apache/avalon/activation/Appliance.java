@@ -18,7 +18,6 @@
 package org.apache.avalon.activation;
 
 import org.apache.avalon.composition.model.Commissionable;
-import org.apache.avalon.composition.model.DeploymentModel;
 import org.apache.avalon.composition.model.Resolver;
 
 /**
@@ -41,7 +40,7 @@ import org.apache.avalon.composition.model.Resolver;
  *
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2004/02/10 16:18:42 $
+ * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
 public interface Appliance extends Commissionable, Resolver
 {

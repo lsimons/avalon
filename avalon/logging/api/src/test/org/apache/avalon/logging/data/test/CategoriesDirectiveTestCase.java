@@ -17,8 +17,6 @@
 
 package org.apache.avalon.logging.data.test;
 
-import junit.framework.TestCase;
-
 import org.apache.avalon.logging.data.CategoryDirective;
 import org.apache.avalon.logging.data.CategoriesDirective;
 

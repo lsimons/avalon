@@ -17,7 +17,6 @@
 
 package org.apache.avalon.composition.model;
 
-import org.apache.avalon.logging.data.CategoriesDirective;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.meta.info.DependencyDescriptor;
@@ -28,7 +27,7 @@ import org.apache.avalon.meta.info.Type;
  * Deployment model defintion.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.8 $ $Date: 2004/03/13 23:26:56 $
+ * @version $Revision: 1.9 $ $Date: 2004/03/17 10:30:08 $
  */
 public interface ComponentModel extends DeploymentModel
 {

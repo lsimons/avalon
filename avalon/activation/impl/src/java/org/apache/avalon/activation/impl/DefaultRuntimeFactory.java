@@ -24,11 +24,8 @@ import java.lang.reflect.Constructor;
 import org.apache.avalon.activation.RuntimeFactory;
 import org.apache.avalon.activation.RuntimeFactoryException;
 import org.apache.avalon.activation.Appliance;
-import org.apache.avalon.activation.ApplianceException;
 import org.apache.avalon.activation.ApplianceRuntimeException;
 
-import org.apache.avalon.composition.model.Commissionable;
-import org.apache.avalon.composition.model.ModelException;
 import org.apache.avalon.composition.model.ModelRuntimeException;
 import org.apache.avalon.composition.model.DeploymentModel;
 import org.apache.avalon.composition.model.ComponentModel;
@@ -48,7 +45,7 @@ import org.apache.avalon.util.i18n.Resources;
  * A factory enabling the establishment of runtime handlers.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.5 $ $Date: 2004/03/08 11:28:35 $
+ * @version $Revision: 1.6 $ $Date: 2004/03/17 10:30:07 $
  */
 public class DefaultRuntimeFactory implements RuntimeFactory
 {

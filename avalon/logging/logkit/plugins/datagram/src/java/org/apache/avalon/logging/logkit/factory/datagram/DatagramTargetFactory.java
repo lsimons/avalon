@@ -20,8 +20,6 @@ package org.apache.avalon.logging.logkit.factory.datagram;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.Map;
-import java.util.HashMap;
 
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
@@ -34,10 +32,7 @@ import org.apache.avalon.util.i18n.ResourceManager;
 import org.apache.avalon.util.i18n.Resources;
 
 import org.apache.log.LogTarget;
-import org.apache.log.format.ExtendedPatternFormatter;
 import org.apache.log.format.Formatter;
-import org.apache.log.format.PatternFormatter;
-import org.apache.log.format.RawFormatter;
 import org.apache.log.output.net.DatagramOutputTarget;
 
 /**
@@ -61,7 +56,7 @@ import org.apache.log.output.net.DatagramOutputTarget;
  * </p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.4 $ $Date: 2004/03/08 11:32:01 $
+ * @version $Revision: 1.5 $ $Date: 2004/03/17 10:30:09 $
  */
 public class DatagramTargetFactory implements LogTargetFactory
 {

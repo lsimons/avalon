@@ -22,13 +22,9 @@ import java.util.Hashtable;
 import java.lang.reflect.Proxy;
 import java.lang.reflect.InvocationHandler;
 
-import org.apache.avalon.activation.TransientApplianceException;
-
 import org.apache.avalon.composition.model.ComponentModel;
 import org.apache.avalon.composition.model.DeploymentModel;
 import org.apache.avalon.composition.model.DependencyModel;
-import org.apache.avalon.composition.model.Resolver;
-import org.apache.avalon.composition.model.TransientServiceException;
 import org.apache.avalon.composition.model.FatalServiceException;
 
 import org.apache.avalon.framework.logger.Logger;

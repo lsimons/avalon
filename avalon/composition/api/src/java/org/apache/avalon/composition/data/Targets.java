@@ -19,9 +19,6 @@ package org.apache.avalon.composition.data;
 
 import java.util.ArrayList;
 
-import org.apache.avalon.logging.data.CategoriesDirective;
-import org.apache.avalon.logging.data.CategoryDirective;
-
 
 /**
  * <p>A target is a tagged configuration fragment.  The tag is a path
@@ -29,7 +26,7 @@ import org.apache.avalon.logging.data.CategoryDirective;
  * configuration is to be applied to.</p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.6 $ $Date: 2004/03/11 01:30:38 $
+ * @version $Revision: 1.7 $ $Date: 2004/03/17 10:30:08 $
  */
 public class Targets
 {
