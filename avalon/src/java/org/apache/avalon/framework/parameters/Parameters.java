@@ -17,14 +17,29 @@ import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 
 /**
- * The Parameters represents a set of key-value pairs.
- * Each value stored in Parameters has a key.
- * This class is similar to java.util.Properties with convenience methods
- * to access property values by type.
+ * The <code>Parameters</code> class represents a set of key-value
+ * pairs.
  * <p>
- *  <strong>Note, this class is not thread safe by default.</strong> If you
- *  require thread safety please synchronize write access to this class to
- *  prevent potential data corruption.
+ * The <code>Parameters</code> object provides a mechanism to obtain
+ * values based on a <code>String</code> name.  There are convenience
+ * methods that allow you to use defaults if the value does not exist,
+ * as well as obtain the value in any of the same formats that are in
+ * the {@link Configuration} interface.
+ * </p><p>
+ * While there are similarities between the <code>Parameters</code>
+ * object and the java.util.Properties object, there are some
+ * important semantic differences.  First, <code>Parameters</code> are
+ * <i>read-only</i>.  Second, <code>Parameters</code> are easily
+ * derived from {@link Configuration} objects.  Lastly, the
+ * <code>Parameters</code> object is derived from XML fragments that
+ * look like this:
+ * <pre><code>
+ *  &lt;parameter name="param-name" value="param-value" /&gt;
+ * </code></pre>
+ * </p><p>
+ * <strong>Note: this class is not thread safe by default.</strong> If you
+ * require thread safety please synchronize write access to this class to
+ * prevent potential data corruption.
  * </p>
  *
  * @author <a href="mailto:fumagalli@exoffice.com">Pierpaolo Fumagalli</a>
