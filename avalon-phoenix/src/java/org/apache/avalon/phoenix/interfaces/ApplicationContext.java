@@ -7,12 +7,11 @@
  */
 package org.apache.avalon.phoenix.interfaces;
 
-import org.apache.excalibur.threadcontext.ThreadContext;
 import org.apache.avalon.excalibur.thread.ThreadPool;
-import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.phoenix.metadata.SarMetaData;
+import org.apache.excalibur.threadcontext.ThreadContext;
 import org.apache.log.Logger;
 
 /**
@@ -21,7 +20,6 @@ import org.apache.log.Logger;
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 public interface ApplicationContext
-    extends Component
 {
     String ROLE = ApplicationContext.class.getName();
 

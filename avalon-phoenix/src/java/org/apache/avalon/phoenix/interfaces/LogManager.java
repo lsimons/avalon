@@ -18,7 +18,6 @@ import org.apache.log.Hierarchy;
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 public interface LogManager
-    extends Component
 {
     String ROLE = LogManager.class.getName();
 

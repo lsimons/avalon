@@ -14,12 +14,12 @@ import javax.management.MalformedObjectNameException;
 import javax.management.ObjectName;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
-import org.apache.avalon.framework.component.ComponentException;
-import org.apache.avalon.framework.component.ComponentManager;
-import org.apache.avalon.framework.component.Composable;
 import org.apache.avalon.framework.parameters.ParameterException;
 import org.apache.avalon.framework.parameters.Parameterizable;
 import org.apache.avalon.framework.parameters.Parameters;
+import org.apache.avalon.framework.service.ServiceException;
+import org.apache.avalon.framework.service.ServiceManager;
+import org.apache.avalon.framework.service.Serviceable;
 import org.apache.avalon.phoenix.components.kernel.DefaultKernel;
 import org.apache.avalon.phoenix.components.kernel.DefaultKernelMBean;
 import org.apache.avalon.phoenix.interfaces.ConfigurationRepository;
@@ -44,7 +44,7 @@ import org.apache.excalibur.baxter.JavaBeanMBean;
  */
 public class MX4JSystemManager
     extends AbstractSystemManager
-    implements Parameterizable, Composable
+    implements Parameterizable, Serviceable
 {
     private static final Resources REZ =
         ResourceManager.getPackageResources( MX4JSystemManager.class );
@@ -70,18 +70,18 @@ public class MX4JSystemManager
     /**
      * Retrieve relevant services needed to deploy.
      *
-     * @param componentManager the ComponentManager
-     * @throws ComponentException if an error occurs
+     * @param serviceManager the ComponentManager
+     * @throws ServiceException if an error occurs
      */
-    public void compose( final ComponentManager componentManager )
-        throws ComponentException
+    public void service( final ServiceManager serviceManager )
+        throws ServiceException
     {
-        m_embeddor = (Embeddor)componentManager.lookup( Embeddor.ROLE );
-        m_kernel = (Kernel)componentManager.lookup( Kernel.ROLE );
-        m_deployer = (Deployer)componentManager.lookup( Deployer.ROLE );
-        m_repository = (ConfigurationRepository)componentManager.lookup( ConfigurationRepository.ROLE );
-        m_logManager = (LogManager)componentManager.lookup( LogManager.ROLE );
-        m_extensionManager = (PackageRepository)componentManager.lookup( PackageRepository.ROLE );
+        m_embeddor = (Embeddor)serviceManager.lookup( Embeddor.ROLE );
+        m_kernel = (Kernel)serviceManager.lookup( Kernel.ROLE );
+        m_deployer = (Deployer)serviceManager.lookup( Deployer.ROLE );
+        m_repository = (ConfigurationRepository)serviceManager.lookup( ConfigurationRepository.ROLE );
+        m_logManager = (LogManager)serviceManager.lookup( LogManager.ROLE );
+        m_extensionManager = (PackageRepository)serviceManager.lookup( PackageRepository.ROLE );
     }
 
     public void initialize()
@@ -103,19 +103,19 @@ public class MX4JSystemManager
 
         ObjectName processorName = new ObjectName( "Http:name=XSLTProcessor" );
         m_mBeanServer.createMBean( "mx4j.adaptor.http.XSLTProcessor", processorName, null );
-/*
-        if( path != null )
-        {
-            m_mBeanServer.setAttribute( processorName, new Attribute( "File", path ) );
-        }
-*/
+        /*
+                if( path != null )
+                {
+                    m_mBeanServer.setAttribute( processorName, new Attribute( "File", path ) );
+                }
+        */
         m_mBeanServer.setAttribute( processorName, new Attribute( "UseCache", new Boolean( false ) ) );
-/*
-        if( pathInJar != null )
-        {
-            m_mBeanServer.setAttribute( processorName, new Attribute( "PathInJar", pathInJar ) );
-        }
-*/
+        /*
+                if( pathInJar != null )
+                {
+                    m_mBeanServer.setAttribute( processorName, new Attribute( "PathInJar", pathInJar ) );
+                }
+        */
 
         m_mBeanServer.setAttribute( adaptorName, new Attribute( "ProcessorName", processorName ) );
 

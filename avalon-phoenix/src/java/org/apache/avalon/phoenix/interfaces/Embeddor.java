@@ -10,7 +10,6 @@ package org.apache.avalon.phoenix.interfaces;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Executable;
 import org.apache.avalon.framework.activity.Initializable;
-import org.apache.avalon.framework.component.Component;
 
 /**
  * This is the object that is interacted with to create, manage and
@@ -20,7 +19,7 @@ import org.apache.avalon.framework.component.Component;
  * @author <a href="peter@apache.org">Peter Donald</a>
  */
 public interface Embeddor
-    extends Component, Initializable, Executable, Disposable
+    extends Initializable, Executable, Disposable
 {
     String ROLE = Embeddor.class.getName();
 

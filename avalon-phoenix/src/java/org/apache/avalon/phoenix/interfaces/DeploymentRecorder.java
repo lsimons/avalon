@@ -7,7 +7,6 @@
  */
 package org.apache.avalon.phoenix.interfaces;
 
-import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.phoenix.tools.installer.Installation;
 
 /**
@@ -16,7 +15,6 @@ import org.apache.avalon.phoenix.tools.installer.Installation;
  * @author <a href="mailto:mirceatoma@home.com">Mircea Toma</a>
  */
 public interface DeploymentRecorder
-    extends Component
 {
     String ROLE = DeploymentRecorder.class.getName();
 

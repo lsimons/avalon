@@ -8,7 +8,6 @@
 package org.apache.avalon.phoenix.interfaces;
 
 import java.io.File;
-import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.configuration.Configuration;
 
 /**
@@ -21,7 +20,6 @@ import org.apache.avalon.framework.configuration.Configuration;
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 public interface ClassLoaderManager
-    extends Component
 {
     String ROLE = ClassLoaderManager.class.getName();
 

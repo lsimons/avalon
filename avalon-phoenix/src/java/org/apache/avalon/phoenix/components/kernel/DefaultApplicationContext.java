@@ -10,22 +10,21 @@ package org.apache.avalon.phoenix.components.kernel;
 import java.util.HashMap;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
-import org.apache.excalibur.threadcontext.impl.DefaultThreadContextPolicy;
-import org.apache.excalibur.threadcontext.ThreadContext;
-import org.apache.excalibur.threadcontext.ThreadContextPolicy;
 import org.apache.avalon.excalibur.thread.ThreadPool;
 import org.apache.avalon.excalibur.thread.impl.DefaultThreadPool;
-import org.apache.avalon.framework.component.ComponentException;
-import org.apache.avalon.framework.component.ComponentManager;
-import org.apache.avalon.framework.component.Composable;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
+import org.apache.avalon.framework.service.ServiceException;
+import org.apache.avalon.framework.service.ServiceManager;
+import org.apache.avalon.framework.service.Serviceable;
 import org.apache.avalon.phoenix.interfaces.ApplicationContext;
 import org.apache.avalon.phoenix.interfaces.ConfigurationRepository;
 import org.apache.avalon.phoenix.interfaces.SystemManager;
 import org.apache.avalon.phoenix.metadata.SarMetaData;
+import org.apache.excalibur.threadcontext.ThreadContext;
+import org.apache.excalibur.threadcontext.impl.DefaultThreadContextPolicy;
 import org.apache.log.Hierarchy;
 import org.apache.log.Logger;
 
@@ -36,7 +35,7 @@ import org.apache.log.Logger;
  */
 class DefaultApplicationContext
     extends AbstractLogEnabled
-    implements ApplicationContext, Composable, Configurable
+    implements ApplicationContext, Serviceable, Configurable
 {
     private static final Resources REZ =
         ResourceManager.getPackageResources( DefaultApplicationContext.class );
@@ -75,11 +74,11 @@ class DefaultApplicationContext
         m_threadContext = new ThreadContext( policy, map );
     }
 
-    public void compose( final ComponentManager componentManager )
-        throws ComponentException
+    public void service( final ServiceManager serviceManager )
+        throws ServiceException
     {
-        m_repository = (ConfigurationRepository)componentManager.lookup( ConfigurationRepository.ROLE );
-        m_systemManager = (SystemManager)componentManager.lookup( SystemManager.ROLE );
+        m_repository = (ConfigurationRepository)serviceManager.lookup( ConfigurationRepository.ROLE );
+        m_systemManager = (SystemManager)serviceManager.lookup( SystemManager.ROLE );
     }
 
     /**
@@ -146,7 +145,7 @@ class DefaultApplicationContext
      * and using the specified name.
      *
      * @param name the name of object to export
-     * @param interfaceClass the interface of object with which to export
+     * @param service the interface of object with which to export
      * @param object the actual object to export
      */
     public void exportObject( final String name,
@@ -162,7 +161,7 @@ class DefaultApplicationContext
      * Unexport specified object from management system.
      *
      * @param name the name of object to unexport
-     * @param interfaceClass the interface of object with which to unexport
+     * @param service the interface of object with which to unexport
      */
     public void unexportObject( final String name, final Class service )
         throws Exception

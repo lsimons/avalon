@@ -10,7 +10,6 @@ package org.apache.avalon.phoenix.interfaces;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.activity.Startable;
-import org.apache.avalon.framework.component.Component;
 
 /**
  * This component is responsible for managing the system.
@@ -20,7 +19,7 @@ import org.apache.avalon.framework.component.Component;
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 public interface SystemManager
-    extends Component, Initializable, Startable, Disposable
+    extends Initializable, Startable, Disposable
 {
     String ROLE = SystemManager.class.getName();
 

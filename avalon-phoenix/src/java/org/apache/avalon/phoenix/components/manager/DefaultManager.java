@@ -15,17 +15,16 @@ import java.rmi.registry.Registry;
 import java.rmi.server.RemoteObject;
 import java.rmi.server.UnicastRemoteObject;
 import javax.management.MBeanServer;
-import javax.management.ObjectName;
 import javax.management.MalformedObjectNameException;
-import org.apache.excalibur.baxter.JavaBeanMBean;
+import javax.management.ObjectName;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
-import org.apache.avalon.framework.component.ComponentException;
-import org.apache.avalon.framework.component.ComponentManager;
-import org.apache.avalon.framework.component.Composable;
 import org.apache.avalon.framework.parameters.ParameterException;
 import org.apache.avalon.framework.parameters.Parameterizable;
 import org.apache.avalon.framework.parameters.Parameters;
+import org.apache.avalon.framework.service.ServiceException;
+import org.apache.avalon.framework.service.ServiceManager;
+import org.apache.avalon.framework.service.Serviceable;
 import org.apache.avalon.phoenix.components.kernel.DefaultKernel;
 import org.apache.avalon.phoenix.components.kernel.DefaultKernelMBean;
 import org.apache.avalon.phoenix.components.manager.rmiadaptor.RMIAdaptorImpl;
@@ -40,6 +39,7 @@ import org.apache.avalon.phoenix.interfaces.KernelMBean;
 import org.apache.avalon.phoenix.interfaces.LogManager;
 import org.apache.avalon.phoenix.interfaces.ManagerException;
 import org.apache.avalon.phoenix.interfaces.PackageRepository;
+import org.apache.excalibur.baxter.JavaBeanMBean;
 
 /**
  * This component is responsible for managing phoenix instance.
@@ -50,7 +50,7 @@ import org.apache.avalon.phoenix.interfaces.PackageRepository;
  */
 public class DefaultManager
     extends AbstractSystemManager
-    implements Parameterizable, Composable
+    implements Parameterizable, Serviceable
 {
     private static final Resources REZ =
         ResourceManager.getPackageResources( DefaultManager.class );
@@ -90,18 +90,18 @@ public class DefaultManager
     /**
      * Retrieve relevant services needed to deploy.
      *
-     * @param componentManager the ComponentManager
-     * @throws ComponentException if an error occurs
+     * @param serviceManager the ComponentManager
+     * @throws ServiceException if an error occurs
      */
-    public void compose( final ComponentManager componentManager )
-        throws ComponentException
+    public void service( final ServiceManager serviceManager )
+        throws ServiceException
     {
-        m_embeddor = (Embeddor)componentManager.lookup( Embeddor.ROLE );
-        m_kernel = (Kernel)componentManager.lookup( Kernel.ROLE );
-        m_deployer = (Deployer)componentManager.lookup( Deployer.ROLE );
-        m_repository = (ConfigurationRepository)componentManager.lookup( ConfigurationRepository.ROLE );
-        m_logManager = (LogManager)componentManager.lookup( LogManager.ROLE );
-        m_extensionManager = (PackageRepository)componentManager.lookup( PackageRepository.ROLE );
+        m_embeddor = (Embeddor)serviceManager.lookup( Embeddor.ROLE );
+        m_kernel = (Kernel)serviceManager.lookup( Kernel.ROLE );
+        m_deployer = (Deployer)serviceManager.lookup( Deployer.ROLE );
+        m_repository = (ConfigurationRepository)serviceManager.lookup( ConfigurationRepository.ROLE );
+        m_logManager = (LogManager)serviceManager.lookup( LogManager.ROLE );
+        m_extensionManager = (PackageRepository)serviceManager.lookup( PackageRepository.ROLE );
     }
 
     public void initialize()
