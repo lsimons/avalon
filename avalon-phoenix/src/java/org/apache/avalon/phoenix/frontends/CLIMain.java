@@ -105,7 +105,7 @@ public final class CLIMain
                           final boolean blocking )
         throws Exception
     {
-        if( false == startup( parameters, data ) )
+        if( !startup( parameters, data ) )
         {
             return;
         }
@@ -160,7 +160,7 @@ public final class CLIMain
     /**
      * Startup the embeddor.
      */
-    protected synchronized boolean startup( final Parameters parameters, final Hashtable data )
+    private synchronized boolean startup( final Parameters parameters, final Hashtable data )
     {
         try
         {
@@ -255,7 +255,7 @@ public final class CLIMain
     /**
      * Shut the embeddor down.
      */
-    public synchronized void shutdown()
+    private synchronized void shutdown()
     {
         //Null hook so it is not tried to be removed
         //when we are shutting down. (Attempting to remove
