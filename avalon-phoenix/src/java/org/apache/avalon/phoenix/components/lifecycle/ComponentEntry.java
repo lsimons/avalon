@@ -29,12 +29,12 @@ public class ComponentEntry
         return m_name;
     }
 
-    public synchronized State getState()
+    public final synchronized State getState()
     {
         return m_state;
     }
 
-    public synchronized void setState( final State state )
+    public final synchronized void setState( final State state )
     {
         m_state = state;
     }
@@ -51,7 +51,7 @@ public class ComponentEntry
 
     public synchronized void invalidate()
     {
-        setObject( null );
-        setState( State.VOID );
+        m_state = State.VOID;
+        m_object = null;
     }
 }
