@@ -4,14 +4,8 @@
 -- Document Type Definitions --
 <public publicId="-//APACHE//DTD Documentation V1.1//EN"
         uri="dtd/document-v11.dtd"/>
-<public publicId="-//APACHE//DTD Specification V1.1//EN"
-        uri="dtd/specification-v11.dtd"/>
-<public publicId="-//APACHE//DTD FAQ V1.1//EN"
-        uri="dtd/faq-v11.dtd"/>
 <public publicId="-//APACHE//DTD Changes V1.1//EN"
         uri="dtd/changes-v11.dtd"/>
-<public publicId="-//APACHE//DTD Todo V1.1//EN"
-        uri="dtd/todo-v11.dtd"/>
 <public publicId="-//APACHE//DTD Cocoon Documentation Book V1.0//EN"
         uri="dtd/book-cocoon-v10.dtd"/>
 
