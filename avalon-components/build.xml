@@ -41,8 +41,7 @@
        Set the installation variables for Cornerstone/Phoenix
        ===================================================================
   -->
-  <property name="phoenix.home" value="../jakarta-phoenix/dist"/>
-  <property name="phoenix.apps" value="${phoenix.home}/apps"/>
+  <property name="phoenix.home" value="../jakarta-avalon-phoenix/dist"/>
   <property name="install.dir" value="${phoenix.home}"/>
   <property name="install.bin.dir" value="${install.dir}/bin"/>
   <property name="install.lib.dir" value="${install.dir}/lib"/>
@@ -466,13 +465,19 @@
   </target>
 
   <target name="install" depends="all,install-no-cjan,install-yes-cjan,install-check-phoenix" description="Installs Cornerstone into Phoenix">
-    <mkdir dir="${phoenix.apps}" />
+    <mkdir dir="${phoenix.home}/apps" />
 
-    <parallel>
-      <ant antfile="build.xml" dir="apps/demo" target="install"/>
-      <ant antfile="build.xml" dir="apps/ftpserver" target="install"/>
-      <ant antfile="build.xml" dir="apps/jesktop" target="install"/>
-    </parallel>
+    <!--<parallel>-->
+      <ant antfile="build.xml" dir="apps/demo" target="install">
+        <property name="phoenix.apps" value="../../${phoenix.home}/apps"/>
+      </ant>
+      <ant antfile="build.xml" dir="apps/ftpserver" target="install">
+        <property name="phoenix.apps" value="../../${phoenix.home}/apps"/>
+      </ant>
+      <ant antfile="build.xml" dir="apps/jesktop" target="install">
+        <property name="phoenix.apps" value="../../${phoenix.home}/apps"/>
+      </ant>
+    <!--</parallel>-->
   </target>
 
   <target name="install-yes-cjan" if="cjan.lib">
@@ -508,7 +513,7 @@
                             Create the binary distribution
        ===================================================================
   -->
-  <target name="bin-dist" depends="compile,jars,bars,javadocs,docs,setup-properties,dist-norm,dist-soap">  
+  <target name="bin-dist" depends="compile,jars,bars,javadocs,docs,setup-properties">  
     <chmod dir="${dist.dir}" perm="go-rwx" />
   </target>
   
@@ -518,31 +523,6 @@
     <mkdir dir="${dist.javadocs}"/>  
   </target>
   
-  <target name="dist-norm" depends="dist-dirs">
-
-    <copy todir="${dist.docs}">
-      <fileset dir="${build.docs}"/>
-    </copy>
-
-    <copy todir="${dist.javadocs}">
-      <fileset dir="${build.javadocs}"/>
-    </copy>
-
-    <copy file="${build.lib}/${name}.bar" tofile="${dist.dir}/${name}-${version}.bar"/>
-    <copy file="${build.lib}/avalon-demo.sar" tofile="${dist.dir}/avalon-demo-${version}.sar"/>
-    <copy file="${build.lib}/avalon-cornerstone-compilation.jar" tofile="${dist.dir}/avalon-cornerstone-compilation-${version}.jar"/>
-    
-  </target>    
-  
-  <target name="dist-soap" if="glue.present">      
-  
-    <copy file="${build.lib}/avalon-soapdemo.sar" tofile="${dist.dir}/avalon-soapdemo-${version}.sar"/>
-    <delete dir="${phoenix.apps}/avalon-demo"/>
-    <copy file="${build.lib}/avalon-demo.sar" todir="${phoenix.apps}"/>
-
-    
-  </target>
-
   <!--
        ===================================================================
                             Create the source distribution
@@ -622,7 +602,7 @@
     <mkdir dir="${dist.base}"/>
     <mkdir dir="${dist.base}/phoenix-apps"/>
 
-    <parallel>
+    <!--<parallel>-->
       <antcall target="dist">
         <param name="dist.dir" value="${dist.name}" />
       </antcall>
@@ -635,7 +615,7 @@
       <ant antfile="build.xml" dir="apps/jesktop" target="check">
         <property name="dist.dir" value="${dist.name}" />
       </ant>
-    </parallel>
+    <!--</parallel>-->
 
     <copy todir="${dist.base}/phoenix-apps" flatten="true">
       <fileset dir="${dist.name}">
