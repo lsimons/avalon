@@ -35,7 +35,7 @@
     <section>
       <title>Creating the Role's Interface</title>
       <para>
-        Below you will find the example interface, followed by some best
+        Below you will find an example interface, followed by some best
         practices along with their reasoning.
       </para>
       <programlisting>
@@ -62,9 +62,10 @@ public interface DocumentRepository {
           </listitem>
           <listitem>
             <para>
-              Don't extend any other interface.  If you think that you should
-              extend another interface, it should be another role's work
-              interface.
+              Don't let your Role's interface extend any other interface.  If you
+              think that you should extend another interface, it should be another
+              Role's interface.  The only exception to this rule is when the Role's
+              interface is a specialization of another Role.
             </para>
           </listitem>
           <listitem>
@@ -101,7 +102,7 @@ public interface DocumentRepository {
                 Using this example, our theoretical Component's name would be
                 "org.apache.bizserver.docs.DocumentRepository".  This is the
                 name that would be included in your interface's "ROLE"
-                attribute.
+                property.
               </para>
             </listitem>
             <listitem>
@@ -253,6 +254,12 @@ public interface DocumentRepository {
             <para>
               <function>reconfigure</function>
               [<classname>Reconfigurable</classname>]
+            </para>
+          </listitem>
+          <listitem>
+            <para>
+              <function>resume</function>
+              [<classname>Suspendable</classname>]
             </para>
           </listitem>
         </orderedlist>
