@@ -1,0 +1,6 @@
+// Give phoenix launcher full permissions
+grant codeBase "file:${phoenix.home}/bin/*" {
+	permission java.security.AllPermission;
+};
+
+
