@@ -35,26 +35,6 @@ public class RotateStrategyBySize
     public RotateStrategyBySize( final long maxSize ) 
     {
         m_currentSize = 0;
-        setMaxSize( maxSize );
-    }
-
-    /**
-     * Get the rotation max size value.
-     *
-     * @return long current rotation max size value [byte]
-     */
-    public long getMaxSize() 
-    {
-        return m_maxSize;
-    }
-
-    /**
-     *  Set the rotation max size value.
-     *
-     *  @param maxSize new rotation max size value [byte]
-     */
-    public void setMaxSize( final long maxSize ) 
-    {
         m_maxSize = maxSize;
     }
 
@@ -67,7 +47,8 @@ public class RotateStrategyBySize
     }
 
     /**
-     *  check if now a log rotation is neccessary.
+     *  Check if now a log rotation is neccessary.
+     *
      *  @param data the last message written to the log system
      *  @return boolean return true if log rotation is neccessary, else false
      */
