@@ -1,14 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- this is the "common base" maven project
-     descriptor containing common project management
-     information.
-
-     Use <extend>../project.xml</extend> in subdirectories
-     to inherit these defaults.
-
-     Please take care to synchronize this file with the
-     one in the main avalon repository. -->
+<!--
+    Issue the command 'maven excalibur:info' for more information
+    about this file.
+-->
 
 <project>
     <pomVersion>3</pomVersion>

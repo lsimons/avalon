@@ -12,6 +12,6 @@
     <property file="${basedir}/../../../../project.properties"/>
 
     <!-- include the excalibur-wide custom goal decorators from maven-common.xml -->
-    <j:import file="../maven-common.xml" inherit="true"/>
+    <j:import file="${basedir}/../maven-common.xml" inherit="true"/>
 
 </project>

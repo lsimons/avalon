@@ -14,7 +14,7 @@
     <property file="${basedir}/../../../../project.properties"/>
 
     <!-- include the excalibur-wide custom goal decorators from maven-common.xml -->
-    <j:import file="../maven-common.xml" inherit="true"/>
+    <j:import file="${basedir}/../maven-common.xml" inherit="true"/>
 
     <!-- ==========================================================
           Compilation
@@ -39,4 +39,6 @@
         <!-- after this, other maven functionality should
              mostly work as normal... -->
     </goal>
+
+
 </project>

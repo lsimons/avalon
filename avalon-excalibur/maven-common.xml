@@ -1,10 +1,21 @@
 <?xml version="1.0"?>
 
-<!-- maven buildfile customization. -->
+<!--
+    Issue the command 'maven excalibur:info' for more information
+    about this file.
+-->
 
 <project default="excalibur:warn"
     xmlns:j="jelly:core"
     xmlns:ant="jelly:ant">
+
+    <goal name="excalibur:header">
+        <ant:echo>
+===================================================================
+ Avalon Excalibur Build System, the Maven Edition
+===================================================================
+        </ant:echo>
+    </goal>
 
     <!-- ==========================================================
           Warning
@@ -19,10 +30,8 @@
 
     <goal name="excalibur:warn"
             description="Alerts the user that the maven build is in development">
+        <attainGoal name="excalibur:header"/>
         <ant:echo>
-================================================================
- Avalon Excalibur Build System, the Maven Edition
-================================================================
                 !!! WARNING !!!
 
  excalibur is built using ant; the maven build system
@@ -156,6 +165,22 @@ http://cvs.apache.org/viewcvs.cgi/*checkout*/avalon-excalibur/forrest.properties
           Distribution customization
          ========================================================== -->
 
+    <!-- check for override.version -->
+    <preGoal name="dist:build-setup">
+        <attainGoal name="excalibur:version-override"/>
+    </preGoal>
+
+    <!-- check for override.version -->
+    <goal name="excalibur:version-override">
+        <j:set var="override" value="${override.version}"/>
+        <j:if test="${not empty(override)}">
+            <j:setProperties object="${pom}" currentVersion="${override}"/>
+        </j:if>
+        <ant:echo>
+            overriding version; setting to: ${pom.currentVersion}
+        </ant:echo>
+    </goal>
+
     <!-- auto-gen readme and license when building distributions -->
     <postGoal name="dist:build-setup">
         <attainGoal name="excalibur:generate-readme"/>
@@ -209,6 +234,166 @@ http://cvs.apache.org/viewcvs.cgi/*checkout*/avalon-excalibur/forrest.properties
 
     <goal name="excalibur:deploy"
             description="Deploys a release to www.apache.org/dist">
-        <echo>Not implemented!</echo>
+
+        <!-- get version -->
+        <attainGoal name="excalibur:version-override"/>
+
+        <!-- generate checksums -->
+        <ant:checksum filext="md5">
+            <fileset dir="target/distributions">
+                <include name="*.zip"/>
+                <include name="*.gz"/>
+            </fileset>
+        </ant:checksum>
+
+        <!-- set variables -->
+        <j:set var="hostname" value="${remote.host.name}"/>
+        <j:if test="${empty(hostname)}">
+            <j:set var="hostname" value="lsd.student.utwente.nl"/>
+        </j:if>
+        <j:set var="repodir" value="${remote.repository.dir}"/>
+        <j:if test="${empty(repodir)}">
+            <j:set var="repodir" value="~/repo"/>
+        </j:if>
+        <j:set var="mailannounce" value="${send.announce}"/>
+
+        <j:set var="repo" value="${hostname}:${repodir}"/>
+        <j:set var="mkdir" value="mkdir -p"/>
+        <j:set var="sshopts" value="-T -o BatchMode=yes"/>
+        <j:set var="scpopts" value="-B"/>
+
+        <!-- check for .asc -->
+        <j:set var="fail.on.pgp.missing" value="false"/>
+        <ant:available file="target/distributions/${maven.final.name}-bin.zip.asc"
+                property="asc.files.present"/>
+        <j:set var="pgpdone" value="${asc.files.present}"/>
+        <j:if test="${not pgpdone}">
+            <echo>
+WARNING: No PGP .asc files available! Please execute
+'maven excalibur:info' in the parent directory to read
+about PGP and deploying distributions!
+            </echo>
+            <j:if test="fail.on.pgp.missing">
+                <ant:fail/>
+            </j:if>
+        </j:if>
+
+        <!-- create directories -->
+        <ant:exec dir="." executable="${maven.ssh.executable}">
+            <arg line="${sshopts} ${hostname} ${mkdir} ${repodir}/${pom.artifactId}/source/"/>
+        </ant:exec>
+        <ant:exec dir="." executable="${maven.ssh.executable}">
+            <arg line="${sshopts} ${hostname} ${mkdir} ${repodir}/${pom.artifactId}/binaries/"/>
+        </ant:exec>
+        <ant:exec dir="." executable="${maven.ssh.executable}">
+            <arg line="${sshopts} ${hostname} ${mkdir} ${repodir}/${pom.artifactId}/jars/"/>
+        </ant:exec>
+
+        <!-- upload files -->
+        <ant:exec dir="." executable="${maven.scp.executable}">
+            <arg line="${scpopts} target/distributions/*${pom.currentVersion}-src* ${repo}/${pom.artifactId}/source/"/>
+        </ant:exec>
+        <ant:exec dir="." executable="${maven.scp.executable}">
+            <arg line="${scpopts} target/distributions/*${pom.currentVersion}-src* ${repo}/${pom.artifactId}/binaries/"/>
+        </ant:exec>
+        <ant:exec dir="." executable="${maven.scp.executable}">
+            <arg line="${scpopts} target/${maven.final.name}.jar ${repo}/${pom.artifactId}/jars/"/>
+        </ant:exec>
+
+        <!-- create symlinks -->
+
+        <!-- -src.tar.gz to basedir -->
+        <ant:exec dir="." executable="${maven.ssh.executable}">
+            <arg line="${sshopts} ${hostname} ln -s ${repodir}/${pom.artifactId}/source/${maven.final.name}-src.tar.gz ${repodir}/${pom.artifactId}/${maven.final.name}-src.tar.gz"/>
+        </ant:exec>
+        <!-- basedir/$v-src.tar.gz to basedir/latest-src.tar.gz -->
+        <ant:exec dir="." executable="${maven.ssh.executable}">
+            <arg line="${sshopts} ${hostname} ln -s ${repodir}/${pom.artifactId}/${maven.final.name}-src.tar.gz ${repodir}/${pom.artifactId}/${pom.artifactId}-latest-src.tar.gz"/>
+        </ant:exec>
+        <!-- -src.tar.gz.asc to basedir -->
+        <ant:exec dir="." executable="${maven.ssh.executable}">
+            <arg line="${sshopts} ${hostname} ln -s ${repodir}/${pom.artifactId}/source/${maven.final.name}-src.tar.gz.asc ${repodir}/${pom.artifactId}/${maven.final.name}-src.tar.gz.asc"/>
+        </ant:exec>
+        <!-- basedir/$v-src.tar.gz.asc to basedir/latest-src.tar.gz.asc -->
+        <ant:exec dir="." executable="${maven.ssh.executable}">
+            <arg line="${sshopts} ${hostname} ln -s ${repodir}/${pom.artifactId}/${maven.final.name}-src.tar.gz.asc ${repodir}/${pom.artifactId}/${pom.artifactId}-latest-src.tar.gz.asc"/>
+        </ant:exec>
+        <!-- -src.tar.gz.md5 to basedir -->
+        <ant:exec dir="." executable="${maven.ssh.executable}">
+            <arg line="${sshopts} ${hostname} ln -s ${repodir}/${pom.artifactId}/source/${maven.final.name}-src.tar.gz.md5 ${repodir}/${pom.artifactId}/${maven.final.name}-src.tar.gz.md5"/>
+        </ant:exec>
+        <!-- basedir/$v-src.tar.gz.md5 to basedir/latest-src.tar.gz.md5 -->
+        <ant:exec dir="." executable="${maven.ssh.executable}">
+            <arg line="${sshopts} ${hostname} ln -s ${repodir}/${pom.artifactId}/${maven.final.name}-src.tar.gz.md5 ${repodir}/${pom.artifactId}/${pom.artifactId}-latest-src.tar.gz.md5"/>
+        </ant:exec>
+
+        <!-- -src.zip to basedir -->
+        <ant:exec dir="." executable="${maven.ssh.executable}">
+            <arg line="${sshopts} ${hostname} ln -s ${repodir}/${pom.artifactId}/source/${maven.final.name}-src.zip ${repodir}/${pom.artifactId}/${maven.final.name}-src.zip"/>
+        </ant:exec>
+        <!-- basedir/$v-src.zip to basedir/latest-src.zip -->
+        <ant:exec dir="." executable="${maven.ssh.executable}">
+            <arg line="${sshopts} ${hostname} ln -s ${repodir}/${pom.artifactId}/${maven.final.name}-src.zip ${repodir}/${pom.artifactId}/${pom.artifactId}-latest-src.zip"/>
+        </ant:exec>
+        <!-- -src.zip.md5 to basedir -->
+        <ant:exec dir="." executable="${maven.ssh.executable}">
+            <arg line="${sshopts} ${hostname} ln -s ${repodir}/${pom.artifactId}/source/${maven.final.name}-src.zip.md5 ${repodir}/${pom.artifactId}/${maven.final.name}-src.zip.md5"/>
+        </ant:exec>
+        <!-- basedir/$v-src.zip.md5 to basedir/latest-src.zip.md5 -->
+        <ant:exec dir="." executable="${maven.ssh.executable}">
+            <arg line="${sshopts} ${hostname} ln -s ${repodir}/${pom.artifactId}/${maven.final.name}-src.zip.md5 ${repodir}/${pom.artifactId}/${pom.artifactId}-latest-src.zip.md5"/>
+        </ant:exec>
+        <!-- -src.zip.asc to basedir -->
+        <ant:exec dir="." executable="${maven.ssh.executable}">
+            <arg line="${sshopts} ${hostname} ln -s ${repodir}/${pom.artifactId}/source/${maven.final.name}-src.zip.asc ${repodir}/${pom.artifactId}/${maven.final.name}-src.zip.asc"/>
+        </ant:exec>
+        <!-- basedir/$v-src.zip.asc to basedir/latest-src.zip.asc -->
+        <ant:exec dir="." executable="${maven.ssh.executable}">
+            <arg line="${sshopts} ${hostname} ln -s ${repodir}/${pom.artifactId}/${maven.final.name}-src.zip.asc ${repodir}/${pom.artifactId}/${pom.artifactId}-latest-src.zip.asc"/>
+        </ant:exec>
+
+        <!-- create announcment -->
+        <ant:echo file="${maven.build.dir}/announcement-${pom.currentVersion}.txt">
+The Avalon team is proud to announce the release of version ${pom.currentVersion}
+of the ${pom.artifactId} project.
+
+About ${pom.artifactId}
+=======================
+${pom.description}
+
+About Avalon-Excalibur
+======================
+The Avalon project is an effort to create, design, develop and maintain
+a common framework and set of components for applications written using
+the Java language. The Avalon-Excalibur subproject contains reusable
+avalon components, avalon containers, and utility code.
+
+Avalon is proud to be a part of the Apache Software Foundation.
+
+For more information about avalon, see
+
+            http://avalon.apache.org/
+
+For more information about the Apache Software Foundation, see
+
+            http://www.apache.org/
+
+Downloading the distribution
+============================
+You may get the official release from the following URL:
+
+http://avalon.apache.org/download.cgi
+        </ant:echo>
+
+        <!-- e-mail announcement -->
+
+        <j:if test="${mailannounce}">
+            <ant:mail
+                from="Avalon Development Team &gt;dev@avalon.apache.org&lt;"
+                toList="leosimons@apache.org"
+                messageFile="${maven.build.dir}/announcement-${pom.currentVersion}.txt"
+                subject="[Announce] ${pom.artifactId} ${pom.currentVersion} released"/>
+        </j:if>
     </goal>
+
 </project>
