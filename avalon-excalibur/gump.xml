@@ -427,10 +427,10 @@
             to="avalon-dev@jakarta.apache.org"/>
     </project>
 
-    <project name="excalibur-lang">
-        <package>org.apache.avalon.excalibur.lang</package>
+    <project name="excalibur-threadcontext">
+        <package>org.apache.excalibur.threadcontext</package>
 
-        <ant basedir="lang">
+        <ant basedir="threadcontext">
             <depend property="junit.jar" project="junit"/>
             <property name="version" value="@@DATE@@"/>
             <property name="junit.failonerror" value="true"/>
@@ -442,10 +442,10 @@
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
         <depend project="checkstyle"/>
-        <work nested="lang/build/classes"/>
+        <work nested="threadcontext/build/classes"/>
 
-        <home nested="lang"/>
-        <jar name="build/lib/excalibur-lang-@@DATE@@.jar"/>
+        <home nested="threadcontext"/>
+        <jar name="build/lib/excalibur-threadcontext-@@DATE@@.jar"/>
 
         <nag from="Peter Donald &lt;peter@apache.org&gt;"
             to="avalon-dev@jakarta.apache.org"/>
