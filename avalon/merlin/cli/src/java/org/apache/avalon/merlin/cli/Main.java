@@ -92,7 +92,7 @@ import org.apache.commons.cli.Options;
  * Merlin command line handler.
  * 
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  */
 public class Main 
 {
@@ -261,8 +261,6 @@ public class Main
                 Artifact impl = null; // default
                 String[] bootstrap = null; // default
                 
-System.out.println( "SETTING INITIAL WORKING DIR: " + dir );
-
                 InitialContext context = 
                    new DefaultInitialContext( 
                      dir, parent, impl, system, bootstrap );
