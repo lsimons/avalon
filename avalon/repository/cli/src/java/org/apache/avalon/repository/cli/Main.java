@@ -62,7 +62,7 @@ import org.apache.commons.cli.Options;
  * Merlin command line handler.
  * 
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class Main 
 {
@@ -326,7 +326,8 @@ public class Main
         StringTokenizer tokenizer = new StringTokenizer( arg, "," );
         while( tokenizer.hasMoreTokens() )
         {
-            list.add( tokenizer.nextToken() );
+            String next = tokenizer.nextToken();
+            list.add( next );
         }
         return (String[]) list.toArray( new String[0] );
     }
