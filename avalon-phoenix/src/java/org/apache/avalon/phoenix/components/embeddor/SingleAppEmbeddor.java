@@ -8,13 +8,10 @@
 package org.apache.avalon.phoenix.components.embeddor;
 
 import java.io.File;
-import java.util.Iterator;
 import org.apache.avalon.phoenix.components.application.Application;
-import org.apache.avalon.excalibur.container.ContainerException;
 import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.component.ComponentException;
 import org.apache.avalon.framework.component.ComponentManager;
-import org.apache.avalon.excalibur.container.Container;
 
 /**
  * Embeddor to host only a single application.
@@ -32,7 +29,7 @@ public class SingleAppEmbeddor
     implements ComponentManager
 {
     ///Sole application hosted in kernel
-    private Container    m_application;
+    private Application    m_application;
 
     /**
      * Deploy a single application.
@@ -48,7 +45,7 @@ public class SingleAppEmbeddor
         final File directory = new File( applicationLocation );
         deployFile( applicationName, directory );
 
-        m_application = (Container)getKernel().getEntry( applicationName ).getInstance();
+        m_application = (Application)getKernel().getEntry( applicationName ).getInstance();
     }
 
     /**
@@ -58,7 +55,7 @@ public class SingleAppEmbeddor
      */
     public String[] list()
     {
-        return m_application.list();
+        return m_application.getBlockNames();
     }
 
     /**
@@ -69,15 +66,10 @@ public class SingleAppEmbeddor
     public Component lookup( final String role )
         throws ComponentException
     {
-        Component component = null;
-
-        try
+        final Component component = m_application.getBlock( role );
+        if( null == component )
         {
-            component = (Component)m_application.getEntry( role ).getInstance();
-        }
-        catch( final ContainerException ce )
-        {
-            throw new ComponentException( ce.getMessage(), ce );
+            throw new ComponentException( "Unable to get reference to component " + role );
         }
 
         return component;
@@ -85,15 +77,7 @@ public class SingleAppEmbeddor
 
     public boolean hasComponent( final String role )
     {
-        try
-        {
-            m_application.getEntry( role );
-            return true;
-        }
-        catch( final ContainerException ce )
-        {
-            return false;
-        }
+        return ( null != m_application.getBlock( role ) );
     }
 
     /**
