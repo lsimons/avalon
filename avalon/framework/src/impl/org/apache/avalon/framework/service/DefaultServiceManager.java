@@ -12,8 +12,8 @@ import java.util.Iterator;
 import java.util.Map;
 
 /**
- * This class is a static implementation of a ServiceManager. Allow ineritance
- * and extension so you can generate a tree of ServiceManager each defining
+ * This class is a static implementation of a <code>ServiceManager</code>. Allow ineritance
+ * and extension so you can generate a tree of <code>ServiceManager</code> each defining
  * Object scope.
  *
  * @author <a href="mailto:fede@apache.org">Federico Barbieri</a>
@@ -29,7 +29,7 @@ public class DefaultServiceManager
     private boolean                     m_readOnly;
 
     /**
-     * Construct ServiceManager with no parent.
+     * Construct <code>ServiceManager</code> with no parent.
      *
      */
     public DefaultServiceManager()
@@ -38,9 +38,9 @@ public class DefaultServiceManager
     }
 
     /**
-     * Construct ServiceManager with specified parent.
+     * Construct <code>ServiceManager</code> with specified parent.
      *
-     * @param parent the ServiceManager parent
+     * @param parent this <code>ServiceManager</code>'s parent
      */
     public DefaultServiceManager( final ServiceManager parent )
     {
@@ -48,10 +48,10 @@ public class DefaultServiceManager
     }
 
     /**
-     * Retrieve Object by role from ServiceManager.
+     * Retrieve <code>Object</code> by role from <code>ServiceManager</code>.
      *
      * @param role the role
-     * @return the Object
+     * @return the <code>Object</code>
      * @throws ServiceException if an error occurs
      */
     public Object lookup( final String role )
@@ -96,9 +96,9 @@ public class DefaultServiceManager
     }
 
     /**
-     * Place Object into ComponentManager.
+     * Place <code>Object</code> into <code>ServiceManager</code>.
      *
-     * @param role the components role
+     * @param role the object's role
      * @param object an <code>Object</code> value
      */
     public void put( final String role, final Object object )
@@ -108,9 +108,10 @@ public class DefaultServiceManager
     }
 
     /**
-     * Build a human readable representation of the ServiceManager.
+     * Build a human readable representation of this
+     * <code>ServiceManager</code>.
      *
-     * @return the description of the ServiceManager
+     * @return the description of this <code>ServiceManager</code>
      */
     public String toString()
     {
@@ -131,7 +132,7 @@ public class DefaultServiceManager
     /**
      * Helper method for subclasses to retrieve parent.
      *
-     * @return the parent ServiceManager
+     * @return the parent <code>ServiceManager</code>
      */
     protected final ServiceManager getParent()
     {
@@ -149,7 +150,7 @@ public class DefaultServiceManager
     }
 
     /**
-     * Makes this service manager read-only.
+     * Makes this <code>ServiceManager</code> read-only.
      *
      */
     public void makeReadOnly()
@@ -158,9 +159,10 @@ public class DefaultServiceManager
     }
 
     /**
-     * Checks if this service manager is writeable.
+     * Checks if this <code>ServiceManager</code> is writeable.
      *
-     * @throws IllegalStateException if this service manager is read-only
+     * @throws IllegalStateException if this <code>ServiceManager</code> is
+     * read-only
      */
     protected final void checkWriteable()
         throws IllegalStateException
@@ -173,7 +175,7 @@ public class DefaultServiceManager
     }
 
     /**
-     * Release the object.
+     * Release the <code>Object</code>.
      * @param object The <code>Object</code> to release.
      */
     public void release( Object object ){}
