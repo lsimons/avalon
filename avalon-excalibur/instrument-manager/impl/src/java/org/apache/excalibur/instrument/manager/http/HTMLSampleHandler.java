@@ -65,7 +65,7 @@ import org.apache.excalibur.instrument.manager.interfaces.NoSuchInstrumentSample
 /**
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.1 $ $Date: 2003/11/09 16:36:33 $
+ * @version CVS $Revision: 1.2 $ $Date: 2004/02/05 15:28:09 $
  * @since 4.1
  */
 public class HTMLSampleHandler
@@ -210,21 +210,43 @@ public class HTMLSampleHandler
             out.println( "<h2>Data Samples (<a href='sample.html?name="
                 + urlEncode( desc.getName() ) + "'>Plain</a>)</h2>" );
             
+            // Originally, the JavaScript timer in the page made use of the setInterval
+            //  function to build a simple timer.  This worked fine under normal
+            //  operation.  But if a browser was suspended for 1 hour with a timer
+            //  running at 1 second intervals, the timer would try to catch up when
+            //  the machine was resumed.  This would result in the timer firing 3600
+            //  times over the course of a few seconds.  The sudden burst of requests
+            //  was swamping the server.
+            // The current scripts below now always reset the timer each time it is
+            //  fired.  If the timer ever falls behind it will recover smoothly
+            //  without trying to catch up.  While not quite as accurate it is
+            //  sufficient for our purposes.
+            
             out.println( "<SCRIPT LANGUAGE=\"JavaScript\">" );
-            out.println( "var intervalId;" );
+            out.println( "var timerId = 0;" );
+            out.println( "var timerInterval = 5000;" );
             out.println( "function refreshChart() {" );
+            //out.println( "  alert(\"in refreshChart()\");" );
             out.println( "  document.chart.src=\"sample-chart.jpg?name=" + urlEncode( desc.getName() ) + "&time=\" + new Date().getTime();" );
             out.println( "}" );
+            out.println( "function timerFired() {" );
+            //out.println( "  alert(\"in timerFired()\");" );
+            out.println( "  if (timerId) {" );
+            out.println( "    clearTimeout(timerId);" );
+            out.println( "  }" );
+            out.println( "  timerId = setTimeout(\"timerFired()\", timerInterval)" );
+            out.println( "  refreshChart();" );
+            out.println( "}" );
             out.println( "function setRefresh(refresh) {" );
-            out.println( "  clearInterval(intervalId);" );
-            out.println( "  intervalId = setInterval(\"refreshChart()\", refresh);" );
+            //out.println( "  alert(\"in setRefresh(\" + refresh + \")\");" );
+            out.println( "  timerInterval = refresh;" );
+            out.println( "  timerFired();" );
             out.println( "}" );
             out.println( "function chartError() {" );
-            out.println( "  clearInterval(intervalId);" );
+            //out.println( "  alert(\"in chartError()\");" );
+            out.println( "  clearTimeout(timerId);" );
             out.println( "  document.location=\"instrument.html?name=" + urlEncode( desc.getInstrumentDescriptor().getName() ) + "\";" );
             out.println( "}" );
-            // No auto refresh by default.
-            //out.println( "setRefresh(5000);" );
             out.println( "</SCRIPT>" );
             
             out.println( "<form>" );
@@ -232,7 +254,7 @@ public class HTMLSampleHandler
             tableCell( out, "<img name='chart' src='sample-chart.jpg?name=" + urlEncode( desc.getName() ) + "' onError='javascript:chartError()'>" );
             endTable( out );
             out.println( "Refresh rate:" );
-            out.println( "<input type='button' value='No Refresh' onClick='javascript:clearInterval(intervalId)'>" );
+            out.println( "<input type='button' value='No Refresh' onClick='javascript:clearTimeout(timerId)'>" );
             out.println( "<input type='button' value='1 Second' onClick='javascript:setRefresh(1000)'>" );
             out.println( "<input type='button' value='5 Seconds' onClick='javascript:setRefresh(5000)'>" );
             out.println( "<input type='button' value='10 Seconds' onClick='javascript:setRefresh(10000)'>" );
