@@ -91,6 +91,10 @@ class SimpleWorkerThread
     {
         m_logger = logger;
         m_detailLogger = logger.getChildLogger( "detail" );
+        
+        // Log a created message here rather as we can't in the constructor
+        //  due to the lack of a logger.
+        debug( "created." );
     }
 
     /**
@@ -103,7 +107,13 @@ class SimpleWorkerThread
     {
         if ( m_logger.isDebugEnabled() )
         {
-            m_logger.debug( getName() + ": " + message );
+            // As we are dealing with threads where more than one thread is
+            //  always involved, log both the name of the thread that triggered
+            //  event along with the name of the worker involved.  This
+            //  increases the likely hood of walking away sane after a
+            //  debugging session.
+            m_logger.debug( "\"" + getName() + "\" "
+                + "(in " + Thread.currentThread().getName() + ") : " + message );
         }
     }
 
@@ -118,7 +128,8 @@ class SimpleWorkerThread
     {
         if ( m_logger.isDebugEnabled() )
         {
-            m_logger.debug( getName() + ": " + message, throwable );
+            m_logger.debug( "\"" + getName() + "\" "
+                + "(in " + Thread.currentThread().getName() + ") : " + message, throwable );
         }
     }
 
@@ -133,7 +144,8 @@ class SimpleWorkerThread
     {
         if ( m_detailLogger.isDebugEnabled() )
         {
-            m_detailLogger.debug( getName() + ": " + message );
+            m_detailLogger.debug( "\"" + getName() + "\" "
+                + "(in " + Thread.currentThread().getName() + ") : " + message );
         }
     }
 
@@ -149,7 +161,8 @@ class SimpleWorkerThread
     {
         if ( m_detailLogger.isDebugEnabled() )
         {
-            m_detailLogger.debug( getName() + ": " + message, throwable );
+            m_detailLogger.debug( "\"" + getName() + "\" "
+                + "(in " + Thread.currentThread().getName() + ") : " + message, throwable );
         }
     }
 }
