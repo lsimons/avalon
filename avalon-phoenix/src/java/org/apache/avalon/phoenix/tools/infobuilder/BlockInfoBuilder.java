@@ -25,7 +25,7 @@ import org.apache.avalon.phoenix.metainfo.ServiceDescriptor;
  * is specified in the BlockInfo specification.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.14 $ $Date: 2002/05/12 02:07:30 $
+ * @version $Revision: 1.15 $ $Date: 2002/05/15 11:32:02 $
  */
 public final class BlockInfoBuilder
     extends AbstractLogEnabled
@@ -56,17 +56,7 @@ public final class BlockInfoBuilder
         configuration = info.getChild( "services" );
         final ServiceDescriptor[] services = buildServices( configuration );
 
-        configuration = info.getChild( "management" );
-        if( 0 != configuration.getChildren().length )
-        {
-            final String message = REZ.getString( "deprecated-management-declaration", classname );
-            System.err.println( message );
-            getLogger().warn( message );
-        }
-        else
-        {
-            configuration = info.getChild( "management-access-points" );
-        }
+        configuration = info.getChild( "management-access-points" );
         final ServiceDescriptor[] management = buildServices( configuration );
 
         configuration = info.getChild( "dependencies" );
