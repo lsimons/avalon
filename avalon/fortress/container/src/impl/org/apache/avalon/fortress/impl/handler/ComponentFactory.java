@@ -70,7 +70,7 @@ import org.apache.excalibur.mpool.ObjectFactory;
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:paul@luminas.co.uk">Paul Russell</a>
- * @version CVS $Revision: 1.9 $ $Date: 2003/03/07 20:21:26 $
+ * @version CVS $Revision: 1.10 $ $Date: 2003/03/19 12:50:03 $
  * @since 4.0
  */
 public class ComponentFactory
@@ -79,12 +79,6 @@ public class ComponentFactory
 {
     private CounterInstrument m_newInstance;
     private CounterInstrument m_dispose;
-
-    /**
-     * Name of the Instrumentable.  Maps to the id of the component in the
-     * configuration.
-     */
-    private String m_instrumentableName;
 
     /** The class which this <code>ComponentFactory</code>
      * should create.
@@ -144,9 +138,9 @@ public class ComponentFactory
 
         m_newInstance = new CounterInstrument( "creates" );
         m_dispose = new CounterInstrument( "destroys" );
-        
+
         setInstrumentableName("factory");
-        
+
         addInstrument(m_newInstance);
         addInstrument(m_dispose);
     }
@@ -174,7 +168,7 @@ public class ComponentFactory
         }
 
         ContainerUtil.enableLogging(component, m_componentLogger);
-        
+
         if( component instanceof Loggable )
         {
             final String message = "WARNING: " + m_componentClass.getName() +
