@@ -7,6 +7,7 @@
  */
 package org.apache.phoenix.engine.phases;
 
+
 import java.io.File;
 import org.apache.avalon.AbstractLoggable;
 import org.apache.avalon.ComponentManager;
@@ -14,13 +15,18 @@ import org.apache.avalon.ComponentManagerException;
 import org.apache.avalon.Composer;
 import org.apache.avalon.Context;
 import org.apache.avalon.Contextualizable;
+import org.apache.avalon.DefaultComponentManager;
 import org.apache.avalon.DefaultContext;
 import org.apache.avalon.Initializable;
 import org.apache.avalon.Loggable;
 import org.apache.avalon.Startable;
 import org.apache.avalon.atlantis.ApplicationException;
+import org.apache.avalon.camelot.Container;
+import org.apache.avalon.camelot.ContainerException;
+import org.apache.avalon.camelot.Entry;
 import org.apache.avalon.camelot.Factory;
 import org.apache.avalon.camelot.SimpleFactory;
+import org.apache.avalon.component.ComponentException;
 import org.apache.avalon.configuration.Configurable;
 import org.apache.avalon.configuration.Configuration;
 import org.apache.avalon.util.thread.ThreadContext;
@@ -31,9 +37,9 @@ import org.apache.phoenix.engine.SarContextResources;
 import org.apache.phoenix.engine.blocks.BlockEntry;
 import org.apache.phoenix.engine.blocks.BlockVisitor;
 import org.apache.phoenix.engine.blocks.DefaultBlockContext;
-import org.apache.phoenix.engine.facilities.ComponentManagerBuilder;
+import org.apache.phoenix.engine.blocks.RoleEntry;
 import org.apache.phoenix.engine.facilities.ConfigurationRepository;
-import org.apache.phoenix.engine.facilities.LoggerBuilder;
+import org.apache.phoenix.metainfo.BlockInfo;
 import org.apache.phoenix.metainfo.BlockUtil;
 import org.apache.phoenix.metainfo.ServiceDescriptor;
 
@@ -46,8 +52,6 @@ public class StartupPhase
     implements BlockVisitor, Contextualizable, Composer
 {
     private ClassLoader                 m_classLoader;
-    private LoggerBuilder               m_loggerBuilder;
-    private ComponentManagerBuilder     m_componentManagerBuilder;
     private ConfigurationRepository     m_repository;
     private ThreadManager               m_threadManager;
 
@@ -56,6 +60,12 @@ public class StartupPhase
 
     ///base context used to setup hosted blocks
     private DefaultContext           m_baseBlockContext;
+
+    /**
+     * The container (ie kernel) which this phase is associated with.
+     * Required to build a ComponentManager.
+     */
+    private Container                   m_container;
 
     public void contextualize( final Context context )
     {
@@ -66,6 +76,7 @@ public class StartupPhase
         final DefaultContext blockContext = new DefaultContext();
         blockContext.put( BlockContext.APP_NAME, name );
         blockContext.put( BlockContext.APP_HOME_DIR, baseDirectory );
+
         m_baseBlockContext = blockContext;
     }
 
@@ -76,14 +87,11 @@ public class StartupPhase
 
         m_factory = new SimpleFactory( m_classLoader );
 
+        m_container = (Container)componentManager.
+            lookup( "org.apache.avalon.camelot.Container" );
+
         m_threadManager = (ThreadManager)componentManager.
             lookup( "org.apache.avalon.util.thread.ThreadManager" );
-
-        m_loggerBuilder = (LoggerBuilder)componentManager.
-            lookup( "org.apache.phoenix.engine.facilities.LoggerBuilder" );
-
-        m_componentManagerBuilder = (ComponentManagerBuilder)componentManager.
-            lookup( "org.apache.phoenix.engine.facilities.ComponentManagerBuilder" );
 
         m_repository = (ConfigurationRepository)componentManager.
             lookup( "org.apache.phoenix.engine.facilities.ConfigurationRepository" );
@@ -122,7 +130,7 @@ public class StartupPhase
             if( object instanceof Loggable )
             {
                 getLogger().debug( "Pre-Loggable Stage" );
-                ((Loggable)object).setLogger( m_loggerBuilder.createLogger( name, entry ) );
+                ((Loggable)object).setLogger( getLogger().getChildLogger( name ) );
                 getLogger().debug( "Loggable successful." );
             }
 
@@ -138,8 +146,8 @@ public class StartupPhase
             if( object instanceof Composer )
             {
                 getLogger().debug( "Pre-Composition Stage" );
-                final ComponentManager componentManager =
-                    m_componentManagerBuilder.createComponentManager( name, entry );
+                final ComponentManager componentManager = 
+                    createComponentManager( name, entry );
                 ((Composer)object).compose( componentManager );
                 getLogger().debug( "Composition successful." );
             }
@@ -228,5 +236,49 @@ public class StartupPhase
             new DefaultBlockContext( getLogger(), m_threadManager, m_baseBlockContext );
         context.put( BlockContext.NAME, name );
         return context;
+    }
+
+    /**
+     * Build a ComponentManager for a specific Block.
+     *
+     * @param name the name of the block
+     * @param entry the BlockEntry
+     * @return the created ComponentManager
+     */
+    private ComponentManager createComponentManager( final String name, final BlockEntry entry )
+        throws ComponentException
+    {
+        final DefaultComponentManager componentManager = new DefaultComponentManager();
+        final BlockInfo info = entry.getBlockInfo();
+        final RoleEntry[] roleEntrys = entry.getRoleEntrys();
+
+        for( int i = 0; i < roleEntrys.length; i++ )
+        {
+            final String dependencyName = roleEntrys[ i ].getName();
+            final ServiceDescriptor serviceDescriptor =
+                info.getDependency( roleEntrys[ i ].getRole() ).getService();
+
+            try
+            {
+                //dependency should NEVER throw ContainerException here as it
+                //is validated at entry time
+                final BlockEntry dependency =
+                    (BlockEntry)m_container.getEntry( dependencyName );
+
+                //make sure that the block offers service it supposed to be providing
+                final ServiceDescriptor[] services = dependency.getBlockInfo().getServices();
+                if( !BlockUtil.hasMatchingService( services, serviceDescriptor ) )
+                {
+                    throw new ComponentException( "Dependency " + dependencyName +
+                                                  " does not offer service required: " +
+                                                  serviceDescriptor );
+                }
+
+                componentManager.put( roleEntrys[ i ].getRole(), (Block)dependency.getInstance() );
+            }
+            catch( final ContainerException ce ) {}
+        }
+
+        return componentManager;
     }
 }
