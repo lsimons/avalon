@@ -32,19 +32,19 @@
       </p>
       <p>
         The Avalon Team are proud to announce a new whitepaper that covers how
-	to develop with Avalon. It covers the Framework, and touches on the
-	LogKit and Excalibur. You can find
-	<link href="./developing/index.html">Developing with Apache Avalon</link>
-	on this site.
+        to develop with Avalon. It covers the Framework, and touches on the
+        LogKit and Excalibur. You can find
+        <link href="./developing/index.html">Developing with Apache Avalon</link>
+        on this site.
       </p>
     </s1>
-	<s1 title="Sub-Projects">
-	  <p>
-	    There are several distinct sub-projects that together form the Avalon project:
-	  </p>
+    <s1 title="Sub-Projects">
+      <p>
+        There are several distinct sub-projects that together form the Avalon project:
+      </p>
 
       <s2 title="LogKit">
-		<p>
+        <p>
           <link href="@LOGKIT_BASE@/index.html">LogKit</link> is the logging toolkit 
           used by the Avalon subprojects.
         </p> 
@@ -66,15 +66,15 @@
       </s2>
 
       <s2 title="Excalibur">
-		<p>
-          <link href="excalibur/index.html">Excalibur</link> is a collection of often-needed 
+        <p>
+          <link href="@EXCALIBUR_BASE@/index.html">Excalibur</link> is a collection of often-needed 
           reusable components. It includes tools for threading, pooling, datasources, 
           proxies and more.
         </p>
       </s2>
 
       <s2 title="Phoenix">
-		<p>
+        <p>
           <link href="@PHOENIX_BASE@/index.html">Phoenix</link> is a server orientated
           Application Server. Applications and Services that conform to the framework
           rules can be hosted in Phoenix. The Application server manages the applications
@@ -84,7 +84,7 @@
       </s2>
 
       <s2 title="Cornerstone">
-		<p>
+        <p>
           <link href="@CORNERSTONE_BASE@/index.html">Cornerstone</link> is a repository.
           for what we call <link href="@PHOENIX_BASE@/what-is-a-block.html">blocks</link>,
           which provide services vital to server applications. The blocks include blocks for
@@ -96,24 +96,24 @@
 
       <s2 title="Testlet">
         <note>
-	  As of August 1, 2001 the Avalon Development Team has decided to
-	  discontinue development of Testlet in favor of the
-	  <link href="http://www.junit.org">JUnit</link> testing framework.
-	  We will continue to reference this project until all tests are
-	  converted to JUnit TestCases.
-	</note>
+      As of August 1, 2001 the Avalon Development Team has decided to
+      discontinue development of Testlet in favor of the
+      <link href="http://www.junit.org">JUnit</link> testing framework.
+      We will continue to reference this project until all tests are
+      converted to JUnit TestCases.
+    </note>
         <p>
           The <link href="@TESTLET_BASE@/index.html">Testlet</link> subproject is a unit 
           testing framework used by the other sub-projects.
         </p>
       </s2>
 
-	</s1>
+    </s1>
   </body>
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.2 $ $Date: 2001/08/01 15:56:03 $
+      $Revision: 1.3 $ $Date: 2001/08/02 03:52:47 $
     </legal>
   </footer>
 </document>

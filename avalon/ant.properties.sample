@@ -15,6 +15,7 @@
 # To link to local documentation, run the "dist" target for each project and
 # uncomment and customize the following variables.
 #avalon.base=${basedir}/dist/docs
+#excalibur.base=${basedir}/../jakarta-avalon-excalibur/dist/docs
 #phoenix.base=${basedir}/../jakarta-avalon-phoenix/dist/docs
 #logkit.base=${basedir}/../jakarta-avalon-logkit/dist/docs
 #cornerstone.base=${basedir}/../jakarta-avalon-cornerstone/dist/docs
