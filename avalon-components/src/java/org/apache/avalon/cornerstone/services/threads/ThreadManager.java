@@ -7,7 +7,7 @@
  */
 package org.apache.avalon.cornerstone.services.threads;
 
-import org.apache.excalibur.thread.ThreadPool;
+import org.apache.avalon.excalibur.thread.ThreadPool;
 
 /**
  * Manage a set of ThreadPools.

@@ -15,7 +15,7 @@ import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
-import org.apache.excalibur.thread.ThreadPool;
+import org.apache.avalon.excalibur.thread.ThreadPool;
 import org.apache.excalibur.threadcontext.ThreadContext;
 
 /**
@@ -61,13 +61,16 @@ public class DefaultThreadManager
         throws ConfigurationException
     {
         final String name = configuration.getChild( "name" ).getValue();
-        final int priority = configuration.getChild( "priority" ).getValueAsInteger( 5 );
+        // NEVER USED!!
+        //final int priority = configuration.getChild( "priority" ).getValueAsInteger( 5 );
         final boolean isDaemon = configuration.getChild( "is-daemon" ).getValueAsBoolean( false );
 
         final int minThreads = configuration.getChild( "min-threads" ).getValueAsInteger( 5 );
         final int maxThreads = configuration.getChild( "max-threads" ).getValueAsInteger( 10 );
-        final int minSpareThreads = configuration.getChild( "min-spare-threads" ).
-            getValueAsInteger( maxThreads - minThreads );
+        
+        // NEVER USED!!
+        //final int minSpareThreads = configuration.getChild( "min-spare-threads" ).
+        //    getValueAsInteger( maxThreads - minThreads );
 
         try
         {
