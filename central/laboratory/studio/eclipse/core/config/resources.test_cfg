@@ -27,32 +27,6 @@
         </libraries>
       </ResourceTemplate>
     </entry>
-    <entry>
-      <string>Composition (Application) Tutorial</string>
-      <ResourceTemplate>
-        <directoryType>ImplApiBlock</directoryType>
-        <templateId>Composition (Application) Tutorial</templateId>
-        <wizardPages/>
-        <resources>
-          <Resource>
-            <rootSegment>impl</rootSegment>
-            <sourceFilePathName>/D:/Avalon/studio/eclipse/core/templates/composition/application/Application.java</sourceFilePathName>
-            <packageName>tutorial.application</packageName>
-          </Resource>
-          <Resource>
-            <rootSegment>impl/BLOCK-INF</rootSegment>
-            <sourceFilePathName>/D:/Avalon/studio/eclipse/core/templates/composition/application/block.xml</sourceFilePathName>
-            <packageName></packageName>
-          </Resource>
-          <Resource>
-            <rootSegment>impl/BLOCK-INF</rootSegment>
-            <sourceFilePathName>/D:/Avalon/studio/eclipse/core/templates/composition/application/debug.xml</sourceFilePathName>
-            <packageName></packageName>
-          </Resource>
-        </resources>
-        <libraries/>
-      </ResourceTemplate>
-    </entry>
   </resourceTemplates>
   <directoryManager>
     <directoryTemplates>
