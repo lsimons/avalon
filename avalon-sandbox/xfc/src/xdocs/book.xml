@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<book software="Excalibur xfc" title="Excalibur xfc" copyright="@year@ The Apache Software Foundation" xmlns:xlink="http://www.w3.org/1999/xlink">
+  
+  
+
+    <menu label="About">
+      <menu-item href="index.html" label="About XFC"/>
+      <menu-item href="http://jakarta.apache.org/avalon/excalibur/index.html" label="Excalibur Home"/>
+      <menu-item href="http://jakarta.apache.org/builds/avalon-excalibur/release" label="Download"/>
+      <menu-item label="API Docs" href="http://avalon.apache.org/api/"/>
+    </menu>
+
+    <menu label="Overview">
+      <menu-item href="whatis.html" label="What is XFC ?"/>
+	  <menu-item href="how.html" label="How does XFC work ?"/>
+	  <menu-item href="using.html" label="How do I use XFC ?"/>
+      <menu-item href="issues.html" label="Known issues"/>
+      <menu-item href="todo.html" label="Todo"/>
+    </menu>
+<!--
+    <menu label="How To">
+      <menu-item href="ecm-howto.html" label="Convert to/from ECM"/>
+      <menu-item href="fortress-howto.html" label="Convert to/from Fortress"/>
+    </menu>
+-->
+  
+</book>

@@ -329,7 +329,7 @@
     <target name="docs" depends="javadocs, xdocs" description="generates all the Avalon documentation"/>
 
     <target name="xdocs" description="generates the xdocs-based documentation">
-      <ant antfile="${basedir}/../cocoonbuild.xml"/>
+      <ant antfile="${basedir}/../forrestbuild.xml"/>
     </target>
 
     <target name="site" depends="docs" description=" Places Docs ready for hosting on website">

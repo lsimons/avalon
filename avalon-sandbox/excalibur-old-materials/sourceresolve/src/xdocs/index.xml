@@ -8,7 +8,7 @@
     </authors>
   </header>
   <body>
-    <s1 title="Introduction">
+    <section><title>Introduction</title>
       <p>
         A very common problem is resolving a source, which means
         finding a source using a URI.
@@ -63,17 +63,17 @@
         which can be used in addition to the system ID of the Source to verify
         if a cache contains a valid version of the Source object.
       </p>
-    </s1>
-    <s1 title="Projects">
+    </section>
+    <section><title>Projects</title>
       <p>You can see the source resolving in action in the Apache Cocoon
         project.
       </p>
-    </s1>
+    </section>
   </body>
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.3 $ $Date: 2002/12/15 11:56:48 $
+      $Revision: 1.4 $ $Date: 2003/02/20 15:39:35 $
     </legal>
   </footer>
 </document>

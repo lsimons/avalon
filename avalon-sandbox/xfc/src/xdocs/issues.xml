@@ -8,7 +8,7 @@
     </authors>
   </header>
   <body>
-    <s1 title="Known problems">
+    <section><title>Known problems</title>
 	  <ol>
 		<li>Custom component selectors (ECM)</li>
 		<p>
@@ -36,12 +36,12 @@
 		  is inserted as the ID.
 		</p>
       </ol>
-    </s1>
+    </section>
   </body>
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.1 $ $Date: 2002/10/23 16:08:20 $
+      $Revision: 1.2 $ $Date: 2003/02/20 15:45:02 $
     </legal>
   </footer>
 </document>

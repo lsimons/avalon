@@ -9,7 +9,7 @@
     </authors>
   </header>
   <body>
-    <s1 title="Introduction">
+    <section><title>Introduction</title>
       <warn>
         This package is under development, and the API is not
         guaranteed to be the same when it is ready for release.
@@ -24,12 +24,12 @@
         limiting pool implementation in Excalibur's Pool package.  Expect
         the interface to this change before we promote it to Excalibur.
       </p>
-    </s1>
+    </section>
   </body>
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.4 $ $Date: 2002/04/05 08:21:05 $
+      $Revision: 1.5 $ $Date: 2003/02/20 15:45:28 $
     </legal>
   </footer>
 </document>
