@@ -34,7 +34,7 @@ import org.apache.avalon.framework.service.Serviceable;
  * a component throught it's lifecycle stages.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2002/05/11 06:35:26 $
+ * @version $Revision: 1.2 $ $Date: 2002/05/12 11:51:30 $
  * @todo Add a MissingResource exception and make all the method
  *       throw that if supplied resource (logger, context, etc)
  *       is null.
@@ -89,8 +89,8 @@ public final class ContainerUtil
     }
 
     /**
-     * Supply specified object with ServiceManager if it implements the
-     * {@link Serviceable} interface.
+     * Supply specified object with Logger if it implements the
+     * {@link LogEnabled} interface.
      *
      * @param object the object to Start
      * @param logger the logger to enable component with. May be null
