@@ -27,7 +27,7 @@ import org.apache.avalon.composition.model.ContainmentModel;
 /**
  * The context argument supplied to a new kernel instance.
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.2 $ $Date: 2004/01/24 23:25:31 $
+ * @version $Revision: 1.3 $ $Date: 2004/02/07 20:23:32 $
  */
 public interface KernelContext
 {
@@ -36,12 +36,6 @@ public interface KernelContext
     * @return the loggging channel
     */
     Logger getLogger();
-
-   /**
-    * Return the facilities model.
-    * @return the internal container facilities
-    */
-    ContainmentModel getFacilitiesModel();
 
    /**
     * Return the application model.

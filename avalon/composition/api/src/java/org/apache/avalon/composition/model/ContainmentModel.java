@@ -33,7 +33,7 @@ import org.apache.avalon.meta.info.StageDescriptor;
  * context.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.16 $ $Date: 2004/02/07 17:41:28 $
+ * @version $Revision: 1.17 $ $Date: 2004/02/07 20:23:32 $
  */
 public interface ContainmentModel extends DeploymentModel
 {
@@ -114,14 +114,14 @@ public interface ContainmentModel extends DeploymentModel
     DeploymentModel getModel( String path );
 
    /**
-    * Addition of a new subsidiary model within
-    * the containment context using a supplied profile url.
+    * Addition of a new subsidiary containment model
+    * using a supplied profile url.
     *
     * @param url a containment profile url
     * @return the model based on the derived profile
     * @exception ModelException if an error occurs during model establishment
     */
-    DeploymentModel addModel( URL url ) throws ModelException;
+    ContainmentModel addContainmentModel( URL url ) throws ModelException;
 
    /**
     * Addition of a new subsidiary containment model within
