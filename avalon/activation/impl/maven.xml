@@ -5,8 +5,15 @@
   xmlns:util="jelly:util" 
   xmlns:ant="jelly:ant">
 
-  <postGoal name="test:compile">
+  <postGoal name="java:prepare-filesystem">
+    <attainGoal name="avalon:artifact"/>
     <attainGoal name="avalon:meta"/>
+  </postGoal>
+
+  <postGoal name="jar:install">
+    <ant:copy verbose="yes"
+       file="${maven.build.dir}/${pom.artifactId}-${pom.currentVersion}.jar.meta" 
+       toDir="${maven.repo.local}/${pom.groupId}/jars" />
   </postGoal>
 
 </project>
