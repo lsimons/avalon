@@ -48,9 +48,9 @@
 namespace Apache.Avalon.Container
 {
 	using System;
-	using System.ComponentModel;
 	using System.Reflection;
 	using System.Collections;
+	using EventHandlerList = System.ComponentModel.EventHandlerList;
 	
 	using Apache.Avalon.Framework;
 	using Apache.Avalon.Container.Configuration;
@@ -60,6 +60,8 @@ namespace Apache.Avalon.Container
 	using Apache.Avalon.Container.Handler;
 	using Apache.Avalon.Container.Factory;
 	using Apache.Avalon.Container.Logger;
+
+	using Apache.Avalon.Meta;
 
 	/// <summary>
 	/// Basic handler to listen to Container events.
@@ -95,10 +97,7 @@ namespace Apache.Avalon.Container
 
 		public void PrepareComponent(ComponentEntry entry)
 		{
-			if (m_logger.IsDebugEnabled)
-			{
-				m_logger.Debug("Preparing component '{0}'", entry.ComponentType.FullName);
-			}
+			m_logger.Debug("Preparing component '{0}'", entry.ComponentType.FullName);
 
 			IComponentFactory factory = m_factoryManager.GetFactory(entry);
 			DelegateHandler handler = new DelegateHandler(factory, entry);
@@ -107,10 +106,7 @@ namespace Apache.Avalon.Container
 
 		internal void BeforeGetInstance(DelegateHandler handler)
 		{
-			if (m_logger.IsDebugEnabled)
-			{
-				m_logger.Debug("BeforeGetInstance '{0}'", handler.ComponentEntry.ComponentType.FullName);
-			}
+			m_logger.Debug("BeforeGetInstance '{0}'", handler.ComponentEntry.ComponentType.FullName);
 
 			OnBeforeCreation(handler.ComponentEntry);
 		}
@@ -362,7 +358,7 @@ namespace Apache.Avalon.Container
 
 				try
 				{
-					Type type = Type.GetType(typeName);
+					Type type = Type.GetType(typeName, true, true);
 
 					loadedTypes.Add(type);
 				}
@@ -444,9 +440,9 @@ namespace Apache.Avalon.Container
 			// TODO: There are a lot of to-dos here. As we are focusing
 			// the simplest case, they should not be an issue.
 
-			foreach(AvalonDependencyAttribute dep in entry.Dependencies)
+			foreach(DependencyDescriptor dependency in entry.Dependencies)
 			{
-				String depRole = dep.DependencyType.FullName;
+				String depRole = dependency.Service.Typename;
 				ComponentEntry depEntry = m_container.Components[depRole];
 
 				if (depEntry != null && entry != depEntry)
@@ -456,9 +452,11 @@ namespace Apache.Avalon.Container
 						m_logger.Debug("  Dependency: '{0}'", depEntry.ComponentType.FullName);
 					}
 
-					lookupManager.Add(dep.Key, dep.DependencyType);
+					Type dependencyType = Type.GetType( dependency.Service.Typename, true, true );
 
-					OnSetupDependencies(instance, entry, depRole, dep.Key, lookupManager);
+					lookupManager.Add(dependency.Key, dependencyType);
+
+					OnSetupDependencies(instance, entry, depRole, dependency.Key, lookupManager);
 				}
 			}
 		}

@@ -56,7 +56,6 @@ namespace Apache.Avalon.Container.Test
 
 	using Apache.Avalon.Container;
 	using Apache.Avalon.Container.Configuration;
-	using Apache.Avalon.Container.Util.Dag;
 	using Apache.Avalon.Framework;
 
 	/// <summary>
@@ -82,12 +81,13 @@ namespace Apache.Avalon.Container.Test
 			return new TestContainer(config);
 		}
 
+		/*
 		public Vertex[] ShutDownOrder
 		{
 			get
 			{
 				return base.m_shutDownOrder;
 			}
-		}
+		}*/
 	}
 }

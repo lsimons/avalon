@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<project name="avalon-container" default="compile" xmlnds="http://tempuri.org/nant-vs.xsd">
+
+    <include buildfile="./AvalonContainer.build" />
+
+</project>
