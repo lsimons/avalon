@@ -180,8 +180,11 @@
     <!-- Generate all docs -->
     <target name="docs" description="Generate all the docs">
      <!--   <ant dir="instrument" target="docs"/>  -->
-     <!--   <ant dir="concurrent" target="docs"/>  -->
+        <ant dir="command" target="docs"/>  
+        <ant dir="component" target="docs"/>  
+        <ant dir="concurrent" target="docs"/>  
         <ant dir="collections" target="docs"/> 
+        <ant dir="event" target="docs"/>  
      <!--   <ant dir="altrmi" target="docs"/> -->
      <!--   <ant dir="all" target="docs"/> -->               <!-- depends on instrument -->
      <!--   <ant dir="instrument-manager" target="docs"/>  --> <!-- depends on instrument, all -->
@@ -192,8 +195,8 @@
         <ant dir="cli" target="docs"/>
       <!--  <ant dir="extension" target="docs"/> -->
       <!--  <ant dir="i18n" target="docs"/> -->
-      <!--  <ant dir="io" target="docs"/> -->
-      <!--  <ant dir="naming" target="docs"/> -->
+        <ant dir="io" target="docs"/> 
+        <ant dir="naming" target="docs"/> 
       <!--  <ant dir="tar" target="docs"/> -->
       <!--  <ant dir="zip" target="docs"/> -->
 
@@ -205,8 +208,11 @@
        <ant dir="site" target="site"/>
     
      <!--   <ant dir="instrument" target="site"/>  -->
-     <!--   <ant dir="concurrent" target="site"/>  -->
+        <ant dir="command" target="site"/>  
+        <ant dir="component" target="site"/>  
+        <ant dir="concurrent" target="site"/>  
         <ant dir="collections" target="site"/> 
+        <ant dir="event" target="site"/>  
      <!--   <ant dir="altrmi" target="site"/> -->
      <!--   <ant dir="all" target="site"/> -->               <!-- depends on instrument -->
      <!--   <ant dir="instrument-manager" target="site"/>  --> <!-- depends on instrument, all -->
@@ -226,9 +232,9 @@
         
       <!--  <ant dir="extension" target="site"/> -->
       <!--  <ant dir="i18n" target="site"/> -->
-      <!--  <ant dir="io" target="site"/> -->
+        <ant dir="io" target="site"/> 
       <!--  <ant dir="naming" target="site"/> -->
-      <!--  <ant dir="tar" target="site"/> -->
+        <ant dir="tar" target="site"/>
       <!--  <ant dir="zip" target="site"/> -->
 
     </target>
