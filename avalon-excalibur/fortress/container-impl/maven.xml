@@ -84,11 +84,11 @@
     <postGoal name="avalon:deploy-upload">
         <!-- upload big jar -->
         <ant:exec dir="." executable="${maven.scp.executable}">
-            <arg line="${scpopts} target/${pom.artifactId}-complete-${pom.currentVersion}.jar ${repo}/${pom.groupId}/jars/"/>
+            <ant:arg line="${scpopts} target/${pom.artifactId}-complete-${pom.currentVersion}.jar ${repo}/${pom.groupId}/jars/"/>
         </ant:exec>
     </postGoal>
 
     <postGoal name="clean">
-        <delete dir="${maven.src.dir}/java"/>
+        <ant:delete dir="${maven.src.dir}/java"/>
     </postGoal>
 </project>
