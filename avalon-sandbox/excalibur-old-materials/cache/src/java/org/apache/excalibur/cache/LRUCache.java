@@ -15,6 +15,7 @@ import java.util.LinkedList;
  * Fixed length cache with a LRU replacement policy.
  *
  * @author <a href="mailto:colus@apache.org">Eung-ju Park</a>
+ * @deprecated Use DefaultCache with constructor parameter
  */
 public class LRUCache
     extends DefaultCache
