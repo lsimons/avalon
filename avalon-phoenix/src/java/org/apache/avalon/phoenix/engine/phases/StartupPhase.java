@@ -38,10 +38,8 @@ import org.apache.avalon.phoenix.engine.blocks.BlockEntry;
 import org.apache.avalon.phoenix.engine.blocks.BlockVisitor;
 import org.apache.avalon.phoenix.engine.blocks.DefaultBlockContext;
 import org.apache.avalon.phoenix.engine.blocks.RoleEntry;
-import org.apache.avalon.phoenix.engine.facilities.ClassLoaderManager;
 import org.apache.avalon.phoenix.engine.facilities.ConfigurationRepository;
-import org.apache.avalon.phoenix.engine.facilities.LogManager;
-import org.apache.avalon.phoenix.engine.facilities.ThreadManager;
+import org.apache.avalon.phoenix.engine.facilities.ApplicationFrame;
 import org.apache.avalon.phoenix.metainfo.BlockInfo;
 import org.apache.avalon.phoenix.metainfo.BlockUtil;
 import org.apache.avalon.phoenix.metainfo.ServiceDescriptor;
@@ -54,16 +52,14 @@ public class StartupPhase
     extends AbstractLoggable
     implements BlockVisitor, Contextualizable, Composable
 {
-    private ClassLoader                 m_classLoader;
-    private ConfigurationRepository     m_repository;
-    private ThreadManager               m_threadManager;
-    private LogManager                  m_logManager;
+    ///Frame in which block executes
+    private ApplicationFrame     m_frame;
 
     ///Factory used to build instance of Block
-    private Factory                     m_factory;
+    private Factory              m_factory;
 
     ///base context used to setup hosted blocks
-    private DefaultContext              m_baseBlockContext;
+    private DefaultContext       m_baseBlockContext;
 
     /**
      * The container (ie kernel) which this phase is associated with.
@@ -88,17 +84,10 @@ public class StartupPhase
     public void compose( final ComponentManager componentManager )
         throws ComponentException
     {
-        final ClassLoaderManager classLoaderManager = 
-            (ClassLoaderManager)componentManager.lookup( ClassLoaderManager.ROLE );
-
-        m_classLoader = classLoaderManager.getClassLoader();
-
-        m_factory = new SimpleFactory( m_classLoader );
-
         m_container = (Container)componentManager.lookup( Container.ROLE );
-        m_threadManager = (ThreadManager)componentManager.lookup( ThreadManager.ROLE );
-        m_repository = (ConfigurationRepository)componentManager.lookup( ConfigurationRepository.ROLE );
-        m_logManager = (LogManager)componentManager.lookup( LogManager.ROLE );
+        m_frame = (ApplicationFrame)componentManager.lookup( ApplicationFrame.ROLE );
+
+        m_factory = new SimpleFactory( m_frame.getClassLoader() );
     }
 
     /**
@@ -115,12 +104,12 @@ public class StartupPhase
             null != entry.getState() ) return;
 
         getLogger().info( "Processing Block: " + name );
-        getLogger().debug( "Processing with classloader " + m_classLoader );
+        getLogger().debug( "Processing with classloader " + m_frame.getClassLoader() );
 
         //HACK: Hack-o-mania here - Fix when each Application is
         //run in a separate thread group
-        Thread.currentThread().setContextClassLoader( m_classLoader );
-        ThreadContext.setCurrentThreadPool( m_threadManager.getDefaultThreadPool() );
+        Thread.currentThread().setContextClassLoader( m_frame.getClassLoader() );
+        ThreadContext.setCurrentThreadPool( m_frame.getDefaultThreadPool() );
 
         try
         {
@@ -134,7 +123,7 @@ public class StartupPhase
             if( object instanceof Loggable )
             {
                 getLogger().debug( "Pre-Loggable Stage" );
-                ((Loggable)object).setLogger( m_logManager.getLogger( name ) );
+                ((Loggable)object).setLogger( m_frame.getLogger( name ) );
                 getLogger().debug( "Loggable successful." );
             }
 
@@ -237,7 +226,7 @@ public class StartupPhase
     private Context createContext( final String name )
     {
         final DefaultBlockContext context =
-            new DefaultBlockContext( getLogger(), m_threadManager, m_baseBlockContext );
+            new DefaultBlockContext( getLogger(), m_frame, m_baseBlockContext );
         context.put( BlockContext.NAME, name );
         return context;
     }

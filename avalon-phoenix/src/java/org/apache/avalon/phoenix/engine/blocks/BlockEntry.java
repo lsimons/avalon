@@ -9,10 +9,10 @@ package org.apache.avalon.phoenix.engine.blocks;
 
 import org.apache.avalon.framework.camelot.Entry;
 import org.apache.avalon.framework.camelot.Locator;
+import org.apache.avalon.framework.camelot.State;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.phoenix.Block;
 import org.apache.avalon.phoenix.metainfo.BlockInfo;
-import org.apache.avalon.framework.camelot.State;
 
 /**
  * This is the structure describing each block before it is loaded.
@@ -35,10 +35,13 @@ public class BlockEntry
     //UGLY HACK should be stored in another server Facility (ie ConfigurationRepository)
     private Configuration       m_configuration;
 
-    public BlockEntry( final String name, final RoleEntry[] roleEntrys )
+    public BlockEntry( final String name,
+                       final RoleEntry[] roleEntrys,
+                       final Locator locator )
     {
         m_name = name;
         m_roleEntrys = roleEntrys;
+        setLocator( locator );
         setState( BASE );
     }
 

@@ -18,8 +18,7 @@ import org.apache.avalon.framework.component.Composable;
 import org.apache.avalon.framework.logger.AbstractLoggable;
 import org.apache.avalon.phoenix.engine.blocks.BlockEntry;
 import org.apache.avalon.phoenix.engine.blocks.BlockVisitor;
-import org.apache.avalon.phoenix.engine.facilities.ClassLoaderManager;
-import org.apache.avalon.phoenix.engine.facilities.ThreadManager;
+import org.apache.avalon.phoenix.engine.facilities.ApplicationFrame;
 
 /**
  *
@@ -29,19 +28,13 @@ public class ShutdownPhase
     extends AbstractLoggable
     implements BlockVisitor, Composable
 {
-    private ClassLoader                 m_classLoader;
-    private ThreadManager               m_threadManager;
-    private Container                   m_container;
+    private ApplicationFrame  m_frame;
+    private Container         m_container;
 
     public void compose( final ComponentManager componentManager )
         throws ComponentException
     {
-        final ClassLoaderManager classLoaderManager =
-            (ClassLoaderManager)componentManager.lookup( ClassLoaderManager.ROLE );
-
-        m_classLoader = classLoaderManager.getClassLoader();
-
-        m_threadManager = (ThreadManager)componentManager.lookup( ThreadManager.ROLE );
+        m_frame = (ApplicationFrame)componentManager.lookup( ApplicationFrame.ROLE );
         m_container = (Container)componentManager.lookup( Container.ROLE );
     }
 
@@ -58,12 +51,12 @@ public class ShutdownPhase
         if( entry.getState() != BlockEntry.STARTEDUP ) return;
 
         getLogger().info( "Processing Block: " + name );
-        getLogger().debug( "Processing with classloader " + m_classLoader );
+        getLogger().debug( "Processing with classloader " + m_frame.getClassLoader() );
 
         //HACK: Hack-o-mania here - Fix when each Application is
         //run in a separate thread group
-        Thread.currentThread().setContextClassLoader( m_classLoader );
-        ThreadContext.setCurrentThreadPool( m_threadManager.getDefaultThreadPool() );
+        Thread.currentThread().setContextClassLoader( m_frame.getClassLoader() );
+        ThreadContext.setCurrentThreadPool( m_frame.getDefaultThreadPool() );
 
         final Object object = entry.getInstance();
 

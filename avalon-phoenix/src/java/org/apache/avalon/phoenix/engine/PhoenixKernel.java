@@ -41,24 +41,10 @@ public class PhoenixKernel
     ///SystemManager provided by Embeddor
     private SystemManager          m_systemManager;
 
-    private Hierarchy              m_logHierarchy;
-
-    public PhoenixKernel()
-    {
-        //m_entryClass = ServerApplicationEntry.class;
-    }
-
     public void compose( final ComponentManager componentManager )
         throws ComponentException
     {
         m_systemManager = (SystemManager)componentManager.lookup( SystemManager.ROLE );
-    }
-
-    public void initialize()
-        throws Exception
-    {
-        m_logHierarchy = Hierarchy.getDefaultHierarchy();
-        super.initialize();
     }
 
     /**
@@ -93,8 +79,7 @@ public class PhoenixKernel
         final Application application = (Application)entry.getInstance();
         final ServerApplicationEntry saEntry = (ServerApplicationEntry)entry;
 
-        setupLogger( application, m_logHierarchy.getLoggerFor( name ) );
-
+        setupLogger( application, name );
         try
         {
             if( application instanceof Contextualizable )
