@@ -60,7 +60,7 @@
 
 
     <!-- block for Phoenix-Demo -->
-    <jar jarfile="build/lib/phoenix-demo.bar"
+    <jar jarfile="build/lib/phoenix-demo-block.jar"
          manifest="src/manifest/bar.mf">
       <fileset dir="build/classes">
         <include name="**"/>
@@ -101,23 +101,23 @@
 
     <jar jarfile="build/lib/phoenix-demo.sar">
 
-      <zipfileset dir="build/lib" prefix="blocks/">
-        <include name="*.bar"/>
+      <zipfileset dir="build/lib" prefix="SAR-INF/lib">
+        <include name="*block.jar"/>
       </zipfileset>
 
       <zipfileset dir="src/conf" fullpath="conf/keyStore">
         <include name="keystore"/>
       </zipfileset>
 
-      <zipfileset dir="src/conf" fullpath="conf/assembly.xml">
+      <zipfileset dir="src/conf" fullpath="SAR-INF/assembly.xml">
         <include name="pd-assembly.xml"/>
       </zipfileset>
 
-      <zipfileset dir="src/conf" fullpath="conf/server.xml">
+      <zipfileset dir="src/conf" fullpath="SAR-INF/server.xml">
         <include name="pd-server.xml"/>
       </zipfileset>
 
-      <zipfileset dir="src/conf" fullpath="conf/config.xml">
+      <zipfileset dir="src/conf" fullpath="SAR-INF/config.xml">
         <include name="pd-config.xml"/>
       </zipfileset>
 
