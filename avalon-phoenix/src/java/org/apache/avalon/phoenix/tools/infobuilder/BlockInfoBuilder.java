@@ -25,7 +25,7 @@ import org.apache.avalon.phoenix.metainfo.ServiceDescriptor;
  * is specified in the BlockInfo specification.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.17 $ $Date: 2002/06/06 02:24:52 $
+ * @version $Revision: 1.18 $ $Date: 2002/06/28 05:08:09 $
  */
 public final class BlockInfoBuilder
     extends AbstractLogEnabled
@@ -65,6 +65,8 @@ public final class BlockInfoBuilder
         configuration = info.getChild( "block" );
         final BlockDescriptor descriptor = buildBlockDescriptor( classname, configuration );
 
+        configuration = info.getChild( "configuration-schema", false );
+
         if( getLogger().isDebugEnabled() )
         {
             final String message = REZ.getString( "blockinfo-created",
@@ -74,7 +76,7 @@ public final class BlockInfoBuilder
             getLogger().debug( message );
         }
 
-        return new BlockInfo( descriptor, services, management, dependencies );
+        return new BlockInfo( descriptor, configuration, services, management, dependencies );
     }
 
     /**
