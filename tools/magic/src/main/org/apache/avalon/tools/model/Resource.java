@@ -99,7 +99,7 @@ public class Resource
                 final Get get = (Get) project.createTask( "get" );
                 get.setSrc( source );
                 get.setDest( target );
-                get.setIgnoreErrors( false );
+                get.setIgnoreErrors( true );
                 get.setUseTimestamp( true );
                 get.setVerbose( false );
                 get.execute();

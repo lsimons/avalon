@@ -227,7 +227,8 @@
     <info>
       <group>avalon/util</group>
       <name>avalon-util-defaults</name>
-      <version>1.2.1</version>
+      <version>1.2.2</version> <!-- bumped to 1.2.2 to fix bug accessing Env variable -->
+      <status>SNAPSHOT</status> 
     </info>
     <dependencies>
       <include key="avalon-util-env"/>
@@ -869,6 +870,27 @@
       <include key="jms"/>
     </dependencies>
   </project>
+
+  <!--
+  Avalon Laboratory.
+  -->
+
+  <project basedir="../laboratory/cache">
+    <info>
+      <group>avalon/planet</group>
+      <name>avalon-cache</name>
+      <version>1.0.0</version>
+      <status>SNAPSHOT</status>
+    </info>
+    <dependencies>
+      <include key="avalon-framework-api"/>
+      <include key="avalon-repository-main"/>
+    </dependencies>
+    <plugins>
+      <include key="avalon-meta-tools"/>
+    </plugins>
+  </project>
+
 
   <!--
   <project basedir="../../runtime/merlin/unit">

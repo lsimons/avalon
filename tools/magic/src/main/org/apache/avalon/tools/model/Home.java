@@ -20,12 +20,14 @@ package org.apache.avalon.tools.model;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.BuildListener;
 import org.apache.tools.ant.Project;
+import org.apache.tools.ant.taskdefs.Get;
 import org.apache.tools.ant.taskdefs.Property;
 import org.apache.tools.ant.types.DataType;
 import org.w3c.dom.Element;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
@@ -212,10 +214,37 @@ public class Home extends DataType
                   + " key=" + key, Project.MSG_VERBOSE );
             }
             else if( "import".equals( element.getTagName() ) )
-            { 
-                final String path = element.getAttribute( "index" );
-                final File index = Context.getFile( system, path );
-                buildList( index, true );
+            {
+                final String path = element.getAttribute( "href" );
+                if(( null != path ) && ( !"".equals( path ) ))
+                {
+                    File index = createTempFile();
+                    index.deleteOnExit(); // safety harness in case we abort
+                    final URL url = createURL( path );
+                    final Get get = (Get) project.createTask( "get" );
+                    get.setSrc( url );
+                    get.setDest( index );
+                    get.setIgnoreErrors( false );
+                    get.setUseTimestamp( true );
+                    get.setVerbose( false );
+                    get.execute();
+                    buildList( index, true );
+                }
+                else
+                {
+                    final String filename = element.getAttribute( "index" );
+                    if(( null != filename ) && ( !"".equals( filename ) ))
+                    {
+                        final File index = Context.getFile( system, path );
+                        buildList( index, true );
+                    }
+                    else
+                    {
+                        final String error = 
+                          "Invalid import - no href or index attribute.";
+                        throw new BuildException( error );
+                    }
+                }
             }
             else
             {
@@ -223,6 +252,30 @@ public class Home extends DataType
                   "Unrecognized element type \"" + tag + "\".";
                 throw new BuildException( error );
             }
+        }
+    }
+
+    private URL createURL( String path )
+    {
+        try
+        {
+            return new URL( path );
+        }
+        catch( IOException ioe )
+        {
+            throw new BuildException( ioe );
+        }
+    }
+
+    private File createTempFile()
+    {
+        try
+        {
+            return File.createTempFile( "~magic", ".tmp" );
+        }
+        catch( IOException ioe )
+        {
+            throw new BuildException( ioe );
         }
     }
 

@@ -24,6 +24,7 @@ import org.apache.avalon.merlin.Kernel;
 import org.apache.avalon.merlin.KernelContext;
 import org.apache.avalon.merlin.KernelError;
 import org.apache.avalon.merlin.KernelException;
+import org.apache.avalon.merlin.KernelRuntimeException;
 import org.apache.avalon.merlin.event.KernelEventListener;
 import org.apache.avalon.merlin.event.KernelStateEvent;
 
@@ -66,8 +67,6 @@ public class DefaultKernel implements Kernel, Disposable
 
     private final KernelContext m_context;
 
-    //private final Block m_application;
-
     private final State m_state;
 
     //--------------------------------------------------------------
@@ -92,8 +91,6 @@ public class DefaultKernel implements Kernel, Disposable
         try
         {
             m_model = context.getApplicationModel();
-            //m_application = 
-            //  new DefaultBlock( context.getApplicationModel() );
         }
         catch( Throwable e )
         {
@@ -185,12 +182,19 @@ public class DefaultKernel implements Kernel, Disposable
                 setState( ASSEMBLY );
                 m_model.assemble();
             }
+            catch( Exception e )
+            {
+                setState( INITIALIZED );
+                final String error =
+                  "Cannot assemble application due to exception.";
+                throw new KernelException( error, e );
+            }
             catch( Throwable e )
             {
                 setState( INITIALIZED );
                 final String error =
-                  "Cannot assemble application.";
-                throw new KernelException( error, e );
+                  "Cannot assemble application due to throwable.";
+                throw new KernelRuntimeException( error, e );
             }
 
             if( getLogger().isDebugEnabled() )
@@ -203,12 +207,19 @@ public class DefaultKernel implements Kernel, Disposable
                 setState( DEPLOYMENT );
                 m_model.commission();
             }
-            catch( Throwable e )
+            catch( Exception e )
             {
                 setState( INITIALIZED );
                 final String error =
                   "Cannot deploy application.";
                 throw new KernelException( error, e );
+            }
+            catch( Throwable e )
+            {
+                setState( INITIALIZED );
+                final String error =
+                  "Cannot deploy application.";
+                throw new KernelRuntimeException( error, e );
             }
             
             setState( STARTED );
