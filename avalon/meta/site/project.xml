@@ -18,30 +18,33 @@
       <artifactId>avalon-framework-impl</artifactId>
       <version>4.1.5</version>
     </dependency>
+
     <dependency>
       <groupId>avalon-meta</groupId>
       <artifactId>avalon-meta-api</artifactId>
-      <version>1.2-dev</version>
+      <version>1.2.1-dev</version>
     </dependency>
     <dependency>
       <groupId>avalon-meta</groupId>
       <artifactId>avalon-meta-spi</artifactId>
-      <version>1.2-dev</version>
+      <version>1.2.1-dev</version>
     </dependency>
     <dependency>
       <groupId>avalon-meta</groupId>
       <artifactId>avalon-meta-impl</artifactId>
-      <version>1.2-dev</version>
+      <version>1.2.1-dev</version>
     </dependency>
     <dependency>
       <groupId>avalon-meta</groupId>
       <artifactId>avalon-meta-tools</artifactId>
-      <version>1.2-dev</version>
+      <version>1.2.1-dev</version>
     </dependency>
+
     <dependency>
       <id>excalibur-i18n</id>
       <version>1.1</version>
     </dependency>
+
     <dependency>
       <id>excalibur-configuration</id>
       <version>1.1</version>
@@ -51,6 +54,7 @@
       <id>ant</id>
       <version>1.5</version>
     </dependency>
+
     <dependency>
       <id>qdox</id>
       <version>1.1</version>
