@@ -32,7 +32,6 @@ import org.apache.avalon.phoenix.Block;
 import org.apache.avalon.phoenix.BlockListener;
 import org.apache.avalon.phoenix.components.frame.ApplicationFrame;
 import org.apache.avalon.phoenix.components.frame.DefaultApplicationFrame;
-import org.apache.avalon.phoenix.components.listeners.BlockListenerManager;
 import org.apache.avalon.phoenix.components.listeners.BlockListenerSupport;
 import org.apache.avalon.phoenix.components.manager.SystemManager;
 import org.apache.avalon.phoenix.metadata.BlockListenerMetaData;
@@ -60,7 +59,6 @@ public final class DefaultServerApplication
 
     //these are the facilities (internal components) of ServerApplication
     private ApplicationFrame         m_frame;
-    private BlockListenerManager     m_listenerManager;
 
     private BlockVisitor             m_startupVisitor;
     private BlockVisitor             m_shutdownVisitor;
@@ -117,14 +115,12 @@ public final class DefaultServerApplication
         throws Exception
     {
         m_frame = new DefaultApplicationFrame( m_classLoader, m_metaData );
-        m_listenerManager = new BlockListenerSupport();
         m_startupVisitor = new StartupPhase();
         m_shutdownVisitor = new ShutdownPhase();
 
         //Setup component manager with new components added
         //by application
         m_componentManager.put( ApplicationFrame.ROLE, m_frame );
-        m_componentManager.put( BlockListenerManager.ROLE, m_listenerManager );
         m_componentManager.put( Application.ROLE, this );
         m_componentManager.makeReadOnly();
 
@@ -227,7 +223,7 @@ public final class DefaultServerApplication
             ((Configurable)listener).configure( configuration );
         }
 
-        m_listenerManager.addBlockListener( listener );
+        m_frame.addBlockListener( listener );
     }
 
     /**
