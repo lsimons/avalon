@@ -81,7 +81,7 @@ import org.apache.excalibur.source.impl.validity.FileTimeStampValidity;
  * A {@link ModifiableTraversableSource} for filesystem objects.
  *
  * @author <a href="mailto:sylvain@apache.org">Sylvain Wallez</a>
- * @version $Id: FileSource.java,v 1.6 2003/04/09 21:14:40 sylvain Exp $
+ * @version $Id: FileSource.java,v 1.7 2003/06/07 18:29:17 bruno Exp $
  */
 
 public class FileSource implements ModifiableTraversableSource, MoveableSource
@@ -112,6 +112,7 @@ public class FileSource implements ModifiableTraversableSource, MoveableSource
 
         String scheme = uri.substring(0, pos);
         String fileName = uri.substring(pos + 1);
+        fileName = SourceUtil.decodePath(fileName);
         init(scheme, new File(fileName));
     }
 
