@@ -77,7 +77,7 @@ import org.apache.excalibur.xfc.modules.Constants;
  * of the <code>generate</code> method defined in {@link ECM}.
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: ECMGenerator.java,v 1.3 2002/10/23 11:32:25 crafterm Exp $
+ * @version CVS $Id: ECMGenerator.java,v 1.4 2002/10/23 11:45:04 crafterm Exp $
  */
 public class ECMGenerator extends AbstractLogEnabled
     implements Constants
@@ -462,8 +462,7 @@ public class ECMGenerator extends AbstractLogEnabled
                     kids[j].getName(),
                     kids[j].getAttribute( NAME ),
                     kids[j].getAttribute( CLASS, null ),
-                    kids[j].getChildren(),
-                    null                    // REVISIT(MC) ?
+                    kids[j].getChildren()
                 );
         }
 
