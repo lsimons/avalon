@@ -7,22 +7,19 @@
  */
 package org.apache.excalibur.xmlizer;
 
-import java.io.IOException;
-import java.io.InputStream;
-import org.apache.avalon.framework.component.Component;
-import org.apache.avalon.framework.component.ComponentException;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
+import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * Converter for transforming any input stream with a given mime-type
  * into SAX events.
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.6 $ $Date: 2002/11/07 04:43:43 $
+ * @version CVS $Revision: 1.7 $ $Date: 2002/12/06 22:09:45 $
  */
 public interface XMLizer
-    extends Component
 {
     String ROLE = XMLizer.class.getName();
 
@@ -30,18 +27,16 @@ public interface XMLizer
      * Generates SAX events from the given input stream
      * <b>NOTE</b> : if the implementation can produce lexical events, care should be taken
      * that <code>handler</code> can actually be a
-     * {@link org.apache.avalon.excalibur.xml.XMLConsumer} that accepts such
+     * {@link org.apache.excalibur.xml.sax.XMLConsumer} that accepts such
      * events or directly implements the LexicalHandler interface!
      * @param stream    the data
      * @param mimeType  the mime-type for the data
      * @param systemID  the URI defining the data (this is optional and can be null)
-     * @throws ComponentException if no suitable converter is found
-     * @todo Remove ComponentException as it has no place being part of the worker interface
      */
     void toSAX( InputStream stream,
                 String mimeType,
                 String systemID,
                 ContentHandler handler )
-        throws SAXException, IOException, ComponentException;
+        throws SAXException, IOException;
 }
 
