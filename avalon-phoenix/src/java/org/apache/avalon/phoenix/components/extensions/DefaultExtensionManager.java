@@ -60,13 +60,13 @@ import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.parameters.ParameterException;
 import org.apache.avalon.framework.parameters.Parameterizable;
 import org.apache.avalon.framework.parameters.Parameters;
-import org.apache.avalon.phoenix.interfaces.ExtensionManagerMBean;
 import org.apache.avalon.phoenix.components.extensions.pkgmgr.ExtensionManager;
 import org.apache.avalon.phoenix.components.extensions.pkgmgr.OptionalPackage;
+import org.apache.avalon.phoenix.interfaces.ExtensionManagerMBean;
 
 /**
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.10 $ $Date: 2003/04/30 10:15:19 $
+ * @version $Revision: 1.11 $ $Date: 2003/04/30 10:16:49 $
  */
 public class DefaultExtensionManager
     extends org.apache.avalon.phoenix.components.extensions.pkgmgr.impl.DefaultExtensionManager

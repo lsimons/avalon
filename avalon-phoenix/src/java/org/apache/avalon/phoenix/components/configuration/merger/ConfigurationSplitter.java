@@ -51,11 +51,10 @@
 package org.apache.avalon.phoenix.components.configuration.merger;
 
 import java.util.HashSet;
-
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
-import org.apache.avalon.framework.configuration.DefaultConfiguration;
 import org.apache.avalon.framework.configuration.ConfigurationUtil;
+import org.apache.avalon.framework.configuration.DefaultConfiguration;
 
 /**
  * The ConfigurationSplitter will take two Configuration objects and calculate the

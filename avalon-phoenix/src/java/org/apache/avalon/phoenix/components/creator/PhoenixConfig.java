@@ -49,15 +49,15 @@
 */
  package org.apache.avalon.phoenix.components.creator;
 
-import java.util.Map;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Utility classed used to creat the initial configuration for a Phoenix
  * container.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003/04/30 10:15:19 $
+ * @version $Revision: 1.3 $ $Date: 2003/04/30 10:16:48 $
  */
 public class PhoenixConfig
 {

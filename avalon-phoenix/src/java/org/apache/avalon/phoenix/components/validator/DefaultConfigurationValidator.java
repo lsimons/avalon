@@ -7,24 +7,24 @@
  */
 package org.apache.avalon.phoenix.components.validator;
 
-import org.apache.avalon.phoenix.interfaces.ConfigurationValidator;
-import org.apache.avalon.phoenix.containerkit.profile.ComponentProfile;
-import org.apache.avalon.phoenix.framework.info.SchemaDescriptor;
-import org.apache.avalon.phoenix.tools.configuration.ConfigurationBuilder;
-import org.apache.avalon.framework.configuration.ConfigurationException;
-import org.apache.avalon.framework.configuration.Configuration;
+import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
 import org.apache.avalon.framework.configuration.Configurable;
+import org.apache.avalon.framework.configuration.Configuration;
+import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.configuration.ConfigurationUtil;
 import org.apache.avalon.framework.configuration.DefaultConfiguration;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
-import org.xml.sax.InputSource;
+import org.apache.avalon.phoenix.containerkit.profile.ComponentProfile;
+import org.apache.avalon.phoenix.framework.info.SchemaDescriptor;
+import org.apache.avalon.phoenix.interfaces.ConfigurationValidator;
+import org.apache.avalon.phoenix.tools.configuration.ConfigurationBuilder;
 import org.realityforge.configkit.ConfigValidator;
 import org.realityforge.configkit.ConfigValidatorFactory;
 import org.realityforge.configkit.ValidationResult;
 import org.w3c.dom.Element;
-import java.util.Map;
-import java.util.HashMap;
-import java.io.InputStream;
+import org.xml.sax.InputSource;
 
 /**
  * This component validates the components configuration using
@@ -44,7 +44,7 @@ import java.io.InputStream;
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
  * @author <a href="mailto:proyal at apache.org">Peter Royal</a>
- * @version $Revision: 1.3 $ $Date: 2003/04/16 08:07:22 $
+ * @version $Revision: 1.4 $ $Date: 2003/04/30 10:16:49 $
  * @phoenix.component
  */
 public class DefaultConfigurationValidator
