@@ -84,6 +84,13 @@ public class MerlinServlet extends HttpServlet implements Kernel
         {
             ClassLoader loader = Thread.currentThread().getContextClassLoader();
 
+            if( getServletContext() == null )
+            {
+                final String error = 
+                 "Cannot proceed. Container returned a null servlet context.";
+                throw new ServletException( error );
+            }
+
             String homePath = getServletContext().getRealPath( "." );
             File home = new File( homePath );
 
@@ -103,6 +110,8 @@ public class MerlinServlet extends HttpServlet implements Kernel
             m_kernel = new DefaultKernel();
             m_kernel.contextualize( context );
             m_kernel.initialize();
+
+            getServletContext().setAttribute( Block.BLOCK_KEY, getRootBlock() );
 
             log( "kernel established" );
         }
