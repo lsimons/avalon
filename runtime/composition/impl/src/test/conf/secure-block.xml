@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<container name="secure-block">
+
+   <classloader>
+     <classpath>
+       <artifact>avalon-framework/avalon-framework-impl#@FRAMEWORK_IMPL_VERSION@</artifact>
+     </classpath>
+   </classloader>
+
+</container>

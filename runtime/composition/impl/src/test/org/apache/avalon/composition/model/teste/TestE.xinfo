@@ -1,0 +1,13 @@
+
+<type>
+  <info>
+    <name>component-e</name>
+    <lifestyle>singleton</lifestyle>
+  </info>
+  <services>
+    <service type="org.apache.avalon.composition.model.teste.E"/>
+  </services>
+  <dependencies>
+    <dependency type="org.apache.avalon.composition.model.testa.A" key="a"/>
+  </dependencies>
+</type>
