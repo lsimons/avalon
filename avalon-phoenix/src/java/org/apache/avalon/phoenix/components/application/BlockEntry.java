@@ -8,6 +8,7 @@
 package org.apache.avalon.phoenix.components.application;
 
 import org.apache.avalon.phoenix.Block;
+import org.apache.avalon.phoenix.components.lifecycle.ComponentEntry;
 import org.apache.avalon.phoenix.metadata.BlockMetaData;
 import org.apache.avalon.phoenix.metainfo.BlockInfo;
 import org.apache.avalon.phoenix.metainfo.ServiceDescriptor;
@@ -18,16 +19,15 @@ import org.apache.avalon.phoenix.metainfo.ServiceDescriptor;
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 public class BlockEntry
+    extends ComponentEntry
 {
     private BlockMetaData m_blockMetaData;
     private BlockInvocationHandler m_invocationHandler;
-    private Block m_block;
-    private State m_state;
 
     public BlockEntry( final BlockMetaData blockMetaData )
     {
+        super( blockMetaData.getName() );
         m_blockMetaData = blockMetaData;
-        setState( State.VOID );
     }
 
     public BlockMetaData getMetaData()
@@ -35,32 +35,27 @@ public class BlockEntry
         return m_blockMetaData;
     }
 
-    public synchronized State getState()
-    {
-        return m_state;
-    }
-
-    public synchronized void setState( final State state )
-    {
-        m_state = state;
-    }
-
     public synchronized Block getBlock()
     {
-        return m_block;
+        return (Block)getObject();
     }
 
     public synchronized void setBlock( final Block block )
     {
+        setObject( block );
+    }
+
+    public synchronized void setObject( final Object object )
+    {
         invalidate();
 
-        if( null != block )
+        if( null != object )
         {
             final BlockInfo blockInfo = getMetaData().getBlockInfo();
-            final Class[] interfaces = getServiceClasses( block, blockInfo.getServices() );
+            final Class[] interfaces = getServiceClasses( object, blockInfo.getServices() );
 
-            m_invocationHandler = new BlockInvocationHandler( block, interfaces );
-            m_block = block;
+            m_invocationHandler = new BlockInvocationHandler( object, interfaces );
+            super.setObject( object );
         }
     }
 
@@ -81,13 +76,12 @@ public class BlockEntry
         if( null != m_invocationHandler )
         {
             m_invocationHandler.invalidate();
+            m_invocationHandler = null;
         }
-
-        m_invocationHandler = null;
-        m_block = null;
+        super.invalidate();
     }
 
-    private Class[] getServiceClasses( final Block block, final ServiceDescriptor[] services )
+    private Class[] getServiceClasses( final Object block, final ServiceDescriptor[] services )
     {
         final Class[] classes = new Class[ services.length + 1 ];
         final ClassLoader classLoader = block.getClass().getClassLoader();

@@ -37,6 +37,7 @@ import org.apache.avalon.phoenix.BlockContext;
 import org.apache.avalon.phoenix.BlockEvent;
 import org.apache.avalon.phoenix.BlockListener;
 import org.apache.avalon.phoenix.components.ContainerUtil;
+import org.apache.avalon.phoenix.components.lifecycle.State;
 import org.apache.avalon.phoenix.interfaces.Application;
 import org.apache.avalon.phoenix.interfaces.ApplicationContext;
 import org.apache.avalon.phoenix.metadata.BlockListenerMetaData;
