@@ -1,4 +1,8 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE project [
+  <!ENTITY % index SYSTEM "file:index.ent"> %index;
+]>
+
 <!-- 
 Copyright 2004 The Apache Software Foundation
 Licensed  under the  Apache License,  Version 2.0  (the "License");
@@ -17,12 +21,12 @@ limitations under the License.
 -->
 <project>
 
-  <name>Avalon Meta</name>
-  <groupId>avalon-meta</groupId>
-  <id>avalon-meta</id>
-  <currentVersion>1.4-SNAPSHOT</currentVersion>
-  <inceptionYear>2000</inceptionYear>
+  <groupId>&avalon-meta-id;</groupId>
+  <id>&avalon-meta-id;</id>
+  <currentVersion>&avalon-meta-api-version;</currentVersion>
 
+  <name>Avalon Meta</name>
+  <inceptionYear>2000</inceptionYear>
   <organization>
     <name>The Apache Software Foundation</name>
     <url>http://avalon.apache.org/</url>
