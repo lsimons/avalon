@@ -190,7 +190,7 @@ public class FTPSource extends URLSource implements ModifiableSource
 	 */
 	private final String getUser() 
 	{
-		final String userInfo = getUserInfo();
+		final String userInfo = m_url.getUserInfo();
 		if ( userInfo != null )
 		{
 			int index = userInfo.indexOf( ':' );
@@ -208,7 +208,7 @@ public class FTPSource extends URLSource implements ModifiableSource
 	 */
 	private final String getPassword()
 	{
-		final String userInfo = getUserInfo();
+		final String userInfo = m_url.getUserInfo();
 		if ( userInfo != null )
 		{
 			int index = userInfo.indexOf( ':' );
