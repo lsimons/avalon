@@ -26,13 +26,74 @@
     <section name="Avalon Logging">
       <subsection name="Implementation Model">
         <p>
-        IN PREP
+        The Avalon Logging system is defined by an API.  This API declares
+        a set of interfaces for use by plugable implementations.  Currently
+        we have one default plugable implementation which is based on the 
+        Avalon LogKit solution.
         </p>
       </subsection>
       <subsection name="Plugins">
+        <table>
+          <tr><th>Plugin</th><th>Description</th></tr>
+          <tr>
+            <td><a href="logkit/index.html">LogKit</a></td>
+            <td>
+            The Avalon LogKit plugin provides support for four standard log 
+            targets.  These include a rotating file target, a console target, 
+            a multiplex target, and a plugin target.  The plugin target provides
+            support for the dynamic loading of new targets based on a artifact
+            identifier.
+            </td>
+          </tr>
+        </table>
+      </subsection>
+      <subsection name="Code Example">
         <p>
-        IN PREP
+        The following code is an example of a application loading 
+        and instantiating the Avalon Logging LogKit pluging.
         </p>
+        <source>
+
+        File dir = new File( System.getProperty( "user.dir" ) );
+
+        // 
+        // create an initial context
+        //
+
+        DefaultInitialContextFactory initial = 
+           new DefaultInitialContextFactory( "avalon", dir );
+        initial.setCacheDirectory( getRepositoryDirectory() );
+        InitialContext context = initial.createInitialContext();
+
+        //
+        // get the plugin reference
+        //
+
+        Artifact artifact = Artifact.createArtifact( 
+          "artifact:avalon-logging/avalon-logkit-impl#1.0-SNAPSHOT" );
+
+        //
+        // build the plugin
+        //
+
+        Builder builder = context.newBuilder( artifact );
+        Factory factory = builder.getFactory();
+
+        //
+        // customize the plugin to you environment
+        //
+
+        File file = new File( dir, "logging.xml" );
+        Map criteria = factory.createDefaultCriteria();
+        criteria.put( "avalon.logging.configuration", file );
+        criteria.put( "avalon.logging.basedir", dir );
+
+        //
+        // create the logging manager
+        //
+
+        LoggingManager manager = (LoggingManager) factory.create( criteria );
+        </source>
       </subsection>
     </section>
   </body>
