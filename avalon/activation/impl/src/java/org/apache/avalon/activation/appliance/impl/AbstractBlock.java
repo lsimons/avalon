@@ -39,7 +39,7 @@ import org.apache.avalon.activation.appliance.Engine;
 import org.apache.avalon.activation.appliance.NoProviderDefinitionException;
 
 import org.apache.avalon.composition.event.CompositionEvent;
-import org.apache.avalon.composition.event.CompositionEventListener;
+import org.apache.avalon.composition.event.CompositionListener;
 import org.apache.avalon.composition.model.SystemContext;
 import org.apache.avalon.composition.model.ContainmentModel;
 import org.apache.avalon.composition.model.ClassLoaderModel;
@@ -66,10 +66,10 @@ import org.apache.avalon.meta.info.StageDescriptor;
  * context.
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.19 $ $Date: 2004/02/06 15:27:13 $
+ * @version $Revision: 1.20 $ $Date: 2004/02/07 06:06:30 $
  */
 public abstract class AbstractBlock extends AbstractAppliance 
-  implements Block, CompositionEventListener
+  implements Block, CompositionListener, Commissionable
 {
     //-------------------------------------------------------------------
     // static
@@ -158,7 +158,7 @@ public abstract class AbstractBlock extends AbstractAppliance
     }
 
     //-------------------------------------------------------------------
-    // CompositionEventListener
+    // CompositionListener
     //-------------------------------------------------------------------
 
     /**
