@@ -21,6 +21,11 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
  * Each value stored in Parameters has a key.
  * This class is similar to java.util.Properties with convenience methods
  * to access property values by type.
+ * <p>
+ *  <strong>Note, this class is not thread safe by default.</strong> If you
+ *  require thread safety please synchronize write access to this class to
+ *  prevent potential data corruption.
+ * </p>
  *
  * @author <a href="mailto:fumagalli@exoffice.com">Pierpaolo Fumagalli</a>
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
@@ -452,7 +457,7 @@ public class Parameters
      * @param elementName   the element name for the parameters
      * @return This <code>Parameters</code> instance.
      */
-    public static Parameters fromConfiguration( final Configuration configuration, 
+    public static Parameters fromConfiguration( final Configuration configuration,
                                                 final String elementName )
         throws ConfigurationException
     {
