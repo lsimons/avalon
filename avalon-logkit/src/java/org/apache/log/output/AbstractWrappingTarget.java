@@ -68,4 +68,12 @@ public abstract class AbstractWrappingTarget
             ( (Closeable)m_wrappedLogTarget ).close();
         }
     }
+    
+    /**
+     * Return the target for subclasses
+     */
+    protected final LogTarget getLogTarget() 
+    {
+        return m_wrappedLogTarget;   
+    }
 }
