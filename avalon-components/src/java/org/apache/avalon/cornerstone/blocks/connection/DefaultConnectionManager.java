@@ -46,13 +46,10 @@ public class DefaultConnectionManager
         while( names.hasNext() )
         {
             final String name = (String)names.next();
-            try
+            try { disconnect( name ); }
+            catch( final Exception e )
             {
-                disconnect( name );
-            }
-	    catch (Exception e)
-            {
-                getLogger().error("Error disposing of connection: " + e);
+                getLogger().warn( "Error disconnecting " + name, e );
             }
         }
     }

@@ -167,9 +167,9 @@ public abstract class AbstractService
         {
             m_connectionManager.disconnect( m_connectionName );
         }
-        catch (Exception e)
+        catch( final Exception e )
         {
-            getLogger().error("Error disposing of connection: " + e);
-        }
+            getLogger().warn( "Error disconnecting", e );
+        }           
     }
 }
