@@ -1,16 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
       <!DOCTYPE tabs PUBLIC "-//APACHE//DTD Cocoon Documentation Tab V1.0//EN" "tab-cocoon-v10.dtd">
 
-      <tabs software="MyProj"
+<tabs software="MyProj"
         title="MyProj"
-        copyright="Foo"
-        xmlns:xlink="http://www.w3.org/1999/xlink">
+        copyright="Foo">
 
-        <tab label="Framework"   href="http://avalon.apache.org/framework/"/>
-        <tab label="Excalibur"   href="http://avalon.apache.org/excalibur/"/>
-        <tab label="Cornerstone" href="http://avalon.apache.org/cornerstone/"/>
-        <tab label="Phoenix"     dir="/"/>
-        <tab label="Apps"        href="http://avalon.apache.org/apps/"/>
-        <tab label="Logkit"      href="http://avalon.apache.org/logkit/"/>
+    <tab label="Apache" href="http://www.apache.org/"/>
+    <tab label="Avalon" href="http://avalon.apache.org/"/>
+    <tab label="Framework" href="http://avalon.apache.org/product/framework/"/>
+    <tab label="Containers" href="http://avalon.apache.org/product/containers/"/>
+    <tab label="Components" href="http://avalon.apache.org/product/components/"/>
 
-    </tabs>
+</tabs>
