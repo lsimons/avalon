@@ -68,6 +68,8 @@ import org.apache.avalon.framework.component.Component;
 /**
  * Create a Component proxy.  Requires JDK 1.3+
  *
+ * @deprecated ECM is no longer supported
+ *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  */
 public final class ComponentProxyGenerator
@@ -108,49 +110,49 @@ public final class ComponentProxyGenerator
         {
             role = role.substring( 0, role.indexOf( '/' ) );
         }
-        
+
         Class serviceInterface = m_classLoader.loadClass( role );
 
         return (Component)Proxy.newProxyInstance( m_classLoader,
                                                   new Class[]{Component.class, serviceInterface},
                                                   new ComponentInvocationHandler( service ) );
     }
-    
+
     /**
      * Get the component wrapped in a proxy. The proxy will implement all the
      * object's interfaces, for compatibility with, for example, the pool code.
      * The proxy is guaranteed to implement Component.
      */
-    public Component getCompatibleProxy( Object service ) throws Exception 
+    public Component getCompatibleProxy( Object service ) throws Exception
     {
         Set interfaces = new HashSet();
         getAllInterfaces( service.getClass(), interfaces );
-        
+
         interfaces.add( Component.class );
-        
+
         Class[] proxyInterfaces = (Class[]) interfaces.toArray( new Class[0] );
-        
+
         return (Component)Proxy.newProxyInstance( m_classLoader,
             proxyInterfaces,
             new ComponentInvocationHandler( service ) );
     }
-    
+
     private void getAllInterfaces( Class clazz, Set interfaces ) throws Exception
     {
         if (clazz == null)
         {
             return;
         }
-        
+
         Class[] objectInterfaces = clazz.getInterfaces();
         for( int i = 0; i < objectInterfaces.length; i++ )
         {
             interfaces.add( objectInterfaces[i] );
         }
-        
+
         getAllInterfaces( clazz.getSuperclass(), interfaces );
     }
-    
+
 
     /**
      * Internal class to handle the wrapping with Component

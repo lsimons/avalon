@@ -62,8 +62,10 @@ import org.apache.avalon.framework.service.DefaultServiceManager;
  * This class provides basic facilities for enforcing Avalon's contracts
  * within your own code.
  *
+ * @deprecated ECM is no longer supported
+ *
  * @author <a href="bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.5 $ $Date: 2003/03/30 19:35:40 $
+ * @version CVS $Revision: 1.6 $ $Date: 2003/07/07 16:27:56 $
  */
 public final class ComponentTestCase
     extends TestCase
