@@ -11,6 +11,14 @@
       primary="true"
       exclusive="true">
 
+   <copyright>
+      This is a copyright
+   </copyright>
+
+   <license>
+      This is the licence agreement
+   </license>
+
    <url>
       <update label="MerlinDeveloper Updates" url="http://merlin.softwarefabrik.biz/MerlinDeveloper/updates"/>
    </url>
@@ -28,7 +36,6 @@
       <import plugin="org.eclipse.jdt.debug.ui"/>
       <import plugin="org.eclipse.pde.ui"/>
       <import plugin="org.eclipse.swt"/>
-      <import plugin="org.eclipse.ui.ide"/>
    </requires>
 
    <plugin
