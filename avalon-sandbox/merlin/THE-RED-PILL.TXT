@@ -10,7 +10,7 @@
 # an evalon-meta/assembly deployment engine and logs some stuff in the 
 # process - interesting but not terribly valuable at the moment.
 #
-# Pl,ease not - this code base is evolving daily as part of refactoring of the
+# Please not - this code base is evolving daily as part of refactoring of the
 # Excalibur/assembly package. On completion there wil be a clean seperation of 
 # the internals containerment systems from the application notions of contaier 
 # hierachies.  The containement API element will be located under 
