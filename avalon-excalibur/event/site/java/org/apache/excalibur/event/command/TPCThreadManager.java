@@ -7,6 +7,7 @@
  */
 package org.apache.avalon.excalibur.command;
 
+import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.framework.logger.NullLogger;
 import org.apache.avalon.excalibur.concurrent.Mutex;
@@ -27,14 +28,14 @@ import java.util.Iterator;
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  */
-public final class TPCThreadManager implements Runnable, ThreadManager
+public final class TPCThreadManager implements Runnable, ThreadManager, Disposable
 {
-    private final ThreadPool m_threadPool;
-    private final Mutex   m_mutex = new Mutex();
-    private final HashMap m_pipelines = new HashMap();
-    private ThreadControl m_threadControl;
-    private       boolean m_done = false;
-    private final long    m_sleepTime;
+    private final ThreadPool    m_threadPool;
+    private final Mutex         m_mutex = new Mutex();
+    private final HashMap       m_pipelines = new HashMap();
+    private       ThreadControl m_threadControl;
+    private       boolean       m_done = false;
+    private final long          m_sleepTime;
 
     /**
      * The default constructor assumes there is a system property named "os.arch.cpus"
@@ -167,6 +168,17 @@ public final class TPCThreadManager implements Runnable, ThreadManager
         {
             m_mutex.release();
         }
+    }
+
+    public final void dispose()
+    {
+        deregisterAll();
+        if ( m_threadPool instanceof Disposable )
+        {
+            ( (Disposable) m_threadPool ).dispose();
+        }
+
+        m_threadControl = null;
     }
 
     public void run()
