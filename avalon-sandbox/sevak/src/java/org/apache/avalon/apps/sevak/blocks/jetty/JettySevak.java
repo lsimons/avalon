@@ -51,7 +51,6 @@ package org.apache.avalon.apps.sevak.blocks.jetty;
 
 import java.io.File;
 import java.util.HashMap;
-
 import org.apache.avalon.apps.sevak.Sevak;
 import org.apache.avalon.apps.sevak.SevakContext;
 import org.apache.avalon.apps.sevak.SevakException;
@@ -68,13 +67,11 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
-
 import org.mortbay.http.SocketListener;
 import org.mortbay.jetty.Server;
 import org.mortbay.jetty.servlet.WebApplicationContext;
 import org.mortbay.util.Log;
 import org.mortbay.util.MultiException;
-
 
 /**
  * @phoenix:block
@@ -125,7 +122,7 @@ public class JettySevak extends AbstractLogEnabled
     public void contextualize( final Context context ) throws ContextException
     {
         m_context = context;
-        m_sarRootDir = ( File ) context.get( "app.home" );
+        m_sarRootDir = (File)context.get( "app.home" );
     }
 
     /**
@@ -171,7 +168,7 @@ public class JettySevak extends AbstractLogEnabled
         phoenixLogSink.enableLogging( getLogger() );
         Log.instance().add( phoenixLogSink );
 
-        RequestLogger logger = ( RequestLogger )
+        RequestLogger logger = (RequestLogger)
             m_sevakContext.getServiceManager().lookup( RequestLogger.ROLE );
         m_server.setRequestLog( new JettyRequestLogAdapter( logger ) );
     }
@@ -262,7 +259,7 @@ public class JettySevak extends AbstractLogEnabled
      */
     public void undeploy( String context ) throws SevakException
     {
-        WebApplicationContext ctx = ( WebApplicationContext ) m_webapps.get( context );
+        WebApplicationContext ctx = (WebApplicationContext)m_webapps.get( context );
 
         try
         {

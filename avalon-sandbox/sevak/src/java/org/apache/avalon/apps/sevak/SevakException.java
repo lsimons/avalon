@@ -55,6 +55,7 @@
 package org.apache.avalon.apps.sevak;
 
 import org.apache.avalon.framework.CascadingThrowable;
+
 /**
  *  General Exception indicating the state of the Embedded Web Server i.e. Catalina
  *
@@ -72,9 +73,9 @@ public class SevakException extends Exception implements CascadingThrowable
      *
      * @param message The detail message for this exception.
      */
-    public SevakException(final String message)
+    public SevakException( final String message )
     {
-        this(message, null);
+        this( message, null );
     }
 
     /**
@@ -83,9 +84,9 @@ public class SevakException extends Exception implements CascadingThrowable
      * @param message The detail message for this exception.
      * @param throwable the root cause of the exception
      */
-    public SevakException(final String message, final Throwable throwable)
+    public SevakException( final String message, final Throwable throwable )
     {
-        super(message);
+        super( message );
         m_throwable = throwable;
     }
 

@@ -54,14 +54,14 @@
  */
 package org.apache.avalon.apps.sevak.blocks.catalina;
 
-import org.apache.catalina.loader.WebappLoader;
 import org.apache.catalina.LifecycleException;
+import org.apache.catalina.loader.WebappLoader;
 
 /**
  * Tomcat ClassLoader Hack to make Catalina run over Avalon/Phoenix .
  *
  * @author  Vinay Chandran<vinayc77@yahoo.com>
- * @version $Revision: 1.5 $ $Date: 2003/03/22 12:53:12 $
+ * @version $Revision: 1.6 $ $Date: 2003/04/11 00:29:11 $
  */
 
 public class CustomWebappLoader extends WebappLoader
@@ -78,7 +78,7 @@ public class CustomWebappLoader extends WebappLoader
     {
         //Prevent the LifecycleException by preventing any further calls made
         // to the base implementation to ' start' again
-        if (m_started)
+        if( m_started )
         {
             return;
         }
@@ -91,8 +91,8 @@ public class CustomWebappLoader extends WebappLoader
      *  Constructor
      * @param classLoader ClassLoader
      */
-    public CustomWebappLoader(ClassLoader classLoader)
+    public CustomWebappLoader( ClassLoader classLoader )
     {
-        super(classLoader);
+        super( classLoader );
     }
 }

@@ -62,7 +62,7 @@ import org.apache.catalina.Server;
  * Catalina SevakShutdownHook
  *
  * @author  Daniel Krieg<dkrieg@kc.rr.com>
- * @version $Revision: 1.4 $ $Date: 2003/03/22 12:53:12 $
+ * @version $Revision: 1.5 $ $Date: 2003/04/11 00:29:11 $
  */
 public class CatalinaSevakShutdownHook extends Thread
 {
@@ -73,10 +73,10 @@ public class CatalinaSevakShutdownHook extends Thread
      * Construct a shutdown hook.
      * @param server the server
      */
-    public CatalinaSevakShutdownHook(Server server)
+    public CatalinaSevakShutdownHook( Server server )
     {
-        super("CatalinaSevakShutdownHook");
-        m_server =server;
+        super( "CatalinaSevakShutdownHook" );
+        m_server = server;
     }
 
     /**
@@ -84,20 +84,20 @@ public class CatalinaSevakShutdownHook extends Thread
      */
     public void run()
     {
-        if (m_server != null)
+        if( m_server != null )
         {
             try
             {
-                ((Lifecycle) m_server).stop();
+                ( (Lifecycle)m_server ).stop();
             }
-            catch (LifecycleException e)
+            catch( LifecycleException e )
             {
-                System.out.println("Catalina.stop: " + e);
-                e.printStackTrace(System.out);
-                if (e.getThrowable() != null)
+                System.out.println( "Catalina.stop: " + e );
+                e.printStackTrace( System.out );
+                if( e.getThrowable() != null )
                 {
-                    System.out.println("----- Root Cause -----");
-                    e.getThrowable().printStackTrace(System.out);
+                    System.out.println( "----- Root Cause -----" );
+                    e.getThrowable().printStackTrace( System.out );
                 }
             }
         }

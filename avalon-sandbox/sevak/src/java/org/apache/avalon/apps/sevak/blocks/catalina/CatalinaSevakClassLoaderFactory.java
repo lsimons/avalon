@@ -54,16 +54,12 @@
  */
 package org.apache.avalon.apps.sevak.blocks.catalina;
 
-
-import java.lang.reflect.Method;
-import org.apache.avalon.framework.logger.Logger;
-
 import java.io.File;
-
+import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLClassLoader;
-
 import java.util.ArrayList;
+import org.apache.avalon.framework.logger.Logger;
 
 /**
  * Catalina Sevak Class Loader Factory.
@@ -77,11 +73,13 @@ import java.util.ArrayList;
  * @author  Daniel Krieg<dkrieg@kc.rr.com>
  * @version 1.0
  */
-public final class CatalinaSevakClassLoaderFactory {
+public final class CatalinaSevakClassLoaderFactory
+{
     private static Logger m_logger;
 
     public static ClassLoader createClassLoader( File unpacked[], File packed[], ClassLoader parent )
-            throws Exception {
+        throws Exception
+    {
         getLogger().debug( "Creating new class loader" );
 
         // Construct the "class path" for this class loader
@@ -89,8 +87,10 @@ public final class CatalinaSevakClassLoaderFactory {
         ArrayList urlList = new ArrayList();
 
         // Add unpacked directories
-        if( unpacked != null ) {
-            for( int i = 0; i < unpacked.length; i++ ) {
+        if( unpacked != null )
+        {
+            for( int i = 0; i < unpacked.length; i++ )
+            {
                 File file = unpacked[ i ];
                 if( !file.isDirectory() || !file.exists() || !file.canRead() )
                     continue;
@@ -103,14 +103,17 @@ public final class CatalinaSevakClassLoaderFactory {
         }
 
         // Add packed directory JAR files
-        if( packed != null ) {
-            for( int i = 0; i < packed.length; i++ ) {
+        if( packed != null )
+        {
+            for( int i = 0; i < packed.length; i++ )
+            {
                 File directory = packed[ i ];
                 if( !directory.isDirectory() || !directory.exists() ||
-                        !directory.canRead() )
+                    !directory.canRead() )
                     continue;
                 String filenames[] = directory.list();
-                for( int j = 0; j < filenames.length; j++ ) {
+                for( int j = 0; j < filenames.length; j++ )
+                {
                     String filename = filenames[ j ].toLowerCase();
                     if( !filename.endsWith( ".jar" ) )
                         continue;
@@ -125,20 +128,23 @@ public final class CatalinaSevakClassLoaderFactory {
         }
 
         // Construct the class loader itself
-        String[] stringArray = (String[]) stringList.toArray( new String[ stringList.size() ] );
-        URL[] urlArray = (URL[]) urlList.toArray( new URL[ urlList.size() ] );
+        String[] stringArray = (String[])stringList.toArray( new String[ stringList.size() ] );
+        URL[] urlArray = (URL[])urlList.toArray( new URL[ urlList.size() ] );
         Class loaderClass = ( parent == null ) ? URLClassLoader.newInstance( urlArray ).loadClass( "org.apache.catalina.loader.StandardClassLoader" )
-                : URLClassLoader.newInstance( urlArray, parent ).loadClass( "org.apache.catalina.loader.StandardClassLoader" );
+            : URLClassLoader.newInstance( urlArray, parent ).loadClass( "org.apache.catalina.loader.StandardClassLoader" );
 
         getLogger().debug( loaderClass.getName() + " successfully loaded." );
         Object loader = null;
 
-        if( parent == null ) {
+        if( parent == null )
+        {
             loader = loaderClass.getConstructor( new Class[]{stringArray.getClass()} )
-                    .newInstance( new Object[]{stringArray} );
-        } else {
+                .newInstance( new Object[]{stringArray} );
+        }
+        else
+        {
             loader = loaderClass.getConstructor( new Class[]{stringArray.getClass(), ClassLoader.class} )
-                    .newInstance( new Object[]{stringArray, parent} );
+                .newInstance( new Object[]{stringArray, parent} );
         }
 
         getLogger().debug( "Setting loader to delegate=true" );
@@ -147,69 +153,71 @@ public final class CatalinaSevakClassLoaderFactory {
         getLogger().debug( "Class Loader Intance: " + loader );
 
         getLogger().debug( "ClassLoader creation completed..." );
-        return (ClassLoader) loader;
+        return (ClassLoader)loader;
 
     }
 
-    public static void securityClassLoad( ClassLoader loader ) throws Exception {
+    public static void securityClassLoad( ClassLoader loader ) throws Exception
+    {
 
         if( System.getSecurityManager() == null )
             return;
 
         String basePackage = "org.apache.catalina.";
         loader.loadClass
-                ( basePackage +
-                  "core.ApplicationContext$PrivilegedGetRequestDispatcher" );
+            ( basePackage +
+              "core.ApplicationContext$PrivilegedGetRequestDispatcher" );
         loader.loadClass
-                ( basePackage +
-                  "core.ApplicationContext$PrivilegedGetResource" );
+            ( basePackage +
+              "core.ApplicationContext$PrivilegedGetResource" );
         loader.loadClass
-                ( basePackage +
-                  "core.ApplicationContext$PrivilegedGetResourcePaths" );
+            ( basePackage +
+              "core.ApplicationContext$PrivilegedGetResourcePaths" );
         loader.loadClass
-                ( basePackage +
-                  "core.ApplicationContext$PrivilegedLogMessage" );
+            ( basePackage +
+              "core.ApplicationContext$PrivilegedLogMessage" );
         loader.loadClass
-                ( basePackage +
-                  "core.ApplicationContext$PrivilegedLogException" );
+            ( basePackage +
+              "core.ApplicationContext$PrivilegedLogException" );
         loader.loadClass
-                ( basePackage +
-                  "core.ApplicationContext$PrivilegedLogThrowable" );
+            ( basePackage +
+              "core.ApplicationContext$PrivilegedLogThrowable" );
         loader.loadClass
-                ( basePackage +
-                  "core.ApplicationDispatcher$PrivilegedForward" );
+            ( basePackage +
+              "core.ApplicationDispatcher$PrivilegedForward" );
         loader.loadClass
-                ( basePackage +
-                  "core.ApplicationDispatcher$PrivilegedInclude" );
+            ( basePackage +
+              "core.ApplicationDispatcher$PrivilegedInclude" );
         loader.loadClass
-                ( basePackage +
-                  "core.ContainerBase$PrivilegedAddChild" );
+            ( basePackage +
+              "core.ContainerBase$PrivilegedAddChild" );
         loader.loadClass
-                ( basePackage +
-                  "connector.HttpRequestBase$PrivilegedGetSession" );
+            ( basePackage +
+              "connector.HttpRequestBase$PrivilegedGetSession" );
         loader.loadClass
-                ( basePackage +
-                  "connector.HttpResponseBase$PrivilegedFlushBuffer" );
+            ( basePackage +
+              "connector.HttpResponseBase$PrivilegedFlushBuffer" );
         loader.loadClass
-                ( basePackage +
-                  "loader.WebappClassLoader$PrivilegedFindResource" );
+            ( basePackage +
+              "loader.WebappClassLoader$PrivilegedFindResource" );
         loader.loadClass
-                ( basePackage + "session.StandardSession" );
+            ( basePackage + "session.StandardSession" );
         loader.loadClass
-                ( basePackage + "util.CookieTools" );
+            ( basePackage + "util.CookieTools" );
         loader.loadClass
-                ( basePackage + "util.URL" );
+            ( basePackage + "util.URL" );
         loader.loadClass( basePackage + "util.Enumerator" );
         loader.loadClass( "javax.servlet.http.Cookie" );
 
     }
 
-
-    public static void setLogger( Logger logger ) {
+    public static void setLogger( Logger logger )
+    {
         m_logger = logger;
     }
 
-    private static Logger getLogger() {
+    private static Logger getLogger()
+    {
         return m_logger;
     }
 }

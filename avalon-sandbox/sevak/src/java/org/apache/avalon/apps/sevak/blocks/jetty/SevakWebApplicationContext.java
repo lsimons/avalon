@@ -51,9 +51,7 @@ package org.apache.avalon.apps.sevak.blocks.jetty;
 
 import java.io.File;
 import java.io.IOException;
-
 import org.apache.avalon.apps.sevak.SevakContext;
-
 import org.mortbay.jetty.servlet.WebApplicationContext;
 
 /**

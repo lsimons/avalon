@@ -80,7 +80,6 @@ public interface Sevak
     void deploy( String context, File pathToWebAppFolder, SevakContext sevakContext )
         throws SevakException;
 
-
     /**
      * Undeploy the given WebApp
      * @param context Context for the the webapp

@@ -60,16 +60,16 @@
 package org.apache.avalon.apps.sevak.blocks.catalina;
 
 //catalina imports
+
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.CharArrayWriter;
 import java.io.PrintWriter;
-
 import javax.servlet.ServletException;
-
 import org.apache.avalon.framework.logger.LogEnabled;
 import org.apache.catalina.Container;
 import org.apache.catalina.LifecycleException;
+
 /**
  * Simple implementation of <b>Logger</b> that invokes Avalon Logger.
  *
@@ -94,7 +94,7 @@ public class CatalinaLogger implements LogEnabled, org.apache.catalina.Logger
      *
      * @param logger the logger
      */
-    public void enableLogging(org.apache.avalon.framework.logger.Logger logger)
+    public void enableLogging( org.apache.avalon.framework.logger.Logger logger )
     {
         m_avalonLogger = logger;
     }
@@ -107,25 +107,25 @@ public class CatalinaLogger implements LogEnabled, org.apache.catalina.Logger
      * @param msg A <code>String</code> specifying the message to be written
      *  to the log file
      */
-    public void log(String msg)
+    public void log( String msg )
     {
 
-        switch (getVerbosity())
+        switch( getVerbosity() )
         {
-            case org.apache.catalina.Logger.FATAL :
-                m_avalonLogger.fatalError(msg);
+            case org.apache.catalina.Logger.FATAL:
+                m_avalonLogger.fatalError( msg );
                 break;
-            case org.apache.catalina.Logger.ERROR :
-                m_avalonLogger.error(msg);
+            case org.apache.catalina.Logger.ERROR:
+                m_avalonLogger.error( msg );
                 break;
-            case org.apache.catalina.Logger.WARNING :
-                m_avalonLogger.warn(msg);
+            case org.apache.catalina.Logger.WARNING:
+                m_avalonLogger.warn( msg );
                 break;
-            case org.apache.catalina.Logger.INFORMATION :
-                m_avalonLogger.info(msg);
+            case org.apache.catalina.Logger.INFORMATION:
+                m_avalonLogger.info( msg );
                 break;
-            case org.apache.catalina.Logger.DEBUG :
-                m_avalonLogger.debug(msg);
+            case org.apache.catalina.Logger.DEBUG:
+                m_avalonLogger.debug( msg );
                 break;
 
         }
@@ -149,7 +149,7 @@ public class CatalinaLogger implements LogEnabled, org.apache.catalina.Logger
     /**
      * The property change m_support for this component.
      */
-    private PropertyChangeSupport m_support = new PropertyChangeSupport(this);
+    private PropertyChangeSupport m_support = new PropertyChangeSupport( this );
 
     /**
      * The m_verbosity level for above which log messages may be filtered.
@@ -169,7 +169,7 @@ public class CatalinaLogger implements LogEnabled, org.apache.catalina.Logger
     public Container getContainer()
     {
 
-        return (m_container);
+        return ( m_container );
 
     }
 
@@ -178,12 +178,12 @@ public class CatalinaLogger implements LogEnabled, org.apache.catalina.Logger
      *
      * @param container The associated Container
      */
-    public void setContainer(Container container)
+    public void setContainer( Container container )
     {
 
         Container oldContainer = this.m_container;
         this.m_container = container;
-        m_support.firePropertyChange("m_container", oldContainer, this.m_container);
+        m_support.firePropertyChange( "m_container", oldContainer, this.m_container );
 
     }
 
@@ -194,7 +194,7 @@ public class CatalinaLogger implements LogEnabled, org.apache.catalina.Logger
     public int getDebug()
     {
 
-        return (this.m_debug);
+        return ( this.m_debug );
 
     }
 
@@ -203,7 +203,7 @@ public class CatalinaLogger implements LogEnabled, org.apache.catalina.Logger
      *
      * @param debug The new debugging detail level
      */
-    public void setDebug(int debug)
+    public void setDebug( int debug )
     {
 
         this.m_debug = debug;
@@ -219,7 +219,7 @@ public class CatalinaLogger implements LogEnabled, org.apache.catalina.Logger
     public String getInfo()
     {
 
-        return (m_info);
+        return ( m_info );
 
     }
 
@@ -231,7 +231,7 @@ public class CatalinaLogger implements LogEnabled, org.apache.catalina.Logger
     public int getVerbosity()
     {
 
-        return (this.m_verbosity);
+        return ( this.m_verbosity );
 
     }
 
@@ -241,7 +241,7 @@ public class CatalinaLogger implements LogEnabled, org.apache.catalina.Logger
      *
      * @param verbosity The new m_verbosity level
      */
-    public void setVerbosity(int verbosity)
+    public void setVerbosity( int verbosity )
     {
 
         this.m_verbosity = verbosity;
@@ -254,26 +254,26 @@ public class CatalinaLogger implements LogEnabled, org.apache.catalina.Logger
      *
      * @param verbosity The new m_verbosity level, as a string
      */
-    public void setVerbosityLevel(String verbosity)
+    public void setVerbosityLevel( String verbosity )
     {
 
-        if ("FATAL".equalsIgnoreCase(verbosity))
+        if( "FATAL".equalsIgnoreCase( verbosity ) )
         {
             this.m_verbosity = FATAL;
         }
-        else if ("ERROR".equalsIgnoreCase(verbosity))
+        else if( "ERROR".equalsIgnoreCase( verbosity ) )
         {
             this.m_verbosity = ERROR;
         }
-        else if ("WARNING".equalsIgnoreCase(verbosity))
+        else if( "WARNING".equalsIgnoreCase( verbosity ) )
         {
             this.m_verbosity = WARNING;
         }
-        else if ("INFORMATION".equalsIgnoreCase(verbosity))
+        else if( "INFORMATION".equalsIgnoreCase( verbosity ) )
         {
             this.m_verbosity = INFORMATION;
         }
-        else if ("DEBUG".equalsIgnoreCase(verbosity))
+        else if( "DEBUG".equalsIgnoreCase( verbosity ) )
         {
             this.m_verbosity = DEBUG;
         }
@@ -287,10 +287,10 @@ public class CatalinaLogger implements LogEnabled, org.apache.catalina.Logger
      *
      * @param listener The listener to add
      */
-    public void addPropertyChangeListener(PropertyChangeListener listener)
+    public void addPropertyChangeListener( PropertyChangeListener listener )
     {
 
-        m_support.addPropertyChangeListener(listener);
+        m_support.addPropertyChangeListener( listener );
 
     }
 
@@ -305,10 +305,10 @@ public class CatalinaLogger implements LogEnabled, org.apache.catalina.Logger
      * @param exception An <code>Exception</code> to be reported
      * @param msg The associated message string
      */
-    public void log(Exception exception, String msg)
+    public void log( Exception exception, String msg )
     {
 
-        log(msg, exception);
+        log( msg, exception );
 
     }
 
@@ -322,28 +322,28 @@ public class CatalinaLogger implements LogEnabled, org.apache.catalina.Logger
      *  exception
      * @param throwable The <code>Throwable</code> error or exception
      */
-    public void log(String msg, Throwable throwable)
+    public void log( String msg, Throwable throwable )
     {
 
         CharArrayWriter buf = new CharArrayWriter();
-        PrintWriter writer = new PrintWriter(buf);
-        writer.println(msg);
-        throwable.printStackTrace(writer);
+        PrintWriter writer = new PrintWriter( buf );
+        writer.println( msg );
+        throwable.printStackTrace( writer );
         Throwable rootCause = null;
-        if (throwable instanceof LifecycleException)
+        if( throwable instanceof LifecycleException )
         {
-            rootCause = ((LifecycleException) throwable).getThrowable();
+            rootCause = ( (LifecycleException)throwable ).getThrowable();
         }
-        else if (throwable instanceof ServletException)
+        else if( throwable instanceof ServletException )
         {
-            rootCause = ((ServletException) throwable).getRootCause();
+            rootCause = ( (ServletException)throwable ).getRootCause();
         }
-        if (rootCause != null)
+        if( rootCause != null )
         {
-            writer.println("----- Root Cause -----");
-            rootCause.printStackTrace(writer);
+            writer.println( "----- Root Cause -----" );
+            rootCause.printStackTrace( writer );
         }
-        log(buf.toString());
+        log( buf.toString() );
 
     }
 
@@ -356,12 +356,12 @@ public class CatalinaLogger implements LogEnabled, org.apache.catalina.Logger
      *  written to the log file
      * @param verbosity Verbosity level of this message
      */
-    public void log(String message, int verbosity)
+    public void log( String message, int verbosity )
     {
 
-        if (this.m_verbosity >= verbosity)
+        if( this.m_verbosity >= verbosity )
         {
-            log(message);
+            log( message );
         }
 
     }
@@ -376,12 +376,12 @@ public class CatalinaLogger implements LogEnabled, org.apache.catalina.Logger
      * @param throwable The <code>Throwable</code> error or exception
      * @param verbosity Verbosity level of this message
      */
-    public void log(String message, Throwable throwable, int verbosity)
+    public void log( String message, Throwable throwable, int verbosity )
     {
 
-        if (this.m_verbosity >= verbosity)
+        if( this.m_verbosity >= verbosity )
         {
-            log(message, throwable);
+            log( message, throwable );
         }
 
     }
@@ -391,10 +391,10 @@ public class CatalinaLogger implements LogEnabled, org.apache.catalina.Logger
      *
      * @param listener The listener to remove
      */
-    public void removePropertyChangeListener(PropertyChangeListener listener)
+    public void removePropertyChangeListener( PropertyChangeListener listener )
     {
 
-        m_support.removePropertyChangeListener(listener);
+        m_support.removePropertyChangeListener( listener );
 
     }
 

@@ -51,10 +51,8 @@ package org.apache.avalon.apps.sevak.blocks.jetty;
 
 import java.util.Locale;
 import java.util.TimeZone;
-
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
-
 import org.mortbay.http.HttpRequest;
 import org.mortbay.http.HttpResponse;
 import org.mortbay.util.DateCache;
@@ -95,7 +93,7 @@ public class NCSARequestLogger extends AbstractLogEnabled
             buf.append( " - " );
 
             String user = request.getAuthUser();
-            buf.append( ( user == null )?"-":user );
+            buf.append( ( user == null ) ? "-" : user );
             buf.append( " [" );
             buf.append( m_dateCache.format( request.getTimeStamp() ) );
             buf.append( "] \"" );
@@ -107,9 +105,9 @@ public class NCSARequestLogger extends AbstractLogEnabled
             buf.append( "\" " );
 
             int status = response.getStatus();
-            buf.append( ( char ) ( '0' + ( ( status / 100 ) % 10 ) ) );
-            buf.append( ( char ) ( '0' + ( ( status / 10 ) % 10 ) ) );
-            buf.append( ( char ) ( '0' + ( status % 10 ) ) );
+            buf.append( (char)( '0' + ( ( status / 100 ) % 10 ) ) );
+            buf.append( (char)( '0' + ( ( status / 10 ) % 10 ) ) );
+            buf.append( (char)( '0' + ( status % 10 ) ) );
 
             if( responseLength >= 0 )
             {
@@ -122,14 +120,14 @@ public class NCSARequestLogger extends AbstractLogEnabled
                 else
                 {
                     if( responseLength > 9999 )
-                        buf.append( ( char ) ( '0' + ( ( responseLength / 10000 ) % 10 ) ) );
+                        buf.append( (char)( '0' + ( ( responseLength / 10000 ) % 10 ) ) );
                     if( responseLength > 999 )
-                        buf.append( ( char ) ( '0' + ( ( responseLength / 1000 ) % 10 ) ) );
+                        buf.append( (char)( '0' + ( ( responseLength / 1000 ) % 10 ) ) );
                     if( responseLength > 99 )
-                        buf.append( ( char ) ( '0' + ( ( responseLength / 100 ) % 10 ) ) );
+                        buf.append( (char)( '0' + ( ( responseLength / 100 ) % 10 ) ) );
                     if( responseLength > 9 )
-                        buf.append( ( char ) ( '0' + ( ( responseLength / 10 ) % 10 ) ) );
-                    buf.append( ( char ) ( '0' + ( responseLength % 10 ) ) );
+                        buf.append( (char)( '0' + ( ( responseLength / 10 ) % 10 ) ) );
+                    buf.append( (char)( '0' + ( responseLength % 10 ) ) );
                 }
                 buf.append( ' ' );
             }

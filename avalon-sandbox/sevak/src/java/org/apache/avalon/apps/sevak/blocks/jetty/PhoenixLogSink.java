@@ -50,7 +50,6 @@
 package org.apache.avalon.apps.sevak.blocks.jetty;
 
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
-
 import org.mortbay.util.Frame;
 import org.mortbay.util.Log;
 import org.mortbay.util.LogSink;

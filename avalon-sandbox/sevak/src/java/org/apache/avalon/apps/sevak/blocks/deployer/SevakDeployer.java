@@ -50,7 +50,6 @@
 package org.apache.avalon.apps.sevak.blocks.deployer;
 
 import java.io.File;
-
 import org.apache.avalon.apps.sevak.Sevak;
 import org.apache.avalon.apps.sevak.SevakContext;
 import org.apache.avalon.framework.activity.Initializable;
@@ -114,8 +113,8 @@ public class SevakDeployer
 
         for( int i = 0; i < contexts.length; i++ )
         {
-            final String context = contexts[i].getAttribute( "docBase" );
-            String path = contexts[i].getAttribute( "path" );
+            final String context = contexts[ i ].getAttribute( "docBase" );
+            String path = contexts[ i ].getAttribute( "path" );
 
             path.replace( '/', File.separatorChar ).replace( '\\', File.separatorChar );
 
