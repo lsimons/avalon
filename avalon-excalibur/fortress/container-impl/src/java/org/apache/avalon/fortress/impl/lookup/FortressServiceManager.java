@@ -37,7 +37,7 @@ import java.util.Map;
  * the references.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.21 $ $Date: 2004/03/13 13:56:51 $
+ * @version CVS $Revision: 1.22 $ $Date: 2004/03/13 17:57:59 $
  */
 public class FortressServiceManager
     implements ServiceManager
@@ -137,7 +137,7 @@ public class FortressServiceManager
         // Is this a releasable component ?
         if ( component instanceof ReleasableComponent )
         {
-            ((ReleasableComponent)component).put();
+            ((ReleasableComponent)component).releaseOnComponentHandler();
             return;
         }
         final ComponentHandler handler = (ComponentHandler) m_used.remove( new ComponentKey( component ) );

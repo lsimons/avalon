@@ -22,7 +22,7 @@ package org.apache.avalon.fortress.impl.handler;
  * using the corresponding ComponentHandler.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.1 $ $Date: 2004/03/13 13:56:51 $
+ * @version CVS $Revision: 1.2 $ $Date: 2004/03/13 17:57:59 $
  * @since 1.2
  */
 public interface ReleasableComponent
@@ -41,5 +41,5 @@ public interface ReleasableComponent
      * policy of the implementation.
      * In fact this calls the put method on the ComponentHandler
      */
-    void put( );
+    void releaseOnComponentHandler( );
 }
