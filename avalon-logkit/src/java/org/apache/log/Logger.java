@@ -334,7 +334,7 @@ public class Logger
 
     /**
      * Determine if messages of priority  will be logged.
-     *
+     * @param priority the priority
      * @return true if messages will be logged
      */
     public final boolean isPriorityEnabled( final Priority priority )
@@ -455,6 +455,7 @@ public class Logger
      * Unset the logtargets for this logger and all child loggers if recursive is set.
      * The loggers unset (and all child loggers who don't specify logtargets) will
      * inherit from the parents LogTargets.
+     * @param recursive the recursion policy
      */
     public synchronized void unsetLogTargets( final boolean recursive )
     {
@@ -714,7 +715,9 @@ public class Logger
     private synchronized void resetChildPriorities( final boolean recursive )
     {
         if( null == m_children )
+        {
             return;
+        }
 
         final Logger[] children = m_children;
 
@@ -757,9 +760,13 @@ public class Logger
         if( null == m_logTargets )
         {
             if( null == m_parent )
+            {
                 return new LogTarget[ 0 ];
+            }
             else
+            {
                 return m_parent.safeGetLogTargets();
+            }
         }
         else
         {
@@ -779,7 +786,9 @@ public class Logger
     private synchronized void resetChildLogTargets( final boolean recursive )
     {
         if( null == m_children )
+        {
             return;
+        }
 
         for( int i = 0; i < m_children.length; i++ )
         {

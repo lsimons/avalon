@@ -67,6 +67,7 @@ import org.apache.log.format.Formatter;
 /**
  * Basic message factory that stores LogEvent in Message.
  *
+ * @author <a href="mailto:avalon-dev@jakarta.apache.org">Avalon Development Team</a>
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 public class TextMessageBuilder
@@ -75,12 +76,21 @@ public class TextMessageBuilder
     private final PropertyInfo[] m_properties;
     private final Formatter m_formatter;
 
+   /**
+    * Creation of a new text message builder.
+    * @param formatter the message formatter
+    */
     public TextMessageBuilder( final Formatter formatter )
     {
         m_properties = new PropertyInfo[ 0 ];
         m_formatter = formatter;
     }
 
+   /**
+    * Creation of a new text message builder.
+    * @param properties the property info set
+    * @param formatter the message formatter
+    */
     public TextMessageBuilder( final PropertyInfo[] properties,
                                final Formatter formatter )
     {
@@ -88,6 +98,13 @@ public class TextMessageBuilder
         m_formatter = formatter;
     }
 
+   /**
+    * Build a message from the supplied session for the supplied event
+    * @param session the session
+    * @param event the log event
+    * @return the message
+    * @exception JMSException if a messaging related error occurs
+    */
     public Message buildMessage( final Session session, final LogEvent event )
         throws JMSException
     {
@@ -105,6 +122,12 @@ public class TextMessageBuilder
         }
     }
 
+   /**
+    * Set a property
+    * @param message the text message
+    * @param index the index
+    * @param event the log event
+    */
     private void setProperty( final TextMessage message,
                               final int index,
                               final LogEvent event )

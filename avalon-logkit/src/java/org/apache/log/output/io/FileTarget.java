@@ -62,6 +62,7 @@ import org.apache.log.format.Formatter;
 /**
  * A basic target that writes to a File.
  *
+ * @author <a href="mailto:avalon-dev@jakarta.apache.org">Avalon Development Team</a>
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 public class FileTarget
@@ -110,8 +111,8 @@ public class FileTarget
 
         if( isOpen() )
         {
-            throw new IOException( "target must be closed before " +
-                                   "file property can be set" );
+            throw new IOException( "target must be closed before " 
+                                   + "file property can be set" );
         }
 
         m_append = append;
@@ -122,11 +123,15 @@ public class FileTarget
      * Open underlying file and allocate resources.
      * This method will attempt to create directories below file and
      * append to it if specified.
+     * @exception IOException if directories can not be created or file can not be opened
      */
     protected synchronized void openFile()
         throws IOException
     {
-        if( isOpen() ) close();
+        if( isOpen() )
+        {
+            close();
+        }
 
         final File file = getFile().getCanonicalFile();
 

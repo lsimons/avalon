@@ -74,7 +74,7 @@ public class Hierarchy
         + "%{message}\n%{throwable}";
 
     ///The instance of default hierarchy
-    private static final Hierarchy c_hierarchy = new Hierarchy();
+    private static final Hierarchy HIERARCHY = new Hierarchy();
 
     ///Error Handler associated with hierarchy
     private ErrorHandler m_errorHandler;
@@ -98,7 +98,7 @@ public class Hierarchy
      */
     public static Hierarchy getDefaultHierarchy()
     {
-        return c_hierarchy;
+        return HIERARCHY;
     }
 
     /**
