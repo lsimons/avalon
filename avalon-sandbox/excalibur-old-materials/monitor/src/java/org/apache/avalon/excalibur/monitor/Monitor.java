@@ -13,11 +13,11 @@ package org.apache.avalon.excalibur.monitor;
  * the ComponentManager.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version $Id: Monitor.java,v 1.3 2001/12/11 09:53:30 jefft Exp $
+ * @version $Id: Monitor.java,v 1.4 2002/02/13 21:09:51 donaldp Exp $
  */
 public interface Monitor
 {
-    String ROLE = "org.apache.avalon.excalibur.monitor.Monitor";
+    String ROLE = Monitor.class.getName();
 
     /**
      * Add a resource to monitor.  The resource key referenced in the other

@@ -17,7 +17,7 @@ import org.apache.avalon.framework.configuration.Configurable;
  * The standard interface for DataSources in Avalon.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.4 $ $Date: 2001/12/11 09:53:28 $
+ * @version CVS $Revision: 1.5 $ $Date: 2002/02/13 21:09:51 $
  * @since 4.0
  */
 public interface DataSourceComponent
@@ -26,7 +26,7 @@ public interface DataSourceComponent
     /**
      * The name of the role for convenience
      */
-    String ROLE = "org.apache.avalon.excalibur.datasource.DataSourceComponent";
+    String ROLE = DataSourceComponent.class.getName();
 
     /**
      * Gets the Connection to the database
