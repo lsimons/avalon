@@ -13,7 +13,6 @@ import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.excalibur.io.ExtensionFileFilter;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.camelot.Container;
-import org.apache.avalon.framework.camelot.Deployer;
 import org.apache.avalon.framework.component.Composable;
 import org.apache.avalon.framework.component.DefaultComponentManager;
 import org.apache.avalon.framework.configuration.Configurable;
@@ -28,6 +27,9 @@ import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.phoenix.components.application.Application;
 import org.apache.avalon.phoenix.components.configuration.ConfigurationRepository;
 import org.apache.avalon.phoenix.components.manager.SystemManager;
+import org.apache.avalon.phoenix.components.installer.Installer;
+import org.apache.avalon.phoenix.components.installer.Installation;
+import org.apache.avalon.phoenix.components.deployer.Deployer;
 import org.apache.log.Hierarchy;
 import org.apache.log.LogTarget;
 import org.apache.log.Logger;
@@ -54,6 +56,10 @@ public class DefaultEmbeddor
     private static final String    DEFAULT_LOG_FILE     = PHOENIX_HOME + "/logs/phoenix.log";
     private static final String    DEFAULT_APPS_PATH    = PHOENIX_HOME + "/apps";
 
+    private static final String    DEFAULT_INSTALLER    =
+        System.getProperty( "phoenix.installer",
+                            "org.apache.avalon.phoenix.components.installer.DefaultInstaller" );
+
     private static final String    DEFAULT_DEPLOYER     =
         System.getProperty( "phoenix.deployer",
                             "org.apache.avalon.phoenix.components.deployer.DefaultSarDeployer" );
@@ -76,6 +82,7 @@ public class DefaultEmbeddor
     private Parameters     m_parameters;
 
     private Application              m_kernel;
+    private Installer                m_installer;
     private Deployer                 m_deployer;
     private SystemManager            m_systemManager;
     private ConfigurationRepository  m_repository;
@@ -191,7 +198,6 @@ public class DefaultEmbeddor
         {
             m_systemManager.unregister( "Phoenix.Kernel" );
             m_systemManager.unregister( "Phoenix.Embeddor" );
-            m_systemManager.unregister( "Phoenix.Repository" );
             m_systemManager.stop();
         }
 
@@ -220,6 +226,7 @@ public class DefaultEmbeddor
 
         m_repository = null;
         m_deployer = null;
+        m_installer = null;
 
         System.gc(); // make sure resources are released
     }
@@ -249,6 +256,7 @@ public class DefaultEmbeddor
         final Logger logger = createLogger();
         setLogger( logger );
 
+        m_installer = createInstaller();
         m_repository = createRepository();
         m_deployer = createDeployer();
         m_systemManager = createSystemManager();
@@ -263,6 +271,7 @@ public class DefaultEmbeddor
         throws Exception
     {
         setupLogger( m_repository );
+        setupLogger( m_installer );
 
         try
         {
@@ -354,6 +363,29 @@ public class DefaultEmbeddor
     }
 
     /**
+     * Creates a new installer from the Parameters's installer-class variable.
+     *
+     * @return the new Installer
+     * @exception ConfigurationException if an error occurs
+     */
+    private Installer createInstaller()
+        throws ConfigurationException
+    {
+        final String className =
+            m_parameters.getParameter( "installer-class", DEFAULT_INSTALLER );
+        try
+        {
+            return (Installer)Class.forName( className ).newInstance();
+        }
+        catch( final Exception e )
+        {
+            final String message = REZ.getString( "embeddor.error.create.installer", className );
+            getLogger().warn( message, e );
+            throw new ConfigurationException( message, e );
+        }
+    }
+
+    /**
      * Creates a new deployer from the Parameters's deployer-class variable.
      *
      * @return the new Deployer
@@ -393,6 +425,7 @@ public class DefaultEmbeddor
             final DefaultComponentManager componentManager = new DefaultComponentManager();
             componentManager.put( Container.ROLE, (Container)m_kernel );
             componentManager.put( ConfigurationRepository.ROLE, m_repository );
+            componentManager.put( Installer.ROLE, m_installer );
             ((Composable)m_deployer).compose( componentManager );
         }
     }
@@ -418,12 +451,12 @@ public class DefaultEmbeddor
             final File[] files = directory.listFiles( filter );
             if( null != files )
             {
-                deployFiles( m_deployer, files );
+                deployFiles( files );
             }
         }
     }
 
-    private void deployFiles( final Deployer deployer, final File[] files )
+    private void deployFiles( final File[] files )
         throws Exception
     {
         for( int i = 0; i < files.length; i++ )
@@ -435,8 +468,16 @@ public class DefaultEmbeddor
 
             final String name = filename.substring( 0, index );
             final File file = files[ i ].getCanonicalFile();
-            deployer.deploy( name, file.toURL() );
+
+            deployFile( name, file );
         }
+    }
+
+    protected final void deployFile( final String name, final File file )
+        throws Exception
+    {
+        final Installation installation = m_installer.install( name, file.toURL() );
+        m_deployer.deploy( name, installation );
     }
 
     /**
