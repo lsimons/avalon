@@ -8,6 +8,7 @@
 package org.apache.avalon.cornerstone.blocks.packet;
 
 import java.io.IOException;
+import java.io.InterruptedIOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.util.ArrayList;
@@ -28,12 +29,12 @@ class Acceptor
     extends AbstractLogEnabled
     implements Component, Runnable
 {
-    protected final DatagramSocket          m_datagramSocket;
-    protected final PacketHandlerFactory    m_handlerFactory;
-    protected final ThreadPool              m_threadPool;
-    protected final ArrayList               m_runners          = new ArrayList();
+    private final DatagramSocket          m_datagramSocket;
+    private final PacketHandlerFactory    m_handlerFactory;
+    private final ThreadPool              m_threadPool;
+    private final ArrayList               m_runners          = new ArrayList();
 
-    protected Thread                           m_thread;
+    private Thread                        m_thread;
 
     public Acceptor( final DatagramSocket datagramSocket,
                      final PacketHandlerFactory handlerFactory,
@@ -42,16 +43,26 @@ class Acceptor
         m_datagramSocket = datagramSocket;
         m_handlerFactory = handlerFactory;
         m_threadPool = threadPool;
+
     }
 
     public void dispose()
         throws Exception
     {
-        if( null != m_thread )
+        synchronized( this )
         {
-            m_thread.interrupt();
-            m_thread.join( /* 1000 ??? */ );
-            m_thread = null;
+            if( null != m_thread )
+            {
+                final Thread thread = m_thread;
+                m_thread = null;
+                thread.interrupt();
+
+                //Can not join as threads are part of pool 
+                //and will never finish
+                //m_thread.join();
+                
+                wait( /*1000*/ );
+            }
         }
 
         final Iterator runners = m_runners.iterator();
@@ -68,11 +79,11 @@ class Acceptor
     {
         m_thread = Thread.currentThread();
 
-        while( !Thread.interrupted() )
+        while( null != m_thread && !Thread.interrupted() )
         {
             try
             {
-                //TODO: packets hould really be pooled...
+                //TODO: packets should really be pooled...
                 DatagramPacket packet = null;
 
                 try
@@ -94,6 +105,10 @@ class Acceptor
                 setupLogger( runner );
                 m_threadPool.execute( runner );
             }
+            catch( final InterruptedIOException iioe )
+            {
+                //Consume exception
+            }
             catch( final IOException ioe )
             {
                 getLogger().error( "Exception accepting connection", ioe );
@@ -103,6 +118,12 @@ class Acceptor
                 getLogger().error( "Exception executing runner", e );
             }
         }
+
+        synchronized( this )
+        {
+            notifyAll();
+            m_thread = null;
+        }
     }
 }
 
@@ -110,10 +131,10 @@ class PacketHandlerRunner
     extends AbstractLogEnabled
     implements Runnable, Component
 {
-    protected DatagramPacket  m_packet;
-    protected Thread          m_thread;
-    protected ArrayList       m_runners;
-    protected PacketHandler   m_handler;
+    private DatagramPacket  m_packet;
+    private Thread          m_thread;
+    private ArrayList       m_runners;
+    private PacketHandler   m_handler;
 
     PacketHandlerRunner( final DatagramPacket packet,
                          final ArrayList runners,
