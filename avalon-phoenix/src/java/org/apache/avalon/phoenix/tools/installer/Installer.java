@@ -58,7 +58,6 @@ public class Installer
     private static final String    SERVER_XML   = "SAR-INF/server.xml";
 
     //The names on the native filesystem
-    private static final String    FS_ASSEMBLY_XML = "SAR-INF" + File.separator + "assembly.xml";
     private static final String    FS_CONFIG_XML   = "SAR-INF" + File.separator + "config.xml";
     private static final String    FS_SERVER_XML   = "SAR-INF" + File.separator + "server.xml";
 
@@ -74,18 +73,18 @@ public class Installer
         final FileDigest[] infos = installation.getFileDigests();
         final Checksum checksum = new CRC32();
                 
-        if ( infos != null )
+        if( infos != null )
         {
-            for ( int i = 0; i < infos.length; i++ )
+            for( int i = 0; i < infos.length; i++ )
             {
                 final File file = infos[i].getFile();
                 final File parent = file.getParentFile();
                 
-                if ( file.exists() )
+                if( file.exists() )
                 {                    
                     final String message = REZ.getString( "skip-removal", file );
                     
-                    if ( file.lastModified() != infos[i].getModified() )
+                    if( file.lastModified() != infos[i].getModified() )
                     {
                         getLogger().debug( message );                        
                         continue;
@@ -93,14 +92,14 @@ public class Installer
 
                     checksum( file, checksum );
 
-                    if ( checksum.getValue() != infos[i].getChecksum() )
+                    if( checksum.getValue() != infos[i].getChecksum() )
                     {
                         getLogger().debug( message );                        
                         continue;
                     }
                         
                     file.delete();                                                
-                    if ( parent.list().length == 0 ) parent.delete();
+                    if( 0 == parent.list().length ) parent.delete();
                 }
             }
         }
@@ -113,15 +112,15 @@ public class Installer
      */
     private void checksum( final File file, final Checksum checksum )
     {
-        InputStream input = null;
         checksum.reset();
-        
+
+        InputStream input = null;        
         try 
         {                           
             input = new CheckedInputStream( new FileInputStream( file ), checksum );
             IOUtil.toByteArray( input );
         } 
-        catch ( IOException ioe )
+        catch( final IOException ioe )
         {
             final String message = REZ.getString( "checksum-failure", file );
             getLogger().warn( message );
@@ -280,18 +279,16 @@ public class Installer
             final String name = fixName( entry.getName() );
 
             boolean expand = true;
-            
             boolean isJar = false;
 
             //Don't expand anything below SAR-INF directory unless they
             //are the config.xml or server.xml files which will be expanded
             //as a special case atm.
             if( name.startsWith( SAR_INF ) && 
-                !name.equals( ASSEMBLY_XML ) && 
                 !name.equals( SERVER_XML ) && 
                 !name.equals( CONFIG_XML ) )
             {
-                //expand = false;
+                expand = false;
 
                 //Grab all the jar files in the 
                 //directory SAR-INF/lib
@@ -300,7 +297,8 @@ public class Installer
                     LIB.length() == name.lastIndexOf( "/" ) )
                 {
                     isJar = true;
-                    //expand = false;
+                    expand = true;
+                    //HACK: expand files until ClassLoader works properly
                     //final String jar = baseURL + name;
                     //jars.add( jar );
                 }
@@ -336,8 +334,7 @@ public class Installer
         //Prepare and create Installation
         final String[] classPath = (String[])jars.toArray( new String[ 0 ] );
 
-        //final String assembly = baseURL + ASSEMBLY_XML;
-        final String assembly = getURLAsString( new File( directory, FS_ASSEMBLY_XML ) );
+        final String assembly = "jar:" + getURLAsString( file ) + "!/" + ASSEMBLY_XML;
         final String config = getURLAsString( new File( directory, FS_CONFIG_XML ) );
         final String server = getURLAsString( new File( directory, FS_SERVER_XML ) );
         final FileDigest[] fileDigests = (FileDigest[])digests.toArray( new FileDigest[0] );
