@@ -44,6 +44,7 @@
             <item name="TODO"  href="http://nagoya.apache.org/bugzilla/buglist.cgi?bug_status=UNCONFIRMED&amp;bug_status=NEW&amp;bug_status=ASSIGNED&amp;bug_status=REOPENED&amp;bug_status=RESOLVED&amp;product=Avalon&amp;component=Phoenix"/>
             <item name="Bug Database"  href="http://nagoya.apache.org/bugzilla/enter_bug.cgi?product=Avalon&amp;component=Phoenix"/>
             <item name="Enhancement Requests"  href="http://nagoya.apache.org/bugzilla/enter_bug.cgi?product=Avalon&amp;component=Phoenix&amp;bug_severity=Enhancement"/>
+            <item name="Alternate Kernels" href="/for-developers-alternate-kernel.html"/>
         </menu>
 
     </body>
