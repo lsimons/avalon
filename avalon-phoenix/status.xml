@@ -41,6 +41,11 @@
     -->
 
 <release version="4.1alpha" date="unreleased">
+    <action dev="PR" type="add">
+        Add support for the excalibur-instrument project. An InstrumentManager is
+        now part of the Phoenix kernel (a Noop version by default). Applications can
+        have blocks that are Instrumentable as well as InstrumentManageable.
+    </action>
     <action dev="PD" type="remove">
         Remove several jars from the lib directory in Phoenix. They were causing
         version conflicts with hosted applications which may want to use different
@@ -48,8 +53,7 @@
         all or could be moved to the container specific classloader. The libraries
         that are no longer visible to the client applications include; excalibur-thread,
         excalibur-threadcontext, excalibur-pool, excalibur-collections,
-        excalibur-instrument, excalibur-logger, excalibur-util, excalibur-extension,
-        excalibur-concurrent
+        excalibur-logger, excalibur-util, excalibur-extension, excalibur-concurrent
     </action>
     <action dev="PD" type="update">
         Move website to be based at http://avalon.apache.org/phoenix
