@@ -7,13 +7,12 @@
  */
 package org.apache.avalon.phoenix.tools.metagenerate;
 
-import com.thoughtworks.qdox.model.JavaClass;
-import com.thoughtworks.qdox.model.DocletTag;
 import com.thoughtworks.qdox.ant.AbstractQdoxTask;
-import org.apache.tools.ant.BuildException;
-
+import com.thoughtworks.qdox.model.DocletTag;
+import com.thoughtworks.qdox.model.JavaClass;
 import java.io.File;
 import java.io.IOException;
+import org.apache.tools.ant.BuildException;
 
 /**
  * MetaInfo Generation Ant Taskdef

@@ -7,9 +7,9 @@
  */
 package org.apache.avalon.phoenix.tools.metagenerate;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.File;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
