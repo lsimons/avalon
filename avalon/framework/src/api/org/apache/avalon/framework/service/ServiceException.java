@@ -106,6 +106,7 @@ public class ServiceException
     /**
      * Construct a new <code>ServiceException</code> instance.
      *
+     * @param key the lookup key
      * @param message the exception message
      */
     public ServiceException( final String key, final String message )
@@ -115,6 +116,7 @@ public class ServiceException
 
     /**
      * Return the key that caused the exception.
+     * @return the lookup key triggering the exception
      */
     public String getKey()
     {
@@ -125,6 +127,7 @@ public class ServiceException
      * Return the role that caused the exception
      *
      * @deprecated Use getKey() instead
+     * @return the the lookup key triggering the exception
      */
     public String getRole()
     {
