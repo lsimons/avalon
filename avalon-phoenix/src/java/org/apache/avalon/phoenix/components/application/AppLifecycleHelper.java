@@ -154,9 +154,13 @@ class AppLifecycleHelper
             entry.setState( State.STARTING );
 
             final Object block =
-                m_lifecycleHelper.startup( entry, m_blockAccessor );
+                m_lifecycleHelper.startup( entry.getName(),
+                                           entry,
+                                           m_blockAccessor );
 
-            m_exportHelper.exportBlock( m_context, entry.getMetaData(), block );
+            m_exportHelper.exportBlock( m_context,
+                                        entry.getMetaData(),
+                                        block );
 
             state = State.STARTED;
             entry.setObject( block );
@@ -184,11 +188,13 @@ class AppLifecycleHelper
         m_listenerSupport.fireBlockRemovedEvent( entry );
 
         //Remove block from Management system
-        m_exportHelper.unexportBlock( m_context, entry.getMetaData(), entry.getObject() );
+        m_exportHelper.unexportBlock( m_context,
+                                      entry.getMetaData(),
+                                      entry.getObject() );
 
         try
         {
-            m_lifecycleHelper.shutdown( entry );
+            m_lifecycleHelper.shutdown( entry.getName(), entry );
         }
         finally
         {
