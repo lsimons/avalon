@@ -10,7 +10,17 @@
     <author email="crafterm at apache.org">Marcus Crafter</author>
     <author email="sylvain.wallez at anyware-tech.com">Sylvain Wallez</author>
     <author email="shash_list at hotmail.com">Sash Chatterjee</author>
+    <author email="Jason.West at mail.state.ky.us">Jason West</author>
   </devs>
+  <release version="1.2" date="?">
+    <action dev="PD" type="add">
+      Added support to unconditionally set Logger Listener.
+    </action>
+    <action dev="JW" type="add">
+      Added support for specifing the encoding of the DatagramOutputTarget
+      and StreamTarget. Now Defaults to "US-ASCII" encoding.
+    </action>
+  </release>
   <release version="1.2" date="?">
     <action dev="PD" type="add">
       Add LoggerListener support.
