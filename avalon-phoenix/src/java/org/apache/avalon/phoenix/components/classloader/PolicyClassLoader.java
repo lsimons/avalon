@@ -51,13 +51,13 @@ class PolicyClassLoader
      * @param classLoader the parent ClassLoader
      * @param policy the Policy object
      */
-    PolicyClassLoader( final URL[] urls,
+    PolicyClassLoader( final String[] urls,
                        final ClassLoader parent,
                        final URLStreamHandlerFactory factory,
                        final Policy policy )
         throws MalformedURLException
     {
-        super( urls, parent, factory );
+        super( new URL[ 0 ], parent, factory );
 
         if( null == policy )
         {
@@ -65,6 +65,12 @@ class PolicyClassLoader
         }
         m_policy = policy;
         m_factory = factory;
+
+        for( int i = 0; i < urls.length; i++ )
+        {
+            final URL url = createURL( urls[ i ] );
+            addURL( url );
+        }
     }
 
     public void setLogger( final Logger logger )
