@@ -40,6 +40,8 @@ import java.util.Hashtable;
 import java.util.Date;
 
 /**
+ * A Home is an immutable data object that aggregates a suite of buildable 
+ * project defintions relative to local and external dependencies.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
@@ -73,6 +75,12 @@ public class Home extends DataType
     // constructor
     //-------------------------------------------------------------
 
+   /**
+    * Creation of a new home using a supplied index.
+    * @param project the ant project establishing the home
+    * @param magic the magic system instance
+    * @param index the magic project index
+    */
     protected Home( Project project, Magic system, File index )
     {
         setProject( project );
@@ -93,46 +101,84 @@ public class Home extends DataType
     // implementation
     //-------------------------------------------------------------
 
+   /**
+    * Return the index file used to establish this home.
+    * @return the index file
+    */
     public File getIndex()
     {
         return m_index;
     }
 
+   /**
+    * Return the last modification time of the index file as a long.
+    * @return the last modification time
+    */
     public long getIndexLastModified()
     {
         return m_index.lastModified();
     }
 
+   /**
+    * Return a property declared undr the project that established the root index.
+    * @param key the property key
+    * @return the value matching the supplied property key
+    */
     public String getProperty( String key )
     {
         return m_project.getProperty( key );
     }
 
+   /**
+    * Return TRUE if the supplied key is the name of a key of a resource
+    * declared within this home.
+    * @param key the key
+    */
     public boolean isaResourceKey( String key )
     {
         return ( null != m_resources.get( key ) );
     }
 
+   /**
+    * Return TRUE if the runtime is initiated by gump.
+    * @return TRUE if gumpt is running the show
+    */
     public boolean isGump()
     {
         return ( null != getGumpSignature() );
     }
 
+   /**
+    * Return the gump build signature.
+    * @return a string corresponding to the gump @@DATE@@ value.
+    */
     public String getGumpSignature()
     {
         return m_system.getGumpSignature();
     }
 
+   /**
+    * Return the immutable repository descriptor for the main cache.
+    * @return the main cache repository descriptor
+    */
     public Repository getRepository()
     {
         return m_system.getRepository();
     }
 
+   /**
+    * Return the immutable docs repository cache descriptor.
+    * @return the docs repository descriptor
+    */
     public Repository getDocsRepository()
     {
         return m_system.getDocsRepository();
     }
 
+   /**
+    * Return all of the resource declared within this home.
+    * @return the resource defintions
+    */
     public Resource[] getResources()
     {
         return (Resource[]) m_resources.values().toArray( new Resource[0] );
