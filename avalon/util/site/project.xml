@@ -19,9 +19,9 @@ limitations under the License.
   <pomVersion>3</pomVersion>
   <groupId>avalon</groupId>
   <id>avalon-util</id>
-  <name>Avalon Utilities</name>
+  <name>Avalon Utilities Site</name>
   <package>org.apache.avalon.util</package>
-  <shortDescription>Avalon Utilities</shortDescription>
+  <shortDescription>Avalon Utilities Site Documentation</shortDescription>
   <currentVersion>1.1</currentVersion>
 
   <organization>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE project [
+  <!ENTITY % index SYSTEM "file:index.ent"> %index;
+]>
+
+<project>
+
+  <extend>${avalon.buildsystem}/project-common.xml</extend>
+
+  <groupId>&merlin-id;</groupId>
+  <id>&merlin-tutorials-id;</id>
+  <currentVersion>&merlin-tutorials-version;</currentVersion>
+
+  <name>Merlin Tutorials</name>
+  <package>org.apache.avalon.merlin.tutorials</package>
+  <shortDescription>Merlin Tutorials</shortDescription>
+  <inceptionYear>2002</inceptionYear>
+</project>

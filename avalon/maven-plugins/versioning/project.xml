@@ -22,7 +22,7 @@
 
 
 <project>
-  <extend>../project-common.xml</extend>
+  <extend>${avalon.buildsystem}/project-common.xml</extend>
   <groupId>&avalon-versioning-plugin-group;</groupId>
   <id>&avalon-versioning-plugin-id;</id>
   <name>Avalon Versioning Maven Plugin</name>

@@ -21,7 +21,7 @@ limitations under the License.
 -->
 <project>
 
-  <groupId>&avalon-activation-id;</groupId>
+  <extend>${avalon.buildsystem}/project-common.xml</extend>
 
   <name>Avalon Activation</name>
   <inceptionYear>2000</inceptionYear>

@@ -9,7 +9,8 @@
   xmlns:j="jelly:core" 
   xmlns:util="jelly:util" 
   xmlns:ant="jelly:ant"
-  xmlns:avalon="avalon">
+  xmlns:avalon="avalon-meta"
+  >
 
   <ant:property name="pom.specificationVersion" value="&avalon-composition-spec;"/>
 

@@ -67,3 +67,5 @@ limitations under the License.
 <!ENTITY merlin-unit-id "merlin-unit">
 <!ENTITY merlin-unit-version "3.3.dev-1">
 
+<!ENTITY merlin-tutorials-id "merlin-tutorials">
+<!ENTITY merlin-tutorials-version "3.3.dev-1">
