@@ -50,12 +50,12 @@ public interface TimeScheduler
      * Add a trigger failure listener
      * @param listener the listener
      */
-    void addTriggerFailureListener(TriggerFailureListener listener);
+    void addTriggerFailureListener( TriggerFailureListener listener );
 
     /**
      * Remove a trigger failure listener
      * @param listener the listener
      */
-    void removeTriggerFailureListener(TriggerFailureListener listener);
+    void removeTriggerFailureListener( TriggerFailureListener listener );
 
 }
