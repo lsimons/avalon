@@ -671,6 +671,11 @@ Legal:
 
   </target>
 
+  <target name="recompile" description="Recompile the java files">
+    <delete dir="${build.classes}" />
+    <antcall target="compile"/>
+  </target>
+
   <!-- Cleans up build and distribution directories -->
   <target name="clean">
     <delete dir="${build.dir}" />
