@@ -55,7 +55,6 @@ import java.io.InputStream;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.phoenix.containerkit.profile.PartitionProfile;
 import org.apache.excalibur.instrument.InstrumentManager;
-import org.apache.excalibur.threadcontext.ThreadContext;
 
 /**
  * Manage the "context" in which Applications operate.
@@ -69,8 +68,6 @@ public interface ApplicationContext
     File getHomeDirectory();
 
     PartitionProfile getPartitionProfile();
-
-    ThreadContext getThreadContext();
 
     /**
      * A application can request that it be be shutdown. In most cases

@@ -52,24 +52,20 @@ package org.apache.avalon.phoenix.components.application.test;
 
 import java.io.File;
 import java.io.InputStream;
-import java.util.HashMap;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.phoenix.containerkit.profile.PartitionProfile;
 import org.apache.avalon.phoenix.interfaces.ApplicationContext;
 import org.apache.excalibur.instrument.InstrumentManager;
 import org.apache.excalibur.instrument.manager.NoopInstrumentManager;
-import org.apache.excalibur.threadcontext.ThreadContext;
-import org.apache.excalibur.threadcontext.impl.DefaultThreadContextPolicy;
 
 /**
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.11 $ $Date: 2003/04/06 11:23:22 $
+ * @version $Revision: 1.12 $ $Date: 2003/04/11 01:06:58 $
  */
 class MockApplicationContext
     implements ApplicationContext
 {
-    private final ThreadContext m_threadContext = new ThreadContext( new DefaultThreadContextPolicy(), new HashMap() );
     private final PartitionProfile m_sarMetaData;
     private final Logger m_logger;
 
@@ -83,11 +79,6 @@ class MockApplicationContext
     public PartitionProfile getPartitionProfile()
     {
         return m_sarMetaData;
-    }
-
-    public ThreadContext getThreadContext()
-    {
-        return m_threadContext;
     }
 
     public void requestShutdown()
