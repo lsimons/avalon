@@ -221,7 +221,6 @@ public class DefaultDeployer
     public void deploy( final String name, final String sarURL )
         throws DeploymentException
     {
-        System.out.println( "DefaultDeployer.deploy(" + name + "," + sarURL + ")" );
         try
         {
             try
