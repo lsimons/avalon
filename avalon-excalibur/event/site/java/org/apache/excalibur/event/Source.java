@@ -25,7 +25,7 @@ public interface Source {
      * @exception SourceClosedException Indicates that the sink is
      *   no longer being serviced.
      */
-    public void enqueue( QueueElement element )
+    void enqueue( QueueElement element )
         throws SourceException;
 
     /**
@@ -42,7 +42,7 @@ public interface Source {
      *   no longer being serviced.
      *
      */
-    public void enqueue( QueueElement[] elements )
+    void enqueue( QueueElement[] elements )
         throws SourceException;
 
     /**
@@ -52,7 +52,7 @@ public interface Source {
      * @param element The element to attempt to enqueue
      * @return <code>true</code> if successful, <code>false</code> if not.
      */
-    public boolean tryEnqueue( QueueElement element );
+    boolean tryEnqueue( QueueElement element );
 
     /**
      * Support for transactional enqueue.
@@ -94,13 +94,13 @@ public interface Source {
      *
      * @see PreparedEnqueue
      */
-    public PreparedEnqueue prepareEnqueue( QueueElement[] elements )
+    PreparedEnqueue prepareEnqueue( QueueElement[] elements )
         throws SourceException;
 
     /**
      * Returns the number of elements waiting in this queue.
      */
-    public int size();
+    int size();
 
 
     /**
@@ -112,7 +112,7 @@ public interface Source {
      *
      * @return -1 if the sink has no length threshold.
      */
-    public int maxSize();
+    int maxSize();
 
     /**
      * Returns true if this sink has reached its threshold; false otherwise.
@@ -121,13 +121,13 @@ public interface Source {
      * Clearly, isFull() returning true does not guarantee that they will
      * fail, since the queue may be serviced in the meantime.
      */
-    public boolean isFull();
+    boolean isFull();
 
     /**
      * Returns the number of QueueElements it can currently accept.  This is
      * typically the difference between <code>size()</code> and
      * <code>maxSize()</code>.  It will return -1 if the queue is unbounded.
      */
-    public int canAccept();
+    int canAccept();
 
 }

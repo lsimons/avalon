@@ -21,7 +21,7 @@ public interface Sink {
      * will turn off blocking for Sink.  This is intentional because a Sink should
      * never block indefinitely.
      */
-    public void setTimeOut( long millis );
+    void setTimeOut( long millis );
 
     /**
      * Dequeues the next element, or returns <code>null</code> if there is
@@ -29,7 +29,7 @@ public interface Sink {
      *
      * @return the next <code>QueueElement</code> on the queue
      */
-    public QueueElement dequeue();
+    QueueElement dequeue();
 
     /**
      * Dequeues all available elements, or returns <code>null</code> if there is
@@ -37,7 +37,7 @@ public interface Sink {
      *
      * @return all pending <code>QueueElement</code>s on the queue
      */
-    public QueueElement[] dequeueAll();
+    QueueElement[] dequeueAll();
 
     /**
      * Dequeues at most <code>num</code> available elements, or returns
@@ -45,11 +45,11 @@ public interface Sink {
      *
      * @return At most <code>num</code> <code>QueueElement</code>s on the queue
      */
-    public QueueElement[] dequeue(int num);
+    QueueElement[] dequeue(int num);
 
     /**
      * Returns the number of elements waiting in this queue.
      */
-    public int size();
+    int size();
 
 }
