@@ -28,6 +28,6 @@ else
  REPOSITORY="$MAVEN_HOME_LOCAL/repository"
 fi
 
-RUN_CMD="$JAVA_HOME/bin/java -Djava.security.policy=$MERLIN_HOME/bin/security.policy -Dmerlin.home=$MERLIN_HOME -Dmerlin.system.repository=$REPOSITORY -Djava.ext.dirs=$MERLIN_HOME/ext -jar $MERLIN_HOME/bin/lib/merlin-cli-3.2.jar $*"
+RUN_CMD="$JAVA_HOME/bin/java -Djava.security.policy=$MERLIN_HOME/bin/security.policy -Dmerlin.home=$MERLIN_HOME -Dmerlin.system.repository=$REPOSITORY -Djava.ext.dirs=$MERLIN_HOME/ext -jar $MERLIN_HOME/bin/lib/merlin-cli-3.2-dev.jar $*"
 echo "RUN CMD IS: $RUN_CMD"
 exec $RUN_CMD
