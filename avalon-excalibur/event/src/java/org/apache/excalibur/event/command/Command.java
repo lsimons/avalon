@@ -56,6 +56,13 @@ import org.apache.excalibur.event.Signal;
  * A Command is a specific type of Signal that denotes an asynchronous
  * execution unit that must be performed by the CommandManager.
  *
+ * <p>
+ *   The interface design is heavily influenced by
+ *   <a href="mailto:mdw@cs.berkeley.edu">Matt Welsh</a>'s SandStorm server,
+ *   his demonstration of the SEDA architecture.  We have deviated where we
+ *   felt the design differences where better.
+ * </p>
+ *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  */
 public interface Command extends Signal, Executable
