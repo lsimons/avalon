@@ -17,7 +17,7 @@
   </menu>
 
   <menu name="Chapters">
-    <item name="Overview" href="/overview.html"/>
+    <item name="Overview" href="/introduction.html"/>
     <item name="Decomposition" href="/developing/decomposing.html"/>
     <item name="Avalon Framework" href="/developing/framework.html"/>
     <item name="Avalon Merlin" href="/developing/merlin.html"/>
