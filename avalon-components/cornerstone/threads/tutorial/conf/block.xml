@@ -1,0 +1,41 @@
+
+<!--
+Thread Tutorial.
+-->
+
+<container name="threads">
+
+     <categories>
+       <category name="classloader/scanner" priority="ERROR"/>
+     </categories>
+
+     <classloader>
+       <classpath>
+         <repository>
+           <resource id="avalon-framework:avalon-framework-impl" version="4.1.5"/>
+           <resource id="commons-collections:commons-collections" version="2.1"/>
+           <resource id="excalibur-pool:excalibur-pool-api" version="SNAPSHOT"/>
+           <resource id="excalibur-pool:excalibur-pool-impl" version="SNAPSHOT"/>
+           <resource id="excalibur-thread:excalibur-thread-api" version="SNAPSHOT"/>
+           <resource id="excalibur-thread:excalibur-thread-impl" version="SNAPSHOT"/>
+           <resource id="cornerstone-threads:cornerstone-threads-api" version="SNAPSHOT"/>
+           <!--<resource id="excalibur-event:excalibur-event" version="1.0.3"/>-->
+         </repository>
+       </classpath>
+     </classloader>
+
+     <component name="manager" 
+        class="org.apache.avalon.cornerstone.blocks.threads.DefaultThreadManager">
+       <configuration>
+         <thread-group>
+           <name>default</name>
+           <priority>5</priority> 
+           <is-daemon>false</is-daemon>
+           <max-threads>100</max-threads>
+           <min-threads>20</min-threads>
+           <min-spare-threads>20</min-spare-threads>
+         </thread-group>
+       </configuration>
+     </component>
+
+</container>
