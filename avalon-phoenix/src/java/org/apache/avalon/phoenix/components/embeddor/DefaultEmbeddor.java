@@ -54,6 +54,7 @@ import java.io.File;
 import java.util.Date;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.Arrays;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.excalibur.io.ExtensionFileFilter;
@@ -513,6 +514,7 @@ public class DefaultEmbeddor
     private void deployFiles( final File[] files )
         throws Exception
     {
+        Arrays.sort( files );
         for( int i = 0; i < files.length; i++ )
         {
             deployFile( files[ i ] );
