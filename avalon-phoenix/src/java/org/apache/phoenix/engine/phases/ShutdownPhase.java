@@ -39,16 +39,6 @@ public class ShutdownPhase
     }
 
     /**
-     * Retrieve traversal that should be taken.
-     *
-     * @return the Traversal
-     */
-    public Traversal getTraversal()
-    {
-        return Phase.REVERSE;
-    }
-
-    /**
      * This is called when a block is reached whilst walking the tree.
      *
      * @param name the name of block

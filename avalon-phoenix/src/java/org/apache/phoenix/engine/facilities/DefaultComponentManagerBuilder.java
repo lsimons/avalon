@@ -11,11 +11,12 @@ import org.apache.avalon.ComponentManager;
 import org.apache.avalon.ComponentManagerException;
 import org.apache.avalon.Composer;
 import org.apache.avalon.DefaultComponentManager;
-import org.apache.avalon.camelot.Container;
 import org.apache.avalon.atlantis.Facility;
+import org.apache.avalon.camelot.Container;
 import org.apache.avalon.camelot.ContainerException;
 import org.apache.avalon.camelot.Entry;
 import org.apache.avalon.component.ComponentException;
+import org.apache.phoenix.Block;
 import org.apache.phoenix.engine.blocks.BlockEntry;
 import org.apache.phoenix.engine.blocks.RoleEntry;
 import org.apache.phoenix.metainfo.BlockInfo;
@@ -76,7 +77,7 @@ public class DefaultComponentManagerBuilder
                                                   serviceDescriptor );
                 }
 
-                componentManager.put( roleEntrys[ i ].getRole(), dependency.getBlock() );
+                componentManager.put( roleEntrys[ i ].getRole(), (Block)dependency.getInstance() );
             }
             catch( final ContainerException ce ) {}
         }

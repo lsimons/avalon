@@ -23,16 +23,4 @@ public interface Phase
     State      BASE        = new State( "BASE", 0 );
     State      STARTEDUP   = new State( "STARTEDUP", 10 );
     State      SHUTDOWN    = new State( "SHUTDOWN", 20 );
-
-    Traversal  FORWARD     = new Traversal( "FORWARD" );
-    Traversal  REVERSE     = new Traversal( "REVERSE" );
-    Traversal  LINEAR      = new Traversal( "LINEAR" );
-
-    /**
-     * Retrieve traversal that should be taken.
-     * TODO: remove this method and implement IOC
-     *
-     * @return the Traversal
-     */
-    Traversal getTraversal();
 }

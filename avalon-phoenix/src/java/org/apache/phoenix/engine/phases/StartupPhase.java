@@ -7,21 +7,27 @@
  */
 package org.apache.phoenix.engine.phases;
 
+import java.io.File;
 import org.apache.avalon.AbstractLoggable;
 import org.apache.avalon.ComponentManager;
 import org.apache.avalon.ComponentManagerException;
 import org.apache.avalon.Composer;
 import org.apache.avalon.Context;
 import org.apache.avalon.Contextualizable;
+import org.apache.avalon.DefaultContext;
 import org.apache.avalon.Initializable;
 import org.apache.avalon.Loggable;
 import org.apache.avalon.Startable;
 import org.apache.avalon.atlantis.ApplicationException;
 import org.apache.avalon.configuration.Configurable;
 import org.apache.avalon.configuration.Configuration;
-import org.apache.avalon.util.thread.ThreadManager;
 import org.apache.avalon.util.thread.ThreadContext;
+import org.apache.avalon.util.thread.ThreadManager;
+import org.apache.phoenix.BlockContext;
+import org.apache.phoenix.engine.SarContextResources;
 import org.apache.phoenix.engine.blocks.BlockEntry;
+import org.apache.phoenix.engine.blocks.BlockVisitor;
+import org.apache.phoenix.engine.blocks.DefaultBlockContext;
 import org.apache.phoenix.engine.facilities.ComponentBuilder;
 import org.apache.phoenix.engine.facilities.ComponentManagerBuilder;
 import org.apache.phoenix.engine.facilities.ConfigurationRepository;
@@ -34,15 +40,29 @@ import org.apache.phoenix.engine.facilities.LoggerBuilder;
  */
 public class StartupPhase
     extends AbstractLoggable
-    implements Phase, Composer
+    implements BlockVisitor, Contextualizable, Composer
 {
     private ClassLoader                 m_classLoader;
     private ComponentBuilder            m_componentBuilder;
     private LoggerBuilder               m_loggerBuilder;
-    private ContextBuilder              m_contextBuilder;
     private ComponentManagerBuilder     m_componentManagerBuilder;
     private ConfigurationRepository     m_repository;
     private ThreadManager               m_threadManager;
+
+    ///base context used to setup hosted blocks
+    private DefaultContext           m_baseBlockContext;
+
+    public void contextualize( final Context context )
+    {
+        final File baseDirectory = (File)context.get( SarContextResources.APP_HOME_DIR );
+        final String name = (String)context.get( SarContextResources.APP_NAME );
+
+        //base contxt that all block contexts inherit from
+        final DefaultContext blockContext = new DefaultContext();
+        blockContext.put( BlockContext.APP_NAME, name );
+        blockContext.put( BlockContext.APP_HOME_DIR, baseDirectory );
+        m_baseBlockContext = blockContext;
+    }
 
     public void compose( final ComponentManager componentManager )
         throws ComponentManagerException
@@ -58,24 +78,11 @@ public class StartupPhase
         m_loggerBuilder = (LoggerBuilder)componentManager.
             lookup( "org.apache.phoenix.engine.facilities.LoggerBuilder" );
 
-        m_contextBuilder = (ContextBuilder)componentManager.
-            lookup( "org.apache.phoenix.engine.facilities.ContextBuilder" );
-
         m_componentManagerBuilder = (ComponentManagerBuilder)componentManager.
             lookup( "org.apache.phoenix.engine.facilities.ComponentManagerBuilder" );
 
         m_repository = (ConfigurationRepository)componentManager.
             lookup( "org.apache.phoenix.engine.facilities.ConfigurationRepository" );
-    }
-
-    /**
-     * Retrieve traversal that should be taken.
-     *
-     * @return the Traversal
-     */
-    public Traversal getTraversal()
-    {
-        return Phase.FORWARD;
     }
 
     /**
@@ -88,7 +95,7 @@ public class StartupPhase
     public void visitBlock( final String name, final BlockEntry entry )
         throws ApplicationException
     {
-        if( entry.getState() != Phase.BASE && 
+        if( entry.getState() != Phase.BASE &&
             null != entry.getState() ) return;
 
         getLogger().info( "Processing Block: " + name );
@@ -119,7 +126,7 @@ public class StartupPhase
             if( object instanceof Contextualizable )
             {
                 getLogger().debug( "Pre-Contextualize Stage" );
-                ((Contextualizable)object).contextualize( m_contextBuilder.createContext( name, entry ) );
+                ((Contextualizable)object).contextualize( createContext( name ) );
                 getLogger().debug( "Contextualize successful." );
             }
 
@@ -166,5 +173,13 @@ public class StartupPhase
         {
             throw new ApplicationException( "Failed to load block " + name, e );
         }
+    }
+
+    protected Context createContext( final String name )
+    {
+        final DefaultBlockContext context =
+            new DefaultBlockContext( getLogger(), m_threadManager, m_baseBlockContext );
+        context.put( BlockContext.NAME, name );
+        return context;
     }
 }
