@@ -68,10 +68,16 @@ import org.apache.avalon.framework.parameters.Parameters;
 /**
  * This class holds parameters for a <code>Source</code> object.
  * It differs from the usual Parameters object because it can hold
- * more than one value for a parameter.
+ * more than one value for a parameter, as is the case for HTTP
+ * request parameters.
+ * <p>
+ * Only particular kinds of <code>Source</code> implementations, such as
+ * {@link org.apache.excalibur.source.impl.URLSource} support this kind of
+ * parameters, passed as an entry in the <code>parameters</code> argument of
+ * {@link SourceResolver#resolveURI(String, String, Map)}.
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version $Id: SourceParameters.java,v 1.4 2002/12/15 11:56:48 cziegeler Exp $
+ * @version $Id: SourceParameters.java,v 1.5 2003/01/29 06:56:01 cziegeler Exp $
  */
 public final class SourceParameters
     implements Serializable, Cloneable

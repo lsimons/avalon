@@ -64,7 +64,7 @@ import org.xml.sax.XMLFilter;
  *
  * @author <a href="mailto:ovidiu@cup.hp.com">Ovidiu Predescu</a>
  * @author <a href="mailto:proyal@apache.org">Peter Royal</a>
- * @version CVS $Id: XSLTProcessorImpl.java,v 1.23 2003/01/22 02:18:17 jefft Exp $
+ * @version CVS $Id: XSLTProcessorImpl.java,v 1.24 2003/01/29 06:56:01 cziegeler Exp $
  * @version 1.0
  * @since   July 11, 2001
  */
@@ -189,7 +189,7 @@ public final class XSLTProcessorImpl
     {
         try
         {
-            final String id = stylesheet.getSystemId();
+            final String id = stylesheet.getURI();
             TransformerHandlerAndValidity handlerAndValidity = getTemplates( stylesheet, id );
             if( null == handlerAndValidity )
             {
@@ -238,7 +238,7 @@ public final class XSLTProcessorImpl
                     {
                         throw new XSLTProcessorException(
                             "Unable to create templates for stylesheet: "
-                            + stylesheet.getSystemId() );
+                            + stylesheet.getURI() );
                     }
 
                     putTemplates( template, stylesheet, id );
@@ -311,7 +311,7 @@ public final class XSLTProcessorImpl
         {
             final InputStream inputStream = source.getInputStream();
             final String mimeType = source.getMimeType();
-            final String systemId = source.getSystemId();
+            final String systemId = source.getURI();
             m_xmlizer.toSAX( inputStream, mimeType, systemId, handler );
         }
     }
@@ -624,7 +624,7 @@ public final class XSLTProcessorImpl
 
             if( getLogger().isDebugEnabled() )
             {
-                getLogger().debug( "xslSource = " + xslSource + ", system id = " + xslSource.getSystemId() );
+                getLogger().debug( "xslSource = " + xslSource + ", system id = " + xslSource.getURI() );
             }
 
             // Populate included validities
@@ -634,7 +634,7 @@ public final class XSLTProcessorImpl
                 SourceValidity included = xslSource.getValidity();
                 if( included != null )
                 {
-                    includes.add( new Object[]{xslSource.getSystemId(), xslSource.getValidity()} );
+                    includes.add( new Object[]{xslSource.getURI(), xslSource.getValidity()} );
                 }
                 else
                 {
@@ -694,7 +694,7 @@ public final class XSLTProcessorImpl
         throws IOException, SourceException
     {
         final InputSource newObject = new InputSource( source.getInputStream() );
-        newObject.setSystemId( source.getSystemId() );
+        newObject.setSystemId( source.getURI() );
         return newObject;
     }
 }

@@ -54,7 +54,6 @@
  */
 package org.apache.excalibur.source;
 
-import org.apache.excalibur.source.Source;
 
 import java.util.Collection;
 
@@ -63,26 +62,67 @@ import java.util.Collection;
  * a parent, like a file system.
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.2 $ $Date: 2003/01/09 08:33:34 $
+ * @author <a href="mailto:sylvain@apache.org">Sylvain Wallez</a>
+ * @version CVS $Revision: 1.3 $ $Date: 2003/01/29 06:56:01 $
  */
 public interface TraversableSource extends Source {
 
 	/**
-	 * Does this source point to a directory?
+	 * Does this source point to a directory (i.e. it possibly has children) ?
+     * 
+     * @return true if the source is a directory.
 	 */
-	boolean hasChildren();
+	boolean isDirectory();
     
 	/**
-	 * Return the URIs of the children
-	 * The returned URIs are relative to the URI of the parent
-	 * (this object)
+	 * Get the absolute URIs of the children of this source.
+     * 
+     * @return a possibly-empty collection if this source is a directory,
+     *         <code>null</code> otherwise
+     * @throws SourceException if some problem occurs.
 	 */
-	Collection getChildrenLocations() throws SourceException;
+	Collection getChildrenURIs() throws SourceException;
     
     /**
-     * Return the complete URI of the parent source. 
-     * The method should return null if the source hasn't a parent.
+     * Get the children of this source as {@link Source} objects.
+     * <p>
+     * <em>Note:</em> only those sources actually fetched from the
+     * collection need to be released using the {@link SourceResolver}.
+     * 
+     * @return a possibly-empty collection if this source is a directory,
+     *         <code>null</code> otherwise
+     * @throws SourceException if some problem occurs.
      */
-    String getParentLocation() throws SourceException;
+    Collection getChildrenSources() throws SourceException;
+    
+    /**
+     * Get the children of this source as relative names.
+     * @return a possibly-empty collection if this source is a directory,
+     *         <code>null</code> otherwise
+     * @throws SourceException if some problem occurs.
+     */
+    Collection getChildrenNames() throws SourceException;
+    
+    /**
+     * Return the name of this source relative to its parent.
+     * @throws SourceException if some problem occurs.
+     */
+    String getName() throws SourceException;
+    
+    /**
+     * Return the absolute URI of the parent source. 
+     * 
+     * @return the parent URI, or <code>null</code> if this source has no parent.
+     * @throws SourceException if some problem occurs.
+     */
+    String getParentURI() throws SourceException;
+    
+    /**
+     * Get the parent of this source as a {@link Source} object.
+     * 
+     * @return the parent source, or <code>null</code> if this source has no parent.
+     * @throws SourceException if some problem occurs.
+     */
+    Source getParentSource() throws SourceException;
 
 }

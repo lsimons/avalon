@@ -56,9 +56,6 @@ package org.apache.excalibur.source.impl;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Collections;
-import java.util.Collection;
-import java.util.Iterator;
 
 import org.apache.excalibur.source.Source;
 import org.apache.excalibur.source.SourceException;
@@ -68,7 +65,7 @@ import org.apache.excalibur.source.SourceValidity;
  * Abstract base class for a source implementation.
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.8 $ $Date: 2003/01/08 21:33:51 $
+ * @version CVS $Revision: 1.9 $ $Date: 2003/01/29 06:56:01 $
  */
 
 public abstract class AbstractSource
@@ -79,7 +76,7 @@ public abstract class AbstractSource
     protected long contentLength;
     protected String systemId;
 
-	protected String protocol;
+	protected String scheme;
 
     /**
      * Get the last modification date and content length of the source.
@@ -117,7 +114,7 @@ public abstract class AbstractSource
     /**
      * Return the unique identifer for this source
      */
-    public String getSystemId()
+    public String getURI()
     {
         return this.systemId;
     }
@@ -125,9 +122,9 @@ public abstract class AbstractSource
     /**
      * Return the protocol identifier.
      */
-    public String getProtocol() 
+    public String getScheme() 
     {
-    	return this.protocol;
+    	return this.scheme;
     }
 
     /**
@@ -145,7 +142,7 @@ public abstract class AbstractSource
      * Refresh this object and update the last modified date
      * and content length.
      */
-    public void discardValidity()
+    public void refresh()
     {
         this.gotInfos = false;
     }
@@ -178,56 +175,5 @@ public abstract class AbstractSource
     {
         checkInfos();
         return this.lastModificationDate;
-    }
-
-    /**
-     * Get the value of a parameter.
-     * Using this it is possible to get custom information provided by the
-     * source implementation, like an expires date, HTTP headers etc.
-     */
-    public String getParameter( final String name )
-    {
-        checkInfos();
-        return null;
-    }
-
-    /**
-     * Get the value of a parameter.
-     * Using this it is possible to get custom information provided by the
-     * source implementation, like an expires date, HTTP headers etc.
-     */
-    public long getParameterAsLong( final String name )
-    {
-        checkInfos();
-        return 0;
-    }
-
-    /**
-     * Get parameter names
-     * Using this it is possible to get custom information provided by the
-     * source implementation, like an expires date, HTTP headers etc.
-     */
-    public Iterator getParameterNames()
-    {
-        checkInfos();
-        return Collections.EMPTY_LIST.iterator();
-    }
-
-    /**
-     * Does this source point to a directory?
-     */
-    public boolean isDirectory()
-    {
-    	return false;
-    }
-    
-    /**
-     * Return the URIs of the children
-     * The returned URIs are relative to the URI of the parent
-     * (this object)
-     */
-    public Collection getChildrenLocations() 
-    {
-    	return Collections.EMPTY_LIST;
     }
 }

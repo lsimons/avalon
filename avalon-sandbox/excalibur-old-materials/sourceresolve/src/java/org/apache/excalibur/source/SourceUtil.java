@@ -68,7 +68,7 @@ import org.apache.avalon.framework.parameters.Parameters;
  * Utility class for source resolving.
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.3 $ $Date: 2002/12/15 11:56:48 $
+ * @version CVS $Revision: 1.4 $ $Date: 2003/01/29 06:56:01 $
  */
 public final class SourceUtil
 {
@@ -317,7 +317,7 @@ public final class SourceUtil
      */
     public static File getFile( Source source )
     {
-        final String systemId = source.getSystemId();
+        final String systemId = source.getURI();
         if( systemId.startsWith( "file:" ) )
         {
             return new File( systemId.substring( 5 ) );

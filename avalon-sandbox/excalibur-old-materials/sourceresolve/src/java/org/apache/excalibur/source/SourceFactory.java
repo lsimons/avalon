@@ -62,15 +62,15 @@ import org.apache.avalon.framework.component.Component;
 
 /**
  * A source factory creates new source objects.
- * 
+ * <p>
  * Source factories are used to extend the source resolving mechanism
- * with a new protocol. A new source factory is added in order to
+ * with new URI schemes. A new source factory is added in order to
  * handle a specific prototol. The {@link SourceResolver} delegates
- * the handling of a URI containing this new protocol to the factory
- * and the factory can created a coresponding {@link Source} object.
+ * the handling of a URI containing this new scheme to the factory,
+ * and the factory can create a corresponding {@link Source} object.
  * 
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version $Id: SourceFactory.java,v 1.5 2002/12/15 11:56:48 cziegeler Exp $
+ * @version $Id: SourceFactory.java,v 1.6 2003/01/29 06:56:01 cziegeler Exp $
  */
 public interface SourceFactory
     extends Component
@@ -82,16 +82,25 @@ public interface SourceFactory
      * The factory creates a new {@link Source} object that can be used
      * by the application. However, when this source object is not needed
      * anymore it has to be released again using the {@link #release(Source)}
-     * method.
+     * method. This is achieved by using {@link SourceResolver#release(Source)} which
+     * finds the appropriate <code>SourceFactory</code>.
      * 
-     * @param location   The URI to resolve - this URI includes the protocol.
-     * @param parameters This is optional.
+     * @param location   The URI to resolve - this URI includes the scheme.
+     * @param parameters additionnal named parameters (optionnal and can be <code>null</code>)
+     *        that drive the creation of the <code>Source</code> object. Each implementation
+     *        must specify what parameters it accepts.
+     * @return the created source object.
+     * @throws MalformedURLException if the location is malformed.
+     * @throws IOException if the source couldn't be created for some other reason.
      */
+    //FIXME : can we really have an IOException here ?
     Source getSource( String location, Map parameters )
-        throws MalformedURLException, IOException, SourceException;
+        throws MalformedURLException, IOException;
     
     /**
      * Release a {@link Source} object.
+     * 
+     * @param source the source to release.
      */
     void release( Source source );
 }

@@ -57,37 +57,48 @@ package org.apache.excalibur.source;
 import java.io.Serializable;
 
 /**
- * A Validity object contains all information to check if a Source object is
- * still valid.
- * There are two possibilities: The validity object has all information
- * to check by itself how long it is valid (e.g. given an expires date).
- * The other possibility needs another (newer) validity object to compare
- * against (e.g. to test a last modification date).
- * To avoid testing, what the actual implementation of the validity
- * object supports, the invocation order is to first call {@link #isValid()} and only if
- * this results in <code>0</code>, then to call {@link #isValid}.
- * But remember to call the second isValid(SourceValidity) when <code>0</code>
- * is returned by the first invocation!
+ * A <code>SourceValidity</code> object contains all information to check if a Source
+ * object is still valid.
+ * <p>
+ * There are two possibilities:
+ * <ul>
+ * <li>The validity object has all information to check by itself if it is valid
+ *     (e.g. given an expires date).</li>
+ * <li>The validity object possibility needs another (newer) validity object to compare
+ *     against (e.g. to test a last modification date).</li>
+ * </ul>
+ * To avoid testing what the actual implementation of the validity object supports,
+ * the invocation order is to first call {@link #isValid()} and only if this result
+ * is <code>0</code> (i.e. "don't know"), then to call {@link #isValid(SourceValidity)}.
+ * <p>
+ * Remember to call {@link #isValid(SourceValidity)} when {@link #isValid()} returned
+ * <code>0</code> !
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.6 $ $Date: 2003/01/13 13:14:12 $
+ * @version CVS $Revision: 1.7 $ $Date: 2003/01/29 06:56:01 $
  */
 public interface SourceValidity
     extends Serializable
 {
+    final int VALID   = +1;
+    final int INVALID = -1;
+    final int UNKNWON = 0;
+    
     /**
-     * Check if the component is still valid.
-     * If <code>0</code> is returned the isValid(SourceValidity) must be
-     * called afterwards!
-     * If -1 is returned, the component is not valid anymore and if +1
-     * is returnd, the component is valid.
+     * Check if the component is still valid. The possible results are :
+     * <ul>
+     * <li><code>-1</code>: invalid. The component isn't valid anymore.</li>
+     * <li><code>0</code>: don't know. This validity should be checked against a new
+     *     validity object using {@link #isValid(SourceValidity)}.</li>
+     * <li><code>1</code>: valid. The component is still valid.</li>
+     * </ul>
      */
     int isValid();
 
     /**
-     * Check if the component is still valid.
-     * This is only true, if the incoming Validity is of the same
-     * type and has the "same" values. 
+     * Check if the component is still valid. This is only true if the incoming Validity
+     * is of the same type and has the "same" values.
+     * <p>
      * The invocation order is that the isValid
      * method of the old Validity object is called with the new one as a
      * parameter.

@@ -54,14 +54,22 @@
  */
 package org.apache.excalibur.source;
 
+import java.io.IOException;
 import java.io.OutputStream;
 
 /**
- * Description of a modifiable source. This interface provides a 
- * simple interface for manipulation data.
- * for accessing a source of data.
+ * A {@link Source} that can be written to.
+ * <p>
+ * As far a possible, implementations should provide a kind of transaction or
+ * buffering of data written to the source. This is especially important in
+ * stream-based systems such as Cocoon where an error that occurs during the
+ * processing should lead to cancelling data written to the source.
+ * <p>
+ * This is the role of the {@link #canCancel(OutputStream)} and
+ * {@link #cancel(OutputStream)} methods.
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
+ * @author <a href="mailto:sylvain@apache.org">Sylvain Wallez</a>
  * @version CVS $Revision: 1.8 $ $Date: 2002/12/15 11:56:48 $
  */
 public interface ModifiableSource
@@ -70,7 +78,7 @@ public interface ModifiableSource
 	/**
 	 * Return an {@link OutputStream} to write to.
 	 */
-	OutputStream getOutputStream();
+	OutputStream getOutputStream() throws IOException;
 	
 	/**
 	 * Delete the source 
