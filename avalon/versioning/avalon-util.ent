@@ -1,0 +1,28 @@
+
+<!ENTITY avalon-util-criteria-id "avalon-util-criteria">
+<!ENTITY avalon-util-criteria-group "avalon-util">
+<!ENTITY avalon-util-criteria-version "2.0">
+
+<!ENTITY avalon-util-defaults-id "avalon-util-defaults">
+<!ENTITY avalon-util-defaults-group "avalon-util">
+<!ENTITY avalon-util-defaults-version "2.0">
+
+<!ENTITY avalon-util-env-id "avalon-util-env">
+<!ENTITY avalon-util-env-group "avalon-util">
+<!ENTITY avalon-util-env-version "2.0">
+
+<!ENTITY avalon-util-exception-id "avalon-util-exception">
+<!ENTITY avalon-util-exception-group "avalon-util">
+<!ENTITY avalon-util-exception-version "2.0">
+
+<!ENTITY avalon-util-extension-api-id "avalon-util-extension-api">
+<!ENTITY avalon-util-extension-api-group "avalon-util">
+<!ENTITY avalon-util-extension-api-version "2.0">
+
+<!ENTITY avalon-util-extension-impl-id "avalon-util-extension-impl">
+<!ENTITY avalon-util-extension-impl-group "avalon-util">
+<!ENTITY avalon-util-extension-impl-version "2.0">
+
+<!ENTITY avalon-util-i18n-id "avalon-util-i18n">
+<!ENTITY avalon-util-i18n-group "avalon-util">
+<!ENTITY avalon-util-i18n-version "2.0">
