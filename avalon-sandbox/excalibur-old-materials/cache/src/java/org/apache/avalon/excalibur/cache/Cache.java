@@ -12,6 +12,7 @@ import org.apache.avalon.framework.thread.ThreadSafe;
 
 /**
  * This is a cache that caches objects for reuse.
+ * Key is must not <code>null. Value is possible to <code>null</code>.
  *
  * @author <a href="mailto:colus@apache.org">Eung-ju Park</a>
  */
@@ -55,9 +56,9 @@ public interface Cache
 
     /**
      * Puts a new item in the cache. If the cache is full, remove the selected item.
-     * @param key
-     * @param value
-     * @return old value
+     * @param key key for the item
+     * @param value item
+     * @return old value. null if old value not exists.
      */
     Object put( Object key, Object value );
 
@@ -65,7 +66,7 @@ public interface Cache
      * Get an item from the cache.
      *
      * @param key key to lookup the item
-     * @return the matching object in the cache
+     * @return the matching object in the cache. null if item not exists.
      */
     Object get( Object key );
 
@@ -73,13 +74,13 @@ public interface Cache
      * Removes an item from the cache.
      *
      * @param key key to remove
-     * @return the value removed
+     * @return the value removed. null if old value not exists.
      */
     Object remove( Object key );
 
     /**
      * @param key
-     * @return
+     * @return true if matching item in the cache
      */
     boolean containsKey( Object key );
 
