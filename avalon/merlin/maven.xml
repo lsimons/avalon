@@ -386,12 +386,12 @@
       ignoreFailures="true"/>
   </goal>
 
-  <goal name="avalon:build" prereqs="merlin:build"/>
+  <goal name="avalon:build" prereqs="merlin:install"/>
   <goal name="avalon:dist" prereqs="merlin:dist"/>
   <goal name="avalon:clean" prereqs="merlin:clean"/>
 
   <goal name="merlin-clean" prereqs="merlin:clean"/>
-  <goal name="merlin-dist" prereqs="merlin:install"/>
+  <goal name="merlin-dist" prereqs="avalon:dist"/>
   <goal name="merlin-site" prereqs="merlin:site"/>
   <goal name="merlin-libs" prereqs="merlin:update"/>
 
