@@ -44,7 +44,7 @@ import org.apache.avalon.util.i18n.Resources;
  * Abstract implentation class for a lifestyle handler.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.8 $ $Date: 2004/04/04 23:33:56 $
+ * @version $Id$
  */
 public abstract class AbstractLifestyleManager implements LifestyleManager
 {

@@ -24,7 +24,7 @@ import org.apache.avalon.composition.info.DeliveryDescriptor;
  * a fully qualifed context can be established.</p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.7 $ $Date: 2004/03/13 23:26:56 $
+ * @version $Id$
  */
 public interface ContextModel extends Dependent
 {

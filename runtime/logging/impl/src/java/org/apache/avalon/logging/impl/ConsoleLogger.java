@@ -23,7 +23,7 @@ import org.apache.avalon.framework.logger.Logger;
  * does not have a logger to supply.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.1 $ $Date: 2004/03/01 13:39:28 $
+ * @version $Id$
  */
 public final class ConsoleLogger
     implements Logger

@@ -25,7 +25,7 @@ import java.io.File;
  * 
  * @author Apache Ant Development Team (Bruce Atherton)
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2004/04/17 17:37:28 $
+ * @version $Id$
  */
 public interface FileSelector {
 

@@ -64,7 +64,7 @@ import org.xml.sax.XMLReader;
  * </p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.33 $ $Date: 2004/04/03 23:55:54 $
+ * @version $Id$
  */
 public class DefaultConfigurationBuilder
 {

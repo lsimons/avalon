@@ -68,7 +68,7 @@ import org.apache.avalon.util.i18n.Resources;
  * A factory enabling the establishment of component instances.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.13 $ $Date: 2004/05/06 21:02:30 $
+ * @version $Id$
  */
 public class DefaultComponentFactory implements ComponentFactory
 {

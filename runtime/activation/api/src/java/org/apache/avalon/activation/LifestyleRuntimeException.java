@@ -21,7 +21,7 @@ package org.apache.avalon.activation;
  * Exception to indicate that there was an lifestyle related runtime error.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2004/02/10 16:18:42 $
+ * @version $Id$
  */
 public final class LifestyleRuntimeException
         extends ApplianceRuntimeException

@@ -43,7 +43,7 @@ import org.apache.avalon.util.i18n.Resources;
  * rules of an Avalon component.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.4 $ $Date: 2004/03/08 11:24:53 $
+ * @version $Id$
  */
 public class TypeVerifier
 {

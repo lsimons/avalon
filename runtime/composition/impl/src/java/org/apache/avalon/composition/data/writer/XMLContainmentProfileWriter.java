@@ -41,7 +41,7 @@ import org.apache.avalon.repository.Artifact;
  * Write {@link ContainmentProfile} objects to a stream as xml documents.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.6 $ $Date: 2004/05/01 17:03:43 $
+ * @version $Id$
  */
 public class XMLContainmentProfileWriter extends XMLComponentProfileWriter
 {

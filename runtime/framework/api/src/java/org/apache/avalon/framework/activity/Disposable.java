@@ -20,7 +20,7 @@ package org.apache.avalon.framework.activity;
  * deallocate and dispose resources prior to their destruction.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.17 $ $Date: 2004/02/11 14:34:24 $
+ * @version $Id$
  */
 public interface Disposable
 {

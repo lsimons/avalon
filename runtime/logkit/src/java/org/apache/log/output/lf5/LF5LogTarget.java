@@ -28,7 +28,7 @@ import org.apache.log4j.lf5.viewer.LogBrokerMonitor;
  * Swing GUI.
  *
  * @author <a href="sylvain@apache.org">Sylvain Wallez</a>
- * @version CVS $Revision: 1.8 $ $Date: 2004/02/28 11:31:25 $
+ * @version $Id$
  */
 public class LF5LogTarget implements LogTarget
 {

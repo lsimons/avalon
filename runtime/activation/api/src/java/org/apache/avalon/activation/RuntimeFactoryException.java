@@ -23,7 +23,7 @@ import org.apache.avalon.framework.CascadingException;
  * Exception to indicate that there was a error related to the runtime factory.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2004/03/04 03:42:30 $
+ * @version $Id$
  */
 public class RuntimeFactoryException
         extends CascadingException

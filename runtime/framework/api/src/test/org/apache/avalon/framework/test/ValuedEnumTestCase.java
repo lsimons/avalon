@@ -27,7 +27,7 @@ import java.util.HashMap;
 /**
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Id: ValuedEnumTestCase.java,v 1.3 2004/02/24 22:31:22 niclas Exp $
+ * @version $Id$
  */
 public class ValuedEnumTestCase extends TestCase
 {

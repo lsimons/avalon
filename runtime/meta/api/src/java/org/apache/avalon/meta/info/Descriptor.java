@@ -24,7 +24,7 @@ import java.util.Properties;
  * This is the Abstract class for all feature feature descriptors.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2004/01/24 23:20:45 $
+ * @version $Id$
  */
 public abstract class Descriptor
         implements Serializable

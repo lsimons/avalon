@@ -25,7 +25,7 @@ import org.apache.avalon.framework.CascadingException;
  * when Component detects a malformed context value.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.14 $ $Date: 2004/02/11 14:34:25 $
+ * @version $Id$
  */
 public class ContextException
     extends CascadingException

@@ -30,7 +30,7 @@ import org.apache.log.output.AbstractOutputTarget;
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: SMTPOutputLogTarget.java,v 1.10 2004/03/28 05:05:43 niclas Exp $
+ * @version $Id$
  * @since 1.1.0
  */
 public class SMTPOutputLogTarget extends AbstractOutputTarget

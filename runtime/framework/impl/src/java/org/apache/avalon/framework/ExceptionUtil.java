@@ -26,7 +26,6 @@ import java.util.StringTokenizer;
  * Some exception handling stuff thieved from Turbine...
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.25 $ $Date: 2004/02/11 14:34:25 $
  */
 public final class ExceptionUtil
 {

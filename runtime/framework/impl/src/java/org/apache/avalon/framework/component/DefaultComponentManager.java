@@ -31,7 +31,7 @@ import java.util.Map;
  * </p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version SVN $Id$
+ * @version $Id$
  */
 public class DefaultComponentManager
     implements ComponentManager

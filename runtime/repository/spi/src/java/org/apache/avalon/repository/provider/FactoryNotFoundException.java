@@ -23,7 +23,7 @@ import org.apache.avalon.repository.RepositoryException;
  * Exception to indicate that a requested factory was not found.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2004/02/27 22:39:37 $
+ * @version $Id$
  */
 public class FactoryNotFoundException extends RepositoryException
 {

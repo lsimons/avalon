@@ -37,7 +37,7 @@ import org.apache.avalon.framework.logger.Logger;
  * <code>FilesetDirective</code>.
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.7 $ $Date: 2004/04/21 17:56:25 $
+ * @version $Id$
  */
 public class DefaultFilesetModel extends AbstractLogEnabled
     implements FilesetModel

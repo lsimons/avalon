@@ -27,7 +27,7 @@ import org.apache.avalon.meta.info.Type;
  * Deployment model defintion.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.9 $ $Date: 2004/03/17 10:30:08 $
+ * @version $Id$
  */
 public interface ComponentModel extends DeploymentModel
 {

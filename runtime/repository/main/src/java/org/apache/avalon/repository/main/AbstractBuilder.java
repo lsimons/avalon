@@ -29,7 +29,7 @@ import org.apache.avalon.repository.provider.InitialContext;
  * Classes and their methods within newly constructed Repository ClassLoaders.
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.9 $
+ * @version $Id$
  */
 public abstract class AbstractBuilder
 {

@@ -20,7 +20,7 @@ package org.apache.avalon.framework.logger;
  * logging.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.4 $ $Date: 2004/02/11 14:34:25 $
+ * @version $Id$
  */
 public abstract class AbstractLogEnabled
     implements LogEnabled

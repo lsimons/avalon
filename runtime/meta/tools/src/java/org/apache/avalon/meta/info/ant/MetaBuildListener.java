@@ -28,7 +28,7 @@ import org.apache.tools.ant.types.FileSet;
  * An abstract build listener. 
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
+ * @version $Id$
  */
 public class MetaBuildListener implements BuildListener
 {

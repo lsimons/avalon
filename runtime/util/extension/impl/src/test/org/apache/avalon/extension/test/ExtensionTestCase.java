@@ -28,7 +28,7 @@ import org.apache.avalon.extension.Extension;
  * TestCases for Extension.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2004/02/24 22:39:31 $
+ * @version $Id$
  */
 public class ExtensionTestCase
     extends TestCase

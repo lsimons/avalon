@@ -38,7 +38,7 @@ import org.apache.avalon.util.defaults.DefaultsBuilder;
  * for application to a factory.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.10 $
+ * @version $Id$
  */
 public class DefaultRepositoryCriteria extends Criteria implements RepositoryCriteria
 {

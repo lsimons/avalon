@@ -25,7 +25,7 @@ import java.util.Properties ;
  * Attempts to discover defaults using an array of Properties as value sources.
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $
+ * @version $Id$
  */
 public class SimpleDefaultsFinder implements DefaultsFinder
 {

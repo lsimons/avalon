@@ -31,7 +31,7 @@ import org.apache.avalon.framework.logger.Logger;
  * a fully qualifed classpath can be established.</p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.8 $ $Date: 2004/04/07 16:49:22 $
+ * @version $Id$
  */
 public interface ClassLoaderModel
 {

@@ -40,7 +40,7 @@ import org.xml.sax.InputSource;
  * <p><image src="doc-files/TypeBuilder.gif" border="0"/></p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.5 $ $Date: 2004/03/08 11:24:52 $
+ * @version $Id$
  */
 public final class TypeBuilder
 {

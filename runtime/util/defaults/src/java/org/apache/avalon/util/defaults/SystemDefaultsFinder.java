@@ -25,7 +25,7 @@ import java.util.Properties ;
  * Finds default property values within the system properties.
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $
+ * @version $Id$
  */
 public class SystemDefaultsFinder extends SimpleDefaultsFinder
 {

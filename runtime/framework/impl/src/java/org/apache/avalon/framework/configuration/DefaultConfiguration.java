@@ -23,7 +23,7 @@ import java.util.HashMap;
  * This is the default <code>Configuration</code> implementation.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.43 $ $Date: 2004/02/11 14:34:25 $
+ * @version $Id$
  */
 public class DefaultConfiguration
     extends AbstractConfiguration

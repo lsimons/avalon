@@ -51,7 +51,7 @@ import org.xml.sax.InputSource;
  * is specified in the <a href="package-summary.html#external">package summary</a>.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.11 $ $Date: 2004/03/08 11:24:52 $
+ * @version $Id$
  */
 public class XMLTypeCreator
     extends XMLServiceCreator implements TypeFactory

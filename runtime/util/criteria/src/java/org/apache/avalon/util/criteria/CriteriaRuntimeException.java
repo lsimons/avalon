@@ -21,7 +21,7 @@ package org.apache.avalon.util.criteria;
  * Exception to indicate that there was a repository related error.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $ $Date: 2004/02/24 22:18:24 $
+ * @version $Id$
  */
 public class CriteriaRuntimeException extends RuntimeException
 {

@@ -109,7 +109,7 @@ import org.apache.log.Priority;
  * @author Peter Donald
  * @author <a href="mailto:sylvain@apache.org">Sylvain Wallez</a>
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.42 $ $Date: 2004/02/28 11:31:24 $
+ * @version $Id$
  */
 public class PatternFormatter
     implements Formatter

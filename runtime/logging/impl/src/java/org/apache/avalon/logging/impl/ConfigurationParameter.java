@@ -30,7 +30,7 @@ import org.apache.avalon.util.i18n.Resources;
  * a string url to an URL instance.
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.4 $
+ * @version $Id$
  */
 public class ConfigurationParameter extends Parameter
 {

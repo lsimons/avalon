@@ -25,7 +25,7 @@ import java.util.StringTokenizer;
  * a string to a string array based on a supplied token.
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.5 $
+ * @version $Id$
  */
 public class PackedParameter extends Parameter
 {

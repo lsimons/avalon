@@ -50,7 +50,7 @@ import org.apache.log.output.io.StreamTarget;
  * <p>The syntax of "format" is the same as in <code>FileTargetFactory</code>.</p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.2 $ $Date: 2004/02/24 21:55:39 $
+ * @version $Id$
  */
 public class StreamTargetFactory implements LogTargetFactory
 {

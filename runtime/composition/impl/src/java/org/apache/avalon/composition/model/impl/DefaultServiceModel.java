@@ -25,7 +25,7 @@ import org.apache.avalon.composition.model.DeploymentModel;
  * Service model exposes an exported service class.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.6 $ $Date: 2004/02/24 22:18:22 $
+ * @version $Id$
  */
 public class DefaultServiceModel implements ServiceModel
 {

@@ -38,7 +38,7 @@ import org.apache.avalon.repository.RepositoryRuntimeException;
  * artifact references.
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.7 $
+ * @version $Id$
  */
 public class LoaderUtils
 {

@@ -27,7 +27,7 @@ import org.apache.avalon.meta.info.StageDescriptor;
  * a stage or service dependency.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.5 $ $Date: 2004/02/24 22:18:21 $
+ * @version $Id$
  */
 public interface ModelRepository
 {

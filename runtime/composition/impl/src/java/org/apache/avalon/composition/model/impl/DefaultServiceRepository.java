@@ -34,7 +34,7 @@ import org.apache.avalon.meta.info.Service;
  * of service defintions.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.4 $ $Date: 2004/02/10 16:23:33 $
+ * @version $Id$
  */
 public class DefaultServiceRepository implements ServiceRepository
 {

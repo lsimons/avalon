@@ -35,7 +35,7 @@ import org.apache.avalon.meta.info.StageDescriptor;
  * the first profile matching the category is returned.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.6 $ $Date: 2004/02/24 22:18:22 $
+ * @version $Id$
  */
 class DefaultModelSelector implements ModelSelector
 {

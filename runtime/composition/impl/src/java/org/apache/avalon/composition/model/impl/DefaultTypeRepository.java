@@ -46,7 +46,7 @@ import org.apache.avalon.util.i18n.Resources;
  * storage and retrival of component types.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.10 $ $Date: 2004/04/07 16:49:22 $
+ * @version $Id$
  */
 class DefaultTypeRepository implements TypeRepository
 {

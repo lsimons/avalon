@@ -27,7 +27,7 @@ import java.io.*;
  * EntryDescriptorTestCase does XYZ
  *
  * @author <a href="bloritsch.at.apache.org">Berin Loritsch</a>
- * @version CVS $ Revision: 1.1 $
+ * @version $Id$
  */
 public class SecurityDescriptorTestCase extends AbstractDescriptorTestCase
 {

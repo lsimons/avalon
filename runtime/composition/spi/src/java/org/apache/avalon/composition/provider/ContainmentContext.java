@@ -28,7 +28,7 @@ import org.apache.avalon.composition.model.ContainmentModel;
  * Defintion of a working context.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $ $Date: 2004/03/17 10:39:11 $
+ * @version $Id$
  */
 public interface ContainmentContext extends DeploymentContext
 {

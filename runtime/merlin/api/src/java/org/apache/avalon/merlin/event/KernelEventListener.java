@@ -24,7 +24,7 @@ import java.util.EventListener;
  * A listener for kernel events.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.5 $ $Date: 2004/02/24 22:18:22 $
+ * @version $Id$
  */
 public interface KernelEventListener extends EventListener
 {

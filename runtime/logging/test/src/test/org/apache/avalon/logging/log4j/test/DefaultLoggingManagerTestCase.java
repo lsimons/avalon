@@ -29,7 +29,7 @@ import org.apache.avalon.logging.provider.LoggingException;
  * 
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.5 $
+ * @version $Id$
  */
 public class DefaultLoggingManagerTestCase extends TestCase
 {

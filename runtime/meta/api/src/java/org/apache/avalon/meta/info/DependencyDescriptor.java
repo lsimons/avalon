@@ -44,7 +44,7 @@ import org.apache.avalon.framework.Version;
  * demands.</p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $ $Date: 2004/02/10 16:30:16 $
+ * @version $Id$
  */
 public final class DependencyDescriptor extends Descriptor
 {

@@ -36,7 +36,7 @@ import java.io.Serializable;
  * @see IncludeDirective
  * @see ExcludeDirective
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.4 $ $Date: 2004/04/16 19:55:11 $
+ * @version $Id$
  */
 public class FilesetDirective implements Serializable
 {

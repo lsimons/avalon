@@ -23,7 +23,7 @@ import java.io.IOException;
  * Exception to indicate that there was a IO exception.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2004/01/24 23:20:04 $
+ * @version $Id$
  */
 public class CascadingIOException
         extends IOException

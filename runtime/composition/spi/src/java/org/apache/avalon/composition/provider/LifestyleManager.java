@@ -24,7 +24,7 @@ import org.apache.avalon.composition.model.Resolver;
  * A lifestyle handler provides support for a particular lifestyle policy.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2004/03/04 03:42:30 $
+ * @version $Id$
  */
 public interface LifestyleManager extends Commissionable, Resolver
 {

@@ -20,7 +20,7 @@ package org.apache.avalon.framework.configuration;
  * with methods that can be abstracted away from underlying implementations.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.31 $ $Date: 2004/02/11 14:34:25 $
+ * @version $Id$
  */
 public abstract class AbstractConfiguration
     implements Configuration

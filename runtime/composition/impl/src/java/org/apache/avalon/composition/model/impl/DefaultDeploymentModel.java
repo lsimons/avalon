@@ -41,7 +41,7 @@ import org.apache.avalon.logging.provider.LoggingManager;
  * Abstract model base class.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.22 $ $Date: 2004/04/04 23:33:56 $
+ * @version $Id$
  */
 public abstract class DefaultDeploymentModel
   implements DeploymentModel

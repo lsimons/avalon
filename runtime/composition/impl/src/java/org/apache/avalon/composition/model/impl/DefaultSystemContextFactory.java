@@ -47,7 +47,7 @@ import org.apache.avalon.util.i18n.Resources;
  * Implementation of a system context that exposes a system wide set of parameters.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.10 $ $Date: 2004/04/20 16:53:19 $
+ * @version $Id$
  */
 public class DefaultSystemContextFactory implements SystemContextFactory
 {

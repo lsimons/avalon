@@ -37,7 +37,7 @@ import org.apache.avalon.util.exception.ExceptionHelper;
 /**
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.9 $
+ * @version $Id$
  */
 public class DefaultInitialContextTest extends TestCase
 {

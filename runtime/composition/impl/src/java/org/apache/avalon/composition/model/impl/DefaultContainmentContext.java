@@ -37,7 +37,7 @@ import org.apache.avalon.util.i18n.Resources;
  * Implementation of a containment supplied to a containment model.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.9 $ $Date: 2004/03/17 10:39:10 $
+ * @version $Id$
  */
 public class DefaultContainmentContext extends DefaultDeploymentContext 
   implements ContainmentContext

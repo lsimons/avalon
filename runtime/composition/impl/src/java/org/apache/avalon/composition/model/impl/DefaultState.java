@@ -21,7 +21,7 @@ package org.apache.avalon.composition.model.impl;
  * The State class desribes a enabled versus disabled state.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.4 $ $Date: 2004/02/24 22:18:22 $
+ * @version $Id$
  */
 
 class DefaultState

@@ -26,7 +26,7 @@ import junit.framework.TestCase;
  * TestCase for {@link CascadingError}.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.2 $ $Date: 2004/02/21 13:27:02 $
+ * @version $Id$
  */
 public class CascadingErrorTestCase extends TestCase
 {

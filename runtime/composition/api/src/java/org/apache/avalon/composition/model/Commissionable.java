@@ -22,7 +22,7 @@ package org.apache.avalon.composition.model;
  * of deployable components. 
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2004/02/10 16:23:33 $
+ * @version $Id$
  */
 public interface Commissionable
 {

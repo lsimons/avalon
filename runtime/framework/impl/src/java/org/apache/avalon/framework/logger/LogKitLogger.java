@@ -19,7 +19,7 @@ package org.apache.avalon.framework.logger;
  * The default LogKit wrapper class for Logger.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.16 $ $Date: 2004/02/11 14:34:26 $
+ * @version $Id$
  */
 public final class LogKitLogger
     implements Logger

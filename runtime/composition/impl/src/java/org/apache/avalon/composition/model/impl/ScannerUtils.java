@@ -28,7 +28,7 @@ import java.util.Vector;
  *
  * @author Apache Ant Development Team (Kuiper, Umasankar, Atherton)
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2004/04/17 19:16:01 $
+ * @version $Id$
  */
 public class ScannerUtils {
     private static ScannerUtils instance = new ScannerUtils();

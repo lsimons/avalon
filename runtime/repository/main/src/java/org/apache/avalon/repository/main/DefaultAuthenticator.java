@@ -25,7 +25,7 @@ import java.net.PasswordAuthentication;
  * based authentication in conjunction with the repository proxy settings.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2004/02/19 07:37:47 $
+ * @version $Id$
  */
 public final class DefaultAuthenticator extends Authenticator
 {

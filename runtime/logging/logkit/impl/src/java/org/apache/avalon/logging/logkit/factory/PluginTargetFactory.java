@@ -53,7 +53,7 @@ import org.apache.log.output.net.DatagramOutputTarget;
  * artifact reference.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $ $Date: 2004/03/08 11:32:01 $
+ * @version $Id$
  */
 public class PluginTargetFactory implements LogTargetFactory
 {

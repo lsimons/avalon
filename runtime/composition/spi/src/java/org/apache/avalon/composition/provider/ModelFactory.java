@@ -28,7 +28,7 @@ import org.apache.avalon.composition.model.ModelException;
  * A factory enabling the establishment of new containment model instances.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2004/03/17 10:39:11 $
+ * @version $Id$
  */
 public interface ModelFactory 
 {

@@ -25,7 +25,7 @@ import java.util.Date;
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @author <a href="mailto:colus@apache.org">Eung-ju Park</a>
- * @version $Revision: 1.13 $ $Date: 2004/02/28 11:31:24 $
+ * @version $Id$
  */
 public class RotateStrategyByDate
     implements RotateStrategy

@@ -29,7 +29,7 @@ import org.apache.avalon.framework.Version;
  * interface can be represented.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $ $Date: 2004/02/21 23:06:02 $
+ * @version $Id$
  */
 public final class ReferenceDescriptor
         implements Serializable

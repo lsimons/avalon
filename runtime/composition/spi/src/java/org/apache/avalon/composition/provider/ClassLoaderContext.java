@@ -36,7 +36,7 @@ import org.apache.avalon.repository.Repository;
  * Defintion of a working context.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2004/05/09 23:51:08 $
+ * @version $Id$
  */
 public interface ClassLoaderContext extends Context
 {

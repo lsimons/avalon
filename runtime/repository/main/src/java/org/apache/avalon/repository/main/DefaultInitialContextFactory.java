@@ -49,7 +49,7 @@ import org.apache.avalon.util.defaults.Defaults;
  * </pre>
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.11 $
+ * @version $Id$
  */
 public class DefaultInitialContextFactory implements InitialContextFactory
 {

@@ -23,7 +23,7 @@ import org.apache.avalon.framework.CascadingRuntimeException;
  * Exception to indicate that there was a logging management related error.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2004/02/27 22:39:35 $
+ * @version $Id$
  */
 public class LoggingRuntimeException
         extends CascadingRuntimeException

@@ -29,7 +29,7 @@ import org.apache.avalon.framework.logger.Logger;
  * serve basis.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.4 $ $Date: 2004/04/19 10:50:05 $
+ * @version $Id$
  * @see CommissionRequest
  */
 class Commissioner implements Runnable

@@ -34,7 +34,7 @@ import org.w3c.dom.CharacterData;
  * with configuration objects.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.18 $ $Date: 2004/05/08 14:05:07 $
+ * @version $Id$
  * @since 4.1.4
  */
 public class ConfigurationUtil

@@ -31,7 +31,7 @@ package org.apache.avalon.framework.parameters;
  * </p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.18 $ $Date: 2004/02/11 14:34:25 $
+ * @version $Id$
  */
 public interface Parameterizable
 {

@@ -32,7 +32,7 @@ import org.apache.log4j.lf5.LogRecord;
  * LogKit {@link LogEvent}.
  *
  * @author <a href="sylvain@apache.org">Sylvain Wallez</a>
- * @version CVS $Revision: 1.7 $ $Date: 2004/02/28 11:31:26 $
+ * @version $Id$
  */
 
 public class LogKitLogRecord

@@ -23,7 +23,7 @@ import junit.framework.TestCase;
  * Env tests.
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.4 $
+ * @version $Id$
  */
 public class EnvTest extends TestCase
 {

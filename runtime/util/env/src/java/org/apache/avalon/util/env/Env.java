@@ -35,7 +35,7 @@ import java.util.Enumeration ;
  * need to be added and or changed.
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.8 $
+ * @version $Id$
  */
 public class Env extends Properties
 {

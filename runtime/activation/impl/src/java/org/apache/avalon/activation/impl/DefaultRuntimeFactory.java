@@ -45,7 +45,7 @@ import org.apache.avalon.util.i18n.Resources;
  * A factory enabling the establishment of runtime handlers.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.6 $ $Date: 2004/03/17 10:30:07 $
+ * @version $Id$
  */
 public class DefaultRuntimeFactory implements RuntimeFactory
 {

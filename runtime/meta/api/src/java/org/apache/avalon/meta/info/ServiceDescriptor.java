@@ -38,7 +38,7 @@ import java.util.Properties;
  * upon to work in all containers.</p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2004/01/24 23:20:45 $
+ * @version $Id$
  */
 public class ServiceDescriptor
         extends Descriptor

@@ -25,7 +25,7 @@ import org.apache.avalon.repository.Artifact;
  * a container.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.7 $ $Date: 2004/05/01 17:03:42 $
+ * @version $Id$
  */
 public class BlockCompositionDirective extends DeploymentProfile
 {

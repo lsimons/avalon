@@ -51,7 +51,7 @@ import org.apache.avalon.util.i18n.Resources;
  * a fully qualifed context can be established.</p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.17 $ $Date: 2004/04/19 10:50:05 $
+ * @version $Id$
  */
 public class DefaultContextModel extends DefaultDependent implements ContextModel
 {

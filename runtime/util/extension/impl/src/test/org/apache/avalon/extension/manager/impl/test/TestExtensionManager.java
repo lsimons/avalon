@@ -25,7 +25,7 @@ import org.apache.avalon.extension.manager.OptionalPackage;
  * a class to help test sorting of ExtensionManager.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2004/02/24 22:39:31 $
+ * @version $Id$
  */
 class TestExtensionManager
     implements ExtensionManager

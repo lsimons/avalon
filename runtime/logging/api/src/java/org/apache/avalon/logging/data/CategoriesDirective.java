@@ -25,7 +25,7 @@ import java.io.Serializable;
  *
  * @see CategoryDirective
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2004/02/24 21:55:37 $
+ * @version $Id$
  */
 public class CategoriesDirective extends CategoryDirective implements Serializable
 {

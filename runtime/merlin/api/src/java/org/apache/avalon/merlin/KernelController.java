@@ -22,7 +22,7 @@ package org.apache.avalon.merlin;
  * a kernel implementation.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2004/01/24 23:25:31 $
+ * @version $Id$
  */
 public interface KernelController
 {

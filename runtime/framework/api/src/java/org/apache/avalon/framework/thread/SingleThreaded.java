@@ -20,7 +20,7 @@ package org.apache.avalon.framework.thread;
  * This interface is incompatible with ThreadSafe.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.15 $ $Date: 2004/02/11 14:34:25 $
+ * @version $Id$
  */
 public interface SingleThreaded
 {

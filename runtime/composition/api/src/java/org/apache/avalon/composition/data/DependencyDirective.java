@@ -24,7 +24,7 @@ import java.io.Serializable;
  * dependency should be resolved.  
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.3 $ $Date: 2004/02/24 22:18:21 $
+ * @version $Id$
  */
 public final class DependencyDirective implements Serializable
 {

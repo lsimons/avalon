@@ -25,7 +25,7 @@ import org.apache.avalon.framework.service.ServiceException;
  * service availability.  A delay value of 0 indicates an unknown delay.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2004/02/12 05:59:41 $
+ * @version $Id$
  */
 public class FatalServiceException
         extends ServiceException 

@@ -29,7 +29,7 @@ import org.apache.avalon.repository.Artifact;
  * An abstract descriptor holds attributes about an artifact.
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.5 $
+ * @version $Id$
  */
 public class ArtifactDescriptor implements Serializable
 {

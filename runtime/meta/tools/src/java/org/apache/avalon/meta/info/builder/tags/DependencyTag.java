@@ -33,7 +33,7 @@ import java.util.Set;
  * A doclet tag representing the lifestyle assigned to the Type.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.4 $ $Date: 2004/02/26 00:02:18 $
+ * @version $Id$
  */
 public class DependencyTag extends AbstractTag
 {

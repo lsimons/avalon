@@ -29,7 +29,7 @@ import org.apache.avalon.extension.manager.OptionalPackage;
  * different package repositories.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2004/02/24 22:39:31 $
+ * @version $Id$
  */
 public class DelegatingExtensionManager
     implements ExtensionManager

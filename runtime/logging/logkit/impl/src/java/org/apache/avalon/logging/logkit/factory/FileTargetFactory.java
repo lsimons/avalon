@@ -138,7 +138,7 @@ import org.apache.log.output.io.rotate.UniqueFileStrategy;
  * </dl>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.3 $ $Date: 2004/03/08 11:32:01 $
+ * @version $Id$
  */
 public class FileTargetFactory implements LogTargetFactory
 {

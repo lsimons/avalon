@@ -26,7 +26,7 @@ import org.apache.avalon.composition.model.DeploymentModel;
 /**
  * A deployment request handler.
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.4 $ $Date: 2004/05/06 18:23:53 $
+ * @version $Id$
  */
 class CommissionRequest
 {

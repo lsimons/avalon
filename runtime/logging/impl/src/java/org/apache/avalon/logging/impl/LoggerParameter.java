@@ -30,7 +30,7 @@ import org.apache.avalon.util.i18n.Resources;
  * a string to a Logger instance.
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $
+ * @version $Id$
  */
 public class LoggerParameter extends Parameter
 {

@@ -34,7 +34,7 @@ import org.apache.log.util.StackIntrospector;
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @author Peter Donald
- * @version CVS $Revision: 1.16 $ $Date: 2004/02/28 11:31:24 $
+ * @version $Id$
  */
 public class ExtendedPatternFormatter
     extends PatternFormatter

@@ -23,7 +23,7 @@ import org.apache.avalon.composition.model.DeploymentModel;
  * A factory enabling the establishment of runtime handlers.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2004/02/10 16:18:42 $
+ * @version $Id$
  */
 public interface RuntimeFactory 
 {

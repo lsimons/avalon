@@ -32,7 +32,7 @@ import org.xml.sax.InputSource;
  * object from a source.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.4 $ $Date: 2004/01/24 23:25:27 $
+ * @version $Id$
  */
 public final class ProfilePackageBuilder implements ProfilePackageCreator
 {

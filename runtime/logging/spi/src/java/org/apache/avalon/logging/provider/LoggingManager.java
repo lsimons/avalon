@@ -23,7 +23,7 @@ import org.apache.avalon.logging.data.CategoriesDirective;
 /**
  * A <code>LoggerManager</code> that supports the management of a logging hierarchy.
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:07 $
+ * @version $Id$
  */
 public interface LoggingManager
 {

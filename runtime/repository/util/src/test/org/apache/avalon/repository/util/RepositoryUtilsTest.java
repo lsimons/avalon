@@ -30,7 +30,7 @@ import org.apache.avalon.repository.Artifact;
 /**
  * @todo
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $
+ * @version $Id$
  */
 public class RepositoryUtilsTest extends TestCase
 {

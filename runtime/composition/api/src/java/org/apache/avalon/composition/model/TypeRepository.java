@@ -30,7 +30,7 @@ import org.apache.avalon.meta.info.Type;
  * storage and retrival of component types.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.6 $ $Date: 2004/02/21 23:54:42 $
+ * @version $Id$
  */
 public interface TypeRepository
 {

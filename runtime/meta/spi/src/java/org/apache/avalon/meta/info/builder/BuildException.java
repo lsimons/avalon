@@ -23,7 +23,7 @@ import org.apache.avalon.framework.CascadingException;
  * Exception to indicate error building meta object.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2004/01/24 23:20:46 $
+ * @version $Id$
  */
 public final class BuildException
     extends CascadingException

@@ -24,7 +24,7 @@ import java.util.ArrayList;
  * It is not intended to be used outside this package,
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2004/02/10 16:23:34 $
+ * @version $Id$
 */
 class SimpleFIFO
 {

@@ -33,7 +33,7 @@ import java.io.Serializable;
  * </pre>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2004/04/16 19:55:11 $
+ * @version $Id$
  */
 public class ExcludeDirective implements Serializable
 {

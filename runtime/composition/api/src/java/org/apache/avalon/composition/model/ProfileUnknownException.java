@@ -21,7 +21,7 @@ package org.apache.avalon.composition.model;
  * Exception to indicate that a profile is unknown.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $ $Date: 2004/01/24 23:25:25 $
+ * @version $Id$
  */
 public final class ProfileUnknownException
         extends ProfileException

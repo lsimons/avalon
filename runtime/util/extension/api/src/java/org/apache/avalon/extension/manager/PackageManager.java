@@ -34,7 +34,7 @@ import org.apache.avalon.extension.Extension;
  * implementation and interface for mechanism.</p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2004/02/04 17:24:15 $
+ * @version $Id$
  * @see ExtensionManager
  */
 public class PackageManager

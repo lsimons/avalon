@@ -28,7 +28,7 @@ import org.apache.avalon.framework.CascadingException;
  * </p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.22 $ $Date: 2004/02/11 14:34:24 $
+ * @version $Id$
  */
 public class ComponentException
     extends CascadingException

@@ -27,7 +27,7 @@ import org.apache.avalon.framework.configuration.Configuration;
  * sources and no XML classes need be in the classpath.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2004/01/24 23:20:46 $
+ * @version $Id$
  */
 public interface TypeFactory extends TypeCreator
 {

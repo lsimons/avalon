@@ -26,7 +26,7 @@ import java.io.*;
  * CategoriesDirectiveTestCase.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $ Revision: 1.1 $
+ * @version $Id$
  */
 public class CategoriesDirectiveTestCase extends CategoryDirectiveTestCase
 {

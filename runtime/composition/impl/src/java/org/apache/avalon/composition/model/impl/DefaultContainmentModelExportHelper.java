@@ -37,7 +37,7 @@ import org.apache.avalon.meta.info.DependencyDescriptor;
  * a supplied path.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $ $Date: 2004/03/08 11:28:36 $
+ * @version $Id$
  */
 class DefaultContainmentModelExportHelper
 {

@@ -28,7 +28,7 @@ import org.apache.avalon.repository.Artifact;
  * new initial context.
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.9 $
+ * @version $Id$
  */
 public interface InitialContextFactory
 {

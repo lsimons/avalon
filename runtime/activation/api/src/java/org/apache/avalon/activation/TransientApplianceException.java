@@ -21,7 +21,7 @@ package org.apache.avalon.activation;
  * Exception to indicate that there was a transient exception.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2004/02/14 21:33:55 $
+ * @version $Id$
  */
 public class TransientApplianceException extends ApplianceException
 {

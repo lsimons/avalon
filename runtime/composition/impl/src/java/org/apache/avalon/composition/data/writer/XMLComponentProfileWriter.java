@@ -47,7 +47,7 @@ import org.apache.avalon.util.configuration.ConfigurationUtil;
  * Write a {@link ComponentProfile} to a stream as xml documents.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.7 $ $Date: 2004/03/11 09:37:08 $
+ * @version $Id$
  */
 public class XMLComponentProfileWriter
 {

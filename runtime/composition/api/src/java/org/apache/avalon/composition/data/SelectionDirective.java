@@ -24,7 +24,7 @@ import java.io.Serializable;
  * features and qualified values.  
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.4 $ $Date: 2004/02/24 22:18:21 $
+ * @version $Id$
  */
 public final class SelectionDirective implements Serializable
 {

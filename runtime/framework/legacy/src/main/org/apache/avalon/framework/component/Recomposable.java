@@ -19,7 +19,7 @@ package org.apache.avalon.framework.component;
  * Extends composer to allow recomposing.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.22 $ $Date: 2004/02/11 14:34:24 $
+ * @version $Id$
  * @deprecated Deprecated with no replacement.  The Recomposable interface is a legacy
  *    interface with no concrete contracts.  Rather than copy the design mistake
  *    to the "service" package, we no longer support this class.

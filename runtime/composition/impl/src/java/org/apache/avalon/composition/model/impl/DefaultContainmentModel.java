@@ -85,7 +85,7 @@ import org.apache.avalon.util.i18n.Resources;
  * as a part of a containment deployment model.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.45 $ $Date: 2004/05/09 23:51:08 $
+ * @version $Id$
  */
 public class DefaultContainmentModel extends DefaultDeploymentModel 
   implements ContainmentModel
