@@ -28,6 +28,6 @@
             file="testToc.xml"
             primary="true">
       </toc>
-   </extension>
+   </extension>  
 
 </plugin>
