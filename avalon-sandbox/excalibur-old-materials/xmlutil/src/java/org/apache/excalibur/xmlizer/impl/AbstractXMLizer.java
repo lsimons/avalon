@@ -26,7 +26,7 @@ import org.xml.sax.SAXException;
  * defined in subclass.
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/08/04 04:19:58 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/11/07 04:43:22 $
  */
 public abstract class AbstractXMLizer
     extends AbstractLogEnabled
@@ -45,6 +45,9 @@ public abstract class AbstractXMLizer
         m_mimeType = mimeType;
     }
 
+    /**
+     * @avalon.service interface="Parser"
+     */
     public void service( final ServiceManager manager )
         throws ServiceException
     {
