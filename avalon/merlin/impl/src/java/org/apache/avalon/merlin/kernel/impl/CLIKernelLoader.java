@@ -47,7 +47,7 @@ public class CLIKernelLoader
 
     private static final String PRODUCT = "Merlin SMP";
 
-    private static final String VERSION = "3.0";
+    private static final String VERSION = "3.2";
 
     private static final File HOME = new File( System.getProperty( "user.dir" ) );
 
