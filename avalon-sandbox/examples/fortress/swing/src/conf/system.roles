@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+
+<fortress-roles logger="system.roles">
+
+  <role name="org.apache.avalon.examples.translator.Translator">
+    <component shorthand="translator"
+               class="org.apache.avalon.examples.translator.impl.TranslatorImpl"
+               handler="org.apache.avalon.fortress.impl.handler.ThreadSafeComponentHandler"/>
+  </role>
+
+</fortress-roles>
