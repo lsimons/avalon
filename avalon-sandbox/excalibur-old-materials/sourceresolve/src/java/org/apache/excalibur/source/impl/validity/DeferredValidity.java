@@ -54,65 +54,20 @@
  */
 package org.apache.excalibur.source.impl.validity;
 
-import java.util.Iterator;
-import java.util.List;
-
 import org.apache.excalibur.source.SourceValidity;
 
+
 /**
- * A validation object using a List.
+ * This object delivers a validity object if required. 
+ * Used by the {@link DeferredAggregatedValidity}
  *
- * @author <a href="mailto:dims@yahoo.com">Davanum Srinivas</a>
- * @version CVS $Revision: 1.5 $ $Date: 2003/01/10 12:54:37 $
+ * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
+ * @version CVS $Revision: 1.1 $ $Date: 2003/01/10 12:54:37 $
  */
-public final class AggregatedValidity
-    extends AbstractAggregatedValidity
-    implements SourceValidity
-{
-    /**
-     * Check if the component is still valid.
-     * If <code>0</code> is returned the isValid(SourceValidity) must be
-     * called afterwards!
-     * If -1 is returned, the component is not valid anymore and if +1
-     * is returnd, the component is valid.
+public interface DeferredValidity {
+
+    /** 
+     * Return the validity
      */
-    public int isValid()
-    {
-        for( final Iterator i = m_list.iterator(); i.hasNext(); )
-        {
-            final int v = ( (SourceValidity)i.next() ).isValid();
-            if( v < 1 )
-            {
-                return v;
-            }
-        }
-        return 1;
-    }
-
-    public boolean isValid( final SourceValidity validity )
-    {
-        if( validity instanceof AggregatedValidity )
-        {
-            final AggregatedValidity other = (AggregatedValidity)validity;
-            final List otherList = other.m_list;
-            if( m_list.size() != otherList.size() )
-            {
-                return false;
-            }
-
-            for( final Iterator i = m_list.iterator(), j = otherList.iterator(); i.hasNext(); )
-            {
-                final SourceValidity srcA = (SourceValidity)i.next();
-                final SourceValidity srcB = (SourceValidity)j.next();
-                if( srcA.isValid() < 1 && !srcA.isValid( srcB ) )
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
-        return false;
-    }
-
+    SourceValidity getValidity();
 }
-

@@ -54,21 +54,32 @@
  */
 package org.apache.excalibur.source.impl.validity;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
+import java.util.ListIterator;
 
 import org.apache.excalibur.source.SourceValidity;
 
 /**
  * A validation object using a List.
+ * This validity object does the same as the {@link AggregatedValidity}
+ * object, but the contained validity objects are only fetched when
+ * required.
  *
- * @author <a href="mailto:dims@yahoo.com">Davanum Srinivas</a>
- * @version CVS $Revision: 1.5 $ $Date: 2003/01/10 12:54:37 $
+ * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
+ * @version CVS $Revision: 1.1 $ $Date: 2003/01/10 12:54:37 $
  */
-public final class AggregatedValidity
-    extends AbstractAggregatedValidity
+public final class DeferredAggregatedValidity
+        extends AbstractAggregatedValidity
     implements SourceValidity
 {
+
+    public void add( final DeferredValidity validity )
+    {
+        m_list.add( validity );
+    }
+
     /**
      * Check if the component is still valid.
      * If <code>0</code> is returned the isValid(SourceValidity) must be
@@ -78,9 +89,17 @@ public final class AggregatedValidity
      */
     public int isValid()
     {
-        for( final Iterator i = m_list.iterator(); i.hasNext(); )
+        for( final ListIterator i = m_list.listIterator(); i.hasNext(); )
         {
-            final int v = ( (SourceValidity)i.next() ).isValid();
+            final Object o = i.next();
+            final SourceValidity validity;
+            if (o instanceof SourceValidity) {
+                validity = (SourceValidity)o;
+            } else {
+                validity = ((DeferredValidity)o).getValidity();
+                i.set(validity);
+            }
+            final int v = validity.isValid();
             if( v < 1 )
             {
                 return v;
@@ -91,27 +110,68 @@ public final class AggregatedValidity
 
     public boolean isValid( final SourceValidity validity )
     {
-        if( validity instanceof AggregatedValidity )
+        AbstractAggregatedValidity aggregatedValidity = null;
+        
+        if (validity instanceof AbstractAggregatedValidity) 
         {
-            final AggregatedValidity other = (AggregatedValidity)validity;
-            final List otherList = other.m_list;
+            aggregatedValidity = (AbstractAggregatedValidity)validity;
+        }
+        
+        if ( null != aggregatedValidity) 
+        {
+            ArrayList otherList = aggregatedValidity.m_list;
             if( m_list.size() != otherList.size() )
             {
                 return false;
             }
 
-            for( final Iterator i = m_list.iterator(), j = otherList.iterator(); i.hasNext(); )
-            {
-                final SourceValidity srcA = (SourceValidity)i.next();
-                final SourceValidity srcB = (SourceValidity)j.next();
-                if( srcA.isValid() < 1 && !srcA.isValid( srcB ) )
-                {
-                    return false;
+            for(int i=0; i < m_list.size(); i++) {
+                final SourceValidity srcA = this.getValidity(i);
+                if ( srcA.isValid() < 1) {
+                    final SourceValidity srcB = aggregatedValidity.getValidity(i);
+                    if( !srcA.isValid( srcB ) )
+                    {
+                        return false;
+                    }
                 }
             }
             return true;
         }
         return false;
+    }
+
+    public String toString()
+    {
+        final StringBuffer sb = new StringBuffer( "SourceValidity " );
+        for( final Iterator i = m_list.iterator(); i.hasNext(); )
+        {
+            sb.append( i.next() );
+            if( i.hasNext() ) sb.append( ':' );
+        }
+        return sb.toString();
+    }
+    
+    SourceValidity getValidity(final int index) 
+    {
+        final Object o = m_list.get(index);
+        final SourceValidity validity;
+        if (o instanceof SourceValidity) {
+            validity = (SourceValidity)o;
+        } else {
+            validity = ((DeferredValidity)o).getValidity();
+            m_list.set(index, validity);
+        }
+        return validity;
+    }
+    
+    private void writeObject(java.io.ObjectOutputStream out)
+         throws IOException
+    {
+        // resolve all deferred source validities first
+        for(int i=0; i<m_list.size();i++) {
+            this.getValidity(i);
+        }
+        out.defaultWriteObject();
     }
 
 }
