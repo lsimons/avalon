@@ -48,22 +48,22 @@ public class EclipseResource
 {
 
     /**
-	 * @uml property=project associationEnd={multiplicity={(0 -1)}
-	 * elementType=java.lang.String}
-	 *  
-	 */
+     * @uml property=project associationEnd={multiplicity={(0 -1)}
+     * elementType=java.lang.String}
+     *  
+     */
     private IProject project;
 
     /**
-	 * @uml property=classpathEntries associationEnd={multiplicity={(0 -1)}
-	 * elementType=org.eclipse.jdt.core.IClasspathEntry}
-	 *  
-	 */
+     * @uml property=classpathEntries associationEnd={multiplicity={(0 -1)}
+     * elementType=org.eclipse.jdt.core.IClasspathEntry}
+     *  
+     */
     private Vector classpathEntries = new Vector();
 
     /**
-	 *  
-	 */
+     *  
+     */
     public EclipseResource(IProject project)
     {
         super();
@@ -71,9 +71,63 @@ public class EclipseResource
     }
 
     /**
-	 * @param element
-	 * @return
-	 */
+     * extracts the fully qualified class name from a given filePathName
+     * 
+     * @param pProject
+     * @param pFilePathName
+     * @return the fully qualified className
+     */
+    public static String getQualifiedClassName(IResource pResource)
+    {
+
+        String qualifiedClassName = null;
+        IProject project = pResource.getProject();
+
+        try
+        {
+            IJavaProject proj = JavaCore.create(project);
+            String filePathName = pResource.getLocation().toString();
+
+            if (pResource.getFileExtension().toLowerCase().equals("class"))
+            {
+                String outputPath = proj.getOutputLocation().toString();
+                String projectPath = project.getLocation().toString();
+                outputPath = projectPath + outputPath.substring(project.getName().length());
+                qualifiedClassName =
+                    filePathName.substring(outputPath.length(), filePathName.length() - 6);
+                return qualifiedClassName = qualifiedClassName.replace('/', '.');
+            }
+
+            IPackageFragmentRoot roots[] = proj.getPackageFragmentRoots();
+            String projectPath = project.getLocation().toString();
+            String sourcePath = null;
+
+            for (int i = 0; roots.length > i; i++)
+            {
+                if (roots[i].isArchive())
+                    continue;
+                sourcePath = projectPath + "/" + roots[i].getElementName();
+                if (sourcePath.equals(filePathName.substring(0, sourcePath.length())))
+                {
+                    break;
+                }
+            }
+            qualifiedClassName =
+                filePathName.substring(sourcePath.length() + 1, filePathName.length() - 5);
+            qualifiedClassName = qualifiedClassName.replace('/', '.');
+
+        } catch (JavaModelException e)
+        {
+            e.printStackTrace();
+        }
+
+        return qualifiedClassName;
+    }
+
+    /**
+     * @param element
+     * @return
+     */
     public String[] getSourcePaths() throws Exception
     {
 
@@ -113,8 +167,8 @@ public class EclipseResource
         }
     }
     /**
-	 * @param b
-	 */
+     * @param b
+     */
     private void addUuidAccessor(IType type, boolean b) throws Exception
     {
 
@@ -169,8 +223,8 @@ public class EclipseResource
         return buf.toString();
     }
     /**
-	 * @param b
-	 */
+     * @param b
+     */
     private void addUuidField(IType type, boolean b) throws Exception
     {
 
@@ -196,9 +250,9 @@ public class EclipseResource
     }
 
     /**
-	 * @param file
-	 * @return
-	 */
+     * @param file
+     * @return
+     */
     public static URLClassLoader getProjectClassLoader(IResource file)
     {
 
@@ -219,11 +273,11 @@ public class EclipseResource
     }
 
     /**
-	 * Create a new Project with a given name and nature
-	 * 
-	 * @param pFile
-	 * @return
-	 */
+     * Create a new Project with a given name and nature
+     * 
+     * @param pFile
+     * @return
+     */
     public static IProject createMerlinProject(String projectName, String nature)
         throws InvocationTargetException, InterruptedException
     {
@@ -253,9 +307,6 @@ public class EclipseResource
                 description.setLocation(null);
                 description.setNatureIds(natureIds);
                 project.setDescription(description, null);
-
-                //project.refreshLocal(IProject.DEPTH_INFINITE, new
-                // SubProgressMonitor(monitor, 1));
 
             } catch (CoreException e)
             {

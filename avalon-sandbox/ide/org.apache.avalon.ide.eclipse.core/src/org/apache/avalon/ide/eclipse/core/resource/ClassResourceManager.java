@@ -41,7 +41,7 @@ public class ClassResourceManager extends AbstractResourceManager
     public String getFullyQualifiedName()
     {
 
-        return getJavaDocResource().getFullQualifiedName();
+        return getJavaDocResource().getQualifiedName();
     }
 
     /**
