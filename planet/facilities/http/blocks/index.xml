@@ -11,6 +11,7 @@
       <name>avalon-http-context</name>
       <version>1.0.0</version>
       <status>SNAPSHOT</status> 
+      <type>block</type> 
     </info>
     <dependencies>
       <include key="avalon-framework-api" runtime="false"/>
@@ -26,6 +27,7 @@
       <name>avalon-http-server</name>
       <version>1.0.0</version>
       <status>SNAPSHOT</status> 
+      <type>block</type> 
     </info>
     <dependencies>
       <include key="avalon-framework-api" runtime="false"/>
@@ -39,6 +41,7 @@
       <group>avalon/http</group>
       <name>avalon-http-hash-basic</name>
       <version>1.0.0</version>
+      <type>block</type> 
       <status>SNAPSHOT</status> 
     </info>
     <dependencies>
@@ -51,6 +54,7 @@
       <group>avalon/http</group>
       <name>avalon-http-hash-form</name>
       <version>1.0.0</version>
+      <type>block</type> 
       <status>SNAPSHOT</status> 
     </info>
     <dependencies>
@@ -63,6 +67,7 @@
       <group>avalon/http</group>
       <name>avalon-http-hash-clientcert</name>
       <version>1.0.0</version>
+      <type>block</type> 
       <status>SNAPSHOT</status> 
     </info>
     <dependencies>
@@ -75,6 +80,7 @@
       <group>avalon/http</group>
       <name>avalon-http-hash-digest</name>
       <version>1.0.0</version>
+      <type>block</type> 
       <status>SNAPSHOT</status> 
     </info>
     <dependencies>
@@ -87,6 +93,7 @@
       <group>avalon/http</group>
       <name>avalon-http-demo</name>
       <version>1.0.0</version>
+      <type>jar</type> 
       <status>SNAPSHOT</status> 
     </info>
     <dependencies>
@@ -102,8 +109,8 @@
     <info>
       <group>avalon/http</group>
       <name>avalon-http-static</name>
-      <type>block</type>
       <version>1.0.0</version>
+      <type>block</type>
       <status>SNAPSHOT</status> 
     </info>
     <dependencies>
@@ -118,6 +125,7 @@
       <name>avalon-http-servlet</name>
       <type>block</type>
       <version>1.0.0</version>
+      <type>block</type>
       <status>SNAPSHOT</status> 
     </info>
     <dependencies>
@@ -131,6 +139,7 @@
       <group>avalon/http</group>
       <name>avalon-http-examples</name>
       <version>1.0.0</version>
+      <type>jar</type>
       <status>SNAPSHOT</status> 
     </info>
     <dependencies>
