@@ -136,7 +136,7 @@ Legal:
             <classpath refid="project.class.path"/>
         </available>
 
-        <property name="dist.dir" value="${dist.name}"/>
+        <property name="dist.dir" value="${dist.base}/${dist.name}"/>
         <property name="dist.bin" value="${dist.dir}/bin"/>
         <property name="dist.apps" value="${dist.dir}/apps"/>
         <property name="dist.lib" value="${dist.dir}/lib"/>
