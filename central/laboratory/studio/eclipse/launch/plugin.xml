@@ -1,18 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
 <plugin
-   id="org.apache.avalon.MerlinDeveloperLaunch"
-   name="MerlinDeveloper Launch"
-   version="0.0.3"
+   id="org.apache.metro.studio.launch"
+   name="MetroStudio Launch"
+   version="0.1.0"
    provider-name="Apache Software Foundation"
-   class="org.apache.avalon.ide.eclipse.merlin.launch.MerlinDeveloperLaunch">
+   class="org.apache.metro.studio.eclipse.launch.MetroStudioLaunch">
 
    <runtime>
-      <library name="MerlinDeveloperLaunch.jar">
+      <library name="MetroStudioLaunch.jar">
          <export name="*"/>
       </library>
-      <library name="lib/merlin-cli-3.2.4.jar"/>
+      <library name="lib/merlin-cli-3.3.0.jar"/>
+      <library name="lib/avalon-framework-api-4.2.0.jar"/>
+      <library name="lib/avalon-meta-api-1.4.0.jar"/>            
+      <library name="lib/avalon-meta-spi-1.4.0.jar"/>
+      <library name="lib/avalon-meta-impl-1.4.0.jar"/>
+      <library name="lib/avalon-meta-tools-1.4.0.jar"/>                  
+      <library name="lib/qdox-1.4.jar"/>
    </runtime>
    <requires>
+      <import plugin="org.eclipse.ui.ide"/>
+      <import plugin="org.eclipse.ui.views"/>
+      <import plugin="org.eclipse.jface.text"/>
+      <import plugin="org.eclipse.ui.workbench.texteditor"/>
+      <import plugin="org.eclipse.ui.editors"/>
       <import plugin="org.eclipse.core.resources"/>
       <import plugin="org.eclipse.ui"/>
       <import plugin="org.eclipse.core.runtime"/>
@@ -21,7 +33,8 @@
       <import plugin="org.eclipse.jdt.core"/>
       <import plugin="org.eclipse.jdt.launching"/>
       <import plugin="org.eclipse.jdt.debug.ui"/>
-      <import plugin="org.apache.avalon.MerlinDeveloperCore"/>
+      <import plugin="org.apache.metro.studio.core"/>
+      <import plugin="org.junit"/>
    </requires>
 
 
@@ -31,30 +44,19 @@
          point="org.eclipse.core.resources.builders">
       <builder>
          <run
-               class="org.apache.avalon.ide.eclipse.merlin.builder.MerlinBuilderFactory">
+               class="org.apache.metro.studio.eclipse.launch.builder.MerlinBuilderFactory">
          </run>
-      </builder>
-   </extension>
-   <extension
-         id="merlinProjectNature"
-         name="MerlinDeveloperProjectNature"
-         point="org.eclipse.core.resources.natures">
-      <runtime>
-         <run
-               class="org.apache.avalon.ide.eclipse.merlin.nature.MerlinProjectNature">
-         </run>
-      </runtime>
-      <builder
-            id="org.apache.avalon.MerlinDeveloperLaunch.merlinBuilder">
       </builder>
    </extension>
    <extension
          point="org.eclipse.debug.core.launchConfigurationTypes">
       <launchConfigurationType
-            name="MerlinContainerConfiguration"
-            delegate="org.apache.avalon.ide.eclipse.merlin.launch.MerlinLaunchConfigurationDelegate"
+            name="MetroServerConfiguration"
+            delegate="org.apache.metro.studio.eclipse.launch.config.MetroLaunchConfigurationDelegate"
             modes="run, debug"
-            id="org.apache.avalon.MerlinDeveloperLaunch.merlinLaunchConfigurationDelegate">
+            id="org.apache.metro.studio.launch.metroLaunchConfigurationDelegate"
+            sourceLocatorId="org.eclipse.jdt.launching.sourceLocator.JavaSourceLookupDirector"
+			sourcePathComputerId="org.eclipse.jdt.launching.sourceLookup.javaSourcePathComputer">
       </launchConfigurationType>
    </extension>
    <extension
@@ -69,18 +71,18 @@
          point="org.eclipse.debug.ui.launchConfigurationTypeImages">
       <launchConfigurationTypeImage
             icon="icons/merlin_light.gif"
-            configTypeID="org.apache.avalon.MerlinDeveloperLaunch.merlinLaunchConfigurationDelegate"
-            id="org.apache.avalon.launch.merlinLaunchConfigurationTypeImage">
+            configTypeID="org.apache.metro.studio.launch.metroLaunchConfigurationDelegate"
+            id="org.apache.metro.studio.launch.metroLaunchConfigurationTypeImage">
       </launchConfigurationTypeImage>
    </extension>
    <extension
          point="org.eclipse.debug.ui.launchShortcuts">
       <shortcut
-            label="Merlin Container"
+            label="Metro Block"
             icon="icons/merlin_light.gif"
             modes="run, debug"
-            class="org.apache.avalon.ide.eclipse.merlin.launch.MerlinLaunchShortcut"
-            id="org.apache.avalon.ide.eclipse.merlin.launch.merlinLaunchShortcut">
+            class="org.apache.metro.studio.eclipse.launch.config.MetroLaunchShortcut"
+            id="org.apache.metro.studio.eclipse.launch.config.metroLaunchShortcut">
          <perspective
                id="org.eclipse.jdt.ui.JavaPerspective">
          </perspective>
