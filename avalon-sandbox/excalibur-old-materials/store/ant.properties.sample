@@ -10,7 +10,7 @@
 # It is overridden by ../ant.properties and ~/build.properties
 # It overrides all default.properties files and ~/.ant.properties
 #
-# $Id: ant.properties.sample,v 1.4 2003/02/08 14:40:40 hammant Exp $
+# $Id: ant.properties.sample,v 1.5 2003/07/26 12:28:53 cziegeler Exp $
 # -----------------------------------------------------------------------------
 
 # ----- Compile Control Flags -----
@@ -31,8 +31,8 @@ avalon-framework.home=${basedir}/../../avalon
 avalon-framework.lib=${avalon-framework.home}/build/lib
 avalon-framework.jar=${avalon-framework.lib}/avalon-framework.jar
 
-# ----- Jisp 2.0.1 -----
-jisp.jar=lib/Jisp2.0.1.jar
+# ----- Jisp 2.5.1 -----
+jisp.jar=${basedir}/../lib/jisp.2.5.1.jar
 
 # --------------------------------------------------
 #                OPTIONAL LIBRARIES
