@@ -1,4 +1,4 @@
- // Copyright 2004 The Apache Software Foundation
+// Copyright 2004 The Apache Software Foundation
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -18,13 +18,13 @@ namespace Apache.Avalon.Castle.MicroKernel
 
 	using Apache.Avalon.Castle.MicroKernel.Model;
 
-	public delegate void DependencyListenerDelegate(Type service, IHandler handler);
+	public delegate void DependencyListenerDelegate( Type service, IHandler handler );
 
-	/// <summary>
+    /// <summary>
 	/// Defines the Kernel service
 	/// </summary>
-	public interface IKernel
-	{
+    public interface IKernel : IKernelEvents
+    {
 		/// <summary>
 		/// Adds a component to kernel.
 		/// </summary>
@@ -33,7 +33,7 @@ namespace Apache.Avalon.Castle.MicroKernel
 		/// <param name="implementation">The actual implementation</param>
 		void AddComponent(String key, Type service, Type implementation);
 
-		/// <summary>
+        /// <summary>
 		/// IComponentModel instance builder.
 		/// </summary>
 		IComponentModelBuilder ModelBuilder { get; set; }

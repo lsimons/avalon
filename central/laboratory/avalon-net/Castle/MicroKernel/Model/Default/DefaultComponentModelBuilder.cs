@@ -357,7 +357,20 @@ namespace Apache.Avalon.Castle.MicroKernel.Model.Default
 			}
 		}
 
-		public String Name
+        public Apache.Avalon.Framework.Activation ActivationPolicy
+        {
+            get
+            {
+                if (AvalonComponent == null)
+                {
+                    return Apache.Avalon.Framework.Activation.Undefined;
+                }
+
+                return AvalonComponent.Activation;
+            }
+        }
+
+        public String Name
 		{
 			get
 			{

@@ -16,18 +16,25 @@ namespace Apache.Avalon.Castle.MicroKernel
 {
 	using System;
 	using System.Collections;
+    using System.ComponentModel;
 
 	using Apache.Avalon.Castle.MicroKernel.Model;
 	using Apache.Avalon.Castle.MicroKernel.Subsystems.Lookup.Default;
-	using Apache.Avalon.Castle.MicroKernel.Subsystems.Events;
-	using Apache.Avalon.Castle.MicroKernel.Subsystems.Events.Default;
 
 	/// <summary>
 	/// Base implementation of <see cref="IKernel"/>
 	/// </summary>
-	public class BaseKernel : IKernel
+	public class BaseKernel : IKernel, IDisposable
 	{
-		protected Hashtable m_components;
+        private static readonly object ComponentAddedEvent = new object();
+        private static readonly object ComponentCreatedEvent = new object();
+        private static readonly object ComponentDestroyedEvent = new object();
+
+        protected EventHandlerList m_events;
+
+        protected IList m_componentsInstances = new ArrayList();
+
+        protected Hashtable m_components;
 
 		protected Hashtable m_services;
 
@@ -46,7 +53,8 @@ namespace Apache.Avalon.Castle.MicroKernel
 		/// </summary>
 		public BaseKernel()
 		{
-			m_services = new Hashtable();
+            m_events = new EventHandlerList();
+            m_services = new Hashtable();
 			m_components = new Hashtable(CaseInsensitiveHashCodeProvider.Default, CaseInsensitiveComparer.Default);
 			m_subsystems = new Hashtable();
 			m_handlerFactory = new Handler.Default.SimpleHandlerFactory();
@@ -57,7 +65,7 @@ namespace Apache.Avalon.Castle.MicroKernel
 			InitializeSubsystems();
 		}
 
-		#region Kernel Members
+		#region IKernel Members
 
 		/// <summary>
 		/// Adds a component to kernel.
@@ -79,8 +87,12 @@ namespace Apache.Avalon.Castle.MicroKernel
 			{
 				throw new ArgumentException("implementation can't be an interface");
 			}
-			if (!service.IsAssignableFrom(implementation))
-			{
+            if (implementation.IsAbstract)
+            {
+                throw new ArgumentException("implementation can't be abstract");
+            }
+            if (!service.IsAssignableFrom(implementation))
+            {
 				throw new ArgumentException("The specified implementation does not implement the service interface");
 			}
 
@@ -91,10 +103,16 @@ namespace Apache.Avalon.Castle.MicroKernel
 
 			m_components[ key ] = handler;
 
-			OnNewHandler( key, service, implementation, handler );
-		}
+            OnNewHandler( model, key, service, implementation, handler);
+        }
 
-		/// <summary>
+        public event ComponentDataDelegate ComponentAdded
+        {
+            add { m_events.AddHandler(ComponentAddedEvent, value); }
+            remove { m_events.RemoveHandler(ComponentAddedEvent, value); }
+        }
+
+        /// <summary>
 		/// Adds a subsystem.
 		/// </summary>
 		/// <param name="key">Name of this subsystem</param>
@@ -223,49 +241,73 @@ namespace Apache.Avalon.Castle.MicroKernel
 
 		#endregion
 
-		/// <summary>
-		/// 
+        #region IDisposable Members
+
+        public void Dispose()
+        {
+            foreach (PairHandlerComponent pair in m_componentsInstances)
+            {
+                pair.Handler.Release(pair.Instance);
+            }
+            m_componentsInstances.Clear();
+        }
+
+        #endregion
+
+        /// <summary>
+        /// 
 		/// </summary>
 		protected virtual void InitializeSubsystems()
 		{
-			AddSubsystem( KernelConstants.LOOKUP, new LookupCriteriaMatcher() );
-			AddSubsystem( KernelConstants.EVENTS, new EventManager() );
+            // Examples:
+			// AddSubsystem( KernelConstants.LOOKUP, new LookupCriteriaMatcher() );
+			// AddSubsystem( KernelConstants.EVENTS, new EventManager() );
 		}
 
-		private void OnNewHandler( String key, Type service, Type implementation, IHandler handler )
+        protected virtual void RaiseComponentAdded(IComponentModel model, String key, Type service, Type implementation, IHandler handler)
+        {
+            ComponentDataDelegate eventDelegate = (ComponentDataDelegate) m_events[ComponentAddedEvent];
+            
+            if (eventDelegate != null)
+            {
+                eventDelegate(model, key, service, implementation, handler);
+            }
+        }
+
+        private void OnNewHandler( IComponentModel model, String key, Type service, Type implementation, IHandler handler )
 		{
 			m_services[ service ] = handler;
-			
-			RaiseDependencyEvent( service, handler );
-			RaiseSubsystemNewComponentEvent( key, service, implementation );
-		}
 
-		private void RaiseDependencyEvent( Type service, IHandler handler )
-		{
-			lock(m_dependencyToSatisfy)
-			{
-				if (!m_dependencyToSatisfy.Contains( service ))
-				{
-					return;
-				}
+            RaiseComponentAdded( model, key, service, implementation, handler );
 
-				DependencyListenerDelegate del = (DependencyListenerDelegate) m_dependencyToSatisfy[ service ];
-				del( service, handler );
-
-				m_dependencyToSatisfy.Remove( service );
-			}
-		}
-
-		private void RaiseSubsystemNewComponentEvent( String key, Type service, Type implementation )
-		{
-			IEventManager eventManager = (IEventManager) GetSubsystem( KernelConstants.EVENTS );
-
-			if (eventManager == null)
-			{
-				return;
-			}
-
-			eventManager.OnComponentAdded( new EventManagerData( key, service, implementation ) );
-		}
+            if (model.ActivationPolicy == Apache.Avalon.Framework.Activation.Start)
+            {
+                object instance = handler.Resolve();
+                
+                m_componentsInstances.Add( new PairHandlerComponent(handler, instance) );
+            }
+        }
 	}
+
+    internal class PairHandlerComponent
+    {
+        private IHandler m_handler;
+        private object m_instance;
+
+        public PairHandlerComponent( IHandler handler, object instance )
+        {
+            m_handler = handler;
+            m_instance = instance;
+        }
+
+        public IHandler Handler
+        {
+            get { return m_handler; }
+        }
+
+        public object Instance
+        {
+            get { return m_instance; }
+        }
+    }
 }
