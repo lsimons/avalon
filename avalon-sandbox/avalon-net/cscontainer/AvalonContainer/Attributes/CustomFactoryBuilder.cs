@@ -71,7 +71,7 @@ namespace Apache.Avalon.Container.Attributes
 			{
 				throw new ArgumentNullException( "customBuilder" );
 			}
-			if (!customBuilder.IsSubclassOf( FactoryBuilder ) )
+			if (!customBuilder.IsSubclassOf( typeof(Apache.Avalon.Container.Factory.FactoryBuilder) ) )
 			{
 				throw new ArgumentException( "Specified type is not a subclass of FactoryBuilder.", "customBuilder" );
 			}
