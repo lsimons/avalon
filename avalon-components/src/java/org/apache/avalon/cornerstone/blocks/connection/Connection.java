@@ -7,6 +7,7 @@
  */
 package org.apache.avalon.cornerstone.blocks.connection;
 
+import java.io.InterruptedIOException;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -62,7 +63,7 @@ class Connection
                 //and will never finish
                 //m_thread.join();
                 
-                synchronized( this ) { wait( /*1000*/ ); }
+                wait( /*1000*/ );
             }
         }
 
@@ -82,6 +83,11 @@ class Connection
 
         while( null != m_thread && !Thread.interrupted() )
         {
+            //synchronized( this )
+            //{
+            //if( null == m_thread ) break;
+            //}
+
             try
             {
                 final Socket socket = m_serverSocket.accept();
@@ -90,6 +96,10 @@ class Connection
                     new ConnectionRunner( socket, m_runners, handler );
                 setupLogger( runner );
                 m_threadPool.execute( runner );
+            }
+            catch( final InterruptedIOException iioe )
+            {
+                //Consume exception
             }
             catch( final IOException ioe )
             {

@@ -76,6 +76,8 @@ public class DefaultConnectionManager
                                                 name );
         }
 
+        socket.setSoTimeout( 500 );
+
         final Connection runner = new Connection( socket, handlerFactory, threadPool );
         setupLogger( runner );
         m_connections.put( name, runner );
