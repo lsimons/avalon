@@ -73,10 +73,10 @@ public class ShutdownPhase
 
         final Object object = entry.getInstance();
 
-        final Object proxy = entry.getBlockProxy().getProxy();
+        final Object proxy = entry.getBlockInvocationHandler().getProxy();
         final BlockEvent event = new BlockEvent( name, (Block)proxy, entry.getBlockInfo() );
         m_listener.blockRemoved( event );
-        entry.getBlockProxy().invalidate();
+        entry.getBlockInvocationHandler().invalidate();
 
         //Stoppable stage
         if( object instanceof Startable )
@@ -120,7 +120,7 @@ public class ShutdownPhase
 
         //Destruction stage
         getLogger().debug( REZ.getString( "shutdown.notice.destroy.pre" ) );
-        entry.setBlockProxy( null );
+        entry.setBlockInvocationHandler( null );
         entry.setInstance( null );
         entry.setState( State.DESTROYED );
         getLogger().debug( REZ.getString( "shutdown.notice.destroy.success" ) );

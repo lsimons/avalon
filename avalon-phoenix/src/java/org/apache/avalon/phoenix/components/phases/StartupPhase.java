@@ -35,7 +35,7 @@ import org.apache.avalon.phoenix.BlockContext;
 import org.apache.avalon.phoenix.components.configuration.ConfigurationRepository;
 import org.apache.avalon.phoenix.components.frame.ApplicationFrame;
 import org.apache.avalon.phoenix.components.kapi.BlockEntry;
-import org.apache.avalon.phoenix.components.kapi.BlockProxy;
+import org.apache.avalon.phoenix.components.kapi.BlockInvocationHandler;
 import org.apache.avalon.phoenix.metadata.RoleMetaData;
 import org.apache.avalon.phoenix.metainfo.BlockInfo;
 import org.apache.avalon.phoenix.metainfo.ServiceDescriptor;
@@ -196,10 +196,11 @@ public class StartupPhase
             final Class[] interfaces = 
                 BlockUtil.getServiceClasses( block, blockInfo.getServices() );
 
-            final BlockProxy proxy = new BlockProxy( block, interfaces );
-            entry.setBlockProxy( proxy );
+            final BlockInvocationHandler invocationHandler = 
+                new BlockInvocationHandler( block, interfaces );
+            entry.setBlockInvocationHandler( invocationHandler );
 
-            final BlockEvent event = new BlockEvent( name, (Block)proxy.getProxy(), blockInfo );
+            final BlockEvent event = new BlockEvent( name, (Block)invocationHandler.getProxy(), blockInfo );
             m_listener.blockAdded( event );
         }
         catch( final Exception e )
@@ -213,7 +214,7 @@ public class StartupPhase
         throws Exception
     {
         final ClassLoader classLoader = m_frame.getClassLoader();
-        final Class clazz = classLoader.loadClass( entry.getBlockMetaData().getClassname() );
+        final Class clazz = classLoader.loadClass( entry.getMetaData().getClassname() );
         final Block block = (Block)clazz.newInstance(); 
         getLogger().debug( REZ.getString( "startup.notice.block.created" ) );
 
@@ -262,7 +263,7 @@ public class StartupPhase
     {
         final DefaultComponentManager componentManager = new DefaultComponentManager();
         final BlockInfo info = entry.getBlockInfo();
-        final RoleMetaData[] roles = entry.getBlockMetaData().getRoles();
+        final RoleMetaData[] roles = entry.getMetaData().getRoles();
 
         for( int i = 0; i < roles.length; i++ )
         {
@@ -290,7 +291,7 @@ public class StartupPhase
                 }
 
                 componentManager.put( roles[ i ].getRole(), 
-                                      (Block)dependency.getBlockProxy().getProxy() );
+                                      (Block)dependency.getBlockInvocationHandler().getProxy() );
             }
             catch( final ContainerException ce ) {}
         }

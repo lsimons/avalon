@@ -342,7 +342,7 @@ public final class DefaultServerApplication
         throws Exception
     {
         //We should cache copies here...
-        final String classname = entry.getBlockMetaData().getClassname();
+        final String classname = entry.getMetaData().getClassname();
         final String resourceName = classname.replace( '.', '/' ) + ".xinfo";
 
         final String notice = REZ.getString( "app.notice.blockinfo.resource", resourceName );
@@ -442,7 +442,7 @@ public final class DefaultServerApplication
         throws Exception
     {
         //Make sure all role entries specified in config file are valid
-        final RoleMetaData[] roles = entry.getBlockMetaData().getRoles();
+        final RoleMetaData[] roles = entry.getMetaData().getRoles();
         for( int i = 0; i < roles.length; i++ )
         {
             final String role = roles[ i ].getRole();
@@ -463,7 +463,7 @@ public final class DefaultServerApplication
         final DependencyDescriptor[] dependencies = entry.getBlockInfo().getDependencies();
         for( int i = 0; i < dependencies.length; i++ )
         {
-            final RoleMetaData role = entry.getBlockMetaData().getRole( dependencies[ i ].getRole() );
+            final RoleMetaData role = entry.getMetaData().getRole( dependencies[ i ].getRole() );
 
             if( null == role )
             {

@@ -11,7 +11,6 @@ import org.apache.avalon.excalibur.container.Entry;
 import org.apache.avalon.excalibur.container.State;
 import org.apache.avalon.phoenix.Block;
 import org.apache.avalon.phoenix.metainfo.BlockInfo;
-import org.apache.avalon.phoenix.metadata.RoleMetaData;
 import org.apache.avalon.phoenix.metadata.BlockMetaData;
 
 /**
@@ -22,8 +21,8 @@ import org.apache.avalon.phoenix.metadata.BlockMetaData;
 public class BlockEntry
     extends Entry
 {
-    private BlockMetaData   m_blockMetaData;
-    private BlockProxy      m_proxy;
+    private BlockMetaData           m_blockMetaData;
+    private BlockInvocationHandler  m_invocationHandler;
 
     public BlockEntry( final BlockMetaData blockMetaData )
     {
@@ -31,28 +30,23 @@ public class BlockEntry
         setState( State.VOID );
     }
 
-    public BlockMetaData getBlockMetaData()
+    public BlockMetaData getMetaData()
     {
         return m_blockMetaData;
     }
 
-    public BlockProxy getBlockProxy()
+    public BlockInvocationHandler getBlockInvocationHandler()
     {
-        return m_proxy;
+        return m_invocationHandler;
     }
 
-    public void setBlockProxy( final BlockProxy proxy )
+    public void setBlockInvocationHandler( final BlockInvocationHandler invocationHandler )
     {
-        m_proxy = proxy;
+        m_invocationHandler = invocationHandler;
     }
 
     public BlockInfo getBlockInfo()
     {
         return (BlockInfo)getInfo();
-    }
-
-    public void setBlockInfo( final BlockInfo blockInfo )
-    {
-        setInfo(  blockInfo );
     }
 }
