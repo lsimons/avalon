@@ -68,7 +68,7 @@ public class DefaultComponentManager
         }
         else
         {
-            throw new ComponentException( "Unable to provide implementation for " + role );
+            throw new ComponentException( role, "Unable to provide implementation." );
         }
     }
 
