@@ -100,7 +100,7 @@ public class MerlinTypeBuilder implements IMerlinBuilder
      *
      * @param destDir The destination directory
      */
-    public void setDestDir(final File destDir)
+    public void setDestDir( final File destDir )
     {
         m_destDir = destDir;
     }
@@ -110,7 +110,7 @@ public class MerlinTypeBuilder implements IMerlinBuilder
      *
      * @param format the output format
      */
-    public void setFormat(final String format)
+    public void setFormat( final String format )
     {
         m_format = MerlinTypeBuilder.XML_TYPE;
     }
@@ -121,7 +121,7 @@ public class MerlinTypeBuilder implements IMerlinBuilder
      *
      * @param force the flag for forcing output
      */
-    public void setForce(boolean force)
+    public void setForce( boolean force )
     {
         m_force = force;
     }
@@ -132,7 +132,7 @@ public class MerlinTypeBuilder implements IMerlinBuilder
      *
      * @param postfix the postfix value
      */
-    public void setPostfix(String postfix)
+    public void setPostfix( String postfix )
     {
         if (postfix.equalsIgnoreCase("xtype") || postfix.equalsIgnoreCase("xinfo"))
         {
@@ -152,10 +152,10 @@ public class MerlinTypeBuilder implements IMerlinBuilder
      * Execute generator task.
      * @exception BuildException if a build error occurs
      */
-    public void execute() throws Exception
+    public void execute() 
+        throws Exception
     {
         validate();
-
         final String message = "Writing descriptors using '" + getOutputDescription() + "' format.";
         log(message);
 
@@ -193,7 +193,7 @@ public class MerlinTypeBuilder implements IMerlinBuilder
         allClasses = (JavaClass[])expList.toArray(new JavaClass[expList.size()]);
     }
 
-    private void addWithInnerClasses(ArrayList list, JavaClass javaClass)
+    private void addWithInnerClasses( ArrayList list, JavaClass javaClass )
     {
         list.add(javaClass);
 
@@ -226,7 +226,7 @@ public class MerlinTypeBuilder implements IMerlinBuilder
             log(message);
         }
     }
-
+ 
     /**
      * Return a description of output format to print as debug message.
      *
@@ -343,7 +343,7 @@ public class MerlinTypeBuilder implements IMerlinBuilder
      * @param service the Service descriptor
      * @throws IOException if an error occurs while writing to file
      */
-    private void writeService(final Service service) throws IOException
+    private void writeService( final Service service ) throws IOException
     {
         final String fqn = service.getReference().getClassname();
         final File file = getOutputFileForService(fqn);
@@ -366,7 +366,7 @@ public class MerlinTypeBuilder implements IMerlinBuilder
      * @param type the Type descriptor
      * @throws IOException if unable to write info out
      */
-    private void writeType(final Type type) throws IOException
+    private void writeType( final Type type ) throws IOException
     {
         final String fqn = type.getInfo().getClassname();
         final File file = getOutputFileForClass(fqn);
@@ -430,7 +430,7 @@ public class MerlinTypeBuilder implements IMerlinBuilder
      * @return the file for info
      * @throws IOException if unable to determine base file
      */
-    private File getOutputFileForClass(final String classname) throws IOException
+    private File getOutputFileForClass( final String classname ) throws IOException
     {
         String filename = classname.replace('.', File.separatorChar);
 
@@ -451,7 +451,7 @@ public class MerlinTypeBuilder implements IMerlinBuilder
      * @return the file for the service descriptor
      * @throws IOException if unable to determine base file
      */
-    private File getOutputFileForService(final String classname) throws IOException
+    private File getOutputFileForService( final String classname ) throws IOException
     {
         String filename = classname.replace('.', File.separatorChar);
 
@@ -470,7 +470,7 @@ public class MerlinTypeBuilder implements IMerlinBuilder
      *
      * @param outputStream the output stream
      */
-    private void shutdownStream(final OutputStream outputStream)
+    private void shutdownStream( final OutputStream outputStream )
     {
         if (null != outputStream)
         {
@@ -538,7 +538,7 @@ public class MerlinTypeBuilder implements IMerlinBuilder
      * @see org.apache.avalon.ide.eclipse.merlin.builder.IMerlinBuilder#build(int,
      *      java.util.Map, org.eclipse.core.runtime.IProgressMonitor)
      */
-    public void build(int pKind, IProject project, List pResources, IProgressMonitor pMonitor)
+    public void build( int pKind, IProject project, List pResources, IProgressMonitor pMonitor )
     {
         if (!isBuildingAllowed())
         {
@@ -587,7 +587,8 @@ public class MerlinTypeBuilder implements IMerlinBuilder
 
     }
 
-    private void log(String mes){
+    private void log(String mes)
+    {
         System.out.println(mes);
     }
     /**
