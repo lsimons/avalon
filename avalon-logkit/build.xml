@@ -209,10 +209,6 @@ Legal:
 
   </target>
 
-  <target name="docs">
-    <mkdir dir="${build.docs}"/>
-  </target>
-
   <!--
        ===================================================================
        Create the Local API documentation
@@ -312,7 +308,7 @@ Legal:
                             Create the binary distribution
        ===================================================================
   -->
-  <target name="dist" depends="jar,javadocs,docs,setup-properties">
+  <target name="dist" depends="jar,javadocs,xdocs,setup-properties">
 
     <mkdir dir="${dist.dir}"/>
     <mkdir dir="${dist.docs}"/>
@@ -337,7 +333,7 @@ Legal:
                             Create the source distribution
        ===================================================================
   -->
-  <target name="src-dist" depends="javadocs,docs,setup-properties">
+  <target name="src-dist" depends="javadocs,xdocs,setup-properties">
 
     <mkdir dir="${src.dist.dir}" />
     <mkdir dir="${src.dist.docs}"/>
