@@ -1,6 +1,0 @@
-Manifest-Version: 1.0
-Created-By: OSM SARL
-
-Name: org/apache/avalon/apps/sevak/blocks/catalina/CatalinaSevakImpl.class
-Avalon-Block: true
-
