@@ -22,7 +22,7 @@
   The avalon-excalibur.jar released in version 4.1 would now consist of the
   following jars:
 
-   all/build/lib/avalon-excalibur.jar
+   all/build/lib/excalibur-core.jar
    cli/build/lib/excalibur-cli-1.0.jar
    collections/build/lib/excalibur-collections-1.0.jar
    concurrent/build/lib/excalibur-concurrent-1.0.jar
