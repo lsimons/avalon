@@ -16,6 +16,7 @@ import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.framework.parameters.Parameterizable;
 import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.phoenix.components.embeddor.DefaultEmbeddor;
+import org.apache.avalon.phoenix.components.embeddor.Embeddor;
 import org.apache.avalon.phoenix.Constants;
 
 /**
@@ -75,8 +76,8 @@ public class CLIMain
     private void execute( final Parameters parameters )
         throws Exception
     {
-        final DefaultEmbeddor embeddor = new DefaultEmbeddor();
-        //final SingleAppEmbeddor embeddor = new SingleAppEmbeddor();
+        final Embeddor embeddor = new DefaultEmbeddor();
+        //final Embeddor embeddor = new SingleAppEmbeddor();
         //parameters.setParameter( "application-location", "../apps/avalon-demo.sar" );
 
         if( embeddor instanceof Parameterizable )

@@ -5,7 +5,7 @@
  * version 1.1, a copy of which has been included with this distribution in
  * the LICENSE file.
  */
-package org.apache.avalon.framework.atlantis;
+package org.apache.avalon.phoenix.components.embeddor;
 
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Initializable;
@@ -22,7 +22,7 @@ import org.apache.avalon.framework.component.Component;
 public interface Embeddor
     extends Component, Initializable, Startable, Disposable
 {
-    String ROLE = "org.apache.avalon.framework.atlantis.Embeddor";
+    String ROLE = "org.apache.avalon.phoenix.components.embeddor.Embeddor";
 
     /**
      * After the Embeddor is initialized, this method is called to actually
