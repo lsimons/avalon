@@ -49,9 +49,6 @@ public class JUnitTestTask extends SystemTask
     public static final String TEST_ENV_KEY = "project.test.env";
     public static final String TEST_ENV_VALUE = "env";
 
-    public static final String TEST_TMP_KEY = "project.test.temp";
-    public static final String TEST_TMP_VALUE = "temp";
-
     public static final String DEBUG_KEY = "project.test.compile.debug";
     public static final boolean DEBUG_VALUE = true;
 
@@ -82,7 +79,6 @@ public class JUnitTestTask extends SystemTask
             project.setNewProperty( FORK_KEY, "" + FORK_VALUE );
             project.setNewProperty( TEST_SRC_KEY, "" + TEST_SRC_VALUE );
             project.setNewProperty( TEST_ENV_KEY, "" + TEST_ENV_VALUE );
-            project.setNewProperty( TEST_TMP_KEY, "" + TEST_TMP_VALUE );
             project.setNewProperty( HALT_ON_ERROR_KEY, "" + HALT_ON_ERROR_VALUE );
             project.setNewProperty( HALT_ON_FAILURE_KEY, "" + HALT_ON_FAILURE_VALUE );
 
@@ -220,8 +216,9 @@ public class JUnitTestTask extends SystemTask
     {
         final Project project = getProject();
 
-        final File base = new File( m_test, "temp" );
-        copyUnitTestResource( base );
+        final File working = getContext().getTestDirectory();
+        mkDir( working );
+        copyUnitTestResource( working );
 
         final FileSet fileset = new FileSet();
         fileset.setDir( src );
@@ -237,10 +234,10 @@ public class JUnitTestTask extends SystemTask
         if( getForkProperty() )
         {
             junit.setFork( true );
-            junit.setDir( base );
+            junit.setDir( project.getBaseDir() );
         }
         junit.setShowOutput( true );
-        junit.setTempdir( base );
+        junit.setTempdir( working );
         junit.setReloading( true );
         junit.setFiltertrace( true );
         junit.createClasspath().add( classpath );
@@ -251,7 +248,7 @@ public class JUnitTestTask extends SystemTask
           getBooleanProperty( 
             HALT_ON_FAILURE_KEY, HALT_ON_FAILURE_VALUE ) );
 
-        final File reports = new File( m_test, "reports" );
+        final File reports = getContext().getTestReportsDirectory();
         mkDir( reports );
 
         final BatchTest batch = junit.createBatchTest();
@@ -272,7 +269,7 @@ public class JUnitTestTask extends SystemTask
 
         final Environment.Variable work = new Environment.Variable();
         work.setKey( WORK_DIR_KEY );
-        work.setValue( base.toString() );
+        work.setValue( working.toString() );
         junit.addSysproperty( work );
 
         final Environment.Variable basedir = new Environment.Variable();
@@ -285,7 +282,7 @@ public class JUnitTestTask extends SystemTask
         cache.setValue( getCachePath() );
         junit.addSysproperty( cache );
 
-        final File policy = new File( base, "security.policy" );
+        final File policy = new File( working, "security.policy" );
         if( policy.exists() )
         {
             final Environment.Variable security = new Environment.Variable();

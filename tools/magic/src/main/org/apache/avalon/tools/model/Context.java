@@ -44,10 +44,11 @@ public class Context extends Task
     public static final String TARGET = "target";
     public static final String BUILD = "build";
     public static final String CLASSES = "classes";
+    public static final String DELIVERABLES = "deliverables";
     public static final String TEST_CLASSES = "test-classes";
+    public static final String TEST_REPORTS = "test-reports";
     public static final String TEMP = "temp";
     public static final String TEST = "test";
-    public static final String DELIVERABLES = "deliverables";
     public static final String DOCS = "docs";
 
     private static final String USER_PROPERTIES = "user.properties";
@@ -100,6 +101,7 @@ public class Context extends Task
     private File m_deliverables;
     private File m_classes;
     private File m_testClasses;
+    private File m_testReports;
     private File m_temp;
     private File m_docs;
     private File m_test;
@@ -144,6 +146,7 @@ public class Context extends Task
         m_temp = setBuildPath( TEMP );
         m_test = setBuildPath( TEST );
         m_testClasses = setBuildPath( TEST_CLASSES );
+        m_testReports = setBuildPath( TEST_REPORTS );
         m_docs = setBuildPath( DOCS );
 
         project.addReference( KEY, this );
@@ -216,6 +219,11 @@ public class Context extends Task
     public File getTestClassesDirectory()
     {
         return m_testClasses;
+    }
+
+    public File getTestReportsDirectory()
+    {
+        return m_testReports;
     }
 
     public File getTempDirectory()
