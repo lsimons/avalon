@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE role-list [
+<!ELEMENT role-list (role+)> 
+<!ELEMENT role (hint*)>
+<!ELEMENT hint EMPTY>
+<!ATTLIST role name CDATA #REQUIRED
+               shorthand CDATA #REQUIRED
+               default-class CDATA #IMPLIED
+>
+<!ATTLIST hint shorthand CDATA #REQUIRED
+               class CDATA #REQUIRED
+>
+]>
+
+<role-list>
+  <role name="org.apache.avalon.excalibur.xml.Parser"
+        shorthand="xml-parser"
+        default-class="org.apache.avalon.excalibur.xml.JaxpParser"/>
+
+  <role name="org.apache.avalon.excalibur.xml.EntityResolver"
+        shorthand="entity-resolver"
+        default-class="org.apache.cocoon.components.resolver.ResolverImpl"/>
+
+  <role name="org.apache.avalon.excalibur.xml.xslt.XSLTProcessor"
+        shorthand="xslt-processor"
+        default-class="org.apache.avalon.excalibur.xml.xslt.XSLTProcessorImpl"/>
+
+  <role name="org.apache.avalon.excalibur.xml.xpath.XPathProcessor"
+        shorthand="xpath-processor"
+        default-class="org.apache.avalon.excalibur.xml.xpath.XPathProcessorImpl"/>
+
+</role-list>
