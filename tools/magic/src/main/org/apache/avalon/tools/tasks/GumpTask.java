@@ -425,9 +425,6 @@ public class GumpTask extends SystemTask
                "\n    <license name=\"" + license + "\"/>" );
         }
 
-        final ResourceRef[] refs =
-          definition.getResourceRefs( getProject(), Policy.ANY, ResourceRef.ANY, true );
-
         String template = m_template.getFile();
         String target = m_template.getTarget();
 
@@ -454,12 +451,14 @@ public class GumpTask extends SystemTask
         writer.write( 
            "\n      <property name=\"gump.signature\" value=\"@@DATE@@\"/>" );
 
+
+        final Resource[] resources = getContributingResources( definition );
+
         boolean flag = false;
-        for( int i=0; i<refs.length; i++ )
+        for( int i=0; i<resources.length; i++ )
         {
-            Resource resource = getHome().getResource( refs[i] );
-            boolean ignorable = resource.getGump().isIgnorable();
-            if( !(resource instanceof Definition) && !ignorable )
+            Resource resource = resources[i];
+            if( !( resource instanceof Definition ) )
             {
                 if( !flag )
                 {
@@ -499,11 +498,10 @@ public class GumpTask extends SystemTask
         //
 
         flag = false;
-        for( int i=0; i<refs.length; i++ )
+        for( int i=0; i<resources.length; i++ )
         {
-            Resource resource = getHome().getResource( refs[i] );
-            boolean ignorable = resource.getGump().isIgnorable();
-            if( ( resource instanceof Definition ) && !ignorable )
+            Resource resource = resources[i];
+            if( resource instanceof Definition )
             {
                 if( !flag )
                 {
@@ -511,23 +509,21 @@ public class GumpTask extends SystemTask
                     writer.write( "\n    <!-- for gump -->" );
                 }
                 String key = resource.getKey();
-
+    
                 writer.write( 
                   "\n    <depend project=\"" + key + "\"" );
-
+    
                 if( resource.getGump().isClasspathEntry() )
                 {
                     writer.write( "/>" );
                 }
                 else
                 {
-                    writer.write( ">" );
-                    writer.write( "\n      <noclasspath/>" );
-                    writer.write( "\n    </depend>" );
+                    writer.write( "><noclasspath/></depend>" );
                 }
             }
         }
-
+    
         if( flag )
         {
             writer.write( "\n    <!-- end for -->" );
@@ -563,6 +559,43 @@ public class GumpTask extends SystemTask
         writer.write( "\n       from=\"Magic Integration &lt;dev@avalon.apache.org&gt;\"/>" );
 
         writer.write( "\n  </project>" );
+    }
+
+    private boolean isIgnorableDependency( Resource resource )
+    {
+        if( resource.getGump().isIgnorable() ) 
+        {
+            return true;
+        }
+        else
+        {
+            String type = resource.getInfo().getType();
+            if( "jar".equals( type ) )
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+    }
+
+    private Resource[] getContributingResources( Definition def )
+    {
+        ResourceRef[] refs = 
+          def.getResourceRefs( getProject(), Policy.ANY, ResourceRef.ANY, true );
+        ArrayList list = new ArrayList();
+        for( int i=0; i<refs.length; i++ )
+        {
+            Resource resource = getHome().getResource( refs[i] );
+            boolean ignorable = isIgnorableDependency( resource );
+            if( !ignorable && !list.contains( resource ) )
+            {
+                list.add( resource );
+            }
+        }
+        return (Resource[]) list.toArray( new Resource[0] );
     }
 
     private String resolveBaseDir( Project project, String path )
