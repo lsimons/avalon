@@ -120,7 +120,7 @@ import java.util.Iterator;
  * and dispose of them properly when it itself is disposed .</p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.21 $ $Date: 2003/04/21 20:27:57 $
+ * @version CVS $Revision: 1.22 $ $Date: 2003/04/21 20:29:15 $
  * @since 4.1
  */
 public final class ContextManager
@@ -544,7 +544,7 @@ public final class ContextManager
         // Create a role manager with the configured roles
         final ConfigurableRoleManager rm = new ConfigurableRoleManager();
         rm.enableLogging( rmLogger );
-        rm.configure(roleConfig);
+        rm.configure( roleConfig );
 
         assumeOwnership( rm );
         m_childContext.put( org.apache.avalon.fortress.RoleManager.ROLE, rm );
@@ -578,7 +578,7 @@ public final class ContextManager
         final ClassLoader classLoader = (ClassLoader) m_containerManagerContext.get( ClassLoader.class.getName() );
 
         // Create a parent role manager with all the default roles
-        final ServiceMetaManager smm = new ServiceMetaManager( new Role2MetaInfoManager((RoleManager)m_childContext.get(RoleManager.ROLE)), classLoader );
+        final ServiceMetaManager smm = new ServiceMetaManager( new Role2MetaInfoManager( (RoleManager) m_childContext.get( RoleManager.ROLE ) ), classLoader );
         smm.enableLogging( rmLogger.getChildLogger( "defaults" ) );
         smm.initialize();
 

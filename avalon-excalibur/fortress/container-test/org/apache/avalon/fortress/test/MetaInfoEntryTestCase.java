@@ -142,16 +142,16 @@ public class MetaInfoEntryTestCase extends TestCase
     {
         try
         {
-            new MetaInfoEntry(null);
-            fail("Did not throw an exception");
+            new MetaInfoEntry( null );
+            fail( "Did not throw an exception" );
         }
-        catch(NullPointerException npe)
+        catch ( NullPointerException npe )
         {
             // SUCCESS!
         }
-        catch(Exception e)
+        catch ( Exception e )
         {
-            fail("Threw wrong exception type: " + e.getClass().getName() );
+            fail( "Threw wrong exception type: " + e.getClass().getName() );
         }
 
         try

@@ -98,15 +98,15 @@ public class ComponentHandlerEntryTestCase extends TestCase
         try
         {
             new ComponentHandlerEntry( null, meta );
-            fail("No NullPointerException was thrown");
+            fail( "No NullPointerException was thrown" );
         }
-        catch (NullPointerException npe)
+        catch ( NullPointerException npe )
         {
             // SUCCESS!!
         }
-        catch (Exception e)
+        catch ( Exception e )
         {
-            fail("Incorrect exception thrown: " + e.getClass().getName());
+            fail( "Incorrect exception thrown: " + e.getClass().getName() );
         }
 
         try

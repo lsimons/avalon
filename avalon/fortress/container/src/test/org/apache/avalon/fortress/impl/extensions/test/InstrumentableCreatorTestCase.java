@@ -81,15 +81,15 @@ public class InstrumentableCreatorTestCase extends TestCase
         m_instrumentable = new TestInstrumentable();
         m_instrumentManager = new TestInstrumentManager();
         m_context = new DefaultContext();
-        m_context.put("component.name", "component1");
+        m_context.put( "component.name", "component1" );
         m_context.makeReadOnly();
     }
 
     public void testNoInstrumentManager() throws Exception
     {
-        Creator creator = new InstrumentableCreator(null);
+        Creator creator = new InstrumentableCreator( null );
 
-        creator.create(m_instrumentable, m_context);
+        creator.create( m_instrumentable, m_context );
         creator.destroy( m_instrumentable, m_context );
     }
 
@@ -107,14 +107,14 @@ public class InstrumentableCreatorTestCase extends TestCase
         public void registerInstrumentable( Instrumentable instrumentable, String instrumentableName ) throws Exception
         {
             String name = instrumentable.getInstrumentableName();
-            assertNotNull(name);
+            assertNotNull( name );
 
             name = "registered:" + instrumentableName;
-            instrumentable.setInstrumentableName(name);
-            assertEquals(name, instrumentable.getInstrumentableName());
+            instrumentable.setInstrumentableName( name );
+            assertEquals( name, instrumentable.getInstrumentableName() );
 
-            assertNotNull(instrumentable.getChildInstrumentables());
-            assertNotNull(instrumentable.getInstruments());
+            assertNotNull( instrumentable.getChildInstrumentables() );
+            assertNotNull( instrumentable.getInstruments() );
         }
     }
 
@@ -127,7 +127,7 @@ public class InstrumentableCreatorTestCase extends TestCase
         public void setInstrumentableName( String name )
         {
             assertTrue( m_isActive );
-            assertNotNull(name);
+            assertNotNull( name );
             m_name = name;
             m_assigned = m_name;
         }
@@ -135,15 +135,15 @@ public class InstrumentableCreatorTestCase extends TestCase
         public String getInstrumentableName()
         {
             assertTrue( m_isActive );
-            assertNotNull(m_name);
+            assertNotNull( m_name );
 
             if ( null == m_assigned )
             {
-                assertEquals(DEFAULT_NAME, m_name);
+                assertEquals( DEFAULT_NAME, m_name );
             }
             else
             {
-                assertEquals(m_assigned, m_name);
+                assertEquals( m_assigned, m_name );
             }
 
             return m_name;
@@ -151,7 +151,7 @@ public class InstrumentableCreatorTestCase extends TestCase
 
         public Instrument[] getInstruments()
         {
-            assertTrue(m_isActive);
+            assertTrue( m_isActive );
             return new Instrument[0];
         }
 
