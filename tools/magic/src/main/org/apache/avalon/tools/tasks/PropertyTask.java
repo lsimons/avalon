@@ -114,6 +114,10 @@ public class PropertyTask extends SystemTask
         {
             return resource.getInfo().getURI();
         }
+        else if( m_feature.equals( "spec" ) )
+        {
+            return resource.getInfo().getSpec();
+        }
         else if( resource instanceof Definition )
         {
             final Definition def = (Definition) resource;

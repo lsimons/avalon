@@ -48,20 +48,25 @@ public class BlockTask extends DeclareTask
     private static final String MAIN = "main";
     private static final String TEST = "test";
 
-    public static class Component
+    public static class Identifiable
     {
         private String m_name;
-        private String m_classname;
-        private String m_profile;
-
-        public Component()
-        {
-        }
 
         public void setName( final String name )
         {
             m_name = name;
         }
+
+        public String getName()
+        {
+            return m_name;
+        }
+    }
+
+    public static class Component extends Identifiable
+    {
+        private String m_classname;
+        private String m_profile;
 
         public void setClass( final String classname )
         {
@@ -71,11 +76,6 @@ public class BlockTask extends DeclareTask
         public void setProfile( final String profile )
         {
             m_profile = profile;
-        }
-
-        public String getName()
-        {
-            return m_name;
         }
 
         public String getClassname()
@@ -89,9 +89,24 @@ public class BlockTask extends DeclareTask
         }
     }
 
+    public static class Include extends Identifiable
+    {
+        private String m_artifact;
+
+        public void setArtifact( final String spec )
+        {
+            m_artifact = spec;
+        }
+
+        public String getArtifact()
+        {
+            return m_artifact;
+        }
+    }
+
     private String m_target;
     private String m_container;
-    private List m_components = new ArrayList();
+    private List m_content = new ArrayList();
     private boolean m_standalone = true;
 
     public void setName( final String name )
@@ -173,8 +188,15 @@ public class BlockTask extends DeclareTask
     public Component createComponent()
     {
         final Component component = new Component();
-        m_components.add( component );
+        m_content.add( component );
         return component;
+    }
+
+    public Include createInclude()
+    {
+        final Include include = new Include();
+        m_content.add( include );
+        return include;
     }
 
     public void init()
@@ -208,12 +230,19 @@ public class BlockTask extends DeclareTask
         writer.write( "\n  </classloader>" );
         writer.write( "\n" );
 
-        Component[] components = 
-          (Component[]) m_components.toArray( new Component[0] );
+        Identifiable[] components = 
+          (Identifiable[]) m_content.toArray( new Identifiable[0] );
         for( int i=0; i<components.length; i++ )
         {
-            Component component = components[i];
-            writeComponent( writer, component );
+            Identifiable identifiable = components[i];
+            if( identifiable instanceof Component )
+            {
+                writeComponent( writer, (Component) identifiable );
+            }
+            else if( identifiable instanceof Include )
+            {
+                writeInclude( writer, (Include) identifiable );
+            }
         }
 
         writer.write( "\n</container>\n" );
@@ -235,5 +264,14 @@ public class BlockTask extends DeclareTask
               + component.getProfile() + "\"\n    class=\""
               + component.getClassname() + "\"/>\n" );
         }
+    }
+
+    private void writeInclude( final Writer writer, final Include include )
+        throws IOException
+    {
+        writer.write( 
+          "\n  <include name=\"" 
+          + include.getName() + "\" artifact=\"" 
+          + include.getArtifact() + "\"/>\n" );
     }
 }
