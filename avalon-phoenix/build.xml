@@ -424,6 +424,7 @@ Legal:
 
         <copy file="${script.dir}/run.bat" todir="${bin.dist.bin}"/>
         <copy file="${script.dir}/run.sh" todir="${bin.dist.bin}"/>
+        <copy file="${script.dir}/phoenix.sh" todir="${bin.dist.bin}"/>
 
         <chmod dir="${bin.dist.dir}" perm="go-rwx" />
         <chmod file="${bin.dist.bin}/*.sh" perm="u+x"/>
