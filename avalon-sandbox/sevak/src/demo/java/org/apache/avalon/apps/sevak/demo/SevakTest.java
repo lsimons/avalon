@@ -8,7 +8,6 @@
 package org.apache.avalon.apps.sevak.demo;
 
 import java.io.File;
-import java.net.URL;
 //avalon imports
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.configuration.Configurable;
@@ -23,7 +22,6 @@ import org.apache.avalon.framework.service.Serviceable;
 import org.apache.avalon.phoenix.BlockContext;
 //sevak imports
 import org.apache.avalon.apps.sevak.Sevak;
-import org.apache.avalon.apps.sevak.SevakException;
 
 /**
  * @phoenix:block
@@ -73,7 +71,13 @@ public class SevakTest
         Configuration[] contexts=m_configuration.getChildren("Context");
         for(int i=0;i<contexts.length;i++)
         {
-   	     	m_sevak.deploy(contexts[i].getAttribute("docBase"),new File(m_context.getBaseDirectory().getAbsolutePath()+File.separatorChar+contexts[i].getAttribute("path")));  
+            String ctx = contexts[i].getAttribute("docBase");
+            String ctxPath = contexts[i].getAttribute("path");
+            ctxPath = ctxPath.replace('/',File.separatorChar);
+            ctxPath = ctxPath.replace('\\',File.separatorChar);
+            String ctxFullPath = m_context.getBaseDirectory().getAbsolutePath() + File.separatorChar + ctxPath;
+            //System.out.println("Ctx = " + ctx + ", path = " + ctxFullPath);
+   	     	m_sevak.deploy(ctx,new File(ctxFullPath));
         }
 		
     }

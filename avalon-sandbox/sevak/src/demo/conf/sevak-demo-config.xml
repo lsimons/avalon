@@ -17,8 +17,21 @@
 	   * is added into the Sevak Demo Block SAR file under
 	   * webapps/ folder  within it.
 	   * -->
-	  <Context docBase="/" path="webapps/ROOT"/>
-	  <Context docBase="/demo" path="webapps/demo.war"/>
+	   
+	  <Context docBase="/" path="webapps/ROOT"/>	  
+	  
+	  <!-- 	  
+	    <Context docBase="/examples" path="webapps/examples"/>
+	    <Context docBase="/manager" path="webapps/manager"/>	  
+	  -->
+	  
+	  
+	  <Context docBase="/tomcat-docs" path="webapps/tomcat-docs"/>
+	  
+	  <!--
+	    <Context docBase="/webdav" path="webapps/webdav"/>	  
+	  -->
+	  
   </sevakTest>
 
 </config>
