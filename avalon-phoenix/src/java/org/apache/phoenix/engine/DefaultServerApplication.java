@@ -152,7 +152,12 @@ public class DefaultServerApplication
         throws Exception
     {
         // load blocks 
-        try { loadBlocks(); }
+        try 
+        {
+            getLogger().info( "Number of blocks to load: " + m_entries.size() );
+            final Phase phase = (Phase)m_phases.get( "startup" );
+            runPhase( phase );
+        }
         catch( final ApplicationException ae )
         {
             getLogger().warn( "Error loading blocks: " + ae.getMessage(), ae );
@@ -359,14 +364,6 @@ public class DefaultServerApplication
                 throw new ContainerException( message );
             }
         }
-    }
-
-    protected void loadBlocks() 
-        throws Exception
-    {
-        getLogger().info( "Number of blocks to load: " + m_entries.size() );
-        final Phase phase = (Phase)m_phases.get( "startup" );
-        runPhase( phase );
     }
 
     /**
