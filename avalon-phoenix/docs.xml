@@ -33,7 +33,6 @@
   <property name="announce2readme" value="${tools.dir}/announcement2readme.xsl"/>
   <property name="announce2site" value="${tools.dir}/announcement2site.xsl"/>
 
-  <property name="tools.dir" value="../jakarta-avalon/tools"/>
   <property name="tools.jar" value="${java.home}/../lib/tools.jar"/>
 
   <path id="project.class.path">
