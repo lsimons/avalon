@@ -500,9 +500,6 @@ Legal:
             <fileset dir="${lib.dir}/container">
                 <include name="*.jar"/>
             </fileset>
-            <fileset dir="${lib.dir}/jing">
-                <include name="*.jar"/>
-            </fileset>
         </copy>
 
         <copy file="${xerces.jar}" todir="${bin.dist.lib}"/>
@@ -671,12 +668,6 @@ Legal:
             <fileset dir="${lib.dir}">
                 <include name="excalibur*.jar"/>
                 <include name="README.txt"/>
-            </fileset>
-        </copy>
-        <mkdir dir="${src.dist.lib}/jing"/>
-        <copy todir="${src.dist.lib}/jing">
-            <fileset dir="${lib.dir}/jing">
-                <include name="**"/>
             </fileset>
         </copy>
         <mkdir dir="${src.dist.lib}/deploy"/>
