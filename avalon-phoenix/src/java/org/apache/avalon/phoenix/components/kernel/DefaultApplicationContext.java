@@ -33,7 +33,7 @@ import org.apache.log.Logger;
  *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
-public class DefaultApplicationContext
+class DefaultApplicationContext
     extends AbstractLoggable
     implements ApplicationContext, Composable, Configurable
 {
@@ -57,9 +57,9 @@ public class DefaultApplicationContext
 
     private SarMetaData m_metaData;
 
-    public DefaultApplicationContext( final SarMetaData metaData,
-                                      final ClassLoader classLoader,
-                                      final Hierarchy hierarchy )
+    protected DefaultApplicationContext( final SarMetaData metaData,
+                                         final ClassLoader classLoader,
+                                         final Hierarchy hierarchy )
     {
         m_metaData = metaData;
         m_classLoader = classLoader;

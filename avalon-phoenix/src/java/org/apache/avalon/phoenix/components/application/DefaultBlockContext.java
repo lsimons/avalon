@@ -25,7 +25,7 @@ import org.apache.log.Logger;
  *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
-public class DefaultBlockContext
+final class DefaultBlockContext
     extends DefaultContext
     implements BlockContext, Loggable
 {
@@ -36,7 +36,7 @@ public class DefaultBlockContext
     private Logger              m_logger;
     private boolean             m_warningEmitted;
 
-    public DefaultBlockContext( final String name, final ApplicationContext frame )
+    protected DefaultBlockContext( final String name, final ApplicationContext frame )
     {
         super( (Context)null );
         m_frame = frame;
