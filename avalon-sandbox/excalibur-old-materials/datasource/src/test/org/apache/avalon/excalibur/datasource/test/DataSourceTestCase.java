@@ -174,10 +174,6 @@ public class DataSourceTestCase
                     this.testcase.isSuccessful = false;
                     this.testcase.getLogger().info( "Failed to get Connection, test failed", se );
                 }
-/*                catch( final InterruptedException ie )
-                {
-                    // Ignore
-                }*/
             }
 
             try
