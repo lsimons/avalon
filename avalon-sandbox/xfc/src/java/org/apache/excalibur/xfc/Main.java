@@ -64,7 +64,7 @@ import org.apache.avalon.framework.logger.NullLogger;
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
  * (parts also taken from the Excalibur CLI example)
- * @version CVS $Id: Main.java,v 1.5 2003/02/25 16:28:43 bloritsch Exp $
+ * @version CVS $Id: Main.java,v 1.6 2003/02/27 14:38:04 bloritsch Exp $
  */
 public final class Main
 {
@@ -183,7 +183,7 @@ public final class Main
         {
             final CLOption option = (CLOption)options.get( i );
 
-            switch( option.getId() )
+            switch( option.getDescriptor().getId() )
             {
                 case CLOption.TEXT_ARGUMENT:
                     // This occurs when a user supplies an unknown argument
