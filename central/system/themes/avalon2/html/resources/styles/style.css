@@ -333,6 +333,42 @@ tr[row='even']
 {
 }
 
+table.classic
+{
+    border-top: 1px #800000 solid;
+    border-bottom: 1px #800000 solid;
+}
+
+table.classic tr 
+{
+    background-color: #F8F8F8;
+}
+
+table.classic th
+{
+    text-align: left;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+    padding-bottom: 2pt;
+    padding-top: 2pt;
+}
+
+table.classic td
+{
+    border-right: 0px ;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+    padding-top: 1.5pt;
+    padding-bottom: 1.5pt;
+    text-align: left;
+    vertical-align: top;
+}
+
+table thead, table tbody
+{
+    border-top: 1px #800000 solid;
+    border-bottom: 1px #800000 solid;
+}
 
 a.category:link:hover, a.category:visited:hover, a.category:active,
 a.homecategory:link:hover, a.homecategory:visited:hover, a.homecategory:active
@@ -455,4 +491,14 @@ img
 p, td, th
 {
     font-size: 88%;
+}
+
+td p, th p
+{
+    font-size: 100%;
+}
+
+td table
+{
+    margin-top: 0em;
 }

@@ -24,51 +24,48 @@
           <tr><td>Containment</td><td>Avalon Framework 4.2.0</td>
           </tr>
           <tr><td>Lifestyle</td><td>singleton</td></tr>
-          <tr><td>Lifecycle</td>
+        </table>
+      </subsection>
+      <subsection name="Lifecycle">
+        <table>
+            <tr><th>Stage</th><th>Description</th></tr>
+            <tr><td>LogEnabled</td><td>Logs store establishment and 
+            runtime related warnings.</td></tr>
+          <tr>
+            <td>Contextualizable</td>
             <td>
-              <table>
-                <tr><th>Stage</th><th>Description</th></tr>
-                <tr><td>LogEnabled</td><td>Logs store establishment and 
-                runtime related warnings.</td></tr>
-                <tr>
-                  <td>Contextualizable</td>
-                  <td>
-                  <table>
-                    <tr>
-                      <th>Key</th><th>Type</th><th>Required</th>
-                    </tr>
-                    <tr>
-                      <td>block.name</td><td>java.lang.String</td><td>true</td>
-                    </tr>
-                    <tr>
-                      <td>app.name</td><td>java.lang.String</td><td>true</td>
-                    </tr>
-                    <tr>
-                      <td>app.home</td><td>java.io.File</td><td>true</td>
-                    </tr>
-                  </table>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Configurable</td>
-                  <td>
-                  <p>Example configuration included below.</p>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Serviceable</td>
-                  <td>
-                  WARNING: Implementated but no dependencies declared!
-                  </td>
-                </tr>
-                <tr>
-                  <td>Disposable</td>
-                  <td>
-                  Component disposal.
-                  </td>
-                </tr>
+              <table class="classic">
+                <thead>
+                  <tr>
+                    <th>Key</th><th>Type</th><th>Required</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>block.name</td><td>java.lang.String</td><td>true</td>
+                  </tr>
+                  <tr>
+                    <td>app.name</td><td>java.lang.String</td><td>true</td>
+                  </tr>
+                  <tr>
+                    <td>app.home</td><td>java.io.File</td><td>true</td>
+                  </tr>
+                </tbody>
               </table>
             </td>
+          </tr>
+          <tr>
+            <td>Configurable</td>
+            <td>Example configuration included below.</td>
+          </tr>
+          <tr>
+            <td>Serviceable</td>
+            <td>WARNING: Implementated but no dependencies declared!
+            </td>
+          </tr>
+          <tr>
+            <td>Disposable</td>
+            <td>Component disposal.</td>
           </tr>
         </table>
       </subsection>

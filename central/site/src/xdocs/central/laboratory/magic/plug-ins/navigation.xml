@@ -23,7 +23,6 @@
 
  <body>
     <menu>
-      <item name="Overview" href="index.html"/>
       <item name="artifact" href="artifact/index.html"/>
       <item name="clean" href="clean/index.html"/>
       <item name="jar" href="jar/index.html"/>

@@ -23,7 +23,6 @@
 
   <body>
     <menu>
-      <item name="Latest News" href="index.html"/>
       <item name="2004" href="2004/january/index.html"/>
       <item name="2003" href="2003/september/index.html"/>
     </menu>
