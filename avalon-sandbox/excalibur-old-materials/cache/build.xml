@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 
-<project default="main" basedir=".">
+<project name="Excalibur cache" default="main" basedir=".">
 
     <!-- load per-project properties -->
     <property file="project.properties"/>
