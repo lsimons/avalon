@@ -1,5 +1,5 @@
 Dependencies for Excalibur
-Current at: Thu Apr  4 23:02:23 EST 2002
+Current at: Thu Jun  27 13:22:23 EST 2002
 --------------------------
 * means checked and works
 ** means won't build due to unsatisfied dependency
@@ -36,7 +36,7 @@ instrument-client -> framework, altrmi-client-impl, altrmi-client-interfaces, al
 * pool -> framework, collections, logkit, instrument [Unit tests: junit, testcase, junitperf]
 * testcase -> framework, component, logkit, logger
 * monitor -> framework, logkit, logger, sourceresolve [Unit tests: junit, testcase]
-* microcontainer -> framework, [Unit tests: junit]
+* microcontainer -> framework, datasource [Unit tests: junit, collections, pool]
 * merlin -> context, configuration, framework, logkit
 * xmlbundle -> framework, logger, logkit, component, pool, sourceresolve, store
 * sourceresolve -> framework, pool
