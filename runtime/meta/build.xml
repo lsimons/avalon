@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<project name="meta" default="build" basedir="." 
+    xmlns:x="antlib:org.apache.avalon.tools">
+
+  <property file="build.properties"/>
+
+  <path id="targets">
+    <fileset dir="." includes="**/build.xml" excludes="build.xml"/>
+  </path>
+
+  <target name="build" depends="">
+    <x:home/>
+    <x:reactor>
+      <path refid="targets"/>
+    </x:reactor>
+  </target>
+
+  <target name="clean" depends="">
+    <subant inheritAll="false" 
+       genericantfile="${project.home}/build/standard.xml" target="clean"
+       buildpathref="targets"/>
+  </target>
+
+</project>
