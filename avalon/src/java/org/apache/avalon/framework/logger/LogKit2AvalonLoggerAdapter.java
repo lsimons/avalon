@@ -19,7 +19,7 @@ import org.apache.log.Priority;
  * components.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2002/11/10 00:52:08 $
+ * @version $Revision: 1.2 $ $Date: 2002/11/10 00:55:09 $
  */
 public final class LogKit2AvalonLoggerAdapter
     implements LogTarget
@@ -47,12 +47,12 @@ public final class LogKit2AvalonLoggerAdapter
     }
 
     /**
-     * Private constructor to make an adaptor. Made private so that
-     * it can not be used outisde of the above factory method.
+     * Constructor for an Adaptor. Adapts to
+     * specified Avalon Logger.
      *
      * @param logger the avalon logger.
      */
-    private LogKit2AvalonLoggerAdapter( final Logger logger )
+    public LogKit2AvalonLoggerAdapter( final Logger logger )
     {
         if( null == logger )
         {
