@@ -44,13 +44,13 @@ A component implementing the the <a href="/api/org/apache/avalon/framework/activ
 <p><i>Startable Example:</i></p>
 
 <source>
-    /**
-     * Stop the component.
-     */
-     public void stop() throws Exception
-     {
-         ...
-     }
+/**
+ * Stop the component.
+ */
+ public void stop() throws Exception
+ {
+     ...
+ }
 </source>
             </td>
           </tr>
@@ -64,13 +64,13 @@ A component may participate in end-of-life processing by implementing the
 <p><i>Example:</i></p>
 
 <source>
-    /**
-     * Disposal of the component.
-     */
-     public void dispose()
-     {
-         ...
-     }
+/**
+ * Disposal of the component.
+ */
+ public void dispose()
+ {
+     ...
+ }
 </source>
             </td>
           </tr>

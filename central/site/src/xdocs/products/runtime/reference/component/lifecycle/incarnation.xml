@@ -51,19 +51,19 @@ NOTE: A component implementation may not duplicate constructor injection of life
 </p>
 <p><i>Example:</i></p>
 <source>
-  /**
-   * Creation of a new widget.
-   *
-   * @param logger a logging channel
-   * @avalon.dependency type="tutorial.Gizmo" key="gizmo"
-   */
-   public DefaultWidget( Logger logger, ServiceManager manager ) 
-     throws ServiceException
-   {
-       m_logger = logger;
-       m_logger.info( "hello" );
-       m_gizmo = (Gizmo) manager.lookup( "gizmo" );
-   }
+/**
+ * Creation of a new widget.
+ *
+ * @param logger a logging channel
+ * @avalon.dependency type="tutorial.Gizmo" key="gizmo"
+ */
+ public DefaultWidget( Logger logger, ServiceManager manager ) 
+   throws ServiceException
+ {
+     m_logger = logger;
+     m_logger.info( "hello" );
+     m_gizmo = (Gizmo) manager.lookup( "gizmo" );
+ }
 </source>
             </td>
           </tr>
@@ -79,16 +79,16 @@ NOTE: A component implementation may not duplicate constructor injection of life
 <p>Optional Logger delivery strategy.  A component implementation may implement the <a href="/api/org/apache/avalon/framework/logger/LogEnabled.html">LogEnabled</a> interface.  The container will supply the component root logger via the enableLogging operation.</p>
 <p><i>Example:</i></p>
 <source>
-    /**
-     * Supply of a logging channel by the container to this 
-     * component.
-     *
-     * @param logger the logging channel
-     */
-     public void enableLogging( Logger logger )
-     {
-         m_logger = logger;
-     }
+/**
+ * Supply of a logging channel by the container to this 
+ * component.
+ *
+ * @param logger the logging channel
+ */
+ public void enableLogging( Logger logger )
+ {
+     m_logger = logger;
+ }
 </source>
             </td>
           </tr>
@@ -98,19 +98,19 @@ NOTE: A component implementation may not duplicate constructor injection of life
 <p>Optional context delivery strategy.  A component implementation may implement the <a href="/api/org/apache/avalon/framework/context/Contextualizable.html">Contextualizable</a> interface.  The container will supply a component context via the contextualize operation.  The context instance will be pre-populated by the container will all requested entries.</p>
 <p><i>Example:</i></p>
 <source>
-    /**
-     * Supply of a context object to the component.
-     *
-     * @param context the component context
-     * @avalon.entry key="urn:avalon:home" type="java.io.File"
-     * @exception ContextException if an error occurs during 
-     *   context entry resolution
-     */
-     public void contextualize( Context context ) 
-       throws ContextException
-     {
-         m_home = (File) context.get( "urn:avalon:home" );
-     }
+/**
+ * Supply of a context object to the component.
+ *
+ * @param context the component context
+ * @avalon.entry key="urn:avalon:home" type="java.io.File"
+ * @exception ContextException if an error occurs during 
+ *   context entry resolution
+ */
+ public void contextualize( Context context ) 
+   throws ContextException
+ {
+     m_home = (File) context.get( "urn:avalon:home" );
+ }
 </source>
             </td>
           </tr>
@@ -120,22 +120,22 @@ NOTE: A component implementation may not duplicate constructor injection of life
 <p>Optional service manager delivery strategy.  A component implementation may implement the <a href="/api/org/apache/avalon/framework/service/Serviceable.html">Serviceable</a> interface.  The container will supply a service manager supporting all declared service dependencies.</p>
 <p><i>Example:</i></p>
 <source>
-    /**
-     * Supply of the service manager to the component from which 
-     * dependent services may be accessed relative to a service key.
-     *
-     * @param manager the supplied service manager
-     * @avalon.dependency type="tutorial.Gizmo" key="gizmo"
-     * @avalon.dependency type="tutorial.Widget" key="widget"
-     * @exception ServiceException if an error occurs during 
-     *   service resolution
-     */
-     public void service( ServiceManager manager ) 
-       throws ServiceException
-     {
-         m_gizmo = (Gizmo) manager.lookup( "gizmo" );
-         m_widget = (Widget) manager.lookup( "widget" );
-     }
+/**
+ * Supply of the service manager to the component from which 
+ * dependent services may be accessed relative to a service key.
+ *
+ * @param manager the supplied service manager
+ * @avalon.dependency type="tutorial.Gizmo" key="gizmo"
+ * @avalon.dependency type="tutorial.Widget" key="widget"
+ * @exception ServiceException if an error occurs during 
+ *   service resolution
+ */
+ public void service( ServiceManager manager ) 
+   throws ServiceException
+ {
+     m_gizmo = (Gizmo) manager.lookup( "gizmo" );
+     m_widget = (Widget) manager.lookup( "widget" );
+ }
 </source>
 <p>Note: the usage of the key attribute on a service dependency tag is optional.  If not supplied, an implementation my request the service using the type argument (i.e. the service classname).  The recommended practice is to declare a local key.</p>
             </td>
@@ -146,19 +146,19 @@ NOTE: A component implementation may not duplicate constructor injection of life
 <p>Optional configuration delivery strategy.  A component implementation may implement the <a href="/api/org/apache/avalon/framework/configuration/Configurable.html">Configurable</a> interface.  The container will supply a component configuration via the configure operation.</p>
 <p><i>Example:</i></p>
 <source>
-    /**
-     * Supply of the component configuration by the container.
-     *
-     * @param config the component configuration
-     * @exception ConfigurationException if an error occurs during 
-     *   configuration handling
-     */
-     public void configure( Configuration config ) 
-       throws ConfigurationException
-     {
-         Configuration location = config.getChild( "location" );
-         m_address = location.getAttribute( "address" );
-     }
+/**
+ * Supply of the component configuration by the container.
+ *
+ * @param config the component configuration
+ * @exception ConfigurationException if an error occurs during 
+ *   configuration handling
+ */
+ public void configure( Configuration config ) 
+   throws ConfigurationException
+ {
+     Configuration location = config.getChild( "location" );
+     m_address = location.getAttribute( "address" );
+ }
 </source>
             </td>
           </tr>
@@ -168,19 +168,19 @@ NOTE: A component implementation may not duplicate constructor injection of life
 <p>Optional parameters delivery strategy.  A component may implement the <a href="/api/org/apache/avalon/framework/parameters/Parameterizable.html">Parameterizable</a> interface.  The container will supply a parameters instance via the parameterize operation.</p>
 <p><i>Example:</i></p>
 <source>
-    /**
-     * Supply of parameters to the component by the container
-     *
-     * @param params the component parameters
-     * @exception ParameterException if an error occurs during 
-     *   parameter handling
-     */
-     public void parameterize( Parameters params ) 
-       throws ParameterException
-     {
-         m_secure = params.getParameterAsBoolean( "secure" );
-         m_count = params.getParameterAsInteger( "count" );
-     }
+/**
+ * Supply of parameters to the component by the container
+ *
+ * @param params the component parameters
+ * @exception ParameterException if an error occurs during 
+ *   parameter handling
+ */
+ public void parameterize( Parameters params ) 
+   throws ParameterException
+ {
+     m_secure = params.getParameterAsBoolean( "secure" );
+     m_count = params.getParameterAsInteger( "count" );
+ }
 </source>
             </td>
           </tr>
@@ -219,16 +219,16 @@ public class HelloComponent extends AbstractLogEnabled
 <p>Optional initialization stage.  A component may implement the <a href="/api/org/apache/avalon/framework/activity/Initializable.html">Initializable</a> interface.  The container will invoke initialization following completion of the delivery of lifecycle artifacts and any custom lifecycle stages.</p>
 <p><i>Example:</i></p>
 <source>
-    /**
-     * Initialization of the component by the container.
-     *
-     * @exception Exception if an error occurs during 
-     *   the initialization phase
-     */
-     public void initialize() throws Exception
-     {
-         ...
-     }
+/**
+ * Initialization of the component by the container.
+ *
+ * @exception Exception if an error occurs during 
+ *   the initialization phase
+ */
+ public void initialize() throws Exception
+ {
+     ...
+ }
 </source>
             </td>
           </tr>
@@ -238,25 +238,25 @@ public class HelloComponent extends AbstractLogEnabled
 <p>Optional execution stage.  A component may implement either the <a href="/api/org/apache/avalon/framework/activity/Startable.html">Startable</a> or <a href="/api/org/apache/avalon/framework/activity/Executable.html">Executable</a> interfaces.  If the component implements Executable the execute method will be invoked before the component instance is exposed to any other component.  If the component implements the Startable interface the container will invoke the start operation.  An implementation is responsible for establishing a working thread and returned from the start operation promptly.</p>
 <p><i>Executable Example:</i></p>
 <source>
-    /**
-     * Execute implementation.
-     */
-     public void execute()
-     {
-         ...
-     }
+/**
+ * Execute implementation.
+ */
+ public void execute()
+ {
+     ...
+ }
 </source>
 
 <p><i>Startable Example:</i></p>
 
 <source>
-    /**
-     * Start the component.
-     */
-     public void start() throws Exception
-     {
-         ...
-     }
+/**
+ * Start the component.
+ */
+ public void start() throws Exception
+ {
+     ...
+ }
 </source>
 
             </td>
