@@ -417,7 +417,7 @@ public class DefaultEmbeddor
      * until setupComponents() is called.
      */
     private synchronized void createComponents()
-    throws Exception
+	throws Exception
     {
         try
         {
@@ -434,7 +434,7 @@ public class DefaultEmbeddor
             final String message =
                 REZ.getString( "embeddor.error.createComponents.failed" );
             getLogger().fatalError( message, e );
-            throw new Exception( message, e );
+            throw new CascadingException( message, e );
         }
     }
 
