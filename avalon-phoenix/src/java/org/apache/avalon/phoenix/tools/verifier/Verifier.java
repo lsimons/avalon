@@ -32,12 +32,12 @@ import org.apache.avalon.framework.service.Serviceable;
  * rules of an Avalon component.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2002/05/19 05:24:58 $
+ * @version $Revision: 1.4 $ $Date: 2002/05/20 10:23:35 $
  */
 public class Verifier
     extends AbstractLogEnabled
 {
-    private final static Resources REZ =
+    private static final Resources REZ =
         ResourceManager.getPackageResources( Verifier.class );
 
     private static final Class[] EMPTY_TYPES = new Class[ 0 ];

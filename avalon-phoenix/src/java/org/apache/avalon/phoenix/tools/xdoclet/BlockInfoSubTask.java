@@ -18,12 +18,12 @@ import xjavadoc.XClass;
  *
  * @author <a href="mailto:vinay_chandran@users.sourceforge.net">Vinay Chandrasekharan</a>
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.6 $ $Date: 2002/05/18 13:31:49 $
+ * @version $Revision: 1.7 $ $Date: 2002/05/20 10:23:35 $
  */
 public class BlockInfoSubTask
     extends TemplateSubTask
 {
-    public final static String SUBTASK_NAME = "blockinfo";
+    public static final String SUBTASK_NAME = "blockinfo";
 
     private static final String GENERATED_FILE_NAME = "{0}.xinfo";
     private static final String DEFAULT_TEMPLATE_FILE =
