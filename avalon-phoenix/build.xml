@@ -482,6 +482,9 @@ Legal:
                 <include name="excalibur*.jar"/>
                 <include name="sandbox-info-*.jar"/>                
             </fileset>
+            <fileset dir="${build.lib}">
+                <include name="phoenix-containerkit.jar"/>
+            </fileset>
             <fileset dir="${lib.dir}/jing">
                 <include name="*.jar"/>
             </fileset>
@@ -490,9 +493,6 @@ Legal:
             <fileset dir="${lib.dir}/container">
                 <include name="*.jar"/>
             </fileset>
-            <fileset dir="${build.lib}">
-                <include name="phoenix-containerkit.jar"/>
-            </fileset>            
         </copy>
 
         <copy file="${xerces.jar}" todir="${bin.dist.lib}"/>
