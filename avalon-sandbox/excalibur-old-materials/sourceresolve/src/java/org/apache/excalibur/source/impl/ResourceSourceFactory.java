@@ -68,7 +68,7 @@ import org.apache.excalibur.source.SourceFactory;
  * A factory for the Resource protocol
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version $Id: ResourceSourceFactory.java,v 1.8 2002/12/15 11:56:48 cziegeler Exp $
+ * @version $Id: ResourceSourceFactory.java,v 1.9 2003/01/29 16:46:18 cziegeler Exp $
  */
 public class ResourceSourceFactory
     extends AbstractLogEnabled
@@ -100,6 +100,11 @@ public class ResourceSourceFactory
      */
     public void release( Source source ) 
     {
+        if( null != source && getLogger().isDebugEnabled() )
+        {
+            final String message = "Releasing source object for " + source.getURI();
+            getLogger().debug( message );
+        }
     	// do nothing here
     }
     
