@@ -1,4 +1,5 @@
 .ant.properties
+Announcement.txt
 docs
 prj.el
 emacs-jprj.el
