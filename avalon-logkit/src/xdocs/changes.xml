@@ -12,7 +12,11 @@
     <author email="shash_list at hotmail.com">Sash Chatterjee</author>
     <author email="Jason.West at mail.state.ky.us">Jason West</author>
   </devs>
-  <release version="1.2" date="?">
+  <release version="1.2.1alpha" date="?">
+    <action dev="PD" type="add">
+      Added the org.apache.log.util.Closeable interface that LogTarget
+      implementations can implement to indicate that they are closeable.
+    </action>
     <action dev="PD" type="add">
       Added support to unconditionally set Logger Listener.
     </action>
