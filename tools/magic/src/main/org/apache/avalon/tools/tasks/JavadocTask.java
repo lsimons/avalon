@@ -255,7 +255,7 @@ public class JavadocTask extends SystemTask
             if( resource instanceof Definition )
             {
                 final Definition def = (Definition) resource;
-                final File base = def.getBasedir();
+                final File base = def.getBaseDir();
                 final File src = Context.getFile( base, "target/build/main" );
                 if( src.exists() )
                 {
@@ -275,7 +275,7 @@ public class JavadocTask extends SystemTask
 
         if( flag )
         {
-            final File basedir = definition.getBasedir();
+            final File basedir = definition.getBaseDir();
             final File local = new File( basedir, "target/build/main" );
             if( local.exists() )
             {

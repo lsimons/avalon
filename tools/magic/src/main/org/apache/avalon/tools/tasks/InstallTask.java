@@ -62,7 +62,7 @@ public class InstallTask extends SystemTask
 
     private void installDeliverables( final Definition definition )
     {
-        final File basedir = definition.getBasedir();
+        final File basedir = definition.getBaseDir();
         final File target = new File( basedir, Context.TARGET );
         final File deliverables = new File( target, Context.DELIVERABLES );
         if( deliverables.exists() )

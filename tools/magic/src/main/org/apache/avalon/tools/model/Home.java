@@ -20,14 +20,20 @@ package org.apache.avalon.tools.model;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.BuildListener;
 import org.apache.tools.ant.Task;
+import org.apache.tools.ant.Location;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.taskdefs.Get;
 import org.apache.tools.ant.taskdefs.Property;
 import org.apache.tools.ant.types.DataType;
 import org.w3c.dom.Element;
+import org.xml.sax.SAXException;
+import org.xml.sax.SAXParseException;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.FileNotFoundException;
+import java.io.FileInputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Hashtable;
@@ -71,7 +77,7 @@ public class Home extends DataType
         project.log( "index: " + index );
         m_index = index;
         m_system = system;
-        buildList( index, false );
+        buildList( index );
     }
 
     //-------------------------------------------------------------
@@ -193,6 +199,194 @@ public class Home extends DataType
     // internal
     //-------------------------------------------------------------
 
+    private void buildList( final File index )
+    {
+        if( null == index ) 
+        {
+            throw new NullPointerException( "index" );
+        }
+
+        if( !index.exists() ) 
+        {
+            throw new BuildException( 
+              new FileNotFoundException( index.toString() ) );
+        }
+
+        File source = resolveIndex( index );
+
+        try
+        {
+            final Element root = ElementHelper.getRootElement( source );
+            final Element[] elements = ElementHelper.getChildren( root );
+            final File anchor = source.getParentFile();
+            buildLocalList( anchor, elements );
+        }
+        catch( Throwable e )
+        {
+            throw new BuildException( e, new Location( index.toString() ) );
+        }
+    }
+
+    private File resolveIndex( File file )
+    {
+        if( file.isDirectory() )
+        {
+            return new File( file, "index.xml" );
+        }
+        else
+        {
+            return file;
+        }
+    }
+
+    private void buildLocalList( 
+      final File anchor, final Element[] children )
+    {
+        log( "entries: " + children.length, Project.MSG_VERBOSE );
+        for( int i=0; i<children.length; i++ )
+        {
+            final Element element = children[i];
+            final String tag = element.getTagName();
+            if( isaResource( tag ) )
+            {
+                final Resource resource = createResource( element, anchor );
+                final String key = resource.getKey();
+                m_resources.put( key, resource );
+                log( 
+                  "resource: " + resource 
+                  + " key=" + key, Project.MSG_VERBOSE );
+            }
+            else if( "import".equals( element.getTagName() ) )
+            {
+                final String filename = element.getAttribute( "index" );
+                final String path = element.getAttribute( "href" );
+
+                if(( null != filename ) && ( !"".equals( filename )))
+                {
+                    final File index = Context.getFile( anchor, filename );
+                    if( !m_includes.contains( index.toString() ) )
+                    {
+                        m_includes.add( index );
+                        log( "import: " + index );
+                        buildList( index );
+                    }
+                }
+                else if(( null != path ) && ( !"".equals( path )))
+                {
+                    // switch to remote
+                    if( !m_includes.contains( path ) )
+                    {
+                        m_includes.add( path );
+                        buildRemoteList( path );
+                    }
+                }
+                else
+                {
+                    final String error = 
+                      "Invalid import statement. No href or index attribute.";
+                    throw new BuildException( error );
+                }
+            }
+            else
+            {
+                final String error =
+                  "Unrecognized element type \"" + tag + "\" found in index.";
+                throw new BuildException( error );
+            }
+        }
+    }
+
+    private void buildRemoteList( String path )
+    {
+        log( "import: " + path );
+        final URL url = createURL( path );
+        InputStream input = null;
+        try
+        {
+            input = url.openStream();
+            final Element root = ElementHelper.getRootElement( input );
+            final Element[] elements = ElementHelper.getChildren( root );
+            buildRemoteList( path, elements );
+        }
+        catch( SAXParseException e )
+        {
+            int line = e.getLineNumber();
+            int column = e.getColumnNumber();
+            throw new BuildException( e, new Location( path, line, column ) );
+        }
+        catch( SAXException e )
+        {
+            if( e.getException() != null) 
+            {
+                throw new BuildException( 
+                  e.getException(), new Location( path ) );
+            }
+            throw new BuildException( e, new Location( path ) );
+        }
+        catch( Throwable e )
+        {
+            throw new BuildException( e, new Location( path ) );
+        }
+        finally
+        {
+            if( null != input )
+            {
+                try
+                {
+                    input.close();
+                }
+                catch( IOException ioe )
+                {
+                    // ignore
+                }
+            }
+        }
+    }
+
+    private void buildRemoteList( final String source, final Element[] children )
+    {
+        log( "entries: " + children.length, Project.MSG_VERBOSE );
+        for( int i=0; i<children.length; i++ )
+        {
+            final Element element = children[i];
+            final String tag = element.getTagName();
+            if( isaResource( tag ) )
+            {
+                final Resource resource = createResource( element );
+                final String key = resource.getKey();
+                m_resources.put( key, resource );
+                log( 
+                  "resource: " + resource 
+                  + " key=" + key, Project.MSG_VERBOSE );
+            }
+            else if( "import".equals( element.getTagName() ) )
+            {
+                final String path = element.getAttribute( "href" );
+                if(( null != path ) && ( !"".equals( path )))
+                {
+                    if( !m_includes.contains( path ) )
+                    {
+                        m_includes.add( path );
+                        buildRemoteList( path );
+                    }
+                }
+                else
+                {
+                    final String error = 
+                      "Import statement in remote index does not contain an 'href' attribute.";
+                    throw new BuildException( error, new Location( source ) );
+                }
+            }
+            else
+            {
+                final String error =
+                  "Unrecognized element type \"" + tag + "\" found in remote index.";
+                throw new BuildException( error, new Location( source ) );
+            }
+        }
+    }
+
+    /*
     private void buildList( final File index, final boolean remote )
     {
         final Element root = ElementHelper.getRootElement( index );
@@ -200,7 +394,9 @@ public class Home extends DataType
         final File system = index.getParentFile();
         buildList( system, elements, remote );
     }
+    */
 
+    /*
     private void buildList( 
       final File system, final Element[] children, final boolean remote )
     {
@@ -222,6 +418,10 @@ public class Home extends DataType
             }
             else if( "import".equals( element.getTagName() ) )
             {
+                //
+                // things get interesting
+                //
+
                 final String path = element.getAttribute( "href" );
                 if(( null != path ) && ( !"".equals( path ) ))
                 {
@@ -281,6 +481,7 @@ public class Home extends DataType
             }
         }
     }
+    */
 
     private URL createURL( String path )
     {
@@ -307,16 +508,14 @@ public class Home extends DataType
     }
 
     private Resource createResource( 
-      final Element element, final File system, final boolean remote )
+      final Element element, final File anchor )
     {
-        if( remote )
-        {
-            return XMLDefinitionBuilder.createResource( this, element );
-        }
-        else
-        {
-            return XMLDefinitionBuilder.createResource( this, element, system );
-        }
+        return XMLDefinitionBuilder.createResource( this, element, anchor );
+    }
+
+    private Resource createResource( final Element element )
+    {
+        return XMLDefinitionBuilder.createResource( this, element );
     }
 
     private boolean isaResource( final String tag )

@@ -86,7 +86,12 @@ public class XMLDefinitionBuilder
         final Info info =
           createInfo( ElementHelper.getChild( element, "info" ) );
         final String key = getDefinitionKey( element, info );
-        return new Resource( home, key, info );
+
+        final ResourceRef[] resources =
+          createResourceRefs( 
+            ElementHelper.getChild( element, "dependencies" ) );
+        
+        return new Resource( home, key, info, resources );
     }
 
     public static Definition createDefinition( final Home home, final Element element, final File anchor )
