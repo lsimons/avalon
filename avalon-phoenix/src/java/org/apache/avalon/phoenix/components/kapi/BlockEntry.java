@@ -32,7 +32,7 @@ public class BlockEntry
         m_name = name;
         m_roleEntrys = roleEntrys;
         setLocator( locator );
-        setState( State.BASE );
+        setState( State.VOID );
     }
 
     public String getName()
