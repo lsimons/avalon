@@ -59,11 +59,6 @@ import java.util.BitSet;
 import java.util.Iterator;
 
 import org.apache.avalon.framework.parameters.Parameters;
-import org.apache.avalon.framework.CascadingRuntimeException;
-import org.apache.regexp.REProgram;
-import org.apache.regexp.RECompiler;
-import org.apache.regexp.RESyntaxException;
-import org.apache.regexp.RE;
 
 /**
  *
@@ -71,7 +66,7 @@ import org.apache.regexp.RE;
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
  * @author <a href="mailto:stephan@apache.org">Stephan Michels</a>
- * @version CVS $Revision: 1.10 $ $Date: 2003/06/10 09:40:15 $
+ * @version CVS $Revision: 1.11 $ $Date: 2003/06/15 16:08:53 $
  */
 public final class SourceUtil
 {
@@ -511,28 +506,6 @@ public final class SourceUtil
         out.close();
     }
 
-    private static final String urlregexp = "^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\\?([^#]*))?(#(.*))?";
-    private static final REProgram urlREProgram;
-    static
-    {
-        RECompiler compiler = new RECompiler();
-        try
-        {
-            urlREProgram = compiler.compile(urlregexp);
-        }
-        catch (RESyntaxException e)
-        {
-            throw new CascadingRuntimeException("SourceUtil: could not compile urlregexp pattern", e);
-        }
-    }
-
-    public static final int SCHEME = 2;
-    private static final int AUTHORITY_WITH_PRECEDING_SLASHES = 3;
-    public static final int AUTHORITY = 4;
-    public static final int PATH = 5;
-    public static final int QUERY = 7;
-    public static final int FRAGMENT = 9;
-
     /**
      * Calls absolutize(url1, url2, false).
      */
@@ -554,32 +527,14 @@ public final class SourceUtil
         if (url1 == null)
             return url2;
 
-        // do this before parsing using the regexp as a performance optimalisation
+        // If the URL contains a scheme (and thus is already absolute), don't do any further work
         if (getScheme(url2) != null)
             return url2;
-
-        // regexp can be slow (and give stack overflows) with large query strings, so cut them of here
-        String query1 = null, query2 = null;
-        int queryPos = url1.indexOf('?');
-        if (queryPos != -1)
-        {
-            query1 = url1.substring(queryPos + 1);
-            url1 = url1.substring(0, queryPos);
-        }
-        queryPos = url2.indexOf('?');
-        if (queryPos != -1)
-        {
-            query2 = url2.substring(queryPos + 1);
-            url2 = url2.substring(0, queryPos);
-        }
 
         // parse the urls into parts
         // if the second url contains a scheme, it is not relative so return it right away (part 3 of the algorithm)
         String[] url1Parts = parseUrl(url1);
         String[] url2Parts = parseUrl(url2);
-
-        url1Parts[QUERY] = query1;
-        url2Parts[QUERY] = query2;
 
         if (treatAuthorityAsBelongingToPath)
             return absolutizeWithoutAuthority(url1Parts, url2Parts);
@@ -614,16 +569,16 @@ public final class SourceUtil
      */
     private static String absolutizeWithoutAuthority(String[] url1Parts, String[] url2Parts)
     {
-        String authority1 = url1Parts[AUTHORITY_WITH_PRECEDING_SLASHES];
-        String authority2 = url2Parts[AUTHORITY_WITH_PRECEDING_SLASHES];
+        String authority1 = url1Parts[AUTHORITY];
+        String authority2 = url2Parts[AUTHORITY];
 
         String path1 = url1Parts[PATH];
         String path2 = url2Parts[PATH];
 
         if (authority1 != null)
-            path1 = authority1 + path1;
+            path1 = "//" + authority1 + path1;
         if (authority2 != null)
-            path2 = authority2 + path2;
+            path2 = "//" + authority2 + path2;
 
         String path = stripLastSegment(path1);
         path = path + (path.endsWith("/") ? "" : "/") + path2;
@@ -705,43 +660,135 @@ public final class SourceUtil
         return url.toString();
     }
 
+    public static final int SCHEME = 0;
+    public static final int AUTHORITY = 1;
+    public static final int PATH = 2;
+    public static final int QUERY = 3;
+    public static final int FRAGMENT = 4;
+
     /**
-     * Parses an URL into its individual parts.
+     * Parses an URL into the following parts: scheme, authority, path, query and fragment identifier.
      *
-     * <p>This is achieved using the following regular expression, which is copied
-     * literally from RFC 2396:
+     * <p>The parsing is designed to be robust in the sense that it will never fail, even when an invalid
+     * URL is given. The parser will simply look for the most important delimiter characters. Basically
+     * it does the same as what would be achieved using the following regular expression (from RFC 2396):
      * <pre>
      * ^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?
      *  12            3  4          5       6  7        8 9
      * </pre>
+     * but without actually using the regular expression.
      *
-     * The result is an array containing 10 elements. The element 0 contains the entire matched url.
-     * The most interesting parts are:
-     * <pre>
-     * scheme    = 2
-     * authority = 4
-     * path      = 5
-     * query     = 7
-     * fragment  = 9
-     * </pre>
+     * <p>The result is returned as a string array, use the constants SCHEME, AUTHORITY, PATH,
+     * QUERY and FRAGMENT_IDENTIFIER to access the different parts.
      *
-     * To access these, you can use the predefined constants SCHEME, AUTHORITY, PATH, QUERY and FRAGMENT.
-     *
-     * <p>If a part is missing, its corresponding array entry will be null. The path-part will never be
-     * null, but rather an empty string. An empty authority (as in scheme:///a) will give an empty string
-     * for the authority.
-     *
-     * @param url the url to parse. Any part from this URL may be missing (i.e. it is not obligatory that
-     * the URL contains scheme, authority, path, query and fragment parts)
-     *
+     * <p>If a part is missing, its corresponding entry in the array will be null, except for the
+     * path, which will never be null.
      */
     public static String[] parseUrl(String url) {
-        RE re = new RE(urlREProgram);
-        re.match(url);
-        String[] parts = new String[10];
-        for (int i = 0; i < 10; i++)
-            parts[i] = re.getParen(i);
-        return parts;
+        char[] urlchars = url.toCharArray();
+
+        int pos = 0;
+
+        String scheme = null;
+        String authority = null;
+        String path = null;
+        String query = null;
+        String fragid = null;
+
+        //  ^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?
+
+        // the scheme
+        boolean keepgoing = true;
+        while (keepgoing && pos < urlchars.length)
+        {
+            switch (urlchars[pos])
+            {
+                case ':':
+                    if (pos >= 1)
+                    {
+                        scheme = new String(urlchars, 0, pos);
+                        keepgoing = false;
+                        pos++;
+                        break;
+                    }
+                case '/':
+                case '?':
+                case '#':
+                    keepgoing = false;
+                    break;
+                default:
+                    pos++;
+            }
+        }
+
+        if (scheme == null)
+            pos = 0;
+
+        //  the authority
+        if (pos + 1 < urlchars.length && urlchars[pos] == '/' && urlchars[pos+1] == '/')
+        {
+            pos += 2;
+            int authorityBeginPos = pos;
+            keepgoing = true;
+            while (keepgoing && pos < urlchars.length)
+            {
+                switch (urlchars[pos])
+                {
+                    case '/':
+                    case '?':
+                    case '#':
+                        keepgoing = false;
+                        break;
+                    default:
+                        pos++;
+                }
+            }
+            authority = new String(urlchars, authorityBeginPos, pos - authorityBeginPos);
+        }
+
+        //  the path
+        int pathBeginPos = pos;
+        keepgoing = true;
+        while (keepgoing && pos < urlchars.length)
+        {
+            switch (urlchars[pos])
+            {
+                case '?':
+                case '#':
+                    keepgoing = false;
+                    break;
+                default:
+                    pos++;
+            }
+        }
+        path = new String(urlchars, pathBeginPos, pos - pathBeginPos);
+
+        // the query
+        if (pos < urlchars.length && urlchars[pos] == '?')
+        {
+            pos++;
+            int queryBeginPos = pos;
+            keepgoing = true;
+            while (keepgoing && pos < urlchars.length)
+            {
+                switch (urlchars[pos])
+                {
+                    case '#':
+                        keepgoing = false;
+                        break;
+                    default:
+                        pos++;
+                }
+            }
+            query = new String(urlchars, queryBeginPos, pos - queryBeginPos);
+        }
+
+        // the fragment identifier
+        pos++;
+        if (pos < urlchars.length)
+            fragid = new String(urlchars, pos, urlchars.length - pos);
+
+        return new String[] {scheme, authority, path, query, fragid};
     }
 
     /**

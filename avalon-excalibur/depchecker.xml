@@ -3,7 +3,7 @@
 <!--
 ============================================================
                 Dependency updater
-                   Version $Revision: 1.53 $
+                   Version $Revision: 1.54 $
            Jeff Turner <jefft@apache.org>
 
 This Ant script provides "functions" to check if
@@ -511,14 +511,6 @@ To use it, type 'ant -f depchecker.xml'
             <property name="proj.jar.name" value="excalibur-xmlutil.jar"/>
             <property name="path" value="${excalibur-xmlutil.jar}"/>
             <property name="proj.home" value="${basedir}/../xmlutil"/>
-        </ant>
-    </target>
-
-    <target name="checkJakartaRegexp">
-        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
-            <property name="proj.jar.name" value="jakarta-regexp-1.2.jar"/>
-            <property name="path" value="${jakarta-regexp.jar}"/>
-            <property name="proj.home" value="${basedir}/../lib"/>
         </ant>
     </target>
 

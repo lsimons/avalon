@@ -15,7 +15,6 @@
         <pathelement location="${build.classes}"/>
         <pathelement location="${avalon-framework.jar}"/>
         <pathelement location="${checkstyle.jar}"/>
-        <pathelement location="${jakarta-regexp.jar}"/>
         <pathelement path="${java.class.path}"/>
     </path>
 
@@ -39,7 +38,6 @@
     <target name="dependencies" description="Check dependencies" unless="skip.dependencies">
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkCommon"/>
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkFramework"/>
-        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkJakartaRegexp"/>
     </target>
 
     <target name="dependencies-test" depends="dist-jar, dependencies"
