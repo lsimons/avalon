@@ -72,7 +72,7 @@ import org.apache.excalibur.source.impl.FileSource;
  * Test case for FileSource.
  * 
  * @author <a href="mailto:sylvain@apache.org">Sylvain Wallez</a>
- * @version $Id: FileSourceTestCase.java,v 1.3 2003/04/07 17:24:02 sylvain Exp $
+ * @version $Id: FileSourceTestCase.java,v 1.4 2003/06/10 14:15:31 bloritsch Exp $
  */
 public class FileSourceTestCase extends TestCase
 {
@@ -100,11 +100,13 @@ public class FileSourceTestCase extends TestCase
 
     public void testDirExistence() throws Exception
     {
+        m_tempDir.mkdirs();
+        long time = m_tempDir.lastModified();
         FileSource src = new FileSource("file", m_tempDir);
         assertTrue("Temp dir doesn't exist", src.exists());
         assertTrue("Temp dir is not traversable", src.isCollection());
         // Check it was created less than 1 secs ago
-        assertEquals("Wrong creation date", System.currentTimeMillis() / 1000L, src.getLastModified() / 1000L);
+        assertEquals("Wrong creation date", time, src.getLastModified());
 
         assertTrue("Temp dir is not empty", src.getChildren().isEmpty());
     }
@@ -243,7 +245,7 @@ public class FileSourceTestCase extends TestCase
         assertEquals("Validity is not valid", 1, validity.isValid());
 
         // Wait 1 second before updating the file
-        Thread.sleep(1000L);
+        Thread.sleep(2000L);
         
         // Now change its content
         PrintWriter pw = new PrintWriter(child.getOutputStream());
