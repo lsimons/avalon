@@ -104,7 +104,7 @@ import org.apache.avalon.meta.info.StageDescriptor;
  * appliance instance.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.13 $ $Date: 2003/12/08 12:49:36 $
+ * @version $Revision: 1.14 $ $Date: 2003/12/12 14:02:35 $
  */
 public class DefaultAppliance extends AbstractAppliance
   implements Composite, DefaultApplianceMBean
@@ -572,7 +572,7 @@ public class DefaultAppliance extends AbstractAppliance
         {
             final String error = 
               "Illegal attempt to resolve an service from a non-deployed appliance ["
-              + this + "]. A possible cause is a recursive dependency declaration.";
+              + this + "].";
             getLogger().error( error );
             throw new IllegalStateException( error );
         }
