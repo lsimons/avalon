@@ -129,10 +129,10 @@ Legal:
     </target>
 
     <!-- defer to check-targets.ent for figuring out dependencies -->
-    <target name="check-dependencies" depends="junit-check,log4j-check,logkit-check,jdk14-check,bsf-check,rhino-check"/>
+    <target name="check-dependencies" depends="junit-check,log4j-check,logkit-check,jdk14-check"/>
 
     <!-- defer to check-targets.ent for downloading dependencies -->
-    <target name="import-dependencies" depends="import-junit,import-log4j,import-logkit,import-bsf,import-rhino"/>
+    <target name="import-dependencies" depends="import-junit,import-log4j,import-logkit"/>
 
     <!-- Prepares the build directory -->
     <target name="prepare" depends="check-dependencies">
@@ -388,7 +388,7 @@ Legal:
         <filter token="year" value="${year}"/>
         <filter token="status" value="${status}"/>
         <filter token="release" value="${release}"/>
-        <filter token="short-version" value="${short.version}"/>
+	<filter token="short-version" value="${short.version}"/>
 
         <mkdir dir="${target.dir}" />
         <mkdir dir="${dist.base}" />

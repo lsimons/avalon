@@ -9,34 +9,6 @@
   <xsl:output method="xml" indent="yes"/>
   <!--The component and its script are in the lxslt namespace and define the 
                   implementation of the extension.-->
-                <lxslt:component prefix="my-ext" elements="timelapse" functions="getdate">
-                  <lxslt:script lang="javascript">
-		    var month = new Array (
-		      "January",
-		      "February",
-		      "March",
-		      "April",
-		      "May",
-		      "June",
-		      "July",
-		      "August",
-		      "September",
-		      "October",
-		      "November",
-		      "December"
-		    );
-
-                    function getdate()
-                    {
-		      var d = new Date();
-		      var mo = month[d.getMonth()];
-		      var dy = d.getDate();
-		      var yr = d.getFullYear();
-		      var dateString = dy + " " + mo + " " + yr;
-                      return dateString;
-                    }
-                  </lxslt:script>
-                </lxslt:component>
 
   <xsl:template match="changes">
     <xsl:variable name="version" select="@version"/>
@@ -44,7 +16,7 @@
   </xsl:template>
 
   <xsl:template match="announcement">
-    <h3><xsl:value-of select="my-ext:getdate()"/> - <xsl:value-of select="title"/><xsl:text> Released</xsl:text></h3>
+    <h3><xsl:value-of select="title"/><xsl:text> Released</xsl:text></h3>
     <xsl:apply-templates select="abstract"/>
 
     <xsl:for-each select="project">
