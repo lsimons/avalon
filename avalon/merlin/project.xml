@@ -21,7 +21,7 @@ limitations under the License.
   <groupId>merlin</groupId>
   <id>merlin</id>
   <name>Avalon Merlin</name>
-  <currentVersion>3.3</currentVersion>
+  <currentVersion>3.3.0</currentVersion>
 
   <organization>
     <name>The Apache Software Foundation</name>
