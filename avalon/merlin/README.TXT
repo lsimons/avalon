@@ -29,3 +29,16 @@ The latest installation instructions can be found at:
 
 Also make sure to take a look at the INSTALL.txt file in this
 directory as it may contain updated info.
+
+CYGWIN Notes
+------------
+
+Due to restrictions related to the handling of spaces in filename 
+and/or directory names when running under the Cygwin environment you 
+will need to quote and escape command line arguments that contain 
+references with embedded spaces.  
+
+For example:
+
+  merlin -home '/My\ Documents/merlin/apps/abc' -execute
+
