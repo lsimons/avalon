@@ -13,7 +13,8 @@
     <!-- Classpath for product -->
     <path id="project.class.path">
         <pathelement location="${build.classes}"/>
-        <pathelement location="${avalon-framework.jar}"/>
+        <pathelement location="${avalon-framework-api.jar}"/>
+        <pathelement location="${avalon-framework-impl.jar}"/>
         <pathelement location="${altrmi-common.jar}"/>
         <pathelement location="${altrmi-server-impl.jar}"/>
         <pathelement location="${altrmi-server-interfaces.jar}"/>
@@ -38,7 +39,7 @@
 
     <target name="dependencies" description="Check dependencies" unless="skip.dependencies">
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkCommon"/>
-        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkFramework"/>
+        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkFrameworkAPI"/>
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkInstrument"/>
     </target>
 
