@@ -63,4 +63,6 @@ public interface ContainerConstants
      * The name of the partition in which listeners are contained.
      */
     String LISTENER_PARTITION = "listener";
+
+    String ROOT_INSTRUMENT_CATEGORY = "applications";
 }
