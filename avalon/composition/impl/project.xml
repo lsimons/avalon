@@ -67,12 +67,12 @@
     <dependency>
       <groupId>&avalon-composition-id;</groupId>
       <artifactId>&avalon-composition-api-id;</artifactId>
-      <version>&avalon-composition-api-id;</version>
+      <version>&avalon-composition-api-version;</version>
     </dependency>
     <dependency>
       <groupId>&avalon-composition-id;</groupId>
       <artifactId>&avalon-composition-spi-id;</artifactId>
-      <version>&avalon-composition-spi-id;</version>
+      <version>&avalon-composition-spi-version;</version>
     </dependency>
 
     <dependency>
