@@ -32,7 +32,7 @@ import org.apache.avalon.framework.context.Contextualizable;
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:paul@luminas.co.uk">Paul Russell</a>
  * @author <a href="mailto:ryan@silveregg.co.jp">Ryan Shaw</a>
- * @version CVS $Revision: 1.7 $ $Date: 2002/06/13 17:24:50 $
+ * @version CVS $Revision: 1.8 $ $Date: 2002/06/18 14:25:47 $
  * @since 4.0
  */
 public class ExcaliburComponentManager
@@ -258,7 +258,7 @@ public class ExcaliburComponentManager
             {
                 getLogger().error( message );
             }
-            throw new ComponentException( message );
+            throw new ComponentException( role, message );
         }
 
         ComponentHandler handler = (ComponentHandler)m_componentHandlers.get( role );
@@ -319,7 +319,7 @@ public class ExcaliburComponentManager
                         {
                             getLogger().debug( message + " for role: " + role, e );
                         }
-                        throw new ComponentException( message, e );
+                        throw new ComponentException( role, message, e );
                     }
 
                     m_componentHandlers.put( role, handler );
@@ -338,7 +338,7 @@ public class ExcaliburComponentManager
             {
                 getLogger().debug( message + " for role: " + role );
             }
-            throw new ComponentException( message );
+            throw new ComponentException( role, message );
         }
 
         Component component = null;
@@ -354,6 +354,11 @@ public class ExcaliburComponentManager
                 handler.initialize();
                 component = handler.get();
             }
+            catch( final ComponentException ce )
+            {
+                // Rethrow instead of wrapping a ComponentException with another one
+                throw ce;
+            }
             catch( final Exception e )
             {
                 final String message = "Could not access the Component";
@@ -362,7 +367,7 @@ public class ExcaliburComponentManager
                     getLogger().debug( message + " for role: " + role, e );
                 }
 
-                throw new ComponentException( message, e );
+                throw new ComponentException( role, message, e );
             }
         }
         catch( final Exception e )
@@ -373,7 +378,7 @@ public class ExcaliburComponentManager
                 getLogger().debug( message + " for role: " + role, e );
             }
 
-            throw new ComponentException( message, e );
+            throw new ComponentException( role, message, e );
         }
 
         // Add a mapping between the component and its handler.
@@ -616,7 +621,7 @@ public class ExcaliburComponentManager
     {
         if( m_initialized )
         {
-            throw new ComponentException( "Cannot add components to an initialized ComponentLocator", null );
+            throw new ComponentException( role, "Cannot add components to an initialized ComponentLocator" );
         }
 
         try
@@ -643,8 +648,7 @@ public class ExcaliburComponentManager
         }
         catch( final Exception e )
         {
-            throw new ComponentException( "Could not set up Component for role: " +
-                                          role, e );
+            throw new ComponentException( role, "Could not set up Component.", e );
         }
     }
 
