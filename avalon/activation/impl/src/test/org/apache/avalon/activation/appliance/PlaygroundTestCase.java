@@ -50,6 +50,8 @@
 
 package org.apache.avalon.activation.appliance;
 
+import org.apache.avalon.util.exception.ExceptionHelper;
+
 public class PlaygroundTestCase extends AbstractTestCase
 {
    //-------------------------------------------------------
@@ -70,10 +72,15 @@ public class PlaygroundTestCase extends AbstractTestCase
    // setup
    //-------------------------------------------------------
 
-   public String getPath()
-   {
-      return "playground.xml";
-   }
+   /**
+    * Setup the model using a source balock in the conf 
+    * directory.
+    * @exception Exception if things don't work out
+    */
+    public void setUp() throws Exception
+    {
+        super.setUp( "playground.xml" );
+    }
 
    //-------------------------------------------------------
    // test

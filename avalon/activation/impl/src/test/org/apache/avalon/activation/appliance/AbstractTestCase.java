@@ -105,7 +105,7 @@ public abstract class AbstractTestCase extends TestCase
    // setup
    //-------------------------------------------------------
 
-    public abstract String getPath();
+    //public abstract String getPath();
 
    /**
     * The setup process covers the establishment of the base
@@ -116,10 +116,25 @@ public abstract class AbstractTestCase extends TestCase
     *
     * @exception Exception if things don't work out
     */
-    public void setUp() throws Exception
+    public void setUp( String filename ) throws Exception
     {
-        File base = new File( getTestDir(), "test-classes" );
+        File base = new File( getTargetDirectory(), "test-classes" );
+        File conf = new File( getBaseDirectory(), "src/test/conf" );
+        File block = new File( conf, filename );
+        setUp( base, block );
+    }
 
+   /**
+    * The setup process covers the establishment of the base
+    * directory (from which relative references for extension directories
+    * and fileset base directories are resolved), a file repository (not
+    * used in this test case at this time), and a class loader model from 
+    * which a classpath will be established.
+    *
+    * @exception Exception if things don't work out
+    */
+    public void setUp( File base, File block ) throws Exception
+    {
         //
         // Next couple of lines are using a convinience operation
         // on DefaultSystemContext to create the system context.  This 
@@ -138,7 +153,7 @@ public abstract class AbstractTestCase extends TestCase
         // and establish a containment model for the unit test
         //
 
-        ContainmentProfile profile = setUpProfile( new File( base, getPath() ) );
+        ContainmentProfile profile = setUpProfile( block );
         m_model = m_system.getFactory().createContainmentModel( profile );
     }
 
@@ -151,9 +166,14 @@ public abstract class AbstractTestCase extends TestCase
         return creator.createContainmentProfile( config );
     }
 
-    protected static File getTestDir()
+    protected static File getBaseDirectory()
     {
-        return new File( System.getProperty( "basedir" ), "target" );
+        return new File( System.getProperty( "basedir" ) );
+    }
+
+    protected static File getTargetDirectory()
+    {
+        return new File( getBaseDirectory(), "target" );
     }
 
     protected Logger getLogger()

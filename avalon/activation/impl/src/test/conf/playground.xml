@@ -22,6 +22,8 @@ Example block deployment descriptor.
 
    <container name="subsidiary">
 
+     <categories priority="WARN"/>
+
      <component name="complex"
            class="org.apache.avalon.playground.ComplexComponent" activation="startup"/>
 

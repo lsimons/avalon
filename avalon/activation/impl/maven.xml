@@ -9,6 +9,7 @@
     <mkdir dir="${basedir}/target/test-classes/repository/avalon-framework/jars"/>
     <ant:copy toDir="${basedir}/target/test-classes/repository/avalon-framework/jars" 
       file="${pom.getDependencyPath('avalon-framework:avalon-framework-impl')}"/>
+    <attainGoal name="avalon:meta"/>
   </postGoal>
 
 </project>
