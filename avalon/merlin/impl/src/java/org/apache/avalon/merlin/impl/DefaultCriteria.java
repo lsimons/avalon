@@ -55,7 +55,7 @@ import org.apache.avalon.util.criteria.PackedParameter;
  * for application to a factory.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.28 $
+ * @version $Revision: 1.29 $
  */
 public class DefaultCriteria extends Criteria implements KernelCriteria
 {
@@ -169,6 +169,9 @@ public class DefaultCriteria extends Criteria implements KernelCriteria
               String.class, null ),
             new Parameter( 
               MERLIN_RUNTIME, 
+              String.class, null ),
+            new Parameter( 
+              MERLIN_RUNTIME_IMPLEMENTATION, 
               String.class, null ),
             new Parameter( 
               MERLIN_OVERRIDE, String.class, null ),
