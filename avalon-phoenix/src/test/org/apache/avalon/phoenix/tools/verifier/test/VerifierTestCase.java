@@ -8,7 +8,7 @@
 package org.apache.avalon.phoenix.tools.verifier.test;
 
 import org.apache.avalon.framework.logger.ConsoleLogger;
-import org.apache.avalon.phoenix.metadata.SarMetaData;
+import org.apache.avalon.phoenix.containerkit.registry.PartitionProfile;
 import org.apache.avalon.phoenix.test.AbstractContainerTestCase;
 import org.apache.avalon.phoenix.tools.verifier.SarVerifier;
 
@@ -16,7 +16,7 @@ import org.apache.avalon.phoenix.tools.verifier.SarVerifier;
  *  An basic test case for the LogManager.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2002/10/01 06:18:22 $
+ * @version $Revision: 1.3 $ $Date: 2003/02/28 23:35:59 $
  */
 public class VerifierTestCase
     extends AbstractContainerTestCase
@@ -40,7 +40,7 @@ public class VerifierTestCase
 
     protected void verify( final String config ) throws Exception
     {
-        final SarMetaData sarMetaData = assembleSar( config );
+        final PartitionProfile sarMetaData = assembleSar( config );
         final ClassLoader classLoader = getClass().getClassLoader();
         final SarVerifier verifier = new SarVerifier();
         verifier.enableLogging( new ConsoleLogger() );
