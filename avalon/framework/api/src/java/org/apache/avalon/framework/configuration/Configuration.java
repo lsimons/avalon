@@ -278,7 +278,7 @@ public interface Configuration
 
     /**
      * Return the <code>boolean</code> value of the specified parameter contained
-     * in this node.<br>
+     * in this node.
      *
      * @pre paramName != null
      * @post getAttributeAsBoolean() != null
@@ -331,7 +331,7 @@ public interface Configuration
     boolean getValueAsBoolean() throws ConfigurationException;
 
     /**
-     * Return the <code>long</code> value of the node.<br>
+     * Return the <code>long</code> value of the node.
      *
      * @post getValueAsLong() != null
      *
