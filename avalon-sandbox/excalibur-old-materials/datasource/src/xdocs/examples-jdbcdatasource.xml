@@ -1,4 +1,5 @@
 <?xml version="1.0"?>
+<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V1.1//EN" "document-v11.dtd">
 
 <document>
     <header>
@@ -10,22 +11,23 @@
     <body>
         <section>
             <title>Introduction</title>
-            <para>
+            <p>
                 The Jdbc Data Source Example Application will take you through the steps involved
                 to get your Avalon application configured to be able to connect to a database.
                 This is done by implementing a simple console based application which allows the
                 user to add, remove, and view Movie Titles in a Hypersonic SQL database.
-            </para>
-            <para>
+            </p>
+            <p>
                 This example assumes that you are familiar with configuration files and with the
                 Logger system.
-            </para>
+            </p>
         </section>
         <section>
             <title>Running the Example Application</title>
-            <para>
+            <p>
                 To run the application, follow these steps.
-                <list>
+            </p>
+                <ol>
                     <li>Download and build the <code>avalon project</code>.</li>
                     <li>Download the <code>avalon-excalibur</code> project into the same
                         parent directory as <code>avalon</code> and run <code>build</code>
@@ -35,27 +37,27 @@
                     </li>
                     <li>cd into the <code>avalon-excalibur/examples/jdbcdatasource/bin</code>
                         directory and execute the <code>run</code> script.</li>
-                </list>
-            </para>
-            <para>
+                </ol>
+            <p>
                 Once the application is running, you should see the following:
-                <programlisting format="linespecific"><![CDATA[Running the JdbcDataSource Example Application
+            </p>
+                <source><![CDATA[Running the JdbcDataSource Example Application
 
 Please enter a title to be added to the database
     (RESET deletes all titles, LIST lists all titles, QUIT or EXIT to quit)
-:]]></programlisting>
-            </para>
-            <para>
+:]]></source>
+            <p>
                 The application allows you to enter the commands <code>RESET</code> to delete all
                 titles from the database, <code>LIST</code> to list all the titles in the database,
                 or <code>QUIT</code> to quit the application.  Any other command will be
                 interpreted as a title and be added to the database.  Not the fanciest interface
                 in the world, but it will work for this example.
-            </para>
-            <para>
+            </p>
+            <p>
                 Play around with adding and deleting a few Movie Titles before we move on to how
                 the application works.  You should see something like the following as output:
-                <programlisting format="linespecific"><![CDATA[Running the JdbcDataSource Example Application
+            </p>
+                <source><![CDATA[Running the JdbcDataSource Example Application
 
 Please enter a title to be added to the database
     (RESET deletes all titles, LIST lists all titles, QUIT or EXIT to quit)
@@ -80,17 +82,17 @@ Deleted 3 titles from the database.
 : quit
 
 
-Exiting...]]></programlisting>
-            </para>
+Exiting...]]></source>
         </section>
         <section>
             <title>So How Does It All Work?</title>
-            <para>
+            <p>
                 This example starts out by creating a component interface, 
                 <code>HelloDBService</code>, and its implementation class
                 <code>DefaultHelloDBService</code>.  <code>HelloDBService</code> defines the
                 following methods:
-                <programlisting format="linespecific"><![CDATA[public interface HelloDBService
+            </p>
+                <source><![CDATA[public interface HelloDBService
     extends Component
 {
     String ROLE = "org.apache.avalon.examples.jdbcdatasource.HelloDBService";
@@ -110,39 +112,39 @@ Exiting...]]></programlisting>
      *  with the info log level.
      */
     void logRows();
-}]]></programlisting>
-            </para>
-            <para>
+}]]></source>
+            <p>
                 The implementation class, <code>DefaultHelloDBService</code>, must implement the
                 following interfaces; <code>HelloDBService</code>, <code>Composable</code>,
                 <code>Configurable</code>, <code>Initializable</code>, and <code>Disposable</code>.
                 The methods of each interface have a critical role in controlling the life cycle of
                 the component and its interaction with the JdbcDataSource.
-            </para>
-            <para>
+            </p>
+            <p>
                 The <code>Composable</code> interface defines the <code>compose</code> method.  Its
                 job is to store a reference to the ComponentManager which created the component.
-                <programlisting format="linespecific"><![CDATA[public void compose( ComponentManager manager )
+            </p>
+                <source><![CDATA[public void compose( ComponentManager manager )
 {
     m_manager = manager;
-}]]></programlisting>
-            </para>
-            <para>
+}]]></source>
+            <p>
                 The <code>Configurable</code> interface defines the <code>configure</code> method.
                 Its job is to extract the name of the Data Source which the component is configured
                 to use.
-                <programlisting format="linespecific"><![CDATA[public void configure( Configuration configuration )
+            </p>
+                <source><![CDATA[public void configure( Configuration configuration )
     throws ConfigurationException
 {
     // Obtain a reference to the configured DataSource
     m_dataSourceName = configuration.getChild( "dbpool" ).getValue();
-}]]></programlisting>
-            </para>
-            <para>
+}]]></source>
+            <p>
                 The <code>Initializable</code> interface defines the <code>initialize</code> method.
                 Its job is to actually obtain a reference to the Data Souurce whose name was
                 obtained during the configuraton phase.
-                <programlisting format="linespecific"><![CDATA[public void initialize()
+                </p>
+                <source><![CDATA[public void initialize()
     throws Exception
 {
     // Get a reference to a data source
@@ -151,7 +153,8 @@ Exiting...]]></programlisting>
     
     // Initialize the database.
     initializeDatabase();
-}]]></programlisting>
+}]]></source>
+                <p>
                 In this example, the data source is defined with a component selector.  This has
                 the benefit of allowing multiple Data Sources to be defined for a single 
                 application.  First obtain a reference to a ComonentSelector with the role:
@@ -159,12 +162,13 @@ Exiting...]]></programlisting>
                 Next, using the selector, look for the DataSource which was specified in the
                 <code>dbpool</code> tag when configuring the component.  Finally, a user method is
                 called to initialize the database.
-            </para>
-            <para>
+            </p>
+            <p>
                 The <code>Disposable</code> interface defines the <code>dispose</code> method.
                 Its job is release the Data Source and the ComponentSelector used to obtain the
                 Data Source as part of the clean up cycle for the component.
-                <programlisting format="linespecific"><![CDATA[public void dispose()
+            </p>
+                <source><![CDATA[public void dispose()
 {
     // Free up the data source
     if ( m_dbSelector != null )
@@ -178,38 +182,39 @@ Exiting...]]></programlisting>
         m_manager.release( m_dbSelector );
         m_dbSelector = null;
     }
-}]]></programlisting>
-            </para>
-            <para>
+}]]></source>
+            <p>
                 Please take a look at the complete source for the component at
                 <code>DefaultHelloDBService.java</code> in the <code>src/java</code> directory of
                 the example.
-            </para>
-            <para>
+            </p>
+            <p>
                 This example starts out by creating a component interface, 
                 <code>HelloDBService</code>, and its implementation class
                 <code>DefaultHelloDBService</code>.  The class is defined inside the roles.xml file
                 with the following definition:  (see <code>conf/roles.xml</code>)
-                <programlisting format="linespecific"><![CDATA[<role name="org.apache.avalon.examples.jdbcdatasource.HelloDBService"
+                </p>
+                <source><![CDATA[<role name="org.apache.avalon.examples.jdbcdatasource.HelloDBService"
       shorthand="hello-db"
-      default-class="org.apache.avalon.examples.jdbcdatasource.DefaultHelloDBService"/>]]></programlisting>
+      default-class="org.apache.avalon.examples.jdbcdatasource.DefaultHelloDBService"/>]]></source>
+      <p>
                 This is not any different than any other component definition.
-            </para>
-            <para>
+            </p>
+            <p>
                 When the component is configured, however, there is a new tag which must be added
                 to the configuration to tell the component how to locate a JdbcDataSource for its
                 database access:  (see <code>conf/components.xml</code>)
-                <programlisting format="linespecific"><![CDATA[<hello-db logger="app">
+            </p>
+                <source><![CDATA[<hello-db logger="app">
     <dbpool>test-db</dbpool>
-</hello-db>]]></programlisting>
-            </para>
+</hello-db>]]></source>
             
         </section>
     </body>
     <footer>
         <legal>
             Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-            $Revision: 1.3 $ $Date: 2003/02/06 13:38:30 $
+            $Revision: 1.4 $ $Date: 2003/03/04 18:46:28 $
         </legal>
     </footer>
 </document>
