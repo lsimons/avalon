@@ -66,10 +66,6 @@
         <package>org.apache.excalibur.altrmi</package>
 
         <ant basedir="altrmi">
-            <depend property="junit.jar" project="junit"/>
-            <depend property="checkstyle.jar" project="checkstyle"/>
-            <depend property="jmx.jar" project="jmx" runtime="true"/>
-            <depend property="framework.jar" project="jakarta-avalon"/>
             <property name="version" value="@@DATE@@"/>
             <property name="junit.failonerror" value="true"/>
             <property name="do.checkstyle" value="true"/>
@@ -77,6 +73,9 @@
         </ant>
 
         <depend project="jakarta-ant"/>
+        <depend project="checkstyle"/>
+        <depend project="junit"/>
+        <depend project="jakarta-avalon" runtime="true"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
         <depend project="jakarta-bcel"/>
@@ -92,8 +91,6 @@
         <package>org.apache.avalon.excalibur.baxter</package>
 
         <ant basedir="baxter">
-            <depend property="junit.jar" project="junit"/>
-            <depend property="checkstyle.jar" project="checkstyle"/>
             <depend property="jmx.jar" project="jmx" runtime="true"/>
             <property name="version" value="@@DATE@@"/>
             <property name="junit.failonerror" value="true"/>
@@ -102,6 +99,8 @@
         </ant>
 
         <depend project="jakarta-ant"/>
+        <depend project="checkstyle"/>
+        <depend project="junit"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
         <work nested="baxter/build/classes"/>
@@ -116,8 +115,6 @@
         <package>org.apache.excalibur.bzip2</package>
 
         <ant basedir="bzip2">
-            <depend property="junit.jar" project="junit"/>
-            <depend property="checkstyle.jar" project="checkstyle"/>
             <property name="version" value="@@DATE@@"/>
             <property name="junit.failonerror" value="true"/>
             <property name="do.checkstyle" value="true"/>
@@ -125,6 +122,8 @@
         </ant>
 
         <depend project="jakarta-ant"/>
+        <depend project="checkstyle"/>
+        <depend project="junit"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
         <work nested="bzip2/build/classes"/>
@@ -140,9 +139,6 @@
         <package>org.apache.avalon.excalibur.cache</package>
 
         <ant basedir="cache">
-            <depend property="junit.jar" project="junit"/>
-            <depend property="checkstyle.jar" project="checkstyle"/>
-            <depend property="avalon-framework.jar" project="jakarta-avalon"/>
             <property name="version" value="@@DATE@@"/>
             <property name="junit.failonerror" value="true"/>
             <property name="do.checkstyle" value="true"/>
@@ -150,6 +146,9 @@
         </ant>
 
         <depend project="jakarta-ant"/>
+        <depend project="checkstyle"/>
+        <depend project="junit"/>
+        <depend project="jakarta-avalon" runtime="true"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
         <work nested="cache/build/classes"/>
@@ -165,8 +164,6 @@
         <package>org.apache.avalon.excalibur.cli</package>
 
         <ant basedir="cli">
-            <depend property="junit.jar" project="junit"/>
-            <depend property="checkstyle.jar" project="checkstyle"/>
             <property name="version" value="@@DATE@@"/>
             <property name="junit.failonerror" value="true"/>
             <property name="do.checkstyle" value="true"/>
@@ -174,6 +171,8 @@
         </ant>
 
         <depend project="jakarta-ant"/>
+        <depend project="checkstyle"/>
+        <depend project="junit"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
         <work nested="cli/build/classes"/>
@@ -189,8 +188,6 @@
         <package>org.apache.avalon.excalibur.collections</package>
 
         <ant basedir="collections">
-            <depend property="junit.jar" project="junit"/>
-            <depend property="checkstyle.jar" project="checkstyle"/>
             <property name="version" value="@@DATE@@"/>
             <property name="junit.failonerror" value="true"/>
             <property name="do.checkstyle" value="true"/>
@@ -198,6 +195,8 @@
         </ant>
 
         <depend project="jakarta-ant"/>
+        <depend project="checkstyle"/>
+        <depend project="junit"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
         <work nested="collections/build/classes"/>
@@ -213,13 +212,10 @@
         <package>org.apache.avalon.excalibur.component</package>
 
         <ant basedir="component">
-            <depend property="junit.jar" project="junit"/>
-            <depend property="checkstyle.jar" project="checkstyle"/>
             <depend property="excalibur-pool.jar" project="excalibur-pool"/>
             <depend property="excalibur-logger.jar" project="excalibur-logger"/>
             <depend property="excalibur-collections.jar" project="excalibur-collections"/>
             <depend property="logkit.jar" project="jakarta-avalon-logkit"/>
-            <depend property="avalon-framework.jar" project="jakarta-avalon"/>
             <property name="version" value="@@DATE@@"/>
             <property name="junit.failonerror" value="true"/>
             <property name="do.checkstyle" value="true"/>
@@ -227,6 +223,9 @@
         </ant>
 
         <depend project="jakarta-ant"/>
+        <depend project="checkstyle"/>
+        <depend project="junit"/>
+        <depend project="jakarta-avalon" runtime="true"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
         <work nested="component/build/classes"/>
@@ -242,8 +241,6 @@
         <package>org.apache.avalon.excalibur.concurrent</package>
 
         <ant basedir="concurrent">
-            <depend property="junit.jar" project="junit"/>
-            <depend property="checkstyle.jar" project="checkstyle"/>
             <property name="version" value="@@DATE@@"/>
             <property name="junit.failonerror" value="true"/>
             <property name="do.checkstyle" value="true"/>
@@ -251,6 +248,8 @@
         </ant>
 
         <depend project="jakarta-ant"/>
+        <depend project="checkstyle"/>
+        <depend project="junit"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
         <work nested="concurrent/build/classes"/>
@@ -266,8 +265,6 @@
         <package>org.apache.excalibur.containerkit</package>
 
         <ant basedir="containerkit">
-            <depend property="avalon-framework.jar" project="jakarta-avalon" runtime="true"/>
-            <depend property="checkstyle.jar" project="checkstyle"/>
             <property name="version" value="@@DATE@@"/>
             <property name="junit.failonerror" value="true"/>
             <property name="do.checkstyle" value="true"/>
@@ -275,7 +272,10 @@
         </ant>
 
         <depend project="jakarta-ant"/>
-        <depend project="excalibur-i18n"/>
+        <depend project="checkstyle"/>
+        <depend project="jakarta-avalon" runtime="true"/>
+        <depend project="excalibur-i18n" runtime="true"/>
+        <depend project="xdoclet-ant14" runtime="true"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
         <work nested="containerkit/build/classes"/>
@@ -291,8 +291,6 @@
         <package>org.apache.excalibur.converter</package>
 
         <ant basedir="converter">
-            <depend property="junit.jar" project="junit"/>
-            <depend property="checkstyle.jar" project="checkstyle"/>
             <depend property="excalibur-i18n.jar" project="excalibur-i18n" runtime="true"/>
             <property name="version" value="@@DATE@@"/>
             <property name="junit.failonerror" value="true"/>
@@ -301,6 +299,8 @@
         </ant>
 
         <depend project="jakarta-ant"/>
+        <depend project="checkstyle"/>
+        <depend project="junit"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
         <work nested="converter/build/classes"/>
@@ -316,14 +316,11 @@
         <package>org.apache.avalon.excalibur.datasource</package>
 
         <ant basedir="datasource">
-            <depend property="junit.jar" project="junit"/>
-            <depend property="checkstyle.jar" project="checkstyle"/>
             <depend property="excalibur-instrument.jar" project="excalibur-instrument" runtime="true"/>
             <depend property="excalibur-pool.jar" project="excalibur-pool" runtime="true"/>
             <depend property="excalibur-logger.jar" project="excalibur-logger"/>
             <depend property="excalibur-component.jar" project="excalibur-component"/>
             <depend property="excalibur-testcase.jar" project="excalibur-testcase"/>
-            <depend property="avalon-framework.jar" project="jakarta-avalon"/>
             <depend property="logkit.jar" project="jakarta-avalon-logkit"/>
             <property name="version" value="@@DATE@@"/>
             <property name="junit.failonerror" value="true"/>
@@ -332,6 +329,9 @@
         </ant>
 
         <depend project="jakarta-ant"/>
+        <depend project="checkstyle"/>
+        <depend project="junit"/>
+        <depend project="jakarta-avalon" runtime="true"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
        <work nested="datasource/build/classes"/>
@@ -347,9 +347,6 @@
         <package>org.apache.avalon.excalibur.event</package>
 
         <ant basedir="event">
-            <depend property="junit.jar" project="junit"/>
-            <depend property="checkstyle.jar" project="checkstyle"/>
-            <depend property="avalon-framework.jar" project="jakarta-avalon"/>
             <depend property="excalibur-collections.jar" project="excalibur-collections"/>
             <depend property="excalibur-pool.jar" project="excalibur-pool"/>
             <depend property="excalibur-concurrent.jar" project="excalibur-concurrent"/>
@@ -363,6 +360,9 @@
         </ant>
 
         <depend project="jakarta-ant"/>
+        <depend project="checkstyle"/>
+        <depend project="junit"/>
+        <depend project="jakarta-avalon" runtime="true"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
        <work nested="event/build/classes"/>
@@ -378,8 +378,6 @@
         <package>org.apache.excalibur.extension</package>
 
         <ant basedir="extension">
-            <depend property="junit.jar"   project="junit"/>
-            <depend property="checkstyle.jar" project="checkstyle"/>
             <property name="version" value="@@DATE@@"/>
             <property name="junit.failonerror" value="true"/>
             <property name="do.checkstyle" value="true"/>
@@ -387,6 +385,8 @@
         </ant>
 
         <depend project="jakarta-ant"/>
+        <depend project="checkstyle"/>
+        <depend project="junit"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
         <work nested="extension/build/classes"/>
@@ -402,8 +402,6 @@
         <package>org.apache.avalon.excalibur.i18n</package>
 
         <ant basedir="i18n">
-            <depend property="junit.jar" project="junit"/>
-            <depend property="checkstyle.jar" project="checkstyle"/>
             <property name="version" value="@@DATE@@"/>
             <property name="junit.failonerror" value="true"/>
             <property name="do.checkstyle" value="true"/>
@@ -411,6 +409,8 @@
         </ant>
 
         <depend project="jakarta-ant"/>
+        <depend project="checkstyle"/>
+        <depend project="junit"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
         <work nested="i18n/build/classes"/>
@@ -426,8 +426,6 @@
         <package>org.apache.avalon.excalibur.instrument</package>
 
         <ant basedir="instrument">
-            <depend property="junit.jar" project="junit"/>
-            <depend property="checkstyle.jar" project="checkstyle"/>
             <property name="version" value="@@DATE@@"/>
             <property name="junit.failonerror" value="true"/>
             <property name="do.checkstyle" value="true"/>
@@ -435,6 +433,8 @@
         </ant>
 
         <depend project="jakarta-ant"/>
+        <depend project="checkstyle"/>
+        <depend project="junit"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
         <work nested="instrument/build/classes"/>
@@ -451,8 +451,6 @@
         <package>org.apache.avalon.excalibur.io</package>
 
         <ant basedir="io">
-            <depend property="junit.jar" project="junit"/>
-            <depend property="checkstyle.jar" project="checkstyle"/>
             <property name="version" value="@@DATE@@"/>
             <property name="junit.failonerror" value="true"/>
             <property name="do.checkstyle" value="true"/>
@@ -460,6 +458,8 @@
         </ant>
 
         <depend project="jakarta-ant"/>
+        <depend project="checkstyle"/>
+        <depend project="junit"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
         <work nested="io/build/classes"/>
@@ -475,9 +475,6 @@
         <package>org.apache.avalon.excalibur.logger</package>
 
         <ant basedir="logger">
-            <depend property="junit.jar" project="junit"/>
-            <depend property="checkstyle.jar" project="checkstyle"/>
-            <depend property="avalon-framework.jar" project="jakarta-avalon" runtime="true"/>
             <depend property="logkit.jar" project="jakarta-avalon-logkit" runtime="true"/>
             <property name="version" value="@@DATE@@"/>
             <property name="junit.failonerror" value="true"/>
@@ -486,6 +483,9 @@
         </ant>
 
         <depend project="jakarta-ant"/>
+        <depend project="checkstyle"/>
+        <depend project="junit"/>
+        <depend project="jakarta-avalon" runtime="true"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
         <work nested="logger/build/classes"/>
@@ -501,9 +501,7 @@
         <package>org.apache.excalibur.merlin</package>
 
         <ant basedir="merlin">
-            <depend property="avalon-framework.jar" project="jakarta-avalon" runtime="true"/>
             <depend property="logkit.jar" project="jakarta-avalon-logkit" runtime="true"/>
-            <depend property="checkstyle.jar" project="checkstyle"/>
             <property name="version" value="@@DATE@@"/>
             <property name="junit.failonerror" value="true"/>
             <property name="do.checkstyle" value="true"/>
@@ -511,6 +509,8 @@
         </ant>
 
         <depend project="jakarta-ant"/>
+        <depend project="checkstyle"/>
+        <depend project="jakarta-avalon" runtime="true"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
         <work nested="merlin/build/classes"/>
@@ -526,8 +526,6 @@
         <package>org.apache.excalibur.microcontainer</package>
 
         <ant basedir="merlin">
-            <depend property="avalon-framework.jar" project="jakarta-avalon" runtime="true"/>
-            <depend property="checkstyle.jar" project="checkstyle"/>
             <property name="version" value="@@DATE@@"/>
             <property name="junit.failonerror" value="true"/>
             <property name="do.checkstyle" value="true"/>
@@ -535,6 +533,8 @@
         </ant>
 
         <depend project="jakarta-ant"/>
+        <depend project="checkstyle"/>
+        <depend project="jakarta-avalon" runtime="true"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
         <work nested="microcontainer/build/classes"/>
@@ -550,8 +550,6 @@
         <package>org.apache.avalon.excalibur.naming</package>
 
         <ant basedir="naming">
-            <depend property="junit.jar" project="junit"/>
-            <depend property="checkstyle.jar" project="checkstyle"/>
             <property name="version" value="@@DATE@@"/>
             <property name="junit.failonerror" value="true"/>
             <property name="do.checkstyle" value="true"/>
@@ -559,6 +557,8 @@
         </ant>
 
         <depend project="jakarta-ant"/>
+        <depend project="checkstyle"/>
+        <depend project="junit"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
         <work nested="naming/build/classes"/>
@@ -574,12 +574,9 @@
         <package>org.apache.avalon.excalibur.pool</package>
 
         <ant basedir="pool">
-            <depend property="junit.jar" project="junit"/>
-            <depend property="checkstyle.jar" project="checkstyle"/>
             <depend property="excalibur-collections.jar" project="excalibur-collections"/>
             <depend property="excalibur-instrument.jar" project="excalibur-instrument"/>
             <depend property="logkit.jar" project="jakarta-avalon-logkit" runtime="true"/>
-            <depend property="avalon-framework.jar" project="jakarta-avalon" runtime="true"/>
             <property name="version" value="@@DATE@@"/>
             <property name="junit.failonerror" value="true"/>
             <property name="do.checkstyle" value="true"/>
@@ -587,6 +584,9 @@
         </ant>
 
         <depend project="jakarta-ant"/>
+        <depend project="checkstyle"/>
+        <depend project="junit"/>
+        <depend project="jakarta-avalon" runtime="true"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
         <work nested="pool/build/classes"/>
@@ -602,9 +602,6 @@
         <package>org.apache.excalibur.source</package>
 
         <ant basedir="sourceresolve">
-            <depend property="junit.jar" project="junit"/>
-            <depend property="checkstyle.jar" project="checkstyle"/>
-            <depend property="avalon-framework.jar" project="jakarta-avalon" runtime="true"/>
             <depend property="excalibur-pool.jar" project="excalibur-pool" runtime="true"/>
             <property name="version" value="@@DATE@@"/>
             <property name="junit.failonerror" value="true"/>
@@ -613,6 +610,9 @@
         </ant>
 
         <depend project="jakarta-ant"/>
+        <depend project="checkstyle"/>
+        <depend project="junit"/>
+        <depend project="jakarta-avalon" runtime="true"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
         <work nested="sourceresolve/build/classes"/>
@@ -628,9 +628,6 @@
         <package>org.apache.excalibur.source</package>
 
         <ant basedir="store">
-            <depend property="junit.jar" project="junit"/>
-            <depend property="checkstyle.jar" project="checkstyle"/>
-            <depend property="avalon-framework.jar" project="jakarta-avalon" runtime="true"/>
             <property name="version" value="@@DATE@@"/>
             <property name="junit.failonerror" value="true"/>
             <property name="do.checkstyle" value="true"/>
@@ -638,6 +635,9 @@
         </ant>
 
         <depend project="jakarta-ant"/>
+        <depend project="checkstyle"/>
+        <depend project="junit"/>
+        <depend project="jakarta-avalon" runtime="true"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
         <work nested="store/build/classes"/>
@@ -653,8 +653,6 @@
         <package>org.apache.excalibur.tar</package>
 
         <ant basedir="tar">
-            <depend property="junit.jar" project="junit"/>
-            <depend property="checkstyle.jar" project="checkstyle"/>
             <property name="version" value="@@DATE@@"/>
             <property name="junit.failonerror" value="true"/>
             <property name="do.checkstyle" value="true"/>
@@ -662,6 +660,8 @@
         </ant>
 
         <depend project="jakarta-ant"/>
+        <depend project="checkstyle"/>
+        <depend project="junit"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
         <work nested="tar/build/classes"/>
@@ -677,11 +677,8 @@
         <package>org.apache.avalon.excalibur.testcase</package>
 
         <ant basedir="testcase">
-            <depend property="junit.jar" project="junit"/>
-            <depend property="checkstyle.jar" project="checkstyle"/>
             <depend property="excalibur-component.jar" project="excalibur-component" runtime="true"/>
             <depend property="excalibur-logger.jar" project="excalibur-logger" runtime="true"/>
-            <depend property="avalon-framework.jar" project="jakarta-avalon" runtime="true"/>
             <depend property="logkit.jar" project="jakarta-avalon-logkit" runtime="true"/>
             <property name="version" value="@@DATE@@"/>
             <property name="junit.failonerror" value="true"/>
@@ -690,6 +687,9 @@
         </ant>
 
         <depend project="jakarta-ant"/>
+        <depend project="checkstyle"/>
+        <depend project="junit"/>
+        <depend project="jakarta-avalon" runtime="true"/>
        <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
         <work nested="testcase/build/classes"/>
@@ -706,12 +706,9 @@
         <package>org.apache.avalon.excalibur.thread</package>
 
         <ant basedir="thread">
-            <depend property="junit.jar" project="junit"/>
-            <depend property="checkstyle.jar" project="checkstyle"/>
             <depend property="excalibur-pool.jar" project="excalibur-pool" runtime="true"/>
             <depend property="excalibur-threadcontext.jar" project="excalibur-threadcontext" runtime="true"/>
             <depend property="excalibur-instrument.jar" project="excalibur-instrument" runtime="true"/>
-            <depend property="avalon-framework.jar" project="jakarta-avalon" runtime="true"/>
             <depend property="logkit.jar" project="jakarta-avalon-logkit" runtime="true"/>
             <property name="version" value="@@DATE@@"/>
             <property name="junit.failonerror" value="true"/>
@@ -720,6 +717,9 @@
         </ant>
 
         <depend project="jakarta-ant"/>
+        <depend project="checkstyle"/>
+        <depend project="junit"/>
+        <depend project="jakarta-avalon" runtime="true"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
         <work nested="thread/build/classes"/>
@@ -735,8 +735,6 @@
         <package>org.apache.excalibur.threadcontext</package>
 
         <ant basedir="threadcontext">
-            <depend property="junit.jar" project="junit"/>
-            <depend property="checkstyle.jar" project="checkstyle"/>
             <property name="version" value="@@DATE@@"/>
             <property name="junit.failonerror" value="true"/>
             <property name="do.checkstyle" value="true"/>
@@ -744,6 +742,8 @@
         </ant>
 
         <depend project="jakarta-ant"/>
+        <depend project="checkstyle"/>
+        <depend project="junit"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
         <work nested="threadcontext/build/classes"/>
@@ -759,9 +759,6 @@
         <package>org.apache.avalon.excalibur.util</package>
 
         <ant basedir="util">
-            <depend property="junit.jar" project="junit"/>
-            <depend property="checkstyle.jar" project="checkstyle"/>
-            <depend property="framework.jar" project="jakarta-avalon"/>
             <depend property="jmx.jar" project="jmx" runtime="true"/> <!-- doesn't seem to be used (JT) -->
             <property name="version" value="@@DATE@@"/>
             <property name="junit.failonerror" value="true"/>
@@ -770,6 +767,9 @@
         </ant>
 
         <depend project="jakarta-ant"/>
+        <depend project="checkstyle"/>
+        <depend project="junit"/>
+        <depend project="jakarta-avalon" runtime="true"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
         <work nested="util/build/classes"/>
@@ -784,9 +784,6 @@
         <package>org.apache.avalon.excalibur.xml</package>
 
         <ant basedir="xmlbundle">
-            <depend property="junit.jar" project="junit"/>
-            <depend property="checkstyle.jar" project="checkstyle"/>
-            <depend property="avalon-framework.jar" project="jakarta-avalon"/>
             <depend property="excalibur-logger.jar" project="excalibur-logger"/>
             <depend property="logkit.jar" project="jakarta-avalon-logkit" runtime="true"/>
             <depend property="excalibur-component.jar" project="excalibur-component"/>
@@ -800,6 +797,9 @@
         </ant>
 
         <depend project="jakarta-ant"/>
+        <depend project="checkstyle"/>
+        <depend project="junit"/>
+        <depend project="jakarta-avalon" runtime="true"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
         <work nested="xmlbundle/build/classes"/>
@@ -815,8 +815,6 @@
         <package>org.apache.excalibur.zip</package>
 
         <ant basedir="zip">
-            <depend property="junit.jar" project="junit"/>
-            <depend property="checkstyle.jar" project="checkstyle"/>
             <property name="version" value="@@DATE@@"/>
             <property name="junit.failonerror" value="true"/>
             <property name="do.checkstyle" value="true"/>
@@ -824,6 +822,8 @@
         </ant>
 
         <depend project="jakarta-ant"/>
+        <depend project="checkstyle"/>
+        <depend project="junit"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
         <work nested="zip/build/classes"/>
