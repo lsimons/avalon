@@ -66,7 +66,7 @@ import org.apache.avalon.framework.parameters.Parameters;
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
  * @author <a href="mailto:stephan@apache.org">Stephan Michels</a>
- * @version CVS $Revision: 1.12 $ $Date: 2003/07/14 08:13:16 $
+ * @version CVS $Revision: 1.13 $ $Date: 2003/09/25 18:10:34 $
  */
 public final class SourceUtil
 {
@@ -264,7 +264,7 @@ public final class SourceUtil
         final OutputStreamWriter writer = new OutputStreamWriter( buf );
         for( int i = 0; i < s.length(); i++ )
         {
-            int c = (int)s.charAt( i );
+            int c = s.charAt( i );
             if( charactersDontNeedingEncoding.get( c ) )
             {
                 out.append( (char)c );

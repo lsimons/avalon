@@ -66,7 +66,7 @@ import org.apache.excalibur.store.Store;
  * @author ?
  * @author <a href="mailto:vgritsenko@apache.org">Vadim Gritsenko</a>
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Id: AbstractFilesystemStore.java,v 1.12 2003/08/27 11:38:20 cziegeler Exp $
+ * @version CVS $Id: AbstractFilesystemStore.java,v 1.13 2003/09/25 18:09:48 cziegeler Exp $
  */
 public abstract class AbstractFilesystemStore
 extends AbstractReadWriteStore
@@ -356,7 +356,7 @@ implements Store, ThreadSafe {
     public String getString(final Object key)
     throws IOException 
     {
-        final File file = (File) this.fileFromKey(key);
+        final File file = this.fileFromKey(key);
         if (file != null) 
         {
             return this.deserializeString(file);
@@ -386,7 +386,7 @@ implements Store, ThreadSafe {
             sync.acquire();
             try 
             {
-                final File file = (File) this.fileFromKey(key);
+                final File file = this.fileFromKey(key);
                 if (file != null) {
                     return this.deserializeObject(file);
                 }
@@ -471,7 +471,7 @@ implements Store, ThreadSafe {
         final OutputStreamWriter writer = new OutputStreamWriter( buf );
         for (int i = 0; i < s.length(); i++)
         {
-            int c = (int)s.charAt(i);
+            int c = s.charAt(i);
             if (charactersDontNeedingEncoding.get(c))
             {
                 out.append((char)c);
