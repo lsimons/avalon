@@ -40,7 +40,7 @@ public class FixedSizeQueueTestCase extends TestCase
     public void testMillionIterationOneElement()
         throws Exception
     {
-        FixedSizeQueue queue = new FixedSizeQueue(10);
+        FixedSizeQueue queue = new FixedSizeQueue( 32 );
         assertEquals( queue.size(), 0 );
 
         for ( int j = 0; j < 1000000; j++ )
@@ -56,7 +56,7 @@ public class FixedSizeQueueTestCase extends TestCase
     public void testMillionIterationTenElements()
         throws Exception
     {
-        FixedSizeQueue queue = new FixedSizeQueue(10);
+        FixedSizeQueue queue = new FixedSizeQueue( 32 );
         assertEquals( queue.size(), 0 );
 
         for ( int j = 0; j < 1000000; j++ )
@@ -72,7 +72,7 @@ public class FixedSizeQueueTestCase extends TestCase
 
     public void testDefaultQueue()
     {
-        FixedSizeQueue queue = new FixedSizeQueue( 10 );
+        FixedSizeQueue queue = new FixedSizeQueue( 32 );
         assertEquals( 0, queue.size() );
 
         //test enqueue
