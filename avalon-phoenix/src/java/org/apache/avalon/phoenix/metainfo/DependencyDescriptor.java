@@ -48,4 +48,9 @@ public final class DependencyDescriptor
     {
         return m_service;
     }
+
+    public String toString()
+    {
+        return "Dependency[" + getRole() + "::" + getService() + "]";
+    }
 }
