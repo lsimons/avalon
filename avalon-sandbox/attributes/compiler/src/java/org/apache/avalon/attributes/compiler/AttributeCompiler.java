@@ -1,12 +1,28 @@
 package org.apache.avalon.attributes.compiler;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.StringTokenizer;
+
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.types.FileSet;
 
-import xjavadoc.*;
-import xjavadoc.ant.*;
-import java.util.*;
+import xjavadoc.XClass;
+import xjavadoc.XConstructor;
+import xjavadoc.XJavaDoc;
+import xjavadoc.XField;
+import xjavadoc.XMethod;
+import xjavadoc.XParameter;
+import xjavadoc.XProgramElement;
+import xjavadoc.XTag;
+import xjavadoc.ant.XJavadocTask;
 
 /**
  * Ant task to compile attributes. Usage:
@@ -27,6 +43,7 @@ public class AttributeCompiler extends XJavadocTask {
     
     private final ArrayList fileSets = new ArrayList ();
     private File destDir;
+    private int numGenerated;
     
     public AttributeCompiler () {
     }
@@ -115,6 +132,8 @@ public class AttributeCompiler extends XJavadocTask {
         if (destFile.exists () && destFile.lastModified () >= sourceFile.lastModified ()) {
             return;
         }
+        
+        numGenerated++;
         
         String packageName = xClass.getContainingPackage().getName ();
         String className = xClass.getName ();
@@ -261,6 +280,7 @@ public class AttributeCompiler extends XJavadocTask {
     
     protected void start() throws BuildException {
         destDir.mkdirs ();
+        numGenerated = 0;
         
         XJavaDoc doc = getXJavaDoc ();
         Iterator iter = doc.getSourceClasses ().iterator ();
@@ -275,6 +295,7 @@ public class AttributeCompiler extends XJavadocTask {
         } catch (Exception e) {
             throw new BuildException (e.toString (), e);
         }
+        log ("Generated attribute information for " + numGenerated + " classes.");
     }
     
     protected boolean tagHasAttributes (Collection tags) {
