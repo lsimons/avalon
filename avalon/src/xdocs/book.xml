@@ -9,7 +9,7 @@
     <menu label="Essentials">
         <menu-item label="Overview" href="index.html"/>
         <menu-item label="Getting Started" href="getting-started.html"/>
-	<menu-item label="Download" href="http://jakarta.apache.org/builds/avalon/release/framework"/>
+	<menu-item label="Download" href="http://avalon.apache.org/bindownload.cgi"/>
     </menu>
 
     <menu label="Guide">
