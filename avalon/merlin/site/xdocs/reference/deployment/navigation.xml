@@ -36,21 +36,24 @@
       <item name="Getting Started" href="/starting/index.html"/>
       <item name="Merlin System" href="/merlin/index.html"/>
       <item name="Tools" href="/tools/index.html"/>
-      <item name="Extensions" href="/extensions/index.html">
-        <item name="Finder" href="/extensions/finder/index.html"/>
-        <item name="HTTP" href="/extensions/http/index.html"/>
-        <item name="Servlet" href="/extensions/servlet/index.html"/>
-        <item name="JMX" href="/extensions/jmx/index.html"/>
-<!--      
-        <item name="Persistence Facility" href="/extensions/persistence/index.html"/>
--->
-        <item name="3rd Party" href="/extensions/3rdparty/index.html"/>
-      </item>
+      <item name="Extensions" href="/extensions/index.html" />
     </menu>
-
+    
     <menu name="Resources">
       <item name="Javadoc" href="/api/index.html"/>
-      <item name="Specification" href="/reference/index.html"/>
+      <item name="Specification" href="/reference/index.html">
+        <item name="Component Specification" href="/reference/component/index.html"/>
+        <item name="Container Specification" href="/reference/containment/index.html"/>
+        <item name="Deployment Specification" href="/reference/deployment/index.html">
+          <item name="Block Management" href="/reference/deployment/block.html"/>
+          <item name="Assembly" href="/reference/deployment/assembly.html"/>
+          <item name="Deployment" href="/reference/deployment/deployment.html"/>
+          <item name="Memory Management" href="/reference/deployment/memory.html"/>
+          <item name="Dynamics" href="/reference/deployment/dynamics.html"/>
+          <item name="Decommissioning" href="/reference/deployment/decommission.html"/>
+        </item>
+        <item name="System Specification" href="/reference/system/index.html"/>
+      </item>
       <item name="Download" href="/resources/download.html"/>
       <item name="Roadmap" href="/resources/roadmap/index.html"/>
       <item name="DPML" href="/dpml/index.html"/>
@@ -61,7 +64,7 @@
       <item name="Utilities" href="http://avalon.apache.org/util"/>
       <item name="Repository" href="http://avalon.apache.org/repository"/>
     </menu>
-
+ 
  </body>
 
 </project>
