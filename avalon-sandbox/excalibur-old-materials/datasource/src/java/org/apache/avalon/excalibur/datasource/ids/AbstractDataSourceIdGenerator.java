@@ -9,32 +9,29 @@ package org.apache.avalon.excalibur.datasource.ids;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.sql.Statement;
 import org.apache.avalon.excalibur.datasource.DataSourceComponent;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Initializable;
-import org.apache.avalon.framework.component.ComponentManager;
-import org.apache.avalon.framework.component.ComponentSelector;
-import org.apache.avalon.framework.component.Composable;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
+import org.apache.avalon.framework.service.ServiceException;
+import org.apache.avalon.framework.service.ServiceManager;
+import org.apache.avalon.framework.service.ServiceSelector;
+import org.apache.avalon.framework.service.Serviceable;
 import org.apache.avalon.framework.thread.ThreadSafe;
 
 /**
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.3 $ $Date: 2002/09/02 12:38:29 $
+ * @version CVS $Revision: 1.4 $ $Date: 2002/11/07 05:20:41 $
  * @since 4.1
  */
 public abstract class AbstractDataSourceIdGenerator
     extends AbstractIdGenerator
-    implements IdGenerator, Composable, Configurable, Initializable, Disposable, ThreadSafe
+    implements IdGenerator, Serviceable, Configurable, Initializable, Disposable, ThreadSafe
 {
-    /** ComponentLocator which created this component */
-    protected ComponentManager m_manager;
-
     private String m_dataSourceName;
-    private ComponentSelector m_dbSelector;
+    private ServiceSelector m_dbSelector;
     protected DataSourceComponent m_dataSource;
 
     /**
@@ -74,11 +71,13 @@ public abstract class AbstractDataSourceIdGenerator
      * Called by the Container to tell the component which ComponentLocator
      *  is controlling it.
      *
-     * @param ComponentLocator which curently owns the component.
+     * @param manager which curently owns the component.
+     * @avalon.service interface="org.apache.avalon.excalibur.datasource.DataSourceComponentSelector"
      */
-    public void compose( ComponentManager manager )
+    public void service( final ServiceManager manager )
+        throws ServiceException
     {
-        m_manager = manager;
+        m_dbSelector = (ServiceSelector)manager.lookup( DataSourceComponent.ROLE + "Selector" );
     }
 
     /*---------------------------------------------------------------
@@ -113,7 +112,6 @@ public abstract class AbstractDataSourceIdGenerator
         throws Exception
     {
         // Get a reference to a data source
-        m_dbSelector = (ComponentSelector)m_manager.lookup( DataSourceComponent.ROLE + "Selector" );
         m_dataSource = (DataSourceComponent)m_dbSelector.select( m_dataSourceName );
     }
 
@@ -134,8 +132,6 @@ public abstract class AbstractDataSourceIdGenerator
 
                 m_dataSource = null;
             }
-
-            m_manager.release( m_dbSelector );
 
             m_dbSelector = null;
         }
