@@ -67,7 +67,7 @@ import org.xml.sax.helpers.DefaultHandler;
  * A SAXConfigurationHandler helps build Configurations out of sax events.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.29 $ $Date: 2003/02/11 15:58:39 $
+ * @version CVS $Revision: 1.30 $ $Date: 2003/06/13 08:45:46 $
  */
 public class SAXConfigurationHandler
     extends DefaultHandler
@@ -313,10 +313,11 @@ public class SAXConfigurationHandler
         }
         else
         {
+            final int columnNumber = m_locator.getColumnNumber();
             return
                 m_locator.getSystemId() + ":"
-                + m_locator.getLineNumber() + ":"
-                + m_locator.getColumnNumber();
+                + m_locator.getLineNumber()
+                + ( columnNumber >= 0 ? ( ":" + columnNumber ) : "" );
         }
     }
 }
