@@ -50,15 +50,18 @@
 package org.apache.avalon.fortress.examples.extended;
 
 import org.apache.avalon.fortress.ContainerManager;
+import org.apache.avalon.fortress.examples.extended.extensions.Extensions;
 import org.apache.avalon.fortress.impl.DefaultContainerManager;
 import org.apache.avalon.fortress.util.FortressConfig;
+import org.apache.avalon.fortress.util.LifecycleExtensionManager;
 import org.apache.avalon.framework.container.ContainerUtil;
+import org.apache.avalon.framework.logger.NullLogger;
 
 /**
  * Fortress container example with custom extensions
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version $Id: Main.java,v 1.6 2003/03/22 12:46:31 leosimons Exp $
+ * @version $Id: Main.java,v 1.7 2003/05/30 20:55:09 bloritsch Exp $
  */
 public final class Main
 {
@@ -73,12 +76,10 @@ public final class Main
         throws Exception
     {
         FortressConfig config = new FortressConfig();
-        config.setContainerClass( ExtendedContainer.class.getName() );
-        config.setContextDirectory( "./" );
-        config.setWorkDirectory( "./" );
+        config.setContainerClass( ExtendedContainer.class );
         config.setContainerConfiguration( "resource://org/apache/avalon/fortress/examples/extended/ExtendedContainer.xconf" );
         config.setLoggerManagerConfiguration( "resource://org/apache/avalon/fortress/examples/extended/ExtendedContainer.xlog" );
-        config.setRoleManagerConfiguration( "resource://org/apache/avalon/fortress/examples/extended/ExtendedContainer.roles" );
+        setupExtensions(config);
 
         final ContainerManager cm = new DefaultContainerManager( config.getContext() );
         ContainerUtil.initialize( cm );
@@ -88,6 +89,15 @@ public final class Main
         m_container.doLookups();
 
         ContainerUtil.dispose( cm );
+    }
+
+    private static void setupExtensions( FortressConfig config )
+    {
+        LifecycleExtensionManager extensions = new LifecycleExtensionManager();
+        extensions.enableLogging(new NullLogger());
+        extensions.addAccessorExtension( new Extensions() );
+
+        config.setLifecycleExtensionManager(extensions);
     }
 }
 

@@ -49,18 +49,26 @@
 */
 package org.apache.avalon.fortress.examples.extended.components;
 
+import org.apache.avalon.framework.logger.AbstractLogEnabled;
+import org.apache.avalon.fortress.examples.extended.extensions.SecurityManageable;
+
 /**
  * <code>TestComponentImpl</code>, demonstrating the use of a custom
  * lifecycle stage <code>SecurityManageable</code>. This code does
  * a simple access check for several files on the file system and logs
  * the results accordingly.
  *
+ * @avalon.component
+ * @avalon.service type=ExtendedComponent
+ * @x-avalon.info name=extended-component
+ * @x-avalon.lifestyle type=singleton
+ *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Revision: 1.6 $ $Date: 2003/04/11 07:36:20 $
+ * @version CVS $Revision: 1.7 $ $Date: 2003/05/30 20:55:10 $
  */
 public class ExtendedComponentImpl
-    extends org.apache.avalon.framework.logger.AbstractLogEnabled
-    implements org.apache.avalon.fortress.examples.extended.components.ExtendedComponent, org.apache.avalon.fortress.examples.extended.extensions.SecurityManageable
+    extends AbstractLogEnabled
+    implements ExtendedComponent, SecurityManageable
 {
     /**
      * Pass a SecurityManager object to the component

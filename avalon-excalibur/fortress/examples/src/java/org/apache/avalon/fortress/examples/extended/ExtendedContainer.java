@@ -50,18 +50,12 @@
 package org.apache.avalon.fortress.examples.extended;
 
 import org.apache.avalon.fortress.examples.extended.extensions.Extensions;
+import org.apache.avalon.fortress.examples.extended.components.ExtendedComponent;
+import org.apache.avalon.fortress.impl.DefaultContainer;
 
 public final class ExtendedContainer
-    extends org.apache.avalon.fortress.impl.DefaultContainer
+    extends DefaultContainer
 {
-    public void initialize()
-        throws Exception
-    {
-        super.initialize();
-
-        m_extManager.addAccessorExtension( new Extensions() );
-    }
-
     public void doLookups()
         throws Exception
     {
@@ -69,7 +63,7 @@ public final class ExtendedContainer
 
         for( int i = 0; i < 10; ++i )
         {
-            org.apache.avalon.fortress.examples.extended.components.ExtendedComponent comp = (org.apache.avalon.fortress.examples.extended.components.ExtendedComponent)m_serviceManager.lookup( org.apache.avalon.fortress.examples.extended.components.ExtendedComponent.ROLE );
+            ExtendedComponent comp = (ExtendedComponent)m_serviceManager.lookup( ExtendedComponent.ROLE );
             m_serviceManager.release( comp );
         }
 
