@@ -27,26 +27,28 @@ different features of the Merlin platform.
  * composition   - creation of virtual components by 
                    composition
 
+A complete build is provideed under the convinience goal:
+
+  $ maven avalon:build
+
+A build a runtime execution is achived by:
+
+  $ maven avalon:demo
 
 Unless noted in a project readme, demonstrations can be built
 using the following command (assuming you have installed 
-Maven 10 and Merlin 3.0):
+Maven RC2 or later and a development release of Merlin 3.3):
 
-  $ maven
+  $ cd [a-tutorial-dir-containing-a-project.xml]
+  $ maven jar:install
 
 Runtime execution can be by simulation relative to the 
 target/classes directory, or by executing the generated jar 
-file as shown in the following two command variants.
-
-Windows:
+file as shown in the following commands.
  
+  $ cd [a-tutorial-containing-a-project.xml]
   $ merlin -execute target\classes
   $ merlin -execute target\<jar-name>.jar
-
-Unix/Linux:
-
-  $ merlin.sh -execute target\classes
-  $ merlin.sh -execute target\<jar-name>.jar
 
 Alternatively, demonstrations can be built and deployed 
 via maven using the following command:
