@@ -33,13 +33,32 @@ public class RotatingFileTarget
      * Construct RotatingFileTarget object.
      *
      * @param formatter Formatter to be used
+     * @param rotateStrategy RotateStrategy to be used
+     * @param fileStrategy FileStrategy to be used
      */
     public RotatingFileTarget( final Formatter formatter,
-                               final RotateStrategy rotateStrategy, 
+                               final RotateStrategy rotateStrategy,
                                final FileStrategy fileStrategy )
         throws IOException
     {
-        super( null, false, formatter );
+        this( false, formatter, rotateStrategy, fileStrategy );
+    }
+
+    /**
+     * Construct RotatingFileTarget object.
+     *
+     * @param append true if file is to be appended to, false otherwise     *
+     * @param formatter Formatter to be used
+     * @param rotateStrategy RotateStrategy to be used
+     * @param fileStrategy FileStrategy to be used
+     */
+    public RotatingFileTarget( final boolean append,
+                               final Formatter formatter,
+                               final RotateStrategy rotateStrategy,
+                               final FileStrategy fileStrategy )
+        throws IOException
+    {
+        super( null, append, formatter );
 
         m_rotateStrategy = rotateStrategy;
         m_fileStrategy = fileStrategy;
@@ -53,22 +72,22 @@ public class RotatingFileTarget
         close();
 
         final File file = m_fileStrategy.nextFile();
-        setFile( file, false );
+        setFile( file );
         openFile();
     }
 
     /**
      * Output the log message, and check if rotation is needed.
      */
-    protected synchronized void write( final String data ) 
+    protected synchronized void write( final String data )
     {
         // write the log message
         super.write( data );
 
         // if rotation is needed, close old File, create new File
-        final boolean rotate = 
+        final boolean rotate =
             m_rotateStrategy.isRotationNeeded( data, getFile() );
-        if( rotate ) 
+        if( rotate )
         {
             try { rotate(); }
             catch( final IOException ioe )

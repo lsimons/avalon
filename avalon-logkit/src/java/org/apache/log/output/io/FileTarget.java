@@ -50,6 +50,18 @@ public class FileTarget
      * Set the file for this target.
      *
      * @param file the file to write to
+     * @exception IOException if directories can not be created or file can not be opened
+     */
+    protected void setFile( final File file )
+        throws IOException
+    {
+        setFile( file, m_append );
+    }
+
+    /**
+     * Set the file for this target.
+     *
+     * @param file the file to write to
      * @param append true if file is to be appended to, false otherwise
      * @exception IOException if directories can not be created or file can not be opened
      */
