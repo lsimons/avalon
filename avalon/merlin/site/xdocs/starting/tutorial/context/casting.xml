@@ -26,7 +26,7 @@
   </header>
   <body>
     <section name="Using Merlin">
-      <subsection name="Casting Context to a custom Interface">
+      <subsection name="Casting Context to a Custom Interface">
         <p>
         This tutorial describes how Merlin provides support
         for the safe casting of a supplied context instance to 
@@ -40,10 +40,10 @@
       <subsection name="Requirements">
         <p>
         While the context interface provides the mechanisms to 
-        access any object type, it is sometimes convinient to 
+        access any object type, it is sometimes convenient to 
         declare a domain specific interface and context 
         implementation.  This enables client code to take advantage
-        of convinience accessors, resulting in code less cluttered
+        of convenience accessors, resulting in code less cluttered
         with casting and context entry key references.
         </p>
         <p>
@@ -216,7 +216,7 @@ public class DemoContextProvider extends DefaultContext implements DemoContext
 }
 </source>
       </subsection>
-      <subsection name="Declaring the context interface">
+      <subsection name="Declaring the Context Interface">
         <p>
           To be supplied with a domain specific context to which 
           the component can safely cast, we need to declare this 
@@ -235,7 +235,7 @@ public class DemoContextProvider extends DefaultContext implements DemoContext
           Secondly, we need to provide corresponding meta-data to Merlin
           describing the implementation class that it can use to construct
           the context instance.  The following changes to the block.xml
-          description include the "class" attribute on the context directive.
+          description include the class attribute on the context directive.
           The class attribute tells Merlin to use the named class as the 
           context implementation.
         </p>
@@ -247,14 +247,14 @@ public class DemoContextProvider extends DefaultContext implements DemoContext
 </container>
 ]]></source>
       </subsection>
-      <subsection name="Executing the example">
+      <subsection name="Executing the Example">
         <p>
         Build and run the tutorial.
         </p>
         <source>
-$ ant jar
+$ maven
 $ merlin build\classes
-        </source>
+</source>
         <p>
         In the logging output we see the standard context values
         accessed via the domain specific context interface.

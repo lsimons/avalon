@@ -27,10 +27,11 @@
   </header>
   <body>
     <section name="Using Merlin">
-      <subsection name="Declaring a configuration in the Component Directive">
+      <subsection name="Declaring a Configuration in the Component Directive">
         <p>
-        We can modify the configuration behaviour by including a configuration 
-        within the block.xml deployment directive.
+        We can overwrite the default configuration behaviour by 
+        including a configuration within the block.xml deployment 
+        directive.
         </p>
         <p>
         Resources supporting this tutorial are contained in the 
@@ -51,6 +52,7 @@
         Build and run the tutorial again.
         </p>
 <source>
+$ maven
 $ merlin -execute target\classes
 </source>
         <p>
@@ -63,15 +65,18 @@ $ merlin -execute target\classes
 [INFO   ] (hello): configuration stage
 [INFO   ] (hello): initialization stage
 [INFO   ] (hello): source: explicit configuration within block
-        </source>
+</source>
 
       </subsection>
-      <subsection name="Using Defaults">
+      <subsection name="Using Target Overrides">
 
         <p>
-        The <a href="defaults.html">next tutorial</a> shows how 
-        Merlin provides support for the packaging of default 
-        configurations with a component.
+        The <a href="override.html">next tutorial</a> shows how 
+        you can modify configurations via declaration of a set 
+        configuration override targets.  This is usefull when 
+        you have a packaged deployment scenario and you want to 
+        override/suppliment the configuration with different 
+        information (such as host name, username, passwords, etc.).
         </p>
 
       </subsection>

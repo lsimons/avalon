@@ -26,7 +26,7 @@
   </header>
   <body>
     <section name="Using Merlin">
-      <subsection name="Adding configuration support to the component">
+      <subsection name="Adding Configuration Support to the Component">
         <p>
         To be supplied with a configuration, our component must implement
         the Avalon Framework Configurable interface.  The following code
@@ -81,9 +81,9 @@ public class HelloComponent extends AbstractLogEnabled
       <subsection name="Declaring a Configuration">
 
         <p>
-        A number of different approaches to controlling the configuration 
-        that is supplied to a component are presented in the <a href="block.html">next 
-        turorial</a>.
+        A number of different approaches to controlling the 
+        configuration that is supplied to a component are presented in 
+        the <a href="defaults.html">next tutorial</a>.
         </p>
 
       </subsection>

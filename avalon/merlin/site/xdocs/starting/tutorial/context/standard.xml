@@ -70,7 +70,7 @@
         </table>
       </subsection>
 
-      <subsection name="Adding context support to the component">
+      <subsection name="Adding Context Support to the Component">
         <p>
         In order to receive a runtime context we need to update the 
         HelloComponent source so that it implements the Avalon 
@@ -154,7 +154,7 @@ $ merlin -execute target\classes
 </source>
       </subsection>
 
-      <subsection name="Custom entries">
+      <subsection name="Custom Entries">
 
         <p>
         The <a href="entries.html">next tutorial</a> shows how 

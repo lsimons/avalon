@@ -39,7 +39,7 @@
         </p>
       </subsection>
 
-      <subsection name="Creating a non-Component Object">
+      <subsection name="Creating a Non-Component Object">
         <p>
           To demonstrate Merlin's support for the supply of non-component 
           objects to a component, we need to create an 
@@ -116,7 +116,7 @@ public class NumberCruncher
         The following source demonstrates the implementation
         of the contextualization stage, access and casting of
         a context entry to the NumberCruncher class, and the 
-        the invocation of on operation on that class.
+        the invocation of an operation on that class.
         </p>
 
 <source>
@@ -200,14 +200,14 @@ public class HelloComponent extends AbstractLogEnabled
         <source>
 $ maven
 $ merlin -execute target\classes
-        </source>
+</source>
         <p>
         In the logging output we see that Merlin has created and 
         supplied the NumberCruncher instance to the component.
         </p>
         <source>
 [INFO   ] (tutorial.hello): result: 10.5
-        </source>
+</source>
       </subsection>
 
       <subsection name="Context Casting">
