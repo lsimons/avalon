@@ -70,6 +70,9 @@ import java.util.Map;
 public abstract class ValuedEnum
     extends Enum
 {
+    /**
+     * The value contained in enum.
+     */
     private final int        m_value;
 
     /**
