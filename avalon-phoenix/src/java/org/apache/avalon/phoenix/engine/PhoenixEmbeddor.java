@@ -29,7 +29,7 @@ import org.apache.avalon.framework.logger.AbstractLoggable;
 import org.apache.avalon.framework.parameters.ParameterException;
 import org.apache.avalon.framework.parameters.Parameterizable;
 import org.apache.avalon.framework.parameters.Parameters;
-import org.apache.log.LogKit;
+import org.apache.log.Hierarchy;
 import org.apache.log.LogTarget;
 import org.apache.log.Logger;
 import org.apache.log.Priority;
@@ -298,7 +298,7 @@ public class PhoenixEmbeddor
     }
 
     /**
-     * Uses <code>org.apache.log.LogKit</code> to create a new
+     * Uses <code>org.apache.log.Hierarchy</code> to create a new
      * logger using "Phoenix" as its category, DEBUG as its
      * priority and the log-destination from Parameters as its
      * destination.
@@ -313,14 +313,18 @@ public class PhoenixEmbeddor
             final String logDestination =
                 m_parameters.getParameter( "log-destination", null );
 
+            final String logPriority = 
+                m_parameters.getParameter( "log-priority", "INFO" );
+
             final FileOutputLogTarget logTarget = new FileOutputLogTarget( logDestination );
             final AvalonLogFormatter formatter = new AvalonLogFormatter();
             formatter.setFormat( "%{time} [%7.7{priority}] <<%{category}>> " +
                                  "(%{context}): %{message}\\n%{throwable}" );
             logTarget.setFormatter( formatter );
 
-            final Logger logger = LogKit.getLoggerFor( "Phoenix" );
+            final Logger logger = Hierarchy.getDefaultHierarchy().getLoggerFor( "Phoenix" );
             logger.setLogTargets( new LogTarget[] { logTarget } );
+            logger.setPriority( Priority.getPriorityForName( logPriority ) );
 
             logger.info( "Logger started" );
             return logger;
