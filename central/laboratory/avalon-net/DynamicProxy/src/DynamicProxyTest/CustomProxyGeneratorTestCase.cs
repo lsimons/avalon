@@ -26,7 +26,7 @@ namespace Apache.Avalon.DynamicProxy.Test
 	/// Summary description for CustomProxyGeneratorTestCase.
 	/// </summary>
 	[TestFixture]
-	public class CustomProxyGeneratorTestCase : Assertion
+	public class CustomProxyGeneratorTestCase
 	{
 		private ProxyGenerator m_generator;
 		private bool m_enhanceInvoked;
@@ -51,8 +51,8 @@ namespace Apache.Avalon.DynamicProxy.Test
 				typeof (IMyInterface), 
 				new StandardInvocationHandler(new MyInterfaceImpl()), context);
 
-			Assert( m_enhanceInvoked );
-			Assert( m_screenInvoked );
+			Assert.IsTrue( m_enhanceInvoked );
+			Assert.IsTrue( m_screenInvoked );
 		}
 
 		[Test]
@@ -67,26 +67,26 @@ namespace Apache.Avalon.DynamicProxy.Test
 				new StandardInvocationHandler(new ServiceClass()),
 				context);
 
-			Assert( m_enhanceInvoked );
-			Assert( m_screenInvoked );
+			Assert.IsTrue( m_enhanceInvoked );
+			Assert.IsTrue( m_screenInvoked );
 		}
 
 		private void EnhanceType(TypeBuilder mainType, FieldBuilder handlerFieldBuilder, ConstructorBuilder constructorBuilder)
 		{
-			Assert( !m_enhanceInvoked );
+			Assert.IsTrue( !m_enhanceInvoked );
 
-			AssertNotNull(mainType);
-			AssertNotNull(handlerFieldBuilder);
-			AssertNotNull(constructorBuilder);
+			Assert.IsNotNull(mainType);
+			Assert.IsNotNull(handlerFieldBuilder);
+			Assert.IsNotNull(constructorBuilder);
 
 			m_enhanceInvoked = true;
 		}
 
 		private Type[] ScreenInterfaces(Type[] interfaces)
 		{
-			Assert( !m_screenInvoked );
+			Assert.IsTrue( !m_screenInvoked );
 
-			AssertNotNull(interfaces);
+			Assert.IsNotNull(interfaces);
 
 			m_screenInvoked = true;
 

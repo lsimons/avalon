@@ -80,15 +80,15 @@
                     HintPath = "C:\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.XML.dll"
                 />
                 <Reference
-                    Name = "DProxy"
-                    Project = "{70EE6AF2-1F6D-4CC5-A1B2-C3182F035F67}"
-                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
-                />
-                <Reference
                     Name = "nunit.framework"
                     AssemblyName = "nunit.framework"
                     HintPath = "..\..\..\..\..\..\dotnet\NUnit22\bin\nunit.framework.dll"
                     AssemblyFolderKey = "hklm\dn\nunit.framework"
+                />
+                <Reference
+                    Name = "Apache.Avalon.DynamicProxy"
+                    Project = "{70EE6AF2-1F6D-4CC5-A1B2-C3182F035F67}"
+                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
                 />
             </References>
         </Build>

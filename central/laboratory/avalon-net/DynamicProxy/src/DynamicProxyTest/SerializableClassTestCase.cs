@@ -18,13 +18,13 @@ namespace Apache.Avalon.DynamicProxy.Test
 
 	using NUnit.Framework;
 
-      using Apache.Avalon.DynamicProxy.Test.Classes;
+	using Apache.Avalon.DynamicProxy.Test.Classes;
 
 	/// <summary>
 	/// Summary description for SerializableClassTestCase.
 	/// </summary>
 	[TestFixture]
-	public class SerializableClassTestCase : Assertion
+	public class SerializableClassTestCase
 	{
 		[Test]
 		public void CreateSerializable()
@@ -35,7 +35,7 @@ namespace Apache.Avalon.DynamicProxy.Test
 			MySerializableClass proxy = (MySerializableClass) 
 				generator.CreateClassProxy( typeof(MySerializableClass), new StandardInvocationHandler(myClass) );
 
-			Assert( proxy.GetType().IsSerializable );
+			Assert.IsTrue( proxy.GetType().IsSerializable );
 		}
 	}
 }
