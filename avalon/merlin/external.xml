@@ -41,6 +41,11 @@
     </dependency>
     <dependency>
       <groupId>&avalon-logging-id;</groupId>
+      <artifactId>&avalon-logging-logkit-api-id;</artifactId>
+      <version>&avalon-logging-logkit-api-version;</version>
+    </dependency>
+    <dependency>
+      <groupId>&avalon-logging-id;</groupId>
       <artifactId>&avalon-logging-logkit-impl-id;</artifactId>
       <version>&avalon-logging-logkit-impl-version;</version>
     </dependency>
