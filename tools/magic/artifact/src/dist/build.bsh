@@ -4,47 +4,59 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.io.IOException;
 
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLClassLoader;
+import java.net.URLConnection;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import org.apache.merlin.magic.AbstractPlugin;
 import org.apache.merlin.magic.Artifact;
 import org.apache.merlin.magic.Plugin;
-import org.apache.merlin.magic.PluginContext;
-
-import org.apache.avalon.framework.context.Context;
-import org.apache.avalon.framework.context.Contextualizable;
-
-import org.apache.avalon.framework.logger.AbstractLogEnabled;
 
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.types.Path;
 
-public class ArtifactPlugin extends AbstractLogEnabled
-    implements Plugin, Contextualizable
+public class ArtifactPlugin extends AbstractPlugin
 {
-    private PluginContext m_PluginContext;
-    
-    private Project m_Project;
-    
-    private ArrayList m_CompileListeners;
-    
-    private boolean m_Compiled = false;
-        
-    public void contextualize( Context ctx )
+    public ClassLoader getClassloader( Artifact[] artifacts )
+        throws IOException
     {
-        m_PluginContext = (PluginContext) ctx;
-        m_Project = m_PluginContext.getAntProject();
+        URL[] jars = new URL[ artifacts.length ];
+        for( int i=0 ; i < artifacts.length ; i++ )
+        {
+            File localFile = toLocalFile( artifacts[i] );
+            if( ! localFile.exists() )
+            {
+                localFile.getParentFile().mkdirs();
+                download( artifacts[i], localFile );
+            }
+            jars[i] = localFile.toURL();
+        }
+        URLClassLoader classloader = new URLClassLoader( jars );
+        return classloader;        
     }
-
-    public ClassLoader getClassloader( Artifact[] dependencies )
-    {
-    }
     
-    public Path getClassPath( Artifact[] dependencies )
+    public Path getClassPath( Artifact[] artifacts )
+        throws IOException
     {
+        Path result = new Path( m_Project );
+        for( int i=0 ; i < artifacts.length ; i++ )
+        {
+            File localFile = toLocalFile( artifacts[i] );
+            if( ! localFile.exists() )
+            {
+                localFile.getParentFile().mkdirs();
+                download( artifacts[i], localFile );
+            }
+            Path.PathElement pe = result.createPathElement();
+            pe.setLocation( localFile );
+        }
+        return result;
     }
     
     public void upload( Artifact artifact )
@@ -56,15 +68,17 @@ public class ArtifactPlugin extends AbstractLogEnabled
     {
         FileOutputStream out = null;
         BufferedOutputStream bos = null;
+        InputStream in = null;
+        BufferedInputStream bis = null;
         try
         {
             out = new FileOutputStream( dest );
             bos = new BufferedOutputStream( out );
-            URL url = toRemoteFile( artifact );
-            Connection conn = url.openConnection();
+            URL url = toRemoteURL( artifact );
+            URLConnection conn = url.openConnection();
             conn.connect();
-            InputStream in = conn.getInputStream();
-            BufferedInputStream bis = new BufferedInputStream( in );
+            in = conn.getInputStream();
+            bis = new BufferedInputStream( in );
             int b;
             while( ( b = bis.read() ) != -1 )
             {
@@ -96,11 +110,12 @@ public class ArtifactPlugin extends AbstractLogEnabled
     
     private File toLocalFile( Artifact artifact )
     {
-        String href = m_PluginContext.getProperty( "artifact.local.repository.dir" ) + "/" + 
+        String href = m_Context.getProperty( "artifact.local.repository.dir" ) + "/" + 
                       artifact.getGroupId() + "/" +
                       artifact.getType() + "s/" +
                       artifact.getArtifactId() + "-" +
                       artifact.getVersion()  + ".jar" ;
-        return new URL( href );
+        return new File( href );
     }
-}   
+}
+   
