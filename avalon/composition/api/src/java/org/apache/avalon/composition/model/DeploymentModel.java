@@ -18,6 +18,7 @@
 package org.apache.avalon.composition.model;
 
 import org.apache.avalon.composition.data.Mode;
+import org.apache.avalon.composition.runtime.Commissionable;
 
 import org.apache.avalon.meta.info.DependencyDescriptor;
 import org.apache.avalon.meta.info.ServiceDescriptor;
@@ -29,7 +30,7 @@ import org.apache.avalon.framework.logger.Logger;
  * Model desribing a deployment scenario.
  *
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.11 $ $Date: 2004/01/24 23:25:25 $
+ * @version $Revision: 1.12 $ $Date: 2004/02/06 15:27:14 $
  */
 public interface DeploymentModel
 {
@@ -65,13 +66,13 @@ public interface DeploymentModel
     * Set the runtime handler for the model.
     * @param handler the runtime handler
     */
-    void setHandler( Object handler );
+    void setHandler( Commissionable handler );
 
    /**
     * Get the assigned runtime handler for the model.
     * @return the runtime handler
     */
-    Object getHandler();
+    Commissionable getHandler();
 
    /**
     * Return the assigned logging channel.

@@ -34,13 +34,13 @@ import org.apache.avalon.activation.appliance.Block;
 import org.apache.avalon.activation.appliance.impl.DefaultBlock;
 
 import org.apache.avalon.composition.data.TargetDirective;
-import org.apache.avalon.logging.provider.LoggingManager;
 import org.apache.avalon.composition.model.ContainmentContext;
 import org.apache.avalon.composition.model.ContainmentModel;
 import org.apache.avalon.composition.model.ComponentModel;
 import org.apache.avalon.composition.model.SystemContext;
 import org.apache.avalon.composition.util.StringHelper;
 
+import org.apache.avalon.logging.provider.LoggingManager;
 import org.apache.avalon.util.exception.ExceptionHelper;
 
 import org.apache.avalon.framework.activity.Disposable;
@@ -50,7 +50,7 @@ import org.apache.avalon.framework.logger.Logger;
  * Implementation of the default Merlin Kernel.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.6 $ $Date: 2004/02/02 11:31:37 $
+ * @version $Revision: 1.7 $ $Date: 2004/02/06 15:27:15 $
  */
 public class DefaultKernel implements Kernel, Disposable
 {
@@ -95,7 +95,7 @@ public class DefaultKernel implements Kernel, Disposable
             facilities.assemble();
             DefaultBlock system = 
               new DefaultBlock( facilities );
-            system.deploy();
+            system.commission();
             m_system = system;
         }
         catch( Throwable e )
@@ -228,7 +228,7 @@ public class DefaultKernel implements Kernel, Disposable
             try
             {
                 setState( DEPLOYMENT );
-                m_application.deploy();
+                m_application.commission();
             }
             catch( Throwable e )
             {

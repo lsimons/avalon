@@ -33,7 +33,7 @@ import org.apache.avalon.meta.info.Type;
  * Defintion of a component deployment context.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $ $Date: 2004/01/24 23:25:25 $
+ * @version $Revision: 1.4 $ $Date: 2004/02/06 15:27:14 $
  */
 public interface ComponentContext extends DeploymentContext
 {
@@ -119,21 +119,10 @@ public interface ComponentContext extends DeploymentContext
     ClassLoader getClassLoader();
 
    /**
-    * Return a model relative to a supplied dependency.
-    * @return a matching model or null if the dependency is unresolvable
-    * @exception ModelRuntimeException if an error occurs during model establishment
+    * Return the enclosing containment model.
+    * @return the containment model that component is within
     */
-    //DeploymentModel getModel( DependencyDescriptor dependency ) 
-    // throws ModelRuntimeException;
-
-   /**
-    * Return a model relative to a supplied stage descriptor.
-    * @param stage the stage descriptor
-    * @return model of a an stage handler or null if the stage is unresolvable
-    * @exception ModelRuntimeException if an error occurs during model establishment
-    */
-    //DeploymentModel getModel( StageDescriptor stage ) 
-    //  throws ModelRuntimeException;
+    ContainmentModel getContainmentModel();
 
    /**
     * Add a context entry model to the deployment context.

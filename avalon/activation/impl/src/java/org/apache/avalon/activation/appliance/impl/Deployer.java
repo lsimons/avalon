@@ -17,22 +17,21 @@
 
 package org.apache.avalon.activation.appliance.impl;
 
-import org.apache.avalon.activation.appliance.Deployable;
-
 import org.apache.avalon.composition.model.DeploymentModel;
 import org.apache.avalon.composition.model.ContainmentModel;
+import org.apache.avalon.composition.runtime.Commissionable;
 
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.activity.Disposable;
 
 /**
  * Runnable deployment thread that handles the deployment of an 
- * arbitary number of deployable instances.  The deployer maintains a 
+ * arbitary number of commissionable instances.  The deployer maintains a 
  * list of deployment requests which are queued on a first come first 
  * serve basis.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.8 $ $Date: 2004/01/24 23:25:21 $
+ * @version $Revision: 1.9 $ $Date: 2004/02/06 15:27:13 $
  * @see DeploymentRequest
  */
 class Deployer
@@ -75,7 +74,7 @@ class Deployer
     //------------------------------------------------------------
 
     /** 
-     * Deploys the given Deployable, and allows a maximum time
+     * Deploys the given Commissonable, and allows a maximum time
      * for the deployment to complete.
      *
      * @param deployable the deployable model
@@ -175,19 +174,19 @@ class Deployer
                       "No handler assigned to model: " + deployable;
                     throw new IllegalStateException( error );
                 }
-                if( !( deployable.getHandler() instanceof Deployable ) )
+                if( !( deployable.getHandler() instanceof Commissionable ) )
                 {
                     final String error =
                       "Deployment handler assigned to model: " + deployable
-                      + " does not implement the deployable contract";
+                      + " does not implement the Commissionable contract";
                     throw new IllegalStateException( error );
                 }
 
-                Deployable target = (Deployable) deployable.getHandler();
+                Commissionable target = (Commissionable) deployable.getHandler();
 
                 try
                 {
-                    target.deploy();
+                    target.commission();
                     req.done();
                 } 
                 catch( InterruptedException e )

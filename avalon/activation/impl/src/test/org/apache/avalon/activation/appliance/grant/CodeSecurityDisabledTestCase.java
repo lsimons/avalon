@@ -65,7 +65,7 @@ public class CodeSecurityDisabledTestCase extends AbstractTestCase
 
         m_model.assemble();
         m_block = new DefaultBlock( m_model );
-        m_block.deploy();
+        m_block.commission();
         m_appliance = m_block.locate( "/Component1/test" );
     }
 

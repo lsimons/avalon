@@ -17,16 +17,16 @@
 
 package org.apache.avalon.activation.appliance.impl;
 
-import org.apache.avalon.activation.appliance.Deployable;
+import org.apache.avalon.composition.runtime.Commissionable;
 
 public class InterruptableDeployable 
-    implements Deployable
+    implements Commissionable
 {
     InterruptableDeployable()
     {
     }
     
-    public void deploy() 
+    public void commission() 
         throws Exception
     {
         synchronized( this )

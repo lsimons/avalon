@@ -50,7 +50,7 @@ import org.apache.avalon.meta.info.StageDescriptor;
  * model.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $ $Date: 2004/01/24 23:25:27 $
+ * @version $Revision: 1.4 $ $Date: 2004/02/06 15:27:14 $
  */
 public class DefaultComponentContext extends DefaultDeploymentContext 
   implements ComponentContext
@@ -176,27 +176,13 @@ public class DefaultComponentContext extends DefaultDeploymentContext
     }
 
    /**
-    * Return a model relative to a supplied dependency.
-    * @return a matching model or null if the dependency is unresolvable
-    * @exception ModelRuntimeException if an error occurs during model establishment
+    * Return the enclosing containment model.
+    * @return the containment model that component is within
     */
-    //public DeploymentModel getModel( DependencyDescriptor dependency ) 
-    //  throws ModelRuntimeException
-    //{
-    //    return m_model.getModel( dependency );
-    //}
-
-   /**
-    * Return a model relative to a supplied stage descriptor.
-    * @param stage the stage descriptor
-    * @return model of a an stage handler or null if the stage is unresolvable
-    * @exception ModelRuntimeException if an error occurs during model establishment
-    */
-    //public DeploymentModel getModel( StageDescriptor stage ) 
-    //  throws ModelRuntimeException
-    //{
-    //    return m_model.getModel( stage );
-    //}
+    public ContainmentModel getContainmentModel() 
+    {
+        return m_model;
+    }
 
    /**
     * Return the working directory.
@@ -298,7 +284,11 @@ public class DefaultComponentContext extends DefaultDeploymentContext
             key = entry.getKey();
         }
         
-        if( key.startsWith( "urn:composition:" ) )
+        if( key.equals( ContainmentModel.KEY ) )
+        {
+            return getContainmentModel();
+        }
+        else if( key.startsWith( "urn:composition:" ) )
         {
             return getSystemContext().get( key );
         }

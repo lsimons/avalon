@@ -17,16 +17,16 @@
 
 package org.apache.avalon.activation.appliance.impl;
 
-import org.apache.avalon.activation.appliance.Deployable;
+import org.apache.avalon.composition.runtime.Commissionable;
 
 public class CustomExceptionDeployable 
-    implements Deployable
+    implements Commissionable
 {
     CustomExceptionDeployable()
     {
     }
     
-    public void deploy() 
+    public void commission() 
         throws Exception
     {
         throw new CustomException();

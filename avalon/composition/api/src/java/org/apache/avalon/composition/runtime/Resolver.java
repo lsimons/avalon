@@ -15,19 +15,16 @@
  * limitations under the License.
  */
 
-package org.apache.avalon.activation.appliance;
+package org.apache.avalon.composition.runtime;
 
 /**
- * The Home interface defines the contract for instance access and 
- * release.  A client of a home aquires object references by checking-out
- * an instance by passing itself as a check-out token.  When a client no-longer
- * requires the instance it release the instance along by supplying itself 
- * as the identifiable consumer.
+ * The Resolver interface defines the contract for instance access and 
+ * release.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $ $Date: 2004/01/24 23:25:20 $
+ * @version $Revision: 1.1 $ $Date: 2004/02/06 15:27:14 $
  */
-public interface Home
+public interface Resolver
 {
     /**
      * Resolve a object to a value.

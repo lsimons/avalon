@@ -46,15 +46,19 @@ import org.apache.avalon.activation.lifestyle.LifestyleHandler;
 import org.apache.avalon.activation.lifestyle.impl.SingletonLifestyleHandler;
 import org.apache.avalon.activation.lifestyle.impl.ThreadLifestyleHandler;
 import org.apache.avalon.activation.lifestyle.impl.TransientLifestyleHandler;
+
 import org.apache.avalon.logging.data.CategoriesDirective;
 import org.apache.avalon.logging.provider.LoggingManager;
+
 import org.apache.avalon.composition.model.ContextModel;
 import org.apache.avalon.composition.model.DependencyModel;
 import org.apache.avalon.composition.model.ComponentModel;
 import org.apache.avalon.composition.model.DeploymentModel;
 import org.apache.avalon.composition.model.StageModel;
+
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
+
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Executable;
 import org.apache.avalon.framework.activity.Initializable;
@@ -67,8 +71,10 @@ import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.logger.LogEnabled;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
+
 import org.apache.avalon.lifecycle.Accessor;
 import org.apache.avalon.lifecycle.Creator;
+
 import org.apache.avalon.meta.info.InfoDescriptor;
 import org.apache.avalon.meta.info.StageDescriptor;
 import org.apache.avalon.util.exception.ExceptionHelper;
@@ -78,7 +84,7 @@ import org.apache.avalon.util.exception.ExceptionHelper;
  * appliance instance.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.26 $ $Date: 2004/01/24 23:25:21 $
+ * @version $Revision: 1.27 $ $Date: 2004/02/06 15:27:13 $
  */
 public class DefaultAppliance extends AbstractAppliance implements Appliance
 {
@@ -291,7 +297,7 @@ public class DefaultAppliance extends AbstractAppliance implements Appliance
     }
 
     //-------------------------------------------------------------------
-    // Deployable
+    // Commissionable
     //-------------------------------------------------------------------
 
    /**
@@ -303,7 +309,7 @@ public class DefaultAppliance extends AbstractAppliance implements Appliance
     *
     * @exception Exception if a deployment error occurs
     */
-    public void deploy() throws Exception
+    public void commission() throws Exception
     {
         synchronized( m_deployment )
         {
@@ -395,7 +401,7 @@ public class DefaultAppliance extends AbstractAppliance implements Appliance
     }
 
     //-------------------------------------------------------------------
-    // Home
+    // Resolver
     //-------------------------------------------------------------------
 
     /**

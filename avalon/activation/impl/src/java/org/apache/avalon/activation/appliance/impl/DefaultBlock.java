@@ -29,12 +29,12 @@ import java.util.ArrayList;
 import org.apache.avalon.activation.appliance.Appliance;
 import org.apache.avalon.activation.appliance.ApplianceException;
 import org.apache.avalon.activation.appliance.ApplianceRuntimeException;
-import org.apache.avalon.activation.appliance.Home;
 import org.apache.avalon.activation.appliance.Engine;
 
 import org.apache.avalon.composition.data.ServiceDirective;
 import org.apache.avalon.composition.model.ContainmentModel;
 import org.apache.avalon.composition.model.ServiceModel;
+import org.apache.avalon.composition.runtime.Resolver;
 
 import org.apache.avalon.framework.logger.Logger;
 
@@ -46,9 +46,9 @@ import org.apache.avalon.framework.logger.Logger;
  * context.
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.12 $ $Date: 2004/01/24 23:25:21 $
+ * @version $Revision: 1.13 $ $Date: 2004/02/06 15:27:13 $
  */
-public class DefaultBlock extends AbstractBlock implements Home
+public class DefaultBlock extends AbstractBlock implements Resolver
 {
     //-------------------------------------------------------------------
     // immmutable state
@@ -104,7 +104,7 @@ public class DefaultBlock extends AbstractBlock implements Home
     }
 
     //-------------------------------------------------------------------
-    // Home
+    // Resolver
     //-------------------------------------------------------------------
 
     /**

@@ -441,7 +441,7 @@ public class DefaultFactory implements Factory
 
         File anchor = criteria.getAnchorDirectory();
 
-        return new DefaultSystemContext( 
+        DefaultSystemContext system = new DefaultSystemContext( 
             logging,
             anchor,
             criteria.getContextDirectory(),
@@ -451,6 +451,12 @@ public class DefaultFactory implements Factory
             criteria.isDebugEnabled(),
             criteria.getDeploymentTimeout(),
             criteria.isCodeSecurityEnabled() );
+
+        system.put( "urn:composition:dir", criteria.getWorkingDirectory() );
+        system.put( "urn:composition:anchor", criteria.getAnchorDirectory() );
+        system.makeReadOnly();
+
+        return system;
     }
 
     private ContainmentModel createApplicationModel( 

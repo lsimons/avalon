@@ -15,29 +15,26 @@
  * limitations under the License.
  */
 
-package org.apache.avalon.activation.appliance;
+package org.apache.avalon.composition.runtime;
 
 /**
- * The Deployable interface defines the contract for an object 
- * that can be deployed.  Deployment at this level of abstract 
- * concerns the handling of actions proceeding component 
- * resolution for a particula appliance instance.  
- * Deployment is equivalent to the notion of initialization.
+ * The Comissionable interface defines the contract for an manager 
+ * of deployable components. 
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2004/01/24 23:25:20 $
+ * @version $Revision: 1.1 $ $Date: 2004/02/06 15:27:14 $
  */
-public interface Deployable
+public interface Commissionable
 {
    /**
-    * Commission the appliance. 
+    * Commission the runtime handler. 
     *
-    * @exception Exception if a deployment error occurs
+    * @exception Exception if a hanfdler commissioning error occurs
     */
-    void deploy() throws Exception;
+    void commission() throws Exception;
 
    /**
-    * Invokes the decommissioning phase.  Once a appliance is 
+    * Invokes the decommissioning phase.  Once a handler is 
     * decommissioned it may be re-commissioned.
     */
     void decommission();

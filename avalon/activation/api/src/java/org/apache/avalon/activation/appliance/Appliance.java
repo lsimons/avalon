@@ -18,6 +18,8 @@
 package org.apache.avalon.activation.appliance;
 
 import org.apache.avalon.composition.model.DeploymentModel;
+import org.apache.avalon.composition.runtime.Commissionable;
+import org.apache.avalon.composition.runtime.Resolver;
 
 /**
  * An Appliance is the basic tool merlin wraps around a component to
@@ -39,9 +41,9 @@ import org.apache.avalon.composition.model.DeploymentModel;
  *
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.4 $ $Date: 2004/01/24 23:25:20 $
+ * @version $Revision: 1.5 $ $Date: 2004/02/06 15:27:13 $
  */
-public interface Appliance extends Deployable, Home
+public interface Appliance extends Commissionable, Resolver
 {
     /**
      * Return the model backing the appliance.
