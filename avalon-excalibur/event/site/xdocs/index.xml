@@ -2,7 +2,7 @@
 
 <document>
   <header>
-    <title>Excalibur Event - Overview</title>
+    <title>About Excalibur Event</title>
     <authors>
       <person name="Berin Loritsch" email="bloritsch@apache.org"/>
     </authors>
@@ -12,18 +12,31 @@
       <p>
         This is the Excalibur Event package which includes event queues,
         asynchronous command processing, and the interfaces to support
-        event based programming.  Fortress uses this project to manage
-        the components and its pools outside of the direct thread of
-        execution.  It has been tested, and only a couple of clean up
-        things need to be done to make this an officially released
-        package.
+        event based programming.  Event is heavily influenced by Matt
+        Welsh's work with the
+        <fork href="http://www.cs.berkeley.edu/~mdw/proj/seda/">SEDA architecture</fork>.
+        We forked the portion of his SandStorm server that had to do with
+        event processing.  From there we cleaned up the API and made it as
+        generic as we could.
+      </p>
+      <p>
+        The Event package actually has five related sub packages inside
+        of it.  Event is the basic interfaces for the Queues, Sinks,
+        Sources, etc.  Command houses code for the CommandManager so that
+        your code can safely process Commands (a type of event) in the
+        background.  MPool, short for Managed Pool, houses code for a
+        pool implementation that manages its size asynchronously so you
+        don't have to worry about it.  Thread is the thread pool code
+        which uses MPool to keep track of the threads.  Lastly, Util
+        provides some basic utilities so that we can programatically
+        determine the number of processors your hardware has.
       </p>
     </s1>
   </body>
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.4 $ $Date: 2002/07/26 16:07:50 $
+      $Revision: 1.5 $ $Date: 2002/09/25 18:03:47 $
     </legal>
   </footer>
 </document>
