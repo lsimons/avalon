@@ -25,13 +25,8 @@ import javax.swing.JComponent;
  * Draws a nice pretty chart given a set of data.
  *
  * @author <a href="mailto:leif@silveregg.co.jp">Leif Mortenson</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/03/26 11:32:24 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/04/01 10:08:18 $
  * @since 4.1
- */
-
-/*
- * Disclaimer.  I know that this code is ugly.  It is taken from an old
- *  project and works. :-)
  */
 public class LineChart
     extends JComponent
@@ -60,7 +55,7 @@ public class LineChart
 
     /**
      * Format of the text which is displayed over the component as
-     *	the user moves the mouse over the line chart.
+     *  the user moves the mouse over the line chart.
      */
     private String m_dFormat;
 
@@ -97,21 +92,21 @@ public class LineChart
      *-------------------------------------------------------------*/
     /**
      * @param lineSampleInterval The interval in data points at which to place vertical
-     *	lines and labels along the x (time) axis.
+     *  lines and labels along the x (time) axis.
      * @param sampleInterval The number of milliseconds represented by each data sample.
      * @param format Format of the text which is displayed along the x (time) axis of
-     *	the chart.  The text will display the time of the line chart at a particular
-     *	interval.  The text should take the format "{0}/{1} {2}:{3}:{4}.{5}" where {0} is
-     *	replaced by the month, {1} by the day, {2} by the hour, {3} by the minute, {4}
-     *	by the second, and {5} by the hundereths of a second.
+     *  the chart.  The text will display the time of the line chart at a particular
+     *  interval.  The text should take the format "{0}/{1} {2}:{3}:{4}.{5}" where {0} is
+     *  replaced by the month, {1} by the day, {2} by the hour, {3} by the minute, {4}
+     *  by the second, and {5} by the hundereths of a second.
      * @param detailFormat Format of the text which is displayed over the component as
-     *	the user moves the mouse over the line chart.  The text will display the exact
-     *	value of the line chart at a particular point.  The text should take the format
-     *	"{0}/{1} {2}:{3}:{4}.{5}" where {0} is replaced by the month, {1} by the day,
+     *  the user moves the mouse over the line chart.  The text will display the exact
+     *  value of the line chart at a particular point.  The text should take the format
+     *  "{0}/{1} {2}:{3}:{4}.{5}" where {0} is replaced by the month, {1} by the day,
      *  {2} by the hour, {3} by the minute, {4} by the second, and {5} by the hundereths
      *  of a second.
      * @param averageWindow Number of data points to do a moving average over when the
-     *	mouse is pressed on the component.
+     *  mouse is pressed on the component.
      */
     public LineChart( int lineSampleInterval,
                       long sampleInterval,
@@ -147,8 +142,14 @@ public class LineChart
         for( int i = 0; i < values.length; i++ )
         {
             int v = values[ i ];
-            if( v > max ) max = v;
-            if( v < min ) min = v;
+            if( v > max )
+            {
+                max = v;
+            }
+            if( v < min )
+            {
+                min = v;
+            }
         }
         if( ( max - min ) < 10 )
         {
@@ -273,48 +274,35 @@ public class LineChart
         if( detailed )
         {
             format = MessageFormat.format( m_dFormat,
-                                           new Object[]{month, day, hour, minute, second, hundreths} );
+                new Object[]{month, day, hour, minute, second, hundreths} );
         }
         else
         {
             format = MessageFormat.format( m_format,
-                                           new Object[]{month, day, hour, minute, second, hundreths} );
+                new Object[]{month, day, hour, minute, second, hundreths} );
         }
         return format;
     }
-
+    
     /**
-     * Paints the component.
+     * Draws the horizontal lines which make up the background of the chart.
      *
-     * @param g Graphics to paint the chart onto.
+     * @param g Graphics object to paint with.
+     * @param yLabelInterval Interval at which the lines should be labeled.
+     * @param fontHeight The height of the current font.
+     * @param chartLeft Left edge of the chart.
+     * @param chartTop Top edge of the chart.
+     * @param chartWidth Width of the chart.
+     * @param chartHeight Height of the chart.
      */
-    public synchronized void paintComponent( Graphics g )
+    private void paintHorizontalGrid( Graphics g,
+                                      int yLabelInterval,
+                                      int fontHeight,
+                                      int chartLeft,
+                                      int chartTop,
+                                      int chartWidth,
+                                      int chartHeight )
     {
-        Dimension size = getSize();
-        Insets insets = getInsets();
-
-        g.setColor( getBackground() );
-        g.fillRect( insets.left, insets.top, size.width - insets.left - insets.right,
-                    size.height - insets.top - insets.bottom );
-
-        // Resolve the vertical interval
-        int yLabelInterval = 1;
-        while( ( m_max - m_min ) / yLabelInterval > 20 )
-        {
-            yLabelInterval *= 10;
-        }
-
-        FontMetrics fontMetrics = g.getFontMetrics();
-        int maxYLabelWidth = fontMetrics.stringWidth( m_intFormat.format( m_max ) );
-        int fontHeight = fontMetrics.getAscent();
-        int fontHalfHeight = fontHeight / 2;
-
-        int chartLeft = insets.left + maxYLabelWidth + 5;
-        int chartTop = insets.top + 5;
-        int chartWidth = size.width - chartLeft - insets.right - 1 - 5;
-        int chartHeight = size.height - chartTop - insets.bottom - 1 - fontHeight;
-
-        // Draw the horizontal grid (Left to Right lines)
         if( chartHeight > 0 )
         {
             int horizonalLineLabeledInterval = (int)Math.ceil(
@@ -323,7 +311,8 @@ public class LineChart
             for( int i = ( (int)Math.ceil( (float)m_min / yLabelInterval ) ) * yLabelInterval;
                  i < m_max; i += yLabelInterval )
             {
-                // Calculate the location of the line on the y-axis.  Be careful of very large numbers
+                // Calculate the location of the line on the y-axis.  Be careful
+                //  of very large numbers.
                 int y = chartTop + chartHeight -
                     (int)( (long)chartHeight * ( i - m_min ) / ( m_max - m_min ) );
 
@@ -335,8 +324,8 @@ public class LineChart
                 {
                     String lbl = m_intFormat.format( i );
                     g.setColor( m_frameColor );
-                    g.drawString( lbl, chartLeft - 5 - fontMetrics.stringWidth( lbl ),
-                                  y + fontHalfHeight );
+                    g.drawString( lbl, chartLeft - 5 - g.getFontMetrics().stringWidth( lbl ),
+                                  y + ( fontHeight >> 1 ) );
 
                     g.setColor( m_darkGridColor );
                 }
@@ -352,12 +341,29 @@ public class LineChart
                 }
             }
         }
+    }
 
-
-
-        // Draw the vertical grid (Top to Bottom lines)
+    /**
+     * Draws the vertical lines which make up the background of the chart.
+     *
+     * @param g Graphics object to paint with.
+     * @param fontHeight The height of the current font.
+     * @param chartLeft Left edge of the chart.
+     * @param chartTop Top edge of the chart.
+     * @param chartWidth Width of the chart.
+     * @param chartHeight Height of the chart.
+     */
+    private void paintVerticalGrid( Graphics g,
+                                    int fontHeight,
+                                    int chartLeft,
+                                    int chartTop,
+                                    int chartWidth,
+                                    int chartHeight )
+    {
         if( chartWidth > 0 )
         {
+            FontMetrics fontMetrics = g.getFontMetrics();
+            
             // Figure out how wide a label is for formatting.
             String format = MessageFormat.format( m_format, new String[]{"00", "00", "00", "00"} );
             int fw = fontMetrics.stringWidth( format ) + 10;
@@ -366,8 +372,8 @@ public class LineChart
             int verticalLineLabeledInterval;
             if( ( m_values.length > 0 ) && ( chartWidth > 0 ) )
             {
-                verticalLineLabeledInterval = (int)Math.ceil( (float)fw /
-                                                              ( m_lineSampleInterval * chartWidth / ( m_values.length ) ) );
+                verticalLineLabeledInterval = (int)Math.ceil(
+                    (float)fw / ( m_lineSampleInterval * chartWidth / ( m_values.length ) ) );
             }
             else
             {
@@ -422,39 +428,95 @@ public class LineChart
                 }
             }
         }
-
+    }
+    
+    /**
+     * Draws the frame around the whole chart.
+     *
+     * @param g Graphics object to paint with.
+     * @param chartLeft Left edge of the chart.
+     * @param chartTop Top edge of the chart.
+     * @param chartWidth Width of the chart.
+     * @param chartHeight Height of the chart.
+     */
+    private void paintFrame( Graphics g,
+                             int chartLeft,
+                             int chartTop,
+                             int chartWidth,
+                             int chartHeight )
+    {
         if( ( chartWidth > 0 ) && ( chartHeight > 0 ) )
         {
-            // Draw the frame
             g.setColor( m_frameColor );
             g.drawLine( chartLeft, chartTop, chartLeft, chartTop + chartHeight );
             g.drawLine( chartLeft, chartTop + chartHeight, chartLeft + chartWidth,
                         chartTop + chartHeight );
+        }
+    }
+    
+    /**
+     * Draws the data values which to be displayed in the chart.
+     *
+     * @param g Graphics object to paint with.
+     * @param chartLeft Left edge of the chart.
+     * @param chartTop Top edge of the chart.
+     * @param chartWidth Width of the chart.
+     * @param chartHeight Height of the chart.
+     */
+    private void paintValues( Graphics g,
+                              int chartLeft,
+                              int chartTop,
+                              int chartWidth,
+                              int chartHeight )
+    {
+        if( ( m_averageWindow > 0 ) && ( m_mousePressed ) )
+        {
+            g.setColor( m_lightLineColor );
+        }
+        else
+        {
+            g.setColor( m_lineColor );
+        }
 
+        int lastX = 0;
+        int lastY = 0;
+        for( int i = 0; i < m_values.length; i++ )
+        {
+            // Calculate the location of the point on the x-axis.
+            int x = chartLeft + i * chartWidth / ( m_values.length - 1 );
 
+            // Calculate the location of the line on the y-axis.  Be careful
+            //  of very large numbers.
+            int y = chartTop + chartHeight -
+                (int)( (long)chartHeight * ( m_values[ i ] - m_min ) / ( m_max - m_min ) );
 
-            // Draw the the values that make up the data of the chart.
-            if( ( m_averageWindow > 0 ) && ( m_mousePressed ) )
+            if( i > 0 )
             {
-                g.setColor( m_lightLineColor );
-            }
-            else
-            {
-                g.setColor( m_lineColor );
+                g.drawLine( lastX, lastY, x, y );
             }
 
-            int lastX = 0;
-            int lastY = 0;
-            for( int i = 0; i < m_values.length; i++ )
+            lastX = x;
+            lastY = y;
+        }
+        
+        // Draw the averaged values of the chart
+        if( ( m_averageWindow > 0 ) && ( m_mousePressed ) )
+        {
+            g.setColor( m_lineColor );
+            lastX = 0;
+            lastY = 0;
+            for( int i = m_averageWindow; i < m_averageWindowValues.length; i++ )
             {
                 // Calculate the location of the point on the x-axis.
-                int x = chartLeft + i * chartWidth / ( m_values.length - 1 );
+                int x = chartLeft + i * chartWidth / ( m_averageWindowValues.length - 1 );
 
-                // Calculate the location of the line on the y-axis.  Be careful of very large numbers
+                // Calculate the location of the line on the y-axis.  Be careful of very large
+                //  numbers.  The float value average valus makes this easy here.
                 int y = chartTop + chartHeight -
-                    (int)( (long)chartHeight * ( m_values[ i ] - m_min ) / ( m_max - m_min ) );
+                    (int)( chartHeight * ( m_averageWindowValues[ i ] - m_min ) /
+                    ( m_max - m_min ) );
 
-                if( i > 0 )
+                if( i > m_averageWindow )
                 {
                     g.drawLine( lastX, lastY, x, y );
                 }
@@ -462,192 +524,292 @@ public class LineChart
                 lastX = x;
                 lastY = y;
             }
+        }
+    }
+    
+    /**
+     * Draws the overlay label at the specified location.
+     *
+     * @param g Graphics object to paint with.
+     * @param fontHeight The height of the current font.
+     * @param chartLeft Left edge of the chart.
+     * @param chartTop Top edge of the chart.
+     * @param chartWidth Width of the chart.
+     * @param chartHeight Height of the chart.
+     */
+    private void paintOverlayAt( Graphics g,
+                                 int fontHeight,
+                                 int chartLeft,
+                                 int chartTop,
+                                 int chartWidth,
+                                 int chartHeight,
+                                 int mouseDataPointX,
+                                 int mouseDataPointY,
+                                 String mouseDataPointValue,
+                                 long mouseDataPointTime )
+    {
+        // Draw a cross at the point being to be labeled.
+        g.setColor( m_crossColor );
+        g.drawLine(
+            mouseDataPointX, chartTop, mouseDataPointX, chartTop + chartHeight );
+        g.drawLine(
+            chartLeft, mouseDataPointY, chartLeft + chartWidth, mouseDataPointY );
 
-            // Draw the averaged values of the chart
+        // Get the text of the label
+        String mouseDataPointLabel = mouseDataPointValue + " : " +
+            getFormattedTime( new Date( mouseDataPointTime ), true );
+        int mouseDataPointLabelWidth =
+            g.getFontMetrics().stringWidth( mouseDataPointLabel );
+        int mouseDataPointLabelLeft;
+        int mouseDataPointLabelTop;
+
+        // If the point is near the edges of the chart, then it
+        //  would run off the chart.  To avoid this, the label is
+        //  moved around relative to the location of the cross.
+        //  Decide where it should go.
+        if( mouseDataPointX + 5 + mouseDataPointLabelWidth < chartLeft + chartWidth )
+        {
+            // Ok on the right
+            mouseDataPointLabelLeft = mouseDataPointX + 4;
+            if( mouseDataPointY + 5 + fontHeight < chartTop + chartHeight )
+            {
+                // Ok on the bottom
+                mouseDataPointLabelTop = mouseDataPointY + 4;
+            }
+            else
+            {
+                // Must go on the top
+                mouseDataPointLabelTop = mouseDataPointY - 4 - fontHeight;
+            }
+        }
+        else
+        {
+            // Must go on the left
+            mouseDataPointLabelLeft = mouseDataPointX - 4 - mouseDataPointLabelWidth;
+            if( mouseDataPointY + 5 + fontHeight < chartTop + chartHeight )
+            {
+                // Ok on the bottom
+                mouseDataPointLabelTop = mouseDataPointY + 4;
+            }
+            else
+            {
+                // Must go on the top
+                mouseDataPointLabelTop = mouseDataPointY - 4 - fontHeight;
+            }
+        }
+
+        // Draw an outline around the location of the label.
+        g.setColor( m_maskFrameColor );
+        g.drawRect( mouseDataPointLabelLeft - 1, mouseDataPointLabelTop - 1,
+                    mouseDataPointLabelWidth + 2, fontHeight + 2 );
+
+        // Draw the background of the label.  By default this is partly transparent and
+        //  looks better on top of the outline.
+        g.setColor( m_maskColor );
+        g.fillRect( mouseDataPointLabelLeft - 1, mouseDataPointLabelTop - 1,
+                    mouseDataPointLabelWidth + 2, fontHeight + 2 );
+
+        // Draw the text of the label.
+        g.setColor( m_crossColor );
+        g.drawString( mouseDataPointLabel, mouseDataPointLabelLeft,
+                      mouseDataPointLabelTop + fontHeight );
+    }
+    
+    /**
+     * Draws the overlay label at the mouse location.
+     *
+     * @param g Graphics object to paint with.
+     * @param fontHeight The height of the current font.
+     * @param chartLeft Left edge of the chart.
+     * @param chartTop Top edge of the chart.
+     * @param chartWidth Width of the chart.
+     * @param chartHeight Height of the chart.
+     */
+    private void paintOverlay( Graphics g,
+                               int fontHeight,
+                               int chartLeft,
+                               int chartTop,
+                               int chartWidth,
+                               int chartHeight )
+    {
+        if( ( m_mouseOver ) && ( m_mouseX >= chartLeft ) &&
+            ( m_mouseX <= chartLeft + chartWidth ) )
+        {
+            // Figure out the index of the data point where the mouse is.
+            int index = (int)Math.round(
+                (float)( m_values.length - 1 ) * ( m_mouseX - chartLeft ) / chartWidth );
+
+            // Draw the label
+            int mouseDataPointX = 0;
+            int mouseDataPointY = 0;
+            String mouseDataPointValue = null;
+            long mouseDataPointTime = 0;
+            boolean showLabel = false;
+
             if( ( m_averageWindow > 0 ) && ( m_mousePressed ) )
             {
-                g.setColor( m_lineColor );
-                lastX = 0;
-                lastY = 0;
-                for( int i = m_averageWindow; i < m_averageWindowValues.length; i++ )
+                if( ( index >= m_averageWindow ) && ( index < m_averageWindowValues.length ) )
                 {
-                    // Calculate the location of the point on the x-axis.
-                    int x = chartLeft + i * chartWidth / ( m_averageWindowValues.length - 1 );
+                    // Draw the label for the average data
 
-                    // Calculate the location of the line on the y-axis.  Be careful of very large
-                    //  numbers.  The float value average valus makes this easy here.
-                    int y = chartTop + chartHeight -
-                        (int)( chartHeight * ( m_averageWindowValues[ i ] - m_min ) /
+                    // Calculate the location of the point on the x-axis.
+                    mouseDataPointX = chartLeft + index * chartWidth /
+                        ( m_averageWindowValues.length - 1 );
+
+                    // Calculate the location of the line on the y-axis.  Be
+                    //  careful of very large numbers.  The float value
+                    //  average valus makes this easy here.
+                    mouseDataPointY = chartTop + chartHeight -
+                        (int)( chartHeight * ( m_averageWindowValues[ index ] - m_min ) /
                         ( m_max - m_min ) );
 
-                    if( i > m_averageWindow )
-                    {
-                        g.drawLine( lastX, lastY, x, y );
-                    }
+                    // Round the average value to 2 decimal places.
+                    mouseDataPointValue =
+                        m_floatFormat.format( m_averageWindowValues[ index ] );
 
-                    lastX = x;
-                    lastY = y;
+                    // Get the time at the mouse data point
+                    mouseDataPointTime = m_time -
+                        ( m_averageWindowValues.length - index - 1 ) * m_sampleInterval;
+
+                    showLabel = true;
                 }
             }
+            else
+            {
+                if( ( index >= 0 ) && ( index < m_values.length ) )
+                {
+                    // Draw the label for the regular data.
+
+                    // Calculate the location of the point on the x-axis.
+                    mouseDataPointX =
+                        chartLeft + index * chartWidth / ( m_values.length - 1 );
+
+                    // Calculate the location of the line on the y-axis.
+                    //  Be careful of very large numbers.
+                    mouseDataPointY = chartTop + chartHeight -
+                        (int)( (long)chartHeight * ( m_values[ index ] - m_min ) /
+                        ( m_max - m_min ) );
+
+                    // Get the average value.
+                    mouseDataPointValue = m_intFormat.format( m_values[ index ] );
+
+                    // Get the time at the mouse data point
+                    mouseDataPointTime = m_time - ( m_values.length - index - 1 ) *
+                        m_sampleInterval;
+
+                    showLabel = true;
+                }
+            }
+
+            if( showLabel )
+            {
+                paintOverlayAt( g, fontHeight, chartLeft, chartTop, chartWidth,
+                    chartHeight, mouseDataPointX, mouseDataPointY, mouseDataPointValue,
+                    mouseDataPointTime );
+            }
+        }
+    }
+    
+    /**
+     * Paints the component.
+     *
+     * @param g Graphics to paint the chart onto.
+     */
+    public synchronized void paintComponent( Graphics g )
+    {
+        Dimension size = getSize();
+        Insets insets = getInsets();
+
+        g.setColor( getBackground() );
+        g.fillRect( insets.left, insets.top, size.width - insets.left - insets.right,
+                    size.height - insets.top - insets.bottom );
+
+        // Resolve the vertical interval
+        int yLabelInterval = 1;
+        while( ( m_max - m_min ) / yLabelInterval > 20 )
+        {
+            yLabelInterval *= 10;
+        }
+
+        FontMetrics fontMetrics = g.getFontMetrics();
+        int maxYLabelWidth = fontMetrics.stringWidth( m_intFormat.format( m_max ) );
+        int fontHeight = fontMetrics.getAscent();
+        int fontHalfHeight = fontHeight / 2;
+
+        int chartLeft = insets.left + maxYLabelWidth + 5;
+        int chartTop = insets.top + 5;
+        int chartWidth = size.width - chartLeft - insets.right - 1 - 5;
+        int chartHeight = size.height - chartTop - insets.bottom - 1 - fontHeight;
+
+        // Draw the horizontal grid (Left to Right lines)
+        paintHorizontalGrid( g, yLabelInterval, fontHeight, chartLeft, chartTop,
+            chartWidth, chartHeight );
+
+        // Draw the vertical grid (Top to Bottom lines)
+        paintVerticalGrid( g, fontHeight, chartLeft, chartTop, chartWidth, chartHeight );
+
+        // Draw the frame
+        paintFrame( g, chartLeft, chartTop, chartWidth, chartHeight );
+        
+        if( ( chartWidth > 0 ) && ( chartHeight > 0 ) )
+        {
+            // Draw the the values that make up the data of the chart.
+            paintValues( g, chartLeft, chartTop, chartWidth, chartHeight );
+
 
             // Make the label visible if the user tracks over any part of the chart.
-            if( ( m_mouseOver ) && ( m_mouseX >= chartLeft ) &&
-                ( m_mouseX <= chartLeft + chartWidth ) )
-            {
-                // Figure out the index of the data point where the mouse is.
-                int index = (int)Math.round(
-                    (float)( m_values.length - 1 ) * ( m_mouseX - chartLeft ) / chartWidth );
-
-                // Draw the label
-                int mouseDataPointX = 0;
-                int mouseDataPointY = 0;
-                String mouseDataPointValue = null;
-                long mouseDataPointTime = 0;
-                boolean showLabel = false;
-
-                if( ( m_averageWindow > 0 ) && ( m_mousePressed ) )
-                {
-                    if( ( index >= m_averageWindow ) && ( index < m_averageWindowValues.length ) )
-                    {
-                        // Draw the label for the average data
-
-                        // Calculate the location of the point on the x-axis.
-                        mouseDataPointX = chartLeft + index * chartWidth /
-                            ( m_averageWindowValues.length - 1 );
-
-                        // Calculate the location of the line on the y-axis.  Be careful of very large
-                        //  numbers.  The float value average valus makes this easy here.
-                        mouseDataPointY = chartTop + chartHeight -
-                            (int)( chartHeight * ( m_averageWindowValues[ index ] - m_min ) /
-                            ( m_max - m_min ) );
-
-                        // Round the average value to 2 decimal places.
-                        mouseDataPointValue = m_floatFormat.format( m_averageWindowValues[ index ] );
-
-                        // Get the time at the mouse data point
-                        mouseDataPointTime = m_time -
-                            ( m_averageWindowValues.length - index - 1 ) * m_sampleInterval;
-
-                        showLabel = true;
-                    }
-                }
-                else
-                {
-                    if( ( index >= 0 ) && ( index < m_values.length ) )
-                    {
-                        // Draw the label for the regular data.
-
-                        // Calculate the location of the point on the x-axis.
-                        mouseDataPointX = chartLeft + index * chartWidth / ( m_values.length - 1 );
-
-                        // Calculate the location of the line on the y-axis.  Be careful of very large
-                        //  numbers.
-                        mouseDataPointY = chartTop + chartHeight -
-                            (int)( (long)chartHeight * ( m_values[ index ] - m_min ) /
-                            ( m_max - m_min ) );
-
-                        // Get the average value.
-                        mouseDataPointValue = m_intFormat.format( m_values[ index ] );
-
-                        // Get the time at the mouse data point
-                        mouseDataPointTime = m_time - ( m_values.length - index - 1 ) *
-                            m_sampleInterval;
-
-                        showLabel = true;
-                    }
-                }
-
-                if( showLabel )
-                {
-                    // Draw a cross at the point being to be labeled.
-                    g.setColor( m_crossColor );
-                    g.drawLine( mouseDataPointX, chartTop, mouseDataPointX, chartTop + chartHeight );
-                    g.drawLine( chartLeft, mouseDataPointY, chartLeft + chartWidth, mouseDataPointY );
-
-                    // Get the text of the label
-                    String mouseDataPointLabel = mouseDataPointValue + " : " +
-                        getFormattedTime( new Date( mouseDataPointTime ), true );
-                    int mouseDataPointLabelWidth = fontMetrics.stringWidth( mouseDataPointLabel );
-                    int mouseDataPointLabelLeft;
-                    int mouseDataPointLabelTop;
-
-                    // If the point is near the edges of the chart, then it would run off the chart.
-                    //  To avoid this, the label is moved around relative to the location of the cross.
-                    //  Decide where it should go.
-                    if( mouseDataPointX + 5 + mouseDataPointLabelWidth < chartLeft + chartWidth )
-                    {
-                        // Ok on the right
-                        mouseDataPointLabelLeft = mouseDataPointX + 4;
-                        if( mouseDataPointY + 5 + fontHeight < chartTop + chartHeight )
-                        {
-                            // Ok on the bottom
-                            mouseDataPointLabelTop = mouseDataPointY + 4;
-                        }
-                        else
-                        {
-                            // Must go on the top
-                            mouseDataPointLabelTop = mouseDataPointY - 4 - fontHeight;
-                        }
-                    }
-                    else
-                    {
-                        // Must go on the left
-                        mouseDataPointLabelLeft = mouseDataPointX - 4 - mouseDataPointLabelWidth;
-                        if( mouseDataPointY + 5 + fontHeight < chartTop + chartHeight )
-                        {
-                            // Ok on the bottom
-                            mouseDataPointLabelTop = mouseDataPointY + 4;
-                        }
-                        else
-                        {
-                            // Must go on the top
-                            mouseDataPointLabelTop = mouseDataPointY - 4 - fontHeight;
-                        }
-                    }
-
-                    // Draw an outline around the location of the label.
-                    g.setColor( m_maskFrameColor );
-                    g.drawRect( mouseDataPointLabelLeft - 1, mouseDataPointLabelTop - 1,
-                                mouseDataPointLabelWidth + 2, fontHeight + 2 );
-
-                    // Draw the background of the label.  By default this is partly transparent and
-                    //  looks better on top of the outline.
-                    g.setColor( m_maskColor );
-                    g.fillRect( mouseDataPointLabelLeft - 1, mouseDataPointLabelTop - 1,
-                                mouseDataPointLabelWidth + 2, fontHeight + 2 );
-
-                    // Draw the text of the label.
-                    g.setColor( m_crossColor );
-                    g.drawString( mouseDataPointLabel, mouseDataPointLabelLeft,
-                                  mouseDataPointLabelTop + fontHeight );
-                }
-            }
+            paintOverlay( g, fontHeight, chartLeft, chartTop, chartWidth, chartHeight );
         }
     }
 
     /*---------------------------------------------------------------
      * MouseListener Methods
      *-------------------------------------------------------------*/
+    /**
+     * Called when the mouse is clicked ont the component.
+     *
+     * @param event Event which describes the action.
+     */
     public void mouseClicked( MouseEvent event )
     {
     }
 
+    /**
+     * Called when the mouse is pressed ont the component.
+     *
+     * @param event Event which describes the action.
+     */
     public void mousePressed( MouseEvent event )
     {
         m_mousePressed = true;
     }
 
+    /**
+     * Called when the mouse is released ont the component.
+     *
+     * @param event Event which describes the action.
+     */
     public void mouseReleased( MouseEvent event )
     {
         m_mousePressed = false;
     }
 
+    /**
+     * Called when the mouse is enters the component.
+     *
+     * @param event Event which describes the action.
+     */
     public void mouseEntered( MouseEvent event )
     {
         m_mouseOver = true;
         repaint();
     }
 
+    /**
+     * Called when the mouse is exits the component.
+     *
+     * @param event Event which describes the action.
+     */
     public void mouseExited( MouseEvent event )
     {
         m_mouseOver = false;
@@ -657,6 +819,11 @@ public class LineChart
     /*---------------------------------------------------------------
      * MouseMotionListener Methods
      *-------------------------------------------------------------*/
+    /**
+     * Called when the mouse is dragged over the component.
+     *
+     * @param event Event which describes the motion.
+     */
     public void mouseDragged( MouseEvent event )
     {
         m_mouseX = event.getX();
@@ -664,6 +831,11 @@ public class LineChart
         repaint();
     }
 
+    /**
+     * Called when the mouse is moved over the component.
+     *
+     * @param event Event which describes the motion.
+     */
     public void mouseMoved( MouseEvent event )
     {
         m_mouseX = event.getX();
