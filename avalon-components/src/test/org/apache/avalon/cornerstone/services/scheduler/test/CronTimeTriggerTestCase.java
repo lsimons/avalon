@@ -3,34 +3,34 @@
  ============================================================================
                    The Apache Software License, Version 1.1
  ============================================================================
- 
+
  Copyright (C) 1999-2003 The Apache Software Foundation. All rights reserved.
- 
+
  Redistribution and use in source and binary forms, with or without modifica-
  tion, are permitted provided that the following conditions are met:
- 
+
  1. Redistributions of  source code must  retain the above copyright  notice,
     this list of conditions and the following disclaimer.
- 
+
  2. Redistributions in binary form must reproduce the above copyright notice,
     this list of conditions and the following disclaimer in the documentation
     and/or other materials provided with the distribution.
- 
+
  3. The end-user documentation included with the redistribution, if any, must
     include  the following  acknowledgment:  "This product includes  software
     developed  by the  Apache Software Foundation  (http://www.apache.org/)."
     Alternately, this  acknowledgment may  appear in the software itself,  if
     and wherever such third-party acknowledgments normally appear.
- 
+
  4. The names "Jakarta", "Apache Avalon", "Avalon Cornerstone", "Avalon
     Framework" and "Apache Software Foundation"  must not be used to endorse
     or promote products derived  from this  software without  prior written
     permission. For written permission, please contact apache@apache.org.
- 
+
  5. Products  derived from this software may not  be called "Apache", nor may
     "Apache" appear  in their name,  without prior written permission  of the
     Apache Software Foundation.
- 
+
  THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES,
  INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
  FITNESS  FOR A PARTICULAR  PURPOSE ARE  DISCLAIMED.  IN NO  EVENT SHALL  THE
@@ -41,11 +41,11 @@
  ANY  THEORY OF LIABILITY,  WHETHER  IN CONTRACT,  STRICT LIABILITY,  OR TORT
  (INCLUDING  NEGLIGENCE OR  OTHERWISE) ARISING IN  ANY WAY OUT OF THE  USE OF
  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- 
+
  This software  consists of voluntary contributions made  by many individuals
- on  behalf of the Apache Software  Foundation. For more  information on the 
+ on  behalf of the Apache Software  Foundation. For more  information on the
  Apache Software Foundation, please see <http://www.apache.org/>.
- 
+
 */
 
 package org.apache.avalon.cornerstone.services.scheduler.test;
@@ -288,7 +288,6 @@ public final class CronTimeTriggerTestCase
 
         long time = now.getTime().getTime();
         long next = trigger.getTimeAfter( time );
-        long delta = next - time;
 
         now.setTime( new Date( next ) );
 
@@ -333,7 +332,6 @@ public final class CronTimeTriggerTestCase
 
         long time = now.getTime().getTime();
         long next = trigger.getTimeAfter( time );
-        long delta = next - time;
 
         now.setTime( new Date( next ) );
 
@@ -359,9 +357,8 @@ public final class CronTimeTriggerTestCase
         now.set( Calendar.DAY_OF_MONTH, 29 );
         now.set( Calendar.MONTH, 7 );
 
-        long time = now.getTime().getTime();
-        long next = trigger.getTimeAfter( time );
-        long delta = next - time;
+        final long time = now.getTime().getTime();
+        final long next = trigger.getTimeAfter( time );
 
         now.setTime( new Date( next ) );
 
@@ -386,7 +383,6 @@ public final class CronTimeTriggerTestCase
 
         long time = now.getTime().getTime();
         long next = trigger.getTimeAfter( time );
-        long delta = next - time;
 
         now.setTime( new Date( next ) );
 
@@ -396,7 +392,7 @@ public final class CronTimeTriggerTestCase
         assertEquals( "Month", now.get( Calendar.MONTH ), 1 );
         assertEquals( "Day of month", now.get( Calendar.DAY_OF_MONTH ), 28 );
     }
-    
+
     public void testDaysEndOfYear()
     {
         final CronTimeTrigger trigger = new CronTimeTrigger( 51, 5, -1, -1, -1, true );
@@ -407,7 +403,7 @@ public final class CronTimeTriggerTestCase
         now.set( Calendar.HOUR_OF_DAY, 11 );
         now.set( Calendar.DAY_OF_MONTH, 31 );
         now.set( Calendar.MONTH, Calendar.DECEMBER );
-        
+
         long time = now.getTime().getTime();
         long next = trigger.getTimeAfter( time );
         int year =  now.get( Calendar.YEAR ) + 1;
