@@ -299,7 +299,6 @@ Legal:
         <pathelement location="${build.scratchpad}"/>
       </classpath>
       <batchtest todir="${build.reports}">
-<!--
         <fileset dir="${build.classes}">
           <exclude name="**/test/Abstract*TestCase.class"/>
           <exclude name="org/apache/avalon/excalibur/datasource/test/DataSourceTestCase.class"/>
@@ -310,16 +309,10 @@ Legal:
           <include name="**/test/*Profile.class" if="test.profile"/>
           <include name="**/test/*TestCase.class"/>
         </fileset>
--->
         <fileset dir="${build.scratchpad}">
-<!--          <include name="org/apache/avalon/excalibur/i18n/test/AbstractBundleTestCase.class"/>-->
-          <include name="org/apache/avalon/excalibur/extension/test/ExtensionTestCase.class"/>
-          <include name="org/apache/avalon/excalibur/extension/test/PackageRepositoryTestCase.class"/>
-<!--
           <exclude name="**/test/Abstract*TestCase.class"/>
           <include name="**/test/*TestCase.class"/>
           <include name="**/test/*Profile.class" if="test.profile"/>
--->
         </fileset>
       </batchtest>
     </junit>
