@@ -32,6 +32,7 @@ import org.apache.avalon.repository.Artifact;
 import org.apache.avalon.repository.Repository;
 import org.apache.avalon.repository.provider.CacheManager;
 import org.apache.avalon.repository.provider.InitialContext;
+import org.apache.avalon.repository.provider.Builder;
 import org.apache.avalon.repository.provider.Factory;
 
 import org.apache.avalon.framework.logger.Logger;
@@ -46,7 +47,7 @@ import org.apache.avalon.excalibur.i18n.Resources;
  * Implementation of a system context that exposes a system wide set of parameters.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.11 $ $Date: 2004/01/24 23:25:27 $
+ * @version $Revision: 1.12 $ $Date: 2004/01/25 13:18:48 $
  */
 public class DefaultSystemContext extends DefaultContext 
   implements SystemContext
@@ -114,7 +115,8 @@ public class DefaultSystemContext extends DefaultContext
       throws Exception
     {
         final String level = getStringPriority( priority );
-        Factory factory = context.createFactory( artifact );
+        Builder builder = context.newBuilder( artifact );
+        Factory factory = builder.getFactory();
         Map criteria = factory.createDefaultCriteria();
         File file = new File( base, "conf/logging.xml" );
         criteria.put( "avalon.logging.configuration", file );

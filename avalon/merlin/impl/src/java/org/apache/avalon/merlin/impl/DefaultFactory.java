@@ -74,6 +74,7 @@ import org.apache.avalon.merlin.KernelContext;
 
 import org.apache.avalon.repository.Artifact;
 import org.apache.avalon.repository.Repository;
+import org.apache.avalon.repository.provider.Builder;
 import org.apache.avalon.repository.provider.CacheManager;
 import org.apache.avalon.repository.provider.InitialContext;
 import org.apache.avalon.repository.provider.Factory;
@@ -534,7 +535,8 @@ public class DefaultFactory implements Factory
     * @return the repository
     */
     private CacheManager createCacheManager( 
-      InitialContext context, KernelCriteria criteria, String[] hosts, Configuration config )
+      InitialContext context, KernelCriteria criteria, 
+      String[] hosts, Configuration config )
       throws KernelException
     {
         File root = criteria.getRepositoryDirectory();
@@ -546,7 +548,8 @@ public class DefaultFactory implements Factory
     }
 
     private CacheManager createCacheManager( 
-      InitialContext context, File cache, String[] hosts, Configuration proxyConfig ) 
+      InitialContext context, File cache, String[] hosts, 
+      Configuration proxyConfig ) 
       throws KernelException
     {
         //
@@ -654,13 +657,15 @@ public class DefaultFactory implements Factory
     * @param config the kernel configuration 
     * @return the logging manager
     */
-    private LoggingManager createLoggingManager( KernelCriteria criteria, Configuration config )
+    private LoggingManager createLoggingManager( 
+      KernelCriteria criteria, Configuration config )
       throws Exception
     {
         File dir = criteria.getWorkingDirectory();
         Configuration conf = getLoggingConfiguration( criteria, config );
         Artifact artifact = criteria.getLoggingImplementation();
-        Factory factory = m_context.createFactory( m_classloader, artifact );
+        Builder builder = m_context.newBuilder( m_classloader, artifact );
+        Factory factory = builder.getFactory();
         LoggingCriteria params = getLoggingCriteria( factory );
         params.setBaseDirectory( dir );
         params.setConfiguration( conf );

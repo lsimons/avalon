@@ -45,7 +45,7 @@ import org.apache.avalon.util.exception.ExceptionHelper;
  * Merlin default application factory.
  * 
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.13 $
+ * @version $Revision: 1.14 $
  */
 public class MerlinBean
 {
@@ -130,7 +130,8 @@ public class MerlinBean
                 MERLIN_PROPERTIES, 
                 IMPLEMENTATION_KEY );
 
-            Factory factory = context.createFactory( artifact );
+            Builder builder = context.newBuilder( artifact );
+            Factory factory = builder.getFactory();
             Map criteria = factory.createDefaultCriteria();
 
             applyLocalProperties( criteria );
