@@ -117,6 +117,12 @@
     <available classname="electric.registry.Registry" 
         classpathref="project.class.path" 
         property="glue.present"/>
+        
+    <available classname="org.w3c.dom.DOMImplementation" 
+        classpathref="project.class.path" 
+        property="suitable.w3cdom.present"/>        
+
+
 
     <mkdir dir="${build.classes}"/>
 
@@ -131,6 +137,8 @@
                unless="jsse.present" />
       <exclude name="org/apache/avalon/cornerstone/blocks/soapification/glue/**.java"
                unless="glue.present" />
+      <exclude name="org/apache/avalon/cornerstone/blocks/dom/**.java"
+               unless="suitable.w3cdom.present" />
     </javac>
 
     <copy todir="${build.classes}">
