@@ -7,16 +7,16 @@
  */
 package org.apache.avalon.excalibur.datasource;
 
-import org.apache.avalon.framework.logger.AbstractLoggable;
-import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.configuration.ConfigurationException;
-import org.apache.avalon.excalibur.datasource.DataSourceComponent;
-
 import java.sql.Connection;
 import java.sql.SQLException;
 import javax.naming.Context;
 import javax.naming.InitialContext;
-
+import org.apache.avalon.framework.configuration.Configuration;
+import org.apache.avalon.framework.configuration.ConfigurationException;
+import org.apache.avalon.framework.logger.AbstractLogEnabled;
+import org.apache.avalon.framework.logger.LogKitLogger;
+import org.apache.avalon.framework.logger.Loggable;
+import org.apache.avalon.excalibur.datasource.DataSourceComponent;
 import com.informix.jdbcx.IfxConnectionPoolDataSource;
 import com.informix.jdbcx.IfxDataSource;
 
@@ -45,12 +45,12 @@ import com.informix.jdbcx.IfxDataSource;
  * DataSource requires the Avalon Cadastre package because it uses the MemoryContext.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.4 $ $Date: 2001/11/19 12:08:47 $
+ * @version CVS $Revision: 1.5 $ $Date: 2001/11/23 01:43:24 $
  * @since 4.0
  */
 public class InformixDataSource
-    extends AbstractLoggable
-    implements DataSourceComponent
+    extends AbstractLogEnabled
+    implements DataSourceComponent, Loggable
 {
     private IfxDataSource m_dataSource;
     private boolean m_autocommit;
@@ -68,6 +68,11 @@ public class InformixDataSource
             System.setProperty( Context.INITIAL_CONTEXT_FACTORY,
                  "org.apache.avalon.excalibur.naming.memory.MemoryInitialContextFactory" );
         }
+    }
+
+    public void setLogger( final org.apache.log.Logger logger )
+    {
+        enableLogging( new LogKitLogger( logger ) );
     }
 
     /**

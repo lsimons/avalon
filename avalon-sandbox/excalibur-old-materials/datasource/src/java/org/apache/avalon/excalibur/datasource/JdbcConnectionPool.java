@@ -15,14 +15,13 @@ import org.apache.avalon.excalibur.pool.HardResourceLimitingPool;
 import org.apache.avalon.excalibur.pool.Poolable;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Initializable;
-import org.apache.avalon.framework.logger.AbstractLoggable;
 
 /**
  * The Pool implementation for JdbcConnections.  It uses a background
  * thread to manage the number of SQL Connections.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.10 $ $Date: 2001/11/13 16:40:24 $
+ * @version CVS $Revision: 1.11 $ $Date: 2001/11/23 01:43:24 $
  * @since 4.0
  */
 public class JdbcConnectionPool
@@ -178,11 +177,13 @@ public class JdbcConnectionPool
         return obj;
     }
 
+    /*
     public void put( Poolable obj )
     {
         super.put( obj );
         this.notifyAll();
     }
+    */
 
     public void run()
     {
