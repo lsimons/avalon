@@ -12,6 +12,10 @@
     <property file=".ant.properties"/>
     <property file="../.ant.properties"/>
     <property file="${user.home}/.ant.properties"/>
+    
+    <!-- External references. Can be overridden in properties files above -->
+    <property name="framework.dir" value="${basedir}/../../jakarta-avalon"/>
+    <property name="junit.jar" value="${framework.dir}/tools/lib/junit-3.7.jar"/>
 
     <!-- Settings used to configure compile environment -->
     <property name="build.debug" value="on"/>
@@ -53,10 +57,9 @@
 
     <!-- Compiles the source code -->
     <target name="compile" description="Compiles the source code">
-
         <mkdir dir="${build.classes}"/>
 
-        <!-- Compile all classes excluding the tests.  They are compiled in their own task -->
+        <!-- Compile all classes including the tests. -->
         <javac srcdir="${java.dir}"
             destdir="${build.classes}"
             debug="${build.debug}"
