@@ -15,6 +15,7 @@
 
     <property name="build.dir" value="build"/>    
     <property name="docs.dir" value="${build.dir}/docs"/>
+    <property name="site.dir" value="../jakarta-avalon-site/docs/phoenix"/>
     <property name="build.xdocs" value="${build.dir}/xdocs"/>    
     <property name="build.javadocs" value="${build.dir}/javadocs"/>    
     <property name="src.dir" value="src"/>    
@@ -138,6 +139,27 @@
                out="jakarta-news.xml"/>
     
       </target>
+
+
+    <target name="site" 
+            depends="docs,javadocs"
+	    description="Update site directory">
+
+    <delete>
+      <fileset dir="${site.dir}">
+         <include name="**/*"/>
+      </fileset>
+    </delete>
+
+    <copy todir="${site.dir}" filtering="off">
+      <fileset dir="${docs.dir}"/>
+    </copy>
+
+    <copy todir="${site.dir}/api" filtering="off">
+      <fileset dir="${build.javadocs}"/>
+    </copy>
+
+  </target>
 
 
     <!-- Cleans up build and distribution directories -->
