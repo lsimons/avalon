@@ -7,7 +7,7 @@
  */
 package org.apache.avalon.camelot;
 
-import org.apache.avalon.util.ValuedEnum;
+import org.apache.avalon.ValuedEnum;
 
 /**
  * Defines possible states for contained components.
