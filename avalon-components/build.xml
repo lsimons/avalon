@@ -50,10 +50,10 @@
   <property name="dist.base" value="distributions"/>
 
   <property name="xerces.jar" value="${tools.dir}/lib/xerces.jar"/>
-  <property name="logkit.jar" value="${lib.dir}/logkit-1.0.jar"/>
-  <property name="framework.jar" value="${lib.dir}/avalon-framework-20011110.jar"/>
-  <property name="excalibur.jar" value="${lib.dir}/avalon-excalibur-20011120.jar"/>
-  <property name="scratchpad.jar" value="${lib.dir}/avalon-scratchpad-20011120.jar"/>
+  <property name="logkit.jar" value="${lib.dir}/logkit-1.0.1.jar"/>
+  <property name="framework.jar" value="${lib.dir}/avalon-framework-4.1.2.jar"/>
+  <property name="excalibur.jar" value="${lib.dir}/avalon-excalibur-4.1.jar"/>
+  <property name="scratchpad.jar" value="${lib.dir}/avalon-scratchpad-4.1.jar"/>
   <property name="phoenix-client.jar" value="${lib.dir}/phoenix-client-20020126.jar"/>
   <property name="junit.jar" value="${tools.dir}/lib/junit-3.7.jar"/>
   <property name="tools.jar" value="${java.home}/../lib/tools.jar"/>
