@@ -92,7 +92,7 @@ import org.apache.excalibur.instrument.manager.interfaces.InstrumentSampleUtils;
 /**
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.21 $ $Date: 2003/07/15 07:15:48 $
+ * @version CVS $Revision: 1.22 $ $Date: 2003/07/24 16:14:49 $
  * @since 4.1
  */
 class InstrumentManagerConnection
@@ -406,7 +406,7 @@ class InstrumentManagerConnection
             new SocketCustomStreamHostContext.WithSimpleDefaults( m_host, m_port );
 
         m_altrmiHostContext = hostContext;
-        m_altrmiFactory = new ClientSideClassFactory( hostContext );
+        m_altrmiFactory = new ClientSideClassFactory( hostContext, true );
 
         if ( getLogger().isDebugEnabled() )
         {

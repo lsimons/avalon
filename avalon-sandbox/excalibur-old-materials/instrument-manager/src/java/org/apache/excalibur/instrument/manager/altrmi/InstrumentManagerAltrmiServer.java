@@ -68,7 +68,7 @@ import org.apache.excalibur.instrument.manager.interfaces.InstrumentableDescript
  *  file.
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.6 $ $Date: 2003/02/26 17:20:53 $
+ * @version CVS $Revision: 1.7 $ $Date: 2003/07/24 16:15:15 $
  * @since 4.1
  */
 public class InstrumentManagerAltrmiServer
@@ -97,7 +97,7 @@ public class InstrumentManagerAltrmiServer
         InstrumentManagerClientLocalImpl client = new InstrumentManagerClientLocalImpl( manager );
 
         System.out.println( "Creating CompleteSocketCustomStreamServer..." );
-        m_server = new CompleteSocketCustomStreamServer( port );
+        m_server = new CompleteSocketCustomStreamServer.WithSimpleDefaults( port );
 
         System.out.println( "Publishing InstrumentManagerClient..." );
 

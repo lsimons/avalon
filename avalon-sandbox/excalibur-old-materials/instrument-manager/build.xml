@@ -40,6 +40,11 @@
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkCommon"/>
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkFramework"/>
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkInstrument"/>
+
+        <available classname="org.apache.altrmi.server.ServerException"
+            property="altrmi.present">
+            <classpath refid="project.class.path"/>
+        </available>
     </target>
 
     <target name="dependencies-test" depends="dist-jar, dependencies"
@@ -48,15 +53,18 @@
 
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkJUnit"/>
     </target>
-
+    
+    <target name="warn-altrmi" depends="dependencies" unless="altrmi.present">
+        <echo message="**********************************************************************"/>
+        <echo message="WARNING - Version ${altrmi.version} of the altrmi libraries could not "/>
+        <echo message="          be found, the altrmi connector will be missing from the jar "/>
+        <echo message="          file."/>
+        <echo message="Expected: ${altrmi-common.jar}"/>
+        <echo message="**********************************************************************"/>
+    </target>
 
     <!-- Compiles the source code -->
-    <target name="compile" depends="dependencies" description="Compiles the source code">
-
-        <available classname="org.apache.altrmi.server.ServerException"
-            property="altrmi.present">
-            <classpath refid="project.class.path"/>
-        </available>
+    <target name="compile" depends="dependencies, warn-altrmi" description="Compiles the source code">
 
         <mkdir dir="${build.classes}"/>
 
