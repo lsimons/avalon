@@ -16,9 +16,9 @@
 
   <ant:property name="avalon.util.plugin.version" value="1.0-SNAPSHOT"/>
   <ant:property name="meta.plugin.version" value="1.4-SNAPSHOT"/>
-  <ant:property name="merlin.cli.version" value="3.3-SNAPSHOT"/>
-  <ant:property name="merlin.plugin.version" value="3.3-SNAPSHOT"/>
   <ant:property name="repository.cli.version" value="2.0-SNAPSHOT"/>
+  <ant:property name="merlin.cli.version" value="${pom.currentVersion}"/>
+  <ant:property name="merlin.plugin.version" value="${pom.currentVersion}"/>
 
   <!--
   ==============================================================================
