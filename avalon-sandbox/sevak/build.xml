@@ -277,7 +277,8 @@
     <mkdir dir="${build.lib}"/>
     <war destfile="${build.lib}/sevak-demo.war" webxml="${src.dir}/demo/webapps/sevak-test/WEB-INF/web.xml" >
       <fileset dir="${src.dir}/demo/webapps/sevak-test">
-          <excludesfile name="${src.dir}/demo/webapps/sevak-test/WEB-INF/web.xml"/>
+        <exclude name="WEB-INF/web.xml"/>
+        <exclude name="WEB-INF/classes/**/*.java"/>
       </fileset>
     </war>
 
