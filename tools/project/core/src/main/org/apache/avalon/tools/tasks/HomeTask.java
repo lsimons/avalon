@@ -19,6 +19,7 @@ package org.apache.avalon.tools.tasks;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Calendar;
 
 import org.apache.tools.ant.Task;
 import org.apache.tools.ant.BuildException;
@@ -44,9 +45,11 @@ public abstract class HomeTask extends Task
 
     public void init() throws BuildException 
     {
+        super.init();
         m_home = Home.getHome( getProject() );
         String key = getProject().getProperty( "avalon.project.key" );
         m_definition = m_home.getDefinition( key );
+        populateDateTimes();
     }
 
     protected Home getHome()
@@ -78,5 +81,17 @@ public abstract class HomeTask extends Task
         mkdir.setDir( dir );
         mkdir.init();
         mkdir.execute();
+    }
+
+    private void populateDateTimes()
+    {
+        Calendar cal = Calendar.getInstance();
+        
+        setProjectProperty( "magic.year", "" + cal.get( Calendar.YEAR ) );
+        setProjectProperty( "magic.month", "" + cal.get( Calendar.MONTH ) );
+        setProjectProperty( "magic.date", "" + cal.get( Calendar.DATE ) );
+        setProjectProperty( "magic.hour", "" + cal.get( Calendar.HOUR_OF_DAY ) );
+        setProjectProperty( "magic.minute", "" + cal.get( Calendar.MINUTE ) );
+        setProjectProperty( "magic.second", "" + cal.get( Calendar.SECOND ) );
     }
 }

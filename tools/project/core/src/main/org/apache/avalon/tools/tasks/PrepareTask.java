@@ -44,17 +44,25 @@ public class PrepareTask extends HomeTask
     public static String TARGET_SRC = TARGET + "/src";
     public static String TARGET_SRC_MAIN = TARGET_SRC + "/main";
     public static String TARGET_SRC_TEST = TARGET_SRC + "/test";
+    public static String TARGET_SRC_RES = TARGET_SRC + "/resources";
 
     public static final String SRC_KEY = "avalon.src";
     public static final String TARGET_KEY = "avalon.target";
     public static final String TARGET_SRC_KEY = "avalon.target.src";
     public static final String TARGET_SRC_MAIN_KEY = "avalon.target.src.main";
     public static final String TARGET_SRC_TEST_KEY = "avalon.target.src.test";
+    public static final String TARGET_SRC_RES_KEY = "avalon.target.src.resources";
 
     public static File getTargetDirectory( Project project )
     {
         String target = project.getProperty( TARGET_KEY );
         return new File( project.getBaseDir(), target );
+    }
+
+    public static File getTargetSrcResourcesDirectory( Project project )
+    {
+        String res = project.getProperty( TARGET_SRC_RES_KEY );
+        return new File( project.getBaseDir(), res );
     }
 
     public void init() throws BuildException 
@@ -64,6 +72,7 @@ public class PrepareTask extends HomeTask
         setProjectProperty( TARGET_SRC_KEY, TARGET_SRC );
         setProjectProperty( TARGET_SRC_MAIN_KEY, TARGET_SRC_MAIN );
         setProjectProperty( TARGET_SRC_TEST_KEY, TARGET_SRC_TEST );
+        setProjectProperty( TARGET_SRC_RES_KEY, TARGET_SRC_RES );
     }
 
     public void execute() throws BuildException 
@@ -111,6 +120,7 @@ public class PrepareTask extends HomeTask
         copy.setTodir( targetSrc );
         copy.setFiltering( filtering );
         copy.setOverwrite( false );
+        copy.setPreserveLastModified( true );
 
         FileSet fileset = new FileSet();
         fileset.setDir( getSrcDirectory() );
@@ -121,5 +131,4 @@ public class PrepareTask extends HomeTask
         copy.init();
         copy.execute();
     }
-
 }

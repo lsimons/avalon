@@ -111,6 +111,7 @@ public class JavacTask extends HomeTask
     private void copy( File sources, File classes )
     {        
         Copy copy = (Copy) getProject().createTask( "copy" );
+        copy.setPreserveLastModified( true );
         copy.setTodir( classes );
 
         FileSet fileset = new FileSet();
