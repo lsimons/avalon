@@ -10,6 +10,7 @@ package org.apache.avalon.excalibur.component;
 import org.apache.avalon.excalibur.logger.LogKitManager;
 import org.apache.avalon.excalibur.logger.LoggerManager;
 import org.apache.avalon.framework.logger.Logger;
+import org.apache.avalon.framework.logger.LogKit2AvalonLoggerAdapter;
 import org.apache.log.Hierarchy;
 import org.apache.log.LogTarget;
 
@@ -17,7 +18,7 @@ import org.apache.log.LogTarget;
  * An adapter between LogkitManager and LoggerManager.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2002/07/29 09:53:40 $
+ * @version $Revision: 1.4 $ $Date: 2002/11/10 00:58:04 $
  */
 class Logger2LogKitManager
     implements LogKitManager
@@ -28,8 +29,8 @@ class Logger2LogKitManager
     public Logger2LogKitManager( final LoggerManager loggerManager )
     {
         m_loggerManager = loggerManager;
-        final LogKit2LoggerTarget target =
-            new LogKit2LoggerTarget( loggerManager.getDefaultLogger() );
+        final LogKit2AvalonLoggerAdapter target =
+            new LogKit2AvalonLoggerAdapter( loggerManager.getDefaultLogger() );
         m_hierarchy.setDefaultLogTarget( target );
     }
 
@@ -39,8 +40,8 @@ class Logger2LogKitManager
             m_loggerManager.getLoggerForCategory( categoryName );
         final org.apache.log.Logger logkitLogger =
             getHierarchy().getLoggerFor( categoryName );
-        final LogKit2LoggerTarget target =
-            new LogKit2LoggerTarget( logger );
+        final LogKit2AvalonLoggerAdapter target =
+            new LogKit2AvalonLoggerAdapter( logger );
         logkitLogger.setLogTargets( new LogTarget[ ] { target } );
         return logkitLogger;
     }

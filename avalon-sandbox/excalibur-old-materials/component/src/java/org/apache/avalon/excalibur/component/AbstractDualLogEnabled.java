@@ -10,13 +10,14 @@ package org.apache.avalon.excalibur.component;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.logger.LogKitLogger;
 import org.apache.avalon.framework.logger.Loggable;
+import org.apache.avalon.framework.logger.LogKit2AvalonLoggerAdapter;
 
 /**
  * A base class for all objects that need to support LogEnabled/Loggable
  * for backwards compatability.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2002/06/02 06:03:01 $
+ * @version $Revision: 1.3 $ $Date: 2002/11/10 00:58:04 $
  */
 public class AbstractDualLogEnabled
     extends AbstractLogEnabled
@@ -34,7 +35,7 @@ public class AbstractDualLogEnabled
     {
         if( null == m_logkitLogger )
         {
-            m_logkitLogger = LogKit2LoggerTarget.createLogger( getLogger() );
+            m_logkitLogger = LogKit2AvalonLoggerAdapter.createLogger( getLogger() );
         }
         return m_logkitLogger;
     }
