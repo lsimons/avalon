@@ -82,7 +82,7 @@ import junit.framework.TestCase;
  * Abstract Merlin Test Case.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2003/10/07 18:03:11 $
+ * @version $Revision: 1.2 $ $Date: 2003/10/07 21:33:37 $
  */
 public class AbstractMerlinTestCase extends TestCase
 {
@@ -184,12 +184,14 @@ public class AbstractMerlinTestCase extends TestCase
                 repository, repo, library, base, kernel, new URL[0], 
                 config, true, info, debug );
             m_kernel = new DefaultKernel( m_context );
-            m_logger = m_context.getLoggerForCategory( "testcase" ).getChildLogger( name );
+            m_logger = 
+              m_context.getLoggerForCategory( "testcase" ).getChildLogger( name );
         }
         catch( Throwable e )
         {
-            final String error =
+            final String message =
               "Internal error while attempting to establish the kernel.";
+            final String error = ExceptionHelper.packException( message, e, true );
             throw new UnitRuntimeException( error, e );
         }
 
@@ -207,9 +209,11 @@ public class AbstractMerlinTestCase extends TestCase
         }
         catch( Throwable e )
         {
-            final String error =
+            final String message = 
               "Internal error while attempting to establish the test container.";
-            throw new UnitRuntimeException( error, e );
+            final String error = ExceptionHelper.packException( message, e, true );
+            getLogger().error( error );
+            throw new UnitRuntimeException( error );
         }
     }
 
@@ -231,10 +235,11 @@ public class AbstractMerlinTestCase extends TestCase
         catch( Throwable e )
         {
             final String message = 
-              "Internal error while attempting to establish the test container: " 
+              "Internal error while attempting to resolve test block: " 
               + m_test;
-            final String error = ExceptionHelper.packException( message, e, false );
-            throw new UnitException( error, e );
+            final String error = ExceptionHelper.packException( message, e, true );
+            getLogger().error( error );
+            throw new UnitException( error );
         }
     }
 
@@ -276,6 +281,12 @@ public class AbstractMerlinTestCase extends TestCase
         try
         {
             Appliance appliance = m_block.resolveAppliance( path );
+            if( appliance == null )
+            {
+                final String problem = 
+                  "Unknown appliance: " + path;
+                throw new IllegalArgumentException( problem );
+            }
             return appliance.resolve( this );
         }
         catch( Throwable e )
