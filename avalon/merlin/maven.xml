@@ -477,7 +477,17 @@
 
   <goal name="avalon:site" 
       description="Build the Merlin site" 
-      prereqs="license,xjavadoc,site"/>
+      prereqs="xavalon:css-copy,license,xjavadoc,site"/>
+
+  <goal name="xavalon:css-copy">
+    <ant:mkdir dir="${merlin.build.inst.dir}/docs/style"/>
+    <ant:copy toDir="${merlin.build.inst.dir}/docs/style">
+      <fileset dir="${basedir}/platform/etc">
+        <include name="maven.css"/>
+        <include name="tigris.css"/>
+      </fileset>
+    </ant:copy>
+  </goal>
 
   <!--
   ==============================================================================

@@ -28,7 +28,10 @@
 
     <section name="Component Descriptors">
       <p>
-IN PREPARATION
+Within the COP (Component Oriented Programming) domain there is a principal that the component is supplied with the resources its needs in order to function properly.  The direct implication of this principal is that a component should declare exactly what it needs.  When we consider a portable and reusable component we need to think its deployment dependecies, structural dependencies, context assumptions, configuration and parameterization criteria, throught to minor details such the logging channels that the component implementation assumes.
+      </p>
+      <p>
+This information is captured in a object called a Type.  An instance of Type describes the component and can be used by a container without necessarily loading the component class.  Instance of Type are created from an XML external form.  The XML descriptor can be created manually or more typically through development tools that automate the creation process based on javadoc tags included in the source code.
       </p>
     </section>
 
