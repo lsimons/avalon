@@ -15,20 +15,15 @@ import java.util.EventObject;
 public class CacheEvent
     extends EventObject
 {
-    public static final int ADDED = 1;
-    public static final int REMOVED = 2;
-
     private Object m_key;
     private Object m_value;
-    private int m_type;
 
     public CacheEvent( final Cache cache,
-                       final Object key, final Object value, final int type )
+                       final Object key, final Object value )
     {
         super( cache );
         m_key = key;
         m_value = value;
-        m_type = type;
     }
 
     public Object getKey()
@@ -39,10 +34,5 @@ public class CacheEvent
     public Object getValue()
     {
         return m_value;
-    }
-
-    public int getType()
-    {
-        return m_type;
     }
 }
