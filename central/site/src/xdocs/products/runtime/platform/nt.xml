@@ -31,7 +31,7 @@
 The Merlin installation includes support for the running of a Merlin Kernel as an Windows(TM) NT4 Service.
       </p>
       <p>
-        <img src="../../images/service.gif"/>
+        <img src="/images/service.gif"/>
       </p>
       <subsection name="Service Installation">
         <p>Installation of the service is achieved using the following
@@ -45,7 +45,7 @@ The Merlin installation includes support for the running of a Merlin Kernel as a
         by using the Service manager in the Windows Control Panel.
         </p>
         <p>
-        <img src="../../images/service-dialog.gif"/>
+        <img src="/images/service-dialog.gif"/>
         </p>
       </subsection>
 
@@ -55,7 +55,7 @@ The Merlin installation includes support for the running of a Merlin Kernel as a
         account you must ensure that the MERLIN_HOME environment variable
         is declared in system scope. </p>
         <p>
-        <img src="../../images/merlin-service-dialog.gif"/>
+        <img src="/images/merlin-service-dialog.gif"/>
         </p>
       </subsection>
 

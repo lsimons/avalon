@@ -263,7 +263,7 @@
         come back together to identify common components so that you can
         reuse as much code as possible.
       </p>
-      <img src="../images/deployment.gif"/>
+      <img src="/images/deployment.gif"/>
     </subsection>
   </section>
   <section name="Implementing the Services">

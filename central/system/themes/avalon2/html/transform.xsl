@@ -149,9 +149,31 @@
   <xsl:template match="a">
     <a>
       <xsl:attribute name="class">doclink</xsl:attribute>
-      <xsl:attribute name="href"><xsl:value-of select="@href" /></xsl:attribute>
+      <xsl:choose>
+        <!-- Test if a root reference -->
+        <xsl:when test="substring( @href, 1, 1 ) = '/'" >
+          <xsl:attribute name="href"><xsl:value-of select="concat( $relativepath, @href)" /></xsl:attribute>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:attribute name="href"><xsl:value-of select="@href" /></xsl:attribute>
+        </xsl:otherwise>
+      </xsl:choose>
       <xsl:value-of select="." />
     </a>
+  </xsl:template>
+  
+  <xsl:template match="img" >
+    <img>
+      <xsl:choose>
+        <!-- Test if a root reference -->
+        <xsl:when test="substring( @src, 1, 1 ) = '/'" >
+          <xsl:attribute name="src"><xsl:value-of select="$relativepath[position() = last()]" />/resources<xsl:value-of select="@src" /></xsl:attribute>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:attribute name="src"><xsl:value-of select="@src" /></xsl:attribute>
+        </xsl:otherwise>
+      </xsl:choose>
+    </img>
   </xsl:template>
   
   <xsl:template match="section">
