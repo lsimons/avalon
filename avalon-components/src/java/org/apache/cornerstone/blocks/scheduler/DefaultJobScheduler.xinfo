@@ -1,0 +1,18 @@
+<?xml version="1.0"?> 
+ 
+<blockinfo> 
+ 
+  <meta> 
+ 
+    <contributors> 
+      <author name="Peter Donald" email="donaldp@mad.scientist.com"/> 
+    </contributors> 
+ 
+  </meta> 
+ 
+  <!-- services that are offered by this block --> 
+  <services> 
+    <service name="org.apache.cornerstone.services.scheduler.JobScheduler" version="1.0" /> 
+  </services> 
+ 
+</blockinfo> 
