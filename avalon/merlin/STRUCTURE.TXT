@@ -28,6 +28,7 @@ STRUCTURE:
         +- spi                   kernel interfaces
         +- impl                  kernel implementation
         +- plugin                kernel plugin for Maven
+        +- unit                  abstract merlin unit test framework
     +-- platform                 
         +- src                   resources used to build a merlin installation
         +- tutorials             several merlin tutorials
