@@ -11,14 +11,9 @@ import java.io.File;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.security.CodeSource;
-import java.security.PermissionCollection;
-import java.security.Permissions;
 import java.security.Policy;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.StringTokenizer;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * PhoenixLoader is the class that bootstraps and sets up engine ClassLoader.
@@ -30,7 +25,6 @@ public final class Main
 {
     private static final String MAIN_CLASS =
         "org.apache.avalon.phoenix.frontends.CLIMain";
-    private static final String LOADER_JAR = "phoenix-loader.jar";
 
     private static Object c_frontend;
 
@@ -73,12 +67,12 @@ public final class Main
             Policy.setPolicy( new FreeNEasyPolicy() );
 
             //Create engine ClassLoader
-            final URL[] urls = getEngineClassPath();
+            final URL[] urls = LauncherUtils.getEngineClassPath();
             final URLClassLoader classLoader = new URLClassLoader( urls );
 
             data.put( "common.classloader", ClassLoader.getSystemClassLoader() );
             data.put( "container.classloader", classLoader );
-            data.put( "phoenix.home", new File( findPhoenixHome() ) );
+            data.put( "phoenix.home", new File( LauncherUtils.findPhoenixHome() ) );
 
             //Setup context classloader
             Thread.currentThread().setContextClassLoader( classLoader );
@@ -91,7 +85,7 @@ public final class Main
             c_frontend = clazz.newInstance();
 
             //kick the tires and light the fires....
-            final Integer integer = (Integer)method.invoke(
+            final Integer integer = (Integer) method.invoke(
                 c_frontend, new Object[]{args, data, new Boolean( blocking )} );
             exitCode = integer.intValue();
         }
@@ -130,120 +124,6 @@ public final class Main
         finally
         {
             c_frontend = null;
-        }
-    }
-
-    /**
-     * Create a ClassPath for the engine.
-     *
-     * @return the set of URLs that engine uses to load
-     * @throws Exception if unable to aquire classpath
-     */
-    private static URL[] getEngineClassPath()
-        throws Exception
-    {
-        final ArrayList urls = new ArrayList();
-
-        final File dir = findEngineLibDir();
-        final File[] files = dir.listFiles();
-        for( int i = 0; i < files.length; i++ )
-        {
-            final File file = files[ i ];
-            if( file.getName().endsWith( ".jar" ) )
-            {
-                urls.add( file.toURL() );
-            }
-        }
-
-        return (URL[])urls.toArray( new URL[ urls.size() ] );
-    }
-
-    /**
-     * Find directory to load engine specific libraries from.
-     *
-     * @return the lib dir
-     * @throws Exception if unable to aquire directory
-     */
-    private static File findEngineLibDir()
-        throws Exception
-    {
-        final String phoenixHome = findPhoenixHome();
-        final String engineLibDir =
-            phoenixHome + File.separator + "bin" + File.separator + "lib";
-        final File dir = new File( engineLibDir ).getCanonicalFile();
-        if( !dir.exists() )
-        {
-            throw new Exception( "Unable to locate engine lib directory at " + engineLibDir );
-        }
-        return dir;
-    }
-
-    /**
-     * Utility method to find the home directory
-     * of Phoenix and make sure system property is
-     * set to it.
-     *
-     * @return the location of phoenix directory
-     * @throws Exception if unable to locate directory
-     */
-    private static String findPhoenixHome()
-        throws Exception
-    {
-        String phoenixHome = System.getProperty( "phoenix.home", null );
-        if( null == phoenixHome )
-        {
-            final File loaderDir = findLoaderDir();
-            phoenixHome = loaderDir.getAbsoluteFile().getParentFile() + File.separator;
-        }
-
-        phoenixHome = (new File( phoenixHome )).getCanonicalFile().toString();
-        System.setProperty( "phoenix.home", phoenixHome );
-        return phoenixHome;
-    }
-
-    /**
-     *  Finds the LOADER_JAR file in the classpath.
-     */
-    private static final File findLoaderDir()
-        throws Exception
-    {
-        final String classpath = System.getProperty( "java.class.path" );
-        final String pathSeparator = System.getProperty( "path.separator" );
-        final StringTokenizer tokenizer = new StringTokenizer( classpath, pathSeparator );
-
-        while( tokenizer.hasMoreTokens() )
-        {
-            final String element = tokenizer.nextToken();
-
-            if( element.endsWith( LOADER_JAR ) )
-            {
-                File file = (new File( element )).getCanonicalFile();
-                file = file.getParentFile();
-                return file;
-            }
-        }
-
-        throw new Exception( "Unable to locate " + LOADER_JAR +
-                             " in classpath. User must specify " +
-                             "phoenix.home system property." );
-    }
-
-    /**
-     * Default polic class to give every code base all permssions.
-     * Will be replaced once the kernel loads.
-     */
-    private static class FreeNEasyPolicy
-        extends Policy
-    {
-        public PermissionCollection getPermissions( final CodeSource codeSource )
-        {
-            final Permissions permissions = new Permissions();
-            permissions.add( new java.security.AllPermission() );
-            return permissions;
-        }
-
-        public void refresh()
-        {
         }
     }
 }
