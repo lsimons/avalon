@@ -10,7 +10,7 @@
 # building all components. These values are overridable in component-specific
 # ant.properties files.
 #
-# $Id: ant.properties.sample,v 1.19 2002/09/02 12:46:32 leif Exp $
+# $Id: ant.properties.sample,v 1.20 2002/12/12 14:18:34 proyal Exp $
 # -----------------------------------------------------------------------------
 
 
@@ -28,7 +28,7 @@ base.path=../..
 
 # ----- Xerces -----
 xerces.home=${base.path}/jakarta-avalon/tools/lib/
-xerces.jar=${xerces.home}/xerces-1.4.4.jar
+xerces.jar=${xerces.home}/xerces-2.0.1.jar
 
 # ----- XML-APIs -----
 xml-apis.home=${base.path}/jakarta-avalon/tools/lib/
@@ -36,14 +36,14 @@ xml-apis.jar=${xml-apis.home}/xml-apis.jar
 
 # ----- Xalan -----
 xalan.home=${base.path}/jakarta-avalon/tools/lib/
-xalan.jar=${xalan.home}/xalan-2.2.0-D13.jar
+xalan.jar=${xalan.home}/xalan-2.3.1.jar
 
 # ----- Logkit -----
 logkit.home=${base.path}/jakarta-avalon-logkit/build/lib
 logkit.jar=${logkit.home}/logkit.jar
 
 # ----- Avalon Framework -----
-avalon-framework.home=${base.path}/jakarta-avalon/build/lib
+avalon-framework.home=${base.path}/jakarta-avalon/target/lib
 avalon-framework.jar=${avalon-framework.home}/avalon-framework.jar
 
 # ----- Avalon Excalibur -----
