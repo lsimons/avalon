@@ -10,7 +10,7 @@
 # It is overridden by ../ant.properties and ~/build.properties
 # It overrides all default.properties files and ~/.ant.properties
 #
-# $Id: ant.properties.sample,v 1.10 2002/08/14 14:58:23 leif Exp $
+# $Id: ant.properties.sample,v 1.11 2002/09/06 06:36:40 hammant Exp $
 # -----------------------------------------------------------------------------
 
 # ----- Compile Control Flags -----
@@ -56,11 +56,11 @@ excalibur-instrument-manager.lib=${excalibur-instrument-manager.home}
 excalibur-instrument-manager.jar=${excalibur-instrument-manager.lib}/excalibur-instrument-manager-0.3.jar
 excalibur-instrument-manager-interfaces.jar=${excalibur-instrument-manager.lib}/excalibur-instrument-manager-interfaces-0.3.jar
 
-# ----- Altrmi -----
+# ----- AltRMI -----
 excalibur-altrmi.home=${avalon-excalibur.home}/altrmi/dist
-excalibur-altrmi-common.jar=${excalibur-altrmi.home}/excalibur-altrmi-common.jar
-excalibur-altrmi-server-impl.jar=${excalibur-altrmi.home}/excalibur-altrmi-server-impl.jar
-excalibur-altrmi-server-interfaces.jar=${excalibur-altrmi.home}/excalibur-altrmi-server-interfaces.jar
+excalibur-altrmi-common.jar=${excalibur-altrmi.home}/excalibur-altrmi-common-0.7.jar
+excalibur-altrmi-server-impl.jar=${excalibur-altrmi.home}/excalibur-altrmi-server-impl-0.7.jar
+excalibur-altrmi-server-interfaces.jar=${excalibur-altrmi.home}/excalibur-altrmi-server-interfaces-0.7.jar
 
 
 # --------------------------------------------------
