@@ -64,10 +64,4 @@
 ]]></source>
 </s1>
 </body>
-  <footer>
-    <legal>
-      Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.6 $ $Date: 2002/04/02 11:12:00 $
-    </legal>
-  </footer>
 </document>

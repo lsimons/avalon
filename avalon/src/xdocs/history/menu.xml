@@ -20,7 +20,6 @@
   </menu>
 
   <menu name="Historical Documents">
-      <!-- history pages -->
       <item name="Call To Vote" href="call-to-vote.html" />
       <item name="What Is a Server?" href="what-is-a-server.html" />
       <item name="Need For Avalon" href="need-for-avalon.html" />
@@ -29,11 +28,10 @@
 
   <menu name="Sub-Projects">
     <item name="Framework" href="../framework/index.html"/>
-    <item name="Excalibur" href="@EXCALIBUR_BASE@/index.html"/>
-    <item name="Phoenix" href="@PHOENIX_BASE@/index.html"/>
-    <item name="Cornerstone" href="@CORNERSTONE_BASE@/index.html"/>
-    <item name="Testlet" href="@TESTLET_BASE@/index.html"/>
-    <item name="LogKit" href="@LOGKIT_BASE@/index.html"/>
+    <item name="Excalibur" href="../excalibur/index.html"/>
+    <item name="Phoenix" href="../phoenix/index.html"/>
+    <item name="Cornerstone" href="../cornerstone/index.html"/>
+    <item name="LogKit" href="../logkit/index.html"/>
   </menu>
   </body>
 </project>

@@ -27,7 +27,7 @@
   </menu>
 
   <menu name="Reference">
-    <item name="API Docs" href="@AVALON_BASE@/api/index.html"/>
+    <item name="API Docs" href="../api/index.html"/>
     <item name="Diagrams Docs" href="diagrams/"/>
     <item name="The Lifecycle" href="reference-the-lifecycle.html"/>
     <item name="Containers" href="reference-containers.html"/>
@@ -35,7 +35,7 @@
 
   <menu name="For Developers">
     <item name="Changes" href="for-developers-changes.html"/>
-    <item name="Coding standards" href="@AVALON_BASE@/code-standards.html"/>
+    <item name="Coding standards" href="../code-standards.html"/>
     <item name="CVS" href="http://jakarta.apache.org/site/cvsindex.html"/>
     <item name="Mailing Lists" href="http://jakarta.apache.org/site/mail.html"/>
   </menu>
