@@ -403,13 +403,13 @@ Legal:
         </copy>
 
         <style style="${announce2txt}" in="${target.docs}/announcement.xml"
-            out="Announcement.txt"/>
+            out="Announcement.txt" classpathref="project.class.path"/>
         <style style="${announce2header}" in="${target.docs}/announcement.xml"
-            out="${dist.base}/HEADER.html"/>
+            out="${dist.base}/HEADER.html" classpathref="project.class.path"/>
         <style style="${announce2readme}" in="${target.docs}/announcement.xml"
-            out="${dist.base}/README.html"/>
+            out="${dist.base}/README.html" classpathref="project.class.path"/>
         <style style="${announce2site}" in="${target.docs}/announcement.xml"
-            out="jakarta-news.xml"/>
+            out="jakarta-news.xml" classpathref="project.class.path"/>
 
     </target>
 
