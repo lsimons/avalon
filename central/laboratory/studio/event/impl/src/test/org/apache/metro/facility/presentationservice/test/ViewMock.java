@@ -20,7 +20,7 @@ package org.apache.metro.facility.presentationservice.test;
 import junit.framework.TestCase;
 
 import org.apache.metro.facility.presentationservice.api.IModelChannel;
-import org.apache.metro.facility.presentationservice.impl.ChannelException;
+import org.apache.metro.facility.presentationservice.api.ChannelException;
 import org.apache.metro.facility.presentationservice.impl.ModelChannel;
 
 /**

@@ -19,6 +19,8 @@ package org.apache.metro.facility.presentationservice.impl;
 
 import java.util.Hashtable;
 
+import org.apache.metro.facility.presentationservice.api.ChannelEvent;
+import org.apache.metro.facility.presentationservice.api.ChannelException;
 import org.apache.metro.facility.presentationservice.api.IModelChannel;
 import org.apache.metro.facility.presentationservice.api.ViewEventService;
 
