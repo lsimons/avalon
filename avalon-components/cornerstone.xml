@@ -1,0 +1,70 @@
+
+
+<project name="cornerstone" default="main" basedir=".">
+
+  <property file="ant.properties"/>
+  <property file="${user.home}/.ant.properties"/>
+  <property file="default.properties"/>
+
+  <!-- Main target -->
+  <target name="main" depends="threads,sockets,scheduler,source,masterstore,connection"/>
+
+  <target name="context">
+    <uptodate property="threads-uptodate" targetfile="${build.dir}/lib/conerstone-threads-1.0.jar">
+      <srcfiles dir="${src.dir}/java">
+        <include name="**/threads/**/*.*"/>
+      </srcfiles>
+    </uptodate>
+    <uptodate property="sockets-uptodate" targetfile="${build.dir}/lib/conerstone-sockets-1.0.jar">
+      <srcfiles dir="${src.dir}/java">
+        <include name="**/sockets/**/*.*"/>
+      </srcfiles>
+    </uptodate>
+    <uptodate property="scheduler-uptodate" targetfile="${build.dir}/lib/conerstone-scheduler-1.0.jar">
+      <srcfiles dir="${src.dir}/java">
+        <include name="**/scheduler/**/*.*"/>
+      </srcfiles>
+    </uptodate>
+    <uptodate property="masterstore-uptodate" targetfile="${build.dir}/lib/conerstone-store-1.0.jar">
+      <srcfiles dir="${src.dir}/java">
+        <include name="**/masterstore/**/*.*"/>
+        <include name="**/store/**/*.*"/>
+      </srcfiles>
+    </uptodate>
+    <uptodate property="source-uptodate" targetfile="${build.dir}/lib/conerstone-source-1.0.jar">
+      <srcfiles dir="${src.dir}/java">
+        <include name="**/source/**/*.*"/>
+      </srcfiles>
+    </uptodate>
+    <uptodate property="connection-uptodate" targetfile="${build.dir}/lib/conerstone-connection-1.0.jar">
+      <srcfiles dir="${src.dir}/java">
+        <include name="**/connection/**/*.*"/>
+      </srcfiles>
+    </uptodate>
+  </target>
+
+  <target name="threads" depends="context" unless="threads-uptodate">
+    <ant antfile="threads.xml" inheritall="false"/>
+  </target>
+
+  <target name="sockets" depends="context" unless="sockets-uptodate">
+    <ant antfile="sockets.xml" inheritall="false"/>
+  </target>
+
+  <target name="scheduler" depends="context" unless="scheduler-uptodate">
+    <ant antfile="scheduler.xml" inheritall="false"/>
+  </target>
+
+  <target name="masterstore" depends="context" unless="masterstore-uptodate">
+    <ant antfile="masterstore.xml" inheritall="false"/>
+  </target>
+
+  <target name="source" depends="context" unless="source-uptodate">
+    <ant antfile="source.xml" inheritall="false"/>
+  </target>
+
+  <target name="connection" depends="context" unless="connection-uptodate">
+    <ant antfile="connection.xml" inheritall="false"/>
+  </target>
+
+</project>

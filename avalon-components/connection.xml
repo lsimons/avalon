@@ -1,0 +1,102 @@
+
+
+<project name="connection" default="main" basedir=".">
+
+  <property file="ant.properties"/>
+  <property file="${user.home}/.ant.properties"/>
+  <property file="default.properties"/>
+  <property file="${ant.project.name}.properties"/>
+
+  <path id="project.class.path">
+    <pathelement location="${junit.jar}"/>
+    <pathelement location="${xerces.jar}"/>
+    <pathelement location="${xalan.jar}"/>
+    <pathelement location="${xml-apis.jar}"/>
+    <pathelement location="${avalon-framework.jar}"/>
+    <pathelement location="${cornerstone-threads.jar}"/>
+    <pathelement location="${excalibur-thread.jar}"/>
+    <pathelement location="${excalibur-threadcontext.jar}"/>
+    <pathelement location="${metagenerate.jar}"/>
+    <pathelement location="${qdox.jar}"/>
+    <pathelement path="${java.class.path}" />
+    <pathelement path="${build.classes}" />
+  </path>
+
+  <!-- Main target -->
+  <target name="main" depends="jars" description="Create minimal distribution" />
+
+  <!-- Compile the project -->
+  <target name="compile">
+
+    <mkdir dir="${build.classes}"/>
+
+    <javac srcdir="${java.dir}"
+           destdir="${build.classes}"
+           debug="${build.debug}"
+           optimize="${build.optimize}"
+           deprecation="${build.deprecation}">
+      <classpath refid="project.class.path" />
+      <src path="${java.dir}"/>
+      <include name="**/${ant.project.name}/**.*"/>
+    </javac>
+
+  </target>
+
+  <target name="metagenerate" description="Generates the XML descriptors">
+
+    <taskdef name="generatemeta" classname="org.apache.avalon.phoenix.tools.metagenerate.MetaGenerateTask">
+      <classpath refid="project.class.path" />
+    </taskdef>
+
+    <generatemeta dest="${build.gen}">
+      <fileset dir="${java.dir}">
+        <include name="**/${ant.project.name}/*.java"/>
+      </fileset>
+    </generatemeta>
+
+  </target>
+
+  <!-- Creates all the .jar file -->
+  <target name="jars" depends="compile,metagenerate">
+
+    <mkdir dir="${build.lib}"/>
+    <mkdir dir="${build.gen}"/>
+
+    <jar jarfile="${build.lib}/${name}-${package-version}.jar"
+         basedir="${build.classes}">
+
+      <manifest>
+
+        <attribute name="Extension-Name" value="${extension.name}"/>
+        <attribute name="Specification-Vendor" value="${vendor}"/>
+        <attribute name="Specification-Version" value="${version}"/>
+        <attribute name="Implementation-Vendor" value="${vendor}"/>
+        <attribute name="Implementation-Version" value="${package-version}"/>
+
+        <attribute name="Extension-List" value="framework threads"/>
+        <attribute name="framework-Extension-Name" value="${avalon-framework.extension.name}"/>
+        <attribute name="framework-Specification-Version" value="${avalon-framework.extension.version}"/>
+        <attribute name="framework-Implementation-Version" value="${avalon-framework.extension.implementation}"/>
+
+        <attribute name="threads-Extension-Name" value="${cornerstone-threads.ext.name}"/>
+        <attribute name="threads-Specification-Version" value="${cornerstone-threads.ext.version}"/>
+        <attribute name="threads-Implementation-Version" value="${cornerstone-threads.ext.impl}"/>
+
+      </manifest>
+
+      <include name="org/apache/avalon/cornerstone/blocks/${ant.project.name}/**"/>
+      <include name="org/apache/avalon/cornerstone/services/${ant.project.name}/**"/>
+
+      <fileset dir="${build.gen}">
+         <include name="**/${ant.project.name}/**/*.xinfo"/>
+         <include name="**${ant.project.name}/**/*.mxinfo"/>
+      </fileset>
+      <fileset dir="${src.dir}/java">
+         <include name="**/${ant.project.name}/**/*-schema.xml"/>
+         <include name="**/${ant.project.name}/**/*.xconfig"/>
+      </fileset>
+    </jar>
+
+  </target>
+
+</project>
