@@ -22,7 +22,7 @@ Legal:
 -->
 
 <project name="Avalon Framework" default="main" basedir=".">
-
+    <property name="project.home" value="${basedir}"/>
     <!--
       Give user a chance to override without editing this file
       (and without typing -D each time he compiles it)
