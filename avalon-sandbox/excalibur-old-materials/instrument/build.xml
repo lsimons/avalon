@@ -87,6 +87,9 @@
     <target name="compile-test" depends="compile, dependencies-test" description="Compiles the source code">
         <mkdir dir="${build.testsrc}"/>
 
+        <!-- In case tests do not exist, create the directory -->
+        <mkdir dir="${test.dir}"/>
+        
         <!-- Copy over all of the tests applying test filters -->
         <copy todir="${build.testsrc}">
             <fileset dir="${test.dir}"/>
@@ -110,7 +113,6 @@
                 <exclude name="**/*.java"/>
             </fileset>
         </copy>
-
     </target>
 
     <!-- Copies and filters the license. Used by jar and dist -->
