@@ -38,7 +38,7 @@ import org.apache.excalibur.instrument.Instrumentable;
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:paul@luminas.co.uk">Paul Russell</a>
  * @author <a href="mailto:leif@apache.org">Leif Mortenson</a>
- * @version CVS $Revision: 1.18 $ $Date: 2003/02/05 02:28:35 $
+ * @version CVS $Revision: 1.19 $ $Date: 2003/02/15 17:51:02 $
  * @since 4.0
  */
 public class ExcaliburComponentSelector
@@ -228,7 +228,7 @@ public class ExcaliburComponentSelector
             throw new ComponentException( hint.toString(), message );
         }
 
-        m_componentMapping.put( component, handler );
+        m_componentMapping.put( component.toString(), handler );
         return component;
     }
 
@@ -267,7 +267,7 @@ public class ExcaliburComponentSelector
         }
 
         final ComponentHandler handler =
-            (ComponentHandler)m_componentMapping.get( component );
+            (ComponentHandler)m_componentMapping.get( component.toString() );
 
         if( null == handler )
         {
@@ -286,7 +286,7 @@ public class ExcaliburComponentSelector
             // Remove the component before calling put.  This is critical to avoid the
             //  problem where another thread calls put on the same component before
             //  remove can be called.
-            m_componentMapping.remove( component );
+            m_componentMapping.remove( component.toString() );
         }
 
         try
