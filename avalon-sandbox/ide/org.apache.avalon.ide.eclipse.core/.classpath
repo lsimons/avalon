@@ -6,5 +6,5 @@
 	<classpathentry kind="lib" path="lib/xdoclet-1.2b4.jar"/>
 	<classpathentry kind="lib" path="lib/xjavadoc-1.0.jar"/>
 	<classpathentry kind="lib" path="lib/xstream-0.1.jar"/>
-	<classpathentry kind="output" path="bin"/>
+	<classpathentry kind="output" path="dist"/>
 </classpath>
