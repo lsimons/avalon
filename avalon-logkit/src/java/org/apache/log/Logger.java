@@ -16,6 +16,7 @@ public class Logger
 {
     protected final static long                START_TIME = System.currentTimeMillis();
 
+    protected final LogEngine                  m_engine;
     protected final Logger                     m_parent;
     protected final Category                   m_category;
     protected LogTarget[]                      m_logTargets;
@@ -25,9 +26,9 @@ public class Logger
      *
      * @param category the category
      */
-    public Logger( final Category category )
+    public Logger( final LogEngine engine, final Category category )
     {
-        this( category, null, null );
+        this( engine, category, null, null );
     }
 
     /**
@@ -36,21 +37,25 @@ public class Logger
      * @param category the category
      * @param logTargets the targets
      */
-    public Logger( final Category category, final LogTarget[] logTargets )
+    public Logger( final LogEngine engine, final Category category, final LogTarget[] logTargets )
     {
-        this( category, logTargets, null );
+        this( engine, category, logTargets, null );
     }
 
-    public Logger( final Category category, final LogTarget[] logTargets, final Logger parent )
+    public Logger( final LogEngine engine, final Category category, final Logger parent )
     {
+        this( engine, category, null, parent );
+    }
+
+    public Logger( final LogEngine engine, 
+                   final Category category, 
+                   final LogTarget[] logTargets, 
+                   final Logger parent )
+    {
+        m_engine = engine;
         m_category = category;
         m_logTargets = logTargets;
         m_parent = parent;
-    }
-
-    public Logger( final Category category, final Logger parent )
-    {
-        this( category, null, parent );
     }
 
     /**
@@ -62,7 +67,7 @@ public class Logger
     public final void debug( final String message, final Throwable throwable )
     {
         if( m_category.getPriority().isLowerOrEqual( Priority.DEBUG ) &&
-            LogKit.getGlobalPriority().isLowerOrEqual( Priority.DEBUG ) )
+            m_engine.getGlobalPriority().isLowerOrEqual( Priority.DEBUG ) )
         {
             output( Priority.DEBUG, message, throwable );
         }
@@ -76,7 +81,7 @@ public class Logger
     public final void debug( final String message )
     {
         if( m_category.getPriority().isLowerOrEqual( Priority.DEBUG ) &&
-            LogKit.getGlobalPriority().isLowerOrEqual( Priority.DEBUG ) )
+            m_engine.getGlobalPriority().isLowerOrEqual( Priority.DEBUG ) )
         {
             output( Priority.DEBUG, message, null );
         }
@@ -91,7 +96,7 @@ public class Logger
     public final void error( final String message, final Throwable throwable )
     {
         if( m_category.getPriority().isLowerOrEqual( Priority.ERROR ) &&
-            LogKit.getGlobalPriority().isLowerOrEqual( Priority.ERROR ) )
+            m_engine.getGlobalPriority().isLowerOrEqual( Priority.ERROR ) )
         {
             output( Priority.ERROR, message, throwable );
         }
@@ -105,7 +110,7 @@ public class Logger
     public final void error( final String message )
     {
         if( m_category.getPriority().isLowerOrEqual( Priority.ERROR ) &&
-            LogKit.getGlobalPriority().isLowerOrEqual( Priority.ERROR ) )
+            m_engine.getGlobalPriority().isLowerOrEqual( Priority.ERROR ) )
         {
             output( Priority.ERROR, message, null );
         }
@@ -120,7 +125,7 @@ public class Logger
     public final void fatalError( final String message, final Throwable throwable )
     {
         if( m_category.getPriority().isLowerOrEqual( Priority.FATAL_ERROR ) &&
-            LogKit.getGlobalPriority().isLowerOrEqual( Priority.FATAL_ERROR ) )
+            m_engine.getGlobalPriority().isLowerOrEqual( Priority.FATAL_ERROR ) )
         {
             output( Priority.FATAL_ERROR, message, throwable );
         }
@@ -134,7 +139,7 @@ public class Logger
     public final void fatalError( final String message )
     {
         if( m_category.getPriority().isLowerOrEqual( Priority.FATAL_ERROR ) &&
-            LogKit.getGlobalPriority().isLowerOrEqual( Priority.FATAL_ERROR ) )
+            m_engine.getGlobalPriority().isLowerOrEqual( Priority.FATAL_ERROR ) )
         {
             output( Priority.FATAL_ERROR, message, null );
         }
@@ -159,7 +164,7 @@ public class Logger
     public final void info( final String message )
     {
         if( m_category.getPriority().isLowerOrEqual( Priority.INFO ) &&
-            LogKit.getGlobalPriority().isLowerOrEqual( Priority.INFO ) )
+            m_engine.getGlobalPriority().isLowerOrEqual( Priority.INFO ) )
         {
             output( Priority.INFO, message, null );
         }
@@ -177,7 +182,7 @@ public class Logger
                            final Throwable throwable )
     {
         if( m_category.getPriority().isLowerOrEqual( priority ) &&
-            LogKit.getGlobalPriority().isLowerOrEqual( priority ) )
+            m_engine.getGlobalPriority().isLowerOrEqual( priority ) )
         {
             output( priority, message, throwable );
         }
@@ -192,7 +197,7 @@ public class Logger
     public final void log( final Priority.Enum priority, final String message )
     {
         if( m_category.getPriority().isLowerOrEqual( priority ) &&
-            LogKit.getGlobalPriority().isLowerOrEqual( priority ) )
+            m_engine.getGlobalPriority().isLowerOrEqual( priority ) )
         {
             output( priority, message, null );
         }
@@ -244,7 +249,7 @@ public class Logger
             }
             else
             {
-                LogKit.getDefaultLogTarget().processEntry( entry );
+                m_engine.getDefaultLogTarget().processEntry( entry );
             }
         }
         else
@@ -267,7 +272,7 @@ public class Logger
     public final void warn( final String message, final Throwable throwable )
     {
         if( m_category.getPriority().isLowerOrEqual( Priority.WARN ) &&
-            LogKit.getGlobalPriority().isLowerOrEqual( Priority.WARN ) )
+            m_engine.getGlobalPriority().isLowerOrEqual( Priority.WARN ) )
         {
             output( Priority.WARN, message, throwable );
         }
@@ -281,7 +286,7 @@ public class Logger
     public final void warn( final String message )
     {
         if( m_category.getPriority().isLowerOrEqual( Priority.WARN ) &&
-            LogKit.getGlobalPriority().isLowerOrEqual( Priority.WARN ) )
+            m_engine.getGlobalPriority().isLowerOrEqual( Priority.WARN ) )
         {
             output( Priority.WARN, message, null );
         }
@@ -318,6 +323,6 @@ public class Logger
     {
         final String categoryName = 
             m_category.getName() + Category.SEPARATOR + subcategory;
-        return LogKit.getLoggerFor( categoryName );
+        return m_engine.getLoggerFor( categoryName );
     }
 }

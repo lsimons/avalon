@@ -12,6 +12,7 @@ import java.lang.reflect.*;
 import java.util.*;
 import org.apache.log.output.*;
 import org.apache.log.output.DefaultOutputLogTarget;
+
 /**
  * The LogKit provides the access to static methods to
  * manipulate the logging sub-system
@@ -21,18 +22,7 @@ import org.apache.log.output.DefaultOutputLogTarget;
 public final class LogKit
 {
     protected static final ThreadLocal     c_context                = new ThreadLocal();
-    protected static final Hashtable       c_loggers                = new Hashtable();
-    protected static final Hashtable       c_categories             = new Hashtable();
-    protected static final Hashtable       c_logTargets;
-    protected static Priority.Enum         c_priority               = Priority.DEBUG;
-    protected static LogTarget             c_defaultLogTarget;
-
-    static
-    {
-        c_logTargets = new Hashtable();
-        c_defaultLogTarget = new DefaultOutputLogTarget();
-        c_logTargets.put( "default", c_defaultLogTarget );
-    }
+    protected static final LogEngine       c_engine                 = new LogEngine();
 
     /*
       //Need to add this in at LogManager level rather than here ....
@@ -97,8 +87,7 @@ return logTarget;
      */
     public static void addLogTarget( final String name, final LogTarget target )
     {
-        if( name.equals("default") ) c_defaultLogTarget = target;
-        c_logTargets.put( name, target );
+        c_engine.addLogTarget( name, target );
     }
 
     /**
@@ -109,7 +98,7 @@ return logTarget;
      */
     public static LogTarget getLogTarget( final String name )
     {
-        return (LogTarget)c_logTargets.get( name );
+        return c_engine.getLogTarget( name );
     }
 
     /**
@@ -122,17 +111,7 @@ return logTarget;
     public static Category createCategory( final String categoryName,
                                            final Priority.Enum priority )
     {
-        Category category = (Category)c_categories.get( categoryName );
-
-        if( null == category )
-        {
-            category = new Category( categoryName );
-            c_categories.put( categoryName, category );
-        }
-
-        category.setPriority( priority );
-
-        return category;
+        return c_engine.createCategory( categoryName, priority );
     }
 
     /**
@@ -143,7 +122,7 @@ return logTarget;
      */
     public static Logger createLogger( final Category category )
     {
-        return createLogger( category, null );
+        return c_engine.createLogger( category );
     }
 
     /**
@@ -155,33 +134,7 @@ return logTarget;
      */
     public static Logger createLogger( final Category category, final LogTarget logTargets[] )
     {
-        final String categoryName = category.getName();
-        Logger logger = (Logger)c_loggers.get( categoryName );
-
-        if( null == logger )
-        {
-            final int index = categoryName.lastIndexOf( Category.SEPARATOR );
-
-            Logger parent = null;
-
-            if( -1 != index )
-            {
-                final String parentName = categoryName.substring( 0, index );
-                parent = getLoggerFor( parentName );
-            }
-
-            logger = new Logger( category, logTargets, parent );
-            c_loggers.put( categoryName, logger );
-        }
-        else
-        {
-            if( null != logTargets )
-            {
-                logger.setLogTargets( logTargets );
-            }
-        }
-
-        return logger;
+        return c_engine.createLogger( category, logTargets );
     }
 
     /**
@@ -213,7 +166,7 @@ return logTarget;
      */
     public static LogTarget getDefaultLogTarget()
     {
-        return c_defaultLogTarget;
+        return c_engine.getDefaultLogTarget();
     }
 
     /**
@@ -223,7 +176,7 @@ return logTarget;
      */
     public static Priority.Enum getGlobalPriority()
     {
-        return c_priority;
+        return c_engine.getGlobalPriority();
     }
 
     /**
@@ -234,15 +187,7 @@ return logTarget;
      */
     public static Logger getLoggerFor( final String category )
     {
-        synchronized( c_loggers )
-        {
-            Logger logger = (Logger)c_loggers.get( category );
-            if( null == logger )
-            {
-                logger = createLogger( createCategory( category, Priority.DEBUG ) );
-            }
-            return logger;
-        }
+        return c_engine.getLoggerFor( category );
     }
 
     /**
@@ -266,8 +211,7 @@ return logTarget;
      */
     public static void log( final String message, final Throwable t )
     {
-        System.err.println( "Error: " + message );
-        t.printStackTrace();
+        c_engine.log( message, t );
     }
 
     /**
@@ -275,7 +219,7 @@ return logTarget;
      */
     public static void log( final String message )
     {
-        System.err.println( "Error: " + message );
+        c_engine.log( message );
     }
 
     /**
@@ -283,8 +227,7 @@ return logTarget;
      */
     public static void setDefaultLogTarget( final LogTarget defaultLogTarget )
     {
-        addLogTarget( "default", defaultLogTarget );
-        c_defaultLogTarget = defaultLogTarget;
+        c_engine.setDefaultLogTarget( defaultLogTarget );
     }
 
     /**
@@ -293,7 +236,7 @@ return logTarget;
      */
     public static void setGlobalPriority( final Priority.Enum priority )
     {
-        c_priority = priority;
+        c_engine.setGlobalPriority( priority );
     }
 
     /**
