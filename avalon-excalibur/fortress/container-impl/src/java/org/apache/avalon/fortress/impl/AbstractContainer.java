@@ -93,12 +93,17 @@ import org.apache.excalibur.mpool.PoolManager;
  * Container's Manager can expose that to the instantiating class.
  *
  * @author <a href="mailto:avalon-dev@jakarta.apache.org">The Avalon Team</a>
- * @version CVS $Revision: 1.4 $ $Date: 2003/01/28 21:19:17 $
+ * @version CVS $Revision: 1.5 $ $Date: 2003/01/30 17:37:12 $
  */
 public abstract class AbstractContainer
     extends AbstractLogEnabled
     implements Contextualizable, Serviceable, Initializable, Disposable, Container
 {
+    /** The hint map's entry to get the default component type */
+    protected static final String DEFAULT_ENTRY = "*";
+    /** The component map's entry to get a ServiceSelector */
+    protected static final String SELECTOR_ENTRY = "$";
+
     /** contains the impl's context passed in through contextualize() */
     protected Context m_context;
     /** contains the ServiceManager the impl will use, based on the one passed in through service() */
@@ -269,8 +274,8 @@ public abstract class AbstractContainer
         final String role = roleEntry.getRole();
 
         // put the role into our role mapper. If the role doesn't exist
-        // yet, just stuff it in as "default". If it does, we create a
-        // ServiceSelector and put that in as "selector".
+        // yet, just stuff it in as DEFAULT_ENTRY. If it does, we create a
+        // ServiceSelector and put that in as SELECTOR_ENTRY.
         if( null != role && null != classname && null != handler )
         {
             Map hintMap = (StaticBucketMap)m_mapper.get( role );
@@ -279,24 +284,24 @@ public abstract class AbstractContainer
             if( null == hintMap ) // never heard of this role before.
             {
                 hintMap = new StaticBucketMap();
-                hintMap.put( "default", handler );
+                hintMap.put( DEFAULT_ENTRY, handler );
                 m_mapper.put( role, hintMap );
             }
             else // know it already. add something to the hintmap
             {
                 hintMap.put( metaData.getName(), handler );
 
-                if( hintMap.containsKey( "default" ) )
+                if( hintMap.containsKey( DEFAULT_ENTRY ) )
                 {
-                    if( !hintMap.containsKey( "selector" ) )
+                    if( !hintMap.containsKey( SELECTOR_ENTRY ) )
                     {
-                        hintMap.put( "selector",
+                        hintMap.put( SELECTOR_ENTRY,
                                      new FortressServiceSelector( this, role ) );
                     }
                 }
                 else
                 {
-                    hintMap.put( "default", handler );
+                    hintMap.put( DEFAULT_ENTRY, handler );
                 }
             }
         }
@@ -434,12 +439,12 @@ public abstract class AbstractContainer
         if( null == hint )
         {
             // no hint -> try selector
-            value = hintMap.get( "selector" );
+            value = hintMap.get( SELECTOR_ENTRY );
 
             if( null == value )
             {
                 // no selector -> use default
-                value = hintMap.get( "default" );
+                value = hintMap.get( DEFAULT_ENTRY );
             }
 
             return value;
@@ -499,12 +504,12 @@ public abstract class AbstractContainer
             if( null == hint )
             {
                 // no hint -> try selector
-                hasComponent = hintMap.containsKey( "selector" );
+                hasComponent = hintMap.containsKey( SELECTOR_ENTRY );
 
                 if( !hasComponent )
                 {
-                    // no hint -> try default
-                    hasComponent = hintMap.containsKey( "default" );
+                    // no hint -> try DEFAULT_ENTRY
+                    hasComponent = hintMap.containsKey( DEFAULT_ENTRY );
                 }
             }
             else
