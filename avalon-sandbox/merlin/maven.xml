@@ -61,7 +61,7 @@
     will included in the JVM bootstrap process.
     -->
     <ant:copy 
-       file="${merlin.build.inst.dir}/repository/xml-apis/jars/xml-apis-1.0b2.jar" 
+       file="${merlin.build.inst.dir}/repository/xml-apis/jars/xml-apis-1.0.b2.jar" 
        toDir="${merlin.build.inst.dir}/ext"/>
     <ant:copy 
        file="${merlin.build.inst.dir}/repository/xerces/jars/xerces-2.2.1.jar" 
