@@ -3,7 +3,7 @@
 <document>
     <properties>
         <title>Guide - for Server Assemblers</title>
-        <author name="Avalon Documentation Team" email="avalon-dev@jakarta.apache.org"/>
+        <author email="avalon-dev@jakarta.apache.org">Avalon Documentation Team</author>
     </properties>
     <body>
         <section name="Who Should Read This Book?">

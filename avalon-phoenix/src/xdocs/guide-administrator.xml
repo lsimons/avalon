@@ -3,7 +3,7 @@
 <document>
     <properties>
         <title>Guide - for Administrators</title>
-        <author name="Berin Loritsch" email="bloritsch@apache.org"/>
+        <author email="bloritsch@apache.org">Berin Loritsch</author>
     </properties>
     <body>
         <section name="Introduction">

@@ -4,7 +4,7 @@
   <properties>
     <title>The BlockInfo Specification</title>
     <version>3.0</version>
-      <person name="Peter Donald" email="peter@apache.org"/>
+      <author email="peter@apache.org">Peter Donald</author>
     <abstract>
       Specifies the format of BlockInfo files and the reasons for particular aspects.
     </abstract>

@@ -2,9 +2,9 @@
 <document>
   <properties>
     <title>Overview</title>
-      <author name="Berin Loritsch" email="bloritsch@apache.org"/>
-      <author name="Peter Donald" email="peter@apache.org"/>
-      <author name="Paul Hammant" email="Paul_Hammant@yahoo.com"/>
+      <author email="bloritsch@apache.org">Berin Loritsch</author>
+      <author email="peter@apache.org">Peter Donald</author>
+      <author email="Paul_Hammant@yahoo.com">Paul Hammant</author>
   </properties>
   <body>
     <section name="Introduction">

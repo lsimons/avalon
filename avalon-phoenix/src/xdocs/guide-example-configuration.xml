@@ -3,8 +3,8 @@
 <document>
   <properties>
     <title>Guide - Example Configuration</title>
-    <author name="Stephen McConnell" email="mcconnell@osm.net"/>
-    <author name="Gerhard Froehlich" email="g-froehlich@gmx.de"/>
+    <author email="mcconnell@osm.net">Stephen McConnell</author>
+    <author email="g-froehlich@gmx.de">Gerhard Froehlich</author>
   </properties>
   <body>
     <section name="Introduction">
