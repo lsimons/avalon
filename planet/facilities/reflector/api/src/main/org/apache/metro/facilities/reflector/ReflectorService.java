@@ -48,6 +48,4 @@ public interface ReflectorService
     void addRootObject( String name, Object object ) throws ReflectionException;
     void removeRootObject( String name ) throws ReflectionException;
 
-    void addReflectionListener( ReflectionListener listener );
-    void removeReflectionListener( ReflectionListener listener );
 }

@@ -25,6 +25,9 @@
   <import index="http/blocks/index.xml"
      href="http://svn.apache.org/repos/asf/avalon/trunk/planet/facilities/http/blocks/index.xml"/>
      
+  <import index="reflector/blocks/index.xml"
+     href="http://svn.apache.org/repos/asf/avalon/trunk/planet/facilities/reflector/blocks/index.xml"/>
+  
   <resource>
     <info>
       <group>jetty</group>
@@ -654,6 +657,19 @@
     </info>
   </project>
 
+  <project basedir="reflector/spi">
+    <info>
+      <group>metro/facilities/reflector</group>
+      <name>metro-reflector-spi</name>
+      <version>1.0.0</version>
+      <status>SNAPSHOT</status> 
+      <type>jar</type>
+    </info>
+    <dependencies>
+      <include key="metro-reflector-api"/>
+    </dependencies>
+  </project>
+
   <project basedir="reflector/impl">
     <info>
       <group>metro/facilities/reflector</group>
@@ -665,10 +681,27 @@
     <dependencies>
       <include key="avalon-framework-api"/>
       <include key="metro-reflector-api"/>
+      <include key="metro-reflector-spi"/>
       <include key="avalon-composition-api"/>
       <include key="org.mortbay.jetty"/>
       <include key="avalon-http-spi"/>
-      <include key="avalon-http-impl"/>
+    </dependencies>
+    <plugins>
+      <include key="avalon-meta-tools"/>
+    </plugins>
+  </project>
+  
+  <project basedir="reflector/typehandlers">
+    <info>
+      <group>metro/facilities/reflector</group>
+      <name>metro-reflector-typehandlers</name>
+      <version>1.0.0</version>
+      <status>SNAPSHOT</status> 
+      <type>jar</type>
+    </info>
+    <dependencies>
+      <include key="avalon-framework-api"/>
+      <include key="metro-reflector-spi"/>
     </dependencies>
     <plugins>
       <include key="avalon-meta-tools"/>
