@@ -7,11 +7,9 @@
  <body>
 
     <links>
-      <item name="Apache" href="http://apache.org/"/>
-      <item name="Avalon" href="/index.html"/>
-      <item name="Framework" href="/product/framework/index.html"/>
-      <item name="Merlin" href="/product/containers/index.html"/>
-      <item name="Planet" href="/product/components/index.html"/>
+      <item name="Central" href="central/"/>
+      <item name="Products" href="products/"/>
+      <item name="Planet" href="planet/"/>
     </links>
 
     <menu name="About Avalon">
