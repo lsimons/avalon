@@ -85,7 +85,7 @@ import org.apache.avalon.util.criteria.PackedParameter;
  * for application to a factory.
  *
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.7 $
+ * @version $Revision: 1.8 $
  */
 public class DefaultCriteria extends Criteria implements KernelCriteria
 {
@@ -109,35 +109,35 @@ public class DefaultCriteria extends Criteria implements KernelCriteria
 
     private static File getAvalonHomeDirectory()
     {
-        return getEnvironment( "AVALON_HOME", ".avalon" );
+        return getEnvironment( "AVALON_HOME", "avalon.home", ".avalon" );
     }
 
     private static File getMerlinHomeDirectory()
     {
-        return getEnvironment( "MERLIN_HOME", ".merlin" );
+        return getEnvironment( "MERLIN_HOME", "merlin.home", ".merlin" );
     }
 
-    private static File getEnvironment( String symbol, String path )
+    private static File getEnvironment( String symbol, String key, String path )
     {
         try
         {
             String home = 
-              System.getProperty( 
-                "merlin.home", 
-                Env.getEnvVariable( "MERLIN_HOME" ) );
+              System.getProperty( key, Env.getEnvVariable( symbol ) );
 
             if( null != home ) return new File( home ).getCanonicalFile();
 
             return new File(
               System.getProperty( "user.home" ) 
               + File.separator 
-              + ".merlin" ).getCanonicalFile();
+              + path ).getCanonicalFile();
 
         }
         catch( Throwable e )
         {
             final String error = 
-              "Internal error while attempting to access MERLIN_HOME environment variable.";
+              "Internal error while attempting to access symbol [" 
+              + symbol 
+              + "] environment variable.";
             final String message = 
               ExceptionHelper.packException( error, e, true );
             throw new RuntimeException( message );
@@ -279,6 +279,8 @@ public class DefaultCriteria extends Criteria implements KernelCriteria
         Defaults defaults = 
           new Defaults( 
              Parameter.getKeys( super.getParameters() ), new String[0], finders );
+
+        printProperties( defaults, "defaults" );
 
         //
         // add ${merlin.dir} to assist in synbol expansion then expand
