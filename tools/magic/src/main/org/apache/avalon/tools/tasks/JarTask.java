@@ -31,7 +31,7 @@ import java.io.File;
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
-public class JarTask extends AbstractDeliverableTask
+public class JarTask extends SystemTask
 {
     public static final String JAR_EXT = "jar";
     public static final String JAR_MAIN_KEY = "project.jar.main.class";
@@ -51,8 +51,8 @@ public class JarTask extends AbstractDeliverableTask
             final boolean modified = jar( def, classes, jarFile );
             if( modified )
             {
-                checksum( jarFile );
-                asc( jarFile );
+                DeliverableHelper.checksum( this, jarFile );
+                DeliverableHelper.asc( getHome(), this, jarFile );
             }
         }
         getContext().setBuildPath( "jar", jarFile.toString() );
