@@ -16,6 +16,7 @@
  limitations under the License.
 -->
 <project>
+    <pomVersion>3</pomVersion>
     <name>Avalon LogKit</name>
     <id>avalon-logkit</id>
     <groupId>avalon-logkit</groupId>
