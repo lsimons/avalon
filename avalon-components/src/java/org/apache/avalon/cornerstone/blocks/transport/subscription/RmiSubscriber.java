@@ -12,7 +12,7 @@ package org.apache.avalon.cornerstone.blocks.transport.subscription;
 
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
-import org.apache.commons.altrmi.client.impl.rmi.RmiAltrmiHostContext;
+import org.apache.commons.altrmi.client.impl.rmi.RmiHostContext;
 
 
 /**
@@ -20,7 +20,7 @@ import org.apache.commons.altrmi.client.impl.rmi.RmiAltrmiHostContext;
  *
  *
  * @author Paul Hammant <a href="mailto:Paul_Hammant@yahoo.com">Paul_Hammant@yahoo.com</a>
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class RmiSubscriber extends AbstractSubscriber
 {
@@ -54,7 +54,7 @@ public class RmiSubscriber extends AbstractSubscriber
     public void initialize() throws Exception
     {
 
-        mHostContext = new RmiAltrmiHostContext(mHost, mPort);
+        mHostContext = new RmiHostContext(mHost, mPort);
 
         super.initialize();
     }

@@ -24,7 +24,7 @@ import org.apache.avalon.phoenix.Block;
 import org.apache.avalon.phoenix.BlockEvent;
 import org.apache.avalon.phoenix.BlockListener;
 import org.apache.commons.altrmi.server.AltrmiPublisher;
-import org.apache.commons.altrmi.server.AltrmiPublicationException;
+import org.apache.commons.altrmi.server.PublicationException;
 
 
 /**
@@ -34,7 +34,7 @@ import org.apache.commons.altrmi.server.AltrmiPublicationException;
  *
  *
  * @author Paul Hammant <a href="mailto:Paul_Hammant@yahoo.com">Paul_Hammant@yahoo.com</a>
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public class AutoPublisher implements Configurable, BlockListener
 {
@@ -102,7 +102,7 @@ public class AutoPublisher implements Configurable, BlockListener
                 m_altrmiPublisher.publish(block, pi.getPublishAsName(),
                                           Class.forName(pi.getInterfaceToPublish()));
             }
-            catch (AltrmiPublicationException e)
+            catch (PublicationException e)
             {
                 throw new CascadingRuntimeException("Some problem auto-publishing", e);
             }
@@ -137,7 +137,7 @@ public class AutoPublisher implements Configurable, BlockListener
             {
                 m_altrmiPublisher.unPublish(block, pi.getPublishAsName());
             }
-            catch (AltrmiPublicationException e)
+            catch (PublicationException e)
             {
                 throw new CascadingRuntimeException("Some problem un-auto-publishing", e);
             }
