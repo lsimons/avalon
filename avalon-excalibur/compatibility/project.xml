@@ -45,12 +45,4 @@ library.
     </description>
 
     
-    <dependencies>
-      <dependency>
-        <groupId>excalibur-i18n</groupId>
-        <artifactId>excalibur-i18n</artifactId>
-        <version>1.2</version>
-      </dependency>
-    </dependencies>
-
 </project>
