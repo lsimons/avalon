@@ -19,7 +19,6 @@ import org.apache.avalon.Initializable;
 import org.apache.avalon.configuration.Configurable;
 import org.apache.avalon.configuration.Configuration;
 import org.apache.avalon.configuration.ConfigurationException;
-import org.apache.avalon.util.ObjectUtil;
 import org.apache.cornerstone.services.sockets.ServerSocketFactory;
 import org.apache.cornerstone.services.sockets.SocketFactory;
 import org.apache.cornerstone.services.sockets.SocketManager;
@@ -134,7 +133,7 @@ public class DefaultSocketManager
         {
             final ClassLoader classLoader = 
                 (ClassLoader)Thread.currentThread().getContextClassLoader();
-            factory = (Component)ObjectUtil.createObject( classLoader, className ); 
+            factory = (Component)classLoader.loadClass( className ).newInstance();
         }
         catch( final Exception e )
         {
