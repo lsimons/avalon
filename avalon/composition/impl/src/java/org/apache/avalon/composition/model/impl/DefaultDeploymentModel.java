@@ -89,7 +89,7 @@ import org.apache.excalibur.configuration.CascadingConfiguration;
  * Deployment model defintion.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.9.2.2 $ $Date: 2004/01/03 18:14:58 $
+ * @version $Revision: 1.9.2.3 $ $Date: 2004/01/04 01:19:28 $
  */
 public class DefaultDeploymentModel extends DefaultModel implements DeploymentModel
 {
@@ -153,7 +153,8 @@ public class DefaultDeploymentModel extends DefaultModel implements DeploymentMo
           context.getLogger(), 
           context.getPartitionName(), 
           context.getProfile().getName(), 
-          context.getProfile().getMode() );
+          context.getProfile().getMode(),
+          context.getContainmentContext().getDependencyGraph() );
 
         m_context = context;
         m_activation = m_context.getProfile().getActivationPolicy();

@@ -3,6 +3,7 @@
 package org.apache.avalon.composition.model.test;
 
 import org.apache.avalon.composition.model.Model;
+import org.apache.avalon.composition.model.Composite;
 import org.apache.avalon.composition.model.ContainmentModel;
 import org.apache.avalon.composition.model.DeploymentModel;
 import org.apache.avalon.composition.model.DependencyModel;
@@ -32,10 +33,8 @@ public class AssemblyTestCase extends AbstractTestCase
         try
         {
             m_model.assemble();
-            System.out.println( "\tstartup graph ");
-            printStartupGraph( "\t", m_model );
-            System.out.println( "\tshutdown graph ");
-            printShutdownGraph( "\t", m_model );
+            System.out.println( "" );
+            printModel( "", m_model );
         }
         catch( Throwable e )
         {
@@ -46,46 +45,79 @@ public class AssemblyTestCase extends AbstractTestCase
         }
     }
 
-    private void printStartupGraph( String lead, Model model )
+    private void printModel( String lead, Model model )
     {
         if( model instanceof ContainmentModel )
         {
-            Model[] models = ((ContainmentModel)model).getStartupGraph();
-            printStartupGraph( lead, models );
+            printContainmentModel( lead, (ContainmentModel) model );
+        }
+        else if( model instanceof DeploymentModel ) 
+        {
+            printDeploymentModel( lead, (DeploymentModel) model );
         }
     }
-    private void printStartupGraph( String lead, Model[] models )
+
+    private void printContainmentModel( String lead, ContainmentModel model )
     {
-        for( int i=0; i<models.length; i++ )
+        System.out.println( lead + "model:" + model );
+        if( model instanceof Composite )
         {
-            Model model = models[i];
-            System.out.println( lead + (i+1) + ": " + model );
-            if( model instanceof ContainmentModel )
+            printCompositeModel( "\t" + lead, (Composite) model );
+        }
+        Model[] models = model.getModels();
+        if( models.length > 0 )
+        {
+            System.out.println( lead + "\tchildren:" );
+            for( int i=0; i<models.length; i++ )
             {
-                printStartupGraph( lead + "\t", (ContainmentModel) model );
+                Model m = models[i];
+                printModel( "\t\t" + lead, m );
+            }
+        }
+        models = model.getStartupGraph();
+        if( models.length > 0 )
+        {
+            System.out.println( lead + "\tstartup:" );
+            for( int i=0; i<models.length; i++ )
+            {
+                Model m = models[i];
+                System.out.println( "\t\t" + lead + (i+1) + ": " + m );
+            }
+        }
+        models = ((ContainmentModel)model).getShutdownGraph();
+        if( models.length > 0 )
+        {
+            System.out.println( lead + "\tshutdown:" );
+            for( int i=0; i<models.length; i++ )
+            {
+                Model m = models[i];
+                System.out.println( "\t\t" + lead + (i+1) + ": " + m );
             }
         }
     }
 
-    private void printShutdownGraph( String lead, Model model )
+    private void printDeploymentModel( String lead, DeploymentModel model )
     {
-        if( model instanceof ContainmentModel )
+        System.out.println( lead + "model:" + model );
+        if( model instanceof Composite )
         {
-            Model[] models = ((ContainmentModel)model).getShutdownGraph();
-            printShutdownGraph( lead, models );
-        }
-    }
-    private void printShutdownGraph( String lead, Model[] models )
-    {
-        for( int i=0; i<models.length; i++ )
-        {
-            Model model = models[i];
-            System.out.println( lead + (i+1) + ": " + model );
-            if( model instanceof ContainmentModel )
-            {
-                printShutdownGraph( lead + "\t", (ContainmentModel) model );
-            }
+            printCompositeModel( lead, (Composite) model );
         }
     }
 
+    private void printCompositeModel( String lead, Composite model )
+    {
+        Model[] models = model.getProviderGraph();
+        for( int i=0; i<models.length; i++ )
+        {
+            Model m = models[i];
+            System.out.println( "\t" + lead + (i+1) + ": " + m + " (provider)" );
+        }
+        models = model.getConsumerGraph();
+        for( int i=0; i<models.length; i++ )
+        {
+            Model m = models[i];
+            System.out.println( "\t" + lead + (i+1) + ": " + m + " (consumer)" );
+        }
+    }
 }

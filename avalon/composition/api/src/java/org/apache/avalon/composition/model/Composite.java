@@ -55,7 +55,7 @@ package org.apache.avalon.composition.model;
  * complete assembly assesment and fulfillment process may be performed.
  *
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.1.2.1 $ $Date: 2004/01/03 22:08:21 $
+ * @version $Revision: 1.1.2.2 $ $Date: 2004/01/04 01:19:28 $
  */
 public interface Composite
 {
@@ -70,6 +70,18 @@ public interface Composite
      * @exception Exception if an error occurs during model assembly
      */
     void assemble() throws AssemblyException;
+
+   /**
+    * Return the set of models consuming this model.
+    * @return the consumers
+    */
+    Model[] getConsumerGraph();
+
+   /**
+    * Return the set of models supplying this model.
+    * @return the providers
+    */
+    Model[] getProviderGraph();
 
     /**
      * Disassemble the model.
