@@ -43,7 +43,7 @@ import org.apache.excalibur.configuration.ConfigurationUtil;
  * Write a {@link ComponentProfile} to a stream as xml documents.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.6 $ $Date: 2004/03/10 10:52:18 $
+ * @version $Revision: 1.7 $ $Date: 2004/03/11 09:37:08 $
  */
 public class XMLComponentProfileWriter
 {
@@ -303,7 +303,16 @@ public class XMLComponentProfileWriter
             final String padding = pad + INDENT;
             for( int i=0; i<cats.length; i++ )
             {
-                writeCategoryDirective( writer, cats[i], padding );
+                CategoryDirective cat = cats[i];
+                if( cat instanceof CategoriesDirective )
+                {
+                    writeCategories( 
+                      writer, (CategoriesDirective) cat, padding );
+                }
+                else
+                {
+                    writeCategoryDirective( writer, cat, padding );
+                }
             }
             writer.write( "\n" + pad + "</categories>" );
         }
@@ -312,6 +321,7 @@ public class XMLComponentProfileWriter
             writer.write( "/>" );
         }
     }
+
 
     /**
      * Write out xml representation of the logging categories
