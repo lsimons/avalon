@@ -206,8 +206,8 @@ public class DefaultTimeScheduler
 
                 if( duration < 0 )
                 {
-                    runEntry( entry );
-                    rescheduleEntry( entry, false );
+                    // runs and reschedules the entry
+                    runEntry( entry );                    
                     continue;
                 }
                 else if( 0 == duration )
@@ -423,7 +423,7 @@ public class DefaultTimeScheduler
     }
 
     /**
-     * Rune entry in a separate thread.
+     * Run entry in a separate thread and reschedule it.
      *
      * @param entry the entry to run
      */
@@ -434,10 +434,10 @@ public class DefaultTimeScheduler
             public void run()
             {
                 doRunEntry( entry );
-                // Stefan Scheifert:
+                // Stefan Seifert:
                 // rescheduleEntry( entry, false );
                 //
-                // and then don't reschedule in the main run()
+                // and then don't reschedule at the end of runEntry
                 // this will ensure long-running events are
                 // queued
                 //
@@ -456,6 +456,9 @@ public class DefaultTimeScheduler
             final String message = "Error executing trigger " + entry.getName();
             getLogger().warn( message, e );
         }
+        
+				// reschedule entry
+				rescheduleEntry( entry, false );
     }
 
     /**
