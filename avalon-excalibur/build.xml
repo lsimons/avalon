@@ -88,6 +88,7 @@ Legal:
   <property name="xalan.jar" value="${tools.dir}/lib/xalan-2.1.0.jar"/>
   <property name="bsf.jar" value="${tools.dir}/lib/bsf.jar"/>
   <property name="testlet.jar" value="${tools.dir}/lib/testlet.jar"/>
+  <property name="junit.jar" value="${tools.dir}/lib/junit.jar"/>
   <property name="tools.jar" value="${java.home}/../lib/tools.jar"/>
 
   <property name="announce2txt" value="${tools.dir}/announcement2txt.xsl"/>
@@ -101,6 +102,7 @@ Legal:
     <pathelement location="${bsf.jar}"/>
     <pathelement location="${xerces.jar}"/>
     <pathelement location="${testlet.jar}"/>
+    <pathelement location="${junit.jar}"/>
     <pathelement path="${java.class.path}" />
     <fileset dir="${lib.dir}">
       <include name="*.jar" />

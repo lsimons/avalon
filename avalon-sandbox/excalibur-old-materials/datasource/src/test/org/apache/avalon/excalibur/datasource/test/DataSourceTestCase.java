@@ -18,7 +18,7 @@ import org.apache.avalon.excalibur.datasource.JdbcDataSource;
 import org.apache.log.Hierarchy;
 import org.apache.log.Logger;
 import org.apache.log.Priority;
-import org.apache.testlet.AbstractTestlet;
+import junit.framework.TestCase;
 
 /**
  * Test the DataSource Component.  I don't know how to make this generic,
@@ -27,12 +27,22 @@ import org.apache.testlet.AbstractTestlet;
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  */
-public class DataSourceTestlet
-    extends AbstractTestlet
+public class DataSourceTestCase
+    extends TestCase
 {
     static final Configuration conf;
     static final String LOCATION = "Testlet Framework";
     static final Logger logger;
+
+    public DataSourceTestCase()
+    {
+        this("Excalibur DataSource Test Case");
+    }
+
+    public DataSourceTestCase(String name)
+    {
+        super(name);
+    }
 
     static
     {
@@ -77,7 +87,7 @@ public class DataSourceTestlet
         }
         catch( final ConfigurationException ce )
         {
-            assert( "Over Allocation Test", false );
+            assertTrue( "Over Allocation Test", false );
         }
 
         try
@@ -93,7 +103,7 @@ public class DataSourceTestlet
             logger.info( "The test was successful" );
         }
 
-        assert( "Over Allocation Test", result );
+        assertTrue( "Over Allocation Test", result );
     }
 
     public void testNormalUse()
@@ -109,7 +119,7 @@ public class DataSourceTestlet
         catch( final ConfigurationException ce )
         {
             logger.error( ce.getMessage(), ce );
-            assert( "Over Allocation Test", false );
+            assertTrue( "Over Allocation Test", false );
         }
 
         Thread one = new Thread( new ConnectionThread( this, ds ) );
@@ -131,7 +141,7 @@ public class DataSourceTestlet
         }
 
         logger.info( "If you saw no failure messages, then the test passed" );
-        assert( "Normal Use Test", result );
+        assertTrue( "Normal Use Test", result );
     }
 
     public void runDBTest( final DataSourceComponent datasource )
@@ -150,7 +160,7 @@ public class DataSourceTestlet
             catch( final SQLException se )
             {
                 logger.info( "Failed to get Connection, test failed" );
-                assert( "Normal Use Test", false );
+                assertTrue( "Normal Use Test", false );
             }
             catch( final InterruptedException ie )
             {
@@ -158,23 +168,24 @@ public class DataSourceTestlet
             }
         }
     }
+
+    class ConnectionThread
+        implements Runnable
+    {
+        protected DataSourceComponent datasource;
+        protected DataSourceTestCase testlet;
+
+        ConnectionThread( final DataSourceTestCase testlet,
+                          final DataSourceComponent datasource )
+        {
+            this.datasource = datasource;
+            this.testlet = testlet;
+        }
+
+        public void run()
+        {
+            testlet.runDBTest( datasource );
+        }
+    }
 }
 
-class ConnectionThread
-    implements Runnable
-{
-    protected DataSourceComponent datasource;
-    protected DataSourceTestlet testlet;
-
-    ConnectionThread( final DataSourceTestlet testlet,
-                      final DataSourceComponent datasource )
-    {
-        this.datasource = datasource;
-        this.testlet = testlet;
-    }
-
-    public void run()
-    {
-        testlet.runDBTest( datasource );
-    }
-}
