@@ -132,8 +132,6 @@
     </contributor>
     <contributor>
       <name>Mauro Talevi</name>
-      <email>mauro.talevi@aquilonia.org</email>
-      <role>Build process validation and input to Maven related questions.</role>
     </contributor>
     <contributor>
       <name>Greg Steuck</name>
@@ -148,9 +146,6 @@
     <contributor>
       <name>Ram Chidambaram</name>
       <email>ram.chidambaram@telus.com</email>
-    </contributor>
-    <contributor>
-      <name>Mauro Talevi</name>
     </contributor>
     <contributor>
       <name>Serge Knystautas</name>
