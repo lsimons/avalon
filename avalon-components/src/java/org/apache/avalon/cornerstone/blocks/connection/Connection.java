@@ -164,9 +164,22 @@ class ConnectionRunner
             m_thread = Thread.currentThread();
             m_runners.add( this );
 
-            getLogger().debug( "Starting connection on " + m_socket );
+            if( getLogger().isDebugEnabled() )
+            {
+                final String message =
+                    "Starting connection on " +
+                    m_socket.getInetAddress().getHostAddress();
+                getLogger().debug( message );
+            }
             m_handler.handleConnection( m_socket );
-            getLogger().debug( "Ending connection on " + m_socket );
+
+            if( getLogger().isDebugEnabled() )
+            {
+                final String message =
+                    "Ending connection on " +
+                    m_socket.getInetAddress().getHostAddress();
+                getLogger().debug( message );
+            }
             m_handlerFactory.releaseConnectionHandler( m_handler );
         }
         catch( final Exception e )
