@@ -21,7 +21,7 @@ import org.apache.avalon.framework.parameters.Parameterizable;
  * @author <a href="donaldp@apache.org">Peter Donald</a>
  */
 public interface Embeddor
-    extends Component, Parameterizable, Initializable, Startable, Disposable
+    extends Component, Initializable, Startable, Disposable
 {
     String ROLE = "org.apache.avalon.framework.atlantis.Embeddor";
 

@@ -44,7 +44,7 @@ import org.apache.log.output.FileOutputLogTarget;
  */
 public class PhoenixEmbeddor
     extends AbstractLoggable
-    implements Embeddor
+    implements Embeddor, Parameterizable
 {
     private static final Resources REZ =
         ResourceManager.getPackageResources( PhoenixEmbeddor.class );
