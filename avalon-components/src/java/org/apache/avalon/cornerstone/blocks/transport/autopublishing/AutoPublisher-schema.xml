@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<element
+    name="root"
+    xmlns="http://relaxng.org/ns/structure/1.0"
+    datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"
+    xmlns:a="http://jakarta.apache.org/phoenix/schema-annotations/1.0"
+>
+    <element name="publisher"><text/></element>
+    <oneOrMore>
+        <element name="publish">
+            <attribute name="block"/>
+            <attribute name="publishAsName"/>
+            <attribute name="interfaceToPublish"/>
+        </element>
+    </oneOrMore>
+</element>

@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<element
+    name="root"
+    xmlns="http://relaxng.org/ns/structure/1.0"
+    datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"
+    xmlns:a="http://jakarta.apache.org/phoenix/schema-annotations/1.0"
+>
+    <interleave>
+        <element name="bind"><text/></element>
+        <element name="port"><data type="integer"/></element>
+        <element name="socketStreamServerClass"><text/></element>
+        <element name="classRetrieverType">
+            <choice>
+                <value>baseMobileClass</value>
+                <value>jarFile</value>
+                <value>none</value>
+            </choice>
+        </element>
+    </interleave>
+</element>
