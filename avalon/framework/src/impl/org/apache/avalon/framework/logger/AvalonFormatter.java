@@ -9,6 +9,7 @@ package org.apache.avalon.framework.logger;
 
 import java.util.Date;
 import org.apache.avalon.framework.ExceptionUtil;
+import org.apache.log.format.PatternFormatter;
 
 /**
  * This formatter extends PatternFormatter so that 
