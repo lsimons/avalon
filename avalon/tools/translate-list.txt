@@ -44,3 +44,4 @@ import org.apache.avalon.util.Property|import org.apache.excalibur.property.Prop
 import org.apache.avalon.Pipeline;|import org.apache.excalibur.pipeline.Pipeline;
 import org.apache.avalon.Processor|import org.apache.excalibur.pipeline.Processor
 import org.apache.avalon.Stage;|import org.apache.excalibur.pipeline.Stage;
+getValueAsInt(|getValueAsInteger(
