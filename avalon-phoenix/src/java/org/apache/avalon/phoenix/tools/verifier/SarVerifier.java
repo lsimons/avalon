@@ -59,7 +59,7 @@ import org.apache.excalibur.containerkit.verifier.ComponentVerifier;
  * </ul>
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.22 $ $Date: 2002/06/06 03:42:56 $
+ * @version $Revision: 1.23 $ $Date: 2002/06/06 15:19:45 $
  */
 public class SarVerifier
     extends AbstractLogEnabled
@@ -407,7 +407,7 @@ public class SarVerifier
     }
 
     /**
-     * Verify specified object satisifies the rules of being abn AValon component.
+     * Verify specified object satisifies the rules of being abn Avalon component.
      *
      * @param name the components name
      * @param clazz the implementation class
