@@ -49,7 +49,7 @@ import org.w3c.dom.Element;
  * A Log4J factory.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public class Log4JLoggingFactory
     implements LoggingFactory
@@ -166,7 +166,7 @@ public class Log4JLoggingFactory
         else
         {
             Configuration log4jNode = config.getChild( "configuration" );
-            Element node = ConfigUtil.toElement( log4jNode );
+            Element node = ConfigurationUtil.toElement( log4jNode );
             DOMConfigurator.configure( node );
         }
         return new LoggingManagerImpl();
