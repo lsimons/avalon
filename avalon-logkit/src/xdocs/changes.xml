@@ -14,7 +14,7 @@
     creating it if it does not exist.
   </action>
   <action dev="PD" type="add">
-    Added basic unit tests for the logkit formatters.
+    Added basic unit tests for the logkit formatters and some output targets.
   </action>
   <action dev="PD" type="add">
     Added method to allow arbitrary ContextStacks to be bound to current thread via
@@ -22,8 +22,8 @@
   </action>
   <action dev="PD" type="update">
     Rework existing logtargets so that they are thread safe, perform better error
-    management and improves usability. Old style targets have been deprecated as
-    has any "unsafe" methods.
+    management and improve usability. Old style targets have been deprecated as
+    have any "unsafe" methods.
   </action>
   <action dev="PD" type="update">
     Added extra constructor to PatternFormatter so that format string may be 
@@ -31,8 +31,8 @@
   </action>
   <action dev="PD" type="add">
     Added StackIntrospector class that is amalgamation of utility code supplied by
-     Stuart Roebuck <stuart.roebuck@adolos.co.uk> and  Sylvain 
-     Wallez <sylvain.wallez@anyware-tech.com>.
+     Stuart Roebuck (stuart.roebuck@adolos.co.uk) and  Sylvain 
+     Wallez (sylvain.wallez@anyware-tech.com).
   </action>
   <action dev="SR" type="update">
     Right justified fields are cropped on the left. ie [%-20.20{context}] changes from 
