@@ -3,9 +3,7 @@
 <document>
   <header>
     <title>Reference - Specification of environment.xml</title>
-
-      <person id="PD" name="Peter Donald" email="peter@apache.org"/>
-
+    <person name="Peter Donald" email="peter@apache.org"/>
   </header>
   <body>
     <section name="Introduction">
@@ -48,7 +46,7 @@
       </grant>
 
       <grant signed-by="Bob"
-             code-base="file:${app.home}${/}SAR-INF${/}lib${/}*"
+             code-base="sar:/SAR-INF/lib/*"
              key-store="foo-keystore" >
         <permission class="java.io.FilePermission"
                     target="${/}tmp${/}*"
