@@ -8,6 +8,7 @@
 package org.apache.avalon.framework;
 
 import java.io.Serializable;
+import java.util.StringTokenizer;
 
 /**
  * This class is used to hold version information pertaining to a Component or interface.
@@ -64,7 +65,12 @@ public final class Version
     public static Version getVersion( final String version )
         throws NumberFormatException, IllegalArgumentException
     {
-        final String[] levels = ExceptionUtil.splitString( version, "." );
+        final StringTokenizer tokenizer = new StringTokenizer( version, "." );
+        final String[] levels = new String[ tokenizer.countTokens() ];
+        for( int i = 0; i < levels.length; i++ )
+        {
+            levels[ i ] = tokenizer.nextToken();
+        }
 
         if( 0 == levels.length || 3 < levels.length )
         {
