@@ -17,10 +17,10 @@ import org.apache.avalon.phoenix.interfaces.PackageRepository;
  * require apps to be be self-contained.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2001/11/24 10:34:59 $
+ * @version $Revision: 1.2 $ $Date: 2001/11/24 10:39:00 $
  */
 public class NoopPackageRepository
-    extends PackageRepository
+    implements PackageRepository
 {
     /**
      * Return all the <code>OptionalPackage</code>s that satisfy specified
