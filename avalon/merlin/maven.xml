@@ -2,10 +2,10 @@
 
   <maven:snapshot project="${pom}"/>
 
-  <ant:property name="merlin.cli.jar" value="merlin-cli-3.2.jar"/>
+  <ant:property name="merlin.cli.jar" value="merlin-cli-3.2.1.jar"/>
   <ant:property name="avalon.plugin.jar" value="avalon-plugin-1.0.jar"/>
   <ant:property name="meta.plugin.jar" value="avalon-meta-plugin-1.3.jar"/>
-  <ant:property name="merlin.plugin.jar" value="merlin-plugin-3.2.1.jar"/>
+  <ant:property name="merlin.plugin.jar" value="merlin-plugin-3.2.2.jar"/>
 
   <ant:property file="project.properties"/>
   <ant:property name="maven.docs.src" value="${basedir}/platform/xdocs"/>
