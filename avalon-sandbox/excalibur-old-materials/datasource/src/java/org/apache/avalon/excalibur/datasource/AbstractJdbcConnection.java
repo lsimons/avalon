@@ -30,7 +30,7 @@ import org.apache.avalon.framework.logger.Logger;
  * total number of Connection objects that are created.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.18 $ $Date: 2002/11/05 23:51:25 $
+ * @version CVS $Revision: 1.19 $ $Date: 2002/11/06 08:22:26 $
  * @since 4.1
  */
 public abstract class AbstractJdbcConnection
@@ -223,7 +223,7 @@ public abstract class AbstractJdbcConnection
                                                         int resultSetHoldability )
         throws SQLException;
 
-    public abstract CallableStatement prepareCall( String sql,
+    public abstract java.sql.CallableStatement prepareCall( String sql,
                                                    int resulSetType,
                                                    int resultSetConcurrency,
                                                    int resultSetHoldability )
