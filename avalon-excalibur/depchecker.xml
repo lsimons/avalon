@@ -342,6 +342,7 @@ To use it, type 'ant -f depchecker.xml'
 
     <target name="checkRequiredClass.fail" unless="requirement.satisfied">
         <property name="message" value="Can't find class: ${class}"/>
+        <property name="remedy" value=""/>
         <echo>
             .----------------------------------------------------------------.
             | CLASS NOT FOUND                                                |
