@@ -62,7 +62,6 @@ import java.util.Map;
 import org.apache.avalon.activation.appliance.Appliance;
 import org.apache.avalon.activation.appliance.ApplianceException;
 import org.apache.avalon.activation.appliance.AssemblyException;
-import org.apache.avalon.activation.appliance.Composite;
 import org.apache.avalon.activation.appliance.Engine;
 import org.apache.avalon.activation.lifecycle.ContextualizationHandler;
 import org.apache.avalon.activation.lifecycle.Factory;
@@ -104,7 +103,7 @@ import org.apache.avalon.meta.info.StageDescriptor;
  * appliance instance.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.15.2.2 $ $Date: 2004/01/07 12:57:25 $
+ * @version $Revision: 1.15.2.3 $ $Date: 2004/01/07 20:34:42 $
  */
 public class DefaultAppliance extends AbstractAppliance implements Appliance
 {

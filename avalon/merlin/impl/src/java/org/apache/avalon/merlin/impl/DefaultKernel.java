@@ -62,7 +62,6 @@ import org.apache.avalon.merlin.KernelRuntimeException;
 
 import org.apache.avalon.activation.appliance.Appliance;
 import org.apache.avalon.activation.appliance.Block;
-import org.apache.avalon.activation.appliance.Composite;
 import org.apache.avalon.activation.appliance.impl.AbstractBlock;
 
 import org.apache.avalon.composition.data.TargetDirective;
@@ -80,7 +79,7 @@ import org.apache.avalon.framework.logger.Logger;
  * Implementation of the default Merlin Kernel.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1.2.2 $ $Date: 2004/01/07 16:07:17 $
+ * @version $Revision: 1.1.2.3 $ $Date: 2004/01/07 20:34:42 $
  */
 public class DefaultKernel extends NotificationBroadcasterSupport 
   implements Kernel, DefaultKernelMBean
@@ -136,8 +135,7 @@ public class DefaultKernel extends NotificationBroadcasterSupport
     * Creation of a new Merlin Kernel.
     * @param logger the assigned logging channel
     * @param criteria the kernel creation criteria
-    * @param system the system block
-    * @param mosdel the application model
+    * @param model the application model
     * @exception KernelException if a kernel creation error occurs
     */
     public DefaultKernel( 

@@ -56,13 +56,14 @@ import org.apache.avalon.composition.model.ContainmentModel;
 
 import org.apache.avalon.framework.logger.Logger;
 
+/**
  * Runnable deployment thread that handles the deployment of an 
  * arbitary number of deployable instances.  The deployer maintains a 
  * list of deployment requests which are queued on a first come first 
  * serve basis.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2.2.2 $ $Date: 2004/01/07 16:07:17 $
+ * @version $Revision: 1.2.2.3 $ $Date: 2004/01/07 20:34:42 $
  * @see DeploymentRequest
  */
 class Deployer
