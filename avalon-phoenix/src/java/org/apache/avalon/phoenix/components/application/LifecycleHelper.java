@@ -28,6 +28,7 @@ import org.apache.avalon.phoenix.Block;
 import org.apache.avalon.phoenix.BlockContext;
 import org.apache.avalon.phoenix.BlockEvent;
 import org.apache.avalon.phoenix.BlockListener;
+import org.apache.avalon.phoenix.components.frame.DefaultBlockContext;
 import org.apache.avalon.phoenix.components.frame.ApplicationFrame;
 import org.apache.avalon.phoenix.metadata.BlockMetaData;
 import org.apache.avalon.phoenix.metadata.BlockListenerMetaData;
@@ -160,7 +161,7 @@ class LifecycleHelper
             if( block instanceof Contextualizable )
             {
                 notice( name, stage );
-                final BlockContext context = m_frame.createBlockContext( name );
+                final BlockContext context = createBlockContext( name );
                 ((Contextualizable)block).contextualize( context );
             }
 
@@ -288,6 +289,20 @@ class LifecycleHelper
         final ClassLoader classLoader = m_frame.getClassLoader();
         final Class clazz = classLoader.loadClass( metaData.getClassname() );
         return (Block)clazz.newInstance();
+    }
+
+    /**
+     * Create a BlockContext object for Block with specified name.
+     *
+     * @param name the name of Block
+     * @return the created BlockContext
+     */
+    private BlockContext createBlockContext( final String name )
+    {
+        final DefaultBlockContext context = new DefaultBlockContext( name, m_frame );
+        setupLogger( context );
+        context.makeReadOnly();
+        return context;
     }
 
     /**
