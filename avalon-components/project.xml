@@ -193,12 +193,6 @@
         </includes>
       </resource>
       <resource>
-        <directory>${basedir}/../site/etc</directory>
-        <includes>
-          <include>LICENSE.txt</include>
-        </includes>
-      </resource>
-      <resource>
         <directory>${basedir}/conf</directory>
         <targetPath>BLOCK-INF</targetPath>
         <includes>
