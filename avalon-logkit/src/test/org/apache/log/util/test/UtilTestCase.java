@@ -72,11 +72,11 @@ import org.apache.log.util.LoggerOutputStream;
 public final class UtilTestCase
     extends TestCase
 {
-    private final static String EOL = System.getProperty( "line.separator", "\n" );
-    private final static RawFormatter FORMATTER = new RawFormatter();
+    private static final String EOL = System.getProperty( "line.separator", "\n" );
+    private static final RawFormatter FORMATTER = new RawFormatter();
 
-    private final static String MSG = "No soup for you!";
-    private final static String RMSG = MSG;
+    private static final String MSG = "No soup for you!";
+    private static final String RMSG = MSG;
 
     public UtilTestCase( final String name )
     {

@@ -62,7 +62,7 @@ import java.util.Date;
  * Rotation stragety based on SimpleDateFormat.
  *
  * @author <a href="mailto:colus@apache.org">Eung-ju Park</a>
- * @version $Revision: 1.5 $ $Date: 2003/02/03 17:40:14 $
+ * @version $Revision: 1.6 $ $Date: 2003/02/04 13:50:33 $
  */
 public class RotateStrategyByDate
     implements RotateStrategy

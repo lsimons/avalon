@@ -62,7 +62,7 @@ import java.io.StringWriter;
  *
  * @author <a href="mailto:sylvain@apache.org">Sylvain Wallez</a>
  * @author <a href="mailto:stuart.roebuck@adolos.com">Stuart Roebuck</a>
- * @version CVS $Revision: 1.8 $ $Date: 2003/02/03 19:07:28 $
+ * @version CVS $Revision: 1.9 $ $Date: 2003/02/04 13:50:33 $
  */
 public final class StackIntrospector
 {
@@ -105,7 +105,7 @@ public final class StackIntrospector
      * @exception SecurityException if an existing SecurityManager disallows construction
      *            of another SecurityManager
      */
-    private synchronized static CallStack getCallStack()
+    private static synchronized CallStack getCallStack()
         throws SecurityException
     {
         if( null == c_callStack )
