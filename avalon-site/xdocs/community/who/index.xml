@@ -1,25 +1,86 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0"?>
 <document>
   <properties>
     <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
     <title>Apache Avalon: Who we are</title>
-  </properties> 
+  </properties>
   <body>
-    <section name="Active Committers">
-      <p>
-      The current avalon committers are: bloritsch, colus, cziegeler,
-      jefft, leif, leosimons, leosutic, mirceatoma, mcconnell, neeme,
-      proyal,vinayc, farra
-      </p>
+   <section name="Avalon Committers">
+    <p>
+     The following ASF committers have access to the
+     core Avalon CVS repositories.  If you're interested in 
+     becoming a committer, see the <a href="../process/index.html">
+     Community Process</a> page for more information.
+    </p>
+    <table>
+<tr><td>akarasulu</td>  <td>Alex Karasulu</td></tr>
+<tr><td>atagunov</td> 	<td>Anton Tagunov</td></tr>
+<tr><td>bloritsch</td> 	<td>Berin Loritsch</td></tr>
+<tr><td>charlesb</td> 	<td>Charles Benett</td></tr>
+<tr><td>colus</td> 	<td>Eung-ju Park</td></tr>
+<tr><td>crafterm</td> 	<td>Marcus Crafter</td></tr>
+<tr><td>cziegeler</td> 	<td>Carsten Ziegeler</td></tr>
+<tr><td>farra</td> 	<td>Aaron Farr</td></tr>
+<tr><td>froehlich</td> 	<td>Gerhard Froehlich</td></tr>
+<tr><td>giacomo</td> 	<td>Giacomo Pati</td></tr>
+<tr><td>hammett</td> 	<td>Hamilton Verissimo de Oliveira</td></tr>
+<tr><td>huw</td> 	<td>Huw Roberts</td></tr>
+<tr><td>jefft</td> 	<td>Jeff Turner</td></tr>
+<tr><td>jon</td> 	<td>Jon Stevens</td></tr>
+<tr><td>jrudd</td> 	<td>Justin Rudd</td></tr>
+<tr><td>leif</td> 	<td>Leif Mortenson</td></tr>
+<tr><td>leosimons</td> 	<td>Leo Simons</td></tr>
+<tr><td>leosutic</td> 	<td>Leo Sutic</td></tr>
+<tr><td>lmccay</td> 	<td>lawrence_mccay</td></tr>
+<tr><td>mcconnell</td> 	<td>Stephen McConnell</td></tr>
+<tr><td>mirceatoma</td> <td>Mircea Toma</td></tr>
+<tr><td>morpheus</td> 	<td>Mark Wood</td></tr>
+<tr><td>mschier</td> 	<td>Marc Schier</td></tr>
+<tr><td>neeme</td> 	<td>Neeme Praks</td></tr>
+<tr><td>niclas</td> 	<td>Niclas Hedhman</td></tr>
+<tr><td>nicolaken</td> 	<td>Nicola Ken Barozzi</td></tr>
+<tr><td>noel</td> 	<td>Noel J. Bergman</td></tr>
+<tr><td>oberhack</td> 	<td>Andreas Oberhack</td></tr>
+<tr><td>proyal</td> 	<td>Peter Royal</td></tr>
+<tr><td>ramc</td> 	<td>Ram C</td></tr>
+<tr><td>rana_b</td> 	<td>Rana Bhattacharyya</td></tr>
+<tr><td>sylvain</td> 	<td>Sylvain Wallez</td></tr>
+<tr><td>vinayc</td> 	<td>Vinay Chandran</td></tr>
+<tr><td>ymikulski</td> 	<td>Yauheny Mikulski</td></tr>
+     </table>
     </section>
-    <section name="Inactive Committers">
-      <p>
-      The current inactive avalon committers (an inactive committer is
-      someone who hasn't done a cvs commit in three months, or hasn't
-      bothered to move himself from this list to the one above) are:
-      charlesb, ramc, giacomo, rana_b, froehlich, lmccay, jrudd,
-      morpheus, crafterm, huw, ymikulski, mschier, stefano
-      </p>
+    <section name="Associated Committers">
+    <p>
+     Associated committers have access to the following repositories:     
+    </p>
+     <ul>
+      <li><code>avalon-excalibur</code></li>
+      <li><code>avalon-components</code></li>
+      <li><code>avalon-sandbox</code></li>
+     </ul>
+     <p>
+      ASF projects with associated committer access:
+     </p>
+      <ul>
+        <li><a href="http://cocoon.apache.org">Cocoon</a></li>
+	<li><a href="http://james.apache.org">James</a></li>
+      </ul>
+     <p>
+     If your project would also like access, please notify the
+     <a href="mailto:pmc@avalon.apache.org">Avalon PMC</a>.
+    </p>
+    <p>
+     Full lists of ASF committers are available at:
+     <ul>
+      <li>
+       <a href="http://www.apache.org/~jim/committers.html">http://www.apache.org/~jim/committers.html</a>
+      </li>
+      <li>
+       <a href="http://www.apache.org/~jim/projects.html">http://www.apache.org/~jim/projects.html</a>
+     ( warning: it's a <em>large</em> page ~980 KB)
+      </li>
+     </ul>
+    </p>
     </section>
     <section name="Emeritus Committers">
       <p>
@@ -40,5 +101,4 @@
       </p>
     </section>
   </body>
-
 </document>

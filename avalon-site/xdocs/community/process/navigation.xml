@@ -24,8 +24,7 @@
           <item name="Management Committee" href="/community/process/pmc.html"/>
           <item name="PMC Procedures" href="/community/process/pmc-votes.html"/>
           <item name="Coding Standards" href="/community/process/code-standards.html"/>
-	    <item name="Release Management" href="/community/process/release.html"/>
-	    <item name="Patches and Bugs" href="/community/process/patches.html"/>
+	  <item name="Release Management" href="/community/process/release.html"/>
         </item>
         <item name="History" href="/community/history/index.html"/>
       </item>
@@ -40,7 +39,7 @@
       <item name="WIKI" href="http://wiki.apache.org/avalon"/>
       <item name="Sandbox" href="/sandbox/index.html"/>
       <item name="Mailing Lists" href="/mailing-lists.html"/>
-      <item name="Bug Database"  href="http://nagoya.apache.org/bugzilla/reports.cgi?product=Avalon&amp;output=most_doomed&amp;links=1&amp;banner=1&amp;quip=0"/>
+      <item name="Issue Tracking"  href="/issues.html"/>
       <item name="Related Projects" href="/related/index.html"/>
     </menu>
 

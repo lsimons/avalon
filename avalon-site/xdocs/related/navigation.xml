@@ -29,7 +29,7 @@
       <item name="WIKI" href="http://wiki.apache.org/avalon"/>
       <item name="Sandbox" href="/sandbox/index.html"/>
       <item name="Mailing Lists" href="/mailing-lists.html"/>
-      <item name="Bug Database"  href="http://nagoya.apache.org/bugzilla/reports.cgi?product=Avalon&amp;output=most_doomed&amp;links=1&amp;banner=1&amp;quip=0"/>
+      <item name="Issue Tracking"  href="/issues.html"/>
       <item name="Related Projects" href="related/index.html">
         <item name="Apache" href="/related/apache.html"/>
         <item name="External" href="/related/external.html"/>
