@@ -8,7 +8,6 @@
 package org.apache.avalon.phoenix.interfaces;
 
 import java.net.URL;
-import org.apache.avalon.framework.component.Component;
 
 /**
  * A Deployer is responsible for taking a URL (ie a jar/war/ear) and deploying
@@ -21,7 +20,6 @@ import org.apache.avalon.framework.component.Component;
  * @see DeployerMBean
  */
 public interface Deployer
-    extends Component
 {
     String ROLE = Deployer.class.getName();
 

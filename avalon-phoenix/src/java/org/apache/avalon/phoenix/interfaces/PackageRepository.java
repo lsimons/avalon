@@ -7,16 +7,14 @@
  */
 package org.apache.avalon.phoenix.interfaces;
 
-import org.apache.avalon.framework.component.Component;
-
 /**
  * PackageRepository
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.6 $ $Date: 2002/02/17 11:15:28 $
+ * @version $Revision: 1.7 $ $Date: 2002/05/10 09:13:41 $
  */
 public interface PackageRepository
-    extends org.apache.avalon.excalibur.extension.PackageRepository, Component
+    extends org.apache.avalon.excalibur.extension.PackageRepository
 {
     String ROLE = PackageRepository.class.getName();
 }

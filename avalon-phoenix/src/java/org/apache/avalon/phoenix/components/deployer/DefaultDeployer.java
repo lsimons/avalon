@@ -8,17 +8,17 @@
 package org.apache.avalon.phoenix.components.deployer;
 
 import java.io.File;
-import java.net.URL;
 import java.net.MalformedURLException;
+import java.net.URL;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.framework.activity.Initializable;
-import org.apache.avalon.framework.component.ComponentException;
-import org.apache.avalon.framework.component.ComponentManager;
-import org.apache.avalon.framework.component.Composable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
+import org.apache.avalon.framework.service.ServiceException;
+import org.apache.avalon.framework.service.ServiceManager;
+import org.apache.avalon.framework.service.Serviceable;
 import org.apache.avalon.phoenix.interfaces.Application;
 import org.apache.avalon.phoenix.interfaces.ClassLoaderManager;
 import org.apache.avalon.phoenix.interfaces.ConfigurationRepository;
@@ -46,7 +46,7 @@ import org.apache.log.Hierarchy;
  */
 public class DefaultDeployer
     extends AbstractLogEnabled
-    implements Deployer, Composable, Initializable, DeployerMBean
+    implements Deployer, Serviceable, Initializable, DeployerMBean
 {
     private static final Resources REZ =
         ResourceManager.getPackageResources( DefaultDeployer.class );
@@ -64,17 +64,17 @@ public class DefaultDeployer
     /**
      * Retrieve relevant services needed to deploy.
      *
-     * @param componentManager the ComponentManager
-     * @throws ComponentException if an error occurs
+     * @param serviceManager the ComponentManager
+     * @throws ServiceException if an error occurs
      */
-    public void compose( final ComponentManager componentManager )
-        throws ComponentException
+    public void service( final ServiceManager serviceManager )
+        throws ServiceException
     {
-        m_kernel = (Kernel)componentManager.lookup( Kernel.ROLE );
-        m_repository = (ConfigurationRepository)componentManager.lookup( ConfigurationRepository.ROLE );
-        m_classLoaderManager = (ClassLoaderManager)componentManager.lookup( ClassLoaderManager.ROLE );
-        m_logManager = (LogManager)componentManager.lookup( LogManager.ROLE );
-        m_recorder = (DeploymentRecorder)componentManager.lookup( DeploymentRecorder.ROLE );
+        m_kernel = (Kernel)serviceManager.lookup( Kernel.ROLE );
+        m_repository = (ConfigurationRepository)serviceManager.lookup( ConfigurationRepository.ROLE );
+        m_classLoaderManager = (ClassLoaderManager)serviceManager.lookup( ClassLoaderManager.ROLE );
+        m_logManager = (LogManager)serviceManager.lookup( LogManager.ROLE );
+        m_recorder = (DeploymentRecorder)serviceManager.lookup( DeploymentRecorder.ROLE );
     }
 
     public void initialize()
@@ -119,7 +119,6 @@ public class DefaultDeployer
         }
     }
 
-
     /**
      * Deploy an application from an installation.
      *
@@ -132,14 +131,13 @@ public class DefaultDeployer
     {
         try
         {
-	        deploy( name, new URL( sarURL ) );
+            deploy( name, new URL( sarURL ) );
         }
         catch( MalformedURLException mue )
         {
             throw new DeploymentException( mue.getMessage(), mue );
         }
     }
-
 
     /**
      * Deploy an application from an installation.

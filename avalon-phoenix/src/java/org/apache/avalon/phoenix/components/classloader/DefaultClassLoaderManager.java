@@ -20,15 +20,15 @@ import org.apache.avalon.excalibur.extension.OptionalPackage;
 import org.apache.avalon.excalibur.extension.PackageManager;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
-import org.apache.avalon.framework.component.ComponentException;
-import org.apache.avalon.framework.component.ComponentManager;
-import org.apache.avalon.framework.component.Composable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
-import org.apache.avalon.framework.logger.AbstractLogEnabled;
-import org.apache.avalon.framework.context.Contextualizable;
-import org.apache.avalon.framework.context.ContextException;
 import org.apache.avalon.framework.context.Context;
+import org.apache.avalon.framework.context.ContextException;
+import org.apache.avalon.framework.context.Contextualizable;
+import org.apache.avalon.framework.logger.AbstractLogEnabled;
+import org.apache.avalon.framework.service.ServiceException;
+import org.apache.avalon.framework.service.ServiceManager;
+import org.apache.avalon.framework.service.Serviceable;
 import org.apache.avalon.phoenix.interfaces.ClassLoaderManager;
 import org.apache.avalon.phoenix.interfaces.PackageRepository;
 
@@ -49,7 +49,7 @@ import org.apache.avalon.phoenix.interfaces.PackageRepository;
  */
 public class DefaultClassLoaderManager
     extends AbstractLogEnabled
-    implements ClassLoaderManager, Contextualizable, Composable
+    implements ClassLoaderManager, Contextualizable, Serviceable
 {
     private static final Resources REZ =
         ResourceManager.getPackageResources( DefaultClassLoaderManager.class );
@@ -84,11 +84,11 @@ public class DefaultClassLoaderManager
         m_commonClassLoader = (ClassLoader)context.get( "common.classloader" );
     }
 
-    public void compose( final ComponentManager componentManager )
-        throws ComponentException
+    public void service( final ServiceManager serviceManager )
+        throws ServiceException
     {
         final PackageRepository packageRepository =
-            (PackageRepository)componentManager.lookup( PackageRepository.ROLE );
+            (PackageRepository)serviceManager.lookup( PackageRepository.ROLE );
         m_packageManager = new PackageManager( packageRepository );
     }
 
@@ -97,7 +97,7 @@ public class DefaultClassLoaderManager
      * See Class Javadoc for description of technique for creating
      * <code>ClassLoader</code>.
      *
-     * @param server the configuration "server.xml" for the application
+     * @param environment the configuration "environment.xml" for the application
      * @param source the source of application. (usually the name of the .sar file
      *               or else the same as baseDirectory)
      * @param homeDirectory the base directory of application

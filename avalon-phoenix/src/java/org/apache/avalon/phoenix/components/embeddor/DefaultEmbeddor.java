@@ -18,10 +18,6 @@ import org.apache.avalon.framework.CascadingException;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.activity.Startable;
-import org.apache.avalon.framework.component.Component;
-import org.apache.avalon.framework.component.ComponentManager;
-import org.apache.avalon.framework.component.Composable;
-import org.apache.avalon.framework.component.DefaultComponentManager;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
@@ -32,6 +28,9 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.parameters.ParameterException;
 import org.apache.avalon.framework.parameters.Parameterizable;
 import org.apache.avalon.framework.parameters.Parameters;
+import org.apache.avalon.framework.service.DefaultServiceManager;
+import org.apache.avalon.framework.service.ServiceManager;
+import org.apache.avalon.framework.service.Serviceable;
 import org.apache.avalon.phoenix.Constants;
 import org.apache.avalon.phoenix.interfaces.Deployer;
 import org.apache.avalon.phoenix.interfaces.Embeddor;
@@ -415,7 +414,9 @@ public class DefaultEmbeddor
         {
             for( int i = 0; i < m_components.length; i++ )
             {
-                object = createComponent( m_components[ i ].getClassName(), Class.forName( m_components[ i ].getClassName() ) );
+                final String className = m_components[ i ].getClassName();
+                final Class clazz = Class.forName( className );
+                object = createComponent( className, clazz );
                 m_components[ i ].setObject( object );
             }
         }
@@ -488,7 +489,7 @@ public class DefaultEmbeddor
     {
         for( int i = 0; i < m_components.length; i++ )
         {
-            final Component component = (Component)( m_components[ i ].getObject() );
+            final Object component = m_components[ i ].getObject();
             final String loggerName = m_components[ i ].getLoggerName();
             final Configuration configuration = m_components[ i ].getConfiguration();
             setupComponent( component, loggerName, configuration );
@@ -502,7 +503,9 @@ public class DefaultEmbeddor
      * @param component the component
      * @throws Exception if an error occurs
      */
-    private void setupComponent( final Component component, final String loggerName, Configuration config )
+    private void setupComponent( final Object component,
+                                 final String loggerName,
+                                 Configuration config )
         throws Exception
     {
         setupLogger( component, loggerName );
@@ -510,10 +513,10 @@ public class DefaultEmbeddor
         {
             ( (Contextualizable)component ).contextualize( m_context );
         }
-        if( component instanceof Composable )
+        if( component instanceof Serviceable )
         {
-            final ComponentManager componentManager = getComponentManager();
-            ( (Composable)component ).compose( componentManager );
+            final ServiceManager serviceManager = getServiceManager();
+            ( (Serviceable)component ).service( serviceManager );
         }
         if( component instanceof Parameterizable )
         {
@@ -539,7 +542,7 @@ public class DefaultEmbeddor
         for( int i = 0; i < m_components.length; i++ )
         {
             final EmbeddorEntry entry = m_components[ i ];
-            shutdownComponent( (Component)entry.getObject() );
+            shutdownComponent( entry.getObject() );
         }
     }
 
@@ -550,7 +553,7 @@ public class DefaultEmbeddor
      * @param component the component
      * @throws Exception if an error occurs
      */
-    private void shutdownComponent( final Component component )
+    private void shutdownComponent( final Object component )
         throws Exception
     {
         if( null == component ) return;
@@ -602,15 +605,17 @@ public class DefaultEmbeddor
         }
     }
 
-    private ComponentManager getComponentManager()
+    private ServiceManager getServiceManager()
     {
-        final DefaultComponentManager componentManager = new DefaultComponentManager();
-        componentManager.put( Embeddor.ROLE, this );
+        final DefaultServiceManager serviceManager = new DefaultServiceManager();
+        serviceManager.put( Embeddor.ROLE, this );
         for( int i = 0; i < m_components.length; i++ )
         {
-            componentManager.put( m_components[ i ].getRole(), (Component)getEmbeddorComponent( m_components[ i ].getRole() ) );
+            final String role = m_components[ i ].getRole();
+            final Object component = getEmbeddorComponent( role );
+            serviceManager.put( role, component );
         }
-        return componentManager;
+        return serviceManager;
     }
 
     /**

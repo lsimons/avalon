@@ -7,7 +7,6 @@
  */
 package org.apache.avalon.phoenix.interfaces;
 
-import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 
@@ -17,7 +16,6 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 public interface ConfigurationRepository
-    extends Component
 {
     String ROLE = ConfigurationRepository.class.getName();
 

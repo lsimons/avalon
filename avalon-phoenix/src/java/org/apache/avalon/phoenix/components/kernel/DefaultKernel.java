@@ -11,12 +11,12 @@ import java.util.HashMap;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.framework.CascadingException;
-import org.apache.avalon.framework.component.ComponentException;
-import org.apache.avalon.framework.component.ComponentManager;
-import org.apache.avalon.framework.component.Composable;
-import org.apache.avalon.framework.component.DefaultComponentManager;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
+import org.apache.avalon.framework.service.DefaultServiceManager;
+import org.apache.avalon.framework.service.ServiceException;
+import org.apache.avalon.framework.service.ServiceManager;
+import org.apache.avalon.framework.service.Serviceable;
 import org.apache.avalon.phoenix.components.application.DefaultApplication;
 import org.apache.avalon.phoenix.interfaces.Application;
 import org.apache.avalon.phoenix.interfaces.ApplicationContext;
@@ -43,7 +43,7 @@ import org.apache.log.Hierarchy;
  */
 public class DefaultKernel
     extends AbstractLogEnabled
-    implements Kernel, KernelMBean, Composable
+    implements Kernel, KernelMBean, Serviceable
 {
     private static final Resources REZ =
         ResourceManager.getPackageResources( DefaultKernel.class );
@@ -56,11 +56,11 @@ public class DefaultKernel
 
     private HashMap m_entrys = new HashMap();
 
-    public void compose( final ComponentManager componentManager )
-        throws ComponentException
+    public void service( final ServiceManager serviceManager )
+        throws ServiceException
     {
-        m_systemManager = (SystemManager)componentManager.lookup( SystemManager.ROLE );
-        m_repository = (ConfigurationRepository)componentManager.lookup( ConfigurationRepository.ROLE );
+        m_systemManager = (SystemManager)serviceManager.lookup( SystemManager.ROLE );
+        m_repository = (ConfigurationRepository)serviceManager.lookup( ConfigurationRepository.ROLE );
     }
 
     public void initialize()
@@ -206,15 +206,15 @@ public class DefaultKernel
 
         setupLogger( context, entry.getMetaData().getName() + ".frame" );
 
-            final ComponentManager componentManager = createComponentManager();
-            ( (Composable)context ).compose( componentManager );
+        final ServiceManager serviceManager = createServiceManager();
+        ( (Serviceable)context ).service( serviceManager );
         context.configure( entry.getConfiguration() );
         return context;
     }
 
-    private ComponentManager createComponentManager()
+    private ServiceManager createServiceManager()
     {
-        final DefaultComponentManager componentManager = new DefaultComponentManager();
+        final DefaultServiceManager componentManager = new DefaultServiceManager();
         componentManager.put( SystemManager.ROLE, m_systemManager );
         componentManager.put( ConfigurationRepository.ROLE, m_repository );
         componentManager.makeReadOnly();

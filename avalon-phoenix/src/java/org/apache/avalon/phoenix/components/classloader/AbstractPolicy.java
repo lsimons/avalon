@@ -19,7 +19,6 @@ import java.security.cert.Certificate;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import org.apache.avalon.excalibur.io.FileUtil;
-import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.logger.LogEnabled;
 import org.apache.avalon.framework.logger.Logger;
 
@@ -30,7 +29,7 @@ import org.apache.avalon.framework.logger.Logger;
  */
 abstract class AbstractPolicy
     extends Policy
-    implements Component, LogEnabled
+    implements LogEnabled
 {
     private final ArrayList m_entries = new ArrayList();
     private Logger m_logger;
