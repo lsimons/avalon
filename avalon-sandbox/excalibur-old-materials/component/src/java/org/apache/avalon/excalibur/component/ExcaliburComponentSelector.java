@@ -25,7 +25,7 @@ import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.Contextualizable;
-import org.apache.avalon.framework.logger.AbstractLoggable;
+import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.thread.ThreadSafe;
 
 /**
@@ -33,11 +33,11 @@ import org.apache.avalon.framework.thread.ThreadSafe;
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:paul@luminas.co.uk">Paul Russell</a>
- * @version CVS $Revision: 1.4 $ $Date: 2002/05/13 12:17:41 $
+ * @version CVS $Revision: 1.4.2.1 $ $Date: 2002/05/18 05:13:06 $
  * @since 4.0
  */
 public class ExcaliburComponentSelector
-    extends AbstractLoggable
+    extends AbstractLogEnabled
     implements Contextualizable,
     ComponentSelector,
     Composable,
@@ -482,7 +482,7 @@ public class ExcaliburComponentSelector
     /** Add a new component to the manager.
      * @param hint the hint name for the new component.
      * @param component the class of this component.
-     * @param Configuration the configuration for this component.
+     * @param configuration the configuration for this component.
      */
     public void addComponent( final Object hint,
                               final Class component,
@@ -503,7 +503,7 @@ public class ExcaliburComponentSelector
                                                                   m_roles,
                                                                   m_logkit );
 
-            handler.setLogger( getLogger() );
+            handler.enableLogging( getLogger() );
             handler.initialize();
             m_componentHandlers.put( hint, handler );
 
@@ -540,7 +540,7 @@ public class ExcaliburComponentSelector
         {
             final ComponentHandler handler =
                 ComponentHandler.getComponentHandler( instance );
-            handler.setLogger( getLogger() );
+            handler.enableLogging( getLogger() );
             handler.initialize();
             m_componentHandlers.put( hint, handler );
 
