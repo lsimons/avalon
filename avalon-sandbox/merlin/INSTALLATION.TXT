@@ -17,7 +17,7 @@ resources.
     README.TXT
     LICENSE.TXT
   /plugins
-    avalon-plugin-1.0.jar
+    avalon-plugin-1.1.jar
     merlin-plugin-1.0.jar
 
 
@@ -28,7 +28,7 @@ To use Merlin command line support or the Merlin NT Service
 you will need to define the MERLIN_HOME environment
 variable for your system and include MERLIN_HOME/bin in
 your system path.  The MERLIN_HOME environment variable
-should point to the /merlin directory.
+should point to the merlin directory.
 
 Under Lunix you can do this as follows:
 
@@ -60,8 +60,13 @@ provided with the installation supporting merlin development under the
 Maven platform.  These plugins should be placed in the Maven plugin 
 directory (%MAVEN_HOME%\plugins).
 
-  %MAVEN_HOME%\plugins\avalon-plugin-1.0.jar
+  %MAVEN_HOME%\plugins\avalon-plugin-1.1.jar
   %MAVEN_HOME%\plugins\merlin-plugin-1.0.jar
+
+Please note that if you are upgrading an existing installation you must
+delete the %MAVEN_HOME%\plugins\merlin-plugin-1.0 directory, replace the
+existing plugin jar file, and delete all *.cache files in the Maven 
+plugin directory.
 
 You now have everything in place to start using the Merlin Tutorial or 
 building you own components.  If you have any problems, please subscribe
