@@ -10,8 +10,6 @@ package org.apache.avalon.phoenix.components.deployer;
 import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
-import org.apache.avalon.excalibur.container.Container;
-import org.apache.avalon.excalibur.container.ContainerException;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.framework.activity.Initializable;
@@ -26,7 +24,7 @@ import org.apache.avalon.phoenix.components.application.Application;
 import org.apache.avalon.phoenix.components.configuration.ConfigurationRepository;
 import org.apache.avalon.phoenix.components.classloader.ClassLoaderManager;
 import org.apache.avalon.phoenix.components.installer.Installation;
-import org.apache.avalon.phoenix.components.kapi.SarEntry;
+import org.apache.avalon.phoenix.components.kernel.Kernel;
 import org.apache.avalon.phoenix.metadata.BlockListenerMetaData;
 import org.apache.avalon.phoenix.metadata.BlockMetaData;
 import org.apache.avalon.phoenix.metadata.SarMetaData;
@@ -50,7 +48,7 @@ public class DefaultSarDeployer
     private final Assembler        m_assembler = new Assembler();
     private final DefaultVerifier  m_verifier = new DefaultVerifier();
 
-    private Container                m_container;
+    private Kernel                   m_kernel;
     private ConfigurationRepository  m_repository;
     private ClassLoaderManager       m_classLoaderManager;
 
@@ -63,7 +61,7 @@ public class DefaultSarDeployer
     public void compose( final ComponentManager componentManager )
         throws ComponentException
     {
-        m_container = (Container)componentManager.lookup( Container.ROLE );
+        m_kernel = (Kernel)componentManager.lookup( Kernel.ROLE );
         m_repository = (ConfigurationRepository)componentManager.lookup( ConfigurationRepository.ROLE );
         m_classLoaderManager = (ClassLoaderManager)componentManager.lookup( ClassLoaderManager.ROLE );
     }
@@ -119,18 +117,12 @@ public class DefaultSarDeployer
             //Setup configuration for all the applications blocks
             setupConfiguration( name, metaData, config.getChildren() );
             
-            final SarEntry entry = new SarEntry( metaData, classLoader, server );
-
             //Finally add application to kernel
-            m_container.add( name, entry );
+            m_kernel.addApplication( metaData, classLoader, server );
 
             final String message = 
                 REZ.getString( "deploy.notice.sar.add", name, installation.getClassPath() );
             getLogger().debug( message );
-        }
-        catch( final ContainerException ce )
-        {
-            throw new DeploymentException( ce.getMessage(), ce );
         }
         catch( final AssemblyException ae )
         {
@@ -138,7 +130,7 @@ public class DefaultSarDeployer
         }
         catch( final Exception e )
         {
-            //From classloaderManager
+            //From classloaderManager/kernel
             throw new DeploymentException( e.getMessage(), e );
         }
     }

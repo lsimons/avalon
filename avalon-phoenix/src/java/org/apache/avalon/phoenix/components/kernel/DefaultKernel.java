@@ -16,13 +16,14 @@ import org.apache.avalon.framework.component.ComponentManager;
 import org.apache.avalon.framework.component.Composable;
 import org.apache.avalon.framework.component.DefaultComponentManager;
 import org.apache.avalon.framework.configuration.Configurable;
+import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.context.DefaultContext;
 import org.apache.avalon.phoenix.components.application.Application;
 import org.apache.avalon.phoenix.components.application.DefaultServerApplication;
 import org.apache.avalon.phoenix.components.configuration.ConfigurationRepository;
-import org.apache.avalon.phoenix.components.kapi.SarEntry;
 import org.apache.avalon.phoenix.components.manager.SystemManager;
+import org.apache.avalon.phoenix.metadata.SarMetaData;
 import org.apache.avalon.phoenix.metadata.SarMetaData;
 
 /**
@@ -55,6 +56,17 @@ public class DefaultKernel
     {
         m_systemManager = (SystemManager)componentManager.lookup( SystemManager.ROLE );
         m_repository = (ConfigurationRepository)componentManager.lookup( ConfigurationRepository.ROLE );
+    }
+
+    public void addApplication( final SarMetaData metaData,
+                                final ClassLoader classLoader,
+                                final Configuration server )
+        throws Exception
+    {
+        final SarEntry entry = new SarEntry( metaData, classLoader, server );
+
+        //Finally add application to kernel
+        add( metaData.getName(), entry );
     }
 
     /**
