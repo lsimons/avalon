@@ -542,6 +542,7 @@
             <property name="junit.failonerror" value="true"/>
             <property name="do.checkstyle" value="true"/>
             <property name="skip.dependencies" value="true"/>
+            <depend property="excalibur-instrument.jar" project="excalibur-instrument"/>
         </ant>
 
         <depend project="jakarta-ant" inherit="runtime"/>
