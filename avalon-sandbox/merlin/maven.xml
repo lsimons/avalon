@@ -10,23 +10,21 @@
   <ant:property name="maven.checkstyle.format" value="avalon"/>
   <ant:property name="pom.organization.identifier" value="ASF"/>
   <ant:property name="pom.specificationVersion" value="1.0"/>
+  <ant:property environment="env"/>
+  <ant:property name="merlin.home" value="${env.MERLIN_HOME}"/>
 
-  <goal name="package">
-    <attainGoal name="merlin-clean"/>
-    <attainGoal name="merlin-dist"/>
-    <attainGoal name="merlin-site"/>
-    <attainGoal name="merlin-package"/>
+  <goal name="merlin:update">
+    <attainGoal name="merlin:clean"/>
+    <attainGoal name="merlin:dist"/>
+    <attainGoal name="merlin:site"/>
+    <attainGoal name="merlin:package"/>
+    <copy toDir="${merlin.home}">
+      <fileset dir="${merlin.build.inst.dir}"/>
+    </copy>
   </goal>
 
   <goal name="merlin:demo" 
     description="Execute the demo targets." >
-
-    <!--
-    Install the sub-project jars (meta, assembly, merlin, etc.)
-    into the user's local repository and put a copy in the 
-    build target install directory.
-    -->
-
     <maven:reactor
       basedir="${basedir}"
       includes="merlin-platform/tutorials/**/project.xml"
@@ -36,7 +34,7 @@
       ignoreFailures="false" />
   </goal>
 
-  <goal name="merlin-dist" 
+  <goal name="merlin:dist" 
     description="Build the Merlin distribution." >
 
     <ant:mkdir dir="${merlin.build.inst.dir}"/>
@@ -123,7 +121,7 @@
 
   </goal>
 
-  <goal name="merlin-package">
+  <goal name="merlin:package">
     <maven:snapshot project="${pom}"/>    
     <j:set var="timestamp" value="${snapshotSignature.substring(7,15)}"/>
     <j:set var="package.name" value="${maven.final.name}-dist-${timestamp}"/>
@@ -176,7 +174,7 @@
   of the documetation for the entire Merlin project including the related sub-
   projects.
   -->
-  <goal name="merlin-site"
+  <goal name="merlin:site"
     description="Build the Merlin site.">
     <maven:reactor
       basedir="${basedir}"
@@ -207,69 +205,6 @@
       goals="xjavadoc"
       banner="Building site."
       ignoreFailures="false"/>
-  </goal>
-
-
-  <!--
-  The site goal is called by the merlin-install goal and handles the generation
-  of the documetation for the entire Merlin project including the related sub-
-  projects.
-  -->
-  <goal name="merlin-site-deploy"
-    description="Deploy the Merlin site.">
-
-    <maven:reactor
-      basedir="${basedir}"
-      includes="merlin-platform/project.xml"
-      goals="site:fsdeploy"
-      banner="Deploying site."
-      ignoreFailures="false"/>
-
-  </goal>
-
-  <!--
-  The update goal generates the merlin site and deploys it to local site repository.
-  -->
-  <goal name="merlin-update">
-    <attainGoal name="merlin-site"/>
-    <attainGoal name="merlin-site-deploy"/>
-  </goal>
-
-  <!--
-  Copy the distribution into the local merlin installation.  This target
-  is very preliminary and presumes that you have a MERLIN_HOME environment 
-  variable already defined.  No checking or validation is currently in 
-  place.  It is useful if you want to update an existing installation.
-  -->
-  <goal name="merlin-install" prereqs="merlin-install-plugin,merlin-dist">
-    <ant:property environment="env"/>
-    <ant:mkdir dir="${env.MERLIN_HOME}"/>
-    <ant:echo>Installing Merlin into home directory: ${env.MERLIN_HOME}</ant:echo>
-    <ant:copy toDir="${env.MERLIN_HOME}">
-      <fileset dir="${merlin.build.inst.dir}">
-        <include name="**/*"/>
-      </fileset>
-    </ant:copy>
-  </goal>
-
-  <!--
-  Utility goal to update the lib directories in the Merlin installation
-  without disrupting current executing NT services.  I.e. just update
-  the jar files in the lib subdirectories.
-  -->
-  <goal name="merlin-libs" prereqs="merlin-dist">
-    <ant:property environment="env"/>
-    <ant:mkdir dir="${env.MERLIN_HOME}/repository"/>
-    <ant:echo>Updating Merlin libraries: ${env.MERLIN_HOME}</ant:echo>
-    <ant:copy toDir="${env.MERLIN_HOME}/repository">
-      <fileset dir="${merlin.build.inst.dir}/repository">
-        <include name="**/*"/>
-      </fileset>
-    </ant:copy>
-    <ant:copy 
-       file="${basedir}/kernel/bootstrap/target/merlin-bootstrap-1.0.jar" 
-       toDir="${env.MERLIN_HOME}/bin"/>
-
   </goal>
 
   <goal name="xjavadoc">
@@ -314,9 +249,24 @@
   </goal>
 
   <!--
+  The site goal is called by the merlin-install goal and handles the generation
+  of the documetation for the entire Merlin project including the related sub-
+  projects.
+  -->
+  <goal name="merlin-site-deploy"
+    description="Deploy the Merlin site.">
+    <maven:reactor
+      basedir="${basedir}"
+      includes="merlin-platform/project.xml"
+      goals="site:fsdeploy"
+      banner="Deploying site."
+      ignoreFailures="false"/>
+  </goal>
+
+  <!--
   Install the merlin plugin into the Maven plugin suite.
   -->
-  <goal name="merlin-install-plugin" prereqs="merlin-dist" 
+  <goal name="merlin-install-plugin" prereqs="merlin:dist" 
       description="Install Merlin Maven plugin.">
     <attainGoal name="merlinx-install-plugin"/>
   </goal>
@@ -337,7 +287,7 @@
   ==============================================================================
   -->
 
-  <goal name="merlin-clean" prereqs="clean">
+  <goal name="merlin:clean" prereqs="clean">
     <maven:reactor
       basedir="${basedir}"
       includes="**/project.xml"
@@ -346,5 +296,10 @@
       banner="Cleaning subproject:"
       ignoreFailures="false"/>
   </goal>
+
+  <goal name="merlin-clean" prereqs="merlin:clean"/>
+  <goal name="merlin-dist" prereqs="merlin:dist"/>
+  <goal name="merlin-site" prereqs="merlin:site"/>
+  <goal name="merlin-libs" prereqs="merlin:update"/>
 
 </project>
