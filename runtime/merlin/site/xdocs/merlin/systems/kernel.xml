@@ -1,0 +1,71 @@
+<?xml version="1.0"?>
+
+<!-- 
+ Copyright 2004 Apache Software Foundation
+ Licensed  under the  Apache License,  Version 2.0  (the "License");
+ you may not use  this file  except in  compliance with the License.
+ You may obtain a copy of the License at 
+ 
+   http://www.apache.org/licenses/LICENSE-2.0
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed  under the  License is distributed on an "AS IS" BASIS,
+ WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+ implied.
+ 
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+<document>
+
+  <properties>
+    <author email="mcconnell@apache.org">Stephen McConnell</author>
+    <title>Avalon Merlin Kernel Subsystem</title>
+  </properties>
+
+  <body>
+
+    <section name="Avalon Merlin Kernel Subsystem">
+
+      <p>
+      The kernel represents the root object within a merlin system.
+      It provides access to a root container and exposes operations 
+      enabling system startup and shutdown. The kernel is created 
+      using a kernel factory (see <a href="../embedded/index.html">embedding</a>). 
+      </p>
+
+      <subsection name="Aspects">
+
+      <table>
+        <tr>
+          <th>Feature</th><th>Description</th>
+        </tr>
+        <tr>
+          <td>Embeddable</td>
+          <td>
+          The kernel provides support for generic embedding within 
+          diverse application scenarios.  In all cases the the approach 
+          to embedding leverages a kernal factory that can be parameterized
+          to suite the particular embedding scenario.
+          </td>
+        </tr>
+        <tr>
+          <td>Model Access</td>
+          <td>
+          The kernel provides application programmers with access to the 
+          root containment model, enabling dynamic addition and removal 
+          of deployment models. 
+          </td>
+        </tr>
+      </table>
+
+      </subsection>
+
+    </section>
+
+  </body>
+
+</document>
+
+
