@@ -1,5 +1,5 @@
 /* 
- * Copyright 2004 Apache Software Foundation
+ * Copyright 2003-2004 The Apache Software Foundation
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
  * You may obtain a copy of the License at 
@@ -49,92 +49,92 @@ public final class Service
     {
     }
 
-	/**
-	 * Get all the providers for the specified services.
-	 *
-	 * @param klass  the interface <code>Class</code>
-	 * @param loader  the <code>ClassLoader to be used.</code>
-	 *
-	 * @return an <code>Iterator</code> for the providers.
-	 */
-	public static synchronized Iterator providers( final Class klass, ClassLoader loader )
-	{
-		final String serviceFile = SERVICES + klass.getName();
-		
-		if ( null == loader )
-		{
-			loader = klass.getClassLoader();
-		}
+    /**
+     * Get all the providers for the specified services.
+     *
+     * @param klass  the interface <code>Class</code>
+     * @param loader  the <code>ClassLoader to be used.</code>
+     *
+     * @return an <code>Iterator</code> for the providers.
+     */
+    public static synchronized Iterator providers( final Class klass, ClassLoader loader )
+    {
+        final String serviceFile = SERVICES + klass.getName();
+        
+        if ( null == loader )
+        {
+            loader = klass.getClassLoader();
+        }
 
-		Set providerSet = (Set) providers.get( serviceFile );
+        Set providerSet = (Set) providers.get( serviceFile );
 
-		if ( null == providerSet )
-		{
-			providerSet = new HashSet();
-			Enumeration enum = null;
-			boolean errorOccurred = false;
+        if ( null == providerSet )
+        {
+            providerSet = new HashSet();
+            Enumeration enum = null;
+            boolean errorOccurred = false;
 
-			providers.put( serviceFile, providerSet );
+            providers.put( serviceFile, providerSet );
 
-			try
-			{
-				enum = loader.getResources( serviceFile );
-			}
-			catch ( IOException ioe )
-			{
-				errorOccurred = true;
-			}
+            try
+            {
+                enum = loader.getResources( serviceFile );
+            }
+            catch ( IOException ioe )
+            {
+                errorOccurred = true;
+            }
 
-			if ( !errorOccurred )
-			{
-				while ( enum.hasMoreElements() )
-				{
-					try
-					{
-						final URL url = (URL) enum.nextElement();
-						final InputStream is = url.openStream();
-						final BufferedReader reader = new BufferedReader(
-							new InputStreamReader( is,
-								"UTF-8" ) );
+            if ( !errorOccurred )
+            {
+                while ( enum.hasMoreElements() )
+                {
+                    try
+                    {
+                        final URL url = (URL) enum.nextElement();
+                        final InputStream is = url.openStream();
+                        final BufferedReader reader = new BufferedReader(
+                            new InputStreamReader( is,
+                                "UTF-8" ) );
 
-						String line = reader.readLine();
-						while ( null != line )
-						{
-							try
-							{
-								final int comment = line.indexOf( '#' );
+                        String line = reader.readLine();
+                        while ( null != line )
+                        {
+                            try
+                            {
+                                final int comment = line.indexOf( '#' );
 
-								if ( comment > -1 )
-								{
-									line = line.substring( 0, comment );
-								}
+                                if ( comment > -1 )
+                                {
+                                    line = line.substring( 0, comment );
+                                }
 
-								line.trim();
+                                line.trim();
 
-								if ( line.length() > 0 )
-								{
-									// We just want the types, not the instances
-									providerSet.add( loader.loadClass( line ) );
-								}
-							}
-							catch ( Exception e )
-							{
-								// try the next line
-							}
+                                if ( line.length() > 0 )
+                                {
+                                    // We just want the types, not the instances
+                                    providerSet.add( loader.loadClass( line ) );
+                                }
+                            }
+                            catch ( Exception e )
+                            {
+                                // try the next line
+                            }
 
-							line = reader.readLine();
-						}
-					}
-					catch ( Exception e )
-					{
-						// try the next file
-					}
-				}
-			}
-		}
+                            line = reader.readLine();
+                        }
+                    }
+                    catch ( Exception e )
+                    {
+                        // try the next file
+                    }
+                }
+            }
+        }
 
-		return providerSet.iterator();		
-	}
+        return providerSet.iterator();		
+    }
 
     /**
      * Get all the providers for the specified services.

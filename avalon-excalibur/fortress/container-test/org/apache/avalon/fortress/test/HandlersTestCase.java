@@ -1,5 +1,5 @@
 /* 
- * Copyright 2004 Apache Software Foundation
+ * Copyright 2003-2004 The Apache Software Foundation
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
  * You may obtain a copy of the License at 
@@ -30,7 +30,7 @@ import org.apache.avalon.framework.service.ServiceManager;
  * A testcase for the different handlers.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.16 $ $Date: 2004/02/24 22:31:20 $
+ * @version $Revision: 1.17 $ $Date: 2004/02/28 15:16:26 $
  */
 public class HandlersTestCase extends TestCase
 {

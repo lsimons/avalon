@@ -1,5 +1,5 @@
 /* 
- * Copyright 2004 Apache Software Foundation
+ * Copyright 2003-2004 The Apache Software Foundation
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
  * You may obtain a copy of the License at 
@@ -27,7 +27,7 @@ import java.lang.reflect.Proxy;
  * and proxies results of that factory.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $ $Date: 2004/02/21 13:27:00 $
+ * @version $Revision: 1.4 $ $Date: 2004/02/28 15:16:25 $
  */
 public final class ProxyObjectFactory extends AbstractObjectFactory
 {

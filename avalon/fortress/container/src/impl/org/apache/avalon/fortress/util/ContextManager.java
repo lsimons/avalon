@@ -1,5 +1,5 @@
 /* 
- * Copyright 2004 Apache Software Foundation
+ * Copyright 2003-2004 The Apache Software Foundation
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
  * You may obtain a copy of the License at 
@@ -85,7 +85,7 @@ import java.util.Iterator;
  * and dispose of them properly when it itself is disposed .</p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.50 $ $Date: 2004/02/21 13:27:00 $
+ * @version CVS $Revision: 1.51 $ $Date: 2004/02/28 15:16:26 $
  * @since 4.1
  */
 public class ContextManager
