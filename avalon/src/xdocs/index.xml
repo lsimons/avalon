@@ -88,9 +88,7 @@
           <link href="@CORNERSTONE_BASE@/index.html">Cornerstone</link> is a repository.
           for what we call <link href="@PHOENIX_BASE@/what-is-a-block.html">blocks</link>,
           which provide services vital to server applications. The blocks include blocks for
-          services such as scheduling and socket management. It also has some demo applications 
-          that demonstrate the proper use of Phoenix and can be used as a starting point for 
-          your own servers.
+          services such as scheduling and socket management. 
         </p>
       </s2>
 
@@ -108,12 +106,20 @@
         </p>
       </s2>
 
+      <s2 title="Applications">
+        <p>
+          <link href="@APPS_BASE@/index.html">Applications</link> is a repository for some 
+          demo applications that demonstrate the proper use of Phoenix and can be used as 
+          a starting point for your own servers.
+        </p>
+      </s2>
+
     </s1>
   </body>
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.7 $ $Date: 2002/01/31 15:43:46 $
+      $Revision: 1.8 $ $Date: 2002/03/28 06:56:23 $
     </legal>
   </footer>
 </document>
