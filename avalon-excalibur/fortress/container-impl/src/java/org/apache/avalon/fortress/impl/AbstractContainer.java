@@ -61,6 +61,9 @@ import org.apache.avalon.fortress.impl.lookup.FortressServiceSelector;
 import org.apache.avalon.fortress.impl.role.FortressRoleManager;
 import org.apache.avalon.fortress.impl.role.Role2MetaInfoManager;
 import org.apache.avalon.fortress.impl.role.ServiceMetaManager;
+import org.apache.avalon.fortress.impl.factory.ProxyObjectFactory;
+import org.apache.avalon.fortress.impl.factory.ProxyManager;
+import org.apache.avalon.fortress.impl.handler.ComponentFactory;
 import org.apache.avalon.fortress.util.CompositeException;
 import org.apache.avalon.fortress.util.LifecycleExtensionManager;
 import org.apache.avalon.framework.activity.Disposable;
@@ -95,7 +98,7 @@ import java.util.Map;
  * Container's Manager can expose that to the instantiating class.
  *
  * @author <a href="mailto:dev@avalon.apache.org">The Avalon Team</a>
- * @version CVS $Revision: 1.22 $ $Date: 2003/04/18 20:02:29 $
+ * @version CVS $Revision: 1.23 $ $Date: 2003/04/22 16:11:22 $
  */
 public abstract class AbstractContainer
     extends AbstractLogEnabled
@@ -131,6 +134,8 @@ public abstract class AbstractContainer
     protected Map m_mapper = new StaticBucketMap();
     /** Contains an entry for each ComponentHandler */
     protected List m_components = new ArrayList( 10 );
+
+    private ProxyManager m_proxyManager = new ProxyManager(true);
 
     /**
      * Pull the manager items from the context so we can use them to set up
@@ -454,14 +459,14 @@ public abstract class AbstractContainer
      */
     protected ObjectFactory createObjectFactory( final String classname,
                                                  final Configuration configuration )
-        throws ClassNotFoundException
+        throws Exception
     {
         final Class clazz = m_classLoader.loadClass( classname );
         final ComponentFactory componentFactory =
             new ComponentFactory( clazz, configuration,
                 m_serviceManager, m_context,
                 m_loggerManager, m_extManager );
-        return new ProxyObjectFactory( componentFactory );
+        return m_proxyManager.getWrappedObjectFactory( componentFactory );
     }
 
     /**

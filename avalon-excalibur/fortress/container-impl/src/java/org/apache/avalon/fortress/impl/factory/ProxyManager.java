@@ -47,71 +47,72 @@
  Apache Software Foundation, please see <http://www.apache.org/>.
 
 */
-package org.apache.avalon.fortress.impl.handler;
+package org.apache.avalon.fortress.impl.factory;
 
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
+import org.apache.excalibur.mpool.ObjectFactory;
+
+import java.lang.reflect.Constructor;
 
 /**
- * InvocationHandler that just passes on all methods to target object.
+ * ProxyManager is used to abstract away the plumbing for the underlying
+ * proxy generator.  Each proxy solution has to implement the ObjectFactory interface,
+ * that way we can keep a soft dependency on things like BCEL.
  *
- * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @author <a href="bloritsch.at.apache.org">Berin Loritsch</a>
+ * @version CVS $ Revision: 1.1 $
  */
-final class PassThroughInvocationHandler
-    implements InvocationHandler
+public final class ProxyManager
 {
-    /**
-     * The target object delegated to.
-     */
-    private final Object m_object;
+    private static final String BCEL_CLASS = "org.apache.bcel.classfile.JavaClass";
+    private static final String BCEL_WRAPPER = "org.apache.avalon.fortress.impl.factory.WrapperObjectFactory";
+    private static final String PROXY_WRAPPER = "org.apache.avalon.fortress.impl.factory.ProxyObjectFactory";
+    private static final boolean m_isBCELPresent;
+    private final boolean m_useBCELPreference;
+    private Class m_factoryClass;
 
-    /**
-     * Create an Invocation handler for specified object.
-     *
-     * @param object the object to delegate to
-     */
-    public PassThroughInvocationHandler( final Object object )
+    static
     {
-        if ( null == object )
-        {
-            throw new NullPointerException( "object" );
-        }
-
-        m_object = object;
-    }
-
-    /**
-     * Invoke the appropriate method on underlying object.
-     *
-     * @param proxy the proxy object
-     * @param meth the method
-     * @param args the arguments
-     * @return the return value of object
-     * @exception Throwable method throws an exception
-     */
-    public Object invoke( final Object proxy,
-                          final Method meth,
-                          final Object[] args )
-        throws Throwable
-    {
+        boolean bcelPresent = false;
         try
         {
-            return meth.invoke( m_object, args );
+            Thread.currentThread().getContextClassLoader().loadClass( BCEL_CLASS );
+            bcelPresent = true;
         }
-        catch ( final InvocationTargetException ite )
+        catch ( ClassNotFoundException cfne )
         {
-            throw ite.getTargetException();
+            //ignore because we already have the proper value
         }
+
+        m_isBCELPresent = bcelPresent;
     }
 
-    /**
-     * Retrieve the underlying object delegated to.
-     *
-     * @return the object delegated to
-     */
-    Object getObject()
+    public ProxyManager()
     {
-        return m_object;
+        this(false);
+    }
+
+    public ProxyManager(final boolean useBCEL)
+    {
+        m_useBCELPreference = useBCEL;
+    }
+
+    public ObjectFactory getWrappedObjectFactory(final ObjectFactory source) throws Exception
+    {
+        if ( null == m_factoryClass )
+        {
+            final ClassLoader loader = source.getClass().getClassLoader();
+
+            if (m_useBCELPreference && m_isBCELPresent)
+            {
+                m_factoryClass = loader.loadClass(BCEL_WRAPPER);
+            }
+            else
+            {
+                m_factoryClass = loader.loadClass(PROXY_WRAPPER);
+            }
+        }
+
+        final Constructor constr = m_factoryClass.getConstructor(new Class[] {ObjectFactory.class});
+        return (ObjectFactory) constr.newInstance(new Object[] {source});
     }
 }

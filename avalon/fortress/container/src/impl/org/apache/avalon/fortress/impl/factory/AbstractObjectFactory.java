@@ -47,39 +47,38 @@
  Apache Software Foundation, please see <http://www.apache.org/>.
 
 */
-package org.apache.avalon.fortress.impl.handler;
+package org.apache.avalon.fortress.impl.factory;
 
-import org.apache.avalon.framework.activity.Disposable;
+import org.apache.excalibur.mpool.ObjectFactory;
+import org.apache.excalibur.instrument.Instrumentable;
+import org.apache.excalibur.instrument.Instrument;
+import org.apache.avalon.framework.logger.Loggable;
+import org.apache.avalon.framework.logger.LogEnabled;
+import org.apache.avalon.framework.context.Contextualizable;
+import org.apache.avalon.framework.context.Recontextualizable;
+import org.apache.avalon.framework.component.Composable;
+import org.apache.avalon.framework.component.Recomposable;
+import org.apache.avalon.framework.component.Component;
+import org.apache.avalon.framework.service.Serviceable;
+import org.apache.avalon.framework.configuration.Configurable;
+import org.apache.avalon.framework.configuration.Reconfigurable;
+import org.apache.avalon.framework.parameters.Parameterizable;
+import org.apache.avalon.framework.parameters.Reparameterizable;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.activity.Startable;
 import org.apache.avalon.framework.activity.Suspendable;
-import org.apache.avalon.framework.component.Component;
-import org.apache.avalon.framework.component.Composable;
-import org.apache.avalon.framework.component.Recomposable;
-import org.apache.avalon.framework.configuration.Configurable;
-import org.apache.avalon.framework.configuration.Reconfigurable;
-import org.apache.avalon.framework.context.Contextualizable;
-import org.apache.avalon.framework.context.Recontextualizable;
-import org.apache.avalon.framework.logger.LogEnabled;
-import org.apache.avalon.framework.logger.Loggable;
-import org.apache.avalon.framework.parameters.Parameterizable;
-import org.apache.avalon.framework.parameters.Reparameterizable;
-import org.apache.avalon.framework.service.Serviceable;
+import org.apache.avalon.framework.activity.Disposable;
 
 import java.io.Serializable;
-import java.lang.reflect.Proxy;
 import java.util.ArrayList;
 
 /**
- * Create a Component proxy.  Requires JDK 1.3+
+ * AbstractObjectFactory does XYZ
  *
- * This class is package-access on purpose so clients will not be able to get at the object
- * that is behind the proxy
- *
- * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @author <a href="bloritsch.at.apache.org">Berin Loritsch</a>
+ * @version CVS $ Revision: 1.1 $
  */
-final class ProxyHelper
+public abstract class AbstractObjectFactory implements ObjectFactory, Instrumentable
 {
     /**
      * The list interfaces that will not be proxied.
@@ -105,46 +104,87 @@ final class ProxyHelper
     };
 
     /**
-     * Get the Component wrapped in the proxy.
-     *
-     * @param service the service object to proxy
-     * @throws Exception if a proxy establishment error occurs
+     * The {@link ObjectFactory ObjectFactory} proper
+     * we delegate all calls to.
      */
-    public static Component createProxy( final Object service )
-    {
-        final Class clazz = service.getClass();
-        final Class[] workInterfaces = guessWorkInterfaces( clazz );
+    protected final ObjectFactory m_delegateFactory;
 
-        return (Component) Proxy.newProxyInstance( clazz.getClassLoader(),
-            workInterfaces,
-            new PassThroughInvocationHandler( service ) );
+    public AbstractObjectFactory(final ObjectFactory objectFactory )
+    {
+        if ( null == objectFactory )
+        {
+            throw new NullPointerException( "objectFactory" );
+        }
+
+        m_delegateFactory = objectFactory;
     }
 
     /**
-     * Get the target object from specified proxy.
-     *
-     * @param proxy the proxy object
-     * @return the target object
-     * @throws Exception if unable to aquire target object,
-     *                   or specified object is not a proxy
+     * @see ObjectFactory#newInstance()
      */
-    public static Object getObject( final Object proxy )
+    public abstract Object newInstance() throws Exception;
 
+    /**
+     * @see ObjectFactory#getCreatedClass()
+     */
+    public final Class getCreatedClass()
     {
-        if ( null == proxy )
+        return m_delegateFactory.getCreatedClass();
+    }
+
+    /**
+     * @see ObjectFactory#dispose(Object)
+     */
+    public abstract void dispose( Object object ) throws Exception;
+
+    /* (non-Javadoc)
+    * @see org.apache.excalibur.instrument.Instrumentable#setInstrumentableName(java.lang.String)
+    */
+    public final void setInstrumentableName( final String name )
+    {
+        if ( m_delegateFactory instanceof Instrumentable )
         {
-            throw new NullPointerException( "proxy" );
+            ( (Instrumentable) m_delegateFactory ).setInstrumentableName( name );
+        }
+    }
+
+    /* (non-Javadoc)
+    * @see org.apache.excalibur.instrument.Instrumentable#getInstrumentableName()
+    */
+    public final String getInstrumentableName()
+    {
+        if ( m_delegateFactory instanceof Instrumentable )
+        {
+            return ( (Instrumentable) m_delegateFactory ).getInstrumentableName();
         }
 
-        if ( !Proxy.isProxyClass( proxy.getClass() ) )
+        return "";
+    }
+
+    /* (non-Javadoc)
+    * @see org.apache.excalibur.instrument.Instrumentable#getInstruments()
+    */
+    public final Instrument[] getInstruments()
+    {
+        if ( m_delegateFactory instanceof Instrumentable )
         {
-            final String message = "object is not a proxy";
-            throw new IllegalArgumentException( message );
+            return ( (Instrumentable) m_delegateFactory ).getInstruments();
         }
 
-        final PassThroughInvocationHandler handler =
-            (PassThroughInvocationHandler) Proxy.getInvocationHandler( proxy );
-        return handler.getObject();
+        return new Instrument[]{};
+    }
+
+    /* (non-Javadoc)
+    * @see org.apache.excalibur.instrument.Instrumentable#getChildInstrumentables()
+    */
+    public final Instrumentable[] getChildInstrumentables()
+    {
+        if ( m_delegateFactory instanceof Instrumentable )
+        {
+            return ( (Instrumentable) m_delegateFactory ).getChildInstrumentables();
+        }
+
+        return new Instrumentable[]{};
     }
 
     /**
@@ -155,7 +195,7 @@ final class ProxyHelper
      * @param clazz the class
      * @return the list of interfaces to proxy
      */
-    private static Class[] guessWorkInterfaces( final Class clazz )
+    protected static Class[] guessWorkInterfaces( final Class clazz )
     {
         final ArrayList list = new ArrayList();
         guessWorkInterfaces( clazz, list );
