@@ -8,10 +8,6 @@
             class="org.apache.avalon.phoenix.components.deployer.DefaultDeployer"
             logger="deployer"/>
 
-        <component role="org.apache.avalon.phoenix.interfaces.DeploymentRecorder"
-            class="org.apache.avalon.phoenix.components.deployer.DefaultDeploymentRecorder"
-            logger="recorder"/>
-
         <component role="org.apache.avalon.phoenix.interfaces.LogManager"
             class="org.apache.avalon.phoenix.components.logger.DefaultLogManager"
             logger="logs"/>
