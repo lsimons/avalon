@@ -57,7 +57,6 @@ import org.apache.avalon.framework.activity.Initializable;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.InputStream;
 import java.net.URL;
 import java.util.*;
 
@@ -109,7 +108,7 @@ import java.util.*;
  * </pre>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.4 $
+ * @version CVS $Revision: 1.5 $
  */
 public final class ServiceMetaManager extends AbstractMetaInfoManager implements Initializable
 {
@@ -216,7 +215,6 @@ public final class ServiceMetaManager extends AbstractMetaInfoManager implements
     {
         final Properties meta = new Properties();
         final List deps = new ArrayList();
-        BufferedReader reader = null;
 
         try
         {
