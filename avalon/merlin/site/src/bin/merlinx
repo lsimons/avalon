@@ -1,10 +1,22 @@
 #!/bin/sh
 #
+# This extended Merlin command-line launch script is intended to be
+# used during development, when Maven repository are used exclusively.
 #
+# For other deployments, please use "merlin" and specify the system
+# and repository locations with the -system and -repository switch
+# respectively.
 
-if [ -z $MERLIN_HOME ] ; then
+#
+# Compute the MERLIN_HOME if not already set.
+#
+if [ -z "$MERLIN_HOME" ] ; then
+    CWD=`pwd`
     BIN_DIR=`dirname "$0"`
-    export MERLIN_HOME=`dirname "$BIN_DIR"`
+    cd "$BIN_DIR"
+    ABSOLUTE_PATH=`pwd`
+    cd "$CWD"
+    export MERLIN_HOME=`dirname "$ABSOLUTE_PATH"`
 fi
 
 # Checking for REPOSITORY
@@ -14,6 +26,6 @@ else
     REPOSITORY="$MAVEN_HOME_LOCAL/repository"
 fi
 
-export MERLIN_ARGS="$MERLIN_ARGS -system $REPOSITORY -repository $REPOSITORY"
+export MERLIN_ARGS="$MERLIN_ARGS -system \"$REPOSITORY\" -repository \"$REPOSITORY\""
 
-exec "$MERLIN_HOME/bin/merlin" "$@"
+"$MERLIN_HOME/bin/merlin"  "$@"
