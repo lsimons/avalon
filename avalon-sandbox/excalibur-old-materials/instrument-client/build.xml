@@ -61,11 +61,6 @@
         <pathelement location="${junit.jar}"/>
         <pathelement location="${checkstyle.jar}"/>
     </path>
-
-    <taskdef name="altrmiproxies"
-        classname="org.apache.commons.altrmi.generator.ant.AltrmiProxyTask">
-        <classpath refid="project.class.path" />
-    </taskdef>
         
     <target name="main" depends="jar" description="Build the project"/>
     <target name="rebuild" depends="clean,main" description="Rebuild the project"/>
@@ -118,22 +113,7 @@
     
     <!-- Generates the altrmi proxies used by the client. -->
     <target name="altrmiproxies" depends="compile">
-        <mkdir dir="${build.genjava}"/>
-        
-        <delete>
-            <fileset dir="${build.genjava}" includes="AltrmiGenerated*.java"/>
-        </delete>
-        <delete>
-            <fileset dir="${build.classes}" includes="AltrmiGenerated*.class"/>
-        </delete>
-        
-        <altrmiproxies genname="InstrumentManagerClient"
-            srcgendir="${build.genjava}" 
-            classgendir="${build.classes}" 
-            interfaces="org.apache.avalon.excalibur.instrument.manager.interfaces.InstrumentManagerClient"
-            additionalfacades="org.apache.avalon.excalibur.instrument.manager.interfaces.InstrumentableDescriptor,org.apache.avalon.excalibur.instrument.manager.interfaces.InstrumentDescriptor,org.apache.avalon.excalibur.instrument.manager.interfaces.InstrumentSampleDescriptor">
-            <classpath refid="project.class.path" />
-        </altrmiproxies>        
+        <ant antfile="altrmiproxies.xml" target="altrmiproxies"/> 
     </target>
 
     <!-- Creates all the .jar file -->
