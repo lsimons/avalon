@@ -7,6 +7,14 @@
     <person name="Peter Donald" email="donaldp@apache.org" id="PD"/>
     <person name="Berin Loritsch" email="bloritsch@apache.org" id="BL"/>
   </devs>
+<release version="1.0-dev" date="Unreleased">
+  <action dev="PD" type="update">
+    Deprecated Logger.getCategory as it violate the Inversion Of Control principle.
+  </action>
+  <action dev="PD" type="update">
+    Enhanced FileOutputLogTarget to enable it to be used to append to a file, rather than overwrite.
+  </action>
+</release>
 <release version="1.0b2" date="June 4, 2001">
   <action dev="BL" type="add">
     Beta 2 release.
