@@ -36,7 +36,10 @@ public final class LogEvent
     ///The priority of LogEvent. (Must not be null)
     private Priority      m_priority;
 
-    ///The context stack associated with LogEvent. (May be null)
+    /**
+     * The context stack associated with LogEvent. (May be null)
+     * @deprecated ContextStack has been deprecated and thus so has this field.
+     */
     private ContextStack  m_contextStack;
 
     ///The context map associated with LogEvent. (May be null).
@@ -86,6 +89,7 @@ public final class LogEvent
      * Get ContextStack associated with LogEvent
      *
      * @return the ContextStack
+     * @deprecated ContextStack has been deprecated and thus so has this method
      */
     public final ContextStack getContextStack()
     {
@@ -98,6 +102,7 @@ public final class LogEvent
      * ContextStack must be cloned.
      *
      * @param contextStack the context stack
+     * @deprecated ContextStack has been deprecated and thus so has this method
      */
     public final void setContextStack( final ContextStack contextStack )
     {
