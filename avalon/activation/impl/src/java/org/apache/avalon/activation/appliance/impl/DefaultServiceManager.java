@@ -163,7 +163,7 @@ class DefaultServiceManager extends AbstractLogEnabled implements ServiceManager
 
             final String error = 
               "Unexpected runtime error while attempting to resolve service for key: " + key;
-            throw new ServiceException( error, e );
+            throw new ServiceException( key, error, e );
         }
     }
 
