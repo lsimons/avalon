@@ -7,14 +7,19 @@
  */
 package org.apache.avalon.excalibur.instrument;
 
+import org.apache.avalon.framework.logger.AbstractLogEnabled;
+
 /**
- * Utility class to ease the construction of components that can be instrumented.
+ * Utility class to ease the construction of components that can be instrumented
+ *  but must also implement LogEnabled.
  * Subclasses must override either <code>getChildInstrumentables</code> or
  * <code>getInstruments</code>, or both, to be of any use.
  *
  * @author <a href="mailto:ryan.shaw@stanfordalumni.org">Ryan Shaw</a>
+ * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
  */
-public abstract class AbstractInstrumentable
+public abstract class AbstractLogEnabledInstrumentable
+    extends AbstractLogEnabled
     implements Instrumentable
 {
     /** Name of the instrumentable. */
