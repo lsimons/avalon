@@ -13,19 +13,20 @@
     <property name="copyright"
       value="Copyright &amp;copy; ${year} ${pom.organization.name}. All Rights Reserved." />
     <property name="title" value="${pom.name} ${pom.currentVersion} API"/>
-    <javadoc destdir="${basedir}/target/docs/api" 
-	doctitle="&lt;h1&gt;Avalon Framework&lt;/h1&gt;" 
-      noindex="false" author="true" use="true"
-	windowtitle="${title}" 
-      bottom="${copyright}"
-      additionalparam="-breakiterator -J-Xmx128m "
-      packagenames="*,org.*">
-        <sourcepath path="${basedir}/../api/src/java"/>
-        <sourcepath path="${basedir}/../impl/src/java"/>
-        <classpath>
-          <path refid="maven.dependency.classpath"/>
-	  </classpath>
-	  <link href="${sun.j2se.link}" />
+    <javadoc 
+        destdir="${basedir}/target/docs/api" 
+        doctitle="&lt;h1&gt;Avalon Framework&lt;/h1&gt;" 
+        noindex="false" author="true" use="true"
+        windowtitle="${title}" 
+        bottom="${copyright}"
+        additionalparam="-breakiterator -J-Xmx128m "
+        packagenames="*,org.*">
+      <sourcepath path="${basedir}/../api/src/java"/>
+      <sourcepath path="${basedir}/../impl/src/java"/>
+      <classpath>
+        <path refid="maven.dependency.classpath"/>
+      </classpath>
+      <link href="${sun.j2se.link}" />
     </javadoc>
   </goal>
 
