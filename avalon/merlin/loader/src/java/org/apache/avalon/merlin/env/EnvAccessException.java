@@ -48,6 +48,8 @@
 
 */
 
+package org.apache.avalon.merlin.env;
+
 /**
  * A simple wrapper exception around exceptions that could occur while accessing
  * environment parameters.
