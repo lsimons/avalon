@@ -80,7 +80,7 @@ public interface Contextualizable
 package tutorial;
 
 import java.util.Map;
-import org.apache.avalon.assembly.lifecycle.Contextualization;
+import org.apache.avalon.composition.model.Contextualization;
 import org.apache.avalon.framework.context.ContextException;
 import org.apache.avalon.meta.model.ContextDirective;
 
@@ -270,23 +270,22 @@ public class StandardComponent
           Execute the following commands to build and run the tutorial.
         </p>
 <source><![CDATA[
-$ ant jar
-$ merlin tutorial.jar
+$ maven
+$ merlin -execute target\classes
 ]]></source>
         <p>
           Logging output from the tutorial execution is shown below:
         </p>
 <source><![CDATA[
-[INFO   ] (sys): initialization: localhost
-[INFO   ] (sys): commencing block assembly phase
-[INFO   ] (standard): context
-  contextualization using a custom hander
-  home: F:\dev\tutorial\contextualization\working\home\standard
-  work: F:\dev\tutorial\contextualization\working\temp\standard
-  name: standard
-  partition: /standard
-
-[INFO   ] (sys): Block hierarchy established.
+[INFO   ] (kernel): building application model
+[INFO   ] (kernel): install phase
+[INFO   ] (kernel): installing: file:/${user.dir}/target/classes/
+[INFO   ] (tutorial.hello): listing values resolved from domain specific context
+[INFO   ] (tutorial.hello): supplied context class: tutorial.DemoContextProvider
+[INFO   ] (tutorial.hello): name: hello
+[INFO   ] (tutorial.hello): partition: /tutorial/
+[INFO   ] (tutorial.hello): home: D:\dev\avalon\merlin\platform\tutorials\context\casting\home\tutorial\hello
+[INFO   ] (tutorial.hello): temp: C:\TEMP\tutorial\hello
 ]]></source>
       </subsection>
     </section>
