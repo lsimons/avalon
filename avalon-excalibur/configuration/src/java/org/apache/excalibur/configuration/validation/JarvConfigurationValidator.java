@@ -54,20 +54,18 @@
  */
 package org.apache.excalibur.configuration.validation;
 
-import org.apache.avalon.framework.logger.AbstractLogEnabled;
-import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
+import org.apache.avalon.framework.configuration.DefaultConfiguration;
 import org.apache.avalon.framework.configuration.DefaultConfigurationSerializer;
-import org.apache.excalibur.configuration.ConfigurationUtil;
-
+import org.apache.avalon.framework.logger.Logger;
 import org.iso_relax.verifier.Schema;
 import org.iso_relax.verifier.Verifier;
-import org.iso_relax.verifier.VerifierHandler;
 import org.iso_relax.verifier.VerifierConfigurationException;
+import org.iso_relax.verifier.VerifierHandler;
 import org.xml.sax.ErrorHandler;
-import org.xml.sax.SAXParseException;
 import org.xml.sax.SAXException;
+import org.xml.sax.SAXParseException;
 
 /**
  *
@@ -101,7 +99,10 @@ public class JarvConfigurationValidator implements ConfigurationValidator
         throws ConfigurationException
     {
         final ValidationResult result = new ValidationResult();
-        final Configuration branched = ConfigurationUtil.branch( configuration, "root" );
+        final DefaultConfiguration branched =
+            new DefaultConfiguration( "root", configuration.getLocation() );
+        branched.addAll( configuration );
+        branched.makeReadOnly();
 
         try
         {
