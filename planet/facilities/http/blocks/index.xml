@@ -112,5 +112,31 @@
     </dependencies>
   </project>
 
+  <project basedir="servlet">
+    <info>
+      <group>avalon/http</group>
+      <name>avalon-http-servlet</name>
+      <type>block</type>
+      <version>1.0.0</version>
+      <status>SNAPSHOT</status> 
+    </info>
+    <dependencies>
+      <include key="avalon-http-impl" />
+      <include key="servletapi" />
+    </dependencies>
+  </project>
+
+  <project basedir="examples">
+    <info>
+      <group>avalon/http</group>
+      <name>avalon-http-examples</name>
+      <version>1.0.0</version>
+      <status>SNAPSHOT</status> 
+    </info>
+    <dependencies>
+      <include key="servletapi" />
+      <include key="avalon-http-servlet" />
+    </dependencies>
+  </project>
 </index>
  
