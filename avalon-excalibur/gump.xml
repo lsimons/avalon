@@ -6,6 +6,35 @@
   </description>
 
   <cvs repository="jakarta"/>
+
+  <project name="jakarta-avalon-excalibur">
+    <package>org.apache.avalon.excalibur</package>
+
+    <ant target="dist">
+      <depend property="xerces.jar"    project="xml-xerces" id="parser"/>
+      <depend property="framework.jar" project="jakarta-avalon"/>
+      <depend property="logkit.jar"    project="jakarta-avalon-logkit"/>
+    </ant>
+
+    <depend project="jakarta-ant"/>
+    <depend project="xml-xalan2"/>
+    <option project="jdbc"/>
+    <depend project="jdom"/>
+    <depend project="junit"/>
+    <depend project="jakarta-servletapi-4"/>
+    <depend project="dist-bsf"/>
+    <depend project="rhino"/>
+    <option project="jaxen"/>
+    <option project="saxpath"/>
+    <depend project="junitperf"/>
+    <work nested="build/classes"/>
+    <work nested="build/scratchpad"/>
+
+    <home nested="build/lib"/>
+    <jar name="avalon-excalibur.jar" id="avalon-excalibur"/>
+    <jar name="avalon-scratchpad.jar" id="avalon-scratchpad"/>
+    <javadoc nested="build/javadocs" module="jakarta-avalon"/>
+  </project>
   
   <project name="excalibur-cli">
     <package>org.apache.avalon.excalibur.cli</package>
@@ -17,6 +46,7 @@
 
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
+    <work nested="build/classes"/>
 
     <home nested="cli"/>
     <jar name="build/lib/excalibur-cli-@@DATE@@.sar"/>
@@ -32,6 +62,7 @@
 
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
+    <work nested="build/classes"/>
 
     <home nested="io"/>
     <jar name="build/lib/excalibur-io-@@DATE@@.sar"/>
@@ -47,6 +78,7 @@
 
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
+    <work nested="build/classes"/>
 
     <home nested="io"/>
     <jar name="build/lib/excalibur-i18n-@@DATE@@.sar"/>
@@ -62,6 +94,7 @@
 
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
+    <work nested="build/classes"/>
 
     <home nested="io"/>
     <jar name="build/lib/excalibur-naming-@@DATE@@.sar"/>
