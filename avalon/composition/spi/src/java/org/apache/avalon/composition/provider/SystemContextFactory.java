@@ -20,7 +20,6 @@ package org.apache.avalon.composition.provider;
 import java.io.File;
 import java.util.Map;
 
-import org.apache.avalon.composition.data.TargetDirective;
 import org.apache.avalon.composition.data.SecurityProfile;
 
 import org.apache.avalon.logging.provider.LoggingManager;
@@ -35,7 +34,7 @@ import org.apache.avalon.framework.context.Context;
  * Defintion of a system context that exposes a system wide set of parameters.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.5 $ $Date: 2004/03/07 00:00:59 $
+ * @version $Revision: 1.6 $ $Date: 2004/03/17 10:39:11 $
  */
 public interface SystemContextFactory 
 {

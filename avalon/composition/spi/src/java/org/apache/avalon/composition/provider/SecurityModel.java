@@ -17,17 +17,14 @@
 
 package org.apache.avalon.composition.provider;
 
-import java.security.Permission;
 import java.security.Permissions;
-
-import org.apache.avalon.composition.data.GrantDirective;
 
 
 /**
  * <p>Specification of a security model.</p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2004/02/29 22:25:26 $
+ * @version $Revision: 1.3 $ $Date: 2004/03/17 10:39:11 $
  */
 public interface SecurityModel
 {

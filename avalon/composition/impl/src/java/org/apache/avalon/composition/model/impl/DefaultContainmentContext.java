@@ -24,17 +24,10 @@ import org.apache.avalon.composition.model.DependencyGraph;
 import org.apache.avalon.composition.model.ContainmentModel;
 import org.apache.avalon.composition.model.ClassLoaderModel;
 import org.apache.avalon.composition.model.ModelRepository;
-import org.apache.avalon.composition.model.ModelRuntimeException;
-import org.apache.avalon.composition.model.DeploymentModel;
 import org.apache.avalon.composition.provider.SystemContext;
 import org.apache.avalon.composition.provider.ContainmentContext;
-import org.apache.avalon.composition.provider.SecurityModel;
 
-import org.apache.avalon.framework.context.DefaultContext;
 import org.apache.avalon.framework.logger.Logger;
-
-import org.apache.avalon.meta.info.DependencyDescriptor;
-import org.apache.avalon.meta.info.StageDescriptor;
 
 import org.apache.avalon.util.i18n.ResourceManager;
 import org.apache.avalon.util.i18n.Resources;
@@ -44,7 +37,7 @@ import org.apache.avalon.util.i18n.Resources;
  * Implementation of a containment supplied to a containment model.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.8 $ $Date: 2004/03/11 01:30:38 $
+ * @version $Revision: 1.9 $ $Date: 2004/03/17 10:39:10 $
  */
 public class DefaultContainmentContext extends DefaultDeploymentContext 
   implements ContainmentContext

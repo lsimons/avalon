@@ -18,43 +18,26 @@
 package org.apache.avalon.composition.model.impl;
 
 import java.io.File;
-import java.net.URL;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException ;
-import java.lang.reflect.Method ;
 import java.util.Hashtable;
 import java.util.Map;
 
-import org.apache.avalon.logging.provider.LoggingException;
 import org.apache.avalon.logging.provider.LoggingFactory;
 import org.apache.avalon.logging.provider.LoggingCriteria;
 import org.apache.avalon.logging.provider.LoggingManager;
-import org.apache.avalon.logging.data.CategoryDirective;
 
 import org.apache.avalon.composition.data.SecurityProfile;
-import org.apache.avalon.composition.data.TargetDirective;
-import org.apache.avalon.composition.model.DeploymentModel;
-import org.apache.avalon.composition.model.ContainmentModel;
 import org.apache.avalon.composition.model.ModelRuntimeException;
-import org.apache.avalon.composition.model.impl.DefaultModelFactory;
-import org.apache.avalon.composition.provider.ModelFactory;
 import org.apache.avalon.composition.provider.SystemContext;
 import org.apache.avalon.composition.provider.SystemContextFactory;
 import org.apache.avalon.composition.provider.SystemException;
 import org.apache.avalon.composition.provider.SecurityModel;
-import org.apache.avalon.composition.provider.Runtime;
 
 import org.apache.avalon.repository.Artifact;
 import org.apache.avalon.repository.Repository;
 import org.apache.avalon.repository.provider.InitialContext;
 import org.apache.avalon.repository.provider.Builder;
-import org.apache.avalon.repository.provider.Factory;
 
-import org.apache.avalon.framework.logger.Logger;
-import org.apache.avalon.framework.logger.ConsoleLogger;
 import org.apache.avalon.framework.context.Context;
-import org.apache.avalon.framework.context.DefaultContext;
-import org.apache.avalon.framework.parameters.Parameters;
 
 import org.apache.avalon.util.i18n.ResourceManager;
 import org.apache.avalon.util.i18n.Resources;
@@ -63,7 +46,7 @@ import org.apache.avalon.util.i18n.Resources;
  * Implementation of a system context that exposes a system wide set of parameters.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.7 $ $Date: 2004/03/08 11:28:36 $
+ * @version $Revision: 1.8 $ $Date: 2004/03/17 10:39:10 $
  */
 public class DefaultSystemContextFactory implements SystemContextFactory
 {

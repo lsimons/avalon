@@ -25,10 +25,8 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.LinkedList;
 import java.util.Iterator;
-import java.util.Hashtable;
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Map;
 
 import org.apache.avalon.logging.data.CategoriesDirective;
 
@@ -39,7 +37,6 @@ import org.apache.avalon.composition.data.ComponentProfile;
 import org.apache.avalon.composition.data.NamedComponentProfile;
 import org.apache.avalon.composition.data.DeploymentProfile;
 import org.apache.avalon.composition.data.ResourceDirective;
-import org.apache.avalon.composition.data.ServiceDirective;
 import org.apache.avalon.composition.data.TargetDirective;
 import org.apache.avalon.composition.data.builder.XMLTargetsCreator;
 import org.apache.avalon.composition.data.builder.ContainmentProfileBuilder;
@@ -49,24 +46,16 @@ import org.apache.avalon.composition.event.CompositionListener;
 import org.apache.avalon.composition.model.AssemblyException;
 import org.apache.avalon.composition.model.ClassLoaderModel;
 import org.apache.avalon.composition.model.ContainmentModel;
-import org.apache.avalon.composition.model.DependencyModel;
 import org.apache.avalon.composition.model.DependencyGraph;
 import org.apache.avalon.composition.model.ComponentModel;
 import org.apache.avalon.composition.model.DeploymentModel;
 import org.apache.avalon.composition.model.ModelException;
-import org.apache.avalon.composition.model.ModelRuntimeException;
 import org.apache.avalon.composition.model.ModelRepository;
-import org.apache.avalon.composition.model.ModelSelector;
-import org.apache.avalon.composition.model.ProfileSelector;
 import org.apache.avalon.composition.model.ServiceModel;
-import org.apache.avalon.composition.model.StageModel;
 import org.apache.avalon.composition.model.TypeRepository;
-import org.apache.avalon.composition.model.TypeUnknownException;
 import org.apache.avalon.composition.provider.ModelFactory;
 import org.apache.avalon.composition.provider.SecurityModel;
-import org.apache.avalon.composition.provider.SystemContext;
 import org.apache.avalon.composition.provider.ComponentContext;
-import org.apache.avalon.composition.provider.ClassLoaderContext;
 import org.apache.avalon.composition.provider.ContainmentContext;
 import org.apache.avalon.composition.util.StringHelper;
 import org.apache.avalon.composition.util.DefaultState;
@@ -80,7 +69,6 @@ import org.apache.avalon.repository.RepositoryException;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
-import org.apache.avalon.framework.parameters.Parameters;
 
 import org.apache.avalon.meta.info.DependencyDescriptor;
 import org.apache.avalon.meta.info.ServiceDescriptor;
@@ -88,7 +76,6 @@ import org.apache.avalon.meta.info.ReferenceDescriptor;
 import org.apache.avalon.meta.info.StageDescriptor;
 import org.apache.avalon.meta.info.Type;
 
-import org.apache.avalon.util.exception.ExceptionHelper;
 import org.apache.avalon.util.i18n.ResourceManager;
 import org.apache.avalon.util.i18n.Resources;
 
@@ -98,7 +85,7 @@ import org.apache.avalon.util.i18n.Resources;
  * as a part of a containment deployment model.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.42 $ $Date: 2004/03/13 23:26:57 $
+ * @version $Revision: 1.43 $ $Date: 2004/03/17 10:39:10 $
  */
 public class DefaultContainmentModel extends DefaultDeploymentModel 
   implements ContainmentModel

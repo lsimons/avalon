@@ -21,7 +21,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.ByteArrayInputStream;
 import java.net.URL;
-import java.security.Permission;
 import java.security.cert.Certificate;
 import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
@@ -39,7 +38,7 @@ import org.apache.avalon.meta.info.PermissionDescriptor;
  * <p>Implementation of the default security builder.</p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2004/03/01 17:06:16 $
+ * @version $Revision: 1.3 $ $Date: 2004/03/17 10:39:11 $
  */
 public final class XMLSecurityProfileBuilder
 {
