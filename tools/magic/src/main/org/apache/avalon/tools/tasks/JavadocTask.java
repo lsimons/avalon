@@ -47,34 +47,104 @@ public class JavadocTask extends SystemTask
     private static final Link J2SE = 
       new Link( "http://java.sun.com/j2se/1.4/docs/api/" );
 
-    private static class Link
+    public static class Link
     {
-        final String m_href;
+        private String m_href;
+        private File m_dir;
+        private int m_tag = ResourceRef.ANY;
+        private String m_key;
+
+        public Link()
+        {
+            m_href = null;
+        }
 
         public Link( String href )
         {
+            this( href, null );
+        }
+
+        public Link( String href, File dir )
+        {
             m_href = href;
+            m_dir = dir;
+        }
+
+        public void setHref( String href )
+        {
+            m_href = href;
+        }
+
+        public void setTag( String tag )
+        {
+            m_tag = ResourceRef.getCategory( tag );
         }
 
         public String getHref()
         {
             return m_href;
         }
-    }
 
-    private static class LocalLink extends Link
-    {
-        final File m_dir;
-
-        public LocalLink( String href, File dir )
+        public void setKey( String key )
         {
-            super( href );
+            m_key = key;
+        }
+
+        public void setDir( File dir )
+        {
             m_dir = dir;
         }
 
-        public File getDir()
+        public File getDir( Home home )
         {
-            return m_dir;
+            if( null == m_key )
+            {
+                return m_dir;
+            }
+            else
+            {
+                Resource resource = home.getResource( m_key );
+                File cache = home.getDocsRepository().getCacheDirectory();
+                File group = new File( cache, resource.getInfo().getGroup() );
+                File docs = new File( group, resource.getInfo().getName() );
+                String category = ResourceRef.getCategoryName( m_tag );
+                String version = resource.getInfo().getVersion();
+                if(( null == version ) || "".equals( version ))
+                {
+                    return new File( docs, category );
+                }
+                else
+                {
+                    File vDir = new File( docs, version );
+                    return new File( vDir, category );
+                }
+            }
+        }
+
+        public boolean matches( int category )
+        {
+            if( ResourceRef.ANY == category ) return true;
+            if( ResourceRef.ANY == m_tag ) return true;
+            return ( m_tag == category );
+        }
+
+        public String toString()
+        {
+            if( null == m_dir )
+            {
+                if( null == m_key )
+                {
+                    return "link: " + m_href;
+                }
+                else
+                {
+                    return "link: " + m_href + " from [" + m_key + "]";
+                }
+            }
+            else
+            {
+                return "link: " + m_href + " at " + m_dir;
+            }
         }
     }
 
@@ -86,6 +156,7 @@ public class JavadocTask extends SystemTask
     private String m_root;
     private String m_id;
     private String m_title;
+    private List m_links = new ArrayList();
 
     public void setRoot( String root )
     {
@@ -102,38 +173,44 @@ public class JavadocTask extends SystemTask
         m_title = title;
     }
 
+    public Link createLink()
+    {
+        Link link = new Link();
+        m_links.add( link );
+        return link;
+    }
+
     public void execute() throws BuildException
     {
         Definition def = getReferenceDefinition();
         File root = getJavadocRootDirectory( def );
         Path classpath = def.getPath( getProject(), Policy.RUNTIME );
-        Link[] links = new Link[]{ J2SE };
 
         File api = new File( root, "api" );
         File spi = new File( root, "spi" );
         File imp = new File( root, "impl" );
 
-        setup( def, classpath, ResourceRef.API, api, links, "API", false );
-        setup( def, classpath, ResourceRef.SPI, spi, links, "SPI", false );
-        setup( def, classpath, ResourceRef.IMPL, imp, links, "IMPL", true );
+        setup( def, classpath, ResourceRef.API, api, false );
+        setup( def, classpath, ResourceRef.SPI, spi, false );
+        setup( def, classpath, ResourceRef.IMPL, imp,  true );
     }
 
     private void setup( 
-      Definition def, Path classpath, int category, File root, 
-      Link[] links, String message, boolean flag )
+      Definition def, Path classpath, int category, File root, boolean flag )
     {
         ResourceRef[] refs = 
           def.getResourceRefs( Policy.RUNTIME, category, true );
         if( refs.length > 0 )
         {
+            String message = ResourceRef.getCategoryName( category );
             log( "Javadoc " + message + " generation." );
-            generate( def, classpath, refs, root, links, message, flag );
+            generate( def, classpath, refs, category, root, flag );
         }
     }
 
     private void generate( 
        Definition definition, Path classpath, ResourceRef[] refs, 
-       File root, Link[] links, String group, boolean flag )
+       int category, File root, boolean flag )
     {
         Javadoc javadoc = (Javadoc) getProject().createTask( "javadoc" );
 
@@ -141,7 +218,37 @@ public class JavadocTask extends SystemTask
         javadoc.setDestdir( root );
         Path source = javadoc.createSourcepath();
         javadoc.createClasspath().add( classpath );
-        javadoc.setDoctitle( getTitle( definition, group ) );
+        javadoc.setDoctitle( getTitle( definition, category ) );
+
+        for( int i=0; i<m_links.size(); i++ )
+        {
+            Link link = (Link) m_links.get( i );
+            if( link.matches( category ) )
+            {
+                Javadoc.LinkArgument arg = javadoc.createLink();
+                arg.setHref( link.getHref() );
+                File dir = link.getDir( getHome() );
+                if( null != dir )
+                {
+                    if( dir.exists() )
+                    {
+                        log( link.toString() );
+                        arg.setOffline( true );
+                        arg.setPackagelistLoc( dir );
+                    }
+                    else
+                    {
+                        final String warning = 
+                          link + ": warning - unresolved directory";
+                        log( warning, Project.MSG_WARN );
+                    }
+                }
+                else
+                {
+                    log( link.toString() );
+                }
+            }
+        }
 
         for( int i=0; i<refs.length; i++ )
         {
@@ -163,21 +270,8 @@ public class JavadocTask extends SystemTask
                 }
                 else
                 {
-                    log( "Ignoring src path: " + src );
+                    log( "Ignoring src path: " + src, Project.MSG_WARN );
                 }
-            }
-        }
-
-        for( int i=0; i<links.length; i++ )
-        {
-            Link link = links[i];
-            Javadoc.LinkArgument arg = javadoc.createLink();
-            arg.setHref( link.getHref() );
-            if( link instanceof LocalLink )
-            {
-                LocalLink local = (LocalLink) link;
-                arg.setOffline( true );
-                arg.setPackagelistLoc( local.getDir() );
             }
         }
 
@@ -226,9 +320,9 @@ public class JavadocTask extends SystemTask
         }
     }
 
-    private String getTitle( Definition def, String group )
+    private String getTitle( Definition def, int category )
     {
-        String extra = getTitleSuppliment( def, group );
+        String extra = getTitleSuppliment( def, category );
         if( null == m_title )
         {
             return def.getInfo().getName() + extra;
@@ -236,16 +330,17 @@ public class JavadocTask extends SystemTask
         return m_title + extra;
     }
 
-    private String getTitleSuppliment( Definition def, String group )
+    private String getTitleSuppliment( Definition def, int cat )
     {
+        String category = ResourceRef.getCategoryName( cat ).toUpperCase();
         String version = def.getInfo().getVersion();
         if( null == version )
         {
-            return " : " + group;
+            return " : " + category;
         }
         else
         {
-            return ", Version " + version + " : " + group;
+            return ", Version " + version + " : " + category;
         }
     }
 

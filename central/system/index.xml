@@ -774,8 +774,6 @@
     </dependencies>
   </project>
 
-  
-  <!--
   <project basedir="../../runtime/main" key="avalon-runtime">
     <info>
       <group>avalon</group>
@@ -802,6 +800,7 @@
     </dependencies>
   </project>
 
+  <!--
   <project basedir="../../runtime/merlin/unit">
     <info>
       <group>avalon/merlin</group>

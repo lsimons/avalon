@@ -54,6 +54,22 @@ public class ResourceRef
         }
     }
 
+    public static String getCategoryName( int category )
+    {
+        if( category == API )
+        {
+            return "api";
+        }
+        else if( category == SPI )
+        {
+            return "spi";
+        }
+        else
+        {
+            return "impl";
+        }
+    }
+
     public ResourceRef( String key )
     {
         this( key, new Policy(), ANY );
