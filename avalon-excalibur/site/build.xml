@@ -133,10 +133,7 @@
     
   </target>
   
-  <target name="site" depends="docs" description="Places Docs ready for hosting on website">  
-  
-    <ant dir="../altrmi/" target="site"/>  
-    <!-- TODO the rest -->
+  <target name="site" depends="docs" description="Places Docs ready for hosting on website">    
   
   </target>   
   

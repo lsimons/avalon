@@ -22,7 +22,6 @@
     <menu-item label="Command" href="command/index.html"/>      
     <menu-item label="Component" href="component/index.html"/>
     <menu-item label="Concurrent" href="concurrent/index.html"/>
-    <menu-item label="Container" href="container/index.html"/>
     <menu-item label="DataSource" href="datasource/index.html"/>
     <menu-item label="Event" href="event/index.html"/>
     <menu-item label="Extension" href="extension/index.html"/>
@@ -33,7 +32,6 @@
     <menu-item label="Logger" href="logger/index.html"/>      
     <menu-item label="Monitor" href="monitor/index.html"/>
     <menu-item label="Naming" href="naming/index.html"/>
-    <menu-item label="Pipeline" href="pipeline/index.html"/>
     <menu-item label="Pool" href="pool/index.html"/>          
     <menu-item label="Property Utils" href="property"/>
     <menu-item label="Proxy" href="proxy/index.html"/>

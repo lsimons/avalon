@@ -194,7 +194,6 @@
         <ant dir="command" target="docs"/>  
         <ant dir="component" target="docs"/>  
         <ant dir="concurrent" target="docs"/>  
-        <ant dir="container" target="docs"/>
         <ant dir="datasource" target="docs"/>
         <ant dir="event" target="docs"/>  
         <ant dir="extension" target="docs"/>
@@ -205,7 +204,6 @@
         <ant dir="logger" target="docs"/>
         <ant dir="monitor" target="docs"/>
         <ant dir="naming" target="docs"/>
-        <ant dir="pipeline" target="docs"/>
         <ant dir="pool" target="docs"/>
         <ant dir="property" target="docs"/>
         <ant dir="proxy" target="docs"/>
@@ -237,7 +235,6 @@
         <ant dir="command" target="site"/>  
         <ant dir="component" target="site"/>
         <ant dir="concurrent" target="site"/>  
-        <ant dir="container" target="site"/>
         <ant dir="datasource" target="site"/>
         <ant dir="event" target="site"/>  
         <ant dir="extension" target="site"/>
@@ -248,7 +245,6 @@
         <ant dir="logger" target="site"/>
         <ant dir="monitor" target="site"/>
         <ant dir="naming" target="site"/> 
-        <ant dir="pipeline" target="site"/>
         <ant dir="pool" target="site"/>
         <ant dir="property" target="site"/>
         <ant dir="proxy" target="site"/>
@@ -275,7 +271,6 @@
         <ant dir="command" target="real-clean"/>
         <ant dir="component" target="real-clean"/>
         <ant dir="concurrent" target="real-clean"/>
-        <ant dir="container" target="real-clean"/>
         <ant dir="datasource" target="real-clean"/>
         <ant dir="event" target="real-clean"/>  
         <ant dir="extension" target="real-clean"/>
@@ -289,7 +284,6 @@
         <ant dir="logger" target="real-clean"/>        
         <ant dir="monitor" target="real-clean"/>
         <ant dir="naming" target="real-clean"/>
-        <ant dir="pipeline" target="real-clean"/>
         <ant dir="pool" target="real-clean"/>
         <ant dir="property" target="real-clean"/>
         <ant dir="proxy" target="real-clean"/>
