@@ -28,6 +28,9 @@ import org.apache.avalon.phoenix.Block;
  * This is the service through which ConnectionManagement occurs.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ *
+ * @phoenix:version 1.3
+ * @phoenix:service name="org.apache.avalon.cornerstone.services.connection.ConnectionManager"
  */
 public class DefaultConnectionManager
     extends AbstractLogEnabled
@@ -36,6 +39,9 @@ public class DefaultConnectionManager
     private HashMap             m_connections        = new HashMap();
     private ThreadManager       m_threadManager;
 
+    /**
+     * @phoenix:dependency name="org.apache.avalon.cornerstone.services.threads.ThreadManager"
+     */
     public void compose( final ComponentManager componentManager )
         throws ComponentException
     {
