@@ -16,7 +16,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-<project default="java:jar"
+<project default="jar:install"
     xmlns:j="jelly:core"
     xmlns:ant="jelly:ant">
 
@@ -37,4 +37,28 @@ limitations under the License.
             </fileset>
         </copy>
     </postGoal>
+    
+    <postGoal name="jar:jar">
+      <ant:jar jarFile="${maven.build.dir}/excalibur-testcases-${pom.currentVersion}.jar" >
+        <fileset dir="${basedir}/target/test-classes" />
+      </ant:jar>
+
+    </postGoal>
+    
+    <postGoal name="jar:install" >
+      <ant:echo>
+      id = 'excalibur-testcases'
+      groupId = ''
+      artifactDirectory = 'excalibur-testcases'
+      </ant:echo>
+
+      <ant:property name="jardir__" value="${maven.repo.local}/excalibur-testcases/jars"/>
+      <ant:mkdir dir="${jardir__}"/>    
+      <ant:copy 
+      file="${maven.build.dir}/excalibur-testcases-${pom.currentVersion}.jar"
+      todir="${jardir__}"
+      overwrite="true"
+      />
+    </postGoal>
+
 </project>

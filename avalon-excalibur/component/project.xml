@@ -49,18 +49,13 @@ ExcaliburComponentManager, usually abbreviated to ECM.
         </dependency>
         <dependency>
             <id>excalibur-instrument</id>
-            <version>1.0</version>
+            <version>1.2</version>
             <groupId>excalibur-instrument</groupId>
         </dependency>
         <dependency>
             <id>excalibur-instrument-manager</id>
-            <version>1.0</version>
-            <groupId>excalibur-instrument</groupId>
-        </dependency>
-        <dependency>
-            <id>excalibur-instrument-manager-interfaces</id>
-            <version>1.0</version>
-            <groupId>excalibur-instrument</groupId>
+            <version>1.2</version>
+            <groupId>excalibur-instrument-manager</groupId>
         </dependency>
         <dependency>
             <id>excalibur-pool</id>
