@@ -37,17 +37,14 @@ public final class DefaultServerApplication
     private static final String  PHASE_STARTUP  = "startup";
     private static final String  PHASE_SHUTDOWN = "shutdown";
 
-    //these are the facilities (internal components) of ServerApplication
-    private ApplicationContext  m_frame;
+    private ApplicationContext   m_context;
+    private LifecycleHelper      m_lifecycle;
+    private HashMap              m_entrys = new HashMap();
 
-    private LifecycleHelper   m_lifecycle;
-
-    private HashMap           m_entrys = new HashMap();
-
-    public void setApplicationContext( final ApplicationContext frame )
+    public void setApplicationContext( final ApplicationContext context )
     {
-        m_frame = frame;
-        m_lifecycle = new LifecycleHelper( this, m_frame );
+        m_context = context;
+        m_lifecycle = new LifecycleHelper( this, m_context );
         setupLogger( m_lifecycle, "lifecycle" );
     }
 
@@ -76,7 +73,7 @@ public final class DefaultServerApplication
     public void start()
         throws Exception
     {
-        final BlockMetaData[] blocks = m_frame.getMetaData().getBlocks();
+        final BlockMetaData[] blocks = m_context.getMetaData().getBlocks();
         for( int i = 0; i < blocks.length; i++ )
         {
             final String blockName = blocks[ i ].getName();
@@ -112,9 +109,9 @@ public final class DefaultServerApplication
         throws Exception
     {
         //Setup thread context for calling visitors
-        ThreadContext.setThreadContext( m_frame.getThreadContext() );
+        ThreadContext.setThreadContext( m_context.getThreadContext() );
 
-        final BlockListenerMetaData[] listeners = m_frame.getMetaData().getListeners();
+        final BlockListenerMetaData[] listeners = m_context.getMetaData().getListeners();
         for( int i = 0; i < listeners.length; i++ )
         {
             try
@@ -144,7 +141,7 @@ public final class DefaultServerApplication
     protected final void runPhase( final String name )
         throws Exception
     {
-        final BlockMetaData[] blocks = m_frame.getMetaData().getBlocks();
+        final BlockMetaData[] blocks = m_context.getMetaData().getBlocks();
         final String[] order = DependencyGraph.walkGraph( PHASE_STARTUP == name, blocks );
 
         //Log message describing the number of blocks
@@ -160,7 +157,7 @@ public final class DefaultServerApplication
         }
 
         //Setup thread context for calling visitors
-        ThreadContext.setThreadContext( m_frame.getThreadContext() );
+        ThreadContext.setThreadContext( m_context.getThreadContext() );
 
         for( int i = 0; i < order.length; i++ )
         {

@@ -119,7 +119,7 @@ public class DefaultKernel
                 setupLogger( application, name );
 
                 final ApplicationContext context = createApplicationContext( entry );
-                application.setApplicationContext( frame );
+                application.setApplicationContext( context );
 
                 application.initialize();
                 application.start();
