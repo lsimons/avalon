@@ -23,12 +23,13 @@ import java.util.Map;
 
 import junit.framework.TestCase ;
 
-import org.apache.avalon.repository.Artifact ;
-import org.apache.avalon.repository.Repository ;
-import org.apache.avalon.repository.RepositoryException ;
-import org.apache.avalon.repository.provider.CacheManager ;
-import org.apache.avalon.repository.provider.Factory ;
-import org.apache.avalon.repository.provider.InitialContext ;
+import org.apache.avalon.repository.Artifact;
+import org.apache.avalon.repository.Repository;
+import org.apache.avalon.repository.RepositoryException;
+import org.apache.avalon.repository.provider.Factory;
+import org.apache.avalon.repository.provider.InitialContext;
+import org.apache.avalon.repository.provider.InitialContextFactory;
+import org.apache.avalon.repository.main.DefaultInitialContextFactory;
 
 import org.apache.avalon.util.env.Env;
 import org.apache.avalon.util.exception.ExceptionHelper;
@@ -38,15 +39,14 @@ import org.apache.avalon.util.exception.ExceptionHelper;
  * 
  * @author <a href="mailto:aok123@bellsouth.net">Alex Karasulu</a>
  * @author $Author: mcconnell $
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  */
 public class DefaultInitialContextTest extends TestCase
 {
+    private static final String KEY = "test";
 
-    public static void main(String[] args)
-    {
-        junit.textui.TestRunner.run(DefaultInitialContextTest.class);
-    }
+    private static final File BASEDIR = 
+      new File( System.getProperty( "basedir" ) );
 
     /**
      * Constructor for DefaultInitialContextTest.
@@ -59,10 +59,12 @@ public class DefaultInitialContextTest extends TestCase
 
     public void testRepositoryBootstrap() throws Exception
     {
-        InitialContext context = 
-          new DefaultInitialContext( 
-            getMavenRepositoryDirectory(),
-            getDefaultHosts() );
+        DefaultInitialContextFactory factory = 
+          new DefaultInitialContextFactory( KEY, BASEDIR );
+        factory.setCacheDirectory( getMavenRepositoryDirectory() );
+        factory.setHosts( getDefaultHosts() );
+
+        InitialContext context = factory.createInitialContext();
 
         assertEquals( 
           "cache", 
@@ -80,15 +82,12 @@ public class DefaultInitialContextTest extends TestCase
               "host", defaults[i], hosts[i] );
         }
 
-        Factory factory = context.getInitialFactory();
-        assertNotNull( factory );
+        Factory initialFactory = context.getInitialFactory();
+        assertNotNull( initialFactory );
 
-        CacheManager manager = (CacheManager) factory.create() ;
-        assertNotNull( manager ) ;
-   
-        Repository repository = manager.createRepository() ;
+        Repository repository = (Repository) context.getRepository() ;
         assertNotNull( repository ) ;
-        
+   
         Artifact artifact = Artifact.createArtifact( 
           "avalon-framework", "avalon-framework-api", "4.1.5" );
         URL url = repository.getResource( artifact );

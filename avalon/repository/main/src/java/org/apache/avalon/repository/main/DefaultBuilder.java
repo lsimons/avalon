@@ -42,7 +42,6 @@ import org.apache.avalon.repository.RepositoryRuntimeException;
 import org.apache.avalon.repository.meta.FactoryDescriptor;
 import org.apache.avalon.repository.provider.Builder;
 import org.apache.avalon.repository.provider.InitialContext;
-import org.apache.avalon.repository.provider.CacheManager;
 import org.apache.avalon.repository.provider.Factory;
 import org.apache.avalon.util.env.Env;
 import org.apache.avalon.util.exception.ExceptionHelper;
@@ -54,7 +53,7 @@ import org.apache.avalon.util.exception.ExceptionHelper;
  * 
  * @author <a href="mailto:aok123@bellsouth.net">Alex Karasulu</a>
  * @author $Author: mcconnell $
- * @version $Revision: 1.13 $
+ * @version $Revision: 1.14 $
  */
 public class DefaultBuilder extends AbstractBuilder implements Builder
 {
@@ -243,18 +242,7 @@ public class DefaultBuilder extends AbstractBuilder implements Builder
 
         ClassLoader parent = getClassLoader( classloader );
 
-        try
-        {
-            Factory factory = m_context.getInitialFactory();
-            CacheManager manager = (CacheManager)factory.create();
-            m_repository = manager.createRepository();
-        }
-        catch( Throwable e )
-        {
-            final String error = 
-              "Internal error while attempt to construct initial repository.";
-            throw new RepositoryException( error, e );           
-        }
+        m_repository = m_context.getRepository();
 
         Attributes attributes = m_repository.getAttributes( artifact );
         FactoryDescriptor descriptor = new FactoryDescriptor( attributes );
