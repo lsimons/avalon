@@ -219,6 +219,8 @@ Legal:
                 unless="jmx.present"/>
             <exclude name="org/apache/avalon/phoenix/components/manager/MX4JSystemManager.java"
                 unless="mx4j.present"/>
+            <exclude name="org/apache/avalon/phoenix/components/manager/MX4JLoggerAdapter.java"
+                unless="mx4j.present"/>                
             <exclude name="org/apache/avalon/phoenix/launcher/DaemonLauncher.java"
                 unless="wrapper.present"/>
             <exclude name="org/apache/avalon/phoenix/components/kernel/beanshell/*.java"
