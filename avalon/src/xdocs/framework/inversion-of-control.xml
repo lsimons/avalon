@@ -30,16 +30,19 @@
         </p>
         <p>
           A designer sets up a chain among objects that can all react
-          to certain messages in a delegation hierarchy.
+          to certain messages in a delegation hierarchy.  There is one
+	  major semantic detail: Inversion of Control refers to a parent
+	  object <em>controlling</em> a child object.  With this distinction,
+	  the SAX API is not considered Inversion of Control because its
+	  purpose is to send <em>information</em> from a source to a handler.
         </p>
         <s3 title="Definition by Analogy">
           <p>
             There are a couple of different analogies that make
             understanding <em>Inversion of Control</em> easier.  We
             experience this in many different ways in regular life,
-            so we are borrowing the form in code.  The best analogy,
-            however, is called &quot;Chain of Command&quot; in the
-            military.
+            so we are borrowing the form in code.  One analogy is called
+	    the &quot;Chain of Command&quot; in the military.
           </p>
           <s4 title="Chain of Command">
             <p>
@@ -53,6 +56,17 @@
               instantiating entity then acts on that Component how it
               needs to act.
             </p>
+	    <p>
+	      There are some deficiencies in this analogy as some military
+	      or ex-military people have explained to me.  In the military,
+	      <strong>any</strong> Commanding Officer can issue commands to
+	      anyone under his or her rank.  In the development world, to
+	      ensure proper security, this is not a pattern you want in your
+	      software.  In Avalon, Inversion of Control (IoC) is from one
+	      parent (controlling) object to a child (controlled) component.
+	      A parent may have many children, but children only have one
+	      parent.
+	    </p>
           </s4>
         </s3>
       </s2>
@@ -64,34 +78,30 @@
         </p>
         <source>
 class MyComponent 
-    implements Component, Composer
+    implements Component, Loggable
 {
-    ComponentManager manager;
+    Logger logger;
 
-    setComponentManager(ComponentManager manager)
+    setLogger(Logger newLogger)
     {
-        this.manager = manager;
+        this.logger = newLogger;
     }
 
     myMethod() 
     {
-        Logger logger = 
-           (Logger)manager.getComponent("com.biz.components.Logger");
-
         logger.log("MyComponent", "Hello World!", Logger.INFO);
     }
 }
         </source>
         <p>
           The parent of MyComponent instantiates MyComponent, sets the
-          ComponentManager, and calls myMethod.  The Component is not
-          autonomous, and is given a ComponentManager that has an instance
-          of the Logger object that is called by role.
+          Logger, and calls myMethod.  The Component is not autonomous,
+	  and is given a Logger that has been configured by the parent.
         </p>
         <p>
           The MyComponent class has no state apart from the parent, and
           has no way of obtaining a reference to the Logger implementation
-          without the parent telling it which implementation it can receive.
+          without the parent giving it the implementation it needs.
         </p>
       </s2>
     </s1>
@@ -99,7 +109,7 @@ class MyComponent
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.4 $ $Date: 2001/05/12 08:09:25 $
+      $Revision: 1.5 $ $Date: 2001/07/05 14:10:38 $
     </legal>
   </footer>
 </document>
