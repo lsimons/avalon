@@ -156,11 +156,6 @@
         <ant dir="store" target="${subproject-target}"/>
     </target>
 
-    <!-- Testcase -->
-    <target name="prj-testcase" depends="prj-component, prj-logger">
-        <ant dir="testcase" target="${subproject-target}"/>
-    </target>
-
     <!-- Thread -->
     <target name="prj-thread" depends="prj-instrument, prj-pool, prj-threadcontext">
         <ant dir="thread" target="${subproject-target}"/>
@@ -172,7 +167,7 @@
     </target>
 
     <!-- XMLUtil -->
-    <target name="prj-xmlutil" depends="prj-collections, prj-component, prj-instrument, prj-logger, prj-pool, prj-sourceresolve, prj-store, prj-testcase">
+    <target name="prj-xmlutil" depends="prj-collections, prj-component, prj-instrument, prj-logger, prj-pool, prj-sourceresolve, prj-store">
         <ant dir="xmlutil" target="${subproject-target}"/>
     </target>
 
@@ -191,8 +186,7 @@
                 prj-instrument, prj-store, prj-logger, prj-policy,
                 prj-pool, prj-xmlutil,
                 prj-sourceresolve, prj-instrument-client,
-                prj-instrument-manager, prj-component,
-                prj-testcase "/>
+                prj-instrument-manager, prj-component"/>
 
     <!-- ************************************************************ -->
     <!-- Actual Build Targets                                         -->
@@ -320,7 +314,6 @@
         <jlink compress="false" outfile="${tmpjarB}">
             <mergefiles>
                 <fileset dir=".">
-                    <include name="testcase/dist/*.jar"/>
                     <include name="datasource/dist/*.jar"/>
                     <include name="store/dist/*.jar"/>
                     <include name="xmlutil/dist/*.jar"/>
