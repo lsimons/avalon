@@ -55,6 +55,14 @@
       <item name="Related Projects" href="/related/index.html"/>
     </menu>
 
+    <menu name="Related">
+      <item name="Framework" href="http://avalon.apache.org/framework"/>
+      <item name="Meta" href="http://avalon.apache.org/meta"/>
+      <item name="Utilities" href="http://avalon.apache.org/util"/>
+      <item name="Repository" href="http://avalon.apache.org/repository"/>
+      <item name="Merlin" href="http://avalon.apache.org/merlin"/>
+    </menu>
+
  </body>
 
 </project>
