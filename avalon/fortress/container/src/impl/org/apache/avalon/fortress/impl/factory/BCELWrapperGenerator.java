@@ -76,10 +76,8 @@ final class BCELWrapperGenerator
     private final BCELClassLoader m_bcelClassLoader;
 
     /**
-     * @author <a href="mailto:olaf.bergner@gmx.de>Olaf Bergner</a>
+     * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
      */
-
-
     private final class BCELClassLoader extends ClassLoader
 
     {

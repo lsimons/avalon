@@ -28,8 +28,8 @@ import org.apache.avalon.extension.manager.OptionalPackage;
  * on spec version and then on impl version. Unspecified
  * versions rate lower than specified versions.
  *
- * @author Peter Donald
- * @version $Revision: 1.1 $ $Date: 2004/02/04 17:24:17 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version $Revision: 1.2 $ $Date: 2004/02/24 22:39:31 $
  */
 class OptionalPackageComparator
     implements Comparator

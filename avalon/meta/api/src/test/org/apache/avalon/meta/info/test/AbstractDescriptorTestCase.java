@@ -28,7 +28,7 @@ import junit.framework.TestCase;
 /**
  * AbstractDescriptorTestCase does XYZ
  *
- * @author <a href="dev@avalon.apache.org">Avalon Development Team</a>
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @version CVS $ Revision: 1.1 $
  */
 public abstract class AbstractDescriptorTestCase extends TestCase

@@ -28,9 +28,8 @@ import org.apache.avalon.repository.Artifact;
 /**
  * An abstract descriptor holds attributes about an artifact.
  * 
- * @author <a href="mailto:aok123@bellsouth.net">Alex Karasulu</a>
- * @author $Author: mcconnell $
- * @version $Revision: 1.3 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version $Revision: 1.4 $
  */
 public class ArtifactDescriptor implements Serializable
 {

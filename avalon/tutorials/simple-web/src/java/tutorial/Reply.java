@@ -25,7 +25,7 @@ import java.util.Date;
 /**
  * Static-only class to send a simple HTTP reply.
  *
- * @author <a href="mailto:timothy.bennett@gxs.com">Timothy Bennett</a>
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
 public class Reply {
   /**

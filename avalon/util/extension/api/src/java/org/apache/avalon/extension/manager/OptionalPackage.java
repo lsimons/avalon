@@ -26,7 +26,7 @@ import org.apache.avalon.extension.Extension;
  * (formerly known as "Standard Extension") as described in the manifest
  * of a JAR file.
  *
- * @author Peter Donald
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
 public final class OptionalPackage
 {

@@ -28,9 +28,8 @@ import java.util.Enumeration ;
  * Gets a set of default property values based on a sequence of default value
  * search components or finders.
  * 
- * @author <a href="mailto:aok123@bellsouth.net">Alex Karasulu</a>
- * @author $Author: mcconnell $
- * @version $Revision: 1.4 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version $Revision: 1.5 $
  */
 public class Defaults extends Properties
 {

@@ -29,11 +29,7 @@ import org.apache.log.output.AbstractOutputTarget;
 import org.apache.log.output.net.DatagramOutputTarget;
 
 /**
- * <p>Title: </p>
- * <p>Description: </p>
- * <p>Copyright: Copyright (c) 2002</p>
- * <p>Company: </p>
- * @author unascribed
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @version 1.0
  */
 

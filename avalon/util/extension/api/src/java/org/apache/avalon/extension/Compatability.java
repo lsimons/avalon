@@ -22,8 +22,8 @@ package org.apache.avalon.extension;
  * of one extension to another. See {@link Extension} for instances
  * of object.
  *
- * @author Peter Donald
- * @version $Revision: 1.1 $ $Date: 2004/02/04 17:24:05 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version $Revision: 1.2 $ $Date: 2004/02/24 22:39:31 $
  * @see Extension
  */
 public final class Compatability

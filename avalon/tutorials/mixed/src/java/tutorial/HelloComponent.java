@@ -18,7 +18,7 @@ import org.apache.avalon.framework.activity.Initializable;
  * HelloComponent from Merlin's Tutorial
  *
  * @avalon.component version="1.0" name="hello"
- * @author David BERNARD mailto:dwayne@java-fan.com
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
 public class HelloComponent extends AbstractLogEnabled implements
 Contextualizable, Serviceable, Configurable, Initializable 

@@ -12,7 +12,7 @@ import java.util.Date;
  * issues as documented by Sun.  This formatter is based on code provided by
  * Tim Kientzle on the Tomcat list-serv and made available for free public use.
  * @see http://marc.theaimsgroup.com/?l=tomcat-dev&m=97146648030873&w=2
- * @author  Tim Kientzle
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
 public class RfcDateFormat {
 

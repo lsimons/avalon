@@ -22,8 +22,8 @@ import org.apache.avalon.extension.Extension;
 /**
  * Exception indicating an extension was not found in Package Repository.
  *
- * @author Peter Donald
- * @version $Revision: 1.1 $ $Date: 2004/02/04 17:24:15 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version $Revision: 1.2 $ $Date: 2004/02/24 22:39:31 $
  * @see Extension
  */
 public class UnsatisfiedExtensionException
