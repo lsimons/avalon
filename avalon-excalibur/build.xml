@@ -30,12 +30,11 @@
         <ant dir="component" target="dist"/>          <!-- collections, logger, instrument, pool -->
         <ant dir="util" target="dist"/>               <!-- component -->
         <ant dir="testcase" target="dist"/>           <!-- logger, component -->
-        <ant dir="event" target="dist"/>              <!-- collections, concurrent -->
-        <ant dir="command" target="dist"/>            <!-- collections, concurrent, lang, pool, thread, util, event -->
+        <ant dir="event" target="dist"/>              <!-- collections, concurrent, lang, pool, thread, util, event -->
         <ant dir="instrument-manager" target="dist"/> <!-- altrmi, collections, instrument, logger, pool, component -->
         <ant dir="instrument-client" target="dist"/>  <!-- instrument-manager -->
         
-        <ant dir="all"/>                <!-- collections, command, concurrent, event, instrument -->
+        <ant dir="all"/>                <!-- collections, concurrent, event, instrument -->
 
         <ant dir="baxter" target="dist"/>
         <ant dir="bzip2" target="dist"/>
@@ -179,12 +178,11 @@
         <ant dir="component" target="jar"/>          <!-- collections, logger, instrument, pool -->
         <ant dir="util" target="jar"/>               <!-- component -->
         <ant dir="testcase" target="jar"/>           <!-- logger, component -->
-        <ant dir="event" target="jar"/>              <!-- collections, concurrent -->
-        <ant dir="command" target="jar"/>            <!-- collections, concurrent, lang, pool, thread, util, event -->
+        <ant dir="event" target="jar"/>              <!-- collections, concurrent, lang, pool, thread, util, event -->
         <ant dir="instrument-manager" target="jar"/> <!-- altrmi, collections, instrument, logger, pool, component -->
         <ant dir="instrument-client" target="jar"/>  <!-- instrument-manager -->
         
-        <ant dir="all" target="all"/>                <!-- collections, command, concurrent, event, instrument -->
+        <ant dir="all" target="all"/>                <!-- collections, concurrent, event, instrument -->
         
         <ant dir="baxter" target="jar"/>
         <ant dir="bzip2" target="jar"/>
@@ -223,7 +221,6 @@
         <ant dir="cache" target="docs"/> 
         <ant dir="cli" target="docs"/>
         <ant dir="collections" target="docs"/> 
-        <ant dir="command" target="docs"/>  
         <ant dir="component" target="docs"/>  
         <ant dir="concurrent" target="docs"/>  
         <ant dir="datasource" target="docs"/>
@@ -270,7 +267,6 @@
         <ant dir="cache" target="site"/>
         <ant dir="cli" target="site"/>
         <ant dir="collections" target="site"/> 
-        <ant dir="command" target="site"/>  
         <ant dir="component" target="site"/>
         <ant dir="concurrent" target="site"/>  
         <ant dir="datasource" target="site"/>
@@ -310,7 +306,6 @@
         <ant dir="cache" target="real-clean"/>
         <ant dir="cli" target="real-clean"/>
         <ant dir="collections" target="real-clean"/>
-        <ant dir="command" target="real-clean"/>
         <ant dir="component" target="real-clean"/>
         <ant dir="concurrent" target="real-clean"/>
         <ant dir="datasource" target="real-clean"/>

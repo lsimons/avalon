@@ -15,7 +15,13 @@
         <pathelement location="${build.classes}"/>
         <pathelement location="${junit.jar}"/>
         <pathelement location="${excalibur-collections.jar}"/>
-        <pathelement location="${excalibur-concurrent.jar}"/>
+	<pathelement location="${excalibur-concurrent.jar}"/>
+	<pathelement location="${excalibur-thread.jar}"/>
+	<pathelement location="${excalibur-pool.jar}"/>
+	<pathelement location="${excalibur-scratchpad.jar}"/>
+	<pathelement location="${excalibur-core.jar}"/>
+	<pathelement location="${avalon-framework.jar}"/>
+        <pathelement location="${excalibur-util.jar}"/>
         <pathelement location="${checkstyle.jar}"/>
     </path>
     <property name="cp" refid="project.class.path"/>
@@ -33,7 +39,11 @@
     <target name="dependencies" description="Check dependencies" unless="skip.dependencies">
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkCommon"/>
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkCollections"/>
-        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkConcurrent"/>
+	<ant antfile="${depchecker.prefix}/depchecker.xml" target="checkConcurrent"/>
+        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkUtil"/>
+        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkThread"/>
+        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkPool"/>
+        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkFramework"/>
     </target>
 
     <!-- Compiles the source code -->

@@ -270,13 +270,6 @@ To use it, type 'ant -f depchecker.xml'
             <property name="proj.home" value="${basedir}/../threadcontext"/>
         </ant>
     </target>
-    <target name="checkCommand">
-        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
-            <property name="name" value="excalibur-command.jar"/>
-            <property name="path" value="${excalibur-command.jar}"/>
-            <property name="proj.home" value="${basedir}/../command"/>
-        </ant>
-    </target>
     <!-- ====================================================== -->
     <!-- Call to ensure a class is present in the classpath     -->
     <!-- ====================================================== -->
