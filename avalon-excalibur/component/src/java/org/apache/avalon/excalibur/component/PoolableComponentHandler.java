@@ -17,7 +17,7 @@
 package org.apache.avalon.excalibur.component;
 
 import org.apache.avalon.excalibur.pool.Poolable;
-import org.apache.avalon.excalibur.pool.ResourceLimitingPool;
+import org.apache.avalon.excalibur.pool.InstrumentedResourceLimitingPool;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.component.ComponentManager;
@@ -73,12 +73,12 @@ import org.apache.avalon.framework.context.Context;
  * specify, in milliseconds, how long idle Poolables will be
  * maintained in the pool before being closed.  For a complete
  * explanation on how this works, see {@link
- * org.apache.avalon.excalibur.pool.ResourceLimitingPool#trim()}
+ * org.apache.avalon.excalibur.pool.InstrumentedResourceLimitingPool#trim()}
  * (Defaults to "0", trimming disabled)</li>
  *
  * <li>The <code>pool-min</code> and <code>pool-grow</code> attributes
  * were deprecated as the underlying Pool ({@link
- * org.apache.avalon.excalibur.pool.ResourceLimitingPool}) does not
+ * org.apache.avalon.excalibur.pool.InstrumentedResourceLimitingPool}) does not
  * make use of them.  Configurations which still use these attributes
  * will continue to function however, a minimum pool size is no longer
  * applicable.
@@ -88,7 +88,7 @@ import org.apache.avalon.framework.context.Context;
  * @deprecated ECM is no longer supported
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.4 $ $Date: 2004/02/28 11:47:14 $
+ * @version CVS $Revision: 1.5 $ $Date: 2004/03/30 14:15:23 $
  * @since 4.0
  */
 public class PoolableComponentHandler
@@ -101,7 +101,7 @@ public class PoolableComponentHandler
     private final DefaultComponentFactory m_factory;
 
     /** The pool of components for <code>Poolable</code> Components */
-    private final ResourceLimitingPool m_pool;
+    private final InstrumentedResourceLimitingPool m_pool;
 
     /** State management boolean stating whether the Handler is initialized or not */
     private boolean m_initialized = false;
@@ -148,7 +148,7 @@ public class PoolableComponentHandler
         long poolTimeout = config.getAttributeAsLong( "pool-timeout", 0 );
         long poolTrimInterval = config.getAttributeAsLong( "pool-trim-interval", 0 );
 
-        m_pool = new ResourceLimitingPool( m_factory, poolMax, poolMaxStrict, poolBlocking,
+        m_pool = new InstrumentedResourceLimitingPool( m_factory, poolMax, poolMaxStrict, poolBlocking,
                                            poolTimeout, poolTrimInterval );
         // Initialize the Instrumentable elements.
         addChildInstrumentable( m_pool );
