@@ -413,7 +413,9 @@ Legal:
   <target name="install" depends="jar,install-check-cjan">
 
     <mkdir dir="${cjan.lib}" />
-    <copy file="${build.lib}/avalonapi.jar" todir="${cjan.lib}"/>
+    <copy file="${build.lib}/avalon.jar" todir="${cjan.lib}"/>
+    <copy file="${build.lib}/excalibur.jar" todir="${cjan.lib}"/>
+    <copy file="${build.lib}/avalon-test.jar" todir="${cjan.lib}"/>
 
   </target>
 
@@ -429,7 +431,9 @@ Legal:
   <target name="dist" depends="jar,javadocs,xdocs">
 
     <mkdir dir="${dist.dir}"/>
-    <copy file="${build.lib}/avalonapi.jar" tofile="${dist.dir}/avalonapi-${version}.jar"/>
+    <copy file="${build.lib}/avalon.jar" tofile="${dist.dir}/avalon-${version}.jar"/>
+    <copy file="${build.lib}/excalibur.jar" tofile="${dist.dir}/excalibur-${version}.jar"/>
+    <copy file="${build.lib}/avalon-test.jar" tofile="${dist.dir}/avalon-test-${version}.jar"/>
 
     <mkdir dir="${dist.docs}"/>
     <mkdir dir="${dist.javadocs}"/>
