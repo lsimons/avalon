@@ -83,7 +83,7 @@ import org.apache.excalibur.instrument.Instrumentable;
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:paul@luminas.co.uk">Paul Russell</a>
  * @author <a href="mailto:leif@apache.org">Leif Mortenson</a>
- * @version CVS $Revision: 1.24 $ $Date: 2003/07/07 16:27:54 $
+ * @version CVS $Revision: 1.25 $ $Date: 2003/11/06 13:13:55 $
  * @since 4.0
  */
 public class ExcaliburComponentSelector
@@ -344,6 +344,13 @@ public class ExcaliburComponentSelector
                 getLogger().debug( "Error trying to release component", e );
             }
         }
+    }
+
+    /**
+     * Is this component looked up using this selector?
+     */
+    protected boolean canRelease(final Component component) {
+          return m_componentMapping.containsKey( component.toString() );
     }
 
     /*---------------------------------------------------------------
