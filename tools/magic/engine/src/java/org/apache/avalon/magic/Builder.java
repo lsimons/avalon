@@ -23,6 +23,8 @@ import java.io.IOException;
 
 import java.lang.reflect.Method;
 
+import java.util.Calendar;
+
 import org.apache.avalon.framework.logger.ConsoleLogger;
 import org.apache.avalon.framework.logger.LogEnabled;
 import org.apache.avalon.framework.logger.Logger;
@@ -141,6 +143,7 @@ public class Builder
         props.put( "user.home", System.getProperty( "user.home" ) );
         props.put( "java.home", System.getProperty( "java.home" ) );
         props.put( "java.version", System.getProperty( "java.version" ) );
+        populateDateTimes( props );        
     }
     
     private void loadMagicSystemProperties( PluginProperties props )
@@ -247,5 +250,17 @@ public class Builder
         return antProject;
     }
         
+    
+    private void populateDateTimes( PluginProperties p )
+    {
+        Calendar cal = Calendar.getInstance();
+        
+        p.put( "magic.year", "" + cal.get( Calendar.YEAR ) );
+        p.put( "magic.month", "" + cal.get( Calendar.MONTH ) );
+        p.put( "magic.date", "" + cal.get( Calendar.DATE ) );
+        p.put( "magic.hour", "" + cal.get( Calendar.HOUR_OF_DAY ) );
+        p.put( "magic.minute", "" + cal.get( Calendar.MINUTE ) );
+        p.put( "magic.second", "" + cal.get( Calendar.SECOND ) );
+    }
 } 
  
