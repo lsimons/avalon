@@ -21,7 +21,6 @@ package org.apache.avalon.framework.service;
  * can be considered valid. 
  *
  * @see org.apache.avalon.framework.service.ServiceManager
- * @see org.apache.avalon.framework.service.ServiceResolver
  *
  * @author <a href="mailto:fede@apache.org">Federico Barbieri</a>
  * @author <a href="mailto:pier@apache.org">Pierpaolo Fumagalli</a>

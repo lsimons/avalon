@@ -10,6 +10,8 @@ package org.apache.avalon.framework.logger;
 /**
  * Utility class to allow construction of easy components that will perform logging.
  *
+ * @deprecated Use {@link AbstractLogEnabled} instead.
+ *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 public abstract class AbstractLogEnabled

@@ -213,13 +213,10 @@ public interface DocumentRepository extends Component
           <listitem>
             <para>
               <function>configure</function>
-              [<classname>Configurable</classname>]
-            </para>
-          </listitem>
-          <listitem>
-            <para>
+             [<classname>Configurable</classname>]
+              <emphasis>or</emphasis>
               <function>parameterize</function>
-              [<classname>Parameterizable</classname>]
+             [<classname>Parameterizable</classname>]
             </para>
           </listitem>
           <listitem>
@@ -473,7 +470,7 @@ public interface DocumentRepository extends Component
         <title>Configuration</title>
         <para>
           This group of interfaces describes the concern area of configuration.
-          If there are any problems like required
+          If there are any problems, such as required
           <classname>Configuration</classname> elements that are missing, then
           you may throw a <classname>ConfigurationException</classname>.
         </para>
@@ -669,10 +666,8 @@ public interface DocumentRepository extends Component
           </para>
           <para>
             The contract is that this is called once during the lifecycle of
-            the Component.  Usually this interface is used in lieu of the
-            <classname>Configurable</classname> interface, however if both are
-            used, the <function>parameterize</function> method is called after
-            the <function>configure</function> method.
+            the Component.  This interface is not compatible with the
+            <classname>Configurable</classname> interface.
           </para>
         </section>
         <section>

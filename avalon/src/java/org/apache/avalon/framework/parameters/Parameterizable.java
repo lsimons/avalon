@@ -8,11 +8,21 @@
 package org.apache.avalon.framework.parameters;
 
 /**
- * Components should implement this interface if they wish to 
- * be provided with parameters during startup. This interface
- * will be called after Composable.compose() and before 
- * Initializable.initialize(). It is incompatible with the 
- * Configurable interface.
+ * Components should implement this interface if they wish to
+ * be provided with parameters during startup.
+ * <p>
+ * The Parameterizable interface is a light-weight alternative to the
+ * {@link org.apache.avalon.framework.configuration.Configurable}
+ * interface.  As such, the <code>Parameterizable</code> interface and
+ * the <code>Configurable</code> interface are <strong>not</strong>
+ * compatible.
+ * </p><p>
+ * This interface will be called after
+ * <code>Composable.compose()</code> and before
+ * <code>Initializable.initialize()</code>.
+ * </p>
+
+
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
