@@ -4,7 +4,7 @@
                    The Apache Software License, Version 1.1
  ============================================================================
 
- Copyright (C) 1999-2002 The Apache Software Foundation. All rights reserved.
+ Copyright (C) 2002-2003 The Apache Software Foundation. All rights reserved.
 
  Redistribution and use in source and binary forms, with or without modifica-
  tion, are permitted provided that the following conditions are met:
@@ -45,85 +45,48 @@
  This software  consists of voluntary contributions made  by many individuals
  on  behalf of the Apache Software  Foundation. For more  information on the
  Apache Software Foundation, please see <http://www.apache.org/>.
-
 */
 
 package tutorial;
 
-import org.apache.avalon.framework.logger.Logger;
-import org.apache.avalon.framework.logger.LogEnabled;
-import org.apache.avalon.framework.activity.Disposable;
-import org.apache.avalon.framework.activity.Executable;
-import org.apache.avalon.framework.activity.Initializable;
+import java.net.URL;
+
+import org.apache.avalon.merlin.unit.AbstractMerlinTestCase;
 
 /**
- * A sample component.  This component implements a number 
- * of lifecycle interface.  Each lifecycle interface is a stage
- * that is processed by a container during the deployment of 
- * the component.  The lifecycle stages demonstrated here include
- * LogEnabled (association of a logging channel), Initializable
- * (initialization of the component), Executable (component
- * execution), and Disposable (componet disposal).  Please note 
- * that all lifecycle stages are optional.
+ * Abstract Merlin Test Case.
  *
- * @avalon.component version="1.0" name="hello" lifestyle="singleton"
+ * @author mcconnell@apache.org
  */
-public class HelloComponent 
-  implements LogEnabled, Initializable, Executable, Disposable
+public class StandardTestCase extends AbstractMerlinTestCase
 {
 
-   /**
-    * Internal reference to the logging channel supplied to us 
-    * by the container. 
-    */
-    private Logger m_logger;
+    //--------------------------------------------------------
+    // constructors
+    //--------------------------------------------------------
 
    /**
-    * Supply of a logging channel by the container.
-    *
-    * @param logger the logging channel for this component
+    * @param name the name of the test case
+    * @param root the merlin system install directory
     */
-    public void enableLogging( final Logger logger )
+    public StandardTestCase( String name )
     {
-        m_logger = logger;
-        getLogger().info( "logging" );
+        super( 
+          MAVEN_TARGET_CLASSES_DIR, 
+          MERLIN_DEFAULT_CONFIG_FILE, 
+          MERLIN_DEBUG_OFF, 
+          MERLIN_INFO_OFF, 
+          name );
     }
 
-   /**
-    * Initialization of the component by the container.
-    * @exception Exception if an initialization error occurs
-    */
-    public void initialize() throws Exception
+    //--------------------------------------------------------
+    // testcase
+    //--------------------------------------------------------
+
+    public void testServiceResolution() throws Exception
     {
-        getLogger().info( "initialization" );
+        Object hello = resolve( "hello" );
+        getLogger().info( "Hello established." );
     }
-
-   /**
-    * Component execution trigger by the container following 
-    * completion of the initialization stage.
-    */
-    public void execute()
-    {
-        getLogger().info( "execution" );
-    } 
-
-   /**
-    * Component disposal trigger by the container during which
-    * the component will release consumed resources.
-    */
-    public void dispose()
-    {
-        getLogger().info( "disposal" );
-        m_logger = null;
-    }
-
-   /**
-    * Return the logging channel assigned to us by the container.
-    * @return the logging channel
-    */
-    private Logger getLogger()
-    {
-        return m_logger;
-    }
-
 }
+
