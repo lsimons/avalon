@@ -175,29 +175,6 @@
      <map:serialize type="xml"/>      
    </map:match>
    
-   <!-- Generate the "doclist" - list of all documentation
-     The first match generates each menu.xml and adds a new attribute "uri".
-     The second match aggregates each menu.xml into a doclist and
-     then converts it to a document.
-   -->
-   <map:match pattern="doclist/content/xdocs/**menu.xml">
-     <map:generate src="content/xdocs/{1}menu.xml"/>
-     <map:transform src="library/xslt/doclist.xsl">
-       <map:parameter name="uri" value="{1}"/>
-     </map:transform>
-     <map:serialize type="xml"/>
-   </map:match>
-   
-   <map:match pattern="body-doclist.xml">
-     <map:aggregate element="doclist">
-       <map:part src="cocoon:/doclist/content/xdocs/menu.xml"/>
-     </map:aggregate>
-     <map:transform src="library/xslt/doclist2document.xsl"/>
-     <map:call resource="skinit">
-      <map:parameter name="type" value="document2html"/>
-     </map:call>    
-   </map:match>
-   
    <map:match pattern="body-**.xml">
      <map:generate src="content/xdocs/{1}.xml"/>
      <map:call resource="skinit">
@@ -244,9 +221,6 @@
       <map:parameter name="type" value="site2xhtml"/>
      </map:call>    
    </map:match>
-
-  
-   
   
    <map:match pattern="**developing-with-avalon.pdf">
      <map:generate src="content/xdocs/developing/index.xml"/>
@@ -256,24 +230,6 @@
    </map:match>
       
    <!-- ================  Static  =========================== -->
-   
-   <map:match pattern="skin/**.js">
-    <map:call resource="skin-read">
-      <map:parameter name="path" value="scripts/{1}.js"/>
-      <map:parameter name="mime-type" value="application/javascript"/>
-    </map:call>     
-   </map:match>
-
-   <map:match pattern="**/skin/**.js">
-    <map:call resource="skin-read">
-      <map:parameter name="path" value="scripts/{2}.js"/>
-      <map:parameter name="mime-type" value="application/javascript"/>
-    </map:call>     
-   </map:match>
-      
-   <map:match pattern="**.js">
-     <map:read src="resources/scripts/{1}.js" mime-type="application/javascript"/>
-   </map:match>
    
    <map:match pattern="skin/**.css">
     <map:call resource="skin-read">
