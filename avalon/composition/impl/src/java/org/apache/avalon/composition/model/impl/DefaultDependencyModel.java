@@ -67,20 +67,20 @@ import org.apache.avalon.meta.info.ServiceDescriptor;
  * Default implementation of the deplendency model.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.4 $ $Date: 2003/12/22 21:46:02 $
+ * @version $Revision: 1.4.2.2 $ $Date: 2004/01/04 21:28:59 $
  */
-public class DefaultDependencyModel extends AbstractLogEnabled implements DependencyModel
+public class DefaultDependencyModel extends DefaultDependent implements DependencyModel
 {
-    //==============================================================
+    //--------------------------------------------------------------
     // static
-    //==============================================================
+    //--------------------------------------------------------------
 
     private static final Resources REZ =
             ResourceManager.getPackageResources( DefaultDependencyModel.class );
 
-    //==============================================================
+    //--------------------------------------------------------------
     // immutable state
-    //==============================================================
+    //--------------------------------------------------------------
 
     private final DependencyDescriptor m_descriptor;
 
@@ -92,9 +92,9 @@ public class DefaultDependencyModel extends AbstractLogEnabled implements Depend
 
     private final String m_source;
 
-    //==============================================================
+    //--------------------------------------------------------------
     // constructor
-    //==============================================================
+    //--------------------------------------------------------------
 
    /**
     * Creation of a new dependency model.
@@ -110,10 +110,10 @@ public class DefaultDependencyModel extends AbstractLogEnabled implements Depend
       final DependencyDescriptor descriptor, DependencyDirective directive )
       throws ModelException
     {
-        if( logger == null ) throw new NullPointerException( "logger" );
+        super( logger );
+
         if( descriptor == null ) throw new NullPointerException( "descriptor" );
 
-        enableLogging( logger );
         m_descriptor = descriptor;
         m_directive = directive;
         m_partition = partition;
@@ -146,9 +146,9 @@ public class DefaultDependencyModel extends AbstractLogEnabled implements Depend
         }
     }
 
-    //==============================================================
+    //--------------------------------------------------------------
     // DependencyModel
-    //==============================================================
+    //--------------------------------------------------------------
 
    /**
     * Return the dependency descriptor.

@@ -50,7 +50,7 @@
 
 package org.apache.avalon.activation.appliance;
 
-import org.apache.avalon.composition.model.Model;
+import org.apache.avalon.composition.model.DeploymentModel;
 
 /**
  * An Appliance is the basic tool merlin wraps around a component to
@@ -72,25 +72,14 @@ import org.apache.avalon.composition.model.Model;
  *
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2003/10/18 00:34:19 $
+ * @version $Revision: 1.2.2.2 $ $Date: 2004/01/07 12:57:25 $
  */
 public interface Appliance extends Deployable, Home
 {
-    static final String MBEAN_SERVER_KEY = "urn:avalon:mbean-server";
-
     /**
      * Return the model backing the appliance.
      * @return the model that the appliance is managing
      */
-    Model getModel();
-
-    /**
-     * Test if this appliance is enabled.  An appliance is enabled unless
-     * explicitly disabled by an assembly directive, or implicity disabled
-     * as a result of an assembly failure.
-     *
-     * @return TRUE if the appliance is enabled.
-     */
-    boolean isEnabled();
+    DeploymentModel getModel();
 
 }

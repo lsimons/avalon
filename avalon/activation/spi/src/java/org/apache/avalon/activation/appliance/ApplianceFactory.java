@@ -50,7 +50,7 @@
 
 package org.apache.avalon.activation.appliance;
 
-import org.apache.avalon.composition.model.Model;
+import org.apache.avalon.composition.model.DeploymentModel;
 
 /**
  * An appliance factory is a service that provides support for the creation
@@ -60,7 +60,7 @@ import org.apache.avalon.composition.model.Model;
  * type is based on.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2003/10/18 00:34:20 $
+ * @version $Revision: 1.2.2.1 $ $Date: 2004/01/04 21:28:59 $
  */
 
 public interface ApplianceFactory
@@ -71,7 +71,7 @@ public interface ApplianceFactory
      * @return the appliance for scenario deployment
      * @exception ApplianceException if an appliance creation failure occurs
      */
-    Appliance createAppliance( Model model )
+    Appliance createAppliance( DeploymentModel model )
       throws ApplianceException;
 
 }

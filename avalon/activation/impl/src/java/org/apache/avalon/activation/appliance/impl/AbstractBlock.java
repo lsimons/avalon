@@ -57,27 +57,28 @@ import java.util.Hashtable;
 import org.apache.avalon.activation.appliance.Appliance;
 import org.apache.avalon.activation.appliance.ApplianceException;
 import org.apache.avalon.activation.appliance.ApplianceRuntimeException;
-import org.apache.avalon.activation.appliance.ApplianceRepository;
 import org.apache.avalon.activation.appliance.AssemblyException;
 import org.apache.avalon.activation.appliance.Block;
 import org.apache.avalon.activation.appliance.BlockContext;
-import org.apache.avalon.activation.appliance.Composite;
-import org.apache.avalon.activation.appliance.DependencyGraph;
-import org.apache.avalon.activation.appliance.DeploymentException;
 import org.apache.avalon.activation.appliance.Engine;
 import org.apache.avalon.activation.appliance.NoProviderDefinitionException;
-import org.apache.avalon.activation.appliance.ServiceContext;
+
 import org.apache.avalon.composition.data.CategoriesDirective;
 import org.apache.avalon.composition.logging.LoggingManager;
+
 import org.apache.avalon.composition.event.CompositionEvent;
 import org.apache.avalon.composition.event.CompositionEventListener;
+
+import org.apache.avalon.composition.model.SystemContext;
 import org.apache.avalon.composition.model.ContainmentModel;
 import org.apache.avalon.composition.model.DependencyModel;
+import org.apache.avalon.composition.model.ComponentModel;
 import org.apache.avalon.composition.model.DeploymentModel;
-import org.apache.avalon.composition.model.Model;
 import org.apache.avalon.composition.model.StageModel;
+
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.logger.Logger;
+
 import org.apache.avalon.meta.info.DependencyDescriptor;
 import org.apache.avalon.meta.info.StageDescriptor;
 
@@ -89,10 +90,10 @@ import org.apache.avalon.meta.info.StageDescriptor;
  * context.
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.10 $ $Date: 2004/01/01 13:05:05 $
+ * @version $Revision: 1.10.2.8 $ $Date: 2004/01/12 05:41:05 $
  */
 public abstract class AbstractBlock extends AbstractAppliance 
-  implements Block, Composite, CompositionEventListener
+  implements Block, CompositionEventListener
 {
     //-------------------------------------------------------------------
     // static
@@ -100,21 +101,19 @@ public abstract class AbstractBlock extends AbstractAppliance
 
     /**
      * Create a root containment block.
-     * @param services the service context
      * @param model the root containment model
      * @return the appliance
      */
-    public static Block createRootBlock( 
-      ServiceContext services, ContainmentModel model ) throws Exception
+    public static Block createRootBlock( ContainmentModel model ) throws Exception
     {
-        Logger logger = 
-          services.getLoggingManager().getLoggerForCategory( "" );
-        ApplianceRepository repository = 
-          new DefaultApplianceRepository();
-        DependencyGraph graph = new DependencyGraph();
-        BlockContext context = new DefaultBlockContext(
-          logger, model, graph, services, null, repository );
-        return new CompositeBlock( context );
+        if( null == model ) 
+        {
+            throw new NullPointerException( "model" );
+        }
+
+        BlockContext context = 
+          new DefaultBlockContext( model, null );
+        return new DefaultBlock( context );
     }
 
     //-------------------------------------------------------------------
@@ -123,15 +122,9 @@ public abstract class AbstractBlock extends AbstractAppliance
 
     private final BlockContext m_context;
 
-    private final DefaultApplianceRepository m_repository;
-
-    private final DefaultState m_assembly = new DefaultState();
-
     private final DefaultState m_deployment = new DefaultState();
 
     private final DefaultState m_self = new DefaultState();
-
-    private final Hashtable m_threads = new Hashtable();
 
     //-------------------------------------------------------------------
     // constructor
@@ -144,26 +137,17 @@ public abstract class AbstractBlock extends AbstractAppliance
     * @exception ApplianceException if a block creation error occurs
     */
     AbstractBlock( BlockContext context )
-      throws ApplianceException
     {
-        super( context.getLogger(), context.getContainmentModel() );
+        super( context.getContainmentModel() );
 
         m_context = context;
-        final ApplianceRepository parent = context.getApplianceRepository();
-        m_repository = new DefaultApplianceRepository( parent );
-        m_repository.enableLogging( getLogger() );
+
         m_self.setEnabled( true );
 
         ContainmentModel model = m_context.getContainmentModel();
         synchronized( model )
         {
             model.addCompositionListener( this );
-            Model[] models = model.getModels();
-            for( int i=0; i<models.length; i++ )
-            {
-                Appliance appliance = createAppliance( models[i] );
-                m_repository.addAppliance( appliance );
-            }
         }
     }
 
@@ -193,19 +177,7 @@ public abstract class AbstractBlock extends AbstractAppliance
      */
     public void modelAdded( CompositionEvent event )
     {
-        try
-        {
-            getLogger().debug( "event/addition: " + event );
-            Appliance appliance = createAppliance( event.getChild() );
-            m_repository.addAppliance( appliance );
-        }
-        catch( Throwable e )
-        {
-            final String error = 
-              "An error occured while attempting to create an appliance"
-              + " in response to a composition event: " + event;
-            throw new ApplianceRuntimeException( error, e );
-        }
+        getLogger().debug( "event/addition: " + event );
     }
 
     /**
@@ -218,182 +190,11 @@ public abstract class AbstractBlock extends AbstractAppliance
     public void modelRemoved( CompositionEvent event )
     {
         getLogger().debug( "event/removal: " + event );
-        final Model model = event.getChild();
-        final String name = model.getName();
-        final Appliance appliance = getLocalAppliance( name );
-        m_context.getDependencyGraph().remove( appliance );
-        m_repository.removeAppliance( appliance );
     }
 
     //-------------------------------------------------------------------
     // Engine
     //-------------------------------------------------------------------
-
-   /**
-    * Return an appliance relative to a supplied dependency model.
-    * @param dependency the dependency model
-    * @exception NoProviderDefinitionException if no provider an be found
-    *    for the supplied dependency
-    * @exception ApplianceException if an error occurs during appliance
-    *    resolution
-    * @return the appliance
-    */
-    public Appliance locate( DependencyModel dependency )
-      throws NoProviderDefinitionException, ApplianceException
-    {
-        final String path = dependency.getPath();
-        if( path != null )
-        {
-            return locate( path );
-        }
-        else
-        {
-            return locate( dependency.getDependency() );
-        }
-    }
-
-   /**
-    * Return an appliance relative to a supplied dependency descriptor.
-    * @param dependency the dependency descriptor
-    * @return the appliance
-    * @exception NoProviderDefinitionException if no provider an be found
-    *    for the supplied dependency
-    * @exception ApplianceException if an error occurs during appliance
-    *    resolution
-    */
-    public Appliance locate( DependencyDescriptor dependency )
-      throws NoProviderDefinitionException, ApplianceException
-    {
-        if( getLogger().isDebugEnabled() )
-        {
-            getLogger().debug( "resolving provider for: " + dependency );
-        }
-
-        // check with registered appliance for an existing solution
-        // and if nothing turns up proceed with on-demand appliance
-        // creation
-
-        Appliance appliance = 
-          m_repository.getAppliance( dependency );
-        if( appliance != null ) return appliance;
-
-        //
-        // try to establish the model locally and build and appliance
-        // from the model and add the appliance to the repository
-        //
-
-        Model model = 
-          m_context.getContainmentModel().getModel( dependency );
-        if( model != null )
-        {
-            appliance = createAppliance( model );
-            if( appliance instanceof Composite )
-            {
-               ((Composite)appliance).assemble();
-            }
-            m_repository.addAppliance( appliance );
-            return appliance;
-        }
-
-        //
-        // try to get an appliance from the parent container
-        // if possible - otherwise throw an exception
-        //
-
-        if( null != m_context.getEngine() )
-        {
-            return m_context.getEngine().locate( dependency );
-        }
-        else if( dependency.isOptional() )
-        {
-            return null;
-        }
-        else
-        {
-            throw new NoProviderDefinitionException( 
-              "Unable to resolve dependency: " + dependency );
-        }
-    }
-
-   /**
-    * Return an appliance relative to a supplied stage model.
-    * @param stage the stage model
-    * @exception NoProviderDefinitionException if no provider an be found
-    *    for the supplied stage
-    * @exception ApplianceException if an error occurs during appliance
-    *    resolution
-    * @return the appliance
-    */
-    public Appliance locate( StageModel stage )
-      throws NoProviderDefinitionException, ApplianceException
-    {
-        final String path = stage.getPath();
-        if( path != null )
-        {
-            return locate( path );
-        }
-        else
-        {
-            return locate( stage.getStage() );
-        }
-    }
-
-   /**
-    * Return an appliance relative to a supplied stage descriptor.
-    * @param stage the stage descriptor
-    * @return the appliance
-    * @exception NoProviderDefinitionException if no provider an be found
-    *    for the supplied stage
-    * @exception ApplianceException if an error occurs during appliance
-    *    resolution
-    * @exception Exception if an error occurs
-    */
-    public Appliance locate( StageDescriptor stage )
-      throws NoProviderDefinitionException, ApplianceException
-    {
-        if( getLogger().isDebugEnabled() )
-        {
-            getLogger().debug( "resolving stage provider for: " + stage );
-        }
-
-        // check with registered appliance for an existing solution
-        // and if nothing turns up proceed with on-demand appliance
-        // creation
-
-        Appliance appliance = 
-          m_repository.getAppliance( stage );
-        if( appliance != null ) return appliance;
-
-        //
-        // try to establish the model locally 
-        //
-
-        Model model = m_context.getContainmentModel().getModel( stage );
-        if( model != null )
-        {
-            appliance = createAppliance( model );
-            if( appliance instanceof Composite )
-            {
-                ((Composite)appliance).assemble();
-            }
-            m_repository.addAppliance( appliance );
-            return appliance;
-        }
-
-        //
-        // try to get an appliance from the parent container
-        //
-
-        if( m_context.getEngine() != null )
-        {
-            return m_context.getEngine().locate( stage );
-        }
-        else
-        {
-            throw new NoProviderDefinitionException( 
-              "Unable to resolve stage handler for: " + stage );
-        }
-    }
 
    /**
     * Return an appliance relative to a specific path.
@@ -404,237 +205,41 @@ public abstract class AbstractBlock extends AbstractAppliance
     *    resolution
     */
     public Appliance locate( String source )
-      throws IllegalArgumentException, ApplianceException
     {
-        String path = source;
-        if(( source.length() > 1 ) && source.endsWith( "/" ))
-        {
-            path = source.substring( 0, source.length() -1 );
-        }
-
-        final String base = getModel().getQualifiedName();
-
-        if( path.equals( base ) )
-        {
-            return this;
-        }
-        else if( path.startsWith( base ) )
-        {
-            //
-            // its a local appliance
-            //
-
- 
-            String name = path.substring( base.length() );
-            int j = name.indexOf( "/" );
-            if( j == -1 )
-            {
-                return getLocalAppliance( name );
-            }
-            else if( j == 0 )
-            {
-                int d = name.lastIndexOf( "/" );
-                if( d > j )
-                {
-                    String root = name.substring( 1, d );
-                    Appliance child = getLocalAppliance( root );
-                    if( child instanceof Engine )
-                    {
-                        return ((Engine)child).locate( name.substring( d+1 ) );
-                    }
-                    else
-                    {
-                        final String error = "Not a container: " + "/" + name;
-                        throw new IllegalArgumentException( error );
-                    }
-                }
-                else
-                {
-                    return getLocalAppliance( name.substring( 1 ) );
-                }
-            }
-            else
-            {
-                final String root = name.substring( 0, j );
-                Appliance child = getLocalAppliance( root );
-                if( child instanceof Engine )
-                {
-                    return ((Engine)child).locate( name.substring( j+1 ) );
-                }
-                else
-                {
-                    final String error = "Not a container: " + "/" + name;
-                    throw new IllegalArgumentException( error );
-                }
-            }
-        }
-        else
-        {
-            //
-            // its either a relative path or an absolute path resolvable by
-            // a parent
-            //
-
-            if( base.startsWith( path ) )
-            {
-                //
-                // its a parent reference
-                //
-
-                return parentLocate( path );
-            }
-            else if( base.startsWith( "../" ) )
-            {
-                //
-                // its a relative reference relative to the parent
-                //
-
-                String relative = base.substring( 3 );
-                return getLocalAppliance( relative );
-            }
-            else
-            {
-                //
-                // its a relative reference
-                //
-
-                if( path.indexOf( "/" ) < 0 )
-                {
-                    return getLocalAppliance( path );
-                }
-                else
-                {
-                    return parentLocate( path );
-                }
-            }
-        }
-    }
-
-    private Appliance parentLocate( final String path )
-      throws IllegalArgumentException, ApplianceException
-    {
-         if( m_context.getEngine() != null )
-         {
-             return m_context.getEngine().locate( path );
-         }
-         else
-         {
-             final String error = "Invalid absolute reference: [" + path + "]";
-             throw new IllegalArgumentException( error );
-         }
-    }
-
-    private Appliance getLocalAppliance( final String name )
-      throws IllegalArgumentException
-    {
-        Appliance appliance = m_repository.getLocalAppliance( name );
-        if( appliance != null ) 
-            return appliance;
-        final String error = "Unknown name: [" + name + "]";
-        throw new IllegalArgumentException( error );
-    }
-
-    //-------------------------------------------------------------------
-    // Composite
-    //-------------------------------------------------------------------
-
-    /**
-     * Returns the assembled state of the appliance.
-     * @return true if this appliance is assembled
-     */
-    public boolean isAssembled()
-    {
-        return m_assembly.isEnabled();
-    }
-
-    /**
-     * Assemble the appliance.
-     * @exception ApplianceException if an error occurs during 
-     *     appliance assembly
-     */
-    public void assemble() throws AssemblyException
-    {
-        synchronized( m_assembly )
-        {
-            if( isAssembled() )
-            {
-                return;
-            }
-            getLogger().debug( "assembly phase" );
-            Appliance[] appliances = m_repository.getAppliances();
-            for( int i=0; i<appliances.length; i++ )
-            {
-                Appliance appliance = appliances[i];
-                if( appliance instanceof Composite )
-                {
-                    ((Composite)appliance).assemble();
-                }
-            }
-            m_assembly.setEnabled( true );
-        }
-    }
-
-    /**
-     * Disassemble the appliance.
-     */
-    public void disassemble()
-    {
-        synchronized( m_assembly )
-        {
-            if( !isAssembled() )
-            {
-                return;
-            }
-            getLogger().debug( "dissassembly phase" );
-            Appliance[] appliances = m_repository.getAppliances();
-            for( int i=0; i<appliances.length; i++ )
-            {
-                Appliance appliance = appliances[i];
-                if( appliance instanceof Composite )
-                {
-                    ((Composite)appliance).disassemble();
-                }
-            }
-            m_assembly.setEnabled( false );
-        }
+        DeploymentModel model =
+          getContainmentModel().getModel( source );
+        return locate( model );
     }
 
    /**
-    * Returns the set of appliances instances that provide
-    * services to the set of appliances managed by this container.
-    *
-    * @return an empty set of consumed appliance instances 
+    * Return an appliance relative to a supplied model.
+    * @param model the meta model
+    * @return the appliance
+    * @exception ApplianceException if an error occurs during appliance
+    *    resolution
     */
-    public Appliance[] getProviders()
+    public Appliance locate( DeploymentModel model )
     {
-        if( !isAssembled() )
-        {
-            throw new IllegalStateException( "assembly" );
-        }
+        return getAppliance( model, true );
+    }
 
-        ArrayList list = new ArrayList();
-        Appliance[] appliances = m_repository.getAppliances();
-        for( int i=0; i<appliances.length; i++ )
+    private Appliance getAppliance( final DeploymentModel model, boolean create )
+    {
+        Appliance appliance = (Appliance) model.getHandler();
+        if( null != appliance )
         {
-            Appliance appliance = appliances[i];
-            if( appliance instanceof Composite )
-            {
-                Appliance[] providers = ((Composite)appliance).getProviders();
-                for( int j=0; j<providers.length; j++ )
-                {
-                    Appliance provider = providers[j];
-                    final String path = 
-                      provider.getModel().getPath();
-                    final String root = 
-                      m_context.getContainmentModel().getPartition();
-                    if( !path.startsWith( root ) )
-                    {
-                        list.add( providers[j] );
-                    }
-                }
-            }
+            return appliance;
         }
-        return (Appliance[]) list.toArray( new Appliance[0] );
+        else if( create )
+        {
+            appliance = createAppliance( model );
+            model.setHandler( appliance );
+            return appliance;
+        }
+        else
+        {
+            return null;
+        }
     }
 
     //-------------------------------------------------------------------
@@ -649,7 +254,7 @@ public abstract class AbstractBlock extends AbstractAppliance
     */
     public void deploy() throws Exception
     {
-        if( !isAssembled() )
+        if( !m_context.getContainmentModel().isAssembled() )
         {
             throw new IllegalStateException( "assembly" );
         }
@@ -660,58 +265,40 @@ public abstract class AbstractBlock extends AbstractAppliance
             {
                 return;
             }
-        
-            Appliance[] appliances = getLocalStartupSequence();
-            if( getLogger().isDebugEnabled() )
+
+            //
+            // get the model's startup sequence and from this
+            // we locate the appliances within the scope of this container
+            // and deploy them
+            //
+
+            ContainmentModel model = getContainmentModel();
+            DeploymentModel[] startup = model.getStartupGraph();
+            long timeout = model.getDeploymentTimeout();
+
+            ClassLoader oldCL = Thread.currentThread().getContextClassLoader();
+            ClassLoader classloader = model.getClassLoaderModel().getClassLoader();
+            Thread.currentThread().setContextClassLoader( classloader );
+
+            Deployer deployer = 
+              new Deployer( getLogger().getChildLogger( "deployer" ) );
+
+            try
             {
-                String message = listAppliances( "deployment: ", appliances );
-                getLogger().debug( message );
-            }
-
-            for( int i=0; i<appliances.length; i++ )
-            {
-                Appliance appliance = appliances[i];
-                if( appliance instanceof Block )
+                for( int i=0; i<startup.length; i++ )
                 {
-                    Block block = (Block) appliance;
-                    BlockThread thread = new BlockThread( block );
-                    m_threads.put( block, thread );
-                    thread.start();
-
-                    //
-                    // wait for the thread to complete startup
-                    //
-
-                    while( !thread.started() )
-                    {
-                        try
-                        {
-                            Thread.sleep( 300 );
-                        }
-                        catch( Throwable e )
-                        {
-                            // wakeup
-                        }
-                    }
- 
-                    //
-                    // check for any errors raised during startup
-                    //
-
-                    if( thread.getError() != null )
-                    {
-                        final String error =
-                          "Composite deployment failure in block: [" 
-                          + block + "]";
-                        throw new DeploymentException( 
-                          error, thread.getError() );  
-                    }
-                }
-                else
-                {
-                    appliances[i].deploy();
+                    final DeploymentModel child = startup[i];
+                    final Appliance appliance = locate( child );
+                    deployer.deploy( child );
                 }
             }
+            finally
+            {
+                deployer.dispose();
+                // restore the Old ContextClassloader.
+                Thread.currentThread().setContextClassLoader( oldCL );
+            }
+
             m_deployment.setEnabled( true );
         }
     }
@@ -722,44 +309,25 @@ public abstract class AbstractBlock extends AbstractAppliance
     */
     public void decommission()
     {
-        if( !isAssembled() ) return;
         synchronized( m_deployment )
         {
             if( !m_deployment.isEnabled() ) return;
 
-            Appliance[] appliances = getLocalShutdownSequence();
+            ContainmentModel model = getContainmentModel();
+            DeploymentModel[] shutdown = model.getShutdownGraph();
+            long timeout = model.getDeploymentTimeout();
+
             if( getLogger().isDebugEnabled() )
             {
-                String message = listAppliances( "decommissioning: ", appliances );
+                String message = "decommissioning";
                 getLogger().debug( message );
             }
 
-            for( int i=0; i<appliances.length; i++ )
+            for( int i=0; i<shutdown.length; i++ )
             {
-                Appliance appliance = appliances[i];
-                if( appliance instanceof Block )
-                {
-                    BlockThread thread = 
-                      (BlockThread) m_threads.get( appliance );
-                    thread.decommission();
-
-                    //
-                    // wait for the thread to complete decommissioning
-                    //
-
-                    while( !thread.stopped() )
-                    {
-                        try
-                        {
-                            Thread.sleep( 300 );
-                        }
-                        catch( Throwable e )
-                        {
-                            // wakeup
-                        }
-                    }
-                }
-                else
+                final DeploymentModel child = shutdown[i];
+                final Appliance appliance = getAppliance( child, false );
+                if( null != appliance )
                 {
                     appliance.decommission();
                 }
@@ -799,17 +367,9 @@ public abstract class AbstractBlock extends AbstractAppliance
             if( !m_self.isEnabled() ) return;
 
             getLogger().debug( "disposal phase" );
-            Appliance[] appliances = m_repository.getAppliances();
-            for( int i=0; i<appliances.length; i++ )
-            {
-                Appliance appliance = appliances[i];
-                m_repository.removeAppliance( appliance );
-                if( appliance instanceof Disposable )
-                {
-                    ((Disposable)appliance).dispose();
-                }
-            }
-            m_context.getContainmentModel().removeCompositionListener( this );
+            getContainmentModel().removeCompositionListener( this );
+            getContainmentModel().setHandler( null );
+
             m_self.setEnabled( false );
         }
     }
@@ -818,134 +378,30 @@ public abstract class AbstractBlock extends AbstractAppliance
     // implementation
     //-------------------------------------------------------------------
 
-   /**
-    * Return a subset of the classic startup sequence in which 
-    * all returned appliances are subsidiary appliances to this 
-    * apliance.
-    *
-    * @return the set of subsidiary appliance instances in the 
-    *    startup sequence
-    */
-    private Appliance[] getLocalStartupSequence( )
-    {
-        final DependencyGraph graph = m_context.getDependencyGraph();
-        Appliance[] appliances = graph.getStartupGraph();
-        ArrayList list = new ArrayList();
-        for( int i=0; i<appliances.length; i++ )
-        {
-            Appliance appliance = appliances[i];
-            final String path = appliance.getModel().getPath();
-            final String root = m_context.getContainmentModel().getPartition();
-            if( path.startsWith( root ) )
-            {
-                list.add( appliance );
-            }
-        }
-        return (Appliance[]) list.toArray( new Appliance[0] );
-    }
-
-   /**
-    * Return a subset of the classic shutdown sequence in which 
-    * all returned appliances are subsidiary appliances to this 
-    * apliance.
-    *
-    * @return the set of subsidiary appliance instances in the 
-    *    shutdown sequence
-    */
-    private Appliance[] getLocalShutdownSequence( )
-    {
-        final DependencyGraph graph = m_context.getDependencyGraph();
-        Appliance[] appliances = graph.getShutdownGraph();
-        ArrayList list = new ArrayList();
-        for( int i=0; i<appliances.length; i++ )
-        {
-            Appliance appliance = appliances[i];
-            final String path = appliance.getModel().getPath();
-            final String root = m_context.getContainmentModel().getPartition();
-            if( path.startsWith( root ) )
-            {
-                list.add( appliance );
-            }
-        }
-        return (Appliance[]) list.toArray( new Appliance[0] );
-    }
-
-   /**
-    * Generate a list of appliances as a string.
-    * @param header the list title
-    * @param appliances the appliances to list
-    */
-    private String listAppliances( String header, Appliance[] appliances )
-    {
-        if( appliances.length > 0 )
-        {
-            boolean flag = true;
-            StringBuffer buffer = new StringBuffer( header );
-            for( int i=0; i<appliances.length; i++ )
-            {
-                if( flag )
-                {
-                    buffer.append( appliances[i] );
-                    flag = false;
-                }
-                else
-                {
-                    buffer.append( ", " + appliances[i] );
-                }
-            }
-            return buffer.toString();
-        }
-        else
-        {
-            return new String( header + " (empty)" );
-        }
-    }
-
     /**
      * Create a new appliance.
      * @param model the component model
      * @return the appliance
      */
-    public Appliance createAppliance( Model model ) throws ApplianceException
+    public Appliance createAppliance( DeploymentModel model )
     {
         Appliance appliance = null;
 
         final String path = model.getPath() + model.getName();
-        final ServiceContext services = m_context.getServiceContext();
-        final LoggingManager logging = services.getLoggingManager();
-        final DependencyGraph graph = m_context.getDependencyGraph();
+        Logger logger = model.getLogger();
 
-        if( model instanceof DeploymentModel )
+        if( model instanceof ComponentModel )
         {
             getLogger().debug( "creating appliance: " + path );
-            DeploymentModel deployment = (DeploymentModel) model;
-            CategoriesDirective categories = deployment.getCategories();
-            if( categories != null )
-            {
-                logging.addCategories( path, categories );
-            }
-            Logger logger = logging.getLoggerForCategory( path );
-            appliance = new DefaultAppliance( logger, services, deployment, this );
+            ComponentModel component = (ComponentModel) model;
+            appliance = new DefaultAppliance( component, this );
         }
         else if( model instanceof ContainmentModel )
         {
             getLogger().debug( "creating block: " + path );
             ContainmentModel containment = (ContainmentModel) model;
-            CategoriesDirective categories = containment.getCategories();
-            if( categories != null )
-            {
-                logging.addCategories( path, categories );
-            }
-
-            Logger logger = logging.getLoggerForCategory( path );
-            DefaultApplianceRepository repository = 
-              new DefaultApplianceRepository( m_repository );
-            repository.enableLogging( getLogger() );
-
-            BlockContext context = new DefaultBlockContext(
-              logger, containment, 
-              new DependencyGraph( graph ), services, this, repository );
-
+            BlockContext context = 
+              new DefaultBlockContext( containment, this );
             appliance = new CompositeBlock( context );
         }
         else
@@ -955,7 +411,6 @@ public abstract class AbstractBlock extends AbstractAppliance
             throw new IllegalArgumentException( error );
         }
 
-        graph.add( appliance );
         return appliance;
     }
 

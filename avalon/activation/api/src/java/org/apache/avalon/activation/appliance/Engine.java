@@ -51,6 +51,7 @@
 package org.apache.avalon.activation.appliance;
 
 import org.apache.avalon.composition.model.StageModel;
+import org.apache.avalon.composition.model.DeploymentModel;
 import org.apache.avalon.composition.model.DependencyModel;
 import org.apache.avalon.meta.info.DependencyDescriptor;
 import org.apache.avalon.meta.info.StageDescriptor;
@@ -60,66 +61,22 @@ import org.apache.avalon.meta.info.StageDescriptor;
  * appliance resolution.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $ $Date: 2003/11/22 12:52:55 $
+ * @version $Revision: 1.3.2.1 $ $Date: 2004/01/07 12:57:25 $
  */
 public interface Engine
 {
    /**
-    * Return an appliance relative to a supplied dependency model.
-    * @param dependency the dependency model
-    * @return the appliance
-    * @exception NoProviderDefinitionException if no provider an be found
-    *    for the supplied dependency
-    * @exception ApplianceException if an error occurs during appliance
-    *    resolution
-    */
-    Appliance locate( DependencyModel dependency )
-      throws NoProviderDefinitionException, ApplianceException;
-
-   /**
-    * Return an appliance relative to a supplied dependency descriptor.
-    * @param dependency the dependency descriptor
-    * @return the appliance
-    * @exception NoProviderDefinitionException if no provider an be found
-    *    for the supplied dependency
-    * @exception ApplianceException if an error occurs during appliance
-    *    resolution
-    */
-    Appliance locate( DependencyDescriptor dependency )
-      throws NoProviderDefinitionException, ApplianceException;
-
-   /**
-    * Return an appliance relative to a supplied stage model.
-    * @param stage the stage model
-    * @return the appliance
-    * @exception NoProviderDefinitionException if no provider an be found
-    *    for the supplied stage
-    * @exception ApplianceException if an error occurs during appliance
-    *    resolution
-    */
-    Appliance locate( StageModel stage )
-      throws NoProviderDefinitionException, ApplianceException;
-
-   /**
-    * Return an appliance relative to a supplied stage descriptor.
-    * @param stage the stage descriptor
-    * @return the appliance
-    * @exception NoProviderDefinitionException if no provider an be found
-    *    for the supplied stage
-    * @exception ApplianceException if an error occurs during appliance
-    *    resolution
-    */
-    Appliance locate( StageDescriptor stage )
-      throws NoProviderDefinitionException, ApplianceException;
-
-   /**
     * Return an appliance relative to a supplied path.
     * @param path the appliance path
     * @return the appliance
-    * @exception IllegalArgumentException if the supplied path is invalid
-    * @exception ApplianceException if an error occurs during appliance
-    *    resolution
     */
-    Appliance locate( String path )
-      throws IllegalArgumentException, ApplianceException;
+    Appliance locate( String path );
+
+   /**
+    * Return an appliance relative to a supplied model.
+    * @param model the meta model
+    * @return the appliance
+    */
+    Appliance locate( DeploymentModel model );
+
 }

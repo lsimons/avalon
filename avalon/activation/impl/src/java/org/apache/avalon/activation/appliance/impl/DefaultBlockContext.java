@@ -51,10 +51,8 @@
 package org.apache.avalon.activation.appliance.impl;
 
 import org.apache.avalon.framework.logger.Logger;
+import org.apache.avalon.composition.model.SystemContext;
 import org.apache.avalon.composition.model.ContainmentModel;
-import org.apache.avalon.activation.appliance.ApplianceRepository;
-import org.apache.avalon.activation.appliance.DependencyGraph;
-import org.apache.avalon.activation.appliance.ServiceContext;
 import org.apache.avalon.activation.appliance.Engine;
 import org.apache.avalon.activation.appliance.BlockContext;
 
@@ -62,55 +60,27 @@ import org.apache.avalon.activation.appliance.BlockContext;
  * Context object applied to a new block.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $ $Date: 2003/11/04 01:07:52 $
+ * @version $Revision: 1.3.2.4 $ $Date: 2004/01/12 05:41:05 $
  */
 public class DefaultBlockContext implements BlockContext
 {
-    private final Logger m_logger;
-
     private final ContainmentModel m_model;
-
-    private final DependencyGraph m_graph;
-
-    private final ServiceContext m_context;
 
     private final Engine m_engine;
 
-    private final ApplianceRepository m_repository;
-
    /**
     * Creation of a new block context.
-    * @param logger the logging channel to assign
     * @param model the containment model describing the block
-    * @param graph the dependency graph
-    * @param context the service context
     * @param engine the engine from which dependent applicance 
     *      instances may be resolved
-    * @param repository the parent appliance repository
     */
     public DefaultBlockContext( 
-      Logger logger, ContainmentModel model, DependencyGraph graph, 
-      ServiceContext context, Engine engine, ApplianceRepository repository )
+      ContainmentModel model, Engine engine )
     {
-        if( graph == null ) throw new NullPointerException( "graph" );
-        if( context == null ) throw new NullPointerException( "context" );
-        if( repository == null ) throw new NullPointerException( "repository" );
+        if( model == null ) throw new NullPointerException( "model" );
 
-        m_logger = logger;
-        m_repository = repository;
         m_model = model;
-        m_context = context;
         m_engine = engine;
-        m_graph = graph;
-    }
-
-   /**
-    * Returns the logging channel to assign to the block.
-    * @return the logging channel
-    */
-    public Logger getLogger()
-    {
-        return m_logger;
     }
 
    /**
@@ -123,38 +93,11 @@ public class DefaultBlockContext implements BlockContext
     }
 
    /**
-    * Returns the dependency graph assigned to the block.
-    * @return the dependency graph
-    */
-    public DependencyGraph getDependencyGraph()
-    {
-        return m_graph;
-    }
-
-   /**
-    * Returns the service context assigned to the block.
-    * @return the service context
-    */
-    public ServiceContext getServiceContext()
-    {
-        return m_context;
-    }
-
-   /**
     * Returns the assigned engine.
     * @return the engine
     */
     public Engine getEngine()
     {
         return m_engine;
-    }
-
-   /**
-    * Returns the parent appliance repository.
-    * @return the appliance repository
-    */
-    public ApplianceRepository getApplianceRepository()
-    {
-        return m_repository;
     }
 }

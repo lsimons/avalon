@@ -55,9 +55,9 @@ import java.io.Serializable;
 /**
  * The <code>Mode</code> class declares the EXPLICIT, PACKAGED or IMPLICIT mode of creation of a profile.
  *
- * @see Profile
+ * @see DeploymentProfile
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2003/09/24 09:31:08 $
+ * @version $Revision: 1.1.1.1.2.1 $ $Date: 2004/01/09 20:29:48 $
  */
 public class Mode implements Serializable
 {

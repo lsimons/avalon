@@ -50,190 +50,137 @@
 
 package org.apache.avalon.composition.model;
 
-import org.apache.avalon.composition.data.CategoriesDirective;
-import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.parameters.Parameters;
-import org.apache.avalon.meta.info.Type;
+import org.apache.avalon.composition.data.Mode;
+
+import org.apache.avalon.meta.info.DependencyDescriptor;
+import org.apache.avalon.meta.info.ServiceDescriptor;
+import org.apache.avalon.meta.info.StageDescriptor;
+
+import org.apache.avalon.framework.logger.Logger;
 
 /**
- * Deployment model defintion.
+ * Model desribing a deployment scenario.
  *
- * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.7 $ $Date: 2003/12/14 14:09:59 $
+ * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
+ * @version $Revision: 1.7.2.6 $ $Date: 2004/01/12 00:17:19 $
  */
-public interface DeploymentModel extends Model
+public interface DeploymentModel
 {
+    String SEPARATOR = "/";
 
    /**
-    * Return the deployment type.
-    * 
-    * @return the type
+    * Return the name of the model.
+    * @return the name
     */
-    Type getType();
+    String getName();
 
    /**
-    * Return the activation policy for the model. 
-    * @return the activaltion policy
+    * Return the model partition path.
+    * @return the path
     */
-    boolean getActivationPolicy();
+    String getPath();
 
    /**
-    * Return the collection policy for the model. If a profile
-    * does not declare a collection policy, the collection policy 
-    * declared by the type will be used.
+    * Return the model fully qualified name.
+    * @return the fully qualified name
+    */
+    String getQualifiedName();
+
+   /**
+    * Return the mode of model establishment.
+    * @return the mode
+    */
+    Mode getMode();
+
+   /**
+    * Set the runtime handler for the model.
+    * @param handler the runtime handler
+    */
+    void setHandler( Object handler );
+
+   /**
+    * Get the assigned runtime handler for the model.
+    * @return the runtime handler
+    */
+    Object getHandler();
+
+   /**
+    * Return the assigned logging channel.
+    * @return the logging channel
+    */
+    Logger getLogger();
+
+    //-----------------------------------------------------------
+    // service production
+    //-----------------------------------------------------------
+    
+   /**
+    * Return the set of services produced by the model.
+    * @return the services
+    */
+    ServiceDescriptor[] getServices();
+
+   /**
+    * Return TRUE is this model is capable of supporting a supplied 
+    * depedendency.
+    * @return true if this model can fulfill the dependency
+    */
+    boolean isaCandidate( DependencyDescriptor dependency );
+
+   /**
+    * Return TRUE is this model is capable of supporting a supplied 
+    * stage dependency.
+    * @return true if this model can fulfill the dependency
+    */
+    boolean isaCandidate( StageDescriptor stage );
+
+    //-----------------------------------------------------------
+    // composite assembly
+    //-----------------------------------------------------------
+
+    /**
+     * Returns the assembled state of the model.
+     * @return true if this model is assembled
+     */
+    boolean isAssembled();
+
+    /**
+     * Assemble the model.
+     * @exception Exception if an error occurs during model assembly
+     */
+    void assemble() throws AssemblyException;
+
+   /**
+    * Return the set of models consuming this model.
+    * @return the consumers
+    */
+    DeploymentModel[] getConsumerGraph();
+
+   /**
+    * Return the set of models supplying this model.
+    * @return the providers
+    */
+    DeploymentModel[] getProviderGraph();
+
+    /**
+     * Disassemble the model.
+     */
+    void disassemble();
+
+    /**
+     * Return the set of models assigned as providers.
+     * @return the providers consumed by the model
+     * @exception IllegalStateException if invoked prior to 
+     *    the completion of the assembly phase 
+     */
+    DeploymentModel[] getProviders();
+
+   /** 
+    * Returns the maximum allowable time for deployment.
     *
-    * @return the collection policy
-    * @see org.apache.avalon.meta.info.InfoDescriptor#WEAK
-    * @see org.apache.avalon.meta.info.InfoDescriptor#SOFT
-    * @see org.apache.avalon.meta.info.InfoDescriptor#HARD
-    */
-    int getCollectionPolicy();
-
-   /**
-    * Set the collection policy to a supplied value.
-    *
-    * @param policy the collection policy
-    * @see org.apache.avalon.meta.info.InfoDescriptor#WEAK
-    * @see org.apache.avalon.meta.info.InfoDescriptor#SOFT
-    * @see org.apache.avalon.meta.info.InfoDescriptor#HARD
-    * @see org.apache.avalon.meta.info.InfoDescriptor#UNDEFINED
-    */
-    void setCollectionPolicy( int policy );
-
-   /**
-    * Return the logging categories. 
-    * @return the logging categories
-    */
-    CategoriesDirective getCategories();
-
-   /**
-    * Set categories. 
-    * @param categories the logging categories
-    */
-    void setCategories( CategoriesDirective categories );
-
-   /**
-    * Set the activation policy for the model. 
-    * @param policy the activaltion policy
-    */
-    void setActivationPolicy( boolean policy );
-
-   /**
-    * Set the activation policy for the model to the default value. 
-    */
-    void revertActivationPolicy();
-
-   /**
-    * Return the class for the deployable target.
-    * @return the class
-    */
-    Class getDeploymentClass();
-
-   /**
-    * Set the configuration to the supplied value.  The supplied 
-    * configuration will replace the existing configuration.
-    *
-    * @param config the supplied configuration
-    */
-    void setConfiguration( Configuration config );
-
-   /**
-    * Set the configuration to the supplied value.  The supplied 
-    * configuration may suppliment or replace the existing configuration.
-    *
-    * @param config the supplied configuration
-    * @param policy if TRUE the supplied configuration replaces the current
-    *   configuration otherwise the resoved configuration shall be layed above
-    *   the configuration supplied with the profile which in turn is layer above 
-    *   the type default configuration (if any)
-    */
-    void setConfiguration( Configuration config, boolean policy );
-
-   /**
-    * Return the configuration to be applied to the component.
-    * The implementation returns the current configuration state.
-    * If the the component type does not implementation the 
-    * Configurable interface, the implementation returns null. 
-    *
-    * @return the qualified configuration
-    */
-    Configuration getConfiguration();
-
-   /**
-    * Test if the component type backing the model is 
-    * parameterizable.
-    *
-    * @return TRUE if the component type is parameterizable
-    *   otherwise FALSE
-    */
-    public boolean isParameterizable();
-
-   /**
-    * Set the parameters to the supplied value.  The supplied 
-    * parameters value will replace the existing parameters value.
-    *
-    * @param parameters the supplied parameters value
-    */
-    public void setParameters( Parameters parameters );
-
-   /**
-    * Set the parameters to the supplied value.  The supplied 
-    * parameters value may suppliment or replace the existing 
-    * parameters value.
-    *
-    * @param parameters the supplied parameters
-    * @param policy if TRUE the supplied parameters replaces the current
-    *   parameters value otherwise the existing and supplied values
-    *   are aggregrated
-    */
-    void setParameters( Parameters parameters, boolean policy );
-
-   /**
-    * Return the configuration to be applied to the component.
-    * The implementation returns the current configuration state.
-    * If the the component type does not implementation the 
-    * Configurable interface, the implementation returns null. 
-    *
-    * @return the qualified configuration
-    */
-    Parameters getParameters();
-
-   /**
-    * Rest if the component type backing the model requires the 
-    * establishment of a runtime context.
-    *
-    * @return TRUE if the component type requires a runtime
-    *   context otherwise FALSE
-    */
-    boolean isContextDependent();
-
-   /**
-    * Return the context model for this deployment model.
-    * 
-    * @return the context model if this model is context dependent, else
-    *   the return value is null
-    */
-    ContextModel getContextModel();
-
-   /**
-    * Return the dependency models for this deployment model.
-    *
-    * @return the dependency models
-    */
-    DependencyModel[] getDependencyModels();
-
-   /**
-    * Return the stage models for this deployment model.
-    *
-    * @return the stage models
-    */
-    StageModel[] getStageModels();
-
-   /**
-    * Return the set of services produced by the model as a array of classes.
-    *
-    * @return the service classes
-    */
-    Class[] getInterfaces();
+    * @return the maximum time expressed in millisecond of how 
+    * long a deployment may take.
+    **/
+   long getDeploymentTimeout();
 
 }

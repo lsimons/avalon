@@ -56,9 +56,9 @@ import java.io.Writer;
 
 import org.apache.avalon.composition.data.BlockIncludeDirective;
 import org.apache.avalon.composition.data.BlockCompositionDirective;
-import org.apache.avalon.composition.data.Profile;
-import org.apache.avalon.composition.data.ContainmentProfile;
 import org.apache.avalon.composition.data.DeploymentProfile;
+import org.apache.avalon.composition.data.ContainmentProfile;
+import org.apache.avalon.composition.data.ComponentProfile;
 import org.apache.avalon.composition.data.ClassLoaderDirective;
 import org.apache.avalon.composition.data.ClasspathDirective;
 import org.apache.avalon.composition.data.LibraryDirective;
@@ -72,9 +72,9 @@ import org.apache.avalon.composition.data.IncludeDirective;
  * Write {@link ContainmentProfile} objects to a stream as xml documents.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2003/10/28 20:21:00 $
+ * @version $Revision: 1.2.2.1 $ $Date: 2004/01/09 20:29:49 $
  */
-public class XMLContainmentProfileWriter extends XMLDeploymentProfileWriter
+public class XMLContainmentProfileWriter extends XMLComponentProfileWriter
 {
     /**
      * Write out a containment profile to xml.
@@ -372,23 +372,23 @@ public class XMLContainmentProfileWriter extends XMLDeploymentProfileWriter
      * @throws IOException if unable to write xml
      */
     private void writeProfiles( 
-      final Writer writer, final Profile[] profiles, String pad )
+      final Writer writer, final DeploymentProfile[] profiles, String pad )
       throws Exception
     {
         for( int i=0; i<profiles.length; i++ )
         {
-            Profile profile = profiles[i];
+            DeploymentProfile profile = profiles[i];
             if( profile instanceof ContainmentProfile )
             {
                 ContainmentProfile container = (ContainmentProfile) profile;
                 writer.write( "\n" );
                 writeContainmentProfile( writer, container, pad );
             }
-            else if( profile instanceof DeploymentProfile )
+            else if( profile instanceof ComponentProfile )
             {
-                DeploymentProfile component = (DeploymentProfile) profile;
+                ComponentProfile component = (ComponentProfile) profile;
                 writer.write( "\n" );
-                writeDeploymentProfile( writer, component, pad );
+                writeComponentProfile( writer, component, pad );
             }
             else if( profile instanceof BlockIncludeDirective )
             {

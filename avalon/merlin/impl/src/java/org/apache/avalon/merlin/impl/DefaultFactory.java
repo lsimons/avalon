@@ -60,16 +60,15 @@ import java.util.Iterator;
 import java.util.Locale;
 
 import org.apache.avalon.activation.appliance.Block;
-import org.apache.avalon.activation.appliance.Composite;
+import org.apache.avalon.activation.appliance.BlockContext;
 import org.apache.avalon.activation.appliance.impl.AbstractBlock;
-import org.apache.avalon.activation.appliance.impl.DefaultServiceContext;
 
 import org.apache.avalon.composition.data.ContainmentProfile;
 import org.apache.avalon.composition.data.CategoriesDirective;
 import org.apache.avalon.composition.data.ContainmentProfile;
 import org.apache.avalon.composition.data.TargetDirective;
 import org.apache.avalon.composition.data.builder.XMLTargetsCreator;
-import org.apache.avalon.composition.data.builder.XMLDeploymentProfileCreator;
+import org.apache.avalon.composition.data.builder.XMLComponentProfileCreator;
 import org.apache.avalon.composition.data.builder.XMLContainmentProfileCreator;
 import org.apache.avalon.composition.logging.LoggingManager;
 import org.apache.avalon.composition.logging.LoggingDescriptor;
@@ -78,18 +77,21 @@ import org.apache.avalon.composition.logging.TargetProvider;
 import org.apache.avalon.composition.logging.impl.DefaultLoggingManager;
 import org.apache.avalon.composition.logging.impl.FileTargetProvider;
 import org.apache.avalon.composition.model.ContainmentContext;
-import org.apache.avalon.composition.model.DeploymentModel;
+import org.apache.avalon.composition.model.ComponentModel;
 import org.apache.avalon.composition.model.ContainmentModel;
 import org.apache.avalon.composition.model.ModelFactory;
 import org.apache.avalon.composition.model.SystemContext;
 import org.apache.avalon.composition.model.ClassLoaderContext;
 import org.apache.avalon.composition.model.ClassLoaderModel;
+import org.apache.avalon.composition.model.ModelRepository;
 import org.apache.avalon.composition.model.impl.DefaultSystemContext;
+import org.apache.avalon.composition.model.impl.DelegatingSystemContext;
 import org.apache.avalon.composition.model.impl.DefaultModelFactory;
 import org.apache.avalon.composition.model.impl.DefaultContainmentContext;
 import org.apache.avalon.composition.model.impl.DefaultContainmentModel;
 import org.apache.avalon.composition.model.impl.DefaultClassLoaderModel;
 import org.apache.avalon.composition.model.impl.DefaultClassLoaderContext;
+import org.apache.avalon.composition.model.impl.DefaultModelRepository;
 import org.apache.avalon.composition.util.StringHelper;
 
 import org.apache.avalon.excalibur.i18n.ResourceManager;
@@ -100,6 +102,7 @@ import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.configuration.DefaultConfiguration;
 import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
+import org.apache.avalon.framework.parameters.Parameters;
 
 import org.apache.avalon.merlin.Kernel;
 import org.apache.avalon.merlin.KernelException;
@@ -129,8 +132,8 @@ public class DefaultFactory implements Factory
     private static Resources REZ =
         ResourceManager.getPackageResources( DefaultFactory.class );
 
-    private static final XMLDeploymentProfileCreator CREATOR = 
-      new XMLDeploymentProfileCreator();
+    private static final XMLComponentProfileCreator CREATOR = 
+      new XMLComponentProfileCreator();
 
     private static final XMLContainmentProfileCreator CONTAINER_CREATOR = 
       new XMLContainmentProfileCreator();
@@ -143,8 +146,6 @@ public class DefaultFactory implements Factory
     //--------------------------------------------------------------------------
 
     private Logger m_logger;
-
-    private LoggingManager m_logging;
 
     private InitialContext m_context;
 
@@ -207,7 +208,7 @@ public class DefaultFactory implements Factory
           throw new NullPointerException( "map" );
 
         KernelCriteria criteria = null;
-        if( map instanceof KernelCriteria) 
+        if( map instanceof KernelCriteria ) 
         {
             criteria = (KernelCriteria) map;
         }
@@ -218,20 +219,7 @@ public class DefaultFactory implements Factory
             throw new IllegalArgumentException( error );
         }
 
-        //
-        // set the language code
-        //
-
-        String language = criteria.getLanguageCode();
-        if( null != language )
-        { 
-            ResourceManager.clearResourceCache();
-            Locale locale = new Locale( language, "" );
-            Locale.setDefault( locale );
-            REZ = 
-              ResourceManager.getPackageResources( 
-                DefaultFactory.class );
-        }
+        setupLanguageCode( criteria );
 
         //
         // create the kernel configuration
@@ -239,7 +227,6 @@ public class DefaultFactory implements Factory
 
         URL kernelURL = (URL) criteria.getKernelURL();
         Configuration kernelConfig = getKernelConfiguration( kernelURL );
-        String listing = ConfigurationUtil.list( kernelConfig );
 
         //
         // create the logging subsystem
@@ -249,194 +236,104 @@ public class DefaultFactory implements Factory
           kernelConfig.getChild( "logging" );
         LoggingDescriptor loggingDescriptor = 
           createLoggingDescriptor( loggingConfig );
-
-        m_logging = 
-          new DefaultLoggingManager( 
-            criteria.getWorkingDirectory(), 
-            loggingDescriptor, 
-            criteria.isDebugEnabled() );
+        final String name = loggingDescriptor.getName();
+        LoggingManager logging = 
+          createLoggingManager( criteria, loggingDescriptor );
 
         m_logger = 
-          m_logging.getLoggerForCategory( 
-            loggingDescriptor.getName() );
+          logging.getLoggerForCategory( name );
         getLogger().debug( "logging system established" );
+
+        //
+        // with the logging system established, check if the 
+        // info listing mode is set and if so, generate a report
+        // of the current parameters
+        //
 
         if( criteria.isInfoEnabled() )
         {
-            StringBuffer buffer = 
-              new StringBuffer( REZ.getString( "info.listing" ) );
-
-            buffer.append( "\n" );
-            buffer.append( 
-              "\n  ${user.dir} == " 
-              + System.getProperty( "user.dir" ) );
-            buffer.append( 
-              "\n  ${user.home} == " 
-              + System.getProperty( "user.home" ) );
-
-            buffer.append( "\n" );
-            buffer.append( "\n  ${avalon.repository.cache} == " 
-              + m_context.getInitialCacheDirectory() );
-            buffer.append( "\n  ${avalon.repository.hosts} == " );
-            String[] hosts = m_context.getInitialHosts();
-            for( int i=0; i<hosts.length; i++ )
-            {
-                if( i>0 ) buffer.append( "," );
-                buffer.append( hosts[i] );
-            }
-
-            buffer.append( "\n" );
-
-            buffer.append( 
-              "\n  ${merlin.repository} == " 
-              + criteria.getRepositoryDirectory() );
-
-            buffer.append( 
-              "\n  ${merlin.lang} == " 
-              + criteria.getLanguageCode() );
-
-            buffer.append( 
-              "\n  ${merlin.home} == " 
-              + criteria.getHomeDirectory() );
-
-            buffer.append( 
-              "\n  ${merlin.system} == " 
-              + criteria.getSystemDirectory() );
-
-            buffer.append( 
-              "\n  ${merlin.config} == " 
-              + criteria.getConfigDirectory() );
-
-            buffer.append( 
-              "\n  ${merlin.kernel} == " 
-              + criteria.getKernelURL() );
-
-            buffer.append( 
-              "\n  ${merlin.override} == " 
-              + criteria.getOverridePath() );
-
-            buffer.append( 
-              "\n  ${merlin.dir} == " 
-              + criteria.getWorkingDirectory() );
-
-            buffer.append( 
-              "\n  ${merlin.temp} == " 
-              + criteria.getTempDirectory() );
-
-            buffer.append( 
-              "\n  ${merlin.context} == " 
-              + criteria.getContextDirectory() );
-
-            buffer.append( 
-              "\n  ${merlin.anchor} == " 
-              + criteria.getAnchorDirectory() );
-
-            buffer.append( 
-              "\n  ${merlin.info} == " 
-              + criteria.isInfoEnabled() );
-
-            buffer.append( 
-              "\n  ${merlin.debug} == " 
-              + criteria.isDebugEnabled() );
-
-            buffer.append( 
-              "\n  ${merlin.server} == " 
-              + criteria.isServerEnabled() );
-
-            buffer.append( 
-              "\n  ${merlin.autostart} == " 
-              + criteria.isAutostartEnabled() );
-
-            buffer.append( "\n  ${merlin.deployment} == " );
-            URL[] urls = criteria.getDeploymentURLs();
-            for( int i=0; i<urls.length; i++ )
-            {   
-                if( i>0 ) buffer.append( "," );  
-                buffer.append( StringHelper.toString( urls[i] ) );
-            }
-            buffer.append( "\n" );
-            getLogger().info( buffer.toString() );
+            String report = createInfoListing( m_context, criteria );
+            getLogger().info( report );
         }
 
         //
-        // create the common repository
+        // Create the system context.
         //
-
-        Configuration repositoryConfig = 
-          kernelConfig.getChild( "repository" );
-        File cache = criteria.getRepositoryDirectory();
-        CacheManager manager = 
-          createCacheManager( m_context, cache, repositoryConfig );
-        Repository repository = manager.createRepository();
-        getLogger().debug( 
-          "repository established: " + repository );
-
-        //
-        // create the system context
-        //
-
-        File anchor = criteria.getAnchorDirectory();
 
         SystemContext systemContext = 
-          new DefaultSystemContext( 
-            m_logging,
-            anchor,
-            criteria.getContextDirectory(),
-            criteria.getTempDirectory(),
-            repository,
-            loggingDescriptor.getName(),
-            criteria.isDebugEnabled() );
+          createSystemContext( 
+            m_context, criteria, logging, kernelConfig, name );
 
         //
-        // create the system model and block
+        // Create the application model.  Normally the application 
+        // model is empty and we will not get any errors in this 
+        // process.  Development errors will normally occur when 
+        // adding block directives to the application model.
         //
 
-        final Logger systemLogger = getLogger();
-
-        //ClassLoader impl = 
-        //  Thread.currentThread().getContextClassLoader();
-
-        ContainmentModel system = 
-          new DefaultContainmentModel(
-            createContainmentContext( 
-              systemContext, systemLogger, m_classloader,
-              getContainmentProfile( 
-                kernelConfig.getChild( "system" ) ) ) );
+        Configuration appConfig = 
+          kernelConfig.getChild( "container" );
+        ContainmentModel application = 
+          createApplicationModel( systemContext, appConfig );
 
         //
-        // TODO: now that the system context is established we 
-        // need to create a block and supply the system block
-        // (perhaps under a service manager) to the new model
-        // model factory to ensure that new system services 
-        // established under system scope override the bootstrap 
-        // facilities
-        //
+        // Create the containment model describing all of the 
+        // system facilities. These facilities may include model 
+        // listeners and dependent components that facilitate the
+        // customization of the runtime merlin system.  The 
+        // facilities model receives a privaliged system context
+        // that contains a reference to the root application model
+        // enabling listeners to register themselves for model 
+        // changes.
+        // 
 
-        DefaultServiceContext services = new DefaultServiceContext();
-        services.put( LoggingManager.KEY, m_logging );
+        getLogger().info( "facilities deployment" );
+        Configuration facilitiesConfig = 
+          kernelConfig.getChild( "facilities" );
+        Logger facilitiesLogger = getLogger();
+
+        DelegatingSystemContext system = 
+          new DelegatingSystemContext( systemContext );
+        system.put( "urn:composition:dir", criteria.getWorkingDirectory() );
+        system.put( "urn:composition:anchor", criteria.getAnchorDirectory() );
+        system.put( "urn:composition:application", application );
+        system.makeReadOnly();
+
+        ContainmentModel facilities = 
+          createFacilitiesModel( 
+            system, facilitiesLogger, facilitiesConfig );
+
+        //
+        // Assembly of the system containment model. Note .. its not sure
+        // if this function should be a part of the kernel initialization
+        // or if this belongs here in the factory.  The current view is
+        // the factory does the work of constructing the artifacts for
+        // the kernel and the kernel implements the kernel 
+        // startup/shutdown behaviour and the embeddor handles any post
+        // kernel management logic.
+        //
 
         try
         {
-            m_system = AbstractBlock.createRootBlock( services, system );
-            if( m_system instanceof Composite )
-            {
-                try
-                {
-                    getLogger().debug( "system assembly" );
-                    ((Composite)m_system).assemble();
-                }
-                catch( Throwable e )
-                {
-                    final String error = 
-                      "Facilities assembly failure.";
-                    throw new KernelException( error, e );
-                }
-            }
+            getLogger().debug( "system assembly" );
+            facilities.assemble();
         }
         catch( Throwable e )
         {
             final String error = 
-              "Facilities composition failure.";
+             "Facilities assembly failure.";
+            throw new KernelException( error, e );
+        }
+
+        try
+        {
+            m_system = 
+              AbstractBlock.createRootBlock( facilities );
+        }
+        catch( Throwable e )
+        {
+            final String error = 
+              "Facilities establishment failure.";
             throw new KernelException( error, e );
         }
 
@@ -454,22 +351,10 @@ public class DefaultFactory implements Factory
         }
 
         //
-        // create the application model
-        //
-
-        final Logger applicationLogger = m_logging.getLoggerForCategory("");
-        ClassLoader api = systemContext.getCommonClassLoader();
-        ContainmentModel application = 
-          new DefaultContainmentModel(
-            createContainmentContext( 
-              systemContext, applicationLogger, api,
-              getContainmentProfile( 
-                kernelConfig.getChild( "container" ) ) ) );
-
-        //
         // install any blocks declared within the kernel context
         //
 
+        getLogger().info( "block installation" );
         getLogger().debug( "install phase" );
         URL[] urls = criteria.getDeploymentURLs();
         for( int i=0; i<urls.length; i++ )
@@ -518,28 +403,11 @@ public class DefaultFactory implements Factory
         }
 
         //
-        // instantiate the runtime root application block
-        //
-
-        getLogger().debug( "activation phase" );
-        try
-        {
-            m_application = 
-              AbstractBlock.createRootBlock( services, application );
-        }
-        catch( Throwable e )
-        {
-            final String error = 
-              "Composition failure.";
-            throw new KernelException( error, e );
-        }
-
-        //
         // instantiate the kernel
         //
 
         Kernel kernel = 
-          createKernel( getLogger(), criteria, m_system, m_application );
+          createKernel( getLogger(), criteria, systemContext, application );
         setShutdownHook( getLogger(), kernel );
         if( criteria.isAutostartEnabled() )
         {
@@ -579,13 +447,13 @@ public class DefaultFactory implements Factory
     }
 
     private Kernel createKernel(
-      Logger logger, KernelCriteria criteria, Block system, Block application )
+      Logger logger, KernelCriteria criteria, SystemContext context, ContainmentModel application )
       throws KernelException
     {
         try
         {
             return new DefaultKernel( 
-              logger, criteria, system, application );
+              logger, criteria, context, application );
         }
         catch( Throwable e )
         {
@@ -596,7 +464,101 @@ public class DefaultFactory implements Factory
     }
 
    /**
-    * Creation of a new containment context.
+    * If the kernel criteria includes a language code
+    * then set the current local to the declared value.
+    *
+    * @param criteria the kernel criteria
+    */
+    public void setupLanguageCode( KernelCriteria criteria )
+    {
+        String language = criteria.getLanguageCode();
+        if( null != language )
+        { 
+            ResourceManager.clearResourceCache();
+            Locale locale = new Locale( language, "" );
+            Locale.setDefault( locale );
+            REZ = 
+              ResourceManager.getPackageResources( 
+                DefaultFactory.class );
+        }
+    }
+
+   /**
+    * Utility method to construct the system context.
+    * @param criteria the kernel criteria
+    * @param logging the logging manager
+    * @param config the kernel configuration
+    * @param name not sure - need to check
+    */
+    private SystemContext createSystemContext( 
+      InitialContext context, KernelCriteria criteria, LoggingManager logging, 
+      Configuration config, String name ) throws Exception
+    {
+
+        //
+        // create the application repository
+        //
+
+        Configuration repositoryConfig = 
+          config.getChild( "repository" );
+        Repository repository = 
+          createRepository( context, criteria, repositoryConfig );
+        getLogger().debug( 
+          "repository established: " + repository );
+
+        //
+        // create the kernel <parameters>
+        //
+
+        Configuration paramsConfig = 
+          config.getChild( "parameters" );
+        Parameters params = 
+          Parameters.fromConfiguration( 
+            paramsConfig, "parameter" );
+
+        //
+        // create the system context
+        //
+
+        File anchor = criteria.getAnchorDirectory();
+
+        return new DefaultSystemContext( 
+            logging,
+            anchor,
+            criteria.getContextDirectory(),
+            criteria.getTempDirectory(),
+            repository,
+            name,
+            criteria.isDebugEnabled(),
+            params );
+    }
+
+    private ContainmentModel createApplicationModel( 
+      SystemContext system, Configuration config ) throws Exception
+    {
+        getLogger().info( "building application model" );
+        LoggingManager logging = system.getLoggingManager();
+        final Logger logger = logging.getLoggerForCategory("");
+        ClassLoader api = system.getCommonClassLoader();
+        ContainmentProfile profile = getContainmentProfile( config );
+        ContainmentContext context = 
+          createContainmentContext( system, logger, api, profile );
+        return new DefaultContainmentModel( context );
+    }
+
+    private ContainmentModel createFacilitiesModel(
+      SystemContext system, Logger logger, Configuration config )
+      throws Exception
+    {   
+        ClassLoader spi = BlockContext.class.getClassLoader();
+        ContainmentProfile profile = getContainmentProfile( config );
+        return new DefaultContainmentModel(
+            createContainmentContext( 
+              system, logger, spi, profile ) );
+    }
+
+   /**
+    * Creation of a new root containment context.
     *
     * @param profile a containment profile 
     * @return the containment context
@@ -624,9 +586,10 @@ public class DefaultFactory implements Factory
           logger, 
           context, 
           classLoaderModel,
+          null,
+          null,
           profile );
     }
-
 
     private ContainmentProfile getContainmentProfile( Configuration config )
       throws KernelException
@@ -642,6 +605,23 @@ public class DefaultFactory implements Factory
               + ConfigurationUtil.list( config );
             throw new KernelException( error, e );
         }
+    }
+
+   /**
+    * Utility method to create the application repository.
+    * @param context the initial context
+    * @param criteria the supplied factory criteria
+    * @param config the repositotry configuration element
+    * @return the repository
+    */
+    private Repository createRepository( 
+      InitialContext context, KernelCriteria criteria, Configuration config )
+      throws KernelException
+    {
+        File cache = criteria.getRepositoryDirectory();
+        CacheManager manager = 
+          createCacheManager( context, cache, config );
+        return manager.createRepository();
     }
 
     private CacheManager createCacheManager( 
@@ -671,7 +651,7 @@ public class DefaultFactory implements Factory
             {
                 final String host = 
                   proxyConfig.getChild( "host" ).getValue( null );
-                criteria.put( "avalon.repository.proxy.host", hosts );
+                criteria.put( "avalon.repository.proxy.host", host );
 
                 final int port = 
                   proxyConfig.getChild( "port" ).getValueAsInteger( 0 );
@@ -750,6 +730,20 @@ public class DefaultFactory implements Factory
             }
         }
         return (String[]) list.toArray( new String[0] );
+    }
+
+   /**
+    * Utility method to create the LoggingManager.
+    * @param criteria the kernel criteria
+    * @param descriptor the logging descriptor
+    * @return the logging manager
+    */
+    private LoggingManager createLoggingManager(
+      KernelCriteria criteria, LoggingDescriptor descriptor ) throws Exception
+    {
+        File dir = criteria.getWorkingDirectory();
+        boolean debug = criteria.isDebugEnabled();
+        return new DefaultLoggingManager( dir, descriptor, debug );
     }
 
     /**
@@ -966,6 +960,104 @@ public class DefaultFactory implements Factory
         return new FileTargetProvider( file );
     }
 
+    private String createInfoListing( 
+      InitialContext context, KernelCriteria criteria )
+    {
+        StringBuffer buffer = 
+          new StringBuffer( REZ.getString( "info.listing" ) );
+
+        buffer.append( "\n" );
+        buffer.append( 
+          "\n  ${user.dir} == " 
+          + System.getProperty( "user.dir" ) );
+        buffer.append( 
+          "\n  ${user.home} == " 
+          + System.getProperty( "user.home" ) );
+
+        buffer.append( "\n" );
+        buffer.append( "\n  ${avalon.repository.cache} == " 
+          + context.getInitialCacheDirectory() );
+        buffer.append( "\n  ${avalon.repository.hosts} == " );
+        String[] hosts = context.getInitialHosts();
+        for( int i=0; i<hosts.length; i++ )
+        {
+            if( i>0 ) buffer.append( "," );
+            buffer.append( hosts[i] );
+        }
+
+        buffer.append( "\n" );
+
+        buffer.append( 
+          "\n  ${merlin.repository} == " 
+          + criteria.getRepositoryDirectory() );
+
+        buffer.append( 
+          "\n  ${merlin.lang} == " 
+          + criteria.getLanguageCode() );
+
+        buffer.append( 
+          "\n  ${merlin.home} == " 
+          + criteria.getHomeDirectory() );
+
+        buffer.append( 
+          "\n  ${merlin.system} == " 
+          + criteria.getSystemDirectory() );
+
+        buffer.append( 
+          "\n  ${merlin.config} == " 
+          + criteria.getConfigDirectory() );
+
+        buffer.append( 
+          "\n  ${merlin.kernel} == " 
+          + criteria.getKernelURL() );
+
+        buffer.append( 
+          "\n  ${merlin.override} == " 
+          + criteria.getOverridePath() );
+
+        buffer.append( 
+          "\n  ${merlin.dir} == " 
+          + criteria.getWorkingDirectory() );
+
+        buffer.append( 
+          "\n  ${merlin.temp} == " 
+          + criteria.getTempDirectory() );
+
+        buffer.append( 
+          "\n  ${merlin.context} == " 
+          + criteria.getContextDirectory() );
+
+        buffer.append( 
+          "\n  ${merlin.anchor} == " 
+          + criteria.getAnchorDirectory() );
+
+        buffer.append( 
+          "\n  ${merlin.info} == " 
+          + criteria.isInfoEnabled() );
+
+        buffer.append( 
+          "\n  ${merlin.debug} == " 
+          + criteria.isDebugEnabled() );
+
+        buffer.append( 
+          "\n  ${merlin.server} == " 
+          + criteria.isServerEnabled() );
+
+        buffer.append( 
+          "\n  ${merlin.autostart} == " 
+          + criteria.isAutostartEnabled() );
+
+        buffer.append( "\n  ${merlin.deployment} == " );
+        URL[] urls = criteria.getDeploymentURLs();
+        for( int i=0; i<urls.length; i++ )
+        {   
+            if( i>0 ) buffer.append( "," );  
+            buffer.append( StringHelper.toString( urls[i] ) );
+        }
+        buffer.append( "\n" );
+
+        return buffer.toString();
+    }
 
    /**
     * Create a shutdown hook that will trigger shutdown of the supplied kernel.

@@ -2,10 +2,11 @@
 
   <maven:snapshot project="${pom}"/>
 
-  <ant:property name="merlin.cli.jar" value="merlin-cli-3.2.2.jar"/>
+  <ant:property name="merlin.cli.version" value="3.4-DEV"/>
+  <ant:property name="merlin.cli.jar" value="merlin-cli-${merlin.cli.version}.jar"/>
   <ant:property name="avalon.plugin.jar" value="avalon-plugin-1.0.jar"/>
   <ant:property name="meta.plugin.jar" value="avalon-meta-plugin-1.3.1.jar"/>
-  <ant:property name="merlin.plugin.jar" value="merlin-plugin-3.2.3.jar"/>
+  <ant:property name="merlin.plugin.jar" value="merlin-plugin-3.4-DEV.jar"/>
 
   <ant:property file="project.properties"/>
   <ant:property name="maven.docs.src" value="${basedir}/platform/xdocs"/>
@@ -51,7 +52,8 @@
     </copy>
   </goal>
 
-  <goal name="merlin:validate" description="Validate that the tutorial targets are buildable." >
+  <goal name="merlin:validate" 
+       description="Validate that the tutorial targets are buildable." >
     <maven:reactor
       basedir="${basedir}"
       includes="platform/tutorials/**/project.xml"
@@ -73,14 +75,18 @@
 
   <goal name="merlin:build" description="Build Merlin.">
     <maven:reactor basedir="${basedir}"
-      includes="**/project.xml"
-      excludes="target/**,platform/**,kernel/plugin/**,project.xml,merlin-extensions/**,kernel/cli/**,kernel/unit/**,kernel/servlet/**"
+      includes="extension/**/project.xml,activation/**/project.xml,composition/**/project.xml,kernel/api/project.xml,kernel/impl/project.xml"
       goals="jar:install"
       banner="Installing:"
       ignoreFailures="false" />
     <maven:reactor basedir="${basedir}"
-      includes="kernel/unit/project.xml,kernel/cli/project.xml,kernel/plugin/project.xml,kernel/servlet/project.xml"
-      goals=""
+      includes="kernel/unit/project.xml,kernel/cli/project.xml,kernel/servlet/project.xml"
+      goals="jar:install"
+      banner="Installing:"
+      ignoreFailures="false" />
+    <maven:reactor basedir="${basedir}"
+      includes="kernel/plugin/project.xml"
+      goals="plugin:install"
       banner="Installing:"
       ignoreFailures="false" />
   </goal>
@@ -89,9 +95,9 @@
     description="Build the Merlin distribution." prereqs="merlin:build,xinstall"/>
 
   <goal name="xinstall">
+
     <!-- prepare structure -->
     <ant:mkdir dir="${merlin.build.inst.dir}"/>
-    <!--<ant:mkdir dir="${merlin.build.inst.dir}/ext"/>-->
     <ant:mkdir dir="${merlin.build.inst.dir}/bin/lib"/>
 
     <!-- import bootstrap jar -->
@@ -108,12 +114,15 @@
       ignoreFailures="false"/>
 
     <!-- create a directory containing the plugins -->
+
+    <ant:mkdir dir="${maven.build.dir}/merlin/plugins"/>
+
     <ant:copy 
        file="${merlin.build.inst.dir}/system/avalon-meta/jars/${meta.plugin.jar}" 
-       toDir="${maven.build.dir}/plugins"/>
+       toDir="${maven.build.dir}/merlin/plugins"/>
     <delete file="${merlin.build.inst.dir}/system/avalon-meta/jars/${meta.plugin.jar}"/>
-    <ant:mkdir dir="${maven.build.dir}/plugins"/>
-    <ant:copy toDir="${maven.build.dir}/plugins">
+
+    <ant:copy toDir="${maven.build.dir}/merlin/plugins">
       <fileset dir="${basedir}/kernel/plugin/target">
         <include name="${merlin.plugin.jar}"/>
       </fileset>
@@ -121,15 +130,44 @@
 
     <!-- add supporting resources -->
     <ant:copy toDir="${merlin.build.inst.dir}">
+      <fileset dir="${basedir}">
+        <include name="INSTALL.TXT"/>
+      </fileset>
+      <filterset>
+        <filter token="MERLIN_PLUGIN_JAR" value="${merlin.plugin.jar}"/>
+        <filter token="META_PLUGIN_JAR" value="${meta.plugin.jar}"/>
+        <filter token="VERSION" value="${pom.currentVersion}"/>
+      </filterset>
+    </ant:copy>
+
+    <!-- add supporting resources -->
+    <ant:copy toDir="${merlin.build.inst.dir}">
       <fileset dir="${basedir}/platform/src">
         <include name="bin/**/*"/>
+        <exclude name="bin/**/*.jar"/>
+        <exclude name="bin/**/*.exe"/>
+        <exclude name="bin/**/*.dll"/>
+      </fileset>
+      <fileset dir="${basedir}">
+        <include name="README.TXT"/>
+      </fileset>
+      <filterset>
+        <filter token="VERSION" value="${pom.currentVersion}"/>
+        <filter token="MERLIN_CLI_JAR" value="${merlin.cli.jar}"/>
+        <filter token="MERLIN_CLI_VERSION" value="${merlin.cli.version}"/>
+      </filterset>
+    </ant:copy>
+
+    <ant:copy toDir="${merlin.build.inst.dir}">
+      <fileset dir="${basedir}/platform/src">
         <include name="config/**/*"/>
         <include name="system/**/*"/>
+        <include name="bin/**/*.jar"/>
+        <include name="bin/**/*.exe"/>
+        <include name="bin/**/*.dll"/>
       </fileset>
       <fileset dir="${basedir}">
         <include name="LICENSE.txt"/>
-        <include name="README.TXT"/>
-        <include name="INSTALL.TXT"/>
       </fileset>
     </ant:copy>
 
@@ -177,28 +215,32 @@
 
   <goal name="merlin:package">
 
-    <j:set var="package.name" value="${maven.final.name}-dist"/>
     <!--
+    <j:set var="package.name" value="${maven.final.name}-dist"/>
+    -->
     <maven:snapshot project="${pom}"/>
     <j:set var="timestamp" value="${snapshotSignature.substring(7,15)}"/>
     <j:set var="package.name" value="${maven.final.name}-${timestamp}"/>
-    -->
 
     <ant:echo>Building distribution: ${package.name}</ant:echo>
     <ant:zip zipfile="${maven.build.dir}/${package.name}.zip">
       <zipfileset dir="${merlin.build.inst.dir}" prefix="merlin"/>
-      <zipfileset dir="${maven.build.dir}/plugins" prefix="plugins"/>
       <fileset dir="${basedir}">
         <include name="INSTALL.TXT"/>
+      </fileset>
+      <fileset dir="${maven.build.dir}">
+        <include name="docs/**"/>
       </fileset>
     </ant:zip>
     <checksum file="${maven.build.dir}/${package.name}.zip"/>
 
     <ant:tar tarfile="${maven.build.dir}/${package.name}.tar">
       <tarfileset dir="${merlin.build.inst.dir}" prefix="merlin"/>
-      <tarfileset dir="${maven.build.dir}/plugins" prefix="plugins"/>
       <fileset dir="${basedir}">
         <include name="INSTALL.TXT"/>
+      </fileset>
+      <fileset dir="${maven.build.dir}">
+        <include name="docs/**"/>
       </fileset>
     </ant:tar>
     <ant:gzip 
@@ -208,6 +250,7 @@
     <checksum file="${maven.build.dir}/${package.name}.tar.gz"/>
 
     <!-- <j:set var="docs.name" value="${maven.final.name}-docs-${timestamp}"/>-->
+    <!--
     <j:set var="docs.name" value="${package.name}-docs"/>
 
     <ant:echo>Building doc kit: ${docs.name}</ant:echo>
@@ -215,7 +258,7 @@
       <zipfileset dir="${maven.build.dir}/docs" prefix="docs"/>
     </ant:zip>
     <checksum file="${maven.build.dir}/${docs.name}.zip"/>
-    <ant:tar tarfile="${maven.build.dir}/${docs.name}.tar">
+    <ant:tar longfile="gnu" tarfile="${maven.build.dir}/${docs.name}.tar">
       <tarfileset dir="${maven.build.dir}/docs" prefix="docs"/>
     </ant:tar>
     <ant:gzip 
@@ -223,9 +266,10 @@
       src="${maven.build.dir}/${docs.name}.tar"/>
     <ant:delete file="${maven.build.dir}/${docs.name}.tar"/>
     <checksum file="${maven.build.dir}/${docs.name}.tar.gz"/>
+    -->
 
-    <!--<j:set var="tutorial.name" value="${maven.final.name}-tutorial-${timestamp}"/>-->
-    <j:set var="tutorial.name" value="${maven.final.name}-tutorial"/>
+    <j:set var="tutorial.name" value="${maven.final.name}-tutorial-${timestamp}"/>
+    <!--<j:set var="tutorial.name" value="${maven.final.name}-tutorial"/>-->
 
     <ant:echo>Building tutorial kit: ${tutorial.name}</ant:echo>
     <ant:zip zipfile="${maven.build.dir}/${tutorial.name}.zip">
@@ -320,7 +364,7 @@
   </goal>
 
   <goal name="xjavadoc">
-    <ant:mkdir dir="${maven.build.dir}/docs/api" />
+    <ant:mkdir dir="${maven.build.dir}/merlin/docs/api" />
     <ant:property name="copyright"
       value="Copyright &amp;copy; ${year} ${pom.organization.name}. All Rights Reserved." />
     <ant:property name="title" value="${pom.name} ${pom.currentVersion} API"/>

@@ -67,8 +67,8 @@ import org.apache.avalon.composition.data.FilesetDirective;
 import org.apache.avalon.composition.data.IncludeDirective;
 import org.apache.avalon.composition.data.LibraryDirective;
 import org.apache.avalon.composition.data.MetaDataException;
-import org.apache.avalon.composition.data.NamedDeploymentProfile;
-import org.apache.avalon.composition.data.Profile;
+import org.apache.avalon.composition.data.NamedComponentProfile;
+import org.apache.avalon.composition.data.DeploymentProfile;
 import org.apache.avalon.composition.data.RepositoryDirective;
 import org.apache.avalon.composition.data.ResourceDirective;
 import org.apache.avalon.composition.data.ServiceDirective;
@@ -85,15 +85,15 @@ import org.apache.excalibur.configuration.ConfigurationUtil;
  * from a Configuration object.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $ $Date: 2003/10/28 20:21:00 $
+ * @version $Revision: 1.3.2.1 $ $Date: 2004/01/09 20:29:49 $
  */
 public class XMLContainmentProfileCreator extends XMLProfileCreator
 {
     private static final XMLTypeCreator TYPE_CREATOR = 
       new XMLTypeCreator();
 
-    private static final XMLDeploymentProfileCreator DEPLOYMENT_CREATOR = 
-      new XMLDeploymentProfileCreator();
+    private static final XMLComponentProfileCreator DEPLOYMENT_CREATOR = 
+      new XMLComponentProfileCreator();
 
     private static final XMLTargetsCreator TARGETS_CREATOR = 
       new XMLTargetsCreator();
@@ -165,7 +165,7 @@ public class XMLContainmentProfileCreator extends XMLProfileCreator
         // build nested profiles
         // 
 
-        final Profile[] profiles = createProfiles( implementation );
+        final DeploymentProfile[] profiles = createProfiles( implementation );
 
         //
         // return the containment profile
@@ -373,7 +373,7 @@ public class XMLContainmentProfileCreator extends XMLProfileCreator
     * @param config a container or implementation configutation
     * @return the set of profile 
     */ 
-    protected Profile[] createProfiles( Configuration config )
+    protected DeploymentProfile[] createProfiles( Configuration config )
       throws Exception
     {
         ArrayList list = new ArrayList();
@@ -391,12 +391,12 @@ public class XMLContainmentProfileCreator extends XMLProfileCreator
                 {
                     if( child.getAttribute( "profile", null ) != null )
                     {
-                        list.add( createNamedDeploymentProfile( child ) );
+                        list.add( createNamedComponentProfile( child ) );
                     }
                     else
                     {                    
                         list.add( 
-                          DEPLOYMENT_CREATOR.createDeploymentProfile( child ) );
+                          DEPLOYMENT_CREATOR.createComponentProfile( child ) );
                     }
                 }
                 else if( child.getName().equals( "include" ) )
@@ -405,7 +405,7 @@ public class XMLContainmentProfileCreator extends XMLProfileCreator
                 }
             }
         }
-        return (Profile[]) list.toArray( new Profile[0] );
+        return (DeploymentProfile[]) list.toArray( new DeploymentProfile[0] );
     }
 
    /**
@@ -413,14 +413,14 @@ public class XMLContainmentProfileCreator extends XMLProfileCreator
     * @param config the component configuration
     * @return the named profile
     */
-    private NamedDeploymentProfile createNamedDeploymentProfile( Configuration config )
+    private NamedComponentProfile createNamedComponentProfile( Configuration config )
       throws Exception
     {
          final String name = config.getAttribute( "name" );
          final String classname = config.getAttribute( "class" );
          final String key = config.getAttribute( "profile" );
          final boolean activation = getActivationPolicy( config ); 
-         return new NamedDeploymentProfile( name, classname, key, activation );
+         return new NamedComponentProfile( name, classname, key, activation );
     }
 
    /**
@@ -483,7 +483,7 @@ public class XMLContainmentProfileCreator extends XMLProfileCreator
     * @param the include description
     * @return the containment directive
     */
-    private Profile createFromInclude( Configuration config )
+    private DeploymentProfile createFromInclude( Configuration config )
       throws MetaDataException, ConfigurationException
     {
         final String name = getBlockIncludeName( config );

@@ -7,6 +7,8 @@
 
   <postGoal name="test:compile">
 
+    <!--<attainGoal name="avalon:meta"/>-->
+
     <mkdir dir="${basedir}/target/test-classes/repository/test/jars"/>
     <mkdir dir="${basedir}/target/test-classes/ext"/>
     <mkdir dir="${basedir}/target/test-classes/lib"/>
@@ -51,6 +53,8 @@
       </fileset>
     </ant:delete>
 
+    <ant:copy toDir="${basedir}/target/test-classes/repository/avalon-framework/jars" 
+      file="${pom.getDependencyPath('avalon-framework:avalon-framework-impl')}"/>
     <ant:copy toDir="${basedir}/target/test-classes/ext" 
       file="${pom.getDependencyPath('avalon-framework:avalon-framework-api')}"/>
     <ant:copy toDir="${basedir}/target/test-classes/ext" 

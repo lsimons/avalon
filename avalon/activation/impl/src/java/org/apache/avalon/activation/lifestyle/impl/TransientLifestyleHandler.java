@@ -64,7 +64,7 @@ import org.apache.avalon.meta.info.InfoDescriptor;
 
 /**
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.6 $ $Date: 2003/12/14 14:09:59 $
+ * @version $Revision: 1.6.2.1 $ $Date: 2004/01/04 17:23:16 $
  */
 public class TransientLifestyleHandler extends AbstractLifestyleHandler implements Disposable
 {
@@ -125,7 +125,7 @@ public class TransientLifestyleHandler extends AbstractLifestyleHandler implemen
     */
     Reference getReference( Object instance )
     {
-        final int policy = getFactory().getDeploymentModel().getCollectionPolicy();
+        final int policy = getFactory().getComponentModel().getCollectionPolicy();
         if( policy == InfoDescriptor.DEMOCRAT )
         {
              return new SoftReference( instance );

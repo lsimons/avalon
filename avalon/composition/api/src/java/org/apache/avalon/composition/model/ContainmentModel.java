@@ -52,7 +52,7 @@ package org.apache.avalon.composition.model;
 
 import java.net.URL;
 
-import org.apache.avalon.composition.data.Profile;
+import org.apache.avalon.composition.data.DeploymentProfile;
 import org.apache.avalon.composition.data.ServiceDirective;
 import org.apache.avalon.composition.data.CategoriesDirective;
 import org.apache.avalon.composition.data.TargetDirective;
@@ -66,11 +66,19 @@ import org.apache.avalon.meta.info.StageDescriptor;
  * context.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.9 $ $Date: 2003/12/29 14:31:21 $
+ * @version $Revision: 1.9.2.9 $ $Date: 2004/01/12 05:41:05 $
  */
-public interface ContainmentModel extends Model
+public interface ContainmentModel extends DeploymentModel
 {
-    public static String SEPERATOR = "/";
+    /**
+     * Get the startup sequence for the model.
+     */
+    DeploymentModel[] getStartupGraph();
+
+    /**
+     * Get the shutdown sequence for the model.
+     */
+    DeploymentModel[] getShutdownGraph();
 
    /**
     * Return the logging categories. 
@@ -102,30 +110,13 @@ public interface ContainmentModel extends Model
     * Return the set of models nested within this model.
     * @return the classloader model
     */
-    Model[] getModels();
+    DeploymentModel[] getModels();
 
    /**
     * Return a model relative to a supplied name.
     * @return the named model or null if the name is unknown
     */
-    Model getModel( String name );
-
-   /**
-    * Return a model relative to a supplied dependency.
-    * @return a matching model or null if the dependency is unresolvable
-    * @exception ModelRuntimeException if an error occurs during model establishment
-    */
-    Model getModel( DependencyDescriptor dependency ) 
-      throws ModelRuntimeException;
-
-   /**
-    * Return a model relative to a supplied stage descriptor.
-    * @param stage the stage descriptor
-    * @return model of a an stage handler or null if the stage is unresolvable
-    * @exception ModelRuntimeException if an error occurs during model establishment
-    */
-    Model getModel( StageDescriptor stage ) 
-      throws ModelRuntimeException;
+    DeploymentModel getModel( String name );
 
    /**
     * Addition of a new subsidiary model within
@@ -135,7 +126,7 @@ public interface ContainmentModel extends Model
     * @return the model based on the derived profile
     * @exception ModelException if an error occurs during model establishment
     */
-    Model addModel( URL url ) throws ModelException;
+    DeploymentModel addModel( URL url ) throws ModelException;
 
    /**
     * Addition of a new subsidiary containment model within
@@ -157,7 +148,7 @@ public interface ContainmentModel extends Model
     * @return the model based on the supplied profile
     * @exception ModelException if an error occurs during model establishment
     */
-    Model addModel( Profile profile ) throws ModelException;
+    DeploymentModel addModel( DeploymentProfile profile ) throws ModelException;
 
    /**
     * Removal of a named model for the containment model.
@@ -166,17 +157,18 @@ public interface ContainmentModel extends Model
     */
     void removeModel( String name );
 
-   /**
-    * Return the set of service export directives.
-    * @return t he export directives
-    */
-    ServiceDirective[] getExportDirectives();
 
    /**
-    * Return the set of service export directives for a supplied class.
-    * @return the export directives
+    * Return the set of service export models.
+    * @return t he export directives
     */
-    ServiceDirective getExportDirective( Class clazz );
+    ServiceModel[] getServiceModels();
+
+   /**
+    * Return a service exoport model matching a supplied class.
+    * @return the service model
+    */
+    ServiceModel getServiceModel( Class clazz );
 
    /**
     * Apply a set of override targets resolvable from a supplied url.

@@ -54,30 +54,20 @@ import java.io.File;
 
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.logger.Logger;
+
 import org.apache.avalon.composition.data.ContainmentProfile;
+
+import org.apache.avalon.meta.info.DependencyDescriptor;
+import org.apache.avalon.meta.info.StageDescriptor;
 
 /**
  * Defintion of a working context.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2003/09/24 09:31:15 $
+ * @version $Revision: 1.1.1.1.2.5 $ $Date: 2004/01/08 12:51:16 $
  */
-public interface ContainmentContext extends Context
+public interface ContainmentContext extends DeploymentContext
 {
-   /**
-    * Return the logging channel.
-    *
-    * @return the logging channel
-    */
-    Logger getLogger();
-
-   /**
-    * Return the system context.
-    *
-    * @return the system context
-    */
-    SystemContext getSystemContext();
-
    /**
     * Return the classloader model.
     *
@@ -107,26 +97,25 @@ public interface ContainmentContext extends Context
     ContainmentProfile getContainmentProfile();
 
    /**
-    * Return the name that the container has been assigned.
-    *
-    * @return the container name
-    */
-    String getName();
-
-   /**
-    * Return the partition name that the container is 
-    * established with.
-    *
-    * @return the partition name
-    */
-    String getPartitionName();
-
-   /**
     * Return the containment classloader.
     *
     * @return the classloader model
     */
     ClassLoader getClassLoader();
 
+   /**
+    * Return the model repository.
+    *
+    * @return the model repository
+    */
+    ModelRepository getModelRepository();
+
+   /**
+    * Return the parent container model. If the container is a root
+    * container, the operation shall return a null value.
+    *
+    * @return the parent containment model
+    */
+    ContainmentModel getParentContainmentModel();
 
 }

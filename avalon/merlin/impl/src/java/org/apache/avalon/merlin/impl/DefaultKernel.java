@@ -52,24 +52,23 @@ package org.apache.avalon.merlin.impl;
 
 import java.net.URL;
 
-import javax.management.NotificationBroadcasterSupport;
-import javax.management.AttributeChangeNotification;
-
 import org.apache.avalon.merlin.Kernel;
 import org.apache.avalon.merlin.KernelCriteria;
 import org.apache.avalon.merlin.KernelException;
 import org.apache.avalon.merlin.KernelRuntimeException;
+
 import org.apache.avalon.activation.appliance.Appliance;
 import org.apache.avalon.activation.appliance.Block;
-import org.apache.avalon.activation.appliance.Composite;
 import org.apache.avalon.activation.appliance.impl.AbstractBlock;
-import org.apache.avalon.activation.appliance.impl.DefaultServiceContext;
+
 import org.apache.avalon.composition.data.TargetDirective;
 import org.apache.avalon.composition.logging.LoggingManager;
 import org.apache.avalon.composition.model.ContainmentContext;
 import org.apache.avalon.composition.model.ContainmentModel;
-import org.apache.avalon.composition.model.DeploymentModel;
+import org.apache.avalon.composition.model.ComponentModel;
+import org.apache.avalon.composition.model.SystemContext;
 import org.apache.avalon.composition.util.StringHelper;
+
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.logger.Logger;
 
@@ -77,10 +76,9 @@ import org.apache.avalon.framework.logger.Logger;
  * Implementation of the default Merlin Kernel.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2003/12/08 15:37:13 $
+ * @version $Revision: 1.1.2.5 $ $Date: 2004/01/12 00:17:20 $
  */
-public class DefaultKernel extends NotificationBroadcasterSupport 
-  implements Kernel, DefaultKernelMBean
+public class DefaultKernel implements Kernel
 {
     //--------------------------------------------------------------
     // static
@@ -107,9 +105,9 @@ public class DefaultKernel extends NotificationBroadcasterSupport
 
     private final KernelCriteria m_criteria;
 
-    private final Block m_system;
+    private final SystemContext m_context;
 
-    private final Block m_application;
+    private final ContainmentModel m_model;
 
     private final DefaultState m_self = new DefaultState();
 
@@ -123,6 +121,8 @@ public class DefaultKernel extends NotificationBroadcasterSupport
 
     private long m_stateChangeSequenceId = 0;
 
+    private Block m_application;
+
     //--------------------------------------------------------------
     // constructor
     //--------------------------------------------------------------
@@ -131,28 +131,27 @@ public class DefaultKernel extends NotificationBroadcasterSupport
     * Creation of a new Merlin Kernel.
     * @param logger the assigned logging channel
     * @param criteria the kernel creation criteria
-    * @param system the system block
-    * @param application the application block
+    * @param model the application model
     * @exception KernelException if a kernel creation error occurs
     */
     public DefaultKernel( 
       final Logger logger,
       final KernelCriteria criteria, 
-      final Block system, 
-      final Block application ) throws KernelException
+      final SystemContext context,
+      final ContainmentModel model ) throws KernelException
     {
         if( logger == null ) 
           throw new NullPointerException( "logger" );
         if( criteria == null ) 
           throw new NullPointerException( "criteria" );
-        if( system == null ) 
-          throw new NullPointerException( "system" );
-        if( application == null ) 
-          throw new NullPointerException( "application" );
+        if( context == null ) 
+          throw new NullPointerException( "context" );
+        if( model == null ) 
+          throw new NullPointerException( "model" );
 
         m_criteria = criteria;
-        m_system = system;
-        m_application = application;
+        m_context = context;
+        m_model = model;
         m_logger = logger;
 
         setState( INITIALIZED );
@@ -160,7 +159,7 @@ public class DefaultKernel extends NotificationBroadcasterSupport
         if( getLogger().isDebugEnabled() )
         {
             int count = 
-              m_application.getContainmentModel().getModels().length;
+              m_model.getModels().length;
             if( count == 0 )
             {
                 getLogger().debug( "kernel established" );
@@ -170,168 +169,6 @@ public class DefaultKernel extends NotificationBroadcasterSupport
                 getLogger().debug( "kernel established (" + count + ")" );
             }
         }
-    }
-
-    //--------------------------------------------------------------
-    // DefaultKernelMBean
-    //--------------------------------------------------------------
-
-    /**
-     * Return the state of the kernel.
-     * @return a string representing the kernel state
-     */
-     public String getKernelState()
-     {
-         return m_stateString;
-     }
-
-    /**
-     * Return an approximation to the total amount of memory currently 
-     * available for future allocated objects, measured in bytes.
-     * @return the number of bytes of estimated free memory
-     */
-    public long getMemoryFree()
-    {
-        return Runtime.getRuntime().freeMemory();
-    }
-
-   /**
-    * Returns the total amount of memory in the Java virtual machine. The value 
-    * returned by this method may vary over time, depending on the host environment. 
-    *
-    * @return the total amount of memory currently available for current and future 
-    *    objects, measured in bytes.
-    */
-    public long getMemoryTotal()
-    {
-        return Runtime.getRuntime().totalMemory();
-    }
-
-   /**
-    * Return the percentage of free memory available.
-    * @return the free memory percentage
-    */
-    public int getMemoryVariableRatio()
-    {
-        return (int) ((Runtime.getRuntime().freeMemory() * 100) / 
-          Runtime.getRuntime().totalMemory());
-    }
-
-   /**
-    * Return the number of active threads.
-    * @return the active thread count
-    */
-    public int getThreadCount()
-    {
-        return Thread.activeCount();
-    }
-
-   /**
-    * Return the root directory to the shared repository.
-    * @return the avalon home root repository directory
-    */
-    public String getRepositoryDirectory()
-    {
-        return m_criteria.getRepositoryDirectory().toString();
-    }
-
-   /**
-    * Return the root directory to the merlin installation
-    * @return the merlin home directory
-    */
-    public String getHomePath()
-    {
-        return m_criteria.getHomeDirectory().toString();
-    }
-
-   /**
-    * Return the root directory to the merlin system repository
-    * @return the merlin system repository directory
-    */
-    public String getSystemPath()
-    {
-        return m_criteria.getSystemDirectory().toString();
-    }
-
-   /**
-    * Return the root directory to the merlin configurations
-    * @return the merlin configuration directory
-    */
-    public String getConfigPath()
-    {
-        return m_criteria.getConfigDirectory().toString();
-    }
-
-   /**
-    * Return the url to the kernel confiuration
-    * @return the kernel configuration url
-    */
-    public String getKernelPath()
-    {
-        return m_criteria.getKernelURL().toString();
-    }
-
-   /**
-    * Return the working client directory.
-    * @return the working directory
-    */
-    public String getWorkingPath()
-    {
-        return m_criteria.getWorkingDirectory().toString();
-    }
-
-   /**
-    * Return the temporary directory.
-    * @return the temp directory
-    */
-    public String getTempPath()
-    {
-        return m_criteria.getTempDirectory().toString();
-    }
-
-   /**
-    * Return the context directory from which relative 
-    * runtime home directories will be established for 
-    * components referencing urn:avalon:home
-    *
-    * @return the working directory
-    */
-    public String getContextPath()
-    {
-        return m_criteria.getContextDirectory().toString();
-    }
-
-   /**
-    * Return the anchor directory to be used when resolving 
-    * library declarations in classload specifications.
-    *
-    * @return the anchor directory
-    */
-    public String getAnchorPath()
-    {
-        return m_criteria.getAnchorDirectory().toString();
-    }
-
-   /**
-    * Return info generation policy.  If TRUE the parameters 
-    * related to deployment will be listed on startup. 
-    *
-    * @return the info policy
-    */
-    public boolean isInfoEnabled()
-    {
-        return m_criteria.isInfoEnabled();
-    }
-
-   /**
-    * Return debug policy.  If TRUE all logging channels will be 
-    * set to debug level (useful for debugging).
-    *
-    * @return the debug policy
-    */
-    public boolean isDebugEnabled()
-    {
-        return m_criteria.isDebugEnabled();
     }
 
     //--------------------------------------------------------------
@@ -345,6 +182,11 @@ public class DefaultKernel extends NotificationBroadcasterSupport
     */
     public Appliance locate( String path ) throws KernelException
     {
+        if( null == m_application )
+        {
+            throw new IllegalStateException( "not-started" );
+        }
+
         try
         {
             return m_application.locate( path );
@@ -377,30 +219,37 @@ public class DefaultKernel extends NotificationBroadcasterSupport
     */
     public void startup() throws Exception
     {
+        //
+        // instantiate the runtime root application block
+        //
+
         synchronized( m_self )
         {
             if( m_self.isEnabled() ) return;
-
-            //
-            // we have a model established and we now need to go though the process
-            // of appliance establishment
-            //
-
-            if( m_application instanceof Composite )
+            setState( ASSEMBLY );
+            try
             {
-                setState( ASSEMBLY );
-                try
-                {
-                    getLogger().debug( "assembly phase" );
-                    ((Composite)m_application).assemble();
-                }
-                catch( Throwable e )
-                {
-                    setState( INITIALIZED );
-                    final String error = 
-                      "Application assembly failure.";
-                    throw new KernelException( error, e );
-                }
+                getLogger().debug( "application assembly" );
+                m_model.assemble();
+            }
+            catch( Throwable e )
+            {
+                final String error = 
+                  "Application assembly failure.";
+                throw new KernelException( error, e );
+            }
+
+            try
+            {
+                m_application = 
+                  AbstractBlock.createRootBlock( m_model );
+                setState( INITIALIZED );
+            }
+            catch( Throwable e )
+            {
+                final String error = 
+                  "Application establishment failure.";
+                throw new KernelException( error, e );
             }
 
             Throwable cause = null;
@@ -471,19 +320,16 @@ public class DefaultKernel extends NotificationBroadcasterSupport
 
                 try
                 {
-                    if( m_application instanceof Composite )
-                    {
-                        setState( DISSASSEMBLY );
-                        getLogger().info( "dissassembly phase" );
-                        ((Composite)m_application).disassemble();
-                    }
+                    setState( DISSASSEMBLY );
+                    getLogger().info( "dissassembly phase" );
+                    m_model.disassemble();
                 }
                 catch( Throwable e )
                 {
                     if( getLogger().isWarnEnabled() )
                     {
                         final String error =
-                          "Ignoring block dissassembly error.";
+                          "Ignoring application dissassembly error.";
                         getLogger().warn( error, e );
                     }
                 }
@@ -499,27 +345,6 @@ public class DefaultKernel extends NotificationBroadcasterSupport
             m_self.setEnabled( false );
         }
     }
-
-                /*
-                setState( BLOCK_DISPOSAL );
-                try
-                {
-                    if( m_block instanceof Disposable )
-                    {
-                        getLogger().info( "disposal phase" );
-                        ((Disposable)m_block).dispose();
-                    }
-                }
-                catch( Throwable e )
-                {
-                    if( getLogger().isWarnEnabled() )
-                    {
-                        final String error =
-                          "Ignoring block disposal error.";
-                        getLogger().warn( error, e );
-                    }
-                }
-                */
 
     //--------------------------------------------------------------
     // internal
@@ -539,11 +364,11 @@ public class DefaultKernel extends NotificationBroadcasterSupport
          String old = m_stateString;
          m_stateString = state;
          long id = m_stateChangeSequenceId++;
-         AttributeChangeNotification notification = 
-           new AttributeChangeNotification( 
-             this, id, System.currentTimeMillis(),
-             "State change", "state", "string", old, state );
-         sendNotification( notification );
+         //AttributeChangeNotification notification = 
+         //  new AttributeChangeNotification( 
+         //    this, id, System.currentTimeMillis(),
+         //    "State change", "state", "string", old, state );
+         //sendNotification( notification );
      }
 
     private class DefaultState
@@ -573,4 +398,5 @@ public class DefaultKernel extends NotificationBroadcasterSupport
     {
         return m_logger;
     }
+
 }

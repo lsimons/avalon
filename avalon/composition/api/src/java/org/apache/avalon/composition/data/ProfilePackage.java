@@ -56,7 +56,7 @@ import java.io.Serializable;
  * A collection of profiles packaged with a component type.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2003/09/24 09:31:10 $
+ * @version $Revision: 1.1.1.1.2.1 $ $Date: 2004/01/09 20:29:48 $
  */
 public class ProfilePackage implements Serializable
 {
@@ -71,9 +71,9 @@ public class ProfilePackage implements Serializable
     //--------------------------------------------------------------------------
 
     /**
-     * The set of deployment profiles contained within the package.
+     * The set of component profiles contained within the package.
      */
-    private final DeploymentProfile[] m_profiles;
+    private final ComponentProfile[] m_profiles;
 
     //--------------------------------------------------------------------------
     // constructor
@@ -81,7 +81,7 @@ public class ProfilePackage implements Serializable
 
     public ProfilePackage() 
     {
-        this( new DeploymentProfile[0] );
+        this( new ComponentProfile[0] );
     }
 
     /**
@@ -89,7 +89,7 @@ public class ProfilePackage implements Serializable
      *
      * @param profiles the set of contained profiles
      */
-    public ProfilePackage( final DeploymentProfile[] profiles ) 
+    public ProfilePackage( final ComponentProfile[] profiles ) 
     {
         m_profiles = profiles;
     }
@@ -103,7 +103,7 @@ public class ProfilePackage implements Serializable
      *
      * @return the profiles
      */
-    public DeploymentProfile[] getDeploymentProfiles()
+    public ComponentProfile[] getComponentProfiles()
     {
         return m_profiles;
     }

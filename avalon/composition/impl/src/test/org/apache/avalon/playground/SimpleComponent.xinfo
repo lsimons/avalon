@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<!DOCTYPE type
+      PUBLIC "-//AVALON/Component Type DTD Version 1.0//EN"
+             "http://avalon.apache.org/dtds/meta/type_1_1.dtd" >
+
+<!--  
+Copyright (C) The Apache Software Foundation. All rights reserved.
+This software is published under the terms of the Apache Software License
+version 1.1, a copy of which has been included with this distribution in
+the LICENSE.txt file.
+
+@author  Avalon Development Team
+@version 1.0 12/03/2001
+-->
+
+<type>
+
+  <info>
+    <name>simple</name>
+    <lifestyle>singleton</lifestyle>
+    <attributes>
+      <attribute key="urn:assembly:appliance.class" 
+        value="org.apache.avalon.assembly.appliance.impl.DefaultAppliance"/>
+    </attributes>
+  </info>
+
+  <services>
+    <service type="org.apache.avalon.playground.SimpleService"/>
+  </services>
+
+  <dependencies>
+
+      <!-- 
+      Declaration of the services that this component type is 
+      dependent on.
+      -->
+      <dependency type="org.apache.avalon.playground.basic.BasicService" version="1.1" role="basic"/>
+
+  </dependencies>
+
+  <!-- 
+  Declaration of the extended lifecycle phases that this component type will require.  
+  Each phase element contains a reference to a lifecycle phase interface that 
+  the container has to manage.
+  -->
+  <stages>
+     <stage id="urn:avalon.playground:exploitable" />
+     <stage id="urn:avalon.playground:demonstratable"/>
+  </stages>
+
+</type>
+

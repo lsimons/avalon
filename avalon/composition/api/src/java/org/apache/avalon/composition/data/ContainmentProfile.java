@@ -65,9 +65,9 @@ import org.apache.avalon.meta.info.ServiceDescriptor;
  * the a container.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2003/10/28 12:53:48 $
+ * @version $Revision: 1.2.2.1 $ $Date: 2004/01/09 20:29:48 $
  */
-public class ContainmentProfile extends Profile
+public class ContainmentProfile extends DeploymentProfile
 {
     //========================================================================
     // static
@@ -81,7 +81,7 @@ public class ContainmentProfile extends Profile
     private static final ServiceDirective[] EMPTY_SERVICES =
       new ServiceDirective[0];
 
-    private static final Profile[] EMPTY_PROFILES = new Profile[0];
+    private static final DeploymentProfile[] EMPTY_PROFILES = new DeploymentProfile[0];
 
     private static final CategoriesDirective EMPTY_CATEGORIES = new CategoriesDirective();
 
@@ -105,7 +105,7 @@ public class ContainmentProfile extends Profile
     /**
      * The profiles described within the scope of the containment profile.
      */
-    private final Profile[] m_profiles;
+    private final DeploymentProfile[] m_profiles;
 
     /**
      * The assigned logging categories.
@@ -139,7 +139,7 @@ public class ContainmentProfile extends Profile
       final String name, final ClassLoaderDirective classloader, 
       final ServiceDirective[] exports,
       final CategoriesDirective categories, 
-      Profile[] profiles )
+      DeploymentProfile[] profiles )
     {
         super( name, true, Mode.EXPLICIT );
 
@@ -215,7 +215,7 @@ public class ContainmentProfile extends Profile
      *
      * @return the profiles nested in this containment profile
      */
-    public Profile[] getProfiles()
+    public DeploymentProfile[] getProfiles()
     {
         if( m_profiles == null ) return EMPTY_PROFILES;
         return m_profiles;
@@ -229,9 +229,9 @@ public class ContainmentProfile extends Profile
      *    {@link Mode#PACKAGED}, or {@link Mode#EXPLICIT}
      * @return the profiles matching the supplied creation mode
      */
-    public Profile[] getProfiles( Mode mode )
+    public DeploymentProfile[] getProfiles( Mode mode )
     {
-        Profile[] profiles = getProfiles();
+        DeploymentProfile[] profiles = getProfiles();
         return selectProfileByMode( profiles, mode );
     }
 
@@ -242,17 +242,17 @@ public class ContainmentProfile extends Profile
      * @return the subset of the supplied profiles with a creation mode matching
      *   the supplied mode value
      */
-    private Profile[] selectProfileByMode( Profile[] profiles, Mode mode )
+    private DeploymentProfile[] selectProfileByMode( DeploymentProfile[] profiles, Mode mode )
     {
         ArrayList list = new ArrayList();
         for( int i = 0; i < profiles.length; i++ )
         {
-            Profile profile = profiles[ i ];
+            DeploymentProfile profile = profiles[ i ];
             if( profile.getMode().equals( mode ) )
             {
                 list.add( profile );
             }
         }
-        return (Profile[])list.toArray( new Profile[0] );
+        return (DeploymentProfile[])list.toArray( new DeploymentProfile[0] );
     }
 }

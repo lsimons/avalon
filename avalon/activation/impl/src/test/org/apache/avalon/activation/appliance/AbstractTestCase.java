@@ -6,7 +6,6 @@ import java.io.File;
 
 import junit.framework.TestCase;
 
-import org.apache.avalon.activation.appliance.impl.DefaultServiceContext;
 import org.apache.avalon.composition.data.ContainmentProfile;
 import org.apache.avalon.composition.data.builder.XMLContainmentProfileCreator;
 import org.apache.avalon.composition.logging.LoggingManager;
@@ -18,10 +17,6 @@ import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
 import org.apache.avalon.framework.logger.ConsoleLogger;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.parameters.Parameters;
-import org.apache.excalibur.event.command.CommandManager;
-import org.apache.excalibur.event.command.TPCThreadManager;
-import org.apache.excalibur.mpool.DefaultPoolManager;
-import org.apache.excalibur.mpool.PoolManager;
 
 
 public abstract class AbstractTestCase extends TestCase
@@ -31,8 +26,6 @@ public abstract class AbstractTestCase extends TestCase
    //-------------------------------------------------------
 
     protected Logger m_logger;
-
-    protected ServiceContext m_context;
 
     protected ContainmentModel m_model;
 
@@ -80,10 +73,10 @@ public abstract class AbstractTestCase extends TestCase
         //
 
         File local = new File( base, "repository" );
-        SystemContext system = 
-              DefaultSystemContext.createSystemContext( 
-                base, local, ConsoleLogger.LEVEL_INFO );
-        m_logger = system.getLogger();
+        m_system = 
+          DefaultSystemContext.createSystemContext( 
+            base, local, ConsoleLogger.LEVEL_INFO );
+        m_logger = m_system.getLogger();
 
         //
         // load the meta data using the profile returned from getPath()
@@ -91,20 +84,7 @@ public abstract class AbstractTestCase extends TestCase
         //
 
         ContainmentProfile profile = setUpProfile( new File( base, getPath() ) );
-        m_model = system.getFactory().createContainmentModel( profile );
-
-        // 
-        // create the service context now even thought
-        // its not needed until we start playing with appliances
-        // and blocks
-        //
-
-        PoolManager pool = createPoolManager();
-        DefaultServiceContext context = new DefaultServiceContext();
-        context.put( PoolManager.ROLE, pool );
-        context.put( LoggingManager.KEY, system.getLoggingManager() );
-        m_context = context;
-
+        m_model = m_system.getFactory().createContainmentModel( profile );
     }
 
     protected ContainmentProfile setUpProfile( File file )
@@ -119,46 +99,6 @@ public abstract class AbstractTestCase extends TestCase
     protected static File getTestDir()
     {
         return new File( System.getProperty( "basedir" ), "target" );
-    }
-
-    private PoolManager createPoolManager() throws Exception
-    {
-        try
-        {
-            //
-            // Set up the ThreadManager that the CommandManager uses
-            //
-
-            TPCThreadManager threadManager = new TPCThreadManager();
-            threadManager.enableLogging( getLogger().getChildLogger( "threads" ) );
-            Parameters params = new Parameters();
-            params.setParameter( "threads-per-processor", "2" );
-            params.setParameter( "sleep-time", "1000" );
-            params.setParameter( "block-timeout", "250" );
-            threadManager.parameterize( params );
-            threadManager.initialize();
-
-            //
-            // Set up the CommandManager that the PoolManager uses.
-            //
-
-            CommandManager commandManager = new CommandManager();
-            threadManager.register( commandManager );
-
-            //
-            // Set up the PoolManager that the pooled lifecycle helper needs
-            //
-
-            DefaultPoolManager poolManager =
-                    new DefaultPoolManager( commandManager.getCommandSink() );
-            return poolManager;
-        } 
-        catch( Throwable e )
-        {
-            final String error =
-                    "Internal error during establishment of the default pool manager. Cause: ";
-            throw new Exception( error + e.toString() );
-        }
     }
 
     protected Logger getLogger()

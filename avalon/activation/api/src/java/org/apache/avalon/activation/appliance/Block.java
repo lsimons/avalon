@@ -52,7 +52,6 @@ package org.apache.avalon.activation.appliance;
 
 import java.net.URL;
 
-import org.apache.avalon.composition.model.Model;
 import org.apache.avalon.composition.model.ContainmentModel;
 
 /**
@@ -60,7 +59,7 @@ import org.apache.avalon.composition.model.ContainmentModel;
  * appliance instances.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $ $Date: 2003/12/29 14:31:21 $
+ * @version $Revision: 1.3.2.2 $ $Date: 2004/01/04 21:28:59 $
  */
 public interface Block extends Appliance, Engine
 {
@@ -69,32 +68,5 @@ public interface Block extends Appliance, Engine
     * @return the containment model
     */
     ContainmentModel getContainmentModel();
-
-   /**
-    * Add a model as a child to this block.
-    * WARNING: this method may/will be removed
-    * @param model the model to add as a child of the block
-    * @return the appliance established to handle the model
-    * @exception ApplianceException if a error occurs
-    */
-    //Appliance addModel( Model model ) throws ApplianceException;
-
-   /**
-    * Add a model as a child to this block.
-    * WARNING: this method may/will be removed
-    * @param url the model url
-    * @return the appliance established to handle the model
-    * @exception ApplianceException if a error occurs
-    */
-    //Appliance addModel( URL url ) throws ApplianceException;
-
-   /**
-    * Add a model as a child to this block.
-    * WARNING: this method may/will be removed
-    * @param url the model url
-    * @return the appliance established to handle the model
-    * @exception ApplianceException if a error occurs
-    */
-    //void removeAppliance( String name ) throws ApplianceException;
 
 }

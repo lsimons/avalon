@@ -66,9 +66,9 @@ import org.apache.avalon.composition.data.BlockCompositionDirective;
 import org.apache.avalon.composition.data.BlockIncludeDirective;
 import org.apache.avalon.composition.data.CategoriesDirective;
 import org.apache.avalon.composition.data.ContainmentProfile;
+import org.apache.avalon.composition.data.ComponentProfile;
+import org.apache.avalon.composition.data.NamedComponentProfile;
 import org.apache.avalon.composition.data.DeploymentProfile;
-import org.apache.avalon.composition.data.NamedDeploymentProfile;
-import org.apache.avalon.composition.data.Profile;
 import org.apache.avalon.composition.data.ResourceDirective;
 import org.apache.avalon.composition.data.ServiceDirective;
 import org.apache.avalon.composition.data.TargetDirective;
@@ -77,27 +77,40 @@ import org.apache.avalon.composition.data.builder.ContainmentProfileBuilder;
 import org.apache.avalon.composition.data.builder.XMLContainmentProfileCreator;
 import org.apache.avalon.composition.event.CompositionEvent;
 import org.apache.avalon.composition.event.CompositionEventListener;
+import org.apache.avalon.composition.model.AssemblyException;
 import org.apache.avalon.composition.model.ClassLoaderContext;
 import org.apache.avalon.composition.model.ClassLoaderModel;
 import org.apache.avalon.composition.model.ContainmentModel;
 import org.apache.avalon.composition.model.ContainmentContext;
+import org.apache.avalon.composition.model.ContextModel;
+import org.apache.avalon.composition.model.DependencyModel;
+import org.apache.avalon.composition.model.DependencyGraph;
+import org.apache.avalon.composition.model.ComponentModel;
 import org.apache.avalon.composition.model.DeploymentModel;
-import org.apache.avalon.composition.model.Model;
 import org.apache.avalon.composition.model.ModelException;
 import org.apache.avalon.composition.model.ModelRuntimeException;
+import org.apache.avalon.composition.model.ModelRepository;
 import org.apache.avalon.composition.model.ModelSelector;
 import org.apache.avalon.composition.model.ProfileSelector;
+import org.apache.avalon.composition.model.ServiceModel;
+import org.apache.avalon.composition.model.SystemContext;
+import org.apache.avalon.composition.model.StageModel;
 import org.apache.avalon.composition.model.TypeRepository;
+import org.apache.avalon.composition.model.TypeUnknownException;
 import org.apache.avalon.composition.logging.LoggingManager;
 import org.apache.avalon.composition.util.StringHelper;
 import org.apache.avalon.repository.Repository;
 import org.apache.avalon.repository.Artifact;
 import org.apache.avalon.repository.RepositoryException;
+
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
+import org.apache.avalon.framework.parameters.Parameters;
+
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
+
 import org.apache.avalon.meta.info.DependencyDescriptor;
 import org.apache.avalon.meta.info.ServiceDescriptor;
 import org.apache.avalon.meta.info.StageDescriptor;
@@ -111,9 +124,9 @@ import org.apache.avalon.util.exception.ExceptionHelper;
  * as a part of a containment deployment model.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.13 $ $Date: 2004/01/01 13:08:56 $
+ * @version $Revision: 1.13.2.17 $ $Date: 2004/01/12 07:14:31 $
  */
-public class DefaultContainmentModel extends DefaultModel 
+public class DefaultContainmentModel extends DefaultDeploymentModel 
   implements ContainmentModel
 {
     //--------------------------------------------------------------
@@ -136,7 +149,7 @@ public class DefaultContainmentModel extends DefaultModel
     {
         if( context.getPartitionName() == null )
         {
-            return SEPERATOR;
+            return SEPARATOR;
         }
         else
         {
@@ -144,26 +157,31 @@ public class DefaultContainmentModel extends DefaultModel
         }
     }
 
-    //==============================================================
-    // state
-    //==============================================================
-
-    private ContainmentContext m_context;
-
-    private String m_partition;
-
-    private final Map m_models = new Hashtable();
-
-    /**
-     * The assigned logging categories.
-     */
-    private CategoriesDirective m_categories;
+    //--------------------------------------------------------------
+    // immutable state
+    //--------------------------------------------------------------
 
     private final LinkedList m_compositionListeners = new LinkedList();
 
-    //==============================================================
+    private final DefaultState m_assembly = new DefaultState();
+
+    private final Map m_models = new Hashtable();
+
+    private final ContainmentContext m_context;
+
+    private final String m_partition;
+
+    private final ServiceModel[] m_services;
+
+    //--------------------------------------------------------------
+    // state
+    //--------------------------------------------------------------
+
+    private CategoriesDirective m_categories;
+
+    //--------------------------------------------------------------
     // constructor
-    //==============================================================
+    //--------------------------------------------------------------
 
    /**
     * Creation of a new containment model.
@@ -175,29 +193,54 @@ public class DefaultContainmentModel extends DefaultModel
     public DefaultContainmentModel( final ContainmentContext context )
       throws ModelException
     {
-        super( context.getLogger(), getPath( context ), context.getName(), 
-          context.getContainmentProfile().getMode() );
+        super( context );
 
         m_context = context;
-        if( context.getPartitionName() == null )
+
+        if( null == context.getPartitionName() )
         {
-            m_partition = SEPERATOR;
+            m_partition = DeploymentModel.SEPARATOR;
         }
         else
         {
-            m_partition = getPath() + getName() + SEPERATOR;
+            m_partition = context.getPartitionName() 
+              + context.getName()
+              + DeploymentModel.SEPARATOR;
         }
 
-        Profile[] profiles = context.getContainmentProfile().getProfiles();
+        ClassLoader classloader = context.getClassLoader();
+        ServiceDirective[] export = 
+          context.getContainmentProfile().getExportDirectives();
+        m_services = new DefaultServiceModel[ export.length ];
+        for( int i=0; i<export.length; i++ )
+        {
+            ServiceDirective service = export[i];
+            String classname = service.getReference().getClassname();
+            try
+            {
+                Class clazz = classloader.loadClass( classname );
+                m_services[i] = new DefaultServiceModel( service, clazz ); 
+            }
+            catch( Throwable e )
+            {
+                final String error = 
+                  "Cannot load service class [" 
+                  + classname 
+                  + "].";
+                throw new ModelException( error, e );
+            }
+        }
+
+        DeploymentProfile[] profiles = context.getContainmentProfile().getProfiles();
         for( int i=0; i<profiles.length; i++ )
         {
             addModel( profiles[i] );
         }
     }
 
-    //==============================================================
-    // Model
-    //==============================================================
+    //--------------------------------------------------------------
+    // DeploymentModel
+    //--------------------------------------------------------------
 
    /**
     * Return the classloader model.
@@ -209,13 +252,33 @@ public class DefaultContainmentModel extends DefaultModel
         return m_context.getClassLoaderModel();
     }
 
+   /** 
+    * Returns the maximum allowable time for deployment.
+    *
+    * @return the maximum time expressed in millisecond of how 
+    * long a deployment may take.
+    */
+    public long getDeploymentTimeout()
+    {
+        long n = super.getDeploymentTimeout();
+        if( isAssembled() )
+        {
+            DeploymentModel[] startup = getStartupGraph();
+            for( int i=0; i<startup.length; i++ )
+            {
+                n = ( n + startup[i].getDeploymentTimeout() );
+            }
+        }
+        return n;
+    }
+
    /**
     * Return the set of services produced by the model.
     * @return the services
     */
     public ServiceDescriptor[] getServices()
     {
-        return getExportDirectives();
+        return m_context.getContainmentProfile().getExportDirectives();
     }
 
    /**
@@ -242,23 +305,433 @@ public class DefaultContainmentModel extends DefaultModel
     * stage dependency. The containment model implementation will 
     * allways return FALSE.
     *
-    * @return FALSE containers don't export stage handling support
+    * @return FALSE containers don't export stage handling
     */
     public boolean isaCandidate( StageDescriptor stage )
     {
-        //
-        // TODO-LATER: requires declaration of extension handling 
-        // export within the container meta-data - for now a container
-        // only exports services
-        //
-
         return false;
     }
 
-    //==============================================================
-    // ContainmentModel
-    //==============================================================
+    /**
+     * Returns the assembled state of the model.
+     * @return true if this model is assembled
+     */
+    public boolean isAssembled()
+    {
+        return m_assembly.isEnabled();
+    }
 
+    /**
+     * Assemble the model.
+     * @exception Exception if an error occurs during model assembly
+     */
+    public void assemble() throws AssemblyException
+    {
+        synchronized( m_assembly )
+        {
+            if( isAssembled() )
+            {
+                return;
+            }
+
+            getLogger().debug( "assembly phase" );
+            DeploymentModel[] models = m_context.getModelRepository().getModels();
+            for( int i=0; i<models.length; i++ )
+            {
+                DeploymentModel model = models[i];
+                assembleModel( model );
+            }
+
+            m_assembly.setEnabled( true );
+        }
+    }
+
+    private void assembleModel( DeploymentModel model ) throws AssemblyException
+    {
+         if( null == model )
+         {
+             throw new NullPointerException( "model" );
+         }
+
+         if( model.isAssembled() ) 
+         {
+             return;
+         }
+         else
+         {
+             if( model instanceof ComponentModel )
+             {
+                 assembleComponent( (ComponentModel) model );
+             }
+             else
+             {
+                 model.assemble();
+             }
+        }
+    }
+
+    private void assembleComponent( ComponentModel model ) throws AssemblyException
+    {
+        ModelRepository repository = m_context.getModelRepository();
+
+        //
+        // locate and assemble the component context handler
+        //
+
+        if( model.getContextModel() != null )
+        {
+            ContextModel context = model.getContextModel();
+            Class clazz = context.getStrategyClass();
+            if( !clazz.getName().equals( 
+              ContextModel.DEFAULT_STRATEGY_CLASSNAME ) )
+            {
+                if( null == context.getProvider() )
+                {
+                    try
+                    {
+                        StageDescriptor stage = 
+                          new StageDescriptor( clazz.getName() );
+                        DeploymentModel provider = 
+                          findExtensionProvider( repository, stage );
+                        context.setProvider( provider );
+                    }
+                    catch( Throwable e )
+                    {
+                        final String error = 
+                          "Unable to assemble component: " 
+                          + model 
+                         + " due to a component context phase handler establishment failure.";
+                        throw new AssemblyException( error, e );
+                    }
+                }
+            }
+        }
+
+        //
+        // locate and resolve the stage providers
+        //
+
+        StageModel[] stages = model.getStageModels();
+        for( int i=0; i<stages.length; i++ )
+        {
+            StageModel stage = stages[i];
+            if( null == stage.getProvider() )
+            {
+                try
+                {
+                    DeploymentModel provider =
+                      findExtensionProvider( repository, stage );
+                    stage.setProvider( provider );
+                }
+                catch( Throwable e )
+                {
+                    final String error = 
+                      "Unable to assemble component: " 
+                      + model 
+                      + " due to a component extension handler establishment failure.";
+                    throw new AssemblyException( error, e );
+                }
+            }
+        }
+
+        //
+        // locate and resolve the service providers
+        //
+
+        DependencyModel[] dependencies = model.getDependencyModels();
+        for( int i=0; i<dependencies.length; i++ )
+        {
+            DependencyModel dependency = dependencies[i];
+            if( null == dependency.getProvider() )
+            {
+                try
+                {
+                    DeploymentModel provider =
+                      findDependencyProvider( repository, dependency );
+                    dependency.setProvider( provider );
+                }
+                catch( Throwable e )
+                {
+                    final String error = 
+                      "Unable to assemble component: " + model 
+                      + " due to a service provider establishment failure.";
+                    throw new AssemblyException( error, e );
+                }
+            }
+        }
+    }
+
+    private DeploymentModel findDependencyProvider( 
+      ModelRepository repository, DependencyModel dependency )
+      throws AssemblyException
+    {
+        String path = dependency.getPath();
+        if( null != path )
+        {
+            DeploymentModel model = getModel( path );
+            if( null == model )
+            {
+                final String error = 
+                  "Could not locate a model at the address: [" 
+                  + path + "] in " + this + ".";
+                throw new AssemblyException( error );
+            }
+            assembleModel( model );
+            return model;
+        }
+        else
+        {
+            return findDependencyProvider( 
+              repository, dependency.getDependency() );
+        }
+    }
+
+    private DeploymentModel findDependencyProvider( 
+      ModelRepository repository, DependencyDescriptor dependency )
+      throws AssemblyException
+    {
+        DeploymentModel[] candidates = 
+          repository.getCandidateProviders( dependency );
+        ModelSelector selector = new DefaultModelSelector();
+        DeploymentModel model = selector.select( candidates, dependency );
+        if( model != null )
+        {
+            assembleModel( model );
+            return model;
+        }
+
+        //
+        // otherwise, check for any packaged profiles that 
+        // we could use to construct the model
+        //
+
+        DeploymentProfile[] profiles = findDependencyProfiles( dependency );
+        ProfileSelector profileSelector = new DefaultProfileSelector();
+        DeploymentProfile profile = profileSelector.select( profiles, dependency );
+        if( profile != null ) 
+        {
+            try
+            {
+                DeploymentModel solution = addModel( profile );
+                assembleModel( solution );
+                return solution;
+            }
+            catch( AssemblyException ae )
+            {
+                final String error = 
+                  "Nested assembly failure while attempting to construct model"
+                  + " for the profile: [" + profile + "] for the dependency: ["
+                  + dependency + "].";
+                throw new AssemblyException( error, ae );
+            }
+            catch( ModelException me )
+            {
+                final String error = 
+                  "Nested model failure while attempting to add model"
+                  + " for the profile: [" + profile + "] for the dependency: ["
+                  + dependency + "].";
+                throw new AssemblyException( error, me );
+            }
+        }
+        else
+        {
+            final String error = 
+              "Unable to locate a service provider for the dependency: [ "
+              + dependency + "].";
+            throw new AssemblyException( error );
+        }
+    }
+
+    private DeploymentModel findExtensionProvider( 
+      ModelRepository repository, StageModel stage )
+      throws AssemblyException
+    {
+        String path = stage.getPath();
+        if( null != path )
+        {
+            DeploymentModel model = getModel( path );
+            if( null == model )
+            {
+                final String error = 
+                  "Could not locate a model at the address: [" 
+                  + path + "] in " + this + ".";
+                throw new AssemblyException( error );
+            }
+            assembleModel( model );
+            return model;
+        }
+        else
+        {
+            return findExtensionProvider( repository, stage.getStage() );
+        }
+    }
+
+    private DeploymentModel findExtensionProvider( 
+      ModelRepository repository, StageDescriptor stage )
+      throws AssemblyException
+    {
+        DeploymentModel[] candidates = 
+          repository.getCandidateProviders( stage );
+        ModelSelector selector = new DefaultModelSelector();
+        DeploymentModel model = selector.select( candidates, stage );
+        if( model != null )
+        {
+            assembleModel( model );
+            return model;
+        }
+
+        //
+        // otherwise, check for any packaged profiles that 
+        // we could use to construct the model
+        //
+
+        DeploymentProfile[] profiles = findExtensionProfiles( stage );
+        ProfileSelector profileSelector = new DefaultProfileSelector();
+        DeploymentProfile profile = profileSelector.select( profiles, stage );
+        if( profile != null ) 
+        {
+            try
+            {
+                DeploymentModel solution = addModel( profile );
+                assembleModel( solution );
+                return solution;
+            }
+            catch( AssemblyException ae )
+            {
+                final String error = 
+                  "Nested assembly failure while attempting to construct model"
+                  + " for the extension profile: [" + profile 
+                  + "] for the stage dependency: ["
+                  + stage + "].";
+                throw new AssemblyException( error, ae );
+            }
+            catch( ModelException me )
+            {
+                final String error = 
+                  "Nested model failure while attempting to add model"
+                  + " for the extension profile: [" + profile 
+                  + "] for the stage dependency: ["
+                  + stage + "].";
+                throw new AssemblyException( error, me );
+            }
+        }
+        else
+        {
+            final String error = 
+              "Unable to locate a extension provider for the stage: [ "
+              + stage + "].";
+            throw new AssemblyException( error );
+        }
+    }
+
+    private DeploymentProfile[] findExtensionProfiles( StageDescriptor stage )
+    {
+        TypeRepository repository = getClassLoaderModel().getTypeRepository();
+        Type[] types = repository.getTypes( stage );
+        try
+        {
+            return getProfiles( repository, types );
+        }
+        catch( TypeUnknownException tue )
+        {
+            // will not happen
+            final String error = "An irrational condition has occured.";
+            throw new ModelRuntimeException( error, tue );
+        }
+    }
+
+    private DeploymentProfile[] findDependencyProfiles( DependencyDescriptor dependency )
+    {
+        TypeRepository repository = getClassLoaderModel().getTypeRepository();
+        Type[] types = repository.getTypes( dependency );
+        try
+        {
+            return getProfiles( repository, types );
+        }
+        catch( TypeUnknownException tue )
+        {
+            // will not happen
+            final String error = "An irrational condition has occured.";
+            throw new ModelRuntimeException( error, tue );
+        }
+    }
+
+    private DeploymentProfile[] getProfiles( TypeRepository repository, Type[] types )
+      throws TypeUnknownException
+    {
+        ArrayList list = new ArrayList();
+        for( int i=0; i<types.length; i++ )
+        {
+            DeploymentProfile[] profiles = 
+            repository.getProfiles( types[i] );
+            for( int j=0; j<profiles.length; j++ )
+            {
+                list.add( profiles[j] );
+            }
+        }
+        return (DeploymentProfile[]) list.toArray( new DeploymentProfile[0] );
+    }
+
+    /**
+     * Disassemble the model.
+     */
+    public void disassemble()
+    {
+        synchronized( m_assembly )
+        {
+            if( !isAssembled() )
+            {
+                return;
+            }
+
+            getLogger().debug( "dissassembly phase" );
+            DeploymentModel[] models = m_context.getModelRepository().getModels();
+            for( int i=0; i<models.length; i++ )
+            {
+                DeploymentModel model = models[i];
+                model.disassemble();
+            }
+            m_assembly.setEnabled( false );
+        }
+    }
+
+    /**
+     * Return the set of models assigned as providers.
+     * @return the providers consumed by the model
+     * @exception IllegalStateException if the model is not in an assembled state 
+     */
+    public DeploymentModel[] getProviders()
+    {
+        if( !isAssembled() ) 
+        {
+             final String error = 
+               "Model is not assembled.";
+             throw new IllegalStateException( error );
+        }
+
+        ArrayList list = new ArrayList();
+        DeploymentModel[] models = m_context.getModelRepository().getModels();
+        for( int i=0; i<models.length; i++ )
+        {
+            DeploymentModel model = models[i];
+            DeploymentModel[] providers = model.getProviders();
+            for( int j=0; j<providers.length; j++ )
+            {
+                DeploymentModel provider = providers[j];
+                final String path = provider.getPath();
+                final String root = getPartition();
+                if( !path.startsWith( root ) )
+                {
+                    list.add( providers[j] );
+                }
+            }
+        }
+        return (DeploymentModel[]) list.toArray( new DeploymentModel[0] );
+    }
+
+    //--------------------------------------------------------------
+    // ContainmentModel
+    //--------------------------------------------------------------
 
    /**
     * Add a composition listener to the model.
@@ -282,6 +755,50 @@ public class DefaultContainmentModel extends DefaultModel
         {
             m_compositionListeners.remove( listener );
         }
+    }
+
+   /**
+    * Return the set of service export mappings
+    * @return the set of export directives published by the model
+    */
+    public ServiceModel[] getServiceModels()
+    {
+        return m_services;
+    }
+
+   /**
+    * Return the set of service export directives for a supplied class.
+    * @param clazz a cleaa identifying the directive
+    * @return the export directives
+    */
+    public ServiceModel getServiceModel( Class clazz )
+    {
+        ServiceModel[] models = getServiceModels();
+        for( int i=0; i<models.length; i++ )
+        {
+            ServiceModel model = models[i];
+            if( clazz.isAssignableFrom( model.getServiceClass() ) )
+            {
+                return model;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Get the startup sequence for the model.
+     */
+    public DeploymentModel[] getStartupGraph()
+    {
+        return m_context.getDependencyGraph().getStartupGraph();
+    }
+
+    /**
+     * Get the shutdown sequence for the model.
+     */
+    public DeploymentModel[] getShutdownGraph()
+    {
+        return m_context.getDependencyGraph().getShutdownGraph();
     }
 
    /**
@@ -310,7 +827,7 @@ public class DefaultContainmentModel extends DefaultModel
     * @return the model 
     * @exception ModelException if a model related error occurs
     */
-    public Model addModel( URL url ) throws ModelException
+    public DeploymentModel addModel( URL url ) throws ModelException
     {
         return addContainmentModel( url, null );
     }
@@ -324,28 +841,28 @@ public class DefaultContainmentModel extends DefaultModel
         return model;
     }
 
-    public Model addModel( Profile profile ) throws ModelException
+    public DeploymentModel addModel( DeploymentProfile profile ) throws ModelException
     {
         if( null == profile )
           throw new NullPointerException( "profile" );
 
-        Model model = null;
+        DeploymentModel model = null;
         final String name = profile.getName();
         if( profile instanceof ContainmentProfile )
         {
             ContainmentProfile containment = (ContainmentProfile) profile;
             model = createContainmentModel( containment );
         }
-        else if( profile instanceof DeploymentProfile ) 
+        else if( profile instanceof ComponentProfile ) 
         {
-            DeploymentProfile deployment = (DeploymentProfile) profile;
-            model = createDeploymentModel( deployment );
+            ComponentProfile deployment = (ComponentProfile) profile;
+            model = createComponentModel( deployment );
         }
-        else if( profile instanceof NamedDeploymentProfile ) 
+        else if( profile instanceof NamedComponentProfile ) 
         {
-            DeploymentProfile deployment = 
-              createDeploymentProfile( (NamedDeploymentProfile) profile );
-            model = createDeploymentModel( deployment );
+            ComponentProfile deployment = 
+              createComponentProfile( (NamedComponentProfile) profile );
+            model = createComponentModel( deployment );
         }
         else if( profile instanceof BlockIncludeDirective ) 
         {
@@ -374,11 +891,14 @@ public class DefaultContainmentModel extends DefaultModel
         return addModel( name, model );
     }
 
-    private Model addModel( String name, Model model ) throws ModelException
+    private DeploymentModel addModel( 
+      String name, DeploymentModel model ) throws ModelException
     {
-        synchronized( m_models )
+        ModelRepository repository = m_context.getModelRepository();
+        synchronized( repository )
         {
-            m_models.put( name, model );
+            repository.addModel( name, model );
+            m_context.getDependencyGraph().add( model );
             CompositionEvent event = new CompositionEvent( this, model );
             fireModelAddedEvent( event );
             return model;
@@ -416,9 +936,10 @@ public class DefaultContainmentModel extends DefaultModel
     */
     public void removeModel( String name ) throws IllegalArgumentException
     {
-        synchronized( m_models )
+        ModelRepository repository = m_context.getModelRepository();
+        synchronized( repository )
         {
-            Model model = (Model) m_models.get( name );
+            DeploymentModel model = (DeploymentModel) repository.getModel( name );
             if( null == name )
             {
                 final String error = 
@@ -429,7 +950,8 @@ public class DefaultContainmentModel extends DefaultModel
             }
             else
             {
-                m_models.remove( name );
+                m_context.getDependencyGraph().add( model );
+                repository.removeModel( model );
                 CompositionEvent event = new CompositionEvent( this, model );
                 fireModelRemovedEvent( event );
             }
@@ -465,16 +987,24 @@ public class DefaultContainmentModel extends DefaultModel
     * @param profile a containment profile 
     * @return the composition model
     */
-    private DeploymentModel createDeploymentModel( final DeploymentProfile profile ) 
+    private ComponentModel createComponentModel( final ComponentProfile profile ) 
       throws ModelException
     {
-        if( null == profile ) 
-          throw new NullPointerException( "profile" );
+        if( null == profile )
+        {
+            throw new NullPointerException( "profile" );
+        }
 
         final String name = profile.getName();
         final String partition = getPartition();
-        final Logger logger = getLogger().getChildLogger( name );
 
+        LoggingManager logging = m_context.getSystemContext().getLoggingManager();
+        CategoriesDirective categories = profile.getCategories();
+        if( null != categories )
+        {   
+            logging.addCategories( partition, profile.getCategories() );
+        }
+        Logger logger = logging.getLoggerForCategory( partition + name );
         if( getLogger().isDebugEnabled() )
         {
             final String message = 
@@ -490,9 +1020,11 @@ public class DefaultContainmentModel extends DefaultModel
               m_context.getClassLoaderModel().getTypeRepository().getType( base );
             final File home = new File( m_context.getHomeDirectory(), name );
             final File temp = new File( m_context.getTempDirectory(), name );
-            DefaultDeploymentContext context = 
-              new DefaultDeploymentContext( 
-                logger, name, m_context, profile, type, base, home, temp, partition );
+
+            DefaultComponentContext context = 
+              new DefaultComponentContext( 
+                logger, name, m_context, this, 
+                profile, type, base, home, temp, partition );
 
             //
             // TODO: lookup the profile for a factory declaration, then 
@@ -500,7 +1032,7 @@ public class DefaultContainmentModel extends DefaultModel
             // the argument.
             //
 
-            return new DefaultDeploymentModel( context );
+            return new DefaultComponentModel( context );
         }
         catch( Throwable e )
         {
@@ -564,7 +1096,6 @@ public class DefaultContainmentModel extends DefaultModel
             getLogger().debug( message );
         }
 
-
         LoggingManager logging = m_context.getSystemContext().getLoggingManager();
         final String base = partition + name;
         logging.addCategories( base, profile.getCategories() );
@@ -582,10 +1113,17 @@ public class DefaultContainmentModel extends DefaultModel
             final File temp = new File( m_context.getTempDirectory(), name );
             final Logger logger = getLogger().getChildLogger( name );
 
+            ModelRepository modelRepository = 
+              m_context.getModelRepository();
+
+            DependencyGraph graph = 
+              m_context.getDependencyGraph();
+
             DefaultContainmentContext context = 
               new DefaultContainmentContext( 
                 logger, m_context.getSystemContext(), 
-                classLoaderModel, home, temp, profile, partition, name );
+                classLoaderModel, modelRepository, graph, 
+                home, temp, this, profile, partition, name );
 
             //
             // TODO: lookup the profile for a factory declaration, then 
@@ -649,14 +1187,14 @@ public class DefaultContainmentModel extends DefaultModel
         for( int i=0; i<targets.length; i++ )
         {
             TargetDirective target = targets[i];
-            Model child = model.getModel( target.getPath() );
+            DeploymentModel child = model.getModel( target.getPath() );
             if( child != null )
             {
                 if( target.getConfiguration() != null )
                 {
-                    if( child instanceof DeploymentModel )
+                    if( child instanceof ComponentModel )
                     {
-                        ((DeploymentModel)child).setConfiguration( 
+                        ((ComponentModel)child).setConfiguration( 
                           target.getConfiguration() );
                     }
                     else if( child instanceof ContainmentModel )
@@ -669,9 +1207,9 @@ public class DefaultContainmentModel extends DefaultModel
                 }
                 if( target.getCategoriesDirective() != null )
                 {
-                    if( child instanceof DeploymentModel )
+                    if( child instanceof ComponentModel )
                     {
-                        ((DeploymentModel)child).setCategories( 
+                        ((ComponentModel)child).setCategories( 
                            target.getCategoriesDirective() );
                     }
                     else if( child instanceof ContainmentModel )
@@ -698,7 +1236,8 @@ public class DefaultContainmentModel extends DefaultModel
     * @param directive the block include directive
     * @return the containment model established by the include
     */
-    private ContainmentModel createContainmentModel( BlockIncludeDirective directive )
+    private ContainmentModel createContainmentModel( 
+      BlockIncludeDirective directive )
       throws ModelException
     {
         final String name = directive.getName();
@@ -708,7 +1247,8 @@ public class DefaultContainmentModel extends DefaultModel
         {
             if( path.indexOf( ":" ) < 0 )
             {
-                URL anchor = m_context.getSystemContext().getBaseDirectory().toURL();
+                URL anchor = 
+                  m_context.getSystemContext().getBaseDirectory().toURL();
                 URL url = new URL( anchor, path );
                 return createContainmentModel( name, url );
             }
@@ -885,7 +1425,7 @@ public class DefaultContainmentModel extends DefaultModel
         }
     }
 
-    private String getName( String name, Profile profile )
+    private String getName( String name, DeploymentProfile profile )
     {
         if( name != null ) return name;
         return profile.getName();
@@ -906,9 +1446,9 @@ public class DefaultContainmentModel extends DefaultModel
     *
     * @return the nested model
     */
-    public Model[] getModels()
+    public DeploymentModel[] getModels()
     {
-        return (Model[]) m_models.values().toArray( new Model[0] );
+        return m_context.getModelRepository().getModels();
     }
 
    /**
@@ -918,199 +1458,156 @@ public class DefaultContainmentModel extends DefaultModel
     * @return the named model or null if the name is unknown
     * @exception IllegalArgumentException if the name if badly formed
     */
-    public Model getModel( String path )
+    public DeploymentModel getModel( String path )
     {
-        if( path.startsWith( "/" ) )
-        {
-            return getModel( path.substring( 1, path.length() ) );
-        }
+        ContainmentModel parent = 
+          m_context.getParentContainmentModel();
 
-        int j = path.indexOf( "/" );
-        if( j > -1 )
+        if( path.equals( "" ) )
         {
-            String key = path.substring( 0, j );
-            if( key.equals( "" ) )
+            return this;
+        }
+        else if( path.startsWith( "/" ) )
+        {
+            //
+            // its a absolute reference that need to be handled by the 
+            // root container
+            //
+
+            if( null != parent )
             {
-                return this;
+                return parent.getModel( path );
             }
             else
             {
-                String remainder = path.substring( j+1 );
-                Model model = getModel( key );
-                if( model == null )
-                {
-                    return null;
-                }
-                else if( model instanceof ContainmentModel )
-                {
-                    return ((ContainmentModel)model).getModel( remainder );
-                }
-                else
-                {
-                    final String error = 
-                      "Bad path element: " + key + " in path: " + path;
-                    throw new IllegalArgumentException( error );
-                } 
+                //
+                // this is the root container thereforw the 
+                // path can be transfored to a relative reference
+                //
+
+                return getModel( path.substring( 1 ) );
             }
         }
         else
         {
-            if( path.equals( "" ) )
+            //
+            // its a relative reference in the form xxx/yyy/zzz
+            // so if the path contains "/", then locate the token 
+            // proceeding the "/" (i.e. xxx) and apply the remainder 
+            // (i.e. yyy/zzz) as the path argument , otherwise, its 
+            // a local reference that we can pull from the model 
+            // repository
+            //
+
+            final String root = getRootName( path );
+
+            if( root.equals( ".." ) )
             {
-                return this;
+                //
+                // its a relative reference in the form "../xxx/yyy" 
+                // in which case we simply redirect "xxx/yyy" to the 
+                // parent container
+                //
+ 
+                if( null != parent )
+                {
+                    final String remainder = getRemainder( root, path );
+                    return parent.getModel( remainder );
+                }
+                else
+                {
+                    final String error = 
+                      "Supplied path ["
+                      + path 
+                      + "] references a container above the root container.";
+                    throw new IllegalArgumentException( error );
+                }
+            }
+            else if( root.equals( "." ) )
+            {
+                //
+                // its a path with a redundant "./xxx/yyy" which is 
+                // equivalent to "xxx/yyy"
+                //
+ 
+                final String remainder = getRemainder( root, path );
+                return getModel( remainder );
+            }
+            else if( path.indexOf( "/" ) < 0 )
+            {
+                // 
+                // its a path in the form "xxx" so we can use this
+                // to lookup and return a local child
+                //
+
+                return m_context.getModelRepository().getModel( path );
             }
             else
             {
-                return (Model) m_models.get( path );
-            }
-        }
-    }
+                //
+                // locate the relative root container, and apply 
+                // getModel to the container
+                //
 
-   /**
-    * Get a local model relative to a supplied service dependency.
-    * @param dependency the service dependency descriptor
-    * @exception ModelRuntimeException if an error occurs during model establishment
-    */
-    public Model getModel( DependencyDescriptor dependency )
-      throws ModelRuntimeException
-    {
-        //
-        // if an existing model exists return it
-        //
-
-        Model[] models = getModels();
-        ModelSelector modelSelector = new DefaultModelSelector();
-        Model model = modelSelector.select( models, dependency );
-        if( model != null ) return model;
-
-        //
-        // otherwise, check for any packaged profiles that 
-        // we could use to construct the model
-        //
-
-        TypeRepository repository = 
-          m_context.getClassLoaderModel().getTypeRepository();
-        ArrayList list = new ArrayList();
-        try
-        {
-            Type[] types = repository.getTypes( dependency );
-            for( int i=0; i<types.length; i++ )
-            {
-                Profile[] profiles = repository.getProfiles( types[i] );
-                for( int j=0; j<profiles.length; j++ )
+                DeploymentModel model = 
+                  m_context.getModelRepository().getModel( root );
+                if( model != null )
                 {
-                    list.add( profiles[j] );
+                    //
+                    // we have the sub-container so we can apply 
+                    // the relative path after subtracting the name of 
+                    // this container and the path seperator character
+                    //
+
+                    if( model instanceof ContainmentModel )
+                    {
+                        ContainmentModel container = 
+                          (ContainmentModel) model;
+                        final String remainder = getRemainder( root, path );
+                        return container.getModel( remainder );
+                    }
+                    else
+                    {
+                        final String error = 
+                          "The path element [" + root 
+                          + "] does not reference a containment model within ["
+                          + this + "].";
+                        throw new IllegalArgumentException( error );
+                    }
+                }
+                else
+                {
+                    //
+                    // path contains a token that does not map to 
+                    // known container
+                    //
+                    
+                    final String error = 
+                      "Unable to locate a container with name [" 
+                      + root + "] within the container [" 
+                      + this + "].";
+                    throw new IllegalArgumentException( error );
                 }
             }
-
-            //
-            // TODO: update this to handle meta-data directed selector
-            // creation (e.g. an extension urn) - problem is that we either
-            // declare that this method is invoked when we are auto 
-            // creating a model on demand - in effect what we need is a 
-            // DependencyDirective instead of the descriptor.
-            //
-
-            Profile[] collection = (Profile[]) list.toArray( new Profile[0] );
-            ProfileSelector selector = new DefaultProfileSelector();
-            Profile profile = selector.select( collection, dependency );
-            if( profile != null ) return addModel( profile );
-            return null;
-        }
-        catch( Throwable e )
-        {
-            // should not happen
-            final String error = 
-              REZ.getString( 
-                "containment.model.create.error", 
-                getPath(), 
-                dependency.toString() );
-            throw new ModelRuntimeException( error, e );
         }
     }
 
-   /**
-    * Return a model relative to a supplied stage descriptor.
-    * @param stage the stage descriptor
-    * @return model of a an stage handler or null if the stage is unresolvable
-    * @exception ModelRuntimeException if an error occurs during model establishment
-    */
-    public Model getModel( StageDescriptor stage ) 
-      throws ModelRuntimeException
+    private String getRootName( String path )
     {
-        //
-        // if an existing model exists return it
-        //
-
-        Model[] models = getModels();
-        ModelSelector modelSelector = new DefaultModelSelector();
-        Model model = modelSelector.select( models, stage );
-        if( model != null ) return model;
-
-        //
-        // otherwise, check for any packaged profiles that 
-        // we could use to construct the model
-        //
-
-        TypeRepository repository = 
-          m_context.getClassLoaderModel().getTypeRepository();
-
-        ArrayList list = new ArrayList();
-        try
+        int n = path.indexOf( "/" );
+        if( n < 0 ) 
         {
-            Type[] types = repository.getTypes( stage );
-            for( int i=0; i<types.length; i++ )
-            {
-                Profile[] profiles = repository.getProfiles( types[i] );
-                for( int j=0; j<profiles.length; j++ )
-                {
-                    list.add( profiles[j] );
-                }
-            }
-
-            //
-            // TODO: update this to handle meta-data directed selector
-            // creation (e.g. an extension urn) - problem is that we either
-            // declare that this method is invoked when we are auto 
-            // creating a model on demand - in effect what we need is a 
-            // DependencyDirective instead of the descriptor.
-            //
-
-            Profile[] collection = (Profile[]) list.toArray( new Profile[0] );
-            ProfileSelector selector = new DefaultProfileSelector();
-            Profile profile = selector.select( collection, stage );
-            if( profile != null ) return addModel( profile );
-            return null;
+            return path;
         }
-        catch( Throwable e )
+        else
         {
-            // should not happen
-            final String error = 
-              REZ.getString( 
-                "containment.model.create.error", 
-                getPath(), 
-                stage.toString() );
-            throw new ModelRuntimeException( error, e );
+            return path.substring( 0, n ); 
         }
     }
 
-   /**
-    * Return the set of service export mappings
-    * @return the set of export directives published by the model
-    */
-    public ServiceDirective[] getExportDirectives()
+    private String getRemainder( String name, String path )
     {
-        return m_context.getContainmentProfile().getExportDirectives();
-    }
-
-   /**
-    * Return the set of service export directives for a supplied class.
-    * @param clazz a cleaa identifying the directive
-    * @return the export directives
-    */
-    public ServiceDirective getExportDirective( Class clazz )
-    {
-        return m_context.getContainmentProfile().getExportDirective( clazz );
+        return path.substring( name.length() + 1 );
     }
 
     //==============================================================
@@ -1118,9 +1615,10 @@ public class DefaultContainmentModel extends DefaultModel
     //==============================================================
 
    /**
-    * Conver a classic url to a jar url.  TIf the supplied url protocol is not 
+    * Conver a classic url to a jar url.  If the supplied url protocol is not 
     * the "jar" protocol, a ne url is created by prepending jar: and adding the 
     * trailing "!/".
+    *
     * @param url the url to convert
     * @return the converted url
     * @exception MalformedURLException if something goes wrong
@@ -1132,33 +1630,30 @@ public class DefaultContainmentModel extends DefaultModel
     }
 
    /**
-    * Return a simple string represention of the containment model.
-    * @return the string representation
-    */
-    public String toString()
-    {
-        return "[containment model: " + getQualifiedName() + "]";
-    }
-
-   /**
-    * Create a full deployment profile using a supplied named profile reference.
+    * Create a full deployment profile using a supplied named 
+    * profile reference.
+    *
     * @param profile the named profile reference directive
     * @return the deployment profile
-    * @exception ModelException if an error occurs during profile creation
+    * @exception ModelException if an error occurs during 
+    *    profile creation
     */
-    private DeploymentProfile createDeploymentProfile( NamedDeploymentProfile profile )
+    private ComponentProfile createComponentProfile( 
+      NamedComponentProfile profile )
       throws ModelException
     {
         try
         {
-            NamedDeploymentProfile holder = (NamedDeploymentProfile) profile;
+            NamedComponentProfile holder = 
+              (NamedComponentProfile) profile;
             final String classname = holder.getClassname();
             final String key = holder.getKey();
             TypeRepository repository = 
               m_context.getClassLoaderModel().getTypeRepository();
             Type type = repository.getType( classname );
-            DeploymentProfile template = repository.getProfile( type, key );
-            return new DeploymentProfile( profile.getName(), template );
+            ComponentProfile template = 
+              repository.getProfile( type, key );
+            return new ComponentProfile( profile.getName(), template );
         }
         catch( Throwable e )
         {
@@ -1200,16 +1695,18 @@ public class DefaultContainmentModel extends DefaultModel
             Object model = getModel( path );
             if( model != null )
             {
-                if( model instanceof DeploymentModel )
+                if( model instanceof ComponentModel )
                 {
-                    DeploymentModel deployment = (DeploymentModel) model;
+                    ComponentModel deployment = (ComponentModel) model;
                     if( target.getConfiguration() != null )
                     {
-                        deployment.setConfiguration( target.getConfiguration() );
+                        deployment.setConfiguration( 
+                          target.getConfiguration() );
                     }
                     if( target.getCategoriesDirective() != null )
                     {
-                        deployment.setCategories( target.getCategoriesDirective() );
+                        deployment.setCategories( 
+                          target.getCategoriesDirective() );
                     }
                 }
                 else if( model instanceof ContainmentModel )
@@ -1217,7 +1714,8 @@ public class DefaultContainmentModel extends DefaultModel
                     ContainmentModel containment = (ContainmentModel) model;
                     if( target.getCategoriesDirective() != null )
                     {
-                        containment.setCategories( target.getCategoriesDirective() );
+                        containment.setCategories( 
+                          target.getCategoriesDirective() );
                     }
                 }
             }
@@ -1247,6 +1745,5 @@ public class DefaultContainmentModel extends DefaultModel
               "Could not load the targets directive: " + url;
             throw new ModelException( error, e );
         }
-        
     }
 }

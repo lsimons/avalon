@@ -54,10 +54,9 @@ package org.apache.avalon.activation.appliance;
  * Exception raised in response to an assembly failure.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2003/09/24 09:30:20 $
+ * @version $Revision: 1.1.1.1.2.1 $ $Date: 2004/01/07 12:57:25 $
  */
-public final class DeploymentException
-        extends ApplianceException
+public class DeploymentException extends ApplianceException
 {
 
     /**

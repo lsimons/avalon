@@ -4,7 +4,7 @@
                    The Apache Software License, Version 1.1
  ============================================================================
 
- Copyright (C) 1999-2002 The Apache Software Foundation. All rights reserved.
+ Copyright (C) 1999-2004 The Apache Software Foundation. All rights reserved.
 
  Redistribution and use in source and binary forms, with or without modifica-
  tion, are permitted provided that the following conditions are met:
@@ -52,71 +52,81 @@ package org.apache.avalon.composition.model.impl;
 
 import java.io.File;
 
+import org.apache.avalon.composition.model.DependencyGraph;
 import org.apache.avalon.composition.model.SystemContext;
 import org.apache.avalon.composition.model.ContainmentContext;
+import org.apache.avalon.composition.model.ContainmentModel;
 import org.apache.avalon.composition.model.ClassLoaderModel;
+import org.apache.avalon.composition.model.ModelRepository;
+import org.apache.avalon.composition.model.ModelRuntimeException;
+import org.apache.avalon.composition.model.DeploymentModel;
+
+import org.apache.avalon.composition.data.ContainmentProfile;
+
 import org.apache.avalon.framework.context.DefaultContext;
 import org.apache.avalon.framework.logger.Logger;
+
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
-import org.apache.avalon.composition.data.ContainmentProfile;
+
+import org.apache.avalon.meta.info.DependencyDescriptor;
+import org.apache.avalon.meta.info.StageDescriptor;
 
 
 /**
- * Implementation of a system context that exposes a system wide set of parameters.
+ * Implementation of a containment supplied to a containment model.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2003/10/28 20:21:00 $
+ * @version $Revision: 1.2.2.5 $ $Date: 2004/01/08 12:51:17 $
  */
-public class DefaultContainmentContext extends DefaultContext 
+public class DefaultContainmentContext extends DefaultDeploymentContext 
   implements ContainmentContext
 {
-    //==============================================================
+    //---------------------------------------------------------
     // static
-    //==============================================================
+    //---------------------------------------------------------
 
     private static final Resources REZ =
             ResourceManager.getPackageResources( DefaultContainmentContext.class );
 
-    //==============================================================
+    //---------------------------------------------------------
     // immutable state
-    //==============================================================
+    //---------------------------------------------------------
 
     private final File m_home;
 
     private final File m_temp;
 
-    private final ClassLoaderModel m_model;
-
-    private final Logger m_logger;
+    private final ClassLoaderModel m_classloader;
 
     private final ContainmentProfile m_profile;
 
-    private final String m_partition;
+    private final ModelRepository m_repository;
 
-    private final SystemContext m_system;
+    private final ContainmentModel m_parent;
 
-    private final String m_name;
-
-    //==============================================================
+    //---------------------------------------------------------
     // constructor
-    //==============================================================
+    //---------------------------------------------------------
 
    /**
-    * Creation of a new containment context.
+    * Creation of a new root containment context.
     *
     * @param logger the logging channel to assign
     * @param system the system context
     * @param model the classloader model
+    * @param repository the parent model repository
+    * @param graph the parent dependency graph
     * @param profile the containment profile
     */
     public DefaultContainmentContext( 
       Logger logger, SystemContext system, ClassLoaderModel model, 
+      ModelRepository repository, DependencyGraph graph, 
       ContainmentProfile profile )
     {
-        this( logger, system, model, 
+        this( logger, system, model, repository, graph,
           system.getHomeDirectory(), system.getTempDirectory(), 
-          profile, null, "" );
+          null, profile, null, "" );
     }
 
    /**
@@ -125,6 +135,8 @@ public class DefaultContainmentContext extends DefaultContext
     * @param logger the logging channel to assign
     * @param system the system context
     * @param model the classloader model
+    * @param repository the parent model repository
+    * @param graph the parent dependency graph
     * @param home the directory for the container
     * @param temp a temporary directory for the container
     * @param profile the containment profile
@@ -134,12 +146,12 @@ public class DefaultContainmentContext extends DefaultContext
     */
     public DefaultContainmentContext( 
       Logger logger, SystemContext system, ClassLoaderModel model, 
-      File home, File temp, ContainmentProfile profile, String partition, String name )
+      ModelRepository repository, DependencyGraph graph, 
+      File home, File temp, ContainmentModel parent, 
+      ContainmentProfile profile, String partition, String name )
     {
-        if( logger == null )
-        {
-            throw new NullPointerException( "logger" );
-        }
+        super( logger, system, partition, name, profile.getMode(), graph );
+
         if( system == null )
         {
             throw new NullPointerException( "system" );
@@ -176,60 +188,18 @@ public class DefaultContainmentContext extends DefaultContext
             throw new IllegalArgumentException( error );
         }
 
-        m_logger = logger;
-        m_system = system;
-        m_model = model;
+        m_repository = new DefaultModelRepository( repository, logger );
+
+        m_classloader = model;
         m_home = home;
         m_temp = temp;
+        m_parent = parent;
         m_profile = profile;
-        m_partition = partition;
-        m_name = name;
     }
 
-    //==============================================================
+    //---------------------------------------------------------
     // ContainmentContext
-    //==============================================================
-
-   /**
-    * Return the name that the container has been assigned.
-    *
-    * @return the container name
-    */
-    public String getName()
-    {
-        return m_name;
-    }
-
-   /**
-    * Return the partition name that the container is 
-    * established with.
-    *
-    * @return the partition name
-    */
-    public String getPartitionName()
-    {
-        return m_partition;
-    }
-
-   /**
-    * Return the logging channel.
-    *
-    * @return the containment models logging channel
-    */
-    public Logger getLogger()
-    {
-        return m_logger;
-    }
-
-   /**
-    * Return the system context.
-    *
-    * @return the system context
-    */
-    public SystemContext getSystemContext()
-    {
-        return m_system;
-    }
+    //---------------------------------------------------------
 
    /**
     * Return the working directory from which containers may 
@@ -264,23 +234,46 @@ public class DefaultContainmentContext extends DefaultContext
     }
 
    /**
+    * Return the model repository.
+    *
+    * @return the model repository
+    */
+    public ModelRepository getModelRepository()
+    {
+        return m_repository;
+    }
+
+   /**
     * Return the containment classloader model.
     *
     * @return the classloader model
     */
     public ClassLoaderModel getClassLoaderModel()
     {
-        return m_model;
+        return m_classloader;
     }
 
    /**
     * Return the containment classloader.  This method is a 
-    * convinience operation equivalent to getClassLoaderModel().getClassLoader(); 
+    * convinience operation equivalent to 
+    * getClassLoaderModel().getClassLoader(); 
     *
     * @return the classloader
     */
     public ClassLoader getClassLoader()
     {
-        return m_model.getClassLoader();
+        return m_classloader.getClassLoader();
     }
+
+   /**
+    * Return the parent containment model.
+    *
+    * @return the model parent container
+    */
+    public ContainmentModel getParentContainmentModel()
+    {
+        return m_parent;
+    }
+
+
 }

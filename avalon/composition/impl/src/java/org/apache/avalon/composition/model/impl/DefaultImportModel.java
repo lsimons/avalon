@@ -53,7 +53,7 @@ package org.apache.avalon.composition.model.impl;
 import java.util.Map;
 
 import org.apache.avalon.composition.model.ModelException;
-import org.apache.avalon.composition.model.DeploymentContext;
+import org.apache.avalon.composition.model.ComponentContext;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.framework.context.ContextException;
@@ -66,7 +66,7 @@ import org.apache.avalon.meta.info.EntryDescriptor;
  * Default implementation of a the context entry import model.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2003/10/28 20:21:00 $
+ * @version $Revision: 1.2.2.1 $ $Date: 2004/01/04 17:23:17 $
  */
 public class DefaultImportModel extends DefaultEntryModel
 {
@@ -85,7 +85,7 @@ public class DefaultImportModel extends DefaultEntryModel
 
     private final EntryDescriptor m_descriptor;
 
-    private final DeploymentContext m_context;
+    private final ComponentContext m_context;
 
     private final Map m_map;
 
@@ -108,7 +108,7 @@ public class DefaultImportModel extends DefaultEntryModel
     */
     public DefaultImportModel( 
       EntryDescriptor descriptor, ImportDirective directive, 
-      DeploymentContext context, Map map )
+      ComponentContext context, Map map )
     {
         super( descriptor );
         if( directive == null )

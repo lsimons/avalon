@@ -57,13 +57,13 @@ import org.apache.avalon.composition.model.ModelFactory;
 import org.apache.avalon.repository.Repository;
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.logger.Logger;
-
+import org.apache.avalon.framework.parameters.Parameters;
 
 /**
  * Defintion of a system context that exposes a system wide set of parameters.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2003/09/24 09:31:22 $
+ * @version $Revision: 1.1.1.1.2.1 $ $Date: 2004/01/06 23:16:49 $
  */
 public interface SystemContext extends Context
 {
@@ -141,4 +141,11 @@ public interface SystemContext extends Context
     */
     Logger getLogger();
 
+    /** 
+     * Returns the configurable kernel parameters.
+     *
+     * @return a Parameters object populated with the system
+     * parameters.
+     */
+    Parameters getSystemParameters();
 }

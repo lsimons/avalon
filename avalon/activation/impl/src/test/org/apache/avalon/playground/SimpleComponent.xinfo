@@ -19,8 +19,7 @@ the LICENSE.txt file.
     <name>simple</name>
     <lifestyle>singleton</lifestyle>
     <attributes>
-      <attribute key="urn:assembly:appliance.class" 
-        value="org.apache.avalon.assembly.appliance.impl.DefaultAppliance"/>
+      <attribute key="urn:activation:proxy" value="false"/>
     </attributes>
   </info>
 

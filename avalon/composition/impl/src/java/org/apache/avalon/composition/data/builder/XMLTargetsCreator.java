@@ -65,9 +65,9 @@ import org.apache.avalon.composition.data.Targets;
  * instance from a Configuration object.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2003/10/28 20:21:00 $
+ * @version $Revision: 1.2.2.1 $ $Date: 2004/01/09 20:29:49 $
  */
-public class XMLTargetsCreator extends XMLDeploymentProfileCreator 
+public class XMLTargetsCreator extends XMLComponentProfileCreator 
 {
    /**
     * Create a set of target directives from the confiugration.
