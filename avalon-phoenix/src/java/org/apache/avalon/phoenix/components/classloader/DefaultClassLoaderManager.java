@@ -75,7 +75,7 @@ public class DefaultClassLoaderManager
         {
             final JarFile archive = new JarFile( source, true, JarFile.OPEN_READ );
             factory = new SarURLStreamHandlerFactory( archive );
-            URL.setURLStreamHandlerFactory( factory );
+            //URL.setURLStreamHandlerFactory( factory );
         }
 
         final URL[] urls = createURLs( classPath, factory );
