@@ -84,8 +84,8 @@ public class DefaultThreadPool
         {
             context = m_context.duplicate();
         }
-	
-        final WorkerThread worker = 
+
+        final WorkerThread worker =
 	    new WorkerThread( this, name, m_pool, context );
         worker.setDaemon( true );
         worker.enableLogging( m_logger );
@@ -135,7 +135,7 @@ public class DefaultThreadPool
      * Retrieve a worker thread from pool.
      *
      * @return the worker thread retrieved from pool
-     * @exception Exception if an error occurs
+     * @throws Exception if an error occurs
      */
     protected WorkerThread getWorker()
     {

@@ -36,7 +36,7 @@ public class SocketTargetFactory extends AbstractTargetFactory
      * Creates a log target based on Configuration
      *
      *@param conf Configuration requied for creating the log target
-     *@exception ConfigurationException if something goes wrong while reading from
+     *@throws ConfigurationException if something goes wrong while reading from
      *          configuration
      */
     public LogTarget createTarget( final Configuration conf )

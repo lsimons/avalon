@@ -106,7 +106,7 @@ import org.apache.log.output.io.rotate.UniqueFileStrategy;
  * </dl>
  *
  * @author <a href="mailto:giacomo@apache.org">Giacomo Pati</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/04/04 02:34:15 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/05/10 02:51:14 $
  * @since 4.0
  */
 public class FileTargetFactory
@@ -303,7 +303,7 @@ public class FileTargetFactory
      *
      * @param rawFilename The filename with substitutable placeholders
      * @return The processed file name
-     * @exception ConfigurationException if substitutable values are not in the
+     * @throws ConfigurationException if substitutable values are not in the
      * Context object.
      */
     protected final String getFilename( String rawFilename )
