@@ -12,11 +12,11 @@
       <p>Within Avalon their are a number of container solutions. This 
       reflects a historical divergence and a present convergence within 
       the area of containment technology within Avalon. The original 
-      containment solutions ECM and Phoneix focussed on very different 
+      containment solutions ECM and Phoenix focussed on very different 
       approaches to component management.  The ECM model dealt with 
       primarily pooled objects used in environments such as 
       <a href="http://cocoon.apache.org/">Cocoon</a>. The
-      Phoneix model dealt with a strict singleton model supporting 
+      Phoenix model dealt with a strict singleton model supporting 
       project such as <a href="http://james.apache.org">James</a>.  
       Recent developments have resulted in the 
       release of 

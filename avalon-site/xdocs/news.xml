@@ -4,16 +4,38 @@
     <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
     <title>Apache Avalon News</title>
   </properties> 
-  <body>
+  
+ <body>
 
-   <section name="News and Information">
+  <section name="News and Information">
+
+   <!-- insert new news items as a subsection here -->
+
+   <subsection name="29-OCT-2003: New Avalon Site">
+     <p>
+       The Avalon Documentation Team is pleased to present the new and
+       improved Avalon web site.  There will be regular updates
+       through November as we convert and update our site
+       documentation.  If you have any suggestions or want to
+       contribute, please send an email to the <a
+       href="mailing-lists.html">developers' mailing list</a>.
+     </p>
+   </subsection>
+
    <subsection name="26-SEP-2003: Merlin 3.0 beta 1">
-
-<p>The Avalon Team is proud to announce the release of Merlin 3.0 Beta 1. Merlin is an advanced component and service management solution that simplifies and enhances component development, assembly and service deployment concerns.</p>
-
-<p>Merlin 3.0 binaries can be downloaded from the following site:</p>
-
-<p><a href="http://www.apache.org/dist/avalon/merlin/binaries/">http://www.apache.org/dist/avalon/merlin/binaries/</a></p>
+    <p>
+     The Avalon Team is proud to announce the release of Merlin 3.0
+     Beta 1. Merlin is an advanced component and service management
+     solution that simplifies and enhances component development,
+     assembly and service deployment concerns.
+     </p>
+     <p>
+      Merlin 3.0 binaries can be downloaded from the following site:
+     </p>
+     <p>
+      <a href="http://www.apache.org/dist/avalon/merlin/binaries/">
+       http://www.apache.org/dist/avalon/merlin/binaries/</a>
+     </p>
 
 <p>Key Product Features:</p>
  <ul>
@@ -30,15 +52,36 @@
    <li>support for legacy migration</li>
  </ul>
 
-<p>Product documentation, tutorials and specifications are available on the <a href="http://avalon.apache.org/merlin">Merlin Home</a> site or the download link referenced above.</p>
-     </subsection>
+  <p>Product documentation, tutorials and specifications are available
+     on the <a href="http://avalon.apache.org/merlin">Merlin Home</a>
+     site or the download link referenced above.
+  </p> 
 
-   <subsection name="25-SEP-2003: Excalibur i18n and Excalibur Configuration">
-<p>The Avalon Team is pleased to announce availability of the upgrade releases of the <a href="http://avalon.apache.org/excalibur/i18n/">Excalibur i18n internationalization</a> and <a href="http://avalon.apache.org/excalibur/configuration/">Excalibur Configuration</a> utilities.  These updates include minor enhancements to configuration listing and equality testing, and facilities enabling dynamic updating of a language locale.</p>
-   </subsection>
+</subsection>
 
-   <subsection name="25-SEP-2003: Avalon Framework 4.1.5 and Avalon Meta 1.1">
-<p>The Avalon Team is proud to announce the general availability of <a href="http://avalon.apache.org/framework">Avalon Framework 4.1.5</a> and <a href=" http://avalon.apache.org/meta/">Avalon Meta 1.1</a> packages. The new framework release includes enhancements linked to the new Avalon Meta model.  Collectively the two packages represent an important step forward in the evolution of the Avalon component model.</p>
+<subsection name="25-SEP-2003: Excalibur i18n and Excalibur Configuration">
+
+<p>The Avalon Team is pleased to announce availability of the upgrade
+   releases of the <a
+   href="http://avalon.apache.org/excalibur/i18n/">Excalibur i18n
+   internationalization</a> and <a
+   href="http://avalon.apache.org/excalibur/configuration/">Excalibur
+   Configuration</a> utilities.  These updates include minor
+   enhancements to configuration listing and equality testing, and
+   facilities enabling dynamic updating of a language locale.
+ </p>
+  
+</subsection>
+
+<subsection name="25-SEP-2003: Avalon Framework 4.1.5 and Avalon Meta 1.1">
+  <p>
+   The Avalon Team is proud to announce the general availability of <a
+href="http://avalon.apache.org/framework">Avalon Framework 4.1.5</a>
+and <a href=" http://avalon.apache.org/meta/">Avalon Meta 1.1</a>
+packages. The new framework release includes enhancements linked to
+the new Avalon Meta model.  Collectively the two packages represent an
+important step forward in the evolution of the Avalon component model.
+  </p>
 
 <p>New features introduced under the Avalon Meta package include:</p>
 <ul>
@@ -54,7 +97,12 @@
  <li>XML and serialized object support</li>
 </ul>
 
-<p>Tools released in conjunction with the Avalon Meta package include an Ant task and Maven plugin supporting the automation of meta-info generation from @avalon javadoc tags.</p>
+  <p>
+   Tools released in conjunction with the Avalon Meta package include
+   an Ant task and Maven plugin supporting the automation of meta-info
+   generation from @avalon javadoc tags.
+  </p>
+   
    </subsection>
 
    </section>
