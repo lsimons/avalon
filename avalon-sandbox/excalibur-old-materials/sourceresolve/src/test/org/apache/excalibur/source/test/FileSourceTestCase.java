@@ -70,9 +70,9 @@ import org.apache.excalibur.source.impl.FileSource;
 
 /**
  * Test case for FileSource.
- * 
+ *
  * @author <a href="mailto:sylvain@apache.org">Sylvain Wallez</a>
- * @version $Id: FileSourceTestCase.java,v 1.4 2003/06/10 14:15:31 bloritsch Exp $
+ * @version $Id: FileSourceTestCase.java,v 1.5 2003/06/10 14:19:35 bloritsch Exp $
  */
 public class FileSourceTestCase extends TestCase
 {
@@ -215,12 +215,12 @@ public class FileSourceTestCase extends TestCase
         FileSource child = (FileSource) src.getChild("child.txt");
         assertTrue("New file already exists", !child.exists());
 
-        OutputStream os = child.getOutputStream();
+        child.getOutputStream();
 
         try
         {
             // Get it a second time
-            OutputStream os2 = child.getOutputStream();
+            child.getOutputStream();
         }
         catch (ConcurrentModificationException cme)
         {
@@ -244,9 +244,9 @@ public class FileSourceTestCase extends TestCase
         SourceValidity validity = child.getValidity();
         assertEquals("Validity is not valid", 1, validity.isValid());
 
-        // Wait 1 second before updating the file
-        Thread.sleep(2000L);
-        
+        // Wait 2 seconds before updating the file
+        Thread.sleep(2 * 1000L);
+
         // Now change its content
         PrintWriter pw = new PrintWriter(child.getOutputStream());
         pw.write(text);
@@ -256,7 +256,7 @@ public class FileSourceTestCase extends TestCase
         pw.close();
 
         assertTrue("File length not modified", length != child.getContentLength());
-        
+
         assertEquals("Validity is valid", -1, validity.isValid());
     }
 
@@ -285,7 +285,7 @@ public class FileSourceTestCase extends TestCase
         OutputStream os = src.getOutputStream();
         PrintWriter pw = new PrintWriter(os);
 
-        pw.println("Writing to a source");
+        pw.println(text);
         pw.close();
     }
 
