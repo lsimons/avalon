@@ -102,6 +102,34 @@ public class PhoenixEmbeddor
     }
 
     /**
+     * Setup and Start the Logger, Deployer, SystemManager and Kernel.
+     *
+     * @exception Exception if an error occurs
+     */
+    public void start()
+        throws Exception
+    {
+        try
+        {
+            // setup core handler components
+            setupComponents();
+
+            //TODO: Deploying should go into execute!!!
+            deployDefaultApplications();
+            
+            m_systemManager.start();
+            
+            m_kernel.start();
+        }
+        catch( final Exception e )
+        {
+            // whoops!
+            getLogger().fatalError( "There was a fatal error while starting phoenix.", e );
+            throw e;
+        }
+    }
+
+    /**
      * This is the main method of the embeddor. It sets up the core
      * components, and then deploys the <code>Facilities</code>. These
      * are registered with the Kernel and the Manager. The same
@@ -113,31 +141,31 @@ public class PhoenixEmbeddor
     public void execute()
         throws Exception
     {
-        try
+        //TODO: Insert default deployment here...
+
+        // loop until <code>Shutdown</code> is created.
+        while( !m_shutdown )
         {
-            // setup core handler components
-            setupComponents();
-            deployDefaultApplications();
-
-            m_systemManager.start();
-
-            m_kernel.start();
-
-            // loop until <code>Shutdown</code> is created.
-            while( !m_shutdown )
-            {
-                // loop
-
-                // wait() for shutdown() to take action...
-                try { synchronized( this ) { wait(); } }
-                catch( final InterruptedException e ) {}
-            }
+            // wait() for shutdown() to take action...
+            try { synchronized( this ) { wait(); } }
+            catch( final InterruptedException e ) {}
         }
-        catch( final Exception e )
+    }
+
+    /**
+     * Shutdown all the resources associated with kernel.
+     */
+    public void stop()
+        throws Exception
+    {
+        if( null != m_systemManager )
         {
-            // whoops!
-            getLogger().fatalError( "There was a fatal error while running phoenix.", e );
-            throw e;
+            m_systemManager.stop();
+        }
+
+        if( null != m_kernel )
+        {
+            m_kernel.stop();
         }
     }
 
@@ -149,19 +177,18 @@ public class PhoenixEmbeddor
     {
         if( null != m_systemManager )
         {
-            m_systemManager.stop();
             m_systemManager.dispose();
+            m_systemManager = null;
         }
 
         if( null != m_kernel )
         {
-            m_kernel.stop();
             m_kernel.dispose();
+            m_kernel = null;
         }
 
-        m_systemManager = null;
-        m_kernel = null;
         m_deployer = null;
+
         System.gc(); // make sure resources are released
     }
 
