@@ -23,6 +23,8 @@
 
  <body>
     <menu>
+      <item name="Glossary" href="glossary.html"/>
+      <item name="Object Model" href="model/index.html"/>
     </menu>
   </body>
 
