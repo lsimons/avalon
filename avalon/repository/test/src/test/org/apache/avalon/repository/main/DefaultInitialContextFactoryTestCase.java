@@ -39,7 +39,7 @@ import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
  * DefaultInitialContextFactoryTestCase
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public class DefaultInitialContextFactoryTestCase extends TestCase
 {
@@ -100,12 +100,9 @@ public class DefaultInitialContextFactoryTestCase extends TestCase
 
         Artifact[] artifacts = 
           getArtifactsToRegister( "src/test/conf/system.xml" );
-        for( int i=0; i<artifacts.length; i++ )
-        {
-            Artifact artifact = artifacts[i];
-            factory.addFactoryArtifact( artifact );
-        }
+        factory.setFactoryArtifacts( artifacts );
 
+        //
         // Once customized we can proceed with the instantiation
         // of the initial context. The following method invocation
         // will trigger the population of the system cache with the  
@@ -144,7 +141,7 @@ public class DefaultInitialContextFactoryTestCase extends TestCase
         String key = Repository.class.getName();
         System.out.println( "  key: " + key );
         Artifact[] candidates = 
-          context.getRegistry().getCandidates( Repository.class );
+          context.getRepository().getCandidates( Repository.class );
         for( int i=0; i<candidates.length; i++ )
         {
             System.out.println( "  artifact: " + candidates[i] );

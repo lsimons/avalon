@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.List;
 import java.util.jar.JarFile;
 import java.util.zip.ZipEntry;
 
@@ -49,7 +50,7 @@ import org.apache.avalon.repository.util.RepositoryUtils;
  * an underlying file system.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.8 $ $Date: 2004/02/23 01:29:05 $
+ * @version $Revision: 1.9 $ $Date: 2004/03/04 03:26:41 $
  */
 public class DefaultRepository implements Repository
 {
@@ -63,6 +64,11 @@ public class DefaultRepository implements Repository
     private final File m_cache;
 
     private final LoaderUtils m_loader;
+
+   /**
+    * A list of registered factory descriptors.
+    */
+    private final List m_descriptors = new ArrayList();
 
     //------------------------------------------------------------------
     // mutable state 
@@ -94,16 +100,22 @@ public class DefaultRepository implements Repository
     * @exception NullPointerException if the cache or hosts argument
     * is null
     */
-    DefaultRepository( File cache, String[] hosts, boolean online )
+    DefaultRepository( 
+      File cache, String[] hosts, boolean online, Artifact[] candidates )
+      throws RepositoryException
     {
         if( cache == null ) throw new NullPointerException( "cache" );
         if( hosts == null ) throw new NullPointerException( "hosts" );
+        if( candidates == null ) throw new NullPointerException( "candidates" );
 
         m_cache = cache;
         m_roots = RepositoryUtils.getCleanPaths( hosts );
         m_hosts = getHosts( m_roots );
         m_online = online;
         m_loader = new LoaderUtils( online );
+
+        setupRegistry( candidates );
+
     }
 
     //------------------------------------------------------------------
@@ -138,6 +150,29 @@ public class DefaultRepository implements Repository
               + artifact;
             throw new RepositoryException( error, e );
         }
+    }
+
+   /**
+    * Return the set of available artifacts capable of providing the  
+    * supplied service class.
+    *
+    * @return the set of candidate factory artifacts
+    */
+    public Artifact[] getCandidates( Class service )
+    {
+        ArrayList list = new ArrayList();
+        String classname = service.getName();
+        FactoryDescriptor[] descriptors = getFactoryDescriptors();
+        for( int i=0; i<descriptors.length; i++ )
+        {
+            FactoryDescriptor descriptor = descriptors[i];
+            final String key = descriptor.getInterface();
+            if( classname.equals( key ) )
+            {
+                list.add( descriptor.getArtifact() );
+            }
+        }
+        return (Artifact[]) list.toArray( new Artifact[0] );
     }
 
     /**
@@ -302,4 +337,37 @@ public class DefaultRepository implements Repository
         urls[ artifacts.length ] = getResource( primary );
         return urls;
     }
+
+    private void setupRegistry( Artifact[] artifacts ) throws RepositoryException
+    {
+        for( int i=0; i<artifacts.length; i++ )
+        {
+            Artifact artifact = artifacts[i];
+            registerArtifact( artifact );
+        }
+    }
+
+    private void registerArtifact( Artifact artifact ) throws RepositoryException
+    {
+        Attributes attributes = getAttributes( artifact );
+        FactoryDescriptor descriptor = new FactoryDescriptor( attributes );
+        final String key = descriptor.getInterface();
+        if( null == key ) 
+        {
+            final String error = 
+              "Artifact [" + artifact + "] does not declare a exported interface.";
+            throw new RepositoryException( error );
+        }
+        else if( !m_descriptors.contains( descriptor ) )
+        {
+            m_descriptors.add( descriptor );
+        }
+    }
+
+    private FactoryDescriptor[] getFactoryDescriptors()
+    {
+        return (FactoryDescriptor[]) 
+          m_descriptors.toArray( new FactoryDescriptor[0] );
+    }
+
 }

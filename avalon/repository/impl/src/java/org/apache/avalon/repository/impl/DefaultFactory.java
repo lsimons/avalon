@@ -34,6 +34,7 @@ import org.apache.avalon.util.defaults.DefaultsFinder;
 import org.apache.avalon.util.defaults.SimpleDefaultsFinder;
 import org.apache.avalon.util.defaults.SystemDefaultsFinder;
 
+import org.apache.avalon.repository.Artifact;
 import org.apache.avalon.repository.Repository;
 import org.apache.avalon.repository.RepositoryException;
 import org.apache.avalon.repository.RepositoryRuntimeException;
@@ -49,7 +50,7 @@ import org.apache.avalon.excalibur.i18n.Resources;
  * The default repository factory implementation.
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.7 $
+ * @version $Revision: 1.8 $
  */
 public class DefaultFactory implements Factory
 {
@@ -134,7 +135,8 @@ public class DefaultFactory implements Factory
         File root = getCache( map );
         String[] hosts = getHosts( map );
         boolean online = getOnlineMode( map );
-        return new DefaultRepository( root, hosts, online );
+        Artifact[] candidates = getFactoryArtifacts( map );
+        return new DefaultRepository( root, hosts, online, candidates );
     }
 
     private boolean getOnlineMode( Map map )
@@ -155,5 +157,11 @@ public class DefaultFactory implements Factory
     {
         return (String[]) map.get( 
             RepositoryCriteria.REPOSITORY_REMOTE_HOSTS );
+    }
+
+    private Artifact[] getFactoryArtifacts( Map map )
+    {
+        return (Artifact[]) map.get( 
+            RepositoryCriteria.REPOSITORY_FACTORY_ARTIFACTS );
     }
 }

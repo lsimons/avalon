@@ -29,7 +29,7 @@ import org.apache.avalon.repository.Artifact;
  * new initial context.
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  */
 public interface InitialContextFactory
 {
@@ -40,19 +40,22 @@ public interface InitialContextFactory
     * @see InitialContext#IMPLEMENTATION_KEY
     * @see InitialContext#CACHE_KEY
     * @see InitialContext#HOSTS_KEY
+    * @see InitialContext#ONLINE_KEY
+    * @see InitialContext#FACTORY_ARTIFACTS_KEY
     */
     String[] KEYS = 
       new String[]{
         InitialContext.ONLINE_KEY,
         InitialContext.IMPLEMENTATION_KEY,
         InitialContext.CACHE_KEY,
-        InitialContext.HOSTS_KEY };
+        InitialContext.HOSTS_KEY,
+        InitialContext.FACTORY_ARTIFACTS_KEY };
 
    /**
-    * Register a factory artifict.
-    * @param artifact the artifact reference
+    * Register a set of factory artifacts.
+    * @param artifacts the factory artifact references
     */
-    void addFactoryArtifact( Artifact artifact );
+    void setFactoryArtifacts( Artifact[] artifacts );
 
    /**
     * Set the online mode of the repository. The default policy is to 

@@ -20,12 +20,14 @@ package org.apache.avalon.repository.provider;
 import java.io.File;
 import java.util.Map;
 
+import org.apache.avalon.repository.Artifact;
+
 /**
  * Interface defining the operations available to manipulate repository
  * factory criteria.
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public interface RepositoryCriteria extends Map
 {
@@ -45,6 +47,12 @@ public interface RepositoryCriteria extends Map
     String REPOSITORY_REMOTE_HOSTS = InitialContext.HOSTS_KEY;
 
    /**
+    * Repository proxy password parameter descriptor.
+    */
+    String REPOSITORY_FACTORY_ARTIFACTS = 
+      InitialContext.FACTORY_ARTIFACTS_KEY;
+
+   /**
     * An array of property keys that are used to locate default
     * values.
     */
@@ -52,7 +60,8 @@ public interface RepositoryCriteria extends Map
       new String[]{
         REPOSITORY_ONLINE_MODE,
         REPOSITORY_CACHE_DIR,
-        REPOSITORY_REMOTE_HOSTS };
+        REPOSITORY_REMOTE_HOSTS,
+        REPOSITORY_FACTORY_ARTIFACTS };
 
    /**
     * Set the online mode of the repository. The default policy is to 
@@ -81,4 +90,14 @@ public interface RepositoryCriteria extends Map
     * @param hosts a sequence of remote host urls
     */
     void setHosts( String[] hosts );
+
+   /**
+    * Set the available factory artifacts.  Each artifact represents a 
+    * resolvable factory artifiact (artifact with an associate meta 
+    * descriptor) than can be used as the basis for classloader creation
+    * and instance establishment.
+    *
+    * @param artifacts a sequence of artifact identifiers
+    */
+    void setFactoryArtifacts( Artifact[] artifacts );
 }

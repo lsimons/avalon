@@ -57,7 +57,6 @@ import org.apache.avalon.repository.provider.Factory;
 import org.apache.avalon.repository.provider.FactoryNotFoundException;
 import org.apache.avalon.repository.provider.InitialContext;
 import org.apache.avalon.repository.provider.RepositoryCriteria;
-import org.apache.avalon.repository.provider.Registry;
 import org.apache.avalon.repository.provider.Builder;
 import org.apache.avalon.repository.util.LoaderUtils;
 import org.apache.avalon.repository.util.RepositoryUtils;
@@ -73,7 +72,7 @@ import org.apache.avalon.util.exception.ExceptionHelper;
  * methods using the newly configured ClassLoader.
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.24 $
+ * @version $Revision: 1.25 $
  */
 public class DefaultInitialContext extends AbstractBuilder implements InitialContext
 {
@@ -116,8 +115,6 @@ public class DefaultInitialContext extends AbstractBuilder implements InitialCon
     private final Repository m_repository;
 
     private final LoaderUtils m_loader;
-
-    private final Registry m_registry;
 
     // ------------------------------------------------------------------------
     // mutable state
@@ -221,6 +218,7 @@ public class DefaultInitialContext extends AbstractBuilder implements InitialCon
             criteria.setCacheDirectory( m_cache );
             criteria.setHosts( m_hosts );
             criteria.setOnlineMode( online );
+            criteria.setFactoryArtifacts( candidates );
             m_repository = (Repository) m_factory.create( criteria );
         }
         catch( Throwable e )
@@ -235,10 +233,7 @@ public class DefaultInitialContext extends AbstractBuilder implements InitialCon
               + clazz.getProtectionDomain().getCodeSource().getLocation() );
             buffer.append( "\n cache: " + m_cache );
             throw new RepositoryException( buffer.toString(), e );
-        }
-
-        m_registry = new DefaultRegistry( m_repository, candidates );
-        
+        }        
     }
 
     private void setupProxy( 
@@ -260,16 +255,6 @@ public class DefaultInitialContext extends AbstractBuilder implements InitialCon
     // ------------------------------------------------------------------------
     // InitialContext
     // ------------------------------------------------------------------------
-
-   /**
-    * Return the factory registry.
-    *
-    * @return the registry
-    */
-    public Registry getRegistry()
-    {
-        return m_registry;
-    }
 
    /**
     * Return the inital repository.
