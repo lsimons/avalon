@@ -83,6 +83,14 @@
                 it provides.</td>
           </tr>
           <tr>
+            <td><a href="security.html">Container Security</a></td>
+            <td>
+              Starting from Merlin 3.3, it is possible to grant permission per
+              container, similarily to the standard Java feature of granting
+              permissions to the code based on where it was loaded from.
+            </td>
+          </tr>
+          <tr>
             <td><a href="unit/index.html">Unit Tests</a></td>
             <td>Setting up unit tests that leverage merlin as the component factory.</td>
           </tr>

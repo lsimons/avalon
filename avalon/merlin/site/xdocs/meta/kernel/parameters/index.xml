@@ -86,7 +86,7 @@
           Parameters that are currently available is;
         </p>
         <table>
-          <tr><th>Name</th><th>Default</th><th>Description</th></tr>
+          <tr><th>Name</th><th>Default</th><th>Description</th><th>Since</th></tr>
           <tr>
             <td>urn:composition:deployment.timeout</td>
             <td>5000</td>
@@ -98,6 +98,23 @@
               the container will fail, but other containers may still be
               deployed. If the interrupt() fails, the whole JVM must be
               considered unstable, and should terminate.
+            </td>
+            <td>
+              3.2.5
+            </td>
+          </tr>
+          <tr>
+            <td>urn:composition:security.enabled</td>
+            <td>false</td>
+            <td>
+              This is a global switch for turning the code level security
+              on or off. For compatibility reasons, the default is false, 
+              but any production system should have this true. In the
+              kernel.xml it is set to true, and for the debug.xml it is
+              set to false.
+            </td>
+            <td>
+              3.3
             </td>
           </tr>
         </table>
@@ -113,6 +130,7 @@
           any component or container to start-up, before interrupting
           or failing.  -->
      <parameter name="urn:composition:deployment.timeout" value="2500" />
+     <parameter name="urn:composition:security.enabled" value="true" />
    </parameters>
   </kernel>
 ]]></source>
