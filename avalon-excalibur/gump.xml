@@ -255,6 +255,36 @@
             to="avalon-dev@jakarta.apache.org"/>
     </project>
 
+    <project name="excalibur-datasource">
+        <package>org.apache.avalon.excalibur.datasource</package>
+
+        <ant basedir="datasource">
+            <depend property="junit.jar" project="junit"/>
+            <property name="version" value="@@DATE@@"/>
+            <property name="junit.failonerror" value="true"/>
+            <property name="do.checkstyle" value="true"/>
+            <property name="skip.dependencies" value="true"/>
+        </ant>
+
+        <depend project="jakarta-ant"/>
+        <depend project="xml-xerces"/>
+        <depend project="xml-xalan2"/>
+        <depend project="excalibur-pool" runtime="true"/>
+        <depend project="excalibur-logger"/>
+        <depend project="excalibur-component"/>
+        <depend project="excalibur-testcase"/>
+        <depend project="jakarta-avalon"/>
+        <depend project="jakarta-avalon-logkit"/>
+        <depend project="checkstyle"/>
+        <work nested="datasource/build/classes"/>
+
+        <home nested="datasource"/>
+        <jar name="build/lib/excalibur-datasource-@@DATE@@.jar"/>
+
+        <nag from="Peter Donald &lt;peter@apache.org&gt;"
+            to="avalon-dev@jakarta.apache.org"/>
+    </project>
+
     <project name="excalibur-event">
         <package>org.apache.avalon.excalibur.event</package>
 
@@ -555,7 +585,36 @@
 
         <nag from="Peter Donald &lt;peter@apache.org&gt;"
             to="avalon-dev@jakarta.apache.org"/>
-	</project>
+    </project>
+
+    <project name="excalibur-testcase">
+        <package>org.apache.avalon.excalibur.testcase</package>
+
+        <ant basedir="testcase">
+            <depend property="junit.jar" project="junit"/>
+            <property name="version" value="@@DATE@@"/>
+            <property name="junit.failonerror" value="true"/>
+            <property name="do.checkstyle" value="true"/>
+            <property name="skip.dependencies" value="true"/>
+        </ant>
+
+        <depend project="jakarta-ant"/>
+        <depend project="excalibur-component" runtime="true"/>
+        <depend project="excalibur-logger" runtime="true"/>
+        <depend project="jakarta-avalon" runtime="true"/>
+        <depend project="jakarta-avalon-logkit" runtime="true"/>
+        <depend project="xml-xerces"/>
+        <depend project="xml-xalan2"/>
+        <depend project="checkstyle"/>
+        <work nested="testcase/build/classes"/>
+
+        <home nested="testcase"/>
+        <jar name="build/lib/excalibur-testcase-@@DATE@@.jar"/>
+
+        <nag from="Peter Donald &lt;peter@apache.org&gt;"
+            to="avalon-dev@jakarta.apache.org"/>
+    </project>
+
 
     <project name="excalibur-thread">
         <package>org.apache.avalon.excalibur.thread</package>
