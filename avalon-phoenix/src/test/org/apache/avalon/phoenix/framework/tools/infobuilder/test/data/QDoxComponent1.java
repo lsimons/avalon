@@ -69,19 +69,19 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
  * A simple avalon component to test QDox loading of info etc.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2003/03/22 12:07:17 $
- * @avalon.component
- * @avalon.service type="Service1"
- * @avalon.service type="Service2"
- * @avalon.service type="Service3"
+ * @version $Revision: 1.4 $ $Date: 2003/04/04 21:49:14 $
+ * @phoenix.component
+ * @phoenix.service type="Service1"
+ * @phoenix.service type="Service2"
+ * @phoenix.service type="Service3"
  */
 public class QDoxComponent1
     extends AbstractLogEnabled
     implements Serializable, Service1, Service2, Service3, Serviceable, Contextualizable, Configurable
 {
     /**
-     * @avalon.logger
-     * @avalon.logger name="foo"
+     * @phoenix.logger
+     * @phoenix.logger name="foo"
      */
     public void enableLogging( Logger logger )
     {
@@ -89,10 +89,10 @@ public class QDoxComponent1
     }
 
     /**
-     * @avalon.context type="Context"
-     * @avalon.entry key="foo" type="ClassLoader"
-     * @avalon.entry key="bar" type="Logger"
-     * @avalon.entry key="baz" type="java.io.File"
+     * @phoenix.context type="Context"
+     * @phoenix.entry key="foo" type="ClassLoader"
+     * @phoenix.entry key="bar" type="Logger"
+     * @phoenix.entry key="baz" type="java.io.File"
      */
     public void contextualize( Context context )
         throws ContextException
@@ -100,9 +100,9 @@ public class QDoxComponent1
     }
 
     /**
-     * @avalon.dependency key="foo" type="Service3"
-     * @avalon.dependency type="Service3"
-     * @avalon.dependency type="Service2" optional="true"
+     * @phoenix.dependency key="foo" type="Service3"
+     * @phoenix.dependency type="Service3"
+     * @phoenix.dependency type="Service2" optional="true"
      */
     public void service( ServiceManager manager )
         throws ServiceException
@@ -110,7 +110,7 @@ public class QDoxComponent1
     }
 
     /**
-     * @avalon.configuration type="http://relaxng.org/ns/structure/1.0"
+     * @phoenix.configuration type="http://relaxng.org/ns/structure/1.0"
      */
     public void configure( Configuration configuration )
         throws ConfigurationException
