@@ -15,8 +15,8 @@ import org.apache.log.Priority;
  *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
-public class PriorityFilter 
-    extends AbstractFilterTarget 
+public class PriorityFilter
+    extends AbstractFilterTarget
 {
     private Priority    m_priority;
 
@@ -27,7 +27,7 @@ public class PriorityFilter
 
     /**
      * Filter the log event based on priority.
-     * 
+     *
      * If LogEvent has a Lower or Equal priroity then discard it.
      *
      * @param event the event
@@ -35,6 +35,6 @@ public class PriorityFilter
      */
     protected boolean filter( final LogEvent event )
     {
-        return ( m_priority.isLowerOrEqual( event.getPriority() ) );
+        return ( m_priority.isGreater( event.getPriority() ) );
     }
 }
