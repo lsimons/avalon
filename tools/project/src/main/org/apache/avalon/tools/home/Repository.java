@@ -94,6 +94,12 @@ public class Repository
     public Path createPath( Project project, Definition def )
       throws BuildException
     {
+        return createPath( project, def, false );
+    }
+
+    public Path createPath( Project project, Definition def, boolean flag )
+      throws BuildException
+    {
         Path path = new Path( project );
 
         //
@@ -145,7 +151,7 @@ public class Repository
         {
             ProjectRef ref = projects[i];
             Definition defintion = m_home.getDefinition( ref );
-            Path projectPath = createPath( project, defintion );
+            Path projectPath = createPath( project, defintion, true );
             File file = new File( getCacheDirectory(), defintion.getInfo().getPath() );
             if( file.exists() )
             {
@@ -162,6 +168,22 @@ public class Repository
                   "Cannot construct a valid path for the project " 
                   + def + " because the dependent project " 
                   + defintion + " has not installed an artifact.";
+                throw new BuildException( error ); 
+            }
+        }
+
+        if( flag )
+        {
+            File file = new File( getCacheDirectory(), def.getInfo().getPath() );
+            if( file.exists() )
+            {
+                path.createPathElement().setLocation( file );
+            }
+            else
+            {
+                final String error = 
+                  "Cannot construct a valid path for the project " 
+                  + def + " because the project has not installed an artifact.";
                 throw new BuildException( error ); 
             }
         }
