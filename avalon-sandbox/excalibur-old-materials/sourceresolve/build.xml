@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 
-<project name="Excalibur template" default="main" basedir=".">
+<project name="Excalibur SourceResolving" default="main" basedir=".">
 
     <property file="${user.home}/build.properties"/>
     <property file="${basedir}/../ant.properties"/>

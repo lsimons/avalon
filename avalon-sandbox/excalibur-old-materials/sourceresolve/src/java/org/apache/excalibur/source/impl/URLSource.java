@@ -30,11 +30,11 @@ import org.apache.excalibur.source.impl.validity.TimeStampValidity;
  * Description of a source which is described by an URL.
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/04/22 09:15:00 $
+ * @version CVS $Revision: 1.3 $ $Date: 2002/04/22 09:24:45 $
  */
 
 public final class URLSource
-    implements Source, // Monitorable
+    implements Source //, Monitorable
 {
 
     /** With this parameter you can specify the method to use for a http request.
