@@ -1,0 +1,15 @@
+ant.properties
+Announcement.txt
+docs
+dist
+build
+distributions
+test
+todo
+velocity.log*
+*.el
+.classpath
+.project
+maven.log
+target
+build.properties
