@@ -54,6 +54,7 @@ public class MagicPath extends Path
     public void setKey( final String key )
     {
         m_key = key;
+        setup();
     }
 
    /**
