@@ -56,7 +56,7 @@ import org.apache.avalon.fortress.RoleManager;
 /**
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003/04/21 18:05:02 $
+ * @version $Revision: 1.2 $ $Date: 2003/05/29 17:51:16 $
  */
 public class AbstractRoleManagerTestCase extends TestCase
 {
@@ -90,7 +90,7 @@ public class AbstractRoleManagerTestCase extends TestCase
         throws ClassNotFoundException
     {
         final RoleEntry roleEntry = roles.getRoleForShortName( shortname );
-        assertNotNull( "RoleEntry", roleEntry );
+        assertNotNull( "RoleEntry for '" + shortname + "' is null", roleEntry );
 
         assertEquals( "componentClass:",
             roleEntry.getComponentClass(), Class.forName( className ) );
