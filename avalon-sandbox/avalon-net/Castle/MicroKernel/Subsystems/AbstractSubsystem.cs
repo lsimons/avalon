@@ -12,25 +12,38 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Apache.Avalon.Castle.MicroKernel
+namespace Apache.Avalon.Castle.MicroKernel.Subsystems
 {
 	using System;
 
-	using Apache.Avalon.Castle.MicroKernel.Concerns;
-	using Apache.Avalon.Castle.MicroKernel.Model;
-
 	/// <summary>
-	/// Specialization of Kernel to support 
-	/// avalon semantics
+	/// Summary description for AbstractSubsystem.
 	/// </summary>
-	public interface AvalonKernel : Kernel
+	public abstract class AbstractSubsystem : IKernelSubsystem
 	{
-		/// <summary>
-		/// Manages the concerns related to Avalon Framework
-		/// </summary>
-		ConcernManager Concerns
+		private Kernel m_kernel;
+
+		public AbstractSubsystem()
 		{
-			get;
+		}
+
+		#region IKernelSubsystem Members
+
+		public void Init(Kernel kernel)
+		{
+			AssertUtil.ArgumentNotNull( kernel, "kernel" );
+
+			m_kernel = kernel;
+		}
+
+		#endregion
+
+		protected virtual Kernel Kernel
+		{
+			get
+			{
+				return m_kernel;
+			}
 		}
 	}
 }

@@ -16,21 +16,15 @@ namespace Apache.Avalon.Castle.MicroKernel
 {
 	using System;
 
-	using Apache.Avalon.Castle.MicroKernel.Concerns;
-	using Apache.Avalon.Castle.MicroKernel.Model;
-
 	/// <summary>
-	/// Specialization of Kernel to support 
-	/// avalon semantics
+	/// Summary description for KernelConstants.
 	/// </summary>
-	public interface AvalonKernel : Kernel
+	public abstract class KernelConstants
 	{
-		/// <summary>
-		/// Manages the concerns related to Avalon Framework
-		/// </summary>
-		ConcernManager Concerns
-		{
-			get;
-		}
+		public static readonly String CONFIGURATION = "configuration";
+
+		public static readonly String LOGGER = "logger";
+
+		public static readonly String CONTEXT = "context";
 	}
 }

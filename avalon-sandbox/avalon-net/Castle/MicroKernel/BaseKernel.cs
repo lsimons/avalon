@@ -34,6 +34,8 @@ namespace Apache.Avalon.Castle.MicroKernel
 
 		protected Hashtable m_services;
 
+		protected Hashtable m_subsystems;
+
 		protected Hashtable m_dependencyToSatisfy;
 
 		protected IHandlerFactory m_handlerFactory;
@@ -52,6 +54,7 @@ namespace Apache.Avalon.Castle.MicroKernel
 			m_components = new Hashtable(CaseInsensitiveHashCodeProvider.Default, CaseInsensitiveComparer.Default);
 			m_services = new Hashtable();
 			m_dependencyToSatisfy = new Hashtable();
+			m_subsystems = new Hashtable();
 			m_handlerFactory = new Handler.Default.SimpleHandlerFactory();
 			m_lifestyleManagerFactory = new Lifestyle.Default.SimpleLifestyleManagerFactory();
 			m_componentModelBuilder = new Model.Default.DefaultComponentModelBuilder( this );
@@ -117,6 +120,21 @@ namespace Apache.Avalon.Castle.MicroKernel
 					m_aspectAfter.Add( aspect );
 				}
 			}
+		}
+
+		/// <summary>
+		/// Adds a subsystem.
+		/// </summary>
+		/// <param name="key">Name of this subsystem</param>
+		/// <param name="system">Subsystem implementation</param>
+		public void AddSubsystem( String key, IKernelSubsystem system )
+		{
+			AssertUtil.ArgumentNotNull( key, "key" );
+			AssertUtil.ArgumentNotNull( system, "system" );
+
+			system.Init( this );
+
+			m_subsystems[ key ] = system;
 		}
 
 		/// <summary>
@@ -227,6 +245,16 @@ namespace Apache.Avalon.Castle.MicroKernel
 		public IHandler GetHandlerForService( Type service )
 		{
 			return (IHandler) m_services[ service ];
+		}
+
+		/// <summary>
+		/// Returns a registered subsystem;
+		/// </summary>
+		/// <param name="key">Key used when registered subsystem</param>
+		/// <returns>Subsystem implementation</returns>
+		public IKernelSubsystem GetSubsystem( String key )
+		{
+			return (IKernelSubsystem) m_subsystems[ key ];
 		}
 
 		#endregion

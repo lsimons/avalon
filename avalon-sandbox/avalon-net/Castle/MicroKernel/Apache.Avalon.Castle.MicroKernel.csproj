@@ -119,12 +119,22 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "IKernelSubsystem.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "IResolver.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
                     RelPath = "Kernel.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "KernelConstants.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -145,46 +155,6 @@
                 />
                 <File
                     RelPath = "Assemble\Assembler.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Avalon\Configuration\IConfigurationManager.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Avalon\Configuration\Default\AvalonConfigurationSectionHandler.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Avalon\Configuration\Default\ContainerConfiguration.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Avalon\Configuration\Default\DefaultConfigurationManager.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Avalon\Context\IContextManager.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Avalon\Context\Default\ContextManager.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Avalon\Logger\ILoggerManager.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Avalon\Logger\Default\LoggerManager.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -415,6 +385,61 @@
                 />
                 <File
                     RelPath = "Model\Default\DefaultDependencyModel.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Subsystems\AbstractSubsystem.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Subsystems\Configuration\IConfigurationManager.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Subsystems\Configuration\Default\AvalonConfigurationSectionHandler.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Subsystems\Configuration\Default\ContainerConfiguration.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Subsystems\Configuration\Default\DefaultConfigurationManager.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Subsystems\Context\IContextManager.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Subsystems\Context\Default\ContextManager.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Subsystems\Logger\ILoggerManager.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Subsystems\Logger\Default\AvalonLoggerSectionHandler.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Subsystems\Logger\Default\LoggerConfiguration.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Subsystems\Logger\Default\LoggerManager.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Apache.Avalon.Castle.MicroKernel.Context.Default
+namespace Apache.Avalon.Castle.MicroKernel.Subsystems.Context.Default
 {
 	using System;
 
@@ -21,19 +21,46 @@ namespace Apache.Avalon.Castle.MicroKernel.Context.Default
 	/// <summary>
 	/// Summary description for ContextManager.
 	/// </summary>
-	public class ContextManager : IContextManager
+	public class ContextManager : AbstractSubsystem, IContextManager
 	{
 		public ContextManager()
 		{
+			CreateDefault
 		}
 
 		#region IContextManager Members
 
-		public IContext CreateContext()
+		public IContext CreateContext(AvalonContextAttribute contextAtt, AvalonEntryAttribute[] entries)
+		{
+			if (contextAtt != null)
+			{
+				return CreateCustomContext(contextAtt, entries);
+			}
+			else
+			{
+				return CreateDefaultContext(entries);
+			}
+		}
+		
+		#endregion
+
+		protected IContext CreateCustomContext(AvalonContextAttribute contextAtt, AvalonEntryAttribute[] entries)
 		{
 			return null;
 		}
 
-		#endregion
+		protected IContext CreateDefaultContext(AvalonEntryAttribute[] entries)
+		{
+			DefaultContext context = new DefaultContext();
+
+			foreach(AvalonEntryAttribute entry in entries)
+			{
+				
+			}
+
+			context.MakeReadOnly();
+
+			return context;
+		}
 	}
 }
