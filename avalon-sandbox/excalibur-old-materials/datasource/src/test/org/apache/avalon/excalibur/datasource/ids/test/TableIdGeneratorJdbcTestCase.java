@@ -73,7 +73,6 @@ public class TableIdGeneratorJdbcTestCase
     private DataSourceComponent m_dataSource;
 
     private ComponentSelector m_idGeneratorSelector;
-    private IdGenerator m_idGenerator;
 
     /*---------------------------------------------------------------
      * Constructors
@@ -203,7 +202,7 @@ public class TableIdGeneratorJdbcTestCase
         {
             try
             {
-                int id = idGenerator.getNextIntegerId();
+                idGenerator.getNextIntegerId();
                 fail( "Should not have gotten an id" );
             }
             catch( IdException e )
@@ -510,7 +509,7 @@ public class TableIdGeneratorJdbcTestCase
                                                        "WHERE table_name = '" + tableName + "'" );
                 if( rs.next() )
                 {
-                    BigDecimal id = rs.getBigDecimal( 1 );
+                    rs.getBigDecimal( 1 );
                 }
                 else
                 {
