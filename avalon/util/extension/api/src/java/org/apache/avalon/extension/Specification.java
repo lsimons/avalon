@@ -36,7 +36,7 @@ import java.util.jar.Manifest;
  * <code>guide/extensions/versioning.html</code>.</p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2004/02/24 22:39:31 $
+ * @version $Revision: 1.3 $ $Date: 2004/04/06 07:42:48 $
  */
 public final class Specification
 {
@@ -242,9 +242,16 @@ public final class Specification
             }
             catch( final NumberFormatException nfe )
             {
-                final String error = "Bad specification version format '" + specificationVersion +
-                    "' in '" + specificationTitle + "'. (Reason: " + nfe + ")";
-                throw new IllegalArgumentException( error );
+                //
+                // don't complain because maven is generating illegal 
+                // spec values by default - instead we leave it as null
+                //
+
+                //
+                //final String error = 
+                //  "Bad specification version format '" + specificationVersion +
+                //    "' in '" + specificationTitle + "'. (Reason: " + nfe + ")";
+                //throw new IllegalArgumentException( error );
             }
         }
 
