@@ -57,7 +57,7 @@ import java.util.EventListener;
  * A listener for kernel events.
  *
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.2 $ $Date: 2004/01/13 11:41:31 $
+ * @version $Revision: 1.3 $ $Date: 2004/01/13 18:39:38 $
  */
 public interface KernelEventListener extends EventListener
 {
@@ -66,13 +66,6 @@ public interface KernelEventListener extends EventListener
      *
      * @param event the kernel event
      */
-    void started( KernelEvent event );
-
-    /**
-     * Notify the listener that the kernel has started.
-     *
-     * @param event the kernel event
-     */
-    void stopped( KernelEvent event );
+    void stateChanged( KernelStateEvent event );
 
 }
