@@ -30,8 +30,9 @@ import java.net.URLClassLoader;
 import java.net.URLConnection;
 
 import java.util.ArrayList;
-import java.util.Properties;
 import java.util.Iterator;
+import java.util.Properties;
+import java.util.StringTokenizer;
 
 public class Artifact
 {
@@ -43,8 +44,9 @@ public class Artifact
     private String          m_Version;
     private String          m_Type;
     private PluginContext   m_Context;
+    private Properties      m_Properties;
     
-    private Artifact( PluginContext context, String artifactId, String groupId, String version, String type, String repository )
+    private Artifact( PluginContext context, String artifactId, String groupId, String version, String type, String repository, String properties )
     {
         if( repository == null || "".equals( repository ) )
             repository = DEFAULT_REPOSITORY;
@@ -55,19 +57,28 @@ public class Artifact
         m_GroupId = groupId.trim();
         m_Version = version.trim();
         m_Type = type.trim();
+        m_Properties = parseProps( properties );
     }
 
     public static Artifact resolve( PluginContext context, String artifactId )
         throws IOException, ArtifactException
     {
         if( artifactId.startsWith( "artifact:" ) )
-            return resolveDirect( context, artifactId );
+            return resolveDirect( context, artifactId, "" );
         else
-            return resolveIndirect( context, artifactId );
+            return resolveIndirect( context, artifactId, "" );
     }
     
+    public static Artifact resolve( PluginContext context, String artifactId, String properties )
+        throws IOException, ArtifactException
+    {
+        if( artifactId.startsWith( "artifact:" ) )
+            return resolveDirect( context, artifactId, properties );
+        else
+            return resolveIndirect( context, artifactId, properties );
+    }
     
-    private static Artifact resolveDirect( PluginContext context, String artifactId )
+    private static Artifact resolveDirect( PluginContext context, String artifactId, String properties )
         throws IOException, ArtifactException
     {
         String id = artifactId;
@@ -96,11 +107,11 @@ public class Artifact
         }
         String repository = context.getProperty( "artifact.repository" );
         
-        Artifact artifact = new Artifact( context, name, group, version, type, repository );
+        Artifact artifact = new Artifact( context, name, group, version, type, repository, properties );
         return artifact;
     }
     
-    private static Artifact resolveIndirect( PluginContext context, String artifactId )
+    private static Artifact resolveIndirect( PluginContext context, String artifactId, String properties )
         throws IOException
     {
         File definitionsDir = new File( context.getProjectSystemDir(), "definitions" );
@@ -135,7 +146,13 @@ public class Artifact
         if( type == null )
             type = "jar";
 
-        Artifact artifact = new Artifact( context, artifactId, groupId, version, type, repository );
+        String props = p.getProperty( "artifact.properties" );
+        if( props == null )
+            props = "";
+        if( properties != null && ! "".equals( properties ))
+            props = props + "," + properties;  // override with explicit properties given.
+        
+        Artifact artifact = new Artifact( context, artifactId, groupId, version, type, repository, props );
         return artifact;
     }
     
@@ -181,7 +198,14 @@ public class Artifact
         for( int i=0 ; list.hasNext() ; i++ )
         {
             String dep = (String) list.next();
-            result[i] = resolve( m_Context, dep );
+            int pos = dep.indexOf( " " );
+            String props = "";
+            if( pos >= 0 )
+            {
+                props = dep.substring( pos + 1 );
+                dep = dep.substring( 0, pos );
+            }
+            result[i] = resolve( m_Context, dep, props );
         }
         return result;
     }
@@ -248,6 +272,11 @@ public class Artifact
         return localFile;
     }
     
+    public String toArtifactURL()
+    {
+        return "artifact:" + m_Type + ":" + m_GroupId + "/" + m_ArtifactId + "#" + m_Version;
+    }
+    
     public File getContentFile()
         throws IOException
     {
@@ -258,5 +287,33 @@ public class Artifact
             Util.download( this, localfile );
         }
         return localfile;
+    }
+    
+    private Properties parseProps( String props ) 
+    {
+        Properties result = new Properties();
+        if( props != null )
+        {
+            StringTokenizer st = new StringTokenizer( props, ";", false );
+            while( st.hasMoreTokens() )
+            {
+                String pair = st.nextToken().trim();
+                int pos = pair.indexOf( "=" );
+                if( pos < 0 )
+                    result.put( pair, "" );
+                else
+                {
+                    String key = pair.substring( 0, pos );
+                    String value = pair.substring( pos + 1 );
+                    result.put( key, value );
+                }
+            }
+        }
+        return result;
+    }
+    
+    public String getProperty( String key )
+    {
+        return m_Properties.getProperty( key );
     }
 } 

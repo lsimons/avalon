@@ -79,6 +79,8 @@ public class JarPlugin extends AbstractPlugin
             notifyPreMethod( "jar" );
             File manifest = prepareManifest();
             notifyStep( "jar", "manifest-created" );
+            copyResources();
+            notifyStep( "jar", "resources-prepared" );
             createJar( manifest );
             notifyPostMethod( "jar" );
             m_Jarred = true;
@@ -111,7 +113,16 @@ public class JarPlugin extends AbstractPlugin
         artplugin.upload( m_CurrentArtifact );
         notifyPostMethod( "upload" );
     }
-    
+
+    private void copyResources()
+    {
+        File toDir = new File( m_Context.getProjectDir(), m_Context.getProperty( "jar.build.src.dir" ) );
+        File fromDir = new File( m_Context.getProjectDir(), m_Context.getProperty( "jar.build.resources.dir" ) );
+        PreparePlugin prepare = (PreparePlugin) m_PreparePlugin;
+        
+        prepare.copy( fromDir, toDir, "**/*", "", false );
+    }
+        
     private File prepareManifest()
     {
         String manifestName = m_Context.getProperty( "jar.manifest" );
