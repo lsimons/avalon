@@ -82,6 +82,19 @@ public class SingleAppEmbeddor
         return component;
     }
 
+    public boolean hasComponent( final String role )
+    {
+        try
+        {
+            m_application.getEntry( role );
+            return true;
+        }
+        catch ( final ContainerException ce )
+        {
+            return false;
+        }
+    }
+
     /**
      * Release block back to application.
      *
