@@ -17,11 +17,15 @@ limitations under the License.
 
 package org.apache.avalon.magic;
 
+import java.util.Stack;
+import java.util.StringTokenizer;
+
+
 public class DefaultResolver
     implements PropertyResolver
 {
 
-    public String resolve( String value )
+    public String resolve( PluginProperties props, String value )
     {
         // optimization for common case.
         int pos1 = value.indexOf( "${" );
@@ -40,7 +44,7 @@ public class DefaultResolver
                 String open = (String) stack.pop();
                 if( open.equals( "${" ) )
                 {
-                    String propValue = getProperty( name );
+                    String propValue = props.getProperty( name );
                     if( propValue == null )
                         push( stack, "${" + name + "}" );
                     else
