@@ -7,33 +7,32 @@
  */
 package org.apache.log.filter;
 
-import org.apache.log.LogEntry;
+import org.apache.log.LogEvent;
 import org.apache.log.Priority;
 
 /**
- * Filters log entrys based on priority.
+ * Filters log events based on priority.
  *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
 public class PriorityFilter 
     extends AbstractFilterTarget 
 {
-    protected Priority.Enum    m_priority;
+    private Priority    m_priority;
 
-    public PriorityFilter( final Priority.Enum priority )
+    public PriorityFilter( final Priority priority )
     {
         m_priority = priority;
     }
 
     /**
-     * Filter the log entry.
+     * Filter the log event.
      *
-     * @param entry the entry
-     * @return return true to discard entry, false otherwise
+     * @param event the event
+     * @return return true to discard event, false otherwise
      */
-    protected boolean filter( final LogEntry entry )
+    protected boolean filter( final LogEvent event )
     {
-        return
-            ( m_priority.isLowerOrEqual( entry.getPriority() ) );
+        return ( m_priority.isLowerOrEqual( event.getPriority() ) );
     }
 }

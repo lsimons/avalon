@@ -14,83 +14,22 @@ package org.apache.log;
  */
 public class Logger
 {
-    protected final static long                START_TIME = System.currentTimeMillis();
+    public final static char    CATEGORY_SEPARATOR   = '.';
 
-    protected final LogEngine                  m_engine;
-    protected final Logger                     m_parent;
-    protected final Category                   m_category;
-    protected LogTarget[]                      m_logTargets;
+    private final static long   START_TIME           = System.currentTimeMillis();
 
-    /**
-     * Constructor.
-     *
-     * @deprecated This method should not be called directly but instead use a LogEngine or LogKit
-     */
-    public Logger( final Category category )
-    {
-        this( LogKit.getDefaultLogEngine(), category, null, null );
-    }
+    private final LogEngine     m_engine;
+    private final Logger        m_parent;
+    private final String        m_category;
 
-    /**
-     * Constructor.
-     *
-     * @deprecated This method should not be called directly but instead use a LogEngine or LogKit
-     */
-    public Logger( final Category category, final LogTarget[] logTargets )
-    {
-        this( LogKit.getDefaultLogEngine(), category, logTargets, null );
-    }
-
-    /**
-     * Constructor.
-     *
-     * @deprecated This method should not be called directly but instead use a LogEngine or LogKit
-     */
-    public Logger( final Category category, final Logger parent )
-    {
-        this( LogKit.getDefaultLogEngine(), category, null, parent );
-    }
-
-    /**
-     * Constructor.
-     *
-     * @deprecated This method should not be called directly but instead use a LogEngine or LogKit
-     */
-    public Logger( final Category category, 
-                   final LogTarget[] logTargets, 
-                   final Logger parent )
-    {
-        this( LogKit.getDefaultLogEngine(), category, logTargets, parent );
-    }
-
-    /**
-     * Constructor taking a category.
-     *
-     * @param category the category
-     */
-    protected Logger( final LogEngine engine, final Category category )
-    {
-        this( engine, category, null, null );
-    }
-
-    /**
-     * Constructor taking category and log targets
-     *
-     * @param category the category
-     * @param logTargets the targets
-     */
-    protected Logger( final LogEngine engine, final Category category, final LogTarget[] logTargets )
-    {
-        this( engine, category, logTargets, null );
-    }
-
-    protected Logger( final LogEngine engine, final Category category, final Logger parent )
-    {
-        this( engine, category, null, parent );
-    }
+    private Logger[]            m_children;
+    private LogTarget[]         m_logTargets;
+    private boolean             m_logTargetsForceSet;
+    private Priority            m_priority;
+    private boolean             m_priorityForceSet;
 
     protected Logger( final LogEngine engine, 
-                      final Category category, 
+                      final String category, 
                       final LogTarget[] logTargets, 
                       final Logger parent )
     {
@@ -98,10 +37,17 @@ public class Logger
         m_category = category;
         m_logTargets = logTargets;
         m_parent = parent;
+
+        if( null == m_logTargets )
+        {
+            unsetLogTargets();
+        }
+
+        unsetPriority();
     }
 
     /**
-     * Log a debug priority entry.
+     * Log a debug priority event.
      *
      * @param message the message
      * @param throwable the throwable
@@ -115,7 +61,7 @@ public class Logger
     }
 
     /**
-     * Log a debug priority entry.
+     * Log a debug priority event.
      *
      * @param message the message
      */
@@ -128,7 +74,7 @@ public class Logger
     }
 
     /**
-     * Log a error priority entry.
+     * Log a error priority event.
      *
      * @param message the message
      * @param throwable the throwable
@@ -142,7 +88,7 @@ public class Logger
     }
 
     /**
-     * Log a error priority entry.
+     * Log a error priority event.
      *
      * @param message the message
      */
@@ -155,7 +101,7 @@ public class Logger
     }
 
     /**
-     * Log a fatalError priority entry.
+     * Log a fatalError priority event.
      *
      * @param message the message
      * @param throwable the throwable
@@ -169,7 +115,7 @@ public class Logger
     }
 
     /**
-     * Log a fatalError priority entry.
+     * Log a fatalError priority event.
      *
      * @param message the message
      */
@@ -181,19 +127,23 @@ public class Logger
         }
     }
 
+    public final Priority getPriority()
+    {
+        return m_priority;
+    }
+
     /**
      * Retrieve category associated with logger.
      *
      * @return the Category
      */
-    public final Category getCategory()
+    public final String getCategory()
     {
         return m_category;
     }
 
-
     /**
-     * Log a info priority entry.
+     * Log a info priority event.
      *
      * @param message the message
      */
@@ -206,17 +156,17 @@ public class Logger
     }
 
     /**
-     * Log a entry at specific priority with a certain message and throwable.
+     * Log a event at specific priority with a certain message and throwable.
      *
      * @param message the message
      * @param priority the priority
      * @param throwable the throwable
      */
-    public final void log( final Priority.Enum priority,
+    public final void log( final Priority priority,
                            final String message,
                            final Throwable throwable )
     {
-        if( m_category.getPriority().isLowerOrEqual( priority ) &&
+        if( getPriority().isLowerOrEqual( priority ) &&
             m_engine.getGlobalPriority().isLowerOrEqual( priority ) )
         {
             output( priority, message, throwable );
@@ -224,18 +174,14 @@ public class Logger
     }
 
     /**
-     * Log a entry at specific priority with a certain message.
+     * Log a event at specific priority with a certain message.
      *
      * @param message the message
      * @param priority the priority
      */
-    public final void log( final Priority.Enum priority, final String message )
+    public final void log( final Priority priority, final String message )
     {
-        if( m_category.getPriority().isLowerOrEqual( priority ) &&
-            m_engine.getGlobalPriority().isLowerOrEqual( priority ) )
-        {
-            output( priority, message, null );
-        }
+        log( priority, message, null );
     }
 
     /**
@@ -245,34 +191,34 @@ public class Logger
      * @param message the message
      * @param throwable the throwable
      */
-    private final void output( final Priority.Enum priority,
+    private final void output( final Priority priority,
                                final String message,
                                final Throwable throwable )
     {
-        final LogEntry entry = new LogEntry();
-        entry.setCategory( m_category );
-        entry.setContextStack( LogKit.getCurrentContext() );
+        final LogEvent event = new LogEvent();
+        event.setCategory( m_category );
+        event.setContextStack( ContextStack.getCurrentContext() );
 
         if( null != message ) 
         {
-            entry.setMessage( message );
+            event.setMessage( message );
         }
         else
         {
-            entry.setMessage( "" );
+            event.setMessage( "" );
         }
 
-        entry.setThrowable( throwable );
-        entry.setPriority( priority );
+        event.setThrowable( throwable );
+        event.setPriority( priority );
 
         //this next line can kill performance. It may be wise to
         //disable it sometimes and use a more granular approach
-        entry.setTime( System.currentTimeMillis() - START_TIME );
+        event.setTime( System.currentTimeMillis() - START_TIME );
 
-        output( entry );
+        output( event );
     }
 
-    protected final void output( final LogEntry entry )
+    private final void output( final LogEvent event )
     {
         //cache a copy of targets for thread safety
         //It is now possible for another thread
@@ -281,14 +227,7 @@ public class Logger
 
         if( null == targets )
         {
-            if( null != m_parent )
-            {
-                m_parent.output( entry );
-            }
-            else
-            {
-                m_engine.getDefaultLogTarget().processEntry( entry );
-            }
+            m_engine.log( "LogTarget is null for category '" + m_category + "'" );
         }
         else
         {
@@ -296,13 +235,13 @@ public class Logger
             {
                 //No need to clone as addition of a log-target 
                 //will result in changin whole array                
-                targets[ i ].processEntry( entry );
+                targets[ i ].processEvent( event );
             }
         }
     }
 
     /**
-     * Log a warn priority entry.
+     * Log a warn priority event.
      *
      * @param message the message
      * @param throwable the throwable
@@ -316,7 +255,7 @@ public class Logger
     }
 
     /**
-     * Log a warn priority entry.
+     * Log a warn priority event.
      *
      * @param message the message
      */
@@ -336,7 +275,7 @@ public class Logger
     public final boolean isDebugEnabled()
     {
         return
-            ( m_category.getPriority().isLowerOrEqual( Priority.DEBUG ) &&
+            ( getPriority().isLowerOrEqual( Priority.DEBUG ) &&
               m_engine.getGlobalPriority().isLowerOrEqual( Priority.DEBUG ) );
     }
 
@@ -348,7 +287,7 @@ public class Logger
     public final boolean isInfoEnabled()
     {
         return
-            ( m_category.getPriority().isLowerOrEqual( Priority.INFO ) &&
+            ( getPriority().isLowerOrEqual( Priority.INFO ) &&
               m_engine.getGlobalPriority().isLowerOrEqual( Priority.INFO ) );
     }
 
@@ -360,7 +299,7 @@ public class Logger
     public final boolean isWarnEnabled()
     {
         return
-            ( m_category.getPriority().isLowerOrEqual( Priority.WARN ) &&
+            ( getPriority().isLowerOrEqual( Priority.WARN ) &&
               m_engine.getGlobalPriority().isLowerOrEqual( Priority.WARN ) );
     }
 
@@ -372,7 +311,7 @@ public class Logger
     public final boolean isErrorEnabled()
     {
         return
-            ( m_category.getPriority().isLowerOrEqual( Priority.ERROR ) &&
+            ( getPriority().isLowerOrEqual( Priority.ERROR ) &&
               m_engine.getGlobalPriority().isLowerOrEqual( Priority.ERROR ) );
     }
 
@@ -384,8 +323,159 @@ public class Logger
     public final boolean isFatalErrorEnabled()
     {
         return
-            ( m_category.getPriority().isLowerOrEqual( Priority.FATAL_ERROR ) &&
+            ( getPriority().isLowerOrEqual( Priority.FATAL_ERROR ) &&
               m_engine.getGlobalPriority().isLowerOrEqual( Priority.FATAL_ERROR ) );
+    }
+
+    /**
+     * Set the priority for this logger.
+     *
+     * @param priority the priority
+     */
+    public synchronized void setPriority( final Priority priority )
+    {
+        m_priority = priority;
+        m_priorityForceSet = true;
+        resetChildPrioritys( false );
+    }
+
+    /**
+     * Unset the priority of Logger.
+     * (Thus it will use it's parent's priority or DEBUG if no parent.
+     */
+    public synchronized void unsetPriority()
+    {
+        unsetPriority( false );
+    }
+
+    /**
+     * Unset the priority of Logger.
+     * (Thus it will use it's parent's priority or DEBUG if no parent.
+     * If recursive is true unset priorities of all child loggers.
+     *
+     * @param recursive true to unset priority of all child loggers
+     */
+    public synchronized void unsetPriority( final boolean recursive )
+    {
+        if( null != m_parent ) m_priority = m_parent.getPriority();
+        else m_priority = Priority.DEBUG;
+
+        m_priorityForceSet = false;
+        resetChildPrioritys( recursive );
+    }
+
+    /**
+     * Get all the child Loggers of current logger.
+     *
+     * @return the child loggers
+     */
+    public synchronized Logger[] getChildren()
+    {
+        if( null == m_children ) return new Logger[ 0 ];
+
+        final Logger[] children = new Logger[ m_children.length ];       
+
+        for( int i = 0; i < children.length; i++ )
+        {
+            children[ i ] = m_children[ i ];
+        }
+
+        return children;
+    }
+
+    /**
+     * Update priority of children if any.
+     */
+    private synchronized void resetChildPrioritys( final boolean recursive )
+    {
+        if( null == m_children ) return;
+
+        final Logger[] children = m_children;
+
+        for( int i = 0; i < children.length; i++ )
+        {
+            children[ i ].resetPriority( recursive );
+        }
+    }
+
+    /**
+     * Update priority of this Logger.
+     * If this loggers priority was manually set then ignore
+     * otherwise get parents priority and update all children's priority.
+     *
+     */
+    private synchronized void resetPriority( final boolean recursive )
+    {
+        if( recursive )
+        {
+            m_priorityForceSet = false;
+        }
+        else if( m_priorityForceSet ) 
+        {
+            return;
+        }
+
+        m_priority = m_parent.getPriority();
+        resetChildPrioritys( recursive );
+    }
+
+    /**
+     * Get a copy of log targets for this logger.
+     *
+     * @return the child loggers
+     */
+    public synchronized LogTarget[] getLogTargets()
+    {
+        if( null == m_logTargets ) 
+        {
+            if( null == m_parent ) return new LogTarget[ 0 ];
+            else return m_parent.getLogTargets();
+        }
+        else
+        {
+            final LogTarget[] logTargets = new LogTarget[ m_logTargets.length ];       
+
+            for( int i = 0; i < logTargets.length; i++ )
+            {
+                logTargets[ i ] = m_logTargets[ i ];
+            }
+            
+            return logTargets;
+        }
+    }
+
+    /**
+     * Update logTargets of children if any.
+     */
+    private synchronized void resetChildLogTargets( final boolean recursive )
+    {
+        if( null == m_children ) return;
+
+        for( int i = 0; i < m_children.length; i++ )
+        {
+            m_children[ i ].resetLogTargets( recursive );
+        }
+    }
+
+    /**
+     * Update logTarget of this Logger.
+     * If this loggers logTarget was manually set then ignore
+     * otherwise get parents logTarget and update all children's logTarget.
+     *
+     */
+    private synchronized void resetLogTargets( final boolean recursive )
+    {
+        if( recursive )
+        {
+            m_logTargetsForceSet = false;
+        }
+        else if( m_logTargetsForceSet ) 
+        {
+            return;
+        }
+
+        m_logTargets = m_parent.getLogTargets();
+        resetChildLogTargets( recursive );
     }
 
     /**
@@ -393,49 +483,94 @@ public class Logger
      *
      * @param logTargets the Log Targets
      */
-    public void setLogTargets( final LogTarget[] logTargets )
+    public synchronized void setLogTargets( final LogTarget[] logTargets )
     {
         m_logTargets = logTargets;
+        m_logTargetsForceSet = true;
+        resetChildLogTargets( false );
     }
 
-    /**
-     * Retrieve a list of log targets associated with this Logger.
-     *
-     * @return an array LogTargets
-     */
-    public final LogTarget[] getLogTargets()
+    public synchronized void unsetLogTargets()
     {
-        return m_logTargets;
+        unsetLogTargets( false );
     }
 
-    /**
-     * Add an individual log target to logtarget list.
-     *
-     * @param target target to be added
-     */
-    public synchronized final void addLogTarget( final LogTarget target )
+    public synchronized void unsetLogTargets( final boolean recursive )
     {
-        if( null == m_logTargets ) m_logTargets = new LogTarget[] { target };
-        else
-        {
-            final LogTarget[] targets = new LogTarget[ m_logTargets.length + 1 ];
-            System.arraycopy( m_logTargets, 0, targets, 0, m_logTargets.length );
-            targets[ m_logTargets.length ] = target;
-            m_logTargets = targets;
-        }
+        if( null != m_parent ) m_logTargets = m_parent.getLogTargets();
+        else m_logTargets = null;
+
+        m_logTargetsForceSet = false;
+        resetChildLogTargets( recursive );
     }
 
     /**
      * Create a new child logger.
      * The category of child logger is [current-category].subcategory
      *
-     * @param subcategory the subcategory of this logger
+     * @param subCategory the subcategory of this logger
      * @return the new logger
+     * @exception IllegalArgumentException if subCategory has an empty element name
      */
-    public Logger getChildLogger( final String subcategory )
+    public synchronized Logger getChildLogger( final String subCategory )
+        throws IllegalArgumentException
     {
-        final String categoryName = 
-            m_category.getName() + Category.SEPARATOR + subcategory;
-        return m_engine.getLoggerFor( categoryName );
+        final int end = subCategory.indexOf( CATEGORY_SEPARATOR );
+
+        String nextCategory = null;
+        String remainder = null;
+        
+        if( -1 == end ) nextCategory = subCategory;
+        else
+        {
+            if( end == 0 )
+            {
+                throw new IllegalArgumentException( "Logger categories MUST not have empty elements" );
+            }
+            
+            nextCategory = subCategory.substring( 0, end );
+            remainder = subCategory.substring( end + 1 );
+        }
+
+        //Get FQN for category 
+        String category = null;
+        if( m_category.equals( "" ) ) category = nextCategory;
+        else
+        {
+            category = m_category + CATEGORY_SEPARATOR + nextCategory;
+        }
+
+        //Check existing children to see if they
+        //contain next Logger for step in category 
+        if( null != m_children )
+        {
+            for( int i = 0; i < m_children.length; i++ )
+            {
+                if( m_children[ i ].getCategory().equals( category ) )
+                {
+                    if( null == remainder ) return m_children[ i ];
+                    else return m_children[ i ].getChildLogger( remainder );
+                }
+            }
+        }
+
+        //Create new logger
+        final Logger child = new Logger( m_engine, category, null, this );
+
+        //Add new logger to child list
+        if( null == m_children ) 
+        {
+            m_children = new Logger[] { child };
+        }
+        else
+        {
+            final Logger[] children = new Logger[ m_children.length + 1 ];
+            System.arraycopy( m_children, 0, children, 0, m_children.length );
+            children[ m_children.length ] = child;
+            m_children = children;
+        }
+
+        if( null == remainder ) return child;
+        else return child.getChildLogger( remainder );
     }
 }

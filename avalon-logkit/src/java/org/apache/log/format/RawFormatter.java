@@ -8,7 +8,7 @@
 package org.apache.log.format;
 
 import org.apache.log.Formatter;
-import org.apache.log.LogEntry;
+import org.apache.log.LogEvent;
 
 /**
  * Formatter's format log entries into strings.
@@ -19,14 +19,14 @@ public class RawFormatter
     implements Formatter
 {
     /**
-     * Format log entry into string.
+     * Format log event into string.
      *
-     * @param entry the entry
+     * @param event the event
      * @return the formatted string
      */
-    public String format( final LogEntry entry )
+    public String format( final LogEvent event )
     {
-        final String message = entry.getMessage();
+        final String message = event.getMessage();
 
         if( null == message )
         {

@@ -8,7 +8,7 @@
 package org.apache.log;
 
 /**
- * LogTarget is a class to encapsulate outputting LogEntry's.
+ * LogTarget is a class to encapsulate outputting LogEvent's.
  * This provides the base for all output and filter targets.
  *
  * Warning: If performance becomes a problem then this 
@@ -19,13 +19,13 @@ package org.apache.log;
 public interface LogTarget
 {
     /**
-     * Process a log entry.
+     * Process a log event.
      * In NO case should this method ever throw an exception/error. 
      * The reason is that logging is usually added for debugging/auditing
      * purposes and it would be unnaceptable to have your debugging 
      * code cause more errors.
      *
-     * @param entry the entry
+     * @param event the event
      */
-    void processEntry( LogEntry entry );
+    void processEvent( LogEvent event );
 }

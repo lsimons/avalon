@@ -8,7 +8,7 @@
 package org.apache.log.filter;
 
 import org.apache.log.FilterTarget;
-import org.apache.log.LogEntry;
+import org.apache.log.LogEvent;
 import org.apache.log.LogTarget;
 
 /**
@@ -43,26 +43,26 @@ public abstract class AbstractFilterTarget
     }
 
     /**
-     * Filter the log entry.
+     * Filter the log event.
      *
-     * @param entry the entry
-     * @return return true to discard entry, false otherwise
+     * @param event the event
+     * @return return true to discard event, false otherwise
      */
-    protected abstract boolean filter( LogEntry entry );
+    protected abstract boolean filter( LogEvent event );
 
     /**
-     * Process a log entry
+     * Process a log event
      *
-     * @param entry the log entry
+     * @param event the log event
      */
-    public void processEntry( final LogEntry entry ) 
+    public void processEvent( final LogEvent event ) 
     {
-        if( null == m_targets || filter( entry ) ) return;
+        if( null == m_targets || filter( event ) ) return;
         else
         {
             for( int i = 0; i < m_targets.length; i++ )
             {
-                m_targets[ i ].processEntry( entry );
+                m_targets[ i ].processEvent( event );
             }
         }
     }

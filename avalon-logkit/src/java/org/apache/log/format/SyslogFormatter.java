@@ -8,7 +8,7 @@
 package org.apache.log.format;
 
 import org.apache.log.Formatter;
-import org.apache.log.LogEntry;
+import org.apache.log.LogEvent;
 import org.apache.log.Priority;
 
 /**
@@ -78,16 +78,16 @@ public class SyslogFormatter
     }
 
     /**
-     * Format log entry into string.
+     * Format log event into string.
      *
-     * @param entry the entry
+     * @param event the event
      * @return the formatted string
      */
-    public String format( final LogEntry entry )
+    public String format( final LogEvent event )
     {
-        final int priority = getSyslogPriority( entry );
-        final int facility = getSyslogFacility( entry );
-        String message = entry.getMessage();
+        final int priority = getSyslogPriority( event );
+        final int facility = getSyslogFacility( event );
+        String message = event.getMessage();
 
         if( null == message )
         {
@@ -107,7 +107,7 @@ public class SyslogFormatter
         return FACILITY_DESCRIPTIONS[ facility >> 3 ];
     }
 
-    protected int getSyslogFacility( final LogEntry entry )
+    protected int getSyslogFacility( final LogEvent event )
     {
         if( -1 != m_facility )
         {
@@ -119,12 +119,12 @@ public class SyslogFormatter
         }
     }
 
-    protected int getSyslogPriority( final LogEntry entry )
+    protected int getSyslogPriority( final LogEvent event )
     {
-        if( entry.getPriority().isLowerOrEqual( Priority.DEBUG ) ) return PRIORITY_DEBUG;
-        else if( entry.getPriority().isLowerOrEqual( Priority.INFO ) ) return PRIORITY_INFO;
-        else if( entry.getPriority().isLowerOrEqual( Priority.WARN ) ) return PRIORITY_WARNING;
-        else if( entry.getPriority().isLowerOrEqual( Priority.ERROR ) ) return PRIORITY_ERR;
+        if( event.getPriority().isLowerOrEqual( Priority.DEBUG ) ) return PRIORITY_DEBUG;
+        else if( event.getPriority().isLowerOrEqual( Priority.INFO ) ) return PRIORITY_INFO;
+        else if( event.getPriority().isLowerOrEqual( Priority.WARN ) ) return PRIORITY_WARNING;
+        else if( event.getPriority().isLowerOrEqual( Priority.ERROR ) ) return PRIORITY_ERR;
         else return PRIORITY_CRIT;
     }
 }

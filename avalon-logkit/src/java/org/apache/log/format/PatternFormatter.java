@@ -20,7 +20,7 @@ import org.apache.log.*;
  * The +|- indicates left or right justify.
  * The #.# indicates the minimum and maximum size of output.
  * 'field' indicates which field is to be output and must be one of
- *  proeprties of LogEntry
+ *  proeprties of LogEvent
  * 'subformat' indicates a particular subformat and is currently unused.
  *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
@@ -286,12 +286,12 @@ public class PatternFormatter
     }
 
     /**
-     * Format the entry according to the pattern.
+     * Format the event according to the pattern.
      *
-     * @param entry the entry
+     * @param event the event
      * @return the formatted output
      */
-    public String format( final LogEntry entry )
+    public String format( final LogEvent event )
     {
         final StringBuffer sb = new StringBuffer();
 
@@ -307,30 +307,31 @@ public class PatternFormatter
             case TYPE_TEXT: sb.append( run.m_data ); continue;
 
             case TYPE_TIME: 
-                str = getTime( entry.getTime(), run.m_format ); 
+                str = getTime( event.getTime(), run.m_format ); 
                 break;
 
             case TYPE_THROWABLE: 
-                str = getStackTrace( entry.getThrowable(), run.m_format ); 
+                str = getStackTrace( event.getThrowable(), run.m_format ); 
                 break;
 
             case TYPE_MESSAGE: 
-                str = getMessage( entry.getMessage(), run.m_format ); 
+                str = getMessage( event.getMessage(), run.m_format ); 
                 break;
 
             case TYPE_CONTEXT: 
-                str = getContext( entry.getContextStack(), run.m_format ); 
+                str = getContext( event.getContextStack(), run.m_format ); 
                 break;
 
             case TYPE_CATEGORY:
-                str = getCategory( entry.getCategory().getName(), run.m_format );
+                str = getCategory( event.getCategory(), run.m_format );
                 break;
 
             case TYPE_PRIORITY: 
-                str = getPriority( entry.getPriority(), run.m_format ); 
+                str = getPriority( event.getPriority(), run.m_format ); 
                 break;
 
             default:
+                //TODO: Convert next line to use error handler
                 LogKit.log( "Unknown Pattern specification." + run.m_type );
                 continue;
             }
@@ -353,7 +354,7 @@ public class PatternFormatter
         return category;
     }
 
-    protected String getPriority( final Priority.Enum priority, final String format )
+    protected String getPriority( final Priority priority, final String format )
     {
         return priority.getName();
     }
@@ -384,13 +385,24 @@ public class PatternFormatter
 
         for( int i = start; i < end; i++ )
         {
-            sb.append( stack.get( i ) );
-            sb.append('.');
+            sb.append( fix( stack.get( i ).toString() ) );
+            sb.append( '.' );
         }
 
         sb.append( stack.get( end ) );
 
         return sb.toString();
+    }
+
+    /**
+     * Correct a context string by replacccing '.''s with a '_'.
+     *
+     * @param context the un-fixed context
+     * @return the fixed context
+     */
+    protected final String fix( final String context )
+    {
+        return context.replace( '.', '_' );
     }
 
     /**

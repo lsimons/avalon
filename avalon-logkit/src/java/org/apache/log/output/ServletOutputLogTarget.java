@@ -1,9 +1,7 @@
 package org.apache.log.output;
 
 import javax.servlet.ServletContext;
-import org.apache.log.output.DefaultOutputLogTarget;
-import org.apache.log.Priority;
-import org.apache.log.LogEntry;
+import org.apache.log.LogEvent;
 
 /**
  * Generic logging interface. Implementations are based on the strategy
@@ -13,8 +11,7 @@ import org.apache.log.LogEntry;
 public class ServletOutputLogTarget
     extends DefaultOutputLogTarget
 {
-    private ServletContext context = null;
-    private Priority.Enum minimum = null;
+    private ServletContext m_context;
 
     /**
      * Constructor.
@@ -23,30 +20,7 @@ public class ServletOutputLogTarget
      */
     public ServletOutputLogTarget( final ServletContext context )
     {
-        this(context, Priority.ERROR);
-    }
-
-    /**
-     * Constructor.
-     *
-     * @param context ServletContext to use for logging.
-     */
-    public ServletOutputLogTarget( final ServletContext context, Priority.Enum priority )
-    {
-        this.context = context;
-        this.minimum = priority;
-    }
-
-    /**
-     * Process a log entry, via formatting and outputting it.
-     *
-     * @param entry the log entry
-     */
-    public void processEntry( final LogEntry entry )
-    {
-        if (this.minimum.isLowerOrEqual(entry.getPriority())) {
-            super.processEntry(entry);
-        }
+        m_context = context;
     }
 
     /**
@@ -56,11 +30,12 @@ public class ServletOutputLogTarget
      */
     protected void output( final String message )
     {
-        if( null != this.context )
+        if( null != m_context )
         {
-            synchronized( this.context )
+            //Do we really need to synchronize on this?????????????
+            synchronized( m_context )
             {
-                context.log( message );
+                m_context.log( message );
             }
         }
     }

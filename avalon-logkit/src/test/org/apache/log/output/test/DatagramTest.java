@@ -8,7 +8,6 @@
 package org.apache.log.output.test;
 
 import java.net.InetAddress;
-import org.apache.log.Category; 
 import org.apache.log.LogKit; 
 import org.apache.log.LogTarget; 
 import org.apache.log.Logger; 
@@ -46,8 +45,8 @@ public final class DatagramTest
                 message = args[ 0 ];
             }
 
-            final Category category = LogKit.createCategory( "foo", Priority.DEBUG );
-            final Logger logger = LogKit.createLogger( category, new LogTarget[] { target } );
+            final Logger logger = LogKit.getLoggerFor( "foo" );
+            logger.setLogTargets( new LogTarget[] { target } );
 
             logger.warn( message, new Exception() );
         }
