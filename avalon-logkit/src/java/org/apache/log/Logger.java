@@ -135,6 +135,9 @@ public class Logger
      * Retrieve category associated with logger.
      *
      * @return the Category
+     * @deprecated This method violates Inversion of Control principle. 
+     *             If you are relying on its presence then there may be 
+     *             something wrong with the design of your system
      */
     public final String getCategory()
     {
