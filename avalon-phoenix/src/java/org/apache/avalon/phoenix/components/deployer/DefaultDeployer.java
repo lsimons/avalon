@@ -14,6 +14,7 @@ import java.net.URL;
 import java.util.Hashtable;
 import java.util.Map;
 import java.util.Set;
+import java.util.Arrays;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.framework.activity.Disposable;
@@ -53,6 +54,8 @@ import org.apache.excalibur.containerkit.verifier.VerifyException;
 /**
  * Deploy .sar files into a kernel using this class.
  *
+ * @phoenix:mx-topic name="Deployer"
+ *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 public class DefaultDeployer
@@ -63,21 +66,13 @@ public class DefaultDeployer
         ResourceManager.getPackageResources( DefaultDeployer.class );
 
     private final Assembler m_assembler = new Assembler();
-
     private final SarVerifier m_verifier = new SarVerifier();
-
     private final Installer m_installer = new Installer();
-
     private final Map m_installations = new Hashtable();
-
     private LogManager m_logManager;
-
     private Kernel m_kernel;
-
     private ConfigurationRepository m_repository;
-
     private ClassLoaderManager m_classLoaderManager;
-
     private ConfigurationValidator m_validator;
 
     /**
@@ -191,6 +186,9 @@ public class DefaultDeployer
     /**
      * Undeploy an application.
      *
+     * @phoenix:mx-operation
+     * @phoenix:mx-description Undeploy an application.
+     *
      * @param name the name of deployment
      * @throws DeploymentException if an error occurs
      */
@@ -229,6 +227,9 @@ public class DefaultDeployer
 
     /**
      * Deploy an application from an installation.
+     *
+     * @phoenix:mx-operation
+     * @phoenix:mx-description Deploy an application from an installation.
      *
      * @param name the name of application
      * @param sarURL the location to deploy from represented as String
@@ -315,7 +316,7 @@ public class DefaultDeployer
             final String message =
                 REZ.getString( "deploy.notice.sar.add",
                                metaData.getName(),
-                               installation.getClassPath() );
+                               Arrays.asList( installation.getClassPath() ) );
             getLogger().debug( message );
             success = true;
         }
