@@ -19,13 +19,11 @@
         <pathelement location="${altrmi-client-interfaces.jar}"/>
         <pathelement location="${altrmi-generator.jar}"/>
         <pathelement location="${excalibur-instrument-manager-interfaces.jar}"/>
-        <pathelement location="${checkstyle.jar}"/>
         <pathelement path="${java.class.path}"/>
     </path>
 
     <path id="tools.class.path">
         <pathelement location="${junit.jar}"/>
-        <fileset dir="${avalon-site.dir}/lib"/>
     </path>
 
     <path id="test.class.path">
@@ -221,61 +219,10 @@
 
     </target>
 
-    <target name="checkstyle" if="do.checkstyle" description="Checkstyle">
-
-        <!-- this invocation of checkstyle requires that checkstyle be downloaded and setup -->
-        <!-- thats why you are required to define do.checkstyle property to generate the report -->
-        <taskdef name="checkstyle"
-            classname="com.puppycrawl.tools.checkstyle.CheckStyleTask">
-            <classpath refid="project.class.path"/>
-        </taskdef>
-        <checkstyle
-            lcurlyType="nl"
-            lcurlyMethod="nl"
-            lcurlyOther="nl"
-            rcurly="ignore"
-            allowProtected="false"
-            allowPackage="false"
-            allowNoAuthor="false"
-            maxLineLen="100"
-            maxMethodLen="100"
-            maxConstructorLen="100"
-            memberPattern="^m_[a-z][a-zA-Z0-9]*$"
-            staticPattern="^c_[a-z][a-zA-Z0-9]*$"
-            constPattern="(^c_[a-z][a-zA-Z0-9]*$)|([A-Z_]*$)"
-            ignoreImportLen="true"
-            allowTabs="false"
-            javadocScope="protected"
-            ignoreWhitespace="true"
-            cacheFile="checkstyle.cache"
-            failOnViolation="false"
-            ignoreCastWhitespace="true">
-            <fileset dir="${java.dir}">
-                <include name="**/*.java"/>
-            </fileset>
-            <formatter type="plain"/>
-            <formatter type="xml" toFile="${build.dir}/checkstyle-results.xml"/>
-        </checkstyle>
-    </target>
-
-    <target name="checkstyle-report"
-        depends="checkstyle"
-        if="do.checkstyle"
-        description="Generate Checkstyle Report">
-
-        <mkdir dir="${build.reports}/checkstyle"/>
-        <property name="checkstyle.pathhack" location="."/>
-        <style style="${tools.dir}/etc/checkstyle-frames.xsl" in="${build.dir}/checkstyle-results.xml"
-            out="${build.reports}/checkstyle/delete-me.html">
-            <param name="pathhack" expression="${checkstyle.pathhack}"/>
-        </style>
-
-    </target>
-
     <!-- Creates the distribution -->
     <target name="dist"
-        depends="dist-jar, test-reports, checkstyle-report, site"
-        description="Generates a distribution (jar + docs javadocs + unit tests + checkstyle reports)">
+        depends="dist-jar, test-reports"
+        description="Generates a distribution (jar + javadocs + unit tests)">
 
         <copy file="${build.conf}/LICENSE.txt" todir="${dist.dir}"/>
         <copy file="../avalon/KEYS" todir="${dist.dir}"/>
@@ -348,64 +295,8 @@
 
     </target>
 
-    <target name="anakia-avail">
-        <available classname="org.apache.velocity.anakia.AnakiaTask"
-            property="AnakiaTask.present">
-            <classpath refid="tools.class.path"/>
-        </available>
-    </target>
-
-    <target name="anakia-check" depends="anakia-avail" unless="AnakiaTask.present">
-        <echo>
-            AnakiaTask is not present! Please check to make sure that
-            velocity.jar is in your classpath. The easiest way to build
-            the documentation is to checkout jakarta-site CVS and specify
-            jakarta-site.dir property.
-        </echo>
-    </target>
-
-    <target name="docs" depends="anakia-check" description="Generate documentation and website">
-        <taskdef name="anakia"
-            classname="org.apache.velocity.anakia.AnakiaTask">
-            <classpath refid="tools.class.path"/>
-        </taskdef>
-
-        <anakia basedir="${xdocs.dir}"
-            destdir="${docs.dir}"
-            style="docs.vsl"
-            projectfile="menu.xml"
-            includes="**/*.xml"
-            excludes="menu.xml"
-            velocitypropertiesfile="../site/src/stylesheets/velocity.properties"
-            />
-
-        <copy todir="${docs.dir}" filtering="off">
-            <fileset dir="../site/src" includes="css/*.css" />
-            <fileset dir="${xdocs.dir}">
-                <include name="**/images/**"/>
-                <include name="**/*.gif"/>
-                <include name="**/*.jpg"/>
-                <include name="**/*.png"/>
-                <include name="**/*.css"/>
-                <include name="**/*.js"/>
-            </fileset>
-        </copy>
-    </target>
-
-    <target name="site" depends="docs" description=" Places Docs ready for hosting on website">
-
-        <mkdir dir="../site/dist/docs/${dir-name}"/>
-        <copy todir="../site/dist/docs/${dir-name}">
-            <fileset dir="${docs.dir}">
-                <include name="**"/>
-            </fileset>
-        </copy>
-
-    </target>
-
     <!-- Cleans up build and distribution directories -->
     <target name="clean" description="Cleans up the project">
-        <delete file="checkstyle.cache"/>
         <delete dir="${build.dir}" />
         <delete dir="${dist.dir}" />
         <delete dir="${docs.dir}" />
