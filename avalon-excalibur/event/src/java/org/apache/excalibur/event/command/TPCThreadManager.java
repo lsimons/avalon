@@ -46,7 +46,7 @@ public final class TPCThreadManager extends AbstractLogEnabled
     //Set reasonable defaults in case parameterize() is never called.
     private long m_sleepTime = 1000L;
     private long m_blockTimeout = 1000L;
-    private int m_processors = 1;
+    private int m_processors = SystemUtil.numProcessors();
     private int m_threadsPerProcessor = 1;
 
     private boolean m_initialized = false;
