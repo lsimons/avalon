@@ -34,7 +34,6 @@ Legal:
   <property name="year" value="1999-2001"/>
 
   <property name="excalibur.name" value="avalon-${name}"/>
-  <property name="testlets.name" value="avalon-${name}-test"/>
   <property name="scratchpad.name" value="avalon-scratchpad"/>
 
   <!--
@@ -444,7 +443,6 @@ Legal:
     <mkdir dir="${cjan.lib}" />
     <copy file="${build.lib}/avalon-excalibur.jar" todir="${cjan.lib}"/>
     <copy file="${build.lib}/${scratchpad.name}.jar" todir="${cjan.lib}"/>
-    <copy file="${build.lib}/${testlets.name}.jar" todir="${cjan.lib}"/>
 
   </target>
 
@@ -457,7 +455,7 @@ Legal:
 
     <mkdir dir="${dist.dir}"/>
     <copy file="${build.lib}/avalon-excalibur.jar" tofile="${dist.dir}/avalon-excalibur-${version}.jar"/>
-<!--    <copy file="${build.lib}/${testlets.name}.jar" tofile="${dist.dir}/${testlets.name}-${version}.jar"/> -->
+
     <copy file="${build.lib}/${scratchpad.name}.jar" tofile="${dist.dir}/${scratchpad.name}-${version}.jar"/>
     <copy file="${logkit.jar}" todir="${dist.dir}"/>
     <copy file="${framework.jar}" todir="${dist.dir}"/>
