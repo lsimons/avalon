@@ -4,4 +4,8 @@
 
   <x:project index="../../index.xml"/>
 
+  <x:prepare/>
+  <x:javac/>
+
+
 </project>
