@@ -18,10 +18,10 @@
     <s1 title="What is it?">
       <p>
        The Avalon project is an effort to create, design, develop and maintain
-       a common framework for server applications written using the Java
-       language. This framework will not be a standalone product, but will allow
-       existing and yet to be created server applications to fit into a common
-       platform and to share code, design and human resources.
+       a common framework and set of components for server applications written 
+       using the Java language. This framework will not be a standalone product, 
+       but will allow existing and yet to be created server applications to fit 
+       into a common platform and to share code, design and human resources.
       </p>
     </s1>
     <s1 title="Project Goals">
@@ -40,11 +40,25 @@
         help the developers reuse as much work they can from other server solutions. 
       </p>
     </s1>
+<!--
+    <s1 title="Features">
+      <p>
+      </p>
+      <ul>
+        <li>Prebuilt components combined with established design patterns will help 
+        reduce your development cycle time and cost. This in turn decreases time to market.</li>
+        <li>Avalon supplies the infrastructure, you focus on competitive differentiation
+        in the market place.</li>
+        <li>Being both Free Software and Opensource, Avalon is accessible to your developers
+        and they can adapt it to suit your own needs. No more vendor lock-in or control.</li>
+      </ul>
+    </s1>
+-->
   </body>
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.1 $ $Date: 2001/02/23 10:47:47 $
+      $Revision: 1.2 $ $Date: 2001/03/22 23:11:28 $
     </legal>
   </footer>
 </document>
