@@ -61,9 +61,9 @@ import java.io.Writer;
  * OutputStream has been closed.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version $Id: ResourceWriter.java,v 1.10 2003/03/22 12:46:50 leosimons Exp $
+ * @version $Id: ResourceWriter.java,v 1.11 2003/03/28 14:51:56 bloritsch Exp $
  */
-final class ResourceWriter
+public final class ResourceWriter
     extends FilterWriter
 {
     private final StreamResource m_resource;

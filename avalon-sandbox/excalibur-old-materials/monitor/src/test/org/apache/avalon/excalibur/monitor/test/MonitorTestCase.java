@@ -50,9 +50,8 @@
 
 package org.apache.avalon.excalibur.monitor.test;
 
-import java.io.File;
-import java.io.FileWriter;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.io.Writer;
 
 import org.apache.avalon.excalibur.monitor.FileResource;
@@ -68,7 +67,7 @@ import org.apache.avalon.framework.component.ComponentSelector;
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Id: MonitorTestCase.java,v 1.17 2003/03/22 12:46:51 leosimons Exp $
+ * @version $Id: MonitorTestCase.java,v 1.18 2003/03/28 14:51:56 bloritsch Exp $
  */
 public class MonitorTestCase
     extends ExcaliburTestCase
@@ -147,13 +146,12 @@ public class MonitorTestCase
     {
         try
         {
-            final File thirdWheel = new File( "test.txt" );
-            thirdWheel.createNewFile();
-            thirdWheel.setLastModified( System.currentTimeMillis() );
+            final Mock thirdWheel = new Mock( "test.txt" );
+            thirdWheel.touch();
             final MonitorTestCaseListener listener = new MonitorTestCaseListener();
             listener.enableLogging( getLogEnabledLogger() );
 
-            final FileResource resource = new FileResource( "test.txt" );
+            final MockResource resource = new MockResource( thirdWheel );
             resource.addPropertyChangeListener( listener );
 
             testMonitor.addResource( resource );
@@ -161,7 +159,7 @@ public class MonitorTestCase
 
             if( active )
             {
-                final FileWriter externalWriter = new FileWriter( thirdWheel );
+                final Writer externalWriter = new OutputStreamWriter( new MockOutputStream(thirdWheel) );
                 externalWriter.write( "External Writer modification" );
                 externalWriter.flush();
                 externalWriter.close();
@@ -188,7 +186,6 @@ public class MonitorTestCase
 
             resource.removePropertyChangeListener( listener );
             testMonitor.removeResource( resource );
-            thirdWheel.delete();
         }
         catch( final Exception e )
         {

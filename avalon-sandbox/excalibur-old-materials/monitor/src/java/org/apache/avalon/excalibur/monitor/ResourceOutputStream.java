@@ -61,9 +61,9 @@ import java.io.OutputStream;
  * OutputStream has been closed.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version $Id: ResourceOutputStream.java,v 1.10 2003/03/22 12:46:50 leosimons Exp $
+ * @version $Id: ResourceOutputStream.java,v 1.11 2003/03/28 14:51:56 bloritsch Exp $
  */
-final class ResourceOutputStream
+public final class ResourceOutputStream
     extends FilterOutputStream
 {
     private final StreamResource m_resource;

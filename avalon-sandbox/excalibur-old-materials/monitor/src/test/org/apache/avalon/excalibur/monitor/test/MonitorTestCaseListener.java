@@ -52,7 +52,6 @@ package org.apache.avalon.excalibur.monitor.test;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-import org.apache.avalon.excalibur.monitor.FileResource;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 
 class MonitorTestCaseListener
@@ -81,7 +80,7 @@ class MonitorTestCaseListener
                                                            ( (Long)propertyChangeEvent.getNewValue() ).longValue() ) +
                               "ms" );
             getLogger().info( "Received notification for " +
-                              ( (FileResource)propertyChangeEvent.getSource() ).getResourceKey() );
+                              ( (MockResource)propertyChangeEvent.getSource() ).getResourceKey() );
             getLogger().info( propertyChangeEvent.getPropertyName() +
                               "\n  IS::" + (Long)propertyChangeEvent.getNewValue() +
                               "\n  WAS::" + (Long)propertyChangeEvent.getOldValue() +
