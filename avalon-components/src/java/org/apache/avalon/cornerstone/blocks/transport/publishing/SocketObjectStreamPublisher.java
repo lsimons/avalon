@@ -21,6 +21,7 @@ import org.apache.avalon.cornerstone.services.connection.ConnectionManager;
 import org.apache.avalon.cornerstone.services.connection.ConnectionHandlerFactory;
 import org.apache.avalon.cornerstone.services.connection.ConnectionHandler;
 import org.apache.commons.altrmi.server.impl.socket.PartialSocketObjectStreamServer;
+
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.net.ServerSocket;
@@ -31,106 +32,104 @@ import java.net.ServerSocket;
  *
  *
  * @author Paul Hammant <a href="mailto:Paul_Hammant@yahoo.com">Paul_Hammant@yahoo.com</a>
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
-
-public class SocketObjectStreamPublisher
-   extends AbstractPublisher
-   implements Composable, ConnectionHandlerFactory
+public class SocketObjectStreamPublisher extends AbstractPublisher
+        implements ConnectionHandlerFactory
 {
-   private SocketManager     m_socketManager;
-   private ConnectionManager m_connectionManager;
-   private int               m_port;
-   private InetAddress       m_bindTo;
 
-   /**
-    * Pass the <code>Configuration</code> to the <code>Configurable</code>
-    * class. This method must always be called after the constructor
-    * and before any other method.
-    *
-    * @param configuration the class configurations.
-    */
+    private SocketManager m_socketManager;
+    private ConnectionManager m_connectionManager;
+    private int m_port;
+    private InetAddress m_bindTo;
 
-   public void configure (Configuration configuration)
-      throws ConfigurationException
-   {
-      super.configure(configuration);
+    /**
+     * Pass the <code>Configuration</code> to the <code>Configurable</code>
+     * class. This method must always be called after the constructor
+     * and before any other method.
+     *
+     * @param configuration the class configurations.
+     */
+    public void configure(Configuration configuration) throws ConfigurationException
+    {
 
-      m_port = configuration.getChild("port").getValueAsInteger();
+        super.configure(configuration);
 
-      try
-      {
-         final String bindAddress = configuration.getChild("bind").getValue();
+        m_port = configuration.getChild("port").getValueAsInteger();
 
-         m_bindTo = InetAddress.getByName(bindAddress);
-      }
-      catch (final UnknownHostException unhe)
-      {
-         throw new ConfigurationException("Malformed bind parameter", unhe);
-      }
-   }
+        try
+        {
+            final String bindAddress = configuration.getChild("bind").getValue();
 
-   public void compose (ComponentManager manager)
-      throws ComponentException
-   {
-      m_socketManager     =
-         ( SocketManager ) manager.lookup(SocketManager.ROLE);
-      m_connectionManager =
-         ( ConnectionManager ) manager.lookup(ConnectionManager.ROLE);
-   }
+            m_bindTo = InetAddress.getByName(bindAddress);
+        }
+        catch (final UnknownHostException unhe)
+        {
+            throw new ConfigurationException("Malformed bind parameter", unhe);
+        }
+    }
 
-   /**
-    * Construct an appropriate ConnectionHandler.
-    *
-    * @return the new ConnectionHandler
-    * @exception Exception if an error occurs
-    */
+    /**
+     * Method compose
+     *
+     *
+     * @param manager
+     *
+     * @throws ComponentException
+     *
+     */
+    public void compose(ComponentManager manager) throws ComponentException
+    {
 
-   public ConnectionHandler createConnectionHandler ()
-      throws Exception
-   {
-      final SocketObjectStreamConnectionHandler handler =
-         new SocketObjectStreamConnectionHandler(
-            ( PartialSocketObjectStreamServer ) mAltrmiServer);
+        super.compose(manager);
 
-      setupLogger(handler);
+        m_socketManager = (SocketManager) manager.lookup(SocketManager.ROLE);
+        m_connectionManager = (ConnectionManager) manager.lookup(ConnectionManager.ROLE);
+    }
 
-      return handler;
-   }
+    /**
+     * Construct an appropriate ConnectionHandler.
+     *
+     * @return the new ConnectionHandler
+     * @exception Exception if an error occurs
+     */
+    public ConnectionHandler createConnectionHandler() throws Exception
+    {
 
-   /**
-    * Release a previously created ConnectionHandler.
-    * e.g. for spooling.
-    */
+        final SocketObjectStreamConnectionHandler handler =
+            new SocketObjectStreamConnectionHandler(
+                (PartialSocketObjectStreamServer) m_AltrmiServer);
 
-   public void releaseConnectionHandler (ConnectionHandler connectionHandler)
-   {
-   }
+        setupLogger(handler);
 
-   /**
-    * Initialialize the component. Initialization includes
-    * allocating any resources required throughout the
-    * components lifecycle.
-    *
-    * @exception Exception if an error occurs
-    */
+        return handler;
+    }
 
-   public void initialize ()
-      throws Exception
-   {
-      mAltrmiServer = new PartialSocketObjectStreamServer();
+    /**
+     * Release a previously created ConnectionHandler.
+     * e.g. for spooling.
+     */
+    public void releaseConnectionHandler(ConnectionHandler connectionHandler)
+    {
+    }
 
-      super.initialize();
+    /**
+     * Initialialize the component. Initialization includes
+     * allocating any resources required throughout the
+     * components lifecycle.
+     *
+     * @exception Exception if an error occurs
+     */
+    public void initialize() throws Exception
+    {
 
-      final ServerSocketFactory factory      =
-         m_socketManager.getServerSocketFactory("plain");
-      final ServerSocket        serverSocket =
-         factory.createServerSocket(m_port, 5, m_bindTo);
+        m_AltrmiServer = new PartialSocketObjectStreamServer();
 
-      m_connectionManager.connect("SocketObjectStreamListener", serverSocket,
-                                  this);
-   }
+        super.initialize();
+
+        final ServerSocketFactory factory = m_socketManager.getServerSocketFactory("plain");
+        final ServerSocket serverSocket = factory.createServerSocket(m_port, 5, m_bindTo);
+
+        m_connectionManager.connect("SocketObjectStreamListener", serverSocket, this);
+    }
 }
-
-
-/*------ Formatted by Jindent 3.24 Basic 1.0 --- http://www.jindent.de ------*/

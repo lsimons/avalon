@@ -30,108 +30,96 @@ import org.apache.commons.altrmi.common.AltrmiAuthentication;
  *
  *
  * @author Paul Hammant <a href="mailto:Paul_Hammant@yahoo.com">Paul_Hammant@yahoo.com</a>
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
-
-public abstract class AbstractSubscriber
-   extends AbstractLogEnabled
-   implements AltrmiInterfaceLookup, Configurable, Initializable, Block
+public abstract class AbstractSubscriber extends AbstractLogEnabled
+        implements AltrmiInterfaceLookup, Configurable, Initializable, Block
 {
-   protected AltrmiFactory     mAltrmiFactory;
-   protected AltrmiHostContext mHostContext;
 
-   /**
-    * Pass the <code>Configuration</code> to the <code>Configurable</code>
-    * class. This method must always be called after the constructor
-    * and before any other method.
-    *
-    * @param configuration the class configurations.
-    */
+    protected AltrmiFactory mAltrmiFactory;
+    protected AltrmiHostContext mHostContext;
 
-   public void configure (Configuration configuration)
-      throws ConfigurationException
-   {
-      String proxyClassLocation =
-         configuration.getChild("proxyClassLocation").getValue();
+    /**
+     * Pass the <code>Configuration</code> to the <code>Configurable</code>
+     * class. This method must always be called after the constructor
+     * and before any other method.
+     *
+     * @param configuration the class configurations.
+     */
+    public void configure(Configuration configuration) throws ConfigurationException
+    {
 
-      if (proxyClassLocation.equals("client"))
-      {
-         mAltrmiFactory = new ClientClassAltrmiFactory(false);
-      }
-      else
-         if (proxyClassLocation.equals("server"))
-         {
+        String proxyClassLocation = configuration.getChild("proxyClassLocation").getValue();
+
+        if (proxyClassLocation.equals("client"))
+        {
+            mAltrmiFactory = new ClientClassAltrmiFactory(false);
+        }
+        else if (proxyClassLocation.equals("server"))
+        {
             mAltrmiFactory = new ServerClassAltrmiFactory(false);
-         }
-         else
-         {
-            throw new ConfigurationException(
-               "proxyClassLocation must be 'client' or 'server'");
-         }
-   }
+        }
+        else
+        {
+            throw new ConfigurationException("proxyClassLocation must be 'client' or 'server'");
+        }
+    }
 
-   /**
-    * Method lookup
+    /**
+     * Method lookup
+     *
+     *
+     * @param publishedName
+     *
+     * @return
+     *
+     * @throws AltrmiConnectionException
+     *
+     */
+    public Object lookup(String publishedName) throws AltrmiConnectionException
+    {
+        return mAltrmiFactory.lookup(publishedName);
+    }
+
+    /**
+     * Method lookup
+     *
+     *
+     * @param publishedName
+     * @param authentication
+     *
+     * @return
+     *
+     * @throws AltrmiConnectionException
+     *
+     */
+    public Object lookup(String publishedName, AltrmiAuthentication authentication)
+            throws AltrmiConnectionException
+    {
+        return mAltrmiFactory.lookup(publishedName, authentication);
+    }
+
+    /**
+     * Method getTextToSignForAuthentication
+     *
+     *
+     * @return
+     *
+     */
+    public String getTextToSignForAuthentication()
+    {
+        return mAltrmiFactory.getTextToSignForAuthentication();
+    }
+
+    /**
+    * Initialialize the component. Initialization includes
+    * allocating any resources required throughout the
+    * components lifecycle.
     *
-    *
-    * @param publishedName
-    *
-    * @return
-    *
-    * @throws AltrmiConnectionException
-    *
+    * @exception Exception if an error occurs
     */
-
-   public Object lookup (String publishedName)
-      throws AltrmiConnectionException
-   {
-      return mAltrmiFactory.lookup(publishedName);
-   }
-
-   /**
-    * Method lookup
-    *
-    *
-    * @param publishedName
-    * @param authentication
-    *
-    * @return
-    *
-    * @throws AltrmiConnectionException
-    *
-    */
-
-   public Object lookup (String publishedName,
-                         AltrmiAuthentication authentication)
-      throws AltrmiConnectionException
-   {
-      return mAltrmiFactory.lookup(publishedName, authentication);
-   }
-
-   /**
-    * Method getTextToSignForAuthentication
-    *
-    *
-    * @return
-    *
-    */
-
-   public String getTextToSignForAuthentication ()
-   {
-      return mAltrmiFactory.getTextToSignForAuthentication();
-   }
-
-   /**
-   * Initialialize the component. Initialization includes
-   * allocating any resources required throughout the
-   * components lifecycle.
-   *
-   * @exception Exception if an error occurs
-   */
-
-   public void initialize ()
-      throws Exception
-   {
-      mAltrmiFactory.setHostContext(mHostContext);
-   }
+    public void initialize() throws Exception
+    {
+        mAltrmiFactory.setHostContext(mHostContext);
+    }
 }

@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!DOCTYPE blockinfo PUBLIC "-//PHOENIX/Block Info DTD Version 1.0//EN" 
+<!DOCTYPE blockinfo PUBLIC "-//PHOENIX/Block Info DTD Version 1.0//EN"
                   "http://jakarta.apache.org/phoenix/blockinfo_1_0.dtd">
 
 <blockinfo>
@@ -13,5 +13,13 @@
   <services>
     <service name="org.apache.commons.altrmi.server.AltrmiPublisher" version="1.0" />
   </services>
+
+  <!-- services that are required by this block -->
+  <dependencies>
+    <dependency>
+      <service name="org.apache.commons.altrmi.server.AltrmiAuthenticator" version="1.0"/>
+    </dependency>
+  </dependencies>
+
 
 </blockinfo>

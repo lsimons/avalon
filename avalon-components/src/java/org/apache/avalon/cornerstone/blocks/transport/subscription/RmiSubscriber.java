@@ -20,48 +20,42 @@ import org.apache.commons.altrmi.client.impl.rmi.RmiAltrmiHostContext;
  *
  *
  * @author Paul Hammant <a href="mailto:Paul_Hammant@yahoo.com">Paul_Hammant@yahoo.com</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
-
-public class RmiSubscriber
-   extends AbstractSubscriber
+public class RmiSubscriber extends AbstractSubscriber
 {
-   private String mHost;
-   private int    mPort;
 
-   /**
-    * Pass the <code>Configuration</code> to the <code>Configurable</code>
-    * class. This method must always be called after the constructor
-    * and before any other method.
-    *
-    * @param configuration the class configurations.
-    */
+    private String mHost;
+    private int mPort;
 
-   public void configure (Configuration configuration)
-      throws ConfigurationException
-   {
-      super.configure(configuration);
+    /**
+     * Pass the <code>Configuration</code> to the <code>Configurable</code>
+     * class. This method must always be called after the constructor
+     * and before any other method.
+     *
+     * @param configuration the class configurations.
+     */
+    public void configure(Configuration configuration) throws ConfigurationException
+    {
 
-      mPort = configuration.getChild("port").getValueAsInteger();
-      mHost = configuration.getChild("host").getValue();
-   }
+        super.configure(configuration);
 
-   /**
-    * Initialialize the component. Initialization includes
-    * allocating any resources required throughout the
-    * components lifecycle.
-    *
-    * @exception Exception if an error occurs
-    */
+        mPort = configuration.getChild("port").getValueAsInteger();
+        mHost = configuration.getChild("host").getValue();
+    }
 
-   public void initialize ()
-      throws Exception
-   {
-      mHostContext = new RmiAltrmiHostContext(mHost, mPort);
+    /**
+     * Initialialize the component. Initialization includes
+     * allocating any resources required throughout the
+     * components lifecycle.
+     *
+     * @exception Exception if an error occurs
+     */
+    public void initialize() throws Exception
+    {
 
-      super.initialize();
-   }
+        mHostContext = new RmiAltrmiHostContext(mHost, mPort);
+
+        super.initialize();
+    }
 }
-
-
-/*------ Formatted by Jindent 3.24 Basic 1.0 --- http://www.jindent.de ------*/
