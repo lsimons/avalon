@@ -124,18 +124,66 @@ import org.apache.avalon.framework.parameters.Parameters;
  *
  * Yes, indeed, this allows you to deploy any PicoContainer-compatible
  * component into an existing avalon container! This class can also be
- * used by avalon containers internally to automagicallly support
+ * used by avalon containers internally to automagically support
  * PicoContainer-compatible components.
  *
- * @version $Id: Avalon2PicoAdapter.java,v 1.3 2003/08/21 21:13:51 leosimons Exp $
+ * Performance notes: since this class depends on extensive reflection
+ * during component creation, it is signifcantly more expensive (an order
+ * of magnitude, often) to instantiate a component this way (as opposed
+ * to a container with native pico support). Also, since the component
+ * remains JDK-proxied even after initialization, there is a rather harsh
+ * performance hit that may not be acceptable. However, since many avalon
+ * containers already do proxying anyway, doing proxying by extension or
+ * encapsulation of this class results in very little perfomance decrease.
+ * Example:
+ *
+ * <pre>
+ *   public class MyContainerProxy extends Avalon2PicoAdapter
+ *   {
+ *     MyContainerProxy( Class targetClass )
+ *     {
+ *       super( targetClass );
+ *     }
+ *     public static Object getProxy( Class targetClass )
+ *     {
+ *      // all interfaces implemented by the class,
+ *      // and all lifecycle interfaces implemented
+ *      // by the handler
+ *      Class[] intf = targetClass.getInterfaces();
+ *      List i = new ArrayList( Arrays.asList(intf) );
+ *      i.add( LogEnabled.class );
+ *      i.add( Serviceable.class );
+ *      i.add( Contextualizable.class );
+ *      i.add( Configurable.class );
+ *      i.add( Initializable.class );
+ *      intf = (Class[])i.toArray( new Class[i.size()] );
+ *
+ *      return Proxy.newProxyInstance(
+ *              targetClass.getClassLoader(),
+ *              intf,
+ *              new MyContainerProxy( targetClass ) );
+ *     }
+ *
+ *     public Object invoke( Object proxy, Method method, Object[] args )
+ *         throws Throwable
+ *     {
+ *       if(!initialized)
+ *         return super.invoke( proxy, method, args );
+ *
+ *       [do your thing here]
+ *     }
+ *   }
+ * </pre>
+ *
+ * @version $Id: Avalon2PicoAdapter.java,v 1.4 2003/08/21 21:27:07 leosimons Exp $
  */
 public class Avalon2PicoAdapter implements InvocationHandler
 {
     // ----------------------------------------------------------------------
     //  Properties
     // ----------------------------------------------------------------------
-    private boolean initialized = false;
-    private boolean badstate = false;
+    protected boolean initialized = false;
+    protected boolean badstate = false;
     private Class m_targetClass;
     private Object m_target;
 
@@ -233,7 +281,7 @@ public class Avalon2PicoAdapter implements InvocationHandler
     //  Constructors
     // ----------------------------------------------------------------------
 
-    Avalon2PicoAdapter( Class target )
+    protected Avalon2PicoAdapter( Class target )
     {
         setTargetClass( target );
     }
@@ -322,10 +370,10 @@ public class Avalon2PicoAdapter implements InvocationHandler
     public Object invoke( Object proxy, Method method, Object[] args )
             throws Throwable
     {
-        if(badstate)
-            throw new IllegalStateException( "Initialization did not complete without errors!" );
         if(initialized)
             return method.invoke( m_target, args );
+        if(badstate)
+            throw new IllegalStateException( "Initialization did not complete without errors!" );
 
         if( ENABLE_LOGGING.equals( method ) )
         {
@@ -364,7 +412,7 @@ public class Avalon2PicoAdapter implements InvocationHandler
         if( m_target == null )
             throw new IllegalStateException( "You need to call initialize() first!" );
 
-        return method.invoke( m_target, args );
+        return method.invoke( m_target, args ); // will never actually be called
     }
 
     protected void createInstance()
