@@ -178,6 +178,17 @@ DEBUG INFO
         </echo>
         <mkdir dir="${maven.build.dir}/test-classes"/>
         <mkdir dir="${maven.build.dir}/classes"/>
+
+        <!-- 
+        copy resource from the src/test to the target/test-classes
+        directory
+        -->
+        <copy todir="${maven.build.dir}/test-classes">
+          <fileset dir="${maven.src.dir}/test">
+            <exclude name="**/*.java"/>
+            <exclude name="**/package.html"/>
+          </fileset>
+        </copy>
         <javac
                 destdir="${maven.build.dir}/test-classes"
                 excludes="**/package.html"
