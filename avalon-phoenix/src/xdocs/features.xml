@@ -53,7 +53,7 @@
 	<p>Phoenix provides the following services to hosted applications:</p>
 	<ul>
 		<li>Lifecycle management</li>
-		<li>Configuration management</li>
+		<li>Configuration management and persistence</li>
 		<li>Resource management and sharing</li>
 		<li>Management exposure through JMX</li>
 		<li>Automatic (re)deployment</li>
