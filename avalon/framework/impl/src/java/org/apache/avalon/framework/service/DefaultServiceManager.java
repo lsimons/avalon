@@ -145,13 +145,13 @@ public class DefaultServiceManager
     /**
      * Place <code>Object</code> into <code>ServiceManager</code>.
      *
-     * @param role the object's role
+     * @param key the object's key
      * @param object an <code>Object</code> value
      */
-    public void put( final String role, final Object object )
+    public void put( final String key, final Object object )
     {
         checkWriteable();
-        m_objects.put( role, object );
+        m_objects.put( key, object );
     }
 
     /**
