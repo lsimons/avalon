@@ -12,7 +12,6 @@
 
   <map:transformers default="xslt">
    <map:transformer     name="xslt"      src="org.apache.cocoon.transformation.TraxTransformer">
-    <use-store>true</use-store>
     <use-request-parameters>false</use-request-parameters>
     <use-browser-capabilities-db>false</use-browser-capabilities-db>
    </map:transformer>
@@ -28,6 +27,7 @@
      <encoding>iso8859-1</encoding>
    </map:serializer>
    <map:serializer name="xml"    mime-type="text/xml"         src="org.apache.cocoon.serialization.XMLSerializer"/>
+   <map:serializer name="links"                               src="org.apache.cocoon.serialization.LinkSerializer"/>
    <map:serializer name="fo2pdf" mime-type="application/pdf"  src="org.apache.cocoon.serialization.FOPSerializer"/>
 <!--   <map:serializer name="svgxml" mime-type="image/svg-xml"    src="org.apache.cocoon.serialization.XMLSerializer">
     <doctype-public>-//W3C//DTD SVG 20000303 Stylable//EN</doctype-public>
@@ -39,9 +39,23 @@
   </map:serializers>
 
   <map:matchers default="wildcard">
-   <map:matcher name="wildcard" src="org.apache.cocoon.matching.WildcardURIMatcherFactory"/>
+   <map:matcher name="wildcard" src="org.apache.cocoon.matching.WildcardURIMatcher"/>
   </map:matchers>
  </map:components>
+
+<!-- =========================== Views =================================== -->
+
+ <map:views>
+  <map:view name="content" from-label="content">
+   <map:serialize type="xml"/>
+  </map:view>
+
+  <map:view name="links" from-position="last">
+   <map:transform src="stylesheets/filterlinks.xsl"/>
+   <map:serialize type="links"/>
+  </map:view>
+
+ </map:views>
 
 <!-- =========================== Pipelines ================================= -->
 
