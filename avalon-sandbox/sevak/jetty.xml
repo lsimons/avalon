@@ -95,7 +95,7 @@
 
   <target name="checkJettyJars">
     <condition property="jetty.present">
-      <available file="jetty-download/jetty-${jetty.rel}.zip"/>
+      <available file="jetty-download/Jetty-${jetty.rel}.zip"/>
     </condition>
 
   </target>
@@ -104,7 +104,7 @@
       <echo>****************************</echo>
       <echo>* Please execute target    *</echo>
       <echo>* 'get-jetty' in           *</echo>
-      <echo>* hetty.xml build file     *</echo>    
+      <echo>* jetty.xml build file     *</echo>    
       <echo>* to download six mega-    *</echo>
       <echo>* bytes of Jetty from      *</echo>
       <echo>* Sourceforge              *</echo>
