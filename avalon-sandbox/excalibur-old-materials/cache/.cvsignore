@@ -1,9 +1,0 @@
-ant.properties
-build
-checkstyle.cache
-distributions
-dist
-excalibur-*
-velocity.log*
-*.el
-*.ipr
