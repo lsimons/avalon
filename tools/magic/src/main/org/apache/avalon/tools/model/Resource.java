@@ -170,8 +170,8 @@ public class Resource
                 {
                     final File file = resource.getArtifact( project, resolve );
                     path.createPathElement().setLocation( file );
-                    visited.add( ref );
                 }
+                visited.add( ref );
             }
         }
         
