@@ -8,7 +8,7 @@
    <parameters>
      <parameter name="urn:composition:deployment.timeout" 
          value="10000" />
-     <parameter name="urn:composition.security.enabled" 
+     <parameter name="urn:composition:security.enabled" 
          value="true" />
    </parameters>
 
