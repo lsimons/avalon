@@ -269,7 +269,6 @@
 
         <copy file="${build.conf}/LICENSE.txt" todir="${dist.dir}"/>
         <copy file="../KEYS" todir="${dist.dir}"/>
-        <copy file="README.txt" todir="${dist.dir}"/>
 
         <mkdir dir="${dist.base}"/>
 
@@ -309,8 +308,8 @@
             <fileset dir="${build.lib}">
                 <include name="*.jar"/>
             </fileset>
-        </copy> 
-    </target>   
+        </copy>
+    </target>
 
     <!-- Creates a minimal distribution -->
     <target name="dist.lite"
@@ -319,7 +318,6 @@
 
         <copy file="../LICENSE.txt" todir="${dist.dir}"/>
         <copy file="../KEYS" todir="${dist.dir}"/>
-        <copy file="README.txt" todir="${dist.dir}"/>
 
     </target>
 
@@ -348,8 +346,8 @@
       <filter token="LOGKIT_BASE" value="${logkit.base}"/>
       <filter token="TESTLET_BASE" value="${testlet.base}"/>
     </target>
-    
-    
+
+
     <!-- Prepares the documentation directory -->
     <target name="docs" depends="setup-filters"> <!-- depends="javadocs" description="Generates the Docs" -->
       <mkdir dir="${docs.dir}"/>
@@ -358,7 +356,7 @@
       <mkdir dir="${build.xdocs}"/>
       <mkdir dir="${build.docs}"/>
       <mkdir dir="${build.dir}/work"/>
-  
+
       <!-- Base pointers for non-xdocs documentation. Override these in .ant.properties to link to local docs -->
       <copy todir="${build.context}" filtering="on">
         <fileset dir="${context.dir}">
@@ -367,7 +365,7 @@
           <exclude name="xdocs"/>
         </fileset>
       </copy>
-  
+
       <copy todir="${build.context}/xdocs" filtering="on" overwrite="yes">
         <fileset dir="${xdocs.dir}"/>
       </copy>
@@ -396,22 +394,22 @@
         <fileset dir="${build.docs}">
           <include name="**"/>
         </fileset>
-      </copy>    
+      </copy>
 
       <!-- hack for stupid transport on api link -->
       <replace file="${docs.dir}/index.html" token="index.html.xml" value="index.html"/>
-     
+
     </target>
-    
-    <target name="site" depends="javadocs, docs" description=" Places Docs ready for hosting on website">  
-  
-      <mkdir dir="../site/dist/docs/${dir-name}"/>     
+
+    <target name="site" depends="javadocs, docs" description=" Places Docs ready for hosting on website">
+
+      <mkdir dir="../site/dist/docs/${dir-name}"/>
       <copy todir="../site/dist/docs/${dir-name}">
         <fileset dir="${docs.dir}">
           <include name="**"/>
         </fileset>
-      </copy>        
-  
+      </copy>
+
     </target>
 
     <!-- Cleans up build and distribution directories -->
