@@ -62,6 +62,7 @@ import org.apache.avalon.framework.logger.LogKit2AvalonLoggerAdapter;
 import org.apache.avalon.framework.logger.Loggable;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.parameters.Parameters;
+import org.apache.avalon.framework.parameters.Parameterizable;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.excalibur.instrument.AbstractLogEnabledInstrumentable;
 import org.apache.excalibur.instrument.CounterInstrument;
@@ -72,7 +73,7 @@ import org.apache.excalibur.mpool.ObjectFactory;
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:paul@luminas.co.uk">Paul Russell</a>
- * @version CVS $Revision: 1.22 $ $Date: 2003/04/18 20:02:29 $
+ * @version CVS $Revision: 1.23 $ $Date: 2003/04/25 13:31:03 $
  * @since 4.0
  */
 public final class ComponentFactory
@@ -134,6 +135,16 @@ public final class ComponentFactory
         final String name = configuration.getAttribute( "id", componentClass.getName() );
         ( (DefaultContext) m_context ).put( "component.name", name );
         ( (DefaultContext) m_context ).put( "component.logger", configuration.getAttribute( "logger", name ) );
+        // Take each configuration attribute, and make a context entry of form "component.<attribName>"
+        String[] attribNames = configuration.getAttributeNames();
+
+        for ( int index = 0; index < attribNames.length; index++ )
+        {
+            String oneName = attribNames[index];
+            ( (DefaultContext) m_context ).put( "component." + oneName, configuration.getAttribute( oneName, "" ) );
+        }
+
+        ( (DefaultContext) m_context ).put( "component.configuration", configuration );
         ( (DefaultContext) m_context ).makeReadOnly();
         m_loggerManager = loggerManager;
         m_extManager = extManager;
@@ -186,7 +197,11 @@ public final class ComponentFactory
         }
         ContainerUtil.service( component, m_serviceManager );
         ContainerUtil.configure( component, m_configuration );
-        ContainerUtil.parameterize( component, Parameters.fromConfiguration( m_configuration ) );
+
+        if ( component instanceof Parameterizable )
+        {
+            ContainerUtil.parameterize( component, Parameters.fromConfiguration( m_configuration ) );
+        }
 
         m_extManager.executeCreationExtensions( component, m_context );
 
