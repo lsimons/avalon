@@ -322,7 +322,7 @@ DEBUG INFO
               <pathelement path="${maven.build.dir}/impl-classes"/>
               <pathelement location="${maven.build.dir}/test-classes"/>
           </classpath>
-          <batchtest todir="${maven.build.dir}/test-classes">
+          <batchtest todir="${maven.build.dir}/test-reports">
             <fileset dir="${maven.src.dir}/test">
                 <include name="**/*TestCase.java"/>
                 <exclude name="**/*Abstract*"/>
