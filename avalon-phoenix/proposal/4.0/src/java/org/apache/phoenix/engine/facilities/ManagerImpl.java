@@ -26,6 +26,7 @@ import org.apache.framework.lifecycle.StopException;
 import org.apache.avalon.camelot.Deployer;
 
 import org.apache.log.Logger;
+import org.apache.framework.logger.AbstractLoggable;
 
 import org.apache.jmx.introspector.DynamicMBeanFactory;
 import org.apache.jmx.adaptor.RMIAdaptor;
@@ -35,7 +36,7 @@ import org.apache.jmx.adaptor.RMIAdaptorImpl;
  *
  * @author <a href="mailto:mail@leosimons.com">Leo Simons</a>
  */
-public class ManagerImpl implements Manager
+public class ManagerImpl extends AbstractLoggable implements Manager
 {
     private MBeanServer mBeanServer;
     private Logger logger;
@@ -56,40 +57,36 @@ public class ManagerImpl implements Manager
     /////////////////////////
     /// LIFECYCLE METHODS ///
     /////////////////////////
-    public void setLogger( Logger logger )
-    {
-        this.logger = logger;
-    }
     public void contextualize( Context context ) throws ContextException
     {
         try { this.mBeanServer = (MBeanServer)context.get( "javax.management.MBeanServer" ); }
         catch( Exception e ) {
-            logger.error( "Invalid context - no MBeanServer supplied", e );
+            getLogger().error( "Invalid context - no MBeanServer supplied", e );
             throw new ContextException( "Invalid context - no MBeanServer supplied", e ); }
         try { this.embeddor = (Embeddor)context.get( "org.apache.framework.atlantis.core.Embeddor" ); }
         catch( Exception e ) {
-            logger.error( "Invalid context - no Embeddor supplied", e );
+            getLogger().error( "Invalid context - no Embeddor supplied", e );
             throw new ContextException( "Invalid context - no Embeddor supplied", e ); }
         try { this.kernel = (Kernel)context.get( "org.apache.framework.atlantis.core.Kernel" ); }
         catch( Exception e ) {
-            logger.error( "Invalid context - no Kernel supplied", e );
+            getLogger().error( "Invalid context - no Kernel supplied", e );
             throw new ContextException( "Invalid context - no Kernel supplied", e ); }
         try { this.deployer = (Deployer)context.get( "org.apache.avalon.camelot.Deployer" ); }
         catch( Exception e ) {
-            logger.error( "Invalid context - no Deployer supplied", e );
+            getLogger().error( "Invalid context - no Deployer supplied", e );
             throw new ContextException( "Invalid context - no Deployer supplied", e ); }
 
         try { this.registryPort = (new Integer((String)context.get( "java.rmi.registry.port" ))).intValue(); }
         catch( Exception e ) {
-            logger.error( "Invalid context - no port for RMI Registry supplied", e );
+            getLogger().error( "Invalid context - no port for RMI Registry supplied", e );
             throw new ContextException( "Invalid context - no port for RMI Registry supplied", e ); }
         try { this.computerName = (String)context.get( "java.rmi.registry.name" ); }
         catch( Exception e ) {
-            logger.error( "Invalid context - no computer name for RMI Adaptor supplied", e );
+            getLogger().error( "Invalid context - no computer name for RMI Adaptor supplied", e );
             throw new ContextException( "Invalid context - no computer name for RMI Adaptor supplied", e ); }
         try { this.adaptorName = (String)context.get( "org.apache.jmx.adaptor.name" ); }
         catch( Exception e ) {
-            logger.error( "Invalid context - no name for RMI Adaptor supplied", e );
+            getLogger().error( "Invalid context - no name for RMI Adaptor supplied", e );
             throw new ContextException( "Invalid context - no name for RMI Adaptor supplied", e ); }
         this.registryString = "//"+computerName+":"+registryPort+"/"+adaptorName;
     }
@@ -101,28 +98,28 @@ public class ManagerImpl implements Manager
                 DynamicMBeanFactory.create( embeddor ),
                 new ObjectName( "Embeddor" ) );
         }
-        catch( Exception e ) { logger.error( "Unable to register MBean for Embeddor", e ); }
+        catch( Exception e ) { getLogger().error( "Unable to register MBean for Embeddor", e ); }
         try
         {
             mBeanServer.registerMBean(
                 DynamicMBeanFactory.create( deployer ),
                 new ObjectName( "Deployer" ) );
         }
-        catch( Exception e ) { logger.error( "Unable to register MBean for Deployer", e ); }
+        catch( Exception e ) { getLogger().error( "Unable to register MBean for Deployer", e ); }
         try
         {
             mBeanServer.registerMBean(
                 DynamicMBeanFactory.create( kernel ),
                 new ObjectName( "Kernel" ) );
         }
-        catch( Exception e ) { logger.error( "Unable to register MBean for Kernel", e ); }
+        catch( Exception e ) { getLogger().error( "Unable to register MBean for Kernel", e ); }
         try
         {
             mBeanServer.registerMBean(
                 DynamicMBeanFactory.create( logger ),
                 new ObjectName( "Logger" ) );
         }
-        catch( Exception e ) { logger.error( "Unable to register MBean for Logger", e ); }
+        catch( Exception e ) { getLogger().error( "Unable to register MBean for Logger", e ); }
 
         // create a RMI adaptor for the MBeanServer and expose it
         try
@@ -133,7 +130,7 @@ public class ManagerImpl implements Manager
             this.rmiRegistry = LocateRegistry.createRegistry( registryPort );
             Naming.bind(this.registryString, this.adaptor);
         }
-        catch( Exception e ) { logger.error( "Unable to bind JMX RMI Adaptor", e ); }
+        catch( Exception e ) { getLogger().error( "Unable to bind JMX RMI Adaptor", e ); }
     }
     public void stop() throws StopException
     {
@@ -146,8 +143,8 @@ public class ManagerImpl implements Manager
         }
         catch( Exception e )
         {
-            if( logger != null )
-                logger.error( "error unregistering MBeans", e );
+            if( getLogger() != null )
+                getLogger().error( "error unregistering MBeans", e );
         }
         try
         {
@@ -155,8 +152,8 @@ public class ManagerImpl implements Manager
         }
         catch( Exception e )
         {
-            if( logger != null )
-                logger.error( "Unable to unbind JMX RMI Adaptor", e );
+            if( getLogger() != null )
+                getLogger().error( "Unable to unbind JMX RMI Adaptor", e );
         }
     }
 
