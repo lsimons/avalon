@@ -79,7 +79,6 @@ public class PhoenixManager
     {
         m_rmiRegistry.unbind( m_name );
         UnicastRemoteObject.unexportObject( m_rmiAdaptor, true );
-
         //TODO: How do you shutdown registry???
     }
 
