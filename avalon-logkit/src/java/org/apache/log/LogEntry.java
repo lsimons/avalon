@@ -37,9 +37,9 @@ public final class LogEntry
     }
   
     /**
-     * Describe 'getContextStack' method here.
+     * Retrieve ContextStack.
      *
-     * @return a value of type 'ContextStack'
+     * @return the ContextStack
      */
     public ContextStack getContextStack()
     {
@@ -124,14 +124,5 @@ public final class LogEntry
     public void setTime( final long time )
     {
         m_time = time;
-    }
-  
-    /**
-     * Default Constructor.
-     *
-     */
-    public LogEntry() 
-    {
-        super();
     }
 }
