@@ -56,6 +56,14 @@ public class XdocTask extends HomeTask
         setProjectProperty( XDOC_TARGET_DOCS_KEY, XDOC_TARGET_DOCS_VALUE );
         setProjectProperty( XDOC_THEME_KEY, XDOC_THEME_VALUE );
         setProjectProperty( XDOC_OUTPUT_FORMAT_KEY, XDOC_OUTPUT_FORMAT_VALUE );
+        setProjectProperty( "xdoc.organization", "" );
+        setProjectProperty( "xdoc.logo.right.file", "" );
+        setProjectProperty( "xdoc.logo.right.url", "" );
+        setProjectProperty( "xdoc.logo.left.file", "" );
+        setProjectProperty( "xdoc.logo.left.url", "" );
+        setProjectProperty( "xdoc.logo.middle.file", "" );
+        setProjectProperty( "xdoc.logo.middle.url", "" );
+        setProjectProperty( "xdoc.brand.name", "" );
     }
 
     private File getThemesDirectory()
@@ -94,6 +102,7 @@ public class XdocTask extends HomeTask
 
     public void execute()
     {        
+
         File srcDir = getTargetSrcXdocDirectory();
         if( !srcDir.exists() ) return;
 
@@ -105,6 +114,7 @@ public class XdocTask extends HomeTask
         File themeRoot = getThemesDirectory();
         File themeDir = new File( themeRoot, theme + "/" + output );
         
+        log( "Year: " + getProject().getProperty( "magic.year" ) );
         log( "Source: " + srcDir.getAbsolutePath() );
         log( "Theme: " + themeDir );
         
@@ -149,10 +159,22 @@ public class XdocTask extends HomeTask
     
     private void copyResources( File themeDir )
     {
+        copyThemeResources( themeDir );
+        copySrcResources();
+    }
+
+    private void copySrcResources()
+    {
         File destDir = getTargetDocsDirectory();
-        File toDir = new File( destDir, "resources" );
+        File resources = PrepareTask.getTargetSrcResourcesDirectory( getProject() );
+        copy( resources, destDir, "**/*", "" );
+    }
+
+    private void copyThemeResources( File themeDir )
+    {
+        File destDir = getTargetDocsDirectory();
         File fromDir = new File( themeDir, "resources" );
-        copy( fromDir, toDir, "**/*", "" );
+        copy( fromDir, destDir, "**/*", "" );
     }
     
     private void copy( File fromDir, File toDir, String includes, String excludes )
@@ -166,6 +188,7 @@ public class XdocTask extends HomeTask
         Copy copy = (Copy) getProject().createTask( "copy" );
         copy.setTodir( toDir );
         copy.addFileset( from );
+        copy.setPreserveLastModified( true );
         copy.execute();
     }
     
@@ -197,6 +220,12 @@ public class XdocTask extends HomeTask
         FileFilter filter, String extension )
         throws BuildException
     {
+        String year = getProject().getProperty( "magic.year" );
+        String org = getProject().getProperty( "xdoc.organization" );
+        String copyright = 
+          "Copyright " + year + ", " + org + " All rights reserved.";
+
+
         File[] content = srcDir.listFiles( filter );
         for( int i = 0 ; i < content.length ; i++ )
         {
@@ -225,10 +254,31 @@ public class XdocTask extends HomeTask
                 transformer.setParameter( "directory", getRelToPath( toDir ) );
                 transformer.setParameter( "fullpath", getRelToPath( newDest ) );
                 transformer.setParameter( "file", base );
-                transformer.setParameter( 
-                  "copyright", getProject().getProperty( "xdoc.footer.copyright"  ) );
                 transformer.setParameter( "svn-location", svnSource );
-                
+
+                transformer.setParameter( "copyright", copyright );
+                transformer.setParameter( 
+                  "logoright_file", 
+                  getProject().getProperty( "xdoc.logo.right.file" ).trim() );
+                transformer.setParameter( 
+                  "logoright_url", 
+                  getProject().getProperty( "xdoc.logo.right.url" ).trim() );
+                transformer.setParameter( 
+                  "logoleft_file", 
+                  getProject().getProperty( "xdoc.logo.left.file" ).trim() );
+                transformer.setParameter( 
+                  "logoleft_url", 
+                  getProject().getProperty( "xdoc.logo.left.url" ).trim() );
+                transformer.setParameter( 
+                  "logomiddle_file", 
+                  getProject().getProperty( "xdoc.logo.middle.file" ).trim() );
+                transformer.setParameter( 
+                  "logomiddle_url", 
+                  getProject().getProperty( "xdoc.logo.middle.url" ).trim() );
+                transformer.setParameter( 
+                  "brand_name", 
+                  getProject().getProperty( "xdoc.brand.name" ).trim() );
+
                 try
                 {
                     transformer.transform( xml, out );

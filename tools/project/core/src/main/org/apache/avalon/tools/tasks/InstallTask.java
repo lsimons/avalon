@@ -58,6 +58,7 @@ public class InstallTask extends DeliverableTask
         File target = new File( cache, group );
 
         Copy copy = (Copy) getProject().createTask( "copy" );
+        copy.setPreserveLastModified( true );
         copy.setTodir( target );
         copy.addFileset( fileset );
         copy.init();
