@@ -9,9 +9,9 @@ package org.apache.avalon.framework;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.util.StringTokenizer;
-import java.lang.reflect.Method;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.StringTokenizer;
 
 /**
  * This class provides basic facilities for manipulating exceptions.
@@ -132,8 +132,8 @@ public final class ExceptionUtil
     /**
      * Utility method to get cause of exception.
      */
-    private static Throwable getCause( final Throwable throwable,
-                                       final boolean useReflection )
+    public static Throwable getCause( final Throwable throwable,
+                                      final boolean useReflection )
     {
         if( throwable instanceof CascadingThrowable )
         {
