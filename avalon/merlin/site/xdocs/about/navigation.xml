@@ -54,14 +54,13 @@
 
  <body>
 
-     <links>
-       <item name="Home" href="http://avalon.apache.org/"/>
-       <item name="Framework" href="http://avalon.apache.org/framework/"/>
-       <item name="Components" href="http://avalon.apache.org/components"/>
-       <item name="Containers" href="http://avalon.apache.org/containers/"/>
-       <item name="Sandbox" href="http://avalon.apache.org/sandbox/"/>
-     </links>
-
+    <links>
+      <item name="Apache" href="http://apache.org/"/>
+      <item name="Avalon" href="http://avalon.apache.org/"/>
+      <item name="Framework" href="http://avalon.apache.org/product/framework/"/>
+      <item name="Containers" href="http://avalon.apache.org/product/containers/"/>
+      <item name="Components" href="http://avalon.apache.org/product/components/"/>
+    </links>
 
     <menu name="About Merlin">
       <item name="Overview" href="/index.html">
