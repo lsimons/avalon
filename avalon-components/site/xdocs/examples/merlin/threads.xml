@@ -40,36 +40,44 @@
             <td>
               Merlin deployment directive.
 <source><![CDATA[
-<block>
+<container name="thread-tutorial">
 
-   <info>
-     <name>threads-tutorial</name>
-   </info>
+     <categories>
+       <category name="classloader/scanner" priority="ERROR"/>
+     </categories>
 
-   <implementation>
-
-     <categories priority="INFO"/>
-
-     <engine>
+     <classloader>
        <classpath>
          <repository>
-           <resource id="cornerstone-threads:cornerstone-threads-api" version="1.0"/>
+           <resource id="avalon-framework:avalon-framework-impl" version="4.1.5"/>
+           <resource id="commons-collections:commons-collections" version="2.1"/>
+           <resource id="excalibur-pool:excalibur-pool" version="1.2"/>
            <resource id="excalibur-thread:excalibur-thread" version="1.1.1"/>
            <resource id="excalibur-event:excalibur-event" version="1.0.3"/>
+           <resource id="cornerstone-threads:cornerstone-threads-api" version="1.0"/>
+           <resource id="cornerstone-threads:cornerstone-threads-impl" version="1.0"/>
          </repository>
        </classpath>
-     </engine>
+     </classloader>
 
-     <include id="cornerstone-threads:cornerstone-threads-impl" version="1.0"/>
+     <component name="threads" 
+        class="org.apache.avalon.cornerstone.blocks.threads.DefaultThreadManager">
+       <configuration>
+         <thread-group>
+           <name>default</name>
+           <priority>5</priority> 
+           <is-daemon>false</is-daemon>
+           <max-threads>100</max-threads>
+           <min-threads>20</min-threads>
+           <min-spare-threads>20</min-spare-threads>
+         </thread-group>
+       </configuration>
+     </component>
 
      <component name="test" 
-        class="org.apache.avalon.cornerstone.threads.tutorial.ThreadConsumer" 
-        activation="true"/>
+        class="org.apache.avalon.cornerstone.threads.tutorial.ThreadConsumer" />
 
-   </implementation>
-
-</block>
-
+</container>
 ]]></source>
             </td>
           </tr>
@@ -83,16 +91,12 @@ To execute this demonstration please make sure that you copy the cornerstone-thr
 $ cd avalon-cornerstone\threads\tutorial
 $ merlin target\cornerstone-threads-tutorial-1.0.jar
 
-[INFO   ] (sys): initialization: localhost
-[INFO   ] (sys): commencing block assembly phase
-[INFO   ] (test): aquiring cornerstone threads service
-[INFO   ] (threads): container initialization: threads
-[INFO   ] (test): initialization
-[INFO   ] (sys): Block hierarchy established.
-[INFO   ] (test.counter): count: 10
-[INFO   ] (test.counter): count: 9
-[INFO   ] (test.counter): count: 8
-[INFO   ] (test.counter): count: 7
+[INFO   ] (thread-tutorial.test): aquiring cornerstone threads service
+[INFO   ] (thread-tutorial.test): initialization
+[INFO   ] (thread-tutorial.test.counter): count: 10
+[INFO   ] (thread-tutorial.test.counter): count: 9
+[INFO   ] (thread-tutorial.test.counter): count: 8
+[INFO   ] (thread-tutorial.test.counter): count: 7
 ]]></source>
 <p>
 Interrupting the container (using ^C) will trigger component disposal
@@ -100,14 +104,11 @@ which in turn will trigger early termination of the thread established
 using the cornerstone thread manager.
 </p>
 <source><![CDATA[
-[INFO   ] (sys): commencing decommissioning phase
-[INFO   ] (test): disposal
-[INFO   ] (test): disposal invoked while child thread active
-[INFO   ] (test): waiting for child
-[INFO   ] (test.counter): I've been interrupted.
-[INFO   ] (test.counter): Time to die.
-[INFO   ] (test): disposal complete
-[INFO   ] (sys): bye
+[INFO   ] (thread-tutorial.test): disposal
+[INFO   ] (thread-tutorial.test): disposal invoked while child thread active
+[INFO   ] (thread-tutorial.test.counter): I've been interrupted.
+[INFO   ] (thread-tutorial.test.counter): Time to die.
+[INFO   ] (thread-tutorial.test): disposal complete
 ]]></source>
       </subsection>
       
