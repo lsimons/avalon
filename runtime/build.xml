@@ -5,7 +5,7 @@
   <property file="build.properties"/>
 
   <path id="targets">
-    <fileset dir="." includes="**/build.xml" excludes="build.xml,framework/build.xml,logging/build.xml,meta/build.xml,repository/build.xml,util/build.xml"/>
+    <fileset dir="." includes="**/build.xml" excludes="build.xml,framework/build.xml,logging/build.xml,meta/build.xml,repository/build.xml,util/build.xml,**/target/**"/>
   </path>
 
   <target name="dist" depends="">
