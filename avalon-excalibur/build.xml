@@ -655,8 +655,8 @@ Legal:
     <echo message="Printer friendly docs are not yet implemented"/>
   </target>
 
-  <!-- Prepares the documentation directory -->
-  <target name="docs" depends="javadocs" description="generates the Excalibur documentation">
+  <!-- Prepares the html bases documention -->
+  <target name="html-docs">
 
     <mkdir dir="${build.context}"/>
     <mkdir dir="${build.xdocs}"/>
@@ -725,6 +725,9 @@ Legal:
     </java>
   </target>
 
+  <!-- Prepares the documentation directory -->
+  <target name="docs" depends="javadocs, html-docs" description="generates the Excalibur documentation"/>
+    
   <!-- Create the source distribution -->
   <target name="src-dist" depends="setup-properties">
 
