@@ -1,0 +1,20 @@
+<!ENTITY avalon-meta-id "avalon-meta">
+<!ENTITY avalon-meta-version "1.4.0">
+
+<!ENTITY avalon-meta-api-id "avalon-meta-api">
+<!ENTITY avalon-meta-api-version "1.4.0">
+
+<!ENTITY avalon-meta-spi-id "avalon-meta-spi">
+<!ENTITY avalon-meta-spi-version "1.4.0">
+
+<!ENTITY avalon-meta-impl-id "avalon-meta-impl">
+<!ENTITY avalon-meta-impl-version "1.4.0">
+
+<!ENTITY avalon-meta-plugin-id "avalon-meta-plugin">
+<!ENTITY avalon-meta-plugin-version "1.4.0">
+
+<!ENTITY avalon-meta-util-id "avalon-meta-util">
+<!ENTITY avalon-meta-util-version "1.4.0">
+
+<!ENTITY avalon-meta-tools-id "avalon-meta-tools">
+<!ENTITY avalon-meta-tools-version "1.4.0">
