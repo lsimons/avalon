@@ -37,34 +37,34 @@ namespace Apache.Avalon.Castle.Core
 		private static readonly int CONFIG_MANAGER = 1;
 		private static readonly int LOOKUP_MANAGER = 2;
 
-		protected ManagedObjectName[] childServices = new ManagedObjectName[3];
+		protected ManagedObjectName[] m_childServices = new ManagedObjectName[3];
 		
-		protected ManagedObjectName deployManager;
+		protected ManagedObjectName m_deployManager;
 
-		protected ManagedObjectName runtimeName;
+		protected ManagedObjectName m_runtimeName;
 
-		protected ManagedObjectName repositoryName;
+		protected ManagedObjectName m_repositoryName;
 		
-		protected CastleOptions options;
+		protected CastleOptions m_options;
 
-		protected IRepository repository;
+		protected IRepository m_repository;
 
-		protected ILoggingManager loggingManager;
+		protected ILoggingManager m_loggingManager;
 
-		protected IRuntime runtime;
+		protected IRuntime m_runtime;
 		
-		protected ILogger logger = Logger.LoggerFactory.GetLogger("Orchestrator");
+		protected ILogger m_logger = Logger.LoggerFactory.GetLogger("Orchestrator");
 
-		protected OrchestratorNotificationSystem notificationSystem;
+		protected OrchestratorNotificationSystem m_notificationSystem;
 
-		protected ISystemContext systemContext;
+		protected ISystemContext m_systemContext;
 
 		/// <summary>
 		/// 
 		/// </summary>
 		public Orchestrator()
 		{
-			logger.Debug("Constructor");
+			m_logger.Debug("Constructor");
 		}
 
 		[ManagedAttribute]
@@ -72,7 +72,7 @@ namespace Apache.Avalon.Castle.Core
 		{
 			get
 			{
-				return systemContext;
+				return m_systemContext;
 			}
 		}
 
@@ -81,11 +81,11 @@ namespace Apache.Avalon.Castle.Core
 		{
 			get
 			{
-				return runtimeName;
+				return m_runtimeName;
 			}
 			set
 			{
-				runtimeName = value;
+				m_runtimeName = value;
 			}
 		}
 
@@ -94,11 +94,11 @@ namespace Apache.Avalon.Castle.Core
 		{
 			get
 			{
-				return repositoryName;
+				return m_repositoryName;
 			}
 			set
 			{
-				repositoryName = value;
+				m_repositoryName = value;
 			}
 		}
 
@@ -107,11 +107,11 @@ namespace Apache.Avalon.Castle.Core
 		{
 			get
 			{
-				return deployManager;
+				return m_deployManager;
 			}
 			set
 			{
-				deployManager = value;
+				m_deployManager = value;
 			}
 		}
 
@@ -121,11 +121,11 @@ namespace Apache.Avalon.Castle.Core
 		{
 			get
 			{
-				return childServices[LOGGER_MANAGER];
+				return m_childServices[LOGGER_MANAGER];
 			}
 			set
 			{
-				childServices[LOGGER_MANAGER] = value;
+				m_childServices[LOGGER_MANAGER] = value;
 			}
 		}
 
@@ -134,11 +134,11 @@ namespace Apache.Avalon.Castle.Core
 		{
 			get
 			{
-				return childServices[CONFIG_MANAGER];
+				return m_childServices[CONFIG_MANAGER];
 			}
 			set
 			{
-				childServices[CONFIG_MANAGER] = value;
+				m_childServices[CONFIG_MANAGER] = value;
 			}
 		}
 
@@ -147,33 +147,33 @@ namespace Apache.Avalon.Castle.Core
 		{
 			get
 			{
-				return childServices[LOOKUP_MANAGER];
+				return m_childServices[LOOKUP_MANAGER];
 			}
 			set
 			{
-				childServices[LOOKUP_MANAGER] = value;
+				m_childServices[LOOKUP_MANAGER] = value;
 			}
 		}
 
 		[ManagedOperation]
 		public void DeployContainmentProfile(ContainmentProfile profile)
 		{
-			logger.Info("Creating ContainmentModel");
+			m_logger.Info("Creating ContainmentModel");
 
-			ILogger sublogger = loggingManager.GetLoggerForCategory( "Containment" );
+			ILogger sublogger = m_loggingManager.GetLoggerForCategory( "Containment" );
 			IContainmentContext containmentContext = CreateContainmentContext( SystemContext, sublogger, profile );
 
 			IContainmentModel containmentModel = new DefaultContainmentModel( containmentContext );
 
-			logger.Info("Assembling");
+			m_logger.Info("Assembling");
 
 			containmentModel.Assemble();
 
-			logger.Info("Deploying");
+			m_logger.Info("Deploying");
 
 			containmentModel.Commission();
 
-			logger.Info("Started");
+			m_logger.Info("Started");
 		}
 
 		protected IContainmentContext CreateContainmentContext( ISystemContext system, ILogger logger, 
@@ -194,7 +194,7 @@ namespace Apache.Avalon.Castle.Core
 
 		public override void Create()
 		{
-			logger.Debug("Create");
+			m_logger.Debug("Create");
 			base.Create();
 
 			RetriveCastleOptions();
@@ -204,7 +204,7 @@ namespace Apache.Avalon.Castle.Core
 	
 		public override void Start()
 		{
-			logger.Debug("Start");
+			m_logger.Debug("Start");
 			base.Start();
 
 			// Create/Start notification system
@@ -219,15 +219,15 @@ namespace Apache.Avalon.Castle.Core
 
 		public override void Stop()
 		{
-			logger.Debug("Stop");
+			m_logger.Debug("Stop");
 
 			base.Stop();
 		}
 
 		protected void RetriveCastleOptions()
 		{
-			options = (CastleOptions) 
-				MXUtil.GetAttribute( server, CastleLoader.CONTROLLER, "Options" );
+			m_options = (CastleOptions) 
+				MXUtil.GetAttribute( Server, CastleLoader.CONTROLLER, "Options" );
 		}
 
 		protected void CreateSystemContext() 
@@ -237,31 +237,31 @@ namespace Apache.Avalon.Castle.Core
 			EnsureLoggingImplementationExists();
 
 			DefaultSystemContext context = new DefaultSystemContext(
-				runtime, loggingManager, IOUtil.ToFile( options.BasePath ), 
-				IOUtil.ToFile( options.HomePath ), 
-				IOUtil.ToFile( options.TempPath ), repository, 
-				"system", options.TraceEnabled, options.DeploymentTimeout, false);
+				m_runtime, m_loggingManager, IOUtil.ToFile( m_options.BasePath ), 
+				IOUtil.ToFile( m_options.HomePath ), 
+				IOUtil.ToFile( m_options.TempPath ), m_repository, 
+				"system", m_options.TraceEnabled, m_options.DeploymentTimeout, false);
 
-			context.Put( "urn:composition:dir", IOUtil.ToFile( options.BasePath ) );
+			context.Put( "urn:composition:dir", IOUtil.ToFile( m_options.BasePath ) );
 			context.MakeReadOnly();
 
-			systemContext = context;
+			m_systemContext = context;
 		}
 
 		protected void InitDeployer()
 		{
 			AssertNotNull( DeployManager, "DeployManager implementation required" );
 
-			MXUtil.InvokeOn( server, DeployManager, "Inspect" );
+			MXUtil.InvokeOn( Server, DeployManager, "Inspect" );
 		}
 
 		protected void EnsureRuntimeImplementationExists()
 		{
 			AssertNotNull( Runtime, "Runtime implementation required" );
 
-			if ( runtime == null )
+			if ( m_runtime == null )
 			{
-				runtime = new RuntimeProxy( server, Runtime );
+				m_runtime = new RuntimeProxy( Server, Runtime );
 			}
 		}
 
@@ -269,17 +269,17 @@ namespace Apache.Avalon.Castle.Core
 		{
 			AssertNotNull( LoggerManager, "LoggingManager implementation required" );
 
-			if ( loggingManager == null )
+			if ( m_loggingManager == null )
 			{
-				loggingManager = new LoggingManagerProxy( server, LoggerManager );
+				m_loggingManager = new LoggingManagerProxy( Server, LoggerManager );
 			}
 		}
 
 		protected void CreateAndStartNotificationSystem()
 		{
-			notificationSystem = new OrchestratorNotificationSystem();
+			m_notificationSystem = new OrchestratorNotificationSystem();
 
-			foreach(ManagedObjectName child in childServices)
+			foreach(ManagedObjectName child in m_childServices)
 			{
 				if (child == null)
 				{
@@ -294,19 +294,19 @@ namespace Apache.Avalon.Castle.Core
 		{
 			try
 			{
-				logger.Debug("Invoking RegisterForPhases on {0}", name);
+				m_logger.Debug("Invoking RegisterForPhases on {0}", name);
 
-				server.Invoke( 
+				Server.Invoke( 
 					name, 
 					"RegisterForPhases", 
-					new object[] { notificationSystem }, 
+					new object[] { m_notificationSystem }, 
 					new Type[] { typeof(OrchestratorNotificationSystem) } );
 
-				logger.Debug("Done");
+				m_logger.Debug("Done");
 			}
 			catch(Exception e)
 			{
-				logger.Error("Exception {0} invoking 'RegisterForPhases' on {1}", 
+				m_logger.Error("Exception {0} invoking 'RegisterForPhases' on {1}", 
 					e.Message, name);
 
 				throw e;

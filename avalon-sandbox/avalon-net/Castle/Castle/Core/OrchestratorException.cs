@@ -29,5 +29,10 @@ namespace Apache.Avalon.Castle.Core
 		public OrchestratorException( String message, Exception inner ) : base(message, inner)
 		{
 		}
+
+		public OrchestratorException(System.Runtime.Serialization.SerializationInfo info, 
+			System.Runtime.Serialization.StreamingContext context) : base(info, context)
+		{
+		}
 	}
 }

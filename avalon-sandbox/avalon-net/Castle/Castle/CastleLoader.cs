@@ -32,13 +32,13 @@ namespace Apache.Avalon.Castle
 		public static readonly ManagedObjectName CONTROLLER = 
 			new ManagedObjectName(Castle.CASTLE_DOMAIN + ":name=Controller");
 		
-		protected MServer server;
+		protected MServer m_server;
 
-		protected MConnectorServer connectorServer;
+		protected MConnectorServer m_connectorServer;
 
-		protected ManagedInstance controller;
+		protected ManagedInstance m_controller;
 
-		protected ILogger logger = Logger.LoggerFactory.GetLogger("CastleLoader");
+		protected ILogger m_logger = Logger.LoggerFactory.GetLogger("CastleLoader");
 
 		public CastleLoader()
 		{
@@ -46,7 +46,7 @@ namespace Apache.Avalon.Castle
 
 		~CastleLoader()
 		{
-			logger.Debug("Running Finalizer()");
+			m_logger.Debug("Running Finalizer()");
 			
 			Stop();
 		}
@@ -55,13 +55,13 @@ namespace Apache.Avalon.Castle
 		{
 			get
 			{
-				return server;
+				return m_server;
 			}
 		}
 
 		public void Start(CastleOptions options)
 		{
-			logger.Debug("Start()");
+			m_logger.Debug("Start()");
 
 			CreateMServer(options);
 			CreateController(options);
@@ -74,64 +74,64 @@ namespace Apache.Avalon.Castle
 
 		public void Stop()
 		{
-			logger.Debug("Stop()");
+			m_logger.Debug("Stop()");
 
-			if (connectorServer != null && connectorServer.ManagedObjectName != null )
+			if (m_connectorServer != null && m_connectorServer.ManagedObjectName != null )
 			{
-				server.UnregisterManagedObject( connectorServer.ManagedObjectName );
+				m_server.UnregisterManagedObject( m_connectorServer.ManagedObjectName );
 				
-				connectorServer = null;
+				m_connectorServer = null;
 			}
 
-			if (server != null)
+			if (m_server != null)
 			{
-				if (controller != null)
+				if (m_controller != null)
 				{
-					MXUtil.Stop( server, CONTROLLER );
+					MXUtil.Stop( m_server, CONTROLLER );
 				}
 
-				MServerFactory.Release(server);
+				MServerFactory.Release(m_server);
 
-				server = null;
+				m_server = null;
 			}
 		}
 
 		protected virtual void CreateMServer(CastleOptions options)
 		{
-			logger.Debug("Creating MServer");
-			server = MServerFactory.CreateServer(options.DomainName, options.IsolatedDomain);
+			m_logger.Debug("Creating MServer");
+			m_server = MServerFactory.CreateServer(options.DomainName, options.IsolatedDomain);
 		}
 
 		protected virtual void CreateController(CastleOptions options)
 		{
-			logger.Debug("Creating Controller");
+			m_logger.Debug("Creating Controller");
 
 			CastleController controllerInstance = new CastleController(options);
 
-			logger.Debug("Registering Controller");
-			controller = server.RegisterManagedObject( controllerInstance, CONTROLLER );
+			m_logger.Debug("Registering Controller");
+			m_controller = m_server.RegisterManagedObject( controllerInstance, CONTROLLER );
 
-			logger.Debug("Invoking Create on Controller...");
-			MXUtil.Create( server, CONTROLLER );
+			m_logger.Debug("Invoking Create on Controller...");
+			MXUtil.Create( m_server, CONTROLLER );
 
-			logger.Debug("Invoking Start on Controller...");
-			MXUtil.Start( server, CONTROLLER );
+			m_logger.Debug("Invoking Start on Controller...");
+			MXUtil.Start( m_server, CONTROLLER );
 		}
 
 		protected virtual void CreateServerConnector(String url, System.Collections.Specialized.NameValueCollection properties)
 		{
-			logger.Debug("Creating ServerConnector");
+			m_logger.Debug("Creating ServerConnector");
 
-			connectorServer = MConnectorServerFactory.CreateServer(url, properties, null );
+			m_connectorServer = MConnectorServerFactory.CreateServer(url, properties, null );
 
-			server.RegisterManagedObject( connectorServer, MConnectorServer.DEFAULT_NAME );
+			m_server.RegisterManagedObject( m_connectorServer, MConnectorServer.DEFAULT_NAME );
 
-			logger.Debug("Testing...");
+			m_logger.Debug("Testing...");
 
 			MConnector connector = MConnectorFactory.CreateConnector( url, properties );
 			connector.ServerConnection.GetDomains();
 
-			logger.Debug("Done!");
+			m_logger.Debug("Done!");
 		}
 
 		#region IDisposable Members

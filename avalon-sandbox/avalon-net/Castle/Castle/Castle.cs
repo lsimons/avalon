@@ -27,9 +27,9 @@ namespace Apache.Avalon.Castle
 	{
 		public static readonly String CASTLE_DOMAIN = "apache.avalon.castle";
 
-		protected CastleOptions options;
+		protected CastleOptions m_options;
 
-		protected ILogger logger = Logger.LoggerFactory.GetLogger("Castle");
+		protected ILogger m_logger = Logger.LoggerFactory.GetLogger("Castle");
 
 		public Castle(CastleOptions options)
 		{
@@ -38,12 +38,12 @@ namespace Apache.Avalon.Castle
 				throw new ArgumentNullException("options");
 			}
 
-			this.options = options;
+			m_options = options;
 		}
 
 		public void Start()
 		{
-			logger.Info("Castle : Starting at {0} {1}", DateTime.Now.ToShortTimeString(), DateTime.Now.ToShortDateString());
+			m_logger.Info("Castle : Starting at {0} {1}", DateTime.Now.ToShortTimeString(), DateTime.Now.ToShortDateString());
 
 			CastleLoader loader = new CastleLoader();
 
@@ -51,9 +51,9 @@ namespace Apache.Avalon.Castle
 			{
 				InitializeDomainHooks();
 
-				loader.Start(options);
+				loader.Start(m_options);
 
-				if (!options.NoThreadJoin)
+				if (!m_options.NoThreadJoin)
 				{
 					// Thread.CurrentThread.Join();
 					Console.In.ReadLine();
@@ -72,7 +72,7 @@ namespace Apache.Avalon.Castle
 				loader.Stop();
 			}
 
-			logger.Info("Castle : Service exiting at {0} {1}", 
+			m_logger.Info("Castle : Service exiting at {0} {1}", 
 				DateTime.Now.ToShortTimeString(), 
 				DateTime.Now.ToShortDateString());
 		}
@@ -110,17 +110,17 @@ namespace Apache.Avalon.Castle
 
 		private void DomainUnload(object sender, EventArgs e)
 		{
-			logger.Info("DomainUnload catched!");
+			m_logger.Info("DomainUnload catched!");
 		}
 
 		private void UnhandledException(object sender, UnhandledExceptionEventArgs e)
 		{
-			logger.Info("UnhandledException catched!");
+			m_logger.Info("UnhandledException catched!");
 		}
 
 		private void ProcessExit(object sender, EventArgs e)
 		{
-			logger.Info("ProcessExit catched!");
+			m_logger.Info("ProcessExit catched!");
 		}
 	}
 }

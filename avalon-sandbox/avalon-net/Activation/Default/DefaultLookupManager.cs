@@ -39,7 +39,7 @@ namespace Apache.Avalon.Activation.Default
 		/// Used to track which model is providing an object when we 
 		/// handle release of objects.
 		/// </summary>
-		private Hashtable m_table;
+		private Hashtable m_table = new Hashtable();
 
 		/// <summary>
 		/// A table of dependency models keyed by lookup key.

@@ -34,27 +34,27 @@ namespace Apache.Avalon.Castle.Core.Proxies
 
 		public void AddCategories(string path, Apache.Avalon.Composition.Data.CategoriesDirective descriptor)
 		{
-			MXUtil.InvokeOn( server, target, "AddCategories", path, descriptor );
+			MXUtil.InvokeOn( m_server, m_target, "AddCategories", path, descriptor );
 		}
 
 		public void AddCategories(Apache.Avalon.Composition.Data.CategoriesDirective descriptor)
 		{
-			MXUtil.InvokeOn( server, target, "AddCategories", descriptor );
+			MXUtil.InvokeOn( m_server, m_target, "AddCategories", descriptor );
 		}
 
 		public ILogger GetLoggerForCategory(string category)
 		{
-			return (ILogger) MXUtil.InvokeOn( server, target, "GetLoggerForCategory", category );
+			return (ILogger) MXUtil.InvokeOn( m_server, m_target, "GetLoggerForCategory", category );
 		}
 
 		public ILogger GetLoggerForCategory(Apache.Avalon.Composition.Data.CategoryDirective category)
 		{
-			return (ILogger) MXUtil.InvokeOn( server, target, "GetLoggerForCategory", category );
+			return (ILogger) MXUtil.InvokeOn( m_server, m_target, "GetLoggerForCategory", category );
 		}
 
 		public ILogger GetLoggerForCategory(string name, string target, string priority)
 		{
-			return (ILogger) MXUtil.InvokeOn( server, base.target, "GetLoggerForCategory", name, target, priority );
+			return (ILogger) MXUtil.InvokeOn( m_server, m_target, "GetLoggerForCategory", name, target, priority );
 		}
 
 		#endregion

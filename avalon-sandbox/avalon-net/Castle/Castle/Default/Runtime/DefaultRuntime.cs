@@ -66,7 +66,7 @@ namespace Apache.Avalon.Castle.Default.Runtime
 			base.Start();
 
 			ISystemContext context = (ISystemContext) 
-				MXUtil.GetAttribute( server, CastleConstants.ORCHESTRATOR_NAME, 
+				MXUtil.GetAttribute( Server, CastleConstants.ORCHESTRATOR_NAME, 
 				"SystemContext" );
 
 			m_runtime = new RuntimeImpl( context );

@@ -56,7 +56,7 @@ namespace Apache.Avalon.Castle.Default.Deployment
 		private void ObtainHomeDir()
 		{
 			ISystemContext context = (ISystemContext) 
-				MXUtil.GetAttribute( server, CastleConstants.ORCHESTRATOR_NAME, "SystemContext" );
+				MXUtil.GetAttribute( Server, CastleConstants.ORCHESTRATOR_NAME, "SystemContext" );
 			
 			if (context == null)
 			{
@@ -93,7 +93,7 @@ namespace Apache.Avalon.Castle.Default.Deployment
 		{
 			foreach(ManagedObjectName child in Children)
 			{
-				bool accepts = (bool) MXUtil.InvokeOn( server, child, "Accepts",  file );
+				bool accepts = (bool) MXUtil.InvokeOn( Server, child, "Accepts",  file );
 
 				if (accepts)
 				{
@@ -106,7 +106,7 @@ namespace Apache.Avalon.Castle.Default.Deployment
 
 		private void SendDeployMessage( ManagedObjectName deployer, FileInfo file )
 		{
-			MXUtil.InvokeOn( server, deployer, "Deploy",  file );
+			MXUtil.InvokeOn( Server, deployer, "Deploy",  file );
 		}
 	}
 }
