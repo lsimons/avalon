@@ -80,7 +80,7 @@ import org.apache.excalibur.instrument.Instrumentable;
  * @author <a href="mailto:paul@luminas.co.uk">Paul Russell</a>
  * @author <a href="mailto:ryan@silveregg.co.jp">Ryan Shaw</a>
  * @author <a href="mailto:leif@apache.org">Leif Mortenson</a>
- * @version CVS $Revision: 1.27 $ $Date: 2003/02/25 16:28:21 $
+ * @version CVS $Revision: 1.28 $ $Date: 2003/05/01 10:20:02 $
  * @since 4.0
  */
 public class ExcaliburComponentManager
@@ -372,7 +372,6 @@ public class ExcaliburComponentManager
     {
         if( null == component )
         {
-            getLogger().warn( "Attempted to release a null component." );
             return;
         }
 
