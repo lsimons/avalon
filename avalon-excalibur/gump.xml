@@ -466,8 +466,8 @@
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
         <depend project="checkstyle"/>
-        <depend project="jakarta-avalon"/>
-        <depend project="jakarta-avalon-logkit"/>
+        <depend project="jakarta-avalon" runtime="true"/>
+        <depend project="jakarta-avalon-logkit" runtime="true"/>
         <work nested="logger/build/classes"/>
 
         <home nested="logger"/>
