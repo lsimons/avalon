@@ -18,8 +18,6 @@ import java.util.HashMap;
  */
 public final class Namespace implements Serializable
 {
-    private final static HashMap cache = new HashMap();
-
     private final        String  m_prefix;
     private final        String  m_uri;
 
@@ -187,14 +185,6 @@ public final class Namespace implements Serializable
             loc = "";
         }
 
-        Namespace ns = (Namespace) Namespace.cache.get( pre + loc );
-
-        if ( null == ns )
-        {
-           ns = new Namespace( pre, loc );
-           Namespace.cache.put( pre + loc, ns );
-        }
-
-        return ns;
+        return new Namespace( pre, loc );
     }
 }
