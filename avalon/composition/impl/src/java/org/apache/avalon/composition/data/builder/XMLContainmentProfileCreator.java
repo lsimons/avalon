@@ -29,6 +29,7 @@ import org.apache.avalon.composition.data.ClassLoaderDirective;
 import org.apache.avalon.composition.data.ClasspathDirective;
 import org.apache.avalon.composition.data.ContainmentProfile;
 import org.apache.avalon.composition.data.DeploymentProfile;
+import org.apache.avalon.composition.data.ExcludeDirective;
 import org.apache.avalon.composition.data.FilesetDirective;
 import org.apache.avalon.composition.data.IncludeDirective;
 import org.apache.avalon.composition.data.LibraryDirective;
@@ -50,7 +51,7 @@ import org.apache.excalibur.configuration.ConfigurationUtil;
  * from a Configuration object.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.13 $ $Date: 2004/04/07 16:49:22 $
+ * @version $Revision: 1.14 $ $Date: 2004/04/16 20:08:12 $
  */
 public class XMLContainmentProfileCreator extends XMLProfileCreator
 {
@@ -271,7 +272,8 @@ public class XMLContainmentProfileCreator extends XMLProfileCreator
     {
         String base = config.getAttribute( "dir", "." );
         IncludeDirective[] includes = createIncludeDirectives( config );
-        return new FilesetDirective( base, includes );
+        ExcludeDirective[] excludes = createExcludeDirectives( config );
+        return new FilesetDirective( base, includes, excludes );
     }
 
     /**
@@ -301,6 +303,32 @@ public class XMLContainmentProfileCreator extends XMLProfileCreator
     }
 
     /**
+     * Utility method to create a set in exclude directives.
+     * @param config a configuration defining the fileset
+     * @return the excludes
+     * @exception ConfigurationException if the configuration is
+     *   incomplete
+     */
+    protected ExcludeDirective[] createExcludeDirectives( Configuration config )
+       throws ConfigurationException
+    {
+        if( config == null )
+        {
+            return new ExcludeDirective[0];
+        }
+
+        ArrayList list = new ArrayList();
+        Configuration[] children = config.getChildren( "exclude" );
+        for( int i = 0; i < children.length; i++ )
+        {
+            Configuration child = children[i];
+            list.add( createExcludeDirective( child ) );
+        }
+
+        return (ExcludeDirective[]) list.toArray( new ExcludeDirective[0] );
+    }
+
+    /**
      * Utility method to create a new include directive from a
      * configuration instance.
      * @param config a configuration defining the include directive
@@ -312,6 +340,20 @@ public class XMLContainmentProfileCreator extends XMLProfileCreator
        throws ConfigurationException
     {
         return new IncludeDirective( getIncludeValue( config ) );
+    }
+
+    /**
+     * Utility method to create a new exclude directive from a
+     * configuration instance.
+     * @param config a configuration defining the exclude directive
+     * @return the exclude directive
+     * @exception ConfigurationException if the configuration does not
+     *   declare the name attribute
+     */
+    protected ExcludeDirective createExcludeDirective( Configuration config )
+       throws ConfigurationException
+    {
+        return new ExcludeDirective( getExcludeValue( config ) );
     }
 
     private String getIncludeValue( Configuration config ) 
@@ -329,6 +371,12 @@ public class XMLContainmentProfileCreator extends XMLProfileCreator
         {
             return config.getValue();
         }
+    }
+
+    private String getExcludeValue( Configuration config ) 
+      throws ConfigurationException
+    {
+        return getIncludeValue( config );
     }
 
    /**
