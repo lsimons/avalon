@@ -16,7 +16,7 @@ jefft@apache.org
   <!ELEMENT credit (name, url, image, width?, height?)>
   <!ELEMENT disable-search (#PCDATA)>
   <!ELEMENT searchsite-domain (#PCDATA)>
-  <!ELEMENT searchsite-name (#PCDATA)>  
+  <!ELEMENT searchsite-name (#PCDATA)>
   <!ELEMENT project-name (#PCDATA)>
   <!ELEMENT project-url (#PCDATA)>
   <!ELEMENT project-logo (#PCDATA)>
@@ -46,19 +46,19 @@ jefft@apache.org
   <!-- Do we want to disable the Google search box? -->
   <disable-search>false</disable-search>
   <searchsite-domain>jakarta.apache.org</searchsite-domain>
-  <searchsite-name>Jakarta Apache</searchsite-name>  
+  <searchsite-name>Jakarta Apache</searchsite-name>
 
   <!-- mandatory project logo
        skin: forrest-site renders it at the top -->
   <project-name>Avalon</project-name>
   <project-url>http://jakarta.apache.org/avalon/</project-url>
-  <project-logo>images/project-logo.gif</project-logo>
+  <project-logo>images/header.gif</project-logo>
 
   <!-- optional group logo
        skin: forrest-site renders it at the top-left corner -->
   <group-name>Jakarta Apache</group-name>
   <group-url>http://jakarta.apache.org/</group-url>
-  <group-logo>images/group-logo.gif</group-logo>
+  <group-logo>images/jakarta-logo.gif</group-logo>
 
   <!-- optional host logo (e.g. sourceforge logo)
        skin: forrest-site renders it at the bottom-left corner -->

@@ -27,15 +27,15 @@
 <title>Justification</title>
         <p>
           The main reason we do it is because:
-          <ol>
-            <li>it forces you to decouple different modules/components/objects</li>
-            <li>if specified correctly allows you to easily change the implementation of
-                the interface/contract in the future</li>
-            <li>makes it possible for a user to read documentation about interface
-                without having the implementation details clutter up their perception</li>
-            <li>increases the possibility of reuse in a larger application</li>
-          </ol>
         </p>
+          <ol>
+              <li>it forces you to decouple different modules/components/objects</li>
+              <li>if specified correctly allows you to easily change the implementation of
+                  the interface/contract in the future</li>
+              <li>makes it possible for a user to read documentation about interface
+                  without having the implementation details clutter up their perception</li>
+              <li>increases the possibility of reuse in a larger application</li>
+          </ol>
         <p>
           If you are building objects with the aim of reuse then [2] is important but
           most people don't build for reuse (and most XP advocates say you should just
@@ -153,7 +153,7 @@ public class RemoteHelloWorld implements HelloWorld {
           SAX, mentioned in multiple contexts in this document, is also an example of
           where the design can go wrong.  The Factory is static (that in itself is an
           anti-pattern to IoC).  Despite giving the appearance of having the ability
-          to generate a parser based on the implementation's class name, only the first 
+          to generate a parser based on the implementation's class name, only the first
           caller of that method will register a parser for the whole environment to use.
         </p>
         <p>
