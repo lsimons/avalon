@@ -63,7 +63,7 @@ Legal:
     <property name="lib.dir" value="lib"/>
     <property name="tools.dir" value="tools"/>
     <property name="docs.dir" value="docs"/>
-    <property name="www.dir" value="../jakarta-avalon-site/site/framework"/>
+    <property name="www.dir" value="../avalon-site/site/framework"/>
     <property name="javadocs.dir" value="${docs.dir}/api"/>
     <property name="context.dir" value="${src.dir}/documentation"/>
 

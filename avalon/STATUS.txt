@@ -1,5 +1,5 @@
 APACHE AVALON PROJECT STATUS:                          -*-indented-text-*-
-Last modified at [$Date: 2003/02/01 10:20:00 $]
+Last modified at [$Date: 2003/02/06 13:31:49 $]
 
 Background:
 
@@ -19,10 +19,10 @@ Release:
     o Phoenix released.
           
     o past releases available from 
-         http://jakarta.apache.org/builds/jakarta-avalon/
+         http://jakarta.apache.org/builds/avalon/
     
     o nightlies available from 
-         http://cvs.apache.org/builds/jakarta-avalon/nightly/    
+         http://cvs.apache.org/builds/avalon/nightly/
 
 
 Resolved Issues:
@@ -201,12 +201,12 @@ Pending issues:
       again). Do we move to maven? Wait for a 1.0 release perhaps?
 
     o move over docs to forrest (currently there's a branch in the
-      jakarta-avalon module which we need to merge back and move to,
+      avalon module which we need to merge back and move to,
       but there's some stuff left to do).
 
 Project Mission:
 
-Note: work is underway in jakarta-avalon/src/proposal to define a charter,
+Note: work is underway in avalon/src/proposal to define a charter,
 including mission.
 
 What is the project's mission? Our statement of goals/mission/vision
@@ -249,15 +249,15 @@ Assets:
   
     Web site:           http://jakarta.apache.org/avalon/
     
-    Repositories:       jakarta-avalon             (framework)
-                        jakarta-avalon-testlet     (deprecated testlet)
-                        jakarta-avalon-logkit      (logkit)
-                        jakarta-avalon-phoenix     (phoenix)
-                        jakarta-avalon-cornerstone (components)
-                        jakarta-avalon-apps        (sample phoenix applications)
-                        jakarta-avalon-excalibur   (everything else)
+    Repositories:       avalon             (framework)
+                        avalon-testlet     (deprecated testlet)
+                        avalon-logkit      (logkit)
+                        avalon-phoenix     (phoenix)
+                        avalon-cornerstone (components)
+                        avalon-apps        (sample phoenix applications)
+                        avalon-excalibur   (everything else)
                         avalon-sandbox             (sandbox)
-                        jakarta-avalon-site        (the web site)
+                        avalon-site        (the web site)
 
 
 PMC Members:

@@ -11,7 +11,7 @@
 
         <menu name="About">
             <item name="Overview" href="/index.html"/>
-            <item name="Download" href="http://jakarta.apache.org/builds/jakarta-avalon/release/cornerstone"/>
+            <item name="Download" href="http://jakarta.apache.org/builds/avalon/release/cornerstone"/>
             <item name="Changes" href="/changes.html"/>
             <item name="API Docs" href="http://avalon.apache.org/api/index.html"/>
         </menu>

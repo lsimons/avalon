@@ -19,7 +19,7 @@
       <p>
         If that sounds a bit abstract to you, we suggest you start by reading
         the guide (see below). If you want to see the code first, either
-        <link href="http://jakarta.apache.org/builds/jakarta-avalon/release/framework">download</link>
+        <link href="http://jakarta.apache.org/builds/avalon/release/framework">download</link>
         it or
         <link href="http://jakarta.apache.org/site/cvsindex.html">get it from CVS</link>.
         The <link href="getting-started.html">Getting Started</link> document

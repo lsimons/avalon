@@ -20,11 +20,11 @@
   
   <siteAddress>www.apache.org</siteAddress>
   <siteDirectory>/www/jakarta.apache.org/avalon/${pom.id.substring(7)}/</siteDirectory>
-  <distributionDirectory>/www/jakarta.apache.org/builds/jakarta-avalon/${pom.id.substring(8)}/</distributionDirectory>
+  <distributionDirectory>/www/jakarta.apache.org/builds/avalon/${pom.id.substring(8)}/</distributionDirectory>
   
   <repository>
-    <connection>scm:cvs:pserver:anoncvs@cvs.apache.org:/home/cvspublic:jakarta-avalon/${pom.id.substring(8)}</connection>
-    <url>http://cvs.apache.org/viewcvs/jakarta-avalon/${pom.id.substring(7)}/</url>
+    <connection>scm:cvs:pserver:anoncvs@cvs.apache.org:/home/cvspublic:avalon/${pom.id.substring(8)}</connection>
+    <url>http://cvs.apache.org/viewcvs/avalon/${pom.id.substring(7)}/</url>
   </repository>
   
   <mailingLists>
