@@ -14,7 +14,7 @@ import java.util.Iterator;
 import org.apache.avalon.configuration.Configuration;
 import org.apache.avalon.configuration.ConfigurationException;
 import org.apache.avalon.configuration.DefaultConfigurationBuilder;
-import org.apache.avalon.util.Version;
+import org.apache.avalon.Version;
 
 /**
  * A BlockInfoBuilder builds configurations via SAX2 compliant parser.
