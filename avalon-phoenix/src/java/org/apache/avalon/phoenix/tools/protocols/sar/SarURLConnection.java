@@ -24,7 +24,7 @@ import org.apache.avalon.excalibur.i18n.Resources;
  * read-only connection.
  *
  * @author <a href="mailto:mirceatoma@home.com">Mircea Toma</a>
- * @version CVS $Revision: 1.3 $ $Date: 2001/10/15 22:25:58 $
+ * @version CVS $Revision: 1.4 $ $Date: 2001/10/17 20:51:34 $
  */
 public class SarURLConnection extends URLConnection
 {    
@@ -60,17 +60,12 @@ public class SarURLConnection extends URLConnection
         if (separator == -1)
         {
             final String message = 
-                REZ.getString( "parse-url", String.valueOf(SEPARATOR), spec );
+                REZ.getString( "parse-url", String.valueOf( SEPARATOR ), spec );
             throw new MalformedURLException( message );
         }
         
-        m_nestedURL = new URL(spec.substring(0, separator++));
-        
-        // if separator is the last char of the nestedURL, entryName is null
-        if ( ++separator < spec.length() )
-        {
-            m_entryName = spec.substring( separator, spec.length() );
-        }
+        m_nestedURL = new URL( spec.substring( 0, separator++ ) );                
+        m_entryName = spec.substring( ++separator, spec.length() );
     }
     
     /**
@@ -85,22 +80,11 @@ public class SarURLConnection extends URLConnection
         m_manifest = m_input.getManifest();
         
         // check if entry is directory or file
-        if ( m_entryName.endsWith( "/" ) ) 
+        if ( m_entryName.endsWith( "/" ) || ( m_entryName.length() == 0 ) ) 
         {
             while ( ( m_entry = m_input.getNextJarEntry() ) != null )
             {            
-                final String entryName = m_entry.getName();
-                                
-                if ( entryName.startsWith( m_entryName ) )
-                {
-                    String name = entryName.substring(m_entryName.length(), entryName.length());
-                    
-                    // select only entries within current level
-                    if ( ( name.indexOf("/") == -1 ) && ( !name.equals("") ) ) 
-                    {
-                        m_entryNames.add( name );
-                    }
-                }            
+                m_entryNames.add( m_entry.getName() );
             }
             
             connected = true;
@@ -158,6 +142,27 @@ public class SarURLConnection extends URLConnection
     public String[] list() throws IOException
     {
         connect();
-        return (String[]) m_entryNames.toArray( new String[0] );
+        
+        final ArrayList entryNames = new ArrayList();
+        
+        for ( int i = 0; i < m_entryNames.size(); i++ )
+        {
+            final String entryName = (String) m_entryNames.get( i );
+            
+            if ( entryName.startsWith( m_entryName ) )
+            {
+                String name = entryName.substring(m_entryName.length(), entryName.length());
+
+                // select only entries within current level
+                if ( ( ( name.indexOf("/") == -1 ) || 
+                       ( name.indexOf( "/" ) == name.length() - 1 ) ) &&
+                     ( name.length() != 0 ) ) 
+                {
+                    entryNames.add( name );
+                }
+            }            
+        }
+        
+        return (String[]) entryNames.toArray( new String[0] );
     }
 }
