@@ -1,10 +1,9 @@
 
 <!--
-The blocks.xml file contains the declaration of the blocks to be loaded
-and assembled by the kernel.  Each block element declares a block name,
-a path to a single jar file, an engine configuration (which may 
-include declaration of additional extension directories a block 
-classpath), and tagged configuration fragments.
+The blocks.xml file contains the declaration of the top-level blocks to 
+be loaded and assembled by the kernel.  Each block element declares a 
+block name, a path to a single jar file or block.xml file, and tagged 
+configuration fragments.
 -->
 
 <blocks>
@@ -20,9 +19,9 @@ classpath), and tagged configuration fragments.
       </configuration>
    </block>
 
-   <block name="playground" path="../assembly/build/lib/avalon-assembly-demo-1.0.jar" enabled="true"/>
+   <block name="playground" path="../assembly/build/lib/avalon-assembly-demo-1.0.jar" enabled="true" />
 
-   <block name="demo" src="src/test/config/demo.xml" enabled="true" >
+   <block name="demo" src="src/test/config/demo.xml" enabled="true">
      <configuration target="test">
        <configuration target="standard">
          <message>Client supplied message.</message>
