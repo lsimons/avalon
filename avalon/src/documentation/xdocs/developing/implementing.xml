@@ -233,12 +233,13 @@ class ContainerComponent implements Component, Initializable, Disposable {
         pool.setValue("main-pool");
         DefaultConfiguration conf = new DefaultConfiguration("");
         conf.addChild(pool);
-        this.docs.configure(conf);
 
         this.manager.addComponent(DocumentRepository.ROLE, this.docs);
         this.manager.addComponent(GuardianComponent.ROLE, this.guard);
         this.docs.compose(this.manager);
         this.guard.compose(this.manager);
+
+        this.docs.configure(conf);
 
         this.guard.initialize();
         this.docs.initialize();
@@ -401,7 +402,7 @@ class ContainerComponent implements Component, Initializable, Disposable {
                                         null, this.manager, null, null);
 
         this.docs.setLogger(Heirarchy.getLoggerFor("document.repository"));
-        this.guard.setLogger(Heirarcy.getLoggerFor("document.security"));
+        this.guard.setLogger(Heirarchy.getLoggerFor("document.security"));
 
         this.manager.addComponent(DocumentRepository.ROLE, this.docs);
         this.manager.addComponent(GuardianComponent.ROLE, this.guard);
@@ -436,7 +437,7 @@ class ContainerComponent implements Component, Initializable, Disposable {
     role="org.apache.avalon.excalibur.datasource.DataSourceComponentSelector"
     class="org.apache.avalon.excalibur.component.ExcaliburComponentSelector">
      <component-instance name="documents"
-       class="org.apache.avalon.excalibur.datasource.JdbcDataSourceComponent">
+       class="org.apache.avalon.excalibur.datasource.JdbcDataSource">
          <pool-controller min="5" max="10"/>
          <auto-commit>false</auto-commit>
 	 <driver>org.mysql.MySqlDriver</driver>
@@ -445,7 +446,7 @@ class ContainerComponent implements Component, Initializable, Disposable {
          <password>test</password>
       </component-instance>
       <component-instance name="security"
-        class="org.apache.avalon.excalibur.datasource.JdbcDataSourceComponent">
+        class="org.apache.avalon.excalibur.datasource.JdbcDataSource">
          <pool-controller min="5" max="10"/>
          <auto-commit>false</auto-commit>
 	 <driver>org.mysql.MySqlDriver</driver>
