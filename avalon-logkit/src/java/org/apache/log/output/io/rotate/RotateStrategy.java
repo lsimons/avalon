@@ -7,6 +7,8 @@
  */
 package org.apache.log.output.io.rotate;
 
+import java.io.File;
+
 /**
  * Strategy that checks condition under which file rotation is needed.
  *
@@ -23,9 +25,11 @@ public interface RotateStrategy
     /**
      * Check if a log rotation is neccessary at this time.
      *
-     * @param data the last message written to the log system
+     * @param data the serialized version of last message written to the log system
+     * @param event the LogEvent that initiated last message
+     * @param file the File that we are writing to
      * @return boolean return true if log rotation is neccessary, else false
      */
-    boolean isRotationNeeded( String data );
+    boolean isRotationNeeded( String data, File file );
 }
 

@@ -7,6 +7,8 @@
  */
 package org.apache.log.output.io.rotate;
 
+import java.io.File;
+
 /**
  * rotation stragety based when log writting started.
  *
@@ -63,7 +65,7 @@ public class RotateStrategyByTime
      * @param data the last message written to the log system
      * @return boolean return true if log rotation is neccessary, else false
      */
-    public boolean isRotationNeeded( final String data ) 
+    public boolean isRotationNeeded( final String data, final File file ) 
     {
         final long newRotation = 
             (System.currentTimeMillis() - m_startingTime) / m_timeInterval;
