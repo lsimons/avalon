@@ -29,7 +29,7 @@ import org.apache.avalon.framework.thread.ThreadSafe;
 /**
  *
  * @author <a href="mailto:leif@silveregg.co.jp">Leif Mortenson</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/03/29 14:03:49 $
+ * @version CVS $Revision: 1.3 $ $Date: 2002/03/29 15:15:55 $
  * @since 4.1
  */
 public abstract class InstrumentComponentHandler
@@ -99,7 +99,8 @@ public abstract class InstrumentComponentHandler
                                                    context,
                                                    roleManager,
                                                    logkitManager,
-                                                   instrumentManager );
+                                                   instrumentManager,
+                                                   instrumentableName );
 
         InstrumentComponentHandler handler;
         if( Poolable.class.isAssignableFrom( componentClass ) )

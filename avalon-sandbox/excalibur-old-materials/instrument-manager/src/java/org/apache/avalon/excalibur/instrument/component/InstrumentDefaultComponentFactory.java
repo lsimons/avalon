@@ -21,13 +21,16 @@ import org.apache.avalon.framework.context.Context;
  * Factory for Avalon Instrumentable components.
  *
  * @author <a href="mailto:leif@silveregg.co.jp">Leif Mortenson</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/03/29 14:03:49 $
+ * @version CVS $Revision: 1.3 $ $Date: 2002/03/29 15:15:55 $
  * @since 4.0
  */
 public class InstrumentDefaultComponentFactory
     extends DefaultComponentFactory
 {
     private InstrumentManager m_instrumentManager;
+    
+    /** Instrumentable Name assigned to objects created by this factory. */
+    private String m_instrumentableName;
 
     /*---------------------------------------------------------------
      * Constructors
@@ -43,6 +46,7 @@ public class InstrumentDefaultComponentFactory
      *              <code>DefaultComponentSelector</code>s.
      * @param instrumentManager the <code>InstrumentManager</code> to register the component
      *                          with if it is a Instrumentable.
+     * @param instrumentableName The name of the handler.
      */
     public InstrumentDefaultComponentFactory( final Class componentClass,
                                               final Configuration configuration,
@@ -50,12 +54,14 @@ public class InstrumentDefaultComponentFactory
                                               final Context context,
                                               final RoleManager roles,
                                               final LogKitManager logkit,
-                                              final InstrumentManager instrumentManager )
+                                              final InstrumentManager instrumentManager,
+                                              final String instrumentableName )
 
     {
         super( componentClass, configuration, componentManager, context, roles, logkit );
 
         m_instrumentManager = instrumentManager;
+        m_instrumentableName = instrumentableName;
     }
 
 
@@ -88,9 +94,7 @@ public class InstrumentDefaultComponentFactory
         {
             getLogger().debug( "Doing instrument setup for: " + component );
             
-            String instrumentName = configuration.getAttribute( "instrumentable", configuration.getName() );
-            
-            m_instrumentManager.registerInstrumentable( (Instrumentable)component, instrumentName );
+            m_instrumentManager.registerInstrumentable( (Instrumentable)component, m_instrumentableName );
         }
     }
 
