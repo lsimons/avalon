@@ -59,7 +59,7 @@ import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.phoenix.framework.info.Attribute;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
-import org.apache.avalon.phoenix.components.ContainerConstants;
+import org.apache.avalon.phoenix.interfaces.ContainerConstants;
 import org.apache.avalon.phoenix.containerkit.metadata.ComponentMetaData;
 import org.apache.avalon.phoenix.containerkit.metadata.DependencyMetaData;
 import org.apache.avalon.phoenix.containerkit.metadata.MetaDataBuilder;
@@ -71,7 +71,7 @@ import org.apache.avalon.phoenix.containerkit.metadata.PartitionMetaData;
  * and is in the format specified for <tt>assembly.xml</tt> files.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.7 $ $Date: 2003/03/22 12:07:08 $
+ * @version $Revision: 1.8 $ $Date: 2003/03/23 00:19:48 $
  */
 public class Assembler
     extends AbstractLogEnabled
@@ -83,9 +83,9 @@ public class Assembler
     /**
      * Create a {@link PartitionMetaData} object based on specified
      * name and assembly configuration. This implementation takes two
-     * parameters. {@link ContainerConstants#ASSEMBLY_NAME} specifies
+     * parameters. {@link org.apache.avalon.phoenix.interfaces.ContainerConstants#ASSEMBLY_NAME} specifies
      * the name of the assembly and
-     * {@link ContainerConstants#ASSEMBLY_CONFIG} specifies the configuration
+     * {@link org.apache.avalon.phoenix.interfaces.ContainerConstants#ASSEMBLY_CONFIG} specifies the configuration
      * tree to use when assembling Partition.
      *
      * @param parameters the parameters for constructing assembly

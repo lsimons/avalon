@@ -70,7 +70,7 @@ import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
 import org.apache.avalon.phoenix.BlockContext;
-import org.apache.avalon.phoenix.components.ContainerConstants;
+import org.apache.avalon.phoenix.interfaces.ContainerConstants;
 import org.apache.avalon.phoenix.containerkit.metadata.PartitionMetaData;
 import org.apache.avalon.phoenix.containerkit.profile.ComponentProfile;
 import org.apache.avalon.phoenix.containerkit.profile.PartitionProfile;
@@ -303,7 +303,7 @@ public class DefaultDeployer
             //Load hierarchy before classloader placed in context as
             //that way the logFactory will not try to use the application
             //specific classloader to load the targets which will cause
-            //CastClassExceptions 
+            //CastClassExceptions
             final Logger logger =
                 m_logManager.createHierarchy( logs, context );
 
