@@ -48,13 +48,6 @@
     <!-- include the avalon-wide custom goal decorators from maven-common.xml -->
     <j:import file="${avalon.buildsystem}/maven-common.xml" inherit="true"/>
 
-    <preGoal name="java:compile">
-        <ant:property name="java.src.dir" location="${maven.build.dir}/src"/>
-        <ant:copy todir="${java.src.dir}">
-            <ant:fileset dir="${basedir}/src/java"/>
-            <ant:fileset dir="${basedir}/src/compat"/>
-        </ant:copy>
-    </preGoal>
 
     <postGoal name="avalon:deploy-upload">
         <!-- upload big jar -->
