@@ -13,7 +13,7 @@ package org.apache.avalon.excalibur.instrument.manager.interfaces;
  *  it is incremented.
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/04/03 13:18:30 $
+ * @version CVS $Revision: 1.3 $ $Date: 2002/04/22 09:52:34 $
  * @since 4.1
  */
 public interface CounterInstrumentListener
@@ -23,7 +23,8 @@ public interface CounterInstrumentListener
      * Called by a CounterInstrument whenever its value is incremented.
      *
      * @param instrumentName The name of Instrument which was incremented.
+     * @param count A positive integer to increment the counter by.
      * @param time The time that the Instrument was incremented.
      */
-    void increment( String instrumentName, long time );
+    void increment( String instrumentName, int count, long time );
 }
