@@ -93,16 +93,16 @@ import org.apache.excalibur.mpool.PoolManager;
  * Container's Manager can expose that to the instantiating class.
  *
  * @author <a href="mailto:avalon-dev@jakarta.apache.org">The Avalon Team</a>
- * @version CVS $Revision: 1.5 $ $Date: 2003/01/30 17:37:12 $
+ * @version CVS $Revision: 1.6 $ $Date: 2003/02/04 19:39:36 $
  */
 public abstract class AbstractContainer
     extends AbstractLogEnabled
     implements Contextualizable, Serviceable, Initializable, Disposable, Container
 {
     /** The hint map's entry to get the default component type */
-    protected static final String DEFAULT_ENTRY = "*";
+    public static final String DEFAULT_ENTRY = "*";
     /** The component map's entry to get a ServiceSelector */
-    protected static final String SELECTOR_ENTRY = "$";
+    public static final String SELECTOR_ENTRY = "$";
 
     /** contains the impl's context passed in through contextualize() */
     protected Context m_context;
@@ -280,29 +280,25 @@ public abstract class AbstractContainer
         {
             Map hintMap = (StaticBucketMap)m_mapper.get( role );
 
-
-            if( null == hintMap ) // never heard of this role before.
+            // Initialize the hintMap if it doesn't exist yet.
+            if( null == hintMap )
             {
                 hintMap = new StaticBucketMap();
                 hintMap.put( DEFAULT_ENTRY, handler );
                 m_mapper.put( role, hintMap );
             }
-            else // know it already. add something to the hintmap
-            {
-                hintMap.put( metaData.getName(), handler );
 
-                if( hintMap.containsKey( DEFAULT_ENTRY ) )
-                {
-                    if( !hintMap.containsKey( SELECTOR_ENTRY ) )
-                    {
-                        hintMap.put( SELECTOR_ENTRY,
-                                     new FortressServiceSelector( this, role ) );
-                    }
-                }
-                else
-                {
-                    hintMap.put( DEFAULT_ENTRY, handler );
-                }
+            hintMap.put( metaData.getName(), handler );
+
+            if( (! hintMap.containsKey( SELECTOR_ENTRY )) && (hintMap.size() > 1) )
+            {
+                hintMap.put( SELECTOR_ENTRY,
+                             new FortressServiceSelector( this, role ) );
+            }
+
+            if ( metaData.getConfiguration().getAttributeAsBoolean( "default", false ) )
+            {
+                hintMap.put( DEFAULT_ENTRY, handler );
             }
         }
     }
