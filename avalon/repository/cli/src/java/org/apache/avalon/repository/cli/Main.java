@@ -62,7 +62,7 @@ import org.apache.commons.cli.Options;
  * Merlin command line handler.
  * 
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class Main 
 {
@@ -89,6 +89,10 @@ public class Main
         Option help = new Option(
            "help",
            REZ.getString( "cli-help-description" ) );
+
+        Option verify = new Option(
+           "verify",
+           REZ.getString( "cli-verify-description" ) );
 
         Option version = new Option(
            "version",
@@ -143,6 +147,7 @@ public class Main
         options.addOption( home );
         options.addOption( cache );
         options.addOption( hosts );
+        options.addOption( verify );
         return options;
     }
 
@@ -174,22 +179,7 @@ public class Main
             }
             else if( line.hasOption( "help" ) )
             {
-                if( line.hasOption( "lang" ) )
-                {
-                    ResourceManager.clearResourceCache();
-                    String language = line.getOptionValue( "lang" );
-                    Locale locale = new Locale( language, "" );
-                    Locale.setDefault( locale );
-                    REZ = ResourceManager.getPackageResources( Main.class );
-                }
-
-                HelpFormatter formatter = new HelpFormatter();
-                formatter.printHelp( 
-                  "repository [artifact]", 
-                  " ", 
-                  buildCommandLineOptions(), 
-                  "", 
-                  true );
+                doHelp( line );
                 return;
             }
             else
@@ -221,6 +211,26 @@ public class Main
         }
     }
 
+    private static void doHelp( CommandLine line )
+    {
+        if( line.hasOption( "lang" ) )
+        {
+            ResourceManager.clearResourceCache();
+            String language = line.getOptionValue( "lang" );
+            Locale locale = new Locale( language, "" );
+            Locale.setDefault( locale );
+            REZ = ResourceManager.getPackageResources( Main.class );
+        }
+
+        HelpFormatter formatter = new HelpFormatter();
+        formatter.printHelp( 
+          "repository [artifact]", 
+          " ", 
+          buildCommandLineOptions(), 
+          "", 
+          true );
+    }
+
     //----------------------------------------------------------
     // constructor
     //----------------------------------------------------------
@@ -228,7 +238,6 @@ public class Main
    /**
     * Creation of a new kernel cli handler.
     * @param context the repository inital context
-    * @param artifact the merlin implementation artifact
     * @param line the command line construct
     * @exception Exception if an error occurs
     */
@@ -249,6 +258,14 @@ public class Main
         if( line.hasOption( "install" ) )
         {
             doInstall( context, line );
+        }
+        else if( line.hasOption( "verify" ) )
+        {
+            doVerify( context );
+        }
+        else
+        {
+            doHelp( line );
         }
     }
 
@@ -284,6 +301,15 @@ public class Main
             throw new RepositoryException( error, e );
         }
     }
+
+    private void doVerify( InitialContext context ) 
+      throws Exception
+    {
+        RepositoryVerifier verifier = 
+          new RepositoryVerifier( context );
+        verifier.verify();
+    }
+
 
     //----------------------------------------------------------
     // implementation
@@ -430,20 +456,29 @@ public class Main
     }
 
    /**
-    * Return the merlin home directory path.
+    * Return the installation directory path.
     * @return the merlin install directory path
     */
     private static String getAvalonHomePath()
+    {
+        return getHomePath( "AVALON_HOME", ".avalon" ); 
+    }
+
+   /**
+    * Return the merlin home directory path.
+    * @return the merlin install directory path
+    */
+    private static String getHomePath( final String var, final String dir )
     {
         try
         {
             String avalon = 
               System.getProperty( 
                 "avalon.home", 
-                Env.getEnvVariable( "AVALON_HOME" ) );
+                Env.getEnvVariable( var ) );
             if( null != avalon ) return avalon;
             return System.getProperty( "user.home" ) 
-              + File.separator + ".avalon";
+              + File.separator + dir;
         }
         catch( Throwable e )
         {

@@ -40,7 +40,7 @@ import org.apache.avalon.repository.provider.InitialContext;
  * 
  * @author <a href="mailto:aok123@bellsouth.net">Alex Karasulu</a>
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  */
 public abstract class AbstractBuilder
 {
@@ -86,7 +86,7 @@ public abstract class AbstractBuilder
     * </ul>
     * 
     * @param classloader the classloader
-    * @param factory the the factory classname
+    * @param clazz the the factory class
     * @param context the inital repository context
     * @return the instantiated factory
     * @exception RepositoryException if a factory creation error occurs

@@ -29,10 +29,16 @@ import org.apache.avalon.repository.RepositoryException;
  * The initial context established by an initial repository factory.
  *
  * @author <a href="mailto:mcconnell@osm.net">Stephen McConnell</a>
- * @version $Revision: 1.7 $ $Date: 2004/01/31 13:29:50 $
+ * @version $Revision: 1.8 $ $Date: 2004/02/17 11:06:17 $
  */
 public interface InitialContext
 {        
+   /**
+    * The property key used when resolving the default implementation
+    * artifact spec.
+    */
+    String IMPLEMENTATION_KEY = "avalon.repository.implementation";
+
    /**
     * The property key used when resolving the default cache directory.
     */

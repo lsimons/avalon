@@ -48,6 +48,7 @@
   ==============================================================================
   -->
 
+  <ant:property file="project.properties"/>
   <ant:property name="pom.specificationVersion" value="1.2"/>
   <ant:property name="pom.organization.identifier" value="ASF"/>
   <ant:property name="maven.docs.src" value="${basedir}/site/xdocs"/>
@@ -104,6 +105,7 @@
         </j:if>
       </j:if>
     </j:forEach>
+
   </goal>
 
   <!--
@@ -341,6 +343,24 @@
 
 
   <goal name="xjavadoc">
+
+    <maven:reactor basedir="${basedir}"
+      includes="**/project.xml"
+      excludes="project.xml,**/target/**,**/test/project.xml"
+      banner="Site Prep:"
+      ignoreFailures="false"
+      postProcessing="true" />
+
+    <ant:path id="template.classpath">
+      <j:forEach var="child" items="${reactorProjects}">
+        <j:set var="deps" value="${child.dependencies}"/>
+        <j:forEach var="dep" items="${deps}">
+          <ant:pathelement 
+            path="${maven.repo.local}/${dep.getArtifactDirectory()}/jars/${dep.getArtifact()}"/>
+        </j:forEach>
+      </j:forEach>
+    </ant:path>
+
     <ant:mkdir dir="${maven.build.dir}/docs/api" />
     <ant:property name="copyright"
       value="Copyright &amp;copy; ${year} ${pom.organization.name}. All Rights Reserved." />
@@ -352,19 +372,22 @@
       bottom="${copyright}"
       additionalparam="-breakiterator -J-Xmx128m "
       packagenames="*,org.*">
+
+        <classpath>
+          <path refid="template.classpath"/>
+	  </classpath>
+
         <j:forEach var="packageGroup" items="${pom.packageGroups}">
           <group title="${packageGroup.title}" packages="${packageGroup.packages}"/>
         </j:forEach>
-        <sourcepath path="${basedir}/api/src/java"/>
-        <sourcepath path="${basedir}/spi/src/java"/>
-        <sourcepath path="${basedir}/impl/src/java"/>
-        <sourcepath path="${basedir}/util/src/java"/>
-        <sourcepath path="${basedir}/main/src/java"/>
-        <sourcepath path="${basedir}/cli/src/java"/>
-        <classpath>
-          <path refid="maven.dependency.classpath"/>
-	  </classpath>
-	  <link href="http://java.sun.com/j2se/1.4.2/docs/api/" />
+
+        <j:forEach var="child" items="${reactorProjects}">
+          <sourcepath path="${child.file.parentFile}/src/java"/>
+        </j:forEach>
+
+	  <link href="${sun.j2se.link}" />
+	  <link href="${avalon.util.link}" />
+
     </ant:javadoc>
   </goal>
 

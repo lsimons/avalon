@@ -13,4 +13,16 @@
     </j:forEach>
   </preGoal>
 
+  <ant:property environment="env"/>
+  <ant:property name="merlinEnvironment" value="${env.MERLIN_HOME}"/>
+  <j:if test="${merlinEnvironment != ''}">
+    <ant:property name="merlin.home" value="${merlinEnvironment}"/>
+  </j:if>
+  <ant:property name="merlin.home" value="${user.home}/.merlin"/>
+
+  <goal name="update" prereqs="jar:install">
+    <copy file="${maven.build.dir}/${pom.artifactId}-${pom.currentVersion}.jar"
+      toDir="${merlin.home}/system/${pom.groupId}/jars"/>
+  </goal>
+
 </project>

@@ -81,6 +81,21 @@
     </release>
   </releases>
 
+  <packageGroups>
+    <packageGroup>
+      <title>API/SPI</title>
+      <packages>org.apache.avalon.repository,org.apache.avalon.repository.meta,org.apache.avalon.repository.provider</packages>
+    </packageGroup>
+    <packageGroup>
+      <title>Bootstrap and Standard Repository</title>
+      <packages>org.apache.avalon.repository.main,org.apache.avalon.repository.util,org.apache.avalon.repository.impl</packages>
+    </packageGroup>
+    <packageGroup>
+      <title>Suppliment</title>
+      <packages>org.apache.avalon.repository.cli,org.apache.avalon.repository.jmx</packages>
+    </packageGroup>
+  </packageGroups>
+
   <build>
 
     <nagEmailAddress>dev@avalon.apache.org</nagEmailAddress>
