@@ -122,10 +122,9 @@ public class InitializeTask extends SystemTask
         else
         {
             File local = resource.getArtifact( project, false );
+            getProject().log( "Local cache file: [" + local + "].");
+
             local.getParentFile().mkdirs();
-
-            getProject().log( "Local cache path: " + local );
-
             Copy copy = (Copy) project.createTask( "copy" );
             copy.setTaskName( getTaskName() );
             copy.setFile( source );
