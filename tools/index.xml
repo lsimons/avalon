@@ -6,7 +6,7 @@
     <info>
       <group>ant</group>
       <name>ant</name>
-      <version>1.6.1</version>
+      <version>1.6.2</version>
       <type>jar</type>
     </info>
     <gump>
@@ -20,7 +20,7 @@
     <info>
       <group>ant</group>
       <name>ant-nodeps</name>
-      <version>1.6.1</version>
+      <version>1.6.2</version>
       <type>jar</type>
     </info>
     <gump>
@@ -35,7 +35,7 @@
     <info>
       <group>ant</group>
       <name>ant-junit</name>
-      <version>1.6.1</version>
+      <version>1.6.2</version>
       <type>jar</type>
     </info>
     <gump>

@@ -138,7 +138,27 @@ public class Context extends Task
 
     public static final String SRC_TEST_KEY = "project.src.test";
 
+    /**
+    * the key for the include pattern for test cases
+    */
+    public static final String TEST_INCLUDES_KEY = "project.test.includes";
+    
+    /**
+    * default value
+    */
+    public static final String TEST_INCLUDES_VALUE = "**/*TestCase.java, **/*Test.java";
+    
+    /**
+    * the key for the exclude pattern for test cases
+    */
+    public static final String TEST_EXCLUDES_KEY = "project.test.excludes";
+
    /**
+    * default value
+    */
+    public static final String TEST_EXCLUDES_VALUE = "**/Abstract*.java, **/AllTest*.java";
+    
+    /**
     * The value of the default project.src.test property value.
     */
     public static final String SRC_TEST = "test";
@@ -316,6 +336,8 @@ public class Context extends Task
     private File m_temp;
     private File m_docs;
     private File m_test;
+    private String m_testIncludes;
+    private String m_testExcludes;
 
    /**
     * Creation of the context and association ofnthe context under the KEY key.
@@ -333,6 +355,8 @@ public class Context extends Task
         project.setNewProperty( SRC_MAIN_KEY, SRC_MAIN );
         project.setNewProperty( SRC_CONFIG_KEY, SRC_CONFIG );
         project.setNewProperty( SRC_TEST_KEY, SRC_TEST );
+        project.setNewProperty( TEST_INCLUDES_KEY, TEST_INCLUDES_VALUE );
+        project.setNewProperty( TEST_EXCLUDES_KEY, TEST_EXCLUDES_VALUE );
 
         project.setNewProperty( ETC_KEY, ETC_VALUE );
 
@@ -352,7 +376,8 @@ public class Context extends Task
         m_testClasses = setBuildPath( TEST_CLASSES );
         m_testReports = setBuildPath( TEST_REPORTS );
         m_docs = setBuildPath( DOCS );
-
+        m_testIncludes = setupTestIncludes(project.getProperty(TEST_INCLUDES_KEY));
+        m_testExcludes = setupTestExcludes(project.getProperty(TEST_EXCLUDES_KEY));
         project.addReference( KEY, this );
 
     }
@@ -454,6 +479,24 @@ public class Context extends Task
     public File getTestDirectory()
     {
         return m_test;
+    }
+    
+    /**
+    * Return the project test includes.
+    * @return the includes pattern
+    */
+    public String getTestIncludes()
+    {
+        return m_testIncludes;
+    }
+    
+    /**
+    * Return the project test excludes.
+    * @return the excludes pattern
+    */
+    public String getTestExcludes()
+    {
+        return m_testExcludes;
     }
 
    /**
@@ -558,6 +601,21 @@ public class Context extends Task
         if( null == path ) return new File( basedir, SRC_VALUE );
         return new File( basedir, path );
     }
+    
+    private static String setupTestIncludes( final String includes )
+    {
+        if( null == includes ) 
+            return TEST_INCLUDES_VALUE;
+        return includes;
+    }
+    
+    private static String setupTestExcludes( final String excludes )
+    {
+        if( null == excludes ) 
+            return TEST_EXCLUDES_VALUE;
+        return excludes;
+    }
+
 
     private static File setupEtc( final File basedir, final String path )
     {

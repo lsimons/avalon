@@ -146,7 +146,8 @@ public class Magic extends DataType
         m_signature = project.getProperty( GUMP_SIGNATURE_KEY );
         m_system = getSystemDirectory( project );
         project.setProperty( KEY, Context.getCanonicalPath( m_system ) );
-        File user = new File( m_system, "user.properties" );
+        File home = new File( System.getProperty( "user.home" ) );
+        File user = new File( home, "magic.properties" );
         loadProperties( project, user );
         File properties = new File( m_system, "magic.properties" );
         loadProperties( project, properties );
