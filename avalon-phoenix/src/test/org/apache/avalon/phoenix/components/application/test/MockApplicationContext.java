@@ -7,36 +7,37 @@
  */
 package org.apache.avalon.phoenix.components.application.test;
 
+import java.io.File;
 import java.io.InputStream;
 import java.util.HashMap;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.logger.Logger;
+import org.apache.avalon.phoenix.containerkit.registry.PartitionProfile;
 import org.apache.avalon.phoenix.interfaces.ApplicationContext;
-import org.apache.avalon.phoenix.metadata.SarMetaData;
 import org.apache.excalibur.threadcontext.ThreadContext;
 import org.apache.excalibur.threadcontext.impl.DefaultThreadContextPolicy;
 
 /**
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.4 $ $Date: 2003/01/25 15:47:18 $
+ * @version $Revision: 1.5 $ $Date: 2003/02/28 23:47:46 $
  */
 class MockApplicationContext
     implements ApplicationContext
 {
     private final ThreadContext m_threadContext = new ThreadContext( new DefaultThreadContextPolicy(), new HashMap() );
-    private final SarMetaData m_sarMetaData;
+    private final PartitionProfile m_sarMetaData;
     private final Logger m_logger;
 
-    public MockApplicationContext( final SarMetaData sarMetaData,
+    public MockApplicationContext( final PartitionProfile sarMetaData,
                                    final Logger logger )
     {
         m_sarMetaData = sarMetaData;
         m_logger = logger;
     }
 
-    public SarMetaData getPartitionProfile()
+    public PartitionProfile getPartitionProfile()
     {
         return m_sarMetaData;
     }
@@ -77,6 +78,11 @@ class MockApplicationContext
         throws ConfigurationException
     {
         throw new ConfigurationException( "I can't do that dave!" );
+    }
+
+    public File getHomeDirectory()
+    {
+        return new File( "." );
     }
 
     public ClassLoader getClassLoader( String name )
