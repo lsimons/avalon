@@ -23,7 +23,7 @@ limitations under the License.
 
   <groupId>&avalon-meta-id;</groupId>
   <id>&avalon-meta-id;</id>
-  <currentVersion>&avalon-meta-api-version;</currentVersion>
+  <currentVersion>&avalon-meta-version;</currentVersion>
 
   <name>Avalon Meta</name>
   <inceptionYear>2000</inceptionYear>
