@@ -8,21 +8,17 @@
 package org.apache.avalon.phoenix.components.phases;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import org.apache.avalon.excalibur.container.Container;
 import org.apache.avalon.excalibur.container.ContainerException;
 import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.component.ComponentException;
 import org.apache.avalon.framework.component.ComponentManager;
 import org.apache.avalon.framework.component.Composable;
-import org.apache.avalon.framework.logger.AbstractLoggable;
-import org.apache.avalon.phoenix.Block;
 import org.apache.avalon.phoenix.components.kapi.BlockEntry;
 import org.apache.avalon.phoenix.metadata.DependencyMetaData;
+import org.apache.avalon.phoenix.metadata.BlockMetaData;
 import org.apache.avalon.phoenix.metainfo.DependencyDescriptor;
 import org.apache.avalon.phoenix.metainfo.ServiceDescriptor;
-import org.apache.avalon.excalibur.i18n.ResourceManager;
-import org.apache.avalon.excalibur.i18n.Resources;
 
 /**
  * This is the dependency graph for blocks.
@@ -30,12 +26,8 @@ import org.apache.avalon.excalibur.i18n.Resources;
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
 public class BlockDAG
-    extends AbstractLoggable
     implements Component, Composable
 {
-    private static final Resources REZ =
-        ResourceManager.getPackageResources( BlockDAG.class );
-
     private Container       m_container;
 
     public void compose( final ComponentManager componentManager )
@@ -44,136 +36,106 @@ public class BlockDAG
         m_container = (Container)componentManager.lookup( Container.ROLE );
     }
 
-    public void walkGraph( final BlockVisitor visitor, final Traversal traversal )
+    public String[] walkGraph( final Traversal traversal )
         throws Exception
     {
+        final ArrayList result = new ArrayList();
+
         //temporary storage to record those
         //that are already traversed
-        final ArrayList completed = new ArrayList();
+        final ArrayList done = new ArrayList();
 
         final String[] entries = m_container.list();
         for( int i = 0; i < entries.length; i++ )
         {
             final String name = entries[ i ];
-            final BlockEntry entry = getBlockEntry( name );
-            visitBlock( name, entry, visitor, traversal, completed );
+            final BlockMetaData block = getBlock( name );
+            visitBlock( name, block, traversal, done, result );
         }
+
+        return (String[])result.toArray( new String[ 0 ] );
     }
 
-    private BlockEntry getBlockEntry( final String name )
+    private BlockMetaData getBlock( final String name )
         throws Exception
     {
-        return (BlockEntry)m_container.getEntry( name );
+        return ((BlockEntry)m_container.getEntry( name )).getMetaData();
     }
 
     /**
-     * Traverse dependencies of specified entry.
+     * Traverse dependencies of specified block.
      *
-     * @param name name of BlockEntry
-     * @param entry the BlockEntry
+     * @param name name of BlockMetaData
+     * @param block the BlockMetaData
      */
     private void visitDependencies( final String name,
-                                    final BlockEntry entry,
-                                    final BlockVisitor visitor,
-                                    final ArrayList completed )
+                                    final BlockMetaData block,
+                                    final ArrayList done,
+                                    final ArrayList order )
         throws Exception
     {
-        if( getLogger().isDebugEnabled() )
-        {
-            final String message = REZ.getString( "dag.notice.traverse.name", name );
-            getLogger().debug( message );
-        }
-
-        final DependencyDescriptor[] descriptors = entry.getMetaData().getBlockInfo().getDependencies();
+        final DependencyDescriptor[] descriptors = block.getBlockInfo().getDependencies();
         for( int i = 0; i < descriptors.length; i++ )
         {
             final ServiceDescriptor serviceDescriptor = descriptors[ i ].getService();
             final String role = descriptors[ i ].getRole();
-
-            if( getLogger().isDebugEnabled() )
-            {
-                final String message = 
-                    REZ.getString( "dag.notice.traverse.depend", name, role, serviceDescriptor.getName() );
-                getLogger().debug( message );
-            }
-
-            //roleEntry should NEVER be null as it is checked when
-            //entry is added to container
-            final DependencyMetaData dependencyMetaData = entry.getMetaData().getDependency( role );
+            final DependencyMetaData dependencyMetaData = block.getDependency( role );
             final String dependencyName = dependencyMetaData.getName();
-            final BlockEntry dependency = getBlockEntry( dependencyName );
-            visitBlock( dependencyName, dependency, visitor, Traversal.FORWARD, completed );
+            final BlockMetaData dependency = getBlock( dependencyName );
+            visitBlock( dependencyName, dependency, Traversal.FORWARD, done, order );
         }
     }
 
     /**
-     * Traverse all reverse dependencies of specified entry.
-     * A reverse dependency are those that dependend on entry.
+     * Traverse all reverse dependencies of specified block.
+     * A reverse dependency are those that dependend on block.
      *
-     * @param name name of BlockEntry
-     * @param entry the BlockEntry
+     * @param name name of BlockMetaData
+     * @param block the BlockMetaData
      */
     private void visitReverseDependencies( final String name,
-                                           final BlockVisitor visitor,
-                                           final ArrayList completed )
+                                           final ArrayList done,
+                                           final ArrayList order )
         throws Exception
     {
-        if( getLogger().isDebugEnabled() )
-        {
-            final String message = REZ.getString( "dag.notice.reverse.name", name );
-            getLogger().debug( message );
-        }
-
         final String[] names = m_container.list();
         for( int i = 0; i < names.length; i++ )
         {
             final String blockName = names[ i ];
-            final BlockEntry entry = getBlockEntry( blockName );
-            final DependencyMetaData[] roles = entry.getMetaData().getDependencies();
+            final BlockMetaData block = getBlock( blockName );
+            final DependencyMetaData[] roles = block.getDependencies();
 
             for( int j = 0; j < roles.length; j++ )
             {
                 final String depends = roles[ j ].getName();
-
                 if( depends.equals( name ) )
                 {
-                    if( getLogger().isDebugEnabled() )
-                    {
-                        final String message = 
-                            REZ.getString( "dag.notice.reverse.depend", 
-                                           name,
-                                           depends,
-                                           blockName );
-                        getLogger().debug( message );
-                    }
-
-                    //finally try to traverse block
-                    visitBlock( blockName, entry, visitor, Traversal.REVERSE, completed );
+                    visitBlock( blockName, block, Traversal.REVERSE, done, order );
                 }
             }
         }
     }
 
     private void visitBlock( final String name,
-                             final BlockEntry entry,
-                             final BlockVisitor visitor,
+                             final BlockMetaData block,
                              final Traversal traversal,
-                             final ArrayList completed )
+                             final ArrayList done,
+                             final ArrayList order )
         throws Exception
     {
         //If already visited this block then bug out early
-        if( completed.contains( name ) ) return;
-        completed.add( name );
+        if( done.contains( name ) ) return;
+        done.add( name );
 
         if( Traversal.FORWARD == traversal )
         {
-            visitDependencies( name, entry, visitor, completed );
+            visitDependencies( name, block, done, order );
         }
         else if( Traversal.REVERSE == traversal )
         {
-            visitReverseDependencies( name, visitor, completed );
+            visitReverseDependencies( name, done, order );
         }
 
-        visitor.visitBlock( name, entry );
+        order.add( name );
     }
 }
