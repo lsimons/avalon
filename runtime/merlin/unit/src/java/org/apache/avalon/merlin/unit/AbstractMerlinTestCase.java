@@ -55,7 +55,7 @@ public abstract class AbstractMerlinTestCase extends TestCase
     private static final String DEPLOYMENT_MODEL_CLASSNAME = 
       "org.apache.avalon.composition.model.DeploymentModel";
 
-    private static File getWorkDir()
+    private static File getWorkDirectory()
     {
         String path = System.getProperty( "project.dir" );
         if( null != path )
@@ -64,17 +64,23 @@ public abstract class AbstractMerlinTestCase extends TestCase
         }
         else
         {
-            path = System.getProperty( "basedir" );
-            if( null != path )
-            {
-                return new File( path );
-            }
-            else
-            {
-                return new File( System.getProperty( "user.dir" ) );
-            }
+            return getBaseDirectory();
         }
     }
+
+    private static File getBaseDirectory()
+    {
+        String path = System.getProperty( "basedir" );
+        if( null != path )
+        {
+            return new File( path );
+        }
+        else
+        {
+            return new File( System.getProperty( "user.dir" ) );
+        }
+    }
+
 
     //----------------------------------------------------------
     // immutable state
@@ -118,15 +124,15 @@ public abstract class AbstractMerlinTestCase extends TestCase
 
         try
         {
-            File basedir = getBaseDirectory();
+            File work = getWorkDirectory();
             File home = getHomeDirectory();
 
             Artifact artifact = DefaultBuilder.createImplementationArtifact( 
-              classloader, home, basedir, 
+              classloader, home, work, 
               MERLIN_PROPERTIES, IMPLEMENTATION_KEY );
 
             InitialContextFactory icFactory = 
-              new DefaultInitialContextFactory( "merlin", basedir );
+              new DefaultInitialContextFactory( "merlin", work );
             icFactory.setCacheDirectory( getCacheDirectory() );
 
             InitialContext context = icFactory.createInitialContext();
@@ -275,16 +281,23 @@ public abstract class AbstractMerlinTestCase extends TestCase
     {
         File base = getBaseDirectory();
         File classes = new File( base, "target/classes/BLOCK-INF/block.xml" );
-        if( classes.exists() )
+        File tests = new File( base, "target/test-classes/BLOCK-INF/block.xml" );
+        if( classes.exists() && tests.exists() )
+        {
+            return "target/classes,target/test-classes";
+        }
+        else if( classes.exists() )
         {
             return "target/classes";
         }
-        return null;
-    }
-
-    private File getBaseDirectory()
-    {
-        return getWorkDir();
+        else if( tests.exists() )
+        {
+            return "target/test-classes";
+        }
+        else
+        {
+            return null;
+        }
     }
 
     private File getHomeDirectory()
