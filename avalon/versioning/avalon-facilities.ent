@@ -1,8 +1,8 @@
 
-<!ENTITY avalon-db-id "cornerstone-db">
+<!ENTITY avalon-db-id "avalon-db">
 <!ENTITY avalon-db-api-id "avalon-db-api">
 <!ENTITY avalon-db-api-version "1.0.dev-0">
-<!ENTITY avalon-db-hsql-id "cornerstone-db-hsql">
+<!ENTITY avalon-db-hsql-id "avalon-db-hsql">
 <!ENTITY avalon-db-hsql-version "1.0.dev-0">
 
 <!ENTITY avalon-finder-id "avalon-finder">
