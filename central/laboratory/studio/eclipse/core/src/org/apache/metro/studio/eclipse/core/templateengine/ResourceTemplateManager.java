@@ -19,6 +19,9 @@ package org.apache.metro.studio.eclipse.core.templateengine;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Writer;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Set;
@@ -41,6 +44,7 @@ public class ResourceTemplateManager
 
     private Hashtable resourceTemplates = new Hashtable();
     private DirectoryTemplateManager directoryManager;
+    private static XStream xstream;
     
     final static String baseDir = MetroStudioCore.getDefault()
     .getPluginLocation().toString();
@@ -61,10 +65,9 @@ public class ResourceTemplateManager
             resourceFilePathName = getDefaultFilePathName();
         }
         
-        XStream xstream = new XStream(new DomDriver()); 
-        initXStream(xstream);
+        initXStream();
 
-        new DirectoryTemplateManager().addXStreamAliases(xstream);
+        DirectoryTemplateManager.addXStreamAliases(xstream);
         FileReader reader = null;
         try
         {
@@ -93,12 +96,14 @@ public class ResourceTemplateManager
     /**
      * @param xstream
      */
-    public static void initXStream(XStream xstream)
+    public static void initXStream()
     {
+        xstream = new XStream(new DomDriver());
         xstream.alias("ResourceTemplates", ResourceTemplateManager.class);
         xstream.alias("ResourceTemplate", ResourceTemplate.class);
         xstream.alias("Resource", Resource.class);
         xstream.alias("Library", Library.class);
+
     }
 
     public void addResourceTemplate(ResourceTemplate resource)
@@ -135,6 +140,7 @@ public class ResourceTemplateManager
      */
     public void importDirectoryTemplates(DirectoryTemplateManager dm)
     {
+        DirectoryTemplateManager.addXStreamAliases(xstream);
         directoryManager = dm;
     }
     
@@ -158,6 +164,22 @@ public class ResourceTemplateManager
     public Hashtable getResourceTemplates()
     {
         return resourceTemplates;
+    }
+
+    /**
+     * @param resourcesLocation
+     */
+    public void store(String resourcesLocation)
+    {
+        try
+        {
+            Writer out = new FileWriter(resourcesLocation);
+            xstream.toXML(this, out);
+        } catch (IOException e)
+        {
+            MetroStudioCore.log(e, "cant write xstream");
+        }
+        
     }
 
 }
