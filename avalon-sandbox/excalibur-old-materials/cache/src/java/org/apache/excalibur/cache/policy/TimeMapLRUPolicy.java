@@ -53,7 +53,10 @@ public class TimeMapLRUPolicy
     public void remove( final Object key )
     {
         Long time = (Long)m_keyToTimeMap.remove( key );
-        m_timeToKeyMap.remove( time );
+        if ( null != time )
+        {
+            m_timeToKeyMap.remove( time );
+        }
     }
 
     public Object selectVictim()
