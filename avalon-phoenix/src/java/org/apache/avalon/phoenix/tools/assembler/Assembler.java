@@ -30,7 +30,7 @@ import org.apache.avalon.phoenix.tools.infobuilder.BlockInfoBuilder;
  * and is in the format specified for <tt>assembly.xml</tt> files.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.20 $ $Date: 2002/09/06 11:20:22 $
+ * @version $Revision: 1.21 $ $Date: 2002/10/01 06:21:37 $
  */
 public class Assembler
     extends AbstractLogEnabled
@@ -166,7 +166,7 @@ public class Assembler
 
         try
         {
-            final Configuration info = ConfigurationBuilder.build( resource.toString() );
+            final Configuration info = ConfigurationBuilder.build( resource.toExternalForm() );
 
             return m_builder.build( classname, info );
         }
