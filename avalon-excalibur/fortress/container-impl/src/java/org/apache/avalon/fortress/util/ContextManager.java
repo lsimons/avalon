@@ -120,7 +120,7 @@ import java.util.Iterator;
  * and dispose of them properly when it itself is disposed .</p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.24 $ $Date: 2003/05/14 15:54:46 $
+ * @version CVS $Revision: 1.25 $ $Date: 2003/05/15 13:45:09 $
  * @since 4.1
  */
 public final class ContextManager
@@ -251,28 +251,18 @@ public final class ContextManager
     {
         try
         {
-            m_containerManagerContext.put( CONFIGURATION, m_rootContext.get( CONFIGURATION ) );
+            copyEntry(CONFIGURATION);
+            return;
         }
         catch ( ContextException ce )
         {
             final Configuration containerConfig = getConfiguration( CONFIGURATION, CONFIGURATION_URI );
+
             if ( containerConfig == null )
             {
-                // No config.
-                // Does the parent supply a logger manager?
-                try
-                {
-                    m_containerManagerContext.get( CONFIGURATION );
-
-                    // OK, done.
-                    return;
-                }
-                catch ( ContextException cex )
-                {
-                    getLogger().debug( "Could not initialize the Configuration", ce );
-                    // Guess there is none.
-                    return;
-                }
+                getLogger().debug( "Could not initialize the Configuration", ce );
+                // Guess there is none.
+                return;
             }
             else
             {
@@ -310,6 +300,7 @@ public final class ContextManager
     protected void copyEntry( final String key ) throws ContextException
     {
         m_containerManagerContext.put( key, m_rootContext.get( key ) );
+        m_childContext.put( key, null );
     }
 
     /**
@@ -371,16 +362,7 @@ public final class ContextManager
     {
         try
         {
-            m_childContext.put( Queue.ROLE, m_rootContext.get( Queue.ROLE ) );
-            return;
-        }
-        catch ( ContextException ce )
-        {
-        }
-
-        try
-        {
-            m_childContext.get( Queue.ROLE );
+            m_rootContext.get( Queue.ROLE );
             return;
         }
         catch ( ContextException ce )
@@ -475,7 +457,7 @@ public final class ContextManager
     {
         try
         {
-            m_childContext.put( PoolManager.ROLE, m_rootContext.get( PoolManager.ROLE ) );
+            m_rootContext.get( PoolManager.ROLE );
             return;
         }
         catch ( ContextException ce )
@@ -496,7 +478,7 @@ public final class ContextManager
     {
         try
         {
-            m_childContext.put( RoleManager.ROLE, m_rootContext.get( RoleManager.ROLE ) );
+            m_rootContext.get( RoleManager.ROLE );
             return;
         }
         catch ( ContextException ce )
@@ -510,20 +492,9 @@ public final class ContextManager
 
         if ( roleConfig == null )
         {
-            // See if we can inherit from the parent...
-            try
-            {
-                m_childContext.get( RoleManager.ROLE );
-
-                // OK, done.
-                return;
-            }
-            catch ( ContextException ce )
-            {
-                getLogger().debug( "Could not initialize the RoleManager", ce );
-                // No RoleManager available anywhere.
-                roleConfig = EMPTY_CONFIG;
-            }
+            getLogger().debug( "Could not initialize the RoleManager, no configuration" );
+            // No RoleManager available anywhere.
+            roleConfig = EMPTY_CONFIG;
         }
 
         // Get the context Logger Manager
@@ -534,20 +505,20 @@ public final class ContextManager
             roleConfig.getAttribute( "logger", "system.roles" ) );
 
         // Lookup the context class loader
-        final ClassLoader classLoader = (ClassLoader) m_containerManagerContext.get( ClassLoader.class.getName() );
+        final ClassLoader classLoader = (ClassLoader) m_rootContext.get( ClassLoader.class.getName() );
 
         // Create a parent role manager with all the default roles
-        final FortressRoleManager erm = new FortressRoleManager( null, classLoader );
-        erm.enableLogging( rmLogger.getChildLogger( "defaults" ) );
-        erm.initialize();
+        final FortressRoleManager frm = new FortressRoleManager( null, classLoader );
+        frm.enableLogging( rmLogger.getChildLogger( "defaults" ) );
+        frm.initialize();
 
         // Create a role manager with the configured roles
-        final ConfigurableRoleManager rm = new ConfigurableRoleManager();
+        final ConfigurableRoleManager rm = new ConfigurableRoleManager(frm);
         rm.enableLogging( rmLogger );
         rm.configure( roleConfig );
 
         assumeOwnership( rm );
-        m_childContext.put( org.apache.avalon.fortress.RoleManager.ROLE, rm );
+        m_childContext.put( RoleManager.ROLE, rm );
     }
 
     /**
@@ -559,7 +530,7 @@ public final class ContextManager
     {
         try
         {
-            m_childContext.put( MetaInfoManager.ROLE, m_rootContext.get( MetaInfoManager.ROLE ) );
+            m_rootContext.get( MetaInfoManager.ROLE );
             return;
         }
         catch ( ContextException ce )
@@ -575,7 +546,7 @@ public final class ContextManager
         final Logger rmLogger = loggerManager.getLoggerForCategory( "system.meta" );
 
         // Lookup the context class loader
-        final ClassLoader classLoader = (ClassLoader) m_containerManagerContext.get( ClassLoader.class.getName() );
+        final ClassLoader classLoader = (ClassLoader) m_rootContext.get( ClassLoader.class.getName() );
 
         // Create a parent role manager with all the default roles
         final ServiceMetaManager smm = new ServiceMetaManager( new Role2MetaInfoManager( (RoleManager) m_childContext.get( RoleManager.ROLE ) ), classLoader );
@@ -748,22 +719,9 @@ public final class ContextManager
                 getConfiguration( LOGGER_MANAGER_CONFIGURATION, LOGGER_MANAGER_CONFIGURATION_URI );
             if ( loggerManagerConfig == null )
             {
-                // No config specified.
-
-                // Does the parent supply a logger manager?
-                try
-                {
-                    m_childContext.get( LoggerManager.ROLE );
-
-                    // OK, done.
-                    return;
-                }
-                catch ( ContextException cex )
-                {
-                    // The parent did not supply a Logger Manager, so create an empty
-                    //  configuration so that a default logger can be created.
-                    loggerManagerConfig = EMPTY_CONFIG;
-                }
+                // Create an empty configuration so that
+                // a default logger can be created.
+                loggerManagerConfig = EMPTY_CONFIG;
             }
 
             // Resolve a name for the logger, taking the logPrefix into account
@@ -823,7 +781,7 @@ public final class ContextManager
         {
             // Try copying an already existing instrument manager from the override context.
 
-            m_childContext.put( InstrumentManager.ROLE, m_rootContext.get( InstrumentManager.ROLE ) );
+            m_rootContext.get( InstrumentManager.ROLE );
         }
         catch ( ContextException ce )
         {
@@ -833,18 +791,6 @@ public final class ContextManager
             if ( instrumentConfig == null )
             {
                 // No config.
-                // Does the parent supply a logger manager?
-                try
-                {
-                    m_childContext.get( InstrumentManager.ROLE );
-
-                    // OK, done.
-                    return;
-                }
-                catch ( ContextException cex )
-                {
-                }
-
                 instrumentConfig = EMPTY_CONFIG;
             }
 
