@@ -12,7 +12,7 @@
     <property file="ant.properties"/>
     <property file="../ant.properties"/>
     <property file="${user.home}/.ant.properties"/>
-    
+
     <!-- Settings used to configure compile environment -->
     <property name="build.debug" value="on"/>
     <property name="build.optimize" value="off"/>
@@ -23,6 +23,7 @@
     <!-- location of intermediate products -->
     <property name="build.dir" value="${basedir}/build"/>
     <property name="build.lib" value="${build.dir}/lib"/>
+    <property name="build.conf" value="${build.dir}/conf"/>
     <property name="build.classes" value="${build.dir}/classes"/>
     <property name="build.genjava" value="${build.dir}/genjava"/>
     <property name="build.tests" value="${build.dir}/tests"/>
@@ -31,6 +32,7 @@
     <!-- Set the properties for source directories -->
     <property name="src.dir" value="${basedir}/src"/>
     <property name="java.dir" value="${src.dir}/java"/>
+    <property name="conf.dir" value="${src.dir}/conf"/>
     <property name="test.dir" value="${src.dir}/test"/>
 
     <!-- Set the properties for distribution directories -->
@@ -38,7 +40,7 @@
     <property name="dist.javadocs" value="${dist.dir}/docs/api"/>
 
     <!-- property to specify name of zip/jar files -->
-    <property name="dist.name" value="excalibur-${name}-${version}"/>
+    <property name="dist.name" value="${name}-${version}"/>
 
     <!-- property indicating directory where all distribution archives are placed -->
     <property name="dist.base" value="distributions"/>
@@ -56,7 +58,7 @@
         <pathelement location="${junit.jar}"/>
         <pathelement location="${checkstyle.jar}"/>
     </path>
-    
+
     <taskdef name="altrmiproxies"
         classname="org.apache.commons.altrmi.generator.ant.AltrmiProxyTask">
         <classpath refid="project.class.path" />
@@ -67,6 +69,7 @@
 
     <!-- Compiles the source code -->
     <target name="compile" description="Compiles the source code">
+
         <mkdir dir="${build.classes}"/>
 
         <!-- Compile all classes including the tests. -->
@@ -95,6 +98,20 @@
         </copy>
 
     </target>
+
+    <!-- Copies and filters the manifest and license. Used by jar and dist -->
+    <target name="prepare-conf">
+        <mkdir dir="${build.conf}"/>
+        <copy todir="${build.conf}" flatten="true">
+            <fileset dir="../" includes="LICENSE.txt"/>
+            <fileset dir="${conf.dir}" includes="MANIFEST.MF"/> 
+            <filterset>
+                <filtersfile file="project.properties"/>
+            </filterset>
+        </copy>
+    </target>
+
+ 
     
     <!-- Generates the altrmi proxies used by the client. -->
     <target name="altrmiproxies" depends="compile">
@@ -117,15 +134,16 @@
     </target>
 
     <!-- Creates all the .jar file -->
-    <target name="jar" depends="compile, altrmiproxies" description="Generates the jar files">
+    <target name="jar" depends="compile, prepare-conf, altrmiproxies" description="Generates the jar files">
 
         <mkdir dir="${build.lib}"/>
 
         <jar jarfile="${build.lib}/${dist.name}.jar"
             basedir="${build.classes}"
-            compress="${build.compress}">
+            compress="${build.compress}"
+            manifest="${build.conf}/MANIFEST.MF">
             <exclude name="**/test/**"/>
-            <zipfileset dir=".." prefix="META-INF/">
+            <zipfileset dir="${build.conf}" prefix="META-INF/">
                 <include name="LICENSE.txt"/>
             </zipfileset>
         </jar>
@@ -154,15 +172,15 @@
     </target>
 
     <target name="test" depends="compile" description="Perform the unit tests">
-        
+
         <echo message="Performing Unit Tests" />
-        
+
         <mkdir dir="${build.tests}"/>
-        
-        <junit fork="true" 
-               haltonfailure="${junit.failonerror}"
-               printsummary="yes" 
-               dir="${build.tests}">
+
+        <junit fork="true"
+            haltonfailure="${junit.failonerror}"
+            printsummary="yes"
+            dir="${build.tests}">
             <classpath refid="project.class.path"/>
 
             <formatter type="xml"/>    <!-- xml reports for junitreport -->
@@ -175,13 +193,13 @@
                 </fileset>
             </batchtest>
         </junit>
-        
+
     </target>
 
     <target name="test-reports" depends="test" description="Generate Reports for the unit tests">
-        
+
         <mkdir dir="${build.reports}/junit"/>
-        
+
         <junitreport todir="${build.reports}/junit">
             <fileset dir="${build.tests}">
                 <include name="TEST-*.xml"/>
@@ -196,11 +214,11 @@
             <fileset dir="${build.tests}" includes="TESTS-*.xml"/>
         </delete>
         -->
-        
+
     </target>
 
     <target name="checkstyle" if="do.checkstyle" description="Checkstyle">
-    
+
         <!-- this invocation of checkstyle requires that checkstyle be downloaded and setup -->
         <!-- thats why you are required to define do.checkstyle property to generate the report -->
         <taskdef name="checkstyle"
@@ -236,10 +254,10 @@
         </checkstyle>
     </target>
 
-    <target name="checkstyle-report" 
-            depends="checkstyle" 
-            if="do.checkstyle" 
-            description="Generate Checkstyle Report">
+    <target name="checkstyle-report"
+        depends="checkstyle"
+        if="do.checkstyle"
+        description="Generate Checkstyle Report">
 
         <mkdir dir="${build.reports}/checkstyle"/>
         <property name="checkstyle.pathhack" location="."/>
@@ -249,14 +267,15 @@
     </target>
 
     <!-- Creates the distribution -->
-    <target name="dist" 
-            depends="jar, test-reports, checkstyle-report, javadocs" 
-            description="Generates the jar files">
+    <target name="dist"
+        depends="prepare-conf, jar, test-reports, checkstyle-report, javadocs"
+        description="Generates the jar files">
 
         <mkdir dir="${dist.dir}"/>
         <copy file="${build.lib}/${dist.name}.jar" todir="${dist.dir}"/>
-        <copy file="../LICENSE.txt" todir="${dist.dir}"/>
+        <copy file="${build.conf}/LICENSE.txt" todir="${dist.dir}"/>
         <copy file="../KEYS" todir="${dist.dir}"/>
+        <copy file="README.txt" todir="${dist.dir}"/>
 
         <mkdir dir="${dist.base}"/>
 
@@ -264,6 +283,27 @@
             <zipfileset dir="${dist.dir}" prefix="${dist.name}"/>
         </zip>
 
+        <!--
+          Not supported by released ant but when it is we should enable this across
+          all of the products
+        <tar longfile="gnu" tarfile="${dist.base}/${dist.name}-bin.tar">
+          <tarfileset dir="${dist.dir}"
+                      prefix="${dist.name}"
+                      username="avalon"
+                      group="avalon"/>
+        </tar>
+
+        <gzip zipfile="${dist.base}/${dist.name}-bin.tar.gz"
+              src="${dist.name}-bin.tar"/>
+        <bzip2 zipfile="${dist.base}/${dist.name}-bin.tar.gz"
+               src="${dist.name}-bin.tar"/>
+
+        <delete file="${dist.base}/${dist.name}-bin.tar"/>
+
+        <checksum fileext=".md5">
+          <fileset dir="${dist.base}" />
+        </checksum>
+        -->
         <delete dir="${dist.dir}" />
 
     </target>
