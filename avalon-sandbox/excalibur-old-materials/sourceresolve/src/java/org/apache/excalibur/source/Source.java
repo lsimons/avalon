@@ -57,6 +57,7 @@ package org.apache.excalibur.source;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collection;
+import java.util.Iterator;
 
 /**
  * Description of a source. This interface provides a simple interface
@@ -98,7 +99,7 @@ import java.util.Collection;
  * validity object must be the same until discardValidity is called!
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.10 $ $Date: 2003/01/08 12:09:32 $
+ * @version CVS $Revision: 1.11 $ $Date: 2003/01/08 21:33:51 $
  */
 public interface Source
 {

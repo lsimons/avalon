@@ -66,6 +66,7 @@ import java.net.URLConnection;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.Map;
 
 import org.apache.excalibur.source.*;
@@ -77,7 +78,7 @@ import org.apache.excalibur.source.impl.validity.TimeStampValidity;
  * FIXME: Get mime-type
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.16 $ $Date: 2003/01/08 12:09:32 $
+ * @version CVS $Revision: 1.17 $ $Date: 2003/01/08 21:33:50 $
  */
 public class URLSource
     extends AbstractSource
