@@ -1,0 +1,10 @@
+
+<type>
+  <info>
+    <name>componet-b</name>
+    <lifestyle>singleton</lifestyle>
+  </info>
+  <services>
+    <service type="org.apache.avalon.composition.model.testb.B"/>
+  </services>
+</type>

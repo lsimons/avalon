@@ -1,0 +1,9 @@
+
+<targets>
+  <target path="/root/hello">
+    <configuration>
+      <source>Custom configuration.</source>
+    </configuration>
+  </target>
+</targets>
+

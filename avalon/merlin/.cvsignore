@@ -1,0 +1,10 @@
+maven.log
+velocity.log
+build.properties
+target
+logs
+build.xml
+TODO.TXT
+bin
+config
+lib

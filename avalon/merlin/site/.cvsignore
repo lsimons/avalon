@@ -1,0 +1,8 @@
+maven.log
+velocity.log
+build.xml
+build.properties
+build.properties~
+target
+maven.log
+docs

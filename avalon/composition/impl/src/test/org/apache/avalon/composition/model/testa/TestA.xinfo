@@ -1,0 +1,20 @@
+
+<type>
+  <info>
+    <name>component-a</name>
+    <lifestyle>singleton</lifestyle>
+  </info>
+  <context type="org.apache.avalon.composition.model.testa.Facade">
+    <entry key="urn:avalon:partition"/>
+    <entry key="urn:avalon:classloader"/>
+    <entry key="urn:avalon:home"/>
+    <entry key="urn:avalon:temp"/>
+    <entry key="urn:avalon:name" alias="name"/>
+    <entry key="home" type="java.io.File"/>
+    <entry key="time" type="java.util.Date" volatile="true"/>
+    <entry key="path"/>
+  </context>
+  <services>
+    <service type="org.apache.avalon.composition.model.testa.A"/>
+  </services>
+</type>

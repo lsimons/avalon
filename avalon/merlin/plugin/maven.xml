@@ -1,0 +1,12 @@
+<project default="jar:install" xmlns:maven="jelly:maven" xmlns:j="jelly:core" xmlns:util="jelly:util" xmlns:ant="jelly:ant">
+
+  <preGoal name="jar:jar">
+    <maven:snapshot project="${pom}"/>
+    <j:set var="timestamp" value="${snapshotSignature.substring(pom.artifactId.length)}"/>
+    <ant:property name="merlin.timestamp" value="${timestamp}"/>
+<ant:echo file="${basedir}/snapshot.properties">
+build.signature = ${snapshotSignature}
+</ant:echo>
+  </preGoal>
+
+</project>

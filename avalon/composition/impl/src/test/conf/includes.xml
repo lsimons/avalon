@@ -1,0 +1,10 @@
+
+<container>
+
+  <include name="test" id="test:includes">
+    <target path="primary/block/test">
+      <categories priority="DEBUG"/>
+    </target>
+  </include>
+
+</container>
