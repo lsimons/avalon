@@ -2,15 +2,6 @@
 <project default="jar:install" xmlns:maven="jelly:maven" xmlns:j="jelly:core" xmlns:util="jelly:util" xmlns:ant="jelly:ant">
 
   <!--
-  Add the merlin.properties file.
-  -->
-  <postGoal name="java:compile">
-    <mkdir dir="${maven.build.dir}/classes"/>
-    <ant:copy file="${maven.repo.local}/${pom.groupId}/properties/merlin.properties" 
-       toDir="${maven.build.dir}/classes" verbose="yes"/>
-  </postGoal>
-
-  <!--
   Aggregate dependent jars into the jar created by this project so that we 
   has a single reference jar file for convinient deployment.
   -->
