@@ -173,39 +173,52 @@ public interface Configuration
     Configuration getChild( String child );
 
     /**
-     * Return a new <code>Configuration</code> instance encapsulating the
-     * specified child node.
+     * Return a <code>Configuration</code> instance encapsulating the specified
+     * child node.
      *
      * @pre child != null
      * @post getConfiguration() != null
      *
      * @param child The name of the child node.
+     * @param createNew If <code>true</code>, a new <code>Configuration</code>
+     * will be created and returned if the specified child does not exist. If
+     * <code>false</code>, <code>null</code> will be returned when the specified
+     * child doesn't exist.
      * @return Configuration
      */
     Configuration getChild( String child, boolean createNew );
 
     /**
      * Return an <code>Array</code> of <code>Configuration</code>
-     * elements containing all node children.
+     * elements containing all node children. The array order will reflect the
+     * order in the source config file.
      *
-     * @return The child nodes with name
+     * @return All child nodes 
      */
     Configuration[] getChildren();
 
     /**
      * Return an <code>Array</code> of <code>Configuration</code>
-     * elements containing all node children with the specified name.
+     * elements containing all node children with the specified name. The array
+     * order will reflect the order in the source config file.
      *
      * @pre name != null
      * @post getConfigurations() != null
      *
      * @param name The name of the children to get.
-     * @return The child nodes with name
+     * @return The child nodes with name <code>name</code>
      */
     Configuration[] getChildren( String name );
 
     /**
      * Return an array of all attribute names.
+     * <p>
+     * <em>The order of attributes in this array can not be relied on.</em> As
+     * with XML, a <code>Configuration</code>'s attributes are an
+     * <em>unordered</em> set. If your code relies on order, eg
+     * <tt>conf.getAttributeNames()[0]</tt>, then it is liable to break if a
+     * different XML parser is used.
+     * </p>
      */
     String[] getAttributeNames();
 
