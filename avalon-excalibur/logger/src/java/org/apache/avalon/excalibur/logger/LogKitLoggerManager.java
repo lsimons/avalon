@@ -60,6 +60,7 @@ import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.logger.LogEnabled;
 import org.apache.avalon.framework.logger.LogKitLogger;
 import org.apache.avalon.framework.logger.Logger;
+import org.apache.avalon.framework.container.ContainerUtil;
 import org.apache.log.Hierarchy;
 import org.apache.log.LogTarget;
 import org.apache.log.Priority;
@@ -70,7 +71,8 @@ import org.apache.log.Priority;
  *
  * @author <a href="mailto:giacomo@apache.org">Giacomo Pati</a>
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.8 $ $Date: 2002/10/02 01:47:02 $
+ * @author <a href="mailto:proyal@apache.org">Peter Royal</a>
+ * @version CVS $Revision: 1.9 $ $Date: 2002/10/07 17:50:05 $
  * @since 4.0
  */
 public class LogKitLoggerManager
@@ -229,7 +231,10 @@ public class LogKitLoggerManager
 
         final Configuration categories = configuration.getChild( "categories" );
         final Configuration[] category = categories.getChildren( "category" );
-        setupLoggers( targetManager, m_prefix, category );
+        setupLoggers( targetManager,
+                      m_prefix,
+                      category,
+                      categories.getAttributeAsBoolean( "additive", false ) );
     }
 
     /**
@@ -242,24 +247,19 @@ public class LogKitLoggerManager
         throws ConfigurationException
     {
         final DefaultLogTargetFactoryManager targetFactoryManager = new DefaultLogTargetFactoryManager();
-        if( targetFactoryManager instanceof LogEnabled )
+
+        ContainerUtil.enableLogging( targetFactoryManager, m_logger );
+
+        try
         {
-            targetFactoryManager.enableLogging( m_logger );
+            ContainerUtil.contextualize( targetFactoryManager, m_context );
+        }
+        catch( final ContextException ce )
+        {
+            throw new ConfigurationException( "cannot contextualize default factory manager", ce );
         }
 
-        if( targetFactoryManager instanceof Contextualizable )
-        {
-            try
-            {
-                targetFactoryManager.contextualize( m_context );
-            }
-            catch( final ContextException ce )
-            {
-                throw new ConfigurationException( "cannot contextualize default factory manager", ce );
-            }
-        }
-
-        targetFactoryManager.configure( configuration );
+        ContainerUtil.configure( targetFactoryManager, configuration );
 
         return targetFactoryManager;
     }
@@ -276,20 +276,14 @@ public class LogKitLoggerManager
     {
         final DefaultLogTargetManager targetManager = new DefaultLogTargetManager();
 
-        if( targetManager instanceof LogEnabled )
-        {
-            targetManager.enableLogging( m_logger );
-        }
+        ContainerUtil.enableLogging( targetManager, m_logger );
 
         if( targetManager instanceof LogTargetFactoryManageable )
         {
             targetManager.setLogTargetFactoryManager( targetFactoryManager );
         }
 
-        if( targetManager instanceof Configurable )
-        {
-            targetManager.configure( configuration );
-        }
+        ContainerUtil.configure( targetManager, configuration );
 
         return targetManager;
     }
@@ -330,18 +324,21 @@ public class LogKitLoggerManager
     /**
      * Setup Loggers
      *
-     * @param categories []  The array object of configurations for categories.
+\     * @param categories []  The array object of configurations for categories.
      * @throws ConfigurationException if the configuration is malformed
      */
     private final void setupLoggers( final LogTargetManager targetManager,
                                      final String parentCategory,
-                                     final Configuration[] categories )
+                                     final Configuration[] categories,
+                                     final boolean defaultAdditive )
         throws ConfigurationException
     {
         for( int i = 0; i < categories.length; i++ )
         {
             final String category = categories[ i ].getAttribute( "name" );
             final String loglevel = categories[ i ].getAttribute( "log-level" ).toUpperCase();
+            final boolean additive = categories[i].getAttributeAsBoolean( "additive",
+                                                                          defaultAdditive );
 
             final Configuration[] targets = categories[ i ].getChildren( "log-target" );
             final LogTarget[] logTargets = new LogTarget[ targets.length ];
@@ -367,11 +364,12 @@ public class LogKitLoggerManager
             }
             logger.setPriority( Priority.getPriorityForName( loglevel ) );
             logger.setLogTargets( logTargets );
+            logger.setAdditivity( additive );
 
             final Configuration[] subCategories = categories[ i ].getChildren( "category" );
             if( null != subCategories )
             {
-                setupLoggers( targetManager, fullCategory, subCategories );
+                setupLoggers( targetManager, fullCategory, subCategories, defaultAdditive );
             }
         }
     }
