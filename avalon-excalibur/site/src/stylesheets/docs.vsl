@@ -40,11 +40,11 @@
 #end
 
 #macro (document)
-  #header
+  #header()
   #set ($allSections = $root.getChild("body").getChildren("section"))
   #foreach ( $section in $allSections )
     #section ($section)
   #end
-  #footer
+  #footer()
 #end
 
