@@ -9,8 +9,8 @@ package org.apache.avalon.phoenix.launcher;
 
 import com.silveregg.wrapper.WrapperListener;
 import com.silveregg.wrapper.WrapperManager;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.util.Observer;
+import java.util.Observable;
 import java.util.Hashtable;
 
 /**
@@ -20,7 +20,7 @@ import java.util.Hashtable;
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 public class DaemonLauncher
-    implements WrapperListener, ActionListener
+    implements WrapperListener, Observer
 {
     public Integer start( final String[] args )
     {
@@ -28,7 +28,7 @@ public class DaemonLauncher
         WrapperManager.signalStarting( 45000 );
 
         final Hashtable data = new Hashtable();
-        data.put( ActionListener.class.getName(), this );
+        data.put( Observer.class.getName(), this );
 
         if ( WrapperManager.isDebugEnabled() )
         {
@@ -85,14 +85,14 @@ public class DaemonLauncher
     }
 
     /**
-     * We use an ActionListener rather than operating on some more meaningful
-     * event system as ActionListener and friends can be loaded from system
+     * We use an Observer rather than operating on some more meaningful
+     * event system as Observer and friends can be loaded from system
      * ClassLoader and thus the Embeddor does not have to share a common
      * classloader ancestor with invoker
      */
-    public void actionPerformed( final ActionEvent action )
+    public void update( final Observable observable, final Object arg )
     {
-        final String command = action.getActionCommand();
+        final String command = ( null != arg ) ? arg.toString() : "";
         if( command.equals( "restart" ) )
         {
             if ( WrapperManager.isDebugEnabled() )
