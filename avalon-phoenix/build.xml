@@ -250,8 +250,8 @@ Legal:
     </target>
     <target name="get-wrapper-unix" if="is.Unix">
         <mkdir dir="${repo.dir}/wrapper"/>
-        <get src="http://telia.dl.sourceforge.net/sourceforge/wrapper/${wrapper.dist.name}.zip"
-            dest="${repo.dir}/wrapper/${wrapper.dist.name}.zip"
+        <get src="http://telia.dl.sourceforge.net/sourceforge/wrapper/${wrapper.dist.name}.tar.gz"
+            dest="${repo.dir}/wrapper/${wrapper.dist.name}.tar.gz"
             verbose="true"
             usetimestamp="true"/>
         <gunzip src="${repo.dir}/wrapper/${wrapper.dist.name}.tar.gz" dest="${repo.dir}/wrapper"/>
@@ -281,6 +281,9 @@ Legal:
         <copy file="${repo.dir}/wrapper/bin/libwrapper.so" todir="${bin.dist.bin}"/>
         
         <copy file="${phoenix-wrapper.sh}" tofile="${bin.dist.bin}/phoenix-wrapper.sh"/>
+	<chmod file="${bin.dist.bin}/*.sh" perm="u+x"/>
+	<chmod file="${bin.dist.bin}/realpath" perm="u+x"/>
+	<chmod file="${bin.dist.bin}/wrapper" perm="u+x"/>
     </target>
     <target name="dist-lite-wrapper" depends="dist-lite-wrapper-windows, dist-lite-wrapper-unix"
         if="wrapper.present"
