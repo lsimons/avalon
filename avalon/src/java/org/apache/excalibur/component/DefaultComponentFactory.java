@@ -7,8 +7,7 @@
  */
 package org.apache.excalibur.component;
 
-import org.apache.avalon.Startable;
-import org.apache.avalon.Stoppable;
+import org.apache.avalon.activity.Startable;
 import org.apache.avalon.activity.Disposable;
 import org.apache.avalon.activity.Initializable;
 import org.apache.avalon.component.ComponentManager;
@@ -29,7 +28,7 @@ import org.apache.excalibur.pool.Poolable;
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:paul@luminas.co.uk">Paul Russell</a>
- * @version CVS $Revision: 1.2 $ $Date: 2001/04/25 14:24:38 $
+ * @version CVS $Revision: 1.3 $ $Date: 2001/04/25 17:34:28 $
  */
 public class DefaultComponentFactory
     extends AbstractLoggable
@@ -131,9 +130,9 @@ public class DefaultComponentFactory
         getLogger().debug( "ComponentFactory decommissioning instance of " +
                            m_componentClass.getName() + "." );
 
-        if( component instanceof Stoppable )
+        if( component instanceof Startable )
         {
-            ((Stoppable)component).stop();
+            ((Startable)component).stop();
         }
 
         if( component instanceof Disposable )
