@@ -31,7 +31,7 @@ import org.apache.excalibur.instrument.manager.interfaces.NoSuchInstrumentSample
 /**
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.8 $ $Date: 2004/03/06 14:01:28 $
+ * @version CVS $Revision: 1.9 $ $Date: 2004/03/09 14:33:06 $
  * @since 4.1
  */
 public class HTMLSampleHandler
@@ -217,7 +217,11 @@ public class HTMLSampleHandler
             
             out.println( "<form>" );
             startTable( out );
-            tableCell( out, "<img name='chart' src='sample-chart.jpg?name=" + urlEncode( desc.getName() ) + "' onError='javascript:chartError()'>" );
+            // Add a time to the chart as is done in the Javascript.  Some browsers ignore the
+            //  do not cache headers in the image and display a cached version of the image
+            //  anyway.
+            tableCell( out, "<img name='chart' src='sample-chart.jpg?name=" + urlEncode( desc.getName() )
+                + "&time=" + System.currentTimeMillis() + "' onError='javascript:chartError()'>" );
             endTable( out );
             out.println( "Refresh rate:" );
             out.println( "<input type='button' value='No Refresh' onClick='javascript:clearTimeout(timerId)'>" );
