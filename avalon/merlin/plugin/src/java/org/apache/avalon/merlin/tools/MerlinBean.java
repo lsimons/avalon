@@ -32,9 +32,10 @@ import java.util.ArrayList;
 import org.apache.avalon.repository.Artifact;
 import org.apache.avalon.repository.provider.Builder;
 import org.apache.avalon.repository.provider.InitialContext;
+import org.apache.avalon.repository.provider.InitialContextFactory;
 import org.apache.avalon.repository.provider.Factory;
 import org.apache.avalon.repository.RepositoryException;
-import org.apache.avalon.repository.main.DefaultInitialContext;
+import org.apache.avalon.repository.main.DefaultInitialContextFactory;
 import org.apache.avalon.repository.main.DefaultBuilder;
 
 import org.apache.avalon.util.env.Env;
@@ -45,7 +46,7 @@ import org.apache.avalon.util.exception.ExceptionHelper;
  * Merlin default application factory.
  * 
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.14 $
+ * @version $Revision: 1.15 $
  */
 public class MerlinBean
 {
@@ -117,10 +118,13 @@ public class MerlinBean
 
         try
         {
-            InitialContext context = 
-               new DefaultInitialContext( 
-                 getMavenRepositoryDirectory(),
-                 m_hosts );
+            File basedir = getBaseDirectory();
+
+            InitialContextFactory initial = 
+              new DefaultInitialContextFactory( "merlin", basedir );
+            initial.setCacheDirectory( getMavenRepositoryDirectory() );
+            initial.setHosts( m_hosts );
+            InitialContext context = initial.createInitialContext();
 
             Artifact artifact = 
               DefaultBuilder.createImplementationArtifact( 
