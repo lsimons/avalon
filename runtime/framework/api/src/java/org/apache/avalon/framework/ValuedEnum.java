@@ -185,6 +185,35 @@ public abstract class ValuedEnum
     }
 
     /**
+     * Tests for equality. Two Enum:s are considered equal
+     * if they are of the same class, have the same name, and same value.
+     *
+     * @param o the other object
+     * @return the equality status
+     */
+    public boolean equals( Object o )
+    {
+        boolean prelim = super.equals( o );
+        if( ! prelim )
+            return false;
+            
+        if( !(o instanceof ValuedEnum) )
+            return false;
+
+        final ValuedEnum enumerated = (ValuedEnum) o;
+        return m_value == enumerated.m_value;
+    }
+    
+    public int hashCode()
+    {
+        int hash = super.hashCode();
+        hash ^= m_value;
+        hash >>>= (m_value & 31 );
+        return hash;
+    }
+    
+    
+    /**
      * Override toString method to produce human readable description.
      *
      * @return String in the form <code>type[name=value]</code>, eg.:

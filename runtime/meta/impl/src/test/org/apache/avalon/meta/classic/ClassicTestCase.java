@@ -39,7 +39,7 @@ public class ClassicTestCase extends TestCase
     {
         TypeBuilder builder = new TypeBuilder();
         ClassLoader loader = Thread.currentThread().getContextClassLoader();
-        Class clazz = loader.loadClass( "org.apache.avalon.meta.classic.Test" );
+        Class clazz = loader.loadClass( "org.apache.avalon.meta.classic.TestClass" );
         m_type = builder.buildType( clazz );
     }
 
@@ -56,6 +56,6 @@ public class ClassicTestCase extends TestCase
     public void testClassName() throws Exception
     {
         assertTrue( 
-          m_type.getInfo().getClassname().equals( "org.apache.avalon.meta.classic.Test" ) );
+          m_type.getInfo().getClassname().equals( "org.apache.avalon.meta.classic.TestClass" ) );
     }
 }

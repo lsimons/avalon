@@ -70,7 +70,7 @@ public final class ApplianceInvocationHandler
     * @param appliance the runtime appliance
     * @param logger the assigned logging channel 
     */
-    protected ApplianceInvocationHandler( 
+    ApplianceInvocationHandler( 
       DefaultAppliance appliance, Logger logger, boolean secure )
     {
         assertNotNull( appliance, "appliance" ); 
