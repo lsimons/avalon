@@ -38,7 +38,7 @@ import org.apache.avalon.util.env.EnvAccessException;
  * of a set of installation properties.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public class DefaultsBuilder
 {
@@ -251,9 +251,25 @@ public class DefaultsBuilder
 
    /**
     * Return a consolidated set of properties.
+    * @param defaults the source properties
+    * @param keys the simple property keys
+    * @return the consolidated properties
     */
     public Properties getConsolidatedProperties( 
       final Properties defaults, final String[] keys ) throws IOException
+    {
+        return getConsolidatedProperties( defaults, keys, new String[0] );
+    }
+
+   /**
+    * Return a consolidated set of properties.
+    * @param defaults the source properties
+    * @param keys the simple property keys
+    * @param sequence the sequence property keys
+    * @return the consolidated properties
+    */
+    public Properties getConsolidatedProperties( 
+      final Properties defaults, final String[] keys, String[] sequence ) throws IOException
     {
         final Properties[] parameters = 
           new Properties[] { 
@@ -268,6 +284,6 @@ public class DefaultsBuilder
               false ), 
             new SystemDefaultsFinder() 
           };
-        return new Defaults( keys, new String[0], finders );
+        return new Defaults( keys, sequence, finders );
     }
 }
