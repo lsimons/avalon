@@ -36,32 +36,12 @@ public class RotateStrategyByTime
     /**
      *  Rotate logs by time.
      * 
-     *  @param time_inverval rotate after time-interval [ms] has expired
+     *  @param timeInterval rotate after time-interval [ms] has expired
      */
     public RotateStrategyByTime( final long timeInterval ) 
     {
         m_startingTime = System.currentTimeMillis();
         m_currentRotation = 0;
-        m_timeInterval = timeInterval;
-    }
-
-    /**
-     * Get rotation time interval in [ms].
-     *
-     * @return long time interval in [ms]
-     */
-    public long getTimeInterval() 
-    {
-        return m_timeInterval;
-    }
-
-    /**
-     *  Set rotation time interval in [ms].
-     *
-     *  @param timeInterval timer interval in [ms]
-     */
-    public void setTimeInterval( long timeInterval ) 
-    {
         m_timeInterval = timeInterval;
     }
 
