@@ -40,6 +40,7 @@ public class TimeoutValidatorTestCase
         Thread.sleep( 100 );
 
         assertNotNull( cache.get( "K1" ) );
+        assertNull( cache.get( "K2" ) );
     }
 
     public void testExpired()
@@ -56,5 +57,6 @@ public class TimeoutValidatorTestCase
         Thread.sleep( 2000 );
 
         assertNull( cache.get( "K1" ) );
+        assertNull( cache.get( "K2" ) );
     }
 }

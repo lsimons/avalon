@@ -79,7 +79,7 @@ public final class ValidatingCache
     {
         Object value = m_cache.get( key );
 
-        if( !validate( key, value ) )
+        if( null != value && !validate( key, value ) )
         {
             remove( key );
             value = null;
