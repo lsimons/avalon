@@ -1,4 +1,5 @@
 import org.apache.avalon.util.StringUtil;|import org.apache.avalon.ExceptionUtil;
+StringUtil.replaceSubString|StringUtil.replaceSubString
 StringUtil.|ExceptionUtil.
 import org.apache.avalon.ComponentManagerException;|import org.apache.avalon.component.ComponentException;
 import org.apache.avalon.ComponentNotFoundException;|import org.apache.avalon.component.ComponentException;
