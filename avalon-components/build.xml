@@ -194,6 +194,12 @@
       <include name="org/apache/cornerstone/demos/httpproxy/*"/>
     </jar>
 
+    <jar jarfile="${build.lib}/demo-xcommander.bar"
+         basedir="${build.classes}"
+         manifest="${manifest.dir}/demo-xcommander.mf">
+      <include name="org/apache/cornerstone/demos/xcommander/**"/>
+    </jar>
+
     <jar jarfile="${build.lib}/demo-helloworld.bar"
          basedir="${build.classes}"
          manifest="${manifest.dir}/helloworld-demo.mf">
