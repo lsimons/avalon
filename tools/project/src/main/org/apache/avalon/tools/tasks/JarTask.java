@@ -62,8 +62,11 @@ public class JarTask extends SystemTask
             try
             {
                 boolean modified = jar( classes, jarFile );
-                checksum( jarFile, modified );
-                asc( jarFile, modified );
+                if( modified )
+                {
+                    checksum( jarFile );
+                    asc( jarFile );
+                }
             }
             catch( IOException ioe )
             {
@@ -117,12 +120,16 @@ public class JarTask extends SystemTask
         return jarFile.lastModified() > modified;
     }
 
-    private void checksum( File jar, boolean modified )
+    private void checksum( File jar )
     {
-        if( modified )
-        {
-            log( "Creating md5 checksum" );
-        }
+        log( "Creating md5 checksum" );
+
+        File md5 = new File( jar.toString() + "." + MD5_EXT );
+
+        Delete delete = (Delete) getProject().createTask( "delete" );
+        delete.setFile( md5 );
+        delete.init();
+        delete.execute();
 
         Checksum checksum = (Checksum) getProject().createTask( "checksum" );
         checksum.setFile( jar );
@@ -131,27 +138,25 @@ public class JarTask extends SystemTask
         checksum.execute();
     }
 
-    private void asc( File jar, boolean modified ) throws IOException
+    private void asc( File jar ) throws IOException
     {
-        File md5 = new File( jar.toString() + "." + ASC_EXT );
-        if( modified )
-        {
-            if( md5.exists() )
-            {
-                md5.delete();
-            }
+        File asc = new File( jar.toString() + "." + ASC_EXT );
 
-            String gpg = getProject().getProperty( GPG_EXE_KEY );
-            if( null != gpg )
-            {
-                log( "Creating asc signature" );
-                Execute execute = new Execute();
-                execute.setCommandline( 
-                  new String[]{ gpg, "-a", "-b", jar.toString() } );
-                execute.setWorkingDirectory( getProject().getBaseDir() );
-                execute.setSpawn( true );
-                execute.execute();
-            }
+        Delete delete = (Delete) getProject().createTask( "delete" );
+        delete.init();
+        delete.setFile( asc );
+        delete.execute();
+
+        String gpg = getProject().getProperty( GPG_EXE_KEY );
+        if( null != gpg )
+        {
+            log( "Creating asc signature" );
+            Execute execute = new Execute();
+            execute.setCommandline( 
+              new String[]{ gpg, "-a", "-b", jar.toString() } );
+            execute.setWorkingDirectory( getProject().getBaseDir() );
+            execute.setSpawn( true );
+            execute.execute();
         }
     }
 }
