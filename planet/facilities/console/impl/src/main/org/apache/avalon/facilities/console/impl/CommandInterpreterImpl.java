@@ -72,7 +72,7 @@ class CommandInterpreterImpl extends Thread
         return m_CurrentNode;
     }
     
-    public void setCurrentNode( ContainmentModel node )
+    public void setCurrentContainer( ContainmentModel node )
     {
         m_CurrentNode = node;
     }
@@ -131,6 +131,8 @@ class CommandInterpreterImpl extends Thread
     private String waitForCommandLine()
         throws IOException
     {
+        getOutput().write( "[" + m_Socket.getLocalAddress() + "  "  + m_CurrentNode.getPath() + "]$ " );
+        getOutput().flush();
         String cmdline = m_Input.readLine().trim();
         return cmdline;
     }
