@@ -174,10 +174,13 @@
   </target>
 
   <target name="xdoclet" description="Generates the XML descriptors">
+      <!-- The classpath for the task should contain the jars that contain the task -->
       <taskdef name="phoenix-blocks"
                classname="org.apache.avalon.phoenix.tools.xdoclet.PhoenixXDoclet"
                classpathref="project.class.path"/>
 
+      <!-- The classpathref for this task should be the classpath that has the compiled
+   	   copy of your sourcecode. -->
       <phoenix-blocks
           destdir="${gen.dir}"
           classpathref="project.class.path">
