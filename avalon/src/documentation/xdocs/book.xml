@@ -2,7 +2,8 @@
 
 <book software="Avalon" 
       title="Avalon Documentation" 
-      copyright="@year@ The Apache Software Foundation">
+      copyright="@year@ The Apache Software Foundation"
+      xmlns:xlink="http://www.w3.org/1999/xlink">
 
   <project label="Jakarta main" href="/" />
 
@@ -12,9 +13,9 @@
     <menu-item label="History" href="history/index.html"/>
     <menu-item label="Developing with Avalon" href="developing/index.html"/>
       <!-- history pages -->
-      <menu-item type="hidden" href="history/call-to-vote.html" />
-      <menu-item type="hidden" href="history/what-is-a-server.html" />
-      <menu-item type="hidden" href="history/need-for-avalon.html" />
+      <menu-item type="hidden" href="history/call-to-vote.html"/>
+      <menu-item type="hidden" href="history/what-is-a-server.html"/>
+      <menu-item type="hidden" href="history/need-for-avalon.html"/>
 
     <menu-item label="License" href="license.html"/>
     <menu-item label="Mail Archive" href="mail.html"/>
