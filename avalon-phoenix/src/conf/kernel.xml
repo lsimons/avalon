@@ -16,16 +16,10 @@
             class="org.apache.avalon.phoenix.components.kernel.DefaultKernel"
             logger="kernel"/>
 
-<!--
         <component role="org.apache.avalon.phoenix.interfaces.SystemManager"
             class="org.apache.avalon.phoenix.components.manager.NoopSystemManager"
             logger="manager"></component>
--->
 
-        <component role="org.apache.avalon.phoenix.interfaces.SystemManager"
-            class="org.apache.avalon.phoenix.components.manager.DefaultManager"
-            logger="manager" >
-        </component>
         <!-- use this one if you need the DefaultManager
         <component role="org.apache.avalon.phoenix.interfaces.SystemManager"
             class="org.apache.avalon.phoenix.components.manager.DefaultManager"
