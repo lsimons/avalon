@@ -15,8 +15,10 @@
         <pathelement location="${build.classes}"/>
         <pathelement location="${avalon-framework.jar}"/>
         <pathelement location="${excalibur-pool.jar}"/>
-        <pathelement location="${excalibur-core.jar}"/>
         <pathelement location="${checkstyle.jar}"/>
+        <pathelement location="${xalan.jar}"/>
+        <pathelement location="${xerces.jar}"/>
+        <pathelement location="${xml-apis.jar}"/>
     </path>
 
     <path id="tools.class.path">
@@ -36,11 +38,33 @@
     <target name="main" depends="jar" description="Build the project"/>
     <target name="rebuild" depends="clean,main" description="Rebuild the project"/>
 
+    <!-- Checks the environment for existing resources -->
+    <target name="check-environment">
+        <available property="xpath.present" classname="org.apache.xpath.XPathAPI">
+            <classpath refid="project.class.path"/>
+        </available>
+        <available property="jaxen.present" classname="org.jaxen.dom.XPath">
+            <classpath refid="project.class.path"/>
+        </available>
+    </target>
+
     <target name="dependencies" description="Check dependencies" unless="skip.dependencies">
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkCommon"/>
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkFramework"/>
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkPool"/>
-        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkCore"/>
+        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
+            <property name="name" value="xerces.jar"/>
+            <property name="path" value="${xerces.jar}"/>
+        </ant>
+        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
+            <property name="name" value="xalan.jar"/>
+            <property name="path" value="${xalan.jar}"/>
+        </ant>
+        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredClass">
+            <property name="name" value="xml-apis.jar"/>
+            <property name="class" value="javax.xml.parsers.SAXParser"/>
+            <property name="classpath" value="${cp}"/>
+        </ant>
     </target>
 
     <target name="dependencies-test" depends="dist-jar, dependencies"
@@ -52,7 +76,7 @@
 
 
     <!-- Compiles the source code -->
-    <target name="compile" depends="dependencies" description="Compiles the source code">
+    <target name="compile" depends="dependencies, check-environment" description="Compiles the source code">
 
         <mkdir dir="${build.classes}"/>
 
@@ -64,7 +88,11 @@
             deprecation="${build.deprecation}"
             target="1.2">
             <classpath refid="project.class.path" />
-            <include name="**/*.java"/>
+            <exclude name="**/test/**"/>
+            <exclude name="org/apache/avalon/excalibur/xml/xpath/XPathProcessorImpl.java"
+                unless="xpath.present"/> 
+            <exclude name="org/apache/avalon/excalibur/xml/xpath/JaxenProcessorImpl.java"
+                unless="jaxen.present"/>
         </javac>
 
         <!-- copy resources to same location as .class files -->
