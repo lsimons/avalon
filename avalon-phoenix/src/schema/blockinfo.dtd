@@ -40,7 +40,7 @@ version	     the version of the block in (in the format #.#.#, #.# or # where
 schema-type  string representing the type of schema information available
              to validate block configuration
 -->
-<!ELEMENT block          (name?,version)>
+<!ELEMENT block          (name?,version,schema-type)>
   <!ELEMENT name         (#PCDATA) >
   <!ELEMENT version      (#PCDATA) >
   <!ELEMENT schema-type  (#PCDATA) >
