@@ -30,7 +30,7 @@
     <body>
       <table class="logobar" >
         <tr>
-          <td class="feather" width="167px"  >
+          <td class="feather" >
             <xsl:variable name="x" select="document('navigation.xml', / )/project/body//menu/level" />
             <img>
               <xsl:attribute name="src"><xsl:value-of select="$x[position() = last()]" />resources/feather.jpg</xsl:attribute>
