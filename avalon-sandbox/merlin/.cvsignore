@@ -1,7 +1,4 @@
-ant.properties
-build
-dist
-checkstyle.cache
-kernel.log
-extensions
-distributions
+maven.log
+velocity.log
+local.properties
+target
