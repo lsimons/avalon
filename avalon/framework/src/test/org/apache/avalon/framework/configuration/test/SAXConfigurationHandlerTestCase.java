@@ -38,6 +38,7 @@ public final class SAXConfigurationHandlerTestCase extends TestCase
      * <pre>
      *   &lt;rawName attqName="attValue"&gt;
      *     &lt;child:localName xmlns:child="namespaceURI"&gt;value&lt;/child:localName&gt;
+     *     &lt;emptyElement/&gt;
      *   &lt;/rawName&gt;
      * </pre>
      */
@@ -54,6 +55,10 @@ public final class SAXConfigurationHandlerTestCase extends TestCase
         final String childvalue = "value";
         final String attqName = "attqName";
         final String attValue = "attValue";
+        final String emptylocal = "emptyElement";
+        final String emptyraw = emptylocal;
+        
+        final AttributesImpl emptyAttributes  = new AttributesImpl();
 
         final AttributesImpl attributes  = new AttributesImpl();
         attributes.addAttribute("",attqName,attqName,
@@ -72,6 +77,8 @@ public final class SAXConfigurationHandlerTestCase extends TestCase
 
         handler.characters( childvalue.toCharArray(), 0, childvalue.length() );
         handler.endElement( childURI, childlocal, childraw );
+        handler.startElement( rootURI, emptylocal, emptyraw, emptyAttributes );
+        handler.endElement( rootURI, emptylocal, emptyraw );
         handler.endElement( null, null, rootraw);
         handler.endPrefixMapping( "child" );
         handler.endDocument();
@@ -81,6 +88,7 @@ public final class SAXConfigurationHandlerTestCase extends TestCase
         assertEquals( childvalue, configuration.getChild(childraw).getValue());
         assertEquals( "", configuration.getChild(childraw).getNamespace() );
         assertEquals( rootraw, configuration.getName());
+        assertEquals( "test", configuration.getChild(emptyraw).getValue( "test" ) );
     }
 
     public void testNamespaceHandling() throws Exception
