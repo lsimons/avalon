@@ -20,7 +20,7 @@ import org.apache.avalon.framework.component.DefaultComponentManager;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.context.DefaultContext;
-import org.apache.log.Hierarchy;
+import org.apache.avalon.phoenix.engine.facilities.ConfigurationRepository;
 
 /**
  * The ServerKernel is the core of the Phoenix system.
@@ -39,12 +39,16 @@ public class PhoenixKernel
     implements Composable
 {
     ///SystemManager provided by Embeddor
-    private SystemManager          m_systemManager;
+    private SystemManager            m_systemManager;
+
+    ///Configuration Repository
+    private ConfigurationRepository  m_repository;
 
     public void compose( final ComponentManager componentManager )
         throws ComponentException
     {
         m_systemManager = (SystemManager)componentManager.lookup( SystemManager.ROLE );
+        m_repository = (ConfigurationRepository)componentManager.lookup( ConfigurationRepository.ROLE );
     }
 
     /**
@@ -87,6 +91,7 @@ public class PhoenixKernel
                 final DefaultContext context = new DefaultContext();
                 context.put( "app.name", name );
                 context.put( "app.home", saEntry.getHomeDirectory() );
+                context.put( "app.class.path", saEntry.getClassPath() );
                 ((Contextualizable)application).contextualize( context );
             }
 
@@ -94,6 +99,7 @@ public class PhoenixKernel
             {
                 final DefaultComponentManager componentManager = new DefaultComponentManager();
                 componentManager.put( SystemManager.ROLE, m_systemManager );
+                componentManager.put( ConfigurationRepository.ROLE, m_repository );
                 ((Composable)application).compose( componentManager );
             }
 
