@@ -40,9 +40,17 @@
         <fileset dir="../../dist/lib">
             <include name="**/*.jar"/>
         </fileset>
+        <fileset dir="../../target/lib">
+            <include name="*.jar"/>
+        </fileset>        
+        <fileset dir="../../lib/tools">
+            <include name="*.jar"/>
+        </fileset>        
+        <!--
         <fileset dir="../../dist/tools/lib">
             <include name="**/*.jar"/>
         </fileset>
+        -->
     </path>
 
     <property name="avalon-site.dir" value="../../avalon-site"/>
@@ -51,10 +59,6 @@
     </path>
 
     <taskdef name="sar" classname="org.apache.avalon.phoenix.tools.tasks.Sar">
-        <classpath refid="project.class.path"/>
-    </taskdef>
-
-    <taskdef name="altrmiproxies" classname="org.apache.altrmi.generator.ant.ProxyGenerationTask">
         <classpath refid="project.class.path"/>
     </taskdef>
 
@@ -82,18 +86,6 @@
             <classpath refid="project.class.path"/>
         </rmic>
 
-        <altrmiproxies genname="helloworld" srcgendir="${target.dir}/genjava"
-            interfaces="org.apache.avalon.apps.demos.helloworldserver.HelloWorldServer"
-            classgendir="${target.dir}/genclasses">
-            <classpath>
-                <pathelement location="../common/lib/altrmi-client-interfaces-${altrmi.ver}.jar"/>
-                <pathelement location="../common/lib/altrmi-client-impl-${altrmi.ver}.jar"/>
-                <pathelement location="../common/lib/altrmi-common-${altrmi.ver}.jar"/>
-                <pathelement location="../common/lib/altrmi-generator-${altrmi.ver}.jar"/>
-                <pathelement path="${target.classes}"/>
-            </classpath>
-        </altrmiproxies>
-
         <copy todir="${target.classes}">
             <fileset dir="${java.dir}">
                 <exclude name="**/test/**"/>
@@ -107,6 +99,13 @@
     <target name="phoenix-metagenerate" depends="compile">
 
         <mkdir dir="${target.metagenerate}"/>
+
+        <copy todir="${target.classes}">
+            <fileset dir="${java.dir}">
+                <exclude name="**/test/**"/>
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
 
         <taskdef name="generatemeta" classname="org.apache.avalon.phoenix.tools.metagenerate.MetaGenerateTask">
             <classpath refid="project.class.path"/>
@@ -147,23 +146,6 @@
 
         </jar>
 
-        <jar jarfile="${target.lib}/demo-altrmihelloworld.jar">
-            <fileset dir="${target.classes}">
-                <include name="org/apache/avalon/apps/demos/altrmihelloworldserver/*"/>
-            </fileset>
-            <fileset dir="${target.metagenerate}">
-                <include name="org/apache/avalon/apps/demos/altrmihelloworldserver/*.xinfo"/>
-                <include name="org/apache/avalon/apps/demos/altrmihelloworldserver/*.mxinfo"/>
-            </fileset>
-
-        </jar>
-
-        <jar jarfile="${target.lib}/HelloWorldAltrmiProxy.jar" compress="false">
-            <fileset dir="${target.dir}/genclasses">
-                <include name="**"/>
-            </fileset>
-        </jar>
-
         <jar jarfile="${target.lib}/demo-lifecycle.jar"
             basedir="${target.classes}">
 
@@ -174,32 +156,11 @@
             </fileset>
         </jar>
 
-        <mkdir dir="${target.dir}/temp"/>
-        <unzip src="../common/lib/altrmi-common-${altrmi.ver}.jar" dest="${target.dir}/temp"/>
-        <unzip src="../common/lib/altrmi-client-interfaces-${altrmi.ver}.jar" dest="${target.dir}/temp"/>
-        <unzip src="../common/lib/altrmi-client-impl-${altrmi.ver}.jar" dest="${target.dir}/temp"/>
-
-        <jar jarfile="${target.lib}/avalon-altrmidemo-tester.jar" compress="false" manifest="${manifest.dir}/AltrmiHelloWorldTest.mf">
-            <fileset dir="${target.dir}/genclasses">
-                <include name="**"/>
-            </fileset>
-            <fileset dir="${target.dir}/temp">
-                <include name="org/apache/altrmi/**"/>
-            </fileset>
-            <fileset dir="${target.dir}/classes">
-                <include name="org/apache/avalon/apps/demos/altrmihelloworldserver/AltrmiHelloWorldServer.class"/>
-                <include name="org/apache/avalon/apps/demos/altrmihelloworldserver/AltrmiHelloWorldServerTester.class"/>
-                <include name="org/apache/avalon/apps/demos/helloworldserver/HelloWorldServer.class"/>
-            </fileset>
-        </jar>
-
-        <delete dir="${target.dir}/temp"/>
-
     </target>
 
     <target name="main" depends="sars" description="Default target to generate build products"/>
 
-    <target name="sars" depends="jars, demo-sar, rmidemo-sar, altrmidemo-sar, lifecycledemo-sar" description="Create SARs">
+    <target name="sars" depends="jars, demo-sar, rmidemo-sar, lifecycledemo-sar" description="Create SARs">
 
         <mkdir dir="dist"/>
 
@@ -253,42 +214,6 @@
 
     </target>
 
-    <target name="altrmidemo-sar" depends="jars" description="Create the AltRMI demo SAR">
-
-        <sar sarfile="${target.lib}/avalon-altrmidemo.sar"
-            config="${conf.dir}/avalon-altrmidemo-config.xml"
-            environment="${conf.dir}/avalon-altrmidemo-environment.xml"
-            assembly="${conf.dir}/avalon-altrmidemo-assembly.xml">
-
-            <lib dir="${target.lib}/">
-                <include name="demo-helloworld.jar"/>
-                <include name="demo-altrmihelloworld.jar"/>
-            </lib>
-
-            <lib dir="../common/lib">
-                <include name="cornerstone.jar"/>
-            </lib>
-
-            <lib dir="../common/lib">
-                <include name="altrmi-common-${altrmi.ver}.jar"/>
-                <include name="altrmi-server-interfaces-${altrmi.ver}.jar"/>
-                <include name="altrmi-server-impl-${altrmi.ver}.jar"/>
-                <include name="altrmi-generator-${altrmi.ver}.jar"/>
-                <include name="altrmi-blocks-${altrmi.ver}.jar"/>
-                <include name="altrmi-registry-${altrmi.ver}.jar"/>
-                <include name="excalibur-thread*.jar"/>
-                <include name="excalibur-pool*.jar"/>
-                <include name="excalibur-collections*.jar"/>
-            </lib>
-
-            <fileset dir="${target.lib}">
-                <include name="HelloWorldAltrmiProxy.jar"/>
-            </fileset>
-
-        </sar>
-
-    </target>
-
     <target name="lifecycledemo-sar" depends="jars" description="Create the lifecycle SAR">
 
         <sar sarfile="${target.lib}/avalon-lifecycledemo.sar"
@@ -311,15 +236,6 @@
             <arg value="localhost"/>
             <arg value="1099"/>
             <arg value="RMIfication Tester"/>
-        </java>
-    </target>
-
-    <!-- Performs Altrmi related unit tests -->
-    <target name="test-altrmi" depends="compile">
-        <java classname="org.apache.avalon.apps.demos.altrmihelloworldserver.AltrmiHelloWorldServerTester">
-            <classpath>
-                <pathelement location="${target.dir}/lib/avalon-altrmidemo-tester.jar"/>
-            </classpath>
         </java>
     </target>
 
@@ -364,8 +280,6 @@
 
         <copy file="${target.lib}/avalon-demo.sar" tofile="${bin.dist.dir}/avalon-demo-${version}.sar"/>
         <copy file="${target.lib}/avalon-lifecycledemo.sar" tofile="${bin.dist.dir}/avalon-lifecycledemo-${version}.sar"/>
-        <copy file="${target.lib}/avalon-altrmidemo.sar" tofile="${bin.dist.dir}/avalon-altrmidemo-${version}.sar"/>
-        <copy file="${target.lib}/avalon-altrmidemo-tester.jar" tofile="${bin.dist.dir}/avalon-altrmidemo-tester-${version}.jar"/>
 
         <chmod dir="${bin.dist.dir}" perm="go-rwx"/>
     </target>
