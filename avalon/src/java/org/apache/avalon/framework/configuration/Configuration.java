@@ -134,7 +134,7 @@ public interface Configuration
      * @since 4.1
      * @return a String identifying the namespace of this Configuration.
      */
-    String getNamespace();
+    String getNamespace() throws ConfigurationException;
 
     /**
      * Return a new <code>Configuration</code> instance encapsulating the
