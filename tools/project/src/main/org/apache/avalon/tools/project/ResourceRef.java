@@ -50,7 +50,7 @@ public class ResourceRef
         }
         else
         {
-            return ANY;
+            return IMPL;
         }
     }
 
