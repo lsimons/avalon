@@ -17,6 +17,18 @@
   </devs>
   <release version="@version@" date="@date@">
     <action dev="CZ" type="add">
+      The ExcaliburComponentSelector does not instantiate a Component 
+      for the hasComponent() test anymore.
+    </action>
+    <action dev="CZ" type="add">
+      Adding XMLizer to the xmlbundle subproject for converting different
+      data (identitied by a mime-type) to XML.
+    </action>
+    <action dev="CZ" type="add">
+      Finished port of Cocoon's source resolver as the new sourceresolve
+      subproject.
+    </action>
+    <action dev="CZ" type="add">
       Added XML Parser role and implementation, EntityResolver role and
       some misc. XML support (from Cocoon).
     </action>
