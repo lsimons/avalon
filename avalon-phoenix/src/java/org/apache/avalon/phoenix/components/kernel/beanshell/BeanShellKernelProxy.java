@@ -57,6 +57,10 @@ import org.apache.avalon.phoenix.containerkit.profile.PartitionProfile;
 import org.apache.avalon.phoenix.interfaces.Application;
 import org.apache.avalon.phoenix.interfaces.Kernel;
 
+/**
+ * @author Paul Hammant
+ * @author David Gray
+ */
 public class BeanShellKernelProxy
     implements Kernel
 {
@@ -95,4 +99,13 @@ public class BeanShellKernelProxy
     {
         return m_kernel.getApplicationNames();
     }
+
+    public void lock() {
+        m_kernel.lock();
+    }
+
+    public void unlock() {
+        m_kernel.unlock();
+    }
+
 }
