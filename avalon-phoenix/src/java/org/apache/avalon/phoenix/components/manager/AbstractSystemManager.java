@@ -30,18 +30,6 @@ public abstract class AbstractSystemManager
     private static final Resources REZ =
         ResourceManager.getPackageResources( AbstractSystemManager.class );
 
-    protected static final class ManagedEntry
-    {
-        ///Object passed in for management
-        protected Object m_object;
-
-        ///Interfaces object wants to be managed through (can be null)
-        protected Class[] m_interfaces;
-
-        ///Object representation when exported (usually a proxy)
-        protected Object m_exportedObject;
-    }
-
     private HashMap m_entrys = new HashMap();
 
     /**
@@ -58,7 +46,9 @@ public abstract class AbstractSystemManager
      *            classes, the name is already registered etc.
      * @throws IllegalArgumentException if object or interfaces is null
      */
-    public synchronized void register( final String name, final Object object, final Class[] interfaces )
+    public synchronized void register( final String name,
+                                       final Object object,
+                                       final Class[] interfaces )
         throws ManagerException, IllegalArgumentException
     {
         checkRegister( name, object );
@@ -70,10 +60,9 @@ public abstract class AbstractSystemManager
 
         verifyInterfaces( object, interfaces );
 
-        final ManagedEntry entry = new ManagedEntry();
-        entry.m_object = object;
-        entry.m_interfaces = interfaces;
-        entry.m_exportedObject = export( name, entry.m_object, interfaces );
+        final ManagedEntry entry =
+            new ManagedEntry( object, interfaces );
+        entry.setExportedObject( export( name, entry.m_object, interfaces ) );
 
         m_entrys.put( name, entry );
     }
@@ -93,11 +82,9 @@ public abstract class AbstractSystemManager
     {
         checkRegister( name, object );
 
-        final ManagedEntry entry = new ManagedEntry();
-        entry.m_object = object;
-        entry.m_interfaces = null;
-        entry.m_exportedObject = export( name, entry.m_object, null );
-
+        final ManagedEntry entry =
+            new ManagedEntry( object, null );
+        entry.setExportedObject( export( name, entry.m_object, null ) );
         m_entrys.put( name, entry );
     }
 
@@ -118,7 +105,7 @@ public abstract class AbstractSystemManager
             throw new ManagerException( message );
         }
 
-        unexport( name, entry.m_exportedObject );
+        unexport( name, entry.getExportedObject() );
     }
 
     /**
