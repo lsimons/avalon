@@ -2,7 +2,7 @@
 <document>
   <properties>
     <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
-    <title>Apache Avalon: Containers</title>
+    <title>Apache Avalon: Legacy</title>
   </properties>
 
   <body>
@@ -36,9 +36,10 @@
         being that platform.
       </p>
       <p>
-        Below is the previous explainations of each of the containers.
-        However, Avalon recommend that new users only invest time in 
-        Merlin, the only sustainable solution. ECM and Fortress will be
+        Below is the list of legacy containers.
+        Avalon recommend that new users only invest time in 
+        <a href="http://avalon.apache.org/merlin">Merlin</a>, the only 
+        sustainable solution. ECM and Fortress will be
         partially supported during a transition period, but eventually
         taken out of Avalon completely. Users who are interested in Phoenix
         and that can't use Merlin, can investigate if the 
@@ -48,25 +49,6 @@
 
       <table>
         <tr><th>Product</th><th>Description</th></tr>
-        <tr>
-          <td>
-            <p>
-              <a name="merlin"/>
-              <a href="http://avalon.apache.org/merlin/index.html">Avalon 
-              Merlin</a>
-            </p>
-          </td>
-          <td>
-            <p>
-                The Merlin project deals with the broad area of service
-                and component management. The Merlin system is a container
-                that provides comprehensive support for the management of
-                complex component-based systems. Merlin uses a component
-                meta-model to facilitate the automated assembly and
-                deployment of simple and composite components.
-            </p>
-          </td>
-        </tr>
         <tr>
           <td>
             <p>
