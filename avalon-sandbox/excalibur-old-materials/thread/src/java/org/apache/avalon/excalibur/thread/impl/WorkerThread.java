@@ -7,7 +7,7 @@
  */
 package org.apache.avalon.excalibur.thread.impl;
 
-import org.apache.avalon.excalibur.lang.ThreadContext;
+import org.apache.excalibur.threadcontext.ThreadContext;
 import org.apache.avalon.excalibur.pool.Pool;
 import org.apache.avalon.excalibur.pool.Poolable;
 import org.apache.avalon.excalibur.thread.ThreadControl;

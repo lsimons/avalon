@@ -10,7 +10,7 @@
 # It is overridden by ../ant.properties and ~/build.properties
 # It overrides all default.properties files and ~/.ant.properties
 #
-# $Id: ant.properties.sample,v 1.2 2002/04/08 10:32:13 jefft Exp $
+# $Id: ant.properties.sample,v 1.3 2002/04/09 11:32:12 donaldp Exp $
 # -----------------------------------------------------------------------------
 
 # ----- Compile Control Flags -----
@@ -35,8 +35,8 @@ avalon-framework.home=../../jakarta-avalon/build/lib
 avalon-framework.jar=${avalon-framework.home}/avalon-framework.jar
 
 # ----- Excalibur Lang -----
-excalibur-lang.home=../lang/build/lib
-excalibur-lang.jar=${excalibur-lang.home}/excalibur-lang-1.0.jar
+excalibur-threadcontext.home=../threadcontext/build/lib
+excalibur-threadcontext.jar=${excalibur-threadcontext.home}/excalibur-threadcontext-1.0.jar
 
 # ----- Excalibur Pool -----
 excalibur-pool.home=../pool/build/lib
