@@ -2,50 +2,15 @@
 
 <project name="Excalibur i18n" default="main" basedir=".">
 
-    <!-- load per-project properties -->
-    <property file="project.properties"/>
-
     <!--
       Give user a chance to override without editing this file
       (and without typing -D each time he compiles it)
     -->
-    <property file="ant.properties"/>
-    <property file="../ant.properties"/>
     <property file="${user.home}/.ant.properties"/>
-
-    <!-- Settings used to configure compile environment -->
-    <property name="build.debug" value="on"/>
-    <property name="build.optimize" value="off"/>
-    <property name="build.deprecation" value="off"/>
-    <property name="build.compress" value="false"/>
-    <property name="junit.failonerror" value="false"/>
-
-    <!-- location of intermediate products -->
-    <property name="build.dir" value="build"/>
-    <property name="build.lib" value="${build.dir}/lib"/>
-    <property name="build.conf" value="${build.dir}/conf"/>
-    <property name="build.classes" value="${build.dir}/classes"/>
-    <property name="build.tests" value="${build.dir}/tests"/>
-    <property name="build.reports" value="${build.dir}/reports"/>
-
-    <!-- Set the properties for source directories -->
-    <property name="src.dir" value="src"/>
-    <property name="java.dir" value="${src.dir}/java"/>
-    <property name="conf.dir" value="${src.dir}/conf"/>
-    <property name="test.dir" value="${src.dir}/test"/>
-
-    <!-- Set the properties for distribution directories -->
-    <property name="dist.dir" value="dist"/>
-    <property name="dist.javadocs" value="${dist.dir}/docs/api"/>
-
-    <!-- name of .zip/.tar.gz/.bz2 files and their top-level directory -->
-    <property name="dist.name" value="${name}-${version}"/>
-
-    <!-- name of jar file -->
-    <property name="jar.name" value="${name}-${version}.jar"/>
-
-    <!-- property indicating directory where all distribution archives are placed -->
-    <property name="dist.base" value="distributions"/>
+    <property file="../ant.properties"/>
+    <property file="ant.properties"/>
+    <property file="../default.properties"/>
+    <property file="default.properties"/>
 
     <!-- Classpath for product -->
     <path id="project.class.path">
@@ -97,7 +62,7 @@
             <fileset dir="../" includes="LICENSE.txt"/>
             <fileset dir="${conf.dir}" includes="MANIFEST.MF"/> 
             <filterset>
-                <filtersfile file="project.properties"/>
+                <filtersfile file="default.properties"/>
             </filterset>
         </copy>
 
@@ -141,7 +106,7 @@
         </javadoc>
     </target>
 
-    <target name="test" depends="compile" description="Perform the unit tests">
+    <target name="test" depends="compile" description="Perform the unit tests" unless="skip.tests">
 
         <echo message="Performing Unit Tests" />
 

@@ -62,7 +62,7 @@
         <copy file="${avalon-framework.jar}" todir="${lib.dir}" preservelastmodified="yes"/>
         
         <!-- Avalon Excalibur -->
-        <copy file="${avalon-excalibur.jar}" todir="${lib.dir}" preservelastmodified="yes"/>
+        <copy file="${excalibur-core.jar}" todir="${lib.dir}" preservelastmodified="yes"/>
         
         <!-- Avalon Excalibur Instrument -->
         <copy file="${excalibur-instrument.jar}"
