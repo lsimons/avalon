@@ -62,7 +62,7 @@ import java.lang.reflect.Modifier;
  * Please note that this pool offers no resource limiting whatsoever.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.6 $ $Date: 2002/09/25 15:47:57 $
+ * @version CVS $Revision: 1.7 $ $Date: 2002/09/25 15:50:26 $
  * @since 4.1
  */
 public final class FixedSizePool
@@ -118,7 +118,7 @@ public final class FixedSizePool
         {
             synchronized( m_buffer )
             {
-                m_buffer.add( PoolUtil.reset( object ) );
+                m_buffer.add( PoolUtil.recycle( object ) );
                 m_buffer.notifyAll();
             }
         }

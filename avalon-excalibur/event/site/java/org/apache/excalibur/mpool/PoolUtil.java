@@ -18,7 +18,7 @@ public final class PoolUtil
 
     private PoolUtil() {}
 
-    public static Object reset( final Object obj )
+    public static Object recycle( final Object obj )
     {
         try
         {
