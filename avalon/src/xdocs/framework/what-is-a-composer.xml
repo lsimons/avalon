@@ -5,32 +5,28 @@
 <document>
   <header>
     <title>Avalon Design Documentation</title>
-    <subtitle>What is a Composer?</subtitle>
+    <subtitle>What is Composable?</subtitle>
     <version>3.0</version>
     <authors>
       <person id="BL" name="Berin Loritsch" email="bloritsch@apache.org"/>
     </authors>
-    <notice>
-      Avalon documentation is under construction. Everything you can find
-      outside this page is to be considered obsolete.
-    </notice> 
   </header>
   <body>
     <s1 title="Introduction"> 
       <p>
-        In Avalon, a Composer is defined as an active entity that controls
+        In Avalon, Composable is defined as an active entity that controls
         or uses Components.  It's best analogy is that of a musical composer.
         The musical composer chooses what instruments (Components) by their
         role in the symphony (system) and tells them which notes to play.
       </p> 
       <p>
-        The Avalon Composer follows the principles of Inversion of Control,
+        The Avalon Composable follows the principles of Inversion of Control,
         and is assigned a Component Manager.  Within this section we will
         discuss how to look up specific Components, and then how to prepare
-        the ComponentManager for the Composer.
+        the ComponentManager for the Composable.
       </p>
       <note>
-        The Composer has a specific contract that must be enforced for security
+        The Composable has a specific contract that must be enforced for security
         reasons.  The ComponentManager must only be set once.  That means that
         the <code>compose</code> method must ignore all subsequent
         requests to set the ComponentManager after it is successfully set.
@@ -44,7 +40,7 @@
           on Component Roles in the Component documentation, you already have
           a head start.  In Avalon, Roles are defined by the work interface a
           Component has.  A work interface is different from any other interface
-          because it is the interface that defines the Component's Role.  Composer
+          because it is the interface that defines the Component's Role.  Composable
           and Component are concern interfaces because they address specific
           concerns about the Component.
         </p>
@@ -81,7 +77,7 @@ final MyComponent component = (MyComponent)manager.
           individual Component implementations.  One formatter may take a text file
           and remove all tabs and replace them with four spaces.  Another formatter
           may reverse the formerly mentioned one.  Yet another takes the text file
-          and formats it for a canvas object.  For the Composer, it makes no difference
+          and formats it for a canvas object.  For the Composable, it makes no difference
           what the implementation does--just that it formats the text.
         </p>
         <p>
@@ -106,10 +102,40 @@ final Formatter formatter = (Formatter)selector.select( myURL );
           specific Component based on that hint.
         </p>
       </s2>
+      <s2 title="When you are done with the Component">
+        <p>
+	  Both the ComponentManager and the ComponentSelector require you to
+	  release your Component when you are done with it.  The method used
+	  to do this is "release".  One way of handling this is to use the
+	  try/catch/finally construct.  Four your convenience, the following
+	  code can help:
+	</p>
+	<source>
+MyComponent component = null;
+
+try
+{
+    component = (MyComponent) manager.lookup("org.mycom.MyComponent");
+    component.myMethod();
+}
+catch (Exception e)
+{
+    getLogger().debug("Error using MyComponent", e);
+}
+finally
+{
+    if (component != null) manager.release(component);
+}
+	</source>
+	<p>
+	  The reason for this is so that smart Component Managers that
+	  select Components from a pool can properly manage the resources.
+	</p>
+      </s2>
     </s1>
     <s1 title="Populating the ComponentManager">
       <p>
-        It is the responsibility of the entity that creates the Composer to give it a
+        It is the responsibility of the entity that creates the Composable to give it a
         ComponentManager with all of the Roles populated.  If you create your own
         implementations of the ComponentManager and ComponentSelector then you have
         the liberty of deciding how to populate them.  Keep in mind that there are
@@ -129,8 +155,8 @@ final Formatter formatter = (Formatter)selector.select( myURL );
           can be seen as a security hole as opposed to a usability enhancement.  You
           are free to create your own implementation that does not use the Cascading
           feature--but you have to manually populate it with anything that would
-          have been in the parent ComponentManager that your child Composer needs.
-          Truth be told, there is very little risk due to the set once contract for
+          have been in the parent ComponentManager that your child Composable needs.
+          Truth be told, there is very little risk due to the set-once contract for
           ComponentManagers.  The method is never exposed to hostile agents before
           the ComponentManager is set.
         </p>
@@ -155,7 +181,7 @@ final Formatter formatter = (Formatter)selector.select( myURL );
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.1 $ $Date: 2001/04/26 19:40:57 $
+      $Revision: 1.2 $ $Date: 2001/07/05 14:35:14 $
     </legal>
   </footer>
 </document>
