@@ -302,7 +302,7 @@ class DefaultApplicationContext
     public ClassLoader getClassLoader( final String name )
         throws Exception
     {
-        final ClassLoader classLoader = (ClassLoader)m_loaders.get(name);
+        final ClassLoader classLoader = (ClassLoader)m_loaders.get( name );
         if( null == classLoader )
         {
             final String message =

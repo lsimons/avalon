@@ -82,7 +82,7 @@ public final class Main
             c_frontend = clazz.newInstance();
 
             //kick the tires and light the fires....
-            final Integer integer = (Integer) method.invoke(
+            final Integer integer = (Integer)method.invoke(
                 c_frontend, new Object[]{args, data, new Boolean( blocking )} );
             exitCode = integer.intValue();
         }

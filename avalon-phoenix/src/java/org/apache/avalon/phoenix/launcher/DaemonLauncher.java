@@ -127,7 +127,7 @@ public class DaemonLauncher
         }
         else
         {
-            final String command = (null != arg) ? arg.toString() : "";
+            final String command = ( null != arg ) ? arg.toString() : "";
             if( command.equals( "restart" ) )
             {
                 if( WrapperManager.isDebugEnabled() )

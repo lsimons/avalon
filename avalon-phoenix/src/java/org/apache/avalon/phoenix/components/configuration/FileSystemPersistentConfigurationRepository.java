@@ -105,7 +105,7 @@ public class FileSystemPersistentConfigurationRepository extends AbstractLogEnab
 
             if( opath instanceof String )
             {
-                return FileUtil.normalize( ( String ) opath );
+                return FileUtil.normalize( (String)opath );
             }
             else
             {
@@ -137,7 +137,7 @@ public class FileSystemPersistentConfigurationRepository extends AbstractLogEnab
 
         for( int i = 0; i < apps.length; i++ )
         {
-            loadConfigurations( apps[i] );
+            loadConfigurations( apps[ i ] );
         }
     }
 
@@ -151,11 +151,11 @@ public class FileSystemPersistentConfigurationRepository extends AbstractLogEnab
         for( int i = 0; i < blocks.length; i++ )
         {
             final String block =
-                blocks[i].getName().substring( 0, blocks[i].getName().indexOf( ".xml" ) );
+                blocks[ i ].getName().substring( 0, blocks[ i ].getName().indexOf( ".xml" ) );
 
             m_persistedConfigurations.storeConfiguration( app,
                                                           block,
-                                                          builder.buildFromFile( blocks[i] ) );
+                                                          builder.buildFromFile( blocks[ i ] ) );
 
             if( getLogger().isDebugEnabled() )
                 getLogger().debug( "Loaded persistent configuration [app: " + app

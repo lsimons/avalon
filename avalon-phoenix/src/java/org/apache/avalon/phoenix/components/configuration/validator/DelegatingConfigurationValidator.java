@@ -89,7 +89,7 @@ public class DelegatingConfigurationValidator extends AbstractLogEnabled
     {
         for( Iterator i = m_delegates.values().iterator(); i.hasNext(); )
         {
-            ContainerUtil.dispose( ((DelegateEntry)i.next()).getValidator() );
+            ContainerUtil.dispose( ( (DelegateEntry)i.next() ).getValidator() );
         }
     }
 
@@ -151,7 +151,7 @@ public class DelegatingConfigurationValidator extends AbstractLogEnabled
             throw new ConfigurationException( msg );
         }
 
-        return ((DelegateEntry)this.m_delegates.get( type )).getValidator();
+        return ( (DelegateEntry)this.m_delegates.get( type ) ).getValidator();
     }
 
     private String createKey( final String application, final String block )
@@ -170,8 +170,8 @@ public class DelegatingConfigurationValidator extends AbstractLogEnabled
 
             if( validator instanceof ConfigurationValidatorMBean )
             {
-                return ((ConfigurationValidatorMBean)validator).getSchema( application,
-                                                                           block );
+                return ( (ConfigurationValidatorMBean)validator ).getSchema( application,
+                                                                             block );
 
             }
         }

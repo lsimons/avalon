@@ -44,15 +44,15 @@ public class ExtendedMX4JSystemManager
         throws ConfigurationException
     {
         final String namingFactory =
-            configuration.getChild( "rmi-naming-factory" ).getValue( null);
-        if ( null != namingFactory )
+            configuration.getChild( "rmi-naming-factory" ).getValue( null );
+        if( null != namingFactory )
         {
             getLogger().warn( "Deprecated." );
             System.setProperty( "java.naming.factory.initial", namingFactory );
         }
-        else if ( null == System.getProperty( "java.naming.factory.initial" ) )
+        else if( null == System.getProperty( "java.naming.factory.initial" ) )
         {
-            System.setProperty( "java.naming.factory.initial", DEFAULT_NAMING_FACTORY  );
+            System.setProperty( "java.naming.factory.initial", DEFAULT_NAMING_FACTORY );
         }
 
         m_configuration = configuration;
@@ -66,7 +66,7 @@ public class ExtendedMX4JSystemManager
         m_mBeanScripters = new HashMap();
         final Configuration[] scripters =
             m_configuration.getChildren( "mbean" );
-        for ( int i = 0; i < scripters.length; i++ )
+        for( int i = 0; i < scripters.length; i++ )
         {
             createMBeanScripter( scripters[ i ] );
         }
@@ -75,7 +75,7 @@ public class ExtendedMX4JSystemManager
     public void dispose()
     {
         final Iterator scripterNames = m_mBeanScripters.keySet().iterator();
-        while ( scripterNames.hasNext() )
+        while( scripterNames.hasNext() )
         {
             destroyMBeanScripter( (String)scripterNames.next() );
         }
@@ -96,10 +96,10 @@ public class ExtendedMX4JSystemManager
 
             m_mBeanScripters.put( scripter.getName(), scripter );
         }
-        catch ( final Exception e )
+        catch( final Exception e )
         {
             final String message = REZ.getString( "jmxmanager.error.jmxmbean.initialize", scripter.getName() );
-            getLogger().error( message , e );
+            getLogger().error( message, e );
             throw e;
         }
     }
@@ -112,18 +112,18 @@ public class ExtendedMX4JSystemManager
         {
             scripter.shutdown();
         }
-        catch ( final Exception e )
+        catch( final Exception e )
         {
             final String message = REZ.getString( "jmxmanager.error.jmxmbean.dispose", scripter.getName() );
-            getLogger().error( message , e );
+            getLogger().error( message, e );
         }
     }
 
     protected MBeanServer createMBeanServer()
         throws Exception
     {
-        MX4JLoggerAdapter.setLogger(getLogger());
-        mx4j.log.Log.redirectTo(new MX4JLoggerAdapter());
+        MX4JLoggerAdapter.setLogger( getLogger() );
+        mx4j.log.Log.redirectTo( new MX4JLoggerAdapter() );
         return MBeanServerFactory.createMBeanServer( "Phoenix" );
     }
 }

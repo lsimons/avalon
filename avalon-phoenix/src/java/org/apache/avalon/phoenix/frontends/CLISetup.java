@@ -129,7 +129,6 @@ class CLISetup
                                     CONFIGFILE_OPT,
                                     REZ.getString( "cli.opt.configfile.desc" ) );
 
-
         return options;
     }
 

@@ -24,7 +24,7 @@ import org.apache.avalon.phoenix.interfaces.ManagerException;
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
  * @author <a href="mailto:Huw@mmlive.com">Huw Roberts</a>
- * @version $Revision: 1.7 $ $Date: 2003/02/22 04:03:27 $
+ * @version $Revision: 1.8 $ $Date: 2003/02/22 05:34:45 $
  */
 public abstract class AbstractJMXManager
     extends AbstractSystemManager
@@ -97,14 +97,14 @@ public abstract class AbstractJMXManager
     {
         try
         {
-            final Target target = (Target) exportedObject;
+            final Target target = (Target)exportedObject;
             final Set topicNames = target.getTopicNames();
             final Iterator i = topicNames.iterator();
 
             while( i.hasNext() )
             {
                 final ObjectName objectName =
-                    createObjectName( name, target.getTopic( ( String ) i.next() ) );
+                    createObjectName( name, target.getTopic( (String)i.next() ) );
 
                 getMBeanServer().unregisterMBean( objectName );
             }

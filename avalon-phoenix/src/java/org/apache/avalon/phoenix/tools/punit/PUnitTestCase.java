@@ -19,7 +19,6 @@ public abstract class PUnitTestCase extends TestCase implements PUnit
 {
     private final PUnitHelper m_pUnitHelper = new PUnitHelper();
 
-
     /**
      * PUnitTestCase
      */
@@ -75,11 +74,11 @@ public abstract class PUnitTestCase extends TestCase implements PUnit
      * @param configuration The configuration
      */
     public void addBlock( final String blockName,
-                             final String serviceName,
-                             final Object block,
-                             final Configuration configuration )
+                          final String serviceName,
+                          final Object block,
+                          final Configuration configuration )
     {
-        m_pUnitHelper.addBlock(blockName, serviceName, block, configuration);
+        m_pUnitHelper.addBlock( blockName, serviceName, block, configuration );
     }
 
     /**

@@ -68,9 +68,9 @@ public final class PUnitHelper
      * @param configuration The configuration
      */
     public void addBlock( final String blockName,
-                             final String serviceName,
-                             final Object block,
-                             final Configuration configuration )
+                          final String serviceName,
+                          final Object block,
+                          final Configuration configuration )
     {
         final PUnitResourceProvider resourceProvider =
             new PUnitResourceProvider( m_serviceManager, configuration, m_logger );

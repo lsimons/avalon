@@ -15,7 +15,7 @@ import org.apache.avalon.framework.context.Resolvable;
  * This provides utility methods for properties.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version CVS $Revision: 1.6 $ $Date: 2003/02/22 04:03:26 $
+ * @version CVS $Revision: 1.7 $ $Date: 2003/02/22 05:34:44 $
  * @since 4.0
  */
 final class PropertyUtil
@@ -49,7 +49,7 @@ final class PropertyUtil
 
         final int length = property.length();
 
-        if( 0 == start && end == (length - 1) )
+        if( 0 == start && end == ( length - 1 ) )
         {
             return resolveValue( property.substring( start + 2, end ),
                                  context,
@@ -135,7 +135,7 @@ final class PropertyUtil
         {
             while( null != value && value instanceof Resolvable )
             {
-                value = ((Resolvable)value).resolve( context );
+                value = ( (Resolvable)value ).resolve( context );
             }
         }
         catch( final ContextException ce )

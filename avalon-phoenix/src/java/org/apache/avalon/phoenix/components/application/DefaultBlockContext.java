@@ -26,7 +26,7 @@ final class DefaultBlockContext
     private final ApplicationContext m_applicationContext;
 
     DefaultBlockContext( final String name,
-                                   final ApplicationContext frame )
+                         final ApplicationContext frame )
     {
         m_name = name;
         m_applicationContext = frame;

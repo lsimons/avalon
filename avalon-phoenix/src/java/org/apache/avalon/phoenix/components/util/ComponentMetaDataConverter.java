@@ -25,7 +25,7 @@ import org.apache.avalon.phoenix.metainfo.BlockInfo;
  * Convert a {@link ComponentMetaData} into a {@link BlockMetaData}.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2003/02/22 04:03:28 $
+ * @version $Revision: 1.4 $ $Date: 2003/02/22 05:34:45 $
  */
 public class ComponentMetaDataConverter
 {
@@ -86,7 +86,7 @@ public class ComponentMetaDataConverter
                                            listeners[ i ].getImplementationKey() );
             listenerSet.add( listener );
         }
-        return (BlockListenerMetaData[])listenerSet.toArray( new BlockListenerMetaData[listenerSet.size() ] );
+        return (BlockListenerMetaData[])listenerSet.toArray( new BlockListenerMetaData[ listenerSet.size() ] );
     }
 
     /**

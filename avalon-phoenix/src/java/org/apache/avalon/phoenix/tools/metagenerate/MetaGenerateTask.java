@@ -43,7 +43,7 @@ public class MetaGenerateTask
     {
         final FormatEnum format = new FormatEnum();
         format.setValue( "legacy" );
-        setFormat( format);
+        setFormat( format );
         super.execute();
         outputClasses();
     }

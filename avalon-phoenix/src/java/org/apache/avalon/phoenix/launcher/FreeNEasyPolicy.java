@@ -3,7 +3,7 @@
  * User: peter
  * Date: Sep 21, 2002
  * Time: 11:19:40 AM
- * To change template for new class use 
+ * To change template for new class use
  * Code Style | Class Templates options (Tools | IDE Options).
  */
 package org.apache.avalon.phoenix.launcher;

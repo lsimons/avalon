@@ -271,7 +271,7 @@ public class JMXLauncher
             m_frontend = clazz.newInstance();
 
             //kick the tires and light the fires....
-            final Integer integer = (Integer) startupMethod.invoke(
+            final Integer integer = (Integer)startupMethod.invoke(
                 m_frontend, new Object[]{args, data, new Boolean( false )} );
             exitCode = integer.intValue();
 
@@ -323,7 +323,7 @@ public class JMXLauncher
             }
         }
 
-        return (URL[]) urls.toArray( new URL[ urls.size() ] );
+        return (URL[])urls.toArray( new URL[ urls.size() ] );
     }
 
     /**

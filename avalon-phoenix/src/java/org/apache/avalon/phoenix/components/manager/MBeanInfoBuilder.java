@@ -38,7 +38,7 @@ import org.xml.sax.InputSource;
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
  * @author <a href="mailto:huw@mmlive.com">Huw Roberts</a>
- * @version $Revision: 1.5 $ $Date: 2003/02/22 04:03:27 $
+ * @version $Revision: 1.6 $ $Date: 2003/02/22 05:34:45 $
  */
 public final class MBeanInfoBuilder
     extends AbstractLogEnabled
@@ -156,9 +156,9 @@ public final class MBeanInfoBuilder
             {
                 // skip getters and setters
                 final String name = methods[ j ].getName();
-                if( !(name.startsWith( "get" ) ||
+                if( !( name.startsWith( "get" ) ||
                     name.startsWith( "set" ) ||
-                    name.startsWith( "is" )) )
+                    name.startsWith( "is" ) ) )
                 {
                     operations.add( buildOperationInfo( methods[ j ], null ) );
                 }
@@ -328,8 +328,8 @@ public final class MBeanInfoBuilder
         final String type = property.getPropertyType().getName();
 
         String description = property.getDisplayName();
-        boolean isReadable = (readMethod != null);
-        boolean isWriteable = (writeMethod != null);
+        boolean isReadable = ( readMethod != null );
+        boolean isWriteable = ( writeMethod != null );
 
         if( config != null )
         {
@@ -347,7 +347,7 @@ public final class MBeanInfoBuilder
         }
 
         final boolean isIs =
-            (readMethod != null) && readMethod.getName().startsWith( "is" );
+            ( readMethod != null ) && readMethod.getName().startsWith( "is" );
 
         final ModelMBeanAttributeInfo info =
             new ModelMBeanAttributeInfo( name, type, description, isReadable, isWriteable, isIs );

@@ -87,8 +87,8 @@ public class JarvConfigurationValidator
         m_verifierFactoryClass =
             configuration.getChild( "verifier-factory-class" ).getValue( null );
 
-        if( (null == m_schemaLanguage && null == m_verifierFactoryClass)
-            || (null != m_schemaLanguage && null != m_verifierFactoryClass) )
+        if( ( null == m_schemaLanguage && null == m_verifierFactoryClass )
+            || ( null != m_schemaLanguage && null != m_verifierFactoryClass ) )
         {
             throw new ConfigurationException( REZ.getString( "jarv.error.badconfig" ) );
         }
