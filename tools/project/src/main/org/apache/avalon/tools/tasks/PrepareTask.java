@@ -21,6 +21,7 @@ import java.io.File;
 import java.io.IOException;
 
 import org.apache.tools.ant.Task;
+import org.apache.tools.ant.Project;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.taskdefs.Copy;
 import org.apache.tools.ant.taskdefs.Property;
@@ -42,6 +43,14 @@ public class PrepareTask extends HomeTask
     public static String TARGET = "target";
     public static String TARGET_SRC = TARGET + "/src";
     public static String TARGET_SRC_MAIN = TARGET_SRC + "/main";
+
+    public static final String TARGET_KEY = "avalon.target";
+
+    public static File getTargetDirectory( Project project )
+    {
+        String target = project.getProperty( TARGET_KEY );
+        return new File( project.getBaseDir(), target );
+    }
 
     public void init() throws BuildException 
     {
@@ -75,8 +84,7 @@ public class PrepareTask extends HomeTask
 
     private File getTargetDirectory()
     {
-        String target = getProject().getProperty( "avalon.target" );
-        return new File( getProject().getBaseDir(), target );
+        return getTargetDirectory( getProject() );
     }
 
     private void copySrcToBuildWithFiltering( File target )

@@ -21,6 +21,7 @@ import java.io.File;
 import java.io.IOException;
 
 import org.apache.tools.ant.Task;
+import org.apache.tools.ant.Project;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.taskdefs.Copy;
 import org.apache.tools.ant.taskdefs.Javac;
@@ -46,6 +47,13 @@ public class JavacTask extends HomeTask
 
     public static final String FORK_KEY = "java.compile.fork";
     public static final boolean FORK_FLAG = false;
+
+    public static File getTargetClassesDirectory( Project project )
+    {
+        File target = PrepareTask.getTargetDirectory( project );
+        String classes = project.getProperty( CLASSES_KEY );
+        return new File( target, classes );
+    }
 
     public void init() throws BuildException 
     {
@@ -81,10 +89,7 @@ public class JavacTask extends HomeTask
 
     private File getTargetClassesDirectory()
     {
-        String path = getProject().getProperty( "avalon.target" );
-        File target = new File( getProject().getBaseDir(), path );
-        String classes = getProject().getProperty( "avalon.target.classes" );
-        return new File( target, classes );
+        return getTargetClassesDirectory( getProject() );
     }
 
     private void compile( File sources, File classes, Path classpath )
