@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 
-<book software="Cornerstone" 
-      title="Cornerstone Documentation" 
+<book software="Cornerstone"
+      title="Cornerstone Documentation"
       copyright="@year@ The Apache Software Foundation">
 
   <project label="Back to Avalon" href="@AVALON_BASE@" />
@@ -16,6 +16,11 @@
 -->
     <menu-item type="changes" label="Changes" source="changes.xml"/>
     <menu-item type="external" id="api-docs" label="API Docs" href="api/index.html"/>
+  </menu>
+  <menu label="Demo Components">
+    <menu-item label="Hello World" source="demo-helloworld.xml"/>
+    <menu-item label="HTTP Proxy" source="demo-httpproxy.xml"/>
+    <menu-item label="Simple Server" source="demo-simpleserver.xml"/>
   </menu>
 
 </book>
