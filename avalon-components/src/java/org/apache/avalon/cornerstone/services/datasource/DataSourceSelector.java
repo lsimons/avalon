@@ -13,6 +13,7 @@ import org.apache.avalon.framework.component.ComponentSelector;
  * DataSourceSelector
  *
  * @author <a href="mailto:colus@apache.org">Eung-ju Park</a>
+ * @deprecated Use {@link org.apache.avalon.cornerstone.services.source.DataSourceSelector} instead.
  */
 public interface DataSourceSelector
     extends ComponentSelector
