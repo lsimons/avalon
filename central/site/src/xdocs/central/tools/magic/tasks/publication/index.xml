@@ -9,6 +9,8 @@
   <body>
     <section name="Publication Tasks">
       <p>
+      Publication tasks deal with the generation of project document, 
+      javadoc production, and publication into a common doc repository.
       </p>
     </section>
   </body>
