@@ -52,6 +52,7 @@ package org.apache.avalon.apps.sevak.blocks.deployer;
 import java.io.File;
 
 import org.apache.avalon.apps.sevak.Sevak;
+import org.apache.avalon.apps.sevak.SevakContext;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
@@ -108,6 +109,7 @@ public class SevakDeployer
 
     public void initialize() throws Exception
     {
+        final SevakContext sevakContext = new SevakContext( m_context, m_manager, getLogger() );
         final Configuration[] contexts = m_configuration.getChildren( "Context" );
 
         for( int i = 0; i < contexts.length; i++ )
@@ -118,20 +120,20 @@ public class SevakDeployer
             path.replace( '/', File.separatorChar ).replace( '\\', File.separatorChar );
 
             final File pathFile = new File( m_context.getBaseDirectory().getAbsolutePath()
-                                              + File.separatorChar + path );
+                                            + File.separatorChar + path );
 
-            if( ! pathFile.exists() )
+            if( !pathFile.exists() )
             {
                 throw new ConfigurationException( "Path for webapp '" + context
                                                   + "' does not exist [path: " + pathFile + "]" );
             }
-            else if( ! pathFile.canRead() )
+            else if( !pathFile.canRead() )
             {
                 throw new ConfigurationException( "Path for webapp '" + context
                                                   + "' cannot be read [path: " + pathFile + "]" );
             }
 
-            m_sevak.deploy( context, pathFile, m_manager );
+            m_sevak.deploy( context, pathFile, sevakContext );
         }
     }
 }
