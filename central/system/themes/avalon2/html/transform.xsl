@@ -5,6 +5,10 @@
     xmlns="http://www.w3.org/1999/xhtml" 
     xml:lang="en" 
 >
+  <xsl:param name="directory" />
+  <xsl:param name="file" />
+  <xsl:param name="fullpath" />
+  
   <xsl:template match="document">
     <html>
     <head>
@@ -16,6 +20,9 @@
       <link rel="stylesheet" type="text/css">
         <xsl:attribute name="href"><xsl:value-of select="$x[position() = last()]" />resources/style.css</xsl:attribute>
       </link>
+      <meta name="directory"><xsl:value-of select="$directory" /></meta>
+      <meta name="file"><xsl:value-of select="$file" /></meta>
+      <meta name="fullpath"><xsl:value-of select="$fullpath" /></meta>
     </head>
       <xsl:apply-templates select="body" />
     </html>    
@@ -67,6 +74,7 @@
       </div>
       
       <div class="menubar" >
+        <span class="dummy" />
         <xsl:apply-templates select="document('navigation.xml', / )/project/body/menu" >
           <xsl:with-param name="dir" select="''" />
         </xsl:apply-templates>
@@ -115,12 +123,6 @@
     </div>
   </xsl:template>
   
-  <xsl:template match="p">
-    <p>
-      <xsl:apply-templates />
-    </p>
-  </xsl:template>
-  
   <xsl:template match="menu">
     <xsl:param name="dir" />
     <xsl:choose>
@@ -128,19 +130,13 @@
           <xsl:apply-templates select="menu" >
             <xsl:with-param name="dir" select="concat( $dir, '../')" />
           </xsl:apply-templates>
-        <!--
-        <div class="menu">
-          <xsl:apply-templates select="item" >
-            <xsl:with-param name="dir" select="$dir" />
-          </xsl:apply-templates>
-        </div>
-        -->
       </xsl:when>
       <xsl:otherwise>
         <div class="menu">
           <xsl:apply-templates select="menu" >
             <xsl:with-param name="dir" select="concat( $dir, '../')" />
           </xsl:apply-templates>
+          <span class="dummy" />
           <xsl:apply-templates select="item" >
             <xsl:with-param name="dir" select="$dir" />
           </xsl:apply-templates>
@@ -153,9 +149,23 @@
     <xsl:param name="dir" />
     <xsl:param name="class" select="'menuitem'" />
     <a>
-      <xsl:attribute name="class"><xsl:value-of select="$class" /></xsl:attribute>
+      <xsl:choose>
+        <xsl:when test="@selected = true() or contains( $file, @href )" >
+          <xsl:attribute name="class"><xsl:value-of select="$class" />-selected</xsl:attribute>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:attribute name="class"><xsl:value-of select="$class" /></xsl:attribute>
+        </xsl:otherwise>
+      </xsl:choose>
       <xsl:attribute name="href">      
-        <xsl:value-of select="concat( $dir, @href )" />
+        <xsl:choose>
+          <xsl:when test="contains( @href, '.html' )" >
+            <xsl:value-of select="concat( $dir, @href )" />
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:value-of select="concat( concat( $dir, @href ), 'index.html')" />
+          </xsl:otherwise>
+        </xsl:choose>
       </xsl:attribute>
       <xsl:value-of select="@name" />
     </a>
@@ -171,13 +181,6 @@
     <span class="legal"><xsl:value-of select="." /></span>
   </xsl:template>
   
-  <!-- Table generation  -->
-  <xsl:template match="table" >
-    <table>
-      <xsl:apply-templates />
-    </table>
-  </xsl:template>
-  
   <xsl:template match="tr" >
     <tr>
       <xsl:attribute name="row" >
@@ -191,40 +194,17 @@
     </tr>
   </xsl:template>
   
-  <xsl:template match="th" >
-    <th>
-      <xsl:apply-templates />
-    </th>
-  </xsl:template>
-  
-  <xsl:template match="td" >
-    <td>
-      <xsl:apply-templates />
-    </td>
-  </xsl:template>
-  
-  <!-- Inlines -->
-  <xsl:template match="strong" >
-    <strong>
-      <xsl:apply-templates />
-    </strong>
-  </xsl:template>
-  
-  <xsl:template match="em" >
-    <em>
-      <xsl:apply-templates />
-    </em>
-  </xsl:template>
-  
-  
   <!-- Create a box to be used for searching the site on Google. -->
   <xsl:template match="search" >
       <div class="search" >
       </div>
   </xsl:template>
 
-    
+  <xsl:template match="*" >
+    <xsl:copy>
+      <xsl:copy-of select="@*" />
+      <xsl:apply-templates />
+    </xsl:copy>
+  </xsl:template>
+      
 </xsl:stylesheet> 
-
-
-

@@ -79,6 +79,17 @@ table.logobar
     padding-right: 6px;
 }
 
+.homecategory-selected
+{
+    float:left;
+    margin-left: 1em;
+    font-size: 8pt;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    padding-left: 6px;
+    padding-right: 6px;
+}
+
 .category
 {
     float: right;
@@ -92,20 +103,13 @@ table.logobar
 
 .category-selected
 {
-    position: relative;
-    top: 0.5em;
+    float: right;
     margin-right: 1em;
     font-size: 8pt;
     padding-top: 4px;
     padding-bottom: 4px;
     padding-left: 6px;
     padding-right: 6px;
-    color: white;
-    background-color: #9999FF;
-    border-left: 1px solid #003399;
-    border-top: 1px solid #003399;
-    border-right: 1px solid white;
-    border-bottom: 1px solid white;
 }
 
 .menubar
@@ -129,10 +133,30 @@ table.logobar
 {
     display: block;
     width: 100%;
-    padding-left: 2em;
-    padding-right: 2em;
-    padding-top: 0.25em;
-    padding-bottom: 0.25em;
+    padding-left: 1em;
+    padding-right: 1em;
+    margin-left: 1em;
+    margin-right: 1em;
+    padding-top: 0.2em;
+    padding-bottom: 0.2em;
+    margin-top: 2px;
+    margin-bottom: 2px;
+}
+
+.menuitem-selected
+{
+    display: block;
+    width: 100%;
+    padding-left: 1em;
+    padding-right: 1em;
+    margin-left: 1em;
+    margin-right: 1em;
+    padding-top: 0.2em;
+    padding-bottom: 0.2em;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    background-color: #9999FF;
+    color: black;
 }
 
 .content
@@ -185,6 +209,11 @@ table.logobar
 }
 
 .icons
+{
+    display: none;
+}
+
+.dummy
 {
     display: none;
 }
@@ -298,6 +327,68 @@ a.menuitem:link, a.menuitem:visited
 }
 
 a.menuitem:focus
+{
+    color: black;
+    outline: none;
+}
+
+/********************************/
+a.category-selected:link:hover, a.category-selected:visited:hover, a.category-selected:active,
+a.homecategory-selected:link:hover, a.homecategory-selected:visited:hover, a.homecategory-selected:active
+{
+    color: black;
+    background-color: #9999FF;
+    text-decoration: underline;
+}
+
+a.category-selected:active, 
+a.homecategory-selected:active
+{
+    color: black;
+    background-color: #9999FF;
+    border-left: 1px solid #003399;
+    border-top: 1px solid #003399;
+    border-right: 1px solid #9999FF;
+    border-bottom: 1px solid #9999FF;
+    outline: none;
+    text-decoration: underline;
+}
+
+a.category-selected:link, a.category-selected:visited, 
+a.homecategory-selected:link, a.homecategory-selected:visited
+{
+    background-color: #666699;
+    color: white;
+    text-decoration: underline;
+}
+
+a.category-selected:focus, 
+a.homecategory-selected:focus
+{
+    outline: none;
+}
+
+a.menuitem-selected:link:hover, a.menuitem-selected:visited:hover, a.menuitem-selected:active
+{
+    color: black;
+    background-color: #9999FF;
+}
+
+a.menuitem-selected:active
+{
+    color: black;
+    background-color: #9999FF;
+    outline: none;
+}
+
+a.menuitem-selected:link, a.menuitem-selected:visited
+{
+    background-color: #9999FF;
+    color: black;
+    text-decoration: none;
+}
+
+a.menuitem-selected:focus
 {
     color: black;
     outline: none;

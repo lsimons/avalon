@@ -3,8 +3,10 @@
     version="1.0" 
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     xml:lang="en" 
-    lang="en"
 >
+  <xsl:param name="directory" />
+  <xsl:param name="file" />
+  <xsl:param name="fullpath" />
   <xsl:template match="project" >
     <project>
       <xsl:apply-templates />  
@@ -44,10 +46,38 @@
   </xsl:template>
 
   <xsl:template match="item" >
-      <xsl:copy-of select="." />
+    <item>
+      <xsl:choose>
+        <!-- Contains index.html and a directory -->
+        <xsl:when test="contains( @href, 'index.html') and contains( @href, '/')" >
+          <xsl:attribute name="href"><xsl:value-of select="substring-before( @href, 'index.html' ) " /></xsl:attribute>
+          <xsl:attribute name="name"><xsl:value-of select="@name" /></xsl:attribute>
+          <xsl:if test="contains( $fullpath, substring-before( @href, 'index.html' ) )" >
+            <xsl:attribute name="selected">true</xsl:attribute>
+          </xsl:if>
+        </xsl:when>
+        <!-- Contains an html file without a directory -->
+        <xsl:when test="contains( @href, '.html') and not( contains( @href, '/') )" >
+          <xsl:attribute name="href"><xsl:value-of select="@href" /></xsl:attribute>
+          <xsl:attribute name="name"><xsl:value-of select="@name" /></xsl:attribute>
+        </xsl:when>
+        <!-- Contains a directory without file -->
+        <xsl:when test="contains( @href, 'index.html') and contains( @href, '/')" >
+          <xsl:attribute name="href"><xsl:value-of select="substring-before( @href, 'index.html' ) " /></xsl:attribute>
+          <xsl:attribute name="name"><xsl:value-of select="@name" /></xsl:attribute>
+          <xsl:if test="contains( $fullpath, substring-before( @href, 'index.html' ) )" >
+            <xsl:attribute name="selected">true</xsl:attribute>
+          </xsl:if>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:attribute name="href"><xsl:value-of select="substring-before( @href, 'index.html' ) " /></xsl:attribute>
+          <xsl:attribute name="name"><xsl:value-of select="@name" /></xsl:attribute>
+          <xsl:if test="contains( $fullpath, @href)" >
+            <xsl:attribute name="selected">true</xsl:attribute>
+          </xsl:if>
+        </xsl:otherwise>
+      </xsl:choose>
+    </item>
   </xsl:template>
   
 </xsl:stylesheet> 
-
-
-
