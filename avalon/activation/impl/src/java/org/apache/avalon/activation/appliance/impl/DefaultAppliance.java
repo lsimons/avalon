@@ -108,7 +108,7 @@ import org.apache.avalon.meta.info.StageDescriptor;
  * appliance instance.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.23 $ $Date: 2004/01/21 05:17:26 $
+ * @version $Revision: 1.24 $ $Date: 2004/01/21 12:38:48 $
  */
 public class DefaultAppliance extends AbstractAppliance implements Appliance
 {
@@ -1409,7 +1409,8 @@ public class DefaultAppliance extends AbstractAppliance implements Appliance
             catch( Throwable e )
             {
                 final String error = 
-                  "Proxy establishment failure.";
+                  "Proxy establishment failure: " 
+                  + e.getMessage();
                 getLogger().error( error );
                 throw new LifecycleException( error, e );
             }
