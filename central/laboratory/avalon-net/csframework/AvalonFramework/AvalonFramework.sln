@@ -7,38 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Apache.Avalon.Framework.Tes
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Apache.Avalon.Meta", "..\..\Meta\Apache.Avalon.Meta.csproj", "{1AFD63DC-D552-49B7-9088-03C1A4DED598}"
-	ProjectSection(ProjectDependencies) = postProject
-	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Apache.Avalon.Meta.Test", "..\..\MetaTest\Apache.Avalon.Meta.Test.csproj", "{71F72AE0-E10D-4FA8-88B5-C6D9026E9A3A}"
-	ProjectSection(ProjectDependencies) = postProject
-	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Apache.Avalon.Container", "..\..\cscontainer\AvalonContainer\Apache.Avalon.Container.csproj", "{0638D63A-8CE2-435B-89B8-E67A3D1904F7}"
-	ProjectSection(ProjectDependencies) = postProject
-	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Apache.Avalon.Container.Test", "..\..\cscontainer\AvalonContainerTest\Apache.Avalon.Container.Test.csproj", "{DE388F53-A538-424E-B289-DB5D05BC0169}"
-	ProjectSection(ProjectDependencies) = postProject
-	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Apache.Avalon.Repository", "..\..\Repository\Apache.Avalon.Repository.csproj", "{73F7E12F-646F-4822-B2DB-70670F9FEB36}"
-	ProjectSection(ProjectDependencies) = postProject
-	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Apache.Avalon.Composition.Data.Builder", "..\..\Composition\DataBuilder\Apache.Avalon.Composition.Data.Builder.csproj", "{87E2C42D-B81A-4919-83BC-B0977945249B}"
-	ProjectSection(ProjectDependencies) = postProject
-	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Apache.Avalon.Composition.Logging", "..\..\Composition\Logging\Apache.Avalon.Composition.Logging.csproj", "{EEF62E78-C58A-4DA0-BA62-A416330DBF58}"
-	ProjectSection(ProjectDependencies) = postProject
-	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Apache.Avalon.Composition.Data", "..\..\Composition\Data\Apache.Avalon.Composition.Data.csproj", "{0DB30CF7-345A-414C-8D35-10EF99911827}"
-	ProjectSection(ProjectDependencies) = postProject
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfiguration) = preSolution
 		Debug = Debug
@@ -53,38 +21,6 @@ Global
 		{E690C5BB-6DA6-4375-8550-E4340CEA9FDD}.Debug.Build.0 = Debug|.NET
 		{E690C5BB-6DA6-4375-8550-E4340CEA9FDD}.Release.ActiveCfg = Release|.NET
 		{E690C5BB-6DA6-4375-8550-E4340CEA9FDD}.Release.Build.0 = Release|.NET
-		{1AFD63DC-D552-49B7-9088-03C1A4DED598}.Debug.ActiveCfg = Debug|.NET
-		{1AFD63DC-D552-49B7-9088-03C1A4DED598}.Debug.Build.0 = Debug|.NET
-		{1AFD63DC-D552-49B7-9088-03C1A4DED598}.Release.ActiveCfg = Release|.NET
-		{1AFD63DC-D552-49B7-9088-03C1A4DED598}.Release.Build.0 = Release|.NET
-		{71F72AE0-E10D-4FA8-88B5-C6D9026E9A3A}.Debug.ActiveCfg = Debug|.NET
-		{71F72AE0-E10D-4FA8-88B5-C6D9026E9A3A}.Debug.Build.0 = Debug|.NET
-		{71F72AE0-E10D-4FA8-88B5-C6D9026E9A3A}.Release.ActiveCfg = Release|.NET
-		{71F72AE0-E10D-4FA8-88B5-C6D9026E9A3A}.Release.Build.0 = Release|.NET
-		{0638D63A-8CE2-435B-89B8-E67A3D1904F7}.Debug.ActiveCfg = Debug|.NET
-		{0638D63A-8CE2-435B-89B8-E67A3D1904F7}.Debug.Build.0 = Debug|.NET
-		{0638D63A-8CE2-435B-89B8-E67A3D1904F7}.Release.ActiveCfg = Release|.NET
-		{0638D63A-8CE2-435B-89B8-E67A3D1904F7}.Release.Build.0 = Release|.NET
-		{DE388F53-A538-424E-B289-DB5D05BC0169}.Debug.ActiveCfg = Debug|.NET
-		{DE388F53-A538-424E-B289-DB5D05BC0169}.Debug.Build.0 = Debug|.NET
-		{DE388F53-A538-424E-B289-DB5D05BC0169}.Release.ActiveCfg = Release|.NET
-		{DE388F53-A538-424E-B289-DB5D05BC0169}.Release.Build.0 = Release|.NET
-		{73F7E12F-646F-4822-B2DB-70670F9FEB36}.Debug.ActiveCfg = Debug|.NET
-		{73F7E12F-646F-4822-B2DB-70670F9FEB36}.Debug.Build.0 = Debug|.NET
-		{73F7E12F-646F-4822-B2DB-70670F9FEB36}.Release.ActiveCfg = Release|.NET
-		{73F7E12F-646F-4822-B2DB-70670F9FEB36}.Release.Build.0 = Release|.NET
-		{87E2C42D-B81A-4919-83BC-B0977945249B}.Debug.ActiveCfg = Debug|.NET
-		{87E2C42D-B81A-4919-83BC-B0977945249B}.Debug.Build.0 = Debug|.NET
-		{87E2C42D-B81A-4919-83BC-B0977945249B}.Release.ActiveCfg = Release|.NET
-		{87E2C42D-B81A-4919-83BC-B0977945249B}.Release.Build.0 = Release|.NET
-		{EEF62E78-C58A-4DA0-BA62-A416330DBF58}.Debug.ActiveCfg = Debug|.NET
-		{EEF62E78-C58A-4DA0-BA62-A416330DBF58}.Debug.Build.0 = Debug|.NET
-		{EEF62E78-C58A-4DA0-BA62-A416330DBF58}.Release.ActiveCfg = Release|.NET
-		{EEF62E78-C58A-4DA0-BA62-A416330DBF58}.Release.Build.0 = Release|.NET
-		{0DB30CF7-345A-414C-8D35-10EF99911827}.Debug.ActiveCfg = Debug|.NET
-		{0DB30CF7-345A-414C-8D35-10EF99911827}.Debug.Build.0 = Debug|.NET
-		{0DB30CF7-345A-414C-8D35-10EF99911827}.Release.ActiveCfg = Release|.NET
-		{0DB30CF7-345A-414C-8D35-10EF99911827}.Release.Build.0 = Release|.NET
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 	EndGlobalSection
