@@ -1,6 +1,5 @@
-org.apache.avalon.repository
-org.apache.avalon.repository.impl
-org.apache.avalon.repository.main
-org.apache.avalon.repository.meta
-org.apache.avalon.repository.provider
-org.apache.avalon.repository.util
+org.apache.avalon.util.defaults
+org.apache.avalon.util.env
+org.apache.avalon.util.exception
+org.apache.avalon.util.factory
+org.apache.avalon.util.factory.impl
