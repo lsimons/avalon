@@ -78,15 +78,15 @@ public class ConfigurationMerger
 
         for( int i = 0; i < lc.length; i++ )
         {
-            final Configuration mergeWith = getMergePartner( lc[i], layer, base );
+            final Configuration mergeWith = getMergePartner( lc[ i ], layer, base );
 
             if( null == mergeWith )
             {
-                merged.addChild( lc[i] );
+                merged.addChild( lc[ i ] );
             }
             else
             {
-                merged.addChild( merge( lc[i], mergeWith ) );
+                merged.addChild( merge( lc[ i ], mergeWith ) );
 
                 baseUsed.add( mergeWith );
             }
@@ -94,9 +94,9 @@ public class ConfigurationMerger
 
         for( int i = 0; i < bc.length; i++ )
         {
-            if( !baseUsed.contains( bc[i] ) )
+            if( !baseUsed.contains( bc[ i ] ) )
             {
-                merged.addChild( bc[i] );
+                merged.addChild( bc[ i ] );
             }
         }
     }
@@ -124,7 +124,7 @@ public class ConfigurationMerger
 
             if( layerKids.length == 1 && baseKids.length == 1 )
             {
-                return baseKids[0];
+                return baseKids[ 0 ];
             }
             else
             {
@@ -157,9 +157,9 @@ public class ConfigurationMerger
 
         for( int i = 0; i < names.length; i++ )
         {
-            if( !names[i].startsWith( Constants.MERGE_METADATA_PREFIX ) )
+            if( !names[ i ].startsWith( Constants.MERGE_METADATA_PREFIX ) )
             {
-                dest.setAttribute( names[i], source.getAttribute( names[i] ) );
+                dest.setAttribute( names[ i ], source.getAttribute( names[ i ] ) );
             }
         }
     }

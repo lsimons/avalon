@@ -65,7 +65,7 @@ public abstract class AbstractLogEnabledInstrumentable
         if( m_registered )
         {
             throw new IllegalStateException( "Instruments can not be added after the "
-                + "Instrumentable is registered with the InstrumentManager." );
+                                             + "Instrumentable is registered with the InstrumentManager." );
         }
         m_instrumentList.add( instrument );
     }
@@ -85,7 +85,7 @@ public abstract class AbstractLogEnabledInstrumentable
         if( m_registered )
         {
             throw new IllegalStateException( "Child Instrumentables can not be added after the "
-                + "Instrumentable is registered with the InstrumentManager." );
+                                             + "Instrumentable is registered with the InstrumentManager." );
         }
         m_childList.add( child );
     }

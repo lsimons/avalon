@@ -57,7 +57,7 @@ package org.apache.excalibur.util;
  * Windows support.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.3 $ $Date: 2002/09/26 18:38:50 $
+ * @version CVS $Revision: 1.4 $ $Date: 2002/10/02 01:46:58 $
  */
 public final class SystemUtil
 {
@@ -112,7 +112,7 @@ public final class SystemUtil
         final StringBuffer sb = new StringBuffer();
 
         final int size = mosname.length();
-        for( int i =0; i < size; i++ )
+        for( int i = 0; i < size; i++ )
         {
             final char ch = mosname.charAt( i );
             if( ch != '\t' && ch != '\r' &&

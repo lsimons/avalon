@@ -34,24 +34,24 @@ import org.w3c.dom.NodeList;
  * </pre>
  *
  * @author <a href="mailto:dims@yahoo.com">Davanum Srinivas</a>
- * @version CVS $Revision: 1.5 $ $Date: 2002/08/02 21:24:59 $ $Author: mirceatoma $
+ * @version CVS $Revision: 1.6 $ $Date: 2002/10/02 01:47:05 $ $Author: donaldp $
  */
 public final class XPathProcessorImpl extends AbstractLogEnabled implements XPathProcessor, Configurable, PrefixResolver, Component, ThreadSafe
 {
-    
+
     private String m_baseURI;
     private final HashMap m_mappings = new HashMap();
-        
-    public void configure(Configuration configuration) throws ConfigurationException 
+
+    public void configure( Configuration configuration ) throws ConfigurationException
     {
         final Configuration namespaceMappings = configuration.getChild( "namespace-mappings", true );
-        m_baseURI = namespaceMappings.getAttribute( "base-uri", null);
-        
+        m_baseURI = namespaceMappings.getAttribute( "base-uri", null );
+
         final Configuration[] namespaces = namespaceMappings.getChildren( "namespace" );
-        for ( int i = 0; i < namespaces.length; i++ ) 
+        for( int i = 0; i < namespaces.length; i++ )
         {
-            final String prefix = namespaces[i].getAttribute( "prefix" );
-            final String uri = namespaces[i].getAttribute( "uri" );
+            final String prefix = namespaces[ i ].getAttribute( "prefix" );
+            final String uri = namespaces[ i ].getAttribute( "uri" );
             m_mappings.put( prefix, uri );
         }
     }
@@ -100,14 +100,14 @@ public final class XPathProcessorImpl extends AbstractLogEnabled implements XPat
             return new EmptyNodeList();
         }
     }
-    
+
     /** Evaluate XPath expression within a context.
      *
      * @param contextNode The context node.
      * @param str A valid XPath string.
      * @return expression result as boolean.
      */
-    public boolean evaluateAsBoolean(Node contextNode, String str) 
+    public boolean evaluateAsBoolean( Node contextNode, String str )
     {
         try
         {
@@ -118,33 +118,35 @@ public final class XPathProcessorImpl extends AbstractLogEnabled implements XPat
         {
             return false;
         }
-    }    
-        
+    }
+
     /** Evaluate XPath expression within a context.
      *
      * @param contextNode The context node.
      * @param str A valid XPath string.
      * @return expression result as number.
      */
-    public Number evaluateAsNumber(Node contextNode, String str) {
+    public Number evaluateAsNumber( Node contextNode, String str )
+    {
         try
         {
             final XObject result = XPathAPI.eval( contextNode, str, this );
-            return new Double(result.num());
+            return new Double( result.num() );
         }
         catch( final TransformerException te )
         {
             return null;
         }
     }
-        
+
     /** Evaluate XPath expression within a context.
      *
      * @param contextNode The context node.
      * @param str A valid XPath string.
      * @return expression result as string.
      */
-    public String evaluateAsString(Node contextNode, String str) {
+    public String evaluateAsString( Node contextNode, String str )
+    {
         try
         {
             final XObject result = XPathAPI.eval( contextNode, str, this );
@@ -155,23 +157,24 @@ public final class XPathProcessorImpl extends AbstractLogEnabled implements XPat
             return null;
         }
     }
-    
-    public String getBaseIdentifier() 
+
+    public String getBaseIdentifier()
     {
         return m_baseURI;
     }
-    
-    public String getNamespaceForPrefix( String prefix ) 
+
+    public String getNamespaceForPrefix( String prefix )
     {
         return (String)m_mappings.get( prefix );
     }
-    
-    public String getNamespaceForPrefix( String prefix, Node node ) 
+
+    public String getNamespaceForPrefix( String prefix, Node node )
     {
         return getNamespaceForPrefix( prefix );
-    }    
-    
-    public boolean handlesNullPrefixes() {
+    }
+
+    public boolean handlesNullPrefixes()
+    {
         return true;
     }
 }

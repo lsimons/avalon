@@ -49,7 +49,6 @@
 */
 package org.apache.excalibur.mpool;
 
-
 /**
  * This interface standardizes the behaviour of a resettable object.
  * A resettable object is defined as an object that can be used to
@@ -69,7 +68,7 @@ package org.apache.excalibur.mpool;
  * @author <a href="mailto:bloritach@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:stefano@apache.org">Stefano Mazzocchi</a>
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/09/26 00:34:17 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/10/02 01:46:58 $
  * @since 4.0
  */
 public interface Resettable

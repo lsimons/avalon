@@ -244,7 +244,7 @@ public abstract class AbstractThreadManager extends AbstractLogEnabled
 
                 while( it.hasNext() )
                 {
-                    ( (ThreadControl) it.next() ).join( 1000 );
+                    ( (ThreadControl)it.next() ).join( 1000 );
                 }
 
                 m_pipelines.clear();
@@ -289,10 +289,10 @@ public abstract class AbstractThreadManager extends AbstractLogEnabled
 
                     while( i.hasNext() )
                     {
-                        PipelineRunner nextRunner = ( PipelineRunner ) i.next();
+                        PipelineRunner nextRunner = (PipelineRunner)i.next();
                         ThreadControl control = null;
 
-                        while (control == null )
+                        while( control == null )
                         {
                             try
                             {
@@ -314,7 +314,7 @@ public abstract class AbstractThreadManager extends AbstractLogEnabled
                             }
                         }
 
-                        m_controls.add(control);
+                        m_controls.add( control );
                     }
                 }
                 finally
@@ -328,10 +328,10 @@ public abstract class AbstractThreadManager extends AbstractLogEnabled
 
                 Iterator it = m_controls.iterator();
 
-                while ( it.hasNext() )
+                while( it.hasNext() )
                 {
-                    ThreadControl control = (ThreadControl) it.next();
-                    if (control.isFinished()) it.remove();
+                    ThreadControl control = (ThreadControl)it.next();
+                    if( control.isFinished() ) it.remove();
                 }
 
                 m_mutex.release();
@@ -386,7 +386,7 @@ public abstract class AbstractThreadManager extends AbstractLogEnabled
             {
                 try
                 {
-                    handler.handleEvents( sources[i].dequeueAll() );
+                    handler.handleEvents( sources[ i ].dequeueAll() );
                 }
                 catch( RuntimeException e )
                 {

@@ -20,9 +20,9 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
-import org.apache.avalon.framework.service.Serviceable;
-import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.ServiceException;
+import org.apache.avalon.framework.service.ServiceManager;
+import org.apache.avalon.framework.service.Serviceable;
 import org.apache.avalon.phoenix.BlockContext;
 import org.apache.excalibur.altrmi.common.MethodRequest;
 import org.apache.excalibur.altrmi.server.AltrmiAuthenticator;
@@ -32,17 +32,17 @@ import org.apache.excalibur.altrmi.server.MethodInvocationHandler;
 import org.apache.excalibur.altrmi.server.PublicationDescription;
 import org.apache.excalibur.altrmi.server.PublicationException;
 import org.apache.excalibur.altrmi.server.impl.AbstractServer;
-import org.apache.excalibur.altrmi.server.impl.classretrievers.JarFileClassRetriever;
-import org.apache.excalibur.altrmi.server.impl.classretrievers.NoClassRetriever;
 import org.apache.excalibur.altrmi.server.impl.classretrievers.AbstractDynamicGeneratorClassRetriever;
 import org.apache.excalibur.altrmi.server.impl.classretrievers.BcelDynamicGeneratorClassRetriever;
+import org.apache.excalibur.altrmi.server.impl.classretrievers.JarFileClassRetriever;
+import org.apache.excalibur.altrmi.server.impl.classretrievers.NoClassRetriever;
 
 /**
  * Abstract Publisher.
  *
  * @author Paul Hammant <a href="mailto:Paul_Hammant@yahoo.com">Paul_Hammant@yahoo.com</a>
  * @author Thomas Kiesgen
- * @version $Revision: 1.20 $
+ * @version $Revision: 1.21 $
  */
 public abstract class AbstractPublisher
     extends AbstractLogEnabled

@@ -19,7 +19,7 @@ import org.xml.sax.SAXException;
  * into SAX events.
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.3 $ $Date: 2002/08/04 04:23:10 $
+ * @version CVS $Revision: 1.4 $ $Date: 2002/10/02 01:47:05 $
  */
 
 public interface XMLizer
@@ -39,10 +39,10 @@ public interface XMLizer
      * @throws ComponentException if no suitable converter is found
      * @todo Remove ComponentException as it has no place being part of the worker interface
      */
-    void toSAX( InputStream    stream,
-                String         mimeType,
-                String         systemID,
+    void toSAX( InputStream stream,
+                String mimeType,
+                String systemID,
                 ContentHandler handler )
-    throws SAXException, IOException, ComponentException;
+        throws SAXException, IOException, ComponentException;
 }
 

@@ -14,7 +14,7 @@ package org.apache.excalibur.instrument;
  *  times that a method is accessed.
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.3 $ $Date: 2002/09/26 05:44:52 $
+ * @version CVS $Revision: 1.4 $ $Date: 2002/10/02 01:47:02 $
  * @since 4.1
  */
 public class CounterInstrument
@@ -61,11 +61,11 @@ public class CounterInstrument
     public void increment( int count )
     {
         // Check the count
-        if ( count <= 0 )
+        if( count <= 0 )
         {
             throw new IllegalArgumentException( "Count must be a positive value." );
         }
-        
+
         InstrumentProxy proxy = getInstrumentProxy();
         if( proxy != null )
         {

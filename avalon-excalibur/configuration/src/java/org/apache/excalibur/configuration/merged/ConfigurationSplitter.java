@@ -96,7 +96,7 @@ public class ConfigurationSplitter
 
         for( int i = 0; i < kids.length; i++ )
         {
-            final Configuration mergedChild = kids[i];
+            final Configuration mergedChild = kids[ i ];
             final String name = mergedChild.getName();
             final Configuration[] mc = merged.getChildren( name );
             final Configuration[] bc = base.getChildren( name );
@@ -115,7 +115,7 @@ public class ConfigurationSplitter
             }
             else if( mc.length == 1 && bc.length == 1 )
             {
-                mergedWith = bc[0];
+                mergedWith = bc[ 0 ];
             }
             else //we know that mc.length > 1 here, so find the "key" attribute
             {
@@ -127,7 +127,7 @@ public class ConfigurationSplitter
 
                 if( matches.length == 1 )
                 {
-                    mergedWith = matches[0];
+                    mergedWith = matches[ 0 ];
                 }
                 else
                 {
@@ -139,11 +139,11 @@ public class ConfigurationSplitter
 
             if( null == mergedWith )
             {
-                layer.addChild( kids[i] );
+                layer.addChild( kids[ i ] );
             }
-            else if( !ConfigurationUtil.equals( kids[i], mergedWith ) )
+            else if( !ConfigurationUtil.equals( kids[ i ], mergedWith ) )
             {
-                final DefaultConfiguration layerChild = doSplit( kids[i], mergedWith, keyAttr );
+                final DefaultConfiguration layerChild = doSplit( kids[ i ], mergedWith, keyAttr );
 
                 layerChild.makeReadOnly();
 
@@ -160,14 +160,14 @@ public class ConfigurationSplitter
 
         for( int i = 0; i < c.length; i++ )
         {
-            final String[] attrs = c[i].getAttributeNames();
+            final String[] attrs = c[ i ].getAttributeNames();
 
             for( int j = 0; j < attrs.length; j++ )
             {
-                final String attr = attrs[j];
+                final String attr = attrs[ j ];
 
                 if( !testedAttributes.contains( attr )
-                    && isUniqueAttribute( attr, c[i].getAttribute( attr ), i, c ) )
+                    && isUniqueAttribute( attr, c[ i ].getAttribute( attr ), i, c ) )
                 {
                     if( null == uniqueAttr )
                     {
@@ -176,7 +176,7 @@ public class ConfigurationSplitter
                     else
                     {
                         throw new ConfigurationException( "Multiple unique attributes for child "
-                                                          + "[name: " + c[0].getName()
+                                                          + "[name: " + c[ 0 ].getName()
                                                           + ", unique1: " + uniqueAttr
                                                           + ", unique2: " + attr + "]" );
                     }
@@ -191,7 +191,7 @@ public class ConfigurationSplitter
         if( null == uniqueAttr )
         {
             throw new ConfigurationException( "Unable to find unique attribute for "
-                                              + "children of name: " + c[0].getName() );
+                                              + "children of name: " + c[ 0 ].getName() );
         }
 
         return uniqueAttr;
@@ -208,7 +208,7 @@ public class ConfigurationSplitter
             {
                 try
                 {
-                    if( value.equals( c[i].getAttribute( attr ) ) )
+                    if( value.equals( c[ i ].getAttribute( attr ) ) )
                     {
                         return false;
                     }
@@ -256,21 +256,21 @@ public class ConfigurationSplitter
 
         for( int i = 0; i < mergedAttr.length; i++ )
         {
-            final String value = merged.getAttribute( mergedAttr[i] );
+            final String value = merged.getAttribute( mergedAttr[ i ] );
 
             try
             {
-                final String baseValue = base.getAttribute( mergedAttr[i] );
+                final String baseValue = base.getAttribute( mergedAttr[ i ] );
 
                 if( !value.equals( baseValue ) )
                 {
-                    layer.setAttribute( mergedAttr[i], value );
+                    layer.setAttribute( mergedAttr[ i ], value );
                 }
             }
             catch( ConfigurationException e )
             {
                 //not in base add to layer
-                layer.setAttribute( mergedAttr[i], value );
+                layer.setAttribute( mergedAttr[ i ], value );
             }
         }
     }

@@ -70,7 +70,7 @@ import org.apache.log.Priority;
  *
  * @author <a href="mailto:giacomo@apache.org">Giacomo Pati</a>
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.7 $ $Date: 2002/09/28 04:44:35 $
+ * @version CVS $Revision: 1.8 $ $Date: 2002/10/02 01:47:02 $
  * @since 4.0
  */
 public class LogKitLoggerManager
@@ -134,7 +134,7 @@ public class LogKitLoggerManager
      * specified logger name as root logger.
      */
     public LogKitLoggerManager( final String prefix, final Hierarchy hierarchy,
-        final Logger defaultLogger )
+                                final Logger defaultLogger )
     {
         this( prefix, hierarchy, defaultLogger, defaultLogger );
     }
@@ -144,7 +144,7 @@ public class LogKitLoggerManager
      * specified logger name as root logger.
      */
     public LogKitLoggerManager( final String prefix, final Hierarchy hierarchy,
-        final Logger defaultLogger, final Logger logger )
+                                final Logger defaultLogger, final Logger logger )
     {
         m_prefix = prefix;
         m_hierarchy = hierarchy;
@@ -189,7 +189,7 @@ public class LogKitLoggerManager
         if( m_logger.isDebugEnabled() )
         {
             m_logger.debug( "Logger for category " + fullCategoryName + " not defined in "
-                                    + "configuration. New Logger created and returned" );
+                            + "configuration. New Logger created and returned" );
         }
 
         return new LogKitLogger( m_hierarchy.getLoggerFor( fullCategoryName ) );
@@ -303,9 +303,9 @@ public class LogKitLoggerManager
      */
     private final String getFullCategoryName( String prefix, String category )
     {
-        if( ( null == prefix ) || ( prefix.length() == 0 )  )
+        if( ( null == prefix ) || ( prefix.length() == 0 ) )
         {
-            if ( category == null )
+            if( category == null )
             {
                 return "";
             }

@@ -25,7 +25,7 @@ import org.apache.avalon.framework.component.ComponentSelector;
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Id: MonitorTestCase.java,v 1.12 2002/09/07 12:14:02 donaldp Exp $
+ * @version $Id: MonitorTestCase.java,v 1.13 2002/10/02 01:47:04 donaldp Exp $
  */
 public class MonitorTestCase
     extends ExcaliburTestCase
@@ -188,7 +188,7 @@ public class MonitorTestCase
     {
         final long sleepTo = System.currentTimeMillis() + 1000L;
         while( System.currentTimeMillis() < sleepTo &&
-            (!listener.hasBeenModified()) )
+            ( !listener.hasBeenModified() ) )
         {
             delay();
         }

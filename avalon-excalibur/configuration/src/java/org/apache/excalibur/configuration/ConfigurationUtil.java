@@ -51,8 +51,8 @@ public class ConfigurationUtil
             for( int i = 0; i < names.length; i++ )
             {
                 buffer.append( " "
-                               + names[i] + "=\""
-                               + config.getAttribute( names[i], "???" ) + "\"" );
+                               + names[ i ] + "=\""
+                               + config.getAttribute( names[ i ], "???" ) + "\"" );
             }
         }
         Configuration[] children = config.getChildren();
@@ -61,7 +61,7 @@ public class ConfigurationUtil
             buffer.append( ">" );
             for( int j = 0; j < children.length; j++ )
             {
-                list( buffer, lead + "  ", children[j] );
+                list( buffer, lead + "  ", children[ j ] );
             }
             buffer.append( "\n" + lead + "</" + config.getName() + ">" );
         }
@@ -112,24 +112,24 @@ public class ConfigurationUtil
         {
             if( null == attribute )
             {
-                list.add( children[i] );
+                list.add( children[ i ] );
             }
             else
             {
-                String v = children[i].getAttribute( attribute, null );
+                String v = children[ i ].getAttribute( attribute, null );
 
                 if( v != null )
                 {
                     if( ( value == null ) || v.equals( value ) )
                     {
                         // it's a match
-                        list.add( children[i] );
+                        list.add( children[ i ] );
                     }
                 }
             }
         }
 
-        return ( Configuration[] ) list.toArray( new Configuration[list.size()] );
+        return (Configuration[])list.toArray( new Configuration[ list.size() ] );
     }
 
     /**
@@ -164,13 +164,13 @@ public class ConfigurationUtil
         Configuration[] children = config.getChildren( element );
         for( int i = 0; i < children.length; i++ )
         {
-            String v = children[i].getAttribute( attribute, null );
+            String v = children[ i ].getAttribute( attribute, null );
             if( v != null )
             {
                 if( ( value == null ) || v.equals( value ) )
                 {
                     // it's a match
-                    return children[i];
+                    return children[ i ];
                 }
             }
         }
@@ -199,7 +199,7 @@ public class ConfigurationUtil
         {
             try
             {
-                c.setAttribute( attributes[i], config.getAttribute( attributes[i] ) );
+                c.setAttribute( attributes[ i ], config.getAttribute( attributes[ i ] ) );
             }
             catch( ConfigurationException e )
             {
@@ -210,7 +210,7 @@ public class ConfigurationUtil
 
         for( int i = 0; i < kids.length; i++ )
         {
-            c.addChild( kids[i] );
+            c.addChild( kids[ i ] );
         }
 
         c.makeReadOnly();
@@ -267,7 +267,7 @@ public class ConfigurationUtil
 
         for( int i = 0; i < kids1.length; i++ )
         {
-            if( !isMatchingChild( kids1[i], kids2 ) )
+            if( !isMatchingChild( kids1[ i ], kids2 ) )
             {
                 return false;
             }
@@ -282,7 +282,7 @@ public class ConfigurationUtil
 
         while( i.hasNext() )
         {
-            if( equals( c, ( Configuration ) i.next() ) )
+            if( equals( c, (Configuration)i.next() ) )
             {
                 i.remove();
 
@@ -306,7 +306,7 @@ public class ConfigurationUtil
         {
             try
             {
-                if( !c1.getAttribute( attr[i] ).equals( c2.getAttribute( attr[i], null ) ) )
+                if( !c1.getAttribute( attr[ i ] ).equals( c2.getAttribute( attr[ i ], null ) ) )
                 {
                     return false;
                 }

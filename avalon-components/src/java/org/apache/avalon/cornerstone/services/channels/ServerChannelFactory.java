@@ -9,7 +9,6 @@ package org.apache.avalon.cornerstone.services.channels;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
-import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
 
 /**

@@ -16,11 +16,11 @@ import org.xml.sax.SAXException;
  * Converts a DOM document to a stream of SAX events.
  *
  * @author <a href="mailto:mirceatoma@apache.org">Mircea Toma</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/09/03 20:26:59 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/10/02 01:47:05 $
  */
-public interface DOMSerializer 
-{    
+public interface DOMSerializer
+{
     String ROLE = DOMSerializer.class.getName();
-    
+
     void serialize( Document document, ContentHandler contentHandler, LexicalHandler lexicalHandler ) throws SAXException;
 }

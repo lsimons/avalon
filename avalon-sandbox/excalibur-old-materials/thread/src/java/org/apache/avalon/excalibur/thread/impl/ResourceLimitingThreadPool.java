@@ -32,7 +32,7 @@ import org.apache.excalibur.thread.ThreadControl;
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
  * @author <a href="mailto:stefano@apache.org">Stefano Mazzocchi</a>
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version CVS $Revision: 1.7 $ $Date: 2002/09/28 09:31:01 $
+ * @version CVS $Revision: 1.8 $ $Date: 2002/10/02 01:47:04 $
  * @since 4.1
  */
 public class ResourceLimitingThreadPool
@@ -138,7 +138,7 @@ public class ResourceLimitingThreadPool
                                       trimInterval );
         try
         {
-            m_pool = new BasicThreadPool(this, name, m_underlyingPool, context );
+            m_pool = new BasicThreadPool( this, name, m_underlyingPool, context );
         }
         catch( Exception e )
         {

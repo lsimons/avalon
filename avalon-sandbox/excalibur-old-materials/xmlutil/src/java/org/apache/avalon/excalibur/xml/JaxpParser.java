@@ -69,7 +69,7 @@ import org.xml.sax.ext.LexicalHandler;
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
  * @author <a href="mailto:sylvain@apache.org">Sylvain Wallez</a>
- * @version CVS $Revision: 1.4 $ $Date: 2002/08/04 04:27:40 $
+ * @version CVS $Revision: 1.5 $ $Date: 2002/10/02 01:47:04 $
  */
 public final class JaxpParser
     extends AbstractLogEnabled
@@ -177,12 +177,12 @@ public final class JaxpParser
         if( getLogger().isDebugEnabled() )
         {
             getLogger().debug( "JaxpParser: validating: " + validate +
-                                    ", namespace-prefixes: " + m_nsPrefixes +
-                                    ", reuse parser: " + m_reuseParsers +
-                                    ", stop on warning: " + m_stopOnWarning +
-                                    ", stop on recoverable-error: " + m_stopOnRecoverableError +
-                                    ", saxParserFactory: " + saxParserFactoryName +
-                                    ", documentBuilderFactory: " + documentBuilderFactoryName );
+                               ", namespace-prefixes: " + m_nsPrefixes +
+                               ", reuse parser: " + m_reuseParsers +
+                               ", stop on warning: " + m_stopOnWarning +
+                               ", stop on recoverable-error: " + m_stopOnRecoverableError +
+                               ", saxParserFactory: " + saxParserFactoryName +
+                               ", documentBuilderFactory: " + documentBuilderFactoryName );
         }
     }
 
@@ -321,7 +321,7 @@ public final class JaxpParser
                 try
                 {
                     m_reader.setFeature( "http://xml.org/sax/features/namespace-prefixes",
-                                       m_nsPrefixes );
+                                         m_nsPrefixes );
                 }
                 catch( final SAXException se )
                 {

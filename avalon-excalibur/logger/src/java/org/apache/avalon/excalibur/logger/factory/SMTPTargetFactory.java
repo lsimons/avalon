@@ -97,7 +97,7 @@ import org.apache.log.output.net.SMTPOutputLogTarget;
  * <p>
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/08/07 13:37:00 $
+ * @version CVS $Revision: 1.3 $ $Date: 2002/10/02 01:47:03 $
  * @since 4.1
  */
 public class SMTPTargetFactory
@@ -172,7 +172,7 @@ public class SMTPTargetFactory
     {
         final String contextkey =
             m_configuration.getAttribute( "context-key", "session-context" );
-        return (Session) m_context.get( contextkey );
+        return (Session)m_context.get( contextkey );
     }
 
     /**
@@ -214,11 +214,11 @@ public class SMTPTargetFactory
         throws ConfigurationException, AddressException
     {
         final Configuration[] toAddresses = config.getChildren( "to" );
-        final Address[] addresses = new Address[toAddresses.length];
+        final Address[] addresses = new Address[ toAddresses.length ];
 
-        for (int i = 0; i < toAddresses.length; ++i)
+        for( int i = 0; i < toAddresses.length; ++i )
         {
-            addresses[i] = createAddress( toAddresses[i].getValue() );
+            addresses[ i ] = createAddress( toAddresses[ i ].getValue() );
         }
 
         return addresses;
