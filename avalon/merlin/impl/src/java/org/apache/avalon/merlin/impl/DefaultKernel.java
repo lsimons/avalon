@@ -50,7 +50,7 @@ import org.apache.avalon.framework.logger.Logger;
  * Implementation of the default Merlin Kernel.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.5 $ $Date: 2004/01/24 23:25:31 $
+ * @version $Revision: 1.6 $ $Date: 2004/02/02 11:31:37 $
  */
 public class DefaultKernel implements Kernel, Disposable
 {
@@ -491,7 +491,24 @@ public class DefaultKernel implements Kernel, Disposable
         {
             getLogger().debug( "disposal" );
         }
+
         shutdown();
+
+        try
+        {
+            setState( DECOMMISSIONING );
+            m_system.decommission();
+        }
+        catch( Throwable e )
+        {
+            if( getLogger().isWarnEnabled() )
+            {
+                final String error =
+                  "Ignoring block decommissioning error.";
+                getLogger().warn( error, e );
+            }
+        }
+
         m_state.dispose();
     }
 }

@@ -215,6 +215,15 @@ Merlin service management platform.
       <version>2.4.0</version>
     </dependency>
 
+    <dependency>
+      <groupId>servletapi</groupId>
+      <artifactId>servletapi</artifactId>
+      <version>2.3</version>
+      <properties>
+        <avalon.classloader>api</avalon.classloader>
+      </properties>
+    </dependency>
+
   </dependencies>
   
 </project>
