@@ -1,4 +1,7 @@
-<!ENTITY % merlin-entities SYSTEM "file:../../../versioning/avalon-merlin.ent"> %merlin-entities;
-<!ENTITY % framework-entities SYSTEM "file:../../../versioning/avalon-framework.ent"> %framework-entities;
-<!ENTITY % meta-entities SYSTEM "file:../../../versioning/avalon-meta.ent"> %meta-entities;
-<!ENTITY % repo-entities SYSTEM "file:../../../versioning/avalon-repository.ent"> %repo-entities;
+<!ENTITY % util-entities SYSTEM "file:../../versioning/avalon-util.ent"> %util-entities;
+<!ENTITY % merlin-entities SYSTEM "file:../../versioning/avalon-merlin.ent"> %merlin-entities;
+<!ENTITY % framework-entities SYSTEM "file:../../versioning/avalon-framework.ent"> %framework-entities;
+<!ENTITY % meta-entities SYSTEM "file:../../versioning/avalon-meta.ent"> %meta-entities;
+<!ENTITY % repo-entities SYSTEM "file:../../versioning/avalon-repository.ent"> %repo-entities;
+<!ENTITY % logging-entities SYSTEM "file:../../versioning/avalon-logging.ent"> %logging-entities;
+<!ENTITY % logkit-entities SYSTEM "file:../../versioning/avalon-logkit.ent"> %logkit-entities;

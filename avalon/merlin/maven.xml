@@ -85,7 +85,6 @@
   <goal name="avalon:dist">
     <attainGoal name="avalon:install"/>
     <attainGoal name="avalon:site"/>
-    <!-- <attainGoal name="avalon:tutorials"/> -->
     <attainGoal name="avalon:package"/>
   </goal>
 
@@ -107,27 +106,26 @@
   -->
 
   <goal name="avalon:build" description="Build Merlin."
-    prereqs="avalon:build-main,avalon:build-kernel,avalon:build-plugin,avalon:build-externals"/>
+    prereqs="avalon:build-main,avalon:build-kernel,avalon:build-externals"/>
 
   <goal name="avalon:build-main" description="Build Merlin.">
+
     <maven:reactor basedir="${basedir}"
-      includes="extension/**/project.xml,composition/**/project.xml,activation/**/project.xml,kernel/api/project.xml,kernel/impl/project.xml"
+      includes="api/project.xml,impl/project.xml"
       banner="Installing:"
       goals="jar:install"
       ignoreFailures="false" 
       postProcessing="true" />
+
     <j:forEach var="child" items="${reactorProjects}">
-      <j:set var="dir" 
-          value="${maven.build.dir}/merlin/system"/>
+      <j:set var="dir" value="${maven.build.dir}/merlin/system"/>
       <j:set var="path" 
           value="${dir}/${child.groupId}/jars/${child.artifactId}-${child.currentVersion}.jar"/>
       <ant:copy todir="${dir}/${child.groupId}/jars" 
              preserveLastModified="true">
         <ant:fileset dir="${child.file.parentFile}/target">
-          <ant:include 
-              name="${child.artifactId}-${child.currentVersion}.jar"/>
-          <ant:include 
-              name="${child.artifactId}-${child.currentVersion}.jar.meta"/>
+          <ant:include name="${child.artifactId}-${child.currentVersion}.jar"/>
+          <ant:include name="${child.artifactId}-${child.currentVersion}.jar.meta"/>
         </ant:fileset>
       </ant:copy>
       <checksum file="${path}" fileext=".md5" />
@@ -153,7 +151,7 @@
 
   <goal name="avalon:build-kernel">
     <maven:reactor basedir="${basedir}"
-      includes="kernel/unit/project.xml,kernel/cli/project.xml"
+      includes="unit/project.xml,cli/project.xml"
       goals="jar:install"
       banner="Installing:"
       ignoreFailures="false" 
@@ -192,50 +190,6 @@
         </ant:copy>
       </j:if>
     </j:forEach>
-  </goal>
-
-  <goal name="avalon:build-plugin">
-    <maven:reactor basedir="${basedir}"
-      includes="kernel/plugin/project.xml"
-      goals="plugin:install"
-      banner="Installing:"
-      ignoreFailures="false" 
-      postProcessing="true" />
-    <j:forEach var="child" items="${reactorProjects}">
-      <j:set var="dir" 
-          value="${maven.build.dir}/merlin/system"/>
-      <j:set var="path" 
-          value="${dir}/${child.groupId}/jars/${child.artifactId}-${child.currentVersion}.jar"/>
-      <ant:copy todir="${dir}/${child.groupId}/jars" 
-             preserveLastModified="true">
-        <ant:fileset dir="${child.file.parentFile}/target">
-          <ant:include 
-              name="${child.artifactId}-${child.currentVersion}.jar"/>
-          <ant:include 
-              name="${child.artifactId}-${child.currentVersion}.jar.meta"/>
-        </ant:fileset>
-      </ant:copy>
-      <checksum file="${path}" fileext=".md5" />
-      <j:if test="${maven_gpg_exe != null}">
-        <ant:exec executable="${maven_gpg_exe}">
-          <ant:arg value="-a"/>
-          <ant:arg value="--yes"/>
-          <ant:arg value="-b"/>
-          <ant:arg value="${path}"/>
-        </ant:exec>
-      </j:if>
-      <ant:copy todir="${maven.build.dir}/merlin/plugins/" 
-             preserveLastModified="true">
-        <ant:fileset dir="${child.file.parentFile}/target">
-            <ant:include 
-              name="${child.artifactId}-${child.currentVersion}.jar"/>
-        </ant:fileset>
-      </ant:copy>
-    </j:forEach>
-    <ant:copy file="${maven.plugin.dir}/${meta.plugin.jar}" 
-       toDir="${maven.build.dir}/merlin/plugins"/>
-    <ant:copy file="${maven.plugin.dir}/${avalon.plugin.jar}" 
-       toDir="${maven.build.dir}/merlin/plugins"/>
   </goal>
 
   <goal name="avalon:build-externals" description="Build Externals.">
@@ -283,13 +237,7 @@
       </filterset>
     </ant:copy>
     <ant:copy toDir="${merlin.build.inst.dir}">
-      <fileset dir="${basedir}/platform/src">
-        <include name="bin/**/*"/>
-        <exclude name="bin/**/*.jar"/>
-        <exclude name="bin/**/*.exe"/>
-        <exclude name="bin/**/*.dll"/>
-      </fileset>
-      <fileset dir="${basedir}/kernel/cli/src">
+      <fileset dir="${basedir}/cli/src">
         <include name="bin/**/*"/>
         <exclude name="bin/**/*.jar"/>
         <exclude name="bin/**/*.exe"/>
@@ -306,10 +254,12 @@
       </filterset>
     </ant:copy>
     <ant:copy toDir="${merlin.build.inst.dir}">
-      <fileset dir="${basedir}/platform/src">
+      <fileset dir="${basedir}/cli/src">
         <include name="bin/**/*.jar"/>
         <include name="bin/**/*.exe"/>
         <include name="bin/**/*.dll"/>
+      </fileset>
+      <fileset dir="${basedir}/cli/src">
         <include name="config/**/*"/>
       </fileset>
       <fileset dir="${basedir}">
@@ -421,37 +371,6 @@
       </ant:exec>
     </j:if>
 
-    <!--
-    <ant:echo>Building tutorial kit: ${tutorial.name}</ant:echo>
-    <ant:zip zipfile="${maven.build.dir}/${tutorial.name}.zip">
-      <zipfileset dir="${basedir}/target/tutorials" prefix="tutorial"/>
-    </ant:zip>
-    <checksum file="${maven.build.dir}/${tutorial.name}.zip" fileext=".md5" />
-    <j:if test="${maven_gpg_exe != null}">
-      <ant:exec executable="${maven_gpg_exe}">
-        <ant:arg value="-a"/>
-        <ant:arg value="-b"/>
-        <ant:arg value="${maven.build.dir}/${tutorial.name}.zip"/>
-      </ant:exec>
-    </j:if>
-
-    <ant:tar longfile="gnu" tarfile="${maven.build.dir}/${tutorial.name}.tar">
-      <tarfileset dir="${basedir}/target/tutorials" prefix="tutorial"/>
-    </ant:tar>
-    <ant:gzip 
-      zipfile="${maven.build.dir}/${tutorial.name}.tar.gz"
-      src="${maven.build.dir}/${tutorial.name}.tar"/>
-    <ant:delete file="${maven.build.dir}/${tutorial.name}.tar"/>
-    <checksum file="${maven.build.dir}/${tutorial.name}.tar.gz" fileext=".md5" />
-    <j:if test="${maven_gpg_exe != null}">
-      <ant:exec executable="${maven_gpg_exe}">
-        <ant:arg value="-a"/>
-        <ant:arg value="-b"/>
-        <ant:arg value="${maven.build.dir}/${tutorial.name}.tar.gz"/>
-      </ant:exec>
-    </j:if>
-    -->
-
   </goal>
 
   <!--
@@ -467,7 +386,7 @@
   <goal name="xavalon:css-copy">
     <ant:mkdir dir="${merlin.build.inst.dir}/docs/style"/>
     <ant:copy toDir="${merlin.build.inst.dir}/docs/style">
-      <fileset dir="${basedir}/platform/etc">
+      <fileset dir="${basedir}/site/etc">
         <include name="maven.css"/>
         <include name="tigris.css"/>
       </fileset>
@@ -483,8 +402,8 @@
   <goal name="xjavadoc">
 
     <maven:reactor basedir="${basedir}"
-      includes="activation/**/project.xml,composition/**/project.xml,kernel/**/project.xml"
-      excludes="**/target/**,**/test/project.xml"
+      includes="**/project.xml"
+      excludes="**/target/**,**/test/project.xml,project.xml"
       banner="Site Prep:"
       ignoreFailures="false"
       postProcessing="true" />
@@ -531,7 +450,6 @@
 	  <link href="${avalon.util.link}" />
 	  <link href="${avalon.logkit.link}" />
 	  <link href="${avalon.logging.link}" />
-	  <!--<link href="${avalon.lifecycle.link}" />-->
 	  <link href="${excalibur.configuration.link}" />
 
         <util:tokenize 
@@ -555,56 +473,6 @@
 
   <!--
   ==============================================================================
-  veriify the the tutorials are buildable and generate a clean build defintion
-  (note: the xgen target is defined in the platform/tutorials/maven.xml file)
-  ==============================================================================
-  -->
-  <!--
-  <goal name="avalon:tutorials" prereqs="avalon:validate">
-    <ant:copy todir="${basedir}/target/tutorials">
-      <fileset dir="${basedir}/platform/tutorials">
-        <include name="**/README.TXT"/>
-        <include name="master.xml"/>
-        <include name="**/maven.xml"/>
-        <exclude name="maven.xml"/>
-      </fileset>
-    </ant:copy>
-    <ant:copy toFile="${basedir}/target/tutorials/maven.xml"
-       file="${basedir}/platform/tutorials/maven-template.xml"/>
-  </goal>
-  -->
-
-  <goal name="avalon:validate" 
-       description="Generate a clean tutorial package." >
-    <maven:reactor
-      basedir="${basedir}"
-      includes="platform/tutorials/**/project.xml"
-      excludes="**/target/**,**/mixed/**,**/jmx/**,**/security/**"
-      goals="xgen" 
-      banner="Generation:"
-      ignoreFailures="false" 
-      postProcessing="true" />
-
-    <!-- 
-    copy the generated target/package directory to the 
-    local target/tutorials directory 
-    -->
-
-    <j:set var="tutorialsDir" value="${basedir}/platform/tutorials"/>
-    <j:set var="tutorialsLen" value="${tutorialsDir.length()}"/>
-    <j:forEach var="child" items="${reactorProjects}">
-      <j:set var="pkgPath" value="${child.file.parentFile.path}"/>
-      <j:set var="pkgLen" value="${pkgPath.length()}"/>
-      <j:set var="packageName" value="${pkgPath.substring( tutorialsLen )}"/>
-      <ant:copy toDir="${basedir}/target/tutorials${packageName}">
-        <fileset dir="${child.file.parentFile}/target/package"/>
-      </ant:copy>
-    </j:forEach>
-
-  </goal>
-
-  <!--
-  ==============================================================================
   update the runtime installation 
   ==============================================================================
   -->
@@ -621,7 +489,6 @@
   -->
 
   <goal name="avalon:replicate">
-<echo>1</echo>
     <mkdir dir="${merlin.home}"/>
     <copy toDir="${merlin.home}">
       <fileset dir="${merlin.build.inst.dir}"/>
