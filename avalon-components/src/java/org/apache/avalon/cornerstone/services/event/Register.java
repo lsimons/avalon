@@ -50,27 +50,27 @@
 package org.apache.avalon.cornerstone.services.event;
 
 /**
- * <tt>Register</tt> allows a <tt>Subscriber</tt> to subscribe to 
+ * <tt>Register</tt> allows a <tt>Subscriber</tt> to subscribe to
  * and unsubscribe from <tt>EventManager</tt>.
- *  
+ *
  * @author Mauro Talevi
  */
 public interface Register
 {
-     /**
-      * Subscribes a Subscriber to the EventManager.  
-      * The Subscriber abstracts all the information needed for the subscription.
-      * @param subscriber the Subscriber
-      * @see Subscriber
-      */
-     void subscribe( Subscriber subscriber );
-    
-     /**
-      * Unsubscribes an Subscriber from the EventManager.
-      * @param subscriber the Subscriber 
-      * @see Subscriber
-      */
-     void unsubscribe( Subscriber subscriber );
+    /**
+     * Subscribes a Subscriber to the EventManager.
+     * The Subscriber abstracts all the information needed for the subscription.
+     * @param subscriber the Subscriber
+     * @see Subscriber
+     */
+    void subscribe( Subscriber subscriber );
+
+    /**
+     * Unsubscribes an Subscriber from the EventManager.
+     * @param subscriber the Subscriber
+     * @see Subscriber
+     */
+    void unsubscribe( Subscriber subscriber );
 }
 
 

@@ -50,44 +50,44 @@
 package org.apache.avalon.cornerstone.services.event;
 
 /**
- * <tt>Subscriber</tt> registers its interest in a class of events and 
+ * <tt>Subscriber</tt> registers its interest in a class of events and
  * filters the events of which it should be notified.
  *
  * @author Mauro Talevi
  */
 public interface Subscriber
 {
-    /** 
+    /**
      *  Returns UID (Unique ID) set when the subscriber is created.
      *  The UID is required when the subscriber is remote, since the
      *  <tt>Filter</tt> will in general be deep-copied to a new object.
-     * 
+     *
      *  @return the String encoding the UID
      */
     String getUID();
-    
+
     /**
      *  Returns the event type of the event on which the Subscriber is interested.
      *  The event type is encoded by a <tt>Class</tt>.
      *
-     *  @return the <tt>Class</tt> encoding the event type  
+     *  @return the <tt>Class</tt> encoding the event type
      */
-     Class getEventType();
+    Class getEventType();
 
     /**
-     *  Returns the filter used to select the events in which the subscriber is 
+     *  Returns the filter used to select the events in which the subscriber is
      *  interested.
      *
-     *  @return the <tt>Filter</tt> 
+     *  @return the <tt>Filter</tt>
      */
-     Filter getFilter();
-     
+    Filter getFilter();
+
     /**
      * Callback method informing the Subscriber of the occurence of an event.
      *
      * @param event the <tt>Event</tt> of which the <tt>Subscriber</tt> is informed
      */
-     void inform( Event event );
+    void inform( Event event );
 }
 
 

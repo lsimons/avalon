@@ -104,7 +104,7 @@ public class DefaultDataSourceSelector
     {
         try
         {
-            m_blockName = (String) context.get("block.name");
+            m_blockName = (String)context.get( "block.name" );
         }
         catch( Throwable e )
         {
@@ -207,7 +207,7 @@ public class DefaultDataSourceSelector
                 (DataSourceComponent)m_dataSources.get( keys.next() );
             if( dsc instanceof Disposable )
             {
-                ((Disposable)dsc).dispose();
+                ( (Disposable)dsc ).dispose();
             }
         }
     }

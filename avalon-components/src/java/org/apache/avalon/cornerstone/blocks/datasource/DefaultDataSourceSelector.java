@@ -104,7 +104,7 @@ public class DefaultDataSourceSelector
     public void contextualize( final Context context )
         throws ContextException
     {
-        m_blockName = (String) context.get("block.name");
+        m_blockName = (String)context.get( "block.name" );
     }
 
     /**
@@ -198,7 +198,7 @@ public class DefaultDataSourceSelector
                 (DataSourceComponent)m_dataSources.get( keys.next() );
             if( dsc instanceof Disposable )
             {
-                ((Disposable)dsc).dispose();
+                ( (Disposable)dsc ).dispose();
             }
         }
     }
