@@ -1,2 +1,12 @@
 <project default="plugin:install">
+
+  <goal name="resolve-entities" >
+    <ant:xslt in="${basedir}/project.xml" out="${maven.build.dir}/project.xml"
+      style="copy-all.xsl">
+      <outputproperty name="method" value="xml" />
+      <outputproperty name="standalone" value="yes"/>
+      <outputproperty name="indent" value="yes"/>
+    </ant:xslt>
+  </goal>
+  
 </project>
