@@ -13,7 +13,7 @@
     <style>
       body { background-color: #FFFFFF }
       p { font-size: 10pt; font-family: Helvetica, Arial, sans-serif }
-      li { font-size: 10pt; font-family: Helvetica, Arial, sans-serif }
+      li,ul { font-size: 10pt; font-family: Helvetica, Arial, sans-serif }
       div { font-size: 10pt; font-family: Helvetica, Arial, sans-serif; font-style:italic }
       h1 { font-size: 14pt; font-family: Helvetica, Arial, sans-serif; font-weight: bold }
       h2 { font-size: 12pt; font-family: Helvetica, Arial, sans-serif; font-weight: bold }
