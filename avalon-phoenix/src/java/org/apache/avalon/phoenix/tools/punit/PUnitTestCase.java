@@ -14,12 +14,29 @@ import org.apache.avalon.framework.configuration.Configuration;
 import junit.framework.TestCase;
 import java.util.ArrayList;
 
+/**
+ * PUnitTestCase
+ * @author Paul Hammant
+ */
 public abstract class PUnitTestCase extends TestCase
 {
     private LifecycleHelper m_lifecycleHelper;
     private ArrayList m_blocks;
     private PUnitServiceManager m_pUnitServiceManager;
 
+    /**
+     * PUnitTestCase
+     * @param name The method name for JUnit
+     */
+    public PUnitTestCase( String name )
+    {
+        super( name );
+    }
+
+    /**
+     * Setup as per Junit
+     * @throws Exception If a problem
+     */
     protected void setUp() throws Exception
     {
         m_lifecycleHelper = new LifecycleHelper();
@@ -28,11 +45,13 @@ public abstract class PUnitTestCase extends TestCase
         m_blocks = new ArrayList();
     }
 
-    public PUnitTestCase( String name )
-    {
-        super( name );
-    }
-
+    /**
+     * Add a block
+     * @param blockName The block name
+     * @param block The block
+     * @param serviceName The service name (for lookup)
+     * @param configuration The configuration
+     */
     protected void addBlock( String blockName, String serviceName,
                              Object block , Configuration configuration )
     {
@@ -45,6 +64,10 @@ public abstract class PUnitTestCase extends TestCase
         }
     }
 
+    /**
+     * Run blocks thru startup.
+     * @throws LifecycleException If a problem
+     */
     protected final void startup() throws LifecycleException
     {
 
@@ -59,6 +82,10 @@ public abstract class PUnitTestCase extends TestCase
         }
     }
 
+    /**
+     * Run blocks thru shutdown
+     * @throws LifecycleException If a problem
+     */
     protected final void shutdown() throws LifecycleException
     {
         for( int i = 0; i < m_blocks.size(); i++ )
