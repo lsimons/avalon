@@ -3,16 +3,15 @@
 <project>
     <extend>${basedir}/../project.xml</extend>
 
-    <groupId>excalibur</groupId>
-    <name>Excalibur Configuration</name>
     <id>excalibur-configuration</id>
+    <name>Excalibur Configuration</name>
     <currentVersion>1.1-dev</currentVersion>
     <inceptionYear>2003</inceptionYear>
-    <shortDescription>Excalibur's Configuration component</shortDescription>
     <description>
 The Configuration package contains extensions to the Avalon Framework
 supporting configuration management.
     </description>
+    <shortDescription>Excalibur's Configuration component</shortDescription>
 
     <dependencies>
         <dependency>
