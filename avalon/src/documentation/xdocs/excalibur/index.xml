@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE document SYSTEM "dtd/document-v10.dtd">
+
+<document>
+  <header>
+    <title>Avalon Excalibur</title>
+    <subtitle>Introduction</subtitle>
+    <authors>
+      <person name="Leo Simons" email="mail@leosimons.com"/>
+      <person name="Berin Loritsch" email="bloritsch@apache.org"/>
+    </authors>
+  </header>
+  <body>
+    <s1 title="Assisting in Development">
+      <p>
+        Avalon Excalibur was created in order to ease development of
+        new projects.  To that end, Excalibur contains a number of
+	ready to use components and utilities that handle everything
+	from command line parsing to thread concurrency management.
+      </p>
+      <p>
+        The components in the Excalibur package have been well tested
+	and do work reliably.  There is an associated project called
+	"Scratchpad" that is a staging area for new Components.  When
+	they have been sufficiently tested, we will include them in
+	Excalibur.
+      </p>
+    </s1>
+  </body>
+  <footer>
+    <legal>
+      Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
+      $Revision: 1.1 $ $Date: 2001/07/18 14:35:43 $
+    </legal>
+  </footer>
+</document>
+ 

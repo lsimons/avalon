@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE document SYSTEM "../dtd/document-v10.dtd">
+
+<document>
+
+ <header>
+  <title>History of Avalon</title>
+  <authors>
+    <person name="Avalon Documentation Team" email="avalon-dev@jakarta.apache.org"/>
+    <person name="Peter Donald" email="donaldp@apache.org"/>
+  </authors>
+    <notice>
+      This documentation is provided for historical purposes to document the
+      beginnings of Avalon.
+    </notice>
+ </header>
+
+<body>
+
+<s1 title="History">
+
+<p>
+    This document tracks the history of the Avalon project. Avalon was originally started with 
+    a realisation that Java is a great platform for developing server products and a 
+    <link href="call-to-vote.html">call to vote</link>. There was a lot of work 
+    formalizing what exactly a <link href="what-is-a-server.html">server</link> consists
+    of and why this project was <link href="need-for-avalon.html">needed</link>. These
+    discussions led to the initial development of the Java Apache Server Framework.
+</p>
+
+<p>
+    Over time the Java Apache Server Framework project was renamed Avalon. This was in 
+    recognition that the original ideas have evolved over time. Avalon became a 
+    repository of general utility code, a design and testing ground for component based 
+    solutions, a micro kernel and set of generalized server orientated services. This combined 
+    with a move from the Java Apache project to the Jakarta project prompted the revision.
+    At this time the kernel code was repackaged under the name Phoenix, core services 
+    under the name Cornerstone and the general components was packaged under name Excalibur.
+</p>
+<p>
+  You may check the historical changes from before splitting Avalon into separate projects <link href="changes.html">here</link>.
+</p>
+
+</s1>
+
+</body>
+</document>

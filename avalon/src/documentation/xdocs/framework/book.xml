@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+
+<book software="Framework" 
+      title="Framework Documentation" 
+      copyright="@year@ The Apache Software Foundation">
+
+  <project label="Jakarta main" href="/" />
+  <project label="Avalon main" href="../index.html" />
+
+  <menu label="About">
+    <menu-item label="Overview" href="index.html"/>
+    <menu-item type="changes" label="Changes" href="changes.html"/>
+    <menu-item type="external" id="downloads" label="Download" href="http://jakarta.apache.org/builds/jakarta-avalon/release/framework"/>
+    <menu-item type="external" id="api-docs" label="API Docs" href="@AVALON_BASE@/api/index.html"/>
+  </menu>
+
+  <menu label="Patterns and Design">
+    <menu-item label="Patterns" href="patterns.html"/>
+    <menu-item label="Reuse Standards" href="reuse-standards.html"/>
+    <menu-item label="Inversion of Control" href="inversion-of-control.html"/>
+    <menu-item label="Separation of Concerns" href="separation-of-concerns.html"/>
+    <menu-item label="Security" href="security.html"/>
+  </menu>
+
+  <menu label="The API">
+    <menu-item label="What is a Component?" href="what-is-a-component.html"/>
+    <menu-item label="What is a Composer?" href="what-is-a-composer.html"/>
+    <menu-item label="The Component Lifecycle" href="lifecycle.html"/>
+    <menu-item label="Designing a Component" href="designing-a-component.html"/>
+<!--    <menu-item label="Understanding the Composer" href="composer.html"/>
+    <menu-item label="The components Life-Cycle" href="life-cycle.html"/>-->
+  </menu>
+
+</book>
+
+

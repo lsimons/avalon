@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+
+<book software="Avalon" 
+      title="Avalon Documentation" 
+      copyright="@year@ The Apache Software Foundation">
+
+  <project label="Jakarta main" href="/" />
+  <project label="Avalon main" href="../index.html"/>
+
+  <menu label="Authors">
+    <menu-item label="Contributors" href="index.html"/>
+    <menu-item label="Mr. Berin Loritsch" href="bloritsch.html"/>
+  </menu>
+
+</book>
+
+

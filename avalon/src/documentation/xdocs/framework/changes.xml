@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE changes SYSTEM "dtd/changes-v10.dtd">
+
+<changes title="Avalon Framework History of Changes">
+  <devs>
+    <person name="Federico Barbieri" email="fede@apache.org" id="FB"/>
+    <person name="Berin Loritsch" email="bloritsch@apache.org" id="BL"/>
+    <person name="Peter Donald" email="donaldp@apache.org" id="PD"/>
+  </devs>
+  <release version="4.0-dev" date="unreleased">
+    <action dev="PD" type="fix">
+      Updated Resolvable interface to allow a ContextException to be thrown 
+      on failure. 
+    </action>
+    <action dev="PD" type="update">
+      Add a makeReadOnly() method to the default implementations of Configuration, 
+      Context and ComponentManager. Calling this method after the respective
+      object has been filled will make the object read-only. This is a safety 
+      precaution to stop code performing unwanted operations.
+    </action>
+    <action dev="PD" type="update">
+      Updated the javadocs of many of the classes.
+    </action>
+    <action dev="BL" type="update">
+      Update documentation so that it is more accurate and descriptive.
+    </action>
+  </release>
+  <release version="4.0b3" date="June 6, 2001">
+    <action dev="BL" type="update">
+      Release 4.0b3
+    </action>
+    <action dev="PD" type="fix">
+      Made DefaultComponentManager/Selector, DefaultContext, and
+      DefaultConfiguration read-only to avoid bad programming
+      practices by clients.
+    </action>
+  </release>
+<release version="4.0b2" date="June 4, 2001">
+  <action dev="BL" type="update">
+    Release 4.0b2
+  </action>
+  <action dev="PD" type="add">
+    Add makeReadOnly() method to default implementations to prevent
+    alteration after they are set up.
+  </action>
+  <action dev="BL" type="update">
+    Removed the "throws Exception" from Disposable interface.  That was
+    inadvertently left in the previous release.
+  </action>
+  <action dev="BL" type="add">
+    Added extra methods to Parameters to throw exceptions if the value
+    does not exist.  They are the "no default value" methods.
+  </action>
+  <action dev="PD" type="update">
+    Updated javadocs for Framework.
+  </action>
+</release>
+<release version="4.0b1" date="May 11, 2001">
+  <action dev="BL" type="update">
+    Official release
+  </action>
+</release>
+
+</changes>
