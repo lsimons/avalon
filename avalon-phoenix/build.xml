@@ -710,6 +710,9 @@ Legal:
             <include name="org/apache/avalon/phoenix/tools/**"/>
             <include name="org/apache/avalon/phoenix/framework/**"/>
             <exclude name="org/apache/avalon/phoenix/tools/punit/**"/>
+            <zipfileset dir="${src.dir}/schema" fullpath="META-INF/spice/catalog.xml">
+                <include name="catalog.xml"/>
+            </zipfileset>
         </jar>
 
         <jar jarfile="${target.lib}/phoenix-punit.jar" basedir="${target.classes}">
