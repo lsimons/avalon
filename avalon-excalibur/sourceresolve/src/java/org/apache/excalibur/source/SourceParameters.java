@@ -40,7 +40,7 @@ import org.apache.avalon.framework.parameters.Parameters;
  * {@link SourceResolver#resolveURI(String, String, Map)}.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Id: SourceParameters.java,v 1.4 2004/02/28 11:47:26 cziegeler Exp $
+ * @version $Id: SourceParameters.java,v 1.5 2004/03/12 13:02:55 cziegeler Exp $
  */
 public final class SourceParameters
     implements Serializable, Cloneable
@@ -261,6 +261,26 @@ public final class SourceParameters
     }
 
     /**
+     * Get all values of a parameter.
+     * @param name   The name of the parameter.
+     * @return       An Array for the (String) values or null.
+     */
+    public String[] getParameterValuesAsArray( String name )
+    {
+        if( names.containsKey( name ) == true )
+        {
+            ArrayList list = (ArrayList)names.get( name );
+            String[] values = new String[list.size()];
+            for(int i=0;i<values.length;i++)
+            {
+                values[i] = (String)list.get(i);
+            }
+            return values;
+        }
+        return null;
+    }
+
+    /**
      * Get all parameter names.
      * @return  Iterator for the (String) parameter names.
      */
@@ -466,5 +486,28 @@ public final class SourceParameters
         {
             this.names.remove( name );
         }
+    }
+    
+    /**
+     * Returns an immutable java.util.Map containing parameter names as keys and 
+     * parameter values as map values. The keys in the parameter map are of type String. 
+     * The values in the parameter map are of type String array.
+     */
+    public Map getParameterMap() 
+    {
+        final Map m = new HashMap(this.names);
+        Iterator entries = m.entrySet().iterator();
+        while (entries.hasNext()) 
+        {
+            Map.Entry entry = (Map.Entry)entries.next();
+            ArrayList list = (ArrayList)entry.getValue();
+            String[] values = new String[list.size()];
+            for(int i=0;i<values.length;i++)
+            {
+                values[i] = (String)list.get(i);
+            }
+            entry.setValue(values);
+        }
+        return m;
     }
 }
