@@ -9,4 +9,5 @@
   <taskdef name="declare" classname="org.apache.avalon.tools.tasks.DeclareTask"/> 
   <taskdef name="plugin" classname="org.apache.avalon.tools.tasks.PluginTask"/> 
   <taskdef name="install" classname="org.apache.avalon.tools.tasks.InstallTask"/> 
+  <taskdef name="xdoc" classname="org.apache.avalon.tools.tasks.XdocTask"/> 
 </antlib> 

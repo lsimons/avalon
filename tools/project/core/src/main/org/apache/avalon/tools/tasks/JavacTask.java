@@ -116,7 +116,7 @@ public class JavacTask extends HomeTask
         FileSet fileset = new FileSet();
         fileset.setDir( sources );
         fileset.setIncludes( "**/**" );
-        fileset.setExcludes( "**/_svn/**,**/*.java,**/package.html" );
+        fileset.setExcludes( "**/*.java,**/package.html" );
         copy.addFileset( fileset );
         copy.init();
         copy.execute();
