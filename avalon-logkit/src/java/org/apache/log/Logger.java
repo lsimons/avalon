@@ -395,7 +395,8 @@ public class Logger
      */
     public synchronized Logger[] getChildren()
     {
-        if( null == m_children ) return new Logger[ 0 ];
+        if( null == m_children )
+            return new Logger[ 0 ];
 
         final Logger[] children = new Logger[ m_children.length ];
 
@@ -618,7 +619,8 @@ public class Logger
      */
     private synchronized void resetChildPriorities( final boolean recursive )
     {
-        if( null == m_children ) return;
+        if( null == m_children )
+            return;
 
         final Logger[] children = m_children;
 
@@ -683,7 +685,8 @@ public class Logger
      */
     private synchronized void resetChildLogTargets( final boolean recursive )
     {
-        if( null == m_children ) return;
+        if( null == m_children )
+            return;
 
         for( int i = 0; i < m_children.length; i++ )
         {
@@ -696,7 +699,10 @@ public class Logger
      */
     private synchronized void setupErrorHandlers()
     {
-        if( null == m_logTargets ) return;
+        if( null == m_logTargets )
+        {
+            return;
+        }
 
         for( int i = 0; i < m_logTargets.length; i++ )
         {
