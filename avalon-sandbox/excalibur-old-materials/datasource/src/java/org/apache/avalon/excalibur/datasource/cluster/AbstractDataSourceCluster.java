@@ -13,9 +13,10 @@ import org.apache.avalon.excalibur.datasource.DataSourceComponent;
 import org.apache.avalon.excalibur.datasource.NoValidConnectionException;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Initializable;
-import org.apache.avalon.framework.component.ComponentManager;
-import org.apache.avalon.framework.component.ComponentSelector;
-import org.apache.avalon.framework.component.Composable;
+import org.apache.avalon.framework.service.ServiceManager;
+import org.apache.avalon.framework.service.Serviceable;
+import org.apache.avalon.framework.service.ServiceSelector;
+import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
@@ -24,20 +25,16 @@ import org.apache.avalon.framework.thread.ThreadSafe;
 
 /**
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.3 $ $Date: 2002/11/05 04:34:02 $
+ * @version CVS $Revision: 1.4 $ $Date: 2002/11/07 05:25:55 $
  * @since 4.1
  */
 public abstract class AbstractDataSourceCluster
     extends AbstractLogEnabled
-    implements Composable, Configurable, Initializable, Disposable, ThreadSafe
+    implements Serviceable, Configurable, Initializable, Disposable, ThreadSafe
 {
-
-    /** ComponentLocator which created this component */
-    protected ComponentManager m_manager;
-
     protected int m_size;
     private String[] m_dataSourceNames;
-    private ComponentSelector m_dbSelector;
+    private ServiceSelector m_dbSelector;
     private DataSourceComponent[] m_dataSources;
 
     /*---------------------------------------------------------------
@@ -89,10 +86,13 @@ public abstract class AbstractDataSourceCluster
      *  is controlling it.
      *
      * @param manager which curently owns the component.
+     * @avalon.service interface="org.apache.avalon.excalibur.datasource.DataSourceComponentClusterSelector"
      */
-    public void compose( ComponentManager manager )
+    public void service( final ServiceManager manager )
+        throws ServiceException
     {
-        m_manager = manager;
+        m_dbSelector =
+            (ServiceSelector)manager.lookup( DataSourceComponent.ROLE + "ClusterSelector" );
     }
 
     /*---------------------------------------------------------------
@@ -155,8 +155,6 @@ public abstract class AbstractDataSourceCluster
     public void initialize() throws Exception
     {
         // Get references to a data sources
-        m_dbSelector =
-            (ComponentSelector)m_manager.lookup( DataSourceComponent.ROLE + "ClusterSelector" );
         m_dataSources = new DataSourceComponent[ m_size ];
         for( int i = 0; i < m_dataSourceNames.length; i++ )
         {
@@ -187,8 +185,6 @@ public abstract class AbstractDataSourceCluster
 
                 m_dataSources = null;
             }
-
-            m_manager.release( m_dbSelector );
 
             m_dbSelector = null;
         }
