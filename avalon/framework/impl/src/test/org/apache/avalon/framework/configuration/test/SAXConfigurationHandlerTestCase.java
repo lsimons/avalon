@@ -66,7 +66,7 @@ public final class SAXConfigurationHandlerTestCase extends TestCase
         final String attValue = "attValue";
 
         final AttributesImpl attributes  = new AttributesImpl();
-        attributes.addAttribute(null,null,attqName,
+        attributes.addAttribute("",attqName,attqName,
                                 "CDATA",attValue);
 
         final AttributesImpl childAttributes  = new AttributesImpl();
