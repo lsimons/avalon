@@ -234,6 +234,7 @@ public class CommandManager implements EventPipeline, Disposable, EnqueuePredica
      */
     public void dispose()
     {
+        m_isAccepting = false;
         Object[] remainingElements = m_queue.dequeueAll();
         for( int i = 0; i < remainingElements.length; i++ )
         {
@@ -363,8 +364,17 @@ public class CommandManager implements EventPipeline, Disposable, EnqueuePredica
             }
             catch( Exception e )
             {
-                m_isAccepting =
+                boolean keepProcessing =
                         getCommandFailureHandler().handleCommandFailure((Command)element, e);
+
+                /* If we are no longer processing, then we clear out the Queue and refuse to accept
+                 * any more commands.  Essentially the CommandManager is closed.
+                 */
+                if ( ! keepProcessing )
+                {
+                    m_isAccepting = false;
+                    m_queue.dequeueAll();
+                }
             }
         }
     }
