@@ -22,8 +22,6 @@ import org.apache.excalibur.instrument.manager.interfaces.InstrumentManagerClien
 import org.apache.excalibur.instrument.manager.interfaces.InstrumentSampleDescriptor;
 import org.apache.excalibur.instrument.manager.interfaces.InstrumentableDescriptor;
 
-import com.sun.jdi.InvocationException;
-
 class InstrumentManagerTreeModel
     extends AbstractLogEnabled
     implements InstrumentManagerConnectionListener, TreeModel

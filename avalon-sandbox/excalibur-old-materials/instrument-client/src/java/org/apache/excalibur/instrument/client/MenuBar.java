@@ -24,12 +24,10 @@ import org.apache.excalibur.instrument.manager.interfaces.InstrumentManagerClien
 import org.apache.excalibur.instrument.manager.interfaces.InstrumentSampleDescriptor;
 import org.apache.excalibur.instrument.manager.interfaces.InstrumentableDescriptor;
 
-import com.sun.jdi.InvocationException;
-
 /**
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.7 $ $Date: 2003/02/27 12:03:33 $
+ * @version CVS $Revision: 1.8 $ $Date: 2003/03/07 17:52:51 $
  * @since 4.1
  */
 public class MenuBar
