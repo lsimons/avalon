@@ -13,7 +13,7 @@
         <table>
           <tr><th>Source</th><th>Description</th></tr>
           <tr>
-            <td><a href="http://cvs.apache.org/viewcvs.cgi/avalon-cornerstone/threads/tutorial/src/java/org/apache/avalon/cornerstone/threads/tutorial/ThreadConsumer.java">ThreadConsumer.java</a>
+            <td><a href="http://cvs.apache.org/viewcvs.cgi/avalon-components/threads-tutorial/src/java/org/apache/avalon/cornerstone/threads/tutorial/ThreadConsumer.java">ThreadConsumer.java</a>
             </td>
             <td>
               A demonstration component implementation demonstrates the resolution
@@ -25,7 +25,7 @@
           </tr>
           <tr>
             <td>
-              <a href="http://cvs.apache.org/viewcvs.cgi/avalon-cornerstone/threads/tutorial/src/java/org/apache/avalon/cornerstone/threads/tutorial/Counter.java">Counter.java</a>
+              <a href="http://cvs.apache.org/viewcvs.cgi/avalon-components/threads-tutorial/src/java/org/apache/avalon/cornerstone/threads/tutorial/Counter.java">Counter.java</a>
             </td>
             <td>
               The runnable object that simply initiates a countdown and will normally 
@@ -35,7 +35,7 @@
           </tr>
           <tr>
             <td>
-              <a href="http://cvs.apache.org/viewcvs.cgi/*checkout*/avalon-cornerstone/threads/tutorial/src/conf/BLOCK-INF/block.xml">block.xml</a>
+              <a href="http://cvs.apache.org/viewcvs.cgi/*checkout*/avalon-components/threads-tutorial/conf/block.xml">block.xml</a>
             </td>
             <td>
               Merlin deployment directive.
