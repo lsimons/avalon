@@ -7,7 +7,6 @@
  */
 package org.apache.avalon.phoenix.components.application;
 
-import org.apache.avalon.phoenix.components.lifecycle.State;
 import org.apache.avalon.phoenix.metadata.BlockMetaData;
 import org.apache.avalon.phoenix.metainfo.BlockInfo;
 import org.apache.avalon.phoenix.metainfo.ServiceDescriptor;

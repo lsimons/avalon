@@ -5,7 +5,7 @@
  * version 1.1, a copy of which has been included with this distribution in
  * the LICENSE.txt file.
  */
-package org.apache.avalon.phoenix.components.lifecycle;
+package org.apache.avalon.phoenix.components.application;
 
 import org.apache.avalon.framework.ValuedEnum;
 
@@ -14,7 +14,7 @@ import org.apache.avalon.framework.ValuedEnum;
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
-public final class State
+final class State
     extends ValuedEnum
 {
     /**
