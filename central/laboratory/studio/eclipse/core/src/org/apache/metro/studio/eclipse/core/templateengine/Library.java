@@ -17,6 +17,9 @@ limitations under the License.
 */
 package org.apache.metro.studio.eclipse.core.templateengine;
 
+import org.apache.metro.studio.eclipse.core.MetroStudioCore;
+import org.eclipse.core.runtime.IPath;
+
 /**
  * @author <a href="mailto:dev@avalon.apache.org">Metro Development Team</a>
  * 11.08.2004
@@ -25,7 +28,24 @@ package org.apache.metro.studio.eclipse.core.templateengine;
  */
 public class Library
 {
+    private String name;
+    private String version;
+    private String repositoryPath;
 
+    /**
+     * @return Returns the repositoryPath.
+     */
+    public String getRepositoryPath()
+    {
+        return "lib/avalon-framework";
+    }
+    /**
+     * @param repositoryPath The repositoryPath to set.
+     */
+    public void setRepositoryPath(String repositoryPath)
+    {
+        this.repositoryPath = repositoryPath;
+    }
     /**
      * @return Returns the name.
      */
@@ -54,14 +74,35 @@ public class Library
     {
         this.version = version;
     }
-    private String name;
-    private String version;
     /**
      * 
      */
     public Library()
     {
         super();
+    }
+    /**
+     * @return
+     */
+    public IPath getPath()
+    {
+        // TODO: has to be changed to metro repository
+        IPath pluginPath = MetroStudioCore.getDefault().getPluginLocation();
+        
+        pluginPath = pluginPath.append(getRepositoryPath());
+        return pluginPath.append(getFullName());
+    }
+    /**
+     * @return
+     */
+    private String getFullName()
+    {
+
+        StringBuffer buf = new StringBuffer(name);
+        buf.append("-");
+        buf.append(version);
+        buf.append(".jar");
+        return buf.toString();
     }
 
 }

@@ -20,10 +20,15 @@ package org.apache.metro.studio.eclipse.core.templateengine;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Vector;
 
-import org.apache.metro.studio.eclipse.core.MetroStudioCore;
 import org.apache.metro.studio.eclipse.core.tools.DynProjectParam;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.jdt.core.IClasspathEntry;
+import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.JavaCore;
+import org.eclipse.jdt.core.JavaModelException;
+import org.eclipse.jdt.launching.JavaRuntime;
 
 /**
  * @author <a href="mailto:dev@avalon.apache.org">Metro Development Team</a>
@@ -39,7 +44,7 @@ public class ResourceTemplate
     private String description;
     private List wizardPages = new ArrayList();
     private List resources = new ArrayList();
-    private List libraries = new ArrayList();
+    private Vector libraries = new Vector();
     
     /**
      * Constructor
@@ -58,25 +63,80 @@ public class ResourceTemplate
     public void create(IProject project, DirectoryTemplateManager manager, DynProjectParam param)
     {
         // load directoryType and create the directory structure
-        DirectoryTemplate template = manager.getTemplate(directoryType);
-        if(template == null)
-        {
-            MetroStudioCore.log(null, "unknown directory type in resource " + getTemplateId());
-            return;
-        }
-        template.create(project);
+        DirectoryTemplate template = manager.create(directoryType, project);
         
         // add all needed resources to created directory structure
         Iterator it = getResources().iterator();
+       
         while(it.hasNext())
         {
             ((Resource)it.next()).create(template, param);
         }
-        
+ 
         // add all needed libraries
+        addLibraries(project);
         
     }
 
+    /**
+     * @param project
+     */
+    private void addLibraries(IProject project)
+    {
+
+        try
+        {
+            Vector libs = new Vector();
+            
+            IJavaProject javaProject = JavaCore.create(project);
+            
+            // first retain already created libs
+            IClasspathEntry[] entries = javaProject.getResolvedClasspath(true);
+            for(int i=0; i<entries.length; i++)
+            {
+                libs.add(entries[i]);
+            }
+            
+            // allways add the java library
+            libs.add(JavaRuntime.getJREVariableEntry());
+
+            // now add custom libraries
+            libs.addAll(getLibraryEntries());
+            javaProject.setRawClasspath(
+                    (IClasspathEntry[]) libs.toArray(
+                        new IClasspathEntry[libraries.size()]),
+                    javaProject.getOutputLocation(),
+                    null);
+        } catch (JavaModelException e)
+        {
+            e.printStackTrace();
+        }
+
+    }
+    /**
+     * @return
+     */
+    public void addLibrary(Library library)
+    {
+        libraries.add(library);
+    }
+    
+    private Vector getLibraryEntries()
+    {
+        Vector libs = new Vector();
+        
+        Iterator it = libraries.iterator();
+        
+        while(it.hasNext())
+        {
+            Library library = (Library)it.next();
+            libs.add(JavaCore.newLibraryEntry(
+                    		library.getPath(),
+                            null,
+                            null));
+        }
+        return libs;
+    }
     /**
      * @return Returns the directoryType.
      */

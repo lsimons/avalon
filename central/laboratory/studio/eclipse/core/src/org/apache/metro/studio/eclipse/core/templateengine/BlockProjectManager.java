@@ -19,6 +19,7 @@ package org.apache.metro.studio.eclipse.core.templateengine;
 
 import java.util.List;
 
+import org.apache.metro.facility.presentationservice.impl.ChannelEvent;
 import org.apache.metro.studio.eclipse.core.MetroStudioCore;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
@@ -32,7 +33,7 @@ import org.eclipse.jdt.core.JavaCore;
  *         11.08.2004 last change:
  *  
  */
-public class ProjectManager
+public class BlockProjectManager
 {
     final public static String BASE = "org.apache.metro.studio.core";
 
@@ -41,13 +42,31 @@ public class ProjectManager
     final public static String FACILITY_NATURE_ID = BASE + ".facilityNature";
 
     final public static String KERNEL_NATURE_ID = BASE + ".kernelNature";
+    
+    private static ResourceTemplateManager resourceTemplateManager = null;
 
     /**
      *  
      */
-    public ProjectManager()
+    public BlockProjectManager()
     {
         super();
+
+    }
+
+    /**
+     * get a list of wizard pages, which are needed for a specific
+     * ResourceTemplate.
+     * 
+     * @param resourceTemplateName
+     * @return
+     */
+    public static String getResourceHelp(String resourceTemplateName)
+    {
+
+        ResourceTemplate template = resourceTemplateManager.getTemplate(resourceTemplateName);
+        if(template==null) return "";
+        return template.getDescription();
     }
 
     /**
@@ -70,7 +89,7 @@ public class ProjectManager
      * @param valueObject
      * @return
      */
-    public static IProject createBlockProject(Object valueObject)
+    public static IProject create(ChannelEvent event)
     {
 
         return null;
@@ -80,9 +99,10 @@ public class ProjectManager
      * This method is called to show all available template in the wizard so
      * that the user can choose one of them.
      */
-    public List getResourceTemplateNames()
+    public static String[] listTemplateNames()
     {
-        return null;
+        initialize();
+        return resourceTemplateManager.listTemplateNames();
     }
 
     /**
@@ -91,22 +111,31 @@ public class ProjectManager
      * @param name
      * @return
      */
-    public static IProject createBlockProject(String name)
+    public static IProject create(String projectName, String templateName)
     {
-        return createProject(name, BLOCK_NATURE_ID);
+        initialize();
+        IProject project = createProject(projectName, BLOCK_NATURE_ID);
+        //if no template name is given, create the project only
+        if(templateName==null)
+        {
+            return project;
+        }
+        // create the resources of a given templateName
+        resourceTemplateManager.create(project, templateName, null);
+        return project;
     }
 
     /**
-     * Create a facility project
      * 
-     * @param name
-     * @return
      */
-    public static IProject createFacilityProject(String name)
+    private static void initialize()
     {
-        return createProject(name, FACILITY_NATURE_ID);
+        if(resourceTemplateManager==null)
+        {
+            resourceTemplateManager = ResourceTemplateManager.load(null);
+        }
+        
     }
-
     private static IProject createProject(String name, String nature)
     {
         IProject project = null;
@@ -160,7 +189,7 @@ public class ProjectManager
         IProjectNature nature = null;
         try
         {
-            nature = project.getNature(ProjectManager.BLOCK_NATURE_ID);
+            nature = project.getNature(BlockProjectManager.BLOCK_NATURE_ID);
             // TODO: check for other valid Metro natures
             
         } catch (CoreException e)
@@ -173,4 +202,15 @@ public class ProjectManager
         }
         return nature;
     }
+
+    /**
+     * Only used for testing purpose
+     * @param name
+     * @return
+     */
+    public static IProject testCreateProject(String name)
+    {
+        return createProject(name, BLOCK_NATURE_ID);
+    }
+
 }

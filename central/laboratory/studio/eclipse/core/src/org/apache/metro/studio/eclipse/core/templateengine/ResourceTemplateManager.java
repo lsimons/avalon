@@ -20,6 +20,8 @@ package org.apache.metro.studio.eclipse.core.templateengine;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.Set;
 
 import org.apache.metro.studio.eclipse.core.MetroStudioCore;
 import org.apache.metro.studio.eclipse.core.tools.DynProjectParam;
@@ -39,6 +41,11 @@ public class ResourceTemplateManager
 
     private Hashtable resourceTemplates = new Hashtable();
     private DirectoryTemplateManager directoryManager;
+    
+    final static String baseDir = MetroStudioCore.getDefault()
+    .getPluginLocation().toString();
+    public static final String DEFAULT_CONFIG_PATH = baseDir + "config/resources.test_cfg";
+    
     /**
      * 
      */
@@ -49,6 +56,11 @@ public class ResourceTemplateManager
 
     public static ResourceTemplateManager load(String resourceFilePathName)
     {
+        if(resourceFilePathName == null)
+        {
+            resourceFilePathName = getDefaultFilePathName();
+        }
+        
         XStream xstream = new XStream(new DomDriver()); 
         initXStream(xstream);
 
@@ -70,6 +82,15 @@ public class ResourceTemplateManager
 
     }
     /**
+     * @return
+     */
+    private static String getDefaultFilePathName()
+    {
+
+        return ResourceTemplateManager.DEFAULT_CONFIG_PATH;
+    }
+
+    /**
      * @param xstream
      */
     public static void initXStream(XStream xstream)
@@ -77,12 +98,29 @@ public class ResourceTemplateManager
         xstream.alias("ResourceTemplates", ResourceTemplateManager.class);
         xstream.alias("ResourceTemplate", ResourceTemplate.class);
         xstream.alias("Resource", Resource.class);
+        xstream.alias("Library", Library.class);
     }
 
     public void addResourceTemplate(ResourceTemplate resource)
     {
         resourceTemplates.put(resource.getTemplateId(), resource);
     }
+
+    /**
+     * @return String[]. An array of all keys
+     */
+    public String[] listTemplateNames()
+    {
+        Set set = resourceTemplates.keySet();
+        String[] keyList = new String[set.size()];
+        Iterator it = set.iterator();
+        for (int i=0; i<set.size(); i++)
+        {
+            keyList[i] = (String)it.next();
+        }
+        return keyList;
+    }
+
     /**
      * @param string
      * @return
@@ -112,6 +150,14 @@ public class ResourceTemplateManager
             return;
         }
         template.create(project, directoryManager, param);
+    }
+
+    /**
+     * 
+     */
+    public Hashtable getResourceTemplates()
+    {
+        return resourceTemplates;
     }
 
 }

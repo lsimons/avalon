@@ -26,6 +26,12 @@ package org.apache.metro.studio.eclipse.core.environment;
 public class ServerEnvironment
 {
 
+    public static final String DEFAULT_LANG = "de";
+    public static final boolean DEFAULT_DEBUG = true;
+    public static final boolean DEFAULT_DEPLOY = false;
+    public static final boolean DEFAULT_SERVER = false;
+    public static final boolean DEFAULT_SECURITY = true;
+    
     /**
      * 
      */
