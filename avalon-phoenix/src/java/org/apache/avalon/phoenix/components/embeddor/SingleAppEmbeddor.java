@@ -11,10 +11,7 @@ import java.io.File;
 import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.component.ComponentException;
 import org.apache.avalon.framework.component.ComponentManager;
-import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.phoenix.interfaces.Application;
-import org.apache.avalon.phoenix.interfaces.ClassLoaderManager;
-import org.apache.avalon.phoenix.interfaces.PackageRepository;
 
 /**
  * Embeddor to host only a single application.
@@ -33,7 +30,6 @@ public class SingleAppEmbeddor
 {
     ///Sole application hosted in kernel
     private Application m_application;
-
 
     /**
      * Deploy a single application.
