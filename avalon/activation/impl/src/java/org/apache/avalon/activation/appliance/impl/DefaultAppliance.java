@@ -55,11 +55,13 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.UndeclaredThrowableException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
+import java.security.AccessControlException;
 import java.security.AccessControlContext;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.security.PrivilegedActionException;
 import java.security.PrivilegedExceptionAction;
+import java.security.Permission;
 import java.util.Hashtable;
 import java.util.ArrayList;
 import java.util.Map;
@@ -102,13 +104,14 @@ import org.apache.avalon.lifecycle.Accessor;
 import org.apache.avalon.lifecycle.Creator;
 import org.apache.avalon.meta.info.InfoDescriptor;
 import org.apache.avalon.meta.info.StageDescriptor;
+import org.apache.avalon.util.exception.ExceptionHelper;
 
 /**
  * DefaultAppliance is the default implementation of a local 
  * appliance instance.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.24 $ $Date: 2004/01/21 12:38:48 $
+ * @version $Revision: 1.25 $ $Date: 2004/01/21 14:17:35 $
  */
 public class DefaultAppliance extends AbstractAppliance implements Appliance
 {
@@ -1201,6 +1204,25 @@ public class DefaultAppliance extends AbstractAppliance implements Appliance
               classes,
               handler );
         }
+        catch( AccessControlException e )
+        {
+            Permission p = e.getPermission();
+            if( null != p )
+            {
+                final String warning = 
+                  "Proxy creation disabled due to insufficient permission: [" 
+                  + p.getName()
+                  + "].";
+                getLogger().warn( warning );
+            }
+            else
+            {
+                final String warning = 
+                  "Proxy creation disabled due to access control restriction."; 
+                getLogger().warn( warning );
+            }
+            return instance;
+        }
         catch( Throwable e )
         {
             final String error = 
@@ -1290,8 +1312,9 @@ public class DefaultAppliance extends AbstractAppliance implements Appliance
             m_destroyed = true;
         }
         
-        private Object secureInvocation( final Method method, final Object object, final Object[] args )
-            throws Exception
+        private Object secureInvocation( 
+          final Method method, final Object object, final Object[] args )
+          throws Exception
         {
             if( ! m_secured )
             {
@@ -1314,7 +1337,8 @@ public class DefaultAppliance extends AbstractAppliance implements Appliance
         private Throwable handleInvocationThrowable( Throwable e )
         {
             final String error = 
-            "Delegation error raised by component: " + m_model.getQualifiedName();
+              "Delegation error raised by component: " 
+              + m_model.getQualifiedName();
             while( true )
             {
                 if( e instanceof UndeclaredThrowableException )
@@ -1408,10 +1432,9 @@ public class DefaultAppliance extends AbstractAppliance implements Appliance
             }
             catch( Throwable e )
             {
+                getLogger().error( e.getMessage() );
                 final String error = 
-                  "Proxy establishment failure: " 
-                  + e.getMessage();
-                getLogger().error( error );
+                  "Provider publication failure.";
                 throw new LifecycleException( error, e );
             }
         }
