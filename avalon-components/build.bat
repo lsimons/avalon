@@ -6,8 +6,8 @@ echo ------------
 
 if not "%AVALON_TOOLS%"=="" goto runAnt
 
-if exist "..\jakarta-avalon\tools" set AVALON_TOOLS=..\jakarta-avalon\tools
-if exist "tools" set AVALON_TOOLS=tools
+if exist "..\jakarta-avalon\tools\bin\ant.bat" set AVALON_TOOLS=..\jakarta-avalon\tools
+if exist "tools\bin\ant.bat" set AVALON_TOOLS=tools
 
 if not "%AVALON_TOOLS%"=="" goto runAnt
 
