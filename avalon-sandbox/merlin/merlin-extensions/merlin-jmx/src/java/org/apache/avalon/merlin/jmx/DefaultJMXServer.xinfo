@@ -4,10 +4,9 @@
 <type>
   <info>
     <name>jmx</name>
-    <version>1.0.0</version>
     <lifestyle>singleton</lifestyle>
   </info>
   <services>
-    <service type="javax.management.MBeanServer:1.0.0"/>
+    <service type="javax.management.MBeanServer"/>
   </services>
 </type>
