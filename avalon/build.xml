@@ -340,7 +340,7 @@ Legal:
     <mkdir dir="${build.lib}"/>
     <jar jarfile="${build.lib}/avalonapi.jar" basedir="${build.classes}">
       <include name="org/apache/avalon/**"/>
-      <zipfileset src="${lib.dir}/log.jar" includes="**/*.class"/>
+      <zipfileset src="${lib.dir}/logkit.jar" includes="**/*.class"/>
     </jar>
   </target>
 
