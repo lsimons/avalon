@@ -86,7 +86,7 @@ import java.net.URL;
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
  * @author <a href="mailto:jefft@apache.org">Jeff Turner</a>
  * @author <a href="mailto:nl@novadeck.com">Nicolas Leclerc</a>
- * @version CVS $Revision: 1.5 $ $Date: 2003/03/29 18:53:24 $
+ * @version CVS $Revision: 1.6 $ $Date: 2003/07/07 16:41:40 $
  * @since 4.0
  */
 public final class FileUtil
