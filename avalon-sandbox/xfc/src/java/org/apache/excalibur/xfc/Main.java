@@ -50,10 +50,9 @@
 package org.apache.excalibur.xfc;
 
 import java.util.List;
-import org.apache.avalon.excalibur.cli.CLArgsParser;
-import org.apache.avalon.excalibur.cli.CLOption;
-import org.apache.avalon.excalibur.cli.CLOptionDescriptor;
-import org.apache.avalon.excalibur.cli.CLUtil;
+import java.util.Iterator;
+
+import org.apache.commons.cli.*;
 import org.apache.avalon.framework.logger.ConsoleLogger;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.logger.NullLogger;
@@ -63,41 +62,42 @@ import org.apache.avalon.framework.logger.NullLogger;
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
  * (parts also taken from the Excalibur CLI example)
- * @version CVS $Id: Main.java,v 1.10 2003/05/03 04:11:10 donaldp Exp $
+ * @version CVS $Id: Main.java,v 1.11 2003/07/08 17:01:26 bloritsch Exp $
  */
 public final class Main
 {
     // Define our short one-letter option identifiers.
-    private static final int HELP_OPT = 'h';
-    private static final int VERSION_OPT = 'v';
-    private static final int INPUT_OPT = 'i';
-    private static final int OUTPUT_OPT = 'o';
-    private static final int DEBUG_OPT = 'd';
+    private static final char HELP_OPT = 'h';
+    private static final char VERSION_OPT = 'v';
+    private static final char INPUT_OPT = 'i';
+    private static final char OUTPUT_OPT = 'o';
+    private static final char DEBUG_OPT = 'd';
 
     // Array of understood options, for setting the input and output
     // conversion modules
-    private static final CLOptionDescriptor[] OPTIONS = new CLOptionDescriptor[]
+    private static final Options OPTIONS = new Options();
+
+    static
     {
-        new CLOptionDescriptor( "help",
-                                CLOptionDescriptor.ARGUMENT_DISALLOWED,
-                                HELP_OPT,
-                                "print this message and exit" ),
-        new CLOptionDescriptor( "version",
-                                CLOptionDescriptor.ARGUMENT_DISALLOWED,
-                                VERSION_OPT,
-                                "print this version and exit" ),
-        new CLOptionDescriptor( "input",
-                                CLOptionDescriptor.ARGUMENT_REQUIRED,
-                                INPUT_OPT,
-                                "set the input module name and context" ),
-        new CLOptionDescriptor( "output",
-                                CLOptionDescriptor.ARGUMENT_REQUIRED,
-                                OUTPUT_OPT,
-                                "set the output module name and context" ),
-        new CLOptionDescriptor( "debug",
-                                CLOptionDescriptor.ARGUMENT_DISALLOWED,
-                                DEBUG_OPT,
-                                "enable debug logging" ),
+        OPTIONS.addOption(
+                OptionBuilder.hasArg( false ).withLongOpt( "help" )
+                .withDescription( "print this message and exit" ).create( VERSION_OPT ) );
+
+        OPTIONS.addOption(
+                OptionBuilder.hasArg( false ).withLongOpt( "version" )
+                .withDescription( "print the version and exit" ).create( VERSION_OPT ) );
+
+        OPTIONS.addOption(
+                OptionBuilder.hasArg( true ).withLongOpt( "input" )
+                .withDescription( "set the input module name and context" ).create( INPUT_OPT ) );
+
+        OPTIONS.addOption(
+                OptionBuilder.hasArg( true ).withLongOpt( "output" )
+                .withDescription( "set the output module name and context" ).create( OUTPUT_OPT ) );
+
+        OPTIONS.addOption(
+                OptionBuilder.hasArg( false ).withLongOpt( "debug" )
+                .withDescription( "enable debug logging" ).create( DEBUG_OPT ) );
     };
 
     // Logger for output.
@@ -159,18 +159,21 @@ public final class Main
     private static void parseArgs( final String[] args )
     {
         // Parse the arguments
-        final CLArgsParser parser = new CLArgsParser( args, OPTIONS );
-
-        // Make sure that there was no errors parsing arguments
-        if( null != parser.getErrorString() )
+        CommandLineParser parser = new GnuParser();
+        CommandLine cli = null;
+        try
         {
-            System.err.println( "Error: " + parser.getErrorString() );
+            cli = parser.parse( OPTIONS, args );
+        }
+        catch ( ParseException e )
+        {
+            System.err.println( "Error: " + e.getMessage() );
             System.exit( 1 );
         }
 
         // Get a list of parsed options
-        final List options = parser.getArguments();
-        final int size = options.size();
+        final Option[] options = cli.getOptions();
+        final int size = options.length;
 
         // Check that there are enough arguments (should be no more than 3)
         if( size > 3 )
@@ -180,15 +183,8 @@ public final class Main
 
         for( int i = 0; i < size; i++ )
         {
-            final CLOption option = (CLOption)options.get( i );
-
-            switch( option.getDescriptor().getId() )
+            switch( options[i].getOpt().charAt(0) )
             {
-                case CLOption.TEXT_ARGUMENT:
-                    // This occurs when a user supplies an unknown argument
-                    System.err.println( "Unknown argument: " + option.getArgument() );
-                    break;
-
                 case DEBUG_OPT:
                     // Modify the logger to print debug output to console
                     m_logger = new ConsoleLogger( ConsoleLogger.LEVEL_DEBUG );
@@ -205,15 +201,21 @@ public final class Main
 
                 case INPUT_OPT:
                     // Set the input module and context
-                    m_inputModule = getModule( option.getArgument() );
-                    m_inputCtx = getContext( option.getArgument() );
+                    m_inputModule = getModule( options[i].getValue() );
+                    m_inputCtx = getContext( options[i].getValue() );
                     break;
 
                 case OUTPUT_OPT:
                     // Set the output module and context
-                    m_outputModule = getModule( option.getArgument() );
-                    m_outputCtx = getContext( option.getArgument() );
+                    m_outputModule = getModule( options[i].getValue() );
+                    m_outputCtx = getContext( options[i].getValue() );
                     break;
+
+               default:
+                    // This occurs when a user supplies an unknown argument
+                    System.err.println( "Unknown argument: " + options[i].getLongOpt() );
+                    break;
+
             }
         }
 
@@ -306,15 +308,15 @@ public final class Main
         // Uses CLUtil.describeOptions to generate the
         // list of descriptions for each option
         //
-        msg.append( CLUtil.describeOptions( OPTIONS ).toString() );
+        HelpFormatter formatter = new HelpFormatter();
+        formatter.printHelp(msg.toString(), OPTIONS);
 
         // Usage examples
-        msg.append( "\nExample: \n" );
-        msg.append( "\tjava " + Main.class.getName() + "\\\n" );
-        msg.append( "\t\t--input ecm:conf/ecm.roles:conf/ecm.xconf \\\n" );
-        msg.append( "\t\t--output fortress:conf/fortress.roles:conf/fortress.xconf" );
-
-        System.out.println( msg.toString() );
+        System.out.println();
+        System.out.println( "Example:" );
+        System.out.println( "\tjava " + Main.class.getName() + "\\" );
+        System.out.println( "\t\t--input ecm:conf/ecm.roles:conf/ecm.xconf \\" );
+        System.out.println( "\t\t--output fortress:conf/fortress.roles:conf/fortress.xconf" );
 
         System.exit( 0 );
     }
