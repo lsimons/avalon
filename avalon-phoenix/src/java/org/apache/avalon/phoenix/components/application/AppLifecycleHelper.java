@@ -185,16 +185,20 @@ class AppLifecycleHelper
     public void shutdown( final BlockEntry entry )
     {
         entry.setState( State.DESTROYING );
+
         m_listenerSupport.fireBlockRemovedEvent( entry );
 
-        //Remove block from Management system
-        m_exportHelper.unexportBlock( m_context,
-                                      entry.getMetaData(),
-                                      entry.getObject() );
-
+        final Object object = entry.getObject();
         try
         {
-            m_lifecycleHelper.shutdown( entry.getName(), entry );
+            //Remove block from Management system
+            m_exportHelper.unexportBlock( m_context,
+                                          entry.getMetaData(),
+                                          object );
+            entry.invalidate();
+
+            m_lifecycleHelper.shutdown( entry.getName(),
+                                        object );
         }
         finally
         {
