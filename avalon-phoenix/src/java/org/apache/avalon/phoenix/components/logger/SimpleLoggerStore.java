@@ -47,61 +47,81 @@
  Apache Software Foundation, please see <http://www.apache.org/>.
 
 */
+package org.apache.avalon.phoenix.components.logger;
 
-package org.apache.avalon.phoenix.interfaces;
-
-import java.io.File;
-import java.util.Map;
+import org.apache.avalon.excalibur.logger.LoggerManager;
+import org.apache.avalon.excalibur.logger.SimpleLogKitManager;
+import org.apache.avalon.framework.configuration.Configuration;
+import org.apache.avalon.framework.container.ContainerUtil;
+import org.apache.avalon.framework.context.Context;
+import org.apache.avalon.framework.context.DefaultContext;
 import org.apache.avalon.framework.logger.Logger;
-import org.apache.avalon.phoenix.containerkit.profile.PartitionProfile;
-import org.realityforge.loggerstore.LoggerStore;
+import org.apache.avalon.framework.logger.NullLogger;
+import org.realityforge.loggerstore.AbstractLoggerStore;
 
 /**
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * <p>LogKitLoggerStore extends AbstractLoggerStore to provide the implementation
+ * specific to the LogKit logger. </p>
+ *
+ * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
  */
-public interface Kernel
+class SimpleLoggerStore
+    extends AbstractLoggerStore
 {
-    String ROLE = Kernel.class.getName();
+    /** The Logger Manager */
+    private LoggerManager m_loggerManager;
 
     /**
-     * Adds an application to the container
-     */
-    void addApplication( PartitionProfile profile,
-                         File homeDirectory, File workDirectory,
-                         ClassLoader classLoader,
-                         LoggerStore store,
-                         Map classloaders )
-        throws Exception;
-
-    /**
-     * Removes the application from the container
+     * Creates a <code>LogKitLoggerStore</code> using the configuration configuration
      *
-     * @param name the name of application to remove
+     * @param configuration the logger configuration
+     * @throws Exception if fails to create or configure Logger
      */
-    void removeApplication( String name )
-        throws Exception;
+    public SimpleLoggerStore( final Logger logger,
+                              final Context context,
+                              final Configuration configuration )
+        throws Exception
+    {
+        m_loggerManager = new SimpleLogKitManager();
+        if( null != logger )
+        {
+            ContainerUtil.enableLogging( m_loggerManager, logger );
+        }
+        else
+        {
+            ContainerUtil.enableLogging( m_loggerManager, new NullLogger() );
+        }
+        if( null != context )
+        {
+            ContainerUtil.contextualize( m_loggerManager, context );
+        }
+        else
+        {
+            ContainerUtil.contextualize( m_loggerManager, new DefaultContext() );
+        }
+        ContainerUtil.configure( m_loggerManager, configuration );
+        setRootLogger( m_loggerManager.getDefaultLogger() );
+    }
 
     /**
-     * Gets the named application
-     *
-     * @param name the name of application
+     *  Creates new LogKitLogger for the given category.
      */
-    Application getApplication( String name );
+    protected Logger createLogger( final String name )
+    {
+        return m_loggerManager.getLoggerForCategory( name );
+    }
 
     /**
-     * Gets the list of applications running in the container
-     *
-     * @return applicationNames The array of application names
+     *  Closes the LoggerStore and shuts down the logger hierarchy.
      */
-    String[] getApplicationNames();
-
-    /**
-     * Lock the kernel, temporarily preserving the list of applications running in the container
-     */
-    void lock();
-
-    /**
-     * Unlock the kernel, restoring the list of applications to be the current active list
-     */
-    void unlock();
+    public void close()
+    {
+        try
+        {
+            ContainerUtil.shutdown( m_loggerManager );
+        }
+        catch( Exception e )
+        {
+        }
+    }
 }

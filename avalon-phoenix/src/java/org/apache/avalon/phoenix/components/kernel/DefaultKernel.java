@@ -79,6 +79,7 @@ import org.apache.avalon.phoenix.interfaces.Kernel;
 import org.apache.avalon.phoenix.interfaces.KernelMBean;
 import org.apache.avalon.phoenix.interfaces.SystemManager;
 import org.apache.excalibur.instrument.InstrumentManager;
+import org.realityforge.loggerstore.LoggerStore;
 
 /**
  * The ServerKernel is the core of the Phoenix system.
@@ -358,7 +359,7 @@ public class DefaultKernel
                                 final File homeDirectory,
                                 final File workDirectory,
                                 final ClassLoader classLoader,
-                                final Logger logger,
+                                final LoggerStore store,
                                 final Map classloaders )
         throws Exception
     {
@@ -367,7 +368,7 @@ public class DefaultKernel
         final SarEntry entry =
             new SarEntry( profile, homeDirectory,
                           workDirectory, classLoader,
-                          logger, classloaders );
+                          store, classloaders );
         m_entries.put( name, entry );
 
         try
@@ -392,7 +393,7 @@ public class DefaultKernel
                                            entry.getHomeDirectory(),
                                            entry.getWorkDirectory(),
                                            entry.getClassLoader(),
-                                           entry.getLogger(),
+                                           entry.getLoggerStore(),
                                            entry.getClassLoaders() );
 
         ContainerUtil.enableLogging( context, createContextLogger( name ) );

@@ -53,12 +53,12 @@ package org.apache.avalon.phoenix.components.logger.test;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
 import junit.framework.TestCase;
 import org.apache.avalon.excalibur.io.FileUtil;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
 import org.apache.avalon.framework.container.ContainerUtil;
-import org.apache.avalon.framework.context.DefaultContext;
 import org.apache.avalon.framework.logger.ConsoleLogger;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.phoenix.BlockContext;
@@ -67,12 +67,13 @@ import org.apache.avalon.phoenix.interfaces.LogManager;
 import org.apache.avalon.phoenix.metadata.BlockListenerMetaData;
 import org.apache.avalon.phoenix.metadata.BlockMetaData;
 import org.apache.avalon.phoenix.metadata.SarMetaData;
+import org.realityforge.loggerstore.LoggerStore;
 
 /**
  *  An basic test case for the LogManager.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.11 $ $Date: 2003/04/05 04:25:44 $
+ * @version $Revision: 1.12 $ $Date: 2003/05/31 00:19:09 $
  */
 public class LogManagerTestCase
     extends TestCase
@@ -189,12 +190,17 @@ public class LogManagerTestCase
             file.mkdirs();
         }
 
-        final DefaultContext context = new DefaultContext();
+        final HashMap context = new HashMap();
         context.put( BlockContext.APP_NAME, sarMetaData.getName() );
         context.put( BlockContext.APP_HOME_DIR, sarMetaData.getHomeDirectory() );
         context.put( "classloader", getClass().getClassLoader() );
 
-        return logManager.createHierarchy( logs, context );
+        final LoggerStore store =
+            logManager.createHierarchy( logs,
+                                        sarMetaData.getHomeDirectory(),
+                                        sarMetaData.getHomeDirectory(),
+                                        context );
+        return store.getLogger();
     }
 
     private String getBaseDirName( final int index )

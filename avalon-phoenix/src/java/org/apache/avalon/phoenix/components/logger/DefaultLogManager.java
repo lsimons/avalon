@@ -51,12 +51,13 @@
 package org.apache.avalon.phoenix.components.logger;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Properties;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
-import org.apache.avalon.excalibur.logger.LogKitLoggerManager;
-import org.apache.avalon.excalibur.logger.LoggerManager;
-import org.apache.avalon.excalibur.logger.SimpleLogKitManager;
 import org.apache.avalon.framework.configuration.Configuration;
+import org.apache.avalon.framework.configuration.ConfigurationUtil;
 import org.apache.avalon.framework.container.ContainerUtil;
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.ContextException;
@@ -65,7 +66,24 @@ import org.apache.avalon.framework.context.DefaultContext;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.phoenix.BlockContext;
+import org.apache.avalon.phoenix.components.util.ResourceUtil;
 import org.apache.avalon.phoenix.interfaces.LogManager;
+import org.realityforge.loggerstore.DOMLog4JLoggerStoreFactory;
+import org.realityforge.loggerstore.InitialLoggerStoreFactory;
+import org.realityforge.loggerstore.Jdk14LoggerStoreFactory;
+import org.realityforge.loggerstore.LogKitLoggerStoreFactory;
+import org.realityforge.loggerstore.LoggerStore;
+import org.realityforge.loggerstore.LoggerStoreFactory;
+import org.realityforge.loggerstore.PropertyLog4JLoggerStoreFactory;
+import org.realityforge.configkit.PropertyExpander;
+import org.realityforge.configkit.ResolverFactory;
+import org.w3c.dom.Element;
+import org.w3c.dom.Document;
+import org.w3c.dom.NodeList;
+import org.w3c.dom.Node;
+import org.xml.sax.EntityResolver;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 
 /**
  * Interface that is used to manage Log objects for a Sar.
@@ -79,20 +97,9 @@ public class DefaultLogManager
     private static final Resources REZ =
         ResourceManager.getPackageResources( DefaultLogManager.class );
 
-    /**
-     * Constant used to define LogManager class to use original log format.
-     */
-    private static final String VERSION_1 = SimpleLogKitManager.class.getName();
+    private final PropertyExpander m_expander = new PropertyExpander();
 
-    /**
-     * Constant used to define LogManager class to use excaliburs log format.
-     */
-    private static final String VERSION_1_1 = LogKitLoggerManager.class.getName();
-
-    /**
-     * Constant used to define LogManager class to use log4j log format and system.
-     */
-    private static final String VERSION_LOG4J = ExtendedLog4jLoggerManager.class.getName();
+    private final InitialLoggerStoreFactory m_factory = new InitialLoggerStoreFactory();
 
     /**
      * Hold the value of phoenix.home
@@ -104,14 +111,12 @@ public class DefaultLogManager
         m_phoenixHome = (File)context.get( "phoenix.home" );
     }
 
-    private Context createLoggerManagerContext( final Context appContext )
+    private Map createLoggerManagerContext( final Map appContext )
     {
-        final DefaultContext context = new DefaultContext( appContext );
-
-        context.put( "phoenix.home", m_phoenixHome );
-        context.makeReadOnly();
-
-        return context;
+        final HashMap data = new HashMap();
+        data.putAll( appContext );
+        data.put( "phoenix.home", m_phoenixHome );
+        return data;
     }
 
     /**
@@ -122,76 +127,172 @@ public class DefaultLogManager
      * @return the Log hierarchy
      * @throws Exception if unable to create Loggers
      */
-    public Logger createHierarchy( final Configuration logs,
-                                   final Context context )
+    public LoggerStore createHierarchy( final Configuration logs,
+                                        final File homeDirectory,
+                                        final File workDirectory,
+                                        final Map context )
         throws Exception
     {
-        final String version = logs.getAttribute( "version", "1.0" );
-        if( getLogger().isDebugEnabled() )
+        final Map map = createLoggerManagerContext( context );
+        if( null == logs )
         {
-            final String message =
-                REZ.getString( "logger-create",
-                               context.get( BlockContext.APP_NAME ),
-                               version );
-            getLogger().debug( message );
-        }
-        final LoggerManager loggerManager = createLoggerManager( version );
-        ContainerUtil.enableLogging( loggerManager, getLogger() );
-        ContainerUtil.contextualize( loggerManager, createLoggerManagerContext( context ) );
-        ContainerUtil.configure( loggerManager, logs );
-        ContainerUtil.initialize( loggerManager );
-        return loggerManager.getDefaultLogger();
-    }
+            LoggerStore store = null;
+            store = scanForLoggerConfig( "SAR-INF/log4j.properties",
+                                         PropertyLog4JLoggerStoreFactory.class.getName(),
+                                         homeDirectory,
+                                         workDirectory,
+                                         map );
+            if( null != store )
+            {
+                return store;
+            }
+            store = scanForLoggerConfig( "SAR-INF/log4j.xml",
+                                         DOMLog4JLoggerStoreFactory.class.getName(),
+                                         homeDirectory,
+                                         workDirectory,
+                                         map );
+            if( null != store )
+            {
+                return store;
+            }
+            store = scanForLoggerConfig( "SAR-INF/logging.properties",
+                                         Jdk14LoggerStoreFactory.class.getName(),
+                                         homeDirectory,
+                                         workDirectory,
+                                         map );
+            if( null != store )
+            {
+                return store;
+            }
+            store = scanForLoggerConfig( "SAR-INF/excalibur-logger.xml",
+                                         LogKitLoggerStoreFactory.class.getName(),
+                                         homeDirectory,
+                                         workDirectory,
+                                         map );
+            if( null != store )
+            {
+                return store;
+            }
 
-    /**
-     * Create a {@link LoggerManager} for specified version string.
-     *
-     * @param version the version string
-     * @return the created {@link LoggerManager}
-     */
-    private LoggerManager createLoggerManager( final String version )
-    {
-        final String classname = getClassname( version );
-        try
-        {
-            final ClassLoader classLoader = getClass().getClassLoader();
-            final Class clazz = classLoader.loadClass( classname );
-            return (LoggerManager)clazz.newInstance();
-        }
-        catch( final Exception e )
-        {
-            final String message =
-                REZ.getString( "no-create-manager", version, e );
-            throw new IllegalArgumentException( message );
-        }
-    }
-
-    /**
-     * Get the classname of {@link LoggerManager} that coresponds
-     * to specified version.
-     *
-     * @param version the version string
-     * @return the classname of {@link LoggerManager}
-     */
-    private String getClassname( final String version )
-    {
-        if( version.equals( "1.0" ) )
-        {
-            return VERSION_1;
-        }
-        else if( version.equals( "1.1" ) )
-        {
-            return VERSION_1_1;
-        }
-        else if( version.equals( "log4j" ) )
-        {
-            return VERSION_LOG4J;
+            //TODO: Set up a default LoggerStore at this point
+            final String message = "Unable to locate any logging configuration";
+            throw new IllegalStateException( message );
         }
         else
         {
-            final String message =
-                REZ.getString( "unknown-version", version );
-            throw new IllegalArgumentException( message );
+            final String version = logs.getAttribute( "version", "1.0" );
+            if( getLogger().isDebugEnabled() )
+            {
+                final String message =
+                    REZ.getString( "logger-create",
+                                   context.get( BlockContext.APP_NAME ),
+                                   version );
+                getLogger().debug( message );
+            }
+
+            if( version.equals( "1.0" ) )
+            {
+                final LoggerStoreFactory loggerManager = new SimpleLoggerStoreFactory();
+                ContainerUtil.enableLogging( loggerManager, getLogger() );
+                final HashMap config = new HashMap();
+                config.put( Logger.class.getName(), getLogger() );
+                config.put( Context.class.getName(), new DefaultContext( map ) );
+                config.put( Configuration.class.getName(), logs );
+                return loggerManager.createLoggerStore( config );
+            }
+            else if( version.equals( "1.1" ) )
+            {
+                final LoggerStoreFactory loggerManager = new LogKitLoggerStoreFactory();
+                ContainerUtil.enableLogging( loggerManager, getLogger() );
+                final HashMap config = new HashMap();
+                config.put( Logger.class.getName(), getLogger() );
+                config.put( Context.class.getName(), new DefaultContext( map ) );
+                config.put( Configuration.class.getName(), logs );
+                return loggerManager.createLoggerStore( config );
+            }
+            else if( version.equals( "log4j" ) )
+            {
+                final LoggerStoreFactory loggerManager = new DOMLog4JLoggerStoreFactory();
+                ContainerUtil.enableLogging( loggerManager, getLogger() );
+                final HashMap config = new HashMap();
+                final Element element = buildLog4JConfiguration( logs );
+                m_expander.expandValues( element, map );
+                config.put( Element.class.getName(), element );
+                return loggerManager.createLoggerStore( config );
+            }
+            else
+            {
+                final String message =
+                    "Unknown logger version '" + version + "' in environment.xml";
+                throw new IllegalStateException( message );
+            }
         }
+    }
+
+    private Element buildLog4JConfiguration( final Configuration logs )
+    {
+        final Element element = ConfigurationUtil.toElement( logs );
+        final Document document = element.getOwnerDocument();
+        final Element newElement = document.createElement( "log4j:configuration" );
+        final NodeList childNodes = element.getChildNodes();
+        final int length = childNodes.getLength();
+        for( int i = 0; i < length; i++ )
+        {
+            final Node node = childNodes.item( i );
+            final Node newNode = node.cloneNode( true );
+            newElement.appendChild( newNode );
+        }
+
+        document.appendChild( newElement );
+        return newElement;
+    }
+
+    private LoggerStore scanForLoggerConfig( final String location,
+                                             final String classname,
+                                             final File homeDirectory,
+                                             final File workDirectory,
+                                             final Map context )
+        throws Exception
+    {
+        final boolean isPropertiesFile = location.endsWith( "properties" );
+        final File file =
+            ResourceUtil.getFileForResource( location,
+                                             homeDirectory,
+                                             workDirectory );
+        LoggerStore store = null;
+        if( null != file )
+        {
+            final HashMap config = new HashMap();
+            if( isPropertiesFile )
+            {
+                final Properties properties = new Properties();
+                properties.load( file.toURL().openStream() );
+                final Properties newProperties =
+                    m_expander.expandValues( properties, context );
+                config.put( Properties.class.getName(), newProperties );
+            }
+            //TODO: Remove next line as it is an ugly hack!
+            else if( !location.equals( "SAR-INF/excalibur-logger.xml" ) )
+            {
+                final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+                final DocumentBuilder builder = factory.newDocumentBuilder();
+
+                //TODO: Need to set up config files for entity resolver
+                final EntityResolver resolver =
+                    ResolverFactory.createResolver( getClass().getClassLoader() );
+                builder.setEntityResolver( resolver );
+                final Document document = builder.parse( file );
+                final Element element = document.getDocumentElement();
+                m_expander.expandValues( element, context );
+                config.put( Element.class.getName(), element );
+            }
+            else
+            {
+                config.put( LoggerStoreFactory.URL_LOCATION, file.toURL() );
+            }
+            config.put( InitialLoggerStoreFactory.INITIAL_FACTORY, classname );
+            store = m_factory.createLoggerStore( config );
+        }
+        return store;
     }
 }

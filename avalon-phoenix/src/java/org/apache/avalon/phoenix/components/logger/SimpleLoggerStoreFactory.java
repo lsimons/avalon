@@ -47,61 +47,59 @@
  Apache Software Foundation, please see <http://www.apache.org/>.
 
 */
+package org.apache.avalon.phoenix.components.logger;
 
-package org.apache.avalon.phoenix.interfaces;
-
-import java.io.File;
 import java.util.Map;
+import org.apache.avalon.framework.configuration.Configuration;
+import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.logger.Logger;
-import org.apache.avalon.phoenix.containerkit.profile.PartitionProfile;
+import org.realityforge.loggerstore.AbstractLoggerStoreFactory;
 import org.realityforge.loggerstore.LoggerStore;
 
 /**
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * LogKitLoggerStoreFactory is an implementation of LoggerStoreFactory
+ * for the LogKit Logger.
+ *
+ * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
+ * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
+ * @version $Revision: 1.1 $ $Date: 2003/05/31 00:19:09 $
  */
-public interface Kernel
+public class SimpleLoggerStoreFactory
+    extends AbstractLoggerStoreFactory
 {
-    String ROLE = Kernel.class.getName();
-
     /**
-     * Adds an application to the container
-     */
-    void addApplication( PartitionProfile profile,
-                         File homeDirectory, File workDirectory,
-                         ClassLoader classLoader,
-                         LoggerStore store,
-                         Map classloaders )
-        throws Exception;
-
-    /**
-     * Removes the application from the container
+     * Creates a LoggerStore from a given set of configuration parameters.
      *
-     * @param name the name of application to remove
+     * @param config the Map of parameters for the configuration of the store
+     * @return the LoggerStore
+     * @throws Exception if unable to create the LoggerStore
      */
-    void removeApplication( String name )
-        throws Exception;
+    protected LoggerStore doCreateLoggerStore( final Map config )
+        throws Exception
+    {
+        Logger logger =
+            (Logger)config.get( Logger.class.getName() );
+        if( null == logger )
+        {
+            logger = getLogger();
+        }
+        final Context context =
+            (Context)config.get( Context.class.getName() );
 
-    /**
-     * Gets the named application
-     *
-     * @param name the name of application
-     */
-    Application getApplication( String name );
+        /*
+        final Element element = (Element)config.get( Element.class.getName() );
+        if( null != element )
+        {
+            return new LogKitLoggerStore( ConfigurationUtil.toConfiguration( element ) );
+        }
+        */
+        final Configuration configuration =
+            (Configuration)config.get( Configuration.class.getName() );
+        if( null != configuration )
+        {
+            return new SimpleLoggerStore( logger, context, configuration );
+        }
 
-    /**
-     * Gets the list of applications running in the container
-     *
-     * @return applicationNames The array of application names
-     */
-    String[] getApplicationNames();
-
-    /**
-     * Lock the kernel, temporarily preserving the list of applications running in the container
-     */
-    void lock();
-
-    /**
-     * Unlock the kernel, restoring the list of applications to be the current active list
-     */
-    void unlock();
+        return missingConfiguration();
+    }
 }

@@ -109,6 +109,10 @@ Legal:
     <property name="configkit.jar" value="${repo.dir}/spice-configkit/spice-configkit-1.1.2/spice-configkit-1.1.2.jar"/>
     <fileset id="configkit.fileset" dir="${lib.dir}" includes="repo/spice-configkit/spice-configkit-1.1.2/lib/*.jar"/>
 
+    <!-- Invoke ant get-loggerstore' to get these -->
+    <property name="loggerstore.jar" value="${repo.dir}/spice-loggerstore/spice-loggerstore-0.5/spice-loggerstore-0.5.jar"/>
+    <fileset id="loggerstore.fileset" dir="${lib.dir}" includes="repo/spice-loggerstore/spice-loggerstore-0.5/lib/*.jar"/>
+
     <!-- Invoke ant get-classman' to get these -->
     <property name="classman.jar" value="${repo.dir}/spice-classman/spice-classman-1.0/spice-classman-1.0.jar"/>
     <fileset id="classman.fileset" dir="${lib.dir}" includes="repo/spice-classman/spice-classman-1.0/lib/*.jar"/>
@@ -121,6 +125,7 @@ Legal:
         <pathelement path="${log4j.jar}"/>
         <pathelement path="${cli.jar}"/>
         <pathelement path="${configkit.jar}"/>
+        <pathelement path="${loggerstore.jar}"/>
         <pathelement path="${classman.jar}"/>
         <pathelement path="${mx4j.jar}"/>
         <pathelement path="${mx4j-tools.jar}"/>
@@ -145,6 +150,7 @@ Legal:
         <pathelement location="${junit.jar}"/>
         <path refid="project.class.path"/>
         <fileset refid="configkit.fileset"/>
+        <fileset refid="loggerstore.fileset"/>
     </path>
 
     <!-- =================================================================== -->
@@ -471,6 +477,37 @@ Legal:
     </target>
 
     <!-- =================================================================== -->
+    <!-- LoggerStore Tasks.                                                    -->
+    <!-- =================================================================== -->
+    <target name="check-loggerstore-init" depends="init">
+        <available property="loggerstore.present" classname="org.realityforge.loggerstore.LoggerStore">
+            <classpath refid="project.class.path"/>
+        </available>
+    </target>
+
+    <target name="check-loggerstore" depends="check-loggerstore-init" unless="loggerstore.present">
+        <echo>**********************************</echo>
+        <echo>* Please execute target          *</echo>
+        <echo>* 'get-loggerstore' in the main  *</echo>
+        <echo>* build.xml build file           *</echo>
+        <echo>* to download one and            *</echo>
+        <echo>* a half Mb of Spice LoggerStore *</echo>
+        <echo>**********************************</echo>
+        <fail message="Spice LoggerStore needed. See above."/>
+    </target>
+
+    <!-- Get the jars from the loggerstore project. -->
+    <target name="get-loggerstore" description="Get the Spice LoggerStore distribution from SourceForge.">
+        <mkdir dir="${repo.dir}/spice-loggerstore"/>
+        <get src="http://osdn.dl.sourceforge.net/sourceforge/spice/spice-loggerstore-0.5.tar.gz"
+            dest="${repo.dir}/spice-loggerstore/spice-loggerstore.tar.gz"
+            verbose="true"
+            usetimestamp="true"/>
+        <gunzip src="${repo.dir}/spice-loggerstore/spice-loggerstore.tar.gz" dest="${repo.dir}/spice-loggerstore"/>
+        <untar src="${repo.dir}/spice-loggerstore/spice-loggerstore.tar" dest="${repo.dir}/spice-loggerstore"/>
+    </target>
+
+    <!-- =================================================================== -->
     <!-- ClassMan Tasks.                                                     -->
     <!-- =================================================================== -->
     <target name="check-classman-init" depends="init">
@@ -490,7 +527,7 @@ Legal:
         <fail message="Spice ClassMan needed. See above."/>
     </target>
 
-    <!-- Get the jars from the configkit project. -->
+    <!-- Get the jars from the ClassMan project. -->
     <target name="get-classman" description="Get the Spice ClassMan distribution from SourceForge.">
         <mkdir dir="${repo.dir}/spice-classman"/>
         <get src="http://osdn.dl.sourceforge.net/sourceforge/spice/spice-classman-1.0.tar.gz"
@@ -521,7 +558,9 @@ Legal:
 
 
     <!-- Check requirements of environment -->
-    <target name="check-environment" depends="check-mx4j, check-log4j, check-cli, check-configkit, check-classman, check-wrapper">
+    <target name="check-environment"
+        depends="check-mx4j, check-log4j, check-cli, check-loggerstore,
+                 check-configkit, check-classman, check-wrapper">
         <available property="xerces.present" type="file" file="${xerces.jar}"/>
         <available property="servlet.present" classname="javax.servlet.Servlet">
             <classpath refid="project.class.path"/>
@@ -843,6 +882,10 @@ Legal:
         <copy file="${configkit.jar}" todir="${bin.dist.tools.lib}"/>
         <copy todir="${bin.dist.tools.lib}" flatten="true">
             <fileset refid="configkit.fileset"/>
+        </copy>
+        <copy file="${loggerstore.jar}" todir="${bin.dist.container.lib}"/>
+        <copy todir="${bin.dist.container.lib}" flatten="true">
+            <fileset refid="loggerstore.fileset"/>
         </copy>
         <copy todir="${bin.dist.container.lib}">
             <fileset dir="${lib.dir}/container">
@@ -1291,7 +1334,7 @@ Legal:
     </target>
 
     <target name="get-all-dependencies"
-        depends="get-mx4j,get-log4j,get-cli,get-configkit,get-classman,get-wrapper"
+        depends="get-mx4j,get-log4j,get-cli,get-loggerstore,get-configkit,get-classman,get-wrapper"
         description="Meta-task to get all optional libaries"/>
 
     &forrest-targets;
