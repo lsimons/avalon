@@ -29,6 +29,19 @@ import java.io.IOException;
 /**
  * Default implementation of SOAPification service.
  *
+ * All of the following jars from Glue-Standard's download need 
+ * to be inside the lib dir of Cornerstone's root to cause Glue
+ * and The SOAPHelloWorld demo to compile, be included in BARs
+ * and cause the creation of the relevant SARs :-
+ *
+ * GLUE-STD.jar
+ * jndi.jar
+ * ejb.jar
+ * servlet.jar
+ * jcert.jar
+ * jnet.jar
+ * jsse.jar
+ *
  * @author <a href="mailto:Paul_Hammant@yahoo.com">Paul Hammant</>
  */
 public class Glue
@@ -52,14 +65,15 @@ public class Glue
         mConfiguration = configuration;
         mPort = configuration.getChild("port").getValueAsInteger( 8765 );
         mBindingAddress = configuration.getChild("binding-address").getValue( "127.0.0.1" );
+        mBaseName = configuration.getChild("base-name").getValue( "soap" );
     }
 
     public void start() throws IOException
     {
-        String svr = "http://"+ mBindingAddress +":"+ mPort +"/soap";
+        String svr = "http://"+ mBindingAddress +":"+ mPort +"/" + mBaseName;
         //mWebServer = WebServer.startWebServer( svr );
         //mWebServer.startup();
-        HTTP.startup( "http://127.0.0.1:"+ mPort +"/soap" );    
+        HTTP.startup( svr );    
         getLogger().info("WebServer started as " + svr );
     }
 
