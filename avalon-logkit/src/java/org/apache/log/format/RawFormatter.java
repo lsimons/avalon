@@ -28,7 +28,6 @@ public class RawFormatter
     public String format( final LogEvent event )
     {
         final String message = event.getMessage();
-
         if( null == message )
         {
             return "";
