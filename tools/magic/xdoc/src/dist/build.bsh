@@ -51,7 +51,8 @@ import org.xml.sax.SAXException;
 public class XDocPlugin extends AbstractPlugin
     implements Serviceable
 {
-    private File m_BaseDir;    
+    private File m_BaseToDir;    
+    private File m_BaseSrcDir;    
     
     public void service( ServiceManager man )
         throws ServiceException
@@ -76,9 +77,12 @@ public class XDocPlugin extends AbstractPlugin
         String output = m_Context.getProperty( "xdoc.output.format" );
         File themeDir = new File( m_Context.getProjectSystemDir(), "themes/" + theme + "/" + output );
         
-        getLogger().info( "   Source: " + srcDir.getAbsolutePath() );
-        getLogger().info( "     Dest: " + destDir.getAbsolutePath() );
-        getLogger().info( "Theme Dir: " + themeDir );
+        if( getLogger().isDebugEnabled() )
+        {
+            getLogger().debug( "   Source: " + srcDir.getAbsolutePath() );
+            getLogger().debug( "     Dest: " + destDir.getAbsolutePath() );
+            getLogger().debug( "Theme Dir: " + themeDir );
+        }
         
         try
         {
@@ -97,6 +101,7 @@ public class XDocPlugin extends AbstractPlugin
     private void transformNavigation( File themeDir )
         throws BuildException
     {
+        getLogger.debug( "Converting Navigation." );
         File xslFile = new File( themeDir,  "nav-aggregate.xsl" );
         String srcDir = m_Context.getProperty( "xdoc.src.dir" );
         File fromDir = new File( srcDir );
@@ -156,11 +161,7 @@ public class XDocPlugin extends AbstractPlugin
            processed document
         */
 
-        System.out.println( "Transforming source dir:" + srcDir );
-        System.out.println( "Transforming dest dir:" + toDir );
-        System.out.println( "Transforming xsl:" + xslFile );
-        System.out.println( "Transforming includes/excludes: '" + includes + "' / '" + excludes + "'."  );
-        
+        getLogger.debug( "Converting XML documents." );
         try
         {
             TransformerFactory factory = TransformerFactory.newInstance();
@@ -169,9 +170,9 @@ public class XDocPlugin extends AbstractPlugin
 
             RegexpFilter filter = new RegexpFilter( includes, excludes );
 
-            m_BaseDir = toDir;
-
-            transform( transformer, srcDir, toDir, filter, extension );
+            m_BaseToDir = toDir;
+            m_BaseSrcDir = srcDir.getAbsoluteFile();
+            transform( transformer, m_BaseSrcDir, toDir, filter, extension );
         } catch( TransformerException e )
         {
             throw new BuildException( e.getMessage(), e );
@@ -194,28 +195,32 @@ public class XDocPlugin extends AbstractPlugin
             }
             if( content[i].isFile() )
             {
+                String svnRoot = m_Context.getProperty( "xdoc.svn.root.xdocs" );
+                String svnSource = svnRoot + getRelSrcPath( srcDir ) + "/" + base;
                 
-                int pos = base.indexOf( '.' );
+                int pos = base.lastIndexOf( '.' );
                 if( pos > 0 )
                     base = base.substring( 0, pos );
                 base = base + extension;
+                
                 File newDest = new File( toDir, base );
-
                 StreamSource xml = new StreamSource( content[i] );
                 StreamResult out = new StreamResult( newDest );
                 transformer.clearParameters();
                 
                 
-                transformer.setParameter( "directory", getRelPath( toDir ) );
-                transformer.setParameter( "fullpath", getRelPath( newDest ) );
+                transformer.setParameter( "directory", getRelToPath( toDir ) );
+                transformer.setParameter( "fullpath", getRelToPath( newDest ) );
                 transformer.setParameter( "file", base );
+                transformer.setParameter( "copyright", m_Context.getProperty( "xdoc.footer.copyright"  ) );
+                transformer.setParameter( "svn-location", svnSource );
                 
                 try
                 {
                     transformer.transform( xml, out );
                 } catch( Exception e )
                 {
-                    getLogger().error( getRelPath( newDest ) + " : " + e.getMessage() );
+                    getLogger().error( getRelToPath( newDest ) + " : " + e.getMessage() );
                     if( "true".equals( m_Context.getProperty( "xdoc.print.stack.trace" ) ) )
                         e.printStackTrace();
                     if( "true".equals( m_Context.getProperty( "xdoc.fail.on.error" ) ) )
@@ -225,9 +230,16 @@ public class XDocPlugin extends AbstractPlugin
         }
     }
     
-    private String getRelPath( File dir )
+    private String getRelToPath( File dir )
     {
-        String basedir = m_BaseDir.getAbsolutePath();
+        String basedir = m_BaseToDir.getAbsolutePath();
+        String curdir = dir.getAbsolutePath();
+        return curdir.substring( basedir.length() );
+    }
+
+    private String getRelSrcPath( File dir )
+    {
+        String basedir = m_BaseSrcDir.getAbsolutePath();
         String curdir = dir.getAbsolutePath();
         return curdir.substring( basedir.length() );
     }
