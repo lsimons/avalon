@@ -80,6 +80,8 @@ public class Home extends DataType
         m_system = system;
         m_project = project;
         buildList( index );
+        int n = m_resources.size();
+        project.log( "count: " + n );
     }
 
     //-------------------------------------------------------------
@@ -262,20 +264,10 @@ public class Home extends DataType
         {
             final Element element = children[i];
             final String tag = element.getTagName();
-            if( isaResource( tag ) )
-            {
-                final Resource resource = createResource( element, anchor );
-                final String key = resource.getKey();
-                m_resources.put( key, resource );
-                log( 
-                  "resource: " + resource 
-                  + " key=" + key, Project.MSG_VERBOSE );
-            }
-            else if( "import".equals( element.getTagName() ) )
+            if( "import".equals( element.getTagName() ) )
             {
                 final String filename = element.getAttribute( "index" );
                 final String path = element.getAttribute( "href" );
-
                 if(( null != filename ) && ( !"".equals( filename )))
                 {
                     final File index = Context.getFile( anchor, filename );
@@ -296,6 +288,15 @@ public class Home extends DataType
                       "Invalid import statement. No href or index attribute.";
                     throw new BuildException( error );
                 }
+            }
+            else if( isaResource( tag ) )
+            {
+                final Resource resource = createResource( element, anchor );
+                final String key = resource.getKey();
+                m_resources.put( key, resource );
+                log( 
+                  "resource: " + resource 
+                  + " key=" + key, Project.MSG_VERBOSE );
             }
             else
             {

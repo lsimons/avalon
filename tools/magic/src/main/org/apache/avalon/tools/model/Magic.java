@@ -58,8 +58,7 @@ public class Magic extends DataType
     public static final String PROXY_PASSWORD_KEY = "magic.proxy.password";
 
     private static Magic SYSTEM;
-    private static Repository MAIN;
-    private static Repository DOCS;
+    private static Home HOME;
 
     public static Magic getSystem( Project project )
     {
@@ -169,6 +168,21 @@ public class Magic extends DataType
 
     public Home getHome( Project project, String value )
     {
+        if( null == HOME )
+        {
+            File index = getIndexFile( project, value );
+            project.log( 
+              "Creating home in project: " 
+              + project.getName() 
+              + " using index ["
+              + index
+              + "].", Project.MSG_VERBOSE );
+
+            HOME = new Home( project, this, index );
+        }
+        return HOME;
+
+        /*
         File index = getIndexFile( project, value );
         String path = Context.getCanonicalFile( index ).toString();
         Home home = (Home) m_homes.get( path );
@@ -185,6 +199,7 @@ public class Magic extends DataType
         }
         m_homes.put( path, home );
         return home;
+        */
     }
 
     private File getIndexFile( Project project, String value )
