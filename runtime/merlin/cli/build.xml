@@ -4,7 +4,12 @@
     xmlns:x="antlib:org.apache.avalon.tools">
 
   <property file="build.properties"/>
+
   <import file="${project.system}/build/standard.xml"/>
+
+  <condition property="project.nsi.declared" value="false">
+    <isset property="project.nsi.exe"/>
+  </condition>
 
   <target name="init" depends="standard.init">
     <filter token="VERSION" value="${project.version}"/>
@@ -24,7 +29,7 @@
        token="UNIX-CLI-MAIN-PATH"/>
   </target>
 
-  <target name="package" depends="binary"/>
+  <target name="package" depends="binary,nsi"/>
 
   <target name="package-system" depends="standard.package">
     <x:path id="build.path" mode="BUILD"/>
@@ -60,5 +65,24 @@
       </zipfileset>
     </zip>
   </target>
+
+  <target name="nsi" if="project.nsi.declared"
+    description="Generate an NSIS installer."
+    depends="package-system">
+  
+    <property name="nsi.dir" location="target/build/etc/nsi"/>
+    <property name="nsi.script" location="${nsi.dir}/merlin.nsi"/>
+    <property name="exe.dir" location="target/deliverables/exe"/>
+
+    <mkdir dir="${exe.dir}"/>
+    <echo message="${project.nsi.exe}"/>
+    <exec executable="${project.nsi.exe}">
+      <arg value="/V2"/>
+      <arg value="${nsi.script}"/>
+    </exec>
+    <move file="target/build/etc/nsi/merlin-${project.version}-install.exe"
+       toDir="target/deliverables/exe"/> 
+  </target>
+
 
 </project>

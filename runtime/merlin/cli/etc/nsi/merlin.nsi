@@ -25,8 +25,8 @@
 ;Configuration
 
   ;General
-  Name "Merlin Platform 3.3.0"
-  OutFile "merlin-3.3.0-install.exe"
+  Name "Merlin Platform @VERSION@"
+  OutFile "merlin-@VERSION@-install.exe"
 
   ;Folder selection page
   InstallDir "C:\merlin"
@@ -50,7 +50,7 @@
 ;Pages
 
   !insertmacro MUI_PAGE_WELCOME
-  !insertmacro MUI_PAGE_LICENSE "..\LICENSE.txt"
+  !insertmacro MUI_PAGE_LICENSE "LICENSE.TXT"
   !insertmacro MUI_PAGE_COMPONENTS
   !insertmacro MUI_PAGE_DIRECTORY
 
@@ -79,9 +79,6 @@
 
   ;Description
   LangString DESC_SecMerlin   ${LANG_ENGLISH} "Installs Base Merlin Platform"
-  LangString DESC_SecDoc      ${LANG_ENGLISH} "Installs Merlin Documentation"
-  LangString DESC_SecTutorial ${LANG_ENGLISH} "Installs Merlin Tutorial"
-  LangString DESC_SecPlugins  ${LANG_ENGLISH} "Installs Maven Plugins"
   LangString DESC_SecService  ${LANG_ENGLISH} "Installs Merlin NT Service"
 
 ; LangString DESC_SecFacilities  ${LANG_ENGLISH} "Installs Maven Facilities"  
@@ -126,47 +123,6 @@ Section "merlin base" SecMerlin
   WriteUninstaller "$INSTDIR\Uninstall.exe"
 
 SectionEnd
-
-Section "plugins" SecPlugins
-
-  Push $R0
-
-  ;ReadEnvStr $R0 "MAVEN_HOME"
-  ;IfFileExists "$R0\bin\maven.bat" MavenFound  MavenNotFound
-  
-  ;MavenFound:
-  ;  SetOutPath $R0\plugins
-  ;  File /r ..\target\merlin\plugins\avalon-meta\plugins\*
-  ;  File /r ..\target\merlin\plugins\avalon-util\plugins\*
-  ;  File /r ..\target\merlin\plugins\merlin\plugins\*
-  ;  Goto Done
-  ;
-  ;MavenNotFound:
-  ;  SetOutPath $INSTDIR\plugins
-  ;  File /r ..\target\merlin\plugins\*
-
-  Done:
-    Pop $R0
-
-SectionEND
-
-Section "docs" SecDoc
-  ;SetOutPath $INSTDIR\docs
-  ;File /r ..\target\docs\*
-  ;!insertmacro MUI_STARTMENU_WRITE_BEGIN Application
-  ;
-  ;  CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\Merlin.lnk" "$INSTDIR\docs\index.html"
-  ;  CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\Basic Tutorials.lnk"   ;"$INSTDIR\docs\starting\tutorials\index.html"
-  ;  CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\Advanced Tutorials.lnk"     ;"$INSTDIR\docs\starting\advanced\index.html"
-  ;  CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\Specification.lnk" "$INSTDIR\docs\reference\index.html"
-  ;
-  '!insertmacro MUI_STARTMENU_WRITE_END
-SectionEND
-
-Section "tutorial" SecTutorial
-  SetOutPath $INSTDIR\tutorials
-  File /r ..\..\tutorials\target\tutorials\*
-SectionEND
 
 Section "merlin service" SecService
   Exec "$INSTDIR\bin\nt\Wrapper.exe -i $INSTDIR\bin\nt\wrapper.conf"
