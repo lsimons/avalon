@@ -298,11 +298,11 @@ Legal:
           <exclude name="org/apache/avalon/excalibur/naming/rmi/test/RMIContextTestCase.class"/>
           <exclude name="org/apache/avalon/excalibur/logger/test/LogKitManagementTestCase.class"/>
           <exclude name="org/apache/avalon/excalibur/concurrent/test/ReadWriteLockTestCase.class"/>
+          <exclude name="org/apache/avalon/excalibur/monitor/test/MonitorTestCase.class"/>
           <include name="**/test/*TestCase.class"/>
         </fileset>
         <fileset dir="${build.scratchpad}">
           <exclude name="**/test/Abstract*TestCase.class"/>
-          <exclude name="org/apache/avalon/excalibur/monitor/test/MonitorTestCase.class"/>
           <include name="**/test/*TestCase.class"/>
         </fileset>
       </batchtest>
