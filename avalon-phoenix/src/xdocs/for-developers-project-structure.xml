@@ -44,9 +44,7 @@ org.apache.avalon.phoenix
       </section>
       <section name="CVS Directory structure">
 <source>
-jakarta-avalon
-|
-|- console : JMX-based management console
+jakarta-avalon-phoenix
 |
 |- lib : for third party libraries
 |
