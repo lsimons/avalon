@@ -39,6 +39,17 @@
     <!-- avalon dependecies -->
 
     <dependency>
+      <groupId>avalon-util</groupId>
+      <artifactId>avalon-util-env</artifactId>
+      <version>1.0-dev</version>
+    </dependency>
+    <dependency>
+      <groupId>avalon-util</groupId>
+      <artifactId>avalon-util-defaults</artifactId>
+      <version>1.0-dev</version>
+    </dependency>
+
+    <dependency>
       <groupId>avalon-repository</groupId>
       <artifactId>avalon-repository-spi</artifactId>
       <version>1.0b1</version>

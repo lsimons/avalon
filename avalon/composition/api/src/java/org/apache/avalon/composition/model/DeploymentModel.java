@@ -59,7 +59,7 @@ import org.apache.avalon.meta.info.Type;
  * Deployment model defintion.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.5 $ $Date: 2003/10/28 12:53:48 $
+ * @version $Revision: 1.6 $ $Date: 2003/11/03 18:54:18 $
  */
 public interface DeploymentModel extends Model
 {
@@ -92,7 +92,7 @@ public interface DeploymentModel extends Model
    /**
     * Set the collection policy to a supplied value.
     *
-    * @param the collection policy
+    * @param policy the collection policy
     * @see org.apache.avalon.meta.info.InfoDescriptor#LIBERAL
     * @see org.apache.avalon.meta.info.InfoDescriptor#DEMOCRAT
     * @see org.apache.avalon.meta.info.InfoDescriptor#CONSERVATIVE
