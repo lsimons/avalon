@@ -7,7 +7,7 @@
  */
 package org.apache.avalon.cornerstone.services.silk;
 
-import org.apache.avalon.excalibur.event.EventHandler;
+import org.apache.excalibur.event.EventHandler;
 import org.apache.avalon.framework.component.Component;
 
 /**
@@ -34,7 +34,7 @@ import org.apache.avalon.framework.component.Component;
  * </p>
  *
  * @author <a href="bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.3 $ $Date: 2002/03/16 00:18:35 $
+ * @version CVS $Revision: 1.4 $ $Date: 2002/06/20 17:08:41 $
  */
 
 public interface Stage extends Component, EventHandler
