@@ -45,7 +45,7 @@ import com.informix.jdbcx.IfxDataSource;
  * DataSource requires the Avalon Cadastre package because it uses the MemoryContext.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.2 $ $Date: 2001/08/07 20:44:22 $
+ * @version CVS $Revision: 1.3 $ $Date: 2001/08/08 14:26:28 $
  * @since 4.0
  */
 public class InformixDataSource
@@ -66,7 +66,7 @@ public class InformixDataSource
         if ( ! InformixDataSource.INIT_FACTORY )
         {
             System.setProperty( Context.INITIAL_CONTEXT_FACTORY,
-                 "org.apache.avalon.cadastre.memory.MemoryInitialContextFactory" );
+                 "org.apache.avalon.excalibur.naming.memory.MemoryInitialContextFactory" );
         }
     }
 

@@ -476,13 +476,18 @@ Legal:
 
     <mkdir dir="${dist.dir}"/>
     <copy file="${build.lib}/avalon-excalibur.jar" tofile="${dist.dir}/avalon-excalibur-${version}.jar"/>
-    <copy file="${build.lib}/${testlets.name}.jar" tofile="${dist.dir}/${testlets.name}-${version}.jar"/>
+<!--    <copy file="${build.lib}/${testlets.name}.jar" tofile="${dist.dir}/${testlets.name}-${version}.jar"/> -->
     <copy file="${build.lib}/${scratchpad.name}.jar" tofile="${dist.dir}/${scratchpad.name}-${version}.jar"/>
     <copy file="${logkit.jar}" todir="${dist.dir}"/>
     <copy file="${framework.jar}" todir="${dist.dir}"/>
 
     <mkdir dir="${dist.docs}"/>
     <mkdir dir="${dist.javadocs}"/>
+    <mkdir dir="${dist.docs}/test"/>
+
+    <copy todir="${dist.docs}/test">
+       <fileset="${build.testdocs}"/>
+    </copy>
 
 <!--
     <copy todir="${dist.docs}">
