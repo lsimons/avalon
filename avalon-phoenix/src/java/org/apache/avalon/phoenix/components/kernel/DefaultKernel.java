@@ -112,8 +112,9 @@ public class DefaultKernel
                 ((Composable)application).compose( componentManager );
             }
 
-            application.addBlocks( metaData.getBlocks() );
-            application.addBlockListeners( metaData.getListeners() );
+            //application.addBlocks( metaData.getBlocks() );
+            //application.addBlockListeners( metaData.getListeners() );
+            application.setup( metaData );
 
             if( application instanceof Configurable )
             {
