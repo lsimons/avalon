@@ -713,7 +713,7 @@ public class Resources
      * that this Manager does not provide simplified access to.
      *
      * @return the ResourceBundle
-     * @exception MissingResourceException if an error occurs
+     * @throws MissingResourceException if an error occurs
      */
     public final ResourceBundle getBundle()
         throws MissingResourceException
@@ -746,7 +746,7 @@ public class Resources
      *
      * @param key the key to resource
      * @return the string resource
-     * @exception MissingResourceException if an error occurs
+     * @throws MissingResourceException if an error occurs
      */
     private String getPatternString( final String key )
         throws MissingResourceException

@@ -18,8 +18,8 @@ public interface ThreadControl
      * Wait for specified time for thread to complete it's work.
      *
      * @param milliSeconds the duration in milliseconds to wait until the thread has finished work
-     * @exception IllegalStateException if isValid() == false
-     * @exception InterruptedException if another thread has interrupted the current thread.
+     * @throws IllegalStateException if isValid() == false
+     * @throws InterruptedException if another thread has interrupted the current thread.
      *            The interrupted status of the current thread is cleared when this exception
      *            is thrown.
      */
@@ -29,8 +29,8 @@ public interface ThreadControl
     /**
      * Call Thread.interupt() on thread being controlled.
      *
-     * @exception IllegalStateException if isValid() == false
-     * @exception SecurityException if caller does not have permission to call interupt()
+     * @throws IllegalStateException if isValid() == false
+     * @throws SecurityException if caller does not have permission to call interupt()
      */
     void interupt()
         throws IllegalStateException, SecurityException;

@@ -39,7 +39,7 @@ final class ExecutableRunnable
     /**
      * Execute the underlying <code>Runnable</code> object.
      *
-     * @exception Exception if an error occurs
+     * @throws Exception if an error occurs
      */
     public void execute()
         throws Exception
