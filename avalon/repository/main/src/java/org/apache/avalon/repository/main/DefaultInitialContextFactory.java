@@ -61,6 +61,7 @@ import org.apache.avalon.util.env.Env;
 import org.apache.avalon.util.env.EnvAccessException;
 import org.apache.avalon.util.exception.ExceptionHelper;
 import org.apache.avalon.util.defaults.DefaultsBuilder;
+import org.apache.avalon.util.defaults.Defaults;
 
 
 /**
@@ -78,7 +79,7 @@ import org.apache.avalon.util.defaults.DefaultsBuilder;
  * </pre>
  * 
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class DefaultInitialContextFactory implements InitialContextFactory
 {
@@ -160,9 +161,12 @@ public class DefaultInitialContextFactory implements InitialContextFactory
         m_defaults = new DefaultsBuilder( key, work );
         Properties defaults = getDefaultProperties();
         m_properties = 
-          m_defaults.getConsolidatedProperties(  
+          m_defaults.getConsolidatedProperties(
             defaults, 
             KEYS );
+        Defaults.macroExpand( 
+            m_properties, 
+            new Properties[]{ m_properties } );
 
         String spec = m_properties.getProperty( 
           InitialContext.IMPLEMENTATION_KEY );
