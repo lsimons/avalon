@@ -10,14 +10,16 @@ package org.apache.excalibur.instrument;
 /**
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/07/29 16:05:19 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/08/05 11:52:25 $
  * @since 4.1
  */
 public interface InstrumentManager
 {
     /**
      * Instrumentable to be registered with the instrument manager.  Should be
-     *  called whenever an Instrumentable is created.
+     *  called whenever an Instrumentable is created.  The '.' character is
+     *  used to denote a child Instrumentable and can be used to register the
+     *  instrumentable at a specific point in an instrumentable hierarchy.
      *
      * @param instrumentable Instrumentable to register with the InstrumentManager.
      * @param instrumentableName The name to use when registering the Instrumentable.
