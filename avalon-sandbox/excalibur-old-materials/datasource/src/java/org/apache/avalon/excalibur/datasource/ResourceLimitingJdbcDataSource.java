@@ -79,7 +79,7 @@ import org.apache.excalibur.instrument.Instrumentable;
  * <p>
  * Configuration Example:
  * <pre>
- *   &lt;jdbc&gt;
+ *   &lt;rl-jdbc&gt;
  *     &lt;pool-controller max="<i>10</i>" maxStrict="<i>true</i>"
  *       blocking="<i>true</i>" timeout="<i>-1</i>"
  *       trim-interval="<i>60000</i>" auto-commit="true"
@@ -90,7 +90,7 @@ import org.apache.excalibur.instrument.Instrumentable;
  *     &lt;dburl&gt;<i>jdbc:driver://host/mydb</i>&lt;/dburl&gt;
  *     &lt;user&gt;<i>username</i>&lt;/user&gt;
  *     &lt;password&gt;<i>password</i>&lt;/password&gt;
- *   &lt;/jdbc&gt;
+ *   &lt;/rl-jdbc&gt;
  * </pre>
  * <p>
  * Roles Example:
@@ -98,7 +98,7 @@ import org.apache.excalibur.instrument.Instrumentable;
  *   &lt;role name="org.apache.avalon.excalibur.datasource.DataSourceComponentSelector"
  *     shorthand="datasources"
  *     default-class="org.apache.avalon.excalibur.component.ExcaliburComponentSelector"&gt;
- *     &lt;hint shorthand="jdbc"
+ *     &lt;hint shorthand="rl-jdbc"
  *       class="org.apache.avalon.excalibur.datasource.ResourceLimitingJdbcDataSource"/&gt;
  *   &lt;/role&gt;
  * </pre>
@@ -170,9 +170,14 @@ import org.apache.excalibur.instrument.Instrumentable;
  * used to specify the user and password for connections to the
  * database. (Required)</li>
  * </ul>
+ * 
+ * @avalon.component
+ * @avalon.service type=DataSourceComponent
+ * @x-avalon.info name=rl-jdbc
+ * @x-avalon.lifestyle type=singleton
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.7 $ $Date: 2003/04/09 02:26:35 $
+ * @version CVS $Revision: 1.8 $ $Date: 2003/05/20 20:44:43 $
  * @since 4.1
  */
 public class ResourceLimitingJdbcDataSource

@@ -53,7 +53,7 @@ import org.apache.avalon.excalibur.datasource.DataSourceComponent;
 
 /**
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.3 $ $Date: 2003/04/29 03:03:29 $
+ * @version CVS $Revision: 1.4 $ $Date: 2003/05/20 20:44:43 $
  * @since 4.1
  */
 public interface RoundRobinDataSourceCluster
@@ -62,6 +62,6 @@ public interface RoundRobinDataSourceCluster
     /**
      * The name of the role for convenience
      */
-    String ROLE = "org.apache.avalon.excalibur.datasource.cluster.RoundRobinDataSourceCluster";
+    String ROLE = RoundRobinDataSourceCluster.class.getName();
 }
 

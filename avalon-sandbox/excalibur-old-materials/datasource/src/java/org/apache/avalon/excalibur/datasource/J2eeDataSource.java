@@ -67,8 +67,13 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
  * <code>javax.sql.DataSource</code> object and assumes that the
  * J2EE container pools the datasources properly.
  *
+ * @avalon.component
+ * @avalon.service type=DataSourceComponent
+ * @x-avalon.info name=j2ee-datasource
+ * @x-avalon.lifestyle type=singleton
+ *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.12 $ $Date: 2003/04/29 03:04:05 $
+ * @version CVS $Revision: 1.13 $ $Date: 2003/05/20 20:44:43 $
  * @since 4.0
  */
 public class J2eeDataSource

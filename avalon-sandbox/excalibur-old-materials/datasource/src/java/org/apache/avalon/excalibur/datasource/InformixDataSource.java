@@ -113,10 +113,15 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
  * to, and <code>level</code> specifies the tracing level to be used, as
  * documented in the Informix JDBC programmers guide.
  * </p>
+ * 
+ * @avalon.component
+ * @avalon.service type=DataSourceComponent
+ * @x-avalon.info name=informix
+ * @x-avalon.lifestyle type=singleton
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Revision: 1.15 $ $Date: 2003/04/29 03:04:05 $
+ * @version CVS $Revision: 1.16 $ $Date: 2003/05/20 20:44:43 $
  * @since 4.0
  */
 public class InformixDataSource

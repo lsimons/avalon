@@ -112,9 +112,15 @@ import java.sql.SQLException;
  *     &lt;hint shorthand="j2ee" class="org.apache.avalon.excalibur.datasource.J2eeDataSource"/&gt;
  *   &lt;/role&gt;
  * </pre>
+ * 
+ * @avalon.component
+ * @avalon.service type=org.apache.avalon.excalibur.datasource.DataSourceComponent
+ * @avalon.service type=RoundRobinDataSourceCluster
+ * @x-avalon.info name=rrobin-db-cluster
+ * @x-avalon.lifestyle type=singleton
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.5 $ $Date: 2003/04/29 03:03:29 $
+ * @version CVS $Revision: 1.6 $ $Date: 2003/05/20 20:44:43 $
  * @since 4.1
  */
 public class DefaultRoundRobinDataSourceCluster
