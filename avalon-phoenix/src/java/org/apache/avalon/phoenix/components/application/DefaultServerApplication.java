@@ -10,6 +10,8 @@ package org.apache.avalon.phoenix.components.application;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Arrays;
+import java.util.List;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.framework.activity.Initializable;
@@ -95,7 +97,7 @@ public final class DefaultServerApplication
 
     public DefaultServerApplication()
     {
-        m_frame = createFrame();
+        m_frame = new DefaultApplicationFrame();
         m_listenerManager = new BlockListenerSupport();
     }
 
@@ -155,34 +157,6 @@ public final class DefaultServerApplication
         setupComponent( m_dag, "dag" );
 
         setupPhases();
-    }
-
-    /**
-     * Create a frame for application.
-     * Overide this in subclasses to provide different types of frames.
-     *
-     * @return the ApplicationFrame
-     */
-    protected ApplicationFrame createFrame()
-    {
-        return new DefaultApplicationFrame();
-    }
-
-    /**
-     * Make sure Entry is of correct type.
-     *
-     * @param name the name of entry
-     * @param entry the entry
-     * @exception ContainerException to stop removal of entry
-     */
-    protected final void preAdd( final String name, final Entry entry )
-        throws ContainerException
-    {
-        if( !(entry instanceof BlockEntry) )
-        {
-            final String message = REZ.getString( "app.error.bad.entry-type" );
-            throw new ContainerException( message );
-        }
     }
 
     /**
@@ -308,7 +282,6 @@ public final class DefaultServerApplication
             } 
             catch( final ConfigurationException ce ) 
             {
-                // missing configuration (probably).
                 final String message = REZ.getString( "app.error.listener.noconfiguration", name );
                 throw new ConfigurationException( message, ce );
             }
@@ -367,7 +340,21 @@ public final class DefaultServerApplication
     {
         try
         {
-            m_dag.walkGraph( phase.m_visitor, phase.m_traversal );
+            final String[] path = m_dag.walkGraph( phase.m_traversal );
+
+            if( getLogger().isInfoEnabled() )
+            {
+                final List pathList = Arrays.asList( path );
+                final String message = REZ.getString( "app.notice.dependency-path", name, pathList );
+                getLogger().info( message );
+                System.out.println( message );
+            }
+
+            for( int i = 0; i < path.length; i++ )
+            {
+                final BlockEntry entry = (BlockEntry)getEntry( path[ i ] );
+                phase.m_visitor.visitBlock( path[ i ], entry );
+            }
         }
         catch( final Exception e )
         {
