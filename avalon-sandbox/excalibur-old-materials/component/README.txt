@@ -1,5 +1,5 @@
-                Avalons Excalibur TestCase
-                --------------------------
+                Avalons Excalibur ComponentManager 
+                ----------------------------------
 
 This project contains utilities for managing components.  In particular,
 the ExcaliburComponentManager.
