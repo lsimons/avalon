@@ -29,12 +29,11 @@ import org.apache.avalon.tools.home.Repository;
 import org.apache.avalon.tools.util.ElementHelper;
 import org.apache.avalon.tools.project.Info;
 import org.apache.avalon.tools.project.Definition;
-//import org.apache.avalon.tools.project.ProjectRef;
 import org.apache.avalon.tools.project.ResourceRef;
 import org.apache.avalon.tools.project.Resource;
-//import org.apache.avalon.tools.project.PluginRef;
 import org.apache.avalon.tools.project.Plugin;
 import org.apache.avalon.tools.project.Plugin.TaskDef;
+import org.apache.avalon.tools.project.Plugin.ListenerDef;
 import org.apache.avalon.tools.project.Policy;
 
 import org.w3c.dom.Element;
@@ -83,8 +82,10 @@ public class XMLDefinitionBuilder
         {
             TaskDef[] tasks = 
               getTaskDefs( ElementHelper.getChild( element, "tasks" ) );
+            ListenerDef[] listeners = 
+              getListenerDefs( ElementHelper.getChild( element, "listeners" ) );
             return new Plugin( 
-              home, key, basedir, info, resources, plugins, tasks );
+              home, key, basedir, info, resources, plugins, tasks, listeners );
         }
         else
         {
@@ -92,6 +93,19 @@ public class XMLDefinitionBuilder
               "Unrecognized project type \"" + tag + "\".";
             throw new BuildException( error );
         }
+    }
+
+    public static ListenerDef[] getListenerDefs( Element element )
+    {
+        Element[] children = ElementHelper.getChildren( element, "listener" );
+        ListenerDef[] listeners = new ListenerDef[ children.length ];
+        for( int i=0; i<children.length; i++ )
+        {
+            Element child = children[i];
+            ListenerDef listener = new ListenerDef( child.getAttribute( "class" ) );
+            listeners[i] = listener;
+        }
+        return listeners;
     }
 
     public static TaskDef[] getTaskDefs( Element element )

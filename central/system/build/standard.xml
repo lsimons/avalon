@@ -5,6 +5,7 @@
 
   <target name="init">
     <x:info/>
+    <x:init/>
   </target>
 
   <target name="clean" depends="init">

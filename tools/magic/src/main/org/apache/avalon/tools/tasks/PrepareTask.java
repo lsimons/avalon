@@ -78,27 +78,6 @@ public class PrepareTask extends SystemTask
         Project project = getProject();
 
         //
-        // if the project declares plugin dependencies then install
-        // these now
-        //
-
-        String key = getContext().getKey();
-        Definition def = getHome().getDefinition( key );
-        ResourceRef[] refs = def.getPluginRefs();
-        for( int i=0; i<refs.length; i++ )
-        {
-            ResourceRef ref = refs[i];
-            Plugin plugin = getHome().getPlugin( ref );
-            String path = "plugin:" + plugin.getInfo().getSpec();
-            PluginTask task = new PluginTask();
-            task.setTaskName( "plugin" );
-            task.setProject( project );
-            task.setArtifact( path );
-            task.init();
-            task.execute();
-        }
-
-        //
         // setup the file system
         //
 

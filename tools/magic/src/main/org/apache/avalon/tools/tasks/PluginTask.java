@@ -20,6 +20,7 @@ package org.apache.avalon.tools.tasks;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.lang.reflect.Constructor;
 
 import org.apache.tools.ant.AntClassLoader;
 import org.apache.tools.ant.Task;
@@ -30,6 +31,7 @@ import org.apache.tools.ant.ComponentHelper;
 import org.apache.tools.ant.taskdefs.Antlib;
 import org.apache.tools.ant.helper.ProjectHelper2;
 import org.apache.tools.ant.UnknownElement;
+import org.apache.tools.ant.BuildListener;
 
 import org.apache.avalon.tools.home.Home;
 import org.apache.avalon.tools.home.Context;
@@ -38,6 +40,7 @@ import org.apache.avalon.tools.project.Info;
 import org.apache.avalon.tools.project.Resource;
 import org.apache.avalon.tools.project.Plugin;
 import org.apache.avalon.tools.project.Plugin.TaskDef;
+import org.apache.avalon.tools.project.Plugin.ListenerDef;
 import org.apache.avalon.tools.project.builder.XMLDefinitionBuilder;
 import org.apache.avalon.tools.util.ElementHelper;
 
@@ -113,6 +116,105 @@ public class PluginTask extends SystemTask
                 helper.addTaskDefinition( name, taskClass );
                 log( "Task \"" + name + "\"" );
             }
+
+            //
+            // register plugins that declare themselves as build listeners
+            //
+
+            ListenerDef[] listeners = data.getListenerDefs();
+            for( int i=0; i<listeners.length; i++ )
+            {
+                ListenerDef def = listeners[i];
+                Class listenerClass = classloader.loadClass( def.getClassname() );
+                BuildListener listener = createBuildListener( listenerClass, data, uri );
+                getProject().addBuildListener( listener );
+            }
+        }
+        catch( Throwable e )
+        {
+            throw new BuildException( e );
+        }
+    }
+
+   /**
+    * Create a build listerer using a supplied class.  The implementation
+    * checks the first available constructor arguments and builds a set of 
+    * arguments based on the arguments supplied to this task.
+    *
+    * @param clazz the listener class
+    * @return a instance of the class
+    * @exception BuildException if the class does not expose a public 
+    *    constructor, or the constructor requires arguments that the 
+    *    method cannot resolve, or if a unexpected instantiation error 
+    *    ooccurs
+    */ 
+    public BuildListener createBuildListener( Class clazz, AntLibData data, String uri ) 
+      throws BuildException
+    {
+        if( !BuildListener.class.isAssignableFrom( clazz ) )
+        {
+            final String error = 
+              "Listener class [" + clazz.getName() 
+              + "] declared within the plugin ["
+              + uri
+              + "] does not implement BuildListener.";
+            throw new BuildException( error );
+        }
+
+        Constructor[] constructors = clazz.getConstructors();
+        if( constructors.length < 1 ) 
+        {
+            final String error = 
+              "Cannot handle listeners classes with more than one public constructor.";
+            throw new BuildException( error );
+        }
+
+        Constructor constructor = constructors[0];
+        Class[] classes = constructor.getParameterTypes();
+        Object[] args = new Object[ classes.length ];
+        for( int i=0; i<classes.length; i++ )
+        {
+            Class c = classes[i];
+            if( AntLibData.class.isAssignableFrom( c ) )
+            {
+                args[i] = data;
+            }
+            else if( String.class.isAssignableFrom( c ) )
+            {
+                args[i] = uri;
+            }
+            else
+            {
+                final String error = 
+                  "Unrecognized constructor parameter: " + c.getName();
+                throw new BuildException( error );
+            }
+        }
+
+        //
+        // instantiate the factory
+        //
+
+        return instantiateBuildListener( constructor, args );
+    }
+
+   /**
+    * Instantiation of a listener instance using a supplied constructor 
+    * and arguments.
+    * 
+    * @param constructor the class constructor
+    * @param args the constructor arguments
+    * @return the listener instance
+    * @exception BuildException if an instantiation error occurs
+    */
+    private BuildListener instantiateBuildListener( 
+      Constructor constructor, Object[] args ) 
+      throws BuildException
+    {
+        Class clazz = constructor.getDeclaringClass();
+        try
+        {
+            return (BuildListener) constructor.newInstance( args );
         }
         catch( Throwable e )
         {
@@ -125,6 +227,7 @@ public class PluginTask extends SystemTask
         private final Info m_info;
         private final Path m_path = new Path( project );
         private final TaskDef[] m_tasks;
+        private final ListenerDef[] m_listeners;
 
         public AntLibData( Home home, Project project, File file ) throws Exception
         {
@@ -133,6 +236,8 @@ public class PluginTask extends SystemTask
             m_info = XMLDefinitionBuilder.createInfo( infoElement );
             Element tasksElement = ElementHelper.getChild( root, "tasks" );
             m_tasks = XMLDefinitionBuilder.getTaskDefs( tasksElement );
+            Element listenerElement = ElementHelper.getChild( root, "listeners" );
+            m_listeners = XMLDefinitionBuilder.getListenerDefs( listenerElement );
 
             Element classpathElement = ElementHelper.getChild( root, "classpath" );
             Element[] children = ElementHelper.getChildren( classpathElement );
@@ -144,8 +249,6 @@ public class PluginTask extends SystemTask
                 Info info = Info.create( type, value );
                 Resource resource = new Resource( home, info );
                 File jar = resource.getArtifact( project );
-                //File jar = 
-                //  getHome().getRepository().getResource( project, resource );
                 m_path.createPathElement().setLocation( jar );
             }
         }
@@ -158,6 +261,11 @@ public class PluginTask extends SystemTask
         public TaskDef[] getTaskDefs()
         {
             return m_tasks;
+        }
+
+        public ListenerDef[] getListenerDefs()
+        {
+            return m_listeners;
         }
 
         public Path getPath()
