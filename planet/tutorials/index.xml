@@ -161,4 +161,71 @@
     </dependencies>
   </project>
 
+  <!--
+  Dependency Tutorials
+  -->
+
+  <project basedir="dependencies/auto">
+    <info>
+      <group>avalon/tutorial</group>
+      <name>avalon-tutorial-dependency-auto</name>
+    </info>
+    <dependencies>
+      <include key="avalon-framework-impl"/>
+    </dependencies>
+    <plugins>
+      <include key="avalon-meta-tools"/>
+    </plugins>
+  </project>
+
+  <project basedir="dependencies/manual">
+    <info>
+      <group>avalon/tutorial</group>
+      <name>avalon-tutorial-dependency-manual</name>
+    </info>
+    <dependencies>
+      <include key="avalon-framework-impl"/>
+    </dependencies>
+    <plugins>
+      <include key="avalon-meta-tools"/>
+    </plugins>
+  </project>
+
+  <project basedir="lifecycle/modern">
+    <info>
+      <group>avalon/tutorial</group>
+      <name>avalon-tutorial-lifecycle-modern</name>
+    </info>
+    <dependencies>
+      <include key="avalon-framework-impl"/>
+      <include key="avalon-composition-api"/>
+    </dependencies>
+    <plugins>
+      <include key="avalon-meta-tools"/>
+    </plugins>
+  </project>
+
+  <project basedir="lifecycle/classic">
+    <info>
+      <group>avalon/tutorial</group>
+      <name>avalon-tutorial-lifecycle-classic</name>
+    </info>
+    <dependencies>
+      <include key="avalon-framework-impl"/>
+      <include key="avalon-util-lifecycle"/>
+    </dependencies>
+    <plugins>
+      <include key="avalon-meta-tools"/>
+    </plugins>
+  </project>
+
+  <project basedir="main">
+    <info>
+      <group>avalon/tutorial</group>
+      <name>avalon-tutorial-main</name>
+    </info>
+    <dependencies>
+      <include key="avalon-repository-main"/>
+    </dependencies>
+  </project>
 </system>
