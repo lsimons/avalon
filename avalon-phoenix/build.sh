@@ -20,4 +20,4 @@ fi
 chmod u+x $AVALON_TOOLS/bin/antRun
 chmod u+x $AVALON_TOOLS/bin/ant
 
-$AVALON_TOOLS/bin/ant -logger org.apache.tools.ant.NoBannerLogger -emacs -Dtools.dir=$AVALON_TOOLS -Dxerces.jar=$AVALON_TOOLS/lib/xerces.jar $@ 
+$AVALON_TOOLS/bin/ant -logger org.apache.tools.ant.NoBannerLogger -emacs -Dtools.dir=$AVALON_TOOLS $@ 
