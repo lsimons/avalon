@@ -92,7 +92,7 @@ import org.apache.commons.cli.Options;
  * Merlin command line handler.
  * 
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.8 $
+ * @version $Revision: 1.9 $
  */
 public class Main 
 {
@@ -467,6 +467,7 @@ public class Main
         {
             return DefaultBuilder.createImplementationArtifact( 
                 Main.class.getClassLoader(), 
+                getMerlinHome(),
                 getBaseDirectory(), 
                 MERLIN_PROPERTIES, 
                 IMPLEMENTATION_KEY );

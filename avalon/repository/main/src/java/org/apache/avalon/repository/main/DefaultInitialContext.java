@@ -98,7 +98,7 @@ import org.apache.avalon.util.exception.ExceptionHelper;
  * 
  * @author <a href="mailto:aok123@bellsouth.net">Alex Karasulu</a>
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.11 $
+ * @version $Revision: 1.12 $
  */
 public class DefaultInitialContext extends AbstractBuilder implements InitialContext
 {
@@ -111,7 +111,7 @@ public class DefaultInitialContext extends AbstractBuilder implements InitialCon
     * properties.  Seaches will be conducted on the current directory and 
     * the user's home directory.
     */
-    public static final String AVALON = "avalon.properties";
+    public static final String AVALON_PROPERTIES = "avalon.properties";
 
    /**
     * Return the Avalon system common directory.  This directory is 
@@ -269,10 +269,14 @@ public class DefaultInitialContext extends AbstractBuilder implements InitialCon
       throws RepositoryException
     {
         m_base = setupBaseDirectory( base );
-        Properties avalonHome = getLocalProperties( USER_HOME, AVALON );
-        Properties avalonWork = getLocalProperties( m_base, AVALON );
-        m_cache = setupCache( cache, avalonHome, avalonWork );
-        m_hosts = setupHosts( hosts, avalonHome, avalonWork );
+        Properties avalonSystem = 
+          getLocalProperties( getAvalonHome(), AVALON_PROPERTIES );
+        Properties avalonHome = 
+          getLocalProperties( USER_HOME, AVALON_PROPERTIES );
+        Properties avalonWork = 
+          getLocalProperties( m_base, AVALON_PROPERTIES );
+        m_cache = setupCache( cache, avalonSystem, avalonHome, avalonWork );
+        m_hosts = setupHosts( hosts, avalonSystem, avalonHome, avalonWork );
 
         Artifact implementation = setupImplementation( artifact );
         ClassLoader parent = setupClassLoader( loader );
@@ -413,16 +417,18 @@ public class DefaultInitialContext extends AbstractBuilder implements InitialCon
         return DefaultInitialContext.class.getClassLoader();
     }
 
-    private File setupCache( File file, Properties home, Properties work )
+    private File setupCache( 
+      File file, Properties system, Properties home, Properties work )
     {
         if( null != file ) return file;
-        return setupDefaultCache( home, work );
+        return setupDefaultCache( system, home, work );
     }
 
-    private String[] setupHosts( String[] hosts, Properties home, Properties work )
+    private String[] setupHosts( 
+      String[] hosts, Properties system, Properties home, Properties work )
     {
         if( null != hosts ) return RepositoryUtils.getCleanPaths( hosts );
-        return setupDefaultHosts( home, work );
+        return setupDefaultHosts( system, home, work );
     }
 
     private Artifact setupImplementation( Artifact artifact )
@@ -482,18 +488,22 @@ public class DefaultInitialContext extends AbstractBuilder implements InitialCon
         return getBaseDirectory();
     }
 
-    private String[] setupDefaultHosts( Properties home, Properties work )
+    private String[] setupDefaultHosts(
+      Properties system, Properties home, Properties work )
     {
-        String homeValue = home.getProperty( HOSTS_KEY );
+        String systemValue = system.getProperty( HOSTS_KEY );
+        String homeValue = home.getProperty( HOSTS_KEY, systemValue );
         String workValue = work.getProperty( HOSTS_KEY, homeValue );
         String value = System.getProperty( HOSTS_KEY , workValue );
         if( null == value ) return DEFAULT_INITIAL_HOSTS;
         return expandHosts( value );
     }
 
-    private static File setupDefaultCache( Properties home, Properties work )
+    private static File setupDefaultCache( 
+      Properties system, Properties home, Properties work )
     {
-        String homeValue = home.getProperty( CACHE_KEY );
+        String systemValue = system.getProperty( CACHE_KEY );
+        String homeValue = home.getProperty( CACHE_KEY, systemValue );
         String workValue = work.getProperty( CACHE_KEY, homeValue );
         String value = System.getProperty( CACHE_KEY , workValue );
         if( null != value ) return new File( value  );

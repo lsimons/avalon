@@ -79,7 +79,7 @@ import org.apache.avalon.util.exception.ExceptionHelper;
  * 
  * @author <a href="mailto:aok123@bellsouth.net">Alex Karasulu</a>
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.21 $
+ * @version $Revision: 1.22 $
  */
 public abstract class AbstractMerlinTestCase extends TestCase
 {
@@ -132,6 +132,7 @@ public abstract class AbstractMerlinTestCase extends TestCase
             Artifact artifact = 
               DefaultBuilder.createImplementationArtifact( 
                 classloader, 
+                getMerlinHome(),
                 getBaseDirectory(), 
                 MERLIN_PROPERTIES, 
                 IMPLEMENTATION_KEY );
@@ -323,6 +324,41 @@ public abstract class AbstractMerlinTestCase extends TestCase
             return new File( base );
         }
         return new File( System.getProperty( "user.dir" ) );
+    }
+
+   /**
+    * Return the merlin home directory.
+    * @return the merlin install directory
+    */
+    private static File getMerlinHome()
+    {
+        return new File( getMerlinHomePath() );
+    }
+
+   /**
+    * Return the merlin home directory path.
+    * @return the merlin install directory path
+    */
+    private static String getMerlinHomePath()
+    {
+        try
+        {
+            String merlin = 
+              System.getProperty( 
+                "merlin.home", 
+                Env.getEnvVariable( "MERLIN_HOME" ) );
+            if( null != merlin ) return merlin;
+            return System.getProperty( "user.home" ) 
+              + File.separator + ".merlin";
+        }
+        catch( Throwable e )
+        {
+            final String error = 
+              "Internal error while attempting to access MERLIN_HOME environment.";
+            final String message = 
+              ExceptionHelper.packException( error, e, true );
+            throw new RuntimeException( message );
+        }
     }
 
 }

@@ -78,7 +78,7 @@ import org.apache.avalon.util.exception.ExceptionHelper;
  * Merlin default application factory.
  * 
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.9 $
+ * @version $Revision: 1.10 $
  */
 public class MerlinBean
 {
@@ -153,6 +153,7 @@ public class MerlinBean
             Artifact artifact = 
               DefaultBuilder.createImplementationArtifact( 
                 classloader, 
+                getMerlinHome(),
                 getBaseDirectory(), 
                 MERLIN_PROPERTIES, 
                 IMPLEMENTATION_KEY );
@@ -244,5 +245,41 @@ public class MerlinBean
         }
         return (String[]) list.toArray( new String[0] );
     }
+
+   /**
+    * Return the merlin home directory.
+    * @return the merlin install directory
+    */
+    private static File getMerlinHome()
+    {
+        return new File( getMerlinHomePath() );
+    }
+
+   /**
+    * Return the merlin home directory path.
+    * @return the merlin install directory path
+    */
+    private static String getMerlinHomePath()
+    {
+        try
+        {
+            String merlin = 
+              System.getProperty( 
+                "merlin.home", 
+                Env.getEnvVariable( "MERLIN_HOME" ) );
+            if( null != merlin ) return merlin;
+            return System.getProperty( "user.home" ) 
+              + File.separator + ".merlin";
+        }
+        catch( Throwable e )
+        {
+            final String error = 
+              "Internal error while attempting to access MERLIN_HOME environment.";
+            final String message = 
+              ExceptionHelper.packException( error, e, true );
+            throw new RuntimeException( message );
+        }
+    }
+
 }
 
