@@ -22,26 +22,12 @@
   and is used by the embedding applications such as cli, plugin,
   unit test, etc. 
   -->
-
-  <postGoal name="java:compile">
-
-    <ant:copy toFile="${maven.build.dir}/classes/merlin.properties">
-      <fileset dir="${basedir}/conf">
-        <include name="merlin.template"/>
-      </fileset>
-      <filterset>
-        <filter token="MERLIN_IMPLEMENTATION" 
-           value="artifact:${pom.groupId}/${pom.artifactId}#${pom.currentVersion}"/>
-        <filter token="LOGGING_IMPLEMENTATION" 
-           value="${merlin.logging.implementation}"/>
-        <filter token="STANDARD_RUNTIME" 
-           value="&avalon-activation-artifact;"/>
-      </filterset>
-    </ant:copy>
-
+  <postGoal name="java:jar-resources">
     <ant:mkdir dir="${maven.repo.local}/${pom.groupId}/properties"/>
     <ant:copy toDir="${maven.repo.local}/${pom.groupId}/properties" 
-       file="${maven.build.dir}/classes/merlin.properties" verbose="yes"/>
+       file="${maven.build.dir}/classes/merlin.properties" 
+       verbose="yes"
+       overwrite="yes"/>
   </postGoal>
 
 </project>

@@ -24,10 +24,12 @@
       value="&merlin-cli-version;"/>
   <ant:property name="merlin.plugin.version" 
       value="&merlin-plugin-version;"/>
+  <ant:property name="merlin.impl.version" 
+      value="&merlin-impl-version;"/>
   <ant:property name="meta.plugin.version" 
       value="&avalon-meta-plugin-version;"/>
-
-  <ant:property name="repository.cli.version" value="2.0-SNAPSHOT"/>
+  <ant:property name="repository.cli.version" 
+      value="&avalon-repository-cli-version;"/>
 
   <!--
   ==============================================================================
@@ -86,6 +88,17 @@
     <attainGoal name="avalon:tutorials"/>
     <attainGoal name="avalon:package"/>
   </goal>
+
+  <preGoal name="java:jar-resources">
+    <ant:filter token="AVALON-LOGGING-LOGKIT-SPEC" 
+        value="&avalon-logging-logkit-artifact-spec;"/>
+    <ant:filter token="MERLIN_IMPLEMENTATION" 
+        value="artifact:merlin/merlin-impl#${merlin.impl.version}"/>
+    <ant:filter token="LOGGING_IMPLEMENTATION" 
+        value="&avalon-logging-logkit-artifact;"/>
+    <ant:filter token="STANDARD_RUNTIME" 
+        value="&avalon-activation-artifact;"/>
+  </preGoal>
 
   <!--
   ==============================================================================
@@ -300,11 +313,10 @@
     </ant:copy>
     <ant:copy toDir="${merlin.build.inst.dir}">
       <fileset dir="${basedir}/platform/src">
-        <include name="config/**/*"/>
-        <include name="system/**/*"/>
         <include name="bin/**/*.jar"/>
         <include name="bin/**/*.exe"/>
         <include name="bin/**/*.dll"/>
+        <include name="config/**/*"/>
       </fileset>
       <fileset dir="${basedir}">
         <include name="LICENSE.txt"/>

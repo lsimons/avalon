@@ -312,6 +312,7 @@ limitations under the License.
           </includes>
         </resource>
         <resource>
+          <filtering>true</filtering>
           <directory>${basedir}/src/test/conf</directory>
           <includes> 
             <include>**/*</include>
@@ -356,16 +357,11 @@ limitations under the License.
         </includes>
       </resource>
       <resource>
+        <filtering>true</filtering>
         <directory>${basedir}/conf</directory>
         <includes> 
           <include>**/*.properties</include>
           <include>kernel.xml</include>
-        </includes>
-      </resource>
-      <resource>
-        <directory>${basedir}</directory>
-        <includes> 
-          <include>snapshot.properties</include>
         </includes>
       </resource>
     </resources>
