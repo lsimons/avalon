@@ -23,6 +23,38 @@
         </p>
       </subsection>
 
+      <subsection name="Enumerated Values">
+        <table>
+          <tr><th>Value</th><th>Description</th></tr>
+          <tr>
+            <td>weak</td>
+            <td>
+             A component type having a weak collection policy 
+             will be decommissioned following the release of the 
+             instance reference by a consumer component.
+            </td>
+          </tr>
+          <tr>
+            <td>soft</td>
+            <td>
+             A component type having a soft collection policy 
+             will be decommissioned following the release of the 
+             instance reference by a consumer component if a memory
+             contention condition occurs.
+            </td>
+          </tr>
+          <tr>
+            <td>hard</td>
+            <td>
+             A component type having a hard collection policy 
+             will be maintained in memory for the life of the its 
+             containment model.
+            </td>
+          </tr>
+        </table>
+      </subsection>
+
+
       <subsection name="Example XML">
 <source><![CDATA[
 <collection>soft</collection>
@@ -34,7 +66,7 @@
   <footer>
     <legal>
       Copyright (c) @year@ The Avalon Apache Project All rights reserved.
-      $Revision: 1.1 $ $Date: 2004/04/14 11:47:32 $
+      $Revision: 1.2 $ $Date: 2004/04/14 11:52:01 $
     </legal>
   </footer>
 
