@@ -42,7 +42,7 @@ import org.apache.excalibur.instrument.InstrumentManager;
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:paul@luminas.co.uk">Paul Russell</a>
  * @author <a href="mailto:leif@apache.org">Leif Mortenson</a>
- * @version CVS $Revision: 1.12 $ $Date: 2002/08/18 12:06:12 $
+ * @version CVS $Revision: 1.13 $ $Date: 2002/08/18 14:40:22 $
  * @since 4.0
  */
 public class ExcaliburComponentSelector
@@ -419,6 +419,16 @@ public class ExcaliburComponentSelector
                 try
                 {
                     handler.initialize();
+                    
+                    // Manually register the handler so that it will be located under the
+                    //  instrument manager, seperate from the actual instrumentable data of the
+                    //  components
+                    if ( ( m_instrumentManager != null ) &&
+                        ( handler instanceof Instrumentable ) )
+                    {
+                        String handleInstName = ((Instrumentable)handler).getInstrumentableName();
+                        m_instrumentManager.registerInstrumentable( handler, handleInstName );
+                    }
                 }
                 catch( Exception e )
                 {
@@ -575,12 +585,8 @@ public class ExcaliburComponentSelector
      */
     public Instrumentable[] getChildInstrumentables()
     {
-        // Get the values. This set is created for this call and thus thread safe.
-        Collection values = getComponentHandlers().values();
-        Instrumentable[] children = new Instrumentable[ values.size() ];
-        values.toArray( children );
-
-        return children;
+        // Child instrumentables register themselves as they are discovered.
+        return EMPTY_INSTRUMENTABLE_ARRAY;
     }
 
     /*---------------------------------------------------------------
@@ -624,9 +630,9 @@ public class ExcaliburComponentSelector
         // The instrumentable name will be set by first looking for a name set using
         //  the instrumentable attribute.  If missing, the name attribute is used.
         //  Finally, the name of the configuration element is used.
-        String instrumentableName =
-            configuration.getAttribute( "instrumentable",
-            configuration.getAttribute( "name", configuration.getName() ) );
+        String instrumentableName = m_instrumentableName + "."
+            + configuration.getAttribute( "instrumentable",
+                configuration.getAttribute( "name", configuration.getName() ) );
 
         return ComponentHandler.getComponentHandler( componentClass,
                                                      configuration,

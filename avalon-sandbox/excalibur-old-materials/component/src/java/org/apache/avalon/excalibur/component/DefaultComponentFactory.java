@@ -45,7 +45,7 @@ import org.apache.excalibur.instrument.InstrumentManager;
  * @author <a href="mailto:paul@luminas.co.uk">Paul Russell</a>
  * @author <a href="mailto:ryan@silveregg.co.jp">Ryan Shaw</a>
  * @author <a href="mailto:leif@apache.org">Leif Mortenson</a>
- * @version CVS $Revision: 1.7 $ $Date: 2002/08/06 16:28:37 $
+ * @version CVS $Revision: 1.8 $ $Date: 2002/08/18 14:40:22 $
  * @since 4.0
  */
 public class DefaultComponentFactory
@@ -132,7 +132,7 @@ public class DefaultComponentFactory
      * @param instrumentManager the <code>InstrumentManager</code> to register the component
      *                          with if it is a Instrumentable (May be null).
      * @param instrumentableName The instrument name to assign the component if
-     *                           it is Initializable.
+     *                           it is Instrumentable.
      */
     public DefaultComponentFactory( final Class componentClass,
                                     final Configuration configuration,
@@ -211,6 +211,13 @@ public class DefaultComponentFactory
                 }
             }
         }
+        
+        // Set the name of the instrumentable before initialization.
+        if( component instanceof Instrumentable )
+        {
+            Instrumentable instrumentable = (Instrumentable)component;
+            instrumentable.setInstrumentableName( m_instrumentableName );
+        }
 
         if( ( component instanceof InstrumentManageable ) && ( m_instrumentManager != null ) )
         {
@@ -268,11 +275,10 @@ public class DefaultComponentFactory
             ( (Initializable)component ).initialize();
         }
 
+        // Register the component as an instrumentable now that it has been initialized.
         if( component instanceof Instrumentable )
         {
-            Instrumentable instrumentable = (Instrumentable)component;
-
-            instrumentable.setInstrumentableName( m_instrumentableName );
+            // Instrumentable Name is set above.
             if ( m_instrumentManager != null )
             {
                 m_instrumentManager.registerInstrumentable(

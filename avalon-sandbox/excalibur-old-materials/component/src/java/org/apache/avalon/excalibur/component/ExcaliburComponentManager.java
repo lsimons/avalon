@@ -41,7 +41,7 @@ import org.apache.excalibur.instrument.InstrumentManager;
  * @author <a href="mailto:paul@luminas.co.uk">Paul Russell</a>
  * @author <a href="mailto:ryan@silveregg.co.jp">Ryan Shaw</a>
  * @author <a href="mailto:leif@apache.org">Leif Mortenson</a>
- * @version CVS $Revision: 1.12 $ $Date: 2002/08/18 12:06:12 $
+ * @version CVS $Revision: 1.13 $ $Date: 2002/08/18 14:40:22 $
  * @since 4.0
  */
 public class ExcaliburComponentManager
@@ -56,6 +56,11 @@ public class ExcaliburComponentManager
     InstrumentManageable,
     Instrumentable
 {
+    /** Instrumentable name used to represent the component-manager.
+     *  Handlers reference this name to register themselves at the correct
+     *  location under the ECM. */
+    public static final String INSTRUMENTABLE_NAME = "component-manager"; 
+        
     /** The parent ComponentLocator */
     private final ComponentManager m_parentManager;
 
@@ -92,7 +97,7 @@ public class ExcaliburComponentManager
     private InstrumentManager m_instrumentManager;
 
     /** Instrumentable Name assigned to this Instrumentable */
-    private String m_instrumentableName = "component-manager";
+    private String m_instrumentableName = INSTRUMENTABLE_NAME;
 
     /*---------------------------------------------------------------
      * Constructors
@@ -500,6 +505,16 @@ public class ExcaliburComponentManager
                 try
                 {
                     handler.initialize();
+                    
+                    // Manually register the handler so that it will be located under the
+                    //  instrument manager, seperate from the actual instrumentable data of the
+                    //  components
+                    if ( ( m_instrumentManager != null ) &&
+                        ( handler instanceof Instrumentable ) )
+                    {
+                        String handleInstName = ((Instrumentable)handler).getInstrumentableName();
+                        m_instrumentManager.registerInstrumentable( handler, handleInstName );
+                    }
                 }
                 catch( Exception e )
                 {
@@ -524,6 +539,17 @@ public class ExcaliburComponentManager
                     try
                     {
                         handler.initialize();
+                        
+                        // Manually register the handler so that it will be located under the
+                        //  instrument manager, seperate from the actual instrumentable data of the
+                        //  components
+                        if ( ( m_instrumentManager != null ) &&
+                            ( handler instanceof Instrumentable ) )
+                        {
+                            String handleInstName = 
+                                ((Instrumentable)handler).getInstrumentableName();
+                            m_instrumentManager.registerInstrumentable( handler, handleInstName );
+                        }
                     }
                     catch( Exception e )
                     {
@@ -650,7 +676,7 @@ public class ExcaliburComponentManager
      */
     public void setInstrumentableName( String name )
     {
-        m_instrumentableName = name;
+        // Ignored.  The ECM name is fixed.
     }
 
     /**
@@ -690,12 +716,8 @@ public class ExcaliburComponentManager
      */
     public Instrumentable[] getChildInstrumentables()
     {
-        // Get the values. This set is created for this call and thus thread safe.
-        Collection values = m_componentHandlers.values();
-        Instrumentable[] children = new Instrumentable[ values.size() ];
-        values.toArray( children );
-
-        return children;
+        // Child instrumentables register themselves as they are discovered.
+        return EMPTY_INSTRUMENTABLE_ARRAY;
     }
     
     /*---------------------------------------------------------------
