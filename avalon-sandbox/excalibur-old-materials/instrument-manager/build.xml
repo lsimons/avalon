@@ -40,6 +40,7 @@
     <target name="dependencies" description="Check dependencies" unless="skip.dependencies">
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkCommon"/>
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkFrameworkAPI"/>
+        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkFrameworkImpl"/>
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkInstrument"/>
     </target>
 
