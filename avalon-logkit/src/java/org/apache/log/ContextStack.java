@@ -29,7 +29,7 @@ public class ContextStack
 
     /**
      * Get the Current ContextStack.
-     * This returns a ContextStack associated with current thread. If the
+     * This method returns a ContextStack associated with current thread. If the
      * thread doesn't have a ContextStack associated with it then a new
      * ContextStack is created with the name of thread as base context.
      *
@@ -37,9 +37,24 @@ public class ContextStack
      */
     public final static ContextStack getCurrentContext()
     {
+        return getCurrentContext( true );
+    }
+
+    /**
+     * Get the Current ContextStack.
+     * This method returns a ContextStack associated with current thread. 
+     * If the thread doesn't have a ContextStack associated with it and
+     * autocreate is true then a new ContextStack is created with the name 
+     * of thread as base context.
+     *
+     * @param autocreate true if a ContextStack is to be created if it doesn't exist
+     * @return the current ContextStack
+     */
+    public final static ContextStack getCurrentContext( final boolean autocreate )
+    {
         ContextStack context = (ContextStack)c_context.get();
 
-        if( null == context )
+        if( null == context && autocreate )
         {
             context = new ContextStack();
             context.push( Thread.currentThread().getName() );
@@ -47,6 +62,16 @@ public class ContextStack
         }
 
         return context;
+    }
+
+    /**
+     * Bind a particular ContextStack to current thread.
+     *
+     * @param context the context stack (may be null)
+     */
+    public final static void bind( final ContextStack context )
+    {
+        c_context.set( context );
     }
 
     /**
