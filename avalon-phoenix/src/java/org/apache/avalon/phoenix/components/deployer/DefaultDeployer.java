@@ -57,6 +57,7 @@ import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Map;
 import java.util.Set;
+
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.framework.activity.Disposable;
@@ -74,7 +75,6 @@ import org.apache.avalon.phoenix.BlockContext;
 import org.apache.avalon.phoenix.containerkit.profile.ComponentProfile;
 import org.apache.avalon.phoenix.containerkit.profile.PartitionProfile;
 import org.apache.avalon.phoenix.containerkit.profile.ProfileBuilder;
-import org.apache.avalon.phoenix.interfaces.Application;
 import org.apache.avalon.phoenix.interfaces.ClassLoaderManager;
 import org.apache.avalon.phoenix.interfaces.ClassLoaderSet;
 import org.apache.avalon.phoenix.interfaces.ConfigurationRepository;
@@ -89,6 +89,7 @@ import org.apache.avalon.phoenix.interfaces.Kernel;
 import org.apache.avalon.phoenix.interfaces.LogManager;
 import org.apache.avalon.phoenix.tools.configuration.ConfigurationBuilder;
 import org.apache.avalon.phoenix.tools.verifier.SarVerifier;
+
 import org.xml.sax.InputSource;
 
 /**
@@ -215,9 +216,6 @@ public class DefaultDeployer
         }
         try
         {
-            final Application application = m_kernel.getApplication( name );
-            final String[] blocks = application.getBlockNames();
-
             m_kernel.removeApplication( name );
             m_installer.uninstall( installation );
         }
