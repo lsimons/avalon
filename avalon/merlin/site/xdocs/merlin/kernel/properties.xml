@@ -67,12 +67,12 @@ Merlin 3.2 introduces a complete property configuration model as part of the uni
         <table>
           <tr><th>Location</th><th>Description</th></tr>
           <tr>
-            <td>${merlin.dir}</td><td></td>
+            <td>${merlin.dir}/merlin.properties</td>
             <td>This is equivalent to the ${user.dir} location unless 
               modified by the command line -home command parameter.</td>
           </tr>
           <tr>
-            <td>${user.home}</td><td></td>
+            <td>${user.home}/merlin.properties</td>
             <td>The user's home directory.</td>
           </tr>
         </table>
