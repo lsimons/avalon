@@ -69,7 +69,7 @@ public class NcsaRequestLog extends NCSARequestLog
             setLogDateFormat( dateformat );
     
         String ignorepaths = params.getParameter( "ignore-paths", null );
-        if( filename != null )
+        if( ignorepaths != null )
         {
             String[] paths = tokenize( ignorepaths );
             setIgnorePaths( paths );

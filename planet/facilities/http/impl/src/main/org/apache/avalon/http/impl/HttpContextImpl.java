@@ -53,6 +53,7 @@ import org.mortbay.http.UserRealm;
 /** Wrapper for the Jetty HttpContext.
  *
  * @avalon.component name="http-context" lifestyle="singleton"
+ * @avalon.service type="org.apache.avalon.http.HttpContextService"
  */
 public class HttpContextImpl
     implements LogEnabled, Contextualizable, Serviceable, Startable, 
@@ -66,6 +67,11 @@ public class HttpContextImpl
     public HttpContextImpl()
     {
         m_HttpContext = new HttpContext();
+    }
+    
+    public HttpContext getHttpContext()
+    {
+        return m_HttpContext;
     }
     
     /**
@@ -90,6 +96,7 @@ public class HttpContextImpl
         throws ContextException
     {
         File tmpDir = (File) ctx.get( "urn:avalon:temp" );
+        tmpDir.mkdirs();
         m_HttpContext.setTempDirectory( tmpDir );
     }
     
@@ -108,20 +115,18 @@ public class HttpContextImpl
     {
         m_HttpServer = (HttpService) man.lookup( "server" );
         
-        try
+        if( man.hasService( "authenticator" ) )
         {
             Authenticator auth = (Authenticator) man.lookup( "authenticator" );
             m_HttpContext.setAuthenticator( auth );
-        } catch( ServiceException e )
-        {} // ignore, quite ok.
+        }
         
-        try
+        if( man.hasService( "realm" ) )
         {
             UserRealm realm = (UserRealm) man.lookup( "realm" );
             m_HttpContext.setRealm( realm );
             m_HttpContext.setRealmName( realm.getName() ); // Is this necessary?
-        } catch( ServiceException e )
-        {} // ignore, quite ok.
+        } 
         
         RequestLog log = (RequestLog) man.lookup( "request-log" );
         m_HttpContext.setRequestLog( log );
@@ -147,7 +152,7 @@ public class HttpContextImpl
         configureAttributes( attributes );
         
         Configuration contextPath = conf.getChild( "context-path" );
-        m_HttpContext.setContextPath( contextPath.getValue() );
+        m_HttpContext.setContextPath( contextPath.getValue( "/" ) );
         
         Configuration virtualHosts = conf.getChild( "virtual-hosts" );
         configureVirtualHosts( virtualHosts );
@@ -195,6 +200,8 @@ public class HttpContextImpl
     public void start()
         throws Exception
     {
+        if( m_Logger.isDebugEnabled() )
+            m_Logger.debug( "Starting context: " + m_HttpContext );
         m_HttpServer.addContext( m_HttpContext );
         m_HttpContext.start();
     }
@@ -202,12 +209,16 @@ public class HttpContextImpl
     public void stop()
         throws Exception
     {
+        if( m_Logger.isDebugEnabled() )
+            m_Logger.debug( "Stopping context: " + m_HttpContext );
         m_HttpContext.stop( m_Graceful );
         m_HttpServer.removeContext( m_HttpContext );
     }
     
     public void dispose()
     {
+        if( m_Logger.isDebugEnabled() )
+            m_Logger.debug( "Disposing context: " + m_HttpContext );
         m_HttpContext.destroy();
         m_HttpServer = null;
         m_HttpContext = null;
@@ -217,11 +228,15 @@ public class HttpContextImpl
     
     public void addHandler( HttpHandler handler )
     {
+        if( m_Logger.isDebugEnabled() )
+            m_Logger.debug( "Adding handler: " + handler );
         m_HttpContext.addHandler( handler );
     }
     
     public void removeHandler( HttpHandler handler )
     {
+        if( m_Logger.isDebugEnabled() )
+            m_Logger.debug( "Removing handler: " + handler );
         m_HttpContext.removeHandler( handler );
     }
 }

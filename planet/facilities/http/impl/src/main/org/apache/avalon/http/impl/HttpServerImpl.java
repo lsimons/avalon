@@ -82,17 +82,23 @@ public class HttpServerImpl extends HttpServer
     public void start()
         throws MultiException
     {
+        if( m_Logger.isDebugEnabled() )
+            m_Logger.debug( "Starting server: " + this );
         super.start();
     }
     
     public void stop()
         throws InterruptedException
     {
+        if( m_Logger.isDebugEnabled() )
+            m_Logger.debug( "Stopping server: " + this );
         super.stop( m_Graceful );
     }
     
     public void dispose()
     {
+        if( m_Logger.isDebugEnabled() )
+            m_Logger.debug( "Disposing server: " + this );
         super.destroy();
     }
 } 

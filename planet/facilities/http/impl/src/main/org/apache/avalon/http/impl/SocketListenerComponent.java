@@ -97,6 +97,19 @@ public class SocketListenerComponent
         if( integralScheme != null )
             m_SocketListener.setIntegralScheme( integralScheme );
     
+        String host = params.getParameter( "hostname", null );
+        try
+        {
+            if( host != null )
+                m_SocketListener.setHost( host );
+        } catch( java.net.UnknownHostException e )
+        {
+            throw new ParameterException( "Unknown hostname: " + host );
+        }
+        
+        int port = params.getParameterAsInteger( "port", 8080 );
+        m_SocketListener.setPort( port );
+        
         int lowResMs = params.getParameterAsInteger( "low-resource-persist-ms", -1 );
         if( lowResMs > 0 )
             m_SocketListener.setLowResourcePersistTimeMs( lowResMs );
@@ -120,6 +133,8 @@ public class SocketListenerComponent
     public void start()
         throws Exception
     {
+        if( m_Logger.isDebugEnabled() )
+            m_Logger.debug( "Starting socket: " + m_SocketListener );
         m_HttpServer.addListener( m_SocketListener );
         m_SocketListener.start();
     }
@@ -127,6 +142,8 @@ public class SocketListenerComponent
     public void stop()
         throws Exception
     {
+        if( m_Logger.isDebugEnabled() )
+            m_Logger.debug( "Stopping socket: " + m_SocketListener );
         m_SocketListener.stop();
         m_HttpServer.removeListener( m_SocketListener );
     }
