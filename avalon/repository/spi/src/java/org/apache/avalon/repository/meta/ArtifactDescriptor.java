@@ -56,12 +56,14 @@ import javax.naming.directory.Attributes;
 import javax.naming.directory.Attribute;
 import javax.naming.NamingException;
 
+import org.apache.avalon.repository.Artifact;
+
 /**
  * An abstract descriptor holds attributes about an artifact.
  * 
  * @author <a href="mailto:aok123@bellsouth.net">Alex Karasulu</a>
  * @author $Author: mcconnell $
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class ArtifactDescriptor implements Serializable
 {
@@ -71,6 +73,8 @@ public class ArtifactDescriptor implements Serializable
 
     public static final String DOMAIN_KEY = "meta.domain";
     public static final String VERSION_KEY = "meta.version";
+    public static final String BUILD_KEY = 
+      "avalon.artifact.signature";
 
     //-----------------------------------------------------------
     // immutable state
@@ -78,6 +82,12 @@ public class ArtifactDescriptor implements Serializable
 
     private final String c_domain;
     private final String c_version;
+
+    private final String m_group;
+    private final String m_name;
+    private final String m_version;
+    private final String m_build;
+
 
     //-----------------------------------------------------------
     // constructor
@@ -114,6 +124,12 @@ public class ArtifactDescriptor implements Serializable
                   "Missing attribute: " + VERSION_KEY;
                 throw new MetaException( error );
             }
+
+            m_group = getAttribute( attributes, Artifact.GROUP_KEY, "" );
+            m_name = getAttribute( attributes, Artifact.NAME_KEY, "" );
+            m_version = getAttribute( attributes, Artifact.VERSION_KEY, "" );
+            m_build = getAttribute( attributes, BUILD_KEY, "" );
+
         }
         catch( NamingException e )
         {
@@ -152,6 +168,15 @@ public class ArtifactDescriptor implements Serializable
     }
 
    /**
+    * Return the build identifier
+    * @return the identifier
+    */
+    public String getBuild()
+    {
+        return m_build;
+    }
+
+   /**
     * Test is the supplied object is equal to this object.
     * @param other the obhject to compare this object with
     * @return true if the objects are equivalent
@@ -164,6 +189,9 @@ public class ArtifactDescriptor implements Serializable
             ArtifactDescriptor meta = (ArtifactDescriptor) other;
             isEqual = isEqual && c_domain.equals( meta.c_domain );
             isEqual = isEqual && c_version.equals( meta.c_version );
+            isEqual = isEqual && m_group.equals( meta.m_version );
+            isEqual = isEqual && m_name.equals( meta.m_name );
+            isEqual = isEqual && m_version.equals( meta.m_version );
         }
         return isEqual;
     }
@@ -179,6 +207,12 @@ public class ArtifactDescriptor implements Serializable
         hash ^= c_domain.hashCode();
         hash >>>= 13;
         hash ^= c_version.hashCode();
+        hash >>>= 13;
+        hash ^= m_group.hashCode();
+        hash >>>= 13;
+        hash ^= m_version.hashCode();
+        hash >>>= 13;
+        hash ^= m_build.hashCode();
         hash >>>= 13;
         return hash;
     }
@@ -196,6 +230,18 @@ public class ArtifactDescriptor implements Serializable
     //-----------------------------------------------------------
     // utilities
     //-----------------------------------------------------------
+
+    private String getAttribute( Attributes attributes, String key, String def )
+    {
+        try
+        {
+            return getValue( attributes, key ); 
+        }
+        catch( Throwable e )
+        {
+            return def;
+        }
+    }
 
     protected String getValue( Attributes attributes, String key )
       throws NamingException, NoSuchElementException

@@ -65,7 +65,7 @@ import org.apache.avalon.repository.RepositoryRuntimeException;
  * artifacts.
  * 
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class FactoryDescriptor extends ArtifactDescriptor
 {
@@ -85,18 +85,10 @@ public class FactoryDescriptor extends ArtifactDescriptor
     public static final String FACTORY_KEY = 
       "avalon.artifact.factory";
 
-    public static final String BUILD_KEY = 
-      "avalon.artifact.signature";
-
 
     //-----------------------------------------------------------
     // immutable state
     //-----------------------------------------------------------
-
-    private final String m_group;
-    private final String m_name;
-    private final String m_version;
-    private final String m_build;
 
     private final Artifact[] c_api;
 
@@ -120,11 +112,6 @@ public class FactoryDescriptor extends ArtifactDescriptor
     {
         super( attributes );
 
-        m_group = getAttribute( attributes, Artifact.GROUP_KEY, "" );
-        m_name = getAttribute( attributes, Artifact.NAME_KEY, "" );
-        m_version = getAttribute( attributes, Artifact.VERSION_KEY, "" );
-        m_build = getAttribute( attributes, BUILD_KEY, "" );
-
         c_api = buildDependents( attributes, API_KEY );
         c_spi = buildDependents( attributes, SPI_KEY );
         c_imp = buildDependents( attributes, IMP_KEY );
@@ -136,14 +123,6 @@ public class FactoryDescriptor extends ArtifactDescriptor
     // public
     //-----------------------------------------------------------
 
-   /**
-    * Return the build identifier
-    * @return the identifier
-    */
-    public String getBuild()
-    {
-        return m_build;
-    }
 
    /**
     * Return the factory classname.
@@ -205,13 +184,7 @@ public class FactoryDescriptor extends ArtifactDescriptor
 
     public String toString()
     {
-        return "[meta:"
-          + " group:" + m_group 
-          + " name:" + m_name 
-          + " version:" + m_version 
-          + " build:" + m_build 
-          + " factory:" + m_factory 
-          + "]";
+        return "[factory:" + m_factory + "]";
     }
 
     //-----------------------------------------------------------
@@ -255,15 +228,4 @@ public class FactoryDescriptor extends ArtifactDescriptor
         }
     }
 
-    private String getAttribute( Attributes attributes, String key, String def )
-    {
-        try
-        {
-            return getValue( attributes, key ); 
-        }
-        catch( Throwable e )
-        {
-            return def;
-        }
-    }
 }
