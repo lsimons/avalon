@@ -8,6 +8,8 @@
   <xsl:param name="directory" />
   <xsl:param name="file" />
   <xsl:param name="fullpath" />
+  <xsl:param name="svn-location" />
+  <xsl:param name="copyright" />
   
   <xsl:template match="document">
     <html>
@@ -31,11 +33,11 @@
   </xsl:template>
   
   <xsl:template match="body">
+    <xsl:variable name="x" select="document('navigation.xml', / )/project/body//menu/level" />
     <body>
       <table class="logobar" >
         <tr>
           <td class="feather" >
-            <xsl:variable name="x" select="document('navigation.xml', / )/project/body//menu/level" />
             <img>
               <xsl:attribute name="src"><xsl:value-of select="$x[position() = last()]" />resources/feather.jpg</xsl:attribute>
             </img>
@@ -46,16 +48,6 @@
           </td>
         </tr>
       </table>
-      
-      <div class="icons">
-        <xsl:variable name="x" select="document('navigation.xml', / )/project/body//menu/level" />
-        <img class="pdf" >
-          <xsl:attribute name="src"><xsl:value-of select="$x[last()]" />resource/pdf.png</xsl:attribute>
-        </img>
-        <img class="printer" >
-          <xsl:attribute name="src"><xsl:value-of select="$x[last()]" />resource/printer.png</xsl:attribute>
-        </img>
-      </div>
       
       <xsl:choose>
         <xsl:when test="$directory = ''" >
@@ -77,6 +69,18 @@
       
       <div class="content" >
         <xsl:apply-templates />
+      
+        <div class="footer" >
+          <span class="copyright"><xsl:value-of select="$copyright" /></span>
+          <div class="views" >
+            <a  id="xmllink" class="viewlink" >
+              <xsl:attribute name="href"><xsl:value-of select="$svn-location" /></xsl:attribute>
+              <img>
+                <xsl:attribute name="src"><xsl:value-of select="$x[position() = last()]" />resources/xml.gif</xsl:attribute>
+              </img>
+            </a>
+          </div>
+        </div>
       </div>
     </body>
   </xsl:template>
@@ -139,16 +143,22 @@
   <xsl:template match="menu">
     <xsl:param name="dir" />
     <xsl:choose>
-      <xsl:when test="count( menu ) = 0" >
-          <xsl:apply-templates select="menu" >
-            <xsl:with-param name="dir" select="concat( $dir, '../')" />
-          </xsl:apply-templates>
+      
+      <!-- Don't include the Root level menu choices in the menu bar
+           unless it is the root directory 
+      -->
+      <xsl:when test="count( menu ) = 0 and not( $directory = '' )" >
       </xsl:when>
+      
       <xsl:otherwise>
         <div class="menu">
           <xsl:apply-templates select="menu" >
             <xsl:with-param name="dir" select="concat( $dir, '../')" />
           </xsl:apply-templates>
+          <xsl:if test="count( item ) = 0" >
+            <xsl:attribute name="border">none</xsl:attribute>
+            <span class="dummy" />
+          </xsl:if>
           <xsl:apply-templates select="item" >
             <xsl:with-param name="dir" select="$dir" />
           </xsl:apply-templates>
@@ -184,9 +194,6 @@
   </xsl:template>
 
   <xsl:template match="footer" >
-    <div class="footer" >
-      <xsl:apply-templates />
-    </div>
   </xsl:template>
   
   <xsl:template match="legal" >

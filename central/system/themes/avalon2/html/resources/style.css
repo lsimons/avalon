@@ -127,6 +127,11 @@ table.logobar
     border-bottom: 1px black solid;
 }
 
+div[border=none]
+{
+    border: none;
+}
+
 .menuitem
 {
     display: block;
@@ -197,16 +202,34 @@ table.logobar
 
 .footer
 {
-    border-top: 3px solid #9999FF;
-    margin: 1em;
-    padding-top: 0.25em;
-    padding-left: 1.25em;
-    padding-right: 1.75em;
+    border-top: 3px solid #B0B0B0;
+    margin-top: 30px;
+    margin-bottom: 20px;
+    margin-left: 2em;
+    margin-right: 2em;
+    padding-top: 2px;
+    font-size: 8pt;
+    font-family: Verdana, Tahoma, Helvetica, Sans-Serif;
+    font-style: italic;
 }
 
-.icons
+.copyright
 {
-    display: none;
+    margin-left: 1em;
+    margin-right: 1em;
+}
+
+.views
+{
+    margin-top: 10px;
+    margin-left: 1em;
+}
+
+#xmllink
+{
+    border: none;
+    color: white;
+    background-color: white;
 }
 
 .dummy
@@ -408,3 +431,4 @@ a.menuitem-selected:focus
     color: black;
     outline: none;
 }
+

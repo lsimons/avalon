@@ -79,5 +79,8 @@
       </xsl:choose>
     </item>
   </xsl:template>
-  
+
+  <xsl:template match="links" >
+  </xsl:template >
+    
 </xsl:stylesheet> 
