@@ -16,7 +16,6 @@ import org.apache.commons.altrmi.server.AltrmiServer;
 import org.apache.commons.altrmi.server.ClassRetriever;
 import org.apache.commons.altrmi.server.AltrmiAuthenticator;
 import org.apache.commons.altrmi.server.impl.classretrievers.JarFileClassRetriever;
-import org.apache.commons.altrmi.server.impl.classretrievers.BaseMobileClassRetriever;
 import org.apache.commons.altrmi.server.impl.classretrievers.NoClassRetriever;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.activity.Startable;
@@ -41,7 +40,7 @@ import java.net.MalformedURLException;
  *
  *
  * @author Paul Hammant <a href="mailto:Paul_Hammant@yahoo.com">Paul_Hammant@yahoo.com</a>
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  */
 public abstract class AbstractPublisher extends AbstractLogEnabled
         implements AltrmiPublisher, Startable, Composable, Configurable, Initializable, Block
@@ -87,10 +86,6 @@ public abstract class AbstractPublisher extends AbstractLogEnabled
             {
                 throw new ConfigurationException("URL Invalid", mufe);
             }
-        }
-        else if (classRetrieverType.equals("baseMobileClass"))
-        {
-            m_ClassRetriever = new BaseMobileClassRetriever();
         }
         else if (classRetrieverType.equals("none"))
         {
