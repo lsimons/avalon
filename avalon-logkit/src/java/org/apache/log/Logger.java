@@ -413,7 +413,7 @@ public class Logger
      *
      * @param target target to be added
      */
-    public final void addLogTarget( final LogTarget target )
+    public synchronized final void addLogTarget( final LogTarget target )
     {
         if( null == m_logTargets ) m_logTargets = new LogTarget[] { target };
         else
