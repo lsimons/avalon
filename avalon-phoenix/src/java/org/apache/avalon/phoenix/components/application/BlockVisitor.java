@@ -20,10 +20,9 @@ public interface BlockVisitor
     /**
      * This is called when a block is reached whilst walking the tree.
      *
-     * @param name the name of block
      * @param entry the BlockEntry
      * @exception ApplicationException if walking is to be stopped
      */
-    void visitBlock( String name, BlockEntry entry )
+    void visitBlock( BlockEntry entry )
         throws Exception;
 }
