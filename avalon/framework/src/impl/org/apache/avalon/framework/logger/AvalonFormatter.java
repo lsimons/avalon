@@ -55,7 +55,6 @@
 package org.apache.avalon.framework.logger;
 
 import org.apache.avalon.framework.ExceptionUtil;
-import org.apache.log.ContextMap;
 import org.apache.log.LogEvent;
 import org.apache.log.format.ExtendedPatternFormatter;
 import org.apache.log.format.PatternFormatter;

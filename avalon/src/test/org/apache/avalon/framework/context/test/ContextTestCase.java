@@ -50,13 +50,11 @@
 */
 package org.apache.avalon.framework.context.test;
 
-import java.util.Properties;
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import junit.framework.TestCase;
 import junit.framework.AssertionFailedError;
-import org.apache.avalon.framework.context.ContextException;
+import junit.framework.TestCase;
+
 import org.apache.avalon.framework.context.Context;
+import org.apache.avalon.framework.context.ContextException;
 import org.apache.avalon.framework.context.DefaultContext;
 import org.apache.avalon.framework.context.Resolvable;
 

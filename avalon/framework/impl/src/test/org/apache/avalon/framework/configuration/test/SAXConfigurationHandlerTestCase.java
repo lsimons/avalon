@@ -50,12 +50,11 @@
 */
 package org.apache.avalon.framework.configuration.test;
 
-import java.util.List;
 import junit.framework.TestCase;
+
 import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.configuration.SAXConfigurationHandler;
 import org.apache.avalon.framework.configuration.NamespacedSAXConfigurationHandler;
-import org.xml.sax.Attributes;
+import org.apache.avalon.framework.configuration.SAXConfigurationHandler;
 import org.xml.sax.helpers.AttributesImpl;
 
 /**

@@ -50,10 +50,11 @@
 */
 package org.apache.avalon.framework.parameters.test;
 
-import java.util.Properties;
 import java.io.ByteArrayInputStream;
-import java.io.IOException;
+import java.util.Properties;
+
 import junit.framework.TestCase;
+
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;

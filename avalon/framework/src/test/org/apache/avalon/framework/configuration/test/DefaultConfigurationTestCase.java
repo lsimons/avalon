@@ -50,8 +50,8 @@
 */
 package org.apache.avalon.framework.configuration.test;
 
-import java.util.List;
 import junit.framework.TestCase;
+
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.DefaultConfiguration;
 
