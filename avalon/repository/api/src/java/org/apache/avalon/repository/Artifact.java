@@ -61,7 +61,7 @@ import java.util.Properties;
  * properties.
  *
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class Artifact implements Serializable
 {
@@ -219,21 +219,37 @@ public class Artifact implements Serializable
     // accessors
     // ------------------------------------------------------------------------
 
+   /**
+    * Return the group identifier for this artifact.
+    * @return the group
+    */ 
     public String getGroup()
     {
         return m_group;
     }
 
+   /**
+    * Return the name of this artifact.
+    * @return the name
+    */ 
     public String getName()
     {
         return m_name;
     }
 
+   /**
+    * Return the artifact type.
+    * @return the type
+    */ 
     public String getType()
     {
         return m_type;
     }
 
+   /**
+    * Return the artifact version.
+    * @return the version
+    */ 
     public String getVersion()
     {
         return m_version;
@@ -264,13 +280,6 @@ public class Artifact implements Serializable
             buffer.append( ';' ) ;
             buffer.append( version ) ;
         }
-
-        //String type = getType();
-        //if( null != type && !type.equals( "jar" ) )
-        //{
-        //    buffer.append( '#' ) ;
-        //    buffer.append( type ) ;
-        //}
 
         return buffer.toString() ;
     }

@@ -52,14 +52,12 @@ package org.apache.avalon.repository.provider;
 
 import java.io.File;
 
-import org.apache.avalon.util.factory.Factory;
-
 
 /**
  * The initial context established by an initial repository factory.
  *
  * @author <a href="mailto:mcconnell@osm.net">Stephen McConnell</a>
- * @version $Revision: 1.1 $ $Date: 2003/12/04 19:34:57 $
+ * @version $Revision: 1.2 $ $Date: 2003/12/06 23:51:08 $
  */
 public interface InitialContext
 {        

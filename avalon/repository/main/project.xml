@@ -47,12 +47,7 @@
     </dependency>
     <dependency>
       <groupId>avalon-util</groupId>
-      <artifactId>avalon-util-factory-api</artifactId>
-      <version>1.0-dev</version>
-    </dependency>
-    <dependency>
-      <groupId>avalon-util</groupId>
-      <artifactId>avalon-util-factory-impl</artifactId>
+      <artifactId>avalon-util-criteria</artifactId>
       <version>1.0-dev</version>
     </dependency>
   </dependencies>

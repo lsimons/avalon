@@ -50,14 +50,11 @@
 
 package org.apache.avalon.repository.provider;
 
-import org.apache.avalon.util.factory.Factory;
-
-
 /**
  * The defintion of an application builder.
  *
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.2 $ $Date: 2003/12/05 05:07:42 $
+ * @version $Revision: 1.3 $ $Date: 2003/12/06 23:51:08 $
  */
 public interface Builder
 {        

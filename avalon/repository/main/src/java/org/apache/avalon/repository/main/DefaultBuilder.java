@@ -69,9 +69,9 @@ import org.apache.avalon.repository.RepositoryRuntimeException;
 import org.apache.avalon.repository.meta.FactoryDescriptor;
 import org.apache.avalon.repository.provider.Builder;
 import org.apache.avalon.repository.provider.InitialContext;
+import org.apache.avalon.repository.provider.Factory;
 import org.apache.avalon.util.env.Env;
 import org.apache.avalon.util.exception.ExceptionHelper;
-import org.apache.avalon.util.factory.Factory;
 
 
 /**
@@ -80,7 +80,7 @@ import org.apache.avalon.util.factory.Factory;
  * 
  * @author <a href="mailto:aok123@bellsouth.net">Alex Karasulu</a>
  * @author $Author: mcconnell $
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class DefaultBuilder extends AbstractBuilder implements Builder
 {
