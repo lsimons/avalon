@@ -1,0 +1,3 @@
+org.apache.avalon.excalibur.datasource
+org.apache.avalon.excalibur.datasource.cluster
+org.apache.avalon.excalibur.datasource.ids
