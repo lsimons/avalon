@@ -71,6 +71,7 @@ public class ResourceTemplateManagerTest extends TestCase
         rm.importDirectoryTemplates(dm);
 
         rm.addResourceTemplate(createHelloWorldResources());
+        rm.addResourceTemplate(createCompositionApplicationResources());
 
         try
         {
@@ -104,6 +105,25 @@ public class ResourceTemplateManagerTest extends TestCase
         ProjectManager.delete(project);
     }
 
+    public final void testCreateCompositionApplicationProject()
+    {
+        project = ProjectManager.createBlockProject("Composition (Application) Tutorial");
+        ResourceTemplateManager rm = ResourceTemplateManager
+                .load(resourcesLocation);
+        rm.create(project, "Composition (Application) Tutorial", new DynProjectParam());
+        
+        String testpath;
+        assertEquals("Project was not created", true, (new File(project.getLocation().toString()).exists()));
+        testpath = "/impl/tutorial/Application/Application.java";
+        assertEquals("HelloComponent not created", true, (new File(project.getLocation().toString()+testpath).exists()));
+        testpath = "/impl/BLOCK-INF/block.xml";
+        assertEquals("block.xml not created", true, (new File(project.getLocation().toString()+testpath).exists()));
+        testpath = "/impl/BLOCK-INF/debug.xml";
+        assertEquals("debug.xml not created", true, (new File(project.getLocation().toString()+testpath).exists()));
+
+        ProjectManager.delete(project);
+    }
+
     /**
      * @return
      */
@@ -122,6 +142,35 @@ public class ResourceTemplateManagerTest extends TestCase
         r = new Resource();
         r.setRootSegment("src/BLOCK-INF");
         r.setSourceFilePathName(baseDir+"templates/hello/block.xml");
+        r.setPackageName("");
+        rt.addResource(r);
+
+        return rt;
+    }
+    /**
+     * @return
+     */
+    private ResourceTemplate createCompositionApplicationResources()
+    {
+        ResourceTemplate rt = new ResourceTemplate();
+        rt.setTemplateId("Composition (Application) Tutorial");
+        rt.setDirectoryType("ImplApiBlock");
+
+        Resource r = new Resource();
+        r.setRootSegment("impl");
+        r.setSourceFilePathName(baseDir+"templates/composition/application/Application.java");
+        r.setPackageName("tutorial.application");
+        rt.addResource(r);
+
+        r = new Resource();
+        r.setRootSegment("impl/BLOCK-INF");
+        r.setSourceFilePathName(baseDir+"templates/composition/application/block.xml");
+        r.setPackageName("");
+        rt.addResource(r);
+
+        r = new Resource();
+        r.setRootSegment("impl/BLOCK-INF");
+        r.setSourceFilePathName(baseDir+"templates/composition/application/debug.xml");
         r.setPackageName("");
         rt.addResource(r);
 
