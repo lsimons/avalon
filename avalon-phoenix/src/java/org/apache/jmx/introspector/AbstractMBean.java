@@ -31,7 +31,7 @@ import javax.management.ReflectionException;
  *
  * @author <a href="mailto:mail@leosimons.com">Leo Simons</a>
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version CVS $Revision: 1.4 $ $Date: 2001/12/11 10:13:36 $
+ * @version CVS $Revision: 1.5 $ $Date: 2002/02/22 08:45:46 $
  */
 public abstract class AbstractMBean
     extends NotificationBroadcasterSupport
@@ -391,7 +391,7 @@ public abstract class AbstractMBean
             boolean found = true;
             for( int j = 0; j < paramInfos.length; j++ )
             {
-                final String param = paramInfos[i].getType();
+                final String param = paramInfos[ j ].getType();
                 if( !params[j].equals( param ) )
                 {
                     found = false;
