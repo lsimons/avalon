@@ -1,0 +1,76 @@
+<?xml version="1.0"?>
+
+<!-- 
+ Copyright 2004 Apache Software Foundation
+ Licensed  under the  Apache License,  Version 2.0  (the "License");
+ you may not use  this file  except in  compliance with the License.
+ You may obtain a copy of the License at 
+ 
+   http://www.apache.org/licenses/LICENSE-2.0
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed  under the  License is distributed on an "AS IS" BASIS,
+ WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+ implied.
+ 
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+<document>
+
+  <properties>
+    <author email="mcconnell@apache.org">Stephen McConnell</author>
+    <title>Merlin Extensions</title>
+  </properties>
+
+  <body>
+
+    <section name="Overview">
+
+      <p>
+The Merlin platform includes a set of developer tools that assist in the automation
+of different process contributing to reliable and consistant component development.
+These tools include an ant task supporting meta info generation for component types
+and services, and an equivalent Maven plugin. 
+      </p>
+      <subsection name="Index">
+        <table>
+          <tr><th>Topic</th><th>Summary</th></tr>
+          <tr>
+            <td><a href="maven/index.html">Maven Plugin</a></td>
+            <td>
+              The Merlin plugin for Maven that provides support for 
+              meta infor generation when building with the Maven tool.
+            </td>
+          </tr>
+        </table>
+      </subsection>
+      <subsection name="Related Resources">s
+        <table>
+          <tr><th>Topic</th><th>Summary</th></tr>ss
+          <tr>
+            <td>
+<a href="http://avalon.apache.org/meta/tools/index.html">Avalon Meta Plugin</a></td>
+            <td>
+              Plugin for Maven and supporting ant task that provides automatic 
+              generation of meta-info component type descriptors.
+            </td>
+          </tr>
+          <tr>
+            <td>
+<a href="http://avalon.apache.org/meta/tools/index.html">Javadoc Tags</a></td>
+            <td>
+              Reference specification of the Javadoc Tags used to 
+              support automation of component and service metainfo.
+            </td>
+          </tr>
+        </table>
+      </subsection>
+    </section>
+
+  </body>
+
+</document>
+
+
