@@ -92,7 +92,7 @@ public class BlockTask extends DeclareTask
 
         public Context createContext()
         {
-            if( m_context )
+            if( !m_context )
             {
                 Context context = new Context();
                 m_children.add( context );
