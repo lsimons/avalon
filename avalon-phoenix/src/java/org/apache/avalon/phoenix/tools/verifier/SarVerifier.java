@@ -59,7 +59,7 @@ import org.apache.excalibur.containerkit.Verifier;
  * </ul>
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.19 $ $Date: 2002/06/04 06:33:00 $
+ * @version $Revision: 1.20 $ $Date: 2002/06/04 06:58:11 $
  */
 public class SarVerifier
     extends AbstractLogEnabled
@@ -360,16 +360,17 @@ public class SarVerifier
         throws VerifyException
     {
         final String name = block.getName();
+        final String classname = block.getClassname();
         Class clazz = null;
         try
         {
-            clazz = classLoader.loadClass( block.getClassname() );
+            clazz = classLoader.loadClass( classname );
         }
         catch( final Exception e )
         {
             final String message = REZ.getString( "bad-block-class",
                                                   name,
-                                                  block.getClassname(),
+                                                  classname,
                                                   e.getMessage() );
             throw new VerifyException( message );
         }
@@ -387,7 +388,7 @@ public class SarVerifier
             {
                 final String message = REZ.getString( "block-noimpl-service",
                                                       name,
-                                                      block.getClassname(),
+                                                      classname,
                                                       interfaces[ i ].getName() );
                 throw new VerifyException( message );
             }
@@ -398,7 +399,7 @@ public class SarVerifier
             final String message =
                 REZ.getString( "verifier.implements-block.error",
                                name,
-                               block.getClassname() );
+                               classname );
             getLogger().error( message );
             System.err.println( message );
         }
