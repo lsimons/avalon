@@ -18,7 +18,7 @@ import org.apache.avalon.framework.component.Composable;
 import org.apache.avalon.framework.logger.AbstractLoggable;
 import org.apache.avalon.phoenix.Block;
 import org.apache.avalon.phoenix.components.kapi.BlockEntry;
-import org.apache.avalon.phoenix.metadata.RoleMetaData;
+import org.apache.avalon.phoenix.metadata.DependencyMetaData;
 import org.apache.avalon.phoenix.metainfo.DependencyDescriptor;
 import org.apache.avalon.phoenix.metainfo.ServiceDescriptor;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
@@ -99,7 +99,7 @@ public class BlockDAG
 
             //roleEntry should NEVER be null as it is checked when
             //entry is added to container
-            final RoleMetaData roleEntry = entry.getMetaData().getRole( role );
+            final DependencyMetaData roleEntry = entry.getMetaData().getDependency( role );
             final String dependencyName = roleEntry.getName();
             final BlockEntry dependency = getBlockEntry( dependencyName );
             visitBlock( dependencyName, dependency, visitor, Traversal.FORWARD, completed );
@@ -129,7 +129,7 @@ public class BlockDAG
         {
             final String blockName = names[ i ];
             final BlockEntry entry = getBlockEntry( blockName );
-            final RoleMetaData[] roles = entry.getMetaData().getRoles();
+            final DependencyMetaData[] roles = entry.getMetaData().getDependencies();
 
             for( int j = 0; j < roles.length; j++ )
             {

@@ -18,7 +18,7 @@ import org.apache.avalon.phoenix.Block;
 import org.apache.avalon.phoenix.BlockListener;
 import org.apache.avalon.phoenix.metadata.BlockListenerMetaData;
 import org.apache.avalon.phoenix.metadata.BlockMetaData;
-import org.apache.avalon.phoenix.metadata.RoleMetaData;
+import org.apache.avalon.phoenix.metadata.DependencyMetaData;
 import org.apache.avalon.phoenix.metadata.SarMetaData;
 import org.apache.avalon.phoenix.metainfo.BlockInfo;
 import org.apache.avalon.phoenix.metainfo.BlockInfoBuilder;
@@ -145,7 +145,7 @@ public class DefaultVerifier
         throws VerifyException
     {
         final BlockInfo info = block.getBlockInfo();
-        final RoleMetaData[] roles = block.getRoles();
+        final DependencyMetaData[] roles = block.getDependencies();
 
         for( int i = 0; i < roles.length; i++ )
         {
@@ -431,7 +431,7 @@ public class DefaultVerifier
     }
 
     /**
-     * Retrieve a list of RoleMetaData objects for BlockMetaData
+     * Retrieve a list of DependencyMetaData objects for BlockMetaData
      * and verify that there is a 1 to 1 map with dependencies specified
      * in BlockInfo.
      *
@@ -442,7 +442,7 @@ public class DefaultVerifier
         throws VerifyException
     {
         //Make sure all role entries specified in config file are valid
-        final RoleMetaData[] roles = block.getRoles();
+        final DependencyMetaData[] roles = block.getDependencies();
         for( int i = 0; i < roles.length; i++ )
         {
             final String roleName = roles[ i ].getRole();
@@ -464,7 +464,7 @@ public class DefaultVerifier
         final DependencyDescriptor[] dependencies = block.getBlockInfo().getDependencies();
         for( int i = 0; i < dependencies.length; i++ )
         {
-            final RoleMetaData role = block.getRole( dependencies[ i ].getRole() );
+            final DependencyMetaData role = block.getDependency( dependencies[ i ].getRole() );
 
             //If there is no Role then the user has failed
             //to specify a needed dependency.

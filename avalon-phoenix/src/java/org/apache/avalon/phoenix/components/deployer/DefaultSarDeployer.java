@@ -29,7 +29,7 @@ import org.apache.avalon.phoenix.components.kapi.BlockEntry;
 import org.apache.avalon.phoenix.components.kapi.SarEntry;
 import org.apache.avalon.phoenix.metadata.BlockListenerMetaData;
 import org.apache.avalon.phoenix.metadata.BlockMetaData;
-import org.apache.avalon.phoenix.metadata.RoleMetaData;
+import org.apache.avalon.phoenix.metadata.DependencyMetaData;
 import org.apache.avalon.phoenix.metadata.SarMetaData;
 
 /**
@@ -239,7 +239,7 @@ public class DefaultSarDeployer
                 final String classname = block.getAttribute( "class" );
                 final Configuration[] provides = block.getChildren( "provide" );
 
-                final RoleMetaData[] roles = buildRoleMetaDatas( provides );
+                final DependencyMetaData[] roles = buildDependencyMetaDatas( provides );
                 final BlockMetaData blockMetaData = new BlockMetaData( name, classname, roles );
                 blockSet.add( blockMetaData );
 
@@ -294,13 +294,13 @@ public class DefaultSarDeployer
     }
 
     /**
-     * Helper method to build an array of RoleMetaDatas from input config data.
+     * Helper method to build an array of DependencyMetaDatas from input config data.
      *
      * @param provides the set of provides elements for block
-     * @return the created RoleMetaData array
+     * @return the created DependencyMetaData array
      * @exception ConfigurationException if config data is malformed
      */
-    private RoleMetaData[] buildRoleMetaDatas( final Configuration[] provides )
+    private DependencyMetaData[] buildDependencyMetaDatas( final Configuration[] provides )
         throws ConfigurationException
     {
         final ArrayList roleList = new ArrayList();
@@ -310,10 +310,10 @@ public class DefaultSarDeployer
             final String requiredName = provide.getAttribute( "name" );
             final String role = provide.getAttribute( "role" );
 
-            roleList.add( new RoleMetaData( requiredName, role ) );
+            roleList.add( new DependencyMetaData( requiredName, role ) );
         }
 
-        return (RoleMetaData[])roleList.toArray( new RoleMetaData[ 0 ] );
+        return (DependencyMetaData[])roleList.toArray( new DependencyMetaData[ 0 ] );
     }
 
     /**
