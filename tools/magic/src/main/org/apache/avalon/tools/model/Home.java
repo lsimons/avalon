@@ -74,7 +74,6 @@ public class Home extends DataType
     protected Home( Project project, Magic system, File index )
     {
         setProject( project );
-        project.log( "index: " + index );
         m_index = index;
         m_system = system;
         buildList( index );
@@ -214,6 +213,14 @@ public class Home extends DataType
 
         File source = resolveIndex( index );
 
+        if( m_includes.contains( source.toString() ) )
+        {
+            return;
+        }
+
+        m_includes.add( source.toString() );
+        log( "import: " + source );
+
         try
         {
             final Element root = ElementHelper.getRootElement( source );
@@ -264,12 +271,7 @@ public class Home extends DataType
                 if(( null != filename ) && ( !"".equals( filename )))
                 {
                     final File index = Context.getFile( anchor, filename );
-                    if( !m_includes.contains( index.toString() ) )
-                    {
-                        m_includes.add( index );
-                        log( "import: " + index );
-                        buildList( index );
-                    }
+                    buildList( index );
                 }
                 else if(( null != path ) && ( !"".equals( path )))
                 {
