@@ -32,6 +32,7 @@ public interface ThreadControl
      *
      * @throws IllegalStateException if isValid() == false
      * @throws SecurityException if caller does not have permission to call interupt()
+     * @deprecated Mispelled method. Please use interrupt() instead
      */
     void interupt()
         throws IllegalStateException, SecurityException;

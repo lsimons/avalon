@@ -62,13 +62,19 @@ final class DefaultThreadControl
         */
     }
 
+    public void interupt()
+        throws IllegalStateException, SecurityException
+    {
+        interrupt();
+    }
+
     /**
      * Call Thread.interrupt() on thread being controlled.
      *
      * @throws IllegalStateException if isValid() == false
      * @throws SecurityException if caller does not have permission to call interupt()
      */
-    public synchronized void interupt()
+    public synchronized void interrupt()
         throws IllegalStateException, SecurityException
     {
         if( !isFinished() )
