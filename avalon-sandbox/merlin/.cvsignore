@@ -4,10 +4,7 @@ build.properties
 target
 logs
 build.xml
-activation-spi
-activation
 TODO.TXT
 bin
 config
 lib
-repository
