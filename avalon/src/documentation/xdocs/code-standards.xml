@@ -145,7 +145,7 @@ Variables are declared in the inner scope.
 <source>
 while( myListIterator.hasNext() ) 
 {
-    final String myString = (String)myListIterator.nextElement();
+    final String myString = (String)myListIterator.next();
 }
 </source>
 </li>
@@ -210,8 +210,8 @@ Example:
 <source>
 class MyClass
 {
-    Class m_class = MyClass.getClass();
-	int m_users;
+    Class m_class = MyClass.class;
+    int m_users;
 }
 </source>
 </li>
