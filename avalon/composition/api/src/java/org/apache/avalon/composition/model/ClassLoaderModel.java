@@ -51,6 +51,7 @@
 package org.apache.avalon.composition.model;
 
 import java.net.URL;
+import java.security.Permission;
 
 import org.apache.avalon.extension.manager.OptionalPackage;
 import org.apache.avalon.extension.manager.ExtensionManager;
@@ -62,7 +63,7 @@ import org.apache.avalon.framework.logger.Logger;
  * a fully qualifed classpath can be established.</p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2003/09/24 09:31:15 $
+ * @version $Revision: 1.2 $ $Date: 2004/01/19 01:26:19 $
  */
 public interface ClassLoaderModel
 {
@@ -136,4 +137,16 @@ public interface ClassLoaderModel
     */
     ClassLoaderContext createChildContext( 
       Logger logger, ContainmentProfile profile, URL[] implied );
+      
+   /** 
+    * Return the security Permissions defined for this ClassLoaderModel.
+    * 
+    * These Permissions will be enforced if code level security is enabled
+    * globally. If no Permissions are returned, all the components under
+    * this container will run without Permissions.
+    *
+    * @return A SecurityPolicy which should be enagaged if codelevel
+    *         security is enabled for the Classloader.
+    **/
+    Permission[] getSecurityPermissions();
 }

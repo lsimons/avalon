@@ -53,105 +53,60 @@ package org.apache.avalon.composition.data;
 import java.io.Serializable;
 
 /**
- * Description of classloader.
+ * Description of classpath.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $ $Date: 2004/01/19 01:26:19 $
+ * @version $Revision: 1.1 $ $Date: 2004/01/19 01:26:19 $
  */
-public final class ClassLoaderDirective implements Serializable
+public final class GrantDirective implements Serializable
 {
-    private static final LibraryDirective EMPTY_LIBRARY = new LibraryDirective();
-    private static final ClasspathDirective EMPTY_CLASSPATH = new ClasspathDirective();
+     private static final PermissionDirective[] EMPTY_PERMISSIONSETS = new PermissionDirective[0]; 
 
     /**
-     * The library directive.
+     * The permission directives
      */
-    private LibraryDirective m_library;
+    private PermissionDirective[] m_permissions;
 
-    /**
-     * The root category hierachy.
-     */
-    private ClasspathDirective m_classpath;
 
-    private GrantDirective m_grantDirective;
+    public GrantDirective()
+    {
+        this( null );
+    }
     
     /**
-     * Create an empty ClassloaderDirective.
-     */
-    public ClassLoaderDirective()
-    {
-        this( null, null, null );
-    }
-
-    /**
-     * Create a ClassloaderDirective instance.
+     * Create a GrantDirective instance.
      *
-     * @param library the library descriptor
-     * @param classpath the classpath descriptor
-     * @param grant the security policy declared for the classloader
+     * @param permissions the permissions to be included in the grant
      */
-    public ClassLoaderDirective( 
-       final LibraryDirective library,
-       final ClasspathDirective classpath,
-       final GrantDirective grant )
+    public GrantDirective( final PermissionDirective[] permissions )
     {
-        if( library == null )
+        if( permissions == null )
         {
-            m_library = EMPTY_LIBRARY;
+            m_permissions = EMPTY_PERMISSIONSETS;
         }
         else
         {
-            m_library = library;
+            m_permissions = permissions;
         }
-
-        if( classpath == null )
-        {
-            m_classpath = EMPTY_CLASSPATH;
-        }
-        else
-        {
-            m_classpath = classpath;
-        }
-        if( grant == null )
-            m_grantDirective = new GrantDirective();
-        else
-            m_grantDirective = grant;
     }
 
    /**
-    * Return true if the library and classpath declarations are empty.
-    * If the function returns true, this directive is in an effective 
-    * default state and need not be externalized.
-    *
-    * @return the empty status of this directive
+    * Return the default status of this directive.  
+    * 
+    * If TRUE the enclosed permission directives are empty.
     */
     public boolean isEmpty()
     {
-        return ( m_library.isEmpty() && m_classpath.isEmpty() );
+        return m_permissions.length == 0;
     }
 
     /**
-     * Return the library directive.
+     * Return the set of permission directives.
      *
-     * @return the library directive.
+     * @return the permission directives
      */
-    public LibraryDirective getLibrary()
+    public PermissionDirective[] getPermissionDirectives()
     {
-        return m_library;
-    }
-
-    /**
-     * Return the classpath directive.
-     *
-     * @return the classpath directive.
-     */
-    public ClasspathDirective getClasspathDirective()
-    {
-        return m_classpath;
-    }
-    
-    public GrantDirective getGrantDirective()
-    {
-        return m_grantDirective;
+        return m_permissions;
     }
 }

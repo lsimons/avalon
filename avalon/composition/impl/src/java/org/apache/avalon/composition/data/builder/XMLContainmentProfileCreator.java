@@ -63,12 +63,14 @@ import org.apache.avalon.composition.data.ClassLoaderDirective;
 import org.apache.avalon.composition.data.CategoriesDirective;
 import org.apache.avalon.composition.data.ClasspathDirective;
 import org.apache.avalon.composition.data.ContainmentProfile;
+import org.apache.avalon.composition.data.DeploymentProfile;
 import org.apache.avalon.composition.data.FilesetDirective;
+import org.apache.avalon.composition.data.GrantDirective;
 import org.apache.avalon.composition.data.IncludeDirective;
 import org.apache.avalon.composition.data.LibraryDirective;
 import org.apache.avalon.composition.data.MetaDataException;
 import org.apache.avalon.composition.data.NamedComponentProfile;
-import org.apache.avalon.composition.data.DeploymentProfile;
+import org.apache.avalon.composition.data.PermissionDirective;
 import org.apache.avalon.composition.data.RepositoryDirective;
 import org.apache.avalon.composition.data.ResourceDirective;
 import org.apache.avalon.composition.data.ServiceDirective;
@@ -85,7 +87,7 @@ import org.apache.excalibur.configuration.ConfigurationUtil;
  * from a Configuration object.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.4 $ $Date: 2004/01/13 11:41:25 $
+ * @version $Revision: 1.5 $ $Date: 2004/01/19 01:26:19 $
  */
 public class XMLContainmentProfileCreator extends XMLProfileCreator
 {
@@ -186,9 +188,50 @@ public class XMLContainmentProfileCreator extends XMLProfileCreator
           createLibraryDirective( config.getChild( "library", false ) );
         ClasspathDirective classpath = 
           createClasspathDirective( config.getChild( "classpath", false ) );
-        return new ClassLoaderDirective( library, classpath );
+        GrantDirective grants =
+          createGrantDirective( config.getChild( "grant" ) );
+        return new ClassLoaderDirective( library, classpath, grants );
     }
 
+    private GrantDirective createGrantDirective( Configuration config )
+       throws ConfigurationException
+    {
+        ArrayList result = new ArrayList();
+        Configuration[] permChildren = config.getChildren( "permission" );
+        for( int i = 0; i < permChildren.length; i++ )
+        {
+            Configuration child = permChildren[i];
+            PermissionDirective perm = createPermissionDirective( child );
+            result.add( perm );
+        }
+        PermissionDirective[] pd = new PermissionDirective[ result.size() ];
+        result.toArray( pd );
+        return new GrantDirective( pd );
+    }
+    
+    private PermissionDirective createPermissionDirective( Configuration config )
+       throws ConfigurationException
+    {
+        String classname = config.getAttribute( "class" );
+        String name = config.getAttribute( "name", null );
+        String result = "";
+        Configuration[] actions = config.getChildren( "action" );
+        for( int i=0 ; i < actions.length ; i ++ )
+        {
+            if( i > 0 )
+                result = result + "," + actions[i].getValue();
+            else
+                result = result + actions[i].getValue();
+        }
+        try
+        {
+            return new PermissionDirective( classname, name, result );
+        } catch( Exception e )
+        {
+            throw new ConfigurationException( "Unable to create the Permission Directive.", e );
+        }
+    }
+    
     private ClasspathDirective createClasspathDirective( Configuration config )
        throws ConfigurationException
     {

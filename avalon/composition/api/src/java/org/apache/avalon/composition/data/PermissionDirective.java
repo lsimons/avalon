@@ -51,107 +51,94 @@
 package org.apache.avalon.composition.data;
 
 import java.io.Serializable;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.security.Permission;
 
 /**
- * Description of classloader.
+ * Description of classpath.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $ $Date: 2004/01/19 01:26:19 $
+ * @version $Revision: 1.1 $ $Date: 2004/01/19 01:26:19 $
  */
-public final class ClassLoaderDirective implements Serializable
+public final class PermissionDirective implements Serializable
 {
-    private static final LibraryDirective EMPTY_LIBRARY = new LibraryDirective();
-    private static final ClasspathDirective EMPTY_CLASSPATH = new ClasspathDirective();
-
-    /**
-     * The library directive.
-     */
-    private LibraryDirective m_library;
-
-    /**
-     * The root category hierachy.
-     */
-    private ClasspathDirective m_classpath;
-
-    private GrantDirective m_grantDirective;
+    /** The Permission object  **/
+    private Permission m_permission;
     
     /**
-     * Create an empty ClassloaderDirective.
-     */
-    public ClassLoaderDirective()
-    {
-        this( null, null, null );
-    }
-
-    /**
-     * Create a ClassloaderDirective instance.
+     * Create a PermissionDirective instance.
      *
-     * @param library the library descriptor
-     * @param classpath the classpath descriptor
-     * @param grant the security policy declared for the classloader
+     * @param classname Permission class
+     * @param name The name associated with the permission.
+     * @param action The action associated with the permission. Note that some
+     *        Permissions doesn't support actions.
+     * @throws InstantiationException if the class could not be instantiated.
+     * @throws IllegalAccessException, if the class does not have a 
+     *         public constructor
+     * @throws ClassNotFoundException, if the class could not be reached by the
+     *         classloader.
+     * @throws ClassCastException, if the class is not a subclass of 
+     *         java.security.Permission
+     * @throws InvocationTargetException, if the constructor in the Permission
+     *         class throws an exception.
      */
-    public ClassLoaderDirective( 
-       final LibraryDirective library,
-       final ClasspathDirective classpath,
-       final GrantDirective grant )
+    public PermissionDirective( 
+        final String classname,  
+        final String name,
+        final String action
+    )
+        throws 
+          InstantiationException, 
+          IllegalAccessException, 
+          ClassNotFoundException,
+          ClassCastException,
+          InvocationTargetException
     {
-        if( library == null )
+        if( classname == null )
         {
-            m_library = EMPTY_LIBRARY;
+            throw new NullPointerException( "classname" );
+        }
+        ClassLoader trustedClassloader = this.getClass().getClassLoader();
+        
+        Class clazz = trustedClassloader.loadClass( classname );
+        Constructor[] constructors = clazz.getConstructors();
+        if( name == null )
+        {
+            m_permission = (Permission) clazz.newInstance();   
+        }
+        else if( action == null )
+        {
+            Constructor cons = getConstructor( constructors, 1 );
+            Object[] arg = new Object[] { name };
+            m_permission = (Permission) cons.newInstance( arg );
         }
         else
         {
-            m_library = library;
+            Constructor cons = getConstructor( constructors, 2 );
+            Object[] args = new Object[] { name, action };
+            m_permission = (Permission) cons.newInstance( args );
         }
-
-        if( classpath == null )
-        {
-            m_classpath = EMPTY_CLASSPATH;
-        }
-        else
-        {
-            m_classpath = classpath;
-        }
-        if( grant == null )
-            m_grantDirective = new GrantDirective();
-        else
-            m_grantDirective = grant;
-    }
-
-   /**
-    * Return true if the library and classpath declarations are empty.
-    * If the function returns true, this directive is in an effective 
-    * default state and need not be externalized.
-    *
-    * @return the empty status of this directive
-    */
-    public boolean isEmpty()
-    {
-        return ( m_library.isEmpty() && m_classpath.isEmpty() );
     }
 
     /**
-     * Return the library directive.
+     * Return the Permission.
      *
-     * @return the library directive.
+     * @return the fileset directives
      */
-    public LibraryDirective getLibrary()
+    public Permission getPermission()
     {
-        return m_library;
-    }
-
-    /**
-     * Return the classpath directive.
-     *
-     * @return the classpath directive.
-     */
-    public ClasspathDirective getClasspathDirective()
-    {
-        return m_classpath;
+        return m_permission;
     }
     
-    public GrantDirective getGrantDirective()
+    private Constructor getConstructor( Constructor[] constructors, int noOfParameters )
     {
-        return m_grantDirective;
+        for ( int i=0 ; i < constructors.length ; i++ )
+        {
+            Class[] params = constructors[i].getParameterTypes();
+            if( params.length == noOfParameters )
+                return constructors[i];
+        }
+        return null;
     }
 }

@@ -52,6 +52,7 @@ package org.apache.avalon.composition.model.impl;
 
 import java.io.File;
 import java.net.URL;
+import java.security.Permission;
 
 import org.apache.avalon.composition.model.ClassLoaderContext;
 import org.apache.avalon.composition.model.TypeRepository;
@@ -69,7 +70,7 @@ import org.apache.avalon.composition.data.ClassLoaderDirective;
  * Implementation of a system context that exposes a system wide set of parameters.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2003/10/28 20:21:00 $
+ * @version $Revision: 1.3 $ $Date: 2004/01/19 01:26:19 $
  */
 public class DefaultClassLoaderContext extends DefaultContext 
   implements ClassLoaderContext
