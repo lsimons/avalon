@@ -5,13 +5,13 @@
  * version 1.1, a copy of which has been included  with this distribution in
  * the LICENSE.txt file.
  */
-package org.apache.avalon.excalibur.cache.validator.test;
+package org.apache.excalibur.cache.validator.test;
 
 import junit.framework.TestCase;
-import org.apache.avalon.excalibur.cache.Cache;
-import org.apache.avalon.excalibur.cache.ValidatingCache;
-import org.apache.avalon.excalibur.cache.impl.LRUCache;
-import org.apache.avalon.excalibur.cache.validator.TimeoutValidator;
+import org.apache.excalibur.cache.Cache;
+import org.apache.excalibur.cache.ValidatingCache;
+import org.apache.excalibur.cache.impl.LRUCache;
+import org.apache.excalibur.cache.validator.TimeoutValidator;
 
 /**
  * JUnit TestCase for TimeoutValidator.

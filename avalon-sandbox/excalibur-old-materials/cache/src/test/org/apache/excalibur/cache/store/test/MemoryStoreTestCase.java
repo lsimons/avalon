@@ -5,9 +5,9 @@
  * version 1.1, a copy of which has been included  with this distribution in
  * the LICENSE.txt file.
  */
-package org.apache.avalon.excalibur.cache.store.test;
+package org.apache.excalibur.cache.store.test;
 
-import org.apache.avalon.excalibur.cache.store.MemoryStore;
+import org.apache.excalibur.cache.store.MemoryStore;
 
 /**
  * TestCase for MemoryStore.

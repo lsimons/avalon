@@ -5,13 +5,13 @@
  * version 1.1, a copy of which has been included  with this distribution in
  * the LICENSE.txt file.
  */
-package org.apache.avalon.excalibur.cache.validator;
+package org.apache.excalibur.cache.validator;
 
 import java.util.HashMap;
 import java.util.Map;
-import org.apache.avalon.excalibur.cache.CacheEvent;
-import org.apache.avalon.excalibur.cache.CacheListener;
-import org.apache.avalon.excalibur.cache.CacheValidator;
+import org.apache.excalibur.cache.CacheEvent;
+import org.apache.excalibur.cache.CacheListener;
+import org.apache.excalibur.cache.CacheValidator;
 
 /**
  * General timeout cache validator.
