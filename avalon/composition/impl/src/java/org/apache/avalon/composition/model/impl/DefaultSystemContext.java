@@ -57,7 +57,7 @@ import org.apache.avalon.excalibur.i18n.Resources;
  * Implementation of a system context that exposes a system wide set of parameters.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.25 $ $Date: 2004/03/04 03:42:30 $
+ * @version $Revision: 1.26 $ $Date: 2004/03/07 00:00:58 $
  */
 public class DefaultSystemContext extends DefaultContext 
   implements SystemContext
@@ -143,7 +143,7 @@ public class DefaultSystemContext extends DefaultContext
       long timeout, 
       boolean secure, 
       SecurityProfile[] security,
-      TargetDirective[] targets ) throws SystemException
+      Map grants ) throws SystemException
     {
         super( parent );
 
@@ -153,7 +153,7 @@ public class DefaultSystemContext extends DefaultContext
         assertNotNull( "logging", logging );
         assertNotNull( "category", category );
         assertNotNull( "security", security );
-        assertNotNull( "targets", targets );
+        assertNotNull( "grants", grants );
 
         if( !base.isDirectory() )
         {
@@ -184,7 +184,7 @@ public class DefaultSystemContext extends DefaultContext
             }
         }
 
-        m_factory = new DefaultModelFactory( this, security, targets );
+        m_factory = new DefaultModelFactory( this, security, grants );
 
         //
         // use avalon-repository to load the runtime

@@ -18,6 +18,7 @@
 package org.apache.avalon.composition.provider;
 
 import java.io.File;
+import java.util.Map;
 
 import org.apache.avalon.composition.data.TargetDirective;
 import org.apache.avalon.composition.data.SecurityProfile;
@@ -34,7 +35,7 @@ import org.apache.avalon.framework.context.Context;
  * Defintion of a system context that exposes a system wide set of parameters.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.4 $ $Date: 2004/03/04 03:42:30 $
+ * @version $Revision: 1.5 $ $Date: 2004/03/07 00:00:59 $
  */
 public interface SystemContextFactory 
 {
@@ -106,10 +107,10 @@ public interface SystemContextFactory
     void setSecurityProfiles( SecurityProfile[] profiles );
 
    /**
-    * Set the initial set of target override directives.
-    * @param targets the target overrides
+    * Set the initial grants table.
+    * @param grants the initial grants table
     */
-    void setTargetDirectives( TargetDirective[] targets );
+    void setGrantsTable( Map grants );
 
    /**
     * Set the working directory.

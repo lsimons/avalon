@@ -22,6 +22,7 @@ import java.io.File;
 import java.io.InputStream;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Hashtable;
 import java.util.Map;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -219,6 +220,15 @@ public class DefaultFactory implements Factory
         getLogger().debug( "logging system established" );
 
         //
+        // Resolve the target overrides now because we need this 
+        // information now to construct the set of permission profile
+        // grants and secondly, we will need to the targets later 
+        // during the model customization phase
+        //
+
+        TargetDirective[] targets = getTargetOverrides( criteria );
+
+        //
         // Create the system context.
         //
 
@@ -228,7 +238,7 @@ public class DefaultFactory implements Factory
 
         SystemContext systemContext = 
           createSystemContext( 
-            m_context, criteria, hosts, logging, config, "kernel" );
+            m_context, criteria, hosts, logging, config, targets, "kernel" );
 
         //
         // with the logging system established, check if the 
@@ -400,14 +410,15 @@ public class DefaultFactory implements Factory
     */
     private SystemContext createSystemContext( 
       InitialContext context, KernelCriteria criteria, String[] hosts, 
-      LoggingManager logging, Configuration config, String name ) throws Exception
+      LoggingManager logging, Configuration config, TargetDirective[] targets, 
+      String name ) throws Exception
     {
 
         SystemContextFactory factory = 
           new DefaultSystemContextFactory( context );
 
         //
-        // add the security profiles
+        // add the security profiles and the grants
         //
 
         boolean secure = criteria.isSecurityEnabled();
@@ -418,6 +429,19 @@ public class DefaultFactory implements Factory
             SecurityProfile[] profiles = 
               SECURITY_CREATOR.createSecurityProfiles( secConfig );
             factory.setSecurityProfiles( profiles );
+
+            Map grants = new Hashtable();
+            for( int i=0; i<targets.length; i++ )
+            {
+                TargetDirective target = targets[i];
+                final String profile = 
+                  target.getSecurityProfileName();
+                if( null != profile )
+                {
+                    grants.put( target.getPath(), profile );
+                }
+            }
+            factory.setGrantsTable( grants );
         }
 
         //
@@ -715,6 +739,8 @@ public class DefaultFactory implements Factory
         buffer.append( "\n" );
         buffer.append( "\n  ${avalon.repository.cache} == " 
           + context.getInitialCacheDirectory() );
+        buffer.append( "\n  ${avalon.repository.online} == " 
+          + context.getOnlineMode() );
         buffer.append( "\n  ${avalon.repository.hosts} == " );
         String[] ihosts = context.getInitialHosts();
         for( int i=0; i<ihosts.length; i++ )
