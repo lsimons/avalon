@@ -319,7 +319,7 @@ class LifecycleHelper
                               final Block block )
         throws CascadingException
     {
-        final ServiceDescriptor[] services = metaData.getBlockInfo().getManagement();
+        final ServiceDescriptor[] services = metaData.getBlockInfo().getManagementAccessPoints();
         final String name = metaData.getName();
         final ClassLoader classLoader = block.getClass().getClassLoader();
 
@@ -349,7 +349,7 @@ class LifecycleHelper
     private void unexportBlock( final BlockMetaData metaData, 
                                 final Block block )
     {
-        final ServiceDescriptor[] services = metaData.getBlockInfo().getManagement();
+        final ServiceDescriptor[] services = metaData.getBlockInfo().getManagementAccessPoints();
         final String name = metaData.getName();
         final ClassLoader classLoader = block.getClass().getClassLoader();
 

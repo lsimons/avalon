@@ -23,7 +23,7 @@ public class BlockInfo
 {
     private final BlockDescriptor m_descriptor;
     private final ServiceDescriptor[] m_services;
-    private final ServiceDescriptor[] m_management;
+    private final ServiceDescriptor[] m_managementAccessPoints;
     private final DependencyDescriptor[] m_dependencies;
 
     /**
@@ -31,12 +31,12 @@ public class BlockInfo
      */
     public BlockInfo( final BlockDescriptor descriptor,
                       final ServiceDescriptor[] services,
-                      final ServiceDescriptor[] management,
+                      final ServiceDescriptor[] managementAccessPoints,
                       final DependencyDescriptor[] dependencies )
     {
         m_descriptor = descriptor;
         m_services = services;
-        m_management = management;
+        m_managementAccessPoints = managementAccessPoints;
         m_dependencies = dependencies;
     }
 
@@ -65,11 +65,11 @@ public class BlockInfo
     /**
      * This returns a list of Services that this block can be Managed by.
      *
-     * @return an array of Management Services
+     * @return an array of Management Access Points (management services)
      */
-    public ServiceDescriptor[] getManagement()
+    public ServiceDescriptor[] getManagementAccessPoints()
     {
-        return m_management;
+        return m_managementAccessPoints;
     }
 
     /**
