@@ -46,6 +46,9 @@ project.home:    ${project.home}
 project.index:   ${project.index}
 project.group:   ${project.group}
 project.name:    ${project.name}
+project.filename: ${project.filename}
+project.short-filename: ${project.short-filename}
+project.path:    ${project.path}
     </echo>
   </target>
 
