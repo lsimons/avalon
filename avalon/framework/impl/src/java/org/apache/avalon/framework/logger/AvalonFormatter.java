@@ -25,28 +25,45 @@ public class AvalonFormatter
      * The constant defining the default stack depth when 
      * none other is specified.
      */
-    private static final int DEFAULT_STACK_DEPTH = 8;
+    public static final int DEFAULT_STACK_DEPTH = 8;
+
+    /**
+     * The constant defining the default behaviour for printing
+     * nested exceptions.
+     */
+    public static final boolean DEFAULT_PRINT_CASCADING = true;
 
     //The depth to which stacktraces are printed out
     private final int m_stackDepth;
 
+    //Determines if nested exceptions should be logged
+    private final boolean m_printCascading;
+
     /**
-     * Construct the formatter with the specified pattern 
+     * Construct the formatter with the specified pattern
      * and which which prints out exceptions to stackDepth of 8.
+     *
+     * @param pattern The pattern to use to format the log entries
      */
     public AvalonFormatter( final String pattern )
     {
-        this( pattern, DEFAULT_STACK_DEPTH );
+        this( pattern, DEFAULT_STACK_DEPTH, DEFAULT_PRINT_CASCADING );
     }
 
     /**
-     * Construct the formatter with the specified pattern 
+     * Construct the formatter with the specified pattern
      * and which which prints out exceptions to stackDepth specified.
+     *
+     * @param pattern The pattern to use to format the log entries
+     * @param stackDepth The depth to which stacktraces are printed out
+     * @param printCascading true enables printing of nested exceptions,
+     *   false only prints out the outermost exception
      */
-    public AvalonFormatter( final String pattern, final int stackDepth )
+    public AvalonFormatter( final String pattern, final int stackDepth, final boolean printCascading )
     {
         super( pattern );
         m_stackDepth = stackDepth;
+        m_printCascading = printCascading;
     }
 
     /**
@@ -59,6 +76,6 @@ public class AvalonFormatter
     protected String getStackTrace( final Throwable throwable, final String format )
     {
         if( null == throwable ) return "";
-        return ExceptionUtil.printStackTrace( throwable, m_stackDepth, true );
+        return ExceptionUtil.printStackTrace( throwable, m_stackDepth, m_printCascading );
     }
 }
