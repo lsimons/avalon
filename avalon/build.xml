@@ -398,7 +398,7 @@ Legal:
   </target>
 
   <!-- Create the distribution -->
-  <target name="bin-dist" depends="all,javadocs,docs">
+  <target name="bin-dist" depends="all">
 
     <mkdir dir="${dist.dir}"/>
     <copy file="${build.lib}/${framework.name}.jar" tofile="${dist.dir}/${framework.name}-${version}.jar"/>
@@ -428,7 +428,7 @@ Legal:
   </target>
 
   <!-- Create the source distribution -->
-  <target name="src-dist" depends="docs">
+  <target name="src-dist">
 
     <mkdir dir="${src.dist.dir}" />
 
