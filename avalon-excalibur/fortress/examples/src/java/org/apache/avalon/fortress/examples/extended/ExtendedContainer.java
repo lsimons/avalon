@@ -49,6 +49,8 @@
 */
 package org.apache.avalon.fortress.examples.extended;
 
+import org.apache.avalon.fortress.examples.extended.extensions.Extensions;
+
 
 public final class ExtendedContainer
     extends org.apache.avalon.fortress.impl.DefaultContainer
@@ -58,7 +60,7 @@ public final class ExtendedContainer
     {
         super.initialize();
 
-        m_extManager.addAccessorExtension( new org.apache.avalon.fortress.examples.extended.extensions.Extensions() );
+        m_extManager.addAccessorExtension( new Extensions() );
     }
 
     public void doLookups()

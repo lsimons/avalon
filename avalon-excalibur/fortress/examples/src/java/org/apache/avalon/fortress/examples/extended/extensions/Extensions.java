@@ -49,15 +49,18 @@
 */
 package org.apache.avalon.fortress.examples.extended.extensions;
 
+import org.apache.avalon.framework.context.Context;
+import org.apache.avalon.lifecycle.AbstractAccessor;
+
 
 /**
  * Some custom extensions for this container's components.
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Revision: 1.2 $ $Date: 2003/02/25 16:28:42 $
+ * @version CVS $Revision: 1.3 $ $Date: 2003/03/11 14:09:40 $
  */
 public class Extensions
-    extends org.apache.excalibur.container.lifecycle.AbstractAccessor
+    extends AbstractAccessor
 {
     /**
      * Access, called when the given component is being
@@ -67,7 +70,7 @@ public class Extensions
      * @param context a <code>Context</code> instance
      * @exception java.lang.Exception if an error occurs
      */
-    public void access( Object component, org.apache.avalon.framework.context.Context context )
+    public void access( Object component, Context context )
         throws Exception
     {
         if( component instanceof SecurityManageable )

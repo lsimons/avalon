@@ -55,7 +55,7 @@
 package org.apache.avalon.fortress.impl.extensions;
 
 import org.apache.avalon.framework.context.Context;
-import org.apache.excalibur.container.lifecycle.AbstractCreator;
+import org.apache.avalon.lifecycle.AbstractCreator;
 import org.apache.excalibur.instrument.InstrumentManageable;
 import org.apache.excalibur.instrument.InstrumentManager;
 import org.apache.excalibur.instrument.Instrumentable;

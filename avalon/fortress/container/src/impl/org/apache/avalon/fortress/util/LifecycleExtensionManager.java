@@ -56,8 +56,8 @@ import java.util.List;
 
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
-import org.apache.excalibur.container.lifecycle.Accessor;
-import org.apache.excalibur.container.lifecycle.Creator;
+import org.apache.avalon.lifecycle.Accessor;
+import org.apache.avalon.lifecycle.Creator;
 
 /**
  * <code>LifecycleExtensionManager</code> class. This class manages a list
@@ -78,7 +78,7 @@ import org.apache.excalibur.container.lifecycle.Creator;
  * </p>
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Revision: 1.1 $ $Date: 2003/03/07 20:21:26 $
+ * @version CVS $Revision: 1.2 $ $Date: 2003/03/11 14:09:41 $
  */
 public class LifecycleExtensionManager
     extends AbstractLogEnabled
