@@ -1,8 +1,13 @@
 <project name="Excalibur Driver Build file" default="main" basedir=".">
+  <!-- location of intermediate products -->
+  <property name="build.dir" value="build"/>
+  <property name="build.reports" value="${build.dir}/reports"/>
+  <property name="build.tests" value="${build.dir}/tests"/>
     
   <target name="main" depends="mega-jar"/>
 
-  <target name="dist" description="Create binary distributions of all the products">
+  <!-- Build default targets of all subprojects. -->
+  <target name="build-subprojects-dist">
     
     <ant dir="all"/>
     <ant dir="cli"/>
@@ -10,8 +15,27 @@
     <ant dir="i18n"/>
     <ant dir="io"/>
     <ant dir="naming"/>
-
+    
   </target>
+    
+  <!-- Build a summary test report from the results of the tests of all subprojects. -->
+  <target name="test-reports" depends="build-subprojects-dist">
+    
+    <mkdir dir="${build.dir}"/>
+    <mkdir dir="${build.tests}"/>
+    <mkdir dir="${build.reports}"/>
+    
+    <junitreport todir="${build.tests}">
+      <fileset dir="${basedir}">
+        <include name="*/build/tests/TEST-*.xml"/>
+      </fileset>
+      <report format="frames" todir="${build.reports}"/>
+    </junitreport>
+  </target>
+  
+  <!-- Distribution build for all subprojects. -->
+  <target name="dist" depends="test-reports"
+        description="Create binary distributions of all the products"/>
 
   <!-- Generate one mega jar-ball -->
   <target name="mega-jar" description="Generate one large jar for all the products">
@@ -32,7 +56,8 @@
   </target>
 
   <target name="clean">
-
+    <delete dir="${build.dir}" />
+    
     <ant dir="all" target="distclean"/>
     <ant dir="cli" target="real-clean"/>
     <ant dir="extension" target="real-clean"/>

@@ -157,10 +157,12 @@
         </junitreport>
 
         <!-- Clean up the xml reports used by the junitreport task -->
+        <!--
         <delete>
             <fileset dir="${build.tests}" includes="TEST-*.xml"/>
             <fileset dir="${build.tests}" includes="TESTS-*.xml"/>
         </delete>
+        -->
         
     </target>
 
