@@ -12,6 +12,7 @@ import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
+import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
@@ -26,8 +27,6 @@ import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.excalibur.threadcontext.ThreadContext;
 import org.apache.excalibur.threadcontext.impl.DefaultThreadContextPolicy;
-import org.apache.log.Hierarchy;
-import org.apache.log.Logger;
 
 /**
  * Manage the "frame" in which Applications operate.
@@ -43,7 +42,7 @@ class DefaultApplicationContext
         ResourceManager.getPackageResources( DefaultApplicationContext.class );
 
     //Log Hierarchy for application
-    private final Hierarchy m_hierarchy;
+    private final Logger m_hierarchy;
 
     ///ClassLoader for application
     private final ClassLoader m_classLoader;
@@ -65,7 +64,7 @@ class DefaultApplicationContext
 
     protected DefaultApplicationContext( final SarMetaData metaData,
                                          final ClassLoader classLoader,
-                                         final Hierarchy hierarchy )
+                                         final Logger hierarchy )
     {
         m_metaData = metaData;
         m_classLoader = classLoader;
@@ -123,7 +122,7 @@ class DefaultApplicationContext
      */
     public Logger getLogger( final String category )
     {
-        return m_hierarchy.getLoggerFor( category );
+        return m_hierarchy.getChildLogger( category );
     }
 
     /**

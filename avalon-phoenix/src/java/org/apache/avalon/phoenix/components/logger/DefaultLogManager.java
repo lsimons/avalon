@@ -13,10 +13,11 @@ import org.apache.avalon.excalibur.logger.DefaultLogKitManager;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.context.DefaultContext;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
+import org.apache.avalon.framework.logger.LogKitLogger;
+import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.phoenix.BlockContext;
 import org.apache.avalon.phoenix.interfaces.LogManager;
 import org.apache.avalon.phoenix.metadata.SarMetaData;
-import org.apache.log.Hierarchy;
 
 /**
  * Interface that is used to manage Log objects for a Sar.
@@ -40,10 +41,10 @@ public class DefaultLogManager
      * @throws Exception if unable to create Loggers
      * @todo pass classLoader down into LogKitManager and
      *       use that to try to load targets.
-    */
-    public Hierarchy createHierarchy( final SarMetaData metaData,
-                                      final Configuration logs,
-                                      final ClassLoader classLoader )
+     */
+    public Logger createHierarchy( final SarMetaData metaData,
+                                   final Configuration logs,
+                                   final ClassLoader classLoader )
         throws Exception
     {
         final DefaultContext context = new DefaultContext();
@@ -66,7 +67,7 @@ public class DefaultLogManager
             setupLogger( manager );
             manager.contextualize( context );
             manager.configure( logs );
-            return manager.getHierarchy();
+            return manager.getDefaultLogger();
         }
         else if( version.equals( "1.1" ) )
         {
@@ -75,11 +76,12 @@ public class DefaultLogManager
             setupLogger( manager );
             manager.contextualize( context );
             manager.configure( logs );
-            return manager.getHierarchy();
+            return new LogKitLogger( manager.getHierarchy().getLoggerFor( "" ) );
         }
         else
         {
-            throw new IllegalArgumentException( "Unknown log version specification" );
+            final String message = "Unknown log version specification";
+            throw new IllegalArgumentException( message );
         }
     }
 }

@@ -8,9 +8,9 @@
 package org.apache.avalon.phoenix.components.kernel;
 
 import org.apache.avalon.framework.configuration.Configuration;
+import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.phoenix.interfaces.Application;
 import org.apache.avalon.phoenix.metadata.SarMetaData;
-import org.apache.log.Hierarchy;
 
 /**
  * This is the structure describing each server application before it is loaded.
@@ -23,16 +23,16 @@ final class SarEntry
     private Configuration m_configuration;
     private ClassLoader m_classLoader;
     private Application m_application;
-    private Hierarchy m_hierarchy;
+    private Logger m_logger;
 
     protected SarEntry( final SarMetaData metaData,
                         final ClassLoader classLoader,
-                        final Hierarchy hierarchy,
+                        final Logger logger,
                         final Configuration configuration )
     {
         m_metaData = metaData;
         m_classLoader = classLoader;
-        m_hierarchy = hierarchy;
+        m_logger = logger;
         m_configuration = configuration;
     }
 
@@ -51,9 +51,9 @@ final class SarEntry
         return m_metaData;
     }
 
-    public Hierarchy getHierarchy()
+    public Logger getLogger()
     {
-        return m_hierarchy;
+        return m_logger;
     }
 
     public ClassLoader getClassLoader()

@@ -9,7 +9,6 @@ package org.apache.avalon.phoenix.components.application;
 
 import java.io.File;
 import org.apache.avalon.framework.context.ContextException;
-import org.apache.avalon.framework.logger.LogKitLogger;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.phoenix.BlockContext;
 import org.apache.avalon.phoenix.interfaces.ApplicationContext;
@@ -24,18 +23,18 @@ final class DefaultBlockContext
     implements BlockContext
 {
     private String m_name;
-    private ApplicationContext m_frame;
+    private ApplicationContext m_applicationContext;
 
     protected DefaultBlockContext( final String name, final ApplicationContext frame )
     {
         m_name = name;
-        m_frame = frame;
+        m_applicationContext = frame;
     }
 
     public Object get( Object key )
         throws ContextException
     {
-        final SarMetaData metaData = m_frame.getMetaData();
+        final SarMetaData metaData = m_applicationContext.getMetaData();
         if( BlockContext.APP_NAME.equals( key ) )
         {
             return metaData.getName();
@@ -61,7 +60,7 @@ final class DefaultBlockContext
      */
     public File getBaseDirectory()
     {
-        return m_frame.getMetaData().getHomeDirectory();
+        return m_applicationContext.getMetaData().getHomeDirectory();
     }
 
     /**
@@ -81,6 +80,6 @@ final class DefaultBlockContext
      */
     public Logger getLogger( final String name )
     {
-        return new LogKitLogger( m_frame.getLogger( getName() ).getChildLogger( name ) );
+        return m_applicationContext.getLogger( getName() ).getChildLogger( name );
     }
 }

@@ -8,8 +8,8 @@
 package org.apache.avalon.phoenix.interfaces;
 
 import org.apache.avalon.framework.configuration.Configuration;
+import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.phoenix.metadata.SarMetaData;
-import org.apache.log.Hierarchy;
 
 /**
  * Interface that is used to manage Log objects for a Sar.
@@ -29,8 +29,8 @@ public interface LogManager
      * @return the configured Logger hierarchy
      * @throws Exception if an error occurs
      */
-    Hierarchy createHierarchy( SarMetaData metaData,
-                               Configuration logs,
-                               ClassLoader classLoader )
+    Logger createHierarchy( SarMetaData metaData,
+                            Configuration logs,
+                            ClassLoader classLoader )
         throws Exception;
 }

@@ -193,13 +193,13 @@ public class DefaultKernel
 
     public void addApplication( final SarMetaData metaData,
                                 final ClassLoader classLoader,
-                                final Hierarchy hierarchy,
+                                final Logger logger,
                                 final Configuration server )
         throws Exception
     {
         final String name = metaData.getName();
         final SarEntry entry =
-            new SarEntry( metaData, classLoader, hierarchy, server );
+            new SarEntry( metaData, classLoader, logger, server );
         m_entries.put( name, entry );
 
         try
@@ -223,7 +223,7 @@ public class DefaultKernel
         final DefaultApplicationContext context =
             new DefaultApplicationContext( metaData,
                                            entry.getClassLoader(),
-                                           entry.getHierarchy() );
+                                           entry.getLogger() );
 
         ContainerUtil.enableLogging( context, createContextLogger( name ) );
         ContainerUtil.service( context, createServiceManager() );
