@@ -23,11 +23,10 @@
 
  <body>
     <menu>
-      <!--
-      <item name="Resource" href="resources.html"/>
-      <item name="Project" href="projects.html"/>
-      <item name="Plugin" href="plugins.html"/>
-      -->
+      <item name="Resources" href="resources.html"/>
+      <item name="Projects" href="projects.html"/>
+      <item name="Plugins" href="plugins.html"/>
+      <item name="Imports" href="imports.html"/>
     </menu>
  </body>
 

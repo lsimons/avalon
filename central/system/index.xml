@@ -250,7 +250,7 @@
     </info>
     <dependencies>
       <include key="avalon-framework-api"/>
-      <include key="avalon-framework-impl" compile="false" test="true" runtime="false"/>
+      <include key="avalon-framework-impl" build="false" test="true" runtime="false"/>
     </dependencies>
   </project>
 
@@ -278,7 +278,7 @@
     </dependencies>
   </project>
 
-    <plugin basedir="../../runtime/meta/tools">
+  <plugin basedir="../../runtime/meta/tools">
     <info>
       <group>avalon/meta</group>
       <name>avalon-meta-tools</name>
@@ -288,17 +288,17 @@
       <include key="avalon-meta-impl"/>
       <include key="qdox"/>
     </dependencies>
-      <tasks>
-        <taskdef name="meta" class="org.apache.avalon.meta.info.ant.MetaTask"/>
-      </tasks>
-      <listeners>
-        <listener class="org.apache.avalon.meta.info.ant.MetaBuildListener"/>
-      </listeners>
-    </plugin>
+    <tasks>
+      <taskdef name="meta" class="org.apache.avalon.meta.info.ant.MetaTask"/>
+    </tasks>
+    <listeners>
+      <listener class="org.apache.avalon.meta.info.ant.MetaBuildListener"/>
+    </listeners>
+  </plugin>
 
-    <!--
-    Avalon Test.
-    -->
+  <!--
+  Avalon Test.
+  -->
 
   <project basedir="../../runtime/test/dynamics">
     <info>
