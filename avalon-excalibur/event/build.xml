@@ -23,6 +23,7 @@
     <!-- location of intermediate products -->
     <property name="build.dir" value="build"/>
     <property name="build.lib" value="${build.dir}/lib"/>
+    <property name="build.conf" value="${build.dir}/conf"/>
     <property name="build.classes" value="${build.dir}/classes"/>
     <property name="build.tests" value="${build.dir}/tests"/>
     <property name="build.reports" value="${build.dir}/reports"/>
@@ -30,6 +31,7 @@
     <!-- Set the properties for source directories -->
     <property name="src.dir" value="src"/>
     <property name="java.dir" value="${src.dir}/java"/>
+    <property name="conf.dir" value="${src.dir}/conf"/>
     <property name="test.dir" value="${src.dir}/test"/>
 
     <!-- Set the properties for distribution directories -->
@@ -37,7 +39,7 @@
     <property name="dist.javadocs" value="${dist.dir}/docs/api"/>
 
     <!-- property to specify name of zip/jar files -->
-    <property name="dist.name" value="excalibur-${name}-${version}"/>
+    <property name="dist.name" value="${name}-${version}"/>
 
     <!-- property indicating directory where all distribution archives are placed -->
     <property name="dist.base" value="distributions"/>
@@ -87,16 +89,30 @@
 
     </target>
 
+    <!-- Copies and filters the manifest and license. Used by jar and dist -->
+    <target name="prepare-conf">
+        <mkdir dir="${build.conf}"/>
+        <copy todir="${build.conf}" flatten="true">
+            <fileset dir="../" includes="LICENSE.txt"/>
+            <fileset dir="${conf.dir}" includes="MANIFEST.MF"/> 
+            <filterset>
+                <filtersfile file="project.properties"/>
+            </filterset>
+        </copy>
+
+    </target>
+
     <!-- Creates all the .jar file -->
-    <target name="jar" depends="compile" description="Generates the jar files">
+    <target name="jar" depends="compile, prepare-conf" description="Generates the jar files">
 
         <mkdir dir="${build.lib}"/>
 
         <jar jarfile="${build.lib}/${dist.name}.jar"
             basedir="${build.classes}"
-            compress="${build.compress}">
+            compress="${build.compress}"
+            manifest="${build.conf}/MANIFEST.MF">
             <exclude name="**/test/**"/>
-            <zipfileset dir=".." prefix="META-INF/">
+            <zipfileset dir="${build.conf}" prefix="META-INF/">
                 <include name="LICENSE.txt"/>
             </zipfileset>
         </jar>
@@ -223,12 +239,12 @@
 
     <!-- Creates the distribution -->
     <target name="dist"
-        depends="jar, test-reports, checkstyle-report, javadocs"
+        depends="prepare-conf, jar, test-reports, checkstyle-report, javadocs"
         description="Generates the jar files">
 
         <mkdir dir="${dist.dir}"/>
         <copy file="${build.lib}/${dist.name}.jar" todir="${dist.dir}"/>
-        <copy file="../LICENSE.txt" todir="${dist.dir}"/>
+        <copy file="${build.conf}/LICENSE.txt" todir="${dist.dir}"/>
         <copy file="../KEYS" todir="${dist.dir}"/>
         <copy file="README.txt" todir="${dist.dir}"/>
 
