@@ -15,8 +15,8 @@
     <section name="Introduction">
       <p>
         Sevak is a wrapper for Tomcat Catalina server in a Phoenix machine.
-        <link href="http://jakarta.apache.org/builds/jakarta-tomcat-4.0/release/v4.0.3/">
-        http://jakarta.apache.org/builds/jakarta-tomcat-4.0/release/v4.0.3/</link>
+        <a href="http://jakarta.apache.org/builds/jakarta-tomcat-4.0/release/v4.0.3/">
+        http://jakarta.apache.org/builds/jakarta-tomcat-4.0/release/v4.0.3/</a>
         It launches Catalina under Phoenix control in embedded mode.
       </p>
     </section>
@@ -51,7 +51,7 @@
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.5 $ $Date: 2003/03/16 21:35:57 $
+      $Revision: 1.6 $ $Date: 2003/03/16 22:22:19 $
     </legal>
   </footer>
 </document>
