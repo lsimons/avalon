@@ -13,6 +13,9 @@
 
 <!-- ===================== General Components =========================== -->
 
+  <xml-parser class="org.apache.avalon.excalibur.xml.JaxpParser" 
+              logger="core.xml-parser" pool-grow="4" pool-max="32" pool-min="8">
+
   <!-- Parser:
     The default parser used in Apache Cocoon is
     org.apache.avalon.excalibur.xml.JaxpParser. Apache Cocoon requires a 
@@ -54,7 +57,6 @@
         DocumentBuilderFactory implementation to be used (similar to
         sax-parser-factory for DOM).
   -->
-  <xml-parser class="org.apache.avalon.excalibur.xml.JaxpParser" logger="core.xml-parser">
     <parameter name="validate" value="false"/>
     <parameter name="namespace-prefixes" value="false"/>
     <parameter name="stop-on-warning" value="true"/>
@@ -71,7 +73,7 @@
        from:
          * FilesystemStore: Simple. Dependable. Thorougly tested.
          * JispFilesystemStore: Scalable. New kid on the block.
-
+           
        Common configuration parameters:
          use-cache-directory: Indicates that cache directory specified in
                               web.xml should be used.
@@ -80,12 +82,12 @@
          directory: Specifies directory to use. Absolute or relative to the
                     work directory.
   -->
-  <cache-persistent class="org.apache.cocoon.components.store.FilesystemStore" logger="core.store.persistent">
+  <persistent-store logger="core.store.persistent">
     <parameter name="use-cache-directory" value="true"/>
-  </cache-persistent>
+  </persistent-store>
 
   <!-- Memory Storing: -->
-  <cache-transient class="org.apache.cocoon.components.store.MRUMemoryStore" logger="core.store.transient">
+  <transient-store logger="core.store.transient">
      <!-- Indicates how many objects will be hold in the cache.
      When the number of maxobjects has been reached. The last object in the 
      cache will be thrown out. -->
@@ -94,7 +96,7 @@
      <!-- Turns the swapping of the objects into persistent cache on
           and off. -->
      <parameter name="use-persistent-cache" value="true"/>
-  </cache-transient>
+  </transient-store>
 
   <!-- Store Janitor:
     Be careful with the heapsize and freememory parameters. Wrong values can
@@ -110,7 +112,7 @@
     Freememory should be greater than amount of memory necessary for normal 
     application operation.
   -->
-  <store-janitor class="org.apache.cocoon.components.store.StoreJanitorImpl" logger="core.store.janitor">
+  <store-janitor logger="core.store.janitor">
      <!-- How much free memory shall be available in the jvm -->                 
      <parameter name="freememory" value="1000000"/>
      <!-- Indicates the limit of the jvm memory consumption. The default max 
@@ -127,11 +129,12 @@
   <!-- ============================ STORE END ========================= -->
 
   <!-- XSLT Processor:
-    For Xalan: Turn 'incremental-processing' to true if you want a continous output (if set to false the transformer 
-    delivers SAX events after all transformations has been done). -->
-  <xslt-processor class="org.apache.cocoon.components.xslt.XSLTProcessorImpl" logger="core.xslt-processor">
-     <parameter name="use-store" value="true"/>
-     <parameter name="incremental-processing" value="false"/>
+    For Xalan: Turn 'incremental-processing' to true if you want a continous output 
+    (if set to false the transformer delivers SAX events after all transformations has been done). 
+  -->
+  <xslt-processor logger="core.xslt-processor">
+     <parameter name="use-store" value="false"/> 
+     <parameter name="incremental-processing" value="true"/>
   </xslt-processor>
 
   <!-- Xpath Processor:
@@ -142,6 +145,7 @@
     The url factory adds special url protocols to the system, they are then
     available inside Cocoon, e.g. as a source argument for one of the sitemap
     components.
+    THIS COMPONENT IS DEPRECATED AND SHOULD NOT BE USED ANYMORE 
   -->
   <url-factory logger="core.url-factory">
     <!-- Allows access to resources available from the ClassLoader,
@@ -157,6 +161,7 @@
     The source handler adds special url protocols to the system, they are
     then available inside Cocoon, e.g. as a source argument for one of the
     sitemap components.
+    THIS COMPONENT IS DEPRECATED AND SHOULD NOT BE USED ANYMORE 
   -->
   <source-handler logger="core.source-handler">
     <!-- file protocol : this is a WriteableSource -->
@@ -172,6 +177,35 @@
     </protocol>
 </source-handler>
 
+  <!-- Source Factories
+       Each source factory adds a special uri protocol to the system.
+       This will replace the source-handler and url-factory components.
+  -->
+  <source-factories>
+      <component-instance class="org.apache.excalibur.source.impl.ResourceSourceFactory" name="resource"/>
+      <component-instance class="org.apache.cocoon.components.source.impl.ContextSourceFactory" name="context"/>
+      <component-instance class="org.apache.cocoon.components.source.impl.CocoonSourceFactory" name="cocoon"/>
+      <!-- file protocol : this is a WriteableSource -->
+      <component-instance class="org.apache.cocoon.components.source.impl.FileSourceFactory" name="file"/>
+  
+
+    <!-- xmldb pseudo protocol -->
+    <component-instance class="org.apache.cocoon.components.source.impl.SourceFactoryWrapper" name="xmldb">
+        <source-factory class="org.apache.cocoon.components.source.XMLDBSourceFactory">
+            <!-- Xindice driver -->
+            <driver class="org.apache.xindice.client.xmldb.DatabaseImpl" type="xindice"/>
+            <!-- Add here other XML:DB compliant databases drivers -->
+        </source-factory>
+    </component-instance>
+
+</source-factories>
+
+  <!-- The XMLizer converts different mime-types to XML -->
+  <xmlizer>
+      <component-instance class="org.apache.excalibur.xmlizer.impl.TextXMLizer" name="text/xml"/>
+      <component-instance class="org.apache.excalibur.xmlizer.impl.HTMLXMLizer" name="text/html"/>
+  </xmlizer>
+
   <!-- Program Generator:
     The ProgamGenerator builds programs from a XML document written in a
     MarkupLanguage.
@@ -184,13 +218,6 @@
     <parameter name="root-package" value="org.apache.cocoon.www"/>
     <parameter name="preload" value="true"/>
   </program-generator>
-
-  <!-- Xscript:
-  -->
-  <xscript logger="core.xscript">
-    <parameter name="xscript:copy-of" value="resource://org/apache/cocoon/components/xscript/xslt/copy-of.xsl"/>
-    <parameter name="xscript:value-of" value="resource://org/apache/cocoon/components/xscript/xslt/value-of.xsl"/>
-  </xscript>
 
   <!-- Programming Languages: -->
   <programming-languages>
@@ -210,7 +237,9 @@
              Jikes. Requires IBM jikes compiler to be present in the PATH  -->
       <parameter name="compiler" value="org.apache.cocoon.components.language.programming.java.Pizza"/>
 </java-language>
-
+  
+    <!-- Interpreted JavaScript language -->
+    <js-language logger="core.language.js" name="js"/>
 </programming-languages>
 
   <!-- Class loader:
@@ -331,37 +360,40 @@
           <parameter name="uri" value="http://apache.org/xsp/soap/3.0"/>
           <parameter name="href" value="resource://org/apache/cocoon/components/language/markup/xsp/java/soap.xsl"/>
         </builtin-logicsheet>
-      </target-language>
 
+        <builtin-logicsheet>
+          <parameter name="prefix" value="jpath"/>
+          <parameter name="uri" value="http://apache.org/xsp/jpath/1.0"/>
+          <parameter name="href" value="resource://org/apache/cocoon/components/language/markup/xsp/java/jpath.xsl"/>
+        </builtin-logicsheet>
+
+      </target-language>
+    
+      <!-- XSP in Javascript -->
+      <target-language name="js">
+        <parameter name="core-logicsheet" value="resource://org/apache/cocoon/components/language/markup/xsp/javascript/xsp.xsl"/>
+
+        <builtin-logicsheet>
+          <parameter name="prefix" value="xsp-request"/>
+          <parameter name="uri" value="http://apache.org/xsp/request/2.0"/>
+          <parameter name="href" value="resource://org/apache/cocoon/components/language/markup/xsp/javascript/request.xsl"/>
+        </builtin-logicsheet>
+
+        <builtin-logicsheet>
+          <parameter name="prefix" value="xsp-response"/>
+          <parameter name="uri" value="http://apache.org/xsp/response/2.0"/>
+          <parameter name="href" value="resource://org/apache/cocoon/components/language/markup/xsp/javascript/response.xsl"/>
+        </builtin-logicsheet>
+
+        <builtin-logicsheet>
+          <parameter name="prefix" value="xsp-session"/>
+          <parameter name="uri" value="http://apache.org/xsp/session/2.0"/>
+          <parameter name="href" value="resource://org/apache/cocoon/components/language/markup/xsp/javascript/session.xsl"/>
+        </builtin-logicsheet>
+      </target-language>
 </xsp-language>
 
-    <!-- Defines Sitemap Core logicsheet for the Java language -->
-    <sitemap-language logger="core.markup.sitemap" name="sitemap">
-      <parameter name="prefix" value="map"/>
-      <parameter name="uri" value="http://apache.org/cocoon/sitemap/1.0"/>
-
-      <target-language name="java">
-        <parameter name="core-logicsheet" value="resource://org/apache/cocoon/components/language/markup/sitemap/java/sitemap.xsl"/>
-      </target-language>
-    </sitemap-language>
   </markup-languages>
-
-  <!-- Stream Pipeline:
-    Either collects a Reader and lets it produce a character stream
-    or connects an EventPipeline with a Serializer and lets them produce
-    the character stream. Alternatives to CachingStreamPipeline are:
-    <stream-pipeline class="org.apache.cocoon.components.pipeline.NonCachingStreamPipeline"/>
-  -->
-  <stream-pipeline class="org.apache.cocoon.components.pipeline.CachingStreamPipeline" logger="core.stream-pipeline" pool-grow="4" pool-max="32" pool-min="8"/>
-
-  <!-- Event Pipeline:
-    Connects the generator and the various transformers and produces a
-    character stream. Alternatives to CachingEventPipeline are:
-    <event-pipeline class="org.apache.cocoon.components.pipeline.NonCachingEventPipeline"/>
-    <event-pipeline class="org.apache.cocoon.components.profiler.ProfilingCachingEventPipeline"/>
-    <event-pipeline class="org.apache.cocoon.components.profiler.ProfilingNonCachingEventPipeline"/>
-  -->
-  <event-pipeline class="org.apache.cocoon.components.pipeline.CachingEventPipeline" logger="core.event-pipeline" pool-grow="4" pool-max="32" pool-min="8"/>
 
   <!-- Compiling xml to byte streams.
     The xml-serializer "compiles" xml sax events into a byte stream
@@ -370,18 +402,19 @@
     may have to change the other one as well, as they might have
     a dependency.
   -->
-  <xml-serializer class="org.apache.cocoon.components.sax.XMLByteStreamCompiler" logger="core.xml-serializer"/>
+  <xml-serializer class="org.apache.cocoon.components.sax.XMLByteStreamCompiler" logger="core.xml-serializer" pool-grow="4" pool-max="32" pool-min="8"/>
 
-  <xml-deserializer class="org.apache.cocoon.components.sax.XMLByteStreamInterpreter" logger="core.xml-deserializer"/>
+  <xml-deserializer class="org.apache.cocoon.components.sax.XMLByteStreamInterpreter" logger="core.xml-deserializer" pool-grow="4" pool-max="32" pool-min="8"/>
 
-  <!-- SAXConnector:
-    Connects the various pipeline components.
-    LoggingSAXConnector logs SAX events between pipeline components
-    into cocoon's log file.
-    ProfilingSAXConnector gathers timing information.
-    Uncomment one of the following lines for using the SAXConnector.
-  <sax-connector class="org.apache.cocoon.components.saxconnector.LoggingSAXConnector"/>
-  <sax-connector class="org.apache.cocoon.components.profiler.ProfilingSAXConnector"/>
+  <!-- Profiler:
+    The profiler facilitates the gathering of statistics about timings of
+    different steps of pipelines. Profiler consists of several components:
+     profiling pipeline and profiler generator
+    which are used to generate the profile report. You need to enable all of
+    these components to use profiler.
+
+    Uncomment the following line to use profiler.
+  <profiler/>
   -->
 
   <!-- Resource Monitor:
@@ -393,31 +426,6 @@
 
 <!-- ======================== The sitemap  ============================== -->
 
-  <!--
-    Compiled sitemap engine. This is the original engine, that is now replaced
-    by the interpreted engine (see above).
-
-    If you want to use this engine, uncomment this element and comment the
-    defaut one below.
-
-    Reloading of the sitemap:
-    The check-reload attribute determines if the sitemap is reloaded on change.
-    Set to "no", the sitemap is generated once at startup.
-    Set to "yes", the sitemap is regenerated if it changes.
-
-    The reload-method specifies the method for the regeneration:
-    asynchron: WARNING: this reload method is broken and won't be fixed.
-               Synchron is now made default and preferred reload method.
-    synchron: If the sitemap changes, the sitemap is regenerated at the
-              next request. When the regeneration is finished, the request
-              (and all subsequent ones) is served with the new sitemap.
-
-    For development environment, set the check-reload to yes.
-    For production environment, it is advisable to set the check-reload to no.
-
-  <sitemap check-reload="yes" class="org.apache.cocoon.sitemap.SitemapManager" file="sitemap.xmap" logger="sitemap" reload-method="synchron"/>
-  -->
-  
   <!--
     New implementation of the sitemap. It is interpreted, so load times are super-fast,
     and request processing is slightly faster than with the compiled engine thanks to
@@ -431,15 +439,30 @@
     For development environment, set the check-reload to yes.
     For production environment, it is advisable to set the check-reload to no.
   -->
-  <sitemap file="sitemap.xmap" check-reload="yes" logger="sitemap"/>
+  <sitemap check-reload="yes" config="resource://org/apache/cocoon/components/treeprocessor/treeprocessor-builtins.xml" file="context://sitemap.xmap" logger="sitemap"/>
+
+
+
+  <!-- Search:
+    These are the components that handle the search. 
+    
+    Cocoon indexer write into an index.
+    Cocoon searcher reads form an index, returning matched hits.
+    Cocoon crawler crawls all links starting from a given base URI.
+    Lucene xml indexer build a lucene document from XML content.
+   -->
+  <cocoon-indexer logger="core.search.indexer"/>
+  <cocoon-searcher logger="core.search.searcher"/>  
+  <cocoon-crawler logger="core.search.crawler"/>
+  <lucene-xml-indexer logger="core.search.lucene"/>
 
 
   <!-- Entity resolution catalogs: *********************************************
     catalog:
-    The default catalog is distributed at /resources/entities/catalog
+    The default catalog is distributed at /WEB-INF/entities/catalog
     This is the contextual pathname for Cocoon resources.
     You can override this path, if necessary, using the "catalog" parameter.
-   <parameter name="catalog" value="/resources/entities/catalog"/>
+   <parameter name="catalog" value="/WEB-INF/entities/catalog"/>
     However, it is probably desirable to leave this default catalog config
     and declare your own local catalogs, which are loaded in addition to
     the system catalog.
@@ -466,34 +489,50 @@
 
   ************************************************************************** -->
   <entity-resolver class="org.apache.cocoon.components.resolver.ResolverImpl" logger="core.resolver">
-   <parameter name="catalog" value="/resources/schema/catalog"/>
+   <parameter name="catalog" value="/WEB-INF/entities/catalog"/>
    <parameter name="verbosity" value="1"/>
   </entity-resolver>
 
-  <!-- Persistent store for the cache. Two store implementations to choose
-       from:
-         * FilesystemStore: Simple. Dependable. Thorougly tested.
-         * JispFilesystemStore: Scalable. New kid on the block. Not thorougly tested.
-       If you opt in to use JispFilesystemStore, comment out FilesystemStore
-       entry.
 
-       JispFilesystemStore configuration parameters
-       (in addition to common parameters):
-         datafile: name of the store file to use.
-         indexfile: name of the index file to use.
-         order: FIXME: put description here.
+   <!-- =============== Sitemap In/Out/Database Modules ==================== -->
+   
+   <input-modules logger="core.modules.input">
+	  <component-instance class="org.apache.cocoon.components.modules.input.RequestParameterModule" name="request"/>
+	  <component-instance class="org.apache.cocoon.components.modules.input.RequestAttributeModule" name="attribute"/>
+	  <component-instance class="org.apache.cocoon.components.modules.input.RequestURIModule" name="URI"/>
+	  <component-instance class="org.apache.cocoon.components.modules.input.HeaderAttributeModule" name="header"/>
+	  <component-instance class="org.apache.cocoon.components.modules.input.SessionAttributeModule" name="session"/>
+	  <component-instance class="org.apache.cocoon.components.modules.input.StringConstantModule" name="constant"/>
+	  <component-instance class="org.apache.cocoon.components.modules.input.RandomNumberModule" name="random"/>
+      <component-instance class="org.apache.cocoon.components.modules.input.CollectionMetaModule" name="collection"/>
+      <component-instance class="org.apache.cocoon.components.modules.input.DigestMetaModule" name="digest"/>
+      <component-instance class="org.apache.cocoon.components.modules.input.DateInputModule" name="date"/>
+      <component-instance class="org.apache.cocoon.components.modules.input.NullInputModule" name="nullinput"/>
+      <component-instance class="org.apache.cocoon.components.modules.input.DefaultsMetaModule" name="defaults">
+		 <input-module name="request"/>
+		 <values>
+			<skin>defaultSkin</skin>
+			<base-url>http://localhost:8080/cocoon</base-url>
+		 </values>
+	  </component-instance>
+   </input-modules>
 
-  <cache-persistent class="org.apache.cocoon.components.store.JispFilesystemStore"
-                    logger="core.store.persistent">
-    <parameter name="use-cache-directory" value="true"/>
-    <parameter name="datafile" value="cocoon-cache.dat"/>
-    <parameter name="indexfile" value="cocoon-cache.idx"/>
-    <parameter name="order" value="1701"/>
-  </cache-persistent>
-  -->
+   <output-modules logger="core.modules.output">
+      <component-instance class="org.apache.cocoon.components.modules.output.RequestAttributeOutputModule" name="attribute"/>
+      <component-instance class="org.apache.cocoon.components.modules.output.SessionAttributeOutputModule" name="session"/>
+   </output-modules>
+
+   <autoincrement-modules logger="core.modules.auto">
+      <component-instance class="org.apache.cocoon.components.modules.database.HsqlIdentityAutoIncrementModule" name="auto"/>
+<!--
+      Choose the one suitable for your DBMS. You *can* have more than
+      one at a time, but they need to have different names. You then
+      need to specify explicitly, which one to use in your descriptor
+      file.
+
+      <component-instance name="auto" class="org.apache.cocoon.components.modules.database.ManualAutoIncrementModule"/>
+      <component-instance name="auto" class="org.apache.cocoon.components.modules.database.IfxSerialAutoIncrementModule"/>
+      <component-instance name="auto" class="org.apache.cocoon.components.modules.database.MysqlAutoIncrementModule"/>
+-->
+   </autoincrement-modules>
 </cocoon>
-
-
-
-
-
