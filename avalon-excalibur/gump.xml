@@ -533,7 +533,7 @@
         <package>org.apache.excalibur.fortress</package>
         <package>org.apache.excalibur.mpool</package>
 
-        <ant basedir="fortress">
+        <ant basedir="fortress" target="jar" >
             <depend property="logkit.jar" project="jakarta-avalon-logkit" runtime="true"/>
             <property name="version" value="@@DATE@@"/>
             <property name="junit.failonerror" value="true"/>
