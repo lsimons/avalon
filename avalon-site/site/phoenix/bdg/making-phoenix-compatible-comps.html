@@ -1,0 +1,522 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!--*** This is a generated file.  Do not edit.  ***-->
+<link rel="stylesheet" href="../skin/tigris.css" type="text/css">
+<link rel="stylesheet" href="../skin/mysite.css" type="text/css">
+<link rel="stylesheet" href="../skin/site.css" type="text/css">
+<link media="print" rel="stylesheet" href="../skin/print.css" type="text/css">
+<title>Guide - Making components that are Phoenix compatible</title>
+</head>
+<body bgcolor="white" class="composite">
+<!--================= start Banner ==================-->
+<div id="banner">
+<table width="100%" cellpadding="8" cellspacing="0" summary="banner" border="0">
+<tbody>
+<tr>
+<!--================= start Group Logo ==================-->
+<td align="left">
+<div class="groupLogo">
+<a href="http://avalon.apache.org/"><img border="0" class="logoImage" alt="Apache Avalon-Phoenix" src="../images/apache-avalon-logo.png"></a>
+</div>
+</td>
+<!--================= end Group Logo ==================-->
+<!--================= start Project Logo ==================--><td align="right">
+<div class="projectLogo">
+<a href="http://apachecon.com/2003/US/index.html"><img border="0" class="logoImage" alt="Visit ApacheCon 2003!" src="http://www.apache.org/~ceki/ac2003/ac2003-150.gif"></a>
+</div>
+</td>
+<!--================= end Project Logo ==================-->
+</tr>
+</tbody>
+</table>
+</div>
+<!--================= end Banner ==================-->
+<!--================= start Main ==================-->
+<table width="100%" cellpadding="0" cellspacing="0" border="0" summary="nav" id="breadcrumbs">
+<tbody>
+<!--================= start Status ==================-->
+<tr class="status">
+<td>
+<!--================= start BreadCrumb ==================--><a href="http://www.apache.org/">Apache Main</a> | <a href="http://avalon.apache.org/">Avalon Main</a> | <a href="../">Up</a>
+<!--================= end BreadCrumb ==================--></td><td id="tabs">
+<!--================= start Tabs ==================-->
+<div class="tab">
+<span class="unselectedTab"><a href="http://www.apache.org/">Apache</a></span> | <span class="unselectedTab"><a href="http://avalon.apache.org/">Avalon</a></span> | <span class="unselectedTab"><a href="http://avalon.apache.org/product/framework/">Framework</a></span> | <span class="unselectedTab"><a href="http://avalon.apache.org/product/containers/">Containers</a></span> | <span class="unselectedTab"><a href="http://avalon.apache.org/product/components/">Components</a></span>
+</div>
+<!--================= end Tabs ==================-->
+</td>
+</tr>
+</tbody>
+</table>
+<!--================= end Status ==================-->
+<table id="main" width="100%" cellpadding="8" cellspacing="0" summary="" border="0">
+<tbody>
+<tr valign="top">
+<!--================= start Menu ==================-->
+<td id="leftcol">
+<div id="navcolumn">
+<div class="menuBar">
+<div class="menu">
+<span class="menuLabel">Essentials</span>
+
+<div class="menuItem">
+<a href="../index.html">Overview</a>
+</div>
+
+<div class="menuItem">
+<a href="../features.html">Features</a>
+</div>
+
+<div class="menuItem">
+<a href="../getting-started.html">Getting started</a>
+</div>
+
+<div class="menuItem">
+<a href="http://avalon.apache.org/bindownload.cgi">Download</a>
+</div>
+
+<div class="menuItem">
+<a href="../install.html">Install</a>
+</div>
+
+</div>
+<div class="menu">
+<span class="menuLabel">Guide</span>
+
+<div class="menuItem">
+<a href="../guide-architecture.html">Architectural Overview</a>
+</div>
+
+<div class="menuItem">
+<a href="../guide-roles.html">Development Roles</a>
+</div>
+
+<div class="menuItem">
+<a href="../guide-administrator.html">for Administrators</a>
+</div>
+
+<div class="menuItem">
+<a href="../guide-deployers.html">for Deployers</a>
+</div>
+
+<div class="menuItem">
+<a href="../assemblers/index.html">for Assemblers</a>
+</div>
+
+<div class="menuItem">
+<a href="../bdg/index.html">for Block Developers</a>
+</div>
+
+<div class="menuItem">
+<a href="../mx/index.html">Management Guide</a>
+</div>
+
+<div class="menuItem">
+<a href="../guide-example-configuration.html">Example configuration</a>
+</div>
+
+<div class="menuItem">
+<a href="../guide-punit.html">PUnit unit testing</a>
+</div>
+
+</div>
+<div class="menu">
+<span class="menuLabel">Reference</span>
+
+<div class="menuItem">
+<a href="../api/index.html">API Docs</a>
+</div>
+
+<div class="menuItem">
+<a href="../assemblers/config-xml-specification.html">config.xml Specification</a>
+</div>
+
+<div class="menuItem">
+<a href="../assemblers/assembly-xml-specification.html">assembly.xml Specification</a>
+</div>
+
+<div class="menuItem">
+<a href="../assemblers/environment-xml-specification.html">environment.xml Specification</a>
+</div>
+
+<div class="menuItem">
+<a href="../bdg/blockinfo-specification.html">BlockInfo Specification</a>
+</div>
+
+</div>
+<div class="menu">
+<span class="menuLabel">For Developers</span>
+
+<div class="menuItem">
+<a href="../changes.html">Changes</a>
+</div>
+
+<div class="menuItem">
+<a href="http://avalon.apache.org/code-standards.html">Coding standards</a>
+</div>
+
+<div class="menuItem">
+<a href="../for-developers-project-structure.html">Project Structure</a>
+</div>
+
+<div class="menuItem">
+<a href="http://jakarta.apache.org/site/cvsindex.html">CVS Repositories</a>
+</div>
+
+<div class="menuItem">
+<a href="http://jakarta.apache.org/site/mail.html">Mailing Lists</a>
+</div>
+
+<div class="menuItem">
+<a href="http://nagoya.apache.org/bugzilla/buglist.cgi?bug_status=UNCONFIRMED&bug_status=NEW&bug_status=ASSIGNED&bug_status=REOPENED&bug_status=RESOLVED&product=Avalon&component=Phoenix">TODO</a>
+</div>
+
+<div class="menuItem">
+<a href="http://jira.werken.com/secure/BrowseProject.jspa?id=10081">Issue Tracker (Bug and Enhancement List)</a>
+</div>
+
+<div class="menuItem">
+<a href="../for-developers-alternate-kernel.html">Alternate Kernels</a>
+</div>
+
+</div>
+</div>
+</div>
+</td>
+<!--================= end Menu ==================-->
+<!--================= start Content ==================--><td>
+<div id="bodycol">
+<div class="app">
+<div align="center">
+<h1>Guide - Making components that are Phoenix compatible</h1>
+</div>
+<div class="h3">
+  
+  
+    
+<div class="h3">
+<h3>Introduction</h3>
+</div>
+      
+<p>
+      Quite often reusable components are made elsewhere.  Apache has a number
+      of places where this activity is going on.  While we get it right most of
+      the time, some components developed elsewhere are harder to use in Phoenix.
+      </p>
+    
+    
+<div class="h3">
+<h3>Things to remember</h3>
+</div>
+      
+<p>
+        There are a number of common sense things to remember when making or
+        adapting a Java component to be reusable in Phoenix as block.
+      </p>
+      
+<div class="h4">
+<h4>Beanification</h4>
+</div>
+        
+<p>
+          
+</p>
+<ul>
+            
+<li>Have a public empty constructor for your main class</li>
+            
+<li>Have setters for its configuration.</li>
+            
+<li>Do not assume that the File is where dependancies are - people may reuse this in jars, applets etc.</li>
+            
+<li>Divorce your main method (if appl) from your main class - Phoenix does not call main methods.</li>
+            
+<li>Consider that the setup and initialization of the bean does not happen in the
+                constructor - as a convenience to the user, have an initialize() method</li>
+            
+<li>If the comp has start/stop functinality consider having start() and stop() methods.</li>
+            
+<li>Try to avoid Singleton concepts.  There could be multiple blocks in one sar using differnt (by design) instances of your bean</li>
+          
+</ul>
+<p>
+        
+</p>
+      
+      
+<div class="h4">
+<h4>Inversion of Control Pattern</h4>
+</div>
+         
+<p>The IoC pattern is described <a href="http://avalon.apache.org/framework/inversion-of-control.html">
+         here</a>.  This means for Phoenix avoiding static concepts including loggers.</p>
+      
+      
+<div class="h4">
+<h4>Separation of interface and implementation</h4>
+</div>
+        
+<p>
+         The separation of interface/implementation pattern is described <a href="http://avalon.apache.org/framework/separation-of-interface-and-implementation.html">here</a>.
+         For Phoenix this means we can (if done completely) mount the implementation jar in place where hosted client components (beans, servlets etc) can use the API, but not see the implementation.  We can also reimplement or wrap
+         bits of the implementation.  For example we could write a pluggable implementation that could, for a certain API
+         journal some methods, but still delegate to the real implementation.  Which pluggable implementation is used by Phoenix when it
+         boots is determined in assembly.xml of course.
+        </p>
+      
+      
+<div class="h4">
+<h4>Opening up the API</h4>
+</div>
+        
+<p>
+         Given that you have divided into interface and implementation, there are probably plenty of methods you
+         can put method in the interface you never though might be used.  For example if you are making JDBC
+         compliant relational database, and it is a bean, you could easily think that the only use would be
+         clients via JDBC over sockets.  Well, given that Phoenix can now mount the RDBMS block, it might want
+         to be reused by other blocks that other people have developed inside the the same SAR file.  In that case
+         have beanlike methods of ...
+        </p>
+<ol>
+          
+<li>Database createDatabase(String name)</li>
+          
+<li>Database cloneDatabase(String name)</li>
+        
+</ol>
+<p>
+        .. might be useful.  Just because you can only see a ServerSocket interface does not mean that others do.
+        </p>
+      
+    
+    
+<div class="h3">
+<h3>Example compatible component</h3>
+</div>
+    
+<p>
+      Below are an interface and implementation that are suitably separated, are beanlike and is in accordance
+      with the IoC pattern...</p>
+
+<pre class="code">
+package examplecomp;
+public interface WebServer {
+    void mountWar(String contextName, URL pathToWar);
+    void unMountWar(String contextName);
+}
+
+package examplecomp.server;
+public class MyWebServer implements WebServer {
+
+    public MyWebServer() {
+        // whatever.
+    }
+    public void setPort(int port) {
+        // this is one configuration item.
+    }
+    public void initialize() {
+        // whatever.
+    }
+    public void start() {
+        // whatever.
+    }
+    public void stop() {
+        // whatever.
+    }
+    public void mountWar(String contextName, URL pathToWar) {
+        // whatever.
+    }
+    public void unMountWar(String contextName) {
+        // whatever.
+    }
+}
+</pre>
+      
+<p>For standalone mode, it might be launched like so:</p>
+
+<pre class="code">
+package examplecomp.main;
+public class WebServerMain {
+    public static void main(String[] args) throws Exception {
+        MyWebServer ws = new WebServer();
+        ws.setPort(Integer.parseInt(args[0]));
+        ws.initialize();
+        ws.start();
+        ws.mountWar(args[1], new File(args[2]).toURL());
+    }
+}
+</pre>
+      
+<p>When we are trying to run this in phoenix we might have this wrapper:</p>
+
+<pre class="code">
+package examplecomp.block;
+public class WebServerBlock
+    extends AbstractLoggable
+    implements WebServer, Startable, Configurable, Initializable {
+
+    private int mPort;
+    private WebServer mWebServer;
+
+    public WebServerBlock() {
+        mWebServer = new MyWebServer();
+    }
+
+    public void configure(final Configuration configuration)
+        throws ConfigurationException {
+        mPort = configuration.getChild("port").getValueAsInteger( 9001 );
+    }
+
+    public void initialize() throws Exception {
+        mWebServer.setPort(mPort);
+        mWebServer.initialize();
+    }
+
+    public final void start() throws Exception {
+        mWebServer.start();
+    }
+
+    public void stop() throws Exception {
+    mWebServer.stop();
+    }
+
+    public void mountWar(String contextName, String pathToWar) {
+        mWebServer.mountWar(contextName, pathToWar);
+    }
+
+    public void unMountWar(String contextName) {
+        mWebServer.unMountWar(contextName);
+    }
+}
+</pre>
+      
+<p>This basically shows the implementation wrapped and taking its configuration from the config.xml
+      that phoenix prefers from configuration.  If the developer wanted they could ignore
+      that place of configuration and use their own config files.  If the WebServer block were
+      being reused by another Phoenix block (say an EJB server), it might be like so:</p>
+
+<pre class="code">
+package somebeanserver;
+public class EJBBlock
+    extends AbstractLoggable
+    implements Composable {
+
+    private WebServer mWebServer;
+
+    public void compose(final ComponentManager compMgr)
+        throws ComponentException {
+        mWebServer = compMgr.lookup("WebServer");
+    }
+
+    public void mountEar(String contextName, String pathToEar) {
+        String[] warContextNames = getWarContexts(pathToEar);
+        URL[] wars = getWarFiles(pathToEar);
+        for (int i = 0; i &lt; wars.length; i++) {
+            mWebServer.mountWar(warContextNames[i], wars[i]);
+        }
+    }
+
+    public void unMountEar(String contextName) {
+        // whatever
+    }
+}
+</pre>
+    
+    
+<div class="h3">
+<h3>Misconceptions</h3>
+</div>
+      
+<p>
+        The following are worth stating:
+        </p>
+<ul>
+          
+<li>You do not have to implement any Avalon interfaces to be reusable (wrap strategy) inside Avalon.</li>
+          
+<li>Being Phoenix compatible is just as useful for whole servers as it is for small components.</li>
+          
+<li>Being Phoenix compatible can be for tools that are intended for client-side as well as server use.</li>
+        
+</ul>
+<p>
+      
+</p>
+    
+     
+<div class="h3">
+<h3>Guide Contents</h3>
+</div>
+       
+<ol>
+        
+<li>
+<a href="what-is-a-block.html">What is a block?</a>
+</li>
+        
+<li>
+<a href="what-is-a-block-listener.html">What is a block listener?</a>
+</li>
+        
+<li>
+<a href="what-is-an-application-listener.html">What is an application listener?</a>
+</li>
+        
+<li>
+<a href="creating-a-block.html">How do I create a block?</a>
+</li>
+        
+<li>How do I make my components phoenix-compatible?</li>
+        
+<li>
+<a href="blockinfo-specification.html">BlockInfo specification</a>
+</li>
+       
+</ol>
+      
+  
+
+<div id="authors" align="right">by&nbsp;Paul Hammant</div>
+</div>
+</div>
+</div>
+</td>
+<!--================= end Content ==================-->
+</tr>
+</tbody>
+</table>
+<!--================= end Main ==================-->
+<!--================= start Footer ==================-->
+<div id="footer">
+<table summary="footer" cellspacing="0" cellpadding="4" width="100%" border="0">
+<tbody>
+<tr>
+<!--================= start Copyright ==================-->
+<td colspan="2">
+<div align="center">
+<div class="copyright">
+              Copyright &copy; 2002-2003&nbsp;The Apache Software Foundation.. All rights reserved.
+            </div>
+</div>
+</td>
+<!--================= end Copyright ==================-->
+</tr>
+<tr>
+<td align="left">
+<!--================= start Host ==================-->
+<!--================= end Host ==================--></td><td align="right">
+<!--================= start Credits ==================-->
+<div align="right">
+<div class="credit"></div>
+</div>
+<!--================= end Credits ==================-->
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!--================= end Footer ==================-->
+</body>
+</html>
