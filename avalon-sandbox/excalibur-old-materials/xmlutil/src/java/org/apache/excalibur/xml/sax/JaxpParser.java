@@ -8,10 +8,13 @@
 package org.apache.excalibur.xml.sax;
 
 import java.io.IOException;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParserFactory;
 import org.apache.avalon.excalibur.pool.Poolable;
-import org.apache.avalon.excalibur.xml.EntityResolver;
+import org.apache.excalibur.xml.EntityResolver;
 import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.parameters.ParameterException;
@@ -20,6 +23,7 @@ import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
+import org.w3c.dom.Document;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.InputSource;
@@ -64,12 +68,13 @@ import org.xml.sax.ext.LexicalHandler;
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
  * @author <a href="mailto:sylvain@apache.org">Sylvain Wallez</a>
- * @version CVS $Revision: 1.6 $ $Date: 2003/01/14 08:52:48 $
+ * @version CVS $Revision: 1.7 $ $Date: 2003/01/14 09:23:12 $
  * @avalon.component
  */
 public final class JaxpParser
     extends AbstractLogEnabled
-    implements Parser, Poolable, Component, Parameterizable, Serviceable, ErrorHandler
+    implements Parser, org.apache.excalibur.xml.dom.Parser, 
+                Poolable, Component, Parameterizable, Serviceable, ErrorHandler
 {
     /** the SAX Parser factory */
     private SAXParserFactory m_factory;
@@ -92,6 +97,13 @@ public final class JaxpParser
 
     /** do we stop on recoverable errors ? */
     private boolean m_stopOnRecoverableError;
+
+    /** the Document Builder factory */
+    private DocumentBuilderFactory m_docFactory;
+
+    /** The DOM builder. It is created lazily by {@link #setupDocumentBuilder()}
+     and cleared if a parsing error occurs. */
+    private DocumentBuilder m_docBuilder;
 
     /**
      * Get the Entity Resolver from the component m_manager
@@ -143,6 +155,28 @@ public final class JaxpParser
         m_factory.setNamespaceAware( true );
         m_factory.setValidating( validate );
 
+        // Get the DocumentFactory
+        final String documentBuilderFactoryName = params.getParameter( "document-builder-factory",
+                                                                       "javax.xml.parsers.DocumentBuilderFactory" );
+        if( "javax.xml.parsers.DocumentBuilderFactory".equals( documentBuilderFactoryName ) )
+        {
+            m_docFactory = DocumentBuilderFactory.newInstance();
+        }
+        else
+        {
+            try
+            {
+                final Class factoryClass = loadClass( documentBuilderFactoryName );
+                m_docFactory = (DocumentBuilderFactory)factoryClass.newInstance();
+            }
+            catch( Exception e )
+            {
+                throw new ParameterException( "Cannot load DocumentBuilderFactory class " + documentBuilderFactoryName, e );
+            }
+        }
+        m_docFactory.setNamespaceAware( true );
+        m_docFactory.setValidating( validate );
+
         if( getLogger().isDebugEnabled() )
         {
             getLogger().debug( "JaxpParser: validating: " + validate +
@@ -150,7 +184,8 @@ public final class JaxpParser
                                ", reuse parser: " + m_reuseParsers +
                                ", stop on warning: " + m_stopOnWarning +
                                ", stop on recoverable-error: " + m_stopOnRecoverableError +
-                               ", saxParserFactory: " + saxParserFactoryName );
+                               ", saxParserFactory: " + saxParserFactoryName +
+                               ", documentBuilderFactory: " + documentBuilderFactoryName );
         }
     }
 
@@ -271,6 +306,64 @@ public final class JaxpParser
                 }
             }
         }
+    }
+
+    /**
+     * Parses a new Document object from the given InputSource.
+     */
+    public Document parseDocument( final InputSource input )
+        throws SAXException, IOException
+    {
+        setupDocumentBuilder();
+
+        // Ensure we will use a fresh new parser at next parse in case of failure
+        DocumentBuilder tmpBuilder = m_docBuilder;
+        m_docBuilder = null;
+
+        if( null != m_resolver )
+        {
+            tmpBuilder.setEntityResolver( m_resolver );
+        }
+
+        Document result = tmpBuilder.parse( input );
+
+        // Here, parsing was successful : restore builder
+        if( m_reuseParsers )
+        {
+            m_docBuilder = tmpBuilder;
+        }
+
+        return result;
+    }
+
+    /**
+     * Creates a new {@link DocumentBuilder} if needed.
+     */
+    private void setupDocumentBuilder()
+        throws SAXException
+    {
+        if( null == m_docBuilder )
+        {
+            try
+            {
+                m_docBuilder = m_docFactory.newDocumentBuilder();
+            }
+            catch( final ParserConfigurationException pce )
+            {
+                final String message = "Could not create DocumentBuilder";
+                throw new SAXException( message, pce );
+            }
+        }
+    }
+
+    /**
+     * Return a new {@link Document}.
+     */
+    public Document createDocument()
+        throws SAXException
+    {
+        setupDocumentBuilder();
+        return m_docBuilder.newDocument();
     }
 
     /**
