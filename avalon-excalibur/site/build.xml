@@ -111,7 +111,7 @@
     <mkdir dir="${build.docs}/apps"/>  
     <mkdir dir="${build.dir}/work"/>
 
-    <ant antfile="${basedir}/../cocoonbuild.xml"/>
+    <ant antfile="${basedir}/../forrestbuild.xml"/>
 
     <replace dir="${build.docs}" token="http://a/" value="">
       <include name="**/*.html"/>
