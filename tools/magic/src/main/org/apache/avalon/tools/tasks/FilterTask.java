@@ -17,12 +17,20 @@
 
 package org.apache.avalon.tools.tasks;
 
+import java.io.File;
+
 import org.apache.avalon.tools.model.Definition;
 import org.apache.avalon.tools.model.Policy;
 import org.apache.avalon.tools.model.Resource;
 import org.apache.avalon.tools.model.ResourceRef;
+import org.apache.avalon.tools.model.MagicPath;
+
+import org.apache.tools.ant.Project;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.taskdefs.Filter;
+import org.apache.tools.ant.types.Path;
+
+
 
 /**
  * Build a set of projects taking into account dependencies within the 
@@ -36,6 +44,9 @@ public class FilterTask extends SystemTask
     private String m_key;
     private String m_feature;
     private String m_token;
+    private String m_prefix;
+    private boolean m_windows = true;
+    private boolean m_flag = false;  // os not set
 
     public void init()
     {
@@ -58,6 +69,24 @@ public class FilterTask extends SystemTask
     public void setToken( final String token )
     {
         m_token = token;
+    }
+
+    public void setPrefix( final String prefix )
+    {
+        m_prefix = prefix;
+    }
+
+    public void setPlatform( final String os )
+    {
+        m_flag = true;
+        if( "windows".equalsIgnoreCase( os ) )
+        {
+            m_windows = true;
+        }
+        else if( "unix".equalsIgnoreCase( os ) )
+        {
+            m_windows = false;
+        }
     }
 
     public void execute() throws BuildException 
@@ -114,76 +143,94 @@ public class FilterTask extends SystemTask
         {
             return resource.getInfo().getURI();
         }
+        else if( m_feature.equals( "path" ) )
+        {
+            return convertString( resource.getInfo().getPath() );
+        }
         else if( resource instanceof Definition )
         {
             final Definition def = (Definition) resource;
-            if( m_feature.equals( "system-classpath-for-windows" ) )
+            if( m_feature.equals( "classpath" ) )
             {
-                return getPath( def, true );
-            }
-            else if( m_feature.equals( "system-classpath-for-unix" ) )
-            {
-                return getPath( def, false );
+                return getPath( def );
             }
         }
         return null;
     }
 
-    private String getPath( final Definition def, final boolean windows )
+    private String getPath( final Definition def )
     {
-        final StringBuffer buffer = new StringBuffer();
-        final ResourceRef[] refs =
-          def.getResourceRefs( Policy.RUNTIME, ResourceRef.ANY, true );
-        for( int i=0; i<refs.length; i++ )
+        if( null == m_prefix )
         {
+            final String error = 
+              "Filter attribute 'prefix' is not declared.";
+            throw new BuildException( error );
+        }
+        if( !m_flag )
+        {
+            final String error = 
+              "Filter attribute 'platform' is not declared.";
+            throw new BuildException( error );
+        }
+
+        File cache = getHome().getRepository().getCacheDirectory();
+        String root = cache.toString();
+        MagicPath path = new MagicPath( getProject() );
+        path.setMode( "RUNTIME" );
+        String sequence = path.toString();
+        String[] translation = Path.translatePath( getProject(), sequence );
+
+        //
+        // substitute the cache directory with the prefix symbol
+        //
+
+        for( int i=0; i<translation.length; i++ )
+        {
+            String trans = translation[i];
+            if( trans.startsWith( root ) )
+            {
+                String relativeFilename = trans.substring( root.length() );
+                log( relativeFilename, Project.MSG_VERBOSE );
+                translation[i] = m_prefix + relativeFilename;
+            }
+        }
+        
+        //
+        // do platform convertion
+        //
+
+        StringBuffer buffer = new StringBuffer();
+        for( int i=0; i<translation.length; i++ )
+        {
+            String trans = convertString( translation[i] );
             if( i>0 )
             {
-                buffer.append( ";" );
+                if( m_windows )
+                {
+                    buffer.append( ";" );
+                }
+                else
+                {
+                    buffer.append( ":" );
+                }
             }
-
-            final ResourceRef ref = refs[i];
-            final Resource resource = getHome().getResource( ref );
-            final String path = getNativePath( windows, resource );
-            buffer.append( path );
+            buffer.append( trans );
         }
 
-        if( refs.length > 0 )
-        {
-            buffer.append( ";" );
-        }
-
-        buffer.append( getNativePath( windows, def ) ); 
         return buffer.toString();
     }
 
-    private String getNativePath( final boolean windows, final Resource resource )
+    private String convertString( String value )
     {
-        final String symbol = getPlatformCacheSymbol( windows );
-        final StringBuffer buffer = new StringBuffer( symbol );
-        final String path = resource.getInfo().getPath();
-        if( windows )
+        if( !m_flag ) return value;
+        if( m_windows )
         {
-            buffer.append( "\\" );
-            buffer.append( path.replace( '/', '\\' ) );
+            return value.replace( '/', '\\' );
         }
         else
         {
-            buffer.append( "/" );
-            buffer.append( path );
+            return value.replace( '\\', '/' );
         }
-        return buffer.toString();
-    }
-
-    private String getPlatformCacheSymbol( final boolean windows )
-    {
-        if( windows )
-        {
-            return "%MAGIC_SCD%";
-        }
-        else
-        {
-            return "$MAGIC_SCD";
-        } 
     }
     
     public static class Attribute
