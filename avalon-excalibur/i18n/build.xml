@@ -13,10 +13,6 @@
     <property file="../.ant.properties"/>
     <property file="${user.home}/.ant.properties"/>
     
-    <!-- External references. Can be overridden in properties files above -->
-    <property name="framework.dir" value="${basedir}/../../jakarta-avalon"/>
-    <property name="junit.jar" value="${framework.dir}/tools/lib/junit-3.7.jar"/>
-
     <!-- Settings used to configure compile environment -->
     <property name="build.debug" value="on"/>
     <property name="build.optimize" value="off"/>
@@ -52,13 +48,6 @@
         <pathelement location="${junit.jar}"/>
     </path>
         
-    <path id="test.class.path">
-        <path refid="project.class.path"/>
-        <fileset dir="${framework.dir}/tools/lib">
-            <include name="*.jar" />
-        </fileset>
-    </path>
-
     <target name="main" depends="dist" description="Build the project"/>
     <target name="rebuild" depends="clean,main" description="Rebuild the project"/>
 
@@ -124,7 +113,7 @@
         <mkdir dir="${build.tests}"/>
         
         <junit fork="true" printsummary="yes" dir="${build.tests}">
-            <classpath refid="test.class.path"/>
+            <classpath refid="project.class.path"/>
 
             <formatter type="xml"/>    <!-- xml reports for junitreport -->
             <formatter type="plain"/>  <!-- text reports for humans     -->
