@@ -14,6 +14,8 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.XMLReaderFactory;
+//import javax.xml.parsers.SAXParser;
+//import javax.xml.parsers.SAXParserFactory;
 
 /**
  * A SAXConfigurationBuilder builds configurations via SAX2 compliant parser.
@@ -42,6 +44,10 @@ public class DefaultConfigurationBuilder
         m_handler = getHandler();
         try
         {
+            //final SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
+            //final SAXParser saxParser = saxParserFactory.newSAXParser();
+            //m_parser = saxParser.getXMLReader();
+
             m_parser = XMLReaderFactory.createXMLReader( parserClass );
             //m_parser.setFeature("http://xml.org/sax/features/namespace-prefixes", true);
             m_parser.setContentHandler( m_handler );
@@ -72,9 +78,9 @@ public class DefaultConfigurationBuilder
     {
         synchronized(this)
         {
-	        m_handler.clear();
-	        m_parser.parse( file.toURL().toString() );
-	        return m_handler.getConfiguration();
+            m_handler.clear();
+            m_parser.parse( file.toURL().toString() );
+            return m_handler.getConfiguration();
         }
     }
 
@@ -83,8 +89,8 @@ public class DefaultConfigurationBuilder
     {
         synchronized(this)
         {
-	        final InputSource inputSource = new InputSource( inputStream );
-	        return build( inputSource );
+            final InputSource inputSource = new InputSource( inputStream );
+            return build( inputSource );
         }
     }
 
@@ -93,9 +99,9 @@ public class DefaultConfigurationBuilder
     {
         synchronized(this)
         {
-	        m_handler.clear();
-	        m_parser.parse( input );
-	        return m_handler.getConfiguration();
+            m_handler.clear();
+            m_parser.parse( input );
+            return m_handler.getConfiguration();
         }
     }
 }
