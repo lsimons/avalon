@@ -46,17 +46,6 @@ case "`uname`" in
 CYGWIN*) cygwin=true;;
 esac
 
-
-# Checking for JAVA_HOME is required on *nix due
-# to some distributions stupidly including kaffe in /usr/bin
-if [ "$JAVA_HOME" = "" ] ; then
-  echo "ERROR: JAVA_HOME not found in your environment."
-  echo
-  echo "Please, set the JAVA_HOME variable in your environment to match the"
-  echo "location of the Java Virtual Machine you want to use."
-  exit 1
-fi
-
 # resolve links - $0 may be a softlink
 THIS_PROG="$0"
 
@@ -75,6 +64,20 @@ PRGDIR=`dirname "$THIS_PROG"`
 PHOENIX_HOME=`cd "$PRGDIR/.." ; pwd`
 
 unset THIS_PROG
+
+if [ -r "$PHOENIX_HOME"/bin/setenv.sh ]; then
+  . "$PHOENIX_HOME"/bin/setenv.sh
+fi
+
+# Checking for JAVA_HOME is required on *nix due
+# to some distributions stupidly including kaffe in /usr/bin
+if [ "$JAVA_HOME" = "" ] ; then
+  echo "ERROR: JAVA_HOME not found in your environment."
+  echo
+  echo "Please, set the JAVA_HOME variable in your environment to match the"
+  echo "location of the Java Virtual Machine you want to use."
+  exit 1
+fi
 
 # For Cygwin, ensure paths are in UNIX format before anything is touched
 if $cygwin; then
