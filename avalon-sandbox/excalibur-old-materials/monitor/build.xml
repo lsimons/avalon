@@ -61,7 +61,6 @@
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkJUnit"/>
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkCommonsCollections"/>
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkI18N"/>
-        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkTestcase"/>
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkComponent"/>
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkCompatibility"/>
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkInstrument"/>
