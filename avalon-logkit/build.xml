@@ -141,17 +141,46 @@ Legal:
     <property name="src.dist.lib" value="${src.dist.dir}/lib"/>
     <property name="src.dist.tools" value="${src.dist.dir}/tools"/>
   </target>
+  
+  <target name="import-servlet-jar" description="Imports the servlet API if required">
+ 
+    <mkdir dir="tmp-imports"/>
+  
+    <property name="jar-version" value="3.2.3"/>
+    
+    <get src="http://jakarta.apache.org/builds/jakarta-tomcat/release/v${jar-version}/bin/jakarta-servletapi-${jar-version}.zip" 
+        dest="tmp-imports/jakarta-servletapi-${jar-version}.zip" 
+        verbose="true"
+        usetimestamp="true"/>
 
+    <unzip src="tmp-imports/jakarta-servletapi-${jar-version}.zip" dest="tmp-imports" />
+
+    <copy file="tmp-imports/jakarta-servletapi-${jar-version}/lib/servlet.jar" todir="${lib.dir}"/>
+    
+    <delete dir="tmp-imports" />
+
+  </target>    
+  
+  <target name="import-framework-jar" if="avalon-framework-jar.relatively-present" depends="optional-tests" description="Imports the Avalon Framework jar if required">
+
+    <copy file="../jakarta-avalon/dist/avalon-framework-4.0.jar" todir="${lib.dir}"/>
+    
+  </target>
+  
+  
   <target name="optional-tests" description="Tests for classes missing to the environment">
   
     <available property="servlet.present"
                classname="javax.servlet.ServletContext"
                classpathref="project.class.path" />
 
+    <available property="avalon-framework-jar.relatively-present"
+               file="../jakarta-avalon/dist/avalon-framework-4.0.jar"/>
+
     <available property="avalon-framework.present"
                classname="org.apache.avalon.framework.CascadingThrowable"
-               classpathref="project.class.path" />
-
+               classpathref="project.class.path" />               
+               
     <available property="javax.sql.present"
                classname="javax.sql.DataSource"
                classpathref="project.class.path" />
@@ -167,7 +196,10 @@ Legal:
     <echo>*</echo>
     <echo>*  Classes needed for output via ${thing} are not </echo>
     <echo>*  available.  Logkit should build without them</echo>
-    <echo>*</echo>        
+    <echo>*</echo>
+    <echo>*  Recovery:</echo>
+    <echo>*  ${recovery}</echo>
+    <echo>*</echo>    
     <echo>***********************************************</echo>
     <echo/>
   </target>
@@ -176,6 +208,8 @@ Legal:
       description="Outputs a warning if javax.servlet.* classes are missing during compilation">
     <antcall target="op-warning">
       <param name="thing" value="Servlet"/>
+      <param name="recovery" 
+        value="Run the build target import-servlet-jar and it will download the servlet api jar - you should be online for that."/>
     </antcall>
   </target>    
   
@@ -183,13 +217,17 @@ Legal:
       description="Outputs a warning if javax.jms.* classes are missing during compilation">
     <antcall target="op-warning">
       <param name="thing" value="JMS"/>
+      <param name="recovery" 
+        value="Get jms.jar from inside jms-1_0_2b.zip from http://java.sun.com/products/jms/docs.html and place it in the lib dir"/>
     </antcall>
   </target>  
   
-  <target name="sql-warn" unless="javax.SQL.present" 
+  <target name="sql-warn" unless="javax.sql.present" 
       description="Outputs a warning if javax.sql.* classes are missing during compilation">
     <antcall target="op-warning">
       <param name="thing" value="SQL databases"/>
+      <param name="recovery" 
+        value="Get jdbc2_0-stdext.jar (listed as 'JDBC 2.0 Optional Package Binary') from http://java.sun.com/products/jdbc/download.html and place it in the lib dir"/>      
     </antcall>
   </target>  
   
@@ -199,6 +237,9 @@ Legal:
     <echo>*</echo>
     <echo>*  Optional classes from Avalon's framework subproject</echo> 
     <echo>*  are missing.  Logkit should build without them.</echo>
+    <echo>*</echo>
+    <echo>*  Run the build target import-framework-jar and it will</echo> 
+    <echo>*  get the framework jar from a relative directory if there.</echo>
     <echo>*</echo>        
     <echo>***********************************************</echo>
     <echo/>
