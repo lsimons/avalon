@@ -140,7 +140,11 @@
         -->
         <component
             class="org.apache.avalon.phoenix.components.monitor.DefaultDeploymentMonitor"
-            logger="monitor"/>
+            logger="monitor">
+            <!-- the amount of time in milliseconds between checks
+                 of deployment dir -->
+            <monitor-frequency>1000</monitor-frequency>
+        </component>
 
         <component role="org.apache.excalibur.instrument.InstrumentManager"
             class="org.apache.excalibur.instrument.manager.NoopInstrumentManager"
