@@ -53,12 +53,15 @@ Legal:
   <property name="build.src" value="${build.dir}/src"/>
   <property name="build.classes" value="${build.dir}/classes"/>
   <property name="build.javadocs" value="${build.dir}/javadocs"/>
+  <property name="build.testdocs" value="${build.docs}/test"/>
+  <property name="build.reports" value="${build.dir}/reports"/>
   <property name="build.docs" value="${build.dir}/docs"/>
   <property name="build.context" value="${build.dir}/documentation"/>
 
   <!-- Set the properties for source directories -->
   <property name="src.dir" value="src"/>
   <property name="java.dir" value="${src.dir}/java"/>
+  <property name="test.dir" value="${src.dir}/test"/>
   <property name="lib.dir" value="lib"/>
   <property name="tools.dir" value="tools"/>
   <property name="docs.dir" value="docs"/>
@@ -78,6 +81,7 @@ Legal:
   <property name="xalan.jar" value="${tools.dir}/lib/xalan-2.1.0.jar"/>
   <property name="bsf.jar" value="${tools.dir}/lib/bsf.jar"/>
   <property name="testlet.jar" value="${tools.dir}/lib/testlet.jar"/>
+  <property name="junit.jar" value="${tools.dir}/lib/junit-3.7.jar"/>
 
   <property name="announce2txt" value="${tools.dir}/announcement2txt.xsl"/>
   <property name="announce2header" value="${tools.dir}/announcement2header.xsl"/>
@@ -90,6 +94,7 @@ Legal:
     <pathelement location="${bsf.jar}"/>
     <pathelement location="${xerces.jar}"/>
     <pathelement location="${testlet.jar}"/>
+    <pathelement location="${junit.jar}"/>
     <pathelement path="${java.class.path}" />
     <fileset dir="${lib.dir}">
       <include name="*.jar" />
@@ -102,6 +107,7 @@ Legal:
   <path id="tools.class.path">
     <pathelement location="${xerces.jar}"/>
     <pathelement location="${testlet.jar}"/>
+    <pathelement location="${junit.jar}"/>
     <pathelement location="${tools.jar}"/>
     <fileset dir="${tools.dir}/lib">
       <include name="*.jar" />
@@ -176,6 +182,7 @@ Legal:
            optimize="${optimize}"
            deprecation="${deprecation}">
       <classpath refid="project.class.path" />
+      <src path="${test.dir}"/>
     </javac>
   </target>
 
@@ -202,9 +209,56 @@ Legal:
     </jar>
   </target>
 
-  <target name="check">
+  <target name="test" depends="check"/>
+
+  <target name="check" depends="compile">
     <echo message="Avalon Framework is mostly interfaces."/>
-    <echo message="There are no tests to be performed at this time."/>
+    <echo message="But some tests to be performed at this time."/>
+
+    <mkdir dir="${build.reports}"/>
+
+    <echo message="Performing Unit Tests" />
+    <junit fork="false" printsummary="withOutAndErr">
+      <formatter type="plain"/>
+      <classpath>
+        <path refid="test.class.path"/>
+        <pathelement location="${build.classes}"/>
+      </classpath>
+      <batchtest todir="${build.reports}">
+        <fileset dir="${build.classes}">
+          <include name="**/test/*TestCase.class"/>
+        </fileset>
+      </batchtest>
+    </junit>
+
+  </target>
+
+  <target name="test-report" depends="compile" >
+    <mkdir dir="${build.testdocs}"/>
+    <mkdir dir="${build.reports}"/>
+
+    <echo message="Performing Unit Tests" />
+    <junit fork="true" printsummary="yes" dir="${build.reports}">
+      <formatter type="xml"/>
+      <classpath>
+        <path refid="test.class.path"/>
+        <pathelement location="${build.classes}"/>
+      </classpath>
+      <batchtest todir="${build.reports}">
+        <fileset dir="${build.classes}">
+          <exclude name="**/test/Abstract*TestCase.class"/>
+          <include name="**/test/*Profile.class" if="test.profile"/>
+          <include name="**/test/*TestCase.class"/>
+        </fileset>
+      </batchtest>
+    </junit>
+
+    <junitreport todir="${build.reports}">
+      <fileset dir="${build.reports}">
+        <include name="TEST-*.xml"/>
+      </fileset>
+      <report format="frames" todir="${build.testdocs}"/>
+    </junitreport>
   </target>
 
   <target name="printerdocs" depends="javadocs">
