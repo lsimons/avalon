@@ -86,5 +86,5 @@ public interface Cache
     /**
      * Clear cache.
      */
-    //void clear();
+    void clear();
 }
