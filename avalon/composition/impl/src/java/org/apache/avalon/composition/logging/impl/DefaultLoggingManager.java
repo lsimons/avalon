@@ -62,7 +62,6 @@ import org.apache.avalon.composition.logging.TargetProvider;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.framework.activity.Initializable;
-import org.apache.avalon.framework.logger.AvalonFormatter;
 import org.apache.avalon.framework.logger.LogKitLogger;
 import org.apache.avalon.framework.logger.ConsoleLogger;
 import org.apache.avalon.composition.data.CategoryDirective;
@@ -90,7 +89,7 @@ public class DefaultLoggingManager implements LoggingManager
             ResourceManager.getPackageResources( DefaultLoggingManager.class );
 
     private static final StreamTarget DEFAULT_STREAM =
-            new StreamTarget( System.out, new AvalonFormatter( DEFAULT_FORMAT ) );
+            new StreamTarget( System.out, new StandardFormatter( DEFAULT_FORMAT ) );
 
     //---------------------------------------------------------------
     // state
@@ -396,11 +395,12 @@ public class DefaultLoggingManager implements LoggingManager
         {
             FileTargetProvider fileProvider = (FileTargetProvider) provider;
             String filename = fileProvider.getLocation();
-            final AvalonFormatter formatter = new AvalonFormatter( DEFAULT_FORMAT );
+            final StandardFormatter formatter = new StandardFormatter( DEFAULT_FORMAT );
             File file = new File( m_baseDirectory, filename );
             try
             {
-                FileTarget logTarget = new FileTarget( file.getAbsoluteFile(), false, formatter );
+                FileTarget logTarget = 
+                  new FileTarget( file.getAbsoluteFile(), false, formatter );
                 m_targets.put( name, logTarget );
             } catch( final IOException ioe )
             {
