@@ -215,6 +215,7 @@
         <sourcepath path="${basedir}/../extension/src/java"/>
         <sourcepath path="${basedir}/../composition-spi/src/java"/>
         <sourcepath path="${basedir}/../composition/src/java"/>
+        <sourcepath path="${basedir}/../activation-api/src/java"/>
         <sourcepath path="${basedir}/../activation-spi/src/java"/>
         <sourcepath path="${basedir}/../activation/src/java"/>
         <sourcepath path="${basedir}/../kernel/spi/src/java"/>
