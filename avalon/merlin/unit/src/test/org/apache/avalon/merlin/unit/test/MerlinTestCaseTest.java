@@ -45,9 +45,8 @@ import org.apache.avalon.merlin.unit.AbstractMerlinTestCase;
  * Test case that usages the repository builder to deploy the 
  * Merlin default application factory.
  * 
- * @author <a href="mailto:aok123@bellsouth.net">Alex Karasulu</a>
- * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.3 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version $Revision: 1.4 $
  */
 public class MerlinTestCaseTest extends AbstractMerlinTestCase
 {

@@ -36,8 +36,8 @@ import org.apache.avalon.merlin.cli.Main;
 /**
  * Test case for the Merlin CLI handler.
  * 
- * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.3 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version $Revision: 1.4 $
  */
 public class MerlinCLITestCase extends TestCase
 {

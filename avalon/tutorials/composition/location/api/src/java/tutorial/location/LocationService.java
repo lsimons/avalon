@@ -20,7 +20,7 @@ package tutorial.location;
 /**
  * LocationService from Merlin's Composition Tutorial
  *
- * @author Stephen McConnell
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
 public interface LocationService
 {

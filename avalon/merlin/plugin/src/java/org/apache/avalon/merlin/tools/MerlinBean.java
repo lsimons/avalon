@@ -45,8 +45,8 @@ import org.apache.avalon.util.exception.ExceptionHelper;
  * Test case that usages the repository builder to deploy the 
  * Merlin default application factory.
  * 
- * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.15 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version $Revision: 1.16 $
  */
 public class MerlinBean
 {

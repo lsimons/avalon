@@ -24,9 +24,8 @@ import junit.framework.TestCase;
 /**
  * Create of a new Artifact test case.
  *
- * @author <a href="mailto:aok123@bellsouth.net">Alex Karasulu</a>
- * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.2 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version $Revision: 1.3 $
  */
 public class ArtifactTest extends TestCase
 {

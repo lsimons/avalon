@@ -29,8 +29,8 @@ import org.apache.avalon.logging.data.CategoryDirective;
  * seperated by "/" charaters qualifying the component that the target
  * configuration is to be applied to.</p>
  *
- * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.3 $ $Date: 2004/02/21 13:27:03 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version $Revision: 1.4 $ $Date: 2004/02/24 22:18:21 $
  */
 public class TargetDirective implements Serializable
 {

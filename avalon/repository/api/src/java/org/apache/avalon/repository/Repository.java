@@ -22,8 +22,8 @@ import javax.naming.directory.Attributes ;
 
 /**
  * A service that provides access to versioned resources.
- * @author <a href="mailto:mcconnell@osm.net">Stephen McConnell</a>
- * @version $Revision: 1.2 $ $Date: 2004/01/24 23:20:04 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version $Revision: 1.3 $ $Date: 2004/02/24 22:18:23 $
  */
 public interface Repository
 {

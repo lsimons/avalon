@@ -23,8 +23,8 @@ import java.io.Serializable;
  * depedency should be resolved relative to a set of supplied
  * features and qualified values.  
  *
- * @author <a href="mailto:mcconnell@osm.net">Stephen McConnell</a>
- * @version CVS $Revision: 1.3 $ $Date: 2004/02/14 21:33:56 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version CVS $Revision: 1.4 $ $Date: 2004/02/24 22:18:21 $
  */
 public final class SelectionDirective implements Serializable
 {

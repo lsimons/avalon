@@ -22,7 +22,7 @@ import java.net.URL;
 
 /**
  * General utilities supporting the packaging of string containing file references.
- * @author <a href="mailto:mcconnell@osm.net">Stephen McConnell</a>
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
 public class StringHelper
 {

@@ -20,8 +20,8 @@ package org.apache.avalon.util.exception;
 /**
  * Error containing a causal exception.
  *
- * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version CVS $Revision: 1.2 $ $Date: 2004/02/21 13:27:05 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version CVS $Revision: 1.3 $ $Date: 2004/02/24 22:18:24 $
  */
 public class StandardError
     extends Error

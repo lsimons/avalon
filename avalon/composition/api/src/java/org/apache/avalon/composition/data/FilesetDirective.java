@@ -33,8 +33,8 @@ import java.io.Serializable;
  * </pre>
  *
  * @see IncludeDirective
- * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.2 $ $Date: 2004/01/24 23:25:24 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version $Revision: 1.3 $ $Date: 2004/02/24 22:18:21 $
  */
 public class FilesetDirective implements Serializable
 {

@@ -29,8 +29,8 @@ import org.apache.avalon.repository.RepositoryException;
 /**
  * The initial context established by an initial repository factory.
  *
- * @author <a href="mailto:mcconnell@osm.net">Stephen McConnell</a>
- * @version $Revision: 1.11 $ $Date: 2004/02/23 01:29:05 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version $Revision: 1.12 $ $Date: 2004/02/24 22:18:23 $
  */
 public interface InitialContext 
 {        

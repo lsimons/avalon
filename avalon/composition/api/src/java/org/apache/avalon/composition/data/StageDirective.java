@@ -23,8 +23,8 @@ import java.io.Serializable;
  * A StageDirective contains information describing how a 
  * stage dependency should be resolved.  
  *
- * @author <a href="mailto:mcconnell@osm.net">Stephen McConnell</a>
- * @version CVS $Revision: 1.2 $ $Date: 2004/01/24 23:25:24 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version CVS $Revision: 1.3 $ $Date: 2004/02/24 22:18:21 $
  */
 public final class StageDirective implements Serializable
 {

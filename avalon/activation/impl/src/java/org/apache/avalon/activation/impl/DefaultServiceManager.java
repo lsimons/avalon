@@ -39,7 +39,7 @@ import org.apache.avalon.framework.service.ServiceManager;
 
 /**
  * Default implementation of the framework {@link ServiceManager} interface.
- * @author Stephen McConnell <mcconnell@osm.net>
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
 class DefaultServiceManager implements ServiceManager
 {

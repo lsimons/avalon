@@ -37,8 +37,8 @@ import org.apache.avalon.util.env.EnvAccessException;
  * A utility class that provides support for the establishment
  * of a set of installation properties.
  *
- * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.3 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version $Revision: 1.4 $
  */
 public class DefaultsBuilder
 {

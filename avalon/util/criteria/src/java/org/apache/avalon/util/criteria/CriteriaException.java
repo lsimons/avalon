@@ -20,8 +20,8 @@ package org.apache.avalon.util.criteria;
 /**
  * Exception to indicate that there was a criteria related error.
  *
- * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.2 $ $Date: 2004/01/24 23:18:55 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version $Revision: 1.3 $ $Date: 2004/02/24 22:18:24 $
  */
 public class CriteriaException extends Exception
 {

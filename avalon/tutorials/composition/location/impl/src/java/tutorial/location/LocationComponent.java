@@ -30,7 +30,7 @@ import org.apache.avalon.framework.activity.Disposable;
  *
  * @avalon.component version="1.0" name="location-provider"
  * @avalon.service type="tutorial.location.LocationService"
- * @author Stephen McConnell
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
 public class LocationComponent extends AbstractLogEnabled implements
 Configurable, Disposable, LocationService

@@ -15,8 +15,8 @@ import org.apache.avalon.util.env.Env;
 /**
  * DefaultsBuilderTestCase
  * 
- * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.2 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version $Revision: 1.3 $
  */
 public class DefaultInitialContextFactoryTestCase extends TestCase
 {

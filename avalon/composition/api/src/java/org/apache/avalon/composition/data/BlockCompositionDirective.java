@@ -22,8 +22,8 @@ package org.apache.avalon.composition.data;
  * a local resource to be included by reference into 
  * a container.
  *
- * @author <a href="mailto:mcconnell@avalon.apache.org">Stephen McConnell</a>
- * @version $Revision: 1.3 $ $Date: 2004/01/24 23:25:23 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version $Revision: 1.4 $ $Date: 2004/02/24 22:18:21 $
  */
 public class BlockCompositionDirective extends DeploymentProfile
 {

@@ -26,8 +26,8 @@ import org.apache.avalon.meta.info.StageDescriptor;
  * clients may resolve new or existing model instances relative to
  * a stage or service dependency.
  *
- * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.4 $ $Date: 2004/02/21 23:54:42 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version $Revision: 1.5 $ $Date: 2004/02/24 22:18:21 $
  */
 public interface ModelRepository
 {

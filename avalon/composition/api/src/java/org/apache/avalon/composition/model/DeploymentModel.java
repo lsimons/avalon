@@ -33,8 +33,8 @@ import org.apache.avalon.framework.logger.Logger;
 /**
  * Model desribing a deployment scenario.
  *
- * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.15 $ $Date: 2004/02/21 23:54:42 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version $Revision: 1.16 $ $Date: 2004/02/24 22:18:21 $
  */
 public interface DeploymentModel extends Commissionable, Resolver
 {

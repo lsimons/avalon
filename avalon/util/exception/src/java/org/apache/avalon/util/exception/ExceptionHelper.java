@@ -24,7 +24,7 @@ import java.util.StringTokenizer;
 
 /**
  * General utilities supporting the packaging of exception messages.
- * @author <a href="mailto:mcconnell@osm.net">Stephen McConnell</a>
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
 public class ExceptionHelper
 {
