@@ -1,5 +1,5 @@
 APACHE AVALON PROJECT STATUS:                          -*-indented-text-*-
-Last modified at [$Date: 2003/01/20 08:25:43 $]
+Last modified at [$Date: 2003/01/20 08:27:09 $]
 
 Background:
 
@@ -81,7 +81,7 @@ Pending issues:
       Proposals should be entered as such, votes should have listed all 
       current votes and the vote start date, and when the issue item is 
       completed, the names of the voters are removed and it's resolved, 
-      positive or negative. Releases too should be 
+      positive or negative. Releases too should be listed.
       Votes and all action items that are placed in the STATUS file
       are valid if done by their rules. In other words, the STATUS file 
       does not validate them in any way, it's just a community synch tool.
