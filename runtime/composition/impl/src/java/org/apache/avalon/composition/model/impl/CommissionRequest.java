@@ -122,7 +122,10 @@ class CommissionRequest
     {
         if( timeout > 0 )
         {
-            wait( timeout );
+            if( !m_completed ) 
+            {
+                wait( timeout );
+            }
         }
         else
         {
