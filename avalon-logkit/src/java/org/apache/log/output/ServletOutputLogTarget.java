@@ -99,12 +99,29 @@ public class ServletOutputLogTarget
      */
     protected void write( final String message )
     {
+        final int len = message.length();
+        final char last = len > 0 ? message.charAt( len - 1 ) : 0;
+        final char prev = len > 1 ? message.charAt( len - 2 ) : 0;
+        final String trimmedMessage;
+        if( prev == '\r' && last == '\n' )
+        {
+            trimmedMessage = message.substring( 0, len - 2 );
+        }
+        else if( last == '\n' )
+        {
+            trimmedMessage = message.substring( 0, len - 1 );
+        }
+        else
+        {
+            trimmedMessage = message;
+        }
+
         final ServletContext context = m_context;
         if( null != context )
         {
             synchronized( context )
             {
-                context.log( message );
+                context.log( trimmedMessage );
             }
         }
     }
