@@ -134,7 +134,7 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "ServiceExceptionTestCase.cs"
+                    RelPath = "LookupExceptionTestCase.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
