@@ -24,7 +24,7 @@
     </j:if>
   </goal>
 
-  <goal name="merlin:simulate" prereqs="java:compile"
+  <goal name="merlin:simulate" prereqs="java:compile,java:jar-resources"
       description="Simulated deployment from ${maven.build.dir}/classes">
     <j:set var="merlin.deployment" value="${maven.build.dir}/classes"/>
     <util:file var="target" name="${merlin.deployment}"/>
