@@ -82,6 +82,7 @@
     <menu name="Related Projects">
       <item name="Merlin" href="http://avalon.apache.org/merlin"/>
       <item name="Utilities" href="http://avalon.apache.org/util"/>
+      <item name="Logging" href="http://avalon.apache.org/logging"/>
     </menu>
 
  </body>
