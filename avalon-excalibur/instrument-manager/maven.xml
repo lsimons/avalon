@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+
+<project default="java:jar" xmlns:j="jelly:core" xmlns:ant="jelly:ant">
+    <!-- include the excalibur-wide custom project properties -->
+    <property file="${basedir}/project.properties"/>
+
+    <!-- copy additional resources -->
+    <preGoal name="jar:jar">
+        <copy todir="${maven.build.dir}/classes">
+            <fileset dir="${maven.src.dir}/java">
+                <include name="**/*.jpg"/>
+            </fileset>
+        </copy>
+    </preGoal>
+</project>
+
