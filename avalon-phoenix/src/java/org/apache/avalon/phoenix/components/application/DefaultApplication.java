@@ -47,7 +47,7 @@ public final class DefaultApplication
     private boolean m_running = false;
 
     private ApplicationContext m_context;
-    private LifecycleHelper m_lifecycle;
+    private AppLifecycleHelper m_lifecycle;
     private HashMap m_entrys = new HashMap();
     private SarMetaData m_sarMetaData;
 
@@ -175,7 +175,7 @@ public final class DefaultApplication
     public void setApplicationContext( final ApplicationContext context )
     {
         m_context = context;
-        m_lifecycle = new LifecycleHelper( this, m_context );
+        m_lifecycle = new AppLifecycleHelper( this, m_context );
         setupLogger( m_lifecycle, "lifecycle" );
     }
 
