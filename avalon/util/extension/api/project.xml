@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project>
+  <extend>${basedir}/../../project.xml</extend>
+  <groupId>avalon-util</groupId>
+  <id>avalon-util-extension-api</id>
+  <name>Avalon Extension API</name>
+  <currentVersion>1.1</currentVersion>
+  <inceptionYear>2002</inceptionYear>
+  <shortDescription>Avalon Extension Management API</shortDescription>
+  <package>org.apache.avalon.extension</package>
+  <description>
+An API supporting the management of jar file extension loading.
+  </description>
+  
+</project>
