@@ -20,7 +20,7 @@ public interface Source {
     /**
      * Enqueues the given element onto the queue.
      *
-     * @param element  The <code>QueueElementIF</code> to enqueue
+     * @param element  The <code>QueueElement</code> to enqueue
      * @exception SourceFullException Indicates that the sink is temporarily full.
      * @exception SourceClosedException Indicates that the sink is
      *   no longer being serviced.
