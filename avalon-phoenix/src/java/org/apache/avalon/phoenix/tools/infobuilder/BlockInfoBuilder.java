@@ -56,6 +56,16 @@ public final class BlockInfoBuilder
         final ServiceDescriptor[] services = buildServices( configuration );
 
         configuration = info.getChild( "management" );
+        if( 0 != configuration.getChildren().length )
+        {
+            final String message = REZ.getString( "deprecated-management-declaration", classname );
+            System.err.println( message );
+            getLogger().warn( message ); 
+        }
+        else
+        {
+            configuration = info.getChild( "management-access-points" );
+        }
         final ServiceDescriptor[] management = buildServices( configuration );
 
         configuration = info.getChild( "dependencies" );
