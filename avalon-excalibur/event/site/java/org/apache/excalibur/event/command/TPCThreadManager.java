@@ -15,7 +15,12 @@ import org.apache.avalon.excalibur.thread.ThreadControl;
 import org.apache.avalon.excalibur.thread.ThreadPool;
 import org.apache.avalon.excalibur.thread.impl.ResourceLimitingThreadPool;
 import org.apache.avalon.framework.activity.Disposable;
+import org.apache.avalon.framework.activity.Initializable;
+import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.logger.NullLogger;
+import org.apache.avalon.framework.parameters.ParameterException;
+import org.apache.avalon.framework.parameters.Parameterizable;
+import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.excalibur.event.EventHandler;
 import org.apache.excalibur.event.Source;
 import org.apache.excalibur.util.SystemUtil;
@@ -23,63 +28,93 @@ import org.apache.excalibur.util.SystemUtil;
 /**
  * This is a ThreadManager that uses a certain number of threads per processor.
  * The number of threads in the pool is a direct proportion to the number of
- * processors.
+ * processors. The size of the thread pool is (processors * threads-per-processor) + 1
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
+ * @author <a href="mailto:proyal@apache.org">Peter Royal</a>
  */
-public final class TPCThreadManager
-  implements Runnable, ThreadManager, Disposable
+public final class TPCThreadManager extends AbstractLogEnabled
+  implements Runnable, ThreadManager, Parameterizable, Initializable, Disposable
 {
-    private final ThreadPool m_threadPool;
     private final Mutex m_mutex = new Mutex();
     private final HashMap m_pipelines = new HashMap();
+
+    private ThreadPool m_threadPool;
     private ThreadControl m_threadControl;
     private boolean m_done = false;
-    private final long m_sleepTime;
+
+    //Set reasonable defaults in case parameterize() is never called.
+    private long m_sleepTime = 1000L;
+    private long m_blockTimeout = 1000L;
+    private int m_processors = 1;
+    private int m_threadsPerProcessor = 1;
+
+    private boolean m_initialized = false;
 
     /**
-     * The default constructor assumes there is a system property named "os.arch.cpus"
-     * that has a default for the number of CPUs on a system.  Otherwise, the value
-     * is 1.
+     * The following parameters can be set for this class:
+     *
+     * <table>
+     *   <tr>
+     *     <th>Name</th> <th>Description</td> <th>Default Value</th>
+     *   </tr>
+     *   <tr>
+     *     <td>processors</td>
+     *     <td>Number of processors (Rewritten to 1 if less than one)</td>
+     *     <td>System property named "os.arch.cpus", otherwise 1</td>
+     *   </tr>
+     *   <tr>
+     *     <td>threads-per-processor</td>
+     *     <td>Threads per processor to use (Rewritten to 1 if less than one)</td>
+     *     <td>1</td>
+     *   </tr>
+     *   <tr>
+     *     <td>sleep-time</td>
+     *     <td>Time (in milliseconds) to wait between queue pipeline processing runs</td>
+     *     <td>1000</td>
+     *   </tr>
+     *   <tr>
+     *     <td>block-timeout</td>
+     *     <td>Time (in milliseconds) to wait for a thread to process a pipeline</td>
+     *     <td>1000</td>
+     *   </tr>
+     * </table>
      */
-    public TPCThreadManager()
+    public void parameterize( Parameters parameters ) throws ParameterException
     {
-        this( SystemUtil.numProcessors() );
+        this.m_processors =
+          Math.max( parameters.getParameterAsInteger( "processors", SystemUtil.numProcessors() ), 1 );
+
+        this.m_threadsPerProcessor = Math.max( parameters.getParameterAsInteger( "threads-per-processor", 1 ), 1 );
+        this.m_sleepTime = parameters.getParameterAsLong( "sleep-time", 1000L );
+        this.m_blockTimeout = parameters.getParameterAsLong( "block-timeout", 1000L );
     }
 
-    /**
-     * Constructor provides one thread per number of processors.
-     */
-    public TPCThreadManager( int numProcessors )
+    public void initialize() throws Exception
     {
-        this( numProcessors, 1 );
-    }
+        if( this.m_initialized )
+        {
+            throw new IllegalStateException( "ThreadManager is already initailized" );
+        }
 
-    /**
-     * Constructor provides a specified number of threads per processor.  If
-     * either value is less then one, then the value is rewritten as one.
-     */
-    public TPCThreadManager( int numProcessors, int threadsPerProcessor )
-    {
-        this( numProcessors, threadsPerProcessor, 1000 );
-    }
+        final ResourceLimitingThreadPool tpool =
+          new ResourceLimitingThreadPool( "TPCThreadManager",
+                                          ( m_processors * m_threadsPerProcessor ) + 1,
+                                          true,
+                                          true,
+                                          this.m_blockTimeout,
+                                          10L * 1000L );
 
-    /**
-     * Constructor provides a specified number of threads per processor.  If
-     * either value is less then one, then the value is rewritten as one.
-     */
-    public TPCThreadManager( int numProcessors, int threadsPerProcessor, long sleepTime )
-    {
-        int processors = Math.max( numProcessors, 1 );
-        int threads = Math.max( threadsPerProcessor, 1 );
+        if( null == getLogger() )
+        {
+            this.enableLogging( new NullLogger() );
+        }
 
-        ResourceLimitingThreadPool tpool = new ResourceLimitingThreadPool( "TPCThreadManager",
-                                                                           ( processors * threads ) + 1, true, true, 1000L, 10L * 1000L );
-        tpool.enableLogging( new NullLogger() );
-        m_threadPool = tpool;
+        tpool.enableLogging( getLogger() );
 
-        m_sleepTime = sleepTime;
-        m_threadControl = m_threadPool.execute( this );
+        this.m_threadPool = tpool;
+        this.m_threadControl = this.m_threadPool.execute( this );
+        this.m_initialized = true;
     }
 
     /**
@@ -87,6 +122,11 @@ public final class TPCThreadManager
      */
     public void register( EventPipeline pipeline )
     {
+        if( !this.m_initialized )
+        {
+            throw new IllegalStateException( "ThreadManager must be initialized before registering a pipeline" );
+        }
+
         try
         {
             m_mutex.acquire();
@@ -116,6 +156,11 @@ public final class TPCThreadManager
      */
     public void deregister( EventPipeline pipeline )
     {
+        if( !this.m_initialized )
+        {
+            throw new IllegalStateException( "ThreadManager must be initialized before deregistering a pipeline" );
+        }
+
         try
         {
             m_mutex.acquire();
@@ -146,6 +191,11 @@ public final class TPCThreadManager
      */
     public void deregisterAll()
     {
+        if( !this.m_initialized )
+        {
+            throw new IllegalStateException( "ThreadManager must be initialized before deregistering pipelines" );
+        }
+
         try
         {
             m_mutex.acquire();
@@ -203,6 +253,23 @@ public final class TPCThreadManager
                             // that it has no threads available, will still try
                             // to go on, hopefully at one point there will be
                             // a thread to execute our runner
+
+                            if( getLogger().isWarnEnabled() )
+                            {
+                                getLogger().warn( "Unable to execute pipeline (If out of threads, "
+                                                  + "increase block-timeout or number of threads per processor", e );
+                            }
+                        }
+                        catch( RuntimeException e )
+                        {
+                            //We want to catch this, because if an unexpected runtime exception comes through a single
+                            //pipeline it can bring down the primary thread
+
+                            if( getLogger().isErrorEnabled() )
+                            {
+                                getLogger().error( "Exception processing EventPipeline [msg: " + e.getMessage() + "]",
+                                                   e );
+                            }
                         }
                     }
                 }
