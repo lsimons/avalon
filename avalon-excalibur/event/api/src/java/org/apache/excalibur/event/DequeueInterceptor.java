@@ -21,8 +21,8 @@ package org.apache.excalibur.event;
  * are executed before and after elements are pulled from a
  * queue.
  *
- * @version $Revision: 1.2 $
- * @author  <a href="mailto:schierma@users.sourceforge.net">schierma</a>
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version $Revision: 1.3 $
  */
 public interface DequeueInterceptor
 {

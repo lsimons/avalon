@@ -23,8 +23,8 @@ import org.apache.excalibur.instrument.AbstractLogEnabledInstrumentable;
 
 /**
  *
- * @author Leif Mortenson <leif@tanukisoftware.com>
- * @version $Revision: 1.2 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version $Revision: 1.3 $
  */
 abstract class AbstractLogEnabledInstrumentableStartable
     extends AbstractLogEnabledInstrumentable

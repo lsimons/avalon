@@ -43,7 +43,7 @@ import org.apache.log.output.net.SocketOutputTarget;
  * </p>
  *
  *
- * @author <a href="mailto:rghorpade@onebridge.de"> Rajendra Ghorpade </a>
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
 public class SocketTargetFactory
     extends AbstractTargetFactory

@@ -28,7 +28,8 @@ import org.apache.avalon.framework.configuration.DefaultConfiguration;
  * of the resolution is unsucessful, the request is applied against the parent
  * configuration.  As a parent may also be a CascadingConfiguration, the evaluation
  * will be applied until a value is resolved against a class parent Configuration.
- * @author Stephen McConnell <mcconnell@osm.net>
+ *
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
 public class CascadingConfiguration implements Configuration
 {

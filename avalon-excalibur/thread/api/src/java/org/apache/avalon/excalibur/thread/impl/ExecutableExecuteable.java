@@ -23,7 +23,6 @@ import org.apache.excalibur.thread.Executable;
  * an {@link Executable} object.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @author Peter Donald
  * @deprecated Only Used by deprecated code and will be removed in future
  */
 final class ExecutableExecuteable

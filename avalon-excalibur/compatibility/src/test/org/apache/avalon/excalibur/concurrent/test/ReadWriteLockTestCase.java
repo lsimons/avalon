@@ -23,7 +23,7 @@ import org.apache.avalon.excalibur.concurrent.ReadWriteLock;
 /**
  * Test harness for the ReadWriteLock.
  *
- * @author <a href="mailto:leo.sutic@inspireinfrastructure.com">Leo Sutic</a>
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
 public class ReadWriteLockTestCase
     extends TestCase

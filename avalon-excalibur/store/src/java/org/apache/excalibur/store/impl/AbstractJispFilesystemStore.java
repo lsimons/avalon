@@ -37,10 +37,8 @@ import org.apache.excalibur.store.Store;
  * (http://www.coyotegulch.com/jisp/index.html). This store uses B-Tree indexes
  * to access variable-length serialized data stored in files.
  *
- * @author <a href="mailto:g-froehlich@gmx.de">Gerhard Froehlich</a>
- * @author <a href="mailto:vgritsenko@apache.org">Vadim Gritsenko</a>
- * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Id: AbstractJispFilesystemStore.java,v 1.5 2004/02/19 08:31:24 cziegeler Exp $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version CVS $Id: AbstractJispFilesystemStore.java,v 1.6 2004/02/25 10:33:20 niclas Exp $
  */
 public abstract class AbstractJispFilesystemStore
     extends AbstractReadWriteStore

@@ -19,10 +19,10 @@ package org.apache.avalon.excalibur.thread.impl;
 import org.apache.avalon.excalibur.thread.ThreadControl;
 
 /**
- * @author bloritsch
- *
  * To change this generated comment go to 
  * Window>Preferences>Java>Code Generation>Code and Comments
+ *
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
 public class WrappedThreadControl implements ThreadControl
 {

@@ -18,9 +18,8 @@ package org.apache.avalon.excalibur.collections;
 
 /**
  * @deprecated use one of the Buffer implementations instead.
- *
- * @author  Federico Barbieri <fede@apache.org>
- * @version CVS $Revision: 1.2 $ $Date: 2004/02/24 09:06:43 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version CVS $Revision: 1.3 $ $Date: 2004/02/25 10:33:06 $
  * @since 4.0
  */
 public class CircularBuffer

@@ -26,8 +26,8 @@ import org.apache.log.Hierarchy;
  * that LogKitAdapter operates upon and it will substitute
  * the ErrorHandler for the Hierarchy at the enableLogging() call.
  *
- * @author <a href="http://cvs.apache.org/~atagunov">Anton Tagunov</a>
- * @version CVS $Revision: 1.2 $ $Date: 2004/02/19 09:12:05 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version CVS $Revision: 1.3 $ $Date: 2004/02/25 10:33:17 $
  * @since 4.0
  */
 public class LogKitLoggerHelper implements LogEnabled

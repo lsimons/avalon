@@ -32,6 +32,10 @@ import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 
+/**
+ *
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ */
 class InstrumentManagerTree
     extends JComponent
 {

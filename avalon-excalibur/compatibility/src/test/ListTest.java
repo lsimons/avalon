@@ -20,6 +20,9 @@ import java.util.LinkedList;
 import org.apache.avalon.excalibur.collections.FixedSizeBuffer;
 import org.apache.avalon.excalibur.collections.VariableSizeBuffer;
 
+/**
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ */
 public class ListTest
 {
     public static void main( String[] args )

@@ -22,8 +22,8 @@ import org.apache.avalon.framework.logger.Logger;
  * LoggerManager Interface.  This is the interface used to get instances of
  * a Logger for your system.
  *
- * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.2 $ $Date: 2004/02/19 09:12:08 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version CVS $Revision: 1.3 $ $Date: 2004/02/25 10:33:16 $
  */
 public interface LoggerManager
 {

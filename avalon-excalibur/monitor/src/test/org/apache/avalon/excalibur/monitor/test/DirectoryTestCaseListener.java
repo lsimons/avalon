@@ -24,6 +24,9 @@ import java.util.Set;
 import org.apache.avalon.excalibur.monitor.DirectoryResource;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 
+/**
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ */
 class DirectoryTestCaseListener
     extends AbstractLogEnabled
     implements PropertyChangeListener

@@ -78,8 +78,8 @@ import org.apache.avalon.framework.logger.Logger;
  * LoggerManagerTee might be used instead of this but maintaining
  * it as a separate class seemed cleaner.
  * 
- * @author <a href="http://cvs.apache.org/~atagunov">Anton Tagunov</a>
- * @version CVS $Revision: 1.2 $ $Date: 2004/02/19 09:12:04 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version CVS $Revision: 1.3 $ $Date: 2004/02/25 10:33:16 $
  * @since 4.0
  */
 public abstract class LoggerManagerDecorator implements

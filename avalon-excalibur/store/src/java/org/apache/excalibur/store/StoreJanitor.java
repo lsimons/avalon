@@ -23,8 +23,8 @@ import org.apache.avalon.framework.component.Component;
 /**
  * Interface for the StoreJanitors
  *
- * @author <a href="mailto:g-froehlich@gmx.de">Gerhard Froehlich</a>
- * @version CVS $Id: StoreJanitor.java,v 1.2 2004/02/19 08:31:25 cziegeler Exp $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version CVS $Id: StoreJanitor.java,v 1.3 2004/02/25 10:33:19 niclas Exp $
  */
 public interface StoreJanitor
     extends Component

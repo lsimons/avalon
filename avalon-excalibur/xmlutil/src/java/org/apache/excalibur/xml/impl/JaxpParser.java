@@ -83,11 +83,8 @@ import org.xml.sax.ext.LexicalHandler;
  * </li>
  * </ul>
  *
- * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @author <a href="mailto:sylvain@apache.org">Sylvain Wallez</a>
- * @author <a href="mailto:bruno@apache.org">Bruno Dumon</a>
- * @version CVS $Revision: 1.3 $ $Date: 2004/02/19 08:28:34 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version CVS $Revision: 1.4 $ $Date: 2004/02/25 10:33:20 $
  * @avalon.component
  */
 public final class JaxpParser

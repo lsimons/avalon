@@ -26,8 +26,8 @@ import javax.swing.JPanel;
  * This class defines the status bar at the bottom of the main frame.
  *  It is used to display information to the user.
  *
- * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.2 $ $Date: 2004/02/25 09:20:20 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version CVS $Revision: 1.3 $ $Date: 2004/02/25 10:33:14 $
  * @since 4.1
  */
 class StatusBar extends JPanel

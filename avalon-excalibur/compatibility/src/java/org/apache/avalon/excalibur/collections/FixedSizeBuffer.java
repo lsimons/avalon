@@ -20,9 +20,8 @@ package org.apache.avalon.excalibur.collections;
  * The FixedSizeBuffer is a <strong>very</strong> efficient implementation of
  * Buffer that does not alter the size of the buffer at runtime.
  *
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @deprecated use org.apache.commons.collections.BoundedFifoBuffer instead
- *
- * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  */
 public final class FixedSizeBuffer implements Buffer
 {

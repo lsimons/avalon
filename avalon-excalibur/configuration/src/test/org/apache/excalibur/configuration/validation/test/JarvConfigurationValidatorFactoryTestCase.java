@@ -27,7 +27,7 @@ import org.apache.excalibur.configuration.validation.ValidationResult;
 
 /**
  *
- * @author <a href="proyal@apache.org">peter royal</a>
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
 public class JarvConfigurationValidatorFactoryTestCase extends TestCase
 {

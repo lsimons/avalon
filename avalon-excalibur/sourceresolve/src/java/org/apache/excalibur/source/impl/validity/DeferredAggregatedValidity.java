@@ -29,8 +29,8 @@ import org.apache.excalibur.source.SourceValidity;
  * object, but the contained validity objects are only fetched when
  * required.
  *
- * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.2 $ $Date: 2004/02/19 08:36:16 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version CVS $Revision: 1.3 $ $Date: 2004/02/25 10:33:19 $
  */
 public final class DeferredAggregatedValidity
         extends AbstractAggregatedValidity

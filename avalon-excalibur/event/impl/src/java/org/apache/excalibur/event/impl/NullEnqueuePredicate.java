@@ -21,6 +21,8 @@ import org.apache.excalibur.event.Sink;
 
 /**
  * The NullEnqueuePredicate does nothing to limit a Queue's ability to enqueue.
+ *
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
 public final class NullEnqueuePredicate implements EnqueuePredicate
 {

@@ -20,7 +20,7 @@ package org.apache.excalibur.event.command;
  * A Signal is a specific type of QueueElement that denotes a Control code
  * for the Queue system.
  *
- * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
 public interface RepeatedCommand extends DelayedCommand
 {

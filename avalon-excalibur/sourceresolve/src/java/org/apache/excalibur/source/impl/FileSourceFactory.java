@@ -34,8 +34,8 @@ import org.apache.excalibur.source.SourceUtil;
  * @x-avalon.info name=file-source
  * @x-avalon.lifestyle type=singleton
  * 
- * @author <a href="mailto:sylvain@apache.org">Sylvain Wallez</a>
- * @version $Id: FileSourceFactory.java,v 1.2 2004/02/19 08:36:16 cziegeler Exp $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version $Id: FileSourceFactory.java,v 1.3 2004/02/25 10:33:19 niclas Exp $
  */
 public class FileSourceFactory implements SourceFactory, ThreadSafe, URIAbsolutizer
 {

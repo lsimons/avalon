@@ -31,7 +31,7 @@ import org.xml.sax.SAXParseException;
  * A validator that is capable of validating any schema supported by the JARV
  * engine. <a href="http://iso-relax.sourceforge.net/">http://iso-relax.sourceforge.net/</a>
  *
- * @author <a href="mailto:proyal@apache.org">Peter Royal</a>
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
 public class JarvConfigurationValidatorFactory
     extends AbstractLogEnabled

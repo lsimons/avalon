@@ -19,8 +19,8 @@ package org.apache.avalon.excalibur.pool;
 /**
  * This is the interface for Pools that are not a fixed size.
  *
- * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.2 $ $Date: 2004/02/21 15:38:46 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version CVS $Revision: 1.3 $ $Date: 2004/02/25 10:33:18 $
  * @since 4.0
  */
 public interface Resizable

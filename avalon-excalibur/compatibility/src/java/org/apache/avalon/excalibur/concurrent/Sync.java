@@ -21,8 +21,8 @@ package org.apache.avalon.excalibur.concurrent;
  *
  * @deprecated use EDU.oswego.cs.dl.util.concurrent.Sync instead
  *
- * @author Peter Donald
- * @version CVS $Revision: 1.3 $ $Date: 2004/02/24 09:06:45 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version CVS $Revision: 1.4 $ $Date: 2004/02/25 10:33:07 $
  * @since 4.0
  */
 public interface Sync

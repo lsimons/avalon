@@ -30,7 +30,7 @@ import org.xml.sax.SAXParseException;
 
 /**
  *
- * @author <a href="proyal@apache.org">peter royal</a>
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
 public class JarvConfigurationValidator implements ConfigurationValidator
 {

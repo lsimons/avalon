@@ -27,9 +27,8 @@ import org.apache.excalibur.event.impl.DefaultQueue;
 /**
  * Simple test to expose the thread queue bug
  *
- * @author <a href="mailto:proyal@managingpartners.com">Peter Royal</a>
- * @author <a href="mailto:leo.sutic@inspireinfrastructure.com">Leo Sutic</a>
- * @version VSS $Revision: 1.2 $ $Date: 2004/02/24 14:45:54 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version VSS $Revision: 1.3 $ $Date: 2004/02/25 10:33:13 $
  */
 public class ThreadedQueueTestCase
     extends TestCase

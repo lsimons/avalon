@@ -21,7 +21,7 @@ import java.util.List;
 
 /**
  *
- * @author <a href="proyal@apache.org">peter royal</a>
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
 public final class ValidationResult
 {

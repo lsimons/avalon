@@ -23,7 +23,7 @@ import org.apache.excalibur.util.SystemUtil;
 /**
  * This is used to test SystemUtil for correctness.
  *
- * @author Peter Donald
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
 public final class SystemUtilTestCase
     extends TestCase

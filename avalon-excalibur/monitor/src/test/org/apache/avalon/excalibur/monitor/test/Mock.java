@@ -19,6 +19,8 @@ package org.apache.avalon.excalibur.monitor.test;
 
 /**
  * Simple Mock object to test active notification.
+ *
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
 public class Mock
 {

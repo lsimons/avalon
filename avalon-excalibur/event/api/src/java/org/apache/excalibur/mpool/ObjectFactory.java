@@ -21,8 +21,8 @@ package org.apache.excalibur.mpool;
  * class is not strictly necessary, the implementation of the Pool can differ
  * object creation to and instance of this interface.
  *
- * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.2 $ $Date: 2004/02/24 14:45:56 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version CVS $Revision: 1.3 $ $Date: 2004/02/25 10:33:12 $
  * @since 4.1.2
  */
 public interface ObjectFactory

@@ -24,8 +24,8 @@ import org.apache.avalon.framework.configuration.DefaultConfiguration;
 /**
  * General utility supporting static operations for generating string
  * representations of a configuration suitable for debugging.
- * @author Stephen McConnell <mcconnell@osm.net>
- * @author <a href="mailto:proyal@apache.org">Peter Royal</a>
+ *
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
 public class ConfigurationUtil
 {

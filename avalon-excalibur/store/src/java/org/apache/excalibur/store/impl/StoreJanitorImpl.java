@@ -38,11 +38,8 @@ import org.apache.excalibur.store.StoreJanitor;
  * @x-avalon.info name=store-janitor
  * @x-avalon.lifestyle type=singleton
  *
- * @author <a href="mailto:cs@ffzj0ia9.bank.dresdner.net">Christian Schmitt</a>
- * @author <a href="mailto:g-froehlich@gmx.de">Gerhard Froehlich</a>
- * @author <a href="mailto:proyal@managingpartners.com">Peter Royal</a>
- * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Id: StoreJanitorImpl.java,v 1.2 2004/02/19 08:31:24 cziegeler Exp $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version CVS $Id: StoreJanitorImpl.java,v 1.3 2004/02/25 10:33:20 niclas Exp $
  */
 public class StoreJanitorImpl
 extends AbstractLogEnabled

@@ -27,7 +27,7 @@ import org.apache.avalon.excalibur.cli.CLUtil;
  * an argument, optionally supporting an argument or requiring
  * 2 arguments.
  *
- * @author Peter Donald
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @deprecated Toolkit deprecated and replaced by http://spice.sourceforge.net/cli/
  */
 public class OptionArguments

@@ -50,8 +50,8 @@ import org.w3c.dom.NodeList;
  * &lt;/xpath-processor&gt;
  * </pre>
  *
- * @author <a href="mailto:vgritsenko@apache.org">Vadim Gritsenko</a>
- * @version CVS $Revision: 1.2 $ $Date: 2004/02/19 08:28:33 $ $Author: cziegeler $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version CVS $Revision: 1.3 $ $Date: 2004/02/25 10:33:21 $ $Author: niclas $
  */
 public class Saxon6ProcessorImpl
         extends AbstractProcessorImpl

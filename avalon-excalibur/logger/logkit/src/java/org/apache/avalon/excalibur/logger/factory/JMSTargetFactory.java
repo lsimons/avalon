@@ -66,8 +66,8 @@ import org.apache.log.output.jms.TextMessageBuilder;
  *   &lt;/jms&gt;
  * </pre>
  *
- * @author <a href="mailto:mirceatoma@home.com">Mircea Toma</a>;
- * @version CVS $Revision: 1.2 $ $Date: 2004/02/19 09:12:06 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version CVS $Revision: 1.3 $ $Date: 2004/02/25 10:33:17 $
  */
 public class JMSTargetFactory implements LogTargetFactory
 {

@@ -26,7 +26,9 @@ import org.apache.log.format.SyslogFormatter;
 import org.apache.log.format.XMLFormatter;
 
 /**
- * Factory for Formatter-s.
+ * Factory for Formatters.
+ *
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
 public class FormatterFactory
 {

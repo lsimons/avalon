@@ -30,8 +30,8 @@ import java.util.Set;
  * key.  Implementations may add additional properties, but for most instances the
  * last modified property will be enough.
  *
- * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version $Id: Resource.java,v 1.2 2004/02/21 15:38:46 cziegeler Exp $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version $Id: Resource.java,v 1.3 2004/02/25 10:33:17 niclas Exp $
  */
 public abstract class Resource
     implements Modifiable

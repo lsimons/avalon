@@ -22,7 +22,7 @@ package org.apache.excalibur.event.command;
  * unit that will be delayed at least X number of milliseconds.  The
  * mechanism is not guaranteed to be deterministic.
  *
- * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
 public interface DelayedCommand extends Command
 {

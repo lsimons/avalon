@@ -23,7 +23,6 @@ import org.apache.excalibur.thread.ThreadControl;
  * This class extends the Thread class to add recyclable functionalities.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @author Peter Donald
  */
 public class WorkerThread
     extends Thread

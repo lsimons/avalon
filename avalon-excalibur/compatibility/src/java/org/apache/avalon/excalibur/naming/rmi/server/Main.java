@@ -30,6 +30,8 @@ import org.apache.avalon.excalibur.naming.memory.MemoryContext;
 /**
  * This is a simple test name server and should NOT be used in a production system.
  * @deprecated Toolkit deprecated and replaced by http://spice.sourceforge.net/jndikit/
+ *
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
 public class Main
     implements Runnable

@@ -24,9 +24,9 @@ package org.apache.avalon.excalibur.concurrent;
  * acquire() a semaphore with a zero count blocks until someone else
  * calls release(), which increases the count.
  *
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version CVS $Revision: 1.3 $ $Date: 2004/02/25 10:33:07 $
  * @deprecated use EDU.oswego.cs.dl.util.concurrent.Semaphore instead
- *
- * @version CVS $Revision: 1.2 $ $Date: 2004/02/24 09:06:45 $
  * @since 4.0
  */
 public class Semaphore

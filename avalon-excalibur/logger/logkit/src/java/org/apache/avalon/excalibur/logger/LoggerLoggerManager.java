@@ -21,7 +21,7 @@ import org.apache.avalon.framework.logger.Logger;
 /**
  * A LoggerManager that operates off of an existing Logger instance.
  *
- * @author <a href="proyal@apache.org">Peter Royal</a>
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
 public class LoggerLoggerManager implements LoggerManager
 {

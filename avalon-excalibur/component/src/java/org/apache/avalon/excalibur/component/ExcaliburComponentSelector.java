@@ -49,10 +49,8 @@ import org.apache.excalibur.instrument.Instrumentable;
  *
  * @deprecated ECM is no longer supported
  *
- * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @author <a href="mailto:paul@luminas.co.uk">Paul Russell</a>
- * @author <a href="mailto:leif@apache.org">Leif Mortenson</a>
- * @version CVS $Revision: 1.4 $ $Date: 2004/02/19 09:24:16 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version CVS $Revision: 1.5 $ $Date: 2004/02/25 10:33:09 $
  * @since 4.0
  */
 public class ExcaliburComponentSelector

@@ -24,7 +24,7 @@ import org.apache.excalibur.configuration.merged.ConfigurationMerger;
 import org.apache.excalibur.configuration.merged.ConfigurationSplitter;
 
 /**
- * @author <a href="mailto:proyal@apache.org">Peter Royal</a>
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
 public class ConfigurationMergerTestCase extends TestCase
 {

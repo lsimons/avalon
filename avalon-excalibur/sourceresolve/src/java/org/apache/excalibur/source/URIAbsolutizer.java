@@ -23,6 +23,8 @@ package org.apache.excalibur.source;
  * <p>If a source factory does not implement this interface, the standard
  * algorithm (as described in RFC 2396) will be used. This interface only
  * needs to be implemented for source-types which have a different behaviour.
+ *
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
 public interface URIAbsolutizer
 {

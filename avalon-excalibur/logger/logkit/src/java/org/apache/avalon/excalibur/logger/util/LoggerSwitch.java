@@ -32,7 +32,7 @@ import org.apache.avalon.framework.logger.NullLogger;
  * in this class. If the switching was to occur in a mulitythreaded
  * fasion we would have to synchronize access to m_fallback and m_preferred.
  *
- * @author <a href="mailto:tagunov@motor.ru">Anton Tagunov</a>
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
 
 public class LoggerSwitch

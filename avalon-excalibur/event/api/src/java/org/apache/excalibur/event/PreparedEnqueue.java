@@ -21,7 +21,7 @@ package org.apache.excalibur.event;
  * <code>prepareEnqueue</code> method that allows you to either
  * commit or abort the enqueue operation.
  *
- * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
 public interface PreparedEnqueue
 {

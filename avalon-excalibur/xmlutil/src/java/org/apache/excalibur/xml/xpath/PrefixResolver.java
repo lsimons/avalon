@@ -19,6 +19,8 @@ package org.apache.excalibur.xml.xpath;
 /**
  * Implement this interface in case you want to provide your
  * own prefix resolving when evaluating XPath expressions.
+ *
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
 public interface PrefixResolver
 {

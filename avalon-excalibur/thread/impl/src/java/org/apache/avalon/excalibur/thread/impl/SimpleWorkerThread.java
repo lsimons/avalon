@@ -26,7 +26,6 @@ import org.apache.excalibur.thread.impl.WorkerThread;
  * This class extends the Thread class to add recyclable functionalities.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @author Peter Donald
  * @deprecated Only Used by deprecated code and will be removed in future
  */
 class SimpleWorkerThread

@@ -36,7 +36,7 @@ import org.apache.avalon.framework.configuration.DefaultConfiguration;
  * A NamingConfigurationBuilder builds <code>Configuration</code>s from JNDI or
  * LDAP directory trees.
  *
- * @author <a href="mailto:mirceatoma@apache.org">Mircea Toma</a>
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
 public class NamingConfigurationBuilder
 {

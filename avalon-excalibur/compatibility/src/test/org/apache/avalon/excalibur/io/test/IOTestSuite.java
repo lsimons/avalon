@@ -21,6 +21,8 @@ import junit.framework.TestSuite;
 
 /**
  * A basic test suite that tests all the IO package.
+ *
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
 public class IOTestSuite
 {

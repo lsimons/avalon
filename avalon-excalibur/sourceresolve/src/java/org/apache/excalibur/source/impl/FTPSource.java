@@ -35,7 +35,7 @@ import sun.net.ftp.FtpClient;
 /**
  * Source implementation for the File Transfer Protocol.
  * 
- * @author <a href="mailto:unico@hippo.nl">Unico Hommes</a>
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
 public class FTPSource extends URLSource implements ModifiableSource
 {   

@@ -20,8 +20,8 @@ package org.apache.avalon.excalibur.pool;
  * A ResourceLimitingPool which validates reused poolables before they are
  *  returned with a call get().
  *
- * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.2 $ $Date: 2004/02/21 15:38:46 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version CVS $Revision: 1.3 $ $Date: 2004/02/25 10:33:18 $
  * @since 4.1
  */
 public class ValidatedResourceLimitingPool

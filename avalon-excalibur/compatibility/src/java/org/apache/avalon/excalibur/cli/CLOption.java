@@ -21,9 +21,8 @@ import java.util.Arrays;
 /**
  * Basic class describing an instance of option.
  *
- * @author Peter Donald
- * @author <a href="mailto:leo.sutic at inspireinfrastructure.com">Leo Sutic</a>
- * @version $Revision: 1.3 $ $Date: 2004/02/24 09:06:46 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version $Revision: 1.4 $ $Date: 2004/02/25 10:33:06 $
  * @since 4.0
  * @deprecated Toolkit deprecated and replaced by http://spice.sourceforge.net/cli/
  */

@@ -32,7 +32,7 @@ import org.apache.avalon.framework.component.ComponentSelector;
 /**
  * Test the TableIdGenerator Component.
  *
- * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
 public class TableIdGeneratorJdbcTestCase
     extends ExcaliburTestCase

@@ -31,7 +31,7 @@ import java.util.ResourceBundle;
  *
  * Reworked to mirror behaviour of StringManager from Tomcat (format() to getString()).
  *
- * @author Peter Donald
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
 public class Resources
 {

@@ -31,8 +31,8 @@ import org.apache.avalon.framework.logger.Logger;
 /**
  * Used as a basis for the PoolComparisonProfile Tests
  *
- * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version $Id: PoolComparisonProfileAbstract.java,v 1.2 2004/02/21 15:38:45 cziegeler Exp $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version $Id: PoolComparisonProfileAbstract.java,v 1.3 2004/02/25 10:33:18 niclas Exp $
  */
 public abstract class PoolComparisonProfileAbstract
     extends TestCase

@@ -26,7 +26,6 @@ import org.apache.excalibur.thread.ThreadPool;
  * retrieve and return Threads to the pool.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @author Peter Donald
  */
 public abstract class AbstractThreadPool
     implements ThreadPool

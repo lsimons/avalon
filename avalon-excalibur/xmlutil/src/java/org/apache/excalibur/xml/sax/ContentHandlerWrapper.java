@@ -30,9 +30,8 @@ import org.xml.sax.ext.LexicalHandler;
  *
  * @deprecated Moved to org.apache.excalibur.xml.sax package. Modified to be 
  * thread safe.
- * @author <a href="mailto:dims@yahoo.com">Davanum Srinivas</a>
- *         (Apache Software Foundation, Computer Associates)
- * @version CVS $Revision: 1.2 $ $Date: 2004/02/19 08:28:33 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version CVS $Revision: 1.3 $ $Date: 2004/02/25 10:33:20 $
  */
 public class ContentHandlerWrapper
     extends AbstractXMLConsumer

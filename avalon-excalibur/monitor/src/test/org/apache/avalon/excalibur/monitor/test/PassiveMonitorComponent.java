@@ -22,8 +22,8 @@ import org.apache.avalon.framework.component.Component;
 /**
  * implement component
  *
- * @author Peter Donald
- * @version $Revision: 1.3 $ $Date: 2004/02/21 15:38:47 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version $Revision: 1.4 $ $Date: 2004/02/25 10:33:18 $
  */
 public class PassiveMonitorComponent
     extends PassiveMonitor

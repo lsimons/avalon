@@ -28,7 +28,8 @@ import java.io.StringReader;
 
 /**
  * Test Saxon 7 XPath processor
- * @version CVS $Revision: 1.2 $ $Date: 2004/02/19 08:28:32 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version CVS $Revision: 1.3 $ $Date: 2004/02/25 10:33:21 $
  */
 public class Saxon7TestCase extends XPathTestCase
 {

@@ -19,7 +19,7 @@ package org.apache.avalon.excalibur.monitor;
 /**
  * Describes an object which can be monitored.
  *
- * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
 public interface Monitorable
 {

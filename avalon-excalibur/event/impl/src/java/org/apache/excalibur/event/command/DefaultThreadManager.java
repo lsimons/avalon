@@ -26,7 +26,7 @@ import EDU.oswego.cs.dl.util.concurrent.Executor;
  * (similarly named) ThreadManager (which manages ThreadPools).
  *
  * @see org.apache.avalon.cornerstone.services.thread.ThreadManager
- * @author <a href="mailto:proyal@apache.org">Peter Royal</a>
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
 public class DefaultThreadManager extends AbstractThreadManager
 {

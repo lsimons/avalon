@@ -22,6 +22,8 @@ import org.apache.excalibur.event.Sink;
 /**
  * The ThresholdEnqueuePredicate limits the elements that can be enqueued
  * based on the size of the Queue.
+ *
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
 public final class ThresholdEnqueuePredicate implements EnqueuePredicate
 {

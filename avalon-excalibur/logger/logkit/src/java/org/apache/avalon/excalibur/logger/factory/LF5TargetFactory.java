@@ -36,8 +36,8 @@ import org.apache.log.output.lf5.LF5LogTarget;
  * The optional "NDC-pattern" configuration defines the pattern that will be used to
  * format the log event for display on the "NDC" line in the Swing GUI.
  *
- * @author <a href="sylvain@apache.org">Sylvain Wallez</a>
- * @version CVS $Revision: 1.2 $ $Date: 2004/02/19 09:12:06 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version CVS $Revision: 1.3 $ $Date: 2004/02/25 10:33:17 $
  */
 
 public class LF5TargetFactory implements LogTargetFactory

@@ -30,8 +30,7 @@ import EDU.oswego.cs.dl.util.concurrent.PooledExecutor;
  * the number of processors. The size of the thread pool is (processors
  * threads-per-processor) + 1
  *
- * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @author <a href="mailto:proyal@apache.org">Peter Royal</a>
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
 public final class TPCThreadManager extends AbstractThreadManager implements Parameterizable
 {

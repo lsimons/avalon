@@ -26,7 +26,7 @@ import org.apache.avalon.excalibur.i18n.Resources;
 /**
  * TestCase for ResourceManager.
  *
- * @author <a href="mailto:colus@apache.org">Eung-ju Park</a>
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
 public class ResourceManagerTestCase
     extends TestCase

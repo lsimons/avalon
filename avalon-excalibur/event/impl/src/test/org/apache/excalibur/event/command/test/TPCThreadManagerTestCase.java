@@ -32,7 +32,7 @@ import org.apache.excalibur.event.command.TPCThreadManager;
 import org.apache.excalibur.event.impl.DefaultQueue;
 
 /**
- * @author <a href="mailto:greg-tpcthreadmanager@nest.cx">Gregory Steuck</a>
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
 public class TPCThreadManagerTestCase extends TestCase
 {

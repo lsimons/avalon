@@ -32,6 +32,7 @@ import org.xml.sax.ext.LexicalHandler;
 
 /**
  * @avalon.component
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
 public class DefaultDOMSerializer
     extends AbstractLogEnabled

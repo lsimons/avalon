@@ -24,8 +24,8 @@ import org.apache.excalibur.source.impl.URLSource;
 /**
  * This adds the {@link Monitorable} interface to the {@link URLSource}.
  *
- * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.2 $ $Date: 2004/02/21 15:38:46 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version CVS $Revision: 1.3 $ $Date: 2004/02/25 10:33:17 $
  */
 public class MonitorableURLSource
     extends URLSource

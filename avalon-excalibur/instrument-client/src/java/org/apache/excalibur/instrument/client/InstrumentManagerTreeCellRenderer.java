@@ -23,6 +23,9 @@ import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 
+/**
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ */
 class InstrumentManagerTreeCellRenderer
     extends DefaultTreeCellRenderer
 {

@@ -29,9 +29,8 @@ import org.apache.avalon.framework.activity.Initializable;
  * This pool will destroy all unnecessary Components when they are
  * no longer needed.
  *
- * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @author <a href="mailto:Giacomo.Pati@pwr.ch">Giacomo Pati</a>
- * @version CVS $Revision: 1.2 $ $Date: 2004/02/19 09:24:16 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version CVS $Revision: 1.3 $ $Date: 2004/02/25 10:33:09 $
  * @since 4.0
  *
  * @deprecated DefaultComponentPool is no longer used by the PoolableComponentHandler.

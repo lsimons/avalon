@@ -22,7 +22,7 @@ import java.util.HashMap;
 /**
  * Manager for resources.
  *
- * @author Peter Donald
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
 public class ResourceManager
 {

@@ -29,8 +29,8 @@ import org.xml.sax.ext.LexicalHandler;
  * It can either send XML events or create a DOM from
  * the parsed document.
  *
- * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.2 $ $Date: 2004/02/19 08:28:33 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version CVS $Revision: 1.3 $ $Date: 2004/02/25 10:33:21 $
  */
 public interface SAXParser
 {

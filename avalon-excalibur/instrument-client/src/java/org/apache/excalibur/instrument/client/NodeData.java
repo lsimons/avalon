@@ -21,6 +21,9 @@ import javax.swing.ImageIcon;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 
+/**
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ */
 abstract class NodeData
 {
     protected static final String MEDIA_PATH = "org/apache/excalibur/instrument/client/media/";

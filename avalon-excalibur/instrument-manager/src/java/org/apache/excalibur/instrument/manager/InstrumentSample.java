@@ -30,8 +30,8 @@ import org.apache.excalibur.instrument.manager.interfaces.InstrumentSampleSnapsh
  *  part of the configuration process, or as a result of a request from an
  *  InstrumentClient.
  *
- * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.2 $ $Date: 2004/02/25 09:20:20 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version CVS $Revision: 1.3 $ $Date: 2004/02/25 10:33:14 $
  * @since 4.1
  */
 interface InstrumentSample

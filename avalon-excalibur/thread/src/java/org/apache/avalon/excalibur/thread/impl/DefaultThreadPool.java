@@ -32,7 +32,6 @@ import org.apache.avalon.framework.logger.Logger;
  * This class is the public frontend for the thread pool code.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @author Peter Donald
  */
 public class DefaultThreadPool
     extends ThreadGroup

@@ -27,8 +27,7 @@ package org.apache.excalibur.event;
  *   felt the design differences where better.
  * </p>
  *
- * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @author <a href="mailto:schierma@users.sourceforge.net">schierma</a>
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
 public interface Queue extends Source, Sink
 {

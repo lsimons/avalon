@@ -23,9 +23,8 @@ import java.util.NoSuchElementException;
  * This interface does not dictate whether it is min or max heap.
  *
  * @deprecated use org.apache.commons.collections.PriorityQueue instead
- *
- * @author Peter Donald
- * @version CVS $Revision: 1.3 $ $Date: 2004/02/24 09:06:43 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version CVS $Revision: 1.4 $ $Date: 2004/02/25 10:33:06 $
  * @since 4.0
  */
 public interface PriorityQueue

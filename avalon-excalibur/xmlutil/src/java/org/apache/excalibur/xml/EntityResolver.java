@@ -19,8 +19,8 @@ package org.apache.excalibur.xml;
 /**
  * A component that uses catalogs for resolving Entities.
  *
- * @author <a href="mailto:dims@yahoo.com">Davanum Srinivas</a>
- * @version CVS $Revision: 1.2 $ $Date: 2004/02/19 08:28:33 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version CVS $Revision: 1.3 $ $Date: 2004/02/25 10:33:20 $
  */
 public interface EntityResolver
     extends org.xml.sax.EntityResolver

@@ -51,8 +51,8 @@ package org.apache.avalon.excalibur.pool;
  * be reassed once we see it in action.
  * </p>
  *
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version CVS $Revision: 1.4 $ $Date: 2004/02/22 10:51:45 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version CVS $Revision: 1.5 $ $Date: 2004/02/25 10:33:18 $
  * @since 4.0
  */
 public interface Poolable

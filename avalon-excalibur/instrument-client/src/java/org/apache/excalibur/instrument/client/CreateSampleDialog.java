@@ -32,8 +32,8 @@ import org.apache.excalibur.instrument.manager.interfaces.InstrumentManagerClien
 
 /**
  *
- * @author <a href="mailto:leif@silveregg.co.jp">Leif Mortenson</a>
- * @version CVS $Revision: 1.2 $ $Date: 2004/02/25 09:20:19 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version CVS $Revision: 1.3 $ $Date: 2004/02/25 10:33:14 $
  * @since 4.1
  */
 class CreateSampleDialog

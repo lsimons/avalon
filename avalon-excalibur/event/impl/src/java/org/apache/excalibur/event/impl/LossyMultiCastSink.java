@@ -34,8 +34,8 @@ import org.apache.excalibur.event.SinkFullException;
  * It can be configured to fail when less than one sink was
  * delivered to.
  *
- * @version $Revision: 1.2 $
- * @author  <a href="mailto:schierma@users.sourceforge.net">schierma</a>
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version $Revision: 1.3 $
  */
 public class LossyMultiCastSink implements Sink
 {
@@ -250,7 +250,7 @@ public class LossyMultiCastSink implements Sink
      * on all of these objects.
      * @since May 16, 2002
      *
-     * @author <a href = "mailto:mschier@earthlink.net">schierma</a>
+     * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
      */
     private static final class DefaultPreparedEnqueue
         implements PreparedEnqueue

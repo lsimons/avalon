@@ -26,8 +26,7 @@ import java.util.ArrayList;
  *  <code>addChildInstrumentable</code> as part of the component's
  *  initialization.
  *
- * @author <a href="mailto:ryan.shaw@stanfordalumni.org">Ryan Shaw</a>
- * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
 public abstract class AbstractInstrumentable
     implements Instrumentable

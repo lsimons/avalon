@@ -26,8 +26,8 @@ import org.xml.sax.SAXException;
  * {@link ContentHandler} and forwarding the events to it.
  * <br>
  *
- * @author <a href="mailto:mirceatoma@apache.org">Mircea Toma</a>
- * @version CVS $Revision: 1.2 $ $Date: 2004/02/19 08:28:33 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version CVS $Revision: 1.3 $ $Date: 2004/02/25 10:33:20 $
  */
 public class ContentHandlerProxy
     implements ContentHandler

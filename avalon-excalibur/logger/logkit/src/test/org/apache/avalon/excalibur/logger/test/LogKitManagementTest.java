@@ -35,8 +35,8 @@ import org.apache.log.output.io.StreamTarget;
 /**
  * LogKitManagementTest.
  *
- * @author <a href="mailto:giacomo@apache,org">Giacomo Pati</a>
- * @version CVS $Revision: 1.3 $ $Date: 2004/02/24 11:41:51 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version CVS $Revision: 1.4 $ $Date: 2004/02/25 10:33:17 $
  */
 public class LogKitManagementTest
 {

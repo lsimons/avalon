@@ -40,8 +40,8 @@ import org.apache.avalon.framework.thread.ThreadSafe;
  * define, which logger manager (Log4J, LogKit etc.) you want to use, so
  * you don't have to hard-code this.
  *
- * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.2 $ $Date: 2004/02/19 09:12:03 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version CVS $Revision: 1.3 $ $Date: 2004/02/25 10:33:16 $
  */
 
 public final class DefaultLoggerManager

@@ -27,8 +27,8 @@ import org.apache.avalon.framework.logger.Logger;
  * case of an fatal-error the exception is rethrown.
  * Warnings and errors are ignored.
  *
- * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Id: TraxErrorHandler.java,v 1.2 2004/02/19 08:28:33 cziegeler Exp $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version CVS $Id: TraxErrorHandler.java,v 1.3 2004/02/25 10:33:21 niclas Exp $
  */
 class TraxErrorHandler
     implements ErrorListener

@@ -27,7 +27,7 @@ import org.apache.avalon.excalibur.testcase.ExcaliburTestCase;
  *
  * @deprecated ECM is no longer supported
  *
- * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
 public class PoolableComponentHandlerTestCase
     extends ExcaliburTestCase

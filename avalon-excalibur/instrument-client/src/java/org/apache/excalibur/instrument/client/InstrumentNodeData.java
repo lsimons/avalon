@@ -26,6 +26,9 @@ import javax.swing.JMenuItem;
 import org.apache.excalibur.instrument.manager.interfaces.InstrumentDescriptor;
 import org.apache.excalibur.instrument.manager.interfaces.InstrumentManagerClient;
 
+/**
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ */
 class InstrumentNodeData
     extends NodeData
 {

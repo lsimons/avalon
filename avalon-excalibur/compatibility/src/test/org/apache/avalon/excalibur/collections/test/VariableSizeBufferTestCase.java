@@ -20,6 +20,9 @@ import junit.framework.TestCase;
 
 import org.apache.avalon.excalibur.collections.VariableSizeBuffer;
 
+/**
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ */
 public class VariableSizeBufferTestCase
     extends TestCase
 {

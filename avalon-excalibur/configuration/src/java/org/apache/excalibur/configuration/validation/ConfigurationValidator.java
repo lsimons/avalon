@@ -21,7 +21,7 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
 
 /**
  *
- * @author <a href="proyal@apache.org">peter royal</a>
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
 public interface ConfigurationValidator
 {

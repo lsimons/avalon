@@ -63,7 +63,7 @@ import EDU.oswego.cs.dl.util.concurrent.ReentrantLock;
  threadManager.register( commandManager );
  * </pre>
  *
- * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
 public class CommandManager extends AbstractLogEnabled
         implements EventPipeline, Disposable, EnqueuePredicate {

@@ -31,8 +31,7 @@ import EDU.oswego.cs.dl.util.concurrent.Executor;
  * Abstract base class for a ThreadManager that has a single ThreadPool for
  * all pipelines
  *
- * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @author <a href="mailto:proyal@apache.org">Peter Royal</a>
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
 public abstract class AbstractThreadManager extends AbstractLogEnabled
     implements Runnable, ThreadManager, Initializable, Disposable

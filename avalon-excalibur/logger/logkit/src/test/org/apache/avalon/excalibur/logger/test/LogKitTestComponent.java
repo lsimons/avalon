@@ -22,8 +22,8 @@ import org.apache.avalon.framework.logger.Logger;
 /**
  * TestComponent.
  *
- * @author <a href="mailto:giacomo@apache,org">Giacomo Pati</a>
- * @version CVS $Revision: 1.1 $ $Date: 2004/02/24 11:41:51 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version CVS $Revision: 1.2 $ $Date: 2004/02/25 10:33:17 $
  */
 public interface LogKitTestComponent
     extends Component

@@ -23,8 +23,8 @@ import org.apache.avalon.framework.logger.Logger;
  * This is a very simple logger manager for debugging purpose
  * that uses always the ConsoleLogger
  *
- * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.1 $ $Date: 2004/02/24 11:02:50 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version CVS $Revision: 1.2 $ $Date: 2004/02/25 10:33:16 $
  */
 public class ConsoleLoggerManager implements LoggerManager
 {

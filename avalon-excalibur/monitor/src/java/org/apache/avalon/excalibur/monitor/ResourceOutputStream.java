@@ -27,8 +27,8 @@ import java.io.OutputStream;
  * this type of Resource.  It can notify the change as soon as the Writer or
  * OutputStream has been closed.
  *
- * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version $Id: ResourceOutputStream.java,v 1.2 2004/02/21 15:38:46 cziegeler Exp $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version $Id: ResourceOutputStream.java,v 1.3 2004/02/25 10:33:17 niclas Exp $
  */
 public final class ResourceOutputStream
     extends FilterOutputStream

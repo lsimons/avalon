@@ -38,8 +38,8 @@ import org.apache.avalon.framework.component.Component;
  * In fact a source object can implement most lifecycle interfaces
  * like Composable, Initializable, Disposable etc.
  *
- * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.5 $ $Date: 2004/02/22 10:54:46 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version CVS $Revision: 1.6 $ $Date: 2004/02/25 10:33:19 $
  */
 
 public interface SourceResolver
