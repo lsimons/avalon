@@ -40,7 +40,7 @@ public interface Priority
      * FATAL_ERROR indicates a message that describes a error 
      * that will terminate the appliation.
      */         
-    Enum FATAL_ERROR = new Enum( "FATAL_ERROR", 20 );
+    Enum FATAL_ERROR = new Enum( "FATAL_ERROR", 25 );
     
     public final class Enum 
     {
