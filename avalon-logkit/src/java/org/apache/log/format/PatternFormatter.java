@@ -25,19 +25,19 @@ import org.apache.log.*;
  *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  * @author <a href="mailto:sylvain@apache.org">Sylvain Wallez</a>
- * @version CVS $Revision: 1.14 $ $Date: 2001/07/30 11:36:07 $
+ * @version CVS $Revision: 1.15 $ $Date: 2001/07/30 12:34:29 $
  */
 public class PatternFormatter
     implements Formatter
 {
-    protected final static int         TYPE_TEXT            = 1;
-    protected final static int         TYPE_CATEGORY        = 2;
-    protected final static int         TYPE_CONTEXT         = 3;
-    protected final static int         TYPE_MESSAGE         = 4;
-    protected final static int         TYPE_TIME            = 5;
-    protected final static int         TYPE_RELATIVE_TIME   = 6;
-    protected final static int         TYPE_THROWABLE       = 7;
-    protected final static int         TYPE_PRIORITY        = 8;
+    private final static int           TYPE_TEXT            = 1;
+    private final static int           TYPE_CATEGORY        = 2;
+    private final static int           TYPE_CONTEXT         = 3;
+    private final static int           TYPE_MESSAGE         = 4;
+    private final static int           TYPE_TIME            = 5;
+    private final static int           TYPE_RELATIVE_TIME   = 6;
+    private final static int           TYPE_THROWABLE       = 7;
+    private final static int           TYPE_PRIORITY        = 8;
 
     /**
      * The maximum value used for TYPEs. Subclasses can define their own TYPEs
@@ -45,22 +45,21 @@ public class PatternFormatter
      */
     protected final static int         MAX_TYPE             = TYPE_PRIORITY;
 
+    private final static String        TYPE_CATEGORY_STR      = "category";
+    private final static String        TYPE_CONTEXT_STR       = "context";
+    private final static String        TYPE_MESSAGE_STR       = "message";
+    private final static String        TYPE_TIME_STR          = "time";
+    private final static String        TYPE_RELATIVE_TIME_STR = "rtime";
+    private final static String        TYPE_THROWABLE_STR     = "throwable";
+    private final static String        TYPE_PRIORITY_STR      = "priority";
 
-    protected final static String      TYPE_CATEGORY_STR      = "category";
-    protected final static String      TYPE_CONTEXT_STR       = "context";
-    protected final static String      TYPE_MESSAGE_STR       = "message";
-    protected final static String      TYPE_TIME_STR          = "time";
-    protected final static String      TYPE_RELATIVE_TIME_STR = "rtime";
-    protected final static String      TYPE_THROWABLE_STR     = "throwable";
-    protected final static String      TYPE_PRIORITY_STR      = "priority";
+    private final static String        SPACE_16               = "                ";
+    private final static String        SPACE_8                = "        ";
+    private final static String        SPACE_4                = "    ";
+    private final static String        SPACE_2                = "  ";
+    private final static String        SPACE_1                = " ";
 
-    protected final static String      SPACE_16               = "                ";
-    protected final static String      SPACE_8                = "        ";
-    protected final static String      SPACE_4                = "    ";
-    protected final static String      SPACE_2                = "  ";
-    protected final static String      SPACE_1                = " ";
-
-    protected final static String      EOL                    = 
+    private final static String        EOL                    = 
         System.getProperty( "line.separator", "\n" );
 
     protected static class PatternRun
@@ -73,7 +72,7 @@ public class PatternFormatter
         public String     m_format;
     }
 
-    protected PatternRun                      m_formatSpecification[];
+    private PatternRun                      m_formatSpecification[];
 
     public PatternFormatter()
     {
@@ -356,25 +355,14 @@ public class PatternFormatter
      */
     protected String formatPatternRun( final LogEvent event, final PatternRun run )
     {
-        String str = null;
-
         switch( run.m_type )
         {
-        case TYPE_RELATIVE_TIME:
-            str = getTime( event.getRelativeTime(), run.m_format );
-            break;
-
-        case TYPE_TIME:
-            str = getTime( event.getTime(), run.m_format );
-            break;
-
-        case TYPE_THROWABLE:
-            str = getStackTrace( event.getThrowable(), run.m_format );
-            break;
-
-        case TYPE_MESSAGE:
-            str = getMessage( event.getMessage(), run.m_format );
-            break;
+        case TYPE_RELATIVE_TIME: return getTime( event.getRelativeTime(), run.m_format );
+        case TYPE_TIME: return getTime( event.getTime(), run.m_format );
+        case TYPE_THROWABLE: return getStackTrace( event.getThrowable(), run.m_format );
+        case TYPE_MESSAGE: return getMessage( event.getMessage(), run.m_format );
+        case TYPE_CATEGORY: return getCategory( event.getCategory(), run.m_format );
+        case TYPE_PRIORITY: return getPriority( event.getPriority(), run.m_format );
 
         case TYPE_CONTEXT:
             if( null == run.m_format || 
@@ -382,28 +370,18 @@ public class PatternFormatter
             {
                 //Print a warning out to stderr here
                 //to indicate you are using a deprecated feature?
-                str = getContext( event.getContextStack(), run.m_format );
+                return getContext( event.getContextStack(), run.m_format );
             }
             else
             {
-                str = getContextMap( event.getContextMap(), run.m_format );
+                return getContextMap( event.getContextMap(), run.m_format );
             }
-            break;
-
-        case TYPE_CATEGORY:
-            str = getCategory( event.getCategory(), run.m_format );
-            break;
-
-        case TYPE_PRIORITY:
-            str = getPriority( event.getPriority(), run.m_format );
-            break;
 
         default:
             //TODO: Convert next line to use error handler
             Hierarchy.getDefaultHierarchy().log( "Unknown Pattern specification." + run.m_type );
+            return null;
         }
-
-        return str;
     }
 
     /**
@@ -582,6 +560,7 @@ public class PatternFormatter
      * Set the string description that the format is extracted from.
      *
      * @param format the string format
+     * @deprecated Parse format in via constructor rather than use this method
      */
     public void setFormat( final String format )
     {
