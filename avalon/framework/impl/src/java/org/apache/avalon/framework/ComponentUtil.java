@@ -5,16 +5,27 @@
  * version 1.1, a copy of which has been included with this distribution in
  * the LICENSE file.
  */
- package org.apache.avalon.framework;
+package org.apache.avalon.framework;
+
+
+import org.apache.avalon.framework.activity.Disposable;
+import org.apache.avalon.framework.activity.Initializable;
+import org.apache.avalon.framework.activity.Startable;
+import org.apache.avalon.framework.activity.Suspendable;
+import org.apache.avalon.framework.component.Composable;
+import org.apache.avalon.framework.configuration.Configurable;
+import org.apache.avalon.framework.context.Contextualizable;
+import org.apache.avalon.framework.logger.LogEnabled;
+import org.apache.avalon.framework.logger.Loggable;
+import org.apache.avalon.framework.parameters.Parameterizable;
 
 /**
  * This class provides basic facilities for enforcing Avalon's contracts
  * within your own code.
  *
  * @author <a href="bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.2 $ $Date: 2001/11/19 17:50:20 $
+ * @version CVS $Revision: 1.3 $ $Date: 2001/11/30 17:17:27 $
  */
-
 public final class ComponentUtil
 {
     public static final long LOG_ENABLED    = 0x00000001;
@@ -28,10 +39,8 @@ public final class ComponentUtil
     public static final long SUSPENDED      = 0x01000000;
     public static final long STOPPED        = 0x00000018;
     public static final long DISPOSED       = 0x00000020;
-    public static final long INIT_MASK      = LOG_ENABLED | CONTEXTUALIZED
-                                              | PARAMETERIZED | CONFIGURED
-                                              | COMPOSED | INITIALIZED
-                                              | STARTED;
+    public static final long INIT_MASK      = LOG_ENABLED | CONTEXTUALIZED | 
+        PARAMETERIZED | CONFIGURED | COMPOSED | INITIALIZED | STARTED;
 
     /**
      * Hide the constructor
@@ -44,52 +53,52 @@ public final class ComponentUtil
      * Create state mask from object (this can be used for more than just
      * components).
      */
-    public static final long createStateMask( Object obj )
+    public static final long createStateMask( final Object object )
     {
         long mask = 0;
 
-        if ( obj instanceof org.apache.avalon.framework.logger.LogEnabled ||
-             obj instanceof org.apache.avalon.framework.logger.Loggable )
+        if( object instanceof LogEnabled ||
+            object instanceof Loggable )
         {
             mask |= LOG_ENABLED;
         }
 
-        if ( obj instanceof org.apache.avalon.framework.context.Contextualizable )
+        if( object instanceof Contextualizable )
         {
             mask |= CONTEXTUALIZED;
         }
 
-        if ( obj instanceof org.apache.avalon.framework.parameters.Parameterizable )
+        if( object instanceof Parameterizable )
         {
             mask |= PARAMETERIZED;
         }
 
-        if ( obj instanceof org.apache.avalon.framework.configuration.Configurable )
+        if( object instanceof Configurable )
         {
             mask |= CONFIGURED;
         }
 
-        if ( obj instanceof org.apache.avalon.framework.component.Composable )
+        if( object instanceof Composable )
         {
             mask |= COMPOSED;
         }
 
-        if ( obj instanceof org.apache.avalon.framework.activity.Initializable )
+        if( object instanceof Initializable )
         {
             mask |= INITIALIZED;
         }
 
-        if ( obj instanceof org.apache.avalon.framework.activity.Disposable )
+        if( object instanceof Disposable )
         {
             mask |= DISPOSED;
         }
 
-        if ( obj instanceof org.apache.avalon.framework.activity.Startable )
+        if( object instanceof Startable )
         {
             mask |= STARTED | STOPPED;
         }
 
-        if ( obj instanceof org.apache.avalon.framework.activity.Suspendable )
+        if( object instanceof Suspendable )
         {
             mask |= SUSPENDED;
         }
@@ -105,7 +114,9 @@ public final class ComponentUtil
      * @param message the message to include in the thrown exception
      * @throws IllegalStateException if the source is already set.
      */
-    public static final void setWriteOnceObject( Object source, final Object value, final String message )
+    public static final void setWriteOnceObject( Object source, 
+                                                 final Object value, 
+                                                 final String message )
     {
         if ( null == source )
         {
@@ -130,7 +141,9 @@ public final class ComponentUtil
      */
     public static final void checkLogEnabled( long state, final long mask, final String message )
     {
-        if ( ( (state & mask & LOG_ENABLED) > 0 ) || ( (mask & LOG_ENABLED) == 0 ) || ( state > LOG_ENABLED ) )
+        if( ( (state & mask & LOG_ENABLED) > 0 ) || 
+            ( (mask & LOG_ENABLED) == 0 ) || 
+            ( state > LOG_ENABLED ) )
         {
             throw new IllegalStateException( message );
         }
@@ -154,7 +167,8 @@ public final class ComponentUtil
      */
     public static final void checkContextualized( long state, final long mask, final String message )
     {
-        if ( ( (state & mask & CONTEXTUALIZED) > 0 ) || ( (mask & CONTEXTUALIZED) == 0 ) || ( state > CONTEXTUALIZED ) )
+        if ( ( (state & mask & CONTEXTUALIZED) > 0 ) || 
+             ( (mask & CONTEXTUALIZED) == 0 ) || ( state > CONTEXTUALIZED ) )
         {
             throw new IllegalStateException( message );
         }
@@ -356,7 +370,8 @@ public final class ComponentUtil
      */
     public static final void checkActive( final long state, final long mask, final String message )
     {
-        if ( (ACTIVE & state) > 0 ) {
+        if( (ACTIVE & state) > 0 ) 
+        {
             return;
         }
 
