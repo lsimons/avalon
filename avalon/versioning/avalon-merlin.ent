@@ -1,45 +1,62 @@
+<!-- Avalon Composition -->
+
+<!ENTITY avalon-composition-spec "2.0">
+<!ENTITY avalon-composition-id "avalon-composition">
 
 <!ENTITY avalon-composition-api-id "avalon-composition-api">
 <!ENTITY avalon-composition-api-group "avalon-composition">
-<!ENTITY avalon-composition-api-version "1.0">
+<!ENTITY avalon-composition-api-version "2.0.0-dev">
 
 <!ENTITY avalon-composition-impl-id "avalon-composition-impl">
 <!ENTITY avalon-composition-impl-group "avalon-composition">
-<!ENTITY avalon-composition-impl-version "1.0">
+<!ENTITY avalon-composition-impl-version "2.0.0-dev">
 
 <!ENTITY avalon-composition-spi-id "avalon-composition-spi">
 <!ENTITY avalon-composition-spi-group "avalon-composition">
-<!ENTITY avalon-composition-spi-version "1.0">
+<!ENTITY avalon-composition-spi-version "2.0.0-dev">
+
+<!-- Avalon Activation -->
+
+<!ENTITY avalon-activation-spec "2.0">
+<!ENTITY avalon-activation-id "avalon-activation">
 
 <!ENTITY avalon-activation-api-id "avalon-activation-api">
 <!ENTITY avalon-activation-api-group "avalon-activation">
-<!ENTITY avalon-activation-api-version "1.0">
+<!ENTITY avalon-activation-api-version "2.0.0-dev">
 
 <!ENTITY avalon-activation-impl-id "avalon-activation-impl">
 <!ENTITY avalon-activation-impl-group "avalon-activation">
-<!ENTITY avalon-activation-impl-version "1.0">
+<!ENTITY avalon-activation-impl-version "2.0.0-dev">
 
-<!ENTITY avalon-merlin-api-id "avalon-merlin-api">
-<!ENTITY avalon-merlin-api-group "avalon-merlin">
-<!ENTITY avalon-merlin-api-version "1.0">
+<!ENTITY avalon-activation-artifact 
+   "artifact:&avalon-activation-id;/&avalon-activation-impl-id;#&avalon-activation-impl-version;">
 
-<!ENTITY avalon-merlin-impl-id "avalon-merlin-impl">
-<!ENTITY avalon-merlin-impl-group "avalon-merlin">
-<!ENTITY avalon-merlin-impl-version "1.0">
+<!-- Avalon Merlin -->
 
-<!ENTITY avalon-merlin-cli-id "avalon-merlin-cli">
-<!ENTITY avalon-merlin-cli-group "avalon-merlin">
-<!ENTITY avalon-merlin-cli-version "1.0">
+<!ENTITY merlin-spec "3.3">
+<!ENTITY merlin-id "merlin">
 
-<!ENTITY avalon-merlin-plugin-id "avalon-merlin-plugin">
-<!ENTITY avalon-merlin-plugin-group "avalon-merlin">
-<!ENTITY avalon-merlin-plugin-version "1.0">
+<!ENTITY merlin-api-id "merlin-api">
+<!ENTITY merlin-api-group "merlin">
+<!ENTITY merlin-api-version "3.3.0-dev">
 
-<!ENTITY avalon-merlin-servlet-id "avalon-merlin-servlet">
-<!ENTITY avalon-merlin-servlet-group "avalon-merlin">
-<!ENTITY avalon-merlin-servlet-version "1.0">
+<!ENTITY merlin-impl-id "merlin-impl">
+<!ENTITY merlin-impl-group "merlin">
+<!ENTITY merlin-impl-version "3.3.0-dev">
 
-<!ENTITY avalon-merlin-unit-id "avalon-merlin-unit">
-<!ENTITY avalon-merlin-unit-group "avalon-merlin">
-<!ENTITY avalon-merlin-unit-version "1.0">
+<!ENTITY merlin-cli-id "merlin-cli">
+<!ENTITY merlin-cli-group "merlin">
+<!ENTITY merlin-cli-version "3.3.0-dev">
+
+<!ENTITY merlin-plugin-id "merlin-plugin">
+<!ENTITY merlin-plugin-group "merlin">
+<!ENTITY merlin-plugin-version "3.3.0-dev">
+
+<!ENTITY merlin-servlet-id "merlin-servlet">
+<!ENTITY merlin-servlet-group "merlin">
+<!ENTITY merlin-servlet-version "3.3.0-dev">
+
+<!ENTITY merlin-unit-id "merlin-unit">
+<!ENTITY merlin-unit-group "merlin">
+<!ENTITY merlin-unit-version "3.3.0-dev">
 

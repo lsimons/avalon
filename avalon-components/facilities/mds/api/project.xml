@@ -1,13 +1,18 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE project [
+  <!ENTITY % index SYSTEM "file:index.ent"> %index;
+]>
 
 <project>
 
-  <extend>${basedir}/../common-project.xml</extend>
+  <extend>${basedir}/../../common-project.xml</extend>
+
+  <groupId>&avalon-mds-id;</groupId>
+  <id>&avalon-mds-api-id;</id>
+  <currentVersion>&avalon-mds-api-version;</currentVersion>
   
-  <id>avalon-mds-api</id>
   <name>Avalon MDS API</name>
   <package>org.apache.avalon.mds</package>
-
   <shortDescription>Avalon MDS API</shortDescription>
 
   <dependencies>
