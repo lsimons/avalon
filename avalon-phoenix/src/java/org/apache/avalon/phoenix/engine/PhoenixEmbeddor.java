@@ -82,7 +82,7 @@ public class PhoenixEmbeddor
      * </ul>
      *
      * @param parameters the Parameters for embeddor
-     * @exception ConfigurationException if an error occurs
+     * @exception ParameterException if an error occurs
      */
     public void parameterize( final Parameters parameters )
         throws ParameterException
