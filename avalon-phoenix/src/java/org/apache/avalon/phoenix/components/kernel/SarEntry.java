@@ -26,12 +26,10 @@ final class SarEntry
     private Logger m_logger;
     private File m_workDirectory;
 
-
     protected SarEntry( final SarMetaData metaData,
                         final File workDirectory,
                         final ClassLoader classLoader,
-                        final Logger logger
-                        )
+                        final Logger logger )
     {
         if( null == metaData )
         {
