@@ -33,7 +33,7 @@ import org.apache.avalon.framework.thread.ThreadSafe;
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:paul@luminas.co.uk">Paul Russell</a>
- * @version CVS $Revision: 1.4.2.3 $ $Date: 2002/05/18 06:08:35 $
+ * @version CVS $Revision: 1.4.2.4 $ $Date: 2002/05/23 18:34:54 $
  * @since 4.0
  */
 public class ExcaliburComponentSelector
@@ -177,7 +177,19 @@ public class ExcaliburComponentSelector
         if( !m_initialized ) return false;
         if( m_disposed ) return false;
 
-        return m_componentHandlers.containsKey( hint );
+        boolean exists = false;
+
+        try
+        {
+            this.release( this.select( hint ) );
+            exists = true;
+        }
+        catch( Throwable t )
+        {
+            // We can safely ignore all exceptions
+        }
+
+        return exists;
     }
 
     /**
