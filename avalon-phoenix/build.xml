@@ -95,6 +95,9 @@ Legal:
     <property name="mx4j.jar" value="${repo.dir}/mx4j/mx4j-1.1.1/lib/mx4j-jmx.jar"/>
     <property name="mx4j-tools.jar" value="${repo.dir}/mx4j/mx4j-1.1.1/lib/mx4j-tools.jar"/>
 
+    <!-- Invoke 'ant get-log4j' to get this -->
+    <property name="log4j.jar" value="${repo.dir}/log4j/log4j-1.2.7.jar"/>
+
     <!-- Invoke 'ant get-beanshell' to get this -->
     <property name="beanshell.jar" value="${repo.dir}/beanshell/bsh-1.2b7.jar"/>
 
@@ -106,6 +109,7 @@ Legal:
         <pathelement location="${framework.jar}"/>
         <pathelement location="${logkit.jar}"/>
         <pathelement location="${wrapper.jar}"/>
+        <pathelement path="${log4j.jar}"/>
         <pathelement path="${cli.jar}"/>
         <pathelement path="${mx4j.jar}"/>
         <pathelement path="${mx4j-tools.jar}"/>
@@ -362,7 +366,37 @@ Legal:
     </target>
 
     <!-- =================================================================== -->
-    <!-- JMX Tasks.                                                          -->
+    <!-- Log4j Tasks.                                                          -->
+    <!-- =================================================================== -->
+    <target name="check-log4j-init" depends="init">
+        <available property="log4j.present" classname="org.apache.log4j.Logger">
+            <classpath refid="project.class.path"/>
+        </available>
+    </target>
+
+    <target name="check-log4j" depends="check-log4j-init" unless="log4j.present">
+        <echo>***************************</echo>
+        <echo>* Please execute target   *</echo>
+        <echo>* 'get-log4j' in the main *</echo>
+        <echo>* build.xml build file    *</echo>
+        <echo>* to download one and     *</echo>
+        <echo>* a half Mb of log4j      *</echo>
+        <echo>***************************</echo>
+        <fail message="log4j needed. See above."/>
+    </target>
+
+    <!-- Get the jars from the log4j project. -->
+    <!-- For licensing reasons, we are unable to put these Jars in our CVS or source distributions. -->
+    <target name="get-log4j" description="Get the log4j.">
+        <mkdir dir="${repo.dir}/log4j"/>
+        <get src="http://www.ibiblio.org/maven/log4j/jars/log4j-1.2.7.jar"
+            dest="${repo.dir}/log4j/log4j-1.2.7.jar"
+            verbose="true"
+            usetimestamp="true"/>
+    </target>
+
+    <!-- =================================================================== -->
+    <!-- CLI Tasks.                                                          -->
     <!-- =================================================================== -->
     <target name="check-cli-init" depends="init">
         <available property="cli.present" classname="org.realityforge.cli.CLOption">
@@ -381,7 +415,7 @@ Legal:
         <fail message="Spice CLI needed. See above."/>
     </target>
 
-    <!-- Get the jars from the MX4J project. -->
+    <!-- Get the jars from the cli project. -->
     <!-- For licensing reasons, we are unable to put these Jars in our CVS or source distributions. -->
     <target name="get-cli" description="Get the Spice CLI distribution from SourceForge.">
         <mkdir dir="${repo.dir}/cli"/>
@@ -413,7 +447,7 @@ Legal:
 
 
     <!-- Check requirements of environment -->
-    <target name="check-environment" depends="check-mx4j, check-cli, check-wrapper">
+    <target name="check-environment" depends="check-mx4j, check-log4j, check-cli, check-wrapper">
         <available property="xerces.present" type="file" file="${xerces.jar}"/>
         <available property="servlet.present" classname="javax.servlet.Servlet">
             <classpath refid="project.class.path"/>
@@ -422,8 +456,6 @@ Legal:
             <classpath refid="project.class.path"/>
         </available>
     </target>
-
-
 
     <!-- Get the jars from the Beanshell project. -->
     <!-- For licensing reasons, we are unable to put these Jars in our CVS or source distributions. -->
