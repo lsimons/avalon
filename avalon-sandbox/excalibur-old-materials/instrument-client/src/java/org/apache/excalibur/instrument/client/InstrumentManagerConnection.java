@@ -51,7 +51,7 @@ import org.apache.excalibur.instrument.manager.interfaces.InstrumentSampleUtils;
 /**
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.3 $ $Date: 2002/08/23 09:47:26 $
+ * @version CVS $Revision: 1.4 $ $Date: 2002/08/23 10:03:48 $
  * @since 4.1
  */
 class InstrumentManagerConnection
@@ -189,7 +189,15 @@ class InstrumentManagerConnection
             }
             else
             {
-                tabTitle = m_manager.getDescription();
+                try
+                {
+                    tabTitle = m_manager.getDescription();
+                }
+                catch ( AltrmiInvocationException e )
+                {
+                    // Connection closed.  Ignore this here.
+                    tabTitle = "[Not Connected]";
+                }
             }
         }
         return tabTitle;
@@ -259,12 +267,12 @@ class InstrumentManagerConnection
             long now = System.currentTimeMillis();
             if ( now - m_lastLeaseRenewalTime > 60000 )
             {
-                //System.out.println("Renew Leases:");
+                //getLogger().debug("Renew Leases:");
                 MaintainedSampleLease[] leases = getMaintainedSampleLeaseArray();
                 for ( int i = 0; i < leases.length; i++ )
                 {
                     MaintainedSampleLease lease = leases[i];
-                    //System.out.println(" lease: " + lease.getSampleName());
+                    //getLogger().debug(" lease: " + lease.getSampleName());
                     
                     // Look for the Sample Descriptor in the Tree Model
                     DefaultMutableTreeNode sampleTreeNode =
@@ -320,7 +328,7 @@ class InstrumentManagerConnection
                         {
                             long newExpireTime =
                                 sampleDescriptor.extendLease( lease.getLeaseDuration() );
-                            //System.out.println("  Extended lease to: " + newExpireTime );
+                            //getLogger().debug("  Extended lease to: " + newExpireTime );
                             
                             sampleNodeData.setLeaseExpireTime( newExpireTime );
                             
@@ -558,21 +566,21 @@ class InstrumentManagerConnection
      */
     private InstrumentSampleFrame getSampleFrame( String sampleName )
     {
-        System.out.println("InstrumentManagerConnection.getSampleFrame(" + sampleName + ")");
+        getLogger().debug("InstrumentManagerConnection.getSampleFrame(" + sampleName + ")");
         // Assumes "this" is synchronized.
         return (InstrumentSampleFrame)m_sampleFrames.get( sampleName );
     }
     
     private void addSampleFrame( String sampleName, InstrumentSampleFrame sampleFrame )
     {
-        System.out.println("InstrumentManagerConnection.addSampleFrame(" + sampleName + ", frame)");
+        getLogger().debug("InstrumentManagerConnection.addSampleFrame(" + sampleName + ", frame)");
         // Assumes "this" is synchronized.
         m_sampleFrames.put( sampleName, sampleFrame );
     }
 
     private void removeSampleFrame( String sampleName )
     {
-        System.out.println("InstrumentManagerConnection.removeSampleFrame(" + sampleName + ")");
+        getLogger().debug("InstrumentManagerConnection.removeSampleFrame(" + sampleName + ")");
         // Assumes "this" is synchronized.
         m_sampleFrames.remove( sampleName );
     }
@@ -602,7 +610,7 @@ class InstrumentManagerConnection
                 
                 if ( dialog.getAction() == CreateSampleDialog.BUTTON_OK )
                 {
-                    System.out.println( "New Sample: desc=" + dialog.getSampleDescription() +
+                    getLogger().debug( "New Sample: desc=" + dialog.getSampleDescription() +
                         ", interval=" + dialog.getInterval() + ", size=" + dialog.getSampleCount() +
                         ", lease=" + dialog.getLeaseTime() + ", type=" + dialog.getSampleType() );
                     
@@ -875,7 +883,7 @@ class InstrumentManagerConnection
             }
             catch ( AltrmiInvocationException e )
             {
-                System.out.println( "Error executing GC on " + getHost() + ":" + 
+                getLogger().warn( "Error executing GC on " + getHost() + ":" + 
                     getPort() + ": " + e.getMessage() );
             }
         }
