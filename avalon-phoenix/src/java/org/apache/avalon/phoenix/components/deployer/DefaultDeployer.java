@@ -10,6 +10,8 @@ package org.apache.avalon.phoenix.components.deployer;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Map;
+import java.util.Hashtable;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.framework.activity.Initializable;
@@ -25,7 +27,6 @@ import org.apache.avalon.phoenix.interfaces.ConfigurationRepository;
 import org.apache.avalon.phoenix.interfaces.Deployer;
 import org.apache.avalon.phoenix.interfaces.DeployerMBean;
 import org.apache.avalon.phoenix.interfaces.DeploymentException;
-import org.apache.avalon.phoenix.interfaces.DeploymentRecorder;
 import org.apache.avalon.phoenix.interfaces.Kernel;
 import org.apache.avalon.phoenix.interfaces.LogManager;
 import org.apache.avalon.phoenix.metadata.BlockListenerMetaData;
@@ -54,12 +55,12 @@ public class DefaultDeployer
     private final Assembler m_assembler = new Assembler();
     private final SarVerifier m_verifier = new SarVerifier();
     private final Installer m_installer = new Installer();
+    private final Map m_installations = new Hashtable();
 
     private LogManager m_logManager;
     private Kernel m_kernel;
     private ConfigurationRepository m_repository;
     private ClassLoaderManager m_classLoaderManager;
-    private DeploymentRecorder m_recorder;
 
     /**
      * Retrieve relevant services needed to deploy.
@@ -74,7 +75,6 @@ public class DefaultDeployer
         m_repository = (ConfigurationRepository)serviceManager.lookup( ConfigurationRepository.ROLE );
         m_classLoaderManager = (ClassLoaderManager)serviceManager.lookup( ClassLoaderManager.ROLE );
         m_logManager = (LogManager)serviceManager.lookup( LogManager.ROLE );
-        m_recorder = (DeploymentRecorder)serviceManager.lookup( DeploymentRecorder.ROLE );
     }
 
     public void initialize()
@@ -94,6 +94,14 @@ public class DefaultDeployer
     public void undeploy( final String name )
         throws DeploymentException
     {
+        final Installation installation =
+            (Installation)m_installations.remove( name );
+        if( null == installation )
+        {
+            final String message =
+                REZ.getString( "deploy.no-deployment.error", name );
+            throw new DeploymentException( message );
+        }
         try
         {
             final Application application = m_kernel.getApplication( name );
@@ -107,11 +115,7 @@ public class DefaultDeployer
                 m_repository.storeConfiguration( name, blocks[ i ], null );
             }
 
-            final Installation installation = m_recorder.fetchInstallation( name );
             m_installer.uninstall( installation );
-
-            //erase installation information
-            m_recorder.recordInstallation( name, null );
         }
         catch( final Exception e )
         {
@@ -151,14 +155,7 @@ public class DefaultDeployer
     {
         try
         {
-            Installation installation = m_recorder.fetchInstallation( name );
-
-            if( null == installation )
-            {
-                //fresh installation
-                installation = m_installer.install( location );
-                m_recorder.recordInstallation( name, installation );
-            }
+            final Installation installation = m_installer.install( location );
 
             final Configuration config = getConfigurationFor( installation.getConfig() );
             final Configuration server = getConfigurationFor( installation.getEnvironment() );
@@ -185,6 +182,8 @@ public class DefaultDeployer
 
             //Finally add application to kernel
             m_kernel.addApplication( metaData, classLoader, hierarchy, server );
+
+            m_installations.put( name, installation );
 
             final String message =
                 REZ.getString( "deploy.notice.sar.add", name, installation.getClassPath() );
