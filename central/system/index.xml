@@ -91,10 +91,10 @@
         <version>2.0.0</version>
       </info>
       <dependencies>
-        <include key="log4j" runtime="false"/>
-        <include key="servletapi" runtime="false"/>
-        <include key="mailapi" runtime="false"/>
-        <include key="jms" runtime="false"/>
+        <include key="log4j" runtime="true"/>
+        <include key="servletapi" runtime="true"/>
+        <include key="mailapi" runtime="true"/>
+        <include key="jms" runtime="true"/>
       </dependencies>
     </project>
 
@@ -109,7 +109,7 @@
         <version>4.2.0</version>
       </info>
       <dependencies>
-        <include key="avalon-logkit" runtime="false" test="false"/>
+        <include key="avalon-logkit" runtime="true" test="false"/>
       </dependencies>
     </project>
 
@@ -694,8 +694,8 @@
         <include key="avalon-util-defaults"/>
         <include key="avalon-repository-spi"/>
         <include key="avalon-composition-spi"/>
-        <include key="avalon-composition-impl" build="false" test="true" runtime="false"/>
         <include key="avalon-activation-api"/>
+        <include key="avalon-composition-impl" build="false" test="true" runtime="false"/>
         <include key="avalon-test-components" build="false" test="true" runtime="false"/>
         <include key="avalon-test-playground" build="false" test="true" runtime="false"/>
       </dependencies>
