@@ -20,7 +20,7 @@
 
     <name>Excalibur Datasource</name>
     <id>excalibur-datasource</id>
-    <currentVersion>1.2</currentVersion>
+    <currentVersion>1.2.0</currentVersion>
     <inceptionYear>2003</inceptionYear>
     <shortDescription>Excalibur's Datasourc component</shortDescription>
     <description>
@@ -46,13 +46,19 @@ necessary issues from there.
             <version>1.7.1</version>
         </dependency>
         <dependency>
-            <id>avalon-framework</id>
-            <version>4.1.4</version>
+            <groupId>avalon-framework</groupId>
+            <artifactId>avalon-framework-api</artifactId>
+            <version>4.2.0</version>
+        </dependency>
+        <dependency>
+            <groupId>avalon-framework</groupId>
+            <artifactId>avalon-framework-impl</artifactId>
+            <version>4.2.0</version>
         </dependency>
         <dependency>
             <groupId>avalon-logkit</groupId>
             <artifactId>avalon-logkit</artifactId>
-            <version>2.0</version>
+            <version>2.0.0</version>
         </dependency>
         <dependency>
             <groupId>excalibur-instrument</groupId>
@@ -62,12 +68,12 @@ necessary issues from there.
         <dependency>
             <groupId>excalibur-pool</groupId>
             <artifactId>excalibur-pool-api</artifactId>
-            <version>2.0</version>
+            <version>2.0.0</version>
         </dependency>
         <dependency>
             <groupId>excalibur-pool</groupId>
             <artifactId>excalibur-pool-impl</artifactId>
-            <version>2.0</version>
+            <version>2.0.0</version>
         </dependency>
         <dependency>
             <groupId>excalibur-pool</groupId>
@@ -85,7 +91,7 @@ necessary issues from there.
         <dependency>
             <groupId>excalibur-i18n</groupId>
             <artifactId>excalibur-i18n</artifactId>
-            <version>1.2.0-dev</version>
+            <version>1.1</version>
         </dependency>
         <dependency>
             <groupId>excalibur-component</groupId>
