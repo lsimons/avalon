@@ -6,13 +6,13 @@
      href="http://svn.apache.org/repos/asf/avalon/trunk/runtime/index.xml"/>
 
   <!--
-  Avalon Tutorials.
+  Hello Tutorial.
   -->
 
-  <project basedir="hello" key="avalon-tutorial-hello">
+  <project basedir="hello">
     <info>
       <group>avalon/tutorial</group>
-      <name>hello</name>
+      <name>avalon-tutorial-hello</name>
     </info>
     <dependencies>
       <include key="avalon-framework-api" runtime="false"/>
@@ -22,14 +22,85 @@
     </plugins>
   </project>
 
-  <project basedir="dynamics" key="avalon-tutorial-dynamics">
+  <!--
+  Dynamics Tutorial.
+  -->
+
+  <project basedir="dynamics">
     <info>
       <group>avalon/tutorial</group>
-      <name>dynamics</name>
+      <name>avalon-tutorial-dynamics</name>
     </info>
     <dependencies>
       <include key="avalon-composition-api" runtime="false"/>
       <include key="avalon-framework-impl"/>
+    </dependencies>
+    <plugins>
+      <include key="avalon-meta-tools"/>
+    </plugins>
+  </project>
+
+  <!--
+  Composition Tutorial.
+  -->
+
+  <project basedir="composition/publisher/api">
+    <info>
+      <group>avalon/tutorial</group>
+      <name>avalon-tutorial-publisher-api</name>
+    </info>
+    <dependencies>
+      <include key="avalon-framework-api"/>
+    </dependencies>
+  </project>
+
+  <project basedir="composition/publisher/impl">
+    <info>
+      <group>avalon/tutorial</group>
+      <name>avalon-tutorial-publisher-impl</name>
+    </info>
+    <dependencies>
+      <include key="avalon-framework-impl"/>
+      <include key="avalon-tutorial-publisher-api"/>
+    </dependencies>
+    <plugins>
+      <include key="avalon-meta-tools"/>
+    </plugins>
+  </project>
+
+  <project basedir="composition/location/api">
+    <info>
+      <group>avalon/tutorial</group>
+      <name>avalon-tutorial-location-api</name>
+    </info>
+    <dependencies>
+      <include key="avalon-framework-api"/>
+    </dependencies>
+  </project>
+
+  <project basedir="composition/location/impl">
+    <info>
+      <group>avalon/tutorial</group>
+      <name>avalon-tutorial-location-impl</name>
+    </info>
+    <dependencies>
+      <include key="avalon-framework-impl"/>
+      <include key="avalon-tutorial-location-api"/>
+      <include key="avalon-tutorial-publisher-api"/>
+    </dependencies>
+    <plugins>
+      <include key="avalon-meta-tools"/>
+    </plugins>
+  </project>
+
+  <project basedir="composition/application/impl">
+    <info>
+      <group>avalon/tutorial</group>
+      <name>avalon-tutorial-application-impl</name>
+    </info>
+    <dependencies>
+      <include key="avalon-tutorial-location-impl"/>
+      <include key="avalon-tutorial-publisher-impl"/>
     </dependencies>
     <plugins>
       <include key="avalon-meta-tools"/>

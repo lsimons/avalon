@@ -28,6 +28,6 @@ $ ant
 Runtime
 -------
 
-$ merlin target\deliverables\jars\dynamics.jar -execute
+$ merlin target\deliverables\jars\avalon-tutorial-dynamics.jar -execute
 
 
