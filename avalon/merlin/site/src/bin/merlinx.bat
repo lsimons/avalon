@@ -12,9 +12,9 @@ set JAVA=%JAVA_HOME%\bin\java
 
 :SET_MERLIN
 if "%MERLIN_HOME%" == "" set MERLIN_HOME=%USERPROFILE%\.merlin
-set WORKING_REPOSITORY=%USERPROFILE%\.maven\repository
+set WORKING_REPOSITORY="%USERPROFILE%\.maven\repository"
 if "%MAVEN_HOME_LOCAL%" == "" goto DoneMerlinSystem
-set WORKING_REPOSITORY=%MAVEN_HOME_LOCAL%\repository
+set WORKING_REPOSITORY="%MAVEN_HOME_LOCAL%\repository"
 :DoneMerlinSystem
 set MERLIN_CMD_LINE_ARGS=%*
 set MERLIN_BOOTSTRAP_JAR=%MERLIN_HOME%\bin\lib\@MERLIN_CLI_JAR@
