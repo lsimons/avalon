@@ -50,13 +50,13 @@ jefft@apache.org
 
   <!-- mandatory project logo
        skin: forrest-site renders it at the top -->
-  <project-name>Avalon Phoenix</project-name>
-  <project-url>http://avalon.apache.org/phoenix/</project-url>
-  <project-logo>images/header.gif</project-logo>
+  <project-name>Visit ApacheCon 2003!</project-name>
+  <project-url>http://apachecon.com/2003/US/index.html</project-url>
+  <project-logo>http://www.apache.org/~ceki/ac2003/ac2003-150.gif</project-logo>
 
   <!-- optional group logo
        skin: forrest-site renders it at the top-left corner -->
-  <group-name>Apache Avalon</group-name>
+  <group-name>Apache Avalon-Phoenix</group-name>
   <group-url>http://avalon.apache.org/</group-url>
   <group-logo>images/apache-avalon-logo.png</group-logo>
 
