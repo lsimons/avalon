@@ -1,0 +1,13 @@
+
+bsh.help.prtblocks = "usage: rmvapp( appName ), remove an app";
+
+/*
+	By Paul Hammant : Specifically for Phoenix
+*/
+rmvapp( String appName ) {
+
+    kernel = this.interpreter.get("phoenix-kernel");
+    kernel.removeApplication(appName);
+    
+}
+

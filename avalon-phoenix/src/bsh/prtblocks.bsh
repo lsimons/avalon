@@ -1,0 +1,16 @@
+
+bsh.help.prtblocks = "usage: prtblocks( appName ), prints a blocks for an app";
+
+/*
+	By Paul Hammant : Specifically for Phoenix
+*/
+prtblocks( String appName ) {
+
+    kernel = this.interpreter.get("phoenix-kernel");
+    String[] blocks = kernel.getApplication(appName).getBlockNames();
+    for (int i = 0; i < blocks.length; i++) {
+      print(i + " " + blocks[i]);
+    }
+    
+}
+

@@ -1,0 +1,16 @@
+
+bsh.help.prtapps = "usage: prtapps(), prints a list of apps";
+
+/*
+	By Paul Hammant : Specifically for Phoenix
+*/
+prtapps() {
+
+    kernel = this.interpreter.get("phoenix-kernel");
+    String[] apps = kernel.getApplicationNames();
+    for (int i = 0; i < apps.length; i++) {
+      print(i + " " + apps[i]);
+    }
+    
+}
+
