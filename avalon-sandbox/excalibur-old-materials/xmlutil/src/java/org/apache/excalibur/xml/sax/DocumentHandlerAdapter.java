@@ -21,9 +21,10 @@ import org.xml.sax.helpers.NamespaceSupport;
  * {@link DocumentHandler} to receive SAX version 2.0 events.
  *
  * @author <a href="mailto:mirceatoma@apache.org">Mircea Toma</a>
- * @version CVS $Revision: 1.5 $ $Date: 2002/10/16 17:26:59 $
+ * @version CVS $Revision: 1.6 $ $Date: 2002/11/12 23:31:37 $
  */
-public class DocumentHandlerAdapter implements ContentHandler
+public class DocumentHandlerAdapter
+    implements ContentHandler
 {
     private final static String XMLNS = "xmlns";
     private final static String XMLNS_PREFIX = "xmlns:";
@@ -31,7 +32,7 @@ public class DocumentHandlerAdapter implements ContentHandler
     private final DocumentHandler m_documentHandler;
     private final NamespaceSupport m_support = new NamespaceSupport();
     private boolean m_contextPushed = false;
-    
+
     /**
      * Create a new <code>ContentHandlerWrapper</code> instance.
      */
@@ -39,7 +40,7 @@ public class DocumentHandlerAdapter implements ContentHandler
     {
         m_documentHandler = documentHandler;
     }
-    
+
     /**
      * Receive an object for locating the origin of SAX document events.
      */
@@ -47,7 +48,7 @@ public class DocumentHandlerAdapter implements ContentHandler
     {
         m_documentHandler.setDocumentLocator( locator );
     }
-    
+
     /**
      * Receive notification of the beginning of a document.
      */
@@ -55,7 +56,7 @@ public class DocumentHandlerAdapter implements ContentHandler
     {
         m_documentHandler.startDocument();
     }
-    
+
     /**
      * Receive notification of the end of a document.
      */
@@ -64,7 +65,7 @@ public class DocumentHandlerAdapter implements ContentHandler
     {
         m_documentHandler.endDocument();
     }
-    
+
     /**
      * Begin the scope of a prefix-URI Namespace mapping.
      */
@@ -75,10 +76,10 @@ public class DocumentHandlerAdapter implements ContentHandler
             m_support.pushContext();
             m_contextPushed = true;
         }
-        
+
         m_support.declarePrefix( prefix, uri );
     }
-    
+
     /**
      * End the scope of a prefix-URI mapping.
      */
@@ -86,7 +87,7 @@ public class DocumentHandlerAdapter implements ContentHandler
     {
         //do nothing
     }
-    
+
     /**
      * Receive notification of the beginning of an element.
      */
@@ -100,9 +101,9 @@ public class DocumentHandlerAdapter implements ContentHandler
             m_support.pushContext();
         }
         m_contextPushed = false;
-        
+
         final String name = getTagName(loc, raw, uri);
-        
+
         final AttributeListImpl attributeList = new AttributeListImpl();
         for (int i = 0; i < a.getLength(); i++)
         {
@@ -118,8 +119,8 @@ public class DocumentHandlerAdapter implements ContentHandler
                 else
                 {
                     final String prefix = m_support.getPrefix( attributeNamespaceURI );
-                    if (prefix == null) 
-                    {                        
+                    if (prefix == null)
+                    {
                         throw new SAXException( "No attribute prefix for namespace URI: " + attributeNamespaceURI );
                     }
                     attributeName = prefix + ':' + attributeLocalName;
@@ -127,12 +128,11 @@ public class DocumentHandlerAdapter implements ContentHandler
             }
             attributeList.addAttribute( attributeName, a.getType( i ), a.getValue( i ) );
         }
-        
+
         final Enumeration e = m_support.getDeclaredPrefixes();
         while( e.hasMoreElements() )
         {
             final String prefix = (String)e.nextElement();
-            final String namespaceURI = m_support.getURI( prefix );
             if ( prefix.length() == 0 )
             {
                 attributeList.addAttribute( XMLNS, CDATA, uri );
@@ -142,10 +142,10 @@ public class DocumentHandlerAdapter implements ContentHandler
                 attributeList.addAttribute( XMLNS_PREFIX + prefix, CDATA, uri );
             }
         }
-        
+
         m_documentHandler.startElement( name, attributeList );
     }
-    
+
     /**
      * Receive notification of the end of an element.
      */
@@ -153,11 +153,11 @@ public class DocumentHandlerAdapter implements ContentHandler
                             final String loc,
                             final String raw ) throws SAXException
     {
-        final String name = getTagName( loc, raw, uri );        
-        m_documentHandler.endElement( name );        
+        final String name = getTagName( loc, raw, uri );
+        m_documentHandler.endElement( name );
         m_support.popContext();
     }
-    
+
     /**
      * Receive notification of character data.
      */
@@ -167,7 +167,7 @@ public class DocumentHandlerAdapter implements ContentHandler
     {
         m_documentHandler.characters( ch, start, len );
     }
-    
+
     /**
      * Receive notification of ignorable whitespace in element content.
      */
@@ -177,7 +177,7 @@ public class DocumentHandlerAdapter implements ContentHandler
     {
         m_documentHandler.ignorableWhitespace( ch, start, len );
     }
-    
+
     /**
      * Receive notification of a processing instruction.
      */
@@ -186,7 +186,7 @@ public class DocumentHandlerAdapter implements ContentHandler
     {
         m_documentHandler.processingInstruction( target, data );
     }
-    
+
     /**
      * Receive notification of a skipped entity.
      *
@@ -197,20 +197,20 @@ public class DocumentHandlerAdapter implements ContentHandler
     {
         //do nothing
     }
-    
+
     private String getTagName( final String loc, final String raw, final String uri ) throws SAXException
     {
-        if (raw != null && raw.length() > 0) 
+        if (raw != null && raw.length() > 0)
         {
             return raw;
         }
         else
         {
-            final String prefix = getTagPrefix( uri );            
+            final String prefix = getTagPrefix( uri );
             return ( ( prefix.length() == 0 ) ? "" : ( prefix + ':' ) ) + loc;
         }
     }
-    
+
     private String getTagPrefix( final String uri ) throws SAXException
     {
         if ( m_support.getPrefix( uri ) == null )
@@ -222,7 +222,7 @@ public class DocumentHandlerAdapter implements ContentHandler
             else
             {
                 final String defaultURI = m_support.getURI( "" );
-                if ( ( defaultURI != null ) && defaultURI.equals( uri ) ) 
+                if ( ( defaultURI != null ) && defaultURI.equals( uri ) )
                 {
                     return ""; // default namespace
                 }
@@ -234,6 +234,6 @@ public class DocumentHandlerAdapter implements ContentHandler
         }
         else {
             return m_support.getPrefix( uri );
-        }        
+        }
     }
 }
