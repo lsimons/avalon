@@ -26,4 +26,7 @@
   <taskdef name="gump" classname="org.apache.avalon.tools.tasks.GumpTask"/> 
   <typedef name="path" classname="org.apache.avalon.tools.model.MagicPath"/> 
 
+<!-- Under construction. -->
+  <typedef name="new" classname="org.apache.avalon.tools.tasks.NewTask"/> 
+
 </antlib>
