@@ -29,7 +29,6 @@ public class Parameters
 {
     ///Underlying store of parameters
     private Map                m_parameters = new HashMap();
-    private Map                m_locks = new HashMap();
 
     private boolean            m_readOnly;
 
@@ -44,21 +43,6 @@ public class Parameters
     public String setParameter( final String name, final String value )
         throws IllegalStateException
     {
-        return setParameter( name, value, false );
-    }
-
-    /**
-     * Set the <code>String</code> value of a specified parameter.
-     * <p />
-     * If the specified value is <b>null</b> the parameter is removed.
-     *
-     * @return The previous value of the parameter or <b>null</b>.
-     * @exception IllegalStateException if the Parameters object is read-only
-     */
-    public synchronized String setParameter( final String name, 
-                                             final String value, 
-                                             final boolean isLocked )
-    {
         checkWriteable();
 
         if( null == name )
@@ -66,18 +50,11 @@ public class Parameters
             return null;
         }
 
-        if( Boolean.TRUE.equals( (Boolean)m_locks.get( name ) ) )
-        {
-            return null;
-        }
-
         if( null == value )
         {
-            m_locks.remove( name );
             return (String)m_parameters.remove( name );
         }
 
-        m_locks.put( name, new Boolean( isLocked ) );
         return (String)m_parameters.put( name, value );
     }
 
@@ -86,7 +63,7 @@ public class Parameters
      */
     public void removeParameter( final String name )
     {
-        setParameter( name, null, false );
+        setParameter( name, null );
     }
 
     /**
@@ -119,17 +96,6 @@ public class Parameters
     public boolean isParameter( final String name )
     {
         return m_parameters.containsKey( name );
-    }
-
-    /**
-     * Test if the specified parameter is locked.
-     *
-     * @param name the parameter name
-     * @return true if parameter is locked
-     */
-    public boolean isLocked( final String name )
-    {
-        return m_readOnly || (Boolean.TRUE.equals( (Boolean) m_locks.get(name) ) );
     }
 
     /**
@@ -426,7 +392,6 @@ public class Parameters
         while( names.hasNext() )
         {
             final String name = (String) names.next();
-            final boolean isLocked = other.isLocked( name );
             String value = null;
             try
             {
@@ -437,7 +402,7 @@ public class Parameters
                 value = null;
             }
 
-            setParameter( name, value, isLocked );
+            setParameter( name, value );
         }
 
         return this;
@@ -496,7 +461,7 @@ public class Parameters
         }
 
         final Configuration[] parameters = configuration.getChildren( elementName );
-        final Parameters param = new Parameters();
+        final Parameters params = new Parameters();
 
         for( int i = 0; i <  parameters.length; i++ )
         {
@@ -504,8 +469,7 @@ public class Parameters
             {
                 final String name = parameters[ i ].getAttribute( "name" );
                 final String value = parameters[ i ].getAttribute( "value" );
-                final boolean isLocked = parameters[ i ].getAttributeAsBoolean( "locked", false );
-                param.setParameter( name, value, isLocked );
+                params.setParameter( name, value );
             }
             catch( final Exception e )
             {
@@ -513,12 +477,13 @@ public class Parameters
             }
         }
 
-        return param;
+        return params;
     }
 
     /**
      * Create a <code>Parameters</code> object from a <code>Properties</code>
      * object.
+     *
      * @param properties the Properties
      * @return This <code>Parameters</code> instance.
      */
@@ -529,7 +494,7 @@ public class Parameters
 
         for( int i = 0; i < entries.length; i++ )
         {
-            parameters.setParameter( (String)entries[i].getKey(), (String)entries[i].getValue(), false );
+            parameters.setParameter( (String)entries[i].getKey(), (String)entries[i].getValue() );
         }
 
         return parameters;
