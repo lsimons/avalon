@@ -7,6 +7,7 @@
  */
 package org.apache.avalon.excalibur.i18n;
 
+import java.lang.ref.WeakReference;
 import java.util.HashMap;
 
 /**
@@ -39,16 +40,47 @@ public class ResourceManager
     public static final Resources getBaseResources( final String baseName,
                                                     final ClassLoader classLoader )
     {
-        //TODO: Make these weak references????
-        Resources packet = (Resources)c_resources.get( baseName );
-
+        Resources packet = getCachedResource( baseName );
         if( null == packet )
         {
             packet = new Resources( baseName, classLoader );
-            c_resources.put( baseName, packet );
+            putCachedResource( baseName, packet );
         }
 
         return packet;
+    }
+
+    /**
+     * Cache specified resource in weak reference.
+     *
+     * @param baseName the resource key
+     * @param resources the resources object
+     */
+    private static final void putCachedResource( final String baseName,
+                                                 final Resources resources )
+    {
+        c_resources.put( baseName,
+                         new WeakReference( resources ) );
+    }
+
+    /**
+     * Retrieve cached resource.
+     *
+     * @param baseName the resource key
+     * @return resources the resources object
+     */
+    private static final Resources getCachedResource( final String baseName )
+    {
+        final WeakReference weakReference =
+            (WeakReference)c_resources.get( baseName );
+        if( null == weakReference )
+        {
+            return null;
+        }
+        else
+        {
+            return (Resources)weakReference.get();
+        }
     }
 
     /**
