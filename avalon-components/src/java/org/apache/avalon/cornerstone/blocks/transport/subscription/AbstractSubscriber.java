@@ -22,6 +22,7 @@ import org.apache.commons.altrmi.client.AltrmiHostContext;
 import org.apache.commons.altrmi.client.impl.ServerClassAltrmiFactory;
 import org.apache.commons.altrmi.client.impl.ClientClassAltrmiFactory;
 import org.apache.commons.altrmi.common.AltrmiConnectionException;
+import org.apache.commons.altrmi.common.AltrmiAuthentication;
 
 
 /**
@@ -29,7 +30,7 @@ import org.apache.commons.altrmi.common.AltrmiConnectionException;
  *
  *
  * @author Paul Hammant <a href="mailto:Paul_Hammant@yahoo.com">Paul_Hammant@yahoo.com</a>
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 
 public abstract class AbstractSubscriber
@@ -88,12 +89,45 @@ public abstract class AbstractSubscriber
    }
 
    /**
-    * Initialialize the component. Initialization includes
-    * allocating any resources required throughout the
-    * components lifecycle.
+    * Method lookup
     *
-    * @exception Exception if an error occurs
+    *
+    * @param publishedName
+    * @param authentication
+    *
+    * @return
+    *
+    * @throws AltrmiConnectionException
+    *
     */
+
+   public Object lookup (String publishedName,
+                         AltrmiAuthentication authentication)
+      throws AltrmiConnectionException
+   {
+      return mAltrmiFactory.lookup(publishedName, authentication);
+   }
+
+   /**
+    * Method getTextToSignForAuthentication
+    *
+    *
+    * @return
+    *
+    */
+
+   public String getTextToSignForAuthentication ()
+   {
+      return mAltrmiFactory.getTextToSignForAuthentication();
+   }
+
+   /**
+   * Initialialize the component. Initialization includes
+   * allocating any resources required throughout the
+   * components lifecycle.
+   *
+   * @exception Exception if an error occurs
+   */
 
    public void initialize ()
       throws Exception
@@ -101,6 +135,3 @@ public abstract class AbstractSubscriber
       mAltrmiFactory.setHostContext(mHostContext);
    }
 }
-
-
-/*------ Formatted by Jindent 3.24 Basic 1.0 --- http://www.jindent.de ------*/
