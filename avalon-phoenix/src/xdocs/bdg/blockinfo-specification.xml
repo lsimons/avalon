@@ -3,11 +3,7 @@
 <document>
   <properties>
     <title>The BlockInfo Specification</title>
-    <version>3.0</version>
-      <author email="peter@apache.org">Peter Donald</author>
-    <abstract>
-      Specifies the format of BlockInfo files and the reasons for particular aspects.
-    </abstract>
+    <author email="peter@apache.org">Peter Donald</author>
   </properties>
   <body>
     <section name="Block Metadata">
