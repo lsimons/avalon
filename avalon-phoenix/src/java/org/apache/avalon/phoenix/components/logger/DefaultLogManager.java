@@ -15,6 +15,8 @@ import org.apache.avalon.phoenix.BlockContext;
 import org.apache.avalon.phoenix.interfaces.LogManager;
 import org.apache.avalon.phoenix.metadata.SarMetaData;
 import org.apache.log.Hierarchy;
+import org.apache.avalon.excalibur.i18n.ResourceManager;
+import org.apache.avalon.excalibur.i18n.Resources;
 
 /**
  * Interface that is used to manage Log objects for a Sar.
@@ -25,6 +27,9 @@ public class DefaultLogManager
     extends AbstractLogEnabled
     implements LogManager
 {
+    private static final Resources REZ =
+        ResourceManager.getPackageResources( SimpleLogKitManager.class );
+
     public Hierarchy createHierarchy( final SarMetaData metaData,
                                       final Configuration logs )
         throws Exception
@@ -34,6 +39,14 @@ public class DefaultLogManager
         context.put( BlockContext.APP_HOME_DIR, metaData.getHomeDirectory() );
 
         final String version = logs.getAttribute( "version", "1.0" );
+
+        if( getLogger().isDebugEnabled() )
+        {
+            final String message =
+                REZ.getString( "logger-create", metaData.getName(), version );
+            getLogger().debug( message );
+        }
+
         if( version.equals( "1.0" ) )
         {
             final SimpleLogKitManager manager = new SimpleLogKitManager();
