@@ -7,6 +7,7 @@
  */
 package org.apache.phoenix.engine.facilities.application;
 
+import org.apache.avalon.atlantis.ManagerException;
 import org.apache.avalon.atlantis.SystemManager;
 import org.apache.avalon.component.ComponentException;
 import org.apache.avalon.component.ComponentManager;
@@ -14,6 +15,7 @@ import org.apache.avalon.component.Composable;
 import org.apache.avalon.context.Context;
 import org.apache.avalon.context.ContextException;
 import org.apache.avalon.context.Contextualizable;
+import org.apache.phoenix.Block;
 import org.apache.phoenix.engine.facilities.ApplicationManager;
 
 /**
@@ -40,5 +42,42 @@ public class DefaultApplicationManager
     {
         m_systemManager = (SystemManager)componentManager.
             lookup( "org.apache.avalon.atlantis.SystemManager" );
+    }
+
+   /**
+     * Register a block for management.
+     * The block is exported through some management scheme
+     * (typically JMX) and the management is restricted
+     * to the interfaces passed in as a parameter to method.
+     *
+     * @param name the name to register block under
+     * @param block the block
+     * @param interfaces the interfaces to register the component under
+     * @exception ManagerException if an error occurs. An error could occur if the block doesn't
+     *            implement the interfaces, the interfaces parameter contain non-instance
+     *            classes, the name is already registered etc.
+     * @exception IllegalArgumentException if block or interfaces is null
+     */
+    public void register( final String name, final Block block, final Class[] interfaces )
+        throws ManagerException, IllegalArgumentException
+    {
+        m_systemManager.register( getFQNFor( name ), block, interfaces );
+    }
+
+    /**
+     * Unregister named block.
+     *
+     * @param name the name of block to unregister
+     * @exception ManagerException if an error occurs such as when no such block registered.
+     */
+    public void unregister( final String name )
+        throws ManagerException
+    {
+        m_systemManager.unregister( getFQNFor( name ) );
+    }
+
+    protected String getFQNFor( final String name )
+    {
+        return m_name + "/" + name;
     }
 }
