@@ -26,6 +26,9 @@ import org.apache.avalon.framework.component.Composable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
+import org.apache.avalon.framework.context.Contextualizable;
+import org.apache.avalon.framework.context.ContextException;
+import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.phoenix.interfaces.ClassLoaderManager;
 import org.apache.avalon.phoenix.interfaces.PackageRepository;
 
@@ -42,15 +45,44 @@ import org.apache.avalon.phoenix.interfaces.PackageRepository;
  * <code>ClassLoader</code></p>
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @see ClassLoaderManager
  */
 public class DefaultClassLoaderManager
     extends AbstractLogEnabled
-    implements ClassLoaderManager, Composable
+    implements ClassLoaderManager, Contextualizable, Composable
 {
     private static final Resources REZ =
         ResourceManager.getPackageResources( DefaultClassLoaderManager.class );
 
+    /**
+     * Component to manage "Optional Packages" aka
+     * Extensions to allow programs to declare dependencies
+     * on such extensions.
+     */
     private PackageManager m_packageManager;
+
+    /**
+     * Parent ClassLoader for all applications
+     * aka as the "common" classloader.
+     */
+    private ClassLoader m_commonClassLoader;
+
+    /**
+     * Pass the Context to the Manager.
+     * It is expected that the there will be an entry
+     * <ul>
+     *   <b>common.classloader</b> : ClassLoader shared betweeen
+     *      container and applications</li>
+     * </ul>
+     *
+     * @param context the context
+     * @exception ContextException if context does not contain common classloader
+     */
+    public void contextualize( Context context )
+        throws ContextException
+    {
+        m_commonClassLoader = (ClassLoader)context.get( "common.classloader" );
+    }
 
     public void compose( final ComponentManager componentManager )
         throws ComponentException
@@ -98,9 +130,6 @@ public class DefaultClassLoaderManager
             getLogger().debug( message );
         }
 
-        //TODO: Determine parentClassLoader in a safer fashion
-        final ClassLoader parentClassLoader = Thread.currentThread().getContextClassLoader();
-
         //If source is not a file then there will be no need to pass in
         //a URLStreamHandler factory anyway so we can just pass in null
         //SarURLStreamHandlerFactory factory = null;
@@ -110,9 +139,8 @@ public class DefaultClassLoaderManager
         //factory = new SarURLStreamHandlerFactory( archive );
         //URL.setURLStreamHandlerFactory( factory );
         //}
-
         final PolicyClassLoader classLoader =
-            new PolicyClassLoader( classPath, parentClassLoader, null, policy );
+            new PolicyClassLoader( classPath, m_commonClassLoader, null, policy );
         setupLogger( classLoader, "classloader" );
 
         for( int i = 0; i < extensions.length; i++ )
