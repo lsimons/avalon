@@ -74,7 +74,7 @@
       <section>
 <title>Excalibur</title>
         <p>
-          <link href="@EXCALIBUR_BASE@/index.html">Excalibur</link> is a collection of
+          <link href="excalibur/index.html">Excalibur</link> is a collection of
           implementations and common code based on and implementing the
           <link href="framework/index.html">Avalon Framework</link>.
         </p>
@@ -83,7 +83,7 @@
       <section>
 <title>Phoenix</title>
         <p>
-          <link href="@PHOENIX_BASE@/index.html">Phoenix</link> is a server oriented
+          <link href="phoenix/index.html">Phoenix</link> is a server oriented
           Application Server. Applications and Services that conform to the framework
           rules can be hosted in Phoenix. The Application server manages the applications
           classloader, security and logging needs. It also provides a JMX-based management
@@ -94,8 +94,8 @@
       <section>
 <title>Cornerstone</title>
         <p>
-          <link href="@CORNERSTONE_BASE@/index.html">Cornerstone</link> is a repository.
-          for what we call <link href="@PHOENIX_BASE@/what-is-a-block.html">blocks</link>,
+          <link href="cornerstone/index.html">Cornerstone</link> is a repository.
+          for what we call <link href="phoenix/what-is-a-block.html">blocks</link>,
           which provide services vital to server applications. The blocks include blocks for
           services such as scheduling and socket management.
         </p>
@@ -104,7 +104,7 @@
       <section>
 <title>Applications</title>
         <p>
-          <link href="@APPS_BASE@/index.html">Applications</link> is a repository of
+          <link href="apps/index.html">Applications</link> is a repository of
           Phoenix blocks.  Some are simple self-contained demos of Phoenix applications,
           others are complete standalone products, and a few are ambitious works in progress.
           If you are looking for a starting point for a Phoenix block or a complete server,
@@ -115,7 +115,7 @@
       <section>
 <title>LogKit</title>
         <p>
-          <link href="@LOGKIT_BASE@/index.html">LogKit</link> is the preferred logging toolkit
+          <link href="logkit/index.html">LogKit</link> is the preferred logging toolkit
           used by the Avalon subprojects.</p>
 	  <p>
 	  It is quite possible to use the other avalon subprojects without committing to logkit.

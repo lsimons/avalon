@@ -29,7 +29,7 @@
 	  as hosted components.  These can be applications like a web server, RDBMS or
 	  EJB server. It provides many advanced features like automatic management, at the
 	  cost of a bit of complexity.
-          See <link href="@PHOENIX_BASE@/index.html">Phoenix</link>.
+          See <link href="../phoenix/index.html">Phoenix</link>.
         </p>
 
 	<p>
@@ -46,7 +46,7 @@
 	exclusively as a teaching tool. It has no features whatsoever besides basic support
 	for the avalon lifecycle. This results in a complete distribution the size of the
 	phoenix bootstrapper.
-	See <link href="@AVALON_BASE@/excalibur/tweety">Tweety</link>
+	See <link href="../excalibur/tweety">Tweety</link>
 	</p>
 	</section>
 
