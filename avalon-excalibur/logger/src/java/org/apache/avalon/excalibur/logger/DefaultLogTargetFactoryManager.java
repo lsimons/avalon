@@ -59,19 +59,24 @@ import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.ContextException;
 import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
+import org.apache.avalon.excalibur.i18n.ResourceManager;
+import org.apache.avalon.excalibur.i18n.Resources;
 
 /**
  * Default LogTargetFactoryManager implementation.  It populates the LogTargetFactoryManager
  * from a configuration file.
  *
  * @author <a href="mailto:giacomo@apache.org">Giacomo Pati</a>
- * @version CVS $Revision: 1.4 $ $Date: 2002/11/26 07:44:45 $
+ * @version CVS $Revision: 1.5 $ $Date: 2002/11/26 08:05:45 $
  * @since 4.0
  */
 public class DefaultLogTargetFactoryManager
     extends AbstractLogEnabled
     implements LogTargetFactoryManager, Contextualizable, Configurable
 {
+    private static final Resources REZ =
+        ResourceManager.getPackageResources(DefaultLogTargetFactoryManager.class);
+
     /** Map for name to logger mapping */
     private final Map m_factories = new HashMap();
 
@@ -174,19 +179,19 @@ public class DefaultLogTargetFactoryManager
             catch( final ClassNotFoundException cnfe )
             {
                 final String message =
-                    "cannot find LogTargetFactory class " + factoryClass;
+                    REZ.getString( "target-factory.error.find-class", factoryClass );
                 throw new ConfigurationException( message, cnfe );
             }
             catch( final InstantiationException ie )
             {
                 final String message =
-                    "cannot instantiate LogTargetFactory class " + factoryClass;
+                    REZ.getString( "target-factory.error.instantiate-class", factoryClass );
                 throw new ConfigurationException( message, ie );
             }
             catch( final IllegalAccessException iae )
             {
                 final String message =
-                    "cannot access LogTargetFactory class " + factoryClass;
+                    REZ.getString( "target-factory.error.access-class", factoryClass );
                 throw new ConfigurationException( message, iae );
             }
 
@@ -198,7 +203,7 @@ public class DefaultLogTargetFactoryManager
             catch( final ContextException ce )
             {
                 final String message =
-                    "cannot contextualize LogTargetFactory " + factoryClass;
+                    REZ.getString( "target-factory.error.contextualize", factoryClass );
                 throw new ConfigurationException( message, ce );
             }
             ContainerUtil.configure( logTargetFactory, confs[ i ] );
@@ -211,7 +216,7 @@ public class DefaultLogTargetFactoryManager
             if( getLogger().isDebugEnabled() )
             {
                 final String message =
-                    "added new LogTargetFactory of type " + factoryType;
+                    REZ.getString( "target-factory.notice.add", factoryType );
                 getLogger().debug( message );
             }
             m_factories.put( factoryType, logTargetFactory );
