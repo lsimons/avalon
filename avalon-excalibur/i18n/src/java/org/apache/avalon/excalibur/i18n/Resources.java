@@ -19,8 +19,6 @@ import java.util.ResourceBundle;
  *
  * Reworked to mirror behaviour of StringManager from Tomcat (format() to getString()).
  *
- * TODO: Add extraction of Dates/Time/DateTimes
- *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
 public class Resources
@@ -56,6 +54,11 @@ public class Resources
     {
         m_baseName = baseName;
         m_locale = locale;
+
+        if( null == baseName )
+        {
+            throw new NullPointerException( "baseName property is null" );
+        }
 
         if( null == locale )
         {
