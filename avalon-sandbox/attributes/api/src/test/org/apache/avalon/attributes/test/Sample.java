@@ -10,21 +10,8 @@ public class Sample extends SuperSample implements SampleIFJoin {
      * @ThreadSafe ()
      */
     public Object field;
- 
     
-    /**
-     * @Dependency ( SampleService.class, "sample-ctor1" )
-     */
-    public Sample () {
-        
-    }
-    
-    /**
-     * @Dependency ( SampleService.class, "sample-ctor2" )
-     */
-    public Sample (String input, String[][] array) {
-        
-    }
+    public Object noAttributesInSubClass;
     
     /**
      * @Dependency ( SampleService.class, "sample-some-method1" )
@@ -38,5 +25,8 @@ public class Sample extends SuperSample implements SampleIFJoin {
      */
     public void someMethod (int parameter) {
         
+    }
+    
+    public void methodWithNoAttributes () {
     }
 }

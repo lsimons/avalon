@@ -12,12 +12,17 @@
         description="Build the Avalon Attributes distribution." >
         <maven:reactor
             basedir="${basedir}"
-            includes="*/project.xml"
-            excludes="plugin/*,site/*"
+            includes="compiler/project.xml"
             goals="jar:install-snapshot"
             banner="Building:"
             ignoreFailures="false" />
-        <attainGoal name="do-plugin"/>
+
+        <maven:reactor
+            basedir="${basedir}"
+            includes="api/project.xml"
+            goals="wrapper"
+            banner="Building:"
+            ignoreFailures="false" />
     </goal>
     
     <goal name="do-clean" prereqs="clean">
@@ -28,16 +33,6 @@
             goals="clean:clean"
             banner="Cleaning subproject:"
             ignoreFailures="false"/>
-    </goal>
-    
-    <goal name="do-plugin">
-        <maven:reactor
-            basedir="${basedir}"
-            includes="plugin/project.xml"
-            goals="plugin:install"
-            banner="Installing plugin:"
-            ignoreFailures="false"
-            />
     </goal>
     
     <goal name="do-site">
@@ -60,11 +55,13 @@
             windowtitle="${title}" 
             bottom="${copyright}"
             additionalparam="-breakiterator -J-Xmx128m "
-            packagenames="*,org.*">
+            packagenames="*,org.*"
+            overview="${basedir}/../api/src/java/overview.html">
             <j:forEach var="packageGroup" items="${pom.packageGroups}">
                 <group title="${packageGroup.title}" packages="${packageGroup.packages}"/>
             </j:forEach>
             <sourcepath path="${basedir}/../api/src/java"/>
+            <sourcepath path="${basedir}/../compiler/src/java"/>
             <classpath>
                 <path refid="maven.dependency.classpath"/>
             </classpath>
