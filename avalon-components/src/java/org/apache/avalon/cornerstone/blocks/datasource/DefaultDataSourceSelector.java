@@ -10,6 +10,8 @@ package org.apache.avalon.cornerstone.blocks.datasource;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import org.apache.avalon.cornerstone.services.datasource.DataSourceSelector;
+import org.apache.avalon.excalibur.datasource.DataSourceComponent;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.component.Component;
@@ -20,8 +22,6 @@ import org.apache.avalon.framework.logger.AbstractLoggable;
 import org.apache.avalon.framework.logger.LogEnabled;
 import org.apache.avalon.framework.logger.LogKitLogger;
 import org.apache.avalon.framework.logger.Loggable;
-import org.apache.avalon.cornerstone.services.datasource.DataSourceSelector;
-import org.apache.avalon.excalibur.datasource.DataSourceComponent;
 import org.apache.avalon.phoenix.Block;
 
 /**
@@ -51,7 +51,7 @@ public class DefaultDataSourceSelector
     implements DataSourceSelector, Block, Configurable, Initializable, Disposable
 {
     private Configuration m_configuration;
-    private Map           m_dataSources;
+    private Map m_dataSources;
 
     public void configure( final Configuration configuration )
     {
@@ -66,13 +66,13 @@ public class DefaultDataSourceSelector
         final Configuration[] dataSourceConfs =
             m_configuration.getChild( "data-sources" ).getChildren( "data-source" );
 
-        for ( int i = 0; i < dataSourceConfs.length; i++ )
+        for( int i = 0; i < dataSourceConfs.length; i++ )
         {
             final Configuration dataSourceConf = dataSourceConfs[ i ];
 
             final String name = dataSourceConf.getAttribute( "name" );
             final String clazz = dataSourceConf.getAttribute( "class" );
-            final String driver = dataSourceConf.getChild( "driver", true ).getValue("");
+            final String driver = dataSourceConf.getChild( "driver", true ).getValue( "" );
 
             final ClassLoader classLoader =
                 Thread.currentThread().getContextClassLoader();
@@ -80,7 +80,7 @@ public class DefaultDataSourceSelector
             DataSourceComponent component = null;
             if( null == classLoader )
             {
-                if ( ! "".equals( driver) )
+                if( !"".equals( driver ) )
                 {
                     Class.forName( driver );
                 }
@@ -89,7 +89,7 @@ public class DefaultDataSourceSelector
             }
             else
             {
-                if ( ! "".equals( driver) )
+                if( !"".equals( driver ) )
                 {
                     classLoader.loadClass( driver );
                 }
@@ -97,13 +97,13 @@ public class DefaultDataSourceSelector
                 component = (DataSourceComponent)classLoader.loadClass( clazz ).newInstance();
             }
 
-            if ( component instanceof LogEnabled )
+            if( component instanceof LogEnabled )
             {
-                ((LogEnabled)component).enableLogging( new LogKitLogger( getLogger().getChildLogger( name ) ) );
+                ( (LogEnabled)component ).enableLogging( new LogKitLogger( getLogger().getChildLogger( name ) ) );
             }
-            else if ( component instanceof Loggable )
+            else if( component instanceof Loggable )
             {
-                ((Loggable)component).setLogger( getLogger().getChildLogger( name ) );
+                ( (Loggable)component ).setLogger( getLogger().getChildLogger( name ) );
             }
             component.configure( dataSourceConf );
             m_dataSources.put( name, component );
@@ -118,13 +118,13 @@ public class DefaultDataSourceSelector
     public void dispose()
     {
         final Iterator keys = m_dataSources.keySet().iterator();
-        while ( keys.hasNext() )
+        while( keys.hasNext() )
         {
             final DataSourceComponent dsc =
                 (DataSourceComponent)m_dataSources.get( keys.next() );
-            if ( dsc instanceof Disposable )
+            if( dsc instanceof Disposable )
             {
-                ((Disposable)dsc).dispose();
+                ( (Disposable)dsc ).dispose();
             }
         }
     }

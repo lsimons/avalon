@@ -10,7 +10,8 @@ package org.apache.avalon.cornerstone.blocks.masterstore;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
-import java.util.Iterator;
+import org.apache.avalon.cornerstone.services.store.Repository;
+import org.apache.avalon.cornerstone.services.store.Store;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.component.ComponentException;
@@ -22,8 +23,6 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
-import org.apache.avalon.cornerstone.services.store.Repository;
-import org.apache.avalon.cornerstone.services.store.Store;
 import org.apache.avalon.phoenix.Block;
 
 /**
@@ -34,14 +33,14 @@ public class RepositoryManager
     extends AbstractLogEnabled
     implements Block, Store, Contextualizable, Composable, Configurable
 {
-    private static final String   REPOSITORY_NAME  = "Repository";
-    private static long           id               = 0;
+    private static final String REPOSITORY_NAME = "Repository";
+    private static long id = 0;
 
-    protected HashMap             m_repositories        = new HashMap();
-    protected HashMap             m_models              = new HashMap();
-    protected HashMap             m_classes             = new HashMap();
-    protected ComponentManager    m_componentManager;
-    protected Context             m_context;
+    protected HashMap m_repositories = new HashMap();
+    protected HashMap m_models = new HashMap();
+    protected HashMap m_classes = new HashMap();
+    protected ComponentManager m_componentManager;
+    protected Context m_context;
 
     public void contextualize( final Context context )
     {
@@ -102,8 +101,10 @@ public class RepositoryManager
 
     public boolean hasComponent( final Object hint )
     {
-        if( hint instanceof Configuration ) return true;
-        else return false;
+        if( hint instanceof Configuration )
+            return true;
+        else
+            return false;
     }
 
     public Component select( final Object hint )
@@ -112,7 +113,7 @@ public class RepositoryManager
         Configuration repConf = null;
         try
         {
-            repConf = (Configuration) hint;
+            repConf = (Configuration)hint;
         }
         catch( final ClassCastException cce )
         {
@@ -123,7 +124,7 @@ public class RepositoryManager
         URL destination = null;
         try
         {
-            destination = new URL( repConf.getAttribute("destinationURL") );
+            destination = new URL( repConf.getAttribute( "destinationURL" ) );
         }
         catch( final ConfigurationException ce )
         {
@@ -171,22 +172,22 @@ public class RepositoryManager
 
                     if( reply instanceof Contextualizable )
                     {
-                        ((Contextualizable)reply).contextualize( m_context );
+                        ( (Contextualizable)reply ).contextualize( m_context );
                     }
 
                     if( reply instanceof Composable )
                     {
-                        ((Composable)reply).compose( m_componentManager );
+                        ( (Composable)reply ).compose( m_componentManager );
                     }
 
                     if( reply instanceof Configurable )
                     {
-                        ((Configurable)reply).configure( repConf );
+                        ( (Configurable)reply ).configure( repConf );
                     }
 
                     if( reply instanceof Initializable )
                     {
-                        ((Initializable)reply).initialize();
+                        ( (Initializable)reply ).initialize();
                     }
 
                     m_repositories.put( repID, reply );

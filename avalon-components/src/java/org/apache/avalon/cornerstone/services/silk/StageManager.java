@@ -7,8 +7,6 @@
  */
 package org.apache.avalon.cornerstone.services.silk;
 
-import org.apache.avalon.excalibur.event.Source;
-
 /**
  * The SilkServer provides the mechanism to join seemingly separated blocks
  * into one large Staged Event Driven Architecture server.  The word "Seda"
@@ -23,10 +21,11 @@ import org.apache.avalon.excalibur.event.Source;
  * </p>
  *
  * @author <a href="bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.4 $ $Date: 2002/02/17 01:45:57 $
+ * @version CVS $Revision: 1.5 $ $Date: 2002/03/16 00:18:35 $
  */
 
-public interface StageManager {
+public interface StageManager
+{
     String ROLE = StageManager.class.getName();
 
     /**

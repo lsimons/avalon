@@ -7,9 +7,9 @@
  */
 package org.apache.avalon.cornerstone.blocks.sockets;
 
-import com.sun.net.ssl.TrustManagerFactory;
 import com.sun.net.ssl.KeyManagerFactory;
 import com.sun.net.ssl.SSLContext;
+import com.sun.net.ssl.TrustManagerFactory;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -19,6 +19,7 @@ import java.security.KeyStore;
 import javax.net.ssl.SSLServerSocket;
 import javax.net.ssl.SSLServerSocketFactory;
 import javax.security.cert.X509Certificate;
+import org.apache.avalon.cornerstone.services.sockets.ServerSocketFactory;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.configuration.Configurable;
@@ -27,7 +28,6 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
-import org.apache.avalon.cornerstone.services.sockets.ServerSocketFactory;
 import org.apache.avalon.phoenix.BlockContext;
 
 /**
@@ -44,15 +44,15 @@ public class TLSServerSocketFactory
     extends AbstractLogEnabled
     implements ServerSocketFactory, Component, Contextualizable, Configurable, Initializable
 {
-    protected SSLServerSocketFactory   m_factory;
-    protected File                     m_baseDirectory;
+    protected SSLServerSocketFactory m_factory;
+    protected File m_baseDirectory;
 
-    protected String                   m_keyStoreFile;
-    protected String                   m_keyStorePassword;
-    protected String                   m_keyStoreType;
-    protected String                   m_keyStoreProtocol;
-    protected String                   m_keyStoreAlgorithm;
-    protected boolean                  m_keyStoreAuthenticateClients;
+    protected String m_keyStoreFile;
+    protected String m_keyStorePassword;
+    protected String m_keyStoreType;
+    protected String m_keyStoreProtocol;
+    protected String m_keyStoreAlgorithm;
+    protected boolean m_keyStoreAuthenticateClients;
 
     public void contextualize( final Context context )
     {
@@ -119,9 +119,9 @@ public class TLSServerSocketFactory
     protected void initSSLFactory( final KeyStore keyStore )
         throws Exception
     {
-        
-          java.security.Security.addProvider( new sun.security.provider.Sun() );
-          java.security.Security.addProvider( new com.sun.net.ssl.internal.ssl.Provider() );
+
+        java.security.Security.addProvider( new sun.security.provider.Sun() );
+        java.security.Security.addProvider( new com.sun.net.ssl.internal.ssl.Provider() );
 
         // set up key manager to do server authentication
         final SSLContext sslContext = SSLContext.getInstance( m_keyStoreProtocol );
@@ -130,8 +130,8 @@ public class TLSServerSocketFactory
 
         keyManagerFactory.init( keyStore, m_keyStorePassword.toCharArray() );
 
-        final TrustManagerFactory tmf = TrustManagerFactory.getInstance(m_keyStoreAlgorithm);
-        tmf.init(keyStore);
+        final TrustManagerFactory tmf = TrustManagerFactory.getInstance( m_keyStoreAlgorithm );
+        tmf.init( keyStore );
 
         sslContext.init( keyManagerFactory.getKeyManagers(),
                          tmf.getTrustManagers(),

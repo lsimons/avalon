@@ -1,4 +1,3 @@
-
 /*
  * Copyright (C) The Apache Software Foundation. All rights reserved.
  *
@@ -8,19 +7,16 @@
  */
 package org.apache.avalon.cornerstone.blocks.transport.subscription;
 
-
-
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.commons.altrmi.client.impl.rmi.RmiHostContext;
-
 
 /**
  * Class RmiSubscriber
  *
  *
  * @author Paul Hammant <a href="mailto:Paul_Hammant@yahoo.com">Paul_Hammant@yahoo.com</a>
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public class RmiSubscriber extends AbstractSubscriber
 {
@@ -35,13 +31,13 @@ public class RmiSubscriber extends AbstractSubscriber
      *
      * @param configuration the class configurations.
      */
-    public void configure(Configuration configuration) throws ConfigurationException
+    public void configure( Configuration configuration ) throws ConfigurationException
     {
 
-        super.configure(configuration);
+        super.configure( configuration );
 
-        mPort = configuration.getChild("port").getValueAsInteger();
-        mHost = configuration.getChild("host").getValue();
+        mPort = configuration.getChild( "port" ).getValueAsInteger();
+        mHost = configuration.getChild( "host" ).getValue();
     }
 
     /**
@@ -54,7 +50,7 @@ public class RmiSubscriber extends AbstractSubscriber
     public void initialize() throws Exception
     {
 
-        mHostContext = new RmiHostContext(mHost, mPort);
+        mHostContext = new RmiHostContext( mHost, mPort );
 
         super.initialize();
     }

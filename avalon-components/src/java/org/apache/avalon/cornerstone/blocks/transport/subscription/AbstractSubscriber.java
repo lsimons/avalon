@@ -1,4 +1,3 @@
-
 /*
  * Copyright (C) The Apache Software Foundation. All rights reserved.
  *
@@ -8,32 +7,30 @@
  */
 package org.apache.avalon.cornerstone.blocks.transport.subscription;
 
-
-
-import org.apache.avalon.framework.logger.AbstractLogEnabled;
-import org.apache.avalon.framework.configuration.Configurable;
-import org.apache.avalon.framework.configuration.ConfigurationException;
-import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.activity.Initializable;
+import org.apache.avalon.framework.configuration.Configurable;
+import org.apache.avalon.framework.configuration.Configuration;
+import org.apache.avalon.framework.configuration.ConfigurationException;
+import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.phoenix.Block;
-import org.apache.commons.altrmi.client.AltrmiInterfaceLookup;
 import org.apache.commons.altrmi.client.AltrmiFactory;
 import org.apache.commons.altrmi.client.AltrmiHostContext;
-import org.apache.commons.altrmi.client.impl.ServerClassAltrmiFactory;
+import org.apache.commons.altrmi.client.AltrmiInterfaceLookup;
 import org.apache.commons.altrmi.client.impl.ClientClassAltrmiFactory;
-import org.apache.commons.altrmi.common.AltrmiConnectionException;
+import org.apache.commons.altrmi.client.impl.ServerClassAltrmiFactory;
 import org.apache.commons.altrmi.common.AltrmiAuthentication;
-
+import org.apache.commons.altrmi.common.AltrmiConnectionException;
 
 /**
  * Class AbstractSubscriber
  *
  *
  * @author Paul Hammant <a href="mailto:Paul_Hammant@yahoo.com">Paul_Hammant@yahoo.com</a>
- * @version $Revision: 1.8 $
+ * @version $Revision: 1.9 $
  */
 public abstract class AbstractSubscriber extends AbstractLogEnabled
-        implements AltrmiInterfaceLookup, Configurable, Initializable, Block {
+    implements AltrmiInterfaceLookup, Configurable, Initializable, Block
+{
 
     protected AltrmiFactory mAltrmiFactory;
     protected AltrmiHostContext mHostContext;
@@ -45,16 +42,22 @@ public abstract class AbstractSubscriber extends AbstractLogEnabled
      *
      * @param configuration the class configurations.
      */
-    public void configure(Configuration configuration) throws ConfigurationException {
+    public void configure( Configuration configuration ) throws ConfigurationException
+    {
 
-        String proxyClassLocation = configuration.getChild("proxyClassLocation").getValue();
+        String proxyClassLocation = configuration.getChild( "proxyClassLocation" ).getValue();
 
-        if (proxyClassLocation.equals("client")) {
-            mAltrmiFactory = new ClientClassAltrmiFactory(false);
-        } else if (proxyClassLocation.equals("server")) {
-            mAltrmiFactory = new ServerClassAltrmiFactory(false);
-        } else {
-            throw new ConfigurationException("proxyClassLocation must be 'client' or 'server'");
+        if( proxyClassLocation.equals( "client" ) )
+        {
+            mAltrmiFactory = new ClientClassAltrmiFactory( false );
+        }
+        else if( proxyClassLocation.equals( "server" ) )
+        {
+            mAltrmiFactory = new ServerClassAltrmiFactory( false );
+        }
+        else
+        {
+            throw new ConfigurationException( "proxyClassLocation must be 'client' or 'server'" );
         }
     }
 
@@ -69,8 +72,9 @@ public abstract class AbstractSubscriber extends AbstractLogEnabled
      * @throws AltrmiConnectionException
      *
      */
-    public Object lookup(String publishedName) throws AltrmiConnectionException {
-        return mAltrmiFactory.lookup(publishedName);
+    public Object lookup( String publishedName ) throws AltrmiConnectionException
+    {
+        return mAltrmiFactory.lookup( publishedName );
     }
 
     /**
@@ -85,9 +89,10 @@ public abstract class AbstractSubscriber extends AbstractLogEnabled
      * @throws AltrmiConnectionException
      *
      */
-    public Object lookup(String publishedName, AltrmiAuthentication authentication)
-            throws AltrmiConnectionException {
-        return mAltrmiFactory.lookup(publishedName, authentication);
+    public Object lookup( String publishedName, AltrmiAuthentication authentication )
+        throws AltrmiConnectionException
+    {
+        return mAltrmiFactory.lookup( publishedName, authentication );
     }
 
     /**
@@ -97,19 +102,21 @@ public abstract class AbstractSubscriber extends AbstractLogEnabled
      * @return
      *
      */
-    public String getTextToSignForAuthentication() {
+    public String getTextToSignForAuthentication()
+    {
         return mAltrmiFactory.getTextToSignForAuthentication();
     }
 
     /**
-    * Initialialize the component. Initialization includes
-    * allocating any resources required throughout the
-    * components lifecycle.
-    *
-    * @exception Exception if an error occurs
-    */
-    public void initialize() throws Exception {
-        mAltrmiFactory.setHostContext(mHostContext);
+     * Initialialize the component. Initialization includes
+     * allocating any resources required throughout the
+     * components lifecycle.
+     *
+     * @exception Exception if an error occurs
+     */
+    public void initialize() throws Exception
+    {
+        mAltrmiFactory.setHostContext( mHostContext );
     }
 
     /**
@@ -117,11 +124,13 @@ public abstract class AbstractSubscriber extends AbstractLogEnabled
      *
      *
      */
-    public void close() {
+    public void close()
+    {
         mAltrmiFactory.close();
     }
 
-    public String[] list() {
+    public String[] list()
+    {
         return mAltrmiFactory.list();
     }
 }

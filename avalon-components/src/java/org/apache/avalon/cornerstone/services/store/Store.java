@@ -10,7 +10,6 @@ package org.apache.avalon.cornerstone.services.store;
 import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.component.ComponentException;
 import org.apache.avalon.framework.component.ComponentSelector;
-import org.apache.avalon.phoenix.Service;
 
 /**
  * @author Federico Barbieri <fede@apache.org>

@@ -20,12 +20,12 @@ import java.util.GregorianCalendar;
 public class CronTimeTrigger
     implements TimeTrigger
 {
-    protected final int    m_minute;
-    protected final int    m_hour;
-    protected final int    m_dayOfMonth;
-    protected final int    m_month;
-    protected final int    m_dayOfWeek;
-    protected final int    m_year;
+    protected final int m_minute;
+    protected final int m_hour;
+    protected final int m_dayOfMonth;
+    protected final int m_month;
+    protected final int m_dayOfWeek;
+    protected final int m_year;
 
     /**
      * Constructor for CronTimeTrigger.
@@ -79,7 +79,8 @@ public class CronTimeTrigger
 
         final GregorianCalendar next = (GregorianCalendar)relativeTo.clone();
 
-        if( -1 != m_minute ) next.set( Calendar.MINUTE, m_minute );
+        if( -1 != m_minute )
+            next.set( Calendar.MINUTE, m_minute );
         else
         {
             if( -1 == m_hour && -1 == m_month && -1 == m_year )
@@ -131,18 +132,18 @@ public class CronTimeTrigger
 
         if( -1 == m_dayOfMonth && -1 == m_dayOfWeek &&
             (
-             //for when past hour that was scheduled to run
-             ( -1 != m_hour && rhour > hour ) ||
+            //for when past hour that was scheduled to run
+            ( -1 != m_hour && rhour > hour ) ||
 
-             //for the case where you have to wrap over day
-             //when hour is not specified
-             ( -1 == m_hour && rhour == 24 && rminute >= minute ) ||
+            //for the case where you have to wrap over day
+            //when hour is not specified
+            ( -1 == m_hour && rhour == 24 && rminute >= minute ) ||
 
-             //for when you are past time of day where both minute and
-             //hour are specified
-             ( -1 != m_hour && rhour == hour && rminute >= minute )
-             )
+            //for when you are past time of day where both minute and
+            //hour are specified
+            ( -1 != m_hour && rhour == hour && rminute >= minute )
             )
+        )
         {
             //for jobs scheduled everyday and job is done this day
             next.roll( Calendar.DAY_OF_YEAR, true );
@@ -152,14 +153,14 @@ public class CronTimeTrigger
         {
             //This block will update day of month if it is out of bounds
             //For instance if you ask to schedule on 30th of everymonth
-            //this section will set the day to 28th (or 29th) in febuary 
+            //this section will set the day to 28th (or 29th) in febuary
             //as there is no 30th
             final Calendar targetMonth = (GregorianCalendar)next.clone();
             targetMonth.set( Calendar.DAY_OF_MONTH, 1 );
             targetMonth.set( Calendar.MONTH, m_month );
-            
+
             final int maxDayCount = targetMonth.getActualMaximum( Calendar.DAY_OF_MONTH );
-            if( maxDayCount < realDayOfMonth ) 
+            if( maxDayCount < realDayOfMonth )
             {
                 realDayOfMonth = maxDayCount;
                 next.add( Calendar.MONTH, -1 );
@@ -172,12 +173,12 @@ public class CronTimeTrigger
         //update the year if ran job for this year
         if( -1 != m_month && -1 == m_year &&
             ( relativeTo.get( Calendar.MONTH ) > month ||
-              ( relativeTo.get( Calendar.MONTH ) == month &&
-                ( relativeTo.get( Calendar.DAY_OF_MONTH ) > dayOfMonth ||
-                  ( relativeTo.get( Calendar.DAY_OF_MONTH ) == dayOfMonth &&
-                    ( relativeTo.get( Calendar.HOUR_OF_DAY ) > hour ||
-                      ( relativeTo.get( Calendar.HOUR_OF_DAY ) == hour &&
-                        ( relativeTo.get( Calendar.MINUTE ) >= minute ) ) ) ) ) ) ) )
+            ( relativeTo.get( Calendar.MONTH ) == month &&
+            ( relativeTo.get( Calendar.DAY_OF_MONTH ) > dayOfMonth ||
+            ( relativeTo.get( Calendar.DAY_OF_MONTH ) == dayOfMonth &&
+            ( relativeTo.get( Calendar.HOUR_OF_DAY ) > hour ||
+            ( relativeTo.get( Calendar.HOUR_OF_DAY ) == hour &&
+            ( relativeTo.get( Calendar.MINUTE ) >= minute ) ) ) ) ) ) ) )
         {
             next.add( Calendar.YEAR, 1 );
         }
@@ -187,14 +188,14 @@ public class CronTimeTrigger
             //if past current year or already executed job this year then
             //bail out
             if( relativeTo.get( Calendar.YEAR ) > m_year ||
-                ( relativeTo.get( Calendar.YEAR )== m_year &&
-                  ( relativeTo.get( Calendar.MONTH ) > month ||
-                    ( relativeTo.get( Calendar.MONTH ) == month &&
-                      ( relativeTo.get( Calendar.DAY_OF_MONTH ) > dayOfMonth ||
-                        ( relativeTo.get( Calendar.DAY_OF_MONTH ) == dayOfMonth &&
-                          ( relativeTo.get( Calendar.HOUR_OF_DAY ) > hour ||
-                            ( relativeTo.get( Calendar.HOUR_OF_DAY ) == hour &&
-                              ( relativeTo.get( Calendar.MINUTE ) >= minute ) ) ) ) ) ) ) ) )
+                ( relativeTo.get( Calendar.YEAR ) == m_year &&
+                ( relativeTo.get( Calendar.MONTH ) > month ||
+                ( relativeTo.get( Calendar.MONTH ) == month &&
+                ( relativeTo.get( Calendar.DAY_OF_MONTH ) > dayOfMonth ||
+                ( relativeTo.get( Calendar.DAY_OF_MONTH ) == dayOfMonth &&
+                ( relativeTo.get( Calendar.HOUR_OF_DAY ) > hour ||
+                ( relativeTo.get( Calendar.HOUR_OF_DAY ) == hour &&
+                ( relativeTo.get( Calendar.MINUTE ) >= minute ) ) ) ) ) ) ) ) )
             {
                 return -1;
             }
@@ -211,8 +212,8 @@ public class CronTimeTrigger
                 next.add( Calendar.DAY_OF_YEAR, dayWait );
             }
             else if( relativeTo.get( Calendar.HOUR_OF_DAY ) > hour ||
-                     ( relativeTo.get( Calendar.HOUR_OF_DAY ) == hour &&
-                       relativeTo.get( Calendar.MINUTE ) >= minute ) )
+                ( relativeTo.get( Calendar.HOUR_OF_DAY ) == hour &&
+                relativeTo.get( Calendar.MINUTE ) >= minute ) )
             {
                 //if job scheduled for today has passed then schedule on next week
                 next.add( Calendar.DAY_OF_YEAR, 7 );
@@ -226,12 +227,12 @@ public class CronTimeTrigger
             //next.set( Calendar.DAY_OF_MONTH, m_dayOfMonth );
 
             //if this months job has already run then schedule next week
-            if ( m_month == -1 &&
-                 ( relativeTo.get( Calendar.DAY_OF_MONTH ) > m_dayOfMonth ||
-                   ( relativeTo.get( Calendar.DAY_OF_MONTH ) == m_dayOfMonth &&
-                     ( relativeTo.get( Calendar.HOUR_OF_DAY ) > hour ||
-                       ( relativeTo.get( Calendar.HOUR_OF_DAY ) == hour &&
-                         relativeTo.get( Calendar.MINUTE ) >= minute ) ) ) ) )
+            if( m_month == -1 &&
+                ( relativeTo.get( Calendar.DAY_OF_MONTH ) > m_dayOfMonth ||
+                ( relativeTo.get( Calendar.DAY_OF_MONTH ) == m_dayOfMonth &&
+                ( relativeTo.get( Calendar.HOUR_OF_DAY ) > hour ||
+                ( relativeTo.get( Calendar.HOUR_OF_DAY ) == hour &&
+                relativeTo.get( Calendar.MINUTE ) >= minute ) ) ) ) )
             {
                 next.roll( Calendar.MONTH, true );
             }
@@ -296,7 +297,7 @@ public class CronTimeTrigger
             sb.append( " " );
         }
 
-        sb.append("]");
+        sb.append( "]" );
 
         return sb.toString();
     }

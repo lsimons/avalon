@@ -28,7 +28,7 @@ public class DefaultThreadManager
     implements Block, ThreadManager, Configurable
 {
     ///Map of thread pools for application
-    private HashMap      m_threadPools     = new HashMap();
+    private HashMap m_threadPools = new HashMap();
 
     /**
      * Setup thread pools based on configuration data.

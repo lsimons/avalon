@@ -28,9 +28,9 @@ public abstract class AbstractHandlerFactory
     extends AbstractLogEnabled
     implements Component, Contextualizable, Composable, Configurable, ConnectionHandlerFactory
 {
-    protected Context             m_context;
-    protected ComponentManager    m_componentManager;
-    protected Configuration       m_configuration;
+    protected Context m_context;
+    protected ComponentManager m_componentManager;
+    protected Configuration m_configuration;
 
     public void contextualize( final Context context )
     {
@@ -64,22 +64,22 @@ public abstract class AbstractHandlerFactory
 
         if( handler instanceof Contextualizable )
         {
-            ((Contextualizable)handler).contextualize( m_context );
+            ( (Contextualizable)handler ).contextualize( m_context );
         }
 
         if( handler instanceof Composable )
         {
-            ((Composable)handler).compose( m_componentManager );
+            ( (Composable)handler ).compose( m_componentManager );
         }
 
         if( handler instanceof Configurable )
         {
-            ((Configurable)handler).configure( m_configuration );
+            ( (Configurable)handler ).configure( m_configuration );
         }
 
         if( handler instanceof Initializable )
         {
-            ((Initializable)handler).initialize();
+            ( (Initializable)handler ).initialize();
         }
 
         return handler;

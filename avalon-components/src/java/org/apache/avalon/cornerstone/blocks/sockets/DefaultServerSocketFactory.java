@@ -10,8 +10,8 @@ package org.apache.avalon.cornerstone.blocks.sockets;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.ServerSocket;
-import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.cornerstone.services.sockets.ServerSocketFactory;
+import org.apache.avalon.framework.component.Component;
 
 /**
  * Factory implementation for vanilla TCP sockets.

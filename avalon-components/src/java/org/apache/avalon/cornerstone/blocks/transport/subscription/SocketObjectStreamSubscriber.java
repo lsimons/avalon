@@ -1,4 +1,3 @@
-
 /*
  * Copyright (C) The Apache Software Foundation. All rights reserved.
  *
@@ -8,19 +7,16 @@
  */
 package org.apache.avalon.cornerstone.blocks.transport.subscription;
 
-
-
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.commons.altrmi.client.impl.socket.SocketObjectStreamHostContext;
-
 
 /**
  * Class SocketObjectStreamSubscriber
  *
  *
  * @author Paul Hammant <a href="mailto:Paul_Hammant@yahoo.com">Paul_Hammant@yahoo.com</a>
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public class SocketObjectStreamSubscriber extends AbstractSubscriber
 {
@@ -35,13 +31,13 @@ public class SocketObjectStreamSubscriber extends AbstractSubscriber
      *
      * @param configuration the class configurations.
      */
-    public void configure(Configuration configuration) throws ConfigurationException
+    public void configure( Configuration configuration ) throws ConfigurationException
     {
 
-        super.configure(configuration);
+        super.configure( configuration );
 
-        mPort = configuration.getChild("port").getValueAsInteger();
-        mHost = configuration.getChild("host").getValue();
+        mPort = configuration.getChild( "port" ).getValueAsInteger();
+        mHost = configuration.getChild( "host" ).getValue();
     }
 
     /**
@@ -54,7 +50,7 @@ public class SocketObjectStreamSubscriber extends AbstractSubscriber
     public void initialize() throws Exception
     {
 
-        mHostContext = new SocketObjectStreamHostContext(mHost, mPort);
+        mHostContext = new SocketObjectStreamHostContext( mHost, mPort );
 
         super.initialize();
     }

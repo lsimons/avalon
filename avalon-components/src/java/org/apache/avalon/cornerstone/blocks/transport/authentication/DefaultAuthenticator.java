@@ -1,4 +1,3 @@
-
 /*
  * Copyright (C) The Apache Software Foundation. All rights reserved.
  *
@@ -8,25 +7,22 @@
  */
 package org.apache.avalon.cornerstone.blocks.transport.authentication;
 
-
-
-import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.activity.Initializable;
+import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.phoenix.Block;
-import org.apache.commons.altrmi.server.AltrmiAuthenticator;
 import org.apache.commons.altrmi.common.AltrmiAuthentication;
 import org.apache.commons.altrmi.common.AltrmiAuthenticationException;
-
+import org.apache.commons.altrmi.server.AltrmiAuthenticator;
 
 /**
  * Class DefaultAuthenticator
  *
  *
  * @author Paul Hammant <a href="mailto:Paul_Hammant@yahoo.com">Paul_Hammant@yahoo.com</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class DefaultAuthenticator extends AbstractLogEnabled
-        implements AltrmiAuthenticator, Initializable, Block
+    implements AltrmiAuthenticator, Initializable, Block
 {
 
     protected AltrmiAuthenticator mAltrmiAuthenticator;
@@ -55,10 +51,10 @@ public class DefaultAuthenticator extends AbstractLogEnabled
      * @throws AltrmiAuthenticationException
      *
      */
-    public void checkAuthority(AltrmiAuthentication authentication, String publishedName)
-            throws AltrmiAuthenticationException
+    public void checkAuthority( AltrmiAuthentication authentication, String publishedName )
+        throws AltrmiAuthenticationException
     {
-        mAltrmiAuthenticator.checkAuthority(authentication, publishedName);
+        mAltrmiAuthenticator.checkAuthority( authentication, publishedName );
     }
 
     /**

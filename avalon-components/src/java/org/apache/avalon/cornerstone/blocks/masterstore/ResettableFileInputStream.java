@@ -19,14 +19,14 @@ import java.io.InputStream;
 public class ResettableFileInputStream
     extends InputStream
 {
-    protected static final int         DEFAULT_BUFFER_SIZE          = 1024;
+    protected static final int DEFAULT_BUFFER_SIZE = 1024;
 
-    protected final String             m_filename;
-    protected int                      m_bufferSize;
-    protected InputStream              m_inputStream;
-    protected long                     m_position;
-    protected long                     m_mark;
-    protected boolean                  m_isMarkSet;
+    protected final String m_filename;
+    protected int m_bufferSize;
+    protected InputStream m_inputStream;
+    protected long m_position;
+    protected long m_mark;
+    protected boolean m_isMarkSet;
 
     public ResettableFileInputStream( final File file )
         throws IOException

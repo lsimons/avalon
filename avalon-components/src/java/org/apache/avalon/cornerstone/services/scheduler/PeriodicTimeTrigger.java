@@ -16,9 +16,9 @@ package org.apache.avalon.cornerstone.services.scheduler;
 public class PeriodicTimeTrigger
     implements TimeTrigger
 {
-    protected final long    m_offset;
-    protected final long    m_period;
-    private   long          m_triggerTime;
+    protected final long m_offset;
+    protected final long m_period;
+    private long m_triggerTime;
 
     public PeriodicTimeTrigger( final int offset, final int period )
     {
@@ -35,7 +35,8 @@ public class PeriodicTimeTrigger
      */
     public long getTimeAfter( final long time )
     {
-        if( time <= m_triggerTime ) return m_triggerTime;
+        if( time <= m_triggerTime )
+            return m_triggerTime;
         else
         {
             if( -1 == m_period ) return -1;
@@ -95,7 +96,7 @@ public class PeriodicTimeTrigger
             sb.append( " " );
         }
 
-        sb.append("]");
+        sb.append( "]" );
 
         return sb.toString();
     }

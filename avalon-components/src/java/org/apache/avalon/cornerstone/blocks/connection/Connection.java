@@ -7,19 +7,18 @@
  */
 package org.apache.avalon.cornerstone.blocks.connection;
 
-import java.io.InterruptedIOException;
 import java.io.IOException;
+import java.io.InterruptedIOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
-import java.util.Iterator;
-import org.apache.avalon.framework.component.Component;
-import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.cornerstone.services.connection.ConnectionHandler;
 import org.apache.avalon.cornerstone.services.connection.ConnectionHandlerFactory;
 import org.apache.avalon.excalibur.thread.ThreadPool;
+import org.apache.avalon.framework.component.Component;
+import org.apache.avalon.framework.logger.AbstractLogEnabled;
 
 /**
  * Support class for the DefaultConnectionManager.
@@ -31,13 +30,13 @@ class Connection
     extends AbstractLogEnabled
     implements Component, Runnable
 {
-    private final ServerSocket               m_serverSocket;
-    private final ConnectionHandlerFactory   m_handlerFactory;
-    private final ThreadPool                 m_threadPool;
-    private final Vector                     m_runners          = new Vector();
+    private final ServerSocket m_serverSocket;
+    private final ConnectionHandlerFactory m_handlerFactory;
+    private final ThreadPool m_threadPool;
+    private final Vector m_runners = new Vector();
 
     //Need to synchronize access to thread object
-    private Thread                           m_thread;
+    private Thread m_thread;
 
     public Connection( final ServerSocket serverSocket,
                        final ConnectionHandlerFactory handlerFactory,
@@ -62,7 +61,7 @@ class Connection
                 //Can not join as threads are part of pool
                 //and will never finish
                 //m_thread.join();
-                
+
                 wait( /*1000*/ );
             }
         }
@@ -110,7 +109,7 @@ class Connection
                 getLogger().error( "Exception executing runner", e );
             }
         }
-        
+
         synchronized( this )
         {
             notifyAll();
@@ -123,11 +122,11 @@ class ConnectionRunner
     extends AbstractLogEnabled
     implements Runnable, Component
 {
-    private Socket                    m_socket;
-    private Thread                    m_thread;
-    private List                      m_runners;
-    private ConnectionHandler         m_handler;
-    private ConnectionHandlerFactory  m_handlerFactory;
+    private Socket m_socket;
+    private Thread m_thread;
+    private List m_runners;
+    private ConnectionHandler m_handler;
+    private ConnectionHandlerFactory m_handlerFactory;
 
     ConnectionRunner( final Socket socket,
                       final List runners,
@@ -151,7 +150,10 @@ class ConnectionRunner
             //and will never finish
             //m_thread.join();
 
-            synchronized( this ) { wait( /*1000*/ ); }
+            synchronized( this )
+            {
+                wait( /*1000*/ );
+            }
         }
         m_handlerFactory = null;
     }
@@ -166,7 +168,7 @@ class ConnectionRunner
             getLogger().debug( "Starting connection on " + m_socket );
             m_handler.handleConnection( m_socket );
             getLogger().debug( "Ending connection on " + m_socket );
-            m_handlerFactory.releaseConnectionHandler(m_handler);
+            m_handlerFactory.releaseConnectionHandler( m_handler );
         }
         catch( final Exception e )
         {
@@ -174,16 +176,22 @@ class ConnectionRunner
         }
         finally
         {
-            try { m_socket.close(); }
+            try
+            {
+                m_socket.close();
+            }
             catch( final IOException ioe )
             {
                 getLogger().warn( "Error shutting down connection", ioe );
             }
-            
+
             m_thread = null;
             m_runners.remove( this );
 
-            synchronized( this ) { notifyAll(); }
+            synchronized( this )
+            {
+                notifyAll();
+            }
         }
     }
 }

@@ -18,13 +18,13 @@ import org.apache.avalon.cornerstone.services.scheduler.TimeTrigger;
 final class TimeScheduledEntry
     implements Comparable
 {
-    protected final String       m_name;
-    protected final TimeTrigger  m_trigger;
-    protected final Target       m_target;
+    protected final String m_name;
+    protected final TimeTrigger m_trigger;
+    protected final Target m_target;
 
     //cached version of time from TimeTrigger class
-    protected long               m_time;
-    protected boolean            m_isValid;
+    protected long m_time;
+    protected boolean m_isValid;
 
     public TimeScheduledEntry( String name, TimeTrigger trigger, Target target )
     {
@@ -103,7 +103,7 @@ final class TimeScheduledEntry
     public int compareTo( final Object object )
     {
         final TimeScheduledEntry other = (TimeScheduledEntry)object;
-        return (int)-(other.m_time - m_time);
+        return (int)-( other.m_time - m_time );
     }
 
     public String toString()

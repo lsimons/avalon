@@ -7,9 +7,6 @@
  */
 package org.apache.avalon.cornerstone.services.soapification;
 
-import java.util.NoSuchElementException;
-import org.apache.avalon.phoenix.Service;
-
 /**
  * This service provides a way to publish an arbitary object via SOAP.
  *
@@ -18,7 +15,7 @@ import org.apache.avalon.phoenix.Service;
 public interface SOAPification
 {
     String ROLE = SOAPification.class.getName();
-  
+
     /**
      * Publish a set of interfaces
      *
@@ -26,17 +23,17 @@ public interface SOAPification
      * @param publicationName The name to publish it as.
      * @param interfacesToExpose an array of interfaces that the synamic proxy should expose
      */
-    void publish(Object obj, String publicationName, Class[] interfacesToExpose) 
+    void publish( Object obj, String publicationName, Class[] interfacesToExpose )
         throws SOAPificationException;
-    
+
     /**
-     * Publish an interface 
+     * Publish an interface
      *
      * @param obj the object to publish
      * @param publicationName The name to publish it as.
      * @param interfaceToExpose an interface that the synamic proxy should expose
-     */    
-    void publish(Object obj, String publicationName, Class interfaceToExpose) 
+     */
+    void publish( Object obj, String publicationName, Class interfaceToExpose )
         throws SOAPificationException;
 
     /**
@@ -44,15 +41,15 @@ public interface SOAPification
      *
      * @param obj the object to publish
      * @param publicationName The name to publish it as.
-     */    
-    void publish(Object obj, String publicationName) 
+     */
+    void publish( Object obj, String publicationName )
         throws SOAPificationException;
-    
+
     /**
-     * Unpublish 
+     * Unpublish
      *
-     * @param publicationName the name of the object to unpublish 
-     */    
-    void unpublish(String publicationName) 
+     * @param publicationName the name of the object to unpublish
+     */
+    void unpublish( String publicationName )
         throws SOAPificationException;
 }

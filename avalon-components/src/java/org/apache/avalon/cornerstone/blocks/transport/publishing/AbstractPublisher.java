@@ -1,4 +1,3 @@
-
 /*
  * Copyright (C) The Apache Software Foundation. All rights reserved.
  *
@@ -8,51 +7,45 @@
  */
 package org.apache.avalon.cornerstone.blocks.transport.publishing;
 
-
-
-import org.apache.avalon.framework.logger.AbstractLogEnabled;
-import org.apache.avalon.framework.activity.Startable;
-import org.apache.avalon.framework.activity.Initializable;
-import org.apache.avalon.framework.component.Composable;
-import org.apache.avalon.framework.component.ComponentException;
-import org.apache.avalon.framework.component.ComponentManager;
-import org.apache.avalon.framework.context.Contextualizable;
-import org.apache.avalon.framework.context.Context;
-import org.apache.avalon.framework.configuration.Configurable;
-import org.apache.avalon.framework.configuration.ConfigurationException;
-import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.phoenix.Block;
-import org.apache.avalon.phoenix.BlockContext;
-import org.apache.commons.altrmi.server.AltrmiPublisher;
-import org.apache.commons.altrmi.server.ClassRetriever;
-import org.apache.commons.altrmi.server.AltrmiAuthenticator;
-import org.apache.commons.altrmi.server.PublicationException;
-import org.apache.commons.altrmi.server.PublicationDescription;
-import org.apache.commons.altrmi.server.MethodInvocationHandler;
-import org.apache.commons.altrmi.server.impl.AbstractServer;
-import org.apache.commons.altrmi.server.impl.classretrievers.NoClassRetriever;
-import org.apache.commons.altrmi.server.impl.classretrievers.JarFileClassRetriever;
-import org.apache.commons.altrmi.common.MethodRequest;
-
 import java.io.File;
-
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.StringTokenizer;
 import java.util.Vector;
-
-import java.net.URL;
-import java.net.MalformedURLException;
-
+import org.apache.avalon.framework.activity.Initializable;
+import org.apache.avalon.framework.activity.Startable;
+import org.apache.avalon.framework.component.ComponentException;
+import org.apache.avalon.framework.component.ComponentManager;
+import org.apache.avalon.framework.component.Composable;
+import org.apache.avalon.framework.configuration.Configurable;
+import org.apache.avalon.framework.configuration.Configuration;
+import org.apache.avalon.framework.configuration.ConfigurationException;
+import org.apache.avalon.framework.context.Context;
+import org.apache.avalon.framework.context.Contextualizable;
+import org.apache.avalon.framework.logger.AbstractLogEnabled;
+import org.apache.avalon.phoenix.Block;
+import org.apache.avalon.phoenix.BlockContext;
+import org.apache.commons.altrmi.common.MethodRequest;
+import org.apache.commons.altrmi.server.AltrmiAuthenticator;
+import org.apache.commons.altrmi.server.AltrmiPublisher;
+import org.apache.commons.altrmi.server.ClassRetriever;
+import org.apache.commons.altrmi.server.MethodInvocationHandler;
+import org.apache.commons.altrmi.server.PublicationDescription;
+import org.apache.commons.altrmi.server.PublicationException;
+import org.apache.commons.altrmi.server.impl.AbstractServer;
+import org.apache.commons.altrmi.server.impl.classretrievers.JarFileClassRetriever;
+import org.apache.commons.altrmi.server.impl.classretrievers.NoClassRetriever;
 
 /**
  * Class AbstractPublisher
  *
  *
  * @author Paul Hammant <a href="mailto:Paul_Hammant@yahoo.com">Paul_Hammant@yahoo.com</a>
- * @version $Revision: 1.11 $
+ * @version $Revision: 1.12 $
  */
 public abstract class AbstractPublisher extends AbstractLogEnabled
-        implements AltrmiPublisher, Startable, Composable, Contextualizable, Configurable,
-                   Initializable, Block
+    implements AltrmiPublisher, Startable, Composable, Contextualizable, Configurable,
+    Initializable, Block
 {
 
     protected AbstractServer m_AbstractServer;
@@ -67,57 +60,57 @@ public abstract class AbstractPublisher extends AbstractLogEnabled
      *
      * @param configuration the class configurations.
      */
-    public void configure(Configuration configuration) throws ConfigurationException
+    public void configure( Configuration configuration ) throws ConfigurationException
     {
 
-        String classRetrieverType = configuration.getChild("classRetrieverType").getValue();
+        String classRetrieverType = configuration.getChild( "classRetrieverType" ).getValue();
 
-        if (classRetrieverType.equals("jarFile"))
+        if( classRetrieverType.equals( "jarFile" ) )
         {
             StringTokenizer st =
-                new StringTokenizer(configuration.getChild("gerneratedClassJarURLs").getValue(),
-                                    ",");
+                new StringTokenizer( configuration.getChild( "gerneratedClassJarURLs" ).getValue(),
+                                     "," );
             Vector vector = new Vector();
 
-            while (st.hasMoreTokens())
+            while( st.hasMoreTokens() )
             {
                 try
                 {
                     String url = st.nextToken();
 
-                    if (url.startsWith("./"))
+                    if( url.startsWith( "./" ) )
                     {
-                        File file = new File(mBaseDirectory, url.substring(2, url.length()));
+                        File file = new File( mBaseDirectory, url.substring( 2, url.length() ) );
 
-                        vector.add(file.toURL());
+                        vector.add( file.toURL() );
                     }
                     else
                     {
-                        vector.add(new URL(url));
+                        vector.add( new URL( url ) );
                     }
                 }
-                catch (MalformedURLException e)
+                catch( MalformedURLException e )
                 {
                     getLogger()
-                        .debug("Can't create URL from config element 'gerneratedClassJarURLs'",
-                               e);
+                        .debug( "Can't create URL from config element 'gerneratedClassJarURLs'",
+                                e );
                 }
             }
 
-            URL[] urls = new URL[vector.size()];
+            URL[] urls = new URL[ vector.size() ];
 
-            vector.copyInto(urls);
+            vector.copyInto( urls );
 
-            m_ClassRetriever = new JarFileClassRetriever(urls);
+            m_ClassRetriever = new JarFileClassRetriever( urls );
         }
-        else if (classRetrieverType.equals("none"))
+        else if( classRetrieverType.equals( "none" ) )
         {
             m_ClassRetriever = new NoClassRetriever();
         }
         else
         {
             throw new ConfigurationException(
-                "classRetrieverType must be 'baseMobileClass', 'jarFile' or 'none'");
+                "classRetrieverType must be 'baseMobileClass', 'jarFile' or 'none'" );
         }
     }
 
@@ -129,9 +122,9 @@ public abstract class AbstractPublisher extends AbstractLogEnabled
      * @param context
      *
      */
-    public void contextualize(final Context context)
+    public void contextualize( final Context context )
     {
-        mBaseDirectory = ((BlockContext) context).getBaseDirectory();
+        mBaseDirectory = ( (BlockContext)context ).getBaseDirectory();
     }
 
     /**
@@ -143,23 +136,23 @@ public abstract class AbstractPublisher extends AbstractLogEnabled
      * @throws ComponentException
      *
      */
-    public void compose(ComponentManager manager) throws ComponentException
+    public void compose( ComponentManager manager ) throws ComponentException
     {
         m_AltrmiAuthenticator =
-            (AltrmiAuthenticator) manager.lookup(AltrmiAuthenticator.class.getName());
+            (AltrmiAuthenticator)manager.lookup( AltrmiAuthenticator.class.getName() );
     }
 
     /**
-    * Initialialize the component. Initialization includes
-    * allocating any resources required throughout the
-    * components lifecycle.
-    *
-    * @exception Exception if an error occurs
-    */
+     * Initialialize the component. Initialization includes
+     * allocating any resources required throughout the
+     * components lifecycle.
+     *
+     * @exception Exception if an error occurs
+     */
     public void initialize() throws Exception
     {
-        m_AbstractServer.setClassRetriever(m_ClassRetriever);
-        m_AbstractServer.setAuthenticator(m_AltrmiAuthenticator);
+        m_AbstractServer.setClassRetriever( m_ClassRetriever );
+        m_AbstractServer.setAuthenticator( m_AltrmiAuthenticator );
     }
 
     /**
@@ -174,10 +167,10 @@ public abstract class AbstractPublisher extends AbstractLogEnabled
      * @throws PublicationException
      *
      */
-    public void publish(Object implementation, String asName, Class interfaceToExpose)
-            throws PublicationException
+    public void publish( Object implementation, String asName, Class interfaceToExpose )
+        throws PublicationException
     {
-        m_AbstractServer.publish(implementation, asName, interfaceToExpose);
+        m_AbstractServer.publish( implementation, asName, interfaceToExpose );
     }
 
     /**
@@ -193,10 +186,10 @@ public abstract class AbstractPublisher extends AbstractLogEnabled
      *
      */
     public void publish(
-            Object implementation, String asName, PublicationDescription publicationDescription)
-                throws PublicationException
+        Object implementation, String asName, PublicationDescription publicationDescription )
+        throws PublicationException
     {
-        m_AbstractServer.publish(implementation, asName, publicationDescription);
+        m_AbstractServer.publish( implementation, asName, publicationDescription );
     }
 
     /**
@@ -210,9 +203,9 @@ public abstract class AbstractPublisher extends AbstractLogEnabled
      * @throws PublicationException
      *
      */
-    public void unPublish(Object o, String s) throws PublicationException
+    public void unPublish( Object o, String s ) throws PublicationException
     {
-        m_AbstractServer.unPublish(o, s);
+        m_AbstractServer.unPublish( o, s );
     }
 
     /**
@@ -227,9 +220,9 @@ public abstract class AbstractPublisher extends AbstractLogEnabled
      * @throws PublicationException
      *
      */
-    public void replacePublished(Object o, String s, Object o1) throws PublicationException
+    public void replacePublished( Object o, String s, Object o1 ) throws PublicationException
     {
-        m_AbstractServer.replacePublished(o, s, o1);
+        m_AbstractServer.replacePublished( o, s, o1 );
     }
 
     /**
@@ -262,8 +255,8 @@ public abstract class AbstractPublisher extends AbstractLogEnabled
      * @return
      *
      */
-    public MethodInvocationHandler getMethodInvocationHandler(MethodRequest request, String s)
+    public MethodInvocationHandler getMethodInvocationHandler( MethodRequest request, String s )
     {
-        return m_AbstractServer.getMethodInvocationHandler(request, s);
+        return m_AbstractServer.getMethodInvocationHandler( request, s );
     }
 }

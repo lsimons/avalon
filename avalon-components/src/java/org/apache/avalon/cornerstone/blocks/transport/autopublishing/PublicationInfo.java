@@ -1,4 +1,3 @@
-
 /*
  * Copyright (C) The Apache Software Foundation. All rights reserved.
  *
@@ -8,14 +7,12 @@
  */
 package org.apache.avalon.cornerstone.blocks.transport.autopublishing;
 
-
-
 /**
  * Class PublicationInfo
  *
  *
  * @author Paul Hammant <a href="mailto:Paul_Hammant@yahoo.com">Paul_Hammant@yahoo.com</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class PublicationInfo
 {
@@ -31,7 +28,7 @@ public class PublicationInfo
      * @param interfaceToPublish
      *
      */
-    public PublicationInfo(String publishAsName, String interfaceToPublish)
+    public PublicationInfo( String publishAsName, String interfaceToPublish )
     {
         mPublishAsName = publishAsName;
         mInterfaceToPublish = interfaceToPublish;

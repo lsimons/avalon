@@ -1,4 +1,3 @@
-
 /*
  * Copyright (C) The Apache Software Foundation. All rights reserved.
  *
@@ -8,21 +7,16 @@
  */
 package org.apache.avalon.cornerstone.blocks.transport.publishing;
 
-
-
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.commons.altrmi.server.impl.rmi.RmiServer;
-import org.apache.commons.altrmi.server.MethodInvocationHandler;
-import org.apache.commons.altrmi.common.MethodRequest;
-
 
 /**
  * Class RmiPublisher
  *
  *
  * @author Paul Hammant <a href="mailto:Paul_Hammant@yahoo.com">Paul_Hammant@yahoo.com</a>
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public class RmiPublisher extends AbstractPublisher
 {
@@ -37,13 +31,13 @@ public class RmiPublisher extends AbstractPublisher
      *
      * @param configuration the class configurations.
      */
-    public void configure(Configuration configuration) throws ConfigurationException
+    public void configure( Configuration configuration ) throws ConfigurationException
     {
 
-        super.configure(configuration);
+        super.configure( configuration );
 
-        mPort = configuration.getChild("port").getValueAsInteger();
-        mHost = configuration.getChild("host").getValue();
+        mPort = configuration.getChild( "port" ).getValueAsInteger();
+        mHost = configuration.getChild( "host" ).getValue();
     }
 
     /**
@@ -56,7 +50,7 @@ public class RmiPublisher extends AbstractPublisher
     public void initialize() throws Exception
     {
 
-        m_AbstractServer = new RmiServer(mHost, mPort);
+        m_AbstractServer = new RmiServer( mHost, mPort );
 
         super.initialize();
     }

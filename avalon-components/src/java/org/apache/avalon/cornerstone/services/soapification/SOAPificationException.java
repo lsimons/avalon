@@ -7,7 +7,6 @@
  */
 package org.apache.avalon.cornerstone.services.soapification;
 
-
 /**
  * A general execption wrapper for SOAPification type services.
  *
@@ -19,12 +18,12 @@ public class SOAPificationException
     private Throwable mContained;
     private String mReason;
 
-    public SOAPificationException(String reason) 
+    public SOAPificationException( String reason )
     {
-        this(reason, null);
+        this( reason, null );
     }
 
-    public SOAPificationException(String reason, Throwable contained) 
+    public SOAPificationException( String reason, Throwable contained )
     {
         mContained = contained;
         mReason = reason;

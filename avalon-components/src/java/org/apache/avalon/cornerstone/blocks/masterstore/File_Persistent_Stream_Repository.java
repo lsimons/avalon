@@ -13,8 +13,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
-import org.apache.avalon.excalibur.io.IOUtil;
 import org.apache.avalon.cornerstone.services.store.StreamRepository;
+import org.apache.avalon.excalibur.io.IOUtil;
 
 /**
  * Implementation of a StreamRepository to a File.
@@ -27,8 +27,8 @@ public class File_Persistent_Stream_Repository
     extends AbstractFileRepository
     implements StreamRepository
 {
-    protected final HashMap             m_inputs  = new HashMap();
-    protected final HashMap             m_outputs = new HashMap();
+    protected final HashMap m_inputs = new HashMap();
+    protected final HashMap m_outputs = new HashMap();
 
     protected String getExtensionDecorator()
     {
@@ -52,7 +52,7 @@ public class File_Persistent_Stream_Repository
             }
             else if( o instanceof ArrayList )
             {
-                ((ArrayList)o).add( stream );
+                ( (ArrayList)o ).add( stream );
             }
             else
             {
@@ -68,7 +68,7 @@ public class File_Persistent_Stream_Repository
         {
             final String message = "Exception caught while retrieving a stream ";
             getLogger().warn( message, ioe );
-            throw new RuntimeException( message+ ": " + ioe );
+            throw new RuntimeException( message + ": " + ioe );
         }
     }
 
@@ -89,7 +89,7 @@ public class File_Persistent_Stream_Repository
             }
             else if( o instanceof ArrayList )
             {
-                ((ArrayList)o).add( stream );
+                ( (ArrayList)o ).add( stream );
             }
             else
             {
@@ -105,7 +105,7 @@ public class File_Persistent_Stream_Repository
         {
             final String message = "Exception caught while storing a stream ";
             getLogger().warn( message, ioe );
-            throw new RuntimeException( message+ ": " + ioe );
+            throw new RuntimeException( message + ": " + ioe );
         }
     }
 

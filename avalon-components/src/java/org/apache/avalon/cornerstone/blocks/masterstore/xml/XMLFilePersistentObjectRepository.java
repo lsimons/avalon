@@ -7,13 +7,12 @@
  */
 package org.apache.avalon.cornerstone.blocks.masterstore.xml;
 
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.beans.XMLDecoder;
 import java.beans.XMLEncoder;
-
-import org.apache.avalon.cornerstone.services.store.ObjectRepository;
+import java.io.InputStream;
+import java.io.OutputStream;
 import org.apache.avalon.cornerstone.blocks.masterstore.AbstractFileRepository;
+import org.apache.avalon.cornerstone.services.store.ObjectRepository;
 
 /**
  * This is a simple implementation of persistent object store using
@@ -26,8 +25,8 @@ import org.apache.avalon.cornerstone.blocks.masterstore.AbstractFileRepository;
  * with the default persistence delegate which assumes the class follows
  * the beans conventions" (snipped from Bigparade)
  *
- * Basically, don't use this block for anything other than Swing component 
- * serialization.  Sun will have to do a lot of work writing a 
+ * Basically, don't use this block for anything other than Swing component
+ * serialization.  Sun will have to do a lot of work writing a
  * "PersistenceDelegate" to handle other JDK types let alone custom classes.
  *
  * @author <a href="mailto:paul_hammant@yahoo.com">Paul Hammant</a>
@@ -54,7 +53,7 @@ public class XMLFilePersistentObjectRepository
 
             try
             {
-                final XMLDecoder decoder = new  XMLDecoder( inputStream );
+                final XMLDecoder decoder = new XMLDecoder( inputStream );
                 final Object object = decoder.readObject();
                 if( DEBUG )
                 {
@@ -73,13 +72,13 @@ public class XMLFilePersistentObjectRepository
         }
     }
 
-    public synchronized Object get( final String key , final ClassLoader classLoader )
+    public synchronized Object get( final String key, final ClassLoader classLoader )
     {
         try
         {
             final InputStream inputStream = getInputStream( key );
             final ClassLoader oldCL = Thread.currentThread().getContextClassLoader();
-            Thread.currentThread().setContextClassLoader(classLoader);
+            Thread.currentThread().setContextClassLoader( classLoader );
             try
             {
                 final XMLDecoder decoder = new XMLDecoder( inputStream );
@@ -92,7 +91,7 @@ public class XMLFilePersistentObjectRepository
             }
             finally
             {
-                Thread.currentThread().setContextClassLoader(oldCL);
+                Thread.currentThread().setContextClassLoader( oldCL );
                 inputStream.close();
             }
         }
@@ -116,7 +115,7 @@ public class XMLFilePersistentObjectRepository
             try
             {
                 //System.out.println("Putting key!:" + key + " " + value + " " + value.getClass().getName());
-                final XMLEncoder encoder = new  XMLEncoder( outputStream );
+                final XMLEncoder encoder = new XMLEncoder( outputStream );
                 encoder.writeObject( value );
                 encoder.flush();
                 if( DEBUG ) getLogger().debug( "storing object " + value + " for key " + key );

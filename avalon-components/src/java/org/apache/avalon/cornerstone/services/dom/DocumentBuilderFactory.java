@@ -7,8 +7,8 @@
  */
 package org.apache.avalon.cornerstone.services.dom;
 
-import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.ParserConfigurationException;
 
 /**
  * This service provides a way instantiate a DocumentBuilderFactory in a non static way.
@@ -32,7 +32,7 @@ public interface DocumentBuilderFactory
      * cannot be created which satisfies the configuration requested.
      * @return A new instance of a DocumentBuilder.
      */
-    DocumentBuilder newDocumentBuilder() 
+    DocumentBuilder newDocumentBuilder()
         throws ParserConfigurationException;
 
     /**
@@ -176,6 +176,6 @@ public interface DocumentBuilderFactory
      * @exception IllegalArgumentException thrown if the underlying
      * implementation doesn't recognize the attribute.
      */
-    Object getAttribute( String name ) 
+    Object getAttribute( String name )
         throws IllegalArgumentException;
 }

@@ -36,10 +36,10 @@ public class DefaultTimeScheduler
     extends AbstractLogEnabled
     implements Block, TimeScheduler, Composable, Initializable, Startable, Disposable, Runnable
 {
-    private boolean                    m_running;
-    private Hashtable                  m_entries;
-    private PriorityQueue              m_priorityQueue;
-    private ThreadManager              m_threadManager;
+    private boolean m_running;
+    private Hashtable m_entries;
+    private PriorityQueue m_priorityQueue;
+    private ThreadManager m_threadManager;
 
     public void compose( final ComponentManager componentManager )
         throws ComponentException
@@ -71,8 +71,13 @@ public class DefaultTimeScheduler
                                          final TimeTrigger trigger,
                                          final Target target )
     {
-        try { removeTrigger( name ); }
-        catch( final NoSuchElementException nse ) {}
+        try
+        {
+            removeTrigger( name );
+        }
+        catch( final NoSuchElementException nse )
+        {
+        }
 
         final TimeScheduledEntry entry = new TimeScheduledEntry( name, trigger, target );
         m_entries.put( name, entry );
@@ -197,19 +202,25 @@ public class DefaultTimeScheduler
     {
         final Logger logger = getLogger();
         final Runnable runnable = new Runnable()
+        {
+            public void run()
             {
-                public void run()
+                try
                 {
-                    try { entry.getTarget().targetTriggered( entry.getName() ); }
-                    catch( final Throwable t )
-                    {
-                        logger.warn( "Error occured executing trigger " + entry.getName(), t );
-                    }
+                    entry.getTarget().targetTriggered( entry.getName() );
                 }
-            };
+                catch( final Throwable t )
+                {
+                    logger.warn( "Error occured executing trigger " + entry.getName(), t );
+                }
+            }
+        };
 
         //this should suck threads from a named pool
-        try { m_threadManager.getDefaultThreadPool().execute( runnable ); }
+        try
+        {
+            m_threadManager.getDefaultThreadPool().execute( runnable );
+        }
         catch( final Exception e )
         {
             getLogger().warn( "Error executing trigger " + entry.getName(), e );
@@ -226,7 +237,7 @@ public class DefaultTimeScheduler
     public void stop()
     {
         m_running = false;
-        synchronized ( this )
+        synchronized( this )
         {
             notifyAll();
         }
@@ -284,8 +295,16 @@ public class DefaultTimeScheduler
             //wait/sleep until monitor is signalled which occurs when
             //next jobs is likely to occur or when a new job gets added to
             //top of heap
-            try { synchronized( this ) { wait( duration ); } }
-            catch( final InterruptedException ie ) { }
+            try
+            {
+                synchronized( this )
+                {
+                    wait( duration );
+                }
+            }
+            catch( final InterruptedException ie )
+            {
+            }
         }
     }
 
@@ -299,7 +318,7 @@ public class DefaultTimeScheduler
         {
             m_priorityQueue.pop();
 
-            if ( m_priorityQueue.isEmpty() )
+            if( m_priorityQueue.isEmpty() )
             {
                 return null;
             }

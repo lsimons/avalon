@@ -9,9 +9,11 @@ package org.apache.avalon.cornerstone.services.connection;
 
 import java.net.InetAddress;
 import java.net.ServerSocket;
+import org.apache.avalon.cornerstone.services.sockets.ServerSocketFactory;
+import org.apache.avalon.cornerstone.services.sockets.SocketManager;
+import org.apache.avalon.excalibur.thread.ThreadPool;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Initializable;
-import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.component.ComponentException;
 import org.apache.avalon.framework.component.ComponentManager;
 import org.apache.avalon.framework.component.Composable;
@@ -22,11 +24,7 @@ import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.ContextException;
 import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
-import org.apache.avalon.framework.logger.LogEnabled;
 import org.apache.avalon.framework.logger.Logger;
-import org.apache.avalon.cornerstone.services.sockets.ServerSocketFactory;
-import org.apache.avalon.cornerstone.services.sockets.SocketManager;
-import org.apache.avalon.excalibur.thread.ThreadPool;
 import org.apache.avalon.phoenix.Block;
 import org.apache.avalon.phoenix.BlockContext;
 
@@ -39,14 +37,14 @@ public abstract class AbstractService
     extends AbstractLogEnabled
     implements Block, Contextualizable, Composable, Configurable, Initializable, Disposable
 {
-    protected ConnectionManager        m_connectionManager;
-    protected SocketManager            m_socketManager;
+    protected ConnectionManager m_connectionManager;
+    protected SocketManager m_socketManager;
     protected ConnectionHandlerFactory m_factory;
-    protected ThreadPool               m_threadPool;
-    protected String                   m_serverSocketType;
-    protected int                      m_port;
-    protected InetAddress              m_bindTo; //network interface to bind to
-    protected String                   m_connectionName;
+    protected ThreadPool m_threadPool;
+    protected String m_serverSocketType;
+    protected int m_port;
+    protected InetAddress m_bindTo; //network interface to bind to
+    protected String m_connectionName;
 
     public AbstractService()
     {
@@ -80,7 +78,7 @@ public abstract class AbstractService
 
         if( m_factory instanceof Contextualizable )
         {
-            ((Contextualizable)m_factory).contextualize( context );
+            ( (Contextualizable)m_factory ).contextualize( context );
         }
     }
 
@@ -92,7 +90,7 @@ public abstract class AbstractService
 
         if( m_factory instanceof Composable )
         {
-            ((Composable)m_factory).compose( componentManager );
+            ( (Composable)m_factory ).compose( componentManager );
         }
     }
 
@@ -101,7 +99,7 @@ public abstract class AbstractService
     {
         if( m_factory instanceof Configurable )
         {
-            ((Configurable)m_factory).configure( configuration );
+            ( (Configurable)m_factory ).configure( configuration );
         }
     }
 
@@ -110,7 +108,7 @@ public abstract class AbstractService
     {
         if( m_factory instanceof Initializable )
         {
-            ((Initializable)m_factory).initialize();
+            ( (Initializable)m_factory ).initialize();
         }
 
         if( null == m_connectionName )
@@ -163,6 +161,6 @@ public abstract class AbstractService
         catch( final Exception e )
         {
             getLogger().warn( "Error disconnecting", e );
-        }           
+        }
     }
 }
