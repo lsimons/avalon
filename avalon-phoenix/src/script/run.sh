@@ -8,4 +8,4 @@ if [ "$JAVA_HOME" = "" ] ; then
   exit 1
 fi
 
-$JAVA_HOME/bin/java $PHOENIX_JVM_OPTS -jar avalon-loader.jar $*
+$JAVA_HOME/bin/java $PHOENIX_JVM_OPTS -jar phoenix-loader.jar $*

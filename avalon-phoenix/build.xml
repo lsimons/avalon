@@ -197,7 +197,7 @@ Legal:
 
     <mkdir dir="${build.lib}"/>
 
-    <jar jarfile="${build.lib}/${name}-client.jar" basedir="${build.classes}">
+    <jar jarfile="${build.lib}/phoenix-client.jar" basedir="${build.classes}">
 
       <include name="org/apache/phoenix/*"/>
     
@@ -205,13 +205,13 @@ Legal:
       <include name="org/apache/avalon/**"/>
     </jar>
 
-    <jar jarfile="${build.lib}/avalon-loader.jar"
+    <jar jarfile="${build.lib}/phoenix-loader.jar"
          basedir="${build.classes}"
          manifest="${manifest.dir}/loader-Manifest.mf" >
       <include name="org/apache/phoenix/engine/loader/**"/>
     </jar>
 
-    <jar jarfile="${build.lib}/avalon-engine.jar"
+    <jar jarfile="${build.lib}/phoenix-engine.jar"
          basedir="${build.classes}"
          manifest="${manifest.dir}/engine-Manifest.mf" >
       <include name="org/apache/phoenix/metainfo/**"/>
@@ -234,10 +234,10 @@ Legal:
     <mkdir dir="${dist.apps}"/>
     <mkdir dir="${dist.lib}"/>
 
-    <copy file="${build.lib}/avalon-loader.jar" todir="${dist.bin}/"/>
-    <copy file="${build.lib}/avalon-engine.jar" todir="${dist.bin}"/>
+    <copy file="${build.lib}/phoenix-loader.jar" todir="${dist.bin}/"/>
+    <copy file="${build.lib}/phoenix-engine.jar" todir="${dist.bin}"/>
 
-    <copy file="${build.lib}/${name}-client.jar" todir="${dist.lib}"/>
+    <copy file="${build.lib}/phoenix-client.jar" todir="${dist.lib}"/>
     <copy file="${lib.dir}/avalonapi.jar" todir="${dist.lib}"/>
     <copy file="${lib.dir}/xerces.jar" todir="${dist.lib}"/>
 
