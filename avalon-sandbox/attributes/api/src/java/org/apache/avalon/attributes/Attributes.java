@@ -252,4 +252,8 @@ public class Attributes {
         return hasAttribute (getAttributes (method), attribute);
     }
     
+    
+    public static AttributeIndex getAttributeIndex (ClassLoader cl) throws Exception {
+        return new AttributeIndex (cl);
+    }
 }

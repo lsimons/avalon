@@ -32,6 +32,7 @@ public class URLClassLoaderScanner implements ClassLoaderScanner {
                             Class clazz = cl.loadClass (className);
                             result.add (clazz);
                         } catch (Exception e) {
+                            System.out.println (e.toString ());
                         }
                     }
                 }
