@@ -7,36 +7,34 @@
  */
 package org.apache.jmx.introspector;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Method;
-import java.lang.reflect.InvocationTargetException;
-
+import java.beans.BeanDescriptor;
 import java.beans.BeanInfo;
 import java.beans.Introspector;
 import java.beans.MethodDescriptor;
 import java.beans.PropertyDescriptor;
-import java.beans.BeanDescriptor;
-
-import javax.management.DynamicMBean;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import javax.management.Attribute;
 import javax.management.AttributeList;
-import javax.management.AttributeNotFoundException;
-import javax.management.MBeanException;
-import javax.management.NotCompliantMBeanException;
-import javax.management.ReflectionException;
-import javax.management.InvalidAttributeValueException;
-import javax.management.IntrospectionException;
 import javax.management.AttributeList;
-import javax.management.MBeanInfo;
+import javax.management.AttributeNotFoundException;
+import javax.management.DynamicMBean;
+import javax.management.IntrospectionException;
+import javax.management.InvalidAttributeValueException;
 import javax.management.MBeanAttributeInfo;
 import javax.management.MBeanConstructorInfo;
-import javax.management.MBeanOperationInfo;
+import javax.management.MBeanException;
+import javax.management.MBeanInfo;
 import javax.management.MBeanNotificationInfo;
+import javax.management.MBeanOperationInfo;
 import javax.management.MBeanParameterInfo;
+import javax.management.NotCompliantMBeanException;
 import javax.management.NotificationBroadcaster;
+import javax.management.ReflectionException;
 
 /**
  * TODO: the equals() methods do not work for the MBeanXXXInfo classes;
@@ -54,9 +52,11 @@ import javax.management.NotificationBroadcaster;
  *
  * @author <a href="mailto:mail@leosimons.com">Leo Simons</a>
  */
-class DefaultDynamicMBean implements DynamicMBean {
+class DefaultDynamicMBean 
+    implements DynamicMBean
+{
     /** The object represented by this MBean */
-    protected final Object m_obj;
+    protected Object m_obj;
     /** The BeanInfo representing this MBean */
     protected BeanInfo m_beanInfo = null;
     /** The MBeanInfo object. */
@@ -75,7 +75,11 @@ class DefaultDynamicMBean implements DynamicMBean {
     /** The MBean notification descriptors. */
     protected MBeanNotificationInfo[] m_notifications = null;
 
-    DefaultDynamicMBean( final Object obj ) throws IllegalArgumentException
+    public DefaultDynamicMBean( ) 
+    {
+    }
+
+    public DefaultDynamicMBean( final Object obj ) throws IllegalArgumentException
     {
         m_obj = obj;
         final Class clazz = obj.getClass();
