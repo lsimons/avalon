@@ -36,9 +36,10 @@ import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 
 import org.apache.avalon.magic.AbstractPlugin;
-import org.apache.avalon.magic.RegexpFilter;
+import org.apache.avalon.magic.BuildException;
 import org.apache.avalon.magic.Plugin;
 import org.apache.avalon.magic.PluginContext;
+import org.apache.avalon.magic.RegexpFilter;
 
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.types.FileSet;
@@ -59,7 +60,7 @@ public class XDocPlugin extends AbstractPlugin
     }
     
     public void generate()
-        throws TransformerException
+        throws BuildException
     {
         getLogger().info( "Start XDoc generation." );
         
@@ -81,8 +82,8 @@ public class XDocPlugin extends AbstractPlugin
         
         try
         {
-            transformNavigation( themeDir );
             copySources();
+            transformNavigation( themeDir );
             transformXdocs( themeDir );
             copyResources( themeDir );
         } 
@@ -94,7 +95,7 @@ public class XDocPlugin extends AbstractPlugin
     }
     
     private void transformNavigation( File themeDir )
-        throws TransformerException
+        throws BuildException
     {
         File xslFile = new File( themeDir,  "nav-aggregate.xsl" );
         String srcDir = m_Context.getProperty( "xdoc.src.dir" );
@@ -113,7 +114,7 @@ public class XDocPlugin extends AbstractPlugin
     }
     
     private void transformXdocs( File themeDir )
-        throws TransformerException
+        throws BuildException
     {
         File xslFile = new File( themeDir,  "transform.xsl" );
         String srcDir = m_Context.getProperty( "xdoc.build.src.dir" );
@@ -148,7 +149,7 @@ public class XDocPlugin extends AbstractPlugin
     private void transformTrax( File srcDir, File toDir, File xslFile, 
                             String includes, String excludes, String extension,
                             String method )
-        throws TransformerException
+        throws BuildException
     {
         /* Alternate 'direct' implementation to solve that I can feed
            the XSL stylesheet with the parameter of the currently 
@@ -160,20 +161,26 @@ public class XDocPlugin extends AbstractPlugin
         System.out.println( "Transforming xsl:" + xslFile );
         System.out.println( "Transforming includes/excludes: '" + includes + "' / '" + excludes + "'."  );
         
-        TransformerFactory factory = TransformerFactory.newInstance();
-        StreamSource xsl = new StreamSource( xslFile );
-        Transformer transformer = factory.newTransformer( xsl );
+        try
+        {
+            TransformerFactory factory = TransformerFactory.newInstance();
+            StreamSource xsl = new StreamSource( xslFile );
+            Transformer transformer = factory.newTransformer( xsl );
 
-        RegexpFilter filter = new RegexpFilter( includes, excludes );
-        
-        m_BaseDir = toDir;
-        
-        transform( transformer, srcDir, toDir, filter, extension );
+            RegexpFilter filter = new RegexpFilter( includes, excludes );
+
+            m_BaseDir = toDir;
+
+            transform( transformer, srcDir, toDir, filter, extension );
+        } catch( TransformerException e )
+        {
+            throw new BuildException( "Invalid XML/XSL configuration of your system.", e );
+        }
     }
     
     private void transform( Transformer transformer, File srcDir, File toDir,
         FileFilter filter, String extension )
-        throws TransformerException
+        throws BuildException
     {
         File[] content = srcDir.listFiles( filter );
         for( int i = 0 ; i < content.length ; i++ )
@@ -182,6 +189,7 @@ public class XDocPlugin extends AbstractPlugin
             if( content[i].isDirectory() )
             {
                 File newDest = new File( toDir, base );
+                newDest.mkdirs();
                 transform( transformer, content[i], newDest, filter, extension );
             }
             if( content[i].isFile() )
@@ -202,7 +210,15 @@ public class XDocPlugin extends AbstractPlugin
                 transformer.setParameter( "fullpath", getRelPath( newDest ) );
                 transformer.setParameter( "file", base );
                 
-                transformer.transform( xml, out );
+                try
+                {
+                    transformer.transform( xml, out );
+                } catch( Exception e )
+                {
+                    getLogger().error( getRelPath( newDest ) + " : " + e.getMessage() );
+                    if( "true".equals( m_Context.getProperty( "xdoc.fail.on.error" ) ) )
+                        throw new BuildException( "Unable to transform document. Message above should give more details." );
+                }
             }
         }
     }

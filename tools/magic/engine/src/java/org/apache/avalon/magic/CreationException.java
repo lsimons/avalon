@@ -18,7 +18,7 @@ limitations under the License.
 package org.apache.avalon.magic;
 
 
-public class CreationException extends Exception
+public class CreationException extends BuildException
 {
     public CreationException()
     {
