@@ -71,14 +71,6 @@ public class DirectedAcyclicGraphVerifierTestCase extends TestCase
         super( name );
     }
 
-    public void setUp()
-    {
-    }
-
-    public void tearDown()
-    {
-    }
-
     public void testIsDAG()
     {
         try

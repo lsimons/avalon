@@ -49,10 +49,10 @@
 */
 package org.apache.avalon.fortress.impl;
 
-import org.apache.avalon.excalibur.logger.LoggerManager;
-import org.apache.avalon.fortress.*;
+import org.apache.avalon.fortress.ContainerManager;
+import org.apache.avalon.fortress.ContainerManagerConstants;
+import org.apache.avalon.fortress.InitializationException;
 import org.apache.avalon.fortress.util.ContextManager;
-import org.apache.avalon.fortress.util.LifecycleExtensionManager;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.component.Composable;
@@ -64,11 +64,7 @@ import org.apache.avalon.framework.logger.ConsoleLogger;
 import org.apache.avalon.framework.logger.Loggable;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.parameters.Parameters;
-import org.apache.avalon.framework.service.DefaultServiceManager;
 import org.apache.avalon.framework.service.ServiceManager;
-import org.apache.excalibur.event.Queue;
-import org.apache.excalibur.instrument.InstrumentManager;
-import org.apache.excalibur.mpool.PoolManager;
 
 /**
  * This is the default implementation of the
@@ -76,7 +72,7 @@ import org.apache.excalibur.mpool.PoolManager;
  * See that interface for a description.
  *
  * @author <a href="mailto:dev@avalon.apache.org">The Avalon Team</a>
- * @version CVS $Revision: 1.21 $ $Date: 2003/05/28 13:28:34 $
+ * @version CVS $Revision: 1.22 $ $Date: 2003/05/28 16:10:58 $
  */
 public class DefaultContainerManager
     implements Initializable, Disposable, ContainerManager, ContainerManagerConstants
@@ -143,8 +139,8 @@ public class DefaultContainerManager
     {
         try
         {
-            final LoggerManager loggerManager = (LoggerManager) initParameters.get( LoggerManager.ROLE );
-            return loggerManager.getDefaultLogger();
+            final Logger logger = (Logger) initParameters.get( LOGGER );
+            return logger;
         }
         catch ( ContextException ce )
         {
@@ -205,7 +201,8 @@ public class DefaultContainerManager
             ContainerUtil.enableLogging( instance, m_logger );
             ContainerUtil.contextualize( instance, implContext );
 
-            final ServiceManager serviceManager = createServiceManager( managerContext );
+            final ServiceManager serviceManager =
+                    (ServiceManager) getContextEntry( managerContext, SERVICE_MANAGER );
 
             ContainerUtil.service( instance, serviceManager );
 
@@ -227,38 +224,6 @@ public class DefaultContainerManager
             final String message =
                 "Cannot set up Container. Startup lifecycle failure";
             throw new InitializationException( message, e );
-        }
-    }
-
-    private ServiceManager createServiceManager( final Context managerContext )
-    {
-        final ServiceManager smanager =
-            (ServiceManager) getContextEntry( managerContext, SERVICE_MANAGER );
-        final DefaultServiceManager serviceManager = new DefaultServiceManager( smanager );
-
-        addService( Queue.ROLE, managerContext, serviceManager );
-        addService( LoggerManager.ROLE, managerContext, serviceManager );
-        addService( PoolManager.ROLE, managerContext, serviceManager );
-        addService( InstrumentManager.ROLE, managerContext, serviceManager );
-        addService( MetaInfoManager.ROLE, managerContext, serviceManager );
-        addService( RoleManager.ROLE, managerContext, serviceManager );
-        addService( LifecycleExtensionManager.ROLE, managerContext, serviceManager );
-        serviceManager.makeReadOnly();
-
-        return serviceManager;
-    }
-
-    private void addService( final String role,
-                             final Context context,
-                             final DefaultServiceManager serviceManager )
-    {
-        try
-        {
-            final Object object = context.get( role );
-            serviceManager.put( role, object );
-        }
-        catch ( ContextException e )
-        {
         }
     }
 

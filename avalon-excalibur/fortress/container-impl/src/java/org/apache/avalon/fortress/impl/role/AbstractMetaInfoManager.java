@@ -55,15 +55,15 @@ import org.apache.avalon.fortress.RoleManager;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
-import java.util.List;
 
 /**
  * Provides the foundation for MetaInfoManagers.
  *
  * @author <a href="bloritsch.at.apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.5 $
+ * @version CVS $Revision: 1.6 $
  */
 public abstract class AbstractMetaInfoManager extends AbstractLogEnabled implements MetaInfoManager
 {
