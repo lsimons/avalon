@@ -60,53 +60,53 @@
       <title>Framework</title>
       <para>
         Avalon Framework is the basis for all the other projects under
-	the Avalon umbrella.  It defines the interfaces, contracts, and
-	default implementations for Avalon.  The Framework has the most
-	work put into it, and consequently is the most mature project.
+        the Avalon umbrella.  It defines the interfaces, contracts, and
+        default implementations for Avalon.  The Framework has the most
+        work put into it, and consequently is the most mature project.
       </para>
     </section>
     <section>
       <title>Excalibur</title>
       <para>
         Avalon Excalibur is a collection of server side Components that
-	you can use in your own projects.  It includes pooling
-	implementations, database connection management, and Component
-	management implementations among others.
+        you can use in your own projects.  It includes pooling
+        implementations, database connection management, and Component
+        management implementations among others.
       </para>
     </section>
     <section>
       <title>LogKit</title>
       <para>
         Avalon LogKit is a high speed logging toolkit used by Framework,
-	Excalibur, Cornerstone, and Phoenix.  It is modeled on the same
-	principles as the JDK 1.4 Logging package but is compatible with
-	JDK 1.2+.
+        Excalibur, Cornerstone, and Phoenix.  It is modeled on the same
+        principles as the JDK 1.4 Logging package but is compatible with
+        JDK 1.2+.
       </para>
     </section>
     <section>
       <title>Phoenix</title>
       <para>
         Avalon Phoenix is the server kernel that manages the deployment
-	and execution of Services (implemented as server components
-	called Blocks).
+        and execution of Services (implemented as server components
+        called Blocks).
       </para>
     </section>
     <section>
       <title>Cornerstone</title>
       <para>
         Avalon Cornerstone is a collection of Blocks or services that you
-	can deploy in the Phoenix environment.  The Blocks include socket
-	management and job scheduling among others.
+        can deploy in the Phoenix environment.  The Blocks include socket
+        management and job scheduling among others.
       </para>
     </section>
     <section>
       <title>Scratchpad</title>
       <para>
         Scratchpad is not really an official project, but it is the
-	staging area for Components that are not ready for inclusion in
-	Excalibur yet.  They are of varying quality, and their APIs are
-	not guaranteed to remain consistent until they are promoted into
-	Excalibur.
+        staging area for Components that are not ready for inclusion in
+        Excalibur yet.  They are of varying quality, and their APIs are
+        not guaranteed to remain consistent until they are promoted into
+        Excalibur.
       </para>
     </section>
   </section>
@@ -188,23 +188,23 @@
       <title>There is no Magic Formula</title>
       <para>
         It is important to state that trying to use any tool as a magic
-	formula for success is begging for trouble.  Avalon is no exception
-	to this rule.  Because Avalon's Framework was designed to work for
-	server solutions, it would not be a good idea to use it for
-	building a Graphical User Interface (GUI).  Java already has a
-	framework for building a GUI called Swing.
+        formula for success is begging for trouble.  Avalon is no exception
+        to this rule.  Because Avalon's Framework was designed to work for
+        server solutions, it would not be a good idea to use it for
+        building a Graphical User Interface (GUI).  Java already has a
+        framework for building a GUI called Swing.
       </para>
       <para>
         While you need to consider if Avalon is right for your project,
-	you can still learn from the principles and design that went into
-	it.  The question you need to ask yourself is, "Where is this
-	project going to be used?"  If the answer is that it will be run
-	in a server environment, then Avalon is a good choice whether you
-	are creating a Java Servlet, or creating a special purpose server.
-	If the answer is it will be run on a client's machine with no
-	interaction with a server, than chances are that Avalon might not
-	be a good fit.  Even then, the Component model is very flexible
-	and can help manage complexity in a large application.
+        you can still learn from the principles and design that went into
+        it.  The question you need to ask yourself is, "Where is this
+        project going to be used?"  If the answer is that it will be run
+        in a server environment, then Avalon is a good choice whether you
+        are creating a Java Servlet, or creating a special purpose server.
+        If the answer is it will be run on a client's machine with no
+        interaction with a server, than chances are that Avalon might not
+        be a good fit.  Even then, the Component model is very flexible
+        and can help manage complexity in a large application.
       </para>
     </section>
   </section>
@@ -222,119 +222,119 @@
       <title>Inversion of Control</title>
       <para>
         Inversion of Control (IOC) is the concept that a Component is
-	always externally managed.  This phrase was originally coined
-	by Brian Foote in one of his papers
-	<footnote>
-	  <ulink url="http://www.laputan.org/drc/drc.html">http://www.laputan.org/drc/drc.html</ulink>
-	</footnote>.
-	Everything a Component needs in the way of Contexts,
-	Configurations, and Loggers is given to the Component.  In fact,
-	every stage in the life of a Component is controlled by the code
-	that created that Component.  When you use this pattern, you
-	implement a secure method of Component interaction in your system.
+        always externally managed.  This phrase was originally coined
+        by Brian Foote in one of his papers
+        <footnote>
+          <ulink url="http://www.laputan.org/drc/drc.html">http://www.laputan.org/drc/drc.html</ulink>
+        </footnote>.
+        Everything a Component needs in the way of Contexts,
+        Configurations, and Loggers is given to the Component.  In fact,
+        every stage in the life of a Component is controlled by the code
+        that created that Component.  When you use this pattern, you
+        implement a secure method of Component interaction in your system.
       </para>
       <warning>
         <para>
-	  IOC is not equivalent to security!  IOC provides a mechanism
-	  whereby you can implement a scalable security model.  In order
-	  for a system to be truly secured, each Component must be secure,
-	  no Component can modify the contents of objects that are passed
-	  to them, and every interaction has to be with known entities.
-	  Security is a major topic, and IOC is a tool in the programmer's
-	  arsenal to achieve that goal.
-	</para>
+      IOC is not equivalent to security!  IOC provides a mechanism
+      whereby you can implement a scalable security model.  In order
+      for a system to be truly secured, each Component must be secure,
+      no Component can modify the contents of objects that are passed
+      to them, and every interaction has to be with known entities.
+      Security is a major topic, and IOC is a tool in the programmer's
+      arsenal to achieve that goal.
+    </para>
       </warning>
     </section>
     <section>
       <title>Separation of Concerns</title>
       <para>
         The idea that you should view your problem space from different
-	concern areas resulted in the Separation of Concerns (SOC) pattern.
-	An example would be viewing a web server from different viewpoints
-	of the same problem space.  A web server must be secure, stable,
-	manageable, configurable, and comply with the HTTP specifications.
-	Each of those attributes is a separate concern area.  Some of these
-	concerns are related to other concerns such as security and
-	stability (if a server is not stable it can't be secure).
+        concern areas resulted in the Separation of Concerns (SOC) pattern.
+        An example would be viewing a web server from different viewpoints
+        of the same problem space.  A web server must be secure, stable,
+        manageable, configurable, and comply with the HTTP specifications.
+        Each of those attributes is a separate concern area.  Some of these
+        concerns are related to other concerns such as security and
+        stability (if a server is not stable it can't be secure).
       </para>
       <para>
         The Separation of Concerns pattern in turn led to Aspect Oriented
-	Programming (AOP).  Researchers discovered that many concerns
-	couldn't be addressed at class or even method granularity.  Those
-	concerns are called aspects.  Examples of aspects include managing
-	the lifecycle of objects, logging, handling exceptions and cleaning
-	up resources.  With the absence of a stable AOP implementation, the
-	Avalon team chose to implement Aspects or concerns by providing
-	small interfaces that a Component implements.
+        Programming (AOP).  Researchers discovered that many concerns
+        couldn't be addressed at class or even method granularity.  Those
+        concerns are called aspects.  Examples of aspects include managing
+        the lifecycle of objects, logging, handling exceptions and cleaning
+        up resources.  With the absence of a stable AOP implementation, the
+        Avalon team chose to implement Aspects or concerns by providing
+        small interfaces that a Component implements.
       </para>
     </section>
     <section>
       <title>Component Oriented Programming</title>
       <para>
         Component Oriented Programming (COP) is the idea of breaking a
-	system down into components, or facilities within a system.  Each
-	facility has a work interface and contracts surrounding that
-	interface.  This approach allows easy replacement of Component
-	instances without affecting code in other parts of the systems.
-	The major distinction between Object Oriented Programming (OOP)
-	and COP is the level of integration.  The complexity of a COP
-	system is more easily managed due to fewer interdependencies
-	among classes, promoting the level of code reuse.
+        system down into components, or facilities within a system.  Each
+        facility has a work interface and contracts surrounding that
+        interface.  This approach allows easy replacement of Component
+        instances without affecting code in other parts of the systems.
+        The major distinction between Object Oriented Programming (OOP)
+        and COP is the level of integration.  The complexity of a COP
+        system is more easily managed due to fewer interdependencies
+        among classes, promoting the level of code reuse.
       </para>
       <para>
         One of the chief benefits of COP is the ability to modify portions
-	of your project's code without breaking the entire system.  Another
-	benefit is the ability to have multiple implementations of the
-	Component that you can select at runtime.
+        of your project's code without breaking the entire system.  Another
+        benefit is the ability to have multiple implementations of the
+        Component that you can select at runtime.
       </para>
     </section>
     <section>
       <title>Service Oriented Programming</title>
       <para>
         Service Oriented Programming (SOP) is the idea of breaking a
-	system down into services provided by the system.
+        system down into services provided by the system.
       </para>
       <blockquote>
         <title>Service</title>
-	<orderedlist>
-	  <listitem>
-	    <para>
-	      Work or duties performed for others.
-	    </para>
-	  </listitem>
-	  <listitem>
-	    <para>
-	      A facility offering repair or maintenance.
-	    </para>
-	  </listitem>
-	  <listitem>
-	    <para>
-	      A facility providing the public with a utility.
-	    </para>
-	  </listitem>
-	</orderedlist>
-	<footnote>
-	  <para>Webster's II New Riverside Dictionary</para>
-	</footnote>
+    <orderedlist>
+      <listitem>
+        <para>
+          Work or duties performed for others.
+        </para>
+      </listitem>
+      <listitem>
+        <para>
+          A facility offering repair or maintenance.
+        </para>
+      </listitem>
+      <listitem>
+        <para>
+          A facility providing the public with a utility.
+        </para>
+      </listitem>
+    </orderedlist>
+    <footnote>
+      <para>Webster's II New Riverside Dictionary</para>
+    </footnote>
       </blockquote>
       <para>
         Avalon's Phoenix identifies a service as the interface and
-	contracts for a facility that Phoenix will provide.  The
-	implementation of the service is called a Block.  It is
-	important to realize that a server is made up of multiple
-	services.  To take the example of a Mail server, there are
-	the protocol handling services, the authentication and
-	authorization services, the administration service, and the
-	core mail handling service.
+        contracts for a facility that Phoenix will provide.  The
+        implementation of the service is called a Block.  It is
+        important to realize that a server is made up of multiple
+        services.  To take the example of a Mail server, there are
+        the protocol handling services, the authentication and
+        authorization services, the administration service, and the
+        core mail handling service.
       </para>
       <para>
         Avalon's Cornerstone provides a number of low-level services
-	that you can leverage for your own systems.  The services
-	provided are connection management, socket management,
-	principal/role management, and scheduling.  We touch on
-	services here because it is relevant to the process of
-	decomposing our hypothetical system down into the different
-	facilities.
+        that you can leverage for your own systems.  The services
+        provided are connection management, socket management,
+        principal/role management, and scheduling.  We touch on
+        services here because it is relevant to the process of
+        decomposing our hypothetical system down into the different
+        facilities.
       </para>
     </section>
   </section>
