@@ -500,7 +500,7 @@ Legal:
     <target name="make-pdk" depends="jars" description="Generates the PDK distribution">
 
         <mkdir dir="${dist.base}"/>
-        <zip file="${dist.base}/phoenix-developers-kit.zip">
+        <zip zipfile="${dist.base}/phoenix-developers-kit.zip">
             <fileset dir="src/pdk">
                 <include name="**"/>
             </fileset>
