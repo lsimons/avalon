@@ -42,16 +42,16 @@ limitations under the License.
         <dependency>
             <artifactId>saxon7</artifactId>
             <groupId>saxon7</groupId>
-            <version>7.9</version>
+            <version>7.9.1</version>
         </dependency>
         <dependency>
             <artifactId>saxon7-jdom</artifactId>
             <groupId>saxon7</groupId>
-            <version>7.9</version>
+            <version>7.9.1</version>
         </dependency>
         <dependency>
             <artifactId>saxon7-sql</artifactId>
-            <version>7.9</version>
+            <version>7.9.1</version>
             <groupId>saxon7</groupId>
         </dependency>
 
@@ -103,7 +103,7 @@ limitations under the License.
         </dependency>
         <dependency>
             <id>excalibur-store</id>
-            <version>1.1</version>
+            <version>1.0</version>
         </dependency>
         <dependency>
             <id>xerces</id>
