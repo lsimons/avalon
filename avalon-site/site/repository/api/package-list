@@ -1,0 +1,6 @@
+org.apache.avalon.repository
+org.apache.avalon.repository.criteria
+org.apache.avalon.repository.impl
+org.apache.avalon.repository.main
+org.apache.avalon.repository.meta
+org.apache.avalon.repository.util
