@@ -42,6 +42,7 @@
     
     <menu name="Resources">
       <item name="Javadoc" href="/api/index.html"/>
+      <item name="Specification" href="/reference/index.html"/>
       <item name="Download" href="/resources/download.html"/>
       <item name="Roadmap" href="/resources/roadmap/index.html"/>
       <item name="DPML" href="/dpml/index.html"/>
