@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+
+<document>
+
+ <header>
+  <title>History of Avalon</title>
+  <authors>
+    <person name="Avalon Documentation Team" email="bloritsch@apache.org"/>
+    <person name="Peter Donald" email="donaldp@apache.org"/>
+  </authors>
+ </header>
+
+<body>
+
+<s1 title="History">
+
+<p>
+    This document tracks the history of the Avalon project. Originally started with 
+    a realisation that java was a great platform for developing server products and a 
+    <link href="call-to-vote.html">call to vote</link>. There was a lot of work 
+    formalizing what exactly a <link href="what-is-a-server.html">server</link> consists
+    of and why Avalon was <link href="need-for-avalon.html">needed</link>. Theses 
+    discussions led to the initial development of Avalon framework.
+</p>
+
+<p>
+    Overtime the Java Apache Server Framework project was renamed Avalon. This was in 
+    recognition that the original ideas have evolved over time. Avalon became a 
+    repository of general utility code, a design and testing ground for component based 
+    solutions, a micro kernel and generalized server orientated services. This combined 
+    with a move from the Java Apache project to the jakarta project promted the revision.
+    At this time the kernel code was repackaged under the name phoenix, core services 
+    under the name cornerstone and the avalon-independent code was moved to util package.
+</p>
+
+</s1>
+
+</body>
+</document>

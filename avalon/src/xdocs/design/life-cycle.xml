@@ -1,0 +1,111 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE document SYSTEM "../dtd/document-v10.dtd">
+
+<document>
+  <header>
+    <title>Avalon Component Developers Documentation</title>
+    <subtitle>Lifecycle methods</subtitle>
+    <authors>
+      <person id="BL" name="Berin Loritsch" email="bloritsch@apache.org"/>
+      <person id="PD" name="Peter Donald" email="donaldp@apache.org"/>
+    </authors>
+  </header>
+  <body>
+    <s1 title="Lifecycle">
+      <p>A <code>Component</code>'s lifecycle depends on the specific interface 
+      implemented by the <code>Component</code> and the interfaces honored by it's 
+      container. Note that it is up to each individual Component Container to indicate
+      which lifecycle methods it will honor. These should be documented along with a 
+      description of the container.</p>
+
+      <p>Each of the following interfaces add some lifecycle stages to the 
+      component lifecycle. The interfaces related to lifecycle are:</p>
+      <ol>
+        <li>Loggable</li>
+        <li>Contextualizable</li>
+        <li>Composer</li>
+        <li>Configurable</li>
+        <li>Initializable</li>
+        <li>Startable</li>
+        <li>Runnable</li>
+        <li>Suspendable</li>
+        <li>Recontextualizable</li>
+        <li>Recomposer</li>
+        <li>Reconfigurable</li>
+        <li>Resumeable</li>
+        <li>Stoppable</li>
+        <li>Disposable</li>
+      </ol>
+      <p>The lifecycle of a <code>Component</code> implementing only Configurable for
+       example will be:</p>
+      <ol>
+        <li>constructor</li>
+        <li>configure</li>
+        <li>finalize</li>
+      </ol>
+      <p>The lifecycle of a <code>Component</code> implementing only Composer will be:</p>
+      <ol>
+        <li>constructor</li>
+        <li>compose</li>
+        <li>finalize</li>
+      </ol>
+      <p>If a <code>Component</code> implements more than one interface the order of
+       the events (compose, configure etc.) follow a specific order. A <code>Component
+      </code> implementing all above interfaces for example will follow the specific 
+       path:</p>
+      <ol>
+        <li>constructor</li>
+        <li>contextualize</li>
+        <li>compose</li>
+        <li>configure</li>
+        <li>init</li>
+        <li>start</li>
+        <li>run</li>
+        <li>
+          <ol>
+            <li>suspend</li>
+            <li>reconfigure</li>
+            <li>recontextualize</li>
+            <li>recompose</li>
+            <li>resume</li>
+          </ol>
+        </li>
+        <li>stop</li>
+        <li>dispose</li>
+        <li>finalize</li>
+      </ol>
+      <p>This is a possible lifecycle. By definition the [start,run,stop] can occur one 
+       or more times while [reconfigure] [recompose] [recontextualize] can occur 
+       zero or more times in any order inside the [suspend,resume] cycle.
+       So another possible life can be:</p>
+      <ol>
+        <li>constructor</li>
+        <li>setLogger</li>
+        <li>contextualize</li>
+        <li>compose</li>
+        <li>configure</li>
+        <li>init</li>
+        <li>start</li>
+        <li>run</li>
+        <li>suspend</li>
+        <li>recontextualize</li>
+        <li>reconfigure</li>
+        <li>resume</li>
+        <li>suspend</li>
+        <li>recompose</li>
+        <li>reconfigure</li>
+        <li>resume</li>
+        <li>stop</li>
+        <li>dispose</li>
+        <li>finalize</li>
+      </ol>
+    </s1>
+  </body>
+  <footer>
+    <legal>
+      Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
+      $Revision: 1.1 $ $Date: 2001/02/23 10:47:48 $
+    </legal>
+  </footer>
+</document>

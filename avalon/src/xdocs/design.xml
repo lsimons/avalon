@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE document SYSTEM "./dtd/document-v10.dtd">
+
+<document>
+  <header>
+    <title>Avalon Developer Design Documentation</title>
+    <subtitle>Introduction</subtitle>
+    <authors>
+      <person name="Berin Loritsch" email="bloritsch@apache.org"/>
+      <person name="Peter Donald" email="donaldp@apache.org"/>
+    </authors>
+  </header>
+  <body>
+    <s1 title="Introduction">
+      <p>
+        Avalon is among other things a repository of established patterns and 
+        design standards. Developers will appreciate the thought put into the 
+        framework, because it eases development. This documentation covers the 
+        overall principles behind Avalon, and the patterns involved. 
+      </p>
+      <s2 title="Target Audience">
+        <p>
+          This documentation is aimed towards developers who are interested
+          in the design principles of Avalon, or wish to develop code that
+          will be incorporated into Avalon.
+        </p>
+      </s2>
+      <s2 title="Theoretical Aspects of Component Development">
+        <p>
+          The following documents provide basic theoretical concepts that are applied 
+          through-out Avalons framework. It would be good for a prospective developer to 
+          be at least passingly familiar with the concepts outlined in this document.
+          The documentation also provides links to outside sources which can be consulted 
+          for further information.
+        </p>
+        <ol>
+          <li><link href="patterns.html">Patterns</link></li>
+          <li><link href="reuse-standards.html">Reuse Standards</link></li>
+          <li><link href="inversion-of-control.html">Inversion of Control</link></li>
+          <li><link href="separation-of-concerns.html">Separation of Concerns</link></li>
+          <li><link href="security.html">Security</link></li>
+        </ol>
+      </s2>
+      <s2 title="Concrete Descriptions of the Avalon Component model">
+        <p>
+          This section describes concrete examples of how the theoretical ideas 
+          are applied within the context of Avalon. It describes the lifecycle of
+          a component and how the interfaces contribute to defining the lifecycle.
+        </p>
+        <ol>
+          <li><link href="components.html">Designing a Component</link></li>
+          <li><link href="composer.html">Understanding the Composer</link></li>
+          <li><link href="life-cycle.html">The components life-cycle</link></li>
+        </ol>
+      </s2>
+    </s1>
+  </body>
+  <footer>
+    <legal>
+      Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
+      $Revision: 1.1 $ $Date: 2001/02/23 10:47:47 $
+    </legal>
+  </footer>
+</document>

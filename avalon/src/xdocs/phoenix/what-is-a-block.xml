@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE document SYSTEM "../dtd/document-v10.dtd">
+
+<document>
+  <header>
+    <title>Block Developers Guide</title>
+    <subtitle>What is a Block?</subtitle>
+    <authors>
+      <person id="FB" name="Federico Barbieri" email="fede@apache.org"/>
+    </authors>
+  </header>
+  <body>
+    <s1 title="Introduction">
+      <p>In Avalon, there are three component layers:</p>
+        <ul>
+          <li>Blocks</li>
+          <li>Components</li>
+          <li>Classes</li>
+        </ul>
+      <p>
+        They represent ever narrowing views of a component based architecture.
+        The best analogy is that of hardware.  In the PC world, a Block would
+        be like a PCI card, a Motherboard, a Case, or a Hard Drive.  A Component
+        would be like the chips on the cards.  And classes would be like the
+        individual transistors on the chip.  Granted, the actual economies
+        of scale in this analogy don't hold to software (a component will
+        not have millions of classes).
+      </p>
+    </s1>
+    <s1 title="What is a Block?">
+      <p>
+        A Block is a Component on a larger scale. It is usually the 
+        implementation of a Service. Examples of Blocks are 
+        "Persistent Object Store", "Connection Pools", "XML Database", 
+        "Authenticator" and so on.
+      </p>
+    </s1>
+  </body>
+  <footer>
+    <legal>
+      Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
+      $Revision: 1.1 $ $Date: 2001/02/23 10:47:51 $
+    </legal>
+  </footer>
+</document>

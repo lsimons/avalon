@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE document SYSTEM "dtd/document-v10.dtd">
+
+<document>
+  <header>
+    <title>Overview</title>
+    <authors>
+      <person id="FB" name="Federico Barbieri" email="fede@apache.org"/>
+      <person id="BL" name="Berin Loritsch" email="bloritsch@apache.org"/>
+    </authors>
+    <notice>
+      Avalon documentation is under construction.  Everything you
+      can find outside this page is to be considered obsolete.
+    </notice>
+  </header>
+  <body>
+    <s1 title="What is it?">
+      <p>
+       The Avalon project is an effort to create, design, develop and maintain
+       a common framework for server applications written using the Java
+       language. This framework will not be a standalone product, but will allow
+       existing and yet to be created server applications to fit into a common
+       platform and to share code, design and human resources.
+      </p>
+    </s1>
+    <s1 title="Project Goals">
+      <p>
+        As many people points out, software engineering is a very uncommon procedure
+        in software development and even more uncommon in auto-organized open
+        source projects. The main goal of the framework project is to design a way for
+        different projects to share resources avoiding as much as possible efforts
+        duplication. 
+      </p>
+      <p>
+        The framework will not be a product or an API set or a set of interfaces: will be
+        a collection of code design patterns, rules, guidelines and suggestions on how to
+        write server software that "plugs" into the framework. The framework will not
+        impose restrictions on the server that deploy it, but rather precious guidelines to
+        help the developers reuse as much work they can from other server solutions. 
+      </p>
+    </s1>
+  </body>
+  <footer>
+    <legal>
+      Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
+      $Revision: 1.1 $ $Date: 2001/02/23 10:47:47 $
+    </legal>
+  </footer>
+</document>

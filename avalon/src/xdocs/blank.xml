@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE document SYSTEM "dtd/document-v10.dtd">
+
+<document>
+  <header>
+    <title>Blank Documentation</title>
+    <subtitle>Blank Title</subtitle>
+    <authors>
+      <person name="Avalon Documentation Team" email="bloritsch@apache.org"/>
+    </authors>
+  </header>
+  <body>
+    <s1 title="Not Done Yet">
+      <p>
+        Unfortunately you have reached a page that has yet to be done. Feel free 
+        to send us in patches for it though ;)
+      </p>
+    </s1>
+  </body>
+  <footer>
+    <legal>
+      Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
+      $Revision: 1.1 $ $Date: 2001/02/23 10:47:47 $
+    </legal>
+  </footer>
+</document>

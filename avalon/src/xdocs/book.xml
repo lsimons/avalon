@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+
+<book software="Avalon" 
+      title="Avalon Documentation" 
+      copyright="@year@ The Apache Software Foundation">
+
+<section label="About"/>
+  <page id="index" label="Overview" source="index.xml"/>
+  <page id="history" label="History" source="history.xml"/>
+  <page id="features" label="Features" source="features.xml"/>
+  <page id="geting-started" label="Getting Started" source="getting-started.xml"/>
+  <page id="install" label="Installation" source="install.xml"/>
+  <page id="license" label="License" source="license.xml"/>
+
+<separator/>
+  <page id="mail" label="Mail Archive" source="mail.xml"/>
+  <external id="faq" 
+            label="FAQ" 
+            href="http://java.apache.org/jyve-faq/Turbine/screen/DisplayTopics/action/SetAll/project_id/1/faq_id/35"/>
+
+  <page id="contributors" label="Contributors" source="contributors.xml"/>
+  <changes id="changes" label="Changes" source="changes.xml"/>
+
+<section label="Developers"/>
+  <page id="design" label="Patterns and Design" source="design.xml"/>
+  <page id="code-standards" label="Coding Standards" source="code-standards.xml"/>
+  <page id="todo" label="Todo" source="todo.xml"/>
+  <external id="api-docs" label="API Docs" href="api/index.html"/>
+
+<section label="Phoenix"/>
+  <page id="phoenix" label="What is Phoenix?" source="phoenix.xml"/>
+  <page id="administrators" label="Administrators Guide" source="administrator-guide.xml"/>
+  <page id="deployers" label="Deployers Guide" source="deployers-guide.xml"/>
+  <page id="assemblers" label="Assemblers Guide" source="assemblers-guide.xml"/>
+  <page id="developers" label="Block Developers Guide" source="block-developers-guide.xml" />
+
+  <!-- history pages -->
+  <hidden id="call-to-vote" source="history/call-to-vote.xml" />
+  <hidden id="what-is-a-server" source="history/what-is-a-server.xml" />
+  <hidden id="need-for-avalon" source="history/need-for-avalon.xml" />
+
+  <!-- design pages -->
+  <hidden id="patterns" source="design/patterns.xml" />
+  <hidden id="components" source="design/components.xml" />
+  <hidden id="composer" source="design/composer.xml" />
+  <hidden id="life-cycle" source="design/life-cycle.xml" />
+  <hidden id="inversion-of-control" source="design/inversion-of-control.xml" />
+  <hidden id="reuse-standards" source="design/reuse-standards.xml" />
+  <hidden id="security" source="design/security.xml" />
+  <hidden id="separation-of-concerns" source="design/separation-of-concerns.xml" />
+
+  <!-- phoenix pages -->  
+  <hidden id="what-is-a-block" source="phoenix/what-is-a-block.xml" />
+  <hidden id="blockinfo-specification" source="phoenix/blockinfo-specification.xml" />
+  <hidden id="creating-a-block" source="phoenix/creating-a-block.xml" />
+  <hidden id="what-is-a-server-application" source="phoenix/what-is-a-server-application.xml" />
+  <hidden id="assembly-xml-specification" source="phoenix/assembly-xml-specification.xml" />
+  <hidden id="server-xml-specification" source="phoenix/server-xml-specification.xml" />
+  <hidden id="creating-a-server-application" 
+          source="phoenix/creating-a-server-application.xml" />
+
+</book>
+
+

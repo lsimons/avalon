@@ -1,0 +1,86 @@
+<?xml version="1.0"?>
+
+<document>
+
+ <header>
+  <title>Avalon Getting Started</title>
+  <authors>
+   <person name="Avalon Documentation Team" email="bloritsch@apache.org"/>
+   <person name="Leo Simons" email="email@leosimons.com"/>
+  </authors>
+ </header>
+
+<body>
+
+<s1 title="Getting Started">
+
+<p>
+    This document provides developers with simple documentation for getting
+    started with Avalon. For information about the overall structure of
+    Avalon, please refer to the <link href="design.html">Design</link> document.
+</p>
+
+<p>
+    Instructions for downloading and installing Avalon can be found on the
+    <link href="install.html">Install</link> document.
+</p>    
+
+<p>
+    More detailed instructions will be added to this document in the future. Feel free
+    to send in patches ;)
+</p>
+
+</s1>
+
+<s1 title="View Detailed API Documentation">
+
+<p>    
+    To generate a full set of detailed API documentation for Avalon, go to the base
+    directory of source distribution and run the appropriate build script for your 
+    platform with the parameter 'javadocs'.
+    
+    <source><![CDATA[
+    
+    > build.[bat|sh] javadocs
+    
+    ]]></source>
+</p>
+
+</s1>
+<s1 title="Run the examples">
+
+<p>
+    After you have successfully built Avalon, you can verify that it has
+compiled
+    correctly by running the demo Service Application. To do so, fire up
+phoenix
+    with the following command:
+
+    <source><![CDATA[
+
+    > bin/run.[bat|sh]
+
+    ]]></source>
+</p>
+
+<p>
+    Next, fire up your favorite webbrowser and point it to
+http://localhost:8999/,
+    where localhost is the network name of your machine ("localhost") should
+work
+    on all windows platforms.<br />
+    If all goes well, you will see something like the following:
+
+    <source><![CDATA[
+
+    Hello World!
+    Requests so far = 9
+    you are 127.0.0.1 at 127.0.0.1
+
+    ]]></source>
+</p>
+
+</s1>
+
+</body>
+</document>
