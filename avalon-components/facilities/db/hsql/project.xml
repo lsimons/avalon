@@ -37,6 +37,13 @@
       <version>1.3.1</version>
     </dependency>
     
+    <!-- Generation of Meta info  -->
+    <dependency>
+      <groupId>avalon-meta</groupId>
+      <artifactId>avalon-meta-plugin</artifactId>
+      <version>1.4-SNAPSHOT</version>
+    </dependency>
+
   </dependencies>
   
 </project>
