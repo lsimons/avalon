@@ -54,6 +54,7 @@ package org.apache.avalon.excalibur.thread;
  * This interface defines the method through which Threads can be controlled.
  *
  * @author <a href="mailto:avalon-dev@jakarta.apache.org">Avalon Development Team</a>
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
  * @deprecated Replaced with org.apache.excalibur.thread.ThreadControl
  */
 public interface ThreadControl

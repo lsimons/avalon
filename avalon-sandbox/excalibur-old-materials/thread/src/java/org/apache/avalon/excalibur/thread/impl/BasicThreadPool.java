@@ -67,6 +67,7 @@ import org.apache.excalibur.threadcontext.ThreadContext;
  * The ThreadPool that binds to Legacy Pooling implementation.
  *
  * @author <a href="mailto:avalon-dev@jakarta.apache.org">Avalon Development Team</a>
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
  * @deprecated Only used by deprecated components. Will remove in the future
  */
 class BasicThreadPool

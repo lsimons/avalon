@@ -61,6 +61,7 @@ import org.apache.excalibur.threadcontext.ThreadContext;
  * This class extends the Thread class to add recyclable functionalities.
  *
  * @author <a href="mailto:avalon-dev@jakarta.apache.org">Avalon Development Team</a>
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
  * @deprecated Only Used by deprecated code and will be removed in future
  */
 class SimpleWorkerThread

@@ -67,6 +67,7 @@ import org.apache.excalibur.threadcontext.ThreadContext;
  * This class is the public frontend for the thread pool code.
  *
  * @author <a href="mailto:avalon-dev@jakarta.apache.org">Avalon Development Team</a>
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
  */
 public class DefaultThreadPool
     extends ThreadGroup

@@ -57,6 +57,7 @@ import org.apache.excalibur.thread.Executable;
  * an {@link Executable} object.
  *
  * @author <a href="mailto:avalon-dev@jakarta.apache.org">Avalon Development Team</a>
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
  */
 final class ExecutableRunnable
     implements Executable

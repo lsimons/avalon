@@ -57,6 +57,7 @@ import org.apache.excalibur.thread.ThreadControl;
  * This class extends the Thread class to add recyclable functionalities.
  *
  * @author <a href="mailto:avalon-dev@jakarta.apache.org">Avalon Development Team</a>
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
  */
 public class WorkerThread
     extends Thread

@@ -59,6 +59,7 @@ package org.apache.excalibur.thread;
  * be a long running.</p>
  *
  * @author <a href="mailto:avalon-dev@jakarta.apache.org">Avalon Development Team</a>
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
  */
 public interface Executable
 {

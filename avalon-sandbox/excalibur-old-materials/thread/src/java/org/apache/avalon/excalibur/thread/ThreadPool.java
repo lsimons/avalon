@@ -57,6 +57,7 @@ import org.apache.excalibur.thread.ThreadControl;
  * This class is the public frontend for the thread pool code.
  *
  * @author <a href="mailto:avalon-dev@jakarta.apache.org">Avalon Development Team</a>
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
  * @deprecated Replaced with org.apache.excalibur.thread.ThreadPool
  */
 public interface ThreadPool
