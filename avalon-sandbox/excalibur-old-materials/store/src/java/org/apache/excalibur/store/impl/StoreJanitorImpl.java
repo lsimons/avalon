@@ -74,7 +74,8 @@ import org.apache.excalibur.store.StoreJanitor;
  * @author <a href="mailto:cs@ffzj0ia9.bank.dresdner.net">Christian Schmitt</a>
  * @author <a href="mailto:g-froehlich@gmx.de">Gerhard Froehlich</a>
  * @author <a href="mailto:proyal@managingpartners.com">Peter Royal</a>
- * @version CVS $Id: StoreJanitorImpl.java,v 1.11 2003/07/31 13:42:20 vgritsenko Exp $
+ * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
+ * @version CVS $Id: StoreJanitorImpl.java,v 1.12 2003/08/15 12:59:58 cziegeler Exp $
  */
 public class StoreJanitorImpl
 extends AbstractLogEnabled
@@ -82,9 +83,10 @@ implements StoreJanitor,
            Parameterizable,
            ThreadSafe,
            Runnable,
-           Startable {
+           Startable
+{
 
-    private static boolean doRun = false;
+    private boolean doRun = false;
 
     // Configuration parameters
     private int minFreeMemory = -1;
@@ -98,7 +100,9 @@ implements StoreJanitor,
     private Runtime jvm;
     private ArrayList storelist;
     private int index = -1;
-
+    /** Should the gc be called on low memory? */
+    protected boolean invokeGC = false;
+    
     /**
      * Initialize the StoreJanitorImpl.
      * A few options can be used :
@@ -117,8 +121,10 @@ implements StoreJanitor,
      * @param params the Configuration of the application
      * @exception ParameterException
      */
-    public void parameterize(Parameters params) throws ParameterException {
-        if (getLogger().isDebugEnabled()) {
+    public void parameterize(Parameters params) throws ParameterException 
+    {
+        if (getLogger().isDebugEnabled()) 
+        {
             getLogger().debug("Configure StoreJanitorImpl");
         }
         setJVM(Runtime.getRuntime());
@@ -131,31 +137,49 @@ implements StoreJanitor,
         setPriority(params.getParameterAsInteger("threadpriority",
                                                  Thread.currentThread().getPriority()));
         int percent = params.getParameterAsInteger("percent_to_free", 10);
-
-        if (getMinFreeMemory() < 1) {
+        this.invokeGC = params.getParameterAsBoolean("invokegc", this.invokeGC);
+        
+        if (getMinFreeMemory() < 1) 
+        {
             throw new ParameterException("StoreJanitorImpl freememory parameter has to be greater then 1");
         }
-        if (getMaxHeapSize() < 1) {
+        if (getMaxHeapSize() < 1) 
+        {
             throw new ParameterException("StoreJanitorImpl heapsize parameter has to be greater then 1");
         }
-        if (getThreadInterval() < 1) {
+        if (getThreadInterval() < 1) 
+        {
             throw new ParameterException("StoreJanitorImpl cleanupthreadinterval parameter has to be greater then 1");
         }
-        if (getPriority() < 1 || getPriority() > 10) {
+        if (getPriority() < 1 || getPriority() > 10) 
+        {
             throw new ParameterException("StoreJanitorImpl threadpriority has to be between 1 and 10");
         }
-        if (percent > 100 && percent < 1) {
+        if (percent > 100 && percent < 1) 
+        {
             throw new ParameterException("StoreJanitorImpl percent_to_free, has to be between 1 and 100");
         }
 
         this.fraction = percent / 100.0D;
         setStoreList(new ArrayList());
+        
+        if ( getLogger().isDebugEnabled() ) 
+        {
+            getLogger().debug("minimum free memory=" + this.getMinFreeMemory());
+            getLogger().debug("heapsize=" + this.getMaxHeapSize());
+            getLogger().debug("thread interval=" + this.getThreadInterval());
+            getLogger().debug("priority=" + this.getPriority());
+            getLogger().debug("percent=" + percent);
+            getLogger().debug("invoke gc=" + this.invokeGC);
+        }
     }
 
-    public void start() {
+    public void start() 
+    {
         doRun = true;
         Thread checker = new Thread(this);
-        if (getLogger().isDebugEnabled()) {
+        if (getLogger().isDebugEnabled()) 
+        {
             getLogger().debug("Intializing checker thread");
         }
         checker.setPriority(getPriority());
@@ -164,25 +188,29 @@ implements StoreJanitor,
         checker.start();
     }
 
-    public void stop() {
+    public void stop() 
+    {
         doRun = false;
     }
 
     /**
      * The "checker" thread checks if memory is running low in the jvm.
      */
-    public void run() {
+    public void run() 
+    {
         boolean firstRun = true;
         long inUse = memoryInUse(); // Amount of memory in use before sleep()
         long interval = Long.MAX_VALUE; // Sleep time in ms
         long maxRateOfChange = 1; // Used memory change rate in bytes per second
 
         while (doRun) {
-            if (getAdaptiveThreadInterval()) {
+            if (getAdaptiveThreadInterval()) 
+            {
                 // Monitor the rate of change of heap in use.
                 long change = memoryInUse() - inUse;
                 long rateOfChange = longDiv(change * 1000, interval); // bps.
-                if (maxRateOfChange < rateOfChange) {
+                if (maxRateOfChange < rateOfChange) 
+                {
                     maxRateOfChange = (maxRateOfChange + rateOfChange) / 2;
                 }
                 if (getLogger().isDebugEnabled()) {
@@ -193,42 +221,58 @@ implements StoreJanitor,
             }
 
             // Amount of memory used is greater than heapsize
-            if (memoryLow()) {
-                // Uncomment "memoryLow() &&" if uncommenting this line
-                // this.freePhysicalMemory();
+            if (memoryLow()) 
+            {
+                if ( this.invokeGC ) 
+                {
+                    this.freePhysicalMemory();
+                }
 
-                synchronized (this) {
-                    if (// memoryLow() &&
-                            getStoreList().size() > 0) {
+                synchronized (this) 
+                {
+                    if (!this.invokeGC
+                        || (memoryLow() && getStoreList().size() > 0)) 
+                    {
+                            
                         freeMemory();
                         setIndex(getIndex() + 1);
                     }
                 }
             }
 
-            if (getAdaptiveThreadInterval()) {
+            if (getAdaptiveThreadInterval()) 
+            {
                 // Calculate sleep interval based on the change rate and free memory left
                 interval = minTimeToFill(maxRateOfChange) * 1000 / 2;
-                if (interval > this.threadInterval) {
+                if (interval > this.threadInterval) 
+                {
                     interval = this.threadInterval;
-                } else if (interval < this.minThreadInterval) {
+                } 
+                else if (interval < this.minThreadInterval) 
+                {
                     interval = this.minThreadInterval;
                 }
                 inUse = memoryInUse();
-            } else {
+            } 
+            else 
+            {
                 interval = this.threadInterval;
             }
-            if (getLogger().isDebugEnabled()) {
+            if (getLogger().isDebugEnabled()) 
+            {
                 getLogger().debug("Sleeping for " + interval + "ms");
             }
 
             // Sleep
-            try {
+            try 
+            {
                 Thread.sleep(interval);
-            } catch (InterruptedException ignore) {}
+            } 
+            catch (InterruptedException ignore) {}
 
             // Ignore change in memory during the first run (startup)
-            if (firstRun) {
+            if (firstRun) 
+            {
                 firstRun = false;
                 inUse = memoryInUse();
             }
@@ -240,19 +284,25 @@ implements StoreJanitor,
      *
      * @return true if memory is low
      */
-    private boolean memoryLow() {
-        if (getLogger().isDebugEnabled()) {
+    private boolean memoryLow() 
+    {
+        if (getLogger().isDebugEnabled()) 
+        {
             getLogger().debug("JVM Memory total: " + getJVM().totalMemory()
                               + ", free: " + getJVM().freeMemory());
         }
 
         if ((getJVM().totalMemory() >= getMaxHeapSize())
-                && (getJVM().freeMemory() < getMinFreeMemory())) {
-            if (getLogger().isDebugEnabled()) {
+                && (getJVM().freeMemory() < getMinFreeMemory())) 
+        {
+            if (getLogger().isDebugEnabled()) 
+            {
                 getLogger().debug("Memory is low!");
             }
             return true;
-        } else {
+        } 
+        else 
+        {
             return false;
         }
     }
@@ -262,7 +312,8 @@ implements StoreJanitor,
      *
      * @return memory in use.
      */
-    private long memoryInUse() {
+    private long memoryInUse() 
+    {
         return jvm.totalMemory() - jvm.freeMemory();
     }
 
@@ -273,14 +324,19 @@ implements StoreJanitor,
      * @param rate memory fill rate in time per bytes
      * @return amount of time to fill all the memory with given fill rate
      */
-    private long minTimeToFill(long rate) {
+    private long minTimeToFill(long rate) 
+    {
         return longDiv(jvm.freeMemory(), rate);
     }
 
-    private long longDiv(long top, long bottom) {
-        try {
+    private long longDiv(long top, long bottom) 
+    {
+        try 
+        {
             return top / bottom;
-        } catch (Exception e) {
+        } 
+        catch (Exception e) 
+        {
             return top > 0 ? Long.MAX_VALUE : Long.MIN_VALUE;
         }
     }
@@ -290,10 +346,12 @@ implements StoreJanitor,
      *
      * @param store the store to be registered
      */
-    public synchronized void register(Store store) {
+    public synchronized void register(Store store) 
+    {
         getStoreList().add(store);
-        if (getLogger().isDebugEnabled()) {
-            getLogger().debug("Registered store instance. Stores now: "
+        if (getLogger().isDebugEnabled()) 
+        {
+            getLogger().debug("Registered store instance " + store + ". Stores now: "
                               + getStoreList().size());
         }
     }
@@ -303,10 +361,12 @@ implements StoreJanitor,
      *
      * @param store the store to be unregistered
      */
-    public synchronized void unregister(Store store) {
+    public synchronized void unregister(Store store) 
+    {
         getStoreList().remove(store);
-        if (getLogger().isDebugEnabled()) {
-            getLogger().debug("Unregistered store instance. Stores now: "
+        if (getLogger().isDebugEnabled()) 
+        {
+            getLogger().debug("Unregistered store instance " + store + ". Stores now: "
                               + getStoreList().size());
         }
     }
@@ -323,24 +383,32 @@ implements StoreJanitor,
      *
      * @return a java.util.Iterator
      */
-    public Iterator iterator() {
+    public Iterator iterator() 
+    {
         return getStoreList().iterator();
     }
 
     /**
      * Round Robin alghorithm for freeing the registered caches.
      */
-    private void freeMemory() {
+    private void freeMemory() 
+    {
         // TODO: Alternative to RR might be to free same fraction from every storage.
-        try {
+        try 
+        {
             // Determine the store.
-            if (getIndex() < getStoreList().size()) {
-                if (getIndex() == -1) {
+            if (getIndex() < getStoreList().size()) 
+            {
+                if (getIndex() == -1) 
+                {
                     setIndex(0);
                 }
-            } else {
+            } 
+            else 
+            {
                 // Store list changed (one or more store has been removed).
-                if (getLogger().isDebugEnabled()) {
+                if (getLogger().isDebugEnabled()) 
+                {
                     getLogger().debug("Restarting from the beginning");
                 }
                 setIndex(0);
@@ -349,19 +417,28 @@ implements StoreJanitor,
             // Delete proportionate elements out of the store as configured.
             Store store = (Store)getStoreList().get(getIndex());
             int limit = calcToFree(store);
-            if (getLogger().isDebugEnabled()) {
+            if (getLogger().isDebugEnabled()) 
+            {
                 getLogger().debug("Freeing " + limit + " items from store N " + getIndex());
             }
-            for (int i=0; i < limit; i++) {
-                try {
+            for (int i=0; i < limit; i++) 
+            {
+                try
+                {
                     store.free();
-                } catch (OutOfMemoryError e) {
+                } 
+                catch (OutOfMemoryError e) 
+                {
                     getLogger().error("OutOfMemoryError in freeMemory()");
                 }
             }
-        } catch (Exception e) {
+        } 
+        catch (Exception e) 
+        {
             getLogger().error("Error in freeMemory()", e);
-        } catch (OutOfMemoryError e) {
+        } 
+        catch (OutOfMemoryError e) 
+        {
             getLogger().error("OutOfMemoryError in freeMemory()");
         }
     }
@@ -373,19 +450,32 @@ implements StoreJanitor,
      * @param store the Store which was selected as victim
      * @return number of elements to be removed!
      */
-    private int calcToFree(Store store) {
+    private int calcToFree(Store store) 
+    {
         int cnt = store.size();
-        if (cnt < 0) {
-            getLogger().debug("Unknown size of the store: " + store);
+        if (cnt < 0) 
+        {
+            if ( getLogger().isDebugEnabled() )
+            {
+                getLogger().debug("Unknown size of the store: " + store);
+            }
             return 0;
         }
-        return (int)(cnt * fraction);
+        final int res = (int)(cnt * fraction);
+        if ( getLogger().isDebugEnabled() ) 
+        {
+            getLogger().debug("Calculating size for store " + store + " with size " + cnt + " : " + res);
+        }
+        return res;
     }
 
     /**
      * This method forces the garbage collector
-    private void freePhysicalMemory() {
-        if (getLogger().isDebugEnabled()) {
+     */
+    private void freePhysicalMemory() 
+    {
+        if (getLogger().isDebugEnabled()) 
+        {
             getLogger().debug("Invoking garbage collection. Memory total: "
                               + getJVM().totalMemory() + ", free: "
                               + getJVM().freeMemory());
@@ -394,78 +484,96 @@ implements StoreJanitor,
         getJVM().runFinalization();
         getJVM().gc();
 
-        if (getLogger().isDebugEnabled()) {
+        if (getLogger().isDebugEnabled()) 
+        {
             getLogger().debug("Garbage collection complete. Memory total: "
                               + getJVM().totalMemory() + ", free: "
                               + getJVM().freeMemory());
         }
     }
-     */
+     
 
-    private int getMinFreeMemory() {
+    private int getMinFreeMemory() 
+    {
         return this.minFreeMemory;
     }
 
-    private void setMinFreeMemory(int _freememory) {
+    private void setMinFreeMemory(int _freememory) 
+    {
         this.minFreeMemory = _freememory;
     }
 
-    private int getMaxHeapSize() {
+    private int getMaxHeapSize() 
+    {
         return this.maxHeapSize;
     }
 
-    private void setMaxHeapSize(int _heapsize) {
+    private void setMaxHeapSize(int _heapsize) 
+    {
         this.maxHeapSize = _heapsize;
     }
 
-    private int getPriority() {
+    private int getPriority() 
+    {
         return this.priority;
     }
 
-    private void setPriority(int _priority) {
+    private void setPriority(int _priority) 
+    {
         this.priority = _priority;
     }
 
-    private int getThreadInterval() {
+    private int getThreadInterval() 
+    {
         return this.threadInterval;
     }
 
-    private void setThreadInterval(int _threadInterval) {
+    private void setThreadInterval(int _threadInterval) 
+    {
         this.threadInterval = _threadInterval;
     }
 
-    private boolean getAdaptiveThreadInterval() {
+    private boolean getAdaptiveThreadInterval()
+    {
         return this.adaptiveThreadInterval;
     }
 
-    private void setAdaptiveThreadInterval(boolean _adaptiveThreadInterval) {
+    private void setAdaptiveThreadInterval(boolean _adaptiveThreadInterval) 
+    {
         this.adaptiveThreadInterval = _adaptiveThreadInterval;
     }
 
-    private Runtime getJVM() {
+    private Runtime getJVM() 
+    {
         return this.jvm;
     }
 
-    private void setJVM(Runtime _jvm) {
+    private void setJVM(Runtime _jvm) 
+    {
         this.jvm = _jvm;
     }
 
-    private ArrayList getStoreList() {
+    private ArrayList getStoreList() 
+    {
         return this.storelist;
     }
 
-    private void setStoreList(ArrayList _storelist) {
+    private void setStoreList(ArrayList _storelist) 
+    {
         this.storelist = _storelist;
     }
 
-    private void setIndex(int _index) {
-        if (getLogger().isDebugEnabled()) {
+    private void setIndex(int _index) 
+    {
+        if (getLogger().isDebugEnabled()) 
+        {
             getLogger().debug("Setting index=" + _index);
         }
         this.index = _index;
     }
 
-    private int getIndex() {
+    private int getIndex() 
+    {
         return this.index;
     }
 }
