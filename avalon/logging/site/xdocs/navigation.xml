@@ -39,7 +39,7 @@
 
     <menu name="Resources">
       <item name="Javadoc" href="/api/index.html"/>
-      <item name="Download" href="/resources/download.html"/>
+      <item name="Download" href="/download.html"/>
     </menu>
 
     <menu name="Related Projects">
