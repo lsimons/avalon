@@ -1,252 +1,76 @@
 <?xml version="1.0"?>
 
-<project default="main" basedir=".">
+<project name="Phoenix Docs" default="main" basedir=".">
 
-  <!--
+    <!--
     Give user a chance to override without editing this file
     (and without typing -D each time he compiles it)
-  -->
-  <property file=".ant.properties"/>
-  <property file="${user.home}/.ant.properties"/>
+    -->
+    <property file="ant.properties"/>
+    <property file="${user.home}/.ant.properties"/>
 
-  <property file="project.properties"/>
+    <property name="docs.dir" value="docs"/>
+    <property name="xdocs.dir" value="src/xdocs"/>
+    <property name="jakarta-site.dir" value="../jakarta-site"/>
 
-  <!-- Set the properties for intermediate directory -->
-  <property name="build.dir" value="build"/>
-  <property name="build.javadocs" value="${build.dir}/javadocs"/>
-  <property name="build.docs" value="${build.dir}/docs"/>
-  <property name="build.context" value="${build.dir}/documentation"/>
-  <property name="build.xdocs" value="${build.context}/xdocs"/>
+    <path id="project.class.path">
+                <fileset dir="${jakarta-site.dir}/lib">
+                    <include name="*.jar"/>
+                </fileset>
+    </path>
 
-  <!-- Set the properties for source directories -->
-  <property name="src.dir" value="src"/>
-  <property name="java.dir" value="${src.dir}/java"/>
-  <property name="docs.dir" value="docs"/>
-  <property name="www.dir" value="../jakarta-avalon-site/docs/${name}"/>
-  <property name="xdocs.dir" value="${src.dir}/xdocs"/>
-  <property name="javadocs.dir" value="${docs.dir}/api"/>
-  <property name="context.dir" value="../jakarta-avalon/src/documentation"/>
-  <property name="tools.dir" value="../jakarta-avalon/tools"/>
+    <!-- Main target -->
+    <target name="main" depends="docs" description="Builds the distribution"/>
 
-  <property name="announce2txt" value="${tools.dir}/announcement2txt.xsl"/>
-  <property name="announce2header" value="${tools.dir}/announcement2header.xsl"/>
-  <property name="announce2readme" value="${tools.dir}/announcement2readme.xsl"/>
-  <property name="announce2site" value="${tools.dir}/announcement2site.xsl"/>
+    <target name="anakia-avail">
+        <available classname="org.apache.velocity.anakia.AnakiaTask"
+            property="AnakiaTask.present">
+            <classpath refid="project.class.path"/>
+        </available>
+    </target>
 
-  <property name="tools.jar" value="${java.home}/../lib/tools.jar"/>
+    <target name="anakia-check" depends="anakia-avail" unless="AnakiaTask.present">
+        <echo>
+            AnakiaTask is not present! Please check to make sure that
+            velocity.jar is in your classpath. The easiest way to build
+            the documentation is to checkout jakarta-site CVS and specify
+            jakarta-site.dir property.
+        </echo>
+    </target>
 
-  <path id="project.class.path">
-    <pathelement path="project.class.path"/>
-    <fileset dir="lib"/>
-  </path>
+    <target name="docs" depends="anakia-check" description="Generate documentation and website">
+        <taskdef name="anakia"
+            classname="org.apache.velocity.anakia.AnakiaTask">
+            <classpath refid="project.class.path"/>
+        </taskdef>
 
-  <path id="tools.class.path">
-    <path refid="project.class.path"/>
-    <pathelement location="${xerces.jar}"/>
-    <pathelement location="${xalan.jar}"/>
-    <pathelement location="${tools.jar}"/>
-    <fileset dir="${tools.dir}/lib">
-      <exclude name="ant.jar" />
-    </fileset>
-  </path>
+        <anakia basedir="${xdocs.dir}"
+            destdir="${docs.dir}"
+            style="docs.vsl"
+            projectfile="stylesheets/project.xml"
+            includes="**/*.xml"
+            excludes="stylesheets/** history/** changes.xml"
+            velocitypropertiesfile="${xdocs.dir}/stylesheets/velocity.properties"
+            />
 
-  <!-- Main target -->
-  <target name="main" depends="docs" description="Generates the Full Documentation"/>
+        <anakia basedir="${xdocs.dir}"
+            destdir="${docs.dir}"
+            style="changes.vsl"
+            projectfile="stylesheets/project.xml"
+            includes="changes.xml"
+            velocitypropertiesfile="${xdocs.dir}/stylesheets/velocity.properties"
+            />
 
-  <!-- Setup the filters -->
-  <target name="setup-filters">
-    <filter token="Name" value="Avalon Phoenix"/>
-    <filter token="name" value="phoenix"/>
-    <filter token="version" value="${version}"/>
-    <filter token="year" value="${year}"/>
-    <filter token="status" value="${status}"/>
-    <filter token="release" value="${release}"/>
-    <filter token="short-version" value="${short.version}"/>
-
-    <property name="avalon.base" value="http://jakarta.apache.org/avalon"/>
-    <property name="framework.base" value="http://jakarta.apache.org/avalon/framework"/>
-    <property name="phoenix.base" value="http://jakarta.apache.org/avalon/phoenix"/>
-    <property name="cornerstone.base" value="http://jakarta.apache.org/avalon/cornerstone"/>
-    <property name="logkit.base" value="http://jakarta.apache.org/avalon/logkit"/>
-    <property name="testlet.base" value="http://jakarta.apache.org/avalon/testlet"/>
-
-    <filter token="year" value="${year}"/>
-    <filter token="AVALON_BASE" value="${avalon.base}"/>
-    <filter token="FRAMEWORK_BASE" value="${framework.base}"/>
-    <filter token="PHOENIX_BASE" value="${phoenix.base}"/>
-    <filter token="CORNERSTONE_BASE" value="${cornerstone.base}"/>
-    <filter token="LOGKIT_BASE" value="${logkit.base}"/>
-    <filter token="TESTLET_BASE" value="${testlet.base}"/>
-  </target>
-
-  <!-- Create the announcements and HEADER.html -->
-  <target name="changelog" depends="setup-filters">
-
-    <taskdef name="clog" classname="org.apache.tools.ant.taskdefs.ChangeLog">
-      <classpath refid="tools.class.path"/>
-    </taskdef>
-
-    <!-- Build change log -->
-    <clog basedir="." output="ChangeLog" userlist="${tools.dir}/Users.properties" />
-
-    <style in="ChangeLog" style="${tools.dir}/changelog.xsl" out="ChangeLog.html">
-      <param name="module" expression="'${cvs}"/>
-      <param name="cvsweb" expression="'http://cvs.apache.org/viewcvs.cgi'"/>
-    </style>
-
-  </target>
-
-  <!-- Create the announcements and HEADER.html -->
-  <target name="announcement" depends="setup-filters">
-
-    <mkdir dir="${build.dir}" />
-    <mkdir dir="${dist.base}" />
-
-    <copy todir="${build.context}" filtering="on">
-      <fileset dir="${context.dir}">
-        <exclude name="diagrams/**"/>
-        <exclude name="resources/**"/>
-        <exclude name="xdocs/**"/>
-      </fileset>
-    </copy>
-
-    <copy todir="${build.xdocs}" filtering="on">
-      <fileset dir="${xdocs.dir}"/>
-    </copy>
-
-    <style style="${announce2txt}" in="${build.context}/xdocs/announcement.xml"
-           out="Announcement.txt"/>
-    <style style="${announce2header}" in="${build.context}/xdocs/announcement.xml"
-           out="${dist.base}/HEADER.html"/>
-    <style style="${announce2readme}" in="${build.context}/xdocs/announcement.xml"
-           out="${dist.base}/README.html"/>
-    <style style="${announce2site}" in="${build.context}/xdocs/announcement.xml"
-           out="jakarta-news.xml"/>
-
-  </target>
-
-  <!-- Create the API documentation -->
-  <target name="javadocs" description="generates the API documentation">
-
-    <delete dir="${build.javadocs}"/>
-    <mkdir dir="${build.javadocs}"/>
-
-    <javadoc packagenames="org.apache.*"
-             sourcepath="${java.dir}"
-             destdir="${build.javadocs}">
-      <classpath refid="project.class.path" />
-      <doclet name="com.sun.tools.doclets.standard.Standard">
-       <param name="-author"/>
-       <param name="-version"/>
-       <param name="-doctitle" value="${Name}"/>
-       <param name="-windowtitle" value="${Name} API"/>
-       <param name="-bottom"
-              value="&quot;Copyright &#169; ${year} Apache Jakarta Project. All Rights Reserved.&quot;"/>
-      </doclet>
-    </javadoc>
-
-  </target>
-
-  <!-- Create the Local API documentation -->
-  <target name="local-javadocs" depends="javadocs">
-
-    <delete dir="${javadocs.dir}"/>
-    <mkdir dir="${javadocs.dir}"/>
-
-    <copy todir="${javadocs.dir}">
-      <fileset dir="${build.javadocs}" />
-    </copy>
-
-  </target>
-
-  <target name="printer-friendly" depends="javadocs">
-    <echo message="Printer friendly documentation is not available right now."/>
-  </target>
-
-  <!-- Prepares the documentation directory -->
-  <target name="docs" depends="setup-filters,javadocs" description="generates the documentation">
-
-    <mkdir dir="${build.context}"/>
-    <mkdir dir="${build.xdocs}"/>
-    <mkdir dir="${build.docs}"/>
-    <mkdir dir="${build.dir}/work"/>
-
-    <!-- Base pointers for non-xdocs documentation. Override these in .ant.properties to link to local docs -->
-    <copy todir="${build.context}" filtering="on">
-      <fileset dir="${context.dir}">
-        <exclude name="diagrams/**"/>
-        <exclude name="resources/**"/>
-        <exclude name="xdocs"/>
-      </fileset>
-    </copy>
-
-    <copy todir="${build.context}/xdocs" filtering="on" overwrite="yes">
-      <fileset dir="${xdocs.dir}"/>
-    </copy>
-
-    <copy todir="${build.context}/resources" filtering="off" overwrite="yes">
-      <fileset dir="${context.dir}/resources"/>
+     <copy todir="${docs.dir}" filtering="off">
       <fileset dir="${xdocs.dir}">
         <include name="**/images/**"/>
       </fileset>
     </copy>
+    </target>
 
-    <java classname="org.apache.cocoon.Main" fork="true">
-      <arg value="-c${build.context}/"/>
-      <arg value="-d${build.docs}"/>
-      <arg value="-w${build.dir}/work"/>
-      <arg value="-l${build.dir}/work/cocoon.log"/>
-      <arg value="-uINFO"/>
-      <arg value="-f${xdocs.dir}/${name}.uris"/>
-      <classpath>
-        <path refid="tools.class.path"/>
-        <fileset dir="${tools.dir}/ext"/>
-      </classpath>
-    </java>
-  </target>
-
-  <!-- Create the Local site documentation -->
-  <target name="local-xdocs" depends="docs">
-
-    <delete>
-      <fileset dir="${docs.dir}">
-        <exclude name="api/**"/>
-      </fileset>
-    </delete>
-    <mkdir dir="${docs.dir}"/>
-
-    <copy todir="${docs.dir}">
-      <fileset dir="${build.docs}" />
-    </copy>
-
-  </target>
-
-  <target name="local-docs" depends="local-javadocs,local-xdocs"/>
-
-  <!-- Update the www directory -->
-  <target name="site-docs" depends="local-docs">
-
-    <mkdir dir="${www.dir}"/>
-
-    <!-- delete all old documents but keep CVS directories -->
-    <!-- note that by doing an include the defaultexcludes (CVS dirs) will be kept -->
-    <delete>
-      <fileset dir="${www.dir}">
-        <include name="**"/>
-      </fileset>
-    </delete>
-
-    <mkdir dir="${www.dir}"/>
-    <copy todir="${www.dir}">
-      <fileset dir="${docs.dir}" />
-    </copy>
-
-  </target>
-
-  <!-- Cleans absolutely everything up -->
-  <target name="clean" description="Cleans up generated notices">
-    <delete file="jakarta-news.xml" />
-    <delete file="Announcement.txt" />
-  </target>
+    <!-- Cleans up build and distribution directories -->
+    <target name="clean" description="Deletes all built files">
+        <delete dir="${docs.dir}"/>
+    </target>
 
 </project>
