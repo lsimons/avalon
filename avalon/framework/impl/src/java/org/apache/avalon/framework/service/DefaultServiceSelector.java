@@ -61,13 +61,39 @@ import java.util.Map;
  * This is the default implementation of the ServiceSelector
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.13 $ $Date: 2003/02/11 15:58:42 $
+ * @version CVS $Revision: 1.14 $ $Date: 2003/02/25 15:35:43 $
  */
 public class DefaultServiceSelector
     implements ServiceSelector
 {
     private final HashMap m_objects = new HashMap();
     private boolean m_readOnly;
+    private final String m_role;
+    
+    /**
+     * Create a DefaultServiceSelector with a default empty role.
+     */
+    public DefaultServiceSelector()
+    {
+        this("");
+    }
+    
+    /**
+     * Create a DefaultServiceSelector with a role for debug purposes.
+     * 
+     * @param role  The role for this selector.
+     * 
+     * @throws NullPointerException if the role is null.
+     */
+    public DefaultServiceSelector(String role)
+    {
+        if ( null==role )
+        {
+            throw new NullPointerException(role);
+        }
+        
+        m_role = role;
+    }
 
     /**
      * Select the desired object.
@@ -87,8 +113,7 @@ public class DefaultServiceSelector
         }
         else
         {
-            throw new ServiceException( "Unable to provide implementation for "
-                                        + hint.toString() );
+            throw new ServiceException( m_role + "/" + hint.toString(), "Unable to provide implementation" );
         }
     }
 
