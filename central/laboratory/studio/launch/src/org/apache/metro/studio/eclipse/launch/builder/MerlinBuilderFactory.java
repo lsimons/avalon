@@ -1,7 +1,17 @@
 /*
- * One has to add the builder to a project first.
- * This is done, when the project is build in
- * MerlinDeveloperCore ProjectResource.addBuilder()
+ * Copyright 2004 The Apache Software Foundation
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.apache.metro.studio.eclipse.launch.builder;
 
@@ -13,20 +23,19 @@ import java.util.Map;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResourceDelta;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
+
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
+
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
 
 /**
- * @author Andreas Develop
- *
- * To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Generation - Code and Comments
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>*
  */
 public class MerlinBuilderFactory extends IncrementalProjectBuilder
 {
-    private static List builderList = new ArrayList();
+    private static List builderList;
 
     /**
      * 
@@ -34,7 +43,8 @@ public class MerlinBuilderFactory extends IncrementalProjectBuilder
     public MerlinBuilderFactory()
     {
         super();
-        builderList.add(new MerlinTypeBuilder());
+        builderList = new ArrayList();
+        builderList.add( new MerlinTypeBuilder() );
     }
 
     /*
@@ -45,31 +55,31 @@ public class MerlinBuilderFactory extends IncrementalProjectBuilder
      */
     public static void addBuilder(IMerlinBuilder builder)
     {
-
         builderList.add(builder);
-
     }
 
     /* (non-Javadoc)
      * @see org.eclipse.core.resources.IncrementalProjectBuilder#build(int, java.util.Map, org.eclipse.core.runtime.IProgressMonitor)
      */
-    protected IProject[] build(int pKind, Map pArgs, IProgressMonitor pMonitor)
+    protected IProject[] build( int pKind, Map pArgs, IProgressMonitor pMonitor )
         throws CoreException
     {
-        if(getDelta(getProject())==null) return null;
+        IProject project = getProject();
+        IResourceDelta delta = getDelta( project );
+        if( delta == null ) 
+            return null;
         
-        IResourceDelta delta[] = getDelta(getProject()).getAffectedChildren();
-        List files = getChangedResource(delta);
-
-
+        IResourceDelta affected[] = delta.getAffectedChildren();
+        List files = getChangedResource( affected );
+        
         Iterator it = builderList.iterator();
-        while (it.hasNext())
+        while( it.hasNext() )
         {
             IMerlinBuilder builder = (IMerlinBuilder) it.next();
-            builder.build(pKind, getProject(), files, pMonitor);
+            builder.build( pKind, getProject(), files, pMonitor );
         }
-        IJavaProject proj = JavaCore.create(getProject());
-        proj.getProject().refreshLocal(IProject.DEPTH_INFINITE, null);
+        IJavaProject proj = JavaCore.create( project );
+        proj.getProject().refreshLocal( IProject.DEPTH_INFINITE, null );
         return null;
     }
 
@@ -77,14 +87,14 @@ public class MerlinBuilderFactory extends IncrementalProjectBuilder
      * retrieves the changed resource.
      * only returns changed java resources (java source files) 
      */
-    private List getChangedResource(IResourceDelta delta[])
+    private List getChangedResource( IResourceDelta delta[] )
     {
-
         List res = new ArrayList();
 
-        for (int i = 0; delta.length > i; i++)
+        for( int i = 0; i < delta.length ; i++ )
         {
-            if (delta[i].getAffectedChildren().length > 0)
+            IResourceDelta affected[] = delta[i].getAffectedChildren();
+            if( affected.length > 0)
             {
                 res.addAll(getChangedResource(delta[i].getAffectedChildren()));
             } else
