@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+      <!DOCTYPE book PUBLIC "-//APACHE//DTD Cocoon Documentation Book V1.0//EN" "book-cocoon-v10.dtd">
+
+<book software="MyProj"
+    title="MyProj"
+    copyright="@year@ The Apache Software Foundation"
+    xmlns:xlink="http://www.w3.org/1999/xlink">
+
+    <menu label="Essentials">
+        <menu-item label="Overview" href="index.html"/>
+        <menu-item label="Getting started" href="getting-started.html"/>
+        <menu-item label="Download" href="http://jakarta.apache.org/builds/jakarta-avalon/release/framework"/>
+    </menu>
+
+    <menu label="Guide">
+        <menu-item label="OOP best practices" href="guide-oop-best-practices.html"/>
+        <menu-item label="What are patterns?" href="guide-patterns-what-are.html"/>
+        <menu-item label="Patterns in Avalon" href="guide-patterns-in-avalon.html"/>
+        <menu-item label="What is COP?" href="guide-cop-what-is.html"/>
+        <menu-item label="COP in Avalon" href="guide-cop-in-avalon.html"/>
+        <menu-item label="Where to go from here" href="guide-where-to-go-from-here.html"/>
+    </menu>
+
+    <menu label="Reference">
+        <menu-item label="API Docs" href="../api/index.html"/>
+        <!--<menu-item label="Diagrams Docs" href="../diagrams/"/>-->
+        <menu-item label="The Lifecycle" href="reference-the-lifecycle.html"/>
+        <menu-item label="Containers" href="reference-containers.html"/>
+    </menu>
+
+    <menu label="For Developers">
+        <menu-item label="Changes" href="for-developers-changes.html"/>
+        <menu-item label="Coding standards" href="../code-standards.html"/>
+        <menu-item label="CVS" href="http://jakarta.apache.org/site/cvsindex.html"/>
+        <menu-item label="Mailing Lists" href="http://jakarta.apache.org/site/mail.html"/>
+    </menu>
+</book>

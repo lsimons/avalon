@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE book PUBLIC "-//APACHE//DTD Cocoon Documentation Book V1.0//EN" "book-cocoon-v10.dtd">
+
+<book software="MyProj"
+    title="MyProj"
+    copyright="@year@ The Apache Software Foundation"
+    xmlns:xlink="http://www.w3.org/1999/xlink">
+
+    <menu label="About">
+        <menu-item label="Book Info" href="index.html"/>
+        <menu-item label="Mr. Berin Loritsch" href="../authors/bloritsch.html"/>
+        <menu-item label="Revisions" href="changes.html"/>
+    </menu>
+    <menu label="Chapters">
+        <menu-item label="Introduction and Overview" href="introduction.html"/>
+        <menu-item label="Decomposing a System" href="decomposing.html"/>
+        <menu-item label="Framework and Foundations" href="framework.html"/>
+        <menu-item label="Implementing the Dream" href="implementing.html"/>
+        <menu-item label="Compatibility with Avalon" href="compatiblity.html"/>
+        <menu-item label="Conclusion" href="conclusion.html"/>
+    </menu>
+
+    <menu label="Printer Friendly">
+        <menu-item label="As a PDF" href="developing-with-avalon.pdf"/>
+    </menu>
+</book>

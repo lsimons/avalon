@@ -30,9 +30,9 @@
       <section>
 <title>Separation of Interface and Implementation</title>
         <p>
-<b>Summary:</b> The Separation of Interface and Implementation is
+<strong>Summary:</strong> The Separation of Interface and Implementation is
         a core feature of the Java language. However, it is often misused so we
-        list it as one of the Avalon patterns, and our use of it is extensive. 
+        list it as one of the Avalon patterns, and our use of it is extensive.
         </p>
         <p>
 <link href="guide-patterns-soii.html">
@@ -44,7 +44,7 @@
       <section>
 <title>Inversion of Control</title>
         <p>
-<b>Summary:</b> Avalon not only has an inheritance hierarchy, but also a
+<strong>Summary:</strong> Avalon not only has an inheritance hierarchy, but also a
         Component hierarchy. In this hierarchy, the control of program flow is
         completely in the hands of the parent component(s), as soldiers in the
         military take orders from their officers.
@@ -59,10 +59,10 @@
       <section>
 <title>Multi-Dimensional Separation of Concerns</title>
         <p>
-<b>Summary:</b> You just read the introduction about patterns before
+<strong>Summary:</strong> You just read the introduction about patterns before
         reading about Avalon's patterns because that enables you to reuse the
         knowledge you gained about patterns in context other than that of
-        Avalon. We do this with software as well. 
+        Avalon. We do this with software as well.
         </p>
         <p>
 <link href="guide-patterns-soc.html">
@@ -74,7 +74,7 @@
       <section>
 <title>Aspect-Oriented Programming</title>
         <p>
-<b>Summary:</b> this is the next logical step ofter Separation of
+<strong>Summary:</strong> this is the next logical step ofter Separation of
         Concerns. Many concerns cannot be centrally addressed using the standard
         OOP mechanisms. Using AOP (which is an extension to OOP), we would be
         able to do so in a simple fashion. As there is no good AOP facility
@@ -85,7 +85,7 @@
       <section>
 <title>Component-Oriented Programming</title>
         <p>
-<b>Summary:</b> The Avalon framework promotes black-box reuse at
+<strong>Summary:</strong> The Avalon framework promotes black-box reuse at
         every level. Doing so is commonly known as COP. This is so important
         in Avalon we devote an
         <link href="guide-cop-what-is.html">

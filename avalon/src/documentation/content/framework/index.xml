@@ -23,7 +23,7 @@
         it or
         <link href="http://jakarta.apache.org/site/cvsindex.html">get it from CVS</link>.
         The <link href="getting-started.html">Getting started</link> document
-        provides more pointers.         
+        provides more pointers.
       </p>
     </section>
       <section>
@@ -38,18 +38,18 @@
         <p>
           This is more a theoretical introduction than a hands-on guide. If you
           prefer looking at code while learning, try our
-          <link href="../developing">Developing with Avalon</link> paper.
+          <link href="../developing/index.html">Developing with Avalon</link> paper.
         </p>
         <section>
 <title>Target Audience</title>
           <p>
             This documentation is aimed towards developers who:
-            <ul>
-              <li>are interested in the design principles of Avalon</li>
-              <li>wish to develop code that will be incorporated into Avalon</li>
-              <li>wish to reuse Avalon concepts in their own application</li>
-            </ul>
           </p>
+            <ul>
+                <li>are interested in the design principles of Avalon</li>
+                <li>wish to develop code that will be incorporated into Avalon</li>
+                <li>wish to reuse Avalon concepts in their own application</li>
+            </ul>
         </section>
         <section>
 <title>Contents</title>
@@ -80,7 +80,7 @@
         <p>
            Besides the
            <link href="../api/index.html">Javadocs</link>, we have
-           <link href="diagrams/">Class diagrams</link>, the
+           <!--<link href="diagrams/">Class diagrams</link>, the-->
            <link href="reference-the-lifecycle.html">Lifecycle specification</link> and the
            <link href="reference-containers.html">List of containers</link>.
         </p>

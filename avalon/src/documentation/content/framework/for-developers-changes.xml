@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE changes PUBLIC "-//APACHE//DTD Changes V1.1//EN" "changes-v11.dtd">
-<changes title="Avalon Framework - History of Changes">
+<changes>
+    <title>Avalon Framework - History of Changes</title>
   <devs>
     <person name="Federico Barbieri" email="fede@apache.org" id="FB"/>
     <person name="Berin Loritsch" email="bloritsch@apache.org" id="BL"/>
@@ -12,7 +13,7 @@
     <person name="Leo Simons" email="leosimons@apache.org" id="LS"/>
   </devs>
   <release version="4.1.2" date="January 31, 2002">
-    <action dev="BL" type="udpate">
+    <action dev="BL" type="update">
       Updated the build jars.
     </action>
     <action dev="CZ" type="add">
@@ -95,9 +96,9 @@
       Added a method to Version to parse a Version from a string. Added accessor
       methods to Version to allow access to major/minor/micro components of version.
     </action>
-    <action dev="PD" type="change">
-      Updated Version class to refer to micro version rather than revision. This 
-      is to match the terminology for JDK versioning. This is just documentation 
+    <action dev="PD" type="update">
+      Updated Version class to refer to micro version rather than revision. This
+      is to match the terminology for JDK versioning. This is just documentation
       changes.
     </action>
     <action dev="JT" type="fix">
@@ -116,7 +117,7 @@
     <action dev="BL" type="add">
       Added stylesheet to convert Stylebook markup to DocBook markup.
     </action>
-    <action dev="BL" type="change">
+    <action dev="BL" type="update">
       Changed the documentation build process to use Cocoon to build
       the site.
     </action>
@@ -127,13 +128,13 @@
       Added Executable interface to activity package.
     </action>
     <action dev="PD" type="fix">
-      Updated Resolvable interface to allow a ContextException to be thrown 
-      on failure. 
+      Updated Resolvable interface to allow a ContextException to be thrown
+      on failure.
     </action>
     <action dev="PD" type="update">
-      Add a makeReadOnly() method to the default implementations of Configuration, 
+      Add a makeReadOnly() method to the default implementations of Configuration,
       Context and ComponentManager. Calling this method after the respective
-      object has been filled will make the object read-only. This is a safety 
+      object has been filled will make the object read-only. This is a safety
       precaution to stop code performing unwanted operations.
     </action>
     <action dev="PD" type="update">
