@@ -1,201 +1,53 @@
 /*
- * Copyright (C) The Apache Software Foundation. All rights reserved.
- *
- * This software is published under the terms of the Apache Software License
- * version 1.1, a copy of which has been included with this distribution in
- * the LICENSE.txt file.
- */
-package org.apache.avalon.phoenix.tools.punit;
 
-import java.util.ArrayList;
-import org.apache.avalon.framework.logger.Logger;
+ ============================================================================
+                   The Apache Software License, Version 1.1
+ ============================================================================
 
-/**
- * PunitLogger
- *
- * @author Paul Hammant
- */
-public class PUnitLogger
-    implements Logger
-{
-    private final ArrayList m_messages = new ArrayList();
+ Copyright (C) 1997-2003 The Apache Software Foundation. All rights reserved.
 
-    /**
-     * Get a logged entry.
-     * @param startsWith This term
-     * @return The full term
-     */
-    public String get( final String startsWith )
-    {
-        final int size = m_messages.size();
-        for( int i = 0; i < size; i++ )
-        {
-            final String message = (String)m_messages.get( i );
-            if( message.startsWith( startsWith ) )
-            {
-                return message;
-            }
-        }
-        return null;
-    }
+ Redistribution and use in source and binary forms, with or without modifica-
+ tion, are permitted provided that the following conditions are met:
 
-    /**
-     * Contains a logged entry
-     *
-     * @param message The term
-     * @return true or not.
-     */
-    public boolean contains( final String message )
-    {
-        return get( message ) != null;
-    }
+ 1. Redistributions of  source code must  retain the above copyright  notice,
+    this list of conditions and the following disclaimer.
 
-    /**
-     * Debug an entry as per Loggable
-     * @param message the term
-     */
-    public void debug( final String message )
-    {
-        m_messages.add( "D:" + message );
-    }
+ 2. Redistributions in binary form must reproduce the above copyright notice,
+    this list of conditions and the following disclaimer in the documentation
+    and/or other materials provided with the distribution.
 
-    /**
-     * Debug an entry as per Loggable
-     *
-     * @param message the term
-     * @param throwable An exception
-     */
-    public void debug( final String message,
-                       final Throwable throwable )
-    {
-        m_messages.add( "D:" + message + ":" + throwable != null ? throwable.getMessage() : "" );
-    }
+ 3. The end-user documentation included with the redistribution, if any, must
+    include  the following  acknowledgment:  "This product includes  software
+    developed  by the  Apache Software Foundation  (http://www.apache.org/)."
+    Alternately, this  acknowledgment may  appear in the software itself,  if
+    and wherever such third-party acknowledgments normally appear.
 
-    public boolean isDebugEnabled()
-    {
-        return true;
-    }
+ 4. The names "Avalon", "Phoenix" and "Apache Software Foundation"
+    must  not be  used to  endorse or  promote products derived  from this
+    software without prior written permission. For written permission, please
+    contact apache@apache.org.
 
-    /**
-     * Info an entry as per Loggable
-     * @param message the term
-     */
-    public void info( final String message )
-    {
-        m_messages.add( "I:" + message );
-    }
+ 5. Products  derived from this software may not  be called "Apache", nor may
+    "Apache" appear  in their name,  without prior written permission  of the
+    Apache Software Foundation.
 
-    /**
-     * Info an entry as per Loggable
-     * @param message the term
-     * @param throwable An exception
-     */
-    public void info( final String message, final Throwable throwable )
-    {
-        m_messages.add( "I:" + message + ":" + throwable != null ? throwable.getMessage() : "" );
-    }
+ THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES,
+ INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ FITNESS  FOR A PARTICULAR  PURPOSE ARE  DISCLAIMED.  IN NO  EVENT SHALL  THE
+ APACHE SOFTWARE  FOUNDATION  OR ITS CONTRIBUTORS  BE LIABLE FOR  ANY DIRECT,
+ INDIRECT, INCIDENTAL, SPECIAL,  EXEMPLARY, OR CONSEQUENTIAL  DAMAGES (INCLU-
+ DING, BUT NOT LIMITED TO, PROCUREMENT  OF SUBSTITUTE GOODS OR SERVICES; LOSS
+ OF USE, DATA, OR  PROFITS; OR BUSINESS  INTERRUPTION)  HOWEVER CAUSED AND ON
+ ANY  THEORY OF LIABILITY,  WHETHER  IN CONTRACT,  STRICT LIABILITY,  OR TORT
+ (INCLUDING  NEGLIGENCE OR  OTHERWISE) ARISING IN  ANY WAY OUT OF THE  USE OF
+ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-    /**
-     * Is Info Enabled
-     * @return
-     */
-    public boolean isInfoEnabled()
-    {
-        return true;
-    }
+ This software  consists of voluntary contributions made  by many individuals
+ on  behalf of the Apache Software  Foundation. For more  information on the
+ Apache Software Foundation, please see <http://www.apache.org/>.
 
-    /**
-     * Warn an entry as per Loggable
-     *
-     * @param message the term
-     */
-    public void warn( final String message )
-    {
-        m_messages.add( "W:" + message );
-    }
+*/
 
-    /**
-     * Warn an entry as per Loggable
-     * @param message the term
-     * @param throwable An exception
-     */
-    public void warn( final String message, final Throwable throwable )
-    {
-        m_messages.add( "W:" + message + ":" + throwable != null ? throwable.getMessage() : "" );
-    }
-
-    /**
-     * Is Warn Enabled
-     * @return
-     */
-    public boolean isWarnEnabled()
-    {
-        return false;
-    }
-
-    /**
-     * Error an entry as per Loggable
-     *
-     * @param message the term
-     */
-    public void error( final String message )
-    {
-        m_messages.add( "E:" + message );
-    }
-
-    /**
-     * Error an entry as per Loggable
-     * @param message the term
-     * @param throwable An exception
-     */
-    public void error( final String message, final Throwable throwable )
-    {
-        m_messages.add( "E:" + message + ":" + throwable != null ? throwable.getMessage() : "" );
-    }
-
-    /**
-     * Is Error Enabled
-     * @return
-     */
-    public boolean isErrorEnabled()
-    {
-        return true;
-    }
-
-    /**
-     * Log a fatal error as per Loggable
-     * @param message the term
-     */
-    public void fatalError( final String message )
-    {
-        m_messages.add( "F:" + message );
-    }
-
-    /**
-     * Log a fatal error entry as per Loggable
-     * @param message the term
-     * @param throwable An exception
-     */
-    public void fatalError( final String message, final Throwable throwable )
-    {
-        m_messages.add( "F:" + message + ":" + throwable != null ? throwable.getMessage() : "" );
-    }
-
-    /**
-     * Is Fatal Error Enabled
-     * @return
-     */
-    public boolean isFatalErrorEnabled()
-    {
-        return true;
-    }
-
-    /**
-     * Gtet the child logger
-     *
-     * @param name The hint to use (ignored)
-     * @return The child logger.
-     */
     public Logger getChildLogger( final String name )
     {
         return this;

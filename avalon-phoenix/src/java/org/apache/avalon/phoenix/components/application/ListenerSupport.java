@@ -1,263 +1,53 @@
 /*
- * Copyright (C) The Apache Software Foundation. All rights reserved.
- *
- * This software is published under the terms of the Apache Software License
- * version 1.1, a copy of which has been included  with this distribution in
- * the LICENSE.txt file.
- */
-package org.apache.avalon.phoenix.components.application;
 
-import org.apache.avalon.phoenix.ApplicationEvent;
-import org.apache.avalon.phoenix.ApplicationListener;
-import org.apache.avalon.phoenix.BlockEvent;
-import org.apache.avalon.phoenix.BlockListener;
-import org.apache.avalon.phoenix.components.util.ComponentInfoConverter;
-import org.apache.avalon.phoenix.containerkit.profile.ComponentProfile;
-import org.apache.avalon.phoenix.metadata.SarMetaData;
-import org.apache.avalon.phoenix.metainfo.BlockInfo;
+ ============================================================================
+                   The Apache Software License, Version 1.1
+ ============================================================================
 
-/**
- * Manage a set of {@link ApplicationListener} objects and propogate
- * {@link ApplicationEvent} notifications to these listeners.  Not all
- * events pass an Applicationevent parameter.
- *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @author <a href="mailto:Paul_Hammant@yahoo.com">Paul Hammant</a>
- */
-final class ListenerSupport
-{
-    //Set of block listeners. Must be accessed from synchronized code
-    private BlockListener[] m_blockListeners = new BlockListener[ 0 ];
+ Copyright (C) 1997-2003 The Apache Software Foundation. All rights reserved.
 
-    //Set of listeners. Must be accessed from synchronized code
-    private ApplicationListener[] m_listeners = new ApplicationListener[ 0 ];
+ Redistribution and use in source and binary forms, with or without modifica-
+ tion, are permitted provided that the following conditions are met:
 
-    /**
-     * fire Event indicating that the Application represented
-     * by specified metaData is starting.
-     *
-     * @param metaData the metaData
-     */
-    void fireApplicationStartingEvent( final SarMetaData metaData )
-        throws Exception
-    {
-        final ApplicationEvent event =
-            new ApplicationEvent( metaData.getName(), metaData );
-        applicationStarting( event );
-    }
+ 1. Redistributions of  source code must  retain the above copyright  notice,
+    this list of conditions and the following disclaimer.
 
-    /**
-     * fire Event indicating that Block represented by
-     * specific entry has been added.
-     *
-     * @param entry the entry
-     */
-    void fireBlockAddedEvent( final BlockEntry entry )
-    {
-        blockAdded( createEvent( entry ) );
-    }
+ 2. Redistributions in binary form must reproduce the above copyright notice,
+    this list of conditions and the following disclaimer in the documentation
+    and/or other materials provided with the distribution.
 
-    /**
-     * fire Event indicating that Block represented by
-     * specific entry is being removed.
-     *
-     * @param entry the entry
-     */
-    void fireBlockRemovedEvent( final BlockEntry entry )
-    {
-        blockRemoved( createEvent( entry ) );
-    }
+ 3. The end-user documentation included with the redistribution, if any, must
+    include  the following  acknowledgment:  "This product includes  software
+    developed  by the  Apache Software Foundation  (http://www.apache.org/)."
+    Alternately, this  acknowledgment may  appear in the software itself,  if
+    and wherever such third-party acknowledgments normally appear.
 
-    /**
-     * Utility method to create an event for a
-     * specific entry.
-     *
-     * @param entry the entry
-     * @return the new event
-     */
-    private BlockEvent createEvent( final BlockEntry entry )
-    {
-        final ComponentProfile profile = entry.getProfile();
-        final BlockInfo blockInfo = ComponentInfoConverter.toBlockInfo( profile.getInfo() );
-        final BlockEvent event =
-            new BlockEvent( profile.getMetaData().getName(),
-                            entry.getProxy(),
-                            blockInfo );
-        return event;
-    }
+ 4. The names "Avalon", "Phoenix" and "Apache Software Foundation"
+    must  not be  used to  endorse or  promote products derived  from this
+    software without prior written permission. For written permission, please
+    contact apache@apache.org.
 
-    /**
-     * Add a ApplicationListener to those requiring notification of
-     * {@link ApplicationEvent}s.
-     *
-     * @param listener the ApplicationListener
-     */
-    public synchronized void addApplicationListener( final ApplicationListener listener )
-    {
-        final ApplicationListener[] listeners = new ApplicationListener[ 1 + m_listeners.length ];
-        System.arraycopy( m_listeners, 0, listeners, 0, m_listeners.length );
-        listeners[ m_listeners.length ] = listener;
-        m_listeners = listeners;
-    }
+ 5. Products  derived from this software may not  be called "Apache", nor may
+    "Apache" appear  in their name,  without prior written permission  of the
+    Apache Software Foundation.
 
-    /**
-     * Remove a ApplicationListener from those requiring notification of
-     * {@link ApplicationEvent}s.
-     *
-     * @param listener the ApplicationListener
-     */
-    public synchronized void removeApplicationListener( final ApplicationListener listener )
-    {
-        int index = 0;
-        while( index < m_listeners.length )
-        {
-            if( m_listeners[ index ] == listener )
-            {
-                break;
-            }
-            index++;
-        }
+ THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES,
+ INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ FITNESS  FOR A PARTICULAR  PURPOSE ARE  DISCLAIMED.  IN NO  EVENT SHALL  THE
+ APACHE SOFTWARE  FOUNDATION  OR ITS CONTRIBUTORS  BE LIABLE FOR  ANY DIRECT,
+ INDIRECT, INCIDENTAL, SPECIAL,  EXEMPLARY, OR CONSEQUENTIAL  DAMAGES (INCLU-
+ DING, BUT NOT LIMITED TO, PROCUREMENT  OF SUBSTITUTE GOODS OR SERVICES; LOSS
+ OF USE, DATA, OR  PROFITS; OR BUSINESS  INTERRUPTION)  HOWEVER CAUSED AND ON
+ ANY  THEORY OF LIABILITY,  WHETHER  IN CONTRACT,  STRICT LIABILITY,  OR TORT
+ (INCLUDING  NEGLIGENCE OR  OTHERWISE) ARISING IN  ANY WAY OUT OF THE  USE OF
+ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-        if( m_listeners.length != index )
-        {
-            final ApplicationListener[] listeners =
-                new ApplicationListener[ m_listeners.length - 1 ];
-            System.arraycopy( m_listeners, 0, listeners, 0, index );
-            final int length = m_listeners.length - index - 1;
-            System.arraycopy( m_listeners, index + 1, listeners, index, length );
-        }
-    }
+ This software  consists of voluntary contributions made  by many individuals
+ on  behalf of the Apache Software  Foundation. For more  information on the
+ Apache Software Foundation, please see <http://www.apache.org/>.
 
-    /**
-     * Add a BlockListener to those requiring notification of
-     * {@link BlockEvent}s.
-     *
-     * @param listener the BlockListener
-     */
-    public synchronized void addBlockListener( final BlockListener listener )
-    {
-        final BlockListener[] listeners = new BlockListener[ 1 + m_blockListeners.length ];
-        System.arraycopy( m_blockListeners, 0, listeners, 0, m_blockListeners.length );
-        listeners[ m_listeners.length ] = listener;
-        m_blockListeners = listeners;
-    }
+*/
 
-    /**
-     * Remove a BlockListener from those requiring notification of
-     * {@link BlockEvent}s.
-     *
-     * @param listener the BlockListener
-     */
-    public synchronized void removeBlockListener( final BlockListener listener )
-    {
-        int index = 0;
-        while( index < m_blockListeners.length )
-        {
-            if( m_blockListeners[ index ] == listener )
-            {
-                break;
-            }
-            index++;
-        }
-
-        if( m_blockListeners.length != index )
-        {
-            final BlockListener[] listeners =
-                new BlockListener[ m_blockListeners.length - 1 ];
-            System.arraycopy( m_blockListeners, 0, listeners, 0, index );
-            final int length = m_blockListeners.length - index - 1;
-            System.arraycopy( m_blockListeners, index + 1, listeners, index, length );
-        }
-    }
-
-    /**
-     * Notification that the application is starting
-     *
-     * @param event the ApplicationEvent
-     */
-    private synchronized void applicationStarting( final ApplicationEvent event )
-        throws Exception
-    {
-        for( int i = 0; i < m_listeners.length; i++ )
-        {
-            m_listeners[ i ].applicationStarting( event );
-        }
-    }
-
-    /**
-     * Notification that the application has started.
-     *
-     */
-    public synchronized void applicationStarted()
-    {
-        for( int i = 0; i < m_listeners.length; i++ )
-        {
-            m_listeners[ i ].applicationStarted();
-        }
-    }
-
-    /**
-     * Notification that the application is stopping
-     *
-     */
-    public synchronized void applicationStopping()
-    {
-        for( int i = 0; i < m_listeners.length; i++ )
-        {
-            m_listeners[ i ].applicationStopping();
-        }
-    }
-
-    /**
-     * Notification that the application has stopped
-     *
-     */
-    public synchronized void applicationStopped()
-    {
-        for( int i = 0; i < m_listeners.length; i++ )
-        {
-            m_listeners[ i ].applicationStopped();
-        }
-    }
-
-    /**
-     * Notification that the application has failed
-     *
-     */
-    public synchronized void applicationFailure( final Exception causeOfFailure )
-    {
-        for( int i = 0; i < m_listeners.length; i++ )
-        {
-            m_listeners[ i ].applicationFailure( causeOfFailure );
-        }
-    }
-
-    /**
-     * Notification that a block has just been added
-     * to Server Application.
-     *
-     * @param event the BlockEvent
-     */
-    private synchronized void blockAdded( final BlockEvent event )
-    {
-        for( int i = 0; i < m_listeners.length; i++ )
-        {
-            m_listeners[ i ].blockAdded( event );
-        }
-
-        //Now notify the plain BlockListeners
-        for( int i = 0; i < m_blockListeners.length; i++ )
-        {
-            m_blockListeners[ i ].blockAdded( event );
-        }
-    }
-
-    /**
-     * Notification that a block is just about to be
-     * removed from Server Application.
-     *
-     * @param event the BlockEvent
-     */
     private synchronized void blockRemoved( final BlockEvent event )
     {
         for( int i = 0; i < m_listeners.length; i++ )
