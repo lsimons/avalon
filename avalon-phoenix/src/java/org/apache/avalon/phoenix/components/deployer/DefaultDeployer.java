@@ -62,7 +62,7 @@ public class DefaultDeployer
     private DeploymentRecorder m_recorder;
 
     /**
-     * Retrieve relevent services needed to deploy.
+     * Retrieve relevant services needed to deploy.
      *
      * @param componentManager the ComponentManager
      * @exception ComponentException if an error occurs

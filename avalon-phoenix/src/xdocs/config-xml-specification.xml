@@ -15,7 +15,7 @@
         The purpose of the <code>config.xml</code> file is to provide configuration data
         to each of the blocks that require configuration data. The format of the 
         configuration data is block-specific, thus refer to documentation of Block
-        for relevent details. Each element below the root element has a name coresponding
+        for relevant details. Each element below the root element has a name coresponding
         to the name of a block specified in assembly.xml file. The contents of this
         element is the configuration data for the block.
       </p>
@@ -44,7 +44,7 @@
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.3 $ $Date: 2002/04/02 18:56:21 $
+      $Revision: 1.4 $ $Date: 2002/04/18 20:18:24 $
     </legal>
   </footer>
 </document>
