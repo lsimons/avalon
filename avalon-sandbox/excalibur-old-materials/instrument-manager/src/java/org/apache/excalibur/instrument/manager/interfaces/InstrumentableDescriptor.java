@@ -54,7 +54,7 @@ package org.apache.excalibur.instrument.manager.interfaces;
  *  Instrumentable.
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.3 $ $Date: 2003/02/20 17:08:20 $
+ * @version CVS $Revision: 1.4 $ $Date: 2003/09/08 09:00:47 $
  * @since 4.1
  */
 public interface InstrumentableDescriptor
@@ -91,6 +91,14 @@ public interface InstrumentableDescriptor
      * @return The description of the Instrumentable.
      */
     String getDescription();
+    
+    /**
+     * Returns the parent InstrumentableDescriptor or null if this is a top
+     *  level instrumentable.
+     *
+     * @return The parent InstrumentableDescriptor or null.
+     */
+    InstrumentableDescriptor getParentInstrumentableDescriptor();
 
     /**
      * Returns a child InstrumentableDescriptor based on its name or the name

@@ -87,7 +87,7 @@ import org.apache.excalibur.instrument.manager.interfaces.NoSuchInstrumentableEx
 /**
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.7 $ $Date: 2003/05/17 20:16:59 $
+ * @version CVS $Revision: 1.8 $ $Date: 2003/09/08 09:00:44 $
  * @since 4.1
  */
 public class DefaultInstrumentManager
@@ -212,57 +212,6 @@ public class DefaultInstrumentManager
             m_name = configuration.getChild( "name" ).getValue( "instrument-manager" );
             m_description = configuration.getChild( "description" ).getValue( m_name );
             
-            // Create a logger to use with the connectors
-            Logger connLogger = getLogger().getChildLogger( "connector" );
-            
-            // Configure the connectors
-            Configuration connectorsConf = configuration.getChild( "connectors" );
-            Configuration[] connectorConfs =
-                connectorsConf.getChildren( "connector" );
-            for( int i = 0; i < connectorConfs.length; i++ )
-            {
-                Configuration connectorConf = connectorConfs[ i ];
-                String className = connectorConf.getAttribute( "class" );
-                // Handle aliases
-                if ( className.equals( "altrmi" ) )
-                {
-                    // Don't use InstrumentManagerAltrmiConnector.class.getName() because
-                    //  the class is optional for the build.
-                    className = "org.apache.excalibur.instrument.manager.altrmi."
-                        + "InstrumentManagerAltrmiConnector";
-                }
-                
-                // Look for the connector class and create an instance.
-                try
-                {
-                    Class clazz = Class.forName( className );
-                    InstrumentManagerConnector connector =
-                        (InstrumentManagerConnector)clazz.newInstance();
-                    
-                    // Initialize the new connector
-                    connector.setInstrumentManager( this );
-                    ContainerUtil.enableLogging( connector, connLogger );
-                    ContainerUtil.configure( connector, connectorConf );
-                    ContainerUtil.start( connector );
-                    
-                    m_connectors.add( connector );
-                }
-                catch ( Exception e )
-                {
-                    String msg = "Unable to create connector because: " + e;
-                    
-                    // Was the optional flag set?
-                    if ( connectorConf.getAttributeAsBoolean( "optional", true ) )
-                    {
-                        getLogger().warn( msg );
-                    }
-                    else
-                    {
-                        throw new ConfigurationException( msg );
-                    }
-                }
-            }
-            
             // Configure the instrumentables.
             Configuration instrumentablesConf = configuration.getChild( "instrumentables" );
             Configuration[] instrumentableConfs =
@@ -303,6 +252,70 @@ public class DefaultInstrumentManager
                             "Unable to load the instrument manager state.  The configuration " +
                             "may have been corruptped.  A backup may have been made in the same " +
                             "directory when it was saved.", e );
+                    }
+                }
+            }
+            
+            // Create a logger to use with the connectors
+            Logger connLogger = getLogger().getChildLogger( "connector" );
+            
+            // Configure the connectors
+            Configuration connectorsConf = configuration.getChild( "connectors" );
+            Configuration[] connectorConfs =
+                connectorsConf.getChildren( "connector" );
+            for( int i = 0; i < connectorConfs.length; i++ )
+            {
+                Configuration connectorConf = connectorConfs[ i ];
+                String className = connectorConf.getAttribute( "class" );
+                // Handle aliases
+                if ( className.equals( "http" ) )
+                {
+                    // Don't use InstrumentManagerAltrmiConnector.class.getName() because
+                    //  the class is optional for the build.
+                    className = "org.apache.excalibur.instrument.manager.http."
+                        + "InstrumentManagerHTTPConnector";
+                }
+                else if ( className.equals( "altrmi" ) )
+                {
+                    // Don't use InstrumentManagerAltrmiConnector.class.getName() because
+                    //  the class is optional for the build.
+                    className = "org.apache.excalibur.instrument.manager.altrmi."
+                        + "InstrumentManagerAltrmiConnector";
+                }
+                
+                // Look for the connector class and create an instance.
+                try
+                {
+                    Class clazz = Class.forName( className );
+                    InstrumentManagerConnector connector =
+                        (InstrumentManagerConnector)clazz.newInstance();
+                    
+                    // Initialize the new connector
+                    connector.setInstrumentManager( this );
+                    ContainerUtil.enableLogging( connector, connLogger );
+                    ContainerUtil.configure( connector, connectorConf );
+                    ContainerUtil.start( connector );
+                    if ( connector instanceof Instrumentable )
+                    {
+                        Instrumentable inst = (Instrumentable)connector;
+                        registerInstrumentable( inst,
+                            m_instrumentableName + ".connector." + inst.getInstrumentableName() );
+                    }
+                    
+                    m_connectors.add( connector );
+                }
+                catch ( Exception e )
+                {
+                    String msg = "Unable to create connector because: " + e;
+                    
+                    // Was the optional flag set?
+                    if ( connectorConf.getAttributeAsBoolean( "optional", true ) )
+                    {
+                        getLogger().warn( msg );
+                    }
+                    else
+                    {
+                        throw new ConfigurationException( msg );
                     }
                 }
             }
@@ -621,7 +634,7 @@ public class DefaultInstrumentManager
         }
         
         // Unable to locate the requested Instrument Sample
-        throw new NoSuchInstrumentException(
+        throw new NoSuchInstrumentSampleException(
             "No instrument sample can be found with the name: " + sampleName );
     }
     

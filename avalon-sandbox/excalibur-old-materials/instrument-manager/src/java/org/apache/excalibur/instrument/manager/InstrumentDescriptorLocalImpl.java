@@ -49,6 +49,7 @@
 */
 package org.apache.excalibur.instrument.manager;
 
+import org.apache.excalibur.instrument.manager.interfaces.InstrumentableDescriptor;
 import org.apache.excalibur.instrument.manager.interfaces.InstrumentSampleDescriptor;
 import org.apache.excalibur.instrument.manager.interfaces.NoSuchInstrumentSampleException;
 
@@ -57,7 +58,7 @@ import org.apache.excalibur.instrument.manager.interfaces.NoSuchInstrumentSample
  *  Instrument.
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.3 $ $Date: 2003/02/20 17:08:18 $
+ * @version CVS $Revision: 1.4 $ $Date: 2003/09/08 09:00:44 $
  * @since 4.1
  */
 public class InstrumentDescriptorLocalImpl
@@ -141,6 +142,18 @@ public class InstrumentDescriptorLocalImpl
     }
     
     /**
+     * Returns a reference to the descriptor of the Instrumentable of the
+     *  instrument.
+     *
+     * @return A reference to the descriptor of the Instrumentable of the
+     *  instrument.
+     */
+    public InstrumentableDescriptor getInstrumentableDescriptor()
+    {
+        return getInstrumentableDescriptorLocal();
+    }
+    
+    /**
      * Returns a InstrumentSampleDescriptor based on its name.
      *
      * @param instrumentSampleName Name of the InstrumentSample being requested.
@@ -218,6 +231,18 @@ public class InstrumentDescriptorLocalImpl
     /*---------------------------------------------------------------
      * InstrumentDescriptorLocal Methods
      *-------------------------------------------------------------*/
+    /**
+     * Returns a reference to the descriptor of the Instrumentable of the
+     *  instrument.
+     *
+     * @return A reference to the descriptor of the Instrumentable of the
+     *  instrument.
+     */
+    public InstrumentableDescriptorLocal getInstrumentableDescriptorLocal()
+    {
+        return m_instrumentProxy.getInstrumentableProxy().getDescriptor();
+    }
+    
     /**
      * Adds a CounterInstrumentListener to the list of listeners which will
      *  receive updates of the value of the Instrument.

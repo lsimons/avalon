@@ -47,42 +47,65 @@
  Apache Software Foundation, please see <http://www.apache.org/>.
  
 */
-package org.apache.excalibur.instrument.manager;
+package org.apache.excalibur.instrument.manager.http.server;
 
-import org.apache.excalibur.instrument.manager.interfaces.InstrumentSampleDescriptor;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintStream;
+import java.util.Map;
 
 /**
- * Describes an InstrumentSample and acts as a Proxy to protect the original
- *  InstrumentSample object.  Methods defined by the Local interface should
- *  only be accessed from within the same JVM for performance reasons.
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.3 $ $Date: 2003/09/08 09:00:44 $
+ * @version CVS $Revision: 1.1 $ $Date: 2003/09/08 09:00:46 $
  * @since 4.1
  */
-public interface InstrumentSampleDescriptorLocal
-    extends InstrumentSampleDescriptor
+public abstract class AbstractHTTPURLPrintStreamHandler
+    extends AbstractHTTPURLHandler
 {
+    /*---------------------------------------------------------------
+     * Constructors
+     *-------------------------------------------------------------*/
     /**
-     * Returns a reference to the descriptor of the Instrument of the sample.
+     * Creates a new AbstractHTTPURLPrintStreamHandler.
      *
-     * @return A reference to the descriptor of the Instrument of the sample.
+     * @param path The path handled by this handler.
+     * @param contentType The content type.
+     * @param encoding The encoding to use when writing servlet results.
      */
-    InstrumentDescriptorLocal getInstrumentDescriptorLocal();
+    public AbstractHTTPURLPrintStreamHandler( String path, String contentType, String encoding )
+    {
+        super( path, contentType + "; charset=" + encoding, encoding );
+    }
     
+    /*---------------------------------------------------------------
+     * AbstractHTTPURLHandler Methods
+     *-------------------------------------------------------------*/
     /**
-     * Registers a InstrumentSampleListener with a InstrumentSample given a name.
+     * Handles the specified request.
      *
-     * @param listener The listener which should start receiving updates from the
-     *                 InstrumentSample.
+     * @param The full path being handled.
+     * @param parameters A Map of the parameters in the request.
+     * @param os The OutputStream to write the result to.
      */
-    void addInstrumentSampleListener( InstrumentSampleListener listener );
-    
+    public final void doGet( String path, Map parameters, OutputStream os )
+        throws IOException
+    {
+        PrintStream out = new PrintStream( os, false, getEncoding() );
+        doGet( path, parameters, out );
+    }
+            
+    /*---------------------------------------------------------------
+     * Methods
+     *-------------------------------------------------------------*/
     /**
-     * Unregisters a InstrumentSampleListener from a InstrumentSample given a name.
+     * Handles the specified request.
      *
-     * @param listener The listener which should stop receiving updates from the
-     *                 InstrumentSample.
+     * @param The full path being handled.
+     * @param parameters A Map of the parameters in the request.
+     * @param os The PrintStream to write the result to.
      */
-    void removeInstrumentSampleListener( InstrumentSampleListener listener );
+    public abstract void doGet( String path, Map parameters, PrintStream out )
+        throws IOException;
 }
+

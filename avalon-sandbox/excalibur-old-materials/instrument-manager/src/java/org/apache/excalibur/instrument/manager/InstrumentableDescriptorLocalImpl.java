@@ -59,7 +59,7 @@ import org.apache.excalibur.instrument.manager.interfaces.NoSuchInstrumentableEx
  *  Instrumentable.
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.4 $ $Date: 2003/02/25 16:28:16 $
+ * @version CVS $Revision: 1.5 $ $Date: 2003/09/08 09:00:44 $
  * @since 4.1
  */
 public class InstrumentableDescriptorLocalImpl
@@ -127,6 +127,17 @@ public class InstrumentableDescriptorLocalImpl
     public String getDescription()
     {
         return m_instrumentableProxy.getDescription();
+    }
+    
+    /**
+     * Returns the parent InstrumentableDescriptor or null if this is a top
+     *  level instrumentable.
+     *
+     * @return The parent InstrumentableDescriptor or null.
+     */
+    public InstrumentableDescriptor getParentInstrumentableDescriptor()
+    {
+        return getParentInstrumentableDescriptorLocal();
     }
 
     /**
@@ -205,6 +216,25 @@ public class InstrumentableDescriptorLocalImpl
     /*---------------------------------------------------------------
      * InstrumentableDescriptorLocal Methods
      *-------------------------------------------------------------*/
+    /**
+     * Returns the parent InstrumentableDescriptorLocal or null if this is a
+     *  top level instrumentable.
+     *
+     * @return The parent InstrumentableDescriptorLocal or null.
+     */
+    public InstrumentableDescriptorLocal getParentInstrumentableDescriptorLocal()
+    {
+        InstrumentableProxy parent = m_instrumentableProxy.getParentInstrumentableProxy();
+        if ( parent == null )
+        {
+            return null;
+        }
+        else
+        {
+            return parent.getDescriptor();
+        }
+    }
+    
     /**
      * Returns a child InstrumentableDescriptorLocal based on its name or the
      *  name of any of its children.
