@@ -84,7 +84,7 @@ public class SevakDeployer
 
     public void contextualize( final Context context )
     {
-        m_context = ( BlockContext ) context;
+        m_context = (BlockContext)context;
     }
 
     /**
@@ -104,7 +104,7 @@ public class SevakDeployer
         throws ServiceException
     {
         m_manager = serviceManager;
-        m_sevak = ( Sevak ) m_manager.lookup( Sevak.ROLE );
+        m_sevak = (Sevak)m_manager.lookup( Sevak.ROLE );
     }
 
     public void initialize() throws Exception
@@ -119,8 +119,7 @@ public class SevakDeployer
 
             path.replace( '/', File.separatorChar ).replace( '\\', File.separatorChar );
 
-            final File pathFile = new File( m_context.getBaseDirectory().getAbsolutePath()
-                                            + File.separatorChar + path );
+            final File pathFile = getAbsolutePath( path );
 
             if( !pathFile.exists() )
             {
@@ -134,6 +133,19 @@ public class SevakDeployer
             }
 
             m_sevak.deploy( context, pathFile, sevakContext );
+        }
+    }
+
+    private File getAbsolutePath( String path )
+    {
+        if( path.startsWith( "file:" ) )
+        {
+            return new File( path.substring( "file:".length() ) );
+        }
+        else
+        {
+            return new File( m_context.getBaseDirectory().getAbsolutePath()
+                             + File.separatorChar + path );
         }
     }
 }
