@@ -56,7 +56,7 @@ import org.apache.avalon.framework.activity.Initializable;
  * the information is hard-coded.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.8 $ $Date: 2003/04/21 17:52:08 $
+ * @version CVS $Revision: 1.9 $ $Date: 2003/05/22 14:36:20 $
  */
 public final class FortressRoleManager
     extends org.apache.avalon.fortress.impl.role.AbstractRoleManager
