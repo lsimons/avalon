@@ -2,15 +2,11 @@
 
 <kernel> 
 
-   <logging priority="INFO" name="kernel">
-      <category name="/logger" priority="WARN"/>
+   <logging>
+     <categories priority="info" name="kernel">
+       <category name="logger" priority="warn"/>
+     </categories>
    </logging>
-   <parameters>
-     <parameter name="urn:composition:deployment.timeout" 
-         value="10000" />
-     <parameter name="urn:composition:security.enabled" 
-         value="true" />
-   </parameters>
 
    <repository>
      <hosts>

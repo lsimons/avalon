@@ -4,12 +4,18 @@ package org.apache.avalon.composition.model;
 
 import java.io.File;
 
+import org.apache.avalon.repository.Artifact;
+
 import org.apache.avalon.composition.model.impl.DefaultSystemContext;
+
+import org.apache.avalon.repository.provider.InitialContext;
+import org.apache.avalon.repository.main.DefaultInitialContext;
 
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.logger.ConsoleLogger;
 
 import org.apache.avalon.util.exception.ExceptionHelper;
+import org.apache.avalon.util.env.Env;
 
 import junit.framework.TestCase;
 
@@ -55,17 +61,29 @@ public abstract class AbstractTestCase extends TestCase
     {
         if( m_model == null )
         {
-            File base = new File( getTestDir(), "test-classes" );
-            File repository = new File( base, "repository" );
+            File base = new File( getTestDir(), "test" );
+            File root = new File( base, "repository" );
 
             File confDir = new File( base, "conf" );
             File source = new File( confDir, m_path );
 
+            //
+            // FIXME - need to read the current version for a 
+            // properties file or something
+            //
+
+            InitialContext context = 
+              new DefaultInitialContext( 
+                getMavenRepositoryDirectory() );
+
             try
             {
                 SystemContext system = 
-                  DefaultSystemContext.createSystemContext( base, repository, PRIORITY, true );
-                m_model = system.getFactory().createContainmentModel( source.toURL() );
+                  DefaultSystemContext.createSystemContext( 
+                    context, base, root, PRIORITY, true );
+                m_model = 
+                  system.getFactory().createContainmentModel( 
+                    source.toURL() );
             }
             catch( Throwable e )
             {
@@ -157,4 +175,38 @@ public abstract class AbstractTestCase extends TestCase
             System.out.println( lead + "  --> " + m );
         }
     }
+
+    private static File getMavenRepositoryDirectory()
+    {
+        return new File( getMavenHomeDirectory(), "repository" );
+    }
+
+    private static File getMavenHomeDirectory()
+    {
+        return new File( getMavenHome() );
+    }
+
+    private static String getMavenHome()
+    {
+        try
+        {
+            String local = 
+              System.getProperty( 
+                "maven.home.local", 
+                Env.getEnvVariable( "MAVEN_HOME_LOCAL" ) );
+            if( null != local ) return local;
+
+            return System.getProperty( "user.home" ) + File.separator + ".maven";
+
+        }
+        catch( Throwable e )
+        {
+            final String error = 
+              "Internal error while attempting to access environment.";
+            final String message = 
+              ExceptionHelper.packException( error, e, true );
+            throw new RuntimeException( message );
+        }
+    }
+
 }

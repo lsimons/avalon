@@ -59,13 +59,16 @@ import java.util.ArrayList;
 
 import org.apache.avalon.meta.info.ServiceDescriptor;
 
+import org.apache.avalon.logging.data.CategoriesDirective;
+import org.apache.avalon.logging.data.CategoryDirective;
+
 /**
  * A containment profile describes a containment context including
  * a classloader and the set of profiles explicitly included within
  * the a container.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.5 $ $Date: 2004/01/19 14:14:56 $
+ * @version $Revision: 1.6 $ $Date: 2004/01/24 23:25:24 $
  */
 public class ContainmentProfile extends DeploymentProfile
 {

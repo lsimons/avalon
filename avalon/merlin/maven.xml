@@ -87,11 +87,47 @@
   -->
 
   <goal name="avalon:build" description="Build Merlin."
-    prereqs="avalon:build-main,avalon:build-kernel,avalon:build-plugin"/>
+    prereqs="avalon:build-logging,avalon:build-main,avalon:build-kernel,avalon:build-plugin"/>
+
+  <goal name="avalon:build-logging" description="Build Logging.">
+    <maven:reactor basedir="${basedir}"
+      includes="logging/**/project.xml"
+      excludes="logging/logkit/test/project.xml"
+      banner="Installing:"
+      goals="jar:install"
+      ignoreFailures="false" 
+      postProcessing="true" />
+    <j:forEach var="child" items="${reactorProjects}">
+        <ant:copy todir="${maven.build.dir}/merlin/system/${child.groupId}/jars" 
+             preserveLastModified="true">
+          <ant:fileset dir="${child.file.parentFile}/target">
+            <ant:include 
+              name="${child.artifactId}-${child.currentVersion}.jar"/>
+            <ant:include 
+              name="${child.artifactId}-${child.currentVersion}.jar.meta"/>
+          </ant:fileset>
+        </ant:copy>
+        <j:set var="deps" value="${child.dependencies}"/>
+        <j:forEach var="dep" items="${deps}">
+          <ant:copy todir="${maven.build.dir}/merlin/system"
+              preserveLastModified="true">
+            <ant:fileset dir="${maven.repo.local}">
+              <ant:include name="${dep.getArtifactDirectory()}/${dep.getType()}s/${dep.getArtifact()}"/>
+            </ant:fileset>
+          </ant:copy>
+        </j:forEach>
+    </j:forEach>
+    <maven:reactor basedir="${basedir}"
+      includes="logging/logkit/test/project.xml"
+      banner="Testing:"
+      goals="test:test"
+      ignoreFailures="false" />
+  </goal>
 
   <goal name="avalon:build-main" description="Build Merlin.">
     <maven:reactor basedir="${basedir}"
-      includes="extension/**/project.xml,composition/**/project.xml,activation/**/project.xml,kernel/api/project.xml,kernel/impl/project.xml,facilities/**/project.xml"
+      includes="extension/**/project.xml,composition/**/project.xml,activation/**/project.xml,kernel/api/project.xml,kernel/impl/project.xml"
+      excludes="facilities/*/project.xml"
       banner="Installing:"
       goals="jar:install"
       ignoreFailures="false" 
@@ -387,7 +423,7 @@
   <goal name="xjavadoc">
 
     <maven:reactor basedir="${basedir}"
-      includes="activation/**/project.xml,composition/**/project.xml,extension/**/project.xml,kernel/**/project.xml,facilities/**/project.xml"
+      includes="activation/**/project.xml,composition/**/project.xml,extension/**/project.xml,kernel/**/project.xml,facilities/**/project.xml,logging/**/project.xml"
       excludes="**/target/**,facilities/*/project.xml"
       banner="Site Prep:"
       ignoreFailures="false"

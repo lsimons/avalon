@@ -2,15 +2,11 @@
 
 <kernel>
 
-   <!-- logging system parameters -->
-   <logging priority="DEBUG" name="kernel"/>
-
-   <parameters>
-     <parameter name="urn:composition:deployment.timeout" 
-         value="10000" />
-     <parameter name="urn:composition:security.enabled" 
-         value="false" />
-   </parameters>
+   <logging>
+     <categories priority="debug" name="kernel">
+       <category name="logger" priority="warn"/>
+     </categories>
+   </logging>
 
    <repository>
      <hosts>

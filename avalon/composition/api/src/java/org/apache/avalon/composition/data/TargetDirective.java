@@ -58,7 +58,9 @@ package org.apache.avalon.composition.data;
 import java.io.Serializable;
 
 import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.composition.data.CategoriesDirective;
+
+import org.apache.avalon.logging.data.CategoriesDirective;
+import org.apache.avalon.logging.data.CategoryDirective;
 
 /**
  * <p>A target is a tagged configuration fragment.  The tag is a path
@@ -66,7 +68,7 @@ import org.apache.avalon.composition.data.CategoriesDirective;
  * configuration is to be applied to.</p>
  *
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.1 $ $Date: 2003/09/24 09:31:12 $
+ * @version $Revision: 1.2 $ $Date: 2004/01/24 23:25:24 $
  */
 public class TargetDirective implements Serializable
 {

@@ -57,13 +57,17 @@ package org.apache.avalon.composition.data;
 
 import java.util.ArrayList;
 
+import org.apache.avalon.logging.data.CategoriesDirective;
+import org.apache.avalon.logging.data.CategoryDirective;
+
+
 /**
  * <p>A target is a tagged configuration fragment.  The tag is a path
  * seperated by "/" charaters qualifying the component that the target
  * configuration is to be applied to.</p>
  *
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.1 $ $Date: 2003/09/24 09:31:13 $
+ * @version $Revision: 1.2 $ $Date: 2004/01/24 23:25:24 $
  */
 public class Targets
 {
