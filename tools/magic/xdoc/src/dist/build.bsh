@@ -1,3 +1,5 @@
+
+
 /*
 Copyright 2004 The Apache Software Foundation
 Licensed  under the  Apache License,  Version 2.0  (the "License");
@@ -16,8 +18,10 @@ limitations under the License.
 */
 
 import java.io.File;
+import java.io.FileFilter;
 
 import org.apache.avalon.magic.AbstractPlugin;
+import org.apache.avalon.magic.RegexpFilter;
 import org.apache.avalon.magic.Plugin;
 import org.apache.avalon.magic.PluginContext;
 
@@ -26,10 +30,25 @@ import org.apache.tools.ant.types.FileSet;
 import org.apache.tools.ant.taskdefs.Copy;
 import org.apache.tools.ant.taskdefs.XSLTProcess;
 
+import org.xml.sax.SAXException;
+
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+
+import javax.xml.transform.stream.StreamResult;
+import javax.xml.transform.stream.StreamSource;
+
 public class XDocPlugin extends AbstractPlugin
 {
+    private File m_BaseDir;    
     
     public void generate()
+        throws TransformerException
     {
         getLogger().info( "Start XDoc generation." );
         
@@ -64,12 +83,13 @@ public class XDocPlugin extends AbstractPlugin
     }
     
     private void transformNavigation( File themeDir )
+        throws TransformerException
     {
         File xslFile = new File( themeDir,  "nav-aggregate.xsl" );
         String srcDir = m_Context.getProperty( "xdoc.src.dir" );
         File fromDir = new File( srcDir );
         File toDir = new File( m_Context.getProperty( "xdoc.build.src.dir" ) );
-        transform( fromDir, toDir, xslFile, "**/navigation.xml", "", ".xml", "xml" );
+        transformTrax( fromDir, toDir, xslFile, "^.*/navigation.xml$", "", ".xml", "xml" );
     }
     
     private void copySources()
@@ -81,13 +101,14 @@ public class XDocPlugin extends AbstractPlugin
     }
     
     private void transformXdocs( File themeDir )
+        throws TransformerException
     {
         File xslFile = new File( themeDir,  "transform.xsl" );
         String srcDir = m_Context.getProperty( "xdoc.build.src.dir" );
         File fromDir = new File( srcDir );
         File toDir = new File( m_Context.getProperty( "xdoc.dest.dir" ) );
         String output = m_Context.getProperty( "xdoc.output.format" );
-        transform( fromDir, toDir, xslFile, "**/*.xml", "**/navigation.xml", "." + output, "html" );
+        transformTrax( fromDir, toDir, xslFile, "^.*\\.xml$", "^.*/navigation.xml$", "." + output, "html" );
     }
     
     private void copyResources( File themeDir )
@@ -112,37 +133,72 @@ public class XDocPlugin extends AbstractPlugin
         copy.execute();
     }
     
-    private void transform( File srcDir, File toDir, File xslFile, 
+    private void transformTrax( File srcDir, File toDir, File xslFile, 
                             String includes, String excludes, String extension,
                             String method )
+        throws TransformerException
     {
-        XSLTProcess xslt = (XSLTProcess) m_Project.createTask( "xslt" );
-        xslt.setDestdir( toDir );
-        xslt.setStyle( xslFile.getAbsolutePath() );
-        xslt.setBasedir( srcDir );
-        xslt.setIncludes( includes );
-        xslt.setForce( true );
-        xslt.setExtension( extension );
-        xslt.setExcludes( excludes );
-        
-        XSLTProcess.OutputProperty prop1 = xslt.createOutputProperty();
-        prop1.setName( "method" );
-        prop1.setValue( method );
-        
-        XSLTProcess.OutputProperty prop2 = xslt.createOutputProperty();
-        prop2.setName( "standalone" );
-        prop2.setValue( "yes" );
-        
-        XSLTProcess.OutputProperty prop3 = xslt.createOutputProperty();
-        prop3.setName( "encoding" );
-        prop3.setValue( "iso8859_1" );
-        
-        XSLTProcess.OutputProperty prop4 = xslt.createOutputProperty();
-        prop4.setName( "indent" );
-        prop4.setValue( "yes" );
-          
-        xslt.init();
-        xslt.execute();
-    }
+        /* Alternate 'direct' implementation to solve that I can feed
+           the XSL stylesheet with the parameter of the currently 
+           processed document
+        */
 
+        System.out.println( "Transforming source dir:" + srcDir );
+        System.out.println( "Transforming dest dir:" + toDir );
+        System.out.println( "Transforming xsl:" + xslFile );
+        System.out.println( "Transforming includes/excludes: '" + includes + "' / '" + excludes + "'."  );
+        
+        TransformerFactory factory = TransformerFactory.newInstance();
+        StreamSource xsl = new StreamSource( xslFile );
+        Transformer transformer = factory.newTransformer( xsl );
+
+        RegexpFilter filter = new RegexpFilter( includes, excludes );
+        
+        m_BaseDir = toDir;
+        
+        transform( transformer, srcDir, toDir, filter, extension );
+    }
+    
+    private void transform( Transformer transformer, File srcDir, File toDir,
+        FileFilter filter, String extension )
+        throws TransformerException
+    {
+        File[] content = srcDir.listFiles( filter );
+        for( int i = 0 ; i < content.length ; i++ )
+        {
+            String base = content[i].getName();
+            if( content[i].isDirectory() )
+            {
+                File newDest = new File( toDir, base );
+                transform( transformer, content[i], newDest, filter, extension );
+            }
+            if( content[i].isFile() )
+            {
+                
+                int pos = base.indexOf( '.' );
+                if( pos > 0 )
+                    base = base.substring( 0, pos );
+                base = base + extension;
+                File newDest = new File( toDir, base );
+
+                StreamSource xml = new StreamSource( content[i] );
+                StreamResult out = new StreamResult( newDest );
+                transformer.clearParameters();
+                
+                
+                transformer.setParameter( "directory", getRelPath( toDir ) );
+                transformer.setParameter( "fullpath", getRelPath( newDest ) );
+                transformer.setParameter( "file", base );
+                
+                transformer.transform( xml, out );
+            }
+        }
+    }
+    
+    private String getRelPath( File dir )
+    {
+        String basedir = m_BaseDir.getAbsolutePath();
+        String curdir = dir.getAbsolutePath();
+        return curdir.substring( basedir.length() );
+    }
 } 
