@@ -73,7 +73,7 @@ Legal:
   <property name="lib.dir" value="lib"/>
   <property name="tools.dir" value="../jakarta-avalon/tools"/>
   <property name="docs.dir" value="docs"/>
-  <property name="www.dir" value="www"/>
+  <property name="www.dir" value="../jakarta-avalon/www"/>
   <property name="javadocs.dir" value="${docs.dir}/api"/>
   <property name="xdocs.dir" value="${src.dir}/xdocs"/>
   <property name="context.dir" value="../jakarta-avalon/src/documentation"/>
@@ -91,8 +91,8 @@ Legal:
   <property name="tools.jar" value="${java.home}/../lib/tools.jar"/>
 
   <property name="build.announce" value="${build.dir}/Announcement.xml"/>
-  <property name="announce2txt" value="${src.dir}/skins/announcement2txt.xsl"/>
-  <property name="announce2site" value="${src.dir}/skins/announcement2site.xsl"/>
+  <property name="announce2txt" value="${tools.dir}/announcement2txt.xsl"/>
+  <property name="announce2site" value="${tools.dir}/announcement2site.xsl"/>
 
   <path id="project.class.path">
     <pathelement location="${framework.jar}"/>
@@ -370,17 +370,27 @@ Legal:
   <!-- Create the announcements -->
   <target name="announcement" depends="setup-properties">
 
-    <filter token="name" value="${Name}"/>
+    <filter token="Name" value="Avalon Framework"/>
+    <filter token="name" value="framework"/>
     <filter token="version" value="${version}"/>
     <filter token="year" value="${year}"/>
     <filter token="status" value="${status}"/>
     <filter token="release" value="${release}"/>
     <filter token="short-version" value="${short.version}"/>
 
-    <copy file="announcement.xml" tofile="${build.announce}" filtering="yes"/>
+    <mkdir dir="${build.dir}" />
+    <mkdir dir="${dist.base}" />
 
-    <style basedir="${build.dir}" destdir="./" style="${announce2txt}"
-           includes="Announcement.xml" extension=".txt"/>
+    <copy todir="${build.context}" filtering="on">
+      <fileset dir="${context.dir}">
+        <exclude name="resources/**"/>
+      </fileset>
+    </copy>
+
+    <style style="${announce2txt}" in="${build.context}/xdocs/excalibur/announcement.xml" 
+           out="Announcement.txt"/>
+    <style style="${announce2header}" in="${build.context}/xdocs/excalibur/announcement.xml" 
+           out="${dist.base}/HEADER.html"/>
 
   </target>
 
@@ -572,14 +582,14 @@ Legal:
   </target>
 
   <!-- Completely build all dists -->
-  <target name="distributions">
+  <target name="distributions" depends="site-docs,announcement">
     <mkdir dir="${dist.base}"/>
-
-    <copy file="${build.lib}/avalon-excalibur.jar" tofile="${tools.dir}/lib/avalon-excalibur.jar"/>
 
     <antcall target="dist">
       <param name="dist.dir" value="${dist.name}" />
     </antcall>
+
+    <copy file="${build.lib}/avalon-excalibur.jar" tofile="${tools.dir}/ext/avalon-excalibur.jar"/>
 
     <zip zipfile="${dist.base}/${dist.name}-bin.zip"
          basedir="${dist.name}/.."
