@@ -161,10 +161,10 @@ public class StartupPhase
             if( object instanceof Configurable )
             {
                 getLogger().debug( REZ.getString( "startup.notice.config.pre" ) );
+                Configuration configuration = null;
                 try 
                 {
-                    final Configuration configuration =                
-                        m_repository.getConfiguration( m_appName, name );
+                    configuration = m_repository.getConfiguration( m_appName, name );
                 } 
                 catch( final ConfigurationException ce ) 
                 {
