@@ -393,7 +393,8 @@ Legal:
 
         <java classname="org.apache.cocoon.Main" fork="true" maxmemory="128m" failonerror="true">
             <arg value="-c${build.context}/"/>
-            <arg value="-d${build.docs}"/>
+	    <arg value="-d${build.docs}"/>
+	    <arg value="-k${build.context}/logkit.xconf"/>
             <arg value="-w${build.dir}/work"/>
             <arg value="-l${build.dir}/work/cocoon.log"/>
             <arg value="-uERROR"/>
