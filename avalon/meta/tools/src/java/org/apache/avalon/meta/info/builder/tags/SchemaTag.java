@@ -30,7 +30,7 @@ import java.util.Set;
  * A doclet tag handler supporting 'logger' tags.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $ $Date: 2004/03/11 13:44:55 $
+ * @version $Revision: 1.4 $ $Date: 2004/03/11 13:51:42 $
  */
 public class SchemaTag extends AbstractTag
 {
@@ -83,7 +83,7 @@ public class SchemaTag extends AbstractTag
      */
     private void setMethods()
     {
-        return findTaggedMethods( 
+        m_methods = findTaggedMethods( 
           getJavaClass(), getNS() + Tags.DELIMITER + KEY );
     }
 }
