@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project>
+  <pomVersion>3</pomVersion>
+  <id>avalon-master</id>
+  <name>Avalon Master Maven POM</name>
+  <currentVersion>1.0</currentVersion>
+
+  <organization>
+    <name>Apache Software Foundation</name>
+    <url>http://www.apache.org</url>
+    <logo>/images/jakarta-logo-blue.gif</logo>
+  </organization>
+  <logo>/images/logo.jpg</logo>
+  <package>org.apache.avalon.${pom.id.substring(7)}</package>
+  <gumpRepositoryId>jakarta</gumpRepositoryId>
+  
+  <url>http://jakarta.apache.org/avalon/${pom.id.substring(7)}.html</url>
+  <issueTrackingUrl>http://nagoya.apache.org/</issueTrackingUrl>
+  
+  <siteAddress>www.apache.org</siteAddress>
+  <siteDirectory>/www/jakarta.apache.org/avalon/${pom.id.substring(7)}/</siteDirectory>
+  <distributionDirectory>/www/jakarta.apache.org/builds/jakarta-avalon/${pom.id.substring(8)}/</distributionDirectory>
+  
+  <repository>
+    <connection>scm:cvs:pserver:anoncvs@cvs.apache.org:/home/cvspublic:jakarta-avalon/${pom.id.substring(8)}</connection>
+    <url>http://cvs.apache.org/viewcvs/jakarta-avalon/${pom.id.substring(7)}/</url>
+  </repository>
+  
+  <mailingLists>
+    <mailingList>
+      <name>Avalon Dev List</name>
+      <subscribe>avalon-dev-subscribe@jakarta.apache.org</subscribe>
+      <unsubscribe>avalon-dev-unsubscribe@jakarta.apache.org</unsubscribe>
+      <archive>http://nagoya.apache.org/eyebrowse/SummarizeList?listName=avalon-dev@jakarta.apache.org</archive>
+    </mailingList>
+    <mailingList>
+      <name>Avalon User List</name>
+      <subscribe>avalon-user-subscribe@jakarta.apache.org</subscribe>
+      <unsubscribe>avalon-user-unsubscribe@jakarta.apache.org</unsubscribe>
+      <archive>http://nagoya.apache.org/eyebrowse/SummarizeList?listName=avalon-user@jakarta.apache.org</archive>
+    </mailingList>
+  </mailingLists>
+
+  <build>
+    <nagEmailAddress>avalon-dev@jakarta.apache.org</nagEmailAddress>
+    <sourceDirectory>src/java</sourceDirectory>
+    <unitTestSourceDirectory>src/test</unitTestSourceDirectory>
+    <integrationUnitTestSourceDirectory/>
+    <aspectSourceDirectory/>
+
+    <!-- Unit test classes -->
+    <unitTest>
+      <includes>
+        <include>**/Test*.java</include>
+      </includes>
+    </unitTest>
+
+    <resources/>
+
+  </build>
+
+</project>
