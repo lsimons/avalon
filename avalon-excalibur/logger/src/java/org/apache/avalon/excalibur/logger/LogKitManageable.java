@@ -54,7 +54,7 @@ package org.apache.avalon.excalibur.logger;
  * Components.
  *
  * @author <a href="mailto:giacomo@apache.org">Giacomo Pati</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/08/07 13:36:59 $
+ * @version CVS $Revision: 1.3 $ $Date: 2003/02/19 05:45:27 $
  * @since 4.0
  */
 public interface LogKitManageable
@@ -62,6 +62,8 @@ public interface LogKitManageable
     /**
      * Sets the LogKitManager for child components.  Can be for special
      * purpose components, however it is used mostly internally.
+     *
+     * @param logKitManager The LogKitManager fot child components.
      */
-    void setLogKitManager( final LogKitManager logmanager );
+    void setLogKitManager( final LogKitManager logKitManager );
 }
