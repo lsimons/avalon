@@ -254,6 +254,11 @@ Legal:
       </classpath>
     </java>
 
+    <mkdir dir="${build.docs}/framework/diagrams"/>
+    <copy todir="${build.docs}/framework/diagrams" filtering="off">
+      <fileset dir="${context.dir}/diagrams"/>
+    </copy>
+
   </target>
 
   <!-- Create the API documentation -->
@@ -316,10 +321,10 @@ Legal:
     <delete>
       <fileset dir="${www.dir}">
         <exclude name="excalibur/**"/>
-	<exclude name="logkit/**"/>
-	<exclude name="cornerstone/**"/>
-	<exclude name="phoenix/**"/>
-	<exclude name="testlet/**"/>
+        <exclude name="logkit/**"/>
+        <exclude name="cornerstone/**"/>
+        <exclude name="phoenix/**"/>
+        <exclude name="testlet/**"/>
       </fileset>
     </delete>
 
