@@ -741,7 +741,7 @@ $artifact $version [$group [$repository]]
 
     <!-- Repository management -->
 
-    <target name="jbs:jar:install" depends="jbs:init,jbs:jar">
+    <target name="jbs:jar:install" depends="jbs:init,jbs:jar" if="java.src.present">
         <echo>=======================================================================
    Installing ${project.name} jar into local repository
 =======================================================================</echo>
@@ -751,7 +751,7 @@ $artifact $version [$group [$repository]]
                 file="${jbs.build.dir}/${project.name}-${project.version}.jar"/>
     </target>
 
-    <target name="jbs:jar:install-snapshot" depends="jbs:init,jbs:jar">
+    <target name="jbs:jar:install-snapshot" depends="jbs:init,jbs:jar" if="java.src.present">
         <echo>=======================================================================
    Installing ${project.name} jar into local repository as snapshot
 =======================================================================</echo>
