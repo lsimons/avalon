@@ -72,7 +72,7 @@ import org.xml.sax.ext.LexicalHandler;
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
  * @author <a href="mailto:sylvain@apache.org">Sylvain Wallez</a>
- * @version CVS $Revision: 1.8 $ $Date: 2002/11/07 04:38:32 $
+ * @version CVS $Revision: 1.9 $ $Date: 2002/12/27 07:29:11 $
  */
 public final class JaxpParser
     extends AbstractLogEnabled
@@ -257,6 +257,8 @@ public final class JaxpParser
                 "SAX2 driver does not support property: " +
                 "'http://xml.org/sax/properties/lexical-handler'";
             getLogger().warn( message );
+	    
+	    lexicalHandler = null;
         }
 
         tmpReader.setErrorHandler( this );
@@ -272,6 +274,12 @@ public final class JaxpParser
         if( m_reuseParsers )
         {
             m_reader = tmpReader;
+	    // Reset the Lexical Handler to null, so that we can reuse the parser
+
+	    if(lexicalHandler != null)
+	    {
+	        tmpReader.setProperty("http://xml.org/sax/properties/lexical-handler", null);
+	    }
         }
     }
 
