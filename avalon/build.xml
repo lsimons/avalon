@@ -253,7 +253,9 @@ Legal:
   </target>
 
   <!-- Prepares the documentation directory -->
-  <target name="docs" depends="prepare,javadocs" description="generates the Avalon documentation">
+  <target name="docs" depends="html-docs, javadocs" description="generates all the Avalon documentation"/>
+
+  <target name="html-docs" depends="prepare" description="generates the xdocs-based documentation">
 
     <mkdir dir="${build.context}"/>
     <mkdir dir="${build.docs}"/>
