@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project href="http://jakarta.apache.org/avalon/excalibur/tweety/" name="Avalon Excalibur's Tweety"><title>Avalon Excalibur's Tweety</title><body>
+
+	<menu name="Essentials">
+		<item href="index.html" name="Overview"/>
+		<item href="features.html" name="Features"/>
+		<item href="getting-started.html" name="Getting Started"/>
+		<item href="http://jakarta.apache.org/builds/jakarta-avalon-excalibur/release" name="Download"/>
+		<item href="install.html" name="Install"/>
+		<item href="faq.html" name="FAQ"/>
+	</menu>
+
+	<menu name="Related">
+		<item href="http://jakarta.apache.org/avalon/" name="Avalon Home"/>
+		<item href="http://jakarta.apache.org/avalon/excalibur/" name="Excalibur Home"/>
+		<item href="http://jakarta.apache.org/avalon/phoenix" name="Avalon Phoenix"/>
+		<item href="http://jakarta.apache.org/avalon/excalibur/component" name="ECM"/>
+		<item href="http://jakarta.apache.org/avalon/excalibur/fortress" name="Fortress"/>
+	</menu>
+
+	<menu name="Avalon for Beginners">
+		<item href="avalon-for-beginners.html" name="Introduction"/>
+	</menu>
+
+	<menu name="Container HOWTO">
+		<item href="avalon-container-howto.html" name="Introduction"/>
+	</menu>
+
+	<menu name="Reference">
+		<item href="api/" name="API Docs"/>
+	</menu>
+
+</body></project>
