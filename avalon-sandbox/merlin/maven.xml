@@ -31,7 +31,7 @@
     <maven:reactor
       basedir="${basedir}"
       includes="*/project.xml,merlin-extensions/merlin-jmx/project.xml,merlin-extensions/merlin-jndi/project.xml,merlin-extensions/merlin-servlet/project.xml"
-      excludes="merlin-platform/*,merlin-plugin/*,activation-spi/*,activation/*"
+      excludes="merlin-platform/*,merlin-plugin/*"
       goals="merlin-propergate"
       banner="Installing:"
       ignoreFailures="false" />
@@ -93,7 +93,7 @@
   repository, and copies the jar file into the merlin installation 
   directory.
   -->
-  <goal name="merlin-propergate" prereqs="jar:install">
+  <goal name="merlin-propergate" prereqs="jar:install-snapshot">
     <ant:copy todir="${basedir}/../target/${merlin.build.inst}/lib/system">
       <fileset dir="${maven.build.dir}">
         <include name="${maven.final.name}.jar"/>

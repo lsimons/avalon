@@ -103,6 +103,14 @@
         <role>Support on setup of NT service scripts and resources.</role>
       </roles>
     </developer>
+    <developer>
+      <name>Aaron Far</name>
+      <email>Aaron.Farr@am.sony.com</email>
+      <roles>
+        <role>Testing, bug reporting, and early access trial participation.</role>
+      </roles>
+      <organization>Sony Electronics</organization>
+    </developer>
   </developers>
 
   <contributors>
@@ -145,14 +153,6 @@
         <role>Patches enhancing the meta-info generation sources and documentation, and patches related to the pooled lifestyle handler.</role>
       </roles>
       <organization>Jentro AG</organization>
-    </contributor>
-    <contributor>
-      <name>Aaron Far</name>
-      <email>Aaron.Farr@am.sony.com</email>
-      <roles>
-        <role>Testing, bug reporting, and early access trial participation.</role>
-      </roles>
-      <organization>Sony Electronics</organization>
     </contributor>
     <contributor>
       <name>Laurent Rieu</name>

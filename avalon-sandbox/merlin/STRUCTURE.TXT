@@ -16,8 +16,8 @@ STRUCTURE:
     +-- assembly-spi             assembly SPI interfaces and classes
     +-- composition              composition implementation
     +-- composition-spi          composition SPI interfaces and classes
-    +-- extension                optional jar manegement implementation
-    +-- extension-spi            optional jar manegement  SPI interfaces and classes
+    +-- extension                jar manegement implementation
+    +-- extension-spi            jar manegement SPI interfaces and classes
     +-- merlin-cli               merlin command line handler
     +-- merlin-core              merlin kernel, block, and container 
     +-- merlin-spi               merlin SPI interfaces and classes

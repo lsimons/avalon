@@ -68,34 +68,42 @@ Servlet implementation that initializes an embedded Merlin Kernel.
     </dependency>
 
     <dependency>
-      <groupId>avalon</groupId>
+      <groupId>avalon-composition</groupId>
       <artifactId>avalon-composition-spi</artifactId>
-      <version>1.0</version>
+      <version>SNAPSHOT</version>
       <properties>
         <war.bundle.jar>true</war.bundle.jar>
       </properties>
     </dependency>
     <dependency>
-      <groupId>avalon</groupId>
-      <artifactId>avalon-composition</artifactId>
-      <version>1.0</version>
+      <groupId>avalon-composition</groupId>
+      <artifactId>avalon-composition-impl</artifactId>
+      <version>SNAPSHOT</version>
       <properties>
         <war.bundle.jar>true</war.bundle.jar>
       </properties>
     </dependency>
 
     <dependency>
-      <groupId>avalon</groupId>
-      <artifactId>avalon-meta</artifactId>
-      <version>1.0</version>
+      <groupId>avalon-meta</groupId>
+      <artifactId>avalon-meta-api</artifactId>
+      <version>SNAPSHOT</version>
       <properties>
         <war.bundle.jar>true</war.bundle.jar>
       </properties>
     </dependency>
     <dependency>
-      <groupId>avalon</groupId>
+      <groupId>avalon-meta</groupId>
       <artifactId>avalon-meta-spi</artifactId>
-      <version>1.0</version>
+      <version>SNAPSHOT</version>
+      <properties>
+        <war.bundle.jar>true</war.bundle.jar>
+      </properties>
+    </dependency>
+    <dependency>
+      <groupId>avalon-meta</groupId>
+      <artifactId>avalon-meta-impl</artifactId>
+      <version>SNAPSHOT</version>
       <properties>
         <war.bundle.jar>true</war.bundle.jar>
       </properties>
@@ -104,7 +112,7 @@ Servlet implementation that initializes an embedded Merlin Kernel.
     <dependency>
       <groupId>avalon</groupId>
       <artifactId>avalon-assembly-spi</artifactId>
-      <version>1.0</version>
+      <version>SNAPSHOT</version>
       <properties>
         <war.bundle.jar>true</war.bundle.jar>
       </properties>
@@ -112,7 +120,7 @@ Servlet implementation that initializes an embedded Merlin Kernel.
     <dependency>
       <groupId>avalon</groupId>
       <artifactId>avalon-assembly</artifactId>
-      <version>1.0</version>
+      <version>SNAPSHOT</version>
       <properties>
         <war.bundle.jar>true</war.bundle.jar>
       </properties>
@@ -121,7 +129,7 @@ Servlet implementation that initializes an embedded Merlin Kernel.
     <dependency>
       <groupId>avalon-extension</groupId>
       <artifactId>avalon-extension-spi</artifactId>
-      <version>1.0</version>
+      <version>SNAPSHOT</version>
       <properties>
         <war.bundle.jar>true</war.bundle.jar>
       </properties>
@@ -129,7 +137,7 @@ Servlet implementation that initializes an embedded Merlin Kernel.
     <dependency>
       <groupId>avalon-extension</groupId>
       <artifactId>avalon-extension-impl</artifactId>
-      <version>1.0</version>
+      <version>SNAPSHOT</version>
       <properties>
         <war.bundle.jar>true</war.bundle.jar>
       </properties>
@@ -179,7 +187,7 @@ Servlet implementation that initializes an embedded Merlin Kernel.
     <dependency>
       <groupId>merlin</groupId>
       <artifactId>merlin-spi</artifactId>
-      <version>1.0</version>
+      <version>SNAPSHOT</version>
       <properties>
         <war.bundle.jar>true</war.bundle.jar>
       </properties>
@@ -188,7 +196,7 @@ Servlet implementation that initializes an embedded Merlin Kernel.
     <dependency>
       <groupId>merlin</groupId>
       <artifactId>merlin-core</artifactId>
-      <version>2.1</version>
+      <version>SNAPSHOT</version>
       <properties>
         <war.bundle.jar>true</war.bundle.jar>
       </properties>
