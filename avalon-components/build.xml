@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 
-<project default="all" basedir=".">
+<project default="main" basedir=".">
 
   <!--
     Give user a chance to override without editing this file
