@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<project name="metro-studio-eclipse-launch" default="install" basedir="." 
+<project name="metro-studio-core" default="install" basedir="." 
     xmlns:x="antlib:org.apache.avalon.tools">
 
   <property file="project.properties" />

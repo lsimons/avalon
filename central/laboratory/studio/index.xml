@@ -2,7 +2,7 @@
 
 <index>
 
-  <import index="../../../../runtime/index.xml"
+  <import index="../../../runtime/index.xml"
           href="http://svn.apache.org/repos/asf/avalon/trunk/runtime/index.xml"/>
 
   <resource>
@@ -182,6 +182,9 @@
       <name>metro-studio-event-impl</name>
       <version>1.0.0</version>
       <status>SNAPSHOT</status> 
+    <dependencies>
+      <include key="metro-studio-event-api"/>
+    </dependencies>
     </info>
   </project>
 
@@ -208,8 +211,8 @@
 
   <project basedir="launch">
     <info>
-      <group>metro/studio/core</group>
-      <name>metro-studio-core-launch</name>
+      <group>metro/studio/launch</group>
+      <name>metro-studio-launch</name>
       <version>1.0.0</version>
       <status>SNAPSHOT</status> 
     </info>
@@ -224,13 +227,13 @@
 
   <project basedir="ui">
     <info>
-      <group>metro/studio/core</group>
-      <name>metro-studio-core-ui</name>
+      <group>metro/studio/ui</group>
+      <name>metro-studio-ui</name>
       <version>1.0.0</version>
       <status>SNAPSHOT</status> 
     </info>
     <dependencies>
-      <include key="metro-studio-core-launch"/>
+      <include key="metro-studio-launch"/>
       <include key="eclipse-swt"/>
       <include key="eclipse-jdt-ui"/>
       <include key="eclipse-jdt-debug-jdiui"/>
