@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+
+   <description url="http://www.merlin.softwarefabrik.biz/MerlinDeveloper/updates/">
+      
+   </description>
+   <feature url="features/org.apache.avalon.developer_0.0.2.jar" id="org.apache.avalon.developer" version="0.0.1" os="win32" ws="win32" nl="en_US" arch="x86">
+      <category name="3"/>
+   </feature>
+   <category-def name="3" label="Eclipse (2.x and 3.0)"/>
+</site>
