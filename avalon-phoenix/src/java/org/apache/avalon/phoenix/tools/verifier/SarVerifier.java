@@ -57,7 +57,7 @@ import org.apache.avalon.phoenix.metainfo.ServiceDescriptor;
  * </ul>
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.13 $ $Date: 2002/05/15 12:02:12 $
+ * @version $Revision: 1.14 $ $Date: 2002/05/18 09:05:36 $
  */
 public class SarVerifier
     extends AbstractLogEnabled
@@ -377,6 +377,16 @@ public class SarVerifier
             }
         }
 
+        if( Block.class.isAssignableFrom( clazz ) )
+        {
+            final String message =
+                REZ.getString( "verifier.implements-block.error",
+                               block.getName(),
+                               block.getClassname() );
+            getLogger().error( message );
+            System.err.println( message );
+        }
+
     }
 
     /**
@@ -641,7 +651,7 @@ public class SarVerifier
                                        final ClassLoader classLoader )
         throws VerifyException
     {
-        final Class[] classes = new Class[ services.length + 1 ];
+        final Class[] classes = new Class[ services.length ];
 
         for( int i = 0; i < services.length; i++ )
         {
@@ -667,7 +677,6 @@ public class SarVerifier
             checkNotFrameworkInterface( name, classname, classes[ i ] );
         }
 
-        classes[ services.length ] = Block.class;
         return classes;
     }
 
