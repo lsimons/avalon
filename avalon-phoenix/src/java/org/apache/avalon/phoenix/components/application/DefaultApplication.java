@@ -16,7 +16,6 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.activity.Startable;
 import org.apache.avalon.framework.activity.Disposable;
-import org.apache.avalon.phoenix.ApplicationEvent;
 import org.apache.avalon.phoenix.interfaces.Application;
 import org.apache.avalon.phoenix.interfaces.ApplicationContext;
 import org.apache.avalon.phoenix.interfaces.ApplicationException;
@@ -343,14 +342,13 @@ public final class DefaultApplication
         if( PHASE_STARTUP == name )
         {
             //... for startup, so indicate to applicable listeners
-            final ApplicationEvent event =
-                new ApplicationEvent( m_sarMetaData.getName(), m_sarMetaData );
-            m_lifecycle.applicationStarting( event );
+            m_lifecycle.getAppListenerSupport().
+                fireApplicationStartingEvent( m_sarMetaData );
         }
         else
         {
             //... for shutdown, so indicate to applicable listeners
-            m_lifecycle.applicationStopping();
+            m_lifecycle.getAppListenerSupport().applicationStopping();
         }
 
         //Process blocks, one by one.
@@ -383,7 +381,7 @@ public final class DefaultApplication
                 final String message =
                     REZ.getString( "app.error.run-phase", name, block, e.getMessage() );
                 getLogger().error( message, e );
-                m_lifecycle.applicationFailure( e );
+                m_lifecycle.getAppListenerSupport().applicationFailure( e );
                 throw e;
             }
 
@@ -399,12 +397,12 @@ public final class DefaultApplication
         if( PHASE_STARTUP == name )
         {
             //... for startup, so indicate to applicable listeners
-            m_lifecycle.applicationStarted();
+            m_lifecycle.getAppListenerSupport().applicationStarted();
         }
         else
         {
             //... for shutdown, so indicate to applicable listeners
-            m_lifecycle.applicationStopped();
+            m_lifecycle.getAppListenerSupport().applicationStopped();
         }
     }
 }
