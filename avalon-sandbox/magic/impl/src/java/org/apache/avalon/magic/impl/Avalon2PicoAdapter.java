@@ -175,7 +175,7 @@ import org.apache.avalon.framework.parameters.Parameters;
  *   }
  * </pre>
  *
- * @version $Id: Avalon2PicoAdapter.java,v 1.4 2003/08/21 21:27:07 leosimons Exp $
+ * @version $Id: Avalon2PicoAdapter.java,v 1.5 2003/08/21 21:30:40 leosimons Exp $
  */
 public class Avalon2PicoAdapter implements InvocationHandler
 {
@@ -314,7 +314,7 @@ public class Avalon2PicoAdapter implements InvocationHandler
     }
 
     // ----------------------------------------------------------------------
-    //  Methods
+    //  Getters/Setters
     // ----------------------------------------------------------------------
 
     protected Class getTargetClass()
@@ -367,6 +367,10 @@ public class Avalon2PicoAdapter implements InvocationHandler
         m_configuration = configuration;
     }
 
+    // ----------------------------------------------------------------------
+    //  Work Interface: InvocationHandler
+    // ----------------------------------------------------------------------
+
     public Object invoke( Object proxy, Method method, Object[] args )
             throws Throwable
     {
@@ -414,6 +418,10 @@ public class Avalon2PicoAdapter implements InvocationHandler
 
         return method.invoke( m_target, args ); // will never actually be called
     }
+
+    // ----------------------------------------------------------------------
+    //  Helper methods
+    // ----------------------------------------------------------------------
 
     protected void createInstance()
         throws Exception
