@@ -39,7 +39,7 @@
   <property name="test.dir" value="${src.dir}/test"/>
   <property name="manifest.dir" value="${src.dir}/manifest"/>
   <property name="conf.dir" value="${src.dir}/conf"/>
-  <property name="tools.dir" value="../jakarta-avalon/tools"/>
+  <property name="tools.dir" location="../jakarta-avalon/tools"/>
   <property name="docs.dir" value="docs"/>
   <property name="www.dir" value="../jakarta-avalon-site/docs/cornerstone"/>
   <property name="avalon.skin" value="${tools.dir}/lib/jakarta-style.jar"/>
