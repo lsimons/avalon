@@ -47,7 +47,7 @@ public class DefaultManager
     implements Parameterizable, Composable
 {
     private static final Resources REZ =
-        ResourceManager.getPackageResources( PhoenixManager.class );
+        ResourceManager.getPackageResources( DefaultManager.class );
 
     private static final int DEFAULT_REGISTRY_PORT =
         Integer.getInteger( "phoenix.port", 1111 ).intValue();
@@ -109,7 +109,7 @@ public class DefaultManager
         }
         catch( final Exception e ) 
         {
-            System.out.println("\t!!! Could not create the HTML adaptor !!!");
+            System.out.println("Could not create the HTML adaptor!!!");
             e.printStackTrace();
             throw e;
         }
