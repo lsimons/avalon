@@ -12,7 +12,7 @@ package org.apache.avalon.phoenix.components.cpbuilder.metadata;
  * the default ClassLoader to use.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2002/09/01 01:31:21 $
+ * @version $Revision: 1.2 $ $Date: 2002/09/01 01:53:53 $
  */
 public class ClassLoaderSetDef
 {
@@ -22,6 +22,11 @@ public class ClassLoaderSetDef
      * to this ClassLoader.
      */
     private final String m_default;
+
+    /**
+     * The set of ClassLoaders predefined by the application.
+     */
+    private final String[] m_predefined;
 
     /**
      * The classloaders defined in set.
@@ -40,6 +45,7 @@ public class ClassLoaderSetDef
      * @param classLoaders the ClassLoaders in set
      */
     public ClassLoaderSetDef( final String aDefault,
+                              final String[] predefined,
                               final ClassLoaderDef[] classLoaders,
                               final JoinDef[] joins )
     {
@@ -55,8 +61,13 @@ public class ClassLoaderSetDef
         {
             throw new NullPointerException( "joins" );
         }
+        if( null == predefined )
+        {
+            throw new NullPointerException( "predefined" );
+        }
 
         m_default = aDefault;
+        m_predefined = predefined;
         m_classLoaders = classLoaders;
         m_joins = joins;
     }
@@ -70,6 +81,17 @@ public class ClassLoaderSetDef
     public String getDefault()
     {
         return m_default;
+    }
+
+    /**
+     * Return the set of predefined ClassLoaders.
+     *
+     * @return the set of predefined ClassLoaders.
+     * @see #m_predefined
+     */
+    public String[] getPredefined()
+    {
+        return m_predefined;
     }
 
     /**
