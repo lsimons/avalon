@@ -47,7 +47,7 @@ import org.apache.avalon.util.criteria.PackedParameter;
  * for application to a factory.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.30 $
+ * @version $Revision: 1.31 $
  */
 public class DefaultCriteria extends Criteria implements KernelCriteria
 {
@@ -133,7 +133,6 @@ public class DefaultCriteria extends Criteria implements KernelCriteria
     */
     private static Parameter[] buildParameters( InitialContext context )
     { 
-
         return new Parameter[]{
             new Parameter( 
               MERLIN_REPOSITORY,

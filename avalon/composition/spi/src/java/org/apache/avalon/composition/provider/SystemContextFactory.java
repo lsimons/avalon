@@ -34,7 +34,7 @@ import org.apache.avalon.framework.context.Context;
  * Defintion of a system context that exposes a system wide set of parameters.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.6 $ $Date: 2004/03/17 10:39:11 $
+ * @version $Revision: 1.7 $ $Date: 2004/04/01 04:06:52 $
  */
 public interface SystemContextFactory 
 {
@@ -122,6 +122,12 @@ public interface SystemContextFactory
     * @param temp the temporary directory
     */
     void setTemporaryDirectory( File temp );
+
+   /**
+    * Set the anchor directory.
+    * @param anchor the anchor directory
+    */
+    void setAnchorDirectory( File anchor );
 
    /**
     * Set the name of the logging channel to be used by the 

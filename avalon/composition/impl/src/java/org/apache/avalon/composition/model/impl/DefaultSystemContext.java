@@ -47,7 +47,7 @@ import org.apache.avalon.util.i18n.Resources;
  * Implementation of a system context that exposes a system wide set of parameters.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.29 $ $Date: 2004/03/17 10:39:10 $
+ * @version $Revision: 1.30 $ $Date: 2004/04/01 04:06:52 $
  */
 public class DefaultSystemContext extends DefaultContext 
   implements SystemContext
@@ -68,6 +68,8 @@ public class DefaultSystemContext extends DefaultContext
     private final File m_home;
 
     private final File m_temp;
+
+    private final File m_anchor;
 
     private final Repository m_repository;
 
@@ -127,6 +129,7 @@ public class DefaultSystemContext extends DefaultContext
       File base, 
       File home, 
       File temp, 
+      File anchor, 
       Repository repository, 
       String category, 
       boolean trace, 
@@ -139,6 +142,7 @@ public class DefaultSystemContext extends DefaultContext
 
         assertNotNull( "context", context );
         assertNotNull( "base", base );
+        assertNotNull( "anchor", anchor );
         assertNotNull( "repository", repository );
         assertNotNull( "logging", logging );
         assertNotNull( "category", category );
@@ -155,6 +159,7 @@ public class DefaultSystemContext extends DefaultContext
         m_base = base;
         m_home = home;
         m_temp = temp;
+        m_anchor = anchor;
         m_trace = trace;
         m_repository = repository;
         m_logging = logging;
@@ -249,6 +254,17 @@ public class DefaultSystemContext extends DefaultContext
     public File getTempDirectory()
     {
         return m_temp;
+    }
+
+   /**
+    * Return the anchor directory from which a container 
+    * may use to resolve relative classpath references.
+    *
+    * @return the anchor directory
+    */
+    public File getAnchorDirectory()
+    {
+        return m_anchor;
     }
 
    /**

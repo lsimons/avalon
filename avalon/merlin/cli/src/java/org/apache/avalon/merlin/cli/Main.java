@@ -53,7 +53,7 @@ import org.apache.commons.cli.Options;
  * Merlin command line handler.
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.22 $
+ * @version $Revision: 1.23 $
  */
 public class Main 
 {
@@ -145,11 +145,11 @@ public class Main
            .withDescription( REZ.getString( "cli-repository-description" ) )
            .create( "repository" );
 
-        Option library = OptionBuilder
+        Option anchor = OptionBuilder
            .hasArg()
            .withArgName( REZ.getString( "directory" ) )
-           .withDescription( REZ.getString( "cli-library-description" ) )
-           .create( "library" );
+           .withDescription( REZ.getString( "cli-anchor-description" ) )
+           .create( "anchor" );
 
         Option config = OptionBuilder
            .hasArg()
@@ -183,7 +183,7 @@ public class Main
         options.addOption( context );
         options.addOption( system );
         options.addOption( repository );
-        options.addOption( library );
+        options.addOption( anchor );
         options.addOption( config );
         options.addOption( kernel );
         options.addOption( implementation );
@@ -359,10 +359,10 @@ public class Main
 
     private void setAnchorDirectory( Map criteria, CommandLine line )
     {
-        if( line.hasOption( "library" ) )
+        if( line.hasOption( "anchor" ) )
         {
-            String library = line.getOptionValue( "library" );
-            criteria.put( "merlin.anchor", library );
+            String anchor = line.getOptionValue( "anchor" );
+            criteria.put( "merlin.anchor", anchor );
         }
     }
 
