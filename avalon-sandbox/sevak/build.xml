@@ -2,21 +2,19 @@
 
 <project default="main" basedir=".">
 
-  <!--
-    Give user a chance to override without editing this file
-    (and without typing -D each time they compile it)
-  -->
-  <property file="ant.properties"/>
-  <property file="${user.home}/ant.properties"/>
+<!-- ==========================================================================================
+	PROPERTY SETUP
+     ========================================================================================== -->
 
-  <property name="name" value="sevak"/>
-  <property name="Name" value="Sevak"/>
-  <property name="version" value="0.6"/>
-  <property name="year" value="2002"/>
+	<!-- set up properties -->
+	<property file="${user.home}/build.properties"/>
+	<property file="${user.home}/.ant.properties"/>
+	<property file="${basedir}/ant.properties"/>
+	<property file="${basedir}/../ant.properties"/>
+	<property file="${basedir}/default.properties"/>
+	<property file="${basedir}/../default.properties"/>
+	<property file="${basedir}/../cocoon.properties"/>
 
-  <property name="build.debug" value="on"/>
-  <property name="build.optimize" value="off"/>
-  <property name="build.deprecation" value="off"/>
 
   <!-- Set the installation variables for Cornerstone/Phoenix -->
   <property name="phoenix.home" value="../../jakarta-avalon-phoenix/dist"/>
@@ -408,112 +406,6 @@
   <target name="check" depends="compile" description="Perform any built in tests">
   </target>
 
-  <!-- Create the API documentation -->
-  <target name="javadocs" description="Generates the Java Docs">
-
-    <delete dir="${build.docs}/api"/>
-    <mkdir dir="${build.docs}/api"/>
-
-    <javadoc packagenames="org.apache.*"
-             sourcepath="${java.dir}"
-             destdir="${build.docs}/api">
-      <classpath refid="project.class.path" />
-      <doclet name="com.sun.tools.doclets.standard.Standard">
-       <param name="-author"/>
-       <param name="-version"/>
-       <param name="-doctitle" value="${Name}"/>
-       <param name="-windowtitle" value="${Name} API"/>
-       <param name="-bottom"
-              value="&quot;Copyright &#169; 2001 Apache Jakarta Project. All Rights Reserved.&quot;"/>
-      </doclet>
-    </javadoc>
-  </target>
-
-    <!-- Prepares the documentation directory -->
-    <target name="docs" depends="html-docs, javadocs" description="generates all the Avalon documentation"/>
-
-  
-    <target name="html-docs" depends="setup-filters" description="generates the xdocs-based documentation">
-
-      <property name="use.skin"              value="avalon-site"/>
-
-      <!-- Skin filters -->
-      <filter token="skin"              value="${use.skin}"/>
-      <filter token="link1"             value="apache"/>
-      <filter token="link1.href"        value="http://www.apache.org"/>
-      <filter token="link2"             value="jakarta"/>
-      <filter token="link2.href"        value="http://jakarta.apache.org"/>
-      <filter token="link3"             value="avalon"/>
-      <filter token="link3.href"        value="http://jakarta.apache.org/avalon/"/>
-      <filter token="group-logo.src"    value="images/jakarta-logo.gif"/>
-      <filter token="group-logo.href"   value="http://jakarta.apache.org/"/>
-      <filter token="project-logo.src"  value="images/header.gif"/>                    
-      <filter token="project-logo.href" value="http://jakarta.apache.org/avalon/"/>                    
-      <filter token="year" value="2002"/>  
-      <filter token="vendor" value="Apache Software Foundation"/>  
-    
-        <mkdir dir="${build.context}"/>
-        <mkdir dir="${build.docs}"/>
-        <mkdir dir="${build.xdocs}"/>
-        <mkdir dir="${build.dir}/work"/>       
-
-        <copy todir="${build.context}" overwrite="true" filtering="on">
-            <fileset dir="${context.dir}">
-                <exclude name="**/*.gif"/>
-                <exclude name="**/*.jpg"/>
-                <exclude name="**/*.png"/>
-            </fileset>
-        </copy>
-
-        <copy todir="${build.context}" filtering="off">
-            <fileset dir="${context.dir}">
-                <include name="**/*.gif"/>
-                <include name="**/*.jpg"/>
-                <include name="**/*.png"/>
-            </fileset>
-        </copy>
-        <copy todir="${build.xdocs}" filtering="on" overwrite="true">
-            <fileset dir="${xdocs.dir}"/>
-        </copy>
-        
-        <echo message="-------------------------------------------------------------"/>
-        <echo message="  Building docs, please stand by ..."/>
-        
-        <java classname="org.apache.cocoon.Main" fork="true" maxmemory="128m" failonerror="true">
-            <arg value="-c${build.context}/"/>
-            <arg value="-d${build.docs}"/>
-            <arg value="-w${build.dir}/work"/>
-            <arg value="-l${build.dir}/work/cocoon.log"/>
-            <arg value="-uWARN"/>
-            <arg value="index.html"/>
-            <classpath>
-                <path refid="tools.class.path"/>
-                <fileset dir="${tools.dir}/ext"/>
-            </classpath>
-        </java>
-
-        <!-- hack for stupid transport on api link -->
-        <replace dir="${build.docs}" token="http://hack.hack" value="api/index.html">
-          <include name="*.html"/>
-        </replace> 
-        
-       <echo message="  ...docs generated succesfully in ./build/docs dir."/>
-       <echo message="-------------------------------------------------------------"/>    
-
-    </target>
-
-  <target name="site" depends="docs" description=" Places Docs ready for hosting on website">
-
-    <mkdir dir="../site/docs/apps/${name}"/>
-    <copy todir="../site/docs/apps/${name}">
-      <fileset dir="${build.docs}">
-        <include name="**"/>
-      </fileset>
-    </copy>
-
-  </target>
-
-
   <!-- Completely build all dists -->
   <target name="dist" depends="sars" description="Generates the distribution">
 
@@ -757,4 +649,46 @@
     <copy file="${build.lib}/avalon-sevak-demo.sar" todir="${install.dir}" />
   </target>
 
+<!-- ==========================================================================================
+	DOCUMENTATION GENERATION
+========================================================================================== -->
+
+	<!-- Creates all docs -->
+	<target name="docs" depends="html-docs, javadocs" description="generates all the documentation"/>
+
+	<!-- copy docs to site dir -->
+	<target name="site" depends="docs" description=" Places docs ready for hosting on website">
+		<mkdir dir="../site/build/docs/apps/${dir-name}"/>
+		<copy todir="../site/build/docs/apps/${dir-name}">
+		<fileset dir="${build.docs}">
+			<include name="**"/>
+		</fileset>
+		</copy>
+	</target>
+
+	<!-- Creates javadocs -->
+	<target name="javadocs" depends="compile" description="Generates the javadocs" unless="skip.javadocs">
+		<mkdir dir="${build.javadocs}"/>
+		<javadoc packagenames="org.apache.*"
+		sourcepath="${java.dir}"
+		destdir="${build.javadocs}">
+		<classpath refid="project.class.path" />
+		<doclet name="com.sun.tools.doclets.standard.Standard">
+			<param name="-author"/>
+			<param name="-version"/>
+			<param name="-doctitle" value="${Name}"/>
+			<param name="-windowtitle" value="${Name} API"/>
+			<param name="-link" value="http://java.sun.com/j2se/1.4/docs/api/"/>
+			<param name="-link" value="http://java.sun.com/j2ee/sdk_1.3/techdocs/api/"/>
+			<param name="-link" value="http://jakarta.apache.org/avalon/api/"/>
+			<param name="-bottom"
+			value="&quot;Copyright &#169; ${year} Apache Jakarta Project. All Rights Reserved.&quot;"/>
+		</doclet>
+		</javadoc>
+	</target>
+
+	<target name="html-docs" description="generates the xdocs-based documentation">
+		<!-- we call the build.xml target common to all of avalon-apps. This builds our html site -->
+		<ant antfile="${basedir}/../cocoonbuild.xml"/>
+	</target>
 </project>
