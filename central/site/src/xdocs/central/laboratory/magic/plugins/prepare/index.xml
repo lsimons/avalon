@@ -23,13 +23,17 @@
 
   <properties>
     <author email="niclas@apache.org">Niclas Hedhman</author>
-    <title>Magic Prepare Plugin</title>
+    <title>Avalon Magic</title>
   </properties>
 
   <body>
 
     <section name="About Prepare Plugin">
       <p>
+        The Prepare Plugin is a plugin shared by most other plugins. It will
+        copy the sources, with and without filtering, from the source 
+        directories, to the build directories. The plugin also establishes
+        a couple of global properties that many other plugins utilizes.
       </p>
     </section>
   </body>
