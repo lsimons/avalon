@@ -8,7 +8,7 @@
   <id>avalon-activation-impl</id>
   <name>Avalon Activation Framework</name>
   <package>org.apache.avalon.activation</package>
-  <currentVersion>1.2.3</currentVersion>
+  <currentVersion>1.2.4</currentVersion>
 
   <inceptionYear>2002</inceptionYear>
   <shortDescription>Runtime activation framework.</shortDescription>
@@ -54,7 +54,7 @@
     <dependency>
       <groupId>avalon-activation</groupId>
       <artifactId>avalon-activation-api</artifactId>
-      <version>1.2.1</version>
+      <version>1.2.2</version>
     </dependency>
     <dependency>
       <groupId>avalon-activation</groupId>
@@ -65,7 +65,7 @@
     <dependency>
       <groupId>avalon-composition</groupId>
       <artifactId>avalon-composition-api</artifactId>
-      <version>1.2.1</version>
+      <version>1.2.2</version>
     </dependency>
     <dependency>
       <groupId>avalon-composition</groupId>
@@ -75,7 +75,7 @@
     <dependency>
       <groupId>avalon-composition</groupId>
       <artifactId>avalon-composition-impl</artifactId>
-      <version>1.2.2</version>
+      <version>1.2.3</version>
     </dependency>
 
     <dependency>

@@ -75,7 +75,7 @@
     LICENSE.TXT
   /plugins
     avalon-meta-plugin-1.2.jar
-    merlin-plugin-3.2.1-dev.jar
+    merlin-plugin-3.2.2-dev.jar
 ]]></source>
 
         <p>
@@ -137,7 +137,7 @@ directory (%MAVEN_HOME%\plugins).
         </p>
 <source><![CDATA[
   %MAVEN_HOME%\plugins\avalon-meta-plugin-1.2.jar
-  %MAVEN_HOME%\plugins\merlin-plugin-3.2.1-dev.jar
+  %MAVEN_HOME%\plugins\merlin-plugin-3.2.2-dev.jar
 ]]></source>
 
         <p>
@@ -148,7 +148,7 @@ directory (%MAVEN_HOME%\plugins).
         </p>
 <source><![CDATA[
   %MAVEN_HOME%\plugins\avalon-meta-plugin-1.2.jar
-  %MAVEN_HOME%\plugins\merlin-plugin-3.2.1-dev.jar
+  %MAVEN_HOME%\plugins\merlin-plugin-3.2.2-dev.jar
 ]]></source>
 
         <p>

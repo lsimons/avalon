@@ -9,7 +9,7 @@
   <name>Merlin Servlet</name>
   <package>org.apache.avalon.merlin.servlet</package>
 
-  <currentVersion>3.2</currentVersion>
+  <currentVersion>3.2.1</currentVersion>
   <inceptionYear>2002</inceptionYear>
   <shortDescription>Merlin Servlet</shortDescription>
 
@@ -48,7 +48,7 @@ Merlin servlet is a servlet with an embedded Merlin Kernel.
     <dependency>
       <groupId>avalon-composition</groupId>
       <artifactId>avalon-composition-api</artifactId>
-      <version>1.2.1</version>
+      <version>1.2.2</version>
       <type>jar</type>
       <properties>
         <war.bundle>true</war.bundle>
@@ -57,7 +57,7 @@ Merlin servlet is a servlet with an embedded Merlin Kernel.
     <dependency>
       <groupId>avalon-activation</groupId>
       <artifactId>avalon-activation-api</artifactId>
-      <version>1.2.1</version>
+      <version>1.2.2</version>
       <type>jar</type>
       <properties>
         <war.bundle>true</war.bundle>
