@@ -24,6 +24,6 @@ public class MemoryStoreTestCase
 
     protected void setUp()
     {
-        m_store = new MemoryStore( 10 );
+        m_store = new MemoryStore( STORE_SIZE );
     }
 }

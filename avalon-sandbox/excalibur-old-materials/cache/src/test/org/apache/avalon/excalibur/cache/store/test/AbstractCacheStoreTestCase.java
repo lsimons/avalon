@@ -18,10 +18,23 @@ import org.apache.avalon.excalibur.cache.CacheStore;
 public class AbstractCacheStoreTestCase
     extends TestCase
 {
+    protected static final int STORE_SIZE = 10;
+
     protected CacheStore m_store;
 
     public AbstractCacheStoreTestCase( final String name )
     {
         super( name );
+    }
+
+    public void testIsFull()
+    {
+        for ( int i = 0; i < STORE_SIZE - 1; i++ )
+        {
+            m_store.put( "KEY" + i , "VALUE" + i );
+            assertTrue( ! m_store.isFull() );
+        }
+        m_store.put( "KEY" + STORE_SIZE, "VALUE" + STORE_SIZE );
+        assertTrue( m_store.isFull() );
     }
 }
