@@ -21,7 +21,8 @@ import org.apache.avalon.excalibur.pool.DefaultPoolController;
  * <code>java.sql.DriverManager</code>.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.5 $ $Date: 2001/08/02 18:53:54 $
+ * @version CVS $Revision: 1.6 $ $Date: 2001/08/07 10:57:07 $
+ * @since 4.0
  */
 public class JdbcDataSource
     extends AbstractLoggable

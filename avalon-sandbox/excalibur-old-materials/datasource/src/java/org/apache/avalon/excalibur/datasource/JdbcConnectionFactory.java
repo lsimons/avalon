@@ -18,7 +18,8 @@ import java.sql.Connection;
  * The Factory implementation for JdbcConnections.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.3 $ $Date: 2001/07/31 04:35:49 $
+ * @version CVS $Revision: 1.4 $ $Date: 2001/08/07 10:57:07 $
+ * @since 4.0
  */
 public class JdbcConnectionFactory extends AbstractLoggable implements ObjectFactory
 {
