@@ -67,7 +67,7 @@ import org.apache.commons.collections.StaticBucketMap;
  * the references.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.6 $ $Date: 2003/02/25 16:28:31 $
+ * @version CVS $Revision: 1.7 $ $Date: 2003/02/27 20:04:53 $
  */
 public class FortressServiceManager
     implements ServiceManager
@@ -220,23 +220,4 @@ public class FortressServiceManager
         public String hint;
     }
     
-    private final static class ComponentKey
-    {
-        private final Object component;
-        
-        public ComponentKey( Object component )
-        {
-            this.component = component;
-        }
-        
-        public boolean equals( Object other )
-        {
-            return (other instanceof ComponentKey) && ((ComponentKey) other).component == this.component;
-        }
-        
-        public int hashCode()
-        {
-            return component.hashCode();
-        }
-    }
 }
