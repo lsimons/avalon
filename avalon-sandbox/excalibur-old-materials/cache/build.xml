@@ -14,8 +14,8 @@
     <property file="${user.home}/.ant.properties"/>
 
     <!-- Default property values -->
-    <property name="framework.jar"
-        value="${basedir}/../../jakarta-avalon/tools/ext/avalon-framework.jar"/>
+    <property name="avalon-framework.jar"
+        value="${basedir}/../../jakarta-avalon/build/lib/avalon-framework.jar"/>
 
     <!-- Settings used to configure compile environment -->
     <property name="build.debug" value="on"/>
@@ -49,7 +49,7 @@
     <!-- Classpath for product -->
     <path id="project.class.path">
         <pathelement path="${java.class.path}"/>
-        <pathelement location="${framework.jar}"/>
+        <pathelement location="${avalon-framework.jar}"/>
         <pathelement location="${build.classes}"/>
         <pathelement location="${junit.jar}"/>
         <pathelement location="${checkstyle.jar}"/>
