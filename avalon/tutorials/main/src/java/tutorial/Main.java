@@ -74,7 +74,6 @@ public class Main
 
         Factory factory = builder.getFactory();
         Map criteria = factory.createDefaultCriteria();
-        criteria.put( "merlin.deployment", "conf/demo.block" );
         factory.create( criteria );
     }
 }
