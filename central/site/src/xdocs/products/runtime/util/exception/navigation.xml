@@ -24,36 +24,9 @@
  <title>Avalon Utilities</title>
 
  <body>
-
-    <links>
-      <item name="Apache" href="http://apache.org/"/>
-      <item name="Avalon" href="http://avalon.apache.org/"/>
-      <item name="Framework" href="http://avalon.apache.org/product/framework/"/>
-      <item name="Merlin" href="http://avalon.apache.org/product/containers/"/>
-      <item name="Planet" href="http://avalon.apache.org/product/components/"/>
-    </links>
-
-    <menu name="About Utilities">
-      <item name="Overview" href="/index.html"/>
-      <item name="Criteria" href="/criteria/index.html"/>
-      <item name="Defaults" href="/defaults/index.html"/>
-      <item name="Environment" href="/env/index.html"/>
-      <item name="Exception" href="/exception/index.html"/>
-      <item name="Extension" href="/extension/index.html"/>
-      <item name="Plugin" href="/plugin/index.html"/>
+    <menu>
     </menu>
-
-    <menu name="Resources">
-      <item name="Javadoc" href="/api/index.html"/>
-      <item name="Download" href="/download.html"/>
-    </menu>
-
-    <menu name="Related Projects">
-      <item name="Avalon Repository" href="http://avalon.apache.org/repository"/>
-      <item name="Avalon Merlin" href="http://avalon.apache.org/merlin"/>
-    </menu>
-
- </body>
+  </body>
 
 </project>
 
