@@ -186,6 +186,7 @@
         
         <!-- Sub projects with dependencies. -->
         <ant dir="pool" target="jar"/>               <!-- collections, concurrent, instrument -->
+        <ant dir="datasource" target="jar"/>         <!-- pool -->
         <ant dir="thread" target="jar"/>             <!-- lang, instrument, threadcontext, pool -->
         <ant dir="component" target="jar"/>          <!-- collections, logger, instrument, pool -->
         <ant dir="util" target="jar"/>               <!-- component -->
@@ -194,7 +195,7 @@
         <ant dir="instrument-manager" target="jar"/> <!-- altrmi, collections, instrument, logger, pool, component -->
         <ant dir="instrument-client" target="jar"/>  <!-- instrument-manager -->
         
-        <ant dir="all" target="all"/>                <!-- collections, concurrent, event, instrument -->
+        <ant dir="all" target="all"/>                <!-- collections, concurrent, event, instrument, datasource -->
         
         <ant dir="baxter" target="jar"/>
         <ant dir="bzip2" target="jar"/>
@@ -206,7 +207,6 @@
         <ant dir="naming" target="jar"/>
         <ant dir="tar" target="jar"/>
         <ant dir="zip" target="jar"/>
-        <ant dir="datasource" target="jar"/>
 
         <jlink compress="false" outfile="excalibur-all-tmp.jar">
             <mergefiles>
