@@ -10,6 +10,7 @@ package org.apache.avalon.cornerstone.blocks.soapification.glue;
 import electric.registry.Registry;
 import electric.registry.RegistryException;
 import electric.server.http.HTTP;
+import electric.net.http.WebServer;
 import org.apache.avalon.framework.logger.AbstractLoggable;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.activity.Startable;
@@ -20,9 +21,9 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.phoenix.Block;
 import org.apache.avalon.cornerstone.services.soapification.SOAPification;
 import org.apache.avalon.cornerstone.services.soapification.SOAPificationException;
-import org.apache.avalon.excalibur.proxy.DynamicProxy;
 
 import java.util.Hashtable;
+import java.io.IOException;
 
 
 /**
@@ -35,7 +36,9 @@ public class Glue
     implements Block, SOAPification, Initializable, Startable, Disposable, Configurable {
 
     protected Configuration mConfiguration;
-    protected int mPort;    
+    protected int mPort;
+    protected String mBindingAddress;
+    protected WebServer mWebServer;
 
     public void initialize()
     {
@@ -48,17 +51,18 @@ public class Glue
     public void configure( Configuration configuration ) throws ConfigurationException {
         mConfiguration = configuration;
         mPort = configuration.getChild("port").getValueAsInteger( 8765 );
+        mBindingAddress = configuration.getChild("binding-address").getValue( "127.0.0.1" );
     }
 
-    public void start()
-        throws Exception
+    public void start() throws IOException
     {
-        HTTP.startup( "http://127.0.0.1:"+ mPort +"/soap" );
+        mWebServer = WebServer.startWebServer( "http://"+ mBindingAddress +":"+ mPort +"/soap" );
+        mWebServer.startup();
     }
 
-    public void stop()
+    public void stop() throws IOException
     {
-        HTTP.shutdown();
+        mWebServer.shutdown();
     }
 
     /**
@@ -85,11 +89,18 @@ public class Glue
      * @param publicationName The name to publish it as.
      */
     public void publish( Object obj, String publicationName, Class[] interfacesToExpose ) throws SOAPificationException {
-        publish(DynamicProxy.newInstance(obj, interfacesToExpose), publicationName);
+        try 
+        {
+            Registry.publish( publicationName, obj, interfacesToExpose);
+        }
+        catch (RegistryException re) 
+        {
+            throw new SOAPificationException("Can't publish object as " + publicationName , re);
+        }
     }
 
     public void publish( Object obj, String publicationName, Class interfaceToExpose ) throws SOAPificationException {
-        publish(DynamicProxy.newInstance(obj, new Class[] { interfaceToExpose }), publicationName);        
+        publish(obj, publicationName, new Class[] {interfaceToExpose});        
     }
 
     public void unpublish( String publicationName ) throws SOAPificationException {
