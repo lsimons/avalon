@@ -43,7 +43,8 @@
           <xsl:for-each select="//authorgroup/author">
             <xsl:choose>
               <xsl:when test="position()=1">by</xsl:when>
-              <xsl:default>, </xsl:default>
+              <xsl:otherwise>, </xsl:otherwise>
+            </xsl:choose>
           </xsl:for-each>
           <a href="mailto:{address/email}">
             <xsl:if test="honorific"><xsl:value-of select="honorific"/>. </xsl:if>
