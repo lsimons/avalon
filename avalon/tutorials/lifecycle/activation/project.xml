@@ -26,12 +26,12 @@
     <dependency>
       <groupId>avalon-composition</groupId>
       <artifactId>avalon-composition-api</artifactId>
-      <version>1.2-dev</version>
+      <version>1.2.1-dev</version>
     </dependency>
     <dependency>
       <groupId>avalon-activation</groupId>
       <artifactId>avalon-activation-api</artifactId>
-      <version>1.2-dev</version>
+      <version>1.2.1-dev</version>
     </dependency>
     <dependency>
       <groupId>avalon-meta</groupId>
