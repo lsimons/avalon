@@ -125,7 +125,7 @@ public class MX4JSystemManager
         getLogger().debug( "MX4J HTTP listener port: " + m_port );
 
         m_rmi = configuration.getChild( "enable-rmi-adaptor" ).getValueAsBoolean( false );
-        m_http = configuration.getChild( "enable-http-adaptor" ).getValueAsBoolean( true );
+        m_http = configuration.getChild( "enable-http-adaptor" ).getValueAsBoolean( false );
 
         m_namingFactory =
             configuration.getChild( "rmi-naming-factory" ).getValue( DEFAULT_NAMING_FACTORY );
