@@ -489,12 +489,12 @@ Legal:
             <fileset dir="${build.lib}">
                 <include name="phoenix-containerkit.jar"/>
             </fileset>
-            <fileset dir="${lib.dir}/jing">
-                <include name="*.jar"/>
-            </fileset>
         </copy>
         <copy todir="${bin.dist.container.lib}">
             <fileset dir="${lib.dir}/container">
+                <include name="*.jar"/>
+            </fileset>
+            <fileset dir="${lib.dir}/jing">
                 <include name="*.jar"/>
             </fileset>
         </copy>
