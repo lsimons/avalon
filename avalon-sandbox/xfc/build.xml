@@ -29,6 +29,8 @@
         <pathelement location="${excalibur-xmlutil.jar}"/>
         <pathelement location="${excalibur-pool.jar}"/>
         <pathelement location="${excalibur-sourceresolve.jar}"/>
+        <pathelement location="${excalibur-datasource.jar}"/>
+        <pathelement location="${excalibur-instrument.jar}"/>
         <pathelement location="${junit.jar}"/>
         <path refid="project.class.path"/>
     </path>
@@ -56,7 +58,9 @@
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkJUnit"/>
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkXMLUtil"/>
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkPool"/>
+        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkDatasource"/>
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkSourceResolve"/>
+        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkInstrument"/>
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkConfiguration"/>	
     </target>
 
