@@ -239,6 +239,13 @@ public class DefaultApplicationFrame
         throws ConfigurationException
     {
         final Configuration[] groups = configuration.getChildren( "thread-group" );
+
+        if( groups.length > 0 )
+        {
+            final String message = REZ.getString( "frame.warn.thread-pools" );
+            System.err.println( message );
+        }
+
         for( int i = 0; i < groups.length; i++ )
         {
             configureThreadPool( groups[ i ] );
