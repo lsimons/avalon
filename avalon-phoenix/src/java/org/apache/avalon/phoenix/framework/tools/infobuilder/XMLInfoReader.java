@@ -76,7 +76,7 @@ import org.xml.sax.InputSource;
  * is specified in the <a href="package-summary.html#external">package summary</a>.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.6 $ $Date: 2003/04/05 04:25:43 $
+ * @version $Revision: 1.7 $ $Date: 2003/04/05 11:21:10 $
  */
 public final class XMLInfoReader
     extends AbstractLogEnabled
@@ -99,7 +99,7 @@ public final class XMLInfoReader
         throws Exception
     {
         final InputSource input = new InputSource( inputStream );
-        final Configuration configuration = ConfigurationBuilder.build( input, false );
+        final Configuration configuration = ConfigurationBuilder.build( input, ConfigurationBuilder.COMPONENTINFO_SCHEMA, getLogger() );
         return buildComponentInfo( implementationKey, configuration );
     }
 

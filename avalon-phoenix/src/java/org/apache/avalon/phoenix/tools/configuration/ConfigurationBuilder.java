@@ -56,20 +56,32 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.SAXConfigurationHandler;
+import org.apache.avalon.framework.logger.Logger;
 import org.realityforge.configkit.ResolverFactory;
+import org.realityforge.configkit.ConfigValidatorFactory;
+import org.realityforge.configkit.ConfigValidator;
+import org.realityforge.configkit.ValidationResult;
+import org.realityforge.configkit.ValidationIssue;
+import org.realityforge.configkit.ValidateException;
 import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
+import org.xml.sax.ContentHandler;
 
 /**
  * Utility class used to load Configuration trees from XML files.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.16 $ $Date: 2003/04/05 04:25:44 $
+ * @version $Revision: 1.17 $ $Date: 2003/04/05 11:21:10 $
  */
 public class ConfigurationBuilder
 {
+    public static final String COMPONENTINFO_SCHEMA = "-//AVALON/Component Info DTD Version 1.0//EN";
+    public static final String BLOCKINFO_SCHEMA = "-//PHOENIX/Block Info DTD Version 1.0//EN";
+    public static final String MXINFO_SCHEMA = "-//PHOENIX/Mx Info DTD Version 1.0//EN";
+    public static final String ASSEMBLY_SCHEMA = "-//PHOENIX/Assembly DTD Version 1.0//EN";
+
     /**
      * The resolver that builder uses.
      */
@@ -79,40 +91,71 @@ public class ConfigurationBuilder
      * Build a configuration object using an XML InputSource object, and
      * optionally validate the xml against the DTD.
      */
-    public static Configuration build( final InputSource input, final boolean validate )
-        throws SAXException, ParserConfigurationException, IOException
+    public static Configuration build( final InputSource input,
+                                       final String publicId,
+                                       final Logger logger )
+        throws Exception
     {
-        final SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
-        saxParserFactory.setNamespaceAware( false );
-        final SAXParser saxParser = saxParserFactory.newSAXParser();
-        final XMLReader reader = saxParser.getXMLReader();
+        setupResolver();
         final SAXConfigurationHandler handler = new SAXConfigurationHandler();
-        setupXMLReader( reader, handler, validate );
-        reader.parse( input );
+        if( null == publicId )
+        {
+            final SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
+            saxParserFactory.setNamespaceAware( false );
+            final SAXParser saxParser = saxParserFactory.newSAXParser();
+            final XMLReader reader = saxParser.getXMLReader();
+            reader.setEntityResolver( c_resolver );
+            reader.setContentHandler( handler );
+            reader.setErrorHandler( handler );
+            reader.parse( input );
+        }
+        else
+        {
+            final InputSource inputSource = c_resolver.resolveEntity( publicId, null );
+            if( null == inputSource )
+            {
+                final String message = "Unable to locate schema with publicID=" + publicId;
+                throw new IllegalStateException( message );
+            }
+
+            final ConfigValidator validator =
+                ConfigValidatorFactory.create( inputSource, c_resolver );
+            final ValidationResult result = validator.validate( input, (ContentHandler)handler );
+            if( !result.isValid() )
+            {
+                final ValidationIssue[] issues = result.getIssues();
+                for( int i = 0; i < issues.length; i++ )
+                {
+                    final ValidationIssue issue = issues[ i ];
+                    final String message = issue.getException().getMessage();
+                    if( issue.isWarning() )
+                    {
+                        logger.info( message );
+                    }
+                    else if( issue.isError() )
+                    {
+                        logger.warn( message );
+                    }
+                    else if( issue.isFatalError() )
+                    {
+                        logger.error( message );
+                    }
+                }
+                final ValidateException exception = result.getException();
+                throw new Exception( exception.getMessage(), exception );
+            }
+        }
         return handler.getConfiguration();
     }
 
-    /**
-     * Internally sets up the XMLReader
-     */
-    private static void setupXMLReader( final XMLReader reader,
-                                        final SAXConfigurationHandler handler,
-                                        final boolean validate )
-        throws SAXException, IOException, ParserConfigurationException
+    private static void setupResolver()
+        throws ParserConfigurationException, SAXException, IOException
     {
         if( null == c_resolver )
         {
             c_resolver =
                 ResolverFactory.createResolver( ConfigurationBuilder.class.getClassLoader() );
         }
-        reader.setEntityResolver( c_resolver );
-        reader.setContentHandler( handler );
-        reader.setErrorHandler( handler );
-
-        if( validate )
-        {
-            // Request validation
-            reader.setFeature( "http://xml.org/sax/features/validation", true );
-        }
     }
+
 }

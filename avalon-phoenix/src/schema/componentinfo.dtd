@@ -30,8 +30,7 @@ schema       the configuration/parameters schema that this component
              validates against
 -->
 <!ELEMENT component-info (component, loggers?, context?, services?, dependencies?, configuration-schema?, parameters-schema?)>
-<!ATTLIST component-info id ID #IMPLIED
-          xmlns CDATA #FIXED "http://jakarta.apache.org/avalon/dtds/info/componentinfo_1_0.dtd">
+<!ATTLIST component-info id ID #IMPLIED>
 
 <!--
 The service-info is the document root for service info file, it defines:
