@@ -21,7 +21,6 @@ import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.context.DefaultContext;
-import org.apache.avalon.phoenix.framework.info.SchemaDescriptor;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.service.ServiceException;
@@ -29,11 +28,11 @@ import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
 import org.apache.avalon.phoenix.BlockContext;
 import org.apache.avalon.phoenix.components.ContainerConstants;
-import org.apache.avalon.phoenix.components.assembler.AssemblyException;
 import org.apache.avalon.phoenix.containerkit.metadata.PartitionMetaData;
 import org.apache.avalon.phoenix.containerkit.registry.ComponentProfile;
 import org.apache.avalon.phoenix.containerkit.registry.PartitionProfile;
 import org.apache.avalon.phoenix.containerkit.registry.ProfileBuilder;
+import org.apache.avalon.phoenix.framework.info.SchemaDescriptor;
 import org.apache.avalon.phoenix.interfaces.Application;
 import org.apache.avalon.phoenix.interfaces.ClassLoaderManager;
 import org.apache.avalon.phoenix.interfaces.ClassLoaderSet;
@@ -302,10 +301,6 @@ public class DefaultDeployer
         catch( final DeploymentException de )
         {
             throw de;
-        }
-        catch( final AssemblyException ae )
-        {
-            throw new DeploymentException( ae.getMessage(), ae );
         }
         catch( final Exception e )
         {
