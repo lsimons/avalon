@@ -81,32 +81,6 @@ public class XMLDefinitionBuilder
         return new Definition( key, basedir, info, resources, projects, plugins );
     }
 
-    public static Plugin createPlugin( File anchor, Element element )
-    {
-        Info info = 
-          createInfo( ElementHelper.getChild( element, "info" ) );
-
-        String key = getDefinitionKey( element, info );
-
-        File basedir = getBasedir( anchor, element );
-       
-        Element deps = ElementHelper.getChild( element, "dependencies" );
-
-        ResourceRef[] resources = 
-          createResourceRefs( 
-            ElementHelper.getChild( deps, "resources" ) );
-        
-        ProjectRef[] projects = 
-          createProjectRefs( 
-            ElementHelper.getChild( deps, "projects" ) );
-
-        PluginRef[] plugins = 
-          createPluginRefs( 
-            ElementHelper.getChild( deps, "plugins" ) );
-
-        return new Plugin( key, basedir, info, resources, projects, plugins );
-    }
-
     private static File getBasedir( File anchor, Element element )
     {
         String path = element.getAttribute( "basedir" );

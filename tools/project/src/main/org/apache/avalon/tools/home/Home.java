@@ -192,8 +192,8 @@ public class Home
 
     public void build( Definition definition )
     {
-        m_project.log( "\n  build sequence for definition: " + definition + "\n");
         Definition[] targets = getBuildSequence( definition );
+        m_project.log( "\n  build sequence for definition: " + definition + "\n");
         for( int i=0; i<targets.length; i++ )
         {
             Definition def = targets[i];
@@ -211,7 +211,8 @@ public class Home
 
     private void buildProject( Definition definition )
     {
-        m_project.log( "\nbuild target: " + definition );
+        m_project.log( "\nbuild target: " + definition  );
+        m_project.log( "basedir: " + definition.getBasedir()  );
 
         Path path = getRepository().createPath( m_project, definition );
         m_project.log( "compile path: " + path );
