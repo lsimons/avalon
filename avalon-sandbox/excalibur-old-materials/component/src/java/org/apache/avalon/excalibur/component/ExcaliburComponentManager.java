@@ -1,175 +1,4 @@
-/*
- * Copyright (C) The Apache Software Foundation. All rights reserved.
- *
- * This software is published under the terms of the Apache Software License
- * version 1.1, a copy of which has been included  with this distribution in
- * the LICENSE.txt file.
- */
-package org.apache.avalon.excalibur.component;
-
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import org.apache.commons.collections.StaticBucketMap;
-import org.apache.avalon.excalibur.logger.LogKitManageable;
-import org.apache.avalon.excalibur.logger.LogKitManager;
-import org.apache.avalon.excalibur.logger.LoggerManager;
-import org.apache.avalon.framework.activity.Disposable;
-import org.apache.avalon.framework.activity.Initializable;
-import org.apache.avalon.framework.component.Component;
-import org.apache.avalon.framework.component.ComponentException;
-import org.apache.avalon.framework.component.ComponentManager;
-import org.apache.avalon.framework.configuration.Configurable;
-import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.configuration.ConfigurationException;
-import org.apache.avalon.framework.configuration.DefaultConfiguration;
-import org.apache.avalon.framework.context.Context;
-import org.apache.avalon.framework.context.Contextualizable;
-import org.apache.excalibur.instrument.Instrument;
-import org.apache.excalibur.instrument.InstrumentManageable;
-import org.apache.excalibur.instrument.InstrumentManager;
-import org.apache.excalibur.instrument.Instrumentable;
-
-/**
- * Default component manager for Avalon's components.
- *
- * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @author <a href="mailto:paul@luminas.co.uk">Paul Russell</a>
- * @author <a href="mailto:ryan@silveregg.co.jp">Ryan Shaw</a>
- * @author <a href="mailto:leif@apache.org">Leif Mortenson</a>
- * @version CVS $Revision: 1.23 $ $Date: 2003/02/15 17:34:16 $
- * @since 4.0
- */
-public class ExcaliburComponentManager
-    extends AbstractDualLogEnabled
-    implements ComponentManager,
-    Configurable,
-    Contextualizable,
-    Initializable,
-    Disposable,
-    RoleManageable,
-    LogKitManageable,
-    InstrumentManageable,
-    Instrumentable
-{
-    /** Instrumentable name used to represent the component-manager.
-     *  Handlers reference this name to register themselves at the correct
-     *  location under the ECM. */
-    public static final String INSTRUMENTABLE_NAME = "component-manager";
-
-    /** The parent ComponentLocator */
-    private final ComponentManager m_parentManager;
-
-    /** The classloader used for this system. */
-    private final ClassLoader m_loader;
-
-    /** The application context for components */
-    private Context m_context;
-
-    /** Static component mapping handlers. */
-    private final StaticBucketMap m_componentMapping = new StaticBucketMap();
-
-    /** Used to map roles to ComponentHandlers. */
-    private final StaticBucketMap m_componentHandlers = new StaticBucketMap();
-
-    /** added component handlers before initialization to maintain
-     *  the order of initialization
-     */
-    private final List m_newComponentHandlers = new ArrayList();
-
-    /** RoleInfos. */
-    private RoleManager m_roles;
-
-    /** LogKitManager. */
-    private LogkitLoggerManager m_logkit;
-
-    /** Is the Manager disposed or not? */
-    private boolean m_disposed;
-
-    /** Is the Manager initialized? */
-    private boolean m_initialized;
-
-    /** Instrument Manager being used by the Component Manager. */
-    private InstrumentManager m_instrumentManager;
-
-    /** Instrumentable Name assigned to this Instrumentable */
-    private String m_instrumentableName = INSTRUMENTABLE_NAME;
-
-    /*---------------------------------------------------------------
-     * Constructors
-     *-------------------------------------------------------------*/
-    /** Create a new ExcaliburComponentManager. */
-    public ExcaliburComponentManager()
-    {
-        this( null, Thread.currentThread().getContextClassLoader() );
-    }
-
-    /** Create a new ExcaliburComponentManager with uses a specific Classloader. */
-    public ExcaliburComponentManager( final ClassLoader loader )
-    {
-        this( null, loader );
-    }
-
-    /** Create the ComponentLocator with a Classloader and parent ComponentLocator */
-    public ExcaliburComponentManager( final ComponentManager manager, final ClassLoader loader )
-    {
-        if( null == loader )
-        {
-            m_loader = Thread.currentThread().getContextClassLoader();
-        }
-        else
-        {
-            m_loader = loader;
-        }
-
-        m_parentManager = manager;
-    }
-
-    /** Create the ComponentLocator with a parent ComponentLocator */
-    public ExcaliburComponentManager( final ComponentManager manager )
-    {
-        this( manager, Thread.currentThread().getContextClassLoader() );
-    }
-
-    /*---------------------------------------------------------------
-     * ComponentManager Methods
-     *-------------------------------------------------------------*/
-    /**
-     * Return an instance of a component based on a Role.  The Role is usually the Interface's
-     * Fully Qualified Name(FQN)--unless there are multiple Components for the same Role.  In that
-     * case, the Role's FQN is appended with "Selector", and we return a ComponentSelector.
-     */
-    public Component lookup( final String role )
-        throws ComponentException
-    {
-        if( !m_initialized )
-        {
-            if( getLogger().isWarnEnabled() )
-            {
-                getLogger().warn(
-                    "Looking up component on an uninitialized ComponentLocator [" + role + "]" );
-            }
-        }
-
-        if( m_disposed )
-        {
-            throw new IllegalStateException(
-                "You cannot lookup components on a disposed ComponentLocator" );
-        }
-
-        if( null == role )
-        {
-            final String message =
-                "ComponentLocator Attempted to retrieve component with null role.";
-
-            if( getLogger().isErrorEnabled() )
-            {
-                getLogger().error( message );
-            }
-            throw new ComponentException( role, message );
-        }
-
-        ComponentHandler handler = (ComponentHandler)m_componentHandlers.get( role );
+g`"        ComponentHandler handler = (ComponentHandler)m_componentHandlers.get( role );
 
         // Retrieve the instance of the requested component
         if( null == handler )
@@ -296,7 +125,7 @@ public class ExcaliburComponentManager
         //  In the case of a ThreadSafeComponentHandler, the same component will be mapped
         //  multiple times but because each put will overwrite the last, this is not a
         //  problem.  Checking to see if the put has already been done would be slower.
-        m_componentMapping.put( component, handler );
+        m_componentMapping.put( component.toString(), handler );
 
         return component;
     }
@@ -338,7 +167,7 @@ public class ExcaliburComponentManager
         //  synchronization around the access to the map.
 
         final ComponentHandler handler =
-            (ComponentHandler)m_componentMapping.get( component );
+            (ComponentHandler)m_componentMapping.get( component.toString() );
 
         if( null != handler )
         {
@@ -870,35 +699,5 @@ public class ExcaliburComponentManager
                 getLogger().warn( "Could not set up Component for role [" + role + "]", e );
             }
         }
-    }
-
-    private Lookup parseRole( String role )
-    {
-        Lookup lookup = new Lookup();
-        lookup.role = role;
-        lookup.hint = AbstractContainer.DEFAULT_ENTRY;
-
-        if ( role.endsWith("Selector") )
-        {
-            lookup.role = role.substring(0, role.length() - "Selector".length());
-            lookup.hint = AbstractContainer.SELECTOR_ENTRY;
-        }
-
-        int index = role.lastIndexOf("/");
-
-        // needs to be further than the first character
-        if ( index > 0 )
-        {
-            lookup.role = role.substring(0, index);
-            lookup.hint = role.substring(index + 1);
-        }
-
-        return lookup;
-    }
-
-    private final static class Lookup
-    {
-        public String role;
-        public String hint;
     }
 }
