@@ -39,6 +39,7 @@
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkLogkit"/>
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkCollections"/>
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkConcurrent"/>
+        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkInstrument"/>
     </target>
 
     <!-- Compiles the source code -->
