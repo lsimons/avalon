@@ -91,6 +91,10 @@ public class Resource
         return (ResourceRef[]) list.toArray( new ResourceRef[0] );
     }
 
+    // TODO - multiple refs for the same key can be returned here because 
+    // different projects are making different dependency assumptions - some 
+    // optimization is need to eliminate duplicates
+
     protected void getResourceRefs( 
       final List list, final int mode, final int tag, final boolean flag )
     {
