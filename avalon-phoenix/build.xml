@@ -22,7 +22,7 @@ Legal:
 
 <project name="Avalon Phoenix" default="main" basedir=".">
 
-    <!--
+    <!--Abstr
       Give user a chance to override without editing this file
       (and without typing -D each time he compiles it)
     -->
@@ -54,6 +54,7 @@ Legal:
     <property name="documentation.dir" value="${src.dir}/documentation"/>
     <property name="test.dir" value="${src.dir}/test"/>
     <property name="compat.dir" value="${src.dir}/compat"/>
+    <property name="api.dir" value="${src.dir}/api"/>
     <property name="conf.dir" value="${src.dir}/conf"/>
     <property name="script.dir" value="${src.dir}/script"/>
     <property name="lib.dir" value="lib"/>
@@ -234,6 +235,7 @@ Legal:
             <classpath refid="project.class.path" />
             <src path="${build.src}" />
             <src path="${compat.dir}" />
+            <src path="${api.dir}"/>
             <exclude name="${constants.file}" />
             <exclude name="${container.constants.file}"/>
             <exclude name="org/apache/avalon/phoenix/frontends/PhoenixServlet.java" unless="servlet.present"/>
@@ -482,7 +484,7 @@ Legal:
         <copy todir="${bin.dist.lib}">
             <fileset dir="${lib.dir}">
                 <include name="excalibur*.jar"/>
-                <include name="sandbox-info-*.jar"/>                
+                <include name="sandbox-info-*.jar"/>
             </fileset>
             <fileset dir="${build.lib}">
                 <include name="phoenix-containerkit.jar"/>
@@ -827,7 +829,7 @@ phoenix-punit.jar needs to be used with phoenix-containerkit-1.0.jar
     <mkdir dir="${build.javadocs}"/>
 
     <javadoc packagenames="org.apache.*"
-             sourcepath="${java.dir}:${compat.dir}"
+             sourcepath="${java.dir}:${compat.dir}:${api.dir}"
              destdir="${build.javadocs}">
       <classpath refid="project.class.path" />
       <doclet name="com.sun.tools.doclets.standard.Standard">
@@ -890,10 +892,10 @@ phoenix-punit.jar needs to be used with phoenix-containerkit-1.0.jar
        <copy todir="${build.docs}/api" filtering="off">
         <fileset dir="${build.javadocs}"/>
        </copy>
-       
+
        <copy todir="../avalon-site/docs/phoenix" filtering="off">
         <fileset dir="${build.docs}"/>
-       </copy>       
+       </copy>
 
     </target>
 
