@@ -6,10 +6,10 @@
 # external modules that this component depend on.  Copy this file to
 # "ant.properties" in the source directory, and customize it as needed.
 #
-# The ant.properties values in this directory apply only to this component, and
-# override the defaults in ../ant.properties.
+# The property values in ant.properties are overridden by
+# ${user.home}/.ant.properties and ../ant.properties
 #
-# $Id: ant.properties.sample,v 1.2.2.1 2002/04/01 05:46:12 jefft Exp $
+# $Id: ant.properties.sample,v 1.2.2.2 2002/04/01 08:57:04 jefft Exp $
 # -----------------------------------------------------------------------------
 
 # --------------------------------------------------
