@@ -13,8 +13,6 @@ import java.io.InputStream;
 
 import org.apache.avalon.apps.sevak.Sevak;
 import org.apache.avalon.apps.sevak.SevakException;
-import org.apache.avalon.apps.sevak.util.CatalinaLogger;
-import org.apache.avalon.apps.sevak.util.CustomWebappLoader;
 import org.apache.avalon.framework.activity.Startable;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.configuration.Configurable;
@@ -31,6 +29,7 @@ import org.apache.catalina.Host;
 import org.apache.catalina.Lifecycle;
 import org.apache.catalina.LifecycleException;
 import org.apache.catalina.Loader;
+import org.apache.catalina.DefaultContext;
 import org.apache.catalina.core.StandardContext;
 import org.apache.catalina.startup.ContextConfig;
 import org.apache.catalina.startup.Embedded;
@@ -48,9 +47,9 @@ import org.apache.coyote.tomcat4.CoyoteConnector;
  * @author  Vinay Chandran<vinayc77@yahoo.com>
  * @version 1.0
  */
-public class CatalinaSevakImpl
+public class CatalinaSevak
     extends AbstractLogEnabled
-    implements Contextualizable, Serviceable, Configurable, Initializable, Startable, Sevak
+    implements Contextualizable, Configurable, Initializable, Startable, Sevak
 {
     //private BlockContext m_context;
     private Context m_context;
@@ -102,17 +101,6 @@ public class CatalinaSevakImpl
     }
 
     /**
-     * @see org.apache.avalon.framework.service.Serviceable
-     *
-     */
-    public void service(final ServiceManager serviceManager)
-        throws ServiceException
-    {
-        getLogger().info("Sevak.service()");
-
-    }
-
-    /**
      * @see org.apache.avalon.framework.activity.Initializable#initialize()
      */
 
@@ -138,7 +126,7 @@ public class CatalinaSevakImpl
             File confDir=new File( (File) m_context.get("app.home"),"conf");
             confDir.mkdir();
             getLogger().info("Created conf/ folder");
-            InputStream in= CatalinaSevakImpl.class.getResourceAsStream("default-web.xml");
+            InputStream in= CatalinaSevak.class.getResourceAsStream("default-web.xml");
             FileOutputStream fos =
                         new FileOutputStream(new File(confDir,"web.xml").getAbsolutePath());
             byte[] bytes= new byte[512];
@@ -296,6 +284,8 @@ public class CatalinaSevakImpl
             catalinaContext =
                 createContext(context, dirToWebAppFolder.getAbsolutePath());
             m_tomcatHost.addChild(catalinaContext);
+            // TODO - get this whole beast working!!!!
+            //m_tomcatHost.setRealm(new org.apache.catalina.realm.MemoryRealm());
             System.out.println("Deployed [" + context + "] Context");
         }
         catch (Exception catalinaException)

@@ -57,7 +57,7 @@
  *
  */
 
-package org.apache.avalon.apps.sevak.util;
+package org.apache.avalon.apps.sevak.blocks.catalina;
 
 //catalina imports
 import java.beans.PropertyChangeListener;
