@@ -62,7 +62,7 @@
     <!-- Standalone Phoenix-Demo server -->
     <jar jarfile="target/lib/${name}-server.jar"
          manifest="src/manifest/server.mf">
-      <fileset dir="build/classes">
+      <fileset dir="target/classes">
         <include name="**"/>
         <exclude name="phoenixdemo/client/**"/>
         <exclude name="phoenixdemo/block/**"/>
@@ -72,7 +72,7 @@
     <!-- Phoenix-Demo client -->
     <jar jarfile="target/lib/${name}-client.jar"
          manifest="src/manifest/client.mf">
-      <fileset dir="build/classes">
+      <fileset dir="target/classes">
         <include name="**"/>
         <exclude name="phoenixdemo/server/**"/>
         <exclude name="phoenixdemo/block/**"/>
