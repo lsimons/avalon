@@ -86,6 +86,17 @@ Hibernate Wrapper</a></p></td>
              pattern.</p>
             </td>
 	  </tr>
+	  <tr>
+	    <td><p><a href="http://ivory.codehaus.org/">Ivory</a></p></td>
+	    <td><p> Ivory provides easy integration between your
+             exiting java classes, Avalon services, and Axis. It
+             allows easy deployment of soap services with none of the
+             WSDD configuration that Axis normally mandates. Simply
+             register your class or service and wa-la, you have a new
+             RPC SOAP service. However, it also allows Avalon services
+             to be used with the standard WSDD configuration easily.</p>
+            </td>
+	  </tr>
 	</table>
       </subsection>
       <subsection name="Alternative Frameworks">
