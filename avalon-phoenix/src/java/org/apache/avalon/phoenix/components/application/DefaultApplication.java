@@ -464,7 +464,7 @@ public final class DefaultApplication
 
     /**
      * Method to run a Block through it's startup phase.
-     * This will involve notification of {@link BlockListener}
+     * This will involve notification of {@link ApplicationListener}
      * objects, creation of the Block/Block Proxy object, calling the startup
      * Avalon Lifecycle methods and updating State property of BlockEntry.
      * Errors that occur during shutdown will be logged appropriately and
@@ -493,7 +493,7 @@ public final class DefaultApplication
 
     /**
      * Method to run a Block through it's shutdown phase.
-     * This will involve notification of {@link BlockListener}
+     * This will involve notification of {@link ApplicationListener}
      * objects, invalidating the proxy object, calling the shutdown
      * Avalon Lifecycle methods and updating State property of BlockEntry.
      * Errors that occur during shutdown will be logged appropraitely.
@@ -524,7 +524,7 @@ public final class DefaultApplication
     }
 
     /**
-     * Method to run a {@link BlockListener} through it's startup phase.
+     * Method to run a {@link ApplicationListener} through it's startup phase.
      * This will involve creation of BlockListener object and configuration of
      * object if appropriate.
      *

@@ -24,14 +24,22 @@ import org.apache.avalon.phoenix.interfaces.Application;
 import org.apache.avalon.phoenix.interfaces.ApplicationContext;
 import org.apache.avalon.phoenix.metadata.BlockMetaData;
 import org.apache.avalon.phoenix.metadata.DependencyMetaData;
+import org.apache.avalon.phoenix.metainfo.DependencyDescriptor;
+import org.apache.avalon.phoenix.metainfo.ServiceDescriptor;
 import org.apache.excalibur.containerkit.lifecycle.ResourceProvider;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.lang.reflect.Array;
 
 /**
  * The accessor used to access resources for a particular
  * Block or Listener.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.6 $ $Date: 2002/09/06 12:01:07 $
+ * @version $Revision: 1.7 $ $Date: 2002/10/01 07:04:05 $
  */
 class BlockResourceProvider
     extends AbstractLogEnabled
@@ -128,29 +136,30 @@ class BlockResourceProvider
         throws Exception
     {
         final BlockMetaData metaData = getMetaDataFor( entry );
-        final DefaultComponentManager componentManager = new DefaultComponentManager();
-        final DependencyMetaData[] roles = metaData.getDependencies();
+        final DefaultComponentManager manager = new DefaultComponentManager();
 
-        for( int i = 0; i < roles.length; i++ )
+        final Map serviceMap = createServiceMap( entry );
+        final Iterator iterator = serviceMap.keySet().iterator();
+        while( iterator.hasNext() )
         {
-            final DependencyMetaData role = roles[ i ];
-            final Object dependency = m_application.getBlock( role.getName() );
-            if( dependency instanceof Component )
+            final String key = (String) iterator.next();
+            final Object value = serviceMap.get( key );
+            if( value instanceof Component )
             {
-                componentManager.put( role.getRole(), (Component)dependency );
+                manager.put( key, (Component) value );
             }
             else
             {
                 final String message =
                     REZ.getString( "lifecycle.nota-component.error",
                                    metaData.getName(),
-                                   role.getRole(),
-                                   role.getName() );
+                                   key,
+                                   metaData.getDependency( key ).getName() );
                 throw new Exception( message );
             }
         }
 
-        return componentManager;
+        return manager;
     }
 
     /**
@@ -166,18 +175,114 @@ class BlockResourceProvider
     public ServiceManager createServiceManager( final Object entry )
         throws Exception
     {
-        final BlockMetaData metaData = getMetaDataFor( entry );
+        final Map serviceMap = createServiceMap( entry );
         final DefaultServiceManager manager = new DefaultServiceManager();
+
+        final Iterator iterator = serviceMap.keySet().iterator();
+        while( iterator.hasNext() )
+        {
+            final String key = (String) iterator.next();
+            final Object value = serviceMap.get( key );
+            manager.put( key, value );
+        }
+
+        return manager;
+    }
+
+    private Map createServiceMap( final Object entry )
+        throws Exception
+    {
+        final BlockMetaData metaData = getMetaDataFor( entry );
+        final HashMap map = new HashMap();
+        final HashMap sets = new HashMap();
+
         final DependencyMetaData[] roles = metaData.getDependencies();
 
         for( int i = 0; i < roles.length; i++ )
         {
             final DependencyMetaData role = roles[ i ];
             final Object dependency = m_application.getBlock( role.getName() );
-            manager.put( role.getRole(), dependency );
+
+            final DependencyDescriptor candidate =
+                metaData.getBlockInfo().getDependency( role.getRole() );
+
+            final String key = role.getRole();
+
+            final ServiceDescriptor service = candidate.getService();
+            if( service.isArray() )
+            {
+                ArrayList list = (ArrayList) sets.get( key );
+                if( null == list )
+                {
+                    list = new ArrayList();
+                    sets.put( key, list );
+                }
+
+                list.add( dependency );
+            }
+            else if( service.isMap() )
+            {
+                HashMap smap = (HashMap) sets.get( key );
+                if( null == smap )
+                {
+                    smap = new HashMap();
+                    sets.put( key, smap );
+                }
+
+                map.put( role.getAlias(), dependency );
+            }
+            else
+            {
+                map.put( key, dependency );
+            }
         }
 
-        return manager;
+        final Iterator iterator = sets.keySet().iterator();
+        while( iterator.hasNext() )
+        {
+            final String key = (String) iterator.next();
+            final Object value = sets.get( key );
+            if( value instanceof List )
+            {
+                final List list = (List) value;
+                final ServiceDescriptor service =
+                    metaData.getBlockInfo().getDependency( key ).getService();
+
+                final String classname =
+                    "[L" + service.getComponentType() + ";";
+
+                final Object[] result = toArray( list, service.getComponentType() );
+                map.put( key, result );
+                map.put( classname, result );
+            }
+            else
+            {
+                map.put( key, value );
+            }
+        }
+
+        return map;
+    }
+
+    /**
+     * Convert specified list into array of specified type.
+     * Note that the class for the type must be loaded from same
+     * classloader as the elements in the list are loaded from.
+     *
+     * @param list the list
+     * @param type the classname of type
+     * @return array of objects that are in list
+     * @throws ClassNotFoundException if unable to find correct type
+     */
+    private Object[] toArray( final List list, final String type )
+        throws ClassNotFoundException
+    {
+        final ClassLoader classLoader =
+            list.get( 0 ).getClass().getClassLoader();
+        final Class clazz = classLoader.loadClass( type );
+        final Object[] elements =
+            (Object[]) Array.newInstance( clazz, list.size() );
+        return list.toArray( elements );
     }
 
     public Configuration createConfiguration( final Object entry )
@@ -219,6 +324,6 @@ class BlockResourceProvider
      */
     private BlockMetaData getMetaDataFor( final Object entry )
     {
-        return ((BlockEntry)entry).getMetaData();
+        return ( (BlockEntry) entry ).getMetaData();
     }
 }

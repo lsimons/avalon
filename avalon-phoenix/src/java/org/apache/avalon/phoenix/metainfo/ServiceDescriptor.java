@@ -18,6 +18,9 @@ import org.apache.avalon.framework.Version;
  */
 public final class ServiceDescriptor
 {
+    public static final String ARRAY_POSTFIX = "[]";
+    public static final String MAP_POSTFIX = "#";
+
     private final Version m_version;
     private final String m_name;
 
@@ -55,6 +58,52 @@ public final class ServiceDescriptor
     }
 
     /**
+     * Return the type of component type if the service
+     * is an array or Map Service. Otherwise just return the
+     * name of service.
+     *
+     * @return the Service component type
+     */
+    public String getComponentType()
+    {
+        final String fullname = getName();
+        if( isArray() )
+        {
+            final int end = fullname.length() - ARRAY_POSTFIX.length();
+            return fullname.substring( 0, end );
+        }
+        else if( isMap() )
+        {
+            final int end = fullname.length() - MAP_POSTFIX.length();
+            return fullname.substring( 0, end );
+        }
+        else
+        {
+            return fullname;
+        }
+    }
+
+    /**
+     * Return true if Service name designates an array of services.
+     *
+     * @return true if Service name designates an array of services.
+     */
+    public boolean isArray()
+    {
+        return m_name.endsWith( ARRAY_POSTFIX );
+    }
+
+    /**
+     * Return true if Service name designates an map of services.
+     *
+     * @return true if Service name designates an map of services.
+     */
+    public boolean isMap()
+    {
+        return m_name.endsWith( MAP_POSTFIX );
+    }
+
+    /**
      * Determine if specified service will match this service.
      * To match a service has to have same name and must comply with version.
      *
@@ -63,8 +112,9 @@ public final class ServiceDescriptor
      */
     public boolean matches( final ServiceDescriptor other )
     {
+        final String name = getComponentType();
         return
-            other.getName().equals( m_name )
+            other.getName().equals( name )
             && other.getVersion().complies( m_version );
     }
 
