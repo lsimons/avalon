@@ -1,0 +1,17 @@
+
+<!--
+Demonstration of an external block implementation configuration file.
+To use an external file, the packaged block.xml "implementation" 
+element must contain a file name of the external source under an 
+attibute named "src".
+-->
+
+   <implementation>
+
+     <container name="test">
+       <appliance name="standard" class="org.apache.avalon.playground.StandardComponent" activation="startup">
+         <context class="org.apache.avalon.playground.StandardContextImp"/>
+       </appliance>
+     </container>
+
+   </implementation>
