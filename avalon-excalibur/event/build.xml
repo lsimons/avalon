@@ -48,6 +48,7 @@
         <pathelement location="${build.classes}"/>
         <pathelement location="${junit.jar}"/>
         <pathelement location="${excalibur-collections.jar}"/>
+        <pathelement location="${excalibur-concurrent.jar}"/>
         <pathelement location="${checkstyle.jar}"/>
     </path>
 
