@@ -27,26 +27,61 @@
 
   <section name="The project">
     <p>
-    ManagedExtensions is an attempt to give application's management capabilities. 
+    ManagedExtensions is an attempt to give management capabilities to applications. 
     Its relation to Castle Container is yet to be developed.
     </p>
     <p>
-    
+    Basically you have to approaches to choose: the server approach and the passive 
+    approach.
     </p>
   </section>
 
-  <section name="Source code">
+  <section name="Building a server">
     <p>
-    The lastest version of source can be obtained from 
-    <a href="https://svn.apache.org/repos/asf/avalon/trunk/central/laboratory/avalon-net/Castle/CastleManagementExtensions">Avalon Subversion repository</a> 
-    (Test cases can be found <a href="https://svn.apache.org/repos/asf/avalon/trunk/central/laboratory/avalon-net/Castle/CastleManagementExtensionsTest">here</a>).
+    If your application will be used to host others components, then you 
+    may build it as a server application. Just create a MServer concrete instance
+    and register your managed components on it (or use it to create your components 
+    instances)
     </p>
+<source>
+using Apache.Avalon.Castle.ManagementExtensions;
+
+
+bool createNewAppDomain = false;
+MServer server = MServerFactory.CreateServer("logicaldomainname", createNewAppDomain);
+
+</source>
+
+  <p>
+  After setting up a MServer instance you can use it to register component instances, 
+  or create instances from it:
+  </p>
+<source>
+/// <summary>
+/// Registers the specified managed object instance.
+/// </summary>
+/// <exception cref="InvalidDomainException">If domain name is not found.</exception>
+ManagedInstance RegisterManagedObject(Object instance, ManagedObjectName name);
+
+/// <summary>
+/// Instantiates the specified type using the server domain.
+/// </summary>
+Object Instantiate(String assemblyName, String typeName);
+</source>
   </section>
 
-  <section name="Usage">
-    <p>
-    
-    </p>
+  <section name="Managed Components">
+  <p>
+  To expose your components as managed components you have two choices:
+  <ul>
+    <li>
+    Use the ManagedComponent attribute
+    </li>
+    <li>
+    Implement the MDynamicSupport interface
+    </li>
+  </ul>
+  </p>
 <source>
 using Apache.Avalon.Castle.ManagementExtensions;
 
@@ -59,7 +94,7 @@ public class DummyHttpServer
 	{
 	}
 
-	[ManagedAttribute]
+	<b>[ManagedAttribute]</b>
 	public bool Started
 	{
 		get
@@ -72,78 +107,45 @@ public class DummyHttpServer
 		}
 	}
 
-	[ManagedOperation]
+	<b>[ManagedOperation]</b>
 	public void Start()
 	{
 		Started = true;
 	}
 
-	[ManagedOperation]
+	<b>[ManagedOperation]</b>
 	public void StartAt(int time)
 	{
 	}
 
-	[ManagedOperation]
+	<b>[ManagedOperation]</b>
 	public void Stop()
 	{
 		Started = false;
 	}
 }
-
-
 </source>
-     <p>
-     Lifecycle:
-     </p>
-<source>
-[ManagedComponent]
-public class DummyLifecycledService : MRegistrationListener
-{
-	public DummyLifecycledService()
-	{
-	}
+  </section>
 
-	[ManagedOperation]
-	public void Start()
-	{
-	}
+  <section name="Source code">
+    <p>
+    The lastest version of source can be obtained from 
+    <a href="https://svn.apache.org/repos/asf/avalon/trunk/central/laboratory/avalon-net/Castle/CastleManagementExtensions">Avalon Subversion repository</a> 
+    (Test cases can be found <a href="https://svn.apache.org/repos/asf/avalon/trunk/central/laboratory/avalon-net/Castle/CastleManagementExtensionsTest">here</a>).
+    </p>
+  </section>
 
-	[ManagedOperation]
-	public void Stop()
-	{
-	}
-
-	public void BeforeRegister(MServer server, ManagedObjectName name)
-	{
-	}
-
-	public void AfterDeregister()
-	{
-	}
-
-	public void AfterRegister()
-	{
-	}
-
-	public void BeforeDeregister()
-	{
-	}
-}
-</source>
-
-     <subsection name="Useful links">
-      <p>
-      If you'd like to learn more about Managed Extensions, please refer to:
-      </p>
-      <ul>
-        <li>
-        <a href="http://jroller.com/comments/hammett?anchor=management_extensions_for_net">
-          Management Extensions for .Net</a>:
-          Full explanation of what driven the development of Castle Managed Extensions.
-        </li>
-      </ul>
-     </subsection>
-
+  <section name="Useful links">
+    <p>
+    If you'd like to learn more about Managed Extensions, please refer to:
+    </p>
+    <ul>
+      <li>
+      <a href="http://jroller.com/comments/hammett?anchor=management_extensions_for_net">
+        Management Extensions for .Net</a>:
+        Full explanation of what driven the development of Castle Managed Extensions.
+      </li>
+    </ul>
   </section>
 
   </body>
