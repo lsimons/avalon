@@ -62,13 +62,13 @@ public final class BlockInfoBuilder
         configuration = info.getChild( "block" );
         final BlockDescriptor descriptor = buildBlockDescriptor( classname, configuration );
 
-        if( getLogger().isInfoEnabled() )
+        if( getLogger().isDebugEnabled() )
         {
             final String message = REZ.getString( "blockinfo-created", 
                                                   classname, 
                                                   new Integer( services.length ), 
                                                   new Integer( dependencies.length ) );
-            getLogger().info( message );
+            getLogger().debug( message );
         }
 
         return new BlockInfo( descriptor, services, dependencies );
@@ -124,7 +124,7 @@ public final class BlockInfoBuilder
             //service name then warn that it is redundent.
             if( role.equals( service.getName() ) )
             {
-                final String message = REZ.getString( "redundent-role", classname );
+                final String message = REZ.getString( "redundent-role", classname, role );
                 getLogger().warn( message ); 
             }
         }
