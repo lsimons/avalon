@@ -65,6 +65,7 @@
     <jar jarfile="${build.lib}/${name}-${package-version}.jar"
          basedir="${build.classes}">
 
+      <!--
       <manifest>
 
         <attribute name="Extension-Name" value="${extension.name}"/>
@@ -83,6 +84,7 @@
         <attribute name="threads-Implementation-Version" value="${cornerstone-threads.ext.impl}"/>
 
       </manifest>
+      -->
 
       <include name="org/apache/avalon/cornerstone/blocks/${ant.project.name}/**"/>
       <include name="org/apache/avalon/cornerstone/services/${ant.project.name}/**"/>
