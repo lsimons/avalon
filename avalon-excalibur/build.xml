@@ -21,7 +21,7 @@
         <ant dir="collections" target="dist"/>
         <ant dir="concurrent" target="dist"/>
         <ant dir="instrument" target="dist"/>
-        <ant dir="lang" target="dist"/>
+        <ant dir="threadcontext" target="dist"/>
         <ant dir="logger" target="dist"/>
         
         <!-- Sub projects with dependencies. -->
@@ -170,7 +170,7 @@
         <ant dir="collections" target="jar"/>
         <ant dir="concurrent" target="jar"/>
         <ant dir="instrument" target="jar"/>
-        <ant dir="lang" target="jar"/>
+        <ant dir="threadcontext" target="jar"/>
         <ant dir="logger" target="jar"/>
         
         <!-- Sub projects with dependencies. -->
@@ -208,7 +208,7 @@
         <jar jarfile="excalibur-all.jar" compress="true">
             <zipfileset src="excalibur-all-tmp.jar" />
         </jar>
-        <delete file="avalon-excalibur-tmp.jar"/>
+        <delete file="excalibur-avalon-tmp.jar"/>
     </target>
 
     <!-- Generate all docs -->
@@ -232,7 +232,7 @@
         <ant dir="extension" target="docs"/> 
         <ant dir="i18n" target="docs"/> 
         <ant dir="io" target="docs"/> 
-        <ant dir="lang" target="docs"/>
+        <ant dir="threadcontext" target="docs"/>
         <ant dir="logger" target="docs"/>
         <ant dir="monitor" target="docs"/>
         <ant dir="naming" target="docs"/>
@@ -279,7 +279,7 @@
         <ant dir="extension" target="site"/> 
         <ant dir="i18n" target="site"/> 
         <ant dir="io" target="site"/> 
-        <ant dir="lang" target="site"/>
+        <ant dir="threadcontext" target="site"/>
         <ant dir="logger" target="site"/>
         <ant dir="monitor" target="site"/>
         <ant dir="naming" target="site"/> 
@@ -321,8 +321,7 @@
         <ant dir="instrument-client" target="real-clean"/>
         <ant dir="instrument-manager" target="real-clean"/>
         <ant dir="io" target="real-clean"/>
-        <ant dir="lang" target="real-clean"/>
-        <ant dir="lang" target="real-clean"/>
+        <ant dir="threadcontext" target="real-clean"/>
         <ant dir="logger" target="real-clean"/>        
         <ant dir="monitor" target="real-clean"/>
         <ant dir="naming" target="real-clean"/>
