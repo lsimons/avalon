@@ -57,7 +57,10 @@ class DependencyGraph
     {
         //If already visited this block then bug out early
         final String name = block.getName();
-        if( done.contains( name ) ) return;
+        if( done.contains( name ) )
+        {
+            return;
+        }
         done.add( name );
 
         if( forward )
