@@ -90,7 +90,7 @@ import org.apache.excalibur.source.impl.validity.TimeStampValidity;
  * project.
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: HTTPClientSource.java,v 1.6 2003/07/14 12:41:37 cziegeler Exp $
+ * @version CVS $Id: HTTPClientSource.java,v 1.7 2003/07/30 12:22:17 crafterm Exp $
  */
 public class HTTPClientSource extends AbstractLogEnabled 
     implements ModifiableSource, Initializable, Parameterizable
@@ -564,7 +564,8 @@ public class HTTPClientSource extends AbstractLogEnabled
     {
         // REVISIT: should this be the mime-type, or the content-type -> URLSource
         // returns the Content-Type, so we'll follow that for now.
-        m_mimeType = method.getResponseHeader( CONTENT_TYPE ).getValue();
+        final Header header = method.getResponseHeader( CONTENT_TYPE );
+        m_mimeType = header == null ? null : header.getValue();
     }
 
     /**
