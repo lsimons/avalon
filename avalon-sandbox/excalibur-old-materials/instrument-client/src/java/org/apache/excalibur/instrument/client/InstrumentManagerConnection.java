@@ -33,14 +33,14 @@ import org.apache.avalon.framework.configuration.DefaultConfiguration;
 import org.apache.avalon.framework.logger.LogEnabled;
 import org.apache.avalon.framework.logger.Logger;
 
-import org.apache.excalibur.altrmi.client.HostContext;
-import org.apache.excalibur.altrmi.client.Factory;
-import org.apache.excalibur.altrmi.client.impl.socket.SocketCustomStreamHostContext;
-import org.apache.excalibur.altrmi.client.impl.ClientSideClassFactory;
-import org.apache.excalibur.altrmi.client.impl.DefaultConnectionListener;
-import org.apache.excalibur.altrmi.common.ConnectionException;
-import org.apache.excalibur.altrmi.common.InvocationException;
-import org.apache.excalibur.altrmi.common.ConnectionRefusedException;
+import org.apache.altrmi.client.HostContext;
+import org.apache.altrmi.client.Factory;
+import org.apache.altrmi.client.impl.socket.SocketCustomStreamHostContext;
+import org.apache.altrmi.client.impl.ClientSideClassFactory;
+import org.apache.altrmi.client.impl.DefaultClientMonitor;
+import org.apache.altrmi.common.ConnectionException;
+import org.apache.altrmi.common.InvocationException;
+import org.apache.altrmi.common.ConnectionRefusedException;
 
 import org.apache.excalibur.instrument.manager.interfaces.InstrumentableDescriptor;
 import org.apache.excalibur.instrument.manager.interfaces.InstrumentDescriptor;
@@ -52,7 +52,7 @@ import org.apache.excalibur.instrument.manager.interfaces.InstrumentSampleUtils;
 /**
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.13 $ $Date: 2003/01/09 22:56:50 $
+ * @version CVS $Revision: 1.14 $ $Date: 2003/02/17 21:25:44 $
  * @since 4.1
  */
 class InstrumentManagerConnection
@@ -364,7 +364,7 @@ class InstrumentManagerConnection
 
         SocketCustomStreamHostContext altrmiHostContext =
             new SocketCustomStreamHostContext( m_host, m_port );
-        altrmiHostContext.setConnectionListener( new DefaultConnectionListener( 0 ) );
+        altrmiHostContext.setClientMonitor( new DefaultClientMonitor( 0 ) );
 
         m_altrmiHostContext = altrmiHostContext;
         m_altrmiFactory = new ClientSideClassFactory( false );

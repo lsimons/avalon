@@ -21,14 +21,14 @@ import org.apache.excalibur.instrument.manager.interfaces.InstrumentDescriptor;
 import org.apache.excalibur.instrument.manager.interfaces.InstrumentManagerClient;
 import org.apache.excalibur.instrument.manager.interfaces.InstrumentSampleDescriptor;
 
-import org.apache.excalibur.altrmi.server.PublicationDescription;
-import org.apache.excalibur.altrmi.server.impl.AbstractServer;
-import org.apache.excalibur.altrmi.server.impl.socket.CompleteSocketCustomStreamServer;
+import org.apache.altrmi.server.PublicationDescription;
+import org.apache.altrmi.server.impl.AbstractServer;
+import org.apache.altrmi.server.impl.socket.CompleteSocketCustomStreamServer;
 
 /**
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/10/14 15:17:16 $
+ * @version CVS $Revision: 1.3 $ $Date: 2003/02/17 21:23:09 $
  * @since 4.1
  */
 public class InstrumentManagerAltrmiConnector
@@ -37,11 +37,11 @@ public class InstrumentManagerAltrmiConnector
 {
     /** The default port. */
     public static final int DEFAULT_PORT = 15555;
-    
+
     private DefaultInstrumentManager m_manager;
     private int m_port;
     private AbstractServer m_server;
-    
+
     /*---------------------------------------------------------------
      * Constructors
      *-------------------------------------------------------------*/
@@ -51,7 +51,7 @@ public class InstrumentManagerAltrmiConnector
     public InstrumentManagerAltrmiConnector()
     {
     }
-    
+
     /*---------------------------------------------------------------
      * InstrumentManagerConnector Methods
      *-------------------------------------------------------------*/
@@ -64,7 +64,7 @@ public class InstrumentManagerAltrmiConnector
     {
         m_manager = manager;
     }
-    
+
     /*---------------------------------------------------------------
      * Configurable Methods
      *-------------------------------------------------------------*/
@@ -73,7 +73,7 @@ public class InstrumentManagerAltrmiConnector
     {
         m_port = configuration.getAttributeAsInteger( "port", DEFAULT_PORT );
     }
-    
+
     /*---------------------------------------------------------------
      * Startable Methods
      *-------------------------------------------------------------*/
@@ -82,24 +82,24 @@ public class InstrumentManagerAltrmiConnector
     {
         getLogger().debug( "Starting Instrument Manager Altrmi Connector" );
         InstrumentManagerClientLocalImpl client = new InstrumentManagerClientLocalImpl( m_manager );
-        
+
         // Create the socket server
         m_server = new CompleteSocketCustomStreamServer( m_port );
-        
+
         Class[] additionalFacadeClasses = new Class[]
         {
             InstrumentableDescriptor.class,
             InstrumentDescriptor.class,
             InstrumentSampleDescriptor.class
         };
-        
-        m_server.publish( client, "InstrumentManagerClient", 
+
+        m_server.publish( client, "InstrumentManagerClient",
             new PublicationDescription( InstrumentManagerClient.class, additionalFacadeClasses ) );
-        
+
         m_server.start();
         getLogger().info( "Instrument Manager Altrmi Connector listening on port: " + m_port );
     }
-    
+
     public void stop()
         throws Exception
     {

@@ -13,10 +13,10 @@
     <path id="project.class.path">
         <pathelement location="${build.classes}"/>
         <pathelement location="${avalon-framework.jar}"/>
-        <pathelement location="${excalibur-altrmi-common.jar}"/>
-        <pathelement location="${excalibur-altrmi-client-impl.jar}"/>
-        <pathelement location="${excalibur-altrmi-client-interfaces.jar}"/>
-        <pathelement location="${excalibur-altrmi-generator.jar}"/>
+        <pathelement location="${altrmi-common.jar}"/>
+        <pathelement location="${altrmi-client-impl.jar}"/>
+        <pathelement location="${altrmi-client-interfaces.jar}"/>
+        <pathelement location="${altrmi-generator.jar}"/>
         <pathelement location="${excalibur-instrument-manager-interfaces.jar}"/>
         <pathelement location="${checkstyle.jar}"/>
         <pathelement path="${java.class.path}"/>
@@ -40,8 +40,6 @@
     <target name="dependencies" description="Check dependencies" unless="skip.dependencies">
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkCommon"/>
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkFramework"/>
-        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkAltrmiClient"/>
-        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkAltrmiGenerator"/>
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkInstrumentManagerInterfaces"/>
     </target>
 
@@ -124,7 +122,7 @@
         </copy>
     </target>
 
-    <!-- Generates the altrmi proxies used by the client. -->
+    <!-- Generates the AltRMI proxies used by the client. -->
     <target name="altrmiproxies" depends="compile">
         <ant antfile="altrmiproxies.xml" target="altrmiproxies"/> 
     </target>
@@ -332,10 +330,10 @@
         <!-- Instrument Manager Jars -->
         <copy file="${excalibur-instrument-manager-interfaces.jar}" todir="${dist.lib.dir}" preservelastmodified="yes"/>
         
-        <!-- Altrmi Jars -->
-        <copy file="${excalibur-altrmi-client-impl.jar}" todir="${dist.lib.dir}" preservelastmodified="yes"/>
-        <copy file="${excalibur-altrmi-client-interfaces.jar}" todir="${dist.lib.dir}" preservelastmodified="yes"/>
-        <copy file="${excalibur-altrmi-common.jar}" todir="${dist.lib.dir}" preservelastmodified="yes"/>
+        <!-- AltRMI Jars -->
+        <copy file="${altrmi-client-impl.jar}" todir="${dist.lib.dir}" preservelastmodified="yes"/>
+        <copy file="${altrmi-client-interfaces.jar}" todir="${dist.lib.dir}" preservelastmodified="yes"/>
+        <copy file="${altrmi-common.jar}" todir="${dist.lib.dir}" preservelastmodified="yes"/>
     </target>
 
     <!-- Creates a minimal distribution -->

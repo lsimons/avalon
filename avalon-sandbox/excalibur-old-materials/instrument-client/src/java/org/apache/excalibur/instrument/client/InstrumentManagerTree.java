@@ -24,26 +24,26 @@ import javax.swing.tree.TreeSelectionModel;
 
 import org.apache.excalibur.instrument.manager.interfaces.InstrumentManagerClient;
 
-import org.apache.excalibur.altrmi.common.InvocationException;
+import org.apache.altrmi.common.InvocationException;
 
 class InstrumentManagerTree
     extends JComponent
 {
     private final InstrumentManagerConnection m_connection;
-    
+
     private final TreeModel m_treeModel;
     private final JTree m_tree;
-    
+
     /*---------------------------------------------------------------
      * Constructors
      *-------------------------------------------------------------*/
     InstrumentManagerTree( InstrumentManagerConnection connection )
     {
         m_connection = connection;
-        
+
         m_treeModel = m_connection.getTreeModel();
-        
-        
+
+
         m_tree = new JTree( m_treeModel );
         //m_tree.setEditable( true ); // Makes it possible to edit the node names in line.
         m_tree.getSelectionModel().setSelectionMode( TreeSelectionModel.SINGLE_TREE_SELECTION );
@@ -51,7 +51,7 @@ class InstrumentManagerTree
         m_tree.setShowsRootHandles( true ); // The root's children become "roots"
         m_tree.setCellRenderer( new InstrumentManagerTreeCellRenderer() );
         m_tree.putClientProperty( "JTree.lineStyle", "Angled" );
-        
+
         m_tree.addMouseListener( new MouseAdapter()
         {
             public void mouseClicked( MouseEvent event )
@@ -96,16 +96,16 @@ class InstrumentManagerTree
                 }
             }
         });
-        
+
         // Register the tree to work with tooltips.
         ToolTipManager.sharedInstance().registerComponent( m_tree );
-        
+
         JScrollPane scrollPane = new JScrollPane( m_tree );
-            
+
         setLayout( new BorderLayout() );
         add( scrollPane, BorderLayout.CENTER );
     }
-    
+
     /*---------------------------------------------------------------
      * Methods
      *-------------------------------------------------------------*/
@@ -114,7 +114,7 @@ class InstrumentManagerTree
         ToolTipManager.sharedInstance().unregisterComponent( m_tree );
         m_tree.setModel( null );
     }
-    
+
     private void nodeSelected( int row )
     {
         TreePath treePath = m_tree.getPathForRow( row );
@@ -128,11 +128,11 @@ class InstrumentManagerTree
             }
         }
     }
-    
+
     private void showNodePopup( int row, int mouseX, int mouseY )
     {
         TreePath treePath = m_tree.getPathForRow( row );
-        
+
         if ( treePath.getLastPathComponent() instanceof DefaultMutableTreeNode )
         {
             DefaultMutableTreeNode treeNode = (DefaultMutableTreeNode)treePath.getLastPathComponent();
@@ -144,17 +144,17 @@ class InstrumentManagerTree
                 {
                     // Need to figure out where to display the popup.
                     Rectangle bounds = m_tree.getRowBounds( row );
-                    
+
                     /*
                     // Anchor the popup menu at the location of the node.
                     int x = bounds.x + 24;
                     int y = bounds.y + bounds.height;
                     */
-                    
+
                     // Anchor the popup menu where the user clicked.
                     int x = mouseX;
                     int y = mouseY;
-                    
+
                     popup.show( m_tree, x, y );
                 }
             }
