@@ -94,7 +94,7 @@ import org.apache.excalibur.source.SourceResolver;
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version $Id: SourceResolverImpl.java,v 1.24 2003/01/29 16:41:38 cziegeler Exp $
+ * @version $Id: SourceResolverImpl.java,v 1.25 2003/01/29 17:18:03 mcconnell Exp $
  */
 public class SourceResolverImpl
     extends AbstractLogEnabled
@@ -368,6 +368,7 @@ public class SourceResolverImpl
 
     /**
      * Releases a resolved resource
+     * @param source the source to release
      */
     public void release( final Source source )
     {
