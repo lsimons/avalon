@@ -260,7 +260,11 @@ public final class TPSPThreadManager implements Runnable, ThreadManager
          */
         public void before( Source context )
         {
-            if (m_source.size() > (m_threshold + m_margin)) m_threadPool.createThreads(1);
+            if (m_source.size() > (m_threshold + m_margin))
+            {
+                m_threadPool.setMaximumPoolSize(m_threadPool.getPoolSize() + 1);
+                m_threadPool.createThreads(1);
+            }
             m_parent.before(context);
         }
 
