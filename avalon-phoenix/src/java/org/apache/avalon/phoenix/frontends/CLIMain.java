@@ -18,6 +18,7 @@ import org.apache.avalon.framework.logger.AvalonFormatter;
 import org.apache.avalon.framework.logger.LogKitLogger;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.logger.LogEnabled;
+import org.apache.avalon.framework.ExceptionUtil;
 import org.apache.avalon.phoenix.Constants;
 import org.apache.avalon.phoenix.components.embeddor.DefaultEmbeddor;
 import org.apache.avalon.phoenix.interfaces.Embeddor;
@@ -59,9 +60,9 @@ public final class CLIMain
     /**
      * Main entry point.
      *
-     * @param args[] the command line arguments
+     * @param args the command line arguments
      */
-    public int main( final String args[], 
+    public int main( final String[] args,
                      final Hashtable data,
                      final boolean blocking )
     {
@@ -97,7 +98,7 @@ public final class CLIMain
      *
      * @exception Exception if an error occurs
      */
-    private void execute( final Parameters parameters, 
+    private void execute( final Parameters parameters,
                           final Hashtable data,
                           final boolean blocking )
         throws Exception
@@ -113,7 +114,7 @@ public final class CLIMain
             m_hook = new ShutdownHook( this );
             Runtime.getRuntime().addShutdownHook( m_hook );
         }
-        
+
         // If an Observer is present in the data object, then add it as an observer for
         //  m_observable
         Observer observer = (Observer)data.get( Observer.class.getName() );
@@ -274,7 +275,7 @@ public final class CLIMain
                 m_embeddor = null;
             }
         }
-        
+
         // Notify any observers that Phoenix is shutting down
         setChanged();
         notifyObservers( "shutdown" );
@@ -292,7 +293,7 @@ public final class CLIMain
         System.out.println( "--- Message ---" );
         System.out.println( throwable.getMessage() );
         System.out.println( "--- Stack Trace ---" );
-        throwable.printStackTrace( System.out );
+        System.out.println( ExceptionUtil.printStackTrace( throwable ) );
         System.out.println( "---------------------------------------------------------" );
         System.out.println( REZ.getString( "main.exception.footer" ) );
 
