@@ -41,17 +41,5 @@
     <x:reactor/>
   </target>
 
-  <!--
-  <target name="site">
-    <x:home/>
-    <x:reactor target="site"/>
-  </target>
-
-  <target name="dist">
-    <x:home/>
-    <x:reactor target="dist"/>
-  </target>
-  -->
-
 </project>
 
