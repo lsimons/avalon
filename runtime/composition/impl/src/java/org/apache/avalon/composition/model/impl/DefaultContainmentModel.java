@@ -53,6 +53,8 @@ import org.apache.avalon.composition.model.ModelException;
 import org.apache.avalon.composition.model.ModelRepository;
 import org.apache.avalon.composition.model.ServiceModel;
 import org.apache.avalon.composition.model.TypeRepository;
+import org.apache.avalon.composition.model.StageModel;
+import org.apache.avalon.composition.model.DependencyModel;
 import org.apache.avalon.composition.provider.ModelFactory;
 import org.apache.avalon.composition.provider.SecurityModel;
 import org.apache.avalon.composition.provider.ComponentContext;
@@ -451,7 +453,19 @@ public class DefaultContainmentModel extends DefaultDeploymentModel
 
     private void dissasemble( ComponentModel model )
     {
-        // TODO
+        model.getContextModel().setProvider( null );
+        StageModel[] stages = model.getStageModels();
+        for( int i=0; i<stages.length; i++ )
+        {
+            StageModel stage = stages[i];
+            stage.setProvider( null );
+        }
+        DependencyModel[] dependencies = model.getDependencyModels();
+        for( int i=0; i<dependencies.length; i++ )
+        {
+            DependencyModel dependency = dependencies[i];
+            dependency.setProvider( null );
+        }
     }
 
     /**
