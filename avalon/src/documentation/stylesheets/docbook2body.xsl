@@ -25,11 +25,10 @@
     <body>
       <title><xsl:value-of select="title"/></title>
       <center>
-        <table width="80%">
+        <table width="100%">
           <tr>
-            <td bgcolor="#F3DD61">
-              <br/><center><b><font color="#000000" face="arial,helvetica,sanserif"><xsl:value-of select="title"/></font></b></center>
-              <br/>
+            <td bgcolor="#99aabb">
+              <center><b><font size="+2" color="#000000" face="arial,helvetica,sanserif"><xsl:value-of select="title"/></font></b></center>
             </td>
           </tr>
         </table>
@@ -220,8 +219,14 @@
       <table border="0" cellpadding="2" cellspacing="0">
         <xsl:attribute name="width"><xsl:value-of select="number(100)-(1*(number($level)-1))"/>%</xsl:attribute>
         <tr>
-          <td bgcolor="#525D76">
-            <font color="#ffffff" face="arial,helvetica,sanserif">
+          <td bgcolor="#bbccdd">
+            <xsl:attribute name="bgcolor">
+              <xsl:choose>
+                <xsl:when test="number($level)=1">bbccdd</xsl:when>
+                <xsl:otherwise>ddeeff</xsl:otherwise>
+              </xsl:choose>
+            </xsl:attribute>
+            <font color="#000000" face="arial,helvetica,sanserif">
               <xsl:attribute name="size">
                 <xsl:choose>
                   <xsl:when test="number($level)=1">+1</xsl:when>

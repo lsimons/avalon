@@ -10,7 +10,7 @@
   </xsl:template>
 
   <xsl:template match="project">
-    <br/><a href="{@href}"><font color="#F3510C" size="+1"><xsl:value-of select="@label"/></font></a><br/>
+    <br/><a href="{@href}"><font color="#778899" size="+1"><xsl:value-of select="@label"/></font></a><br/>
   </xsl:template>
 
   <xsl:template match="menu">
