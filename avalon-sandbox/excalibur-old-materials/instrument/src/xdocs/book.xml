@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE book PUBLIC "-//APACHE//DTD Cocoon Documentation Book V1.0//EN" "book-cocoon-v10.dtd">
+
 <book software="Excalibur instrument" title="Excalibur instrument" copyright="@year@ The Apache Software Foundation" xmlns:xlink="http://www.w3.org/1999/xlink">
     
     
         <menu label="About">
             <menu-item label="About Instrument" href="index.html"/>
-            <menu-item label="Excalibur Home" href="http://jakarta.apache.org/avalon/excalibur/index.html"/>
-            <menu-item label="Download" href="http://jakarta.apache.org/builds/avalon-excalibur/release"/>
+            <menu-item label="Excalibur Home" href="http://avalon.apache.org/excalibur/index.html"/>
+            <menu-item label="Download" href="http://avalon.apache.org/bindownload.cgi"/>
             <menu-item label="API Docs" href="http://avalon.apache.org/api/"/>
         </menu>
         <menu label="Essentials">
@@ -16,10 +18,8 @@
         <menu label="Related">
             <menu-item label="Instrument Manager" href="http://avalon.apache.org/excalibur/instrument-manager/"/>
             <menu-item label="Instrument Client" href="http://avalon.apache.org/excalibur/instrument-client/"/>
-            <menu label="Containers">
-                <menu-item href="http://avalon.apache.org/excalibur/component/" label="Excalibur Component Manager"/>
-                <menu-item href="http://avalon.apache.org/excalibur/fortress/" label="Excalibur Fortress"/>
-            </menu>
+            <menu-item href="http://avalon.apache.org/excalibur/component/" label="Excalibur Component Manager"/>
+            <menu-item href="http://avalon.apache.org/excalibur/fortress/" label="Excalibur Fortress"/>
         </menu>
         <menu label="How To">
             <menu-item label="Implement Instrumentable" href="instrumentable-howto.html"/>
