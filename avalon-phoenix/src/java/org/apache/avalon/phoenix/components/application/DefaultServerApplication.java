@@ -66,15 +66,8 @@ public final class DefaultServerApplication
     private static final Resources REZ =
         ResourceManager.getPackageResources( DefaultServerApplication.class );
 
-    private final static class PhaseEntry
-    {
-        protected Traversal           m_traversal;
-        protected BlockVisitor        m_visitor;
-    }
-
     private DefaultConfigurationBuilder     m_builder = new DefaultConfigurationBuilder();
 
-    private HashMap                  m_phases           = new HashMap();
     private BlockDAG                 m_dag              = new BlockDAG();
 
     //the following are used for setting up facilities
@@ -89,6 +82,9 @@ public final class DefaultServerApplication
     private BlockListenerMetaData[]  m_listeners;
     private BlockMetaData[]          m_blocks;
 
+    private BlockVisitor             m_startupVisitor;
+    private BlockVisitor             m_shutdownVisitor;
+
     //Repository of configuration data to access
     private ConfigurationRepository m_repository;
 
@@ -99,6 +95,8 @@ public final class DefaultServerApplication
     {
         m_frame = new DefaultApplicationFrame();
         m_listenerManager = new BlockListenerSupport();
+        m_startupVisitor = new StartupPhase();
+        m_shutdownVisitor = new ShutdownPhase();
     }
 
     public void contextualize( final Context context )
@@ -155,31 +153,8 @@ public final class DefaultServerApplication
     {
         setupComponent( m_frame, "frame" );
         setupComponent( m_dag, "dag" );
-
-        setupPhases();
-    }
-
-    /**
-     * Initialize and setup the phases for application.
-     * Currently there is only the Startup and Shutdown
-     * phases implemented.
-     *
-     * @exception Exception if an error occurs
-     */
-    protected void setupPhases()
-        throws Exception
-    {
-        PhaseEntry entry = new PhaseEntry();
-        entry.m_visitor = new StartupPhase();
-        entry.m_traversal = Traversal.FORWARD;
-        m_phases.put( "startup", entry );
-        setupComponent( entry.m_visitor, "StartupPhase" );
-
-        entry = new PhaseEntry();
-        entry.m_visitor = new ShutdownPhase();
-        entry.m_traversal = Traversal.REVERSE;
-        m_phases.put( "shutdown", entry );
-        setupComponent( entry.m_visitor, "ShutdownPhase" );
+        setupComponent( m_startupVisitor, "startup" );
+        setupComponent( m_shutdownVisitor, "shutdown" );
     }
 
     /**
@@ -191,7 +166,7 @@ public final class DefaultServerApplication
         throws Exception
     {      
         final String message = REZ.getString( "app.notice.block.loading-count",
-                                              new Integer( getEntryCount() ) );
+                                              new Integer( m_blocks.length ) );
         getLogger().info( message );
 
         final DefaultVerifier verifier = new DefaultVerifier();
@@ -209,8 +184,7 @@ public final class DefaultServerApplication
         loadBlockListeners();
 
         // load blocks
-        final PhaseEntry entry = (PhaseEntry)m_phases.get( "startup" );
-        runPhase( "startup", entry );
+        runPhase( "startup", m_startupVisitor, Traversal.FORWARD  );
     }
 
     /**
@@ -223,11 +197,10 @@ public final class DefaultServerApplication
         throws Exception
     {
         final String message = REZ.getString( "app.notice.block.unloading-count",
-                                              new Integer( getEntryCount() ) );
+                                              new Integer( m_blocks.length ) );
         getLogger().info( message );
 
-        final PhaseEntry entry = (PhaseEntry)m_phases.get( "shutdown" );
-        runPhase( "shutdown", entry );
+        runPhase( "shutdown", m_shutdownVisitor, Traversal.REVERSE  );
     }
 
     public void dispose()
@@ -335,12 +308,14 @@ public final class DefaultServerApplication
      * @param phase the phase
      * @exception Exception if an error occurs
      */
-    protected final void runPhase( final String name, final PhaseEntry phase )
+    protected final void runPhase( final String name, 
+                                   final BlockVisitor visitor, 
+                                   final Traversal traversal )
         throws Exception
     {
         try
         {
-            final String[] path = m_dag.walkGraph( phase.m_traversal );
+            final String[] path = m_dag.walkGraph( traversal );
 
             if( getLogger().isInfoEnabled() )
             {
@@ -353,7 +328,7 @@ public final class DefaultServerApplication
             for( int i = 0; i < path.length; i++ )
             {
                 final BlockEntry entry = (BlockEntry)getEntry( path[ i ] );
-                phase.m_visitor.visitBlock( path[ i ], entry );
+                visitor.visitBlock( path[ i ], entry );
             }
         }
         catch( final Exception e )
