@@ -62,7 +62,7 @@ Legal:
   <property name="build.javadocs" value="${build.dir}/javadocs"/>
   <property name="build.docs" value="${build.dir}/docs"/>
   <property name="build.context" value="${build.dir}/documentation"/>
-  <property name="build.xdocs" value="${build.context}/xdocs/excalibur"/>
+<!--  <property name="build.xdocs" value="${build.context}/xdocs"/> -->
 
   <!-- Set the properties for source directories -->
   <property name="src.dir" value="src"/>
@@ -73,7 +73,7 @@ Legal:
   <property name="lib.dir" value="lib"/>
   <property name="tools.dir" value="../jakarta-avalon/tools"/>
   <property name="docs.dir" value="docs"/>
-  <property name="www.dir" value="../jakarta-avalon/www"/>
+  <property name="www.dir" value="../jakarta-avalon/www/${name}"/>
   <property name="javadocs.dir" value="${docs.dir}/api"/>
   <property name="xdocs.dir" value="${src.dir}/xdocs"/>
   <property name="context.dir" value="../jakarta-avalon/src/documentation"/>
@@ -347,7 +347,7 @@ Legal:
 
   <target name="local-docs" depends="local-javadocs,xdocs">
     <copy todir="${docs.dir}">
-      <fileset dir="${build.docs}/excalibur"/>
+      <fileset dir="${build.docs}"/>
     </copy>
   </target>
 
@@ -358,12 +358,12 @@ Legal:
     <!-- note that by doing an include the defaultexcludes (CVS dirs) will be kept -->
     <delete>
       <fileset dir="${www.dir}">
-        <include name="excalibur/**"/>
+        <include name="**"/>
       </fileset>
     </delete>
 
-    <mkdir dir="${www.dir}/excalibur"/>
-    <copy todir="${www.dir}/excalibur">
+    <mkdir dir="${www.dir}"/>
+    <copy todir="${www.dir}">
       <fileset dir="${docs.dir}" />
     </copy>
 
@@ -391,9 +391,11 @@ Legal:
       </fileset>
     </copy>
 
+<!--
     <copy todir="${build.xdocs}" filtering="on">
       <fileset dir="${xdocs.dir}"/>
     </copy>
+-->
 
     <style style="${announce2txt}" in="${build.context}/xdocs/excalibur/announcement.xml" 
            out="Announcement.txt"/>
@@ -497,11 +499,11 @@ Legal:
     <copy todir="${build.context}" filtering="on">
       <fileset dir="${context.dir}">
         <exclude name="resources/**"/>
-	<exclude name="xdocs"/>
+        <exclude name="xdocs"/>
       </fileset>
     </copy>
 
-    <copy todir="${build.context}/xdocs/excalibur" filtering="on">
+    <copy todir="${build.context}/xdocs" filtering="on">
       <fileset dir="${xdocs.dir}"/>
     </copy>
 
@@ -644,6 +646,7 @@ Legal:
   <target name="clean" depends="setup-properties">
     <delete dir="${build.dir}" />
     <delete dir="${dist.dir}" />
+    <delete dir="test" /> <!-- unit testing output directory -->
     <delete>
       <fileset dir="." includes="**/*~" defaultexcludes="no"/>
     </delete>
