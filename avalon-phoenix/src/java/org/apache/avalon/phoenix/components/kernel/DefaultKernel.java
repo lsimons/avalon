@@ -111,7 +111,7 @@ public class DefaultKernel
                 ((Composable)application).compose( componentManager );
             }
 
-            application.addBlockListenerEntrys( saEntry.getListenerEntrys() );
+            application.addBlockListeners( saEntry.getListeners() );
 
             if( application instanceof Configurable )
             {

@@ -11,6 +11,7 @@ import java.io.File;
 import java.net.URL;
 import org.apache.avalon.excalibur.container.Entry;
 import org.apache.avalon.framework.configuration.Configuration;
+import org.apache.avalon.phoenix.metadata.BlockListenerMetaData;
 import org.apache.log.Logger;
 
 /**
@@ -25,7 +26,7 @@ public class ServerApplicationEntry
     private File            m_homeDirectory;
     private URL[]           m_classPath;
     private BlockEntry[]    m_blockEntrys;
-    private BlockListenerEntry[] m_listenerEntrys;
+    private BlockListenerMetaData[] m_listeners;
     private Configuration   m_configuration;
 
     public BlockEntry[] getBlockEntrys()
@@ -38,14 +39,14 @@ public class ServerApplicationEntry
         m_blockEntrys = blockEntrys;
     }
 
-    public BlockListenerEntry[] getListenerEntrys()
+    public BlockListenerMetaData[] getListeners()
     {
-        return m_listenerEntrys;
+        return m_listeners;
     }
 
-    public void setListenerEntrys( final BlockListenerEntry[] listenerEntrys )
+    public void setListeners( final BlockListenerMetaData[] listeners )
     {
-        m_listenerEntrys = listenerEntrys;
+        m_listeners = listeners;
     }
 
     public void setClassPath( final URL[] classPath )
