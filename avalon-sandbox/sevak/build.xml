@@ -242,7 +242,7 @@
 
   </target>
   
-  <target name="compile-demo" depends="compile" description="Compiles the Demo Block">
+  <target name="compile-demo" depends="jars" description="Compiles the Demo Block">
     <delete dir="${build.demoClasses}"/>
     <delete dir="${build.demoMetaGenerate}"/>
 
