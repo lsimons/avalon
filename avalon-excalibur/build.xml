@@ -215,6 +215,15 @@
         <ant dir="bzip2" target="site"/>
       <!--  <ant dir="cache" target="site"/> -->
         <ant dir="cli" target="site"/>
+        <ant dir="component" target="site"/>
+<!--        <ant dir="fortress" target="site"/> -->
+        <ant dir="lang" target="site"/>
+        <ant dir="logger" target="site"/>
+        <ant dir="pool" target="site"/>
+        <ant dir="testcase" target="site"/>
+        <ant dir="thread" target="site"/>
+        <ant dir="util" target="site"/>
+        
       <!--  <ant dir="extension" target="site"/> -->
       <!--  <ant dir="i18n" target="site"/> -->
       <!--  <ant dir="io" target="site"/> -->

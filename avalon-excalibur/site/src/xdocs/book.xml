@@ -12,10 +12,19 @@
 
   <menu label="Sub Projects">
     <menu-item label="AltRMI" href="altrmi/index.html"/>  
-    <menu-item label="Baxter" href="baxter/index.html"/>  
     <menu-item label="BZip2" href="bzip2/index.html"/>  
+    <menu-item label="Baxter" href="baxter/index.html"/>  
     <menu-item label="CLI" href="cli/index.html"/>  
     <menu-item label="Collections" href="collections/index.html"/>      
+    <menu-item label="Component" href="component/index.html"/>      
+    <menu-item label="Fortress" href="fortress/index.html"/>      
+    <menu-item label="Lang" href="lang/index.html"/>      
+    <menu-item label="Logger" href="logger/index.html"/>      
+    <menu-item label="Pool" href="pool/index.html"/>          
+    <menu-item label="Testcase" href="testcase/index.html"/>
+    <menu-item label="Thread" href="thread/index.html"/>
+    <menu-item label="Util" href="util/index.html"/>
+
   </menu>
   
   
