@@ -43,15 +43,57 @@ public class AbstractCacheTestCase
         }
     }
 
-    public void testPutNull()
+    public void testPutWithNullKeyValue()
     {
-        m_cache.put( null, "VALUE" );
-        assertEquals( 0, m_cache.size() );
+        try
+        {
+            m_cache.put( null, "VALUE" );
+            fail( "Null key accepted" );
+        }
+        catch ( final NullPointerException npe )
+        {
+        }
 
-        m_cache.put( "KEY", null );
-        assertEquals( 0, m_cache.size() );
+        try
+        {
+            m_cache.put( "KEY", null );
+            fail( "Null value accepted" );
+        }
+        catch ( final NullPointerException npe )
+        {
+        }
 
-        m_cache.put( null, null );
-        assertEquals( 0, m_cache.size() );
+        try
+        {
+            m_cache.put( null, null );
+            fail( "Null key and value accepted" );
+        }
+        catch ( final NullPointerException npe )
+        {
+        }
+    }
+    
+    public void testGetWithNullKey()
+    {
+        try
+        {
+            m_cache.get( null );
+            fail( "Invalid key accepted" );
+        }
+        catch ( final NullPointerException npe )
+        {
+        }
+    }
+
+    public void testRemoveWithNullKey()
+    {
+        try
+        {
+            m_cache.remove( null );
+            fail( "Invalid key accepted" );
+        }
+        catch ( final NullPointerException npe )
+        {
+        }
     }
 }
