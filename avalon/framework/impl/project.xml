@@ -1,12 +1,16 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE project [
+  <!ENTITY % index SYSTEM "file:index.ent"> %index;
+]>
 
 <project>
 
   <extend>${basedir}/../project.xml</extend>
 
-  <name>Avalon Framework Implementation</name>
-  <id>avalon-framework-impl</id>
+  <groupId>&avalon-framework-id;</groupId>
+  <id>&avalon-framework-impl-id;</id>
+  <currentVersion>&avalon-framework-impl-version;</currentVersion>
 
+  <name>Avalon Framework Implementation</name>
   <shortDescription>Avalon Framework Implementation</shortDescription>
   <description>
   Avalon Framework Implementation
@@ -15,9 +19,9 @@
   <dependencies>
 
     <dependency>
-      <groupId>avalon-framework</groupId>
-      <artifactId>avalon-framework-api</artifactId>
-      <version>4.1.5</version>
+      <groupId>&avalon-framework-id;</groupId>
+      <artifactId>&avalon-framework-api-id;</artifactId>
+      <version>&avalon-framework-api-version;</version>
     </dependency>
     
     <dependency>
