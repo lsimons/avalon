@@ -17,7 +17,10 @@
     <!-- Build default targets of all subprojects. -->
     <target name="build-subprojects-dist">
 
-        <ant dir="all"/>
+        <ant dir="instrument"/>
+        <ant dir="all"/>                <!-- depends on instrument -->
+        <ant dir="instrument-manager"/> <!-- depends on instrument, all -->
+        <ant dir="instrument-client"/>  <!-- depends on instrument-manager -->
         <ant dir="baxter"/>
         <ant dir="bzip2"/>
         <ant dir="cache"/>
@@ -33,8 +36,14 @@
     <target name="jdepend" if="do.jdepend" description="Generate Dependency Analysis Report">
 
         <path id="java.src">
+            <pathelement location="instrument/src/java"/>
+            <pathelement location="instrument/src/test"/>
             <pathelement location="all/src/java"/>
             <pathelement location="all/src/test"/>
+            <pathelement location="instrument-manager/src/java"/>
+            <pathelement location="instrument-manager/src/test"/>
+            <pathelement location="instrument-client/src/java"/>
+            <pathelement location="instrument-client/src/test"/>
             <pathelement location="baxter/src/java"/>
             <pathelement location="baxter/src/test"/>
             <pathelement location="bzip2/src/java"/>
@@ -57,7 +66,7 @@
             <pathelement location="zip/src/test"/>
         </path>
 
-    <!-- Classpath for product -->
+        <!-- Classpath for product -->
         <path id="jdepend.class.path">
             <pathelement path="${java.class.path}"/>
             <pathelement location="${checkstyle.jar}"/>
@@ -100,7 +109,10 @@
 
     <!-- Generate one mega jar-ball -->
     <target name="mega-jar" description="Generate one large jar for all the products">
-        <ant dir="all" target="all"/>
+        <ant dir="instrument" target="jar"/>
+        <ant dir="all" target="all"/>                <!-- depends on instrument -->
+        <ant dir="instrument-manager" target="jar"/> <!-- depends on instrument, all -->
+        <ant dir="instrument-client" target="jar"/>  <!-- depends on instrument-manager -->
         <ant dir="baxter" target="jar"/>
         <ant dir="bzip2" target="jar"/>
         <ant dir="cache" target="jar"/>
@@ -124,7 +136,10 @@
     <target name="clean">
         <delete dir="${build.dir}" />
 
+        <ant dir="instrument" target="real-clean"/>
         <ant dir="all" target="distclean"/>
+        <ant dir="instrument-manager" target="real-clean"/>
+        <ant dir="instrument-client" target="real-clean"/>
         <ant dir="baxter" target="real-clean"/>
         <ant dir="bzip2" target="real-clean"/>
         <ant dir="cache" target="real-clean"/>
