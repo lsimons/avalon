@@ -9,23 +9,19 @@ package org.apache.avalon.excalibur.component.servlet;
 
 import java.io.IOException;
 import java.util.ArrayList;
-
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.apache.avalon.excalibur.logger.LoggerManager;
-
-import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.logger.Logger;
-
+import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.excalibur.instrument.CounterInstrument;
 import org.apache.excalibur.instrument.Instrument;
-import org.apache.excalibur.instrument.Instrumentable;
 import org.apache.excalibur.instrument.InstrumentManager;
+import org.apache.excalibur.instrument.Instrumentable;
 import org.apache.excalibur.instrument.ValueInstrument;
 
 /**
@@ -34,7 +30,7 @@ import org.apache.excalibur.instrument.ValueInstrument;
  *  and instrumentation features.
  *
  * @author <a href="mailto:leif@apache.org">Leif Mortenson</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/11/07 09:50:41 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/11/09 08:41:04 $
  * @since 4.2
  */
 public abstract class AbstractServiceManagerServlet
@@ -44,7 +40,7 @@ public abstract class AbstractServiceManagerServlet
     private String m_referenceName;
     private ServiceManager m_serviceManager;
     private Logger m_logger;
-    
+
     /** Instrumentable Name assigned to this Instrumentable */
     private String m_instrumentableName;
 
@@ -56,13 +52,13 @@ public abstract class AbstractServiceManagerServlet
 
     /** Flag which is to used to keep track of when the Instrumentable has been registered. */
     private boolean m_registered;
-    
+
     /** Counts the number of times the service is requested. */
     private CounterInstrument m_instrumentRequests;
-    
+
     /** Records the amount of time execute takes to be processed. */
     private ValueInstrument m_instrumentTime;
-    
+
     /*---------------------------------------------------------------
      * Constructors
      *-------------------------------------------------------------*/
@@ -77,18 +73,18 @@ public abstract class AbstractServiceManagerServlet
     {
         //System.out.println( "AbstractServiceManagerServlet( " + referenceName + " )" );
         m_referenceName = referenceName;
-        
+
         // Set up Instrumentable like AbstractInstrumentable
         m_registered = false;
         m_instrumentList = new ArrayList();
         m_childList = new ArrayList();
-        
+
         // Create the instruments
         setInstrumentableName( referenceName );
         addInstrument( m_instrumentRequests = new CounterInstrument( "requests" ) );
         addInstrument( m_instrumentTime = new ValueInstrument( "time" ) );
     }
-    
+
     /*---------------------------------------------------------------
      * HttpServlet Methods
      *-------------------------------------------------------------*/
@@ -115,12 +111,12 @@ public abstract class AbstractServiceManagerServlet
         }
         Logger logger = loggerManager.getLoggerForCategory( "servlet" );
         m_logger = logger.getChildLogger( m_referenceName );
-        
+
         if ( getLogger().isDebugEnabled() )
         {
             getLogger().debug( "servlet.init( config )" );
         }
-        
+
         // Obtain a reference to the ServiceManager
         m_serviceManager =
             (ServiceManager)context.getAttribute( ServiceManager.class.getName() );
@@ -129,7 +125,7 @@ public abstract class AbstractServiceManagerServlet
             throw new IllegalStateException(
                 "The ExcaliburComponentManagerServlet servlet was not correctly initialized." );
         }
-        
+
         // Register this servlet with the InstrumentManager if it exists.
         InstrumentManager instrumentManager =
             (InstrumentManager)context.getAttribute( InstrumentManager.class.getName() );
@@ -146,12 +142,12 @@ public abstract class AbstractServiceManagerServlet
                     "Unable to register the servlet with the instrument manager.", e );
             }
         }
-        
+
         // Do this last so the subclasses will be able to access these objects in their
         //  init method.
         super.init( config );
     }
-    
+
     /**
      * Called by the servlet container to indicate to a servlet that the servlet
      *  is being taken out of service.
@@ -162,15 +158,15 @@ public abstract class AbstractServiceManagerServlet
         {
             getLogger().debug( "servlet.destroy()" );
         }
-        
+
         // Release the ServiceManager by removing its reference.
         m_serviceManager = null;
-        
+
         super.destroy();
-        
+
         // Make sure that the component manager gets collected.
         System.gc();
-        
+
         // Give the system time for the Gc to complete.  This is necessary to make sure that
         //  the ECMServlet has time to dispose all of its managers before the Tomcat server
         //  invalidates the current class loader.
@@ -182,7 +178,7 @@ public abstract class AbstractServiceManagerServlet
         {
         }
     }
-    
+
     /**
      * Receives standard HTTP requests from the public service method and dispatches
      *  them to the doXXX methods defined in this class.
@@ -205,24 +201,24 @@ public abstract class AbstractServiceManagerServlet
                 sb.append( "?" );
                 sb.append( query );
             }
-            
+
             getLogger().debug( "Request: " + sb.toString() );
         }
-        
+
         long start = System.currentTimeMillis();
-        
+
         // Notify the Instrument Manager
         m_instrumentRequests.increment();
-        
+
         super.service( request, response );
-        
+
         // Notify the Instrument Manager how long the service took.
         if ( m_instrumentTime.isActive() )
         {
             m_instrumentTime.setValue( (int)( System.currentTimeMillis() - start ) );
         }
     }
-    
+
     /*---------------------------------------------------------------
      * Instrumentable Methods
      *-------------------------------------------------------------*/
@@ -303,7 +299,7 @@ public abstract class AbstractServiceManagerServlet
             return instruments;
         }
     }
-    
+
     /*---------------------------------------------------------------
      * Methods
      *-------------------------------------------------------------*/
@@ -343,7 +339,7 @@ public abstract class AbstractServiceManagerServlet
         }
         m_childList.add( child );
     }
-    
+
     /**
      * Obtain a reference to the servlet's logger.
      *
@@ -353,7 +349,7 @@ public abstract class AbstractServiceManagerServlet
     {
         return m_logger;
     }
-    
+
     /**
      * Returns the current ServiceManager.
      *
