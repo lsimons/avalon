@@ -1,8 +1,5 @@
 <?xml version="1.0" standalone="no"?>
 
-<!DOCTYPE author PUBLIC "-//OASIS//DTD DocBook XML V4.1//EN"
-                         "dtd/docbookx.dtd">
-
 <author id="jturner.html">
   <honorific>Mr</honorific>
   <firstname>Jeff</firstname>
@@ -16,7 +13,7 @@
     <orgname>Social Change Online</orgname>
     <orgdiv>Webmapping</orgdiv>
   </affiliation>
- 
+
   <authorblurb>
       <para>
           Jeff is a 23-year old Sydney programmer who became involved with
