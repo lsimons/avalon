@@ -463,7 +463,7 @@ public class DefaultConfiguration
         for( int i = 0; i < attributes.length; i++ )
         {
             final String name = attributes[ i ];
-            final String value = other.getAttribute( name );
+            final String value = other.getAttribute( name, null );
             setAttribute( name, value );
         }
     }
