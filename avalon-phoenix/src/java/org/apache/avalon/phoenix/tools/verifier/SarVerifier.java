@@ -23,8 +23,6 @@ import org.apache.avalon.framework.parameters.Parameterizable;
 import org.apache.avalon.framework.service.Serviceable;
 import org.apache.avalon.phoenix.Block;
 import org.apache.avalon.phoenix.BlockListener;
-import org.apache.avalon.phoenix.components.container.verifier.Verifier;
-import org.apache.avalon.phoenix.components.container.verifier.VerifyException;
 import org.apache.avalon.phoenix.metadata.BlockListenerMetaData;
 import org.apache.avalon.phoenix.metadata.BlockMetaData;
 import org.apache.avalon.phoenix.metadata.DependencyMetaData;
@@ -32,6 +30,8 @@ import org.apache.avalon.phoenix.metadata.SarMetaData;
 import org.apache.avalon.phoenix.metainfo.BlockInfo;
 import org.apache.avalon.phoenix.metainfo.DependencyDescriptor;
 import org.apache.avalon.phoenix.metainfo.ServiceDescriptor;
+import org.apache.excalibur.containerkit.VerifyException;
+import org.apache.excalibur.containerkit.Verifier;
 
 /**
  * This Class verifies that Sars are valid. It performs a number
@@ -59,7 +59,7 @@ import org.apache.avalon.phoenix.metainfo.ServiceDescriptor;
  * </ul>
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.18 $ $Date: 2002/06/04 04:36:13 $
+ * @version $Revision: 1.19 $ $Date: 2002/06/04 06:33:00 $
  */
 public class SarVerifier
     extends AbstractLogEnabled
