@@ -7,14 +7,11 @@
  */
 package org.apache.avalon.excalibur.monitor;
 
-import java.lang.reflect.Constructor;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
-import org.apache.avalon.framework.logger.AbstractLogEnabled;
+import org.apache.avalon.framework.logger.LogEnabled;
+import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.thread.ThreadSafe;
 
 /**
@@ -34,112 +31,26 @@ import org.apache.avalon.framework.thread.ThreadSafe;
  * </pre>
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version $Id: PassiveMonitor.java,v 1.10 2002/06/13 17:24:52 bloritsch Exp $
+ * @version $Id: PassiveMonitor.java,v 1.11 2002/09/07 12:14:01 donaldp Exp $
  */
 public final class PassiveMonitor
-    extends AbstractLogEnabled
-    implements Monitor, ThreadSafe, Configurable
+    extends org.apache.avalon.excalibur.monitor.impl.PassiveMonitor
+    implements LogEnabled, Configurable, ThreadSafe
 {
-    private static final Class[] m_constructorParams = new Class[]{String.class};
-    private Map m_resources = new HashMap();
-    private Map m_lastModified = Collections.synchronizedMap( new HashMap() );
+    private Logger m_logger;
 
-    public final void configure( final Configuration conf )
+    public void enableLogging( final Logger logger )
+    {
+        m_logger = logger;
+    }
+
+    public final void configure( final Configuration config )
         throws ConfigurationException
     {
-        ClassLoader loader = Thread.currentThread().getContextClassLoader();
-        Configuration[] initialResources = conf.getChild( "init-resources" ).getChildren( "resource" );
-
-        for( int i = 0; i < initialResources.length; i++ )
-        {
-            String key = initialResources[ i ].getAttribute( "key", "*** KEY NOT SPECIFIED ***" );
-            String className = initialResources[ i ].getAttribute( "class", "*** CLASSNAME NOT SPECIFIED ***" );
-
-            try
-            {
-                Class clazz = loader.loadClass( className );
-                Constructor initializer = clazz.getConstructor( PassiveMonitor.m_constructorParams );
-                this.addResource( (Resource)initializer.newInstance( new Object[]{key} ) );
-
-                if( getLogger().isDebugEnabled() )
-                {
-                    getLogger().debug( "Initial Resource: \"" + key + "\" Initialized." );
-                }
-            }
-            catch( Exception e )
-            {
-                if( getLogger().isWarnEnabled() )
-                {
-                    getLogger().warn( "Initial Resource: \"" + key +
-                                      "\" Failed (" + className + ").", e );
-                }
-            }
-        }
-    }
-
-    /**
-     * Add a resource to monitor.  The resource key referenced in the other
-     * interfaces is derived from the resource object.
-     */
-    public final void addResource( final Resource resource )
-    {
-
-        synchronized( m_resources )
-        {
-            if( m_resources.containsKey( resource.getResourceKey() ) )
-            {
-                Resource original = (Resource)m_resources.get( resource.getResourceKey() );
-                original.addPropertyChangeListenersFrom( resource );
-            }
-            else
-            {
-                m_resources.put( resource.getResourceKey(), resource );
-            }
-        }
-    }
-
-    /**
-     * Find a monitored resource.  If no resource is available, return null
-     */
-    public final Resource getResource( final String key )
-    {
-        synchronized( m_resources )
-        {
-            Resource resource = (Resource)m_resources.get( key );
-
-            if( resource != null )
-            {
-                Long lastModified = (Long)m_lastModified.get( key );
-
-                if( lastModified != null )
-                {
-                    resource.testModifiedAfter( lastModified.longValue() );
-                }
-
-                m_lastModified.put( key, new Long( System.currentTimeMillis() ) );
-            }
-
-            return resource;
-        }
-    }
-
-    /**
-     * Remove a monitored resource by key.
-     */
-    public final void removeResource( final String key )
-    {
-        synchronized( m_resources )
-        {
-            Resource resource = (Resource)m_resources.remove( key );
-            resource.removeAllPropertyChangeListeners();
-        }
-    }
-
-    /**
-     * Remove a monitored resource by reference.
-     */
-    public final void removeResource( final Resource resource )
-    {
-        this.removeResource( resource.getResourceKey() );
+        final Configuration[] initialResources =
+            config.getChild( "init-resources" ).getChildren( "resource" );
+        final Resource[] resources =
+            MonitorUtil.configureResources( initialResources, m_logger );
+        addResources( resources );
     }
 }

@@ -7,7 +7,6 @@
  */
 package org.apache.avalon.excalibur.monitor;
 
-import java.lang.reflect.Constructor;
 import org.apache.avalon.framework.activity.Startable;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
@@ -34,14 +33,12 @@ import org.apache.avalon.framework.thread.ThreadSafe;
  * </pre>
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version $Id: ActiveMonitor.java,v 1.13 2002/09/07 07:15:56 donaldp Exp $
+ * @version $Id: ActiveMonitor.java,v 1.14 2002/09/07 12:14:01 donaldp Exp $
  */
 public final class ActiveMonitor
     extends org.apache.avalon.excalibur.monitor.impl.ActiveMonitor
-    implements Monitor, LogEnabled, Configurable, Startable, ThreadSafe
+    implements LogEnabled, Configurable, Startable, ThreadSafe
 {
-    private static final Class[] c_constructorParams = new Class[]{String.class};
-
     private Logger m_logger;
 
     public void enableLogging( final Logger logger )
@@ -49,83 +46,35 @@ public final class ActiveMonitor
         m_logger = logger;
     }
 
-    private Logger getLogger()
-    {
-        return m_logger;
-    }
-
     /**
      * Configure the ActiveMonitor.
      */
-    public final void configure( Configuration conf )
+    public final void configure( final Configuration config )
         throws ConfigurationException
     {
-        final Configuration thread = conf.getChild( "thread" );
+        final Configuration thread = config.getChild( "thread" );
         final long frequency =
             thread.getAttributeAsLong( "frequency", 1000L * 60L );
         final int priority =
             thread.getAttributeAsInteger( "priority", Thread.MIN_PRIORITY );
-        if( getLogger().isDebugEnabled() )
-        {
-            getLogger().debug( "Active monitor will sample all resources every " +
-                               frequency + " milliseconds with a thread priority of " +
-                               priority + "(Minimum = " + Thread.MIN_PRIORITY +
-                               ", Normal = " + Thread.NORM_PRIORITY +
-                               ", Maximum = " + Thread.MAX_PRIORITY + ")." );
-        }
-
-        final Configuration[] resources =
-            conf.getChild( "init-resources" ).getChildren( "resource" );
-        configureResources( resources );
 
         setFrequency( frequency );
         setPriority( priority );
-    }
 
-    private void configureResources( final Configuration[] initialResources )
-    {
-        for( int i = 0; i < initialResources.length; i++ )
+        if( m_logger.isDebugEnabled() )
         {
-            final Configuration initialResource = initialResources[ i ];
-            final String key =
-                initialResource.getAttribute( "key", "** Unspecified key **" );
-            final String className =
-                initialResource.getAttribute( "class", "** Unspecified class **" );
-
-            try
-            {
-                final Resource resource = createResource( className, key );
-                addResource( resource );
-
-                if( getLogger().isDebugEnabled() )
-                {
-                    final String message =
-                        "Initial Resource: \"" + key + "\" Initialized.";
-                    getLogger().debug( message );
-                }
-            }
-            catch( final Exception e )
-            {
-                if( getLogger().isWarnEnabled() )
-                {
-                    final String message =
-                        "Initial Resource: \"" + key +
-                        "\" Failed (" + className + ").";
-                    getLogger().warn( message, e );
-                }
-            }
+            m_logger.debug( "Active monitor will sample all resources every " +
+                            frequency + " milliseconds with a thread priority of " +
+                            priority + "(Minimum = " + Thread.MIN_PRIORITY +
+                            ", Normal = " + Thread.NORM_PRIORITY +
+                            ", Maximum = " + Thread.MAX_PRIORITY + ")." );
         }
-    }
 
-    private Resource createResource( final String className,
-                                     final String key )
-        throws Exception
-    {
-        final ClassLoader loader = Thread.currentThread().getContextClassLoader();
-        final Class clazz = loader.loadClass( className );
-        final Constructor initializer =
-            clazz.getConstructor( ActiveMonitor.c_constructorParams );
-        final Resource resource = (Resource)initializer.newInstance( new Object[]{key} );
-        return resource;
+        final Configuration[] resourcesConfig =
+            config.getChild( "init-resources" ).getChildren( "resource" );
+        final Resource[] resources =
+            MonitorUtil.configureResources( resourcesConfig, m_logger );
+        addResources( resources );
+
     }
 }

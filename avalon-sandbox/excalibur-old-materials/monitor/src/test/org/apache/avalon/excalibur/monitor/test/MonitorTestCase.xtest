@@ -26,10 +26,10 @@
      </targets>
 
      <categories>
-       <category name="test" log-level="INFO">
+       <category name="test" log-level="DEBUG">
          <log-target id-ref="root"/>
        </category>
-       <category name="" log-level="INFO">
+       <category name="" log-level="DEBUG">
          <log-target id-ref="root"/>
        </category>
      </categories>

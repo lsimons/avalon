@@ -20,7 +20,7 @@ import org.apache.avalon.excalibur.monitor.Resource;
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Id: AbstractMonitor.java,v 1.2 2002/09/07 07:26:35 donaldp Exp $
+ * @version $Id: AbstractMonitor.java,v 1.3 2002/09/07 12:14:02 donaldp Exp $
  */
 public abstract class AbstractMonitor
     implements Monitor
@@ -68,7 +68,7 @@ public abstract class AbstractMonitor
     /**
      * Find a monitored resource.  If no resource is available, return null
      */
-    public final Resource getResource( final String key )
+    public Resource getResource( final String key )
     {
         synchronized( m_resources )
         {
