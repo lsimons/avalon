@@ -17,7 +17,7 @@
 
 
   <!-- Set the installation variables for Phoenix -->
-  <property name="phoenix.home" value="../../jakarta-avalon-phoenix/dist"/>
+  <property name="phoenix.home" value="../../avalon-phoenix/dist"/>
   <property name="install.dir" value="${phoenix.home}/apps"/>
 
   <!-- Set the properties for intermediate directory -->
@@ -42,9 +42,9 @@
   <property name="java.dir" value="${src.dir}/java"/>
   <property name="manifest.dir" value="${src.dir}/manifest"/>
   <property name="conf.dir" value="${src.dir}/conf"/>
-  <property name="context.dir" value="../../jakarta-avalon/src/documentation"/>  
+  <property name="context.dir" value="../../avalon/src/documentation"/>
   <property name="xdocs.dir" value="${src.dir}/xdocs"/>  
-  <property name="tools.dir" location="../../jakarta-avalon/tools"/>
+  <property name="tools.dir" location="../../avalon/tools"/>
    
   <property name="junit.jar" value="${tools.dir}/lib/junit-3.7.jar"/>
   <property name="tools.jar" value="${java.home}/../lib/tools.jar"/>  
