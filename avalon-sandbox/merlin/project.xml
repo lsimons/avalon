@@ -71,6 +71,38 @@
         <role>Code enhancements.</role>
       </roles>
     </developer>
+    <developer>
+      <name>Vinay Chandran</name>
+      <id>vinayc</id>
+      <email>vinayc@apache.org</email>
+      <roles>
+        <role>Testing and bug reporting.</role>
+      </roles>
+    </developer>
+    <developer>
+      <name>Marcus Crafter</name>
+      <id>crafterm</id>
+      <email>crafterm@apache.org</email>
+      <roles>
+        <role>Architecture review and Fortress/ECM/Cocoon liason.</role>
+      </roles>
+    </developer>
+    <developer>
+      <name>Peter Royal</name>
+      <id>proyal</id>
+      <email>proyal@apache.org</email>
+      <roles>
+        <role>Test and evaluation.</role>
+      </roles>
+    </developer>
+    <developer>
+      <name>Leif Mortenson</name>
+      <email>leif@apache.org</email>
+      <id>leif</id>
+      <roles>
+        <role>Support on setup of NT service scripts and resources.</role>
+      </roles>
+    </developer>
   </developers>
 
   <contributors>
@@ -83,14 +115,6 @@
       </roles>
     </contributor>
     <contributor>
-      <name>Marcus Crafter</name>
-      <id>crafterm</id>
-      <email>crafterm@apache.org</email>
-      <roles>
-        <role>Architecture review and Fortress/ECM/Cocoon liason.</role>
-      </roles>
-    </contributor>
-    <contributor>
       <name>Richard Wallace</name>
       <email>rwallace@a--i--m.com</email>
       <organization>A-I-M</organization>
@@ -99,27 +123,11 @@
       </roles>
     </contributor>
     <contributor>
-      <name>Peter Royal</name>
-      <id>proyal</id>
-      <email>proyal@apache.org</email>
-      <roles>
-        <role>Test and evaluation.</role>
-      </roles>
-    </contributor>
-    <contributor>
       <name>Jörg Schaible</name>
       <email>Joerg.Schaible@gft.com</email>
       <organization>GFT</organization>
       <roles>
         <role>Test, evaluation and contribution of German language i18n resources.</role>
-      </roles>
-    </contributor>
-    <contributor>
-      <name>Leif Mortenson</name>
-      <email>leif@apache.org</email>
-      <id>leif</id>
-      <roles>
-        <role>Support on setup of NT service scripts and resources.</role>
       </roles>
     </contributor>
     <contributor>
