@@ -55,7 +55,7 @@ package org.apache.excalibur.mpool;
  * object creation to and instance of this interface.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/08/07 22:44:25 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/08/13 08:15:20 $
  * @since 4.1.2
  */
 public interface ObjectFactory

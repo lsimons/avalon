@@ -60,7 +60,7 @@ import org.apache.excalibur.event.Source;
  * Simple test to expose the thread queue bug
  *
  * @author <a href="mailto:proyal@managingpartners.com">Peter Royal</a>
- * @version VSS $Revision: 1.5 $ $Date: 2002/08/08 00:57:25 $
+ * @version VSS $Revision: 1.6 $ $Date: 2002/08/13 08:15:21 $
  */
 public class QueueTest
 {

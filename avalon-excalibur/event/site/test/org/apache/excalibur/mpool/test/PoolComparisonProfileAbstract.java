@@ -64,7 +64,7 @@ import org.apache.excalibur.mpool.VariableSizePool;
  * Used as a basis for the PoolComparisonProfile Tests
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version $Id: PoolComparisonProfileAbstract.java,v 1.2 2002/08/09 19:22:16 bloritsch Exp $
+ * @version $Id: PoolComparisonProfileAbstract.java,v 1.3 2002/08/13 08:15:21 jefft Exp $
  */
 public abstract class PoolComparisonProfileAbstract
     extends TestCase

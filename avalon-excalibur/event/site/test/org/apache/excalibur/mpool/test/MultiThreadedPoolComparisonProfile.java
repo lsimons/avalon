@@ -61,7 +61,7 @@ import org.apache.excalibur.mpool.Pool;
  *  given a single access thread.
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version $Id: MultiThreadedPoolComparisonProfile.java,v 1.3 2002/08/08 00:57:25 bloritsch Exp $
+ * @version $Id: MultiThreadedPoolComparisonProfile.java,v 1.4 2002/08/13 08:15:21 jefft Exp $
  */
 public class MultiThreadedPoolComparisonProfile
     extends PoolComparisonProfileAbstract
