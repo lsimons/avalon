@@ -147,7 +147,7 @@ public void service( ServiceManager man )
           <tr>
             <td>
     String[] getNames( Object container )<br/>
-        throws ReflectionException;
+    &#160;&#160;&#160;&#160;throws ReflectionException;
             </td>
             <td>
               This method should return an array of all the members of the
@@ -160,7 +160,7 @@ public void service( ServiceManager man )
           <tr>
             <td>
     Class getClass( Object container, String membername )<br/>
-        throws ReflectionException;
+    &#160;&#160;&#160;&#160;throws ReflectionException;
             </td>
             <td>
              Return the Class of the member. The Class returned must be the
@@ -174,8 +174,8 @@ public void service( ServiceManager man )
           </tr>
           <tr>
             <td>
-    Object getMemberObject( Object container, String membername )<br/>
-        throws ReflectionException;
+    Object&#160;getMemberObject(<br/>&#160;&#160;&#160;&#160;Object&#160;container,&#160;String membername )<br/>
+    &#160;&#160;&#160;&#160;throws ReflectionException;
             </td>
             <td>
               Return the object with the given membername.
@@ -183,8 +183,8 @@ public void service( ServiceManager man )
           </tr>
           <tr>
             <td>
-    void&#160;setMemberObject(&#160;Object&#160;container,&#160;String&#160;membername,&#160;Object&#160;value&#160;)<br/>
-        throws ReflectionException;
+    void&#160;setMemberObject( &#160;&#160;&#160;&#160;Object&#160;container,&#160;String&#160;membername,&#160;Object&#160;value&#160;)<br/>
+    &#160;&#160;&#160;&#160;throws ReflectionException;
             </td>
             <td>
               Assignment of a new value to a member. For primitive types and
@@ -200,8 +200,8 @@ public void service( ServiceManager man )
           </tr>
           <tr>
             <td>
-    boolean isSettable( Object container, String memberName )<br/>
-        throws ReflectionException;
+    boolean&#160;isSettable(&#160;Object container,&#160;String memberName&#160;)<br/>
+    &#160;&#160;&#160;&#160;throws ReflectionException;
             </td>
             <td>
               This method should return <code>true</code> if it is possible
