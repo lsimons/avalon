@@ -20,7 +20,7 @@ import org.apache.commons.altrmi.server.impl.rmi.RmiServer;
  *
  *
  * @author Paul Hammant <a href="mailto:Paul_Hammant@yahoo.com">Paul_Hammant@yahoo.com</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 
 public class RmiPublisher
@@ -57,11 +57,8 @@ public class RmiPublisher
    public void initialize ()
       throws Exception
    {
-      mAltrmiServer = new RmiServer(mHost, mPort);
+      m_AltrmiServer = new RmiServer(mHost, mPort);
 
       super.initialize();
    }
 }
-
-
-/*------ Formatted by Jindent 3.24 Basic 1.0 --- http://www.jindent.de ------*/

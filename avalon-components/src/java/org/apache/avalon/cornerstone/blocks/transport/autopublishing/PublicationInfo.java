@@ -10,27 +10,54 @@ package org.apache.avalon.cornerstone.blocks.transport.autopublishing;
 
 
 
+/**
+ * Class PublicationInfo
+ *
+ *
+ * @author Paul Hammant <a href="mailto:Paul_Hammant@yahoo.com">Paul_Hammant@yahoo.com</a>
+ * @version $Revision: 1.2 $
+ */
 public class PublicationInfo
 {
-   private final String mPublishAsName;
-   private final String mInterfaceToPublish;
 
-   public PublicationInfo (String publishAsName, String interfaceToPublish)
-   {
-      mPublishAsName      = publishAsName;
-      mInterfaceToPublish = interfaceToPublish;
-   }
+    private final String mPublishAsName;
+    private final String mInterfaceToPublish;
 
-   public String getPublishAsName ()
-   {
-      return mPublishAsName;
-   }
+    /**
+     * Constructor PublicationInfo
+     *
+     *
+     * @param publishAsName
+     * @param interfaceToPublish
+     *
+     */
+    public PublicationInfo(String publishAsName, String interfaceToPublish)
+    {
+        mPublishAsName = publishAsName;
+        mInterfaceToPublish = interfaceToPublish;
+    }
 
-   public String getInterfaceToPublish ()
-   {
-      return mInterfaceToPublish;
-   }
+    /**
+     * Method getPublishAsName
+     *
+     *
+     * @return
+     *
+     */
+    public String getPublishAsName()
+    {
+        return mPublishAsName;
+    }
+
+    /**
+     * Method getInterfaceToPublish
+     *
+     *
+     * @return
+     *
+     */
+    public String getInterfaceToPublish()
+    {
+        return mInterfaceToPublish;
+    }
 }
-
-
-/*------ Formatted by Jindent 3.24 Basic 1.0 --- http://www.jindent.de ------*/

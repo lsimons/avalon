@@ -15,38 +15,49 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.cornerstone.services.connection.ConnectionHandler;
 import org.apache.commons.altrmi.server.impl.socket.PartialSocketObjectStreamServer;
+
 import java.net.Socket;
 import java.net.ProtocolException;
+
 import java.io.IOException;
 
 
-public class SocketObjectStreamConnectionHandler
-   extends AbstractLogEnabled
-   implements Component, ConnectionHandler
+/**
+ * Class SocketObjectStreamConnectionHandler
+ *
+ *
+ * @author Paul Hammant <a href="mailto:Paul_Hammant@yahoo.com">Paul_Hammant@yahoo.com</a>
+ * @version $Revision: 1.3 $
+ */
+public class SocketObjectStreamConnectionHandler extends AbstractLogEnabled
+        implements Component, ConnectionHandler
 {
-   private PartialSocketObjectStreamServer m_PartialSocketObjectStreamServer;
 
-   public SocketObjectStreamConnectionHandler (
-           PartialSocketObjectStreamServer partialSocketObjectStreamServer)
-   {
-      m_PartialSocketObjectStreamServer = partialSocketObjectStreamServer;
-   }
+    private PartialSocketObjectStreamServer m_PartialSocketObjectStreamServer;
 
-   /**
-    * Handle a connection.
-    * This handler is responsible for processing connections as they occur.
-    *
-    * @param connection the connection
-    * @exception IOException if an error reading from socket occurs
-    * @exception ProtocolException if an error handling connection occurs
-    */
+    /**
+     * Constructor SocketObjectStreamConnectionHandler
+     *
+     *
+     * @param partialSocketObjectStreamServer
+     *
+     */
+    public SocketObjectStreamConnectionHandler(
+            PartialSocketObjectStreamServer partialSocketObjectStreamServer)
+    {
+        m_PartialSocketObjectStreamServer = partialSocketObjectStreamServer;
+    }
 
-   public void handleConnection (Socket connection)
-      throws IOException, ProtocolException
-   {
-      m_PartialSocketObjectStreamServer.handleConnection(connection);
-   }
+    /**
+     * Handle a connection.
+     * This handler is responsible for processing connections as they occur.
+     *
+     * @param connection the connection
+     * @exception IOException if an error reading from socket occurs
+     * @exception ProtocolException if an error handling connection occurs
+     */
+    public void handleConnection(Socket connection) throws IOException, ProtocolException
+    {
+        m_PartialSocketObjectStreamServer.handleConnection(connection);
+    }
 }
-
-
-/*------ Formatted by Jindent 3.24 Basic 1.0 --- http://www.jindent.de ------*/
