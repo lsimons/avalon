@@ -15,7 +15,6 @@ import java.net.URLStreamHandler;
 import java.net.URLStreamHandlerFactory;
 import java.security.CodeSource;
 import java.security.PermissionCollection;
-import java.security.Permissions;
 import java.security.Policy;
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -35,13 +34,13 @@ class PolicyClassLoader
     implements LogEnabled
 {
     ///Policy to use to define permissions for classes loaded in classloader
-    private final Policy  m_policy;
+    private final Policy m_policy;
 
     ///Factory that used to create URLStreamHandlers
     private final URLStreamHandlerFactory m_factory;
 
     ///Logger to use when reporting information
-    private Logger  m_logger;
+    private Logger m_logger;
 
     /**
      * Construct a ClassLoader using specified URLs, parent
@@ -76,6 +75,11 @@ class PolicyClassLoader
     public void enableLogging( final Logger logger )
     {
         m_logger = logger;
+    }
+
+    protected void addURL( final URL url )
+    {
+        super.addURL( url );
     }
 
     protected final Logger getLogger()
