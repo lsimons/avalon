@@ -10,10 +10,10 @@
 
   <organization>
     <name>Apache Software Foundation</name>
-    <url>http://jakarta.apache.org/</url>
+    <url>http://avalon.apache.org/</url>
+    <logo>/images/asf_logo_wide.gif</logo>
   </organization>
   <inceptionYear>1997</inceptionYear>
-  <logo></logo>
 
   <package></package>
   <gumpRepositoryId>avalon-sandbox-${pom.artifactId.substring(7)}</gumpRepositoryId>
