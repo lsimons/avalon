@@ -6,7 +6,7 @@
   <groupId>merlin</groupId>
   <id>merlin-unit</id>
   <name>Merlin Unit</name>
-  <currentVersion>3.1-SNAPSHOT</currentVersion>
+  <currentVersion>3.1-dev</currentVersion>
   <package>org.apache.avalon.merlin.unit</package>
 
   <inceptionYear>2003</inceptionYear>
@@ -28,6 +28,12 @@
       <groupId>avalon-repository</groupId>
       <artifactId>avalon-repository-impl</artifactId>
       <version>1.0b1</version>
+    </dependency>
+
+    <dependency>
+      <groupId>avalon-extension</groupId>
+      <artifactId>avalon-extension-spi</artifactId>
+      <version>1.0</version>
     </dependency>
 
     <dependency>
