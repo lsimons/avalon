@@ -273,7 +273,7 @@ finally
         </p>
       </subsection>
     </section>
-    <section>"The Container">
+    <section name="The Container">
     	<p>
 		The container is the entity that manages your components. It handles
 		things like loading of configuration files, resolution of dependencies,
