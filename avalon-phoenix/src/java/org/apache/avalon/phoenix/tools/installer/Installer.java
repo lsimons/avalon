@@ -87,7 +87,8 @@ public class Installer
         throws InstallationException
     {
         final String message = REZ.getString( "uninstall-unsupported" );
-        throw new InstallationException( message );
+        getLogger().error( message );
+        //throw new InstallationException( message );
     }
 
     /**

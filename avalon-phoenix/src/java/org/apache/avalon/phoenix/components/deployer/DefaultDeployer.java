@@ -9,6 +9,7 @@ package org.apache.avalon.phoenix.components.deployer;
 
 import java.io.File;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.ArrayList;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
@@ -50,9 +51,10 @@ public class DefaultDeployer
         ResourceManager.getPackageResources( DefaultDeployer.class );
 
     private final DefaultConfigurationBuilder  m_builder  = new DefaultConfigurationBuilder();
-    private final Assembler          m_assembler  = new Assembler();
-    private final SarVerifier        m_verifier   = new SarVerifier();
-    private final Installer          m_installer  = new Installer();
+    private final Assembler          m_assembler     = new Assembler();
+    private final SarVerifier        m_verifier      = new SarVerifier();
+    private final Installer          m_installer     = new Installer();
+    private final HashMap            m_installations = new HashMap();
 
     private LogManager               m_logManager;
     private Kernel                   m_kernel;
@@ -83,8 +85,7 @@ public class DefaultDeployer
     }
 
     /**
-     * undeploy an application.
-     * Currently not implemented.
+     * Undeploy an application.
      *
      * @param name the name of deployment
      * @exception DeploymentException if an error occurs
@@ -92,8 +93,25 @@ public class DefaultDeployer
     public void undeploy( final String name )
         throws DeploymentException
     {
-        final String message = REZ.getString( "deploy.error.undeploy.unsupported" );
-        throw new DeploymentException( message );
+        try
+        {            
+            final Application application = m_kernel.getApplication( name );
+            final String[] blocks = application.getBlockNames();
+            
+            m_kernel.removeApplication( name );
+            
+            for ( int i = 0; i < blocks.length; i++ )
+            {                
+                m_repository.removeConfiguration( name, blocks[i] );
+            }
+            
+            final Installation installation = (Installation)m_installations.get( name );
+            m_installer.uninstall( installation );
+        }
+        catch ( final Exception e )
+        {
+            throw new DeploymentException( e.getMessage(), e );
+        }
     }
 
     /**
@@ -109,6 +127,7 @@ public class DefaultDeployer
         try
         {
             final Installation installation = m_installer.install( location );
+            m_installations.put( name, installation );
 
             final Configuration config = getConfigurationFor( installation.getConfig() );
             final Configuration server = getConfigurationFor( installation.getServer() );

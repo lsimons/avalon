@@ -27,4 +27,7 @@ public interface ConfigurationRepository
 
     void storeConfiguration( String application, String block, Configuration configuration )
         throws ConfigurationException;
+    
+    void removeConfiguration( String application, String block )
+        throws ConfigurationException;
 }
