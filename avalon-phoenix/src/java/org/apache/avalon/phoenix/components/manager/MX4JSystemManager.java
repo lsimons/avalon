@@ -54,6 +54,8 @@ public class MX4JSystemManager
         m_port = configuration.getChild( "manager-adaptor-port" ).
             getValueAsInteger( DEFAULT_HTTPADAPTER_PORT );
 
+        getLogger().debug("MX4J HTTP listener port: " + m_port);
+
         m_rmi = configuration.getChild( "enable-rmi-adaptor" ).getValueAsBoolean( false );
 
         m_namingFactory =
@@ -77,6 +79,7 @@ public class MX4JSystemManager
         final ObjectName adaptorName = new ObjectName( "Http:name=HttpAdaptor" );
         mBeanServer.createMBean( "mx4j.adaptor.http.HttpAdaptor", adaptorName, null );
         mBeanServer.setAttribute( adaptorName, new Attribute( "Port", new Integer( m_port ) ) );
+
 
         /**
          // add user names
@@ -138,6 +141,8 @@ public class MX4JSystemManager
     protected MBeanServer createMBeanServer()
         throws Exception
     {
+        MX4JLoggerAdapter.setLogger(getLogger());
+        mx4j.log.Log.redirectTo(new MX4JLoggerAdapter());
         return MBeanServerFactory.createMBeanServer( "Phoenix" );
     }
 }
