@@ -33,7 +33,7 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
  * and installing it as appropriate.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.8 $ $Date: 2002/05/15 13:00:57 $
+ * @version $Revision: 1.9 $ $Date: 2002/05/29 09:55:37 $
  */
 public class Installer
     extends AbstractLogEnabled
@@ -129,15 +129,25 @@ public class Installer
             }
         }
 
+        deleteWorkDir( installation.getWorkDirectory() );
+    }
+
+    /**
+     * Utility method to delete the working directory.
+     *
+     * @param dir the working directory
+     */
+    private void deleteWorkDir( final File dir )
+    {
         try
         {
-            FileUtil.deleteDirectory( installation.getWorkDirectory() );
+            FileUtil.deleteDirectory( dir );
         }
         catch( final IOException ioe )
         {
             final String message =
                 REZ.getString( "nodelete-workdir.error",
-                               installation.getWorkDirectory(),
+                               dir,
                                ioe.getMessage() );
             getLogger().warn( message, ioe );
         }
@@ -249,26 +259,37 @@ public class Installer
 
         final File workDir =
             getRelativeWorkDir( m_baseWorkDirectory, name );
+        boolean success = false;
+        try
+        {
+            expandZipFile( zipFile, directory, workDir, jars, digests, url );
 
-        expandZipFile( zipFile, directory, workDir, jars, digests, url );
+            //Retrieve name of environment file
+            //need to check existence to support backwards compatability
+            final File envFile = new File( directory, FS_ENV_XML );
 
-        //Retrieve name of environment file
-        //need to check existence to support backwards compatability
-        final File envFile = new File( directory, FS_ENV_XML );
+            //Prepare and create Installation
+            final String[] classPath =
+                (String[])jars.toArray( new String[ jars.size() ] );
 
-        //Prepare and create Installation
-        final String[] classPath =
-            (String[])jars.toArray( new String[ jars.size() ] );
+            final String assembly = getURLAsString( new File( directory, FS_ASSEMBLY_XML ) );
+            final String config = getURLAsString( new File( directory, FS_CONFIG_XML ) );
+            final String environment = getURLAsString( envFile );
+            final FileDigest[] fileDigests = (FileDigest[])digests.toArray( new FileDigest[ 0 ] );
+            final long timestamp = System.currentTimeMillis();
 
-        final String assembly = getURLAsString( new File( directory, FS_ASSEMBLY_XML ) );
-        final String config = getURLAsString( new File( directory, FS_CONFIG_XML ) );
-        final String environment = getURLAsString( envFile );
-        final FileDigest[] fileDigests = (FileDigest[])digests.toArray( new FileDigest[ 0 ] );
-        final long timestamp = System.currentTimeMillis();
-
-        return new Installation( file, directory, workDir,
-                                 config, assembly, environment,
-                                 classPath, fileDigests, timestamp );
+            success = true;
+            return new Installation( file, directory, workDir,
+                                     config, assembly, environment,
+                                     classPath, fileDigests, timestamp );
+        }
+        finally
+        {
+            if( !success )
+            {
+                deleteWorkDir( workDir );
+            }
+        }
     }
 
     /**
