@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0"?>
 
 <!--
  ============================================================================
@@ -48,44 +48,40 @@
  Apache Software Foundation, please see http://www.apache.org/.
 -->
 
-<project>
+<document>
 
- <title>Merlin</title>
+  <header>
+    <title>Merlin Kernel Embedding</title>
+    <authors>
+      <person name="Stephen McConnell" email="mcconnell@apache.org"/>
+    </authors>
+  </header>
 
- <body>
+  <body>
 
-    <links>
-      <item name="Apache" href="http://apache.org/"/>
-      <item name="Avalon" href="http://avalon.apache.org/"/>
-      <item name="Framework" href="http://avalon.apache.org/product/framework/"/>
-      <item name="Containers" href="http://avalon.apache.org/product/containers/"/>
-      <item name="Components" href="http://avalon.apache.org/product/components/"/>
-    </links>
+    <section name="Merlin Kernel Embedding">
 
-    <menu name="About Merlin">
-      <item name="Overview" href="/about/index.html"/>
-      <item name="Getting Started" href="/starting/index.html"/>
-      <item name="Merlin System" href="/merlin/index.html">
-        <item name="Kernel" href="/merlin/kernel/index.html">
-          <item name="Embedding" href="/merlin/kernel/embedding/index.html"/>
-          <item name="Properties" href="/merlin/kernel/properties.html"/>
-          <item name="CLI Handler" href="/merlin/kernel/cli.html"/>
-          <item name="NT Service" href="/merlin/kernel/nt.html"/>
-        </item>
-        <item name="Block" href="/merlin/block/index.html"/>
-        <item name="Appliance" href="/merlin/appliance/index.html"/>
-      </item>
-      <item name="Meta Model" href="/meta/index.html"/>
-      <item name="Tools" href="/tools/index.html"/>
-    </menu>
+    <p>
+The Merlin Kernel is designed first and foremost as an embeddable 
+container.  The 3.2 release introduced several improvements to the 
+embedding strategy through leverage of the avalon-repository 
+boostrapping system, and added comprehensive support for the 
+management of properties anabling complete configuration of a new
+kernel instance programatically or via property resolution.
+    </p>
 
-    <menu name="Resources">
-      <item name="Javadoc" href="/api/index.html"/>
-      <item name="Download" href="/resources/download.html"/>
-      <item name="Roadmap" href="/resources/roadmap/index.html"/>
-      <item name="DPML" href="/dpml/index.html"/>
-    </menu>
+    <subsection name="Embedded Example">
+<source>
 
- </body>
+//in preparation
 
-</project>
+</source>
+    </subsection>
+
+  </section>
+
+</body>
+
+</document>
+
+

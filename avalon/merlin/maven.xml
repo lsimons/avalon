@@ -389,6 +389,7 @@
   <goal name="avalon:build" prereqs="merlin:install"/>
   <goal name="avalon:dist" prereqs="merlin:dist"/>
   <goal name="avalon:clean" prereqs="merlin:clean"/>
+  <goal name="avalon:site" prereqs="merlin:site"/>
 
   <goal name="merlin-clean" prereqs="merlin:clean"/>
   <goal name="merlin-dist" prereqs="avalon:dist"/>
