@@ -6,7 +6,7 @@
 
 <project name="example-instrument-manager" default="main" basedir=".">
 
-    <!--property name="avalon-framework.home" value="${basedir}/../../../../jakarta-avalon"/-->
+    <!--property name="avalon-framework.home" value="${basedir}/../../../../avalon"/-->
     <!--
       Give user a chance to override without editing this file
       (and without typing -D each time he compiles it)

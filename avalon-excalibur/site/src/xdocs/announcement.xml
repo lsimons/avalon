@@ -24,7 +24,7 @@ of the @Name@.</abstract>
       implementations, and database management implementations.
     </description>
     <changes version="@version@" file="changes.xml"/>
-    <downloads name="Excalibur" base="http://jakarta.apache.org/builds/jakarta-avalon/release/@name@"/>
+    <downloads name="Excalibur" base="http://jakarta.apache.org/builds/avalon/release/@name@"/>
   </project>
 </announcement>
 
