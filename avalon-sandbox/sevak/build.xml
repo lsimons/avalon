@@ -35,7 +35,6 @@
     <property name="do.checkstyle" value="true"/>
 
     <property name="lib.dir" value="lib"/>
-    <property name="test.dir" value="src/test"/>
     <property name="demo.dir" value="src/demo"/>
     <property name="java.demo.dir" value="${demo.dir}/java"/>
     <property name="conf.demo.dir" value="${demo.dir}/conf"/>
