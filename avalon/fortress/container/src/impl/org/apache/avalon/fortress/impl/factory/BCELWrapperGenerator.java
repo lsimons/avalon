@@ -50,7 +50,7 @@ final class BCELWrapperGenerator
     /**
      * The name of the superclass of the wrapper class to be generated.
      */
-    private static final String WRAPPER_SUPERCLASS_NAME = "java.lang.Object";
+    private static final String WRAPPER_SUPERCLASS_NAME = "org.apache.avalon.fortress.impl.handler.AbstractReleasableComponent";
 
     /**
      * The name of the interface each generated wrapper class has to implement.
