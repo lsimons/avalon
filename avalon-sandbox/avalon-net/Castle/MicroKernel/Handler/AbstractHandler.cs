@@ -109,9 +109,9 @@ namespace Apache.Avalon.Castle.MicroKernel.Handler
 		{
 			if (!HasInstance( instance, false ))
 			{
-				WeakReference reference = new WeakReference( instance );
-
-				m_instances.Add( reference );
+				// WeakReference reference = new WeakReference( instance );
+				// m_instances.Add( reference );
+				m_instances.Add( instance );
 			}
 		}
 
@@ -127,18 +127,19 @@ namespace Apache.Avalon.Castle.MicroKernel.Handler
 
 		protected virtual bool HasInstance( object instance, bool removeIfFound )
 		{
-			foreach( WeakReference reference in m_instances )
+			// foreach( WeakReference reference in m_instances )
+			foreach( object storedInstance in m_instances )
 			{
-				if (reference.Target == null)
-				{
-					m_instances.Remove( reference );
-				}
+				// if (reference.Target == null)
+				// {
+				//	m_instances.Remove( reference );
+				// }
 
-				if ( Object.ReferenceEquals( instance, reference.Target ) )
+				if ( Object.ReferenceEquals( instance, storedInstance /*reference.Target*/ ) )
 				{
 					if (removeIfFound)
 					{
-						m_instances.Remove( reference );
+						m_instances.Remove( instance );
 					}
 
 					return true;

@@ -12,57 +12,46 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Apache.Avalon.Castle.MicroKernel.Model
+namespace Apache.Avalon.Castle.MicroKernel.Lifestyle.Default
 {
 	using System;
 
-	using Apache.Avalon.Framework;
-
 	/// <summary>
-	/// Summary description for IComponentModel.
+	/// Summary description for SingletonLifestyleManager.
 	/// </summary>
-	public interface IComponentModel
+	public class SingletonLifestyleManager : AbstractLifestyleManager
 	{
-		String Name
+		private Object m_instance;
+
+		public SingletonLifestyleManager(IComponentFactory componentFactory) : base(componentFactory)
 		{
-			get;
 		}
 
-		Lifestyle SupportedLifestyle
+		~SingletonLifestyleManager()
 		{
-			get;
+			base.Release( m_instance );
 		}
 
-		Type Service
+		#region IResolver Members
+
+		public override object Resolve()
 		{
-			get;
+			lock(m_componentFactory)
+			{
+				if (m_instance == null)
+				{
+					m_instance = base.Resolve();
+				}
+			}
+
+			return m_instance;
 		}
 
-		ILogger Logger
+		public override void Release( object instance )
 		{
-			get;
-			set;
+			// Do nothing
 		}
 
-		IConfiguration Configuration
-		{
-			get;
-			set;
-		}
-
-		IContext Context
-		{
-			get;
-		}
-
-		IDependencyModel[] Dependencies
-		{
-			get;
-		}
-
-		IConstructionModel ConstructionModel
-		{
-			get;
-		}
+		#endregion
 	}
 }

@@ -18,6 +18,8 @@ namespace Apache.Avalon.Castle.MicroKernel
 
 	using Apache.Avalon.Castle.MicroKernel.Concerns;
 	using Apache.Avalon.Castle.MicroKernel.Model;
+	using Apache.Avalon.Castle.MicroKernel.Configuration;
+	using Apache.Avalon.Castle.MicroKernel.Logger;
 
 	/// <summary>
 	/// Specialization of BaseKernel to adhere to Avalon 
@@ -26,6 +28,10 @@ namespace Apache.Avalon.Castle.MicroKernel
 	public class DefaultKernel : BaseKernel, AvalonKernel
 	{
 		protected ConcernManager m_concerns = new ConcernManager();
+
+		protected IConfigurationManager m_configManager;
+
+		protected ILoggerManager m_loggerManager;
 
 		/// <summary>
 		/// 
@@ -38,11 +44,47 @@ namespace Apache.Avalon.Castle.MicroKernel
 
 		#region AvalonKernel Members
 
+		/// <summary>
+		/// Manages the concerns related
+		/// to Avalon Framework
+		/// </summary>
 		public ConcernManager Concerns
 		{
 			get
 			{
 				return m_concerns;
+			}
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public IConfigurationManager ConfigurationManager
+		{
+			get
+			{
+				return m_configManager;
+			}
+			set
+			{
+				AssertUtil.ArgumentNotNull( value, "value" );
+				m_configManager = value;
+			}
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public ILoggerManager LoggerManager
+		{
+			get
+			{
+				return m_loggerManager;
+			}
+			set
+			{
+				AssertUtil.ArgumentNotNull( value, "value" );
+				m_loggerManager = value;
 			}
 		}
 

@@ -12,57 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Apache.Avalon.Castle.MicroKernel.Model
+namespace Apache.Avalon.Castle.MicroKernel.Context
 {
 	using System;
 
 	using Apache.Avalon.Framework;
 
 	/// <summary>
-	/// Summary description for IComponentModel.
+	/// Summary description for IContextManager.
 	/// </summary>
-	public interface IComponentModel
+	public interface IContextManager
 	{
-		String Name
-		{
-			get;
-		}
-
-		Lifestyle SupportedLifestyle
-		{
-			get;
-		}
-
-		Type Service
-		{
-			get;
-		}
-
-		ILogger Logger
-		{
-			get;
-			set;
-		}
-
-		IConfiguration Configuration
-		{
-			get;
-			set;
-		}
-
-		IContext Context
-		{
-			get;
-		}
-
-		IDependencyModel[] Dependencies
-		{
-			get;
-		}
-
-		IConstructionModel ConstructionModel
-		{
-			get;
-		}
+		IContext CreateContext();
 	}
 }

@@ -60,6 +60,25 @@ namespace Apache.Avalon.Castle.MicroKernel.Factory.Default
 		public void Etherialize( object instance )
 		{
 			m_decomissionChain.Apply( m_model, instance );
+
+			IDecommissionConcern concern = (IDecommissionConcern) m_decomissionChain;
+
+			while( true )
+			{
+				if (concern is IDestructionConcern)
+				{
+					(concern as IDestructionConcern).Apply( m_model, m_innerFactory, instance );
+					break;
+				}
+				
+				concern = concern.Next as IDecommissionConcern;
+
+				if (concern == null)
+				{
+					// IDestructionConcern not found?
+					break;
+				}
+			}
 		}
 
 		#endregion

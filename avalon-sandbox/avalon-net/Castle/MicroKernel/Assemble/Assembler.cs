@@ -26,7 +26,7 @@ namespace Apache.Avalon.Castle.MicroKernel.Assemble
 	public delegate void ResolveTypeHandler( 
 		IComponentModel model, 
 		Type typeRequest, String argumentOrPropertyName, 
-		out object value );
+		object key, out object value );
 
 	/// <summary>
 	/// Summary description for Assembler.
@@ -65,7 +65,7 @@ namespace Apache.Avalon.Castle.MicroKernel.Assemble
 		/// <param name="resolver"></param>
 		/// <returns></returns>
 		public static object[] BuildConstructorArguments( 
-			IComponentModel model, ResolveTypeHandler resolver )
+			IComponentModel model, object key, ResolveTypeHandler resolver )
 		{
 			AssertUtil.ArgumentNotNull( model, "model" );
 			AssertUtil.ArgumentNotNull( resolver, "resolver" );
@@ -79,7 +79,7 @@ namespace Apache.Avalon.Castle.MicroKernel.Assemble
 				Type service = parameter.ParameterType;
 				String argumentName = parameter.Name;
 				
-				object value = Resolve( model, service, argumentName, resolver );
+				object value = Resolve( model, service, argumentName, key, resolver );
 				
 				args[ parameter.Position ] = value;
 			}
@@ -87,7 +87,8 @@ namespace Apache.Avalon.Castle.MicroKernel.Assemble
 			return args;			
 		}
 
-		public static void AssembleProperties( object instance, IComponentModel model, ResolveTypeHandler resolver )
+		public static void AssembleProperties( object instance, IComponentModel model, 
+			object key, ResolveTypeHandler resolver )
 		{
 			AssertUtil.ArgumentNotNull( model, "model" );
 			AssertUtil.ArgumentNotNull( resolver, "resolver" );
@@ -97,7 +98,7 @@ namespace Apache.Avalon.Castle.MicroKernel.Assemble
 				Type service = property.PropertyType;
 				String propertyName = property.Name;
 
-				object value = Resolve( model, service, propertyName, resolver );
+				object value = Resolve( model, service, propertyName, key, resolver );
 
 				if (value != null)
 				{
@@ -116,7 +117,7 @@ namespace Apache.Avalon.Castle.MicroKernel.Assemble
 		/// <returns></returns>
 		private static object Resolve( 
 			IComponentModel model, Type type, 
-			String argumentOrPropertyName, ResolveTypeHandler resolver  )
+			String argumentOrPropertyName, object key, ResolveTypeHandler resolver  )
 		{
 			if (IsLogger( type ))
 			{
@@ -133,7 +134,7 @@ namespace Apache.Avalon.Castle.MicroKernel.Assemble
 
 			object value = null;
 
-			resolver( model, type, argumentOrPropertyName, out value );
+			resolver( model, type, argumentOrPropertyName, key, out value );
 
 			return value;
 		}

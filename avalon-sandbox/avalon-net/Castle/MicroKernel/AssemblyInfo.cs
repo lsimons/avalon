@@ -15,12 +15,12 @@
 using System.Reflection;
 using System.Runtime.CompilerServices;
 
-[assembly: AssemblyTitle("AvalonFramework")]
-[assembly: AssemblyDescription("Avalon Framework defines the lifecycle interfaces and contracts that all components must obey.")]
+[assembly: AssemblyTitle("Apache.Avalon.Castle.MicroKernel")]
+[assembly: AssemblyDescription("Apache.Avalon.Castle.MicroKernel")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Apache Software Foundation")]
-[assembly: AssemblyProduct("Avalon Framework")]
-[assembly: AssemblyCopyright("Copyright (c) 2003 Apache Software Foundation")]
+[assembly: AssemblyProduct("Apache.Avalon.Castle.MicroKernel")]
+[assembly: AssemblyCopyright("Copyright (c) 2003-2004 Apache Software Foundation")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]		
 [assembly: AssemblyVersion("1.0.0.0")]

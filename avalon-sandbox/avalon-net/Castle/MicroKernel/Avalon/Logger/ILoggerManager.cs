@@ -12,57 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Apache.Avalon.Castle.MicroKernel.Model
+namespace Apache.Avalon.Castle.MicroKernel.Logger
 {
 	using System;
 
 	using Apache.Avalon.Framework;
+	using Apache.Avalon.Castle.MicroKernel.Model;
 
 	/// <summary>
-	/// Summary description for IComponentModel.
+	/// Summary description for ILoggerManager.
 	/// </summary>
-	public interface IComponentModel
+	public interface ILoggerManager
 	{
-		String Name
-		{
-			get;
-		}
-
-		Lifestyle SupportedLifestyle
-		{
-			get;
-		}
-
-		Type Service
-		{
-			get;
-		}
-
-		ILogger Logger
-		{
-			get;
-			set;
-		}
-
-		IConfiguration Configuration
-		{
-			get;
-			set;
-		}
-
-		IContext Context
-		{
-			get;
-		}
-
-		IDependencyModel[] Dependencies
-		{
-			get;
-		}
-
-		IConstructionModel ConstructionModel
-		{
-			get;
-		}
+		ILogger CreateLogger( String loggerName, String implementationName, AvalonLoggerAttribute loggerAtt );
 	}
 }

@@ -12,57 +12,29 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Apache.Avalon.Castle.MicroKernel.Model
+namespace Apache.Avalon.Castle.MicroKernel.Concerns.Default
 {
 	using System;
 
-	using Apache.Avalon.Framework;
+	using Apache.Avalon.Castle.MicroKernel.Model;
 
 	/// <summary>
-	/// Summary description for IComponentModel.
+	/// Summary description for DestructionConcern.
 	/// </summary>
-	public interface IComponentModel
+	public class DestructionConcern : AbstractConcern, IDestructionConcern
 	{
-		String Name
+		public DestructionConcern(IConcern next) : base(next)
 		{
-			get;
 		}
 
-		Lifestyle SupportedLifestyle
+		#region IDestructionConcern Members
+
+		public void Apply(IComponentModel model, IComponentFactory factory, 
+			object instance)
 		{
-			get;
+			factory.Etherialize( instance );
 		}
 
-		Type Service
-		{
-			get;
-		}
-
-		ILogger Logger
-		{
-			get;
-			set;
-		}
-
-		IConfiguration Configuration
-		{
-			get;
-			set;
-		}
-
-		IContext Context
-		{
-			get;
-		}
-
-		IDependencyModel[] Dependencies
-		{
-			get;
-		}
-
-		IConstructionModel ConstructionModel
-		{
-			get;
-		}
+		#endregion
 	}
 }

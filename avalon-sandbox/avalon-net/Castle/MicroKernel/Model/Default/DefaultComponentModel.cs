@@ -25,6 +25,7 @@ namespace Apache.Avalon.Castle.MicroKernel.Model.Default
 	public class DefaultComponentModel : IComponentModel
 	{
 		private Type m_service;
+		private String m_name;
 		private Lifestyle m_lifestyle;
 		private ILogger m_logger;
 		private IConfiguration m_config;
@@ -33,6 +34,7 @@ namespace Apache.Avalon.Castle.MicroKernel.Model.Default
 		private IConstructionModel m_constructionModel;
 
 		public DefaultComponentModel(
+			String name,
 			Type service,
 			Lifestyle lifestyle, 
 			ILogger logger, 
@@ -41,6 +43,7 @@ namespace Apache.Avalon.Castle.MicroKernel.Model.Default
 			IDependencyModel[] dependencies, 
 			IConstructionModel constructionModel)
 		{
+			AssertUtil.ArgumentNotNull( name, "name" );
 			AssertUtil.ArgumentNotNull( service, "service" );
 			AssertUtil.ArgumentNotNull( logger, "logger" );
 			AssertUtil.ArgumentNotNull( configuration, "configuration" );
@@ -48,6 +51,7 @@ namespace Apache.Avalon.Castle.MicroKernel.Model.Default
 			AssertUtil.ArgumentNotNull( dependencies, "dependencies" );
 			AssertUtil.ArgumentNotNull( constructionModel, "constructionModel" );
 
+			m_name = name;
 			m_service = service;
 			m_lifestyle = lifestyle;
 			m_logger = logger;
@@ -58,6 +62,14 @@ namespace Apache.Avalon.Castle.MicroKernel.Model.Default
 		}
 
 		#region IComponentModel Members
+
+		public String Name
+		{
+			get
+			{
+				return m_name;
+			}
+		}
 
 		public Type Service
 		{
@@ -81,6 +93,10 @@ namespace Apache.Avalon.Castle.MicroKernel.Model.Default
 			{
 				return m_logger;
 			}
+			set
+			{
+				m_logger = value;
+			}
 		}
 
 		public IConfiguration Configuration
@@ -88,6 +104,10 @@ namespace Apache.Avalon.Castle.MicroKernel.Model.Default
 			get
 			{
 				return m_config;
+			}
+			set
+			{
+				m_config = value;
 			}
 		}
 

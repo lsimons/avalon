@@ -55,6 +55,5 @@ namespace Apache.Avalon.Castle.MicroKernel.Handler.Default
 				m_kernel.LifestyleManagerFactory.Create( 
 					innerFactory, m_componentModel );
 		}
-
 	}
 }
