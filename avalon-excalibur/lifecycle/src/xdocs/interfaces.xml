@@ -1,0 +1,105 @@
+<?xml version="1.0"?>
+
+<document>
+  <header>
+    <title>Extension Interfaces</title>
+    <authors>
+      <person name="Avalon Development Team" email="dev@avalon.apache.org"/>
+    </authors>
+  </header>
+  <body>
+
+  <s1 title="Lifestyle Extension Interfaces">
+
+      <p>
+      A container manages extensions using an extension handler.  Handlers may implement
+      the <code>Creator</code> and/or <code>Accessor</code> interfaces.  A creator extension
+      will be activated during the create and destroy stages of a component lifecycle.  A
+      accessor extension will be activated during the access and release stages.
+      </p>
+
+      <s2 title="The Creator Interface">
+
+<p>The <code>Creator</code> interface describes the create and destroy
+stages that occur between a component and a container
+during service management.  Lifecycle extensions supporting create
+and destroy stages must implement this interface.</p>
+
+      <source>
+ package org.apache.avalon.lifecycle;
+
+ import org.apache.avalon.framework.context.Context;
+
+ public interface Creator
+ {
+    /**
+     * Create stage handler.
+     *
+     * @param object the object that is being created
+     * @param context the context instance required by the create handler
+     *    implementation
+     * @exception Exception if an error occurs
+     */
+    void create( Object object, Context context )
+        throws Exception;
+
+    /**
+     * Destroy stage handler.
+     *
+     * @param object the object that is being destroyed
+     * @param context the context instance required by the handler
+     *    implementation
+     */
+    void destroy( Object object, Context context );
+
+ }
+     </source>
+      </s2>
+
+      <s2 title="Accessor Interface">
+<p>
+The <code>Accessor</code> interface describes the access and release
+stages that occur between a service or component manager and a container
+during service deployment.  Lifecycle extensions supporting access
+and release stages must implement this interface.
+</p>
+<source>
+ package org.apache.avalon.lifecycle;
+
+ import org.apache.avalon.framework.context.Context;
+
+ public interface Accessor
+ {
+    /**
+     * Access stage handler.
+     *
+     * @param object the object that is being accessed
+     * @param context the context instance required by the access handler
+     *    implementation
+     * @exception Exception if an error occurs
+     */
+    void access( Object object, Context context )
+        throws Exception;
+
+    /**
+     * Release stage handler.
+     *
+     * @param object the object that is being released
+     * @param context the context instance required by the release handler
+     *    implementation
+     */
+    void release( Object object, Context context );
+
+ }
+</source>
+   </s2>
+  </s1>
+
+  </body>
+  <footer>
+    <legal>
+      Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
+      $Revision: 1.1 $ $Date: 2003/03/11 13:31:35 $
+    </legal>
+  </footer>
+</document>
