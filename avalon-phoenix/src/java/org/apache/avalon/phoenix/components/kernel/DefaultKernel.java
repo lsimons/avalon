@@ -64,7 +64,8 @@ public class DefaultKernel
         throws ServiceException
     {
         m_systemManager = (SystemManager)serviceManager.lookup( SystemManager.ROLE );
-        m_repository = (ConfigurationRepository)serviceManager.lookup( ConfigurationRepository.ROLE );
+        m_repository = (ConfigurationRepository)serviceManager.
+            lookup( ConfigurationRepository.ROLE );
     }
 
     public void initialize()

@@ -78,12 +78,16 @@ public class Sar
 
         if( !m_environment.exists() )
         {
-            throw new BuildException( "Environment descriptor: " + m_environment + " does not exist." );
+            final String message = "Environment descriptor: " +
+                m_environment + " does not exist.";
+            throw new BuildException( message );
         }
 
         if( !m_environment.isFile() )
         {
-            throw new BuildException( "Environment descriptor: " + m_environment + " is not a file." );
+            final String message = "Environment descriptor: " +
+                m_environment + " is not a file.";
+            throw new BuildException( message );
         }
     }
 

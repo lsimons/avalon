@@ -125,7 +125,10 @@ abstract class AbstractPolicy
         // This is a bit of a hack.  I don't know why CodeSource should behave like this
         // Fear not, this only seems to be a problem for home grown classloaders.
         // - Paul Hammant, Nov 2000
-        if( null == initialLocation ) return codeSource;
+        if( null == initialLocation )
+        {
+            return codeSource;
+        }
 
         String location = null;
 

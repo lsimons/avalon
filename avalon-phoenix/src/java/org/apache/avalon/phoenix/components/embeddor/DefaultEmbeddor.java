@@ -47,7 +47,8 @@ import org.apache.avalon.phoenix.interfaces.Kernel;
  */
 public class DefaultEmbeddor
     extends AbstractLogEnabled
-    implements Embeddor, EmbeddorMBean, Contextualizable, Parameterizable, Configurable, Initializable, Disposable
+    implements Embeddor, EmbeddorMBean, Contextualizable,
+    Parameterizable, Configurable, Initializable, Disposable
 {
     private static final Resources REZ =
         ResourceManager.getPackageResources( DefaultEmbeddor.class );
@@ -240,7 +241,8 @@ public class DefaultEmbeddor
                     // The server will shut itself down when all applications are disposed.
                     if( emptyKernel() )
                     {
-                        final String message = REZ.getString( "embeddor.shutdown.all-apps-disposed" );
+                        final String message =
+                            REZ.getString( "embeddor.shutdown.all-apps-disposed" );
                         getLogger().info( message );
                     }
                     break;
@@ -473,7 +475,7 @@ public class DefaultEmbeddor
     {
         final String filename = file.getName();
         int index = filename.lastIndexOf( '.' );
-        if( -1 == index ) index = filename.length();
+        if( -1 == index ) {index = filename.length();}
         final String name = filename.substring( 0, index );
         final File canonicalFile = file.getCanonicalFile();
         deployFile( name, canonicalFile );
@@ -535,7 +537,7 @@ public class DefaultEmbeddor
         for( int i = 0; i < m_entrys.length; i++ )
         {
             final Object object = m_entrys[ i ].getObject();
-            if( null == object ) continue;
+            if( null == object ) {continue;}
             ContainerUtil.shutdown( object );
         }
     }
@@ -557,7 +559,10 @@ public class DefaultEmbeddor
             final Object object = Class.forName( classname ).newInstance();
             if( !service.isInstance( object ) )
             {
-                final String message = REZ.getString( "bad-type.error", classname, service.getName() );
+                final String message =
+                    REZ.getString( "bad-type.error",
+                                   classname,
+                                   service.getName() );
                 throw new Exception( message );
             }
             return object;
@@ -569,7 +574,10 @@ public class DefaultEmbeddor
         }
         catch( final InstantiationException ie )
         {
-            final String message = REZ.getString( "no-instantiate.error", service.getName(), classname );
+            final String message =
+                REZ.getString( "no-instantiate.error",
+                               service.getName(),
+                               classname );
             throw new CascadingException( message, ie );
         }
         catch( final ClassNotFoundException cnfe )

@@ -39,7 +39,8 @@ public class SingleAppEmbeddor
     protected void deployDefaultApplications()
         throws Exception
     {
-        final String applicationName = getParameters().getParameter( "application-name", "default" );
+        final String applicationName =
+            getParameters().getParameter( "application-name", "default" );
         final String applicationLocation = getParameters().getParameter( "application-location" );
         final File directory = new File( applicationLocation );
         deployFile( applicationName, directory );

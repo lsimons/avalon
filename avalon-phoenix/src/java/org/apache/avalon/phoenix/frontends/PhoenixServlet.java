@@ -73,8 +73,10 @@ public class PhoenixServlet
         final String logDestination = getInitParameter( "log-destination" );
         final String logPriority = getInitParameter( "log-priority" );
         final String appName = getInitParameter( "application-name", "default" );
-        final String appLoc = getInitParameter( "application-location", phoenixHome + "/" + appName );
-        final String configFile = getInitParameter( "config-file", phoenixHome + "/conf/kernel.xml" );
+        final String appLoc =
+            getInitParameter( "application-location", phoenixHome + "/" + appName );
+        final String configFile =
+            getInitParameter( "config-file", phoenixHome + "/conf/kernel.xml" );
 
         m_parameters = new Parameters();
         m_parameters.setParameter( "phoenix.home", context.getRealPath( phoenixHome ) );
@@ -86,7 +88,8 @@ public class PhoenixServlet
         try
         {
             final DefaultConfigurationBuilder builder = new DefaultConfigurationBuilder();
-            final Configuration kernelConf = builder.buildFromFile( context.getRealPath( configFile ) );
+            final Configuration kernelConf =
+                builder.buildFromFile( context.getRealPath( configFile ) );
             final Configuration embeddorConf = kernelConf.getChild( "embeddor" );
             final String embeddorClassname = embeddorConf.getAttribute( "class" );
 
