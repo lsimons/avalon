@@ -6,7 +6,7 @@
  * the LICENSE file.
  */
 package org.apache.phoenix.engine.facilities;
-import org.apache.phoenix.facilities.ClassManager;
+import org.apache.avalon.atlantis.facilities.ClassManager;
 
 /**
  *

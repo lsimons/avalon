@@ -16,7 +16,7 @@ import org.apache.avalon.camelot.Container;
 import org.apache.avalon.camelot.ContainerException;
 import org.apache.avalon.camelot.Entry;
 
-import org.apache.phoenix.applications.ServerApplication;
+import org.apache.avalon.atlantis.applications.ServerApplication;
 
 import org.apache.log.Logger;
 

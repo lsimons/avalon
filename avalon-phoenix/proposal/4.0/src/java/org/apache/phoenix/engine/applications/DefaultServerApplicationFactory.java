@@ -7,8 +7,12 @@
  */
 package org.apache.phoenix.engine.applications;
 
-import org.apache.phoenix.applications.ServerApplication;
-import org.apache.phoenix.applications.ServerApplicationFactory;
+import org.apache.avalon.atlantis.applications.ServerApplication;
+import org.apache.avalon.atlantis.applications.ServerApplicationFactory;
+
+import org.apache.framework.context.Context;
+import org.apache.framework.component.ComponentManager;
+import org.apache.framework.configuration.Configuration;
 
 /**
  *
@@ -16,7 +20,25 @@ import org.apache.phoenix.applications.ServerApplicationFactory;
  */
 public class DefaultServerApplicationFactory implements ServerApplicationFactory
 {
+    public DefaultServerApplicationFactory()
+    {
+    }
     public ServerApplication getApplication()
+    {
+        return null;
+    }
+    public ServerApplication getApplication( Context context )
+    {
+        return null;
+    }
+    public ServerApplication getApplication( Context context,
+        ComponentManager componentManager )
+    {
+        return null;
+    }
+    public ServerApplication getApplication( Context context,
+        ComponentManager componentManager,
+        Configuration configuration )
     {
         return null;
     }

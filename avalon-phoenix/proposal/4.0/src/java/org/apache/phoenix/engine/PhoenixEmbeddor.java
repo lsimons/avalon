@@ -10,19 +10,27 @@ package org.apache.phoenix.engine;
 import javax.management.MBeanServer;
 import java.io.File;
 
-import org.apache.framework.configuration.Configurable;
-import org.apache.framework.context.Contextualizable;
-import org.apache.framework.component.Composer;
 import org.apache.framework.logger.Loggable;
-import org.apache.framework.lifecycle.Suspendable;
-import org.apache.framework.lifecycle.Resumable;
+
+import org.apache.framework.parameters.Parameters;
+import org.apache.framework.parameters.ParameterException;
 
 import org.apache.framework.context.Context;
+import org.apache.framework.context.DefaultContext;
+import org.apache.framework.context.ContextualizationException;
+
+import org.apache.framework.component.DefaultComponentManager;
+import org.apache.framework.component.Composer;
+import org.apache.framework.component.ComponentException;
+
+import org.apache.framework.configuration.Configurable;
 import org.apache.framework.configuration.Configuration;
 import org.apache.framework.configuration.ConfigurationException;
-import org.apache.framework.context.DefaultContext;
-import org.apache.framework.component.DefaultComponentManager;
 import org.apache.framework.configuration.DefaultConfigurationBuilder;
+import org.apache.framework.lifecycle.StartException;
+import org.apache.framework.lifecycle.StopException;
+import org.apache.framework.lifecycle.InitializationException;
+
 import org.apache.framework.CascadingException;
 
 import org.apache.avalon.camelot.Container;
@@ -30,9 +38,9 @@ import org.apache.avalon.camelot.CamelotUtil;
 import org.apache.avalon.camelot.Entry;
 import org.apache.avalon.camelot.Deployer;
 
-import org.apache.phoenix.facilities.Manager;
-import org.apache.phoenix.core.Kernel;
-import org.apache.phoenix.core.Embeddor;
+import org.apache.avalon.atlantis.facilities.Manager;
+import org.apache.avalon.atlantis.core.Kernel;
+import org.apache.avalon.atlantis.core.Embeddor;
 import org.apache.phoenix.engine.facilities.ManagerImpl;
 
 import org.apache.log.format.AvalonLogFormatter;
@@ -41,6 +49,7 @@ import org.apache.log.Logger;
 import org.apache.log.LogKit;
 import org.apache.log.Priority;
 import org.apache.log.LogTarget;
+import org.apache.framework.logger.AbstractLoggable;
 
 /**
  *
@@ -50,14 +59,14 @@ import org.apache.log.LogTarget;
  * with threading stuff.
  * - fix imports.
  *
- * @author <a href="mail@leosimons.com">Leo Simons</a>
- * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  * @author <a href="mailto:fede@apache.org">Federico Barbieri</a>
+ * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
+ * @author <a href="mail@leosimons.com">Leo Simons</a>
  */
 public class PhoenixEmbeddor
-    implements Embeddor, Suspendable, Resumable
+    extends AbstractLoggable implements Embeddor
 {
-    private Context         context;
+    private Parameters         parameters;
 
     private Logger          logger;
     private Deployer        deployer;
@@ -86,8 +95,7 @@ public class PhoenixEmbeddor
     /////////////////////////
     /**
      * Make sure to provide all the neccessary information through
-     * this context. All information it needs consists of strings.
-     * These are also indexed using strings. Neccessary are:
+     * the parameters. Neccessary are:
      * <ul>
      * <li><b>kernel-class</b>, the classname of the
      * org.apache.phoenix.core.Kernel to be used.</li>
@@ -110,18 +118,10 @@ public class PhoenixEmbeddor
      * When ommited, no applications are loaded.</li>
      * </ul>
      */
-    public void contextualize( Context context )
+    public void parametize( Parameters parameters )
+        throws ParameterException
     {
-        this.context = context;
-    }
-    /**
-     * Currently unused, but Embeddor extends it so call anyway
-     * using a dummy configuration.
-     */
-    public void configure( Configuration configuration )
-        throws ConfigurationException
-    {
-        // TODO
+        this.parameters = parameters;
     }
     /**
      * Creates the core handlers - logger, deployer, Manager and
@@ -129,18 +129,9 @@ public class PhoenixEmbeddor
      * called the <code>run()</code> method.
      */
     public void init()
-        throws Exception
+        throws InitializationException
     {
-        this.createLogger();
-        try { this.createDeployer(); }
-        catch( Exception e ) { logger.fatalError( "Unable to create deployer!", e );
-                               throw new CascadingException( "Unable to create deployer!", e ); }
-        try { this.createManager(); }
-        catch( Exception e ) { logger.fatalError( "Unable to create manager!", e );
-                               throw new CascadingException( "Unable to create manager!", e ); }
-        try { this.createKernel(); }
-        catch( Exception e ) { logger.fatalError( "Unable to create kernel!", e );
-                               throw new CascadingException( "Unable to create kernel!", e ); }
+        this.createComponents();
     }
     /**
      * This is the main method of the embeddor. It sets up the core
@@ -151,130 +142,76 @@ public class PhoenixEmbeddor
      * finished, as well as all the applications running in it, it
      * is shut down, after which the PhoenixEmbeddor is as well.
      */
-    public void run()
+    public void start() throws StartException
     {
         // setup core handler components
-        this.setupLogger();
-        try { this.setupDeployer(); }
-        catch( Exception e ) {  logger.fatalError("Unable to setup deployer!", e);
-                                System.exit( 1 ); }
-        try { this.setupManager(); }
-        catch( Exception e ) {  logger.fatalError("Unable to setup manager!", e);
-                                System.exit( 1 ); }
-        try { this.setupKernel(); }
-        catch( Exception e ) {  logger.fatalError("Unable to setup kernel!", e);
-                                System.exit( 1 ); }
+        this.setupComponents();
+        // deploy facilities and applications
+        this.runDeployer();
 
-        try
+        kernel.start();
+        // loop until <code>Shutdown</code> is created.
+        while( this.shutdown )
         {
-            kernel.start();
+            // loop
 
-            // loop until <code>Shutdown</code> is created.
-            while( !this.shutdown )
-            {
-                // loop
-                while( !this.restart && !this.suspend )
-                {
-                    // the run() method in the kernel should
-                    // call wait(), or this doesn't work very
-                    // well...
-                    kernel.run();
-                    // wait() for shutdown(), restart() or
-                    // suspend() to take action...
-                    try { synchronized( this ) { wait(); } }
-                    catch (InterruptedException e) {}
-                }
-                if( this.restart )
-                {
-                    handleRestart();
-                }
-                else if( this.suspend )
-                {
-                    handleSuspend();
-                }
-            }
-            // we can stop everything now...
-            handleDispose();
+            // wait() for shutdown() to take action...
+            try { synchronized( this ) { wait(); } }
+            catch( final InterruptedException e ) {}
         }
-        catch ( Exception e )
-        {
-            // whoops!
-            this.logger.fatalError("There was a fatal error while running phoenix.", e );
-            System.exit( 1 );
-        }
+        // we can shut everything down now...
+        handleShutdown();
     }
 
-    /**
-     * This stops and then restarts the Embeddor,
-     * re-creating the logger, deployer, Manager
-     * and Kernel in the process.
-     */
-    public void restart()
-    {
-        this.restart = true;
-        synchronized( this ) { notifyAll(); }
-    }
     /**
      * Shut down the Embeddor together with the
      * Logger, Deployer, Manager and Kernel.
      */
-    public void dispose()
+    public void stop()
     {
         this.shutdown = true;
         synchronized( this ) { notifyAll(); }
-    }
-    /**
-     * Suspend both the Embeddor and its Manager.
-     * If the Kernel does not support suspend,
-     * this shuts down the Kernel and all
-     * Applications running in it. This is not
-     * recommended!
-     */
-    public void suspend()
-    {
-        this.suspend = true;
-        synchronized( this ) { notifyAll(); }
-    }
-    /**
-     * Resume both the Embeddor and its Manager.
-     * If the Kernel does not support suspend, it
-     * has to be re-created and re-setup. This
-     * happens now.
-     */
-    public void resume()
-    {
-        try
-        {
-            if( this.kernelSupportsSuspend )
-            {
-                manager.resume();
-                ((Resumable)kernel).resume();
-
-                this.suspend = false;
-                synchronized( this ) { notifyAll(); }
-            } else
-            {
-                this.createKernel();
-                this.setupKernel();
-
-                manager.resume();
-                kernel.start();
-
-                this.suspend = false;
-                synchronized( this ) { notifyAll(); }
-            }
-        }
-        catch( Exception e )
-        {
-            // this is bad...
-            logger.fatalError( "A fatal error occured while resuming. Phoenix will exit.", e );
-            System.exit( 1 );
-        }
     }
 
     //////////////////////
     /// HELPER METHODS ///
     //////////////////////
+    /**
+     * Creates all required core components.
+     */
+    private void createComponents() throws InitializationException
+    {
+        try { this.createLogger(); }
+        catch( Exception e ) {  logger.fatalError( "Unable to create logger!", e );
+                                throw new InitializationException( "Unable to create logger!", e ); }
+        try { this.createDeployer(); }
+        catch( Exception e ) { logger.fatalError( "Unable to create deployer!", e );
+                               throw new InitializationException( "Unable to create deployer!", e ); }
+        try { this.createManager(); }
+        catch( Exception e ) { logger.fatalError( "Unable to create manager!", e );
+                               throw new InitializationException( "Unable to create manager!", e ); }
+        try { this.createKernel(); }
+        catch( Exception e ) { logger.fatalError( "Unable to create kernel!", e );
+                               throw new InitializationException( "Unable to create kernel!", e ); }
+    }
+    /**
+     * Sets up all the core components.
+     */
+    private void setupComponents() throws StartException
+    {
+        try { this.setupLogger(); }
+        catch( Exception e ) {  logger.fatalError( "Unable to setup logger!", e );
+                                throw new StartException( "Unable to setup logger!", e ); }
+        try { this.setupDeployer(); }
+        catch( Exception e ) {  logger.fatalError( "Unable to setup deployer!", e );
+                                throw new StartException( "Unable to setup deployer!",e ); }
+        try { this.setupManager(); }
+        catch( Exception e ) {  logger.fatalError( "Unable to setup manager!", e );
+                                throw new StartException( "Unable to setup manager!",e ); }
+        try { this.setupKernel(); }
+        catch( Exception e ) {  logger.fatalError( "Unable to setup kernel!", e );
+                                throw new StartException( "Unable to setup kernel!",e ); }
+    }
     /**
      * Uses <code>org.apache.log.LogKit</code> to create a new
      * logger using "Phoenix" as its category, DEBUG as its
@@ -287,13 +224,14 @@ public class PhoenixEmbeddor
     {
         try
         {
-            final FileOutputLogTarget logTarget = new FileOutputLogTarget( (String)this.context.get( "log-destination" ) );
+            final String logDest = this.parameters.getParameter( "log-destination", "" );
+            final FileOutputLogTarget logTarget = new FileOutputLogTarget( logDest );
             final AvalonLogFormatter formatter = new AvalonLogFormatter();
             formatter.setFormat( "%{time} [%7.7{priority}] <<%{category}>> " +
                                  "(%{context}): %{message}\\n%{throwable}" );
             logTarget.setFormatter( formatter );
 
-            LogKit.addLogTarget( (String)this.context.get( "log-destination" ), logTarget );
+            LogKit.addLogTarget( logDest, logTarget );
             this.logger = LogKit.createLogger( LogKit.createCategory( "Phoenix", Priority.DEBUG ),
                                             new LogTarget[] { logTarget } );
             this.logger.info( "Loader started" );
@@ -315,46 +253,57 @@ public class PhoenixEmbeddor
      */
     private void createDeployer() throws ConfigurationException
     {
+        final String className = this.parameters.getParameter( "deployer-class", null );
         try
         {
             Thread.currentThread().setContextClassLoader( getClass().getClassLoader() );
-            this.deployer = (Deployer)Class.forName( (String)this.context.get( "deployer-class" ) ).newInstance();
-            this.deployerContext = new DefaultContext();
+            this.deployer = (Deployer)Class.forName( className ).newInstance();
         }
         catch( final Exception e )
         {
             throw new ConfigurationException( "Failed to create Deployer of class " +
-                                              (String)this.context.get( "deployer-class" ), e );
+                                              className, e );
         }
     }
     /**
      * Sets up the Deployer. If it is Loggable, it gets a reference
-     * to the Embeddor's logger. If it is Contextualizable it is
-     * passed a Context. If it is a Composer it is given a
+     * to the Embeddor's logger. If it is a Composer it is given a
      * ComponentManager which references the Kernel, cast to a
      * Container.
-     * The deployer is now used to load the applications from the
-     * default-facilities-location specified in Context.
-     * TODO: load facilities from .fars as well.
      */
     private void setupDeployer() throws Exception
     {
-        if( this.deployer instanceof Loggable )
-        {
-            ((Loggable)this.deployer).setLogger( this.logger );
-        }
-        if( this.deployer instanceof Contextualizable )
-        {
-            ((Contextualizable)this.deployer).contextualize( (Context)this.deployerContext );
-        }
+        setupLogger( this.deployer );
+
         if( this.deployer instanceof Composer )
         {
             final DefaultComponentManager componentManager = new DefaultComponentManager();
             componentManager.put( "org.apache.avalon.camelot.Container", (Container)this.kernel );
             ((Composer)this.deployer).compose( componentManager );
         }
-        final File directory = new File( (String)this.context.get( "default-apps-location" ) );
-        CamelotUtil.deployFromDirectory( deployer, directory, ".sar" );
+    }
+    /**
+     * Runs the deployer. This expands and installs all the .sar and .far
+     * files from their respective directories.
+     * TODO: handle Facilities.
+     */
+    private void runDeployer() throws StartException
+    {
+        final String defaultAppsLocation =
+            this.parameters.getParameter( "applications-directory", null );
+
+        if( null != defaultAppsLocation )
+        {
+            final File directory = new File( defaultAppsLocation );
+            try
+            {
+                CamelotUtil.deployFromDirectory( this.deployer, directory, ".sar" );
+            }
+            catch( Exception e )
+            {
+                throw new StartException( "Unable to deploy applications from "+defaultAppsLocation, e );
+            }
+        }
 
         // TODO: load facilities from .fars
         // final File directory2 = new File( (String)this.context.get( "default-facilities-location" ) );
@@ -385,7 +334,7 @@ public class PhoenixEmbeddor
      * Deployer just loaded. Have Deployer put those in
      * managerContext.
      */
-    private void setupManager()
+    private void setupManager() throws StartException
     {
         this.manager = new ManagerImpl();
         setupLogger( this.manager );
@@ -394,7 +343,14 @@ public class PhoenixEmbeddor
         this.managerContext.put("org.apache.framework.atlantis.core.Embeddor", this );
         this.managerContext.put("org.apache.framework.atlantis.core.Kernel", this.kernel );
         this.managerContext.put("org.apache.avalon.camelot.Deployer", this.deployer );
-        this.manager.contextualize( this.managerContext );
+        try
+        {
+            this.manager.contextualize( this.managerContext );
+        }
+        catch( Exception ce )
+        {
+            throw new StartException( "Unable to contextualize Manager.", ce );
+        }
     }
     /**
      * Creates the Kernel. The class used is the kernel-class
@@ -402,15 +358,16 @@ public class PhoenixEmbeddor
      */
     private void createKernel() throws ConfigurationException
     {
+        final String className = this.parameters.getParameter( "kernel-class", null );
         try
         {
             Thread.currentThread().setContextClassLoader( getClass().getClassLoader() );
-            this.kernel = (Kernel)Class.forName( (String)this.context.get( "kernel-class" ) ).newInstance();
-            this.kernelContext = new DefaultContext();
-        } catch( final Exception e )
+            this.kernel = (Kernel)Class.forName( className ).newInstance();
+        }
+        catch( final Exception e )
         {
             throw new ConfigurationException( "Failed to create Kernel of class " +
-                                              (String)this.context.get( "kernel-class" ), e );
+                                              className, e );
         }
     }
     /**
@@ -419,124 +376,56 @@ public class PhoenixEmbeddor
      * on that.
      * TODO: add checking for Recontextualizable and Reconfigurable.
      */
-    private void setupKernel()
+    private void setupKernel() throws StartException
     {
-        if( this.kernel instanceof Loggable )
-        {
-            ((Loggable)this.kernel).setLogger( this.logger );
-        }
-        if( this.kernel instanceof Contextualizable )
-        {
-            this.kernelContext.put( "org.apache.phoenix.facilities.Manager", this.manager );
-            ((Contextualizable)this.kernel).contextualize( (Context)this.kernelContext );
-        }
+        setupLogger( this.kernel );
+
         if( this.kernel instanceof Configurable )
         {
-            try {
-                this.kernelConfiguration = (new DefaultConfigurationBuilder()).build(
-                   (String)this.context.get( "kernel-configuration-source" ) );
-                ((Configurable)this.kernel).configure( this.kernelConfiguration );
-            }
-            catch ( Exception se )
+            final DefaultConfigurationBuilder builder = new DefaultConfigurationBuilder();
+            final String kernelConfigLocation =
+                this.parameters.getParameter( "kernel-configuration-source", null );
+            try
             {
-                // it's okay; we don't use this yet anyway...
+                final Configuration configuration = builder.build( kernelConfigLocation );
+                ((Configurable)this.kernel).configure( configuration );
             }
+            catch( Exception e ) { throw new StartException(
+                        "Unable to configuration kernel from "+kernelConfigLocation, e ); }
         }
-        if( ( this.kernel instanceof Suspendable ) && ( this.kernel instanceof Resumable ) )
-        {
-            this.kernelSupportsSuspend = true;
-        }
-
-        try {
-            this.kernel.init();
-        } catch ( Exception e )
-        {
-            this.logger.log( Priority.FATAL_ERROR,
-                "There was a fatal error; phoenix could not be started", e );
-            System.exit( 1 );
-        }
-    }
-
-    /**
-     * Shuts down all components, dereferences them, does garbage-collect
-     * and then re-initializes and runs the core components.
-     */
-    private void handleRestart() throws Exception
-    {
-        this.restart = false;
-
-        kernel.stop();
-        kernel.dispose();
-        manager.stop();
-        manager.dispose();
-
-        logger = null;
-        kernel = null;
-        manager = null;
-        mBeanServer = null;
-        deployer = null;
-        System.gc(); // make sure resources are released
 
         try
         {
-            // re-initialise
-            this.init();
-            this.setupLogger();
-            this.setupDeployer();
-            this.setupManager();
-            this.setupKernel();
+            this.kernel.init();
         }
-        catch( Exception e )
+        catch( final Exception e )
         {
-            // this is bad...
-            logger.fatalError( "A fatal error occured while restarting. Phoenix will exit.", e );
-            System.exit( 1 );
+            throw new StartException( "There was a fatal error; phoenix could not be started", e );
         }
-        kernel.start();
     }
-    /**
-     * Suspends the manager, and if possible, the Kernel.
-     * If the Kernel is not Suspendable, it is disposed
-     * of and recreated when resume() is called.
-     */
-    private void handleSuspend() throws Exception
-    {
-        //this.suspend = false;
 
-        if( this.kernelSupportsSuspend )
-        {
-            ((Suspendable)kernel).suspend();
-        } else
-        {
-            // the kernel does not support suspend,
-            // thus, we must destroy and then
-            // re-create it.
-            kernel.stop();
-            kernel.dispose();
-            kernel = null;
-            System.gc(); // make sure resources are released
-        }
-
-        // wait for resume
-        try { synchronized( this ) { wait(); } }
-        catch (InterruptedException e) {}
-    }
     /**
      * Stop()s and disposes() the Kernel and Manager, dereferences
      * the other components and calls garbage-collect.
      */
-    private void handleDispose() throws Exception
+    private void handleShutdown()
     {
-        kernel.stop();
-        kernel.dispose();
-        manager.stop();
-        manager.dispose();
+        try
+        {
+            kernel.stop();
+            kernel.dispose();
+            manager.stop();
 
-        kernel = null;
-        manager = null;
-        mBeanServer = null;
-        deployer = null;
+            kernel = null;
+            manager = null;
+            mBeanServer = null;
+            deployer = null;
+        }
+        catch( Exception e )
+        {
+            this.logger.error( "There was an error while attempting to shut down phoenix", e );
+        }
+        logger = null;
         System.gc(); // make sure resources are released
     }
-
 }

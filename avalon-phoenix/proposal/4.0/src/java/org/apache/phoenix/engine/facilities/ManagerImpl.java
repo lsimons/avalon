@@ -10,9 +10,9 @@ package org.apache.phoenix.engine.facilities;
 import javax.management.MBeanServer;
 import javax.management.ObjectName;
 
-import org.apache.phoenix.facilities.Manager;
-import org.apache.phoenix.core.Kernel;
-import org.apache.phoenix.core.Embeddor;
+import org.apache.avalon.atlantis.facilities.Manager;
+import org.apache.avalon.atlantis.core.Kernel;
+import org.apache.avalon.atlantis.core.Embeddor;
 import org.apache.framework.context.Context;
 import org.apache.framework.context.ContextException;
 import org.apache.framework.configuration.Configuration;
