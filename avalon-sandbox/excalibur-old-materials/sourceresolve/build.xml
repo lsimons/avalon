@@ -264,7 +264,7 @@
 
     <!-- Creates the distribution -->
     <target name="dist"
-        depends="dist-jar, test-reports, checkstyle-report, docs"
+        depends="dist-jar, test-reports, checkstyle-report, site"
         description="Generates a distribution (jar + docs + javadocs + unit tests + checkstyle reports)">
 
 
