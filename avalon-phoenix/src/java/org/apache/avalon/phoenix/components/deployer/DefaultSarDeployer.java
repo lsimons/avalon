@@ -15,8 +15,6 @@ import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.camelot.Container;
 import org.apache.avalon.framework.camelot.ContainerException;
-import org.apache.avalon.framework.camelot.Deployer;
-import org.apache.avalon.framework.camelot.DeploymentException;
 import org.apache.avalon.framework.camelot.Locator;
 import org.apache.avalon.framework.component.ComponentException;
 import org.apache.avalon.framework.component.ComponentManager;
@@ -30,10 +28,7 @@ import org.apache.avalon.phoenix.components.configuration.ConfigurationRepositor
 import org.apache.avalon.phoenix.components.kapi.BlockEntry;
 import org.apache.avalon.phoenix.components.kapi.RoleEntry;
 import org.apache.avalon.phoenix.components.kapi.ServerApplicationEntry;
-import org.apache.avalon.phoenix.components.installer.InstallationException;
 import org.apache.avalon.phoenix.components.installer.Installation;
-import org.apache.avalon.phoenix.components.installer.Installer;
-import org.apache.avalon.phoenix.components.installer.DefaultInstaller;
 
 /**
  * Deploy .sar files into a kernel using this class.
@@ -56,7 +51,6 @@ public class DefaultSarDeployer
     private File                     m_deployDirectory;
     private Container                m_container;
     private ConfigurationRepository  m_repository;
-    private Installer                m_installer;
 
     /**
      * Retrieve relevent services needed to deploy.
@@ -69,9 +63,6 @@ public class DefaultSarDeployer
     {
         m_container = (Container)componentManager.lookup( Container.ROLE );
         m_repository = (ConfigurationRepository)componentManager.lookup( ConfigurationRepository.ROLE );
-        //m_installer = (Installer)componentManager.lookup( Installer.ROLE );
-        m_installer = new DefaultInstaller();
-        setupLogger( m_installer );
     }
 
     /**
@@ -89,38 +80,13 @@ public class DefaultSarDeployer
     }
 
     /**
-     * Deploy a named application from a url.
-     * The URL represents location of deployment archive.
-     *
-     * @param name the  name of application
-     * @param url the URL of deployment
-     * @exception DeploymentException if an error occurs
-     */
-    public void deploy( final String name, final URL url )
-        throws DeploymentException
-    {
-        try
-        {
-            final Installation installation = m_installer.install( name, url );
-            deployFromInstallation( name, installation );
-        }
-        catch( final InstallationException ie )
-        {
-            throw new DeploymentException( "Error installing " + name, ie );
-        }
-        //final File file = getFileFor( url );
-        //final String message = REZ.getString( "deploy.notice.deploying", file, name );
-        //getLogger().info( message );
-    }
-
-    /**
      * Deploy an application from an installation.
      *
      * @param name the name of application
      * @param directory the directory to deploy from
      * @exception DeploymentException if an error occurs
      */
-    private void deployFromInstallation( final String name, final Installation installation )
+    public void deploy( final String name, final Installation installation )
         throws DeploymentException
     {
         final ServerApplicationEntry entry = new ServerApplicationEntry();
