@@ -23,7 +23,7 @@ fi
 
 # Main.java has hard coded config values so this script must be run from 
 # altprofile/bin (any better ideas ?)
-EXAMPLE_HOME=../..
+EXAMPLE_HOME=..
 
 #
 # Build the runtime classpath
@@ -32,10 +32,8 @@ for i in ${EXAMPLE_HOME}/commonlib/*.jar ; do
     CP=${CP}:$i
 done
 
-CP=${CP}:../lib/altprofile.jar
-
 #echo $CP
 
 # Run the example application
-$JAVACMD -classpath $CP org.apache.avalon.examples.altprofile.Main $@
+$JAVACMD -classpath $CP org.apache.avalon.excalibur.instrument.example.Main $@
 

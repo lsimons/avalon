@@ -39,19 +39,19 @@
             <instrument name="random-quick" description="Random Values at a quick rate.">
                 <sample type="maximum" interval="1000" size="600" description="Maximum each second."/>
                 <sample type="minimum" interval="1000" size="600" description="Minimum each second."/>
-                <sample type="average" interval="1000" size="600" description="Average each second."/>
+                <sample type="mean" interval="1000" size="600" description="Average each second."/>
             </instrument>
             
             <instrument name="random-slow" description="Random Values at a slow rate.">
                 <sample type="maximum" interval="1000" size="600" description="Maximum each second."/>
                 <sample type="minimum" interval="1000" size="600" description="Minimum each second."/>
-                <sample type="average" interval="1000" size="600" description="Average each second."/>
+                <sample type="mean" interval="1000" size="600" description="Average each second."/>
             </instrument>
             
             <instrument name="random-random" description="Random Values at a random rate.">
                 <sample type="maximum" interval="1000" size="600" description="Maximum each second."/>
                 <sample type="minimum" interval="1000" size="600" description="Minimum each second."/>
-                <sample type="average" interval="1000" size="600" description="Average each second."/>
+                <sample type="mean" interval="1000" size="600" description="Average each second."/>
             </instrument>
             
             <instrument name="counter-quick" description="Count of actions at a quick rate.">
