@@ -17,7 +17,7 @@ import java.rmi.server.UnicastRemoteObject;
 import javax.management.MBeanServer;
 import javax.management.ObjectName;
 import javax.management.MalformedObjectNameException;
-import org.apache.avalon.excalibur.baxter.JavaBeanMBean;
+import org.apache.excalibur.baxter.JavaBeanMBean;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.framework.component.ComponentException;

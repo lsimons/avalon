@@ -37,7 +37,7 @@ import javax.management.ReflectionException;
  * to remote operations.
  *
  * @author <a href="mailto:mail@leosimons.com">Leo Simons</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/03/25 08:28:09 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/04/07 08:30:07 $
  */
 public interface RMIAdaptor
     extends Remote
@@ -57,7 +57,7 @@ public interface RMIAdaptor
      *      object's constructor.
      * @exception javax.management.MBeanException The constructor of the object has thrown an
      *      exception
-     * @exception java.rmi.RemoteException RMI Exception
+     * @exception RemoteException RMI Exception
      */
     Object instantiate( String className )
         throws ReflectionException, MBeanException, RemoteException;
@@ -131,7 +131,7 @@ public interface RMIAdaptor
      *      exception
      * @exception javax.management.InstanceNotFoundException The specified class loader is not
      *      registered in the MBean server.
-     * @exception java.rmi.RemoteException RMI Exception
+     * @exception RemoteException RMI Exception
      */
     Object instantiate( String className, ObjectName loaderName, Object params[], String signature[] )
         throws ReflectionException, MBeanException, InstanceNotFoundException, RemoteException;
@@ -235,7 +235,7 @@ public interface RMIAdaptor
      * @exception javax.management.MBeanException The constructor of the MBean has thrown an
      *      exception
      * @exception javax.management.NotCompliantMBeanException If the mBean is invalid form
-     * @exception java.rmi.RemoteException RMI Exception
+     * @exception RemoteException RMI Exception
      */
     ObjectInstance createMBean( String className, ObjectName name, Object params[], String signature[] )
         throws ReflectionException, InstanceAlreadyExistsException, MBeanRegistrationException,
@@ -400,7 +400,7 @@ public interface RMIAdaptor
      * Returns the number of MBeans registered in the MBean server.
      *
      * @return The MBeanCount value
-     * @exception java.rmi.RemoteException DOC: Insert Description of Exception
+     * @exception RemoteException DOC: Insert Description of Exception
      */
     Integer getMBeanCount()
         throws RemoteException;
@@ -463,7 +463,7 @@ public interface RMIAdaptor
      *      setter.
      * @exception javax.management.ReflectionException Wraps a <CODE>java.lang.Exception</CODE>
      *      thrown when trying to invoke the setter.
-     * @exception java.rmi.RemoteException DOC: Insert Description of Exception
+     * @exception RemoteException DOC: Insert Description of Exception
      */
     void setAttribute( ObjectName name, Attribute attribute )
         throws InstanceNotFoundException, AttributeNotFoundException, InvalidAttributeValueException,
@@ -482,7 +482,7 @@ public interface RMIAdaptor
      *      registered in the MBean server.
      * @exception javax.management.ReflectionException An exception occurred when trying to
      *      invoke the getAttributes method of a Dynamic MBean.
-     * @exception java.rmi.RemoteException DOC: Insert Description of Exception
+     * @exception RemoteException DOC: Insert Description of Exception
      */
     AttributeList setAttributes( ObjectName name, AttributeList attributes )
         throws InstanceNotFoundException, ReflectionException, RemoteException;
@@ -506,7 +506,7 @@ public interface RMIAdaptor
      *      invoked method.
      * @exception javax.management.ReflectionException Wraps a <CODE>java.lang.Exception</CODE>
      *      thrown while trying to invoke the method.
-     * @exception java.rmi.RemoteException DOC: Insert Description of Exception
+     * @exception RemoteException DOC: Insert Description of Exception
      */
     Object invoke( ObjectName name, String operationName, Object params[], String signature[] )
         throws InstanceNotFoundException, MBeanException, ReflectionException, RemoteException;
@@ -517,7 +517,7 @@ public interface RMIAdaptor
      * is specified by the user.
      *
      * @return The DefaultDomain value
-     * @exception java.rmi.RemoteException DOC: Insert Description of Exception
+     * @exception RemoteException DOC: Insert Description of Exception
      */
     String getDefaultDomain()
         throws RemoteException;
@@ -534,7 +534,7 @@ public interface RMIAdaptor
      *      notification is emitted.
      * @exception javax.management.InstanceNotFoundException The MBean name provided does not
      *      match any of the registered MBeans.
-     * @exception java.rmi.RemoteException DOC: Insert Description of Exception
+     * @exception RemoteException DOC: Insert Description of Exception
      */
     void addNotificationListener( ObjectName name,
                                   NotificationListener listener,
@@ -555,7 +555,7 @@ public interface RMIAdaptor
      * @exception javax.management.InstanceNotFoundException The MBean name of the notification
      *      listener or of the notification broadcaster does not match any of
      *      the registered MBeans.
-     * @exception java.rmi.RemoteException DOC: Insert Description of Exception
+     * @exception RemoteException DOC: Insert Description of Exception
      */
     void addNotificationListener( ObjectName name,
                                   ObjectName listener,
@@ -575,7 +575,7 @@ public interface RMIAdaptor
      *      match any of the registered MBeans.
      * @exception javax.management.ListenerNotFoundException The listener is not registered in
      *      the MBean.
-     * @exception java.rmi.RemoteException DOC: Insert Description of Exception
+     * @exception RemoteException DOC: Insert Description of Exception
      */
     void removeNotificationListener( ObjectName name, NotificationListener listener )
         throws InstanceNotFoundException, ListenerNotFoundException, RemoteException;
@@ -592,7 +592,7 @@ public interface RMIAdaptor
      *      match any of the registered MBeans.
      * @exception javax.management.ListenerNotFoundException The listener is not registered in
      *      the MBean.
-     * @exception java.rmi.RemoteException DOC: Insert Description of Exception
+     * @exception RemoteException DOC: Insert Description of Exception
      */
     void removeNotificationListener( ObjectName name, ObjectName listener )
         throws InstanceNotFoundException, ListenerNotFoundException, RemoteException;
@@ -609,7 +609,7 @@ public interface RMIAdaptor
      * @exception javax.management.InstanceNotFoundException The MBean specified is not found.
      * @exception javax.management.ReflectionException An exception occurred when trying to
      *      invoke the getMBeanInfo of a Dynamic MBean.
-     * @exception java.rmi.RemoteException DOC: Insert Description of Exception
+     * @exception RemoteException DOC: Insert Description of Exception
      */
     MBeanInfo getMBeanInfo( ObjectName name )
         throws InstanceNotFoundException, IntrospectionException, ReflectionException, RemoteException;
@@ -624,7 +624,7 @@ public interface RMIAdaptor
      *      class, false otherwise.
      * @exception javax.management.InstanceNotFoundException The MBean specified is not
      *      registered in the MBean server.
-     * @exception java.rmi.RemoteException DOC: Insert Description of Exception
+     * @exception RemoteException DOC: Insert Description of Exception
      */
     boolean isInstanceOf( ObjectName name, String className )
         throws InstanceNotFoundException, RemoteException;
@@ -640,7 +640,7 @@ public interface RMIAdaptor
      * @exception javax.management.InstanceNotFoundException The MBean specified is not found.
      * @exception javax.management.OperationsException Any of the usual Input/Output related
      *      exceptions.
-     * @exception java.rmi.RemoteException DOC: Insert Description of Exception
+     * @exception RemoteException DOC: Insert Description of Exception
      */
     ObjectInputStream deserialize( ObjectName name, byte[] data )
         throws InstanceNotFoundException, OperationsException, RemoteException;
@@ -656,7 +656,7 @@ public interface RMIAdaptor
      *      exceptions.
      * @exception javax.management.ReflectionException The specified class could not be loaded by
      *      the default loader repository
-     * @exception java.rmi.RemoteException DOC: Insert Description of Exception
+     * @exception RemoteException DOC: Insert Description of Exception
      */
     ObjectInputStream deserialize( String className, byte[] data )
         throws OperationsException, ReflectionException, RemoteException;
@@ -679,7 +679,7 @@ public interface RMIAdaptor
      *      exceptions.
      * @exception javax.management.ReflectionException The specified class could not be loaded by
      *      the specified class loader.
-     * @exception java.rmi.RemoteException DOC: Insert Description of Exception
+     * @exception RemoteException DOC: Insert Description of Exception
      */
     ObjectInputStream deserialize( String className, ObjectName loaderName, byte[] data )
         throws InstanceNotFoundException, OperationsException, ReflectionException, RemoteException;
