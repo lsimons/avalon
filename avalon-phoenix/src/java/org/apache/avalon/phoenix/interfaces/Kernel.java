@@ -7,8 +7,6 @@
  */
 package org.apache.avalon.phoenix.interfaces;
 
-import org.apache.avalon.framework.activity.Disposable;
-import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.phoenix.metadata.SarMetaData;
 import org.apache.log.Hierarchy;
