@@ -19,11 +19,13 @@ package org.apache.avalon.jmx.util;
 import java.beans.BeanInfo;
 import java.beans.Introspector;
 import java.beans.MethodDescriptor;
+import java.beans.ParameterDescriptor;
 import java.beans.PropertyDescriptor;
 
 import java.io.InputStream;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.management.Descriptor;
 import javax.management.MBeanParameterInfo;
@@ -51,7 +53,7 @@ import org.xml.sax.InputSource;
  * the Target structure.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  *
  * @todo update JavaDoc
  */
@@ -167,7 +169,7 @@ public class MBeanInfoBuilder extends AbstractLogEnabled
 
             // do the methods
             final MethodDescriptor[] methods = beanInfo.getMethodDescriptors();
-            final ArrayList operations = new ArrayList();
+            final List operations = new ArrayList();
 
             for ( int j = 0; j < methods.length; j++ )
             {
@@ -186,13 +188,19 @@ public class MBeanInfoBuilder extends AbstractLogEnabled
 
             // do the attributes
             final PropertyDescriptor[] propertys = beanInfo.getPropertyDescriptors();
-            final ModelMBeanAttributeInfo[] attributes = new ModelMBeanAttributeInfo[propertys.
-                                                         length];
+            final List attributesList = new ArrayList();
 
             for ( int j = 0; j < propertys.length; j++ )
-            {
-                attributes[j] = buildAttributeInfo( propertys[j], null );
+            {        
+                    final ModelMBeanAttributeInfo attribute = buildAttributeInfo( propertys[j], null );
+                //could be null for indexed properties
+                if (null != attribute)
+                {
+                        attributesList.add( attribute );
+                }
             }
+            final ModelMBeanAttributeInfo[] attributes =
+                    (ModelMBeanAttributeInfo[]) attributesList.toArray( new ModelMBeanAttributeInfo[0] );
 
             final ModelMBeanConstructorInfo[] constructors = new ModelMBeanConstructorInfo[0];
 
@@ -325,6 +333,15 @@ public class MBeanInfoBuilder extends AbstractLogEnabled
         final String name = property.getName();
         final Method readMethod = property.getReadMethod();
         final Method writeMethod = property.getWriteMethod();
+        final Class propertyType = property.getPropertyType();
+
+        //indexed property
+        //TODO: create a ModelMBeanOperationInfo
+        if (null == propertyType)
+        {
+                return null;
+        }
+        
         final String type = property.getPropertyType().getName();
 
         String description = property.getDisplayName();
@@ -428,7 +445,30 @@ public class MBeanInfoBuilder extends AbstractLogEnabled
 
         if ( config == null )
         {
-            info = new ModelMBeanOperationInfo( method.getDisplayName(), method.getMethod() );
+            final Class[] methodSignature = method.getMethod().getParameterTypes();
+            final ParameterDescriptor[] paramDescriptors = method.getParameterDescriptors();
+            if (methodSignature.length == 0
+                    || null == paramDescriptors
+                    || methodSignature.length != paramDescriptors.length)
+            {
+                info = new ModelMBeanOperationInfo( method.getDisplayName(), method.getMethod() );
+            }
+            else
+            {
+                final String name = method.getName();
+                final String type = method.getMethod().getReturnType().getName();
+                final String description = method.getDisplayName();
+                final int impact = ModelMBeanOperationInfo.UNKNOWN;
+                final MBeanParameterInfo[] params = new MBeanParameterInfo[methodSignature.length];
+                for (int i = 0; i < methodSignature.length; i++)
+                {
+                    params[i] = buildParameterInfo( methodSignature[i], paramDescriptors[i] );
+                }
+
+                info = new ModelMBeanOperationInfo( name, description, params, type, impact );
+            }
+
+        
 
         }
         else
@@ -490,6 +530,21 @@ public class MBeanInfoBuilder extends AbstractLogEnabled
         final String name = paramConfig.getAttribute( "name" );
         final String description = paramConfig.getAttribute( "description" );
         final String type = paramConfig.getAttribute( "type" );
+
+        return new MBeanParameterInfo( name, type, description );
+    }
+
+    /**
+     * Builds the param descriptor from bean info.
+     *
+     * @throws ConfigurationException if configuration not structured corretly
+     * @return the descriptor
+     */
+    private MBeanParameterInfo buildParameterInfo(Class parameterType, ParameterDescriptor descriptor)
+    {
+        final String name = descriptor.getDisplayName();
+        final String description = descriptor.getShortDescription();
+        final String type = parameterType.getName();
 
         return new MBeanParameterInfo( name, type, description );
     }
