@@ -52,17 +52,21 @@ package org.apache.avalon.composition.model;
 
 import java.io.File;
 
-import org.apache.avalon.meta.info.ContextDescriptor;
+import org.apache.avalon.composition.data.DeploymentProfile;
+
 import org.apache.avalon.framework.context.ContextException;
 import org.apache.avalon.framework.logger.Logger;
+
+import org.apache.avalon.meta.info.ContextDescriptor;
+import org.apache.avalon.meta.info.DependencyDescriptor;
+import org.apache.avalon.meta.info.StageDescriptor;
 import org.apache.avalon.meta.info.Type;
-import org.apache.avalon.composition.data.DeploymentProfile;
 
 /**
  * Defintion of a component deployment context.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1.2.2 $ $Date: 2004/01/04 20:19:27 $
+ * @version $Revision: 1.1.2.3 $ $Date: 2004/01/06 23:16:49 $
  */
 public interface ComponentContext extends DeploymentContext
 {
@@ -146,6 +150,23 @@ public interface ComponentContext extends DeploymentContext
     * @return the classloader
     */
     ClassLoader getClassLoader();
+
+   /**
+    * Return a model relative to a supplied dependency.
+    * @return a matching model or null if the dependency is unresolvable
+    * @exception ModelRuntimeException if an error occurs during model establishment
+    */
+    //DeploymentModel getModel( DependencyDescriptor dependency ) 
+    // throws ModelRuntimeException;
+
+   /**
+    * Return a model relative to a supplied stage descriptor.
+    * @param stage the stage descriptor
+    * @return model of a an stage handler or null if the stage is unresolvable
+    * @exception ModelRuntimeException if an error occurs during model establishment
+    */
+    //DeploymentModel getModel( StageDescriptor stage ) 
+    //  throws ModelRuntimeException;
 
    /**
     * Add a context entry model to the deployment context.

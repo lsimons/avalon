@@ -61,7 +61,7 @@ import org.apache.avalon.composition.data.Mode;
  * Default implementation of a deployment context.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2.2.2 $ $Date: 2004/01/04 21:28:59 $
+ * @version $Revision: 1.2.2.3 $ $Date: 2004/01/06 23:16:49 $
  */
 public class DefaultDeploymentContext extends DefaultContext 
   implements DeploymentContext
@@ -107,6 +107,10 @@ public class DefaultDeploymentContext extends DefaultContext
         }
 
         m_graph = new DependencyGraph( graph );
+        if( graph != null )
+        {
+            graph.addChild( m_graph );
+        }
 
         m_logger = logger;
         m_partition = partition;
@@ -137,15 +141,6 @@ public class DefaultDeploymentContext extends DefaultContext
     {
         return m_partition;
     }
-
-   /**
-    * Return the model fully qualified name.
-    * @return the fully qualified name
-    */
-    //public String getPath()
-    //{
-    //    return getQualifiedName();
-    //}
 
    /**
     * Return the model fully qualified name.

@@ -15,7 +15,7 @@ import junit.framework.TestCase;
 
 public abstract class AbstractTestCase extends TestCase
 {
-    public int PRIORITY = ConsoleLogger.LEVEL_WARN;
+    public int PRIORITY = ConsoleLogger.LEVEL_INFO;
 
    //-------------------------------------------------------
    // state
@@ -73,6 +73,84 @@ public abstract class AbstractTestCase extends TestCase
                 System.err.println( error );
                 fail( error );
             }
+        }
+    }
+
+    public void printModel( String lead, DeploymentModel model )
+    {
+        if( model instanceof ContainmentModel )
+        {
+            printContainmentModel( lead, (ContainmentModel) model );
+        }
+        else if( model instanceof ComponentModel ) 
+        {
+            printComponentModel( lead, (ComponentModel) model );
+        }
+    }
+
+    public void printContainmentModel( String lead, ContainmentModel model )
+    {
+        System.out.println( lead + "model:" + model );
+        printDeploymentModel( lead, model );
+        DeploymentModel[] models = model.getModels();
+        if( models.length > 0 )
+        {
+            System.out.println( lead + "  children:" );
+            for( int i=0; i<models.length; i++ )
+            {
+                DeploymentModel m = models[i];
+                printModel( "    " + lead, m );
+            }
+        }
+        models = model.getStartupGraph();
+        if( models.length > 0 )
+        {
+            System.out.println( lead + "  startup:" );
+            for( int i=0; i<models.length; i++ )
+            {
+                DeploymentModel m = models[i];
+                System.out.println( "    " + lead + (i+1) + ": " + m );
+            }
+        }
+        models = ((ContainmentModel)model).getShutdownGraph();
+        if( models.length > 0 )
+        {
+            System.out.println( lead + "  shutdown:" );
+            for( int i=0; i<models.length; i++ )
+            {
+                DeploymentModel m = models[i];
+                System.out.println( "    " + lead + (i+1) + ": " + m );
+            }
+        }
+    }
+
+    public void printComponentModel( String lead, ComponentModel model )
+    {
+        System.out.println( lead + "model:" + model );
+        printDeploymentModel( lead, model );
+    }
+
+    public void printDeploymentModel( String lead, DeploymentModel model )
+    {
+
+        DeploymentModel[] providers = model.getProviderGraph();
+        DeploymentModel[] consumers = model.getConsumerGraph();
+
+        if(( providers.length == 0 ) && ( consumers.length == 0 ))
+        {
+            return;
+        }
+
+        if( providers.length > 0 ) for( int i=0; i<providers.length; i++ )
+        {
+            DeploymentModel m = providers[i];
+            System.out.println( lead + "  <-- " + m );
+        }
+
+        if( consumers.length > 0 ) for( int i=0; i<consumers.length; i++ )
+        {
+            DeploymentModel m = consumers[i];
+            System.out.println( lead + "  --> " + m );
         }
     }
 }

@@ -66,7 +66,7 @@ import org.apache.avalon.meta.info.StageDescriptor;
  * context.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.9.2.5 $ $Date: 2004/01/04 21:28:59 $
+ * @version $Revision: 1.9.2.6 $ $Date: 2004/01/06 23:16:49 $
  */
 public interface ContainmentModel extends DeploymentModel
 {
@@ -99,6 +99,14 @@ public interface ContainmentModel extends DeploymentModel
     */
     String getPartition();
 
+   /** 
+    * Returns the maximum allowable time for deployment.
+    *
+    * @return the maximum time expressed in millisecond of how 
+    * long a deployment may take.
+    **/
+   long getDeploymentTimeout();
+
    /**
     * Return the classloader model.
     *
@@ -123,8 +131,8 @@ public interface ContainmentModel extends DeploymentModel
     * @return a matching model or null if the dependency is unresolvable
     * @exception ModelRuntimeException if an error occurs during model establishment
     */
-    DeploymentModel getModel( DependencyDescriptor dependency ) 
-      throws ModelRuntimeException;
+    //DeploymentModel getModel( DependencyDescriptor dependency ) 
+    //  throws ModelRuntimeException;
 
    /**
     * Return a model relative to a supplied stage descriptor.
@@ -132,8 +140,8 @@ public interface ContainmentModel extends DeploymentModel
     * @return model of a an stage handler or null if the stage is unresolvable
     * @exception ModelRuntimeException if an error occurs during model establishment
     */
-    DeploymentModel getModel( StageDescriptor stage ) 
-      throws ModelRuntimeException;
+    //DeploymentModel getModel( StageDescriptor stage ) 
+    //  throws ModelRuntimeException;
 
    /**
     * Addition of a new subsidiary model within

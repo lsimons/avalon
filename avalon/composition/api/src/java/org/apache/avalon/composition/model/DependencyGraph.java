@@ -62,7 +62,7 @@ import java.util.ArrayList;
  * consumers and providers models.</p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1.2.3 $ $Date: 2004/01/04 21:28:59 $
+ * @version $Revision: 1.1.2.4 $ $Date: 2004/01/06 23:16:49 $
  */
 public class DependencyGraph
 {
@@ -201,9 +201,12 @@ public class DependencyGraph
      */
     public DeploymentModel[] getConsumerGraph( final DeploymentModel model )
     {
+        if( m_parent != null ) return m_parent.getConsumerGraph( model );
+
         try
         {
-            return referencedModels( model, getComponentGraph( model, false ) );
+            DeploymentModel[] graph = getComponentGraph( model, false );
+            return referencedModels( model, graph );
         } 
         catch( Throwable e )
         {
@@ -237,7 +240,8 @@ public class DependencyGraph
     /**
      * Return an model array that does not include the provided model.
      */
-    private DeploymentModel[] referencedModels( final DeploymentModel model, DeploymentModel[] models )
+    private DeploymentModel[] referencedModels( 
+      final DeploymentModel model, DeploymentModel[] models )
     {
         ArrayList list = new ArrayList();
         for( int i = 0; i < models.length; i++ )
@@ -257,7 +261,8 @@ public class DependencyGraph
      * @param providers true if traversing providers, false if consumers
      * @return the list of models 
      */
-    private DeploymentModel[] getComponentGraph( final DeploymentModel model, final boolean providers )
+    private DeploymentModel[] getComponentGraph( 
+      final DeploymentModel model, final boolean providers )
     {
         final ArrayList result = new ArrayList();
         visitcomponent( model,
@@ -274,7 +279,8 @@ public class DependencyGraph
      * It is expected that the specified components have passed
      * verification tests and are well formed.
      *
-     * @param direction true if forward dependencys traced, false if dependencies reversed
+     * @param direction true if forward dependencys traced, false if 
+     *   dependencies reversed
      * @return the ordered model list
      */
     private DeploymentModel[] walkGraph( final boolean direction )
@@ -312,7 +318,6 @@ public class DependencyGraph
             final ArrayList done,
             final ArrayList order )
     {
-
         //If already visited this model return
 
         if( done.contains( model ) ) return;
@@ -358,15 +363,11 @@ public class DependencyGraph
             final ArrayList done,
             final ArrayList order )
     {
-
-        final String name = model.getName();
-
         final int size = m_models.size();
         for( int i = 0; i < size; i++ )
         {
             final DeploymentModel other =
                     (DeploymentModel) m_models.get( i );
-
             final DeploymentModel[] providers = other.getProviders();
             for( int j = 0; j < providers.length; j++ )
             {

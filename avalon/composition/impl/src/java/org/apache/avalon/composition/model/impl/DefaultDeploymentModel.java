@@ -63,7 +63,7 @@ import org.apache.avalon.composition.data.Mode;
  * Abstract model base class.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.9.2.5 $ $Date: 2004/01/04 21:28:59 $
+ * @version $Revision: 1.9.2.6 $ $Date: 2004/01/06 23:16:49 $
  */
 public abstract class DefaultDeploymentModel
   implements DeploymentModel
@@ -177,7 +177,12 @@ public abstract class DefaultDeploymentModel
 
     public String toString()
     {
-        return "[model: " + getQualifiedName() + "]";
+        return "[" + getQualifiedName() + "]";
     }
 
+    public boolean equals( Object other )
+    {
+        boolean equal = super.equals( other ); 
+        return equal;
+    }
 }

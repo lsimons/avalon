@@ -55,20 +55,29 @@ import java.io.File;
 import org.apache.avalon.composition.model.DependencyGraph;
 import org.apache.avalon.composition.model.SystemContext;
 import org.apache.avalon.composition.model.ContainmentContext;
+import org.apache.avalon.composition.model.ContainmentModel;
 import org.apache.avalon.composition.model.ClassLoaderModel;
 import org.apache.avalon.composition.model.ModelRepository;
+import org.apache.avalon.composition.model.ModelRuntimeException;
+import org.apache.avalon.composition.model.DeploymentModel;
+
+import org.apache.avalon.composition.data.ContainmentProfile;
+
 import org.apache.avalon.framework.context.DefaultContext;
 import org.apache.avalon.framework.logger.Logger;
+
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
-import org.apache.avalon.composition.data.ContainmentProfile;
+
+import org.apache.avalon.meta.info.DependencyDescriptor;
+import org.apache.avalon.meta.info.StageDescriptor;
 
 
 /**
  * Implementation of a containment supplied to a containment model.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2.2.3 $ $Date: 2004/01/04 20:19:27 $
+ * @version $Revision: 1.2.2.4 $ $Date: 2004/01/06 23:16:49 $
  */
 public class DefaultContainmentContext extends DefaultDeploymentContext 
   implements ContainmentContext
@@ -88,13 +97,15 @@ public class DefaultContainmentContext extends DefaultDeploymentContext
 
     private final File m_temp;
 
-    private final ClassLoaderModel m_model;
+    private final ClassLoaderModel m_classloader;
 
     private final ContainmentProfile m_profile;
 
     private final SystemContext m_system;
 
     private final ModelRepository m_repository;
+
+    private final ContainmentModel m_parent;
 
     //---------------------------------------------------------
     // constructor
@@ -112,11 +123,12 @@ public class DefaultContainmentContext extends DefaultDeploymentContext
     */
     public DefaultContainmentContext( 
       Logger logger, SystemContext system, ClassLoaderModel model, 
-      ModelRepository repository, DependencyGraph graph, ContainmentProfile profile )
+      ModelRepository repository, DependencyGraph graph, 
+      ContainmentProfile profile )
     {
         this( logger, system, model, repository, graph,
           system.getHomeDirectory(), system.getTempDirectory(), 
-          profile, null, "" );
+          null, profile, null, "" );
     }
 
    /**
@@ -137,7 +149,8 @@ public class DefaultContainmentContext extends DefaultDeploymentContext
     public DefaultContainmentContext( 
       Logger logger, SystemContext system, ClassLoaderModel model, 
       ModelRepository repository, DependencyGraph graph, 
-      File home, File temp, ContainmentProfile profile, String partition, String name )
+      File home, File temp, ContainmentModel parent, 
+      ContainmentProfile profile, String partition, String name )
     {
         super( logger, partition, name, profile.getMode(), graph );
 
@@ -180,9 +193,10 @@ public class DefaultContainmentContext extends DefaultDeploymentContext
         m_repository = new DefaultModelRepository( repository, logger );
 
         m_system = system;
-        m_model = model;
+        m_classloader = model;
         m_home = home;
         m_temp = temp;
+        m_parent = parent;
         m_profile = profile;
     }
 
@@ -249,7 +263,7 @@ public class DefaultContainmentContext extends DefaultDeploymentContext
     */
     public ClassLoaderModel getClassLoaderModel()
     {
-        return m_model;
+        return m_classloader;
     }
 
    /**
@@ -261,6 +275,18 @@ public class DefaultContainmentContext extends DefaultDeploymentContext
     */
     public ClassLoader getClassLoader()
     {
-        return m_model.getClassLoader();
+        return m_classloader.getClassLoader();
     }
+
+   /**
+    * Return the parent containment model.
+    *
+    * @return the model parent container
+    */
+    public ContainmentModel getParentContainmentModel()
+    {
+        return m_parent;
+    }
+
+
 }

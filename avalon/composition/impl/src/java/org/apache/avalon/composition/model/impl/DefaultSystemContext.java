@@ -67,7 +67,10 @@ import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.logger.ConsoleLogger;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
+
 import org.apache.avalon.framework.context.DefaultContext;
+import org.apache.avalon.framework.parameters.Parameters;
+
 import org.apache.avalon.composition.data.CategoryDirective;
 
 
@@ -75,7 +78,7 @@ import org.apache.avalon.composition.data.CategoryDirective;
  * Implementation of a system context that exposes a system wide set of parameters.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.4 $ $Date: 2003/12/07 08:36:07 $
+ * @version $Revision: 1.4.2.1 $ $Date: 2004/01/06 23:16:49 $
  */
 public class DefaultSystemContext extends DefaultContext 
   implements SystemContext
@@ -107,7 +110,7 @@ public class DefaultSystemContext extends DefaultContext
         final File temp = new File( working, "temp" );
 
         return new DefaultSystemContext( 
-          logging, base, home, temp, repository, "system", false );
+          logging, base, home, temp, repository, "system", false, null );
     }
 
     private static Repository createRepository( File root ) throws Exception
@@ -186,6 +189,8 @@ public class DefaultSystemContext extends DefaultContext
 
     private final Logger m_logger;
 
+    private final Parameters m_parameters;
+
     private ModelFactory m_factory;
 
     //==============================================================
@@ -212,7 +217,7 @@ public class DefaultSystemContext extends DefaultContext
     */
     public DefaultSystemContext( 
       LoggingManager logging, File base, File home, File temp, 
-      Repository repository, String category, boolean trace )
+      Repository repository, String category, boolean trace, Parameters params )
     {
         if( base == null )
         {
@@ -239,11 +244,20 @@ public class DefaultSystemContext extends DefaultContext
         m_trace = trace;
         m_repository = repository;
         m_logging = logging;
-        m_logger = m_logging.getLoggerForCategory( category );
 
+        if( params == null )
+        {
+            m_parameters = new Parameters();
+            m_parameters.makeReadOnly();
+        }
+        else
+        {
+            m_parameters = params;
+        }
+
+        m_logger = m_logging.getLoggerForCategory( category );
         m_system = SystemContext.class.getClassLoader();
         m_common = Logger.class.getClassLoader();
-
         m_factory = new DefaultModelFactory( this );
     }
 
@@ -366,4 +380,16 @@ public class DefaultSystemContext extends DefaultContext
     {
         return m_logger;
     }
+
+   /** 
+    * Returns the configurable kernel parameters.
+    *
+    * @return a Parameters object populated with the system
+    * parameters.
+    */
+    public Parameters getSystemParameters()
+    {
+        return m_parameters;
+    }
+
 }

@@ -75,7 +75,7 @@ import org.apache.avalon.meta.info.Type;
  * storage and retrival of component types.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $ $Date: 2003/10/28 20:21:00 $
+ * @version $Revision: 1.3.2.1 $ $Date: 2004/01/06 23:16:49 $
  */
 class DefaultTypeRepository implements TypeRepository
 {
@@ -306,6 +306,15 @@ class DefaultTypeRepository implements TypeRepository
             }
         }
 
+        if( m_parent != null )
+        {
+            Type[] suppliment = m_parent.getTypes( dependency );
+            for( int i=0; i<suppliment.length; i++ )
+            {
+                list.add( suppliment[i] );
+            }
+        }
+
         return (Type[]) list.toArray( new Type[0] );
     }
 
@@ -332,6 +341,16 @@ class DefaultTypeRepository implements TypeRepository
                 list.add( type );
             }
         }
+
+        if( m_parent != null )
+        {
+            Type[] suppliment = m_parent.getTypes( stage );
+            for( int i=0; i<suppliment.length; i++ )
+            {
+                list.add( suppliment[i] );
+            }
+        }
+
         return (Type[]) list.toArray( new Type[0] );
     }
 

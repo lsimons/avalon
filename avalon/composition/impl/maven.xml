@@ -7,6 +7,8 @@
 
   <postGoal name="test:compile">
 
+    <!--<attainGoal name="avalon:meta"/>-->
+
     <mkdir dir="${basedir}/target/test-classes/repository/test/jars"/>
     <mkdir dir="${basedir}/target/test-classes/ext"/>
     <mkdir dir="${basedir}/target/test-classes/lib"/>
