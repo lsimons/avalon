@@ -26,11 +26,6 @@
     <!--  within Excalibur should be listed in the depends list.      -->
     <!--  Do not include test dependent jars in the depends list.     -->
 
-    <!-- Baxter -->
-    <target name="prj-baxter">
-        <ant dir="baxter" target="${subproject-target}"/>
-    </target>
-
     <!-- Cache -->
     <target name="prj-cache">
         <ant dir="cache" target="${subproject-target}"/>
@@ -192,7 +187,7 @@
     <!-- This target depends on all of the projects above.  Relies on -->
     <!--  Ant to decide on the correct build order. -->
     <target name="build-all-subprojects"
-        depends="prj-cli, prj-baxter, prj-io, prj-loader,
+        depends="prj-cli, prj-io, prj-loader,
                 prj-naming, prj-jprocess, prj-threadcontext, 
                 prj-collections, prj-converter, prj-i18n, prj-extension,
                 prj-concurrent,
@@ -232,8 +227,6 @@
             <pathelement location="concurrent/src/test"/>
             <pathelement location="collections/src/java"/>
             <pathelement location="collections/src/test"/>
-            <pathelement location="baxter/src/java"/>
-            <pathelement location="baxter/src/test"/>
             <pathelement location="cache/src/java"/>
             <pathelement location="cache/src/test"/>
             <pathelement location="cli/src/java"/>
