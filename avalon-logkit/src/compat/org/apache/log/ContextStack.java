@@ -44,9 +44,9 @@ public class ContextStack
 
     /**
      * Get the Current ContextStack.
-     * This method returns a ContextStack associated with current thread. 
+     * This method returns a ContextStack associated with current thread.
      * If the thread doesn't have a ContextStack associated with it and
-     * autocreate is true then a new ContextStack is created with the name 
+     * autocreate is true then a new ContextStack is created with the name
      * of thread as base context.
      *
      * @param autocreate true if a ContextStack is to be created if it doesn't exist
@@ -85,7 +85,7 @@ public class ContextStack
     {
         return m_stack.elementAt( index );
     }
-  
+
     /**
      * Remove a context from top of stack and return it.
      *
@@ -95,7 +95,7 @@ public class ContextStack
     {
         return m_stack.pop();
     }
-  
+
     /**
      * Push the context onto top of context stack.
      *
@@ -105,7 +105,7 @@ public class ContextStack
     {
         m_stack.push( context );
     }
-  
+
     /**
      * Set the current ContextSet to be equl to other ContextStack.
      *
@@ -115,13 +115,13 @@ public class ContextStack
     {
         clear();
         final int size = stack.m_stack.size();
-    
+
         for( int i = 0; i < size; i++ )
         {
             m_stack.push( stack.m_stack.elementAt( i ) );
         }
     }
-  
+
     /**
      * Get the number of contexts in stack.
      *
