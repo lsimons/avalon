@@ -12,7 +12,7 @@ import org.apache.avalon.framework.Version;
 import org.apache.avalon.framework.info.ComponentDescriptor;
 import org.apache.avalon.framework.info.ComponentInfo;
 import org.apache.avalon.framework.info.FeatureDescriptor;
-import org.apache.avalon.framework.info.Tag;
+import org.apache.avalon.framework.info.Attribute;
 import org.apache.avalon.phoenix.metainfo.BlockDescriptor;
 import org.apache.avalon.phoenix.metainfo.BlockInfo;
 import org.apache.avalon.phoenix.metainfo.DependencyDescriptor;
@@ -22,7 +22,7 @@ import org.apache.avalon.phoenix.metainfo.ServiceDescriptor;
  * Convert a {@link org.apache.avalon.framework.info.ComponentInfo} into a {@link org.apache.avalon.phoenix.metainfo.BlockInfo}.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2002/09/15 13:39:02 $
+ * @version $Revision: 1.2 $ $Date: 2002/09/30 22:59:46 $
  */
 public class ComponentInfoConverter
 {
@@ -54,7 +54,7 @@ public class ComponentInfoConverter
         final ArrayList serviceSet = new ArrayList();
         for( int i = 0; i < services.length; i++ )
         {
-            final Tag tag = services[ i ].getTag( "mx" );
+            final Attribute tag = services[ i ].getAttribute( "mx" );
             if( null != tag )
             {
                 serviceSet.add( toPhoenixService( services[ i ] ) );
@@ -106,7 +106,7 @@ public class ComponentInfoConverter
     {
         final Version version = toVersion( component );
         String schemaType = null;
-        final Tag tag = component.getTag( "phoenix" );
+        final Attribute tag = component.getAttribute( "phoenix" );
         if( null != tag )
         {
             schemaType = tag.getParameter( "schema-type" );
@@ -120,7 +120,7 @@ public class ComponentInfoConverter
 
     private static Version toVersion( final FeatureDescriptor component )
     {
-        final Tag tag = component.getTag( "avalon" );
+        final Attribute tag = component.getAttribute( "avalon" );
         Version version = new Version( 1, 0, 0 );
         if( null != tag )
         {
