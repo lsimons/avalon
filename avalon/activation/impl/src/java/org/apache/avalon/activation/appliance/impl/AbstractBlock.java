@@ -86,7 +86,7 @@ import org.apache.avalon.meta.info.StageDescriptor;
  * context.
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.6 $ $Date: 2003/12/04 00:23:21 $
+ * @version $Revision: 1.7 $ $Date: 2003/12/22 09:06:41 $
  */
 public abstract class AbstractBlock extends AbstractAppliance 
   implements Block, Composite
@@ -148,6 +148,7 @@ public abstract class AbstractBlock extends AbstractAppliance
         m_context = context;
         final ApplianceRepository parent = context.getApplianceRepository();
         m_repository = new DefaultApplianceRepository( parent );
+        m_repository.enableLogging( getLogger() );
         m_self.setEnabled( true );
 
         Model[] models = m_context.getContainmentModel().getModels();
@@ -472,7 +473,8 @@ public abstract class AbstractBlock extends AbstractAppliance
       throws IllegalArgumentException
     {
         Appliance appliance = m_repository.getLocalAppliance( name );
-        if( appliance != null ) return appliance;
+        if( appliance != null ) 
+            return appliance;
         final String error = "Unknown name: [" + name + "]";
         throw new IllegalArgumentException( error );
     }
@@ -879,8 +881,9 @@ public abstract class AbstractBlock extends AbstractAppliance
             }
 
             Logger logger = logging.getLoggerForCategory( path );
-            ApplianceRepository repository = 
+            DefaultApplianceRepository repository = 
               new DefaultApplianceRepository( m_repository );
+            repository.enableLogging( getLogger() );
 
             BlockContext context = new DefaultBlockContext(
               logger, containment, 

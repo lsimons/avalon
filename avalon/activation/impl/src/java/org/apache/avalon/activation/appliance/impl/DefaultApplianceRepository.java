@@ -56,8 +56,12 @@ import java.util.Iterator;
 
 import org.apache.avalon.activation.appliance.Appliance;
 import org.apache.avalon.activation.appliance.ApplianceRepository;
+
+import org.apache.avalon.framework.logger.Logger;
+
 import org.apache.avalon.meta.info.DependencyDescriptor;
 import org.apache.avalon.meta.info.StageDescriptor;
+
 
 /**
  * The appliance repository interface declares operations through which 
@@ -65,7 +69,7 @@ import org.apache.avalon.meta.info.StageDescriptor;
  * a stage or service dependencies.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2003/10/18 00:34:19 $
+ * @version $Revision: 1.3 $ $Date: 2003/12/22 09:06:41 $
  */
 class DefaultApplianceRepository implements ApplianceRepository
 {
@@ -77,7 +81,9 @@ class DefaultApplianceRepository implements ApplianceRepository
      * The parent appliance repository.
      */
     private ApplianceRepository m_parent;
-
+    
+    private Logger m_Logger;
+    
     /**
      * Table of registered appliance instances keyed by name.
      */
@@ -89,12 +95,17 @@ class DefaultApplianceRepository implements ApplianceRepository
 
     public DefaultApplianceRepository()
     {
-        m_parent = null;
+        this( null );
     }
 
     public DefaultApplianceRepository( ApplianceRepository parent )
     {
         m_parent = parent;
+    }
+    
+    public void enableLogging( Logger logger )
+    {
+        m_Logger = logger;
     }
 
     //------------------------------------------------------------------
@@ -196,6 +207,9 @@ class DefaultApplianceRepository implements ApplianceRepository
      */
     public Appliance getLocalAppliance( String name )
     {
-        return (Appliance) m_appliances.get( name );
+        Appliance appl = (Appliance) m_appliances.get( name );
+        if( appl == null && m_Logger != null )
+            m_Logger.debug( "Can't find '" + name + "' in appliance repository: " + m_appliances );
+        return appl;
     }
 }
