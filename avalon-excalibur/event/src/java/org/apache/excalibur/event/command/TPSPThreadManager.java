@@ -93,11 +93,18 @@ public final class TPSPThreadManager implements Runnable, ThreadManager
     public TPSPThreadManager( int numProcessors, int threadsPerProcessor, long sleepTime )
     throws Exception
     {
+        this( numProcessors, threadsPerProcessor, sleepTime, 1000L );
+    }
+
+
+    public TPSPThreadManager(  int numProcessors, int threadsPerProcessor, long sleepTime, long timeOut )
+    throws Exception
+    {
         int processors = Math.max( numProcessors, 1 );
         int threads = Math.max( threadsPerProcessor, 1 );
 
         m_threadPool = new DefaultThreadPool( "TPCThreadManager",
-                                                       ( processors * threads ) + 1 );
+                                                       ( processors * threads ) + 1, (int) timeOut );
 
         m_sleepTime = sleepTime;
         m_threadControl = m_threadPool.execute( this );
