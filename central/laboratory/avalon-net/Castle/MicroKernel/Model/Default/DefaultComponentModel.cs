@@ -55,35 +55,10 @@ namespace Apache.Avalon.Castle.MicroKernel.Model.Default
 			m_name = data.Name;
 			m_service = service;
 			m_lifestyle = data.SupportedLifestyle;
-			m_activation = data.AvalonComponent.Activation;
-			m_logger = logger;
+            m_activation = data.ActivationPolicy;
+            m_logger = logger;
 			m_config = configuration;
 			m_dependencies = data.DependencyModel;
-			m_constructionModel = constructionModel;
-		}
-
-		public DefaultComponentModel(
-			String name,
-			Type service,
-			Lifestyle lifestyle,
-			ILogger logger,
-			IConfiguration configuration,
-			IDependencyModel[] dependencies,
-			IConstructionModel constructionModel) : this()
-		{
-			AssertUtil.ArgumentNotNull(name, "name");
-			AssertUtil.ArgumentNotNull(service, "service");
-			AssertUtil.ArgumentNotNull(logger, "logger");
-			AssertUtil.ArgumentNotNull(configuration, "configuration");
-			AssertUtil.ArgumentNotNull(dependencies, "dependencies");
-			AssertUtil.ArgumentNotNull(constructionModel, "constructionModel");
-
-			m_name = name;
-			m_service = service;
-			m_lifestyle = lifestyle;
-			m_logger = logger;
-			m_config = configuration;
-			m_dependencies = dependencies;
 			m_constructionModel = constructionModel;
 		}
 

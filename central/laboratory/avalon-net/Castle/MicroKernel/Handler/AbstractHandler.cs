@@ -18,7 +18,6 @@ namespace Apache.Avalon.Castle.MicroKernel.Handler
 	using System.Collections;
 
 	using Apache.Avalon.Castle.MicroKernel.Model;
-	using Apache.Avalon.Castle.MicroKernel.Subsystems.Events;
 
 	/// <summary>
 	/// Summary description for AbstractHandler.
@@ -108,7 +107,7 @@ namespace Apache.Avalon.Castle.MicroKernel.Handler
 
 		protected virtual void RegisterInstance( ref object instance )
 		{
-			RaiseComponentCreatedEvent( ref instance );
+			// RaiseComponentCreatedEvent( ref instance );
 
 			if (!HasInstance( instance, false ))
 			{
@@ -120,7 +119,7 @@ namespace Apache.Avalon.Castle.MicroKernel.Handler
 
 		protected virtual void UnregisterInstance( object instance )
 		{
-			RaiseComponentCreatedEvent( instance );
+			// RaiseComponentCreatedEvent( instance );
 
 			if (m_instances.Count == 0)
 			{
@@ -154,6 +153,7 @@ namespace Apache.Avalon.Castle.MicroKernel.Handler
 			return false;
 		}
 
+        /*
 		protected virtual void RaiseComponentCreatedEvent( ref object instance )
 		{
 			IEventManager eventManager = (IEventManager) m_kernel.GetSubsystem( KernelConstants.EVENTS );
@@ -181,5 +181,6 @@ namespace Apache.Avalon.Castle.MicroKernel.Handler
 				eventManager.OnComponentDestroyed( data );
 			}
 		}
+        */
 	}
 }
