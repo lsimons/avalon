@@ -8,6 +8,11 @@
     <person name="Berin Loritsch" email="bloritsch@apache.org" id="BL"/>
     <person name="Peter Donald" email="donaldp@apache.org" id="PD"/>
   </devs>
+  <release version="4.0-dev" date="unreleased">
+    <action dev="BL" type="update">
+      Update documentation so that it is more accurate and descriptive.
+    </action>
+  </release>
   <release version="4.0b3" date="June 6, 2001">
     <action dev="BL" type="update">
       Release 4.0b3
