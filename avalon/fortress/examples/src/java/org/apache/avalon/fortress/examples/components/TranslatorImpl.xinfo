@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!DOCTYPE component-info
+      PUBLIC "-//AVALON/Component Info DTD Version 1.0//EN"
+             "http://jakarta.apache.org/avalon/componentinfo_1_0.dtd" >
+
+<component-info>
+
+  <component>
+    <name>translator</name>
+  </component>
+  
+  <services>
+    <service> 
+      <service-ref type="org.apache.avalon.fortress.examples.components.Translator"/>
+    </service> 
+  </services>
+
+</component-info>
+

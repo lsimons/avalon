@@ -41,5 +41,5 @@ fi
 echo $CP
 
 # Run the example application
-$JAVACMD -classpath "$CP" org.apache.excalibur.fortress.examples.viewer.Main $@
+$JAVACMD -classpath "$CP" org.apache.avalon.fortress.examples.viewer.Main $@
 

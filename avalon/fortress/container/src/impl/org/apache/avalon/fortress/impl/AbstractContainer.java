@@ -93,7 +93,7 @@ import org.apache.excalibur.mpool.PoolManager;
  * Container's Manager can expose that to the instantiating class.
  *
  * @author <a href="mailto:avalon-dev@jakarta.apache.org">The Avalon Team</a>
- * @version CVS $Revision: 1.3 $ $Date: 2003/01/27 21:11:43 $
+ * @version CVS $Revision: 1.4 $ $Date: 2003/01/28 21:19:17 $
  */
 public abstract class AbstractContainer
     extends AbstractLogEnabled
@@ -526,7 +526,7 @@ public abstract class AbstractContainer
      *                   not vital to operation, it should be possible to recover gracefully
      */
     public void initialize()
-        throws CompositeException
+        throws CompositeException, Exception
     {
         // go over all components
         final Iterator i = m_components.iterator();

@@ -1,0 +1,8 @@
+<test>
+  <role name="org.apache.avalon.fortress.examples.extended.components.ExtendedComponent">
+    <component shorthand="extended-component"
+       class="org.apache.avalon.fortress.examples.extended.components.ExtendedComponentImpl"
+       handler="org.apache.avalon.fortress.impl.handler.ThreadSafeComponentHandler"/>
+  </role>
+</test>
+

@@ -77,7 +77,7 @@ import org.apache.avalon.fortress.util.FortressConfig;
  * Used as a basis for the PoolComparisonProfile Tests
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version $Id: ContainerProfile.java,v 1.1 2003/01/27 17:04:47 leosimons Exp $
+ * @version $Id: ContainerProfile.java,v 1.2 2003/01/28 21:19:17 leosimons Exp $
  */
 public final class ContainerProfile
     extends TestCase
@@ -141,9 +141,9 @@ public final class ContainerProfile
         config.setContextDirectory( "./" );
         config.setWorkDirectory( "./tmp" );
         config.setContainerClass( DefaultContainer.class );
-        config.setContainerConfiguration( "resource://org/apache/excalibur/fortress/test/ContainerProfile.xconf" );
-        config.setLoggerManagerConfiguration( "resource://org/apache/excalibur/fortress/test/ContainerProfile.xlog" );
-        config.setRoleManagerConfiguration( "resource://org/apache/excalibur/fortress/test/ContainerProfile.roles" );
+        config.setContainerConfiguration( "resource://org/apache/avalon/fortress/test/ContainerProfile.xconf" );
+        config.setLoggerManagerConfiguration( "resource://org/apache/avalon/fortress/test/ContainerProfile.xlog" );
+        config.setRoleManagerConfiguration( "resource://org/apache/avalon/fortress/test/ContainerProfile.roles" );
 
 
         final ContainerManager cm = new DefaultContainerManager( config.getContext(), new NullLogger() );

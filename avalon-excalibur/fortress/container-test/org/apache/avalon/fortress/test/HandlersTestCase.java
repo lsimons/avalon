@@ -25,7 +25,7 @@ import org.apache.avalon.fortress.util.FortressConfig;
  * A testcase for the different handlers.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003/01/27 17:04:47 $
+ * @version $Revision: 1.2 $ $Date: 2003/01/28 21:19:17 $
  */
 public class HandlersTestCase extends TestCase
 {
@@ -175,7 +175,7 @@ public class HandlersTestCase extends TestCase
         final FortressConfig config = new FortressConfig();
         config.setContextDirectory( "./" );
         config.setWorkDirectory( "./" );
-        final String BASE = "resource://org/apache/excalibur/fortress/test/data/";
+        final String BASE = "resource://org/apache/avalon/fortress/test/data/";
         config.setContainerConfiguration( BASE + "test1.xconf" );
         config.setLoggerManagerConfiguration( BASE + "test1.xlog" );
         config.setRoleManagerConfiguration( BASE + "test1.roles" );
