@@ -107,15 +107,47 @@
     <div>
      <!-- START DOWNLOAD PAGE CONTENT -->
 
-     <p>We're having a bit of a problem with our download page at the moment.
-     Please excuse us the inconvenience. In the meantime, you can get avalon
-     releases from this location:</p>
+      <h3>Download Notes</h3>
 
-     <p><a href="http://www.apache.org/dist/avalon/">http://www.apache.org/dist/avalon/</a></p>
+      <p>Use the links below to download a binary distribution of
+      Avalon from one of our mirrors.  You <strong>must</strong>
+      <a href="[location]#Verify Releases">verify the integrity</a>
+      of the downloaded files using signatures downloaded from our
+      main distribution directory.</p>
 
-     <p>When things are back to normal, you should be able to use:</p>
+      <p>Avalon is distributed as <code>zip</code> and <code>tar.gz</code>
+      archives - the contents are the same. Please note that the <code>tar.gz</code>
+      archives contain file names longer than 100 characters and have been
+      created using GNU tar extensions.  They must be untarred with a GNU
+      compatible version of <code>tar</code>.</p>
 
-     <p><a href="[preferred]/avalon/">[preferred]/avalon/</a></p>
+      <p>If you do not see the file you need in the links below, please
+      see the <a href="http://www.apache.org/dist/avalon/">master
+      distribution directory</a> or, preferably, its
+      <a href="[preferred]/avalon/">mirror</a>.</p>
+
+      <h3>Miror</h3>
+      <p>You are currently using the <strong>[preferred]</strong>.
+      If you encounter a problem with this mirror, please select another
+      mirror.  If all mirrors are failing, there are <em>backup</em>
+      mirrors (at the end of the mirrors list) that should be available.</p>
+
+      <form action="[location]" method="get" id="SelectMirror">
+<p>Other mirrors: <select name="Preferred"></p>
+[if-any http]
+  [for http]<option value="[http]">[http]</option>[end]
+[end]
+[if-any ftp]
+  [for ftp]<option value="[ftp]">[ftp]</option>[end]
+[end]
+[if-any backup]
+  [for backup]<option value="[backup]">[backup] (backup)</option>[end]
+[end]
+        </select>
+        <input type="submit" value="Change">
+      </form>
+     <!-- END DOWNLOAD PAGE CONTENT -->
+
     </div>
 
     </div>
