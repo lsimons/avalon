@@ -3,7 +3,7 @@
  *
  * This software is published under the terms of the Apache Software License
  * version 1.1, a copy of which has been included with this distribution in
- * the LICENSE file.
+ * the LICENSE.txt file.
  */
 package org.apache.avalon.excalibur.monitor;
 
@@ -12,7 +12,7 @@ package org.apache.avalon.excalibur.monitor;
  * resource is modified by an external source.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version $Id: Modifiable.java,v 1.2 2001/11/19 12:08:47 donaldp Exp $
+ * @version $Id: Modifiable.java,v 1.3 2001/12/11 09:53:30 jefft Exp $
  */
 public interface Modifiable
 {

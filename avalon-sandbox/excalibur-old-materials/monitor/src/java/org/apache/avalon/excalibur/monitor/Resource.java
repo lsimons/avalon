@@ -3,7 +3,7 @@
  *
  * This software is published under the terms of the Apache Software License
  * version 1.1, a copy of which has been included with this distribution in
- * the LICENSE file.
+ * the LICENSE.txt file.
  */
 package org.apache.avalon.excalibur.monitor;
 
@@ -23,7 +23,7 @@ import java.util.Collections;
  * last modified property will be enough.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version $Id: Resource.java,v 1.1 2001/09/04 20:33:47 bloritsch Exp $
+ * @version $Id: Resource.java,v 1.2 2001/12/11 09:53:30 jefft Exp $
  */
 public abstract class Resource implements Modifiable
 {

@@ -3,7 +3,7 @@
  *
  * This software is published under the terms of the Apache Software License
  * version 1.1, a copy of which has been included with this distribution in
- * the LICENSE file.
+ * the LICENSE.txt file.
  */
 package org.apache.avalon.excalibur.datasource;
 
@@ -26,7 +26,7 @@ import java.util.Map;
  * total number of Connection objects that are created.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.8 $ $Date: 2001/11/05 13:45:27 $
+ * @version CVS $Revision: 1.9 $ $Date: 2001/12/11 09:53:28 $
  * @since 4.0
  */
 public class Jdbc3Connection
