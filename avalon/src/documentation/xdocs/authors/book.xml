@@ -9,7 +9,9 @@
 
   <menu label="Authors">
     <menu-item label="Contributors" href="index.html"/>
+    <menu-item label="Mr. Peter Donald" href="donaldp.html"/>
     <menu-item label="Mr. Berin Loritsch" href="bloritsch.html"/>
+    <menu-item label="Dott. Stefano Mazzocchi" href="stefano.html"/>
   </menu>
 
 </book>
