@@ -128,7 +128,7 @@ public class DefaultECMContainer extends DefaultContainer {
      */
     public void configure( Configuration conf ) 
     throws ConfigurationException {
-        this.interpretProxy( conf.getAttribute("proxy-type", "none") );
+        this.interpretProxy( conf.getAttribute("proxy-type", this.getDefaultProxyType()) );
 
         final Configuration[] elements = conf.getChildren();
         for ( int i = 0; i < elements.length; i++ )
@@ -423,4 +423,12 @@ public class DefaultECMContainer extends DefaultContainer {
         }
     }
         
+    /**
+     * Return the default proxy type.
+     * This method can be overwritten in subclasses to provide a different
+     * default proxy type.
+     */
+    protected String getDefaultProxyType() {
+        return "none";
+    }
 }
