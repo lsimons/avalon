@@ -224,13 +224,16 @@
     </target>
 
     <target name="checkstyle-report"
-        depends="checkstyle"
         if="do.checkstyle"
+        depends="checkstyle"
         description="Generate Checkstyle Report">
 
+        <property name="checkstyle.pathhack" location="."/>
         <mkdir dir="${build.reports}/checkstyle"/>
         <style style="../tools/etc/checkstyle-frames.xsl" in="build/checkstyle-results.xml"
-            out="${build.reports}/checkstyle/delete-me.html"/>
+            out="${build.reports}/checkstyle/delete-me.html">
+            <param name="pathhack" expression="${checkstyle.pathhack}"/>
+        </style>
 
     </target>
 

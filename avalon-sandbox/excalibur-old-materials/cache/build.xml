@@ -235,7 +235,9 @@
 
         <mkdir dir="${build.reports}/checkstyle"/>
         <style style="../tools/etc/checkstyle-frames.xsl" in="build/checkstyle-results.xml"
-            out="${build.reports}/checkstyle/delete-me.html"/>
+            out="${build.reports}/checkstyle/delete-me.html">
+            <param name="pathhack" expression="${checkstyle.pathhack}"/>
+        </style>
 
     </target>
 
