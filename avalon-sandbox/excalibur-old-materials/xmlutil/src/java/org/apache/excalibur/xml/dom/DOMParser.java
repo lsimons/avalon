@@ -19,11 +19,11 @@ import org.xml.sax.SAXException;
  * It can create a DOM from the parsed document.
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.1 $ $Date: 2003/01/14 09:23:11 $
+ * @version CVS $Revision: 1.1 $ $Date: 2003/01/15 08:35:56 $
  */
-public interface Parser
+public interface DOMParser
 {
-    String ROLE = Parser.class.getName();
+    String ROLE = DOMParser.class.getName();
 
     /**
      * Parse the {@link InputSource} and create
