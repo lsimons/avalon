@@ -19,7 +19,7 @@ import org.apache.avalon.framework.Version;
 public final class ServiceDescriptor
 {
     public static final String ARRAY_POSTFIX = "[]";
-    public static final String MAP_POSTFIX = "#";
+    public static final String MAP_POSTFIX = "{}";
 
     private final Version m_version;
     private final String m_name;
