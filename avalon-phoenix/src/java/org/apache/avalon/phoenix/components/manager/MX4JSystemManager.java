@@ -17,15 +17,17 @@ import javax.management.MBeanServer;
 import javax.management.MBeanServerFactory;
 import javax.management.ObjectName;
 import javax.management.ReflectionException;
-import mx4j.adaptor.rmi.jrmp.JRMPAdaptorMBean;
-import mx4j.log.Log;
-import mx4j.util.StandardMBeanProxy;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.ContextException;
 import org.apache.avalon.framework.context.Contextualizable;
+import org.apache.avalon.excalibur.i18n.ResourceManager;
+import org.apache.avalon.excalibur.i18n.Resources;
+import mx4j.adaptor.rmi.jrmp.JRMPAdaptorMBean;
+import mx4j.log.Log;
+import mx4j.util.StandardMBeanProxy;
 
 /**
  * This component is responsible for managing phoenix instance.
@@ -38,6 +40,9 @@ public class MX4JSystemManager
     extends AbstractJMXManager
     implements Contextualizable, Configurable
 {
+    private static final Resources REZ =
+        ResourceManager.getPackageResources( MX4JSystemManager.class );
+
     private static final String DEFAULT_NAMING_FACTORY =
         "com.sun.jndi.rmi.registry.RegistryContextFactory";
     private static final String DEFAULT_HTTPADAPTER_HOST = "localhost";
@@ -103,7 +108,7 @@ public class MX4JSystemManager
 
         final MBeanServer mBeanServer = getMBeanServer();
 
-        configureHttpAdaptor( mBeanServer );
+        startHttpAdaptor( mBeanServer );
 
         if( m_rmi )
         {
@@ -111,7 +116,21 @@ public class MX4JSystemManager
         }
     }
 
-    private void configureHttpAdaptor( final MBeanServer mBeanServer )
+    public void dispose()
+    {
+        final MBeanServer mBeanServer = getMBeanServer();
+
+        stopHttpAdaptor( mBeanServer );
+
+        if( m_rmi )
+        {
+            stopRMIAdaptor( mBeanServer );
+        }
+
+        super.dispose();
+    }
+
+    private void startHttpAdaptor( final MBeanServer mBeanServer )
         throws Exception
     {
         final ObjectName adaptorName = new ObjectName( "Http:name=HttpAdaptor" );
@@ -162,6 +181,11 @@ public class MX4JSystemManager
                                   new Attribute( "AuthenticationMethod", "basic" ) );
     }
 
+    private void stopHttpAdaptor( final MBeanServer server )
+    {
+        stopJMXMBean( server, "Http:name=HttpAdaptor" );
+    }
+
     private void startRMIAdaptor( final MBeanServer server )
         throws Exception
     {
@@ -185,11 +209,34 @@ public class MX4JSystemManager
         mbean.start();
     }
 
+    private void stopRMIAdaptor( final MBeanServer server )
+    {
+        // stop the JRMP adaptor
+        stopJMXMBean( server, "Adaptor:protocol=JRMP" );
+        // stop the naming service
+        stopJMXMBean( server, "Naming:type=rmiregistry" );
+    }
+
     protected MBeanServer createMBeanServer()
         throws Exception
     {
         MX4JLoggerAdapter.setLogger( getLogger() );
         Log.redirectTo( new MX4JLoggerAdapter() );
         return MBeanServerFactory.createMBeanServer( "Phoenix" );
+    }
+
+    private void stopJMXMBean( final MBeanServer mBeanServer, final String name )
+    {
+        try
+        {
+            final ObjectName objectName = new ObjectName( name );
+            mBeanServer.invoke( objectName, "stop", null, null );
+        }
+        catch ( final Exception e )
+        {
+            final String message =
+                REZ.getString( "jmxmanager.error.jmxmbean.dispose", name );
+            getLogger().error( message, e );
+        }
     }
 }
