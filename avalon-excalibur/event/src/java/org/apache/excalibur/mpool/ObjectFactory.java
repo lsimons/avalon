@@ -55,11 +55,13 @@ package org.apache.excalibur.mpool;
  * object creation to and instance of this interface.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/08/13 08:15:20 $
+ * @version CVS $Revision: 1.3 $ $Date: 2002/11/10 03:44:42 $
  * @since 4.1.2
  */
 public interface ObjectFactory
 {
+    String ROLE = ObjectFactory.class.getName();
+
     /**
      * Create a new instance of the object being pooled.
      *
