@@ -42,7 +42,7 @@ of the @Name@.</abstract>
       </para>
       <para>
         The Avalon Framework is already used in
-	<ulink uri="http://xml.apache.org/cocoon2">Cocoon2</ulink>, an XML
+	<ulink uri="http://xml.apache.org/cocoon">Cocoon</ulink>, an XML
 	publishing framework.  The Avalon Framework is also used in
 	<ulink uri="http://jakarta.apache.org/james">Apache JAMES</ulink>, a
 	Java(tm) Mail Server.  Another project that is built on Avalon Framework

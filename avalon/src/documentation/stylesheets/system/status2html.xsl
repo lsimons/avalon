@@ -7,7 +7,7 @@
   <xsl:template match="status:statusinfo">
     <html>
       <head>
-        <title>Cocoon2 status [<xsl:value-of select="@status:host"/>]</title>
+        <title>Cocoon status [<xsl:value-of select="@status:host"/>]</title>
       </head>
       <body bgcolor="white">
 
