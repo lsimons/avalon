@@ -44,7 +44,7 @@ import org.apache.avalon.composition.data.ConstructorDirective;
  * a fully qualifed context can be established.</p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.7 $ $Date: 2004/02/06 15:27:14 $
+ * @version $Revision: 1.8 $ $Date: 2004/02/07 14:03:42 $
  */
 public class DefaultContextModel extends DefaultDependent implements ContextModel
 {
@@ -93,7 +93,6 @@ public class DefaultContextModel extends DefaultDependent implements ContextMode
     * @param descriptor the contextualization stage descriptor
     * @param directive the contextualization directive
     * @param context the deployment context
-    * @param componentModel the enclosing component model
     */
     public DefaultContextModel( 
       Logger logger, ContextDescriptor descriptor, 

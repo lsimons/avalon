@@ -6,7 +6,7 @@ import java.io.File;
 
 import org.apache.avalon.repository.Artifact;
 
-import org.apache.avalon.composition.model.impl.DefaultSystemContext;
+import org.apache.avalon.composition.model.util.SystemContextBuilder;
 
 import org.apache.avalon.repository.provider.InitialContext;
 import org.apache.avalon.repository.main.DefaultInitialContext;
@@ -79,11 +79,10 @@ public abstract class AbstractTestCase extends TestCase
             try
             {
                 SystemContext system = 
-                  DefaultSystemContext.createSystemContext( 
+                  SystemContextBuilder.createSystemContext( 
                     context, base, root, PRIORITY, true, 1000 );
-                m_model = 
-                  system.getFactory().createContainmentModel( 
-                    source.toURL() );
+                ModelFactory factory = system.getModelFactory();
+                m_model = factory.createContainmentModel( source.toURL() );
             }
             catch( Throwable e )
             {

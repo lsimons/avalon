@@ -25,7 +25,7 @@ import org.apache.avalon.composition.data.ContainmentProfile;
  * A factory enabling the establishment of new containment model instances.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.4 $ $Date: 2004/01/24 23:25:25 $
+ * @version $Revision: 1.5 $ $Date: 2004/02/07 14:03:42 $
  */
 public interface ModelFactory 
 {
@@ -55,8 +55,8 @@ public interface ModelFactory
     * @param profile a composition profile 
     * @return the containment model
     */
-    ContainmentContext createContainmentContext( ContainmentProfile profile ) 
-      throws ModelException;
+    //ContainmentContext createContainmentContext( ContainmentProfile profile ) 
+    //  throws ModelException;
 
    /**
     * Creation of a new nested containment model.  This method is called
@@ -66,8 +66,8 @@ public interface ModelFactory
     * @param context a potentially foreign containment context
     * @return the containment model
     */
-    ContainmentModel createContainmentModel( ContainmentContext context )
-      throws ModelException;
+    //ContainmentModel createContainmentModel( ContainmentContext context )
+    //  throws ModelException;
 
    /**
     * Creation of a new nested deployment model.  This method is called
@@ -77,7 +77,7 @@ public interface ModelFactory
     * @param context a potentially foreign deployment context
     * @return the deployment model
     */
-    ComponentModel createComponentModel( ComponentContext context )
-      throws ModelException;
+    //ComponentModel createComponentModel( ComponentContext context )
+    //  throws ModelException;
 
 }

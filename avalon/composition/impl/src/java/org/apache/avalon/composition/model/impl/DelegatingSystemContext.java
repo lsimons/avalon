@@ -22,6 +22,7 @@ import java.net.URL;
 
 import org.apache.avalon.logging.provider.LoggingManager;
 import org.apache.avalon.composition.model.ModelFactory;
+import org.apache.avalon.composition.model.RuntimeFactory;
 import org.apache.avalon.composition.model.SystemContext;
 import org.apache.avalon.repository.Repository;
 import org.apache.avalon.framework.logger.Logger;
@@ -40,7 +41,7 @@ import org.apache.avalon.logging.data.CategoryDirective;
  * supplimentary context entries can be added.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $ $Date: 2004/01/24 23:25:28 $
+ * @version $Revision: 1.4 $ $Date: 2004/02/07 14:03:42 $
  */
 public class DelegatingSystemContext extends DefaultContext 
   implements SystemContext
@@ -79,10 +80,21 @@ public class DelegatingSystemContext extends DefaultContext
     *
     * @return the factory
     */
-    public ModelFactory getFactory()
+    public ModelFactory getModelFactory()
     {
-        return m_parent.getFactory();
+        return m_parent.getModelFactory();
     }
+
+   /**
+    * Return the runtime factory.
+    *
+    * @return the factory
+    */
+    public RuntimeFactory getRuntimeFactory()
+    {
+        return m_parent.getRuntimeFactory();
+    }
+
 
    /**
     * Return the base directory from which relative classloader 

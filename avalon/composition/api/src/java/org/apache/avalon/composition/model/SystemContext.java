@@ -20,7 +20,6 @@ package org.apache.avalon.composition.model;
 import java.io.File;
 
 import org.apache.avalon.logging.provider.LoggingManager;
-import org.apache.avalon.composition.model.ModelFactory;
 
 import org.apache.avalon.repository.Repository;
 
@@ -32,7 +31,7 @@ import org.apache.avalon.framework.parameters.Parameters;
  * Defintion of a system context that exposes a system wide set of parameters.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.5 $ $Date: 2004/01/24 23:25:25 $
+ * @version $Revision: 1.6 $ $Date: 2004/02/07 14:03:42 $
  */
 public interface SystemContext extends Context
 {
@@ -41,7 +40,14 @@ public interface SystemContext extends Context
     *
     * @return the factory
     */
-    ModelFactory getFactory();
+    ModelFactory getModelFactory();
+
+   /**
+    * Return the runtime factory.
+    *
+    * @return the factory
+    */
+    RuntimeFactory getRuntimeFactory();
 
    /**
     * Return the base directory from which relative references 
