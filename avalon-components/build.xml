@@ -736,10 +736,18 @@
     <delete dir="${dist.dir}" />
   </target>
   
-
-  <target name="apps-jars" depends="jars">
+  <!--
+       ===================================================================
+                   Targets in other build.xml files (apps)
+       ===================================================================
+  -->
+  <target name="apps-jars" depends="jars, ftpserver"/>
+  <target name="ftpserver">
     <ant antfile="build.xml" dir="apps/ftpserver" target="jars"/>
-  </target>
+  </target>  
+  <target name="ftpserver-deploy">
+    <ant antfile="build.xml" dir="apps/ftpserver" target="deploy"/>
+  </target>    
 
    
   
