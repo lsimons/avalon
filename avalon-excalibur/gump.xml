@@ -26,7 +26,7 @@
         <depend project="excalibur-logger" runtime="true"/>
         <depend project="excalibur-instrument" runtime="true"/>
         <depend project="excalibur-sourceresolve"/>
-        <depend project="excalibur-xmlbundle"/>
+        <depend project="excalibur-xmlutil"/>
         <depend project="excalibur-testcase"/>
         <depend project="excalibur-io"/>
         <depend project="xml-xalan2"/>
@@ -781,10 +781,10 @@
             to="avalon-dev@jakarta.apache.org"/>
     </project>
 
-    <project name="excalibur-xmlbundle">
+    <project name="excalibur-xmlutil">
         <package>org.apache.avalon.excalibur.xml</package>
 
-        <ant basedir="xmlbundle">
+        <ant basedir="xmlutil">
             <depend property="excalibur-logger.jar" project="excalibur-logger"/>
             <depend property="logkit.jar" project="jakarta-avalon-logkit" runtime="true"/>
             <depend property="excalibur-component.jar" project="excalibur-component"/>
@@ -803,10 +803,10 @@
         <depend project="jakarta-avalon" runtime="true"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
-        <work nested="xmlbundle/build/classes"/>
+        <work nested="xmlutil/build/classes"/>
 
-        <home nested="xmlbundle"/>
-        <jar name="build/lib/excalibur-xmlbundle-@@DATE@@.jar"/>
+        <home nested="xmlutil"/>
+        <jar name="build/lib/excalibur-xmlutil-@@DATE@@.jar"/>
 
         <nag from="Peter Donald &lt;peter@apache.org&gt;"
             to="avalon-dev@jakarta.apache.org"/>
