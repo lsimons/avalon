@@ -142,16 +142,16 @@ class ConnectionRunner
     public void dispose()
         throws Exception
     {
-        if( null != m_thread )
+        synchronized( this )
         {
-            m_thread.interrupt();
-            m_thread = null;
-            //Can not join as threads are part of pool
-            //and will never finish
-            //m_thread.join();
-
-            synchronized( this )
+            if( null != m_thread )
             {
+                m_thread.interrupt();
+                m_thread = null;
+                //Can not join as threads are part of pool
+                //and will never finish
+                //m_thread.join();
+
                 wait( /*1000*/ );
             }
         }
@@ -185,11 +185,11 @@ class ConnectionRunner
                 getLogger().warn( "Error shutting down connection", ioe );
             }
 
-            m_thread = null;
-            m_runners.remove( this );
-
             synchronized( this )
             {
+                m_thread = null;
+                m_runners.remove( this );
+
                 notifyAll();
             }
         }
