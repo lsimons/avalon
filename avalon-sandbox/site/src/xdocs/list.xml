@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+
+<document>
+  <header>
+    <title>Mailing List</title>
+    <authors>
+      <person name="Avalon Development Team" email="avalon-dev@jakarta.apache.org"/>
+    </authors>
+  </header>
+  <body>
+
+    <s1 title="Mailing Lists">
+<p>
+The Avalon Meta Model is part of the Apache Avalon Project. The <a href="http://jakarta.apache.org/site/mail2.html#Avalon">Avalon User list</a> is available for general questions and queries relating to Avalon initiatives.
+</p>
+    </s1>
+
+  </body>
+  <footer>
+    <legal>
+      Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
+      $Revision: 1.1 $ $Date: 2002/12/01 06:43:23 $
+    </legal>
+  </footer>
+
+</document>
+

@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+
+<document>
+
+  <header>
+    <title>Sandbox Standard Disclaimer</title>
+    <authors>
+      <person name="Avalon Development Team" email="avalon-dev@jakarta.apache.org"/>
+    </authors>
+  </header>
+
+  <body>
+
+    <s1 title="Warning!">
+
+<p>
+  All user accessible points in the sandbox packages are to be considered
+  "alpha". This means that the developer team is not investing _any_ effort
+  in providing back compatibility between alpha releases.
+</p>
+
+<p>
+  This software will continue to be released as "alpha" until both code, 
+  schemas and APIs will be considered stable.
+</p>
+  
+<p>
+  Until then, there will be no warranty that newer versions will maintain back
+  compatibility even in the most simple cases.
+</p>
+  
+<p>
+  On the other hand, once "beta" status is reached, back incompatible changes
+  will be made only if absolutely necessary to reach "final" status.
+</p>
+  
+<p>
+  The Avalon development team understands the importance of reliable
+  software as well as the importance of protecting user investiments by the
+  creation of a solid development platform that doesn't change.
+</p>
+
+<p>
+  On the other hand, being the Avalon project a pioneer in many fields, this
+  cannot be guaranteed before a final status is reached for the software.
+</p>
+  
+<p>
+  Until then, no effort will be provided to guarantee back compatibility.
+</p>
+  
+<p>
+  You have been warned.
+</p>
+    </s1>
+
+  </body>
+
+  <footer>
+    <legal>
+      Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
+      $Revision: 1.1 $ $Date: 2002/12/01 06:43:23 $
+    </legal>
+  </footer>
+
+</document>
+
+
