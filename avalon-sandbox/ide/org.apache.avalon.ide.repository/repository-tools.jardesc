@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jardesc>
-    <jar path="/home/niclas/dev/opensource/avalon-sandbox/ide/org.apache.avalon.ide.eclipse.repository/repository-tools.jar"/>
+    <jar path="target/repository-tools.jar"/>
     <options overwrite="false" compress="false" exportErrors="true"
         exportWarnings="true" saveDescription="true"
         descriptionLocation="/org.apache.avalon.ide.repository/abc.jardesc"
