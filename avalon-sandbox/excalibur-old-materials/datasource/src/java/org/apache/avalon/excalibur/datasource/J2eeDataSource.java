@@ -68,7 +68,7 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
  * J2EE container pools the datasources properly.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.11 $ $Date: 2003/02/27 15:20:55 $
+ * @version CVS $Revision: 1.12 $ $Date: 2003/04/29 03:04:05 $
  * @since 4.0
  */
 public class J2eeDataSource
@@ -173,3 +173,4 @@ public class J2eeDataSource
         }
     }
 }
+

@@ -69,3 +69,4 @@ public interface PoolSettable extends Recyclable
     
     boolean isClosed() throws SQLException;
 }
+

@@ -60,7 +60,7 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
  *  the DataSource.
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.3 $ $Date: 2003/02/27 15:20:56 $
+ * @version CVS $Revision: 1.4 $ $Date: 2003/04/29 03:02:03 $
  * @since 4.1
  */
 public abstract class AbstractDataSourceBlockIdGenerator
@@ -240,3 +240,4 @@ public abstract class AbstractDataSourceBlockIdGenerator
         m_allocated = Integer.MAX_VALUE;
     }
 }
+

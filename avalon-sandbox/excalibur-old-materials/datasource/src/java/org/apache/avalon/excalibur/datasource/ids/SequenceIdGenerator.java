@@ -100,7 +100,7 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
  *  DataSource, by making use of a ComponentSelector.
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.3 $ $Date: 2003/02/27 15:20:56 $
+ * @version CVS $Revision: 1.4 $ $Date: 2003/04/29 03:02:03 $
  * @since 4.1
  */
 public class SequenceIdGenerator
@@ -229,3 +229,4 @@ public class SequenceIdGenerator
         m_query = configuration.getChild( "query" ).getValue();
     }
 }
+
