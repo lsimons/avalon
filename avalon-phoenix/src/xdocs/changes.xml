@@ -2,7 +2,7 @@
 
 <!DOCTYPE changes SYSTEM "dtd/changes-v10.dtd">
 
-<changes title="Avalon History of Changes">
+<changes title="Avalon/Phoenix History of Changes">
   <devs>
     <person name="Federico Barbieri" email="fede@apache.org" id="FB"/>
     <person name="Berin Loritsch" email="bloritsch@apache.org" id="BL"/>
@@ -10,7 +10,44 @@
   </devs>
 
 <release version="3.1a2" date="Unreleased">
-  <action dev="BL" type="add">
+  <action dev="PD" type="remove">
+    Legacy support for nested configuration elements in assembly file
+    removed.
+  </action>
+  <action dev="PD" type="update">
+    Simplified Loader and made it set ContextClassLoader before executing 
+    Main method. It will also use the System property phoenix.home if set
+    rather than always trying to dynamically determine home directory.
+  </action>
+  <action dev="PD" type="add">
+    Added SingleAppEmbeddor to launch a kernel to load a single Application. 
+    Patch supplied by "Eung-ju Park" (colus@isoft.co.kr). This is useful if 
+    you need to reuse the blocks in other contexts (such as in a Servlet).
+  </action>
+  <action dev="PD" type="add">
+    Made default SystemManager a NoopSystemManager. Patch supplied 
+    by "Eung-ju Park" (colus@isoft.co.kr). To re-enable RMI manager a new
+    command line switch "--remote-manager" was added.
+  </action>
+  <action dev="PD" type="update">
+    Reworked SecurityManager setup. Instead of starting a security 
+    Manager inside the code it has been re-architectured so that the
+    SecurityManager is set on the command line. This was to avoid a number
+    of issues related to creating a URLClassLoader in an unprotected context
+    before setting SecurityManager. ie As AccessControllerContext was null it 
+    is impossible to use ClassLoader.getResource(AsStream)(). This means that 
+    defining phoenix.insecure will no longer disable the SecurityManager. The 
+    replacement method is to set the native OS environment variable 
+    'PHOENIX_SECURE=false'. 
+  </action>
+  <action dev="PD" type="update">
+    Separate Parsing of CLI arguements into separate class (CLISetup).
+    This is to facilitate launching Phoenix as a native daemon using
+    Tomcats Services API.
+  </action>
+  <action dev="PD" type="add">
+    Started Localizing text strings throughout Phoenix. This is done using 
+    ResourceManager and Resources from Avalon/Excalibur project.
   </action>
 </release>
 
