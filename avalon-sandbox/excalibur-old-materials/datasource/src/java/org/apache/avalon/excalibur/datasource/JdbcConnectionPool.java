@@ -20,7 +20,7 @@ import org.apache.avalon.framework.activity.Initializable;
  * thread to manage the number of SQL Connections.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.15 $ $Date: 2002/03/16 00:05:40 $
+ * @version CVS $Revision: 1.16 $ $Date: 2002/04/02 14:29:15 $
  * @since 4.0
  */
 public class JdbcConnectionPool
@@ -66,11 +66,11 @@ public class JdbcConnectionPool
 
     protected final Poolable newPoolable() throws Exception
     {
-        JdbcConnection conn = null;
+        AbstractJdbcConnection conn = null;
 
         if( m_wait < 1 )
         {
-            conn = (JdbcConnection)super.newPoolable();
+            conn = (AbstractJdbcConnection)super.newPoolable();
         }
         else
         {
@@ -95,7 +95,7 @@ public class JdbcConnectionPool
 
                 try
                 {
-                    conn = (JdbcConnection)super.newPoolable();
+                    conn = (AbstractJdbcConnection)super.newPoolable();
                 }
                 finally
                 {
@@ -132,7 +132,7 @@ public class JdbcConnectionPool
             }
         }
 
-        JdbcConnection obj = (JdbcConnection)super.get();
+        AbstractJdbcConnection obj = (AbstractJdbcConnection)super.get();
 
         if( obj.isClosed() )
         {
@@ -151,7 +151,7 @@ public class JdbcConnectionPool
 
                 this.removePoolable( obj );
 
-                obj = (JdbcConnection)this.newPoolable();
+                obj = (AbstractJdbcConnection)this.newPoolable();
 
                 m_active.add( obj );
             }
