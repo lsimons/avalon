@@ -5,7 +5,7 @@
  * version 1.1, a copy of which has been included with this distribution in
  * the LICENSE file.
  */
-package org.apache.avalon.phoenix.components.frame;
+package org.apache.avalon.phoenix.components.application;
 
 import java.io.File;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
@@ -17,6 +17,7 @@ import org.apache.avalon.framework.context.ContextException;
 import org.apache.avalon.framework.context.DefaultContext;
 import org.apache.avalon.framework.logger.Loggable;
 import org.apache.avalon.phoenix.BlockContext;
+import org.apache.avalon.phoenix.components.frame.ApplicationContext;
 import org.apache.log.Logger;
 
 /**
