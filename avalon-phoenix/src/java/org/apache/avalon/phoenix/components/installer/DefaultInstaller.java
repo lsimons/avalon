@@ -215,10 +215,6 @@ public class DefaultInstaller
             final URL classPathEntry = new URL( url + "/" + entryName );
             codeBase.add( classPathEntry );
         }
-        else if ( entryName.startsWith( "conf/" ) )
-        {
-            return false;
-        }
         
         return true;
     }
