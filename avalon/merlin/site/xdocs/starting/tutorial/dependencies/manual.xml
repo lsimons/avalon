@@ -68,6 +68,10 @@ overriding the auto assembly process though explicit dependency directives
 included inside a &lt;component/&gt; tag.
         </p>
         <p>
+        Resources supporting this tutorial are contained in the 
+        turorials/dependencies/manual package.
+        </p>
+        <p>
 In the block.xml we have three component directives:
         </p>
 <source><![CDATA[
@@ -82,7 +86,9 @@ In the block.xml we have three component directives:
      </component>
 ]]></source>
         <p>
-The "hello" component has been manually wired together using named components references under a set of <dependency/> directives, thereby overriding Merlin auto-assembly huristics.
+        The "hello" component has been manually wired together using named 
+        components references under a set of <dependency/> directives, thereby 
+        overriding Merlin auto-assembly heuristics.
         </p>
       </subsection>
 
@@ -113,7 +119,7 @@ $ merlin target\classes -execute
         This completes the introduction to some of the basic features
         of the merlin platform.  More tutorials will be added so please check 
         for new releases and updates. In the meantime you may want to take a 
-        look at some of Merlin's more <a href="../advanced/index.html">advanced 
+        look at some of Merlin's more <a href="../../advanced/index.html">advanced 
         features</a>. 
         </p>
       </subsection>
