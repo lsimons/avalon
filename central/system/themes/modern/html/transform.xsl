@@ -172,7 +172,7 @@
           <xsl:attribute name="href"><xsl:value-of select="@href" /></xsl:attribute>
         </xsl:otherwise>
       </xsl:choose>
-      <xsl:value-of select="." />
+      <xsl:apply-templates select="." />
     </a>
   </xsl:template>
   
@@ -260,7 +260,7 @@
       </xsl:choose>
       <xsl:attribute name="href">      
         <xsl:choose>
-          <xsl:when test="contains( @href, '.' )" >
+          <xsl:when test="contains( @href, '.html' )" >
             <xsl:value-of select="concat( $dir, @href )" />
           </xsl:when>
           <xsl:otherwise>
