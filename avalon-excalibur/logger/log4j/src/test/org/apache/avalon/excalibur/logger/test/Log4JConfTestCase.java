@@ -65,8 +65,8 @@ import org.xml.sax.SAXException;
 
 /**
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003/10/02 19:18:43 $
+ * @author Peter Donald
+ * @version $Revision: 1.2 $ $Date: 2003/12/05 15:13:53 $
  */
 public class Log4JConfTestCase
     extends TestCase

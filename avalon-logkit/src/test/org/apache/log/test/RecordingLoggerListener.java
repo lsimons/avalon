@@ -62,8 +62,8 @@ import org.apache.log.util.LoggerListener;
 /**
  * A logger listener that records the log messages it receives.
  *
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2003/02/09 23:33:26 $
+ * @author Peter Donald
+ * @version $Revision: 1.4 $ $Date: 2003/12/05 15:14:12 $
  */
 class RecordingLoggerListener
     extends LoggerListener

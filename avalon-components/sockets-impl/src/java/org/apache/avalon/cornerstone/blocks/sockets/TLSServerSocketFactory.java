@@ -77,7 +77,7 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
  * &lt;/factory&gt;
  * </pre>
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @author Peter Donald
  * @author <a href="mailto:fede@apache.org">Federico Barbieri</a>
  * @author <a href="mailto:charles@benett1.demon.co.uk">Charles Benett</a>
  * @author <a href="mailto:">Harish Prabandham</a>

@@ -54,7 +54,7 @@ package org.apache.excalibur.thread;
  * This class is the public frontend for the thread pool code.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @author Peter Donald
  */
 public interface ThreadPool
 {

@@ -64,7 +64,7 @@ import org.apache.log.output.AbstractTarget;
  * Abstract JDBC target.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @author Peter Donald
  */
 public abstract class AbstractJDBCTarget
     extends AbstractTarget

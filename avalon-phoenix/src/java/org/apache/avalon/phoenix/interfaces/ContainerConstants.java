@@ -53,7 +53,7 @@ package org.apache.avalon.phoenix.interfaces;
  * A set of constants that are used internally in the container to communicate
  * about different artefacts. They usually act as keys into maps.
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @author Peter Donald
  */
 public interface ContainerConstants
 {

@@ -66,7 +66,7 @@ import org.apache.log.format.Formatter;
  * filesystems/OSes. It should only be used when there is a
  * small number of log events.
  *
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @author Peter Donald
  */
 public class SafeFileTarget
     extends FileTarget

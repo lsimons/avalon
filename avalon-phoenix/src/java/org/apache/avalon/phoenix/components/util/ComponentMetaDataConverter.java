@@ -67,8 +67,8 @@ import org.apache.avalon.phoenix.metainfo.BlockInfo;
 /**
  * Convert a {@link ComponentMetaData} into a {@link BlockMetaData}.
  *
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.10 $ $Date: 2003/04/05 04:25:43 $
+ * @author Peter Donald
+ * @version $Revision: 1.11 $ $Date: 2003/12/05 15:14:36 $
  */
 public class ComponentMetaDataConverter
 {

@@ -56,8 +56,8 @@ import java.util.Map;
  * Utility classed used to creat the initial configuration for a Phoenix
  * container.
  *
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2003/04/30 10:16:48 $
+ * @author Peter Donald
+ * @version $Revision: 1.4 $ $Date: 2003/12/05 15:14:35 $
  */
 public class PhoenixConfig
 {

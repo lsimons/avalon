@@ -65,7 +65,7 @@ import org.apache.log.util.DefaultErrorHandler;
  * Abstract target.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @author Peter Donald
  */
 public abstract class AbstractTarget
     implements LogTarget, ErrorAware, Closeable

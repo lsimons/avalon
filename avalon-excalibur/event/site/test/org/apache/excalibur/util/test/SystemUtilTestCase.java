@@ -56,7 +56,7 @@ import org.apache.excalibur.util.SystemUtil;
 /**
  * This is used to test SystemUtil for correctness.
  *
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @author Peter Donald
  */
 public final class SystemUtilTestCase
     extends TestCase

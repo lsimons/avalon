@@ -55,8 +55,8 @@ package org.apache.avalon.fortress.test.data;
  * @x-avalon.lifestyle type=pooled
  * @x-avalon.info name=component2
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.9 $ $Date: 2003/04/11 20:39:38 $
+ * @author Peter Donald
+ * @version $Revision: 1.10 $ $Date: 2003/12/05 15:13:03 $
  */
 public class Component2
     implements Role2

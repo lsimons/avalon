@@ -77,8 +77,8 @@ import org.apache.excalibur.instrument.InstrumentManager;
  * The accessor used to access resources for a particular
  * Block or Listener.
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.23 $ $Date: 2003/04/06 21:23:34 $
+ * @author Peter Donald
+ * @version $Revision: 1.24 $ $Date: 2003/12/05 15:14:35 $
  */
 class BlockResourceProvider
     extends AbstractLogEnabled

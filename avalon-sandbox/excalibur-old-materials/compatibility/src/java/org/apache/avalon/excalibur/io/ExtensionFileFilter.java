@@ -70,8 +70,8 @@ import java.io.FilenameFilter;
  *
  * @author  Federico Barbieri <fede@apache.org>
  * @author Serge Knystautas <sergek@lokitech.com>
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version CVS $Revision: 1.4 $ $Date: 2003/03/22 12:46:24 $
+ * @author Peter Donald
+ * @version CVS $Revision: 1.5 $ $Date: 2003/12/05 15:15:13 $
  * @since 4.0
  */
 public class ExtensionFileFilter

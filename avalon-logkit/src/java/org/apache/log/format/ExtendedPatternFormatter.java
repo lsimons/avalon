@@ -71,8 +71,8 @@ import org.apache.log.util.StackIntrospector;
  * information dynamically.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version CVS $Revision: 1.13 $ $Date: 2003/04/17 09:13:46 $
+ * @author Peter Donald
+ * @version CVS $Revision: 1.14 $ $Date: 2003/12/05 15:14:10 $
  */
 public class ExtendedPatternFormatter
     extends PatternFormatter

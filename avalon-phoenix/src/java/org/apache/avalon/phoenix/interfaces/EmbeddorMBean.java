@@ -58,7 +58,7 @@ import java.util.Date;
  *
  * @phoenix:mx-topic name="Embeddor"
  *
- * @author <a href="peter at apache.org">Peter Donald</a>
+ * @author Peter Donald
  */
 public interface EmbeddorMBean
 {

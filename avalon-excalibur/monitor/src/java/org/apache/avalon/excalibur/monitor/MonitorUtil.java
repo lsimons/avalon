@@ -59,8 +59,8 @@ import org.apache.avalon.framework.logger.Logger;
  * A class that contains a few utility methods for working
  * creating resource sets from Avalons configuration objects.
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003/11/09 14:36:57 $
+ * @author Peter Donald
+ * @version $Revision: 1.2 $ $Date: 2003/12/05 15:13:53 $
  */
 class MonitorUtil
 {

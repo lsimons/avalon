@@ -62,7 +62,7 @@ import org.apache.avalon.excalibur.cli.ParserControl;
 
 /**
  *
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @author Peter Donald
  * @deprecated Toolkit deprecated and replaced by http://spice.sourceforge.net/cli/
  */
 public final class ClutilTestCase

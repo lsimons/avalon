@@ -76,7 +76,7 @@ import org.realityforge.loggerstore.LoggerStore;
 /**
  * Manage the "frame" in which Applications operate.
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @author Peter Donald
  * @author <a href="mailto:proyal@apache.org">Peter Royal</a>
  */
 class DefaultApplicationContext

@@ -58,7 +58,7 @@ package org.apache.log;
  * The LogKit provides the access to static methods to
  * manipulate the logging sub-system
  *
- * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
+ * @author Peter Donald
  * @deprecated Instead of using LogKit directly use the facilities in code itself
  */
 public final class LogKit

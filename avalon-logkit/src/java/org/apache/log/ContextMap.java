@@ -67,14 +67,14 @@ import java.util.Hashtable;
  * <li>hostname  -&gt;helm.realityforge.org</li>
  * <li>ipaddress -&gt;1.2.3.4</li>
  * <li>interface -&gt;127.0.0.1</li>
- * <li>caller    -&gt;com.biz.MyCaller.method(MyCaller.java:18)</li>
- * <li>source    -&gt;1.6.3.2:33</li>
+ * <li>caller ï¿½ ï¿½-&gt;com.biz.MyCaller.method(MyCaller.java:18)</li>
+ * <li>source ï¿½ ï¿½-&gt;1.6.3.2:33</li>
  * </ul>
  * The context is bound to a thread (and inherited by sub-threads) but
  * it can also be added to by LogTargets.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @author Peter Donald
  */
 public final class ContextMap
     implements Serializable

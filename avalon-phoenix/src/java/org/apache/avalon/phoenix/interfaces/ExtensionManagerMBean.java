@@ -57,8 +57,8 @@ import java.io.File;
  *
  * @phoenix:mx-topic name="ExtensionManager"
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.8 $ $Date: 2003/03/22 12:07:14 $
+ * @author Peter Donald
+ * @version $Revision: 1.9 $ $Date: 2003/12/05 15:14:38 $
  */
 public interface ExtensionManagerMBean
 {

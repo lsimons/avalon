@@ -65,9 +65,9 @@ import org.apache.avalon.phoenix.interfaces.ManagerException;
 /**
  * An abstract class via which JMX Managers can extend.
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @author Peter Donald
  * @author <a href="mailto:Huw@mmlive.com">Huw Roberts</a>
- * @version $Revision: 1.10 $ $Date: 2003/03/22 12:07:10 $
+ * @version $Revision: 1.11 $ $Date: 2003/12/05 15:14:36 $
  */
 public abstract class AbstractJMXManager
     extends AbstractSystemManager

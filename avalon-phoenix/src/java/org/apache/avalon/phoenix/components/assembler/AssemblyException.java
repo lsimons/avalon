@@ -55,8 +55,8 @@ import org.apache.avalon.framework.CascadingException;
 /**
  * Exception to indicate that there was an error Assembling SarMetaData.
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.5 $ $Date: 2003/03/22 12:07:08 $
+ * @author Peter Donald
+ * @version $Revision: 1.6 $ $Date: 2003/12/05 15:14:35 $
  */
 public final class AssemblyException
     extends CascadingException

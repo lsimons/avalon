@@ -61,8 +61,8 @@ import org.apache.log.LogTarget;
  *
  * @deprecated ECM is no longer supported
  *
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003/11/09 12:45:27 $
+ * @author Peter Donald
+ * @version $Revision: 1.2 $ $Date: 2003/12/05 15:13:52 $
  */
 class Logger2LogKitManager
     implements LogKitManager

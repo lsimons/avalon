@@ -54,9 +54,9 @@ import java.util.Arrays;
 /**
  * Basic class describing an instance of option.
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @author Peter Donald
  * @author <a href="mailto:leo.sutic at inspireinfrastructure.com">Leo Sutic</a>
- * @version $Revision: 1.1 $ $Date: 2003/11/09 15:31:38 $
+ * @version $Revision: 1.2 $ $Date: 2003/12/05 15:13:51 $
  * @since 4.0
  * @deprecated Toolkit deprecated and replaced by http://spice.sourceforge.net/cli/
  */

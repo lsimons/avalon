@@ -62,7 +62,7 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
 /**
  * Abstract implementation of ThreadManager.
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @author Peter Donald
  * @author <a href="mailto:leif at apache.org">Leif Mortenson</a>
  */
 public abstract class AbstractThreadManager

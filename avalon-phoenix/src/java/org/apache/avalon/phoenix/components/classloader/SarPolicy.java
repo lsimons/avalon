@@ -62,7 +62,7 @@ import org.realityforge.xmlpolicy.runtime.DefaultPolicy;
 /**
  * Policy that extracts information from policy files.
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @author Peter Donald
  */
 class SarPolicy
     extends DefaultPolicy

@@ -58,8 +58,8 @@ import java.util.NoSuchElementException;
  *
  * @deprecated use org.apache.commons.collections.ArrayEnumeration instead
  *
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version CVS $Revision: 1.4 $ $Date: 2003/03/22 12:46:22 $
+ * @author Peter Donald
+ * @version CVS $Revision: 1.5 $ $Date: 2003/12/05 15:15:12 $
  * @since 4.0
  */
 public final class ArrayEnumeration

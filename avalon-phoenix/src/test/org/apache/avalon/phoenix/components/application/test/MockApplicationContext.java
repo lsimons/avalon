@@ -60,8 +60,8 @@ import org.apache.excalibur.instrument.manager.NoopInstrumentManager;
 
 /**
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.12 $ $Date: 2003/04/11 01:06:58 $
+ * @author Peter Donald
+ * @version $Revision: 1.13 $ $Date: 2003/12/05 15:14:39 $
  */
 class MockApplicationContext
     implements ApplicationContext

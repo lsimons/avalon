@@ -65,8 +65,8 @@ import java.io.FilenameFilter;
  * }
  * </pre>
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.4 $ $Date: 2003/03/22 12:46:24 $
+ * @author Peter Donald
+ * @version $Revision: 1.5 $ $Date: 2003/12/05 15:15:13 $
  * @since 4.0
  */
 public class DirectoryFileFilter

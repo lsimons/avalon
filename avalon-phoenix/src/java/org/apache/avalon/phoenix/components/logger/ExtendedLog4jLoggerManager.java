@@ -73,8 +73,8 @@ import org.w3c.dom.NodeList;
  * using specified configuration.
  *
  * @author <a href="mailto:Ole.Bulbuk at ebp.de">Ole Bulbuk</a>
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003/04/05 04:25:42 $
+ * @author Peter Donald
+ * @version $Revision: 1.3 $ $Date: 2003/12/05 15:14:36 $
  */
 public class ExtendedLog4jLoggerManager
     extends Log4JLoggerManager

@@ -59,9 +59,9 @@ import org.apache.avalon.framework.logger.Logger;
 /**
  * The default LogKit wrapper class for Logger.
  *
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @author Peter Donald
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.1 $ $Date: 2003/04/16 23:03:52 $
+ * @version CVS $Revision: 1.2 $ $Date: 2003/12/05 15:14:11 $
  */
 public final class LogKitAvalonLogger
     implements Logger

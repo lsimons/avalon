@@ -67,7 +67,7 @@ import org.apache.log.output.db.NormalizedJDBCTarget;
 /**
  * Test suite for the DB output target.
  *
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @author Peter Donald
  */
 public final class DBTargetTestCase
     extends TestCase

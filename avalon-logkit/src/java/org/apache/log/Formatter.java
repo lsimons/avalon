@@ -58,7 +58,7 @@ package org.apache.log;
  * This defines the interface for components that wish to serialize
  * LogEvents into Strings.
  *
- * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
+ * @author Peter Donald
  * @deprecated Use org.apache.log.format.Formatter instead.
  */
 public interface Formatter

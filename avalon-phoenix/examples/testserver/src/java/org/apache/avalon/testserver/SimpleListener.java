@@ -64,7 +64,7 @@ import org.apache.avalon.phoenix.BlockEvent;
 /**
  * This is a simple block listener to demonstrate deployment.
  *
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @author Peter Donald
  */
 public class SimpleListener
     implements ApplicationListener, Configurable

@@ -55,8 +55,8 @@ package org.apache.avalon.excalibur.monitor.impl;
  * unspecified with the default (60 seconds).
  * 
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Id: ActiveMonitor.java,v 1.1 2003/11/09 14:36:57 leosimons Exp $
+ * @author Peter Donald
+ * @version $Id: ActiveMonitor.java,v 1.2 2003/12/05 15:13:53 leosimons Exp $
  */
 public class ActiveMonitor
     extends AbstractMonitor

@@ -52,9 +52,9 @@ package org.apache.avalon.excalibur.cli;
 /**
  * Token handles tokenizing the CLI arguments
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @author Peter Donald
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version $Revision: 1.1 $ $Date: 2003/11/09 15:31:38 $
+ * @version $Revision: 1.2 $ $Date: 2003/12/05 15:13:51 $
  * @since 4.0
  * @deprecated Toolkit deprecated and replaced by http://spice.sourceforge.net/cli/
  */

@@ -60,7 +60,7 @@ import org.apache.log.Priority;
 /**
  * Filters log events based on priority.
  *
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @author Peter Donald
  */
 public class PriorityFilter
     extends AbstractFilterTarget

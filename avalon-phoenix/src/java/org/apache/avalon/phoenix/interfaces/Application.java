@@ -58,7 +58,7 @@ package org.apache.avalon.phoenix.interfaces;
  * Example JesktopApplications may be a Spreadsheet program, browser, mail client
  * Example WebApplications may be a particular website or application within a website
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @author Peter Donald
  */
 public interface Application
 {

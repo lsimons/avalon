@@ -58,8 +58,8 @@ import org.apache.avalon.phoenix.containerkit.metadata.PartitionMetaData;
  * a set of child PartitionProfile and {@link ComponentProfile}
  * objects.
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2003/03/22 12:07:12 $
+ * @author Peter Donald
+ * @version $Revision: 1.4 $ $Date: 2003/12/05 15:14:37 $
  */
 public class PartitionProfile
 {

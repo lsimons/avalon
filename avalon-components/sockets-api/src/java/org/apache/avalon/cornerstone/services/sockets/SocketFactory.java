@@ -57,7 +57,7 @@ import java.net.Socket;
 /**
  * The interface used to create client sockets.
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @author Peter Donald
  */
 public interface SocketFactory
 {

@@ -66,8 +66,8 @@ import org.apache.oro.text.regex.Perl5Matcher;
  * scanning of filesets. It scans filesets based on classes
  * {@link #m_baseDirectory} value.
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.4 $ $Date: 2003/06/12 15:24:46 $
+ * @author Peter Donald
+ * @version $Revision: 1.5 $ $Date: 2003/12/05 15:14:35 $
  * @deprecated Convert to ClassMan SimpleLoaderResolver when it updates
  *             dependecy to latest Excalibur-Extension
  */
@@ -381,7 +381,7 @@ class DefaultLoaderResolver
      * This particular version is taken from Spice ClassMan and
      * it will be refactored as soon as we can.
      *
-     * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+     * @author Peter Donald
      */
     public final class PathMatcher
     {

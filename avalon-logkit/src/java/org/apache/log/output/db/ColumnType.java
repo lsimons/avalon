@@ -57,7 +57,7 @@ package org.apache.log.output.db;
 /**
  * A class to hold all constants for ColumnTypes.
  *
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @author Peter Donald
  */
 public class ColumnType
 {

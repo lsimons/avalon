@@ -69,8 +69,8 @@ import org.apache.avalon.phoenix.components.extensions.pkgmgr.OptionalPackage;
  * represented by a single file on the file system. This Repository searches
  * a path to find the Optional Packages.</p>
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003/04/30 10:03:52 $
+ * @author Peter Donald
+ * @version $Revision: 1.2 $ $Date: 2003/12/05 15:14:36 $
  * @see OptionalPackage
  * @see ExtensionManager
  */

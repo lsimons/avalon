@@ -66,8 +66,8 @@ package org.apache.avalon.excalibur.pool;
  * recyclable object to be reused by setting its content.
  *
  * @author <a href="mailto:stefano@apache.org">Stefano Mazzocchi</a>
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version CVS $Revision: 1.1 $ $Date: 2003/11/09 14:44:01 $
+ * @author Peter Donald
+ * @version CVS $Revision: 1.2 $ $Date: 2003/12/05 15:13:53 $
  * @since 4.0
  */
 public interface Recyclable

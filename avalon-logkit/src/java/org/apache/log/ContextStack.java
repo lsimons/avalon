@@ -64,7 +64,7 @@ import java.util.Stack;
  * defined by current thread. A applet may have it's context defined
  * by the name of the applet etc.
  *
- * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
+ * @author Peter Donald
  * @deprecated This class has been deprecated as it encouraged use of bad
  *             design practices. Use org.apache.log.ContextMap instead.
  */

@@ -60,7 +60,7 @@ import java.io.Serializable;
  * A simple class to test loading an extension that
  * is contained within the central extension repository.
  *
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @author Peter Donald
  */
 public class ExtensionTestClass2
     implements Serializable

@@ -57,8 +57,8 @@ import java.util.Map;
  * objects to be created as containers - not necessarily related
  * to Avalon containers in anyway.
  *
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003/04/06 03:12:30 $
+ * @author Peter Donald
+ * @version $Revision: 1.2 $ $Date: 2003/12/05 15:14:36 $
  */
 public interface ContainerFactory
 {

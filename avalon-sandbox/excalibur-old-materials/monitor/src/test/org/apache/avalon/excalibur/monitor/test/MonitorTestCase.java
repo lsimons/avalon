@@ -65,8 +65,8 @@ import org.apache.avalon.framework.component.ComponentSelector;
  * Junit TestCase for all the monitors in Excalibur.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Id: MonitorTestCase.java,v 1.19 2003/03/28 14:53:11 bloritsch Exp $
+ * @author Peter Donald
+ * @version $Id: MonitorTestCase.java,v 1.20 2003/12/05 15:15:15 leosimons Exp $
  */
 public class MonitorTestCase
     extends ExcaliburTestCase

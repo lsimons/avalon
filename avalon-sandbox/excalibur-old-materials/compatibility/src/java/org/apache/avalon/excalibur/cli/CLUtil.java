@@ -52,8 +52,8 @@ package org.apache.avalon.excalibur.cli;
 /**
  * CLUtil offers basic utility operations for use both internal and external to package.
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.5 $ $Date: 2003/04/11 10:25:52 $
+ * @author Peter Donald
+ * @version $Revision: 1.6 $ $Date: 2003/12/05 15:15:12 $
  * @since 4.0
  * @see CLOptionDescriptor
  * @deprecated Toolkit deprecated and replaced by http://spice.sourceforge.net/cli/

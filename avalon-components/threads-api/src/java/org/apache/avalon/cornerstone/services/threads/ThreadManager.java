@@ -55,9 +55,9 @@ import org.apache.avalon.excalibur.thread.ThreadPool;
 /**
  * Manage a set of ThreadPools.
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @author Peter Donald
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2003/06/19 20:31:42 $
+ * @version $Revision: 1.3 $ $Date: 2003/12/05 15:13:22 $
  */
 public interface ThreadManager
 {

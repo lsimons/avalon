@@ -66,8 +66,8 @@ import org.apache.avalon.framework.logger.ConsoleLogger;
 /**
  * Junit TestCase for the directory resource.
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Id: DirectoryTestCase.java,v 1.1 2003/11/09 14:36:57 leosimons Exp $
+ * @author Peter Donald
+ * @version $Id: DirectoryTestCase.java,v 1.2 2003/12/05 15:13:53 leosimons Exp $
  */
 public class DirectoryTestCase
     extends TestCase

@@ -58,7 +58,7 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
 /**
  * Default implementation of ThreadManager.
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @author Peter Donald
  */
 public class DefaultThreadManager
     extends AbstractThreadManager

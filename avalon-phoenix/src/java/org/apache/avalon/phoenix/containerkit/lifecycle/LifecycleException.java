@@ -55,9 +55,9 @@ import org.apache.avalon.framework.CascadingException;
 /**
  * Exception to indicate error processing a component through its lifecycle.
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @author Peter Donald
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.3 $ $Date: 2003/03/22 12:07:12 $
+ * @version $Revision: 1.4 $ $Date: 2003/12/05 15:14:37 $
  */
 public final class LifecycleException
     extends CascadingException

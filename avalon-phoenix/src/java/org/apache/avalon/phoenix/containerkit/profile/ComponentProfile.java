@@ -60,8 +60,8 @@ import org.apache.avalon.phoenix.framework.info.ComponentInfo;
  * and the {@link ComponentMetaData} defines the data required to
  * construct a specific instance of the component.
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.4 $ $Date: 2003/04/05 04:25:43 $
+ * @author Peter Donald
+ * @version $Revision: 1.5 $ $Date: 2003/12/05 15:14:37 $
  */
 public class ComponentProfile
 {

@@ -58,7 +58,7 @@ import org.apache.avalon.phoenix.framework.info.DependencyDescriptor;
 /**
  *
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @author Peter Donald
  */
 class DependencyGraph
 {

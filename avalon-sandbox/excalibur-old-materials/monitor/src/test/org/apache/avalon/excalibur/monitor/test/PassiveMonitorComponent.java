@@ -55,8 +55,8 @@ import org.apache.avalon.framework.component.Component;
 /**
  * implement component
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.4 $ $Date: 2003/03/22 12:46:51 $
+ * @author Peter Donald
+ * @version $Revision: 1.5 $ $Date: 2003/12/05 15:15:15 $
  */
 public class PassiveMonitorComponent
     extends PassiveMonitor

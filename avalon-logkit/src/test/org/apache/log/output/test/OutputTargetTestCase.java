@@ -76,7 +76,7 @@ import org.apache.log.output.io.WriterTarget;
  * Test suite for the formatters.
  * TODO: Incorporate testing for ContextStack and ContextMap
  *
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @author Peter Donald
  */
 public final class OutputTargetTestCase
     extends TestCase

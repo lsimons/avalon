@@ -67,7 +67,7 @@ import org.apache.log.util.LoggerOutputStream;
 /**
  * Test suite for utility features of Logger.
  *
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @author Peter Donald
  */
 public final class UtilTestCase
     extends TestCase

@@ -59,8 +59,8 @@ import org.apache.avalon.excalibur.extension.Extension;
  * The "Optional Packages" are stored on file system in a number of
  * directories.
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003/04/30 10:03:52 $
+ * @author Peter Donald
+ * @version $Revision: 1.2 $ $Date: 2003/12/05 15:14:36 $
  * @see ExtensionManager
  * @todo Determine an appropriate interface to this service and
  *       an appropriate mechanism via which to do searching and

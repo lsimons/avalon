@@ -69,8 +69,8 @@ import org.apache.excalibur.thread.ThreadControl;
  *  The maximum block time can also be set.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version CVS $Revision: 1.15 $ $Date: 2003/04/11 06:00:29 $
+ * @author Peter Donald
+ * @version CVS $Revision: 1.16 $ $Date: 2003/12/05 15:15:16 $
  * @since 4.1
  */
 public class ResourceLimitingThreadPool

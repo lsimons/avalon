@@ -66,7 +66,7 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
  * Support Flexible jmx helper mbean configuration.
  *
  * @author <a href="mail@leosimons.com">Leo Simons</a>
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @author Peter Donald
  * @author <a href="mailto:Huw@mmlive.com">Huw Roberts</a>
  * @author <a href="mailto:colus@apache.org">Eung-ju Park</a>
  */

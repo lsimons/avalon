@@ -57,8 +57,8 @@ import java.util.EmptyStackException;
  *
  * @deprecated use org.apache.commons.collections.ArrayStack instead;
  *
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version CVS $Revision: 1.1 $ $Date: 2003/11/09 15:31:38 $
+ * @author Peter Donald
+ * @version CVS $Revision: 1.2 $ $Date: 2003/12/05 15:13:51 $
  * @since 4.0
  */
 public class ArrayStack

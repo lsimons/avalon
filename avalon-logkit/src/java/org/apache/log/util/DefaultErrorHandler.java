@@ -61,7 +61,7 @@ import org.apache.log.LogEvent;
  * Handle unrecoverable errors that occur during logging by
  * writing to standard error.
  *
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @author Peter Donald
  */
 public class DefaultErrorHandler
     implements ErrorHandler

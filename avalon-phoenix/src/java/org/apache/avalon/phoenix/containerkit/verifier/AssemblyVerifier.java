@@ -86,8 +86,8 @@ import org.apache.avalon.phoenix.framework.tools.verifier.VerifyException;
  *       rules in {@link org.apache.avalon.phoenix.framework.tools.verifier.ComponentVerifier} object.</li>
  * </ul>
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.8 $ $Date: 2003/04/05 04:25:43 $
+ * @author Peter Donald
+ * @version $Revision: 1.9 $ $Date: 2003/12/05 15:14:37 $
  */
 public class AssemblyVerifier
     extends AbstractLogEnabled

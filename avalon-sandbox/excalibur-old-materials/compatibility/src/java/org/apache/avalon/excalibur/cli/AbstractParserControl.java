@@ -53,8 +53,8 @@ package org.apache.avalon.excalibur.cli;
  * Class to inherit from so when in future when new controls are added
  * clients will no have to implement them.
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.5 $ $Date: 2003/04/11 10:25:52 $
+ * @author Peter Donald
+ * @version $Revision: 1.6 $ $Date: 2003/12/05 15:15:12 $
  * @since 4.0
  * @see ParserControl
  * @deprecated Toolkit deprecated and replaced by http://spice.sourceforge.net/cli/

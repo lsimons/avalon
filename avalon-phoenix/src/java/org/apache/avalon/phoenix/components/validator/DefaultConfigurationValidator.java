@@ -42,9 +42,9 @@ import org.xml.sax.InputSource;
  *  &lt;schema-type name="relax-ng" uri="http://relaxng.org/ns/structure/1.0"/&gt;
  * </pre>
  *
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
+ * @author Peter Donald
  * @author <a href="mailto:proyal at apache.org">Peter Royal</a>
- * @version $Revision: 1.4 $ $Date: 2003/04/30 10:16:49 $
+ * @version $Revision: 1.5 $ $Date: 2003/12/05 15:14:36 $
  * @phoenix.component
  */
 public class DefaultConfigurationValidator

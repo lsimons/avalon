@@ -63,7 +63,7 @@ import org.apache.log.format.Formatter;
  * resource should extend this class directly or indirectly.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @author Peter Donald
  */
 public abstract class AbstractOutputTarget
     extends AbstractTarget

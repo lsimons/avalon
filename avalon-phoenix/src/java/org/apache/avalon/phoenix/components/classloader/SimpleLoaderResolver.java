@@ -80,8 +80,8 @@ import org.realityforge.classman.runtime.JoinClassLoader;
  *       {@link UnsupportedOperationException} if attempt to be constructed.</li>
  * </ul>
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2003/06/12 15:43:23 $
+ * @author Peter Donald
+ * @version $Revision: 1.4 $ $Date: 2003/12/05 15:14:35 $
  * @deprecated Convert to ClassMan SimpleLoaderResolver when it updates
  *             dependecy to latest Excalibur-Extension
  */

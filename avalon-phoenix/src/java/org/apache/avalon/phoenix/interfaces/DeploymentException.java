@@ -55,7 +55,7 @@ import org.apache.avalon.framework.CascadingException;
 /**
  * Exception to indicate error deploying.
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @author Peter Donald
  */
 public final class DeploymentException
     extends CascadingException

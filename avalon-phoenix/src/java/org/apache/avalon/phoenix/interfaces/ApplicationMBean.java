@@ -56,7 +56,7 @@ package org.apache.avalon.phoenix.interfaces;
  *
  * @phoenix:mx-topic name="Application"
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @author Peter Donald
  * @author <a href="mailto:leosimons@apache.org">Leo Simons</a>
  */
 public interface ApplicationMBean

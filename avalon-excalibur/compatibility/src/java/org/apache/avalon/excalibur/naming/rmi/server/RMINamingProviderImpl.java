@@ -67,8 +67,8 @@ import org.apache.avalon.excalibur.naming.rmi.RMINamingProvider;
 /**
  * The RMI implementation of provider.
  *
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.1 $
+ * @author Peter Donald
+ * @version $Revision: 1.2 $
  * @deprecated Toolkit deprecated and replaced by http://spice.sourceforge.net/jndikit/
  */
 public class RMINamingProviderImpl

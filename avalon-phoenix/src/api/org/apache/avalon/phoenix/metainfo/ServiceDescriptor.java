@@ -57,7 +57,7 @@ import org.apache.avalon.framework.Version;
  * Each service is defined by an interface name and the version of that
  * interface.
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @author Peter Donald
  */
 public final class ServiceDescriptor
 {

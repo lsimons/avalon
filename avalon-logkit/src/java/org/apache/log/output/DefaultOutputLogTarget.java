@@ -65,7 +65,7 @@ import org.apache.log.output.io.WriterTarget;
  * This is a basic Output log target that writes to a stream.
  * The format is specified via a string.
  *
- * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
+ * @author Peter Donald
  * @deprecated Use org.apache.log.output.io.WriterTarget or
  *             org.apache.log.output.io.StreamTarget as appropriate
  *             as this class encourages unsafe behaviour

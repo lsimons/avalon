@@ -64,7 +64,7 @@ import javax.sql.DataSource;
  * A basic datasource that doesn't do any pooling but just wraps
  * around default mechanisms.
  *
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @author Peter Donald
  */
 public class DefaultDataSource
     implements DataSource

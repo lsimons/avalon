@@ -64,8 +64,8 @@ import java.util.Vector;
  * Note that CLArgs uses a backing hashtable for the options index and so duplicate
  * arguments are only returned by getArguments().
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003/11/09 15:31:38 $
+ * @author Peter Donald
+ * @version $Revision: 1.2 $ $Date: 2003/12/05 15:13:51 $
  * @since 4.0
  * @see ParserControl
  * @see CLOption

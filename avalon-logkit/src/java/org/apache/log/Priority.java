@@ -59,7 +59,7 @@ import java.io.Serializable;
 /**
  * Class representing and holding constants for priority.
  *
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @author Peter Donald
  */
 public final class Priority
     implements Serializable

@@ -60,8 +60,8 @@ import org.apache.avalon.phoenix.framework.tools.infobuilder.LegacyBlockInfoRead
  * A Phoenix-specific {@link org.apache.excalibur.containerkit.factory.ComponentFactory}
  * that makes sure {@link ComponentInfo} is loaded via BlockInfo loader.
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.7 $ $Date: 2003/04/05 04:25:42 $
+ * @author Peter Donald
+ * @version $Revision: 1.8 $ $Date: 2003/12/05 15:14:35 $
  */
 public class PhoenixComponentFactory
     extends DefaultComponentFactory

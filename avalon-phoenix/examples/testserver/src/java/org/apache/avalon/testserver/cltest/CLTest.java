@@ -58,8 +58,8 @@ package org.apache.avalon.testserver.cltest;
  * This is a s simple class to test declaration of classloaders
  * in environment.xml
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003/04/04 22:20:50 $
+ * @author Peter Donald
+ * @version $Revision: 1.2 $ $Date: 2003/12/05 15:14:34 $
  */
 public class CLTest
 {

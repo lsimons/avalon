@@ -68,8 +68,8 @@ import org.apache.avalon.phoenix.interfaces.ContainerConstants;
 
 /**
  *
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.7 $ $Date: 2003/04/05 04:25:42 $
+ * @author Peter Donald
+ * @version $Revision: 1.8 $ $Date: 2003/12/05 15:14:35 $
  */
 public class PhoenixProfileBuilder
     extends AbstractLogEnabled

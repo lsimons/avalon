@@ -60,7 +60,7 @@ import org.tanukisoftware.wrapper.WrapperManager;
  * A frontend for Phoenix that starts it as a native service
  * using the Java Service Wrapper at http://wrapper.tanukisoftware.org
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @author Peter Donald
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
  */
 public class DaemonLauncher

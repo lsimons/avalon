@@ -79,9 +79,9 @@ import org.xml.sax.InputSource;
  * is specified in the MxInfo specification.  The information is loaded into
  * the Target structure.
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @author Peter Donald
  * @author <a href="mailto:huw@mmlive.com">Huw Roberts</a>
- * @version $Revision: 1.9 $ $Date: 2003/04/05 11:21:09 $
+ * @version $Revision: 1.10 $ $Date: 2003/12/05 15:14:36 $
  */
 public final class MBeanInfoBuilder
     extends AbstractLogEnabled

@@ -79,8 +79,8 @@ import org.apache.avalon.phoenix.interfaces.Installer;
  * An Installer is responsible for taking a URL for Sar
  * and installing it as appropriate.
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.15 $ $Date: 2003/03/23 00:37:25 $
+ * @author Peter Donald
+ * @version $Revision: 1.16 $ $Date: 2003/12/05 15:14:36 $
  */
 public class DefaultInstaller
     extends AbstractLogEnabled

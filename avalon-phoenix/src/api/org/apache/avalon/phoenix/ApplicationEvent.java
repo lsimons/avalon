@@ -58,7 +58,7 @@ import org.apache.avalon.phoenix.metadata.SarMetaData;
  * about Application state changes to the
  * <code>ApplicationListener</code>s of a Server Application.
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @author Peter Donald
  */
 public final class ApplicationEvent
     extends EventObject

@@ -87,8 +87,8 @@ import org.apache.avalon.phoenix.framework.tools.qdox.LegacyInfoBuilder;
 /**
  * Abstract class which TestCases can extend.
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.4 $ $Date: 2003/04/05 04:25:44 $
+ * @author Peter Donald
+ * @version $Revision: 1.5 $ $Date: 2003/12/05 15:14:39 $
  */
 public class InfoBuilderTestCase
     extends TestCase

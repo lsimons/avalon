@@ -74,7 +74,7 @@ import org.apache.log.Priority;
  * </pre>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @author Peter Donald
  */
 public class LoggerOutputStream
     extends OutputStream

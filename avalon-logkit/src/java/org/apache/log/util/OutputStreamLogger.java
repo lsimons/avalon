@@ -70,7 +70,7 @@ import org.apache.log.Priority;
  * System.setOut( output );
  * </pre>
  *
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @author Peter Donald
  * @deprecated Use LoggerOutputStream as this class was misnamed.
  */
 public class OutputStreamLogger

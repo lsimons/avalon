@@ -75,8 +75,8 @@ import org.xml.sax.InputSource;
  * objects from Configuration objects. The format for Configuration object
  * is specified in the <a href="package-summary.html#external">package summary</a>.
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.7 $ $Date: 2003/04/05 11:21:10 $
+ * @author Peter Donald
+ * @version $Revision: 1.8 $ $Date: 2003/12/05 15:14:38 $
  */
 public final class XMLInfoReader
     extends AbstractLogEnabled

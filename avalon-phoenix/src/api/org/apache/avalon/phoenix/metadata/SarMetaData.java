@@ -55,7 +55,7 @@ import java.io.File;
 /**
  * MetaData for the application.
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @author Peter Donald
  */
 public class SarMetaData
 {

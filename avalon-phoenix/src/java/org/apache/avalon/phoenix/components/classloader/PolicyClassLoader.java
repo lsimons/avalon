@@ -66,7 +66,7 @@ import org.apache.avalon.framework.logger.Logger;
  *
  * <p>Note that parts of this were cloned from other projects</p>
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @author Peter Donald
  */
 class PolicyClassLoader
     extends URLClassLoader

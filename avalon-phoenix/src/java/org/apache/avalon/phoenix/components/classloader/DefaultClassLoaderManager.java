@@ -98,7 +98,7 @@ import org.w3c.dom.Element;
  * Packages" formely called "Extensions" which it will add to the
  * {@link ClassLoader}</p>
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @author Peter Donald
  * @see ClassLoaderManager
  */
 public class DefaultClassLoaderManager

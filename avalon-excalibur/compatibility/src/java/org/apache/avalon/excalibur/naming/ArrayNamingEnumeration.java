@@ -58,8 +58,8 @@ import javax.naming.NamingException;
 /**
  * Class for building NamingEnumerations.
  *
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.1 $
+ * @author Peter Donald
+ * @version $Revision: 1.2 $
  * @deprecated Toolkit deprecated and replaced by http://spice.sourceforge.net/jndikit/
  */
 final class ArrayNamingEnumeration

@@ -54,7 +54,7 @@ import org.apache.avalon.framework.Version;
 
 /**
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @author Peter Donald
  */
 public class BlockDescriptor
 {

@@ -65,7 +65,7 @@ import org.apache.log.output.net.DatagramOutputTarget;
 
 /**
  *
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @author Peter Donald
  */
 public final class DatagramTest
 {

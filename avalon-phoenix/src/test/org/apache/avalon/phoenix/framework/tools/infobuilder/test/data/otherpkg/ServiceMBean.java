@@ -53,8 +53,8 @@ package org.apache.avalon.phoenix.framework.tools.infobuilder.test.data.otherpkg
 /**
  * Some random service
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003/04/10 13:41:46 $
+ * @author Peter Donald
+ * @version $Revision: 1.2 $ $Date: 2003/12/05 15:14:39 $
  */
 public interface ServiceMBean
 {
