@@ -73,7 +73,7 @@ import org.apache.excalibur.source.SourceFactory;
  * A factory for a {@link URL} wrapper
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version $Id: URLSourceFactory.java,v 1.2 2003/01/30 07:57:10 cziegeler Exp $
+ * @version $Id: URLSourceFactory.java,v 1.3 2003/02/07 11:21:09 cziegeler Exp $
  */
 public class URLSourceFactory
     extends AbstractLogEnabled
@@ -105,14 +105,35 @@ public class URLSourceFactory
     }
 
     /**
+     * Create a correct instance for the uri
+     */
+    protected URLSource getSourceImplementation(String uri, Map parameters) 
+    throws Exception
+    {
+        if (uri.startsWith("file:")) 
+        { 
+            final URLSource fileSource = (URLSource)new FileSource();
+            fileSource.init( new URL( uri ), parameters);
+            return fileSource;
+        } 
+        else 
+        {
+            final URLSource urlSource =
+                (URLSource)this.m_urlSourceClass.newInstance();
+            urlSource.init( new URL( uri ), parameters );
+            return urlSource;
+        }
+    }
+    
+    /**
      * @see org.apache.excalibur.source.SourceFactory#getSource(java.lang.String, java.util.Map)
      */
-    public Source getSource(String systemID, Map parameters)
+    public Source getSource(String uri, Map parameters)
         throws MalformedURLException, IOException 
     {
         if( getLogger().isDebugEnabled() )
         {
-            final String message = "Creating source object for " + systemID;
+            final String message = "Creating source object for " + uri;
             getLogger().debug( message );
         }
 
@@ -121,14 +142,11 @@ public class URLSourceFactory
         {
             if( getLogger().isDebugEnabled() == true )
             {
-                this.getLogger().debug( "Making URL from " + systemID );
+                this.getLogger().debug( "Making URL from " + uri );
             }
             try
             {
-                final URLSource urlSource =
-                    (URLSource)this.m_urlSourceClass.newInstance();
-                urlSource.init( new URL( systemID ), parameters );
-                source = urlSource;
+                source = this.getSourceImplementation( uri, parameters );
             }
             catch( MalformedURLException mue )
             {
@@ -145,13 +163,12 @@ public class URLSourceFactory
             if( getLogger().isDebugEnabled() )
             {
                 this.getLogger().debug( "Making URL - MalformedURLException in getURL:", mue );
-                this.getLogger().debug( "Making URL a File (assuming that it is full path):" + systemID );
+                this.getLogger().debug( "Making URL a File (assuming that it is full path):" + uri );
             }
             try
             {
-                final URLSource urlSource =
-                    (URLSource)this.m_urlSourceClass.newInstance();
-                urlSource.init( ( new File( systemID ) ).toURL(), parameters );
+                final URLSource urlSource = new FileSource();
+                urlSource.init( ( new File( uri ) ).toURL(), parameters );
                 source = urlSource;
             }
             catch( Exception ie )
