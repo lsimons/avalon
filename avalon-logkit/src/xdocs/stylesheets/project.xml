@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project href="http://jakarta.apache.org/avalon/logkit" 
+<project href="http://avalon.apache.org/logkit" 
          name="LogKit">
  <title>LogKit</title>
  <logo href="images/header.gif">LogKit</logo>
@@ -10,7 +10,7 @@
     <item name="Download" href="http://jakarta.apache.org/builds/avalon/release/logkit/latest"/>
     <item name="Whitepaper" href="/whitepaper.html"/>
     <item name="Changes" href="/changes.html"/>
-    <item name="API Docs" href="http://jakarta.apache.org/avalon/logkit/api/index.html"/>
+    <item name="API Docs" href="http://avalon.apache.org/logkit/api/index.html"/>
   </menu>
  </body>
 </project>
