@@ -30,13 +30,13 @@
 
       <subsection name="Overview">
         <p>
-A <a href="/api/org/apache/avalon/framework/service/ServiceManager.html">ServiceManager</a> 
+A <a href="../../../../../avalon/runtime/@RUNTIME-VERSION@/api/org/apache/avalon/framework/service/ServiceManager.html">ServiceManager</a> 
 is used as a mechanisms to provide dependent services to a component.  A 
 component implementation declares dependencies using the 
 <a href="../../../system/meta/tags/dependency.html">@avalon.dependency</a> tag.
 Dependencies may be declared relative to the component constructor or through 
 the optional 
-<a href="/api/org/apache/avalon/framework/service/Serviceable.html">Serviceable</a> 
+<a href="../../../../../avalon/runtime/@RUNTIME-VERSION@/api/org/apache/avalon/framework/service/Serviceable.html">Serviceable</a> 
 delivery interface.
         </p>
         <p>

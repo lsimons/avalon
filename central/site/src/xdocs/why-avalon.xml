@@ -79,14 +79,16 @@
        <li>Component Oriented Programming</li>
       </ul>
      </subsection>
-     </section>
-     <section name="Why Use Avalon?">
+     <!--
+     <subsection name="Why Use Avalon?">
      <p>
       To understand why someone would use Avalon, let's look at some
       of the problems Avalon solves.
      </p>
      <p>
-      
      </p>
+     </subsection>
+     -->
+     </section>
   </body>
 </document>

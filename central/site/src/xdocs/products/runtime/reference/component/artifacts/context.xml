@@ -33,7 +33,7 @@
         <p>
 A component may be supplied with a context object either by constructor or 
 through an implementation of the 
-<a href="/api/org/apache/avalon/framework/context/Contextualizable.html">Contextualizable</a> 
+<a href="../../../../../avalon/runtime/@RUNTIME-VERSION@/api/org/apache/avalon/framework/context/Contextualizable.html">Contextualizable</a> 
 lifecycle artifact delivery interface.  A context object is typically used to 
 provide standard environment information to a component.  It may also be used a 
 mechanisms to deliver domain specific resources to a component.
