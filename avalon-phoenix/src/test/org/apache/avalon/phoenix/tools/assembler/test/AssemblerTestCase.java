@@ -16,17 +16,17 @@ import org.apache.avalon.phoenix.metadata.SarMetaData;
 import org.apache.avalon.phoenix.metadata.BlockMetaData;
 import org.apache.avalon.phoenix.metadata.DependencyMetaData;
 import org.apache.avalon.phoenix.tools.assembler.Assembler;
-import org.apache.avalon.phoenix.tools.assembler.test.data.Component1;
-import org.apache.avalon.phoenix.tools.assembler.test.data.Service2;
-import org.apache.avalon.phoenix.tools.assembler.test.data.Component2;
-import org.apache.avalon.phoenix.tools.assembler.test.data.Component3;
+import org.apache.avalon.phoenix.test.data.Component1;
+import org.apache.avalon.phoenix.test.data.Service2;
+import org.apache.avalon.phoenix.test.data.Component2;
+import org.apache.avalon.phoenix.test.data.Component3;
 import org.apache.avalon.phoenix.tools.configuration.ConfigurationBuilder;
 
 /**
  *  An basic test case for the LogManager.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2002/09/30 23:45:23 $
+ * @version $Revision: 1.4 $ $Date: 2002/09/30 23:51:30 $
  */
 public class AssemblerTestCase
     extends TestCase

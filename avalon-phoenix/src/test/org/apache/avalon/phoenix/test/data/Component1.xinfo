@@ -11,13 +11,13 @@
 
   <!-- services that are offered by this block -->
   <services>
-    <service name="org.apache.avalon.phoenix.tools.assembler.test.data.Service1"/>
+    <service name="org.apache.avalon.phoenix.test.data.Service1"/>
   </services>
 
   <!-- services that are required by this block -->
   <dependencies>
     <dependency>
-      <service name="org.apache.avalon.phoenix.tools.assembler.test.data.Service2"/>
+      <service name="org.apache.avalon.phoenix.test.data.Service2"/>
     </dependency>
   </dependencies>
 </blockinfo>

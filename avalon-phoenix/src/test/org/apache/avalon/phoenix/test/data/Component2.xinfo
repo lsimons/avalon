@@ -11,6 +11,6 @@
 
   <!-- services that are offered by this block -->
   <services>
-    <service name="org.apache.avalon.phoenix.tools.assembler.test.data.Service2"/>
+    <service name="org.apache.avalon.phoenix.test.data.Service2"/>
   </services>
 </blockinfo>
