@@ -66,7 +66,7 @@ list (avalon-dev@jakarta.apache.org) and ask your specific questions there.
     <s2 title="Separate and Antify Validation code">
       <p>
       Refactor block validation code. Write an Ant taks that uses this 
-      and validates the .bar files and another task that validates the
+      and validates the block jar files and another task that validates the
       assembly.xml file.
       </p>
     </s2>      

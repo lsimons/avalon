@@ -55,21 +55,20 @@
           externally.
         </p>
         <figure>
-          <title>Phoenix application in 'bar' view</title>
+          <title>Phoenix application in block view</title>
           <graphic srccredit="Paul Hammant, 2001" fileref="images/phoenix-app-block.jpg" format="JPEG"/>
         </figure>
       </s2>      
-      <s2 title="Packaging in terms of 'bar' files">
+      <s2 title="Packaging in terms of block jar files">
         <p>
           The server application is entirely contained withing one "sar" file.  Sar is "Server ARchive".
-          Each block is a zipped set of classes with a "bar" suffix.  This is identical in concept to jar, 
-          but bar is used to signify "Block ARichive".  The dependant libraries are regular jars (placed 
+          Each block is a jar file.  The dependant libraries are regular jars (placed 
           within a directory "lib" insde the sar file).  The Assembly and configuration instructions
           are in xml form and contained within a "conf" directory inside the sar file.
         </p>
         <figure>
-          <title>Phoenix application in 'bar' view</title>
-          <graphic srccredit="Paul Hammant, 2001" fileref="images/phoenix-app-bar.jpg" format="JPEG"/>
+          <title>Phoenix application in block jar view</title>
+          <graphic srccredit="Paul Hammant, 2001" fileref="images/phoenix-app-blockjars.jpg" format="JPEG"/>
         </figure>
       </s2>      
       <s2 title="FtpServer as a Phoenix application">
@@ -83,8 +82,8 @@
         </figure>
       </s2>      
       <p>
-        Notes - Phoenix does not limit the number of blocks that it allows in a sar file.  Apache's Ant
-        tool now has "taskdefs" for making bar and sar files.  See the "Block Developers Guide" (left
+        Notes - Phoenix does not limit the number of blocks that it allows in a sar file.  We have taksdefs for Apache's Ant
+        tool for making sar files.  See the "Block Developers Guide" (left
         margin of this page) for more what/how/why.
       </p>
     </s1>
@@ -92,7 +91,7 @@
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.4 $ $Date: 2001/11/19 12:21:32 $
+      $Revision: 1.5 $ $Date: 2001/12/22 13:04:16 $
     </legal>
   </footer>
 </document>
