@@ -8,6 +8,7 @@
 package org.apache.avalon.phoenix.components.extensions;
 
 import java.io.File;
+import java.io.IOException;
 import org.apache.avalon.excalibur.extension.DefaultPackageRepository;
 import org.apache.avalon.excalibur.util.StringUtil;
 import org.apache.avalon.framework.activity.Disposable;
@@ -18,20 +19,26 @@ import org.apache.avalon.framework.parameters.ParameterException;
 import org.apache.avalon.framework.parameters.Parameterizable;
 import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.phoenix.interfaces.PackageRepository;
+import org.apache.avalon.phoenix.interfaces.ExtensionManagerMBean;
 
 /**
  * PhoenixPackageRepository
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2001/11/24 10:33:09 $
+ * @version $Revision: 1.3 $ $Date: 2001/12/02 04:12:51 $
  */
 public class PhoenixPackageRepository
     extends DefaultPackageRepository
-    implements LogEnabled, Parameterizable, Initializable, Disposable, PackageRepository
+    implements LogEnabled, Parameterizable, Initializable, Disposable, 
+               PackageRepository, ExtensionManagerMBean
 {
     private Logger m_logger;
 
-    private String m_path;
+    /**
+     * An array of path elements. Each element designates a directory
+     * in which the ExtensionManager should scan for Extensions.
+     */
+    private String[] m_path;
 
     public PhoenixPackageRepository()
     {
@@ -48,22 +55,66 @@ public class PhoenixPackageRepository
     {
         final String phoenixHome = parameters.getParameter( "phoenix.home" );
         final String defaultExtPath = phoenixHome + File.separator + "ext";
-        m_path = parameters.getParameter( "phoenix.ext.path", defaultExtPath );
+        final String rawPath = 
+            parameters.getParameter( "phoenix.ext.path", defaultExtPath );
+        m_path = StringUtil.split( rawPath, "|" );
+
+        final File[] dirs = new File[ m_path.length ];
+        for( int i = 0; i < dirs.length; i++ )
+        {
+            try
+            {
+                dirs[ i ] = (new File( m_path[ i ] )).getCanonicalFile();
+            }
+            catch( final IOException ioe )
+            {
+                throw new ParameterException( "Malformed entry in path '" + m_path[ i ] + 
+                                              ". Unable to determine file for entry", ioe );
+            }
+        }
+
+        for( int i = 0; i < dirs.length; i++ )
+        {
+            m_path[ i ] = dirs[ i ].toString();
+        }       
     }
 
     public void initialize()
         throws Exception
     {
-        final String[] pathElements = StringUtil.split( m_path, "|" );
-
-        final File[] dirs = new File[ pathElements.length ];
+        final File[] dirs = new File[ m_path.length ];
         for( int i = 0; i < dirs.length; i++ )
         {
-            dirs[ i ] = new File( pathElements[ i ] );
+            dirs[ i ] = new File( m_path[ i ] );
         }
 
         setPath( dirs );
 
+        scanPath();
+    }
+
+    /**
+     * Retrieve an array of paths where each
+     * element in array represents a directory
+     * in which the ExtensionManager will look 
+     * for Extensions.
+     *
+     * @return the list of paths to search in
+     */
+    public String[] getPaths()
+    {
+        return m_path;
+    }
+
+    /**
+     * Force the ExtensionManager to rescan the paths
+     * to discover new Extensions that have been added
+     * or remove old Extensions that have been removed.
+     *
+     */
+    public void rescanPath()
+    {
+        clearCache();
         scanPath();
     }
 
