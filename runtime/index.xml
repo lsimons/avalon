@@ -702,6 +702,9 @@
       <include key="avalon-util-extension-impl"/>
       <include key="avalon-util-lifecycle"/>
       <include key="avalon-logging-impl" build="false" test="true"/>
+      <include key="avalon-test-testa" build="false" runtime="false" test="false"/>
+      <include key="avalon-test-testb" build="false" runtime="false" test="false"/>
+      <include key="avalon-test-testc" build="false" runtime="false" test="false"/>
       <include key="avalon-test-dynamics" build="false" runtime="false" test="false"/>
       <include key="avalon-test-includes" build="false" runtime="false" test="true"/>
       <include key="avalon-test-testcyclic" build="false" runtime="false" test="false"/>

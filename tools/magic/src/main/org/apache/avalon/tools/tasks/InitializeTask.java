@@ -69,7 +69,7 @@ public class InitializeTask extends SystemTask
             final PluginTask task = new PluginTask();
             task.setTaskName( "plugin" );
             task.setProject( project );
-            task.setArtifact( path );
+            task.setUri( path );
             task.init();
             task.execute();
         }

@@ -166,12 +166,12 @@
     <depend project="avalon-util-configuration"><noclasspath/></depend>
     <depend project="avalon-util-extension-impl"><noclasspath/></depend>
     <depend project="avalon-logging-impl"><noclasspath/></depend>
-    <depend project="avalon-test-dynamics"><noclasspath/></depend>
-    <depend project="avalon-test-includes"><noclasspath/></depend>
-    <depend project="avalon-test-playground"><noclasspath/></depend>
     <depend project="avalon-test-testa"><noclasspath/></depend>
     <depend project="avalon-test-testb"><noclasspath/></depend>
     <depend project="avalon-test-testc"><noclasspath/></depend>
+    <depend project="avalon-test-dynamics"><noclasspath/></depend>
+    <depend project="avalon-test-includes"><noclasspath/></depend>
+    <depend project="avalon-test-playground"><noclasspath/></depend>
     <depend project="avalon-test-testd"><noclasspath/></depend>
     <depend project="avalon-test-teste"><noclasspath/></depend>
     <depend project="avalon-test-testcyclic"><noclasspath/></depend>
@@ -516,12 +516,12 @@
     <depend project="avalon-meta-impl"><noclasspath/></depend>
     <depend project="avalon-util-configuration"><noclasspath/></depend>
     <depend project="avalon-util-extension-impl"><noclasspath/></depend>
-    <depend project="avalon-test-dynamics"><noclasspath/></depend>
-    <depend project="avalon-test-includes"><noclasspath/></depend>
-    <depend project="avalon-test-playground"><noclasspath/></depend>
     <depend project="avalon-test-testa"><noclasspath/></depend>
     <depend project="avalon-test-testb"><noclasspath/></depend>
     <depend project="avalon-test-testc"><noclasspath/></depend>
+    <depend project="avalon-test-dynamics"><noclasspath/></depend>
+    <depend project="avalon-test-includes"><noclasspath/></depend>
+    <depend project="avalon-test-playground"><noclasspath/></depend>
     <depend project="avalon-test-testd"><noclasspath/></depend>
     <depend project="avalon-test-teste"><noclasspath/></depend>
     <depend project="avalon-test-testcyclic"><noclasspath/></depend>
@@ -1284,12 +1284,12 @@
     <depend project="avalon-meta-impl"><noclasspath/></depend>
     <depend project="avalon-util-configuration"><noclasspath/></depend>
     <depend project="avalon-util-extension-impl"><noclasspath/></depend>
-    <depend project="avalon-test-dynamics"><noclasspath/></depend>
-    <depend project="avalon-test-includes"><noclasspath/></depend>
-    <depend project="avalon-test-playground"><noclasspath/></depend>
     <depend project="avalon-test-testa"><noclasspath/></depend>
     <depend project="avalon-test-testb"><noclasspath/></depend>
     <depend project="avalon-test-testc"><noclasspath/></depend>
+    <depend project="avalon-test-dynamics"><noclasspath/></depend>
+    <depend project="avalon-test-includes"><noclasspath/></depend>
+    <depend project="avalon-test-playground"><noclasspath/></depend>
     <depend project="avalon-test-testd"><noclasspath/></depend>
     <depend project="avalon-test-teste"><noclasspath/></depend>
     <depend project="avalon-test-testcyclic"><noclasspath/></depend>
@@ -2316,12 +2316,12 @@
     <depend project="avalon-meta-impl"><noclasspath/></depend>
     <depend project="avalon-util-configuration"><noclasspath/></depend>
     <depend project="avalon-util-extension-impl"><noclasspath/></depend>
-    <depend project="avalon-test-dynamics"><noclasspath/></depend>
-    <depend project="avalon-test-includes"><noclasspath/></depend>
-    <depend project="avalon-test-playground"><noclasspath/></depend>
     <depend project="avalon-test-testa"><noclasspath/></depend>
     <depend project="avalon-test-testb"><noclasspath/></depend>
     <depend project="avalon-test-testc"><noclasspath/></depend>
+    <depend project="avalon-test-dynamics"><noclasspath/></depend>
+    <depend project="avalon-test-includes"><noclasspath/></depend>
+    <depend project="avalon-test-playground"><noclasspath/></depend>
     <depend project="avalon-test-testd"><noclasspath/></depend>
     <depend project="avalon-test-teste"><noclasspath/></depend>
     <depend project="avalon-test-testcyclic"><noclasspath/></depend>
@@ -2441,12 +2441,12 @@
     <depend project="avalon-meta-impl"><noclasspath/></depend>
     <depend project="avalon-util-configuration"><noclasspath/></depend>
     <depend project="avalon-util-extension-impl"><noclasspath/></depend>
-    <depend project="avalon-test-dynamics"><noclasspath/></depend>
-    <depend project="avalon-test-includes"><noclasspath/></depend>
-    <depend project="avalon-test-playground"><noclasspath/></depend>
     <depend project="avalon-test-testa"><noclasspath/></depend>
     <depend project="avalon-test-testb"><noclasspath/></depend>
     <depend project="avalon-test-testc"><noclasspath/></depend>
+    <depend project="avalon-test-dynamics"><noclasspath/></depend>
+    <depend project="avalon-test-includes"><noclasspath/></depend>
+    <depend project="avalon-test-playground"><noclasspath/></depend>
     <depend project="avalon-test-testd"><noclasspath/></depend>
     <depend project="avalon-test-teste"><noclasspath/></depend>
     <depend project="avalon-test-testcyclic"><noclasspath/></depend>
@@ -2999,12 +2999,12 @@
     <depend project="avalon-util-extension-impl"><noclasspath/></depend>
     <depend project="avalon-util-lifecycle"><noclasspath/></depend>
     <depend project="avalon-logging-impl"><noclasspath/></depend>
-    <depend project="avalon-test-dynamics"><noclasspath/></depend>
-    <depend project="avalon-test-includes"><noclasspath/></depend>
-    <depend project="avalon-test-playground"><noclasspath/></depend>
     <depend project="avalon-test-testa"><noclasspath/></depend>
     <depend project="avalon-test-testb"><noclasspath/></depend>
     <depend project="avalon-test-testc"><noclasspath/></depend>
+    <depend project="avalon-test-dynamics"><noclasspath/></depend>
+    <depend project="avalon-test-includes"><noclasspath/></depend>
+    <depend project="avalon-test-playground"><noclasspath/></depend>
     <depend project="avalon-test-testd"><noclasspath/></depend>
     <depend project="avalon-test-teste"><noclasspath/></depend>
     <depend project="avalon-test-testcyclic"><noclasspath/></depend>
@@ -3019,6 +3019,44 @@
     <!-- end for -->
     <home nested="runtime/composition/impl/target/deliverables"/>
     <jar name="jars/avalon-composition-impl-@@DATE@@.jar"/>
+    <nag to="dev@avalon.apache.org"
+       from="Magic Integration &lt;dev@avalon.apache.org&gt;"/>
+  </project>
+
+  <project name="magic-checkstyle-plugin">
+    <license name="central/system/license/LICENSE.TXT"/>
+    <ant basedir="tools/spells/checkstyle">
+      <!-- for magic -->
+      <property name="build.sysclasspath" value="last"/> 
+      <property name="magic.home" reference="home" project="magic"/>
+      <property name="gump.signature" value="@@DATE@@"/>
+      <!-- external references -->
+      <depend property="gump.resource.checkstyle" project="checkstyle">
+        <noclasspath/>
+      </depend>
+      <depend property="gump.resource.antlr" project="antlr">
+        <noclasspath/>
+      </depend>
+      <depend property="gump.resource.bcel" project="bcel">
+        <noclasspath/>
+      </depend>
+      <depend property="gump.resource.commons-beanutils-core" project="commons-beanutils-core">
+        <noclasspath/>
+      </depend>
+      <depend property="gump.resource.commons-collections" project="commons-collections">
+        <noclasspath/>
+      </depend>
+      <depend property="gump.resource.commons-logging" project="commons-logging" id="commons-logging">
+        <noclasspath/>
+      </depend>
+      <depend property="gump.resource.regexp" project="regexp">
+        <noclasspath/>
+      </depend>
+      <!-- end for -->
+    </ant>
+    <depend project="magic" runtime="true" inherit="runtime"/> 
+    <home nested="tools/spells/checkstyle/target/deliverables"/>
+    <jar name="jars/magic-checkstyle-plugin-@@DATE@@.plugin"/>
     <nag to="dev@avalon.apache.org"
        from="Magic Integration &lt;dev@avalon.apache.org&gt;"/>
   </project>
@@ -4012,12 +4050,12 @@
     <depend project="avalon-meta-impl"><noclasspath/></depend>
     <depend project="avalon-meta-spi"><noclasspath/></depend>
     <depend project="avalon-util-extension-impl"><noclasspath/></depend>
-    <depend project="avalon-test-dynamics"><noclasspath/></depend>
-    <depend project="avalon-test-includes"><noclasspath/></depend>
-    <depend project="avalon-test-playground"><noclasspath/></depend>
     <depend project="avalon-test-testa"><noclasspath/></depend>
     <depend project="avalon-test-testb"><noclasspath/></depend>
     <depend project="avalon-test-testc"><noclasspath/></depend>
+    <depend project="avalon-test-dynamics"><noclasspath/></depend>
+    <depend project="avalon-test-includes"><noclasspath/></depend>
+    <depend project="avalon-test-playground"><noclasspath/></depend>
     <depend project="avalon-test-testd"><noclasspath/></depend>
     <depend project="avalon-test-teste"><noclasspath/></depend>
     <depend project="avalon-test-testcyclic"><noclasspath/></depend>
@@ -4186,12 +4224,12 @@
     <depend project="avalon-meta-impl"><noclasspath/></depend>
     <depend project="avalon-util-configuration"><noclasspath/></depend>
     <depend project="avalon-util-extension-impl"><noclasspath/></depend>
-    <depend project="avalon-test-dynamics"><noclasspath/></depend>
-    <depend project="avalon-test-includes"><noclasspath/></depend>
-    <depend project="avalon-test-playground"><noclasspath/></depend>
     <depend project="avalon-test-testa"><noclasspath/></depend>
     <depend project="avalon-test-testb"><noclasspath/></depend>
     <depend project="avalon-test-testc"><noclasspath/></depend>
+    <depend project="avalon-test-dynamics"><noclasspath/></depend>
+    <depend project="avalon-test-includes"><noclasspath/></depend>
+    <depend project="avalon-test-playground"><noclasspath/></depend>
     <depend project="avalon-test-testd"><noclasspath/></depend>
     <depend project="avalon-test-teste"><noclasspath/></depend>
     <depend project="avalon-test-testcyclic"><noclasspath/></depend>
@@ -4907,12 +4945,12 @@
     <depend project="avalon-meta-impl"><noclasspath/></depend>
     <depend project="avalon-util-configuration"><noclasspath/></depend>
     <depend project="avalon-util-extension-impl"><noclasspath/></depend>
-    <depend project="avalon-test-dynamics"><noclasspath/></depend>
-    <depend project="avalon-test-includes"><noclasspath/></depend>
-    <depend project="avalon-test-playground"><noclasspath/></depend>
     <depend project="avalon-test-testa"><noclasspath/></depend>
     <depend project="avalon-test-testb"><noclasspath/></depend>
     <depend project="avalon-test-testc"><noclasspath/></depend>
+    <depend project="avalon-test-dynamics"><noclasspath/></depend>
+    <depend project="avalon-test-includes"><noclasspath/></depend>
+    <depend project="avalon-test-playground"><noclasspath/></depend>
     <depend project="avalon-test-testd"><noclasspath/></depend>
     <depend project="avalon-test-teste"><noclasspath/></depend>
     <depend project="avalon-test-testcyclic"><noclasspath/></depend>
@@ -5404,12 +5442,12 @@
     <depend project="avalon-meta-impl"><noclasspath/></depend>
     <depend project="avalon-util-configuration"><noclasspath/></depend>
     <depend project="avalon-util-extension-impl"><noclasspath/></depend>
-    <depend project="avalon-test-dynamics"><noclasspath/></depend>
-    <depend project="avalon-test-includes"><noclasspath/></depend>
-    <depend project="avalon-test-playground"><noclasspath/></depend>
     <depend project="avalon-test-testa"><noclasspath/></depend>
     <depend project="avalon-test-testb"><noclasspath/></depend>
     <depend project="avalon-test-testc"><noclasspath/></depend>
+    <depend project="avalon-test-dynamics"><noclasspath/></depend>
+    <depend project="avalon-test-includes"><noclasspath/></depend>
+    <depend project="avalon-test-playground"><noclasspath/></depend>
     <depend project="avalon-test-testd"><noclasspath/></depend>
     <depend project="avalon-test-teste"><noclasspath/></depend>
     <depend project="avalon-test-testcyclic"><noclasspath/></depend>
