@@ -19,6 +19,7 @@
 
         <ant dir="collections"/>
         <ant dir="concurrent"/>
+        <ant dir="altrmi"/>
         <ant dir="instrument"/>
         <ant dir="all"/>                <!-- depends on instrument -->
         <ant dir="instrument-manager"/> <!-- depends on instrument, all -->
@@ -38,6 +39,8 @@
     <target name="jdepend" if="do.jdepend" description="Generate Dependency Analysis Report">
 
         <path id="java.src">
+            <pathelement location="altrmi/src/java"/>
+            <pathelement location="altrmi/src/test"/>
             <pathelement location="instrument/src/java"/>
             <pathelement location="instrument/src/test"/>
             <pathelement location="concurrent/src/java"/>
@@ -114,11 +117,12 @@
     <target name="dist" depends="test-reports"
         description="Create binary distributions of all the products"/>
 
-    <!-- Generate one mega jar-ball -->
+    <!-- Generate one mega jar-ball -->   
     <target name="mega-jar" description="Generate one large jar for all the products">
         <ant dir="instrument" target="jar"/>
         <ant dir="concurrent" target="jar"/>
         <ant dir="collections" target="jar"/>
+        <ant dir="altrmi" target="jar"/>
         <ant dir="all" target="all"/>                <!-- depends on instrument -->
         <ant dir="instrument-manager" target="jar"/> <!-- depends on instrument, all -->
         <!--ant dir="instrument-client" target="jar"/-->  <!-- depends on instrument-manager -->
@@ -133,10 +137,12 @@
         <ant dir="tar" target="jar"/>
         <ant dir="zip" target="jar"/>
 
+        <!-- I am not sure we should be putting new Jars in here - Paul H -->
         <jlink compress="false" outfile="excalibur-all.jar">
             <mergefiles>
                 <fileset dir=".">
                     <include name="*/build/lib/*.jar"/>
+                    <include name="altrmi/**"/>                    
                 </fileset>
             </mergefiles>
         </jlink>
@@ -147,6 +153,7 @@
      <!--   <ant dir="instrument" target="docs"/>  -->
      <!--   <ant dir="concurrent" target="docs"/>  -->
      <!--   <ant dir="collections" target="docs"/> -->
+     <!--   <ant dir="altrmi" target="docs"/> -->
         <ant dir="all" target="docs"/>                <!-- depends on instrument -->
         <ant dir="instrument-manager" target="docs"/> <!-- depends on instrument, all -->
         <!--ant dir="instrument-client" target="docs"/-->  <!-- depends on instrument-manager -->
@@ -169,6 +176,7 @@
         <ant dir="instrument" target="real-clean"/>
         <ant dir="concurrent" target="real-clean"/>
         <ant dir="collections" target="real-clean"/>
+        <ant dir="altrmi" target="real-clean"/>
         <ant dir="all" target="distclean"/>
         <ant dir="instrument-manager" target="real-clean"/>
         <ant dir="instrument-client" target="real-clean"/>
