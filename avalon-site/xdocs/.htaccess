@@ -5,3 +5,4 @@ RedirectMatch ^/sandbox/api(.*) http://avalon.apache.org/merlin/api
 RedirectMatch ^/cornerstone(.*) http://avalon.apache.org/components
 RedirectMatch ^/merlin/starting/installation/3.0(.*) http://avalon.apache.org/merlin/starting/installation
 RedirectMatch ^/merlin/starting/installation/3.2(.*) http://avalon.apache.org/merlin/starting/installation
+RedirectMatch ^/merlin/starting/installation/3.2(.*) http://avalon.apache.org/merlin/starting/installation
