@@ -16,7 +16,6 @@ import org.apache.avalon.excalibur.lang.ThreadContext;
 import org.apache.avalon.framework.logger.AbstractLoggable;
 import org.apache.avalon.phoenix.Block;
 import org.apache.avalon.phoenix.BlockListener;
-import org.apache.avalon.phoenix.components.frame.ApplicationContext;
 import org.apache.avalon.phoenix.metadata.BlockListenerMetaData;
 import org.apache.avalon.phoenix.metadata.BlockMetaData;
 

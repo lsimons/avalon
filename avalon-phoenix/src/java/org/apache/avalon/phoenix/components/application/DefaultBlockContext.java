@@ -17,7 +17,6 @@ import org.apache.avalon.framework.context.ContextException;
 import org.apache.avalon.framework.context.DefaultContext;
 import org.apache.avalon.framework.logger.Loggable;
 import org.apache.avalon.phoenix.BlockContext;
-import org.apache.avalon.phoenix.components.frame.ApplicationContext;
 import org.apache.log.Logger;
 
 /**
