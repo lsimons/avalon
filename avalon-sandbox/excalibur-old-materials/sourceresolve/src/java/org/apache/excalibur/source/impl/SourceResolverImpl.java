@@ -100,7 +100,7 @@ import org.apache.excalibur.source.SourceResolver;
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version $Id: SourceResolverImpl.java,v 1.17 2002/12/15 11:56:48 cziegeler Exp $
+ * @version $Id: SourceResolverImpl.java,v 1.18 2003/01/08 12:13:53 cziegeler Exp $
  */
 public class SourceResolverImpl
     extends AbstractLogEnabled
@@ -302,22 +302,20 @@ public class SourceResolverImpl
         if( protocolPos != -1 )
         {
             final String protocol = systemID.substring( 0, protocolPos );
-            if( m_factorySelector.isSelectable( protocol ) )
+            SourceFactory factory = null;
+            try
             {
-                SourceFactory factory = null;
-                try
-                {
-                    factory = (SourceFactory)m_factorySelector.select( protocol );
-                    source = factory.getSource( systemID, parameters );
-                }
-                catch( final ServiceException ce )
-                {
-                    throw new SourceException( "Unable to select source factory for protocol " + protocol, ce );
-                }
-                finally
-                {
-                    m_factorySelector.release( factory );
-                }
+                factory = (SourceFactory)m_factorySelector.select( protocol );
+                source = factory.getSource( systemID, parameters );
+            }
+            catch( final ServiceException ce )
+            {
+            	// no selector available, use fallback
+                //throw new SourceException( "Unable to select source factory for protocol " + protocol, ce );
+            }
+            finally
+            {
+                m_factorySelector.release( factory );
             }
         }
 
@@ -381,22 +379,20 @@ public class SourceResolverImpl
 
         // search for a SourceFactory implementing the protocol
         final String protocol = source.getProtocol();
-        if( m_factorySelector.isSelectable( protocol ) )
+        SourceFactory factory = null;
+        try
         {
-            SourceFactory factory = null;
-            try
-            {
-                factory = (SourceFactory)m_factorySelector.select( protocol );
-                factory.release( source );
-            }
-            catch( final ServiceException ce )
-            {
-                throw new CascadingRuntimeException( "Unable to select source factory for protocol " + protocol, ce );
-            }
-            finally
-            {
-                m_factorySelector.release( factory );
-            }
+            factory = (SourceFactory)m_factorySelector.select( protocol );
+            factory.release( source );
+        }
+        catch( final ServiceException ce )
+        {
+        	//no factory available, so use fallback
+            //throw new CascadingRuntimeException( "Unable to select source factory for protocol " + protocol, ce );
+        }
+        finally
+        {
+            m_factorySelector.release( factory );
         }
     }
 }
