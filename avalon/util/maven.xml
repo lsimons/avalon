@@ -293,12 +293,13 @@
         <j:forEach var="packageGroup" items="${pom.packageGroups}">
           <group title="${packageGroup.title}" packages="${packageGroup.packages}"/>
         </j:forEach>
+        <sourcepath path="${basedir}/criteria/src/java"/>
         <sourcepath path="${basedir}/defaults/src/java"/>
         <sourcepath path="${basedir}/env/src/java"/>
         <sourcepath path="${basedir}/exception/src/java"/>
-        <sourcepath path="${basedir}/criteria/src/java"/>
         <sourcepath path="${basedir}/extension/api/src/java"/>
         <sourcepath path="${basedir}/extension/impl/src/java"/>
+        <sourcepath path="${basedir}/i18n/src/java"/>
         <classpath>
           <path refid="maven.dependency.classpath"/>
 	  </classpath>
