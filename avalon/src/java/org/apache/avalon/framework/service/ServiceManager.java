@@ -1,14 +1,14 @@
-/* ==================================================================== 
- * The Apache Software License, Version 1.1 
- * 
- * Copyright (c) 1997-2002 The Apache Software Foundation. All rights 
- * reserved. 
- * 
- * Redistribution and use in source and binary forms, with or without 
- * modification, are permitted provided that the following conditions 
- * are met: 
- * 
- * 1. Redistributions of source code must retain the above copyright 
+/* ====================================================================
+ * The Apache Software License, Version 1.1
+ *
+ * Copyright (c) 1997-2002 The Apache Software Foundation. All rights
+ * reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright
  *    notice, this list of conditions and the following disclaimer.
  *
  * 2. Redistributions in binary form must reproduce the above copyright
@@ -20,13 +20,13 @@
  *    if any, must include the following acknowledgment:
  *    "This product includes software developed by the
  *    Apache Software Foundation (http://www.apache.org/)."
- *    Alternately, this acknowledgment may appear in the software 
- *    itself, if and wherever such third-party acknowledgments  
+ *    Alternately, this acknowledgment may appear in the software
+ *    itself, if and wherever such third-party acknowledgments
  *    normally appear.
  *
- * 4. The names "Jakarta", "Avalon", and "Apache Software Foundation" 
+ * 4. The names "Jakarta", "Avalon", and "Apache Software Foundation"
  *    must not be used to endorse or promote products derived from this
- *    software without prior written permission. For written 
+ *    software without prior written permission. For written
  *    permission, please contact apache@apache.org.
  *
  * 5. Products derived from this software may not be called "Apache",
@@ -49,9 +49,9 @@
  *
  * This software consists of voluntary contributions made by many
  * individuals on behalf of the Apache Software Foundation. For more
- * information on the Apache Software Foundation, please see 
+ * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
- */ 
+ */
 package org.apache.avalon.framework.service;
 
 /**
@@ -84,23 +84,23 @@ package org.apache.avalon.framework.service;
  * @author <a href="mailto:fumagalli@exoffice.com">Pierpaolo Fumagalli</a>
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
  * @version 1.0
  * @see org.apache.avalon.framework.service.Serviceable
  * @see org.apache.avalon.framework.service.ServiceSelector
- *
  */
 public interface ServiceManager
 {
     /**
-     * Get the <code>Object</code> associated with the given role.  For
+     * Get the <code>Object</code> associated with the given key.  For
      * instance, If the <code>ServiceManager</code> had a
-     * <code>LoggerComponent</code> stored and referenced by role, I would use
-     * the following call:
+     * <code>LoggerComponent</code> stored and referenced by key,
+     * the following could be used:
      * <pre>
      * try
      * {
-     *     MyComponent log;
-     *     myComponent = (MyComponent) manager.lookup(MyComponent.ROLE);
+     *     LoggerComponent log;
+     *     myComponent = (LoggerComponent) manager.lookup( LoggerComponent.ROLE );
      * }
      * catch (...)
      * {
@@ -108,20 +108,20 @@ public interface ServiceManager
      * }
      * </pre>
      *
-     * @param role The role name of the <code>Object</code> to retrieve.
+     * @param key The lookup key of the <code>Object</code> to retrieve.
      * @return an <code>Object</code> value
      * @throws ServiceException if an error occurs
      */
-    Object lookup( String role )
+    Object lookup( String key )
         throws ServiceException;
 
     /**
-     * Check to see if a <code>Object</code> exists for a role.
+     * Check to see if a <code>Object</code> exists for a key.
      *
-     * @param role  a string identifying the role to check.
+     * @param key a string identifying the key to check.
      * @return True if the object exists, False if it does not.
      */
-    boolean hasService( String role );
+    boolean hasService( String key );
 
     /**
      * Return the <code>Object</code> when you are finished with it.  This
@@ -133,5 +133,4 @@ public interface ServiceManager
      * @param object The <code>Object</code> we are releasing.
      */
     void release( Object object );
-
 }

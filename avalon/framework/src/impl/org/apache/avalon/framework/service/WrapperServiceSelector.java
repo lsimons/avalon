@@ -1,7 +1,7 @@
 /* ====================================================================
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 1997-2002 The Apache Software Foundation. All rights
+ * Copyright (c) 2002 The Apache Software Foundation. All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -52,121 +52,100 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  */
-package org.apache.avalon.framework.component;
 
-import java.util.HashMap;
-import java.util.Map;
+package org.apache.avalon.framework.service;
+
+import org.apache.avalon.framework.component.Component;
+import org.apache.avalon.framework.component.ComponentException;
+import org.apache.avalon.framework.component.ComponentSelector;
 
 /**
- * This is the default implementation of the ComponentSelector
+ * This is a {@link ServiceSelector} implementation that can wrap around a legacy
+ * {@link ComponentSelector} object effectively adapting a {@link ComponentSelector}
+ * interface to a {@link ServiceSelector} interface.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version 1.0
- * @deprecated Use {@link org.apache.avalon.framework.service.DefaultServiceSelector} instead.
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @version CVS $Revision: 1.1 $ $Date: 2002/11/07 08:29:04 $
  */
-public class DefaultComponentSelector
-    implements ComponentSelector
+public class WrapperServiceSelector
+    implements ServiceSelector
 {
-    private final HashMap m_components = new HashMap();
-    private boolean m_readOnly;
+    /**
+     * The Selector we are wrapping.
+     */
+    private final ComponentSelector m_selector;
 
     /**
-     * Select the desired component.  It does not cascade, neither
-     * should it.
-     *
-     * @param hint the hint to retrieve Component
-     * @return the Component
-     * @throws ComponentException if an error occurs
+     * The role that this selector was aquired via.
      */
-    public Component select( Object hint )
-        throws ComponentException
-    {
-        final Component component = (Component)m_components.get( hint );
+    private final String m_role;
 
-        if( null != component )
+    /**
+     * This constructor is a constructor for a ComponentServiceManager
+     *
+     * @param role the role used to aquire this selector
+     * @param selector the selector to wrap
+     */
+    public WrapperServiceSelector( final String role,
+                                   final ComponentSelector selector )
+    {
+        if( null == role )
         {
-            return component;
+            throw new NullPointerException( "role" );
         }
-        else
+        if( null == selector )
         {
-            throw new ComponentException( hint.toString(), "Unable to provide implementation." );
+            throw new NullPointerException( "selector" );
         }
+
+        m_role = role + "/";
+        m_selector = selector;
     }
 
     /**
-     * Returns whether a Component exists or not
-     * @param hint the hint to retrieve Component
-     * @return <code>true</code> if the Component exists
+     * Select a service based on a policy.
+     *
+     * @param policy the policy
+     * @return the service
+     * @throws ServiceException if unable to select service
      */
-    public boolean hasComponent( final Object hint )
+    public Object select( final Object policy )
+        throws ServiceException
     {
-        boolean componentExists = false;
-
         try
         {
-            this.release( this.select( hint ) );
-            componentExists = true;
+            return m_selector.select( policy );
         }
-        catch( Throwable t )
+        catch( final ComponentException ce )
         {
-            // Ignore all throwables--we want a yes or no answer.
+            final String message = "Could not return a reference to the Component";
+            throw new ServiceException( m_role + policy, message, ce );
         }
-
-        return componentExists;
     }
 
     /**
-     * Release component.
+     * Check to see if a {@link Object} exists relative to the supplied policy.
      *
-     * @param component the component
+     * @param policy a {@link Object} containing the selection criteria
+     * @return True if the component is available, False if it not.
      */
-    public void release( final Component component )
+    public boolean isSelectable( final Object policy )
     {
-        // if the ComponentManager handled pooling, it would be
-        // returned to the pool here.
+        return m_selector.hasComponent( policy );
     }
 
     /**
-     * Populate the ComponentSelector.
-     * @param hint the hint to retrieve Component
-     * @param component the component to add
-     */
-    public void put( final Object hint, final Component component )
-    {
-        checkWriteable();
-        m_components.put( hint, component );
-    }
-
-    /**
-     * Helper method for subclasses to retrieve component map.
+     * Return the {@link Object} when you are finished with it.  This
+     * allows the {@link ServiceSelector} to handle the End-Of-Life Lifecycle
+     * events associated with the {@link Object}.  Please note, that no
+     * Exception should be thrown at this point.  This is to allow easy use of the
+     * ServiceSelector system without having to trap Exceptions on a release.
      *
-     * @return the component map
+     * @param object The {@link Object} we are releasing.
      */
-    protected final Map getComponentMap()
+    public void release( Object object )
     {
-        return m_components;
-    }
-
-    /**
-     * Make this component selector read-only.
-     */
-    public void makeReadOnly()
-    {
-        m_readOnly = true;
-    }
-
-    /**
-     * Check if this component m_manager is writeable.
-     *
-     * @throws IllegalStateException if this component m_manager is read-only
-     */
-    protected final void checkWriteable()
-        throws IllegalStateException
-    {
-        if( m_readOnly )
-        {
-            throw new IllegalStateException
-                ( "ComponentSelector is read only and can not be modified" );
-        }
+        m_selector.release( (Component)object );
     }
 }

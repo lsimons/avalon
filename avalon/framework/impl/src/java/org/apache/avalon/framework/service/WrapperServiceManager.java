@@ -1,7 +1,7 @@
 /* ====================================================================
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 1997-2002 The Apache Software Foundation. All rights
+ * Copyright (c) 2002 The Apache Software Foundation. All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -52,121 +52,93 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  */
-package org.apache.avalon.framework.component;
+package org.apache.avalon.framework.service;
 
-import java.util.HashMap;
-import java.util.Map;
+import org.apache.avalon.framework.component.Component;
+import org.apache.avalon.framework.component.ComponentException;
+import org.apache.avalon.framework.component.ComponentManager;
+import org.apache.avalon.framework.component.ComponentSelector;
 
 /**
- * This is the default implementation of the ComponentSelector
+ * This is a {@link ServiceManager} implementation that can wrap around a legacy
+ * {@link ComponentManager} object effectively adapting a {@link ComponentManager}
+ * interface to a {@link ServiceManager} interface.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version 1.0
- * @deprecated Use {@link org.apache.avalon.framework.service.DefaultServiceSelector} instead.
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @version CVS $Revision: 1.1 $ $Date: 2002/11/07 08:29:04 $
  */
-public class DefaultComponentSelector
-    implements ComponentSelector
+public class WrapperServiceManager
+    implements ServiceManager
 {
-    private final HashMap m_components = new HashMap();
-    private boolean m_readOnly;
+    /**
+     * The component manager thaty this class wraps.
+     */
+    private final ComponentManager m_componentManager;
 
     /**
-     * Select the desired component.  It does not cascade, neither
-     * should it.
+     * This constructor is a constructor for a WrapperServiceManager.
      *
-     * @param hint the hint to retrieve Component
-     * @return the Component
-     * @throws ComponentException if an error occurs
+     * @param componentManager the ComponentManager instance that is being wrapped
      */
-    public Component select( Object hint )
-        throws ComponentException
+    public WrapperServiceManager( final ComponentManager componentManager )
     {
-        final Component component = (Component)m_components.get( hint );
+        if( null == componentManager )
+        {
+            throw new NullPointerException( "componentManager" );
+        }
 
-        if( null != component )
-        {
-            return component;
-        }
-        else
-        {
-            throw new ComponentException( hint.toString(), "Unable to provide implementation." );
-        }
+        m_componentManager = componentManager;
     }
 
     /**
-     * Returns whether a Component exists or not
-     * @param hint the hint to retrieve Component
-     * @return <code>true</code> if the Component exists
+     * Retrieve a service using specified key.
+     *
+     * @param key the key to use to lookup component
+     * @return the matching service
+     * @throws ServiceException if unable to provide the service
+     * @see ServiceManager#lookup
      */
-    public boolean hasComponent( final Object hint )
+    public Object lookup( final String key )
+        throws ServiceException
     {
-        boolean componentExists = false;
-
         try
         {
-            this.release( this.select( hint ) );
-            componentExists = true;
+            final Object service = m_componentManager.lookup( key );
+            if( service instanceof ComponentSelector )
+            {
+                return new WrapperServiceSelector( key, (ComponentSelector)service );
+            }
+            else
+            {
+                return service;
+            }
         }
-        catch( Throwable t )
+        catch( final ComponentException ce )
         {
-            // Ignore all throwables--we want a yes or no answer.
+            final String message = "Could not return a reference to the Component";
+            throw new ServiceException( key, message, ce );
         }
-
-        return componentExists;
     }
 
     /**
-     * Release component.
+     * Return true if the component is available in ServiceManager.
      *
-     * @param component the component
+     * @param key the lookup
+     * @return true if the component is available in ServiceManager
      */
-    public void release( final Component component )
+    public boolean hasService( final String key )
     {
-        // if the ComponentManager handled pooling, it would be
-        // returned to the pool here.
+        return m_componentManager.hasComponent( key );
     }
 
     /**
-     * Populate the ComponentSelector.
-     * @param hint the hint to retrieve Component
-     * @param component the component to add
-     */
-    public void put( final Object hint, final Component component )
-    {
-        checkWriteable();
-        m_components.put( hint, component );
-    }
-
-    /**
-     * Helper method for subclasses to retrieve component map.
+     * Release the service back to the ServiceManager.
      *
-     * @return the component map
+     * @param service the service
      */
-    protected final Map getComponentMap()
+    public void release( final Object service )
     {
-        return m_components;
-    }
-
-    /**
-     * Make this component selector read-only.
-     */
-    public void makeReadOnly()
-    {
-        m_readOnly = true;
-    }
-
-    /**
-     * Check if this component m_manager is writeable.
-     *
-     * @throws IllegalStateException if this component m_manager is read-only
-     */
-    protected final void checkWriteable()
-        throws IllegalStateException
-    {
-        if( m_readOnly )
-        {
-            throw new IllegalStateException
-                ( "ComponentSelector is read only and can not be modified" );
-        }
+        m_componentManager.release( (Component)service );
     }
 }

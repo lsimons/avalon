@@ -1,14 +1,14 @@
-/* ==================================================================== 
- * The Apache Software License, Version 1.1 
- * 
- * Copyright (c) 1997-2002 The Apache Software Foundation. All rights 
- * reserved. 
- * 
- * Redistribution and use in source and binary forms, with or without 
- * modification, are permitted provided that the following conditions 
- * are met: 
- * 
- * 1. Redistributions of source code must retain the above copyright 
+/* ====================================================================
+ * The Apache Software License, Version 1.1
+ *
+ * Copyright (c) 1997-2002 The Apache Software Foundation. All rights
+ * reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright
  *    notice, this list of conditions and the following disclaimer.
  *
  * 2. Redistributions in binary form must reproduce the above copyright
@@ -20,13 +20,13 @@
  *    if any, must include the following acknowledgment:
  *    "This product includes software developed by the
  *    Apache Software Foundation (http://www.apache.org/)."
- *    Alternately, this acknowledgment may appear in the software 
- *    itself, if and wherever such third-party acknowledgments  
+ *    Alternately, this acknowledgment may appear in the software
+ *    itself, if and wherever such third-party acknowledgments
  *    normally appear.
  *
- * 4. The names "Jakarta", "Avalon", and "Apache Software Foundation" 
+ * 4. The names "Jakarta", "Avalon", and "Apache Software Foundation"
  *    must not be used to endorse or promote products derived from this
- *    software without prior written permission. For written 
+ *    software without prior written permission. For written
  *    permission, please contact apache@apache.org.
  *
  * 5. Products derived from this software may not be called "Apache",
@@ -49,9 +49,9 @@
  *
  * This software consists of voluntary contributions made by many
  * individuals on behalf of the Apache Software Foundation. For more
- * information on the Apache Software Foundation, please see 
+ * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
- */ 
+ */
 package org.apache.avalon.framework.component;
 
 import java.util.HashMap;
@@ -95,16 +95,16 @@ public class DefaultComponentManager
     }
 
     /**
-     * Retrieve Component by role from ComponentManager.
+     * Retrieve Component by key from ComponentManager.
      *
-     * @param role the role
+     * @param key the key
      * @return the Component
      * @throws ComponentException if an error occurs
      */
-    public Component lookup( final String role )
+    public Component lookup( final String key )
         throws ComponentException
     {
-        final Component component = (Component)m_components.get( role );
+        final Component component = (Component)m_components.get( key );
 
         if( null != component )
         {
@@ -112,28 +112,28 @@ public class DefaultComponentManager
         }
         else if( null != m_parent )
         {
-            return m_parent.lookup( role );
+            return m_parent.lookup( key );
         }
         else
         {
-            throw new ComponentException( role, "Unable to provide implementation." );
+            throw new ComponentException( key, "Unable to provide implementation." );
         }
     }
 
     /**
-     * Returns <code>true</code> if the component manager is managing a component
-     * with the specified role, <code>false</code> otherwise.
+     * Returns <code>true</code> if the component m_manager is managing a component
+     * with the specified key, <code>false</code> otherwise.
      *
-     * @param role role of the component you are lokking for
-     * @return <code>true</code> if the component manager has a component with that role
+     * @param key key of the component you are lokking for
+     * @return <code>true</code> if the component m_manager has a component with that key
      */
-    public boolean hasComponent( final String role )
+    public boolean hasComponent( final String key )
     {
         boolean componentExists = false;
 
         try
         {
-            this.release( this.lookup( role ) );
+            this.release( this.lookup( key ) );
             componentExists = true;
         }
         catch( Throwable t )
@@ -147,13 +147,13 @@ public class DefaultComponentManager
     /**
      * Place Component into ComponentManager.
      *
-     * @param role the components role
+     * @param key the components key
      * @param component the component
      */
-    public void put( final String role, final Component component )
+    public void put( final String key, final Component component )
     {
         checkWriteable();
-        m_components.put( role, component );
+        m_components.put( key, component );
     }
 
     /**
@@ -209,7 +209,7 @@ public class DefaultComponentManager
     }
 
     /**
-     * Make this component manager read only.
+     * Make this component m_manager read only.
      */
     public void makeReadOnly()
     {
@@ -217,17 +217,18 @@ public class DefaultComponentManager
     }
 
     /**
-     * Check if this component manager is writeable.
+     * Check if this component m_manager is writeable.
      *
-     * @throws IllegalStateException if this component manager is read-only
+     * @throws IllegalStateException if this component m_manager is read-only
      */
     protected final void checkWriteable()
         throws IllegalStateException
     {
         if( m_readOnly )
         {
-            throw new IllegalStateException
-                ( "ComponentManager is read only and can not be modified" );
+            final String message =
+                "ComponentManager is read only and can not be modified";
+            throw new IllegalStateException( message );
         }
     }
 }

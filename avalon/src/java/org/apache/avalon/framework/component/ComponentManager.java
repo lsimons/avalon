@@ -1,14 +1,14 @@
-/* ==================================================================== 
- * The Apache Software License, Version 1.1 
- * 
- * Copyright (c) 1997-2002 The Apache Software Foundation. All rights 
- * reserved. 
- * 
- * Redistribution and use in source and binary forms, with or without 
- * modification, are permitted provided that the following conditions 
- * are met: 
- * 
- * 1. Redistributions of source code must retain the above copyright 
+/* ====================================================================
+ * The Apache Software License, Version 1.1
+ *
+ * Copyright (c) 1997-2002 The Apache Software Foundation. All rights
+ * reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright
  *    notice, this list of conditions and the following disclaimer.
  *
  * 2. Redistributions in binary form must reproduce the above copyright
@@ -20,13 +20,13 @@
  *    if any, must include the following acknowledgment:
  *    "This product includes software developed by the
  *    Apache Software Foundation (http://www.apache.org/)."
- *    Alternately, this acknowledgment may appear in the software 
- *    itself, if and wherever such third-party acknowledgments  
+ *    Alternately, this acknowledgment may appear in the software
+ *    itself, if and wherever such third-party acknowledgments
  *    normally appear.
  *
- * 4. The names "Jakarta", "Avalon", and "Apache Software Foundation" 
+ * 4. The names "Jakarta", "Avalon", and "Apache Software Foundation"
  *    must not be used to endorse or promote products derived from this
- *    software without prior written permission. For written 
+ *    software without prior written permission. For written
  *    permission, please contact apache@apache.org.
  *
  * 5. Products derived from this software may not be called "Apache",
@@ -49,9 +49,9 @@
  *
  * This software consists of voluntary contributions made by many
  * individuals on behalf of the Apache Software Foundation. For more
- * information on the Apache Software Foundation, please see 
+ * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
- */ 
+ */
 package org.apache.avalon.framework.component;
 
 /**
@@ -92,15 +92,15 @@ package org.apache.avalon.framework.component;
 public interface ComponentManager
 {
     /**
-     * Get the <code>Component</code> associated with the given role.  For
+     * Get the <code>Component</code> associated with the given key.  For
      * instance, If the <code>ComponentManager</code> had a
-     * <code>LoggerComponent</code> stored and referenced by role, I would use
+     * <code>LoggerComponent</code> stored and referenced by key, I would use
      * the following call:
      * <pre>
      * try
      * {
-     *     MyComponent log;
-     *     myComponent = (MyComponent) manager.lookup(MyComponent.ROLE);
+     *     LoggerComponent log;
+     *     myComponent = (LoggerComponent) m_manager.lookup(LoggerComponent.ROLE);
      * }
      * catch (...)
      * {
@@ -108,20 +108,20 @@ public interface ComponentManager
      * }
      * </pre>
      *
-     * @param role The role name of the <code>Component</code> to retrieve.
+     * @param key The key name of the <code>Component</code> to retrieve.
      * @return the desired component
      * @throws ComponentException if an error occurs
      */
-    Component lookup( String role )
+    Component lookup( String key )
         throws ComponentException;
 
     /**
-     * Check to see if a <code>Component</code> exists for a role.
+     * Check to see if a <code>Component</code> exists for a key.
      *
-     * @param role  a string identifying the role to check.
+     * @param key  a string identifying the key to check.
      * @return True if the component exists, False if it does not.
      */
-    boolean hasComponent( String role );
+    boolean hasComponent( String key );
 
     /**
      * Return the <code>Component</code> when you are finished with it.  This
