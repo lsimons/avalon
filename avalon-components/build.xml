@@ -166,6 +166,9 @@
         <fileset dir="${gen.dir}">
             <include name="**/*.xinfo"/>
         </fileset>
+        <fileset dir="${src.dir}/java">
+            <include name="**/*-schema.xml"/>
+        </fileset>
     </jar>
 
     <jar jarfile="${build.lib}/cornerstone-api.jar"
