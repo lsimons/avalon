@@ -16,7 +16,10 @@
         The concept of using different points of view within the the system
         goes a long way in the overall comprehension of the system.
       </p>
-      <p>You can get more formal information in this paper: <link href="http://www.research.ibm.com/hyperspace/MDSOC.htm">Multi-Dimensional Separation of Concerns</link>.</p><s2 title="What it Means">
+      <p>You can get more formal information in this paper:
+        <link href="http://www.research.ibm.com/hyperspace/MDSOC.htm">Multi-Dimensional Separation of Concerns</link>.
+      </p>
+      <s2 title="What it Means">
         <p>
           &quot;Separation of Concerns&quot; in its simplest form is separating
           a problem into different points of view.  For instance, the documentation
@@ -59,7 +62,7 @@
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.2 $ $Date: 2001/03/02 01:53:53 $
+      $Revision: 1.3 $ $Date: 2001/07/05 14:53:50 $
     </legal>
   </footer>
 </document>
