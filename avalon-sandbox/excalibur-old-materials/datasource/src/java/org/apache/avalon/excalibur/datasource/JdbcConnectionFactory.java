@@ -17,7 +17,7 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
  * The Factory implementation for JdbcConnections.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.14 $ $Date: 2002/04/04 07:09:53 $
+ * @version CVS $Revision: 1.15 $ $Date: 2002/09/27 13:44:11 $
  * @since 4.0
  */
 public class JdbcConnectionFactory extends AbstractLogEnabled implements ObjectFactory
@@ -27,7 +27,8 @@ public class JdbcConnectionFactory extends AbstractLogEnabled implements ObjectF
     private final String m_password;
     private final boolean m_autoCommit;
     private final String m_keepAlive;
-    private final Class m_class;
+    private final String m_connectionClass;
+    private Class m_class;
     private static final String DEFAULT_KEEPALIVE = "SELECT 1";
     private static final String ORACLE_KEEPALIVE = JdbcConnectionFactory.DEFAULT_KEEPALIVE + " FROM DUAL";
     private Connection m_firstConnection;
@@ -84,8 +85,7 @@ public class JdbcConnectionFactory extends AbstractLogEnabled implements ObjectF
         this.m_password = password;
         this.m_autoCommit = autoCommit;
         this.m_keepAlive = keepAlive;
-
-        Class clazz = null;
+        this.m_connectionClass = connectionClass;
 
         try
         {
@@ -98,21 +98,7 @@ public class JdbcConnectionFactory extends AbstractLogEnabled implements ObjectF
                 m_firstConnection = DriverManager.getConnection( m_dburl, m_username, m_password );
             }
 
-            String className = connectionClass;
-            if( null == className )
-            {
-                try
-                {
-                    java.lang.reflect.Method meth = m_firstConnection.getClass().getMethod( "getHoldability", new Class[]{} );
-                    className = "org.apache.avalon.excalibur.datasource.Jdbc3Connection";
-                }
-                catch( Exception e )
-                {
-                    className = "org.apache.avalon.excalibur.datasource.JdbcConnection";
-                }
-            }
-
-            clazz = Thread.currentThread().getContextClassLoader().loadClass( className );
+            init( m_firstConnection );
         }
         catch( Exception e )
         {
@@ -121,8 +107,25 @@ public class JdbcConnectionFactory extends AbstractLogEnabled implements ObjectF
             //  as it can be a real pain to track down the cause when this happens.
             //System.out.println( "Unable to get specified connection class: " + e );
         }
+    }
 
-        this.m_class = clazz;
+    private void init( Connection connection ) throws Exception
+    {
+        String className = m_connectionClass;
+        if( null == className )
+        {
+            try
+            {
+                java.lang.reflect.Method meth = connection.getClass().getMethod( "getHoldability", new Class[]{} );
+                className = "org.apache.avalon.excalibur.datasource.Jdbc3Connection";
+            }
+            catch( Exception e )
+            {
+                className = "org.apache.avalon.excalibur.datasource.JdbcConnection";
+            }
+        }
+
+        this.m_class = Thread.currentThread().getContextClassLoader().loadClass( className );
     }
 
     public Object newInstance() throws Exception
@@ -146,43 +149,52 @@ public class JdbcConnectionFactory extends AbstractLogEnabled implements ObjectF
             m_firstConnection = null;
         }
 
-        if( null != this.m_class )
+        if( null == this.m_class )
         {
             try
             {
-                Class[] paramTypes = new Class[]{Connection.class, String.class};
-                Object[] params = new Object[]{connection, this.m_keepAlive};
+                init( connection );
+            }
+            catch( Exception e )
+            {
+                if( getLogger().isDebugEnabled() )
+                {
+                    getLogger().debug( "Exception in JdbcConnectionFactory.newInstance:", e );
+                }
+                throw new NoValidConnectionException( "No valid JdbcConnection class available" );
+            }
+        }
+
+        try
+        {
+            Class[] paramTypes = new Class[]{Connection.class, String.class};
+            Object[] params = new Object[]{connection, this.m_keepAlive};
+
+            Constructor constructor = m_class.getConstructor( paramTypes );
+            jdbcConnection = (AbstractJdbcConnection)constructor.newInstance( params );
+        }
+        catch( Exception e )
+        {
+            try
+            {
+                // Support the deprecated connection constructor as well.
+                boolean oracleKeepAlive = ( m_keepAlive != null ) && m_keepAlive.equalsIgnoreCase( JdbcConnectionFactory.ORACLE_KEEPALIVE );
+
+                Class[] paramTypes = new Class[]{Connection.class, boolean.class};
+                Object[] params = new Object[]{connection, new Boolean( oracleKeepAlive )};
 
                 Constructor constructor = m_class.getConstructor( paramTypes );
                 jdbcConnection = (AbstractJdbcConnection)constructor.newInstance( params );
             }
-            catch( Exception e )
+            catch( Exception ie )
             {
-                try
+                if( getLogger().isDebugEnabled() )
                 {
-                    // Support the deprecated connection constructor as well.
-                    boolean oracleKeepAlive = ( m_keepAlive != null ) && m_keepAlive.equalsIgnoreCase( JdbcConnectionFactory.ORACLE_KEEPALIVE );
-
-                    Class[] paramTypes = new Class[]{Connection.class, boolean.class};
-                    Object[] params = new Object[]{connection, new Boolean( oracleKeepAlive )};
-
-                    Constructor constructor = m_class.getConstructor( paramTypes );
-                    jdbcConnection = (AbstractJdbcConnection)constructor.newInstance( params );
+                    getLogger().debug( "Exception in JdbcConnectionFactory.newInstance:", ie );
                 }
-                catch( Exception ie )
-                {
-                    if( getLogger().isDebugEnabled() )
-                    {
-                        getLogger().debug( "Exception in JdbcConnectionFactory.newInstance:", ie );
-                    }
 
-                    throw new NoValidConnectionException( ie.getMessage() );
-                }
+                throw new NoValidConnectionException( ie.getMessage() );
             }
-        }
-        else
-        {
-            throw new NoValidConnectionException( "No valid JdbcConnection class available" );
         }
 
         jdbcConnection.enableLogging( getLogger() );
