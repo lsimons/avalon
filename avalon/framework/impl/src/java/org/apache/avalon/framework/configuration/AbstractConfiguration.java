@@ -59,7 +59,7 @@ package org.apache.avalon.framework.configuration;
  * with methods that can be abstracted away from underlying implementations.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.27 $ $Date: 2003/02/11 07:15:42 $
+ * @version CVS $Revision: 1.28 $ $Date: 2003/02/11 16:19:27 $
  */
 public abstract class AbstractConfiguration
     implements Configuration
@@ -71,6 +71,7 @@ public abstract class AbstractConfiguration
      * @return A non-null String (defaults to "")
      * @throws ConfigurationException if no prefix was defined (prefix is
      * <code>null</code>.
+     * @since 4.1
      */
     protected abstract String getPrefix() throws ConfigurationException;
 

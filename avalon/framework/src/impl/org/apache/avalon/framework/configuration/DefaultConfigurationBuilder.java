@@ -100,7 +100,7 @@ import org.xml.sax.XMLReader;
  * </p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.25 $ $Date: 2003/02/11 15:58:39 $
+ * @version CVS $Revision: 1.26 $ $Date: 2003/02/11 16:19:27 $
  */
 public class DefaultConfigurationBuilder
 {
@@ -125,6 +125,7 @@ public class DefaultConfigurationBuilder
      * @param enableNamespaces If <code>true</code>,  a namespace-aware
      * <code>SAXParser</code> is used. If <code>false</code>, the default JAXP
      * <code>SAXParser</code> (without namespace support) is used.
+     * @since 4.1
      */
     public DefaultConfigurationBuilder( final boolean enableNamespaces )
     {

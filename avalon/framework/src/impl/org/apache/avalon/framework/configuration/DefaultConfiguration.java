@@ -62,7 +62,7 @@ import java.util.HashMap;
  * This is the default <code>Configuration</code> implementation.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.31 $ $Date: 2003/02/11 15:58:39 $
+ * @version CVS $Revision: 1.32 $ $Date: 2003/02/11 16:19:27 $
  */
 public class DefaultConfiguration
     extends AbstractConfiguration
@@ -110,7 +110,8 @@ public class DefaultConfiguration
      * @param prefix A short string prefixed to element names, associating
      * elements with a longer namespace string. Should not be null; use "" if no
      * namespace.
-     */
+     * @since 4.1
+    */
     public DefaultConfiguration( final String name,
                                  final String location,
                                  final String ns,
@@ -135,6 +136,7 @@ public class DefaultConfiguration
      * Returns the namespace of this configuration element
      * @return a <code>String</code> value
      * @throws ConfigurationException if an error occurs
+     * @since 4.1
      */
     public String getNamespace() throws ConfigurationException
     {
@@ -155,6 +157,7 @@ public class DefaultConfiguration
      * Returns the prefix of the namespace
      * @return a <code>String</code> value
      * @throws ConfigurationException if prefix is not present (<code>null</code>).
+     * @since 4.1
      */
     protected String getPrefix() throws ConfigurationException
     {

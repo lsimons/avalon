@@ -73,7 +73,7 @@ import org.apache.log.util.StackIntrospector;
  * </ul>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.25 $ $Date: 2003/02/11 15:58:40 $
+ * @version CVS $Revision: 1.26 $ $Date: 2003/02/11 16:19:27 $
  */
 public class AvalonFormatter
     extends ExtendedPatternFormatter
@@ -106,7 +106,8 @@ public class AvalonFormatter
      * and which which prints out exceptions to stackDepth of 8.
      *
      * @param pattern The pattern to use to format the log entries
-     */
+     * @since 4.1
+    */
     public AvalonFormatter( final String pattern )
     {
         this( pattern, DEFAULT_STACK_DEPTH, DEFAULT_PRINT_CASCADING );

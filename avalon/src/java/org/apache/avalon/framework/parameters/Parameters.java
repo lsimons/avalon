@@ -90,7 +90,7 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
  * </p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.36 $ $Date: 2003/02/11 15:58:41 $
+ * @version CVS $Revision: 1.37 $ $Date: 2003/02/11 16:19:27 $
  */
 public class Parameters
     implements Serializable
@@ -141,6 +141,7 @@ public class Parameters
     /**
      * Remove a parameter from the parameters object
      * @param name a <code>String</code> value
+     * @since 4.1
      */
     public void removeParameter( final String name )
     {
@@ -608,6 +609,7 @@ public class Parameters
      * @param elementName   the element name for the parameters
      * @return This <code>Parameters</code> instance.
      * @throws ConfigurationException if an error occurs
+     * @since 4.1
      */
     public static Parameters fromConfiguration( final Configuration configuration,
                                                 final String elementName )
