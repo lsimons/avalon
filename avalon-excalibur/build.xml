@@ -26,7 +26,7 @@ Legal:
     (and without typing -D each time he compiles it)
   -->
   <property file="build.properties"/>
-  <property file="./.ant.properties"/> <!-- The build.properties version is preferred -->
+  <property file=".ant.properties"/> <!-- The build.properties version is preferred -->
   <property file="${user.home}/.ant.properties"/>
 
   <property name="name" value="excalibur"/>
@@ -451,9 +451,32 @@ Legal:
 
   <target name="jar-clutil" depends="compile-clutil">
     <mkdir dir="${build.lib}"/>
-    <jar file="${build.lib}/clutil.jar" basedir="${build.classes}" compress="${compress.jars}">
+    <jar jarfile="${build.lib}/clutil.jar" basedir="${build.classes}" compress="${compress.jars}">
       <include name="org/apache/avalon/excalibur/cli/*" />
       <exclude name="org/apache/avalon/excalibur/cli/test/*" />
+    </jar>
+  </target>
+
+    <!-- Creates the clutil.jar file -->
+  <target name="compile-i18n" depends="prepare">
+
+    <mkdir dir="${build.classes}"/>
+
+    <javac srcdir="${java.dir}"
+           destdir="${build.classes}"
+           debug="${build.debug}"
+           optimize="${build.optimize}"
+           deprecation="${build.deprecation}"
+           target="1.2">
+      <include name="org/apache/avalon/excalibur/i18n/*" />
+    </javac>
+  </target>
+
+  <target name="jar-i18n" depends="compile-i18n">
+    <mkdir dir="${build.lib}"/>
+    <jar jarfile="${build.lib}/excalibur-i18n.jar" basedir="${build.classes}" compress="${compress.jars}">
+      <include name="org/apache/avalon/excalibur/i18n/*" />
+      <exclude name="org/apache/avalon/excalibur/i18n/test/*" />
     </jar>
   </target>
 
