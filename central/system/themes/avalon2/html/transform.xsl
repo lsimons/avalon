@@ -57,19 +57,18 @@
         </img>
       </div>
       
-      <div class="categorybar">
-        <a class="homecategory">
-            <xsl:variable name="x" select="document('navigation.xml', / )/project/body//menu/level" />
-          <xsl:attribute name="href"><xsl:value-of select="$x[position() = last()]" />index.html</xsl:attribute>
-          Home
-        </a>
-        <xsl:variable name="x" select="document('navigation.xml', / )/project/body//category" />
-        <xsl:apply-templates select="$x/item" >
-          <xsl:with-param name="dir" select="$x/../level" />
-          <xsl:with-param name="class" select="'category'" />
-        </xsl:apply-templates>
-      </div>
-      
+      <xsl:choose>
+        <xsl:when test="$directory = ''" >
+          <xsl:call-template name="create-bar">
+            <xsl:with-param name="homeclass" select="'homecategory-selected'" />
+          </xsl:call-template>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:call-template name="create-bar">
+            <xsl:with-param name="homeclass" select="'homecategory'" />
+          </xsl:call-template>
+        </xsl:otherwise>
+      </xsl:choose>
       <div class="menubar" >
         <xsl:apply-templates select="document('navigation.xml', / )/project/body/menu" >
           <xsl:with-param name="dir" select="''" />
@@ -81,7 +80,25 @@
       </div>
     </body>
   </xsl:template>
-  
+
+  <xsl:template name="create-bar" >
+    <xsl:param name="homeclass" />
+    <div class="categorybar">
+      <xsl:attribute name="dir"><xsl:value-of select="$directory" /></xsl:attribute>
+      <a>
+        <xsl:attribute name="class"><xsl:value-of select="$homeclass" /></xsl:attribute>
+        <xsl:variable name="x" select="document('navigation.xml', / )/project/body//menu/level" />
+        <xsl:attribute name="href"><xsl:value-of select="$x[position() = last()]" />index.html</xsl:attribute>
+        Home
+      </a>
+      <xsl:variable name="x" select="document('navigation.xml', / )/project/body//category" />
+      <xsl:apply-templates select="$x/item" >
+        <xsl:with-param name="dir" select="$x/../level" />
+        <xsl:with-param name="class" select="'category'" />
+      </xsl:apply-templates>
+    </div>
+  </xsl:template>
+    
   <xsl:template match="a">
     <a>
       <xsl:attribute name="class">doclink</xsl:attribute>

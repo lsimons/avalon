@@ -209,6 +209,11 @@ table.logobar
     display: none;
 }
 
+.dummy
+{
+    display: none;
+}
+
 dd
 {
     font-weight: bolder;
@@ -302,11 +307,7 @@ a.category:active,
 a.homecategory:active
 {
     color: black;
-    background-color: #D0E0F0;
-    border-left: 1px solid #003399;
-    border-top: 1px solid #003399;
-    border-right: 1px solid #9999FF;
-    border-bottom: 1px solid #9999FF;
+    background-color: #C0D0E0;
     outline: none;
 }
 
@@ -363,11 +364,7 @@ a.category-selected:active,
 a.homecategory-selected:active
 {
     color: black;
-    background-color: #D0E0F0;
-    border-left: 1px solid #003399;
-    border-top: 1px solid #003399;
-    border-right: 1px solid #9999FF;
-    border-bottom: 1px solid #9999FF;
+    background-color: #C0D0E0;
     outline: none;
     text-decoration: underline;
 }

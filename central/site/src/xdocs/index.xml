@@ -7,7 +7,10 @@
 
   <body>
     <section name="Welcome to Apache Avalon">
-      <p>
+      <p class="caption">
+        <em><strong>"any sufficiently advanced technology is 
+        indistinguishable from magic"</strong></em><br/>
+        Sir Arthur C Clarke
       </p>
     </section>
   </body>
