@@ -15,6 +15,9 @@
     Implemented ContextStack.toString() and ContextStack.toString(int) to convert stack 
     into string.
   </action>
+  <action dev="PD" type="update">
+    Made priority serializable.
+  </action>
 </release>
 <release version="1.0b3" date="July 22, 2001">
   <action dev="PD" type="update">
