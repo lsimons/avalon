@@ -59,7 +59,7 @@ import org.apache.log.LogEvent;
  * to the LogKit ErrorHandler interface.
  *
  * @author <a href="http://cvs.apache.org/~atagunov">Anton Tagunov</a>
- * @version CVS $Revision: 1.1 $ $Date: 2003/06/11 10:52:11 $
+ * @version CVS $Revision: 1.1.1.1 $ $Date: 2003/10/02 19:18:45 $
  * @since 4.0
  */
 

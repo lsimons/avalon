@@ -61,6 +61,7 @@ import javax.servlet.ServletContext;
  * Adapted from ConsoleLogger.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version CVS $Revision: 1.1.1.1 $ $Date: 2003/10/02 19:18:44 $
  */
 
 public class ServletLogger implements Logger
@@ -110,6 +111,8 @@ public class ServletLogger implements Logger
 
     /**
      * Creates a new ServletLogger.
+     * @param servletContext ServletContext to log messages to
+     * @param prompt text to prepend to every message
      * @param logLevel log level typecode
      */
     public ServletLogger( final ServletContext servletContext, final String prompt,
@@ -123,6 +126,8 @@ public class ServletLogger implements Logger
 
     /**
      * Creates a new ServletLogger.
+     * @param servletConfig the servletConfig to extract ServletContext from;
+     *        also the servlet name is extracted to be prepended to every message.
      * @param logLevel log level typecode
      */
     public ServletLogger( final ServletConfig servletConfig, final int logLevel )

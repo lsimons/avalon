@@ -4,7 +4,7 @@
                    The Apache Software License, Version 1.1
  ============================================================================
 
- Copyright (C) @year@ The Apache Software Foundation. All rights reserved.
+ Copyright (C) 1999-2003 The Apache Software Foundation. All rights reserved.
 
  Redistribution and use in source and binary forms, with or without modifica-
  tion, are permitted provided that the following conditions are met:
@@ -53,6 +53,7 @@ import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
+import org.apache.avalon.framework.container.ContainerUtil;
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.ContextException;
 import org.apache.avalon.framework.context.Contextualizable;
@@ -71,21 +72,19 @@ import org.apache.avalon.framework.thread.ThreadSafe;
  * The idea is to have one single configuration file where you can
  * define, which logger manager (Log4J, LogKit etc.) you want to use, so
  * you don't have to hard-code this.
- * 
- * FIXME: This is only a start, it's neither tested not run
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.1 $ $Date: 2003/03/06 11:26:10 $
+ * @version CVS $Revision: 1.1.1.1 $ $Date: 2003/10/02 19:18:44 $
  */
 
-public final class DefaultLoggerManager 
-    implements LoggerManager, 
-                ThreadSafe, 
-                LogEnabled, 
-                Contextualizable, 
-                Configurable, 
-                Serviceable,
-                Disposable
+public final class DefaultLoggerManager
+    implements LoggerManager,
+    ThreadSafe,
+    LogEnabled,
+    Contextualizable,
+    Configurable,
+    Serviceable,
+    Disposable
 {
     /** The used LoggerManager */
     private LoggerManager m_loggermanager;
@@ -98,13 +97,13 @@ public final class DefaultLoggerManager
 
     /** The prefix */
     private String m_prefix;
-    
+
     /** The service manager */
     private ServiceManager m_manager;
-    
+
     /** Do we have to dispose the manager */
     private boolean m_disposeManager = false;
-    
+
     /**
      * Creates a new <code>DefaultLoggerManager</code>. .
      */
@@ -115,7 +114,7 @@ public final class DefaultLoggerManager
     /**
      * Creates a new <code>DefaultLoggerManager</code>. .
      */
-    public DefaultLoggerManager(String prefix)
+    public DefaultLoggerManager( String prefix )
     {
         m_prefix = prefix;
     }
@@ -169,91 +168,108 @@ public final class DefaultLoggerManager
         throws ConfigurationException
     {
         // first we test for the class name to use
-        final String className = configuration.getAttribute("manager-class", null);
-        
-        if ( null != className ) 
+        final String className = configuration.getAttribute( "manager-class", null );
+
+        if( null != className )
         {
             // is a prefix available?
-            final String prefix = configuration.getAttribute("prefix", m_prefix);
-        
+            final String prefix = configuration.getAttribute( "prefix", m_prefix );
+
             // create logger manager
-            try {
-                if ( null == prefix )
+            try
+            {
+                if( null == prefix )
                 {
                     m_loggermanager = (LoggerManager)Class.forName( className ).newInstance();
                 }
                 else
                 {
                     m_loggermanager = (LoggerManager)Class.forName( className )
-                                                          .getConstructor(new Class[] {String.class})
-                                                          .newInstance(new Object[] {prefix});
+                        .getConstructor( new Class[]{String.class} )
+                        .newInstance( new Object[]{prefix} );
                 }
-            } 
-            catch (Exception e) 
-            {
-                throw new ConfigurationException("Unable to create new logger manager for class " + className, e);
             }
-        
+            catch( Exception e )
+            {
+                throw new ConfigurationException( "Unable to create new logger manager for class " + className, e );
+            }
+
             // now test for some lifecycle interfaces
-            if ( m_loggermanager instanceof LogEnabled ) 
+            ContainerUtil.enableLogging(m_loggermanager, m_logger );
+
+            try
             {
-                ((LogEnabled)m_loggermanager).enableLogging( m_logger);
+                ContainerUtil.contextualize( m_loggermanager, m_context );
             }
-        
-            if ( m_loggermanager instanceof Contextualizable)
+            catch( ContextException ce )
             {
-                try 
+                throw new ConfigurationException( "Unable to contextualize new logger manager.", ce );
+            }
+
+            try 
+            {
+                ContainerUtil.service( m_loggermanager, m_manager );
+            }
+            catch (ServiceException se ) 
+            {            
+                throw new ConfigurationException("Unable to service new logger manager.", se);
+            }
+            
+            if( m_loggermanager instanceof Configurable )
+            {
+                ( (Configurable)m_loggermanager ).configure( configuration.getChildren()[ 0 ] );
+            }
+            else if( m_loggermanager instanceof Parameterizable )
+            {
+                try
                 {
-                    ((Contextualizable)m_loggermanager).contextualize( m_context );
-                } 
-                catch (ContextException ce)
+                    ( (Parameterizable)m_loggermanager ).parameterize( Parameters.fromConfiguration( configuration.getChildren()[ 0 ] ) );
+                }
+                catch( ParameterException pe )
                 {
-                    throw new ConfigurationException("Unable to contextualize new logger manager.", ce);
+                    throw new ConfigurationException( "Unable to parameterize new logger manager.", pe );
                 }
             }
-        
-            if ( m_loggermanager instanceof Configurable )
+
+            try
             {
-                ((Configurable)m_loggermanager).configure(configuration.getChildren()[0]);
+                ContainerUtil.initialize( m_loggermanager );
             }
-            else if ( m_loggermanager instanceof Parameterizable ) 
+            catch (Exception e ) 
             {
-                try 
-                {
-                    ((Parameterizable)m_loggermanager).parameterize(Parameters.fromConfiguration(configuration.getChildren()[0]));
-                } 
-                catch (ParameterException pe) 
-                {
-                    throw new ConfigurationException("Unable to parameterize new logger manager.", pe);
-                }
+                throw new ConfigurationException("Unable to initialize new logger manager.");
             }
-        } 
+        }
         else
         {
             // now test for role name
-            final String roleName = configuration.getAttribute("manager-role", null);
-            if ( null == roleName ) 
+            final String roleName = configuration.getAttribute( "manager-role", null );
+            if( null == roleName )
             {
-                throw new ConfigurationException("The LoggerManager needs either a manager-role or a manager-class");
+                throw new ConfigurationException( "The LoggerManager needs either a manager-role or a manager-class" );
             }
-            
-            try {
+
+            try
+            {
                 m_loggermanager = (LoggerManager)m_manager.lookup( roleName );
                 m_disposeManager = true;
-            } catch (ServiceException e) {
-                throw new ConfigurationException("Unable to lookup logger manager with role " + roleName);
+            }
+            catch( ServiceException e )
+            {
+                throw new ConfigurationException( "Unable to lookup logger manager with role " + roleName );
             }
         }
     }
 
-    public void service(ServiceManager manager) 
-        throws ServiceException 
+    public void service( ServiceManager manager )
+        throws ServiceException
     {
         m_manager = manager;
     }
 
-    public void dispose() {
-        if ( m_disposeManager && null != m_manager)
+    public void dispose()
+    {
+        if( m_disposeManager && null != m_manager )
         {
             m_manager.release( m_loggermanager );
         }

@@ -49,31 +49,29 @@
 */
 package org.apache.avalon.excalibur.logger.logkit;
 
-import org.apache.avalon.framework.logger.Logger;
-import org.apache.avalon.framework.logger.AbstractLogEnabled;
-import org.apache.avalon.excalibur.logger.LogTargetFactory;
-import org.apache.avalon.excalibur.logger.LogTargetFactoryManager;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
+
 import org.apache.avalon.excalibur.logger.DefaultLogTargetFactoryManager;
+import org.apache.avalon.excalibur.logger.DefaultLogTargetManager;
 import org.apache.avalon.excalibur.logger.LogTargetFactoryManageable;
 import org.apache.avalon.excalibur.logger.LogTargetFactoryManager;
-import org.apache.avalon.excalibur.logger.DefaultLogTargetManager;
 import org.apache.avalon.excalibur.logger.LogTargetManager;
 import org.apache.avalon.excalibur.logger.util.LoggerUtil;
-import org.apache.avalon.framework.context.Context;
-import org.apache.avalon.framework.context.Contextualizable;
-import org.apache.avalon.framework.context.ContextException;
-import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.configuration.Configurable;
-import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.activity.Disposable;
+import org.apache.avalon.framework.configuration.Configurable;
+import org.apache.avalon.framework.configuration.Configuration;
+import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.container.ContainerUtil;
+import org.apache.avalon.framework.context.Context;
+import org.apache.avalon.framework.context.ContextException;
+import org.apache.avalon.framework.context.Contextualizable;
+import org.apache.avalon.framework.logger.AbstractLogEnabled;
+import org.apache.log.Hierarchy;
 import org.apache.log.LogTarget;
 import org.apache.log.Priority;
 import org.apache.log.util.Closeable;
-import java.util.Set;
-import java.util.HashSet;
-import java.util.Iterator;
-import org.apache.log.Hierarchy;
 
 /**
  * Tie this object to a LoggerManagerTee, give it the Hierachy
@@ -86,7 +84,7 @@ import org.apache.log.Hierarchy;
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:proyal@apache.org">Peter Royal</a>
  * @author <a href="http://cvs.apache.org/~atagunov">Anton Tagunov</a>
- * @version CVS $Revision: 1.1 $ $Date: 2003/06/11 10:52:11 $
+ * @version CVS $Revision: 1.1.1.1 $ $Date: 2003/10/02 19:18:45 $
  * @since 4.0
  */
 public class LogKitConfHelper extends AbstractLogEnabled implements
@@ -138,10 +136,9 @@ public class LogKitConfHelper extends AbstractLogEnabled implements
         final LogTargetManager targetManager = setupTargetManager( targets, targetFactoryManager );
 
         final Configuration categories = configuration.getChild( "categories" );
-        final Configuration[] category = categories.getChildren( "category" );
         setupLoggers( targetManager,
                       null,
-                      category,
+                      categories,
                       true,
                       categories.getAttributeAsBoolean( "additive", false ) );
     }
@@ -207,76 +204,91 @@ public class LogKitConfHelper extends AbstractLogEnabled implements
      */
     private final void setupLoggers( final LogTargetManager targetManager,
                                      final String parentCategory,
-                                     final Configuration[] categories,
+                                     final Configuration parentElement,
                                      boolean root,
                                      final boolean defaultAdditive )
         throws ConfigurationException
     {
-        boolean rootLoggerAlive = false;
+        boolean rootLoggerConfigured = false;
 
-        for( int i = 0; i < categories.length; i++ )
+        final Configuration[] categories = parentElement.getChildren( "category" );
+
+        if( null != categories )
         {
-            final String category = categories[ i ].getAttribute( "name" );
-            final String loglevel = categories[ i ].getAttribute( "log-level" ).toUpperCase();
-            final boolean additive = categories[ i ].
-                getAttributeAsBoolean( "additive", defaultAdditive );
-
-            final Configuration[] targets = categories[ i ].getChildren( "log-target" );
-            final LogTarget[] logTargets = new LogTarget[ targets.length ];
-            for( int j = 0; j < targets.length; j++ )
+            for( int i = 0; i < categories.length; i++ )
             {
-                final String id = targets[ j ].getAttribute( "id-ref" );
-                logTargets[ j ] = targetManager.getLogTarget( id );
-                if( !m_targets.contains( logTargets[ j ] ) )
+                final Configuration category = categories[ i ];
+                final String name = category.getAttribute( "name" );
+                final String loglevel = category.getAttribute( "log-level" ).toUpperCase();
+                final boolean additive = category.
+                    getAttributeAsBoolean( "additive", defaultAdditive );
+        
+                final Configuration[] targets = category.getChildren( "log-target" );
+                final LogTarget[] logTargets = new LogTarget[ targets.length ];
+                for( int j = 0; j < targets.length; j++ )
                 {
-                    m_targets.add( logTargets[ j ] );
+                    final String id = targets[ j ].getAttribute( "id-ref" );
+                    logTargets[ j ] = targetManager.getLogTarget( id );
+                    if( !m_targets.contains( logTargets[ j ] ) )
+                    {
+                        m_targets.add( logTargets[ j ] );
+                    }
                 }
-            }
-
-            if( root && "".equals( category ) && logTargets.length > 0 )
-            {
-                m_hierarchy.setDefaultPriority( Priority.getPriorityForName( loglevel ) );
-                m_hierarchy.setDefaultLogTargets( logTargets );
-                rootLoggerAlive = true;
-            }
-
-            final String fullCategory = 
-                    LoggerUtil.getFullCategoryName( parentCategory, category );
-
-            final org.apache.log.Logger logger = m_hierarchy.getLoggerFor( fullCategory );
-
-            if( getLogger().isDebugEnabled() )
-            {
-                /**
-                 * We have to identify ourselves here via 'LogKitConfHelper:'
-                 * because we are likely be logging directly to a bootstrap
-                 * logger and this logger has no categories.
-                 */
-                final String message = "LogKitConfHelper: adding logger for category '" +
-                        fullCategory + "'";
-                getLogger().debug( message );
-            }
-            logger.setPriority( Priority.getPriorityForName( loglevel ) );
-            logger.setLogTargets( logTargets );
-            logger.setAdditivity( additive );
-
-            final Configuration[] subCategories = categories[ i ].getChildren( "category" );
-            if( null != subCategories )
-            {
-                setupLoggers( targetManager, fullCategory, subCategories, false, defaultAdditive );
+        
+                final String fullCategory;
+                final org.apache.log.Logger logger;
+        
+                if ( "".equals( name ) )
+                {
+                    if ( !root )
+                    {
+                        final String message = "'category' element with empty name not " +
+                                "at the root level: " + category.getLocation();
+                        throw new ConfigurationException( message );
+                    }
+        
+                    if ( logTargets.length == 0 )
+                    {
+                        final String message = "At least one log-target should be " +
+                                "specified for the root category " + category.getLocation();
+                        throw new ConfigurationException( message );
+                    }
+        
+                    fullCategory = null;
+                    logger = m_hierarchy.getRootLogger();
+                    rootLoggerConfigured = true;
+                }
+                else
+                {
+                    fullCategory = LoggerUtil.getFullCategoryName( parentCategory, name );
+                    logger = m_hierarchy.getLoggerFor( fullCategory );
+                }
+        
+                if( getLogger().isDebugEnabled() )
+                {
+                    /**
+                     * We have to identify ourselves now via 'LogKitConfHelper:'
+                     * because we are likely to be logging to a shared bootstrap
+                     * logger, not to a dedicated category Logger.
+                     */
+                    final String message = "LogKitConfHelper: adding logger for category '" +
+                            ( fullCategory != null ? fullCategory : "" ) + "'";
+                    getLogger().debug( message );
+                }
+        
+                logger.setPriority( Priority.getPriorityForName( loglevel ) );
+                logger.setLogTargets( logTargets );
+                logger.setAdditivity( additive );
+        
+                setupLoggers( targetManager, fullCategory, category, false, defaultAdditive );
             }
         }
 
-        if ( root && !rootLoggerAlive )
+        if ( root && !rootLoggerConfigured )
         {
-            /**
-             * We have to identify ourselves here via 'LogKitConfHelper:'
-             * because we are likely be logging directly to a bootstrap
-             * logger and this logger has no categories.
-             */
-            final String message = "LogKitConfHelper: " +
-                    "No log targets configured for the root logger.";
-
+            final String message = 
+                    "No configuration for root category (<category name=''/>) found in "+
+                            parentElement.getLocation();
             throw new ConfigurationException( message );
         }
     }
