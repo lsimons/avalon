@@ -1,3 +1,7 @@
+
+/**
+ * @org.apache.avalon.attributes.Indexed
+ */
 public class TestAttribute {
     
     private final String key;

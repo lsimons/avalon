@@ -21,7 +21,7 @@ public class Sample extends SuperSample implements SampleIFJoin {
     }
     
     /**
-     * @Dependency ( SampleService.class, "sample-some-method2" )
+     * @@Dependency ( SampleService.class, "sample-some-method2" )
      */
     public void someMethod (int parameter) {
         

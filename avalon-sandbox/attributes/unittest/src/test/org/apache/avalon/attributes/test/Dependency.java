@@ -1,11 +1,9 @@
 package org.apache.avalon.attributes.test;
 
-import org.apache.avalon.attributes.Inheritable;
-
 /**
  * Declares a dependency.
  * 
- * @Inheritable
+ * @org.apache.avalon.attributes.Inheritable
  */
 public class Dependency {
     

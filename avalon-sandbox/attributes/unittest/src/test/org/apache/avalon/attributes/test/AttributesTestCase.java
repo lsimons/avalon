@@ -7,6 +7,7 @@ import java.io.File;
 import java.net.URL;
 import java.net.URLClassLoader;
 import org.apache.avalon.attributes.Attributes;
+import org.apache.avalon.attributes.AttributeIndex;
 import junit.framework.TestCase;
 
 public class AttributesTestCase extends TestCase {
@@ -146,5 +147,11 @@ public class AttributesTestCase extends TestCase {
         
         assertEquals ("[[TestAttribute 1]]", Attributes.getAttributes (cl1Class).toString ());
         assertEquals ("[[TestAttribute 2]]", Attributes.getAttributes (cl2Class).toString ());
+    }
+    
+    public void testAttributeIndex () throws Exception {
+        URLClassLoader cl2 = new URLClassLoader (new URL[]{new File ("unittest/target/cl2/cl2.jar").toURL ()}, getClass().getClassLoader ());
+        AttributeIndex index = Attributes.getAttributeIndex (cl2);
+        assertEquals ("[TestClass]", index.getClassesWithAttribute ("TestAttribute").toString ());
     }
 }

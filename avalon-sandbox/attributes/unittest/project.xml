@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project>
+    <extend>${basedir}/../project.xml</extend>
+    <id>avalon-attributes-unittest</id>
+    <name>Avalon Attribute Compiler Unit Tests</name>
+    <package>org.apache.avalon.attributes</package>
+    
+    <currentVersion>0.1</currentVersion>
+    <inceptionYear>2003</inceptionYear>
+    <shortDescription>Proof-of-concept client API for Attributes in Java.</shortDescription>
+    
+    <description>
+        A precompiler for java that enables the use of attributes as seen in C#.
+    </description>
+    
+    <build>
+        <unitTestSourceDirectory>${basedir}/target/temp</unitTestSourceDirectory>
+    </build>
+    
+    <dependencies>
+        <dependency>
+            <groupId>ant</groupId>
+            <artifactId>ant</artifactId>
+            <version>1.5</version>
+        </dependency>
+        
+        <dependency>
+            <id>xdoclet+xjavadoc</id>
+            <version>1.0</version>
+        </dependency>
+        
+        <dependency>
+            <id>commons-collections</id>
+            <version>2.1</version>
+        </dependency>
+       
+        
+        <dependency>
+            <groupId>avalon-attributes</groupId>
+            <artifactId>avalon-attributes-compiler</artifactId>
+            <version>SNAPSHOT</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>avalon-attributes</groupId>
+            <artifactId>avalon-attributes-api</artifactId>
+            <version>SNAPSHOT</version>
+        </dependency>
+    </dependencies>
+    
+    <packageGroups>
+        <packageGroup>
+            <title>Application Program Interface (API)</title>
+            <packages>org.apache.avalon.attributes</packages>
+        </packageGroup>
+    </packageGroups>
+    
+</project>

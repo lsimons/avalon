@@ -7,14 +7,15 @@ import java.io.File;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.Collection;
+import org.apache.avalon.attributes.Attributes;
 import org.apache.avalon.attributes.ClassLoaderUtil;
 import junit.framework.TestCase;
 
 public class ClassLoaderUtilTestCase extends TestCase {
     
     public void testScanning () throws Exception {
-        URLClassLoader cl1 = new URLClassLoader (new URL[]{new File ("api/target/cl1/").toURL ()}, getClass().getClassLoader ());
-        URLClassLoader cl2 = new URLClassLoader (new URL[]{new File ("api/target/cl2/cl2.jar").toURL ()}, getClass().getClassLoader ());
+        URLClassLoader cl1 = new URLClassLoader (new URL[]{new File ("unittest/target/cl1/").toURL ()}, getClass().getClassLoader ());
+        URLClassLoader cl2 = new URLClassLoader (new URL[]{new File ("unittest/target/cl2/cl2.jar").toURL ()}, getClass().getClassLoader ());
         
         ClassLoaderUtil clUtil = ClassLoaderUtil.getClassLoaderUtil ();
         
