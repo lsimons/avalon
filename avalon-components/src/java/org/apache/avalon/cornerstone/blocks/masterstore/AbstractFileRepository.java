@@ -17,6 +17,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
+import org.apache.avalon.cornerstone.services.store.Repository;
+import org.apache.avalon.excalibur.io.ExtensionFileFilter;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.component.ComponentException;
 import org.apache.avalon.framework.component.ComponentException;
@@ -28,8 +30,6 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.logger.AbstractLoggable;
-import org.apache.avalon.cornerstone.services.store.Repository;
-import org.apache.avalon.excalibur.io.ExtensionFileFilter;
 import org.apache.avalon.phoenix.Block;
 import org.apache.avalon.phoenix.BlockContext;
 
