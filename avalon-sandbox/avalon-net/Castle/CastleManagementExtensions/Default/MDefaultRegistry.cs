@@ -165,9 +165,14 @@ namespace Apache.Avalon.Castle.ManagementExtensions.Default
 
 			String domainName = name.Domain;
 			
-			Domain domain = FindDomain(domainName);
-
-			domain.Remove(name);
+			try
+			{
+				Domain domain = FindDomain(domainName);
+				domain.Remove(name);
+			}
+			catch(InvalidDomainException)
+			{
+			}
 		}
 
 		/// <summary>
@@ -221,18 +226,57 @@ namespace Apache.Avalon.Castle.ManagementExtensions.Default
 					throw new ArgumentNullException("name");
 				}
 
-				Object instance = null;
-
-				Domain domain = FindDomain(name.Domain);
-				Entry entry = domain[name];
-
-				if (entry != null)
-				{
-					instance = entry.Instance;
-				}
-
-				return instance;
+				return GetEntry(name).Instance;
 			}
+		}
+
+		/// <summary>
+		/// Invokes an action in managed object
+		/// </summary>
+		/// <param name="name"></param>
+		/// <param name="action"></param>
+		/// <param name="args"></param>
+		/// <param name="signature"></param>
+		/// <returns></returns>
+		/// <exception cref="InvalidDomainException">If domain name is not found.</exception>
+		public Object Invoke(ManagedObjectName name, String action, Object[] args, Type[] signature)
+		{
+			return GetEntry(name).Invoker.Invoke(action, args, signature);
+		}
+
+		/// <summary>
+		/// Returns the info (attributes and operations) about the specified object.
+		/// </summary>
+		/// <param name="name"></param>
+		/// <returns></returns>
+		/// <exception cref="InvalidDomainException">If domain name is not found.</exception>
+		public ManagementInfo GetManagementInfo(ManagedObjectName name)
+		{
+			return GetEntry(name).Invoker.Info;
+		}
+
+		/// <summary>
+		/// Gets an attribute value of the specified managed object.
+		/// </summary>
+		/// <param name="name"></param>
+		/// <param name="attributeName"></param>
+		/// <returns></returns>
+		/// <exception cref="InvalidDomainException">If domain name is not found.</exception>
+		public Object GetAttributeValue(ManagedObjectName name, String attributeName)
+		{
+			return GetEntry(name).Invoker.GetAttributeValue(attributeName);
+		}
+
+		/// <summary>
+		/// Sets an attribute value of the specified managed object.
+		/// </summary>
+		/// <param name="name"></param>
+		/// <param name="attributeName"></param>
+		/// <param name="attributeValue"></param>
+		/// <exception cref="InvalidDomainException">If domain name is not found.</exception>
+		public void SetAttributeValue(ManagedObjectName name, String attributeName, Object attributeValue)
+		{
+			GetEntry(name).Invoker.SetAttributeValue(attributeName, attributeValue);
 		}
 
 		#endregion
@@ -252,6 +296,24 @@ namespace Apache.Avalon.Castle.ManagementExtensions.Default
 			}
 
 			return domain;
+		}
+
+		/// <summary>
+		/// Helper to locate Entries.
+		/// </summary>
+		/// <param name="name"></param>
+		/// <returns></returns>
+		private Entry GetEntry(ManagedObjectName name)
+		{
+			Domain domain = FindDomain(name.Domain);
+			Entry entry = domain[name];
+
+			if (entry == null)
+			{
+				throw new ManagedObjectNotFoundException(name.ToString());
+			}
+
+			return entry;
 		}
 	}
 }

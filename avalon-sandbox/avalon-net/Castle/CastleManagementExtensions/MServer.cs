@@ -54,14 +54,98 @@ namespace Apache.Avalon.Castle.ManagementExtensions
 	/// </summary>
 	public interface MServer
 	{
+		/// <summary>
+		/// Instantiates the specified type using the server domain.
+		/// </summary>
+		/// <param name="typeName"></param>
+		/// <returns></returns>
 		Object Instantiate(String typeName);
 
+		/// <summary>
+		/// Instantiates the specified type using the server domain.
+		/// </summary>
+		/// <param name="typeName"></param>
+		/// <param name="typeName"></param>
+		/// <returns></returns>
+		Object Instantiate(String assemblyName, String typeName);
+
+		/// <summary>
+		/// Instantiates the specified managed object.
+		/// </summary>
+		/// <param name="typeName"></param>
+		/// <param name="name"></param>
+		/// <returns></returns>
+		/// <exception cref="InvalidDomainException">If domain name is not found.</exception>
 		ManagedInstance CreateManagedObject(String typeName, ManagedObjectName name);
 
+		/// <summary>
+		/// Instantiates the specified managed object.
+		/// </summary>
+		/// <param name="typeName"></param>
+		/// <param name="name"></param>
+		/// <returns></returns>
+		ManagedInstance CreateManagedObject(String assemblyName, String typeName, ManagedObjectName name);
+
+		/// <summary>
+		/// Registers the specified managed object instance.
+		/// </summary>
+		/// <param name="instance"></param>
+		/// <param name="name"></param>
+		/// <returns></returns>
+		/// <exception cref="InvalidDomainException">If domain name is not found.</exception>
 		ManagedInstance RegisterManagedObject(Object instance, ManagedObjectName name);
 		
+		/// <summary>
+		/// Returns a <see cref="ManagedInstance"/> representing 
+		/// a managed object instance.
+		/// </summary>
+		/// <param name="name"></param>
+		/// <returns></returns>
+		/// <exception cref="InvalidDomainException">If domain name is not found.</exception>
 		ManagedInstance GetManagedInstance(ManagedObjectName name);
 
+		/// <summary>
+		/// Unregister a managed object from the domain.
+		/// </summary>
+		/// <param name="name"></param>
+		/// <exception cref="InvalidDomainException">If domain name is not found.</exception>
 		void UnregisterManagedObject(ManagedObjectName name);
+
+		/// <summary>
+		/// Invokes an action in managed object
+		/// </summary>
+		/// <param name="name"></param>
+		/// <param name="action"></param>
+		/// <param name="args"></param>
+		/// <param name="signature"></param>
+		/// <returns></returns>
+		/// <exception cref="InvalidDomainException">If domain name is not found.</exception>
+		Object Invoke(ManagedObjectName name, String action, Object[] args, Type[] signature);
+
+		/// <summary>
+		/// Returns the info (attributes and operations) about the specified object.
+		/// </summary>
+		/// <param name="name"></param>
+		/// <returns></returns>
+		/// <exception cref="InvalidDomainException">If domain name is not found.</exception>
+		ManagementInfo GetManagementInfo(ManagedObjectName name);
+
+		/// <summary>
+		/// Gets an attribute value of the specified managed object.
+		/// </summary>
+		/// <param name="name"></param>
+		/// <param name="attributeName"></param>
+		/// <returns></returns>
+		/// <exception cref="InvalidDomainException">If domain name is not found.</exception>
+		Object GetAttribute(ManagedObjectName name, String attributeName);
+
+		/// <summary>
+		/// Sets an attribute value of the specified managed object.
+		/// </summary>
+		/// <param name="name"></param>
+		/// <param name="attributeName"></param>
+		/// <param name="attributeValue"></param>
+		/// <exception cref="InvalidDomainException">If domain name is not found.</exception>
+		void SetAttribute(ManagedObjectName name, String attributeName, Object attributeValue);
 	}
 }
