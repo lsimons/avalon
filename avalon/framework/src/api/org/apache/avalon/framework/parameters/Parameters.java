@@ -177,6 +177,7 @@ public class Parameters
             throw new ParameterException( "Could not return an integer value", e );
         }
     }
+
    /**
      * Retrieve the <code>int</code> value of the specified parameter.
      * <p />
