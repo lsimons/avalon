@@ -26,9 +26,9 @@ import org.apache.avalon.composition.model.ContainmentModel;
  * addition or removal of a subsidiary model.
  *
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.5 $ $Date: 2004/01/24 23:25:24 $
+ * @version $Revision: 1.6 $ $Date: 2004/02/07 06:06:30 $
  */
-public class CompositionEvent extends ContainmentEvent
+public class CompositionEvent extends java.util.EventObject
 {
     /**
      * The model added or removed from the containment model.
@@ -58,6 +58,16 @@ public class CompositionEvent extends ContainmentEvent
         return m_child;
     }
 
+    /**
+     * Return the the containment model that generated the event.
+     *
+     * @return the source containment model
+     */
+    public ContainmentModel getContainmentModel()
+    {
+        return (ContainmentModel) getSource();
+    }
+    
     public String toString()
     {
         return "composition-event: [source: " 

@@ -17,45 +17,34 @@
 
 package org.apache.avalon.composition.event;
 
-import java.util.EventObject;
-
-import org.apache.avalon.composition.model.DeploymentModel;
+import java.util.EventListener;
 
 
 /**
- * A event object that descirbes a model related event.
+ * A listener for model composition changes.
  *
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.4 $ $Date: 2004/01/24 23:25:25 $
+ * @version $Revision: 1.1 $ $Date: 2004/02/07 06:06:30 $
  */
-public abstract class ModelEvent extends EventObject
+public interface CompositionListener extends EventListener
 {
     /**
-     * The source model.
+     * Notify the listener that a model has been added to 
+     * a source containment model.
+     *
+     * @param event the containment event raised by the 
+     *    source containment model
      */
-    private final DeploymentModel m_model;
+    void modelAdded( CompositionEvent event );
 
     /**
-     * Create a ModelEvent instance.
+     * Notify the listener that a model has been removed from 
+     * a source containment model.
      *
-     * @param model the model raising the event
+     * @param event the containment event raised by the 
+     *    source containment model
      */
-    public ModelEvent( final DeploymentModel model )
-    {
-        super( model );
-        if( null == model ) 
-          throw new NullPointerException( "model" ); 
-        m_model = model;
-    }
+    void modelRemoved( CompositionEvent event );
 
-    /**
-     * Return the the model that generated the event.
-     *
-     * @return the source model
-     */
-    public DeploymentModel getModel()
-    {
-        return m_model;
-    }
 
 }

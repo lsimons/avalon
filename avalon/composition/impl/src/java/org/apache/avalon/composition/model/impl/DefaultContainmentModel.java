@@ -43,7 +43,7 @@ import org.apache.avalon.composition.data.builder.XMLTargetsCreator;
 import org.apache.avalon.composition.data.builder.ContainmentProfileBuilder;
 import org.apache.avalon.composition.data.builder.XMLContainmentProfileCreator;
 import org.apache.avalon.composition.event.CompositionEvent;
-import org.apache.avalon.composition.event.CompositionEventListener;
+import org.apache.avalon.composition.event.CompositionListener;
 import org.apache.avalon.composition.model.AssemblyException;
 import org.apache.avalon.composition.model.ClassLoaderContext;
 import org.apache.avalon.composition.model.ClassLoaderModel;
@@ -91,7 +91,7 @@ import org.apache.avalon.util.exception.ExceptionHelper;
  * as a part of a containment deployment model.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.24 $ $Date: 2004/01/24 23:25:27 $
+ * @version $Revision: 1.25 $ $Date: 2004/02/07 06:06:30 $
  */
 public class DefaultContainmentModel extends DefaultDeploymentModel 
   implements ContainmentModel
@@ -715,7 +715,7 @@ public class DefaultContainmentModel extends DefaultDeploymentModel
     * Add a composition listener to the model.
     * @param listener the composition listener
     */
-    public void addCompositionListener( CompositionEventListener listener )
+    public void addCompositionListener( CompositionListener listener )
     {
         synchronized( m_compositionListeners )
         {
@@ -727,7 +727,7 @@ public class DefaultContainmentModel extends DefaultDeploymentModel
     * Remove a composition listener from the model.
     * @param listener the composition listener
     */
-    public void removeCompositionListener( CompositionEventListener listener )
+    public void removeCompositionListener( CompositionListener listener )
     {
         synchronized( m_compositionListeners )
         {
@@ -888,8 +888,8 @@ public class DefaultContainmentModel extends DefaultDeploymentModel
         Iterator iterator = m_compositionListeners.iterator();
         while( iterator.hasNext() )
         {
-            final CompositionEventListener listener = 
-              (CompositionEventListener) iterator.next();
+            final CompositionListener listener = 
+              (CompositionListener) iterator.next();
             try
             {
                 listener.modelAdded( event );
@@ -941,8 +941,8 @@ public class DefaultContainmentModel extends DefaultDeploymentModel
         Iterator iterator = m_compositionListeners.iterator();
         while( iterator.hasNext() )
         {
-            final CompositionEventListener listener = 
-              (CompositionEventListener) iterator.next();
+            final CompositionListener listener = 
+              (CompositionListener) iterator.next();
             try
             {
                 listener.modelRemoved( event );

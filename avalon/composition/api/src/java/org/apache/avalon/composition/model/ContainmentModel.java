@@ -23,7 +23,7 @@ import org.apache.avalon.composition.data.DeploymentProfile;
 import org.apache.avalon.composition.data.ServiceDirective;
 import org.apache.avalon.logging.data.CategoriesDirective;
 import org.apache.avalon.composition.data.TargetDirective;
-import org.apache.avalon.composition.event.CompositionEventListener;
+import org.apache.avalon.composition.event.CompositionListener;
 import org.apache.avalon.meta.info.DependencyDescriptor;
 import org.apache.avalon.meta.info.StageDescriptor;
 
@@ -33,7 +33,7 @@ import org.apache.avalon.meta.info.StageDescriptor;
  * context.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.14 $ $Date: 2004/02/06 15:27:14 $
+ * @version $Revision: 1.15 $ $Date: 2004/02/07 06:06:30 $
  */
 public interface ContainmentModel extends DeploymentModel
 {
@@ -180,11 +180,11 @@ public interface ContainmentModel extends DeploymentModel
     * Add a composition listener to the model.
     * @param listener the composition listener
     */
-    void addCompositionListener( CompositionEventListener listener );
+    void addCompositionListener( CompositionListener listener );
 
    /**
     * Remove a composition listener from the model.
     * @param listener the composition listener
     */
-    void removeCompositionListener( CompositionEventListener listener );
+    void removeCompositionListener( CompositionListener listener );
 }
