@@ -50,49 +50,39 @@
 
 package org.apache.avalon.activation.appliance.impl;
 
-import java.net.URL;
-import java.net.URLClassLoader;
-import java.util.Map;
-import java.util.Hashtable;
-import java.util.ArrayList;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
+import java.net.URL;
+import java.net.URLClassLoader;
+import java.util.ArrayList;
+import java.util.Hashtable;
+import java.util.Map;
 
-import org.apache.avalon.activation.appliance.Block;
 import org.apache.avalon.activation.appliance.Appliance;
 import org.apache.avalon.activation.appliance.ApplianceException;
 import org.apache.avalon.activation.appliance.ApplianceRepository;
 import org.apache.avalon.activation.appliance.AssemblyException;
-import org.apache.avalon.activation.appliance.DependencyGraph;
+import org.apache.avalon.activation.appliance.Block;
 import org.apache.avalon.activation.appliance.Composite;
-import org.apache.avalon.activation.appliance.Engine;
-import org.apache.avalon.activation.appliance.ServiceContext;
-import org.apache.avalon.activation.appliance.NoProviderDefinitionException;
+import org.apache.avalon.activation.appliance.DependencyGraph;
 import org.apache.avalon.activation.appliance.DeploymentException;
-import org.apache.avalon.activation.appliance.UnknownServiceException;
+import org.apache.avalon.activation.appliance.Engine;
+import org.apache.avalon.activation.appliance.NoProviderDefinitionException;
+import org.apache.avalon.activation.appliance.ServiceContext;
 import org.apache.avalon.composition.data.ContextDirective;
 import org.apache.avalon.composition.data.CategoriesDirective;
 import org.apache.avalon.composition.data.ServiceDirective;
+import org.apache.avalon.composition.model.ContainmentModel;
+import org.apache.avalon.composition.model.DependencyModel;
+import org.apache.avalon.composition.model.DeploymentModel;
 import org.apache.avalon.composition.model.Model;
 import org.apache.avalon.composition.model.StageModel;
-import org.apache.avalon.composition.model.DependencyModel;
-import org.apache.avalon.composition.model.ContainmentModel;
-import org.apache.avalon.composition.model.DeploymentModel;
-import org.apache.avalon.composition.util.ExceptionHelper;
-import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.logger.Logger;
-import org.apache.avalon.framework.parameters.Parameters;
-import org.apache.avalon.framework.Version;
-import org.apache.avalon.meta.info.ExtensionDescriptor;
-import org.apache.avalon.meta.info.InfoDescriptor;
 import org.apache.avalon.meta.info.DependencyDescriptor;
-import org.apache.avalon.meta.info.ServiceDescriptor;
-import org.apache.avalon.meta.info.ReferenceDescriptor;
 import org.apache.avalon.meta.info.StageDescriptor;
-import org.apache.avalon.meta.info.Type;
 
 /**
  * The DefaultBlock is responsible for the management 
@@ -102,7 +92,7 @@ import org.apache.avalon.meta.info.Type;
  * context.
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $ $Date: 2003/10/17 03:26:28 $
+ * @version $Revision: 1.4 $ $Date: 2003/10/18 00:34:19 $
  */
 public class DefaultBlock extends AbstractAppliance 
   implements Block, Composite
@@ -202,7 +192,8 @@ public class DefaultBlock extends AbstractAppliance
         try
         {
             Logger log = getLogger().getChildLogger( "proxy" );
-            BlockInvocationHandler handler = new BlockInvocationHandler( log, this );
+            BlockInvocationHandler handler = 
+              new BlockInvocationHandler( log, this );
             Class[] classes = getInterfaceClasses();
             m_proxy = Proxy.newProxyInstance( 
               m_model.getClassLoaderModel().getClassLoader(),
@@ -621,8 +612,10 @@ public class DefaultBlock extends AbstractAppliance
                     if( thread.getError() != null )
                     {
                         final String error =
-                          "Composite deployment failure in block: [" + block + "]";
-                        throw new DeploymentException( error, thread.getError() );  
+                          "Composite deployment failure in block: [" 
+                          + block + "]";
+                        throw new DeploymentException( 
+                          error, thread.getError() );  
                     }
                 }
                 else
@@ -895,7 +888,8 @@ public class DefaultBlock extends AbstractAppliance
 
     private Class[] getInterfaceClasses() throws Exception
     {
-        ClassLoader loader = m_model.getClassLoaderModel().getClassLoader();
+        ClassLoader loader = 
+          m_model.getClassLoaderModel().getClassLoader();
         ArrayList list = new ArrayList();
         ServiceDirective[] services = m_model.getExportDirectives();
         for( int i=0; i<services.length; i++ )

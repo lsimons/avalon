@@ -50,26 +50,11 @@
 
 package org.apache.avalon.activation.appliance.impl;
 
-import java.net.URL;
-import java.util.Map;
-import java.util.Hashtable;
-
 import org.apache.avalon.activation.appliance.Appliance;
-import org.apache.avalon.activation.appliance.ApplianceException;
-import org.apache.avalon.activation.appliance.ApplianceRepository;
-import org.apache.avalon.composition.data.ContextDirective;
-import org.apache.avalon.composition.data.CategoriesDirective;
 import org.apache.avalon.composition.model.Model;
 import org.apache.avalon.framework.activity.Disposable;
-import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.logger.Logger;
-import org.apache.avalon.framework.parameters.Parameters;
-import org.apache.avalon.meta.info.DependencyDescriptor;
-import org.apache.avalon.meta.info.ServiceDescriptor;
-import org.apache.avalon.meta.info.ReferenceDescriptor;
-import org.apache.avalon.meta.info.StageDescriptor;
-import org.apache.avalon.meta.info.Type;
 
 /**
  * An Appliance is the basic tool merlin wraps around a component to
@@ -91,7 +76,7 @@ import org.apache.avalon.meta.info.Type;
  *
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2003/09/24 09:30:31 $
+ * @version $Revision: 1.2 $ $Date: 2003/10/18 00:34:19 $
  */
 public abstract class AbstractAppliance extends AbstractLogEnabled implements Appliance, Disposable
 {

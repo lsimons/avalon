@@ -50,14 +50,12 @@
 
 package org.apache.avalon.activation.appliance.impl;
 
-import java.net.URL;
-import java.util.Map;
-import java.util.Hashtable;
-import java.util.ArrayList;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
+import java.util.Hashtable;
+import java.util.ArrayList;
 
 import org.apache.avalon.activation.appliance.Appliance;
 import org.apache.avalon.activation.appliance.ApplianceException;
@@ -65,30 +63,29 @@ import org.apache.avalon.activation.appliance.AssemblyException;
 import org.apache.avalon.activation.appliance.Composite;
 import org.apache.avalon.activation.appliance.Engine;
 import org.apache.avalon.activation.appliance.ServiceContext;
-import org.apache.avalon.activation.lifestyle.LifestyleHandler;
-import org.apache.avalon.activation.lifestyle.impl.SingletonLifestyleHandler;
-import org.apache.avalon.activation.lifestyle.impl.ThreadLifestyleHandler;
-import org.apache.avalon.activation.lifestyle.impl.PooledLifestyleHandler;
-import org.apache.avalon.activation.lifestyle.impl.TransientLifestyleHandler;
 import org.apache.avalon.activation.lifecycle.ContextualizationHandler;
 import org.apache.avalon.activation.lifecycle.Factory;
-import org.apache.avalon.activation.lifecycle.LifecycleException;
 import org.apache.avalon.activation.lifecycle.LifecycleCreateExtension;
 import org.apache.avalon.activation.lifecycle.LifecycleDestroyExtension;
-import org.apache.avalon.composition.data.ContextDirective;
+import org.apache.avalon.activation.lifecycle.LifecycleException;
+import org.apache.avalon.activation.lifestyle.LifestyleHandler;
+import org.apache.avalon.activation.lifestyle.impl.PooledLifestyleHandler;
+import org.apache.avalon.activation.lifestyle.impl.SingletonLifestyleHandler;
+import org.apache.avalon.activation.lifestyle.impl.ThreadLifestyleHandler;
+import org.apache.avalon.activation.lifestyle.impl.TransientLifestyleHandler;
 import org.apache.avalon.composition.data.CategoriesDirective;
-import org.apache.avalon.composition.model.ContextModel;
-import org.apache.avalon.composition.model.DeploymentModel;
-import org.apache.avalon.composition.model.DependencyModel;
-import org.apache.avalon.composition.model.Model;
-import org.apache.avalon.composition.model.StageModel;
 import org.apache.avalon.composition.logging.LoggingManager;
+import org.apache.avalon.composition.model.ContextModel;
+import org.apache.avalon.composition.model.DependencyModel;
+import org.apache.avalon.composition.model.DeploymentModel;
+import org.apache.avalon.composition.model.StageModel;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
+import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Executable;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.activity.Startable;
-import org.apache.avalon.framework.activity.Disposable;
+import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.configuration.Configuration;
@@ -100,23 +97,17 @@ import org.apache.avalon.framework.logger.LogEnabled;
 import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
-import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.lifecycle.Accessor;
 import org.apache.avalon.lifecycle.Creator;
 import org.apache.avalon.meta.info.InfoDescriptor;
-import org.apache.avalon.meta.info.DependencyDescriptor;
-import org.apache.avalon.meta.info.ServiceDescriptor;
-import org.apache.avalon.meta.info.ReferenceDescriptor;
 import org.apache.avalon.meta.info.StageDescriptor;
-import org.apache.avalon.meta.info.Type;
-import org.apache.avalon.meta.info.ExtensionDescriptor;
 
 /**
  * DefaultAppliance is the default implementation of a local 
  * appliance instance.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $ $Date: 2003/10/17 06:44:49 $
+ * @version $Revision: 1.4 $ $Date: 2003/10/18 00:34:19 $
  */
 public class DefaultAppliance extends AbstractAppliance
   implements Composite, DefaultApplianceMBean

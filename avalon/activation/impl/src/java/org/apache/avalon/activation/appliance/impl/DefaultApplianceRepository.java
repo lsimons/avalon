@@ -56,11 +56,8 @@ import java.util.Iterator;
 
 import org.apache.avalon.activation.appliance.Appliance;
 import org.apache.avalon.activation.appliance.ApplianceRepository;
-import org.apache.avalon.activation.appliance.ApplianceException;
-import org.apache.avalon.composition.model.Model;
 import org.apache.avalon.meta.info.DependencyDescriptor;
 import org.apache.avalon.meta.info.StageDescriptor;
-import org.apache.avalon.meta.info.ReferenceDescriptor;
 
 /**
  * The appliance repository interface declares operations through which 
@@ -68,7 +65,7 @@ import org.apache.avalon.meta.info.ReferenceDescriptor;
  * a stage or service dependencies.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2003/09/24 09:30:37 $
+ * @version $Revision: 1.2 $ $Date: 2003/10/18 00:34:19 $
  */
 class DefaultApplianceRepository implements ApplianceRepository
 {
