@@ -19,9 +19,9 @@
    </classloader>
 
    <component name="info" 
-       class="tutorial.location.LocationComponent">
+       class="tutorial.location.impl.LocationComponent">
        <configuration>
-         <source>Paris</source>
+         <source>Europe.France.Paris</source>
        </configuration>
    </component>
 

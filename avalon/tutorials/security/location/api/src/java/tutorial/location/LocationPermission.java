@@ -17,7 +17,7 @@
 
 package tutorial.location;
 
-import java.util.PropertyPermission;
+import java.security.BasicPermission;
 
 /**
  * The LocationPermission checks if the caller has access to the
@@ -25,9 +25,10 @@ import java.util.PropertyPermission;
  *
  * Locations has a dot-notation, such as Europe.Spain.Madrid, and
  * if the caller is requesting Europe.Spain.Madrid, it will need
- * to be granted access to Europe, Europe.Spain or Europe.Spain.Madrid.
+ * to be granted access to Europe.*, Europe.Spain.* or 
+ * Europe.Spain.Madrid.
  */
-public class LocationPermission extends PropertyPermission 
+public class LocationPermission extends BasicPermission 
 {
 
     public LocationPermission( String location )
