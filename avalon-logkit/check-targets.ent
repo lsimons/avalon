@@ -58,7 +58,7 @@ A minimal build.xml would thus be:
                classname="com.puppycrawl.tools.checkstyle.Checker"
                classpathref="project.class.path" />
     <available property="commons-logging.present"
-               classname="org.apache.comons.logging.Log"
+               classname="org.apache.commons.logging.Log"
                classpathref="project.class.path" />
     <available property="javax.jms.present"
                classname="javax.jms.TopicConnection"
