@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<!DOCTYPE assembly PUBLIC "-//PHOENIX/Assembly DTD Version 1.0//EN" 
+                  "http://jakarta.apache.org/avalon/dtds/phoenix/assembly_1_0.dtd">
+
+<assembly>
+
+  <!-- The Connection Manager block -->
+  <block class="org.apache.avalon.cornerstone.blocks.connection.DefaultConnectionManager" 
+         name="connections">
+    <provide name="thread-manager" 
+             role="org.apache.avalon.cornerstone.services.threads.ThreadManager" />
+  </block>
+
+  <!-- The ThreadManager block -->
+  <block class="org.apache.avalon.cornerstone.blocks.threads.DefaultThreadManager" 
+         name="thread-manager" />
+ 
+  <!-- The Socket Manager block -->
+  <block class="org.apache.avalon.cornerstone.blocks.sockets.DefaultSocketManager" 
+         name="sockets" />
+
+  <!--                                        -->
+  <!-- Below this section are the demo blocks -->
+  <!--                                        -->
+
+  <block class="org.apache.avalon.apps.demos.helloworldserver.HelloWorldServerImpl" 
+         name="helloworldserver" >
+    <provide name="sockets" role="org.apache.avalon.cornerstone.services.sockets.SocketManager"/>
+    <provide name="connections" 
+             role="org.apache.avalon.cornerstone.services.connection.ConnectionManager" />
+  </block>
+
+  <block class="org.apache.avalon.cornerstone.blocks.soapification.glue.Glue" 
+         name="glue-soapification" />
+
+  <block class="org.apache.avalon.apps.demos.soaphelloworldserver.SOAPHelloWorldServerImpl" 
+         name="soaphelloworldserver" >
+    <provide name="helloworldserver" 
+             role="org.apache.avalon.apps.demos.helloworldserver.HelloWorldServer"/>
+    <provide name="glue-soapification" 
+             role="org.apache.avalon.cornerstone.services.soapification.SOAPification" />
+  </block>
+
+</assembly>

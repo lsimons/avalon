@@ -1,0 +1,39 @@
+<html><body>
+<h1>The 'Lifecycle' Demo Application</h1>
+<center>By Paul Hammant</center>
+
+<p>The lifecycle demo shows only the calling of the lifecycle methods
+under Phoenix control.  This app has meaning when you consider the
+<a href="http://avalon.apache.org/framework/reference-the-lifecycle.html">
+lifecycle</a> page.</p>
+<p>Do not forget that the lifecycle methods are optional.  You cann implement
+all of them, as this demo does, some or none of them.</p>
+<h2>Output</h2>
+<p>This is the output that appears in the Console that Phoenix was called from:</p>
+<pre>
+Phoenix 4.0.1
+
+LifecycleDemo1Impl.constructor() called. (You should never do too much in here)
+LifecycleDemo1Impl.enableLogging() called.
+LifecycleDemo1Impl.contextualize() called (things like base directory passed in here).
+LifecycleDemo1Impl.service() called (lookup on other services possible now).
+LifecycleDemo1Impl.configure() called (configuration from config.xml passed here).
+LifecycleDemo1Impl.initialize() called.
+LifecycleDemo1Impl.start() called.
+LifecycleDemo2Impl.constructor() called. (You should never do too much in here)
+LifecycleDemo2Impl.enableLogging() called.
+LifecycleDemo2Impl.contextualize() called (things like base directory passed in here).
+LifecycleDemo2Impl.service() called (lookup on other services possible now).
+LifecycleDemo2Impl.service(), LifecycleDemo1 service looked up
+LifecycleDemo2Impl.configure() called (configuration from config.xml passed here).
+LifecycleDemo2Impl.initialize() called.
+LifecycleDemo1Impl.myServiceMethod() called.
+LifecycleDemo2Impl.initialize(), LifecycleDemo1.myServiceMethod() method called result = 123
+LifecycleDemo2Impl.start() called.
+(Ctrl-C pressed in console) JVM exiting abnormally. Shutting down Phoenix.
+LifecycleDemo2Impl.stop() called.
+LifecycleDemo2Impl.dispose() Called
+LifecycleDemo1Impl.stop() called.
+LifecycleDemo1Impl.dispose() Called
+</pre>
+</body></html>
