@@ -463,9 +463,11 @@ Legal:
     <!-- Create the distribution -->
     <target name="bin-dist" depends="all">
 
+        <property name="bin.dist.logs" value="${bin.dist.dir}/logs"/>
         <property name="bin.dist.docs" value="${bin.dist.dir}/docs"/>
         <property name="bin.dist.javadocs" value="${bin.dist.dir}/docs/api"/>
 
+        <mkdir dir="${bin.dist.logs}"/>
         <mkdir dir="${bin.dist.docs}"/>
         <mkdir dir="${bin.dist.javadocs}"/>
 
@@ -587,7 +589,10 @@ Legal:
             Place SAR files in here for Phoenix to launch.
         </echo>
         <echo file="${dist.name}/ext/readme.txt" append="false">
-            Place extension jars here.  It is very rare to need to do this.
+            Place extension jars here.
+        </echo>
+        <echo file="${dist.name}/logs/readme.txt" append="false">
+            The Phoenix Kernel Logs will be placed here.
         </echo>
 
         <zip zipfile="${dist.base}/${dist.name}-bin.zip">
