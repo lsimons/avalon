@@ -28,10 +28,10 @@ Legal:
   <property name="name" value="avalon"/>
   <property name="Name" value="Avalon"/>
   <property name="framework.name" value="avalon-framework"/>
-  <property name="version" value="4.0"/>
+  <property name="version" value="4.0.1"/>
   <property name="year" value="1999-2001"/>
   <property name="status" value="final"/>
-  <property name="release" value="1st"/>
+  <property name="release" value="2nd"/>
   <property name="short.version" value="4.0"/>
   <!--
     these are here only for those who use jikes compiler. For other
@@ -115,7 +115,7 @@ Legal:
   </path>
 
   <!-- Main target -->
-  <target name="main" depends="jar" />
+  <target name="main" depends="all" />
 
   <!-- Help on usage -->
   <target name="usage">
@@ -125,15 +125,15 @@ Legal:
     <echo message=""/>
     <echo message=" available targets are:"/>
     <echo message=""/>
-    <echo message="   jar          -> generates the ${Name} jar files"/>
-    <echo message="   test         -> perform unit tests"/>
+    <echo message="   all          -> generates the ${Name} jar files"/>
+    <echo message="   check        -> perform unit tests"/>
     <echo message="   compile      -> compiles the source code"/>
     <echo message="   javadocs     -> generates the API documentation (java 1.2+ only)"/>
     <echo message="   docs         -> generates the ${Name} Documentation"/>
     <echo message="   main         -> generates the ${Name} distribution without the javadocs (default)"/>
     <echo message="   dist         -> generates the ${Name} distribution"/>
     <echo message="   clean        -> cleans up the created directories"/>
-    <echo message="   real-clean   -> cleans up all genereated files and directories"/>
+    <echo message="   distclean    -> cleans up all genereated files and directories"/>
     <echo message=""/>
     <echo message="-------------------------------------------------------------"/>
     <echo message=""/>
@@ -202,8 +202,17 @@ Legal:
     </jar>
   </target>
 
+  <target name="check">
+    <echo message="Avalon Framework is mostly interfaces."/>
+    <echo message="There are no tests to be performed at this time."/>
+  </target>
+
+  <target name="printerdocs" depends="javadocs">
+    <echo message="Printer Friendly documentation is not yet available"/>
+  </target>
+
   <!-- Prepares the documentation directory -->
-  <target name="xdocs" depends="prepare">
+  <target name="docs" depends="prepare,javadocs">
 
     <mkdir dir="${build.context}"/>
     <mkdir dir="${build.docs}"/>
@@ -284,7 +293,7 @@ Legal:
   </target>
 
   <!-- Create the Local site documentation -->
-  <target name="local-xdocs" depends="xdocs">
+  <target name="local-xdocs" depends="docs">
 
     <delete>
       <fileset dir="${docs.dir}">
@@ -359,7 +368,7 @@ Legal:
            out="Announcement.txt"/>
     <style style="${announce2header}" in="${build.context}/xdocs/framework/announcement.xml" 
            out="${dist.base}/HEADER.html"/>
-    <style style="${announce2readme}" in="${build.context}/xdocs/announcement.xml"
+    <style style="${announce2readme}" in="${build.context}/xdocs/framework/announcement.xml"
            out="${dist.base}/README.html"/>
     <style style="${announce2site}" in="${build.context}/xdocs/framework/announcement.xml"
            out="jakarta-news.xml"/>
@@ -367,7 +376,7 @@ Legal:
   </target>
 
   <!-- Creates all the .jar files -->
-  <target name="jar" depends="compile">
+  <target name="all" depends="compile">
     <mkdir dir="${build.lib}"/>
     <jar jarfile="${build.lib}/${framework.name}.jar" basedir="${build.classes}">
       <include name="org/apache/avalon/framework/**"/>
@@ -375,7 +384,7 @@ Legal:
     </jar>
   </target>
 
-  <target name="install" depends="jar,install-check-cjan">
+  <target name="install" depends="all,install-check-cjan">
     <mkdir dir="${cjan.lib}" />
     <copy file="${build.lib}/${framework.name}.jar" todir="${cjan.lib}"/>
   </target>
@@ -384,8 +393,12 @@ Legal:
     <fail message="cjan.lib not specified." />
   </target>
 
+  <target name="uninstall" depends="install-check-cjan">
+    <delete file="${build.lib}/${framework.name}.jar" dir="${cjan.lib}"/>
+  </target>
+
   <!-- Create the distribution -->
-  <target name="dist" depends="jar,javadocs,xdocs">
+  <target name="bin-dist" depends="all,javadocs,docs">
 
     <mkdir dir="${dist.dir}"/>
     <copy file="${build.lib}/${framework.name}.jar" tofile="${dist.dir}/${framework.name}-${version}.jar"/>
@@ -415,7 +428,7 @@ Legal:
   </target>
 
   <!-- Create the source distribution -->
-  <target name="src-dist" depends="xdocs">
+  <target name="src-dist" depends="docs">
 
     <mkdir dir="${src.dist.dir}" />
 
@@ -475,10 +488,10 @@ Legal:
   </target>
 
   <!-- Completely build all dists -->
-  <target name="distributions" depends="site-docs,announcement">
+  <target name="dist" depends="site-docs,announcement">
     <mkdir dir="${dist.base}"/>
 
-    <antcall target="dist">
+    <antcall target="bin-dist">
       <param name="dist.dir" value="${dist.name}" />
     </antcall>
 
@@ -541,7 +554,7 @@ Legal:
   </target>
 
   <!-- Cleans absolutely everything up -->
-  <target name="real-clean" depends="clean">
+  <target name="distclean" depends="clean">
     <delete dir="${docs.dir}" />
     <delete dir="${dist.base}" />
     <delete dir="${src.dist.dir}" />
