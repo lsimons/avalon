@@ -113,7 +113,7 @@ fi
 JVM_OPTS="-Djava.security.policy=$MERLIN_HOME/bin/security.policy -Djava.ext.dirs=$JVM_EXT_DIRS" 
 
 # Get the run cmd
-RUN_CMD="$JAVA_HOME/bin/java $JVM_OPTS $DEBUG $MERLIN_JVM_OPTS -Dmerlin.home=$MERLIN_HOME -jar $MERLIN_HOME/bin/lib/merlin-cli-3.2-dev.jar $*"
+RUN_CMD="$JAVA_HOME/bin/java $JVM_OPTS $DEBUG $MERLIN_JVM_OPTS -Dmerlin.home=$MERLIN_HOME -jar $MERLIN_HOME/bin/lib/merlin-cli-3.2.jar $*"
 
 echo "Using MERLIN_HOME:   $MERLIN_HOME"
 echo "Using JAVA_HOME:     $JAVA_HOME"
