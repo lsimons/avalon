@@ -251,7 +251,7 @@ Legal:
                 <include name="**" />
             </fileset>
             <blockinfo/>
-            <!--mxinfo/-->
+            <mxinfo/>
         </phoenix-blocks>
 
     </target>
