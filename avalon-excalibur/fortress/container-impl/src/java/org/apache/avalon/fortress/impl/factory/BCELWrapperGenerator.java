@@ -275,7 +275,7 @@ final class BCELWrapperGenerator
      * @return The <code>JavaClass</code> representing the given <code>Class</code>
      *          instance
      */
-    private JavaClass lookupClass( final Class clazz )
+    private JavaClass lookupClass( final Class clazz ) throws Exception
     {
         return Repository.lookupClass( clazz.getName() );
     }
@@ -289,7 +289,7 @@ final class BCELWrapperGenerator
      * @return JavaClass[] An array of <code>JavaClass</code> instances representing
      *                      the given <code>Class</code> instances
      */
-    private JavaClass[] lookupClasses( final Class[] classes )
+    private JavaClass[] lookupClasses( final Class[] classes ) throws Exception
     {
         final JavaClass[] javaClasses = new JavaClass[classes.length];
         for ( int i = 0; i < classes.length; ++i )
