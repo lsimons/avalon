@@ -106,18 +106,26 @@ public class InitializeTask extends SystemTask
 
     private void updateCache( Project project, Resource resource, String path )
     {
+        getProject().log( 
+          "Updating local cache for resource " + resource 
+          + " using supplied path: " + path );
+
         File source = new File( path );
         if( !source.exists() )
         {
             final String error = 
               "Gump source resource override for resource " 
-              + resource + " references the non-existant path [" + path 
+              + resource + " references a non-existant path [" + path 
               + "].";
             throw new BuildException( error );  
         }
         else
         {
-            File destination = resource.getArtifact( project, false );
+            File local = resource.getArtifact( project, false );
+            local.getParentFile().mkdirs();
+
+            getProject().log( "Local cache path: " + local );
+
             Copy copy = (Copy) project.createTask( "copy" );
             copy.setTaskName( getTaskName() );
             copy.setFile( source );
