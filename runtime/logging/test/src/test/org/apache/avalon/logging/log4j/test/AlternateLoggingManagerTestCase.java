@@ -58,7 +58,6 @@ public class AlternateLoggingManagerTestCase extends TestCase
 
     protected void setUp() throws Exception
     {
-        System.out.println( System.getProperty( "user.dir" ) );
         m_manager = 
           LoggingManagerHelper.setUpLoggingManager( 
             "avalon-logging-log4j", "log4j/log4j.properties" );
