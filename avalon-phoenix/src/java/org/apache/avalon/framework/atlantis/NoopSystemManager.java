@@ -37,7 +37,7 @@ public class NoopSystemManager
                              final Class[] interfaces )
         throws ManagerException
     {
-        return object;
+         return object;
     }
 
     protected void unexport( final String name,

@@ -45,7 +45,7 @@ public class SingleAppEmbeddor
     {
         final String applicationName = getParameters().getParameter( "application-name", "default" );
         final String applicationLocation = getParameters().getParameter( "application-location" );
-
+ 
         final File directory = new File( applicationLocation );
         getDeployer().deploy( applicationName, directory.toURL() );
 
