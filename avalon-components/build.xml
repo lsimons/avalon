@@ -278,17 +278,7 @@
   -->
   <target name="test" depends="jars">
 
-<!--
-    <path id="test.class.path">
-      <pathelement path="${java.class.path}" />
-      <pathelement path="${build.classes}" />
-    </path>
-
-    <property name="test.class.path" refid="test.class.path" />
-    <echo message="TCP: ${test.class.path}" />
--->
-
-    <test showSuccess="false" showBanner="false" showTrace="true" forceShowTrace="true" >
+    <test showSuccess="true" showBanner="false" showTrace="true" forceShowTrace="true" >
       <classpath>
         <pathelement path="${build.classes}" />
         <pathelement path="${java.class.path}" />
