@@ -31,6 +31,11 @@
         <ant dir="altrmi" target="${subproject-target}"/>
     </target>
     
+    <!-- Assembly (Merlin 2) -->
+    <target name="prj-assembly" depends="prj-i18n, prj-configuration, prj-container, prj-meta, prj-extension, prj-event, prj-collections, prj-concurrent, prj-util, prj-logger">
+        <ant dir="assembly" target="${subproject-target}"/>
+    </target>
+    
     <!-- Baxter -->
     <target name="prj-baxter">
         <ant dir="baxter" target="${subproject-target}"/>
@@ -69,6 +74,11 @@
     <!-- Configuration -->
     <target name="prj-configuration">
         <ant dir="configuration" target="${subproject-target}"/>
+    </target>
+    
+    <!-- Container -->
+    <target name="prj-container">
+        <ant dir="container" target="${subproject-target}"/>
     </target>
     
     <!-- ContainerKit -->
@@ -136,11 +146,16 @@
         <ant dir="logger" target="${subproject-target}"/>
     </target>
     
-    <!-- Merlin -->
+    <!-- Merlin 1.0 -->
     <target name="prj-merlin" depends="prj-configuration" >
         <ant dir="merlin" target="${subproject-target}"/>
     </target>
-    
+
+    <!-- Meta -->
+    <target name="prj-meta" depends="prj-i18n, prf-configuration">
+        <ant dir="meta" target="${subproject-target}"/>
+    </target>
+   
     <!-- Monitor -->
     <target name="prj-monitor" depends="prj-logger, prj-sourceresolve">
         <ant dir="monitor" target="${subproject-target}"/>
@@ -216,7 +231,7 @@
     <!-- ************************************************************ -->
     <!-- This target depends on all of the projects above.  Relies on -->
     <!--  Ant to decide on the correct build order. -->
-    <target name="build-all-subprojects" depends="prj-altrmi, prj-baxter, prj-bzip2, prj-cache, prj-cli, prj-collections, prj-component, prj-concurrent, prj-configuration, prj-containerkit, prj-converter, prj-datasource, prj-event, prj-extension, prj-fortress, prj-i18n, prj-instrument, prj-instrument-client, prj-instrument-manager, prj-io, prj-jprocess, prj-logger, prj-merlin, prj-monitor, prj-naming, prj-pool, prj-sourceresolve, prj-store, prj-tar, prj-testcase, prj-thread, prj-threadcontext, prj-tweety, prj-util, prj-xmlbundle, prj-xmlutil, prj-zip">
+    <target name="build-all-subprojects" depends="prj-altrmi, prj-assembly, prj-baxter, prj-bzip2, prj-cache, prj-cli, prj-collections, prj-component, prj-concurrent, prj-configuration, prh-container, prj-containerkit, prj-converter, prj-datasource, prj-event, prj-extension, prj-fortress, prj-i18n, prj-instrument, prj-instrument-client, prj-instrument-manager, prj-io, prj-jprocess, prj-logger, prj-merlin, prj-meta, prj-monitor, prj-naming, prj-pool, prj-sourceresolve, prj-store, prj-tar, prj-testcase, prj-thread, prj-threadcontext, prj-tweety, prj-util, prj-xmlbundle, prj-xmlutil, prj-zip">
     </target>
     
     <!-- ************************************************************ -->
