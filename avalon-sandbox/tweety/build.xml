@@ -292,7 +292,6 @@
         </copy>
 	
 	<mkdir dir="${dist.dir}/lib"/>
-	<mkdir dir="${dist.dir}/classes"/>
 
 	<!-- create temporary dir so we can get a proper .tar even with the current, released ant -->
         <mkdir dir="${dist.base}/${dist.name}"/>
