@@ -64,7 +64,7 @@ public abstract class AbstractTestCase extends TestCase
             try
             {
                 SystemContext system = 
-                  DefaultSystemContext.createSystemContext( base, repository, PRIORITY );
+                  DefaultSystemContext.createSystemContext( base, repository, PRIORITY, true );
                 m_model = system.getFactory().createContainmentModel( source.toURL() );
             }
             catch( Throwable e )

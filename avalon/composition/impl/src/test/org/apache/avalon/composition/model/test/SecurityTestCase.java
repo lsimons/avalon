@@ -43,4 +43,12 @@ public class SecurityTestCase extends AbstractTestCase
         for( int i=0 ; i < 3 ; i++ )
             assertEquals( "Permission is not the expected.", p[i], permissions[i] );
     }
+    
+    public void testSecureExecutionFlag()
+        throws Exception
+    {
+        m_model.assemble();
+        boolean secure = m_model.isSecureExecutionEnabled();
+        assertEquals( "Secure Execution Flag not working.", true, secure );
+    }
 }
