@@ -49,7 +49,6 @@
 */
 package org.apache.excalibur.mpool;
 
-import org.apache.avalon.excalibur.concurrent.Mutex;
 import org.apache.avalon.excalibur.collections.Buffer;
 import org.apache.avalon.excalibur.collections.BufferUnderflowException;
 import org.apache.avalon.excalibur.collections.FixedSizeBuffer;
@@ -61,7 +60,7 @@ import org.apache.avalon.framework.activity.Initializable;
  * Please note that this pool offers no resource limiting whatsoever.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.3 $ $Date: 2002/08/14 17:04:11 $
+ * @version CVS $Revision: 1.4 $ $Date: 2002/09/25 15:47:57 $
  * @since 4.1
  */
 public final class BlockingFixedSizePool
@@ -196,7 +195,7 @@ public final class BlockingFixedSizePool
             {
                 if ( m_buffer.size() < m_maxSize )
                 {
-                    m_buffer.add( object );
+                    m_buffer.add( PoolUtil.reset( object ) );
                     m_semaphore.notify();
                 }
                 else

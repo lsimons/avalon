@@ -54,12 +54,15 @@ import org.apache.avalon.excalibur.collections.Buffer;
 import org.apache.avalon.excalibur.collections.FixedSizeBuffer;
 import org.apache.avalon.framework.activity.Disposable;
 
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
+
 /**
  * This is an <code>Pool</code> that caches Poolable objects for reuse.
  * Please note that this pool offers no resource limiting whatsoever.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.5 $ $Date: 2002/08/13 08:15:20 $
+ * @version CVS $Revision: 1.6 $ $Date: 2002/09/25 15:47:57 $
  * @since 4.1
  */
 public final class FixedSizePool
@@ -115,7 +118,7 @@ public final class FixedSizePool
         {
             synchronized( m_buffer )
             {
-                m_buffer.add( object );
+                m_buffer.add( PoolUtil.reset( object ) );
                 m_buffer.notifyAll();
             }
         }

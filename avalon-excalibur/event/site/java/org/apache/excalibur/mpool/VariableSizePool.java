@@ -59,7 +59,7 @@ import org.apache.avalon.framework.activity.Disposable;
  * Please note that this pool offers no resource limiting whatsoever.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/08/13 08:15:20 $
+ * @version CVS $Revision: 1.3 $ $Date: 2002/09/25 15:47:57 $
  * @since 4.1
  */
 public final class VariableSizePool
@@ -145,7 +145,7 @@ public final class VariableSizePool
         {
             synchronized( m_buffer )
             {
-                m_buffer.add( pooledObject );
+                m_buffer.add( PoolUtil.reset( pooledObject ) );
             }
         }
     }
