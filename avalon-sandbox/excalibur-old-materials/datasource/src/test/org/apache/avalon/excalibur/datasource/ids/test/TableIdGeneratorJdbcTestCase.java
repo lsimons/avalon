@@ -505,8 +505,10 @@ public class TableIdGeneratorJdbcTestCase
             {
                 Statement statement = conn.createStatement();
 
+                // Need to quote the BigDecimal as it is larger than normal numbers can be.
+                //  Was causing problems with MySQL
                 statement.executeUpdate( "INSERT INTO ids (table_name, next_id) VALUES ('" +
-                                         tableName + "', " + nextId.toString() + ")" );
+                                         tableName + "', '" + nextId.toString() + "')" );
             }
             finally
             {

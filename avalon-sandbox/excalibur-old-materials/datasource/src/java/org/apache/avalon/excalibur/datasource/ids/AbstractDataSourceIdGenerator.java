@@ -23,23 +23,19 @@ import org.apache.avalon.framework.thread.ThreadSafe;
 
 /**
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/06/13 17:24:51 $
+ * @version CVS $Revision: 1.3 $ $Date: 2002/09/02 12:38:29 $
  * @since 4.1
  */
 public abstract class AbstractDataSourceIdGenerator
     extends AbstractIdGenerator
     implements IdGenerator, Composable, Configurable, Initializable, Disposable, ThreadSafe
 {
-    protected static final int DBTYPE_STANDARD = 0;
-    protected static final int DBTYPE_MYSQL = 1;
-
     /** ComponentLocator which created this component */
     protected ComponentManager m_manager;
 
     private String m_dataSourceName;
     private ComponentSelector m_dbSelector;
     protected DataSourceComponent m_dataSource;
-    protected int m_dbType;
 
     /**
      * Number of allocated Ids remaining before another block must be allocated.
@@ -119,33 +115,6 @@ public abstract class AbstractDataSourceIdGenerator
         // Get a reference to a data source
         m_dbSelector = (ComponentSelector)m_manager.lookup( DataSourceComponent.ROLE + "Selector" );
         m_dataSource = (DataSourceComponent)m_dbSelector.select( m_dataSourceName );
-
-        // Resolve the type of database that is being used.
-        try
-        {
-            Connection conn = getConnection();
-            try
-            {
-                Statement statement = conn.createStatement();
-                String className = statement.getClass().getName();
-                if( className.indexOf( "mysql" ) > 0 )
-                {
-                    m_dbType = DBTYPE_MYSQL;
-                }
-                else
-                {
-                    m_dbType = DBTYPE_STANDARD;
-                }
-            }
-            finally
-            {
-                conn.close();
-            }
-        }
-        catch( SQLException e )
-        {
-            getLogger().error( "Unable to open connection to resolve database type.", e );
-        }
     }
 
     /*---------------------------------------------------------------

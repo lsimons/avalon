@@ -67,7 +67,7 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
  * </pre>
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/04/22 03:04:27 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/09/02 12:38:29 $
  * @since 4.1
  */
 public class TableIdGenerator
@@ -117,122 +117,116 @@ public class TableIdGenerator
             Connection conn = getConnection();
             try
             {
-                // Turn off auto commit so that we are working in a transaction,
-                //  but keep the old value.
-                boolean oldAutoCommit = conn.getAutoCommit();
-                conn.setAutoCommit( false );
+                boolean autoCommit = conn.getAutoCommit();
+                
+                Statement stmt = conn.createStatement();
                 try
                 {
-                    int oldIsolation = conn.getTransactionIsolation();
-                    conn.setTransactionIsolation( Connection.TRANSACTION_SERIALIZABLE );
-                    try
+                    // Try to get a block without using transactions.  This makes this code
+                    //  portable, but works on the assumption that requesting blocks of ids
+                    //  is a fairly rare thing.
+                    int tries = 0;
+                    while( tries < 50 )
                     {
+                        // Find out what the next available id is.
+                        String query = "SELECT next_id FROM " + m_table + " WHERE table_name = '"
+                            + m_tableName + "'";
+                        ResultSet rs = stmt.executeQuery( query );
+                        if ( !rs.next() )
+                        {
+                            // The row does not exist.
+                            String msg =
+                                "Unable to allocate a block of Ids, no row with table_name='"
+                                + m_tableName + "' exists in the " + m_table + " table.";
+                            getLogger().error( msg );
+                            if ( !autoCommit )
+                            {
+                                conn.rollback();
+                            }
+
+                            throw new IdException( msg );
+                        }
+                        
+                        // Get the next_id using the appropriate data type.
+                        Object nextId;
+                        Object newNextId;
+                        if( useBigDecimals )
+                        {
+                            BigDecimal oldNextId = rs.getBigDecimal( 1 );
+                            newNextId = oldNextId.add( new BigDecimal( blockSize ) );
+                            nextId = oldNextId;
+                        }
+                        else
+                        {
+                            long oldNextId = rs.getLong( 1 );
+                            newNextId = new Long( oldNextId + blockSize );
+                            nextId = new Long( oldNextId );
+                        }
+                        
+                        // Update the value of next_id in the database so it reflects the full block
+                        //  being allocated.  If another process has done the same thing, then this
+                        //  will either throw an exception due to transaction isolation or return
+                        //  an update count of 0.  In either case, we will need to try again.
                         try
                         {
-                            Statement stmt = conn.createStatement();
-
-                            int tries = 0;
-                            // May run into conflicts with other processes, so try this up to 50
-                            //  times before giving up.
-                            while( tries < 50 )
+                            // Need to quote next_id values so that MySQL handles large BigDecimals
+                            //  correctly.
+                            query = "UPDATE " + m_table
+                                + " SET next_id = '" + newNextId + "' "
+                                + " WHERE table_name = '" + m_tableName + "' "
+                                + "   AND next_id = '" + nextId + "'";
+                            int updated = stmt.executeUpdate( query );
+                            if( updated >= 1 )
                             {
-                                // Get the nextId from the table
-                                ResultSet rs = stmt.executeQuery(
-                                    "SELECT next_id FROM " + m_table + " WHERE table_name = '" + m_tableName + "'" );
-                                if( !rs.next() )
+                                // Update was successful.
+                                if ( !autoCommit )
                                 {
-                                    // The row does not exist.
-                                    String msg = "Unable to allocate a block of Ids, no row with table_name='" +
-                                        m_tableName + "' exists in the " + m_table + " table.";
-                                    getLogger().error( msg );
-                                    conn.rollback();
-
-                                    throw new IdException( msg );
+                                    conn.commit();
                                 }
 
-                                // Get the next_id using the appropriate data type.
-                                Object nextId;
-                                if( useBigDecimals )
-                                {
-                                    nextId = rs.getBigDecimal( 1 );
-                                }
-                                else
-                                {
-                                    nextId = new Long( rs.getLong( 1 ) );
-                                }
-
-                                // Update the value of next_id in the database so it reflects the full block
-                                //  being allocated.  If another process has done the same thing, then this
-                                //  will throw an exception due to transaction isolation.
-                                try
-                                {
-                                    int updated = stmt.executeUpdate( "UPDATE " + m_table +
-                                                                      " SET next_id = next_id + " + blockSize +
-                                                                      " WHERE table_name = '" + m_tableName + "'" );
-                                    if( updated >= 1 )
-                                    {
-                                        // Update was successful.
-                                        conn.commit();
-
-                                        // Return the next id obtained above.
-                                        return nextId;
-                                    }
-                                    else
-                                    {
-                                        // May have been a transaction confict. Try again.
-                                        if( getLogger().isDebugEnabled() )
-                                        {
-                                            getLogger().debug(
-                                                "Update resulted in no rows being changed." );
-                                        }
-                                    }
-                                }
-                                catch( SQLException e )
-                                {
-                                    // Assume that this was caused by a transaction conflict.  Try again.
-                                    if( getLogger().isDebugEnabled() )
-                                    {
-                                        getLogger().debug(
-                                            "Encountered an exception attempting to update the " +
-                                            m_table + " table.  May be a transaction confict.  " +
-                                            "Trying again: " + e.getMessage() );
-                                    }
-                                }
-
-                                // If we got here, then we failed, roll back the connection so we can
-                                //  try again.
-                                conn.rollback();
-
-                                tries++;
+                                // Return the next id obtained above.
+                                return nextId;
                             }
-                            // If we got here then we ran out of tries.
-                            getLogger().error( "Unable to allocate a block of Ids.  Too many retries." );
-                            return null;
+                            else
+                            {
+                                // May have been a transaction confict. Try again.
+                                if( getLogger().isDebugEnabled() )
+                                {
+                                    getLogger().debug(
+                                        "Update resulted in no rows being changed." );
+                                }
+                            }
                         }
-                        catch( SQLException e )
+                        catch ( SQLException e )
                         {
-                            // Need this catch so that the connection can be rolled back before
-                            //  the transaction is set in the finally block.
-                            String msg = "Unable to allocate a block of Ids.";
-                            getLogger().error( msg, e );
-
-                            // Rollback after the error is logged so that any problems rolling back
-                            //  will not prevent the error from being logged.
-                            conn.rollback();
-
-                            throw new IdException( msg, e );
+                            // Assume that this was caused by a transaction conflict.  Try again.
+                            if( getLogger().isDebugEnabled() )
+                            {
+                                // Just show the exception message to keep the output small.
+                                getLogger().debug(
+                                    "Encountered an exception attempting to update the "
+                                    + m_table + " table.  May be a transaction confict.  "
+                                    + "Trying again: " + e.getMessage() );
+                            }
                         }
+                        
+                        // If we got here, then we failed, roll back the connection so we can
+                        //  try again.
+                        if ( !autoCommit )
+                        {
+                            conn.rollback();
+                        }
+
+                        tries++;
                     }
-                    finally
-                    {
-                        // Restore the isolation level
-                        conn.setTransactionIsolation( oldIsolation );
-                    }
+                    
+                    // If we got here then we ran out of tries.
+                    getLogger().error( "Unable to allocate a block of Ids.  Too many retries." );
+                    return null;
                 }
                 finally
                 {
-                    // restore Auto commit
-                    conn.setAutoCommit( oldAutoCommit );
+                    stmt.close();
                 }
             }
             finally
@@ -240,106 +234,7 @@ public class TableIdGenerator
                 conn.close();
             }
         }
-        catch( SQLException e )
-        {
-            String msg = "Unable to allocate a block of Ids.";
-            getLogger().error( msg, e );
-            throw new IdException( msg, e );
-        }
-    }
-
-    /**
-     * Allocates a block of ids of the given size and returns the first id.
-     *  MySQL does not support transactions so this method handles synchronization
-     *  by making use of table locking.
-     *
-     * @param blockSize number of ids to allocate.
-     * @param useBigDecimals returns the first id as a BigDecimal if true, otherwise as a Long.
-     *
-     * @return either a Long or a BigDecimal depending on the value of useBigDecimals
-     *
-     * @throws IdException if a block of ids can not be allocated.
-     */
-    private Object allocateIdBlockMySQL( int blockSize, boolean useBigDecimals )
-        throws IdException
-    {
-        if( getLogger().isDebugEnabled() )
-        {
-            getLogger().debug( "Allocating a new block of " + blockSize + " ids." );
-        }
-
-        try
-        {
-            Connection conn = getConnection();
-            try
-            {
-                Statement stmt = conn.createStatement();
-
-                // Obtain a lock on the table
-                stmt.executeUpdate( "LOCK TABLES " + m_table + " WRITE" );
-                try
-                {
-                    // Get the nextId from the table
-                    ResultSet rs = stmt.executeQuery(
-                        "SELECT next_id FROM " + m_table + " WHERE table_name = '" + m_tableName + "'" );
-                    if( !rs.next() )
-                    {
-                        // The row does not exist.
-                        String msg = "Unable to allocate a block of Ids, no row with table_name='" +
-                            m_tableName + "' exists in the " + m_table + " table.";
-                        getLogger().error( msg );
-
-                        throw new IdException( msg );
-                    }
-
-                    // Get the next_id using the appropriate data type.
-                    Object nextId;
-                    Object nextSavedId;
-                    if( useBigDecimals )
-                    {
-                        BigDecimal id = rs.getBigDecimal( 1 );
-                        nextId = id;
-                        nextSavedId = id.add( new BigDecimal( blockSize ) );
-                    }
-                    else
-                    {
-                        Long id = new Long( rs.getLong( 1 ) );
-                        nextId = id;
-                        nextSavedId = new Long( id.longValue() + blockSize );
-                    }
-
-                    // Update the value of next_id in the database so it reflects the full block
-                    //  being allocated.
-                    //
-                    // Queries that set next_id = next_id + 10 do not work with large decimal values on MySQL 3.23.31
-                    int updated = stmt.executeUpdate( "UPDATE " + m_table +
-                                                      " SET next_id = " + nextSavedId +
-                                                      " WHERE table_name = '" + m_tableName + "'" );
-                    if( updated >= 1 )
-                    {
-                        // Return the next id obtained above.
-                        return nextId;
-                    }
-                    else
-                    {
-                        String msg = "Update resulted in no rows being changed.";
-                        getLogger().error( msg );
-
-                        throw new IdException( msg );
-                    }
-                }
-                finally
-                {
-                    // Make absolutely sure that the lock is always released.
-                    stmt.executeUpdate( "UNLOCK TABLES" );
-                }
-            }
-            finally
-            {
-                conn.close();
-            }
-        }
-        catch( SQLException e )
+        catch ( SQLException e )
         {
             String msg = "Unable to allocate a block of Ids.";
             getLogger().error( msg, e );
@@ -362,18 +257,7 @@ public class TableIdGenerator
     protected BigDecimal allocateBigDecimalIdBlock( int blockSize )
         throws IdException
     {
-        BigDecimal id;
-        switch( m_dbType )
-        {
-            case AbstractDataSourceIdGenerator.DBTYPE_MYSQL:
-                id = (BigDecimal)allocateIdBlockMySQL( blockSize, true );
-                break;
-
-            default:
-                id = (BigDecimal)allocateIdBlock( blockSize, true );
-        }
-
-        return id;
+        return (BigDecimal)allocateIdBlock( blockSize, true );
     }
 
     /**
@@ -388,16 +272,7 @@ public class TableIdGenerator
     protected long allocateLongIdBlock( int blockSize )
         throws IdException
     {
-        Long id;
-        switch( m_dbType )
-        {
-            case AbstractDataSourceIdGenerator.DBTYPE_MYSQL:
-                id = (Long)allocateIdBlockMySQL( blockSize, false );
-                break;
-
-            default:
-                id = (Long)allocateIdBlock( blockSize, false );
-        }
+        Long id = (Long)allocateIdBlock( blockSize, false );
 
         return id.longValue();
     }
