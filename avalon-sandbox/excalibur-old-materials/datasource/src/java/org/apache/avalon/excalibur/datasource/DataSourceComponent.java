@@ -60,7 +60,7 @@ import org.apache.avalon.framework.thread.ThreadSafe;
  * The standard interface for DataSources in Avalon.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.9 $ $Date: 2003/02/27 15:20:55 $
+ * @version CVS $Revision: 1.10 $ $Date: 2003/04/29 03:04:05 $
  * @since 4.0
  */
 public interface DataSourceComponent
@@ -85,3 +85,4 @@ public interface DataSourceComponent
     Connection getConnection()
         throws SQLException;
 }
+

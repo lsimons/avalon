@@ -145,7 +145,7 @@ import org.apache.avalon.excalibur.datasource.NoValidConnectionException;
  * </pre>
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.4 $ $Date: 2003/02/27 15:20:56 $
+ * @version CVS $Revision: 1.5 $ $Date: 2003/04/29 03:03:29 $
  * @since 4.1
  */
 public class DefaultHashedDataSourceCluster
@@ -254,3 +254,4 @@ public class DefaultHashedDataSourceCluster
         return (int)( lHashCode % getClusterSize() );
     }
 }
+

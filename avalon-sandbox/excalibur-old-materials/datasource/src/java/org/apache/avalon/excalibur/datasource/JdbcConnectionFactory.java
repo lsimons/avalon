@@ -64,7 +64,7 @@ import org.apache.avalon.framework.logger.LogEnabled;
  * The Factory implementation for JdbcConnections.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.19 $ $Date: 2003/04/08 18:34:34 $
+ * @version CVS $Revision: 1.20 $ $Date: 2003/04/29 02:58:39 $
  * @since 4.0
  */
 public class JdbcConnectionFactory extends AbstractLogEnabled implements ObjectFactory

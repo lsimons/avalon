@@ -110,7 +110,7 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
  * </pre>
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.4 $ $Date: 2003/02/27 15:20:56 $
+ * @version CVS $Revision: 1.5 $ $Date: 2003/04/29 03:02:03 $
  * @since 4.1
  */
 public class TableIdGenerator
@@ -342,3 +342,4 @@ public class TableIdGenerator
         m_tableName = configuration.getAttribute( "key-table", "id" );
     }
 }
+

@@ -116,7 +116,7 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Revision: 1.14 $ $Date: 2003/02/27 15:20:55 $
+ * @version CVS $Revision: 1.15 $ $Date: 2003/04/29 03:04:05 $
  * @since 4.0
  */
 public class InformixDataSource
@@ -274,3 +274,4 @@ public class InformixDataSource
         }
     }
 }
+
