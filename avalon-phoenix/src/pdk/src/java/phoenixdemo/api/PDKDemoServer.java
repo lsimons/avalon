@@ -1,4 +1,3 @@
-
 /*
  * Copyright (C) The Apache Software Foundation. All rights reserved.
  *
@@ -12,7 +11,7 @@ package phoenixdemo.api;
  * Interface PDKDemoServer
  *
  * @author Paul Hammant <a href="mailto:Paul_Hammant@yahoo.com">Paul_Hammant@yahoo.com</a>
- * @version * $Revision: 1.3 $
+ * @version * $Revision: 1.4 $
  */
 public interface PDKDemoServer
 {

@@ -15,38 +15,43 @@ import phoenixdemo.api.PDKDemoServer;
 
 /**
  * @author Paul Hammant <a href="mailto:Paul_Hammant@yahoo.com">Paul_Hammant@yahoo.com</a>
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
-public class PDKDemoServerImpl 
+public class PDKDemoServerImpl
     implements PDKDemoServer
 {
     public void processSocket( final Socket socket )
     {
         try
         {
-            final ObjectInputStream ois = 
+            final ObjectInputStream ois =
                 new ObjectInputStream( socket.getInputStream() );
 
             String string = null;
 
-            try { string = (String)ois.readObject(); }
-            catch( final ClassNotFoundException cnfe) {}
+            try
+            {
+                string = (String)ois.readObject();
+            }
+            catch( final ClassNotFoundException cnfe )
+            {
+            }
 
             System.out.println( "String passed = " + string );
             ois.close();
             socket.close();
-        } 
+        }
         catch( final IOException ioe )
         {
             System.out.println( "Unexpected IO Exception" );
         }
     }
 
-    public static void main( final String[] args ) 
+    public static void main( final String[] args )
         throws IOException
     {
         final PDKDemoServerImpl svr = new PDKDemoServerImpl();
-        final ServerSocket serverSocket = new ServerSocket(7654);
+        final ServerSocket serverSocket = new ServerSocket( 7654 );
 
         System.out.println( "PDK Demo listening on port " + 7654 );
         System.out.println( "Ctrl-C to exit" );

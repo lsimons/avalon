@@ -1,4 +1,3 @@
-
 /*
  * Copyright (C) The Apache Software Foundation. All rights reserved.
  *
@@ -8,23 +7,23 @@
  */
 package phoenixdemo.client;
 
-import java.net.Socket;
-import java.io.ObjectOutputStream;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
 
 /**
  * @author Paul Hammant <a href="mailto:Paul_Hammant@yahoo.com">Paul_Hammant@yahoo.com</a>
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class Client
 {
-    public static void main( final String[] args ) 
+    public static void main( final String[] args )
         throws IOException
     {
         if( args.length < 3 )
         {
-            System.out.println("Usage java -jar pdkdemo-client.jar <hostname> <port> <message>");
-            System.exit(10);
+            System.out.println( "Usage java -jar pdkdemo-client.jar <hostname> <port> <message>" );
+            System.exit( 10 );
         }
 
         final String host = args[ 0 ];

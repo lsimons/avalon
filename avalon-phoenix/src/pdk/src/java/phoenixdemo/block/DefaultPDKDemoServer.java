@@ -1,4 +1,3 @@
-
 /*
  * Copyright (C) The Apache Software Foundation. All rights reserved.
  *
@@ -22,7 +21,7 @@ import phoenixdemo.server.PDKDemoServerImpl;
  * @author  Paul Hammant <Paul_Hammant@yahoo.com>
  * @version 1.0
  */
-public class DefaultPDKDemoServer 
+public class DefaultPDKDemoServer
     extends AbstractLogEnabled
     implements Block, PDKDemoServer, Configurable, Startable, Initializable
 {
@@ -33,16 +32,16 @@ public class DefaultPDKDemoServer
     public void configure( final Configuration configuration )
         throws ConfigurationException
     {
-        m_port = configuration.getChild("port").getValueAsInteger(7777);
+        m_port = configuration.getChild( "port" ).getValueAsInteger( 7777 );
     }
 
-    public void initialize() 
+    public void initialize()
         throws Exception
     {
         m_pdkServer = new PDKDemoServerImpl();
     }
 
-    public void start() 
+    public void start()
         throws Exception
     {
         m_socketThread = new SocketThread( m_pdkServer, m_port );
@@ -51,7 +50,7 @@ public class DefaultPDKDemoServer
         System.out.println( "Server started on port " + m_port );
     }
 
-    public void stop() 
+    public void stop()
         throws Exception
     {
         m_socketThread = new SocketThread( m_pdkServer, m_port );

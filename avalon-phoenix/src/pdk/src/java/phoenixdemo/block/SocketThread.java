@@ -1,4 +1,3 @@
-
 /*
  * Copyright (C) The Apache Software Foundation. All rights reserved.
  *
@@ -8,37 +7,39 @@
  */
 package phoenixdemo.block;
 
-
-
-import phoenixdemo.server.PDKDemoServerImpl;
-
+import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-
-import java.io.IOException;
-
+import phoenixdemo.server.PDKDemoServerImpl;
 
 /**
  * Class SocketThread
  *
  *
  * @author Paul Hammant <a href="mailto:Paul_Hammant@yahoo.com">Paul_Hammant@yahoo.com</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
-public class SocketThread extends Thread {
+public class SocketThread
+    extends Thread
+{
+    private PDKDemoServerImpl m_pdkDemoServerImpl;
+    private ServerSocket m_serverSocket;
 
-    private PDKDemoServerImpl mPDKDemoServerImpl;
-    private ServerSocket svr;
+    protected SocketThread( final PDKDemoServerImpl pdkDemoServerImpl,
+                            final int port )
+    {
 
-    protected SocketThread(PDKDemoServerImpl pdkDemoServerImpl, int port) {
+        m_pdkDemoServerImpl = pdkDemoServerImpl;
 
-        mPDKDemoServerImpl = pdkDemoServerImpl;
-
-        try {
-            svr = new ServerSocket(port);
-        } catch (IOException ioe) {
-            throw new RuntimeException(
-                "Unable to open listening port.  It is probably already being listened to.");
+        try
+        {
+            m_serverSocket = new ServerSocket( port );
+        }
+        catch( final IOException ioe )
+        {
+            final String message = "Unable to open listening port. " +
+                "It is probably already being listened to.";
+            throw new RuntimeException( message );
         }
     }
 
@@ -47,15 +48,20 @@ public class SocketThread extends Thread {
      *
      *
      */
-    public void run() {
+    public void run()
+    {
 
-        while (true) {
-            try {
-                ConnectionThread ct = new ConnectionThread(svr.accept());
+        while( true )
+        {
+            try
+            {
+                ConnectionThread ct = new ConnectionThread( m_serverSocket.accept() );
 
                 ct.start();
-            } catch (IOException ioe) {
-                System.out.println("Some problem with getting a socket for the connetion.");
+            }
+            catch( IOException ioe )
+            {
+                System.out.println( "Some problem with getting a socket for the connetion." );
             }
         }
     }
@@ -63,25 +69,21 @@ public class SocketThread extends Thread {
     /**
      * Class ConnectionThread
      *
-     *
      * @author Paul Hammant <a href="mailto:Paul_Hammant@yahoo.com">Paul_Hammant@yahoo.com</a>
-     * @version $Revision: 1.2 $
+     * @version $Revision: 1.3 $
      */
-    class ConnectionThread extends Thread {
+    class ConnectionThread extends Thread
+    {
+        private Socket m_socket;
 
-        private Socket mSocket;
-
-        private ConnectionThread(Socket socket) {
-            mSocket = socket;
+        private ConnectionThread( final Socket socket )
+        {
+            m_socket = socket;
         }
 
-        /**
-         * Method run
-         *
-         *
-         */
-        public void run() {
-            mPDKDemoServerImpl.processSocket(mSocket);
+        public void run()
+        {
+            m_pdkDemoServerImpl.processSocket( m_socket );
         }
     }
 }
