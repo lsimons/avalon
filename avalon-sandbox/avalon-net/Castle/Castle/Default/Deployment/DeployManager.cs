@@ -19,6 +19,8 @@ namespace Apache.Avalon.Castle.Default.Deployment
 
 	using Apache.Avalon.Castle.Logger;
 	using Apache.Avalon.Castle.ManagementExtensions;
+	using Apache.Avalon.Composition.Model;
+	using Apache.Avalon.Castle.Util;
 	using ILogger = Apache.Avalon.Framework.ILogger;
 
 	/// <summary>
@@ -29,25 +31,52 @@ namespace Apache.Avalon.Castle.Default.Deployment
 	{
 		protected ILogger logger = LoggerFactory.GetLogger("DeployManager");
 
+		protected FileInfo baseDir;
+		protected FileInfo homeDir;
+
 		public DeployManager()
 		{
 		}
 
 		public override void Start()
 		{
-			base.Start();
 			logger.Info("Start");
 
+			base.Start();
+
+			ObtainHomeDir();
+		}
+
+		[ManagedOperation]
+		public void Inspect()
+		{
 			InspectDomainDirectory();
+		}
+
+		private void ObtainHomeDir()
+		{
+			ISystemContext context = (ISystemContext) 
+				MXUtil.GetAttribute( server, CastleConstants.ORCHESTRATOR_NAME, "SystemContext" );
+			
+			if (context == null)
+			{
+				throw new DeploymentException("Could not obtain SystemContext from Orchestrator.");
+			}
+
+			baseDir = context.BaseDirectory;
+			homeDir = context.HomeDirectory;
 		}
 
 		private void InspectDomainDirectory()
 		{
-			// TEMPORARY - we should obtain the home directory
-			// by others means
-			String homeDir = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
-			DirectoryInfo homeDirInfo = new DirectoryInfo( homeDir );
-			FileInfo[] files = homeDirInfo.GetFiles();
+			Inspect(baseDir);
+			Inspect(homeDir);
+		}
+
+		private void Inspect( FileInfo dir )
+		{
+			DirectoryInfo dirInfo = new DirectoryInfo( dir.FullName );
+			FileInfo[] files = dirInfo.GetFiles();
 
 			foreach(FileInfo file in files)
 			{
@@ -64,12 +93,7 @@ namespace Apache.Avalon.Castle.Default.Deployment
 		{
 			foreach(ManagedObjectName child in Children)
 			{
-				bool accepts = (bool) 
-					server.Invoke( 
-						child, 
-						"Accepts", 
-						new Object[] { file }, 
-						new Type[] { typeof(FileInfo) } );
+				bool accepts = (bool) MXUtil.InvokeOn( server, child, "Accepts",  file );
 
 				if (accepts)
 				{
@@ -82,11 +106,7 @@ namespace Apache.Avalon.Castle.Default.Deployment
 
 		private void SendDeployMessage( ManagedObjectName deployer, FileInfo file )
 		{
-			server.Invoke( 
-				deployer, 
-				"Deploy", 
-				new Object[] { file }, 
-				new Type[] { typeof(FileInfo) } );
+			MXUtil.InvokeOn( server, deployer, "Deploy",  file );
 		}
 	}
 }

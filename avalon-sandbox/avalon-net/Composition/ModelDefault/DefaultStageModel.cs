@@ -28,7 +28,7 @@ namespace Apache.Avalon.Composition.Model.Default
 	/// </summary>
 	/// <author>  <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
 	/// </author>
-	/// <version>  $Revision: 1.1 $ $Date: 2004/02/28 22:15:42 $
+	/// <version>  $Revision: 1.2 $ $Date: 2004/02/29 18:07:17 $
 	/// </version>
 	public class DefaultStageModel : DefaultDependent, IStageModel
 	{
@@ -81,7 +81,7 @@ namespace Apache.Avalon.Composition.Model.Default
 				if ((System.Object) directive.Source != null)
 				{
 					m_source = ResolvePath(partition, directive.Source);
-					String message = "todo: error message"; //"dependency.path.debug", m_source, directive.Key);
+					String message = "dependency.path.debug" + " " + m_source + " " + directive.Key;
 					Logger.Debug(message);
 				}
 				else
@@ -224,7 +224,7 @@ namespace Apache.Avalon.Composition.Model.Default
 			}
 			else
 			{
-				String error = "todo: error message"; //"stage.invalid-criteria.error", criteria, feature);
+				String error = "stage.invalid-criteria.error" + " " + criteria + " " + feature;
 				throw new System.ArgumentException(error);
 			}
 		}

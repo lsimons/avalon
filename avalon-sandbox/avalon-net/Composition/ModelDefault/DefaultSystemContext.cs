@@ -30,7 +30,7 @@ namespace Apache.Avalon.Composition.Model.Default
 	/// </summary>
 	/// <author>  <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
 	/// </author>
-	/// <version>  $Revision: 1.1 $ $Date: 2004/02/28 22:15:42 $
+	/// <version>  $Revision: 1.2 $ $Date: 2004/02/29 18:07:17 $
 	/// </version>
 	public class DefaultSystemContext : Apache.Avalon.Framework.DefaultContext, ISystemContext
 	{
@@ -184,7 +184,7 @@ namespace Apache.Avalon.Composition.Model.Default
 			}
 			if (!System.IO.Directory.Exists(base_Renamed.FullName))
 			{
-				String error = "todo: error message"; //"system.error.base-not-a-directory", base_Renamed);
+				String error = "system.error.base-not-a-directory"  + " " +  base_Renamed.FullName;
 				throw new System.ArgumentException(error);
 			}
 			

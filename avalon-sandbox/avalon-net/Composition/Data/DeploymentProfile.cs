@@ -23,7 +23,7 @@ namespace Apache.Avalon.Composition.Data
 	/// </summary>
 	/// <author>  <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
 	/// </author>
-	/// <version>  $Revision: 1.1 $ $Date: 2004/02/28 22:15:36 $
+	/// <version>  $Revision: 1.2 $ $Date: 2004/02/29 18:07:17 $
 	/// </version>
 	[Serializable]
 	public abstract class DeploymentProfile
@@ -80,7 +80,7 @@ namespace Apache.Avalon.Composition.Data
 			
 		}
 		/// <summary> Get the activation policy for the profile.</summary>
-		public virtual ActivationPolicy ActivationPolicy
+		public virtual ActivationPolicy Activation
 		{
 			get
 			{

@@ -3,13 +3,13 @@
         ProjectType = "Local"
         ProductVersion = "7.10.3077"
         SchemaVersion = "2.0"
-        ProjectGuid = "{0DB30CF7-345A-414C-8D35-10EF99911827}"
+        ProjectGuid = "{1FBC7823-D95B-481C-9715-14EE2CEDD13A}"
     >
         <Build>
             <Settings
                 ApplicationIcon = ""
                 AssemblyKeyContainerName = ""
-                AssemblyName = "Apache.Avalon.Composition.Data"
+                AssemblyName = "Apache.Avalon.Castle.ManagementExtensions"
                 AssemblyOriginatorKeyFile = ""
                 DefaultClientScript = "JScript"
                 DefaultHTMLPageLayout = "Grid"
@@ -18,7 +18,7 @@
                 OutputType = "Library"
                 PreBuildEvent = ""
                 PostBuildEvent = ""
-                RootNamespace = "Apache.Avalon.Composition.Data"
+                RootNamespace = "Apache.Avalon.Castle.ManagementExtensions"
                 RunPostBuildEvent = "OnBuildSuccess"
                 StartupObject = ""
             >
@@ -39,7 +39,7 @@
                     OutputPath = "..\bin\"
                     RegisterForComInterop = "false"
                     RemoveIntegerChecks = "false"
-                    TreatWarningsAsErrors = "true"
+                    TreatWarningsAsErrors = "false"
                     WarningLevel = "4"
                 />
                 <Config
@@ -80,176 +80,246 @@
                     HintPath = "C:\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.XML.dll"
                 />
                 <Reference
-                    Name = "Apache.Avalon.Framework"
-                    AssemblyName = "Apache.Avalon.Framework"
-                    HintPath = "..\..\Castle\bin\Apache.Avalon.Framework.dll"
-                />
-                <Reference
-                    Name = "Apache.Avalon.Meta"
-                    AssemblyName = "Apache.Avalon.Meta"
-                    HintPath = "..\..\Castle\bin\Apache.Avalon.Meta.dll"
+                    Name = "System.Runtime.Remoting"
+                    AssemblyName = "System.Runtime.Remoting"
+                    HintPath = "C:\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.Runtime.Remoting.dll"
                 />
             </References>
         </Build>
         <Files>
             <Include>
                 <File
-                    RelPath = "ActivationPolicy.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "AssemblyInfo.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "BlockCompositionDirective.cs"
+                    RelPath = "ManagedInstance.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "BlockIncludeDirective.cs"
+                    RelPath = "ManagedObjectName.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "CategoriesDirective.cs"
+                    RelPath = "ManagementInfo.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "CategoryDirective.cs"
+                    RelPath = "MConstants.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "ClasspathDirective.cs"
+                    RelPath = "MDynamicSupport.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "ComponentProfile.cs"
+                    RelPath = "MRegistrationListener.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "ConstructorDirective.cs"
+                    RelPath = "MRegistry.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "ContainmentProfile.cs"
+                    RelPath = "MServer.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "ContextDirective.cs"
+                    RelPath = "MServerConnection.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "DependencyDirective.cs"
+                    RelPath = "MServerFactory.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "DeploymentProfile.cs"
+                    RelPath = "Attributes\BaseAttribute.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "EntryDirective.cs"
+                    RelPath = "Attributes\ManagedAttributeAttribute.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "FilesetDirective.cs"
+                    RelPath = "Attributes\ManagedComponentAttribute.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "ImportDirective.cs"
+                    RelPath = "Attributes\ManagedOperationAttribute.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "IncludeDirective.cs"
+                    RelPath = "Default\Domain.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "LibraryDirective.cs"
+                    RelPath = "Default\DomainCollection.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "MetaDataException.cs"
+                    RelPath = "Default\Entry.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "MetaDataRuntimeException.cs"
+                    RelPath = "Default\InvokerStrategy.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Mode.cs"
+                    RelPath = "Default\MDefaultRegistry.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "NamedComponentProfile.cs"
+                    RelPath = "Default\MDefaultServer.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Parameter.cs"
+                    RelPath = "Default\MDynamicSupportFactory.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "ProfilePackage.cs"
+                    RelPath = "Default\MInspector.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "RepositoryDirective.cs"
+                    RelPath = "Default\Strategy\CodeGenerationInvokerStrategy.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "ResourceDirective.cs"
+                    RelPath = "Default\Strategy\MemberResolver.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "SelectionDirective.cs"
+                    RelPath = "Default\Strategy\ReflectionInvokerStrategy.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "ServiceDirective.cs"
+                    RelPath = "Exception\CompilationException.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "StageDirective.cs"
+                    RelPath = "Exception\DomainAlreadyExistsException.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "TargetDirective.cs"
+                    RelPath = "Exception\InstanceAlreadyRegistredException.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Targets.cs"
+                    RelPath = "Exception\InvalidComponentException.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "TypeLoaderDirective.cs"
+                    RelPath = "Exception\InvalidDomainException.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Exception\InvalidManagedObjectName.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Exception\InvalidOperationException.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Exception\InvalidUrlException.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Exception\ManagedObjectNotFoundException.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Exception\MProviderNotFoundException.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Exception\StandardComponentException.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Remote\MServerProxy.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Remote\Client\MConnector.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Remote\Client\MConnectorFactory.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Remote\Client\MProvider.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Remote\Providers\AbstractServerProvider.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Remote\Providers\HttpChannelProvider.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Remote\Providers\TcpChannelProvider.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Remote\Server\MConnectorServer.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Remote\Server\MConnectorServerFactory.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Remote\Server\MServerProvider.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

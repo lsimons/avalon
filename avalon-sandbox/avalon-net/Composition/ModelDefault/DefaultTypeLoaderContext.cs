@@ -28,14 +28,10 @@ namespace Apache.Avalon.Composition.Model.Default
 	/// </summary>
 	/// <author>  <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
 	/// </author>
-	/// <version>  $Revision: 1.1 $ $Date: 2004/02/28 22:15:42 $
+	/// <version>  $Revision: 1.2 $ $Date: 2004/02/29 18:07:17 $
 	/// </version>
 	public class DefaultTypeLoaderContext : Apache.Avalon.Framework.DefaultContext, ITypeLoaderContext
 	{
-		//==============================================================
-		// static
-		//==============================================================
-		
 		//==============================================================
 		// immutable state
 		//==============================================================
@@ -126,10 +122,10 @@ namespace Apache.Avalon.Composition.Model.Default
 			{
 				throw new System.ArgumentNullException("logger");
 			}
-			if (repository == null)
+			/*if (repository == null)
 			{
 				throw new System.ArgumentNullException("repository");
-			}
+			}*/
 			if (base_Renamed == null)
 			{
 				throw new System.ArgumentNullException("base");

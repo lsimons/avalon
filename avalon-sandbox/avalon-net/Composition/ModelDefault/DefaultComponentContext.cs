@@ -29,7 +29,7 @@ namespace Apache.Avalon.Composition.Model.Default
 	/// </summary>
 	/// <author>  <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
 	/// </author>
-	/// <version>  $Revision: 1.1 $ $Date: 2004/02/28 22:15:42 $
+	/// <version>  $Revision: 1.2 $ $Date: 2004/02/29 18:07:17 $
 	/// </version>
 	public class DefaultComponentContext : DefaultDeploymentContext, IComponentContext
 	{
@@ -128,8 +128,7 @@ namespace Apache.Avalon.Composition.Model.Default
 				tmpBool = System.IO.Directory.Exists(home.FullName);
 			if (tmpBool && !System.IO.Directory.Exists(home.FullName))
 			{
-				//UPGRADE_NOTE: Final was removed from the declaration of 'error '. 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="jlca1003"'
-				String error = "todo: error message"; //"deployment.context.home.not-a-directory.error", home);
+				String error = "deployment.context.home.not-a-directory.error " + home.FullName;
 				throw new System.ArgumentException(error);
 			}
 			bool tmpBool2;
@@ -140,8 +139,7 @@ namespace Apache.Avalon.Composition.Model.Default
 			
 			if (tmpBool2 && !System.IO.Directory.Exists(temp.FullName))
 			{
-				//UPGRADE_NOTE: Final was removed from the declaration of 'error '. 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="jlca1003"'
-				String error = "todo: error message"; //"deployment.context.temp.not-a-directory.error", temp);
+				String error = "deployment.context.temp.not-a-directory.error" + temp.FullName;
 				throw new System.ArgumentException(error);
 			}
 			
@@ -261,7 +259,7 @@ namespace Apache.Avalon.Composition.Model.Default
 			}
 			else
 			{
-				String error = "todo: error message"; //"deployment.registration.override.error", key);
+				String error = "deployment.registration.override.error " + key;
 				throw new System.ArgumentException(error);
 			}
 		}
@@ -324,13 +322,13 @@ namespace Apache.Avalon.Composition.Model.Default
 					}
 					catch (System.Exception e)
 					{
-						String error = "todo: error message"; //"deployment.context.runtime-get", key, typename);
+						String error = "deployment.context.runtime-get " + key + " " + typename;
 						throw new ModelRuntimeException(error, e);
 					}
 				}
 				else
 				{
-					String error = "todo: error message"; //"deployment.context.runtime-get", key);
+					String error = "deployment.context.runtime-get " + key;
 					throw new ModelRuntimeException(error);
 				}
 			}

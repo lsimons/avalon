@@ -85,7 +85,26 @@ namespace Apache.Avalon.Castle.ManagementExtensions.Default.Strategy
 
 			if (method == null)
 			{
-				throw new InvalidOperationException(String.Format("Operation {0} doesn't exists for this signature.", action));
+				foreach(MethodInfo met in resolver.Methods)
+				{
+					if (!met.Name.Equals( operation.Name ))
+					{
+						continue;
+					}
+
+					ParameterInfo[] parameters = met.GetParameters();
+
+					if (MemberResolver.Match(parameters, signature))
+					{
+						method = met;
+						break;
+					}
+				}
+			}
+
+			if (method == null)
+			{
+				throw new InvalidOperationException(String.Format("Operation {0} doesn't exists for the specified signature.", action));
 			}
 
 			return method.Invoke(instance, args);

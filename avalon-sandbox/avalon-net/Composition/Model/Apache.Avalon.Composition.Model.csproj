@@ -28,7 +28,7 @@
                     BaseAddress = "285212672"
                     CheckForOverflowUnderflow = "false"
                     ConfigurationOverrideFile = ""
-                    DefineConstants = "DEBUG;TRACE;STRONG"
+                    DefineConstants = "DEBUG;TRACE"
                     DocumentationFile = ""
                     DebugSymbols = "true"
                     FileAlignment = "4096"
@@ -39,7 +39,7 @@
                     OutputPath = "..\bin\"
                     RegisterForComInterop = "false"
                     RemoveIntegerChecks = "false"
-                    TreatWarningsAsErrors = "false"
+                    TreatWarningsAsErrors = "true"
                     WarningLevel = "4"
                 />
                 <Config
@@ -82,12 +82,7 @@
                 <Reference
                     Name = "Apache.Avalon.Framework"
                     AssemblyName = "Apache.Avalon.Framework"
-                    HintPath = "..\..\bin\Apache.Avalon.Framework.dll"
-                />
-                <Reference
-                    Name = "Apache.Avalon.Meta"
-                    AssemblyName = "Apache.Avalon.Meta"
-                    HintPath = "..\..\bin\Apache.Avalon.Meta.dll"
+                    HintPath = "..\..\Castle\bin\Apache.Avalon.Framework.dll"
                 />
                 <Reference
                     Name = "Apache.Avalon.Composition.Data"
@@ -95,14 +90,19 @@
                     Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
                 />
                 <Reference
-                    Name = "Apache.Avalon.Repository"
-                    AssemblyName = "Apache.Avalon.Repository"
-                    HintPath = "..\..\bin\Apache.Avalon.Repository.dll"
-                />
-                <Reference
                     Name = "Apache.Avalon.Composition.Logging"
                     Project = "{EEF62E78-C58A-4DA0-BA62-A416330DBF58}"
                     Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
+                />
+                <Reference
+                    Name = "Apache.Avalon.Repository"
+                    AssemblyName = "Apache.Avalon.Repository"
+                    HintPath = "..\..\Castle\bin\Apache.Avalon.Repository.dll"
+                />
+                <Reference
+                    Name = "Apache.Avalon.Meta"
+                    AssemblyName = "Apache.Avalon.Meta"
+                    HintPath = "..\..\Castle\bin\Apache.Avalon.Meta.dll"
                 />
             </References>
         </Build>

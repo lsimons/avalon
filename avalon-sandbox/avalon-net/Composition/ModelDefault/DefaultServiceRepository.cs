@@ -29,7 +29,7 @@ namespace Apache.Avalon.Composition.Model.Default
 	/// </summary>
 	/// <author>  <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
 	/// </author>
-	/// <version>  $Revision: 1.1 $ $Date: 2004/02/28 22:15:42 $
+	/// <version>  $Revision: 1.2 $ $Date: 2004/02/29 18:07:17 $
 	/// </version>
 	public class DefaultServiceRepository : IServiceRepository
 	{
@@ -142,7 +142,7 @@ namespace Apache.Avalon.Composition.Model.Default
 			return service;
 		}
 		
-		protected virtual internal ILogger Logger
+		protected internal virtual ILogger Logger
 		{
 			get
 			{

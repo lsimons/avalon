@@ -29,7 +29,7 @@ namespace Apache.Avalon.Composition.Model.Default
 	/// </summary>
 	/// <author>  <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
 	/// </author>
-	/// <version>  $Revision: 1.1 $ $Date: 2004/02/28 22:15:42 $
+	/// <version>  $Revision: 1.2 $ $Date: 2004/02/29 18:07:17 $
 	/// </version>
 	public class DefaultContextModel : DefaultDependent, IContextModel
 	{
@@ -140,8 +140,7 @@ namespace Apache.Avalon.Composition.Model.Default
 					{
 						if (entry.Required)
 						{
-							//UPGRADE_NOTE: Final was removed from the declaration of 'error '. 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="jlca1003"'
-							String error = "todo: error message"; //"context.non-standard-avalon-key.error", key);
+							String error = "context.non-standard-avalon-key.error" + " " + key;
 							throw new ModelException(error);
 						}
 					}
@@ -172,8 +171,7 @@ namespace Apache.Avalon.Composition.Model.Default
 					{
 						if (entry.Required)
 						{
-							//UPGRADE_NOTE: Final was removed from the declaration of 'error '. 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="jlca1003"'
-							String error = "todo: error message"; //"context.non-standard-avalon-key.error", key);
+							String error = "context.non-standard-avalon-key.error" + " " + key;
 							throw new ModelException(error);
 						}
 					}
@@ -191,8 +189,7 @@ namespace Apache.Avalon.Composition.Model.Default
 					{
 						if (entry.Required)
 						{
-							//UPGRADE_NOTE: Final was removed from the declaration of 'error '. 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="jlca1003"'
-							String error = "todo: error message"; //"context.missing-directive.error", key);
+							String error = "context.missing-directive.error" + " " + key;
 							throw new ModelException(error);
 						}
 					}
@@ -227,8 +224,7 @@ namespace Apache.Avalon.Composition.Model.Default
 						else
 						{
 							String modelClass = entryDirective.GetType().FullName;
-							//UPGRADE_NOTE: Final was removed from the declaration of 'error '. 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="jlca1003"'
-							String error = "todo: error message"; //"context.unsupported-directive.error", key, modelClass);
+							String error = "context.unsupported-directive.error" + " " + key + " " + modelClass;
 							throw new ModelException(error);
 						}
 					}
@@ -239,7 +235,6 @@ namespace Apache.Avalon.Composition.Model.Default
 			
 			if (Logger.IsDebugEnabled)
 			{
-				//UPGRADE_TODO: The equivalent in .NET for method 'java.lang.Object.toString' may return a different value. 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="jlca1043"'
 				Logger.Debug("context: " + m_map);
 			}
 		}
@@ -299,7 +294,7 @@ namespace Apache.Avalon.Composition.Model.Default
 					if (Logger.IsDebugEnabled)
 					{
 						//UPGRADE_NOTE: Final was removed from the declaration of 'message '. 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="jlca1003"'
-						String message = "todo: error message"; //"context.strategy.custom", strategy);
+						String message = "context.strategy.custom" + " " + strategy;
 						Logger.Debug(message);
 					}
 					return type;
@@ -308,7 +303,7 @@ namespace Apache.Avalon.Composition.Model.Default
 				catch (System.Exception )
 				{
 					//UPGRADE_NOTE: Final was removed from the declaration of 'error '. 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="jlca1003"'
-					String error = "todo: error message"; //"context.strategy.custom.missing.error", strategy);
+					String error = "context.strategy.custom.missing.error" + " " + strategy;
 					throw new ModelException(error);
 				}
 			}
@@ -319,14 +314,14 @@ namespace Apache.Avalon.Composition.Model.Default
 					System.Type type = Type.GetType(Apache.Avalon.Composition.Model.IContextModel_Fields.DEFAULT_STRATEGY_CLASSNAME);
 					if (Logger.IsDebugEnabled)
 					{
-						String message = "todo: error message"; //"context.strategy.avalon");
+						String message = "context.strategy.avalon";
 						Logger.Debug(message);
 					}
 					return type;
 				}
 				catch (System.Exception )
 				{
-					String error = "todo: error message"; //"context.strategy.avalon.missing.error", Apache.Avalon.Composition.Model.ContextModel_Fields.DEFAULT_STRATEGY_CLASSNAME);
+					String error = "context.strategy.avalon.missing.error" + " " + Apache.Avalon.Composition.Model.IContextModel_Fields.DEFAULT_STRATEGY_CLASSNAME;
 					throw new ModelException(error);
 				}
 			}
@@ -373,13 +368,13 @@ namespace Apache.Avalon.Composition.Model.Default
 			catch (System.MethodAccessException e)
 			{
 				//UPGRADE_NOTE: Final was removed from the declaration of 'error '. 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="jlca1003"'
-				String error = "todo: error message"; //"context.non-compliance-constructor.error", type.FullName);
+				String error = "context.non-compliance-constructor.error" + " " + type.FullName;
 				throw new ModelException(error, e);
 			}
 			catch (System.Exception e)
 			{
 				//UPGRADE_NOTE: Final was removed from the declaration of 'error '. 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="jlca1003"'
-				String error = "todo: error message"; //"context.custom-unexpected.error", type.FullName);
+				String error = "context.custom-unexpected.error" + " " + type.FullName;
 				throw new ModelException(error, e);
 			}
 		}

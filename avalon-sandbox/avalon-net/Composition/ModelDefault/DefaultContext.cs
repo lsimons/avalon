@@ -29,7 +29,7 @@ namespace Apache.Avalon.Composition.Model.Default
 	/// </summary>
 	/// <author>  <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
 	/// </author>
-	/// <version>  $Revision: 1.1 $ $Date: 2004/02/28 22:15:42 $
+	/// <version>  $Revision: 1.2 $ $Date: 2004/02/29 18:07:17 $
 	/// </version>
 	public class DefaultContext : IContext
 	{
@@ -90,9 +90,8 @@ namespace Apache.Avalon.Composition.Model.Default
 				}
 				catch (ModelRuntimeException e)
 				{
-					//UPGRADE_NOTE: Final was removed from the declaration of 'error '. 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="jlca1003"'
-					// String error = "todo: error message"; //"context.entry.model.error", key);
-					String error = "Error obtaining entry";
+					String error = "context.entry.model.error" + " " + key;
+					// String error = "Error obtaining entry";
 					throw new ContextException(error, e);
 				}
 			}

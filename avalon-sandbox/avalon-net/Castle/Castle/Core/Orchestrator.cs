@@ -18,9 +18,11 @@ namespace Apache.Avalon.Castle.Core
 
 	using Apache.Avalon.Castle.Core.Proxies;
 	using Apache.Avalon.Castle.ManagementExtensions;
+	using Apache.Avalon.Composition.Data;
 	using Apache.Avalon.Composition.Model;
 	using Apache.Avalon.Composition.Model.Default;
 	using Apache.Avalon.Composition.Logging;
+	using Apache.Avalon.Meta;
 	using Apache.Avalon.Repository;
 	using Apache.Avalon.Castle.Util;
 	using ILogger = Apache.Avalon.Framework.ILogger;
@@ -63,6 +65,15 @@ namespace Apache.Avalon.Castle.Core
 		public Orchestrator()
 		{
 			logger.Debug("Constructor");
+		}
+
+		[ManagedAttribute]
+		public ISystemContext SystemContext
+		{
+			get
+			{
+				return systemContext;
+			}
 		}
 
 		[ManagedAttribute]
@@ -143,27 +154,74 @@ namespace Apache.Avalon.Castle.Core
 				childServices[LOOKUP_MANAGER] = value;
 			}
 		}
+
+		[ManagedOperation]
+		public void DeployContainmentProfile(ContainmentProfile profile)
+		{
+			logger.Info("Creating ContainmentModel");
+
+			ILogger sublogger = loggingManager.GetLoggerForCategory( "Containment" );
+			IContainmentContext containmentContext = CreateContainmentContext( SystemContext, sublogger, profile );
+
+			IContainmentModel containmentModel = new DefaultContainmentModel( containmentContext );
+
+			logger.Info("Assembling");
+
+			containmentModel.Assemble();
+
+			logger.Info("Deploying");
+
+			containmentModel.Commission();
+
+			logger.Info("Started");
+		}
+
+		protected IContainmentContext CreateContainmentContext( ISystemContext system, ILogger logger, 
+			ContainmentProfile profile )
+		{
+			system.LoggingManager.AddCategories( profile.Categories );
+
+			ITypeLoaderContext typeLoaderContext = new DefaultTypeLoaderContext( 
+				logger, system.Repository, system.BaseDirectory, profile.TypeLoaderDirective );
+
+			ITypeLoaderModel typeModel = new DefaultTypeLoaderModel( typeLoaderContext );
+
+			DefaultContainmentContext context = new DefaultContainmentContext( 
+				logger, system, typeModel, null, null, profile );
+
+			return context;
+		}
+
+		public override void Create()
+		{
+			logger.Debug("Create");
+			base.Create();
+
+			RetriveCastleOptions();
+
+			CreateSystemContext();
+		}
 	
 		public override void Start()
 		{
 			logger.Debug("Start");
-
 			base.Start();
-
-			RetriveCastleOptions();
-
-			// First step: create a SystemContext
-
-			CreateSystemContext();
 
 			// Create/Start notification system
 
 			CreateAndStartNotificationSystem();
+
+			// Ask DeployManager (whatever implementation) to starts
+			// inspecting - and deploying
+
+			InitDeployer();
 		}
 
 		public override void Stop()
 		{
 			logger.Debug("Stop");
+
+			base.Stop();
 		}
 
 		protected void RetriveCastleOptions()
@@ -178,11 +236,23 @@ namespace Apache.Avalon.Castle.Core
 
 			EnsureLoggingImplementationExists();
 
-			systemContext = new DefaultSystemContext(
+			DefaultSystemContext context = new DefaultSystemContext(
 				runtime, loggingManager, IOUtil.ToFile( options.BasePath ), 
 				IOUtil.ToFile( options.HomePath ), 
 				IOUtil.ToFile( options.TempPath ), repository, 
 				"system", options.TraceEnabled, options.DeploymentTimeout, false);
+
+			context.Put( "urn:composition:dir", IOUtil.ToFile( options.BasePath ) );
+			context.MakeReadOnly();
+
+			systemContext = context;
+		}
+
+		protected void InitDeployer()
+		{
+			AssertNotNull( DeployManager, "DeployManager implementation required" );
+
+			MXUtil.InvokeOn( server, DeployManager, "Inspect" );
 		}
 
 		protected void EnsureRuntimeImplementationExists()

@@ -28,7 +28,7 @@ namespace Apache.Avalon.Composition.Model.Default
 	/// </summary>
 	/// <author>  <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
 	/// </author>
-	/// <version>  $Revision: 1.1 $ $Date: 2004/02/28 22:15:42 $
+	/// <version>  $Revision: 1.2 $ $Date: 2004/02/29 18:07:17 $
 	/// </version>
 	public class DefaultContainmentContext : DefaultDeploymentContext, IContainmentContext
 	{
@@ -40,22 +40,16 @@ namespace Apache.Avalon.Composition.Model.Default
 		// immutable state
 		//---------------------------------------------------------
 		
-		//UPGRADE_NOTE: Final was removed from the declaration of 'm_home '. 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="jlca1003"'
 		private System.IO.FileInfo m_home;
 		
-		//UPGRADE_NOTE: Final was removed from the declaration of 'm_temp '. 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="jlca1003"'
 		private System.IO.FileInfo m_temp;
 		
-		//UPGRADE_NOTE: Final was removed from the declaration of 'm_classloader '. 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="jlca1003"'
 		private ITypeLoaderModel m_classloader;
 		
-		//UPGRADE_NOTE: Final was removed from the declaration of 'm_profile '. 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="jlca1003"'
 		private ContainmentProfile m_profile;
 		
-		//UPGRADE_NOTE: Final was removed from the declaration of 'm_repository '. 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="jlca1003"'
 		private IModelRepository m_repository;
 		
-		//UPGRADE_NOTE: Final was removed from the declaration of 'm_parent '. 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="jlca1003"'
 		private IContainmentModel m_parent;
 		
 		//---------------------------------------------------------
@@ -143,8 +137,7 @@ namespace Apache.Avalon.Composition.Model.Default
 
 			if (tmpBool && !System.IO.Directory.Exists(home.FullName))
 			{
-				//UPGRADE_NOTE: Final was removed from the declaration of 'error '. 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="jlca1003"'
-				String error = "todo: error message"; //"containment.context.home.not-a-directory.error", home.ToString());
+				String error = "containment.context.home.not-a-directory.error" + " " + home.ToString();
 				throw new System.ArgumentException(error);
 			}
 			bool tmpBool2;
@@ -154,7 +147,7 @@ namespace Apache.Avalon.Composition.Model.Default
 				tmpBool2 = System.IO.Directory.Exists(temp.FullName);
 			if (tmpBool2 && !System.IO.Directory.Exists(temp.FullName))
 			{
-				String error = "todo: error message"; //"containment.context.temp.not-a-directory.error", temp.ToString());
+				String error = "containment.context.temp.not-a-directory.error" + " " + temp.ToString();
 				throw new System.ArgumentException(error);
 			}
 			

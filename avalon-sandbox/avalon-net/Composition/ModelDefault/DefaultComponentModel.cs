@@ -29,7 +29,7 @@ namespace Apache.Avalon.Composition.Model.Default
 	/// </summary>
 	/// <author>  <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
 	/// </author>
-	/// <version>  $Revision: 1.1 $ $Date: 2004/02/28 22:15:42 $
+	/// <version>  $Revision: 1.2 $ $Date: 2004/02/29 18:07:17 $
 	/// </version>
 	public class DefaultComponentModel : DefaultDeploymentModel, IComponentModel
 	{
@@ -306,7 +306,7 @@ namespace Apache.Avalon.Composition.Model.Default
 					
 					if (contextualizable == null)
 					{
-						String error = "todo: error message"; //"deployment.missing-strategy.error", strategy, base_Renamed.FullName);
+						String error = "deployment.missing-strategy.error " + strategy + " " + base_Renamed.FullName;
 						throw new System.SystemException(error);
 					}
 					else
@@ -317,8 +317,7 @@ namespace Apache.Avalon.Composition.Model.Default
 						}
 						else
 						{
-							//UPGRADE_NOTE: Final was removed from the declaration of 'error '. 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="jlca1003"'
-							String error = "todo: error message"; //"deployment.inconsitent-strategy.error", contextualizable, base_Renamed);
+							String error = "deployment.inconsitent-strategy.error " + contextualizable + " " + base_Renamed;
 							throw new System.SystemException(error);
 						}
 					}
@@ -713,9 +712,7 @@ namespace Apache.Avalon.Composition.Model.Default
 		{
 			if (!Configurable)
 			{
-				//UPGRADE_NOTE: Final was removed from the declaration of 'error '. 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="jlca1003"'
-				//UPGRADE_TODO: The equivalent in .NET for method 'java.lang.Object.toString' may return a different value. 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="jlca1043"'
-				String error = "todo: error message"; //"deployment.configuration.irrational", DeploymentType.FullName, this.ToString());
+				String error = "deployment.configuration.irrational " + DeploymentType.FullName + " " + this.ToString();
 				throw new System.SystemException(error);
 			}
 			
