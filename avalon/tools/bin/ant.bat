@@ -85,6 +85,7 @@ goto end
 
 :end
 set LOCALCLASSPATH=
+set _JAVACMD=
 set ANT_CMD_LINE_ARGS=
 
 if not "%OS%"=="Windows_NT" goto mainEnd
