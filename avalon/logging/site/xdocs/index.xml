@@ -19,19 +19,35 @@
 
 <document>
 
-    <properties>
-        <author email="mcconnell@apache.org">Stephen McConnell</author>
-        <title>Avalon Logging</title>
-    </properties>
+  <properties>
+    <author email="mcconnell@apache.org">Stephen McConnell</author>
+    <title>Avalon Logging</title>
+  </properties>
 
-    <body>
-
-        <section name="Avalon Logging">
-
-        </section>
-
-    </body>
-
+  <body>
+    <section name="Avalon Logging">
+      <subsection name="Overview">
+        <p>
+        The avalon-logging package is a open logging platform suitable for 
+        use by container implementators. It is based largely on the original
+        excalibur logging system but with some important changes.  Firstly 
+        it leverages the avalon-repository technology to support dynamic 
+        loading of implementation strategies, secondly, it simplies the
+        overall approach to target configuration, and thirdly, it applies
+        a formal logging category meta-data model that is consitent with 
+        model-driven container solutions.
+        </p>
+        <p>
+        The Avalon Logging system is a container-side service that defines
+        a framework for the logging system plugins.  The framework is 
+        primarily defined by the <a href="api/index.html">Avalon Logging API</a>
+        and the plugin-in model defined by the 
+        <a href="http://avalon.apache.org/repository">Avalon Repository</a> 
+        system.
+        </p>
+      </subsection>
+    </section>
+  </body>
 </document>
 
 

@@ -18,20 +18,24 @@
 -->
 
 <document>
-
-    <properties>
-        <author email="mcconnell@apache.org">Stephen McConnell</author>
-        <title>Avalon Logging</title>
-    </properties>
-
-    <body>
-
-        <section name="Avalon Logging">
-
-        </section>
-
-    </body>
-
+  <properties>
+    <author email="mcconnell@apache.org">Stephen McConnell</author>
+    <title>Avalon Logging</title>
+  </properties>
+  <body>
+    <section name="Avalon LogKit Plugin">
+      <subsection name="Artifact Reference">
+        <p>
+        IN PREP
+        </p>
+      </subsection>
+      <subsection name="Configuration">
+        <p>
+        IN PREP
+        </p>
+      </subsection>
+    </section>
+  </body>
 </document>
 
 
