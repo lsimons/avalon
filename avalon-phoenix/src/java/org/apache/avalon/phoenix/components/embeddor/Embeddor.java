@@ -9,7 +9,7 @@ package org.apache.avalon.phoenix.components.embeddor;
 
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Initializable;
-import org.apache.avalon.framework.activity.Startable;
+import org.apache.avalon.framework.activity.Executable;
 import org.apache.avalon.framework.component.Component;
 
 /**
@@ -20,16 +20,7 @@ import org.apache.avalon.framework.component.Component;
  * @author <a href="donaldp@apache.org">Peter Donald</a>
  */
 public interface Embeddor
-    extends Component, Initializable, Startable, Disposable
+    extends Component, Initializable, Executable, Disposable
 {
     String ROLE = "org.apache.avalon.phoenix.components.embeddor.Embeddor";
-
-    /**
-     * After the Embeddor is initialized, this method is called to actually
-     * do the work. It will return when the embeddor is ready to be disposed.
-     *
-     * @exception Exception if an error occurs
-     */
-    void execute()
-        throws Exception;
 }
