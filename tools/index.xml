@@ -79,9 +79,6 @@
       <version>5.1</version>
       <type>jar</type>
     </info>
-    <gump>
-      <alias>jakarta-bcel</alias>
-    </gump>
   </resource>
   
   <resource>
