@@ -8,4 +8,7 @@ docs
 *.ipr
 maven.log
 velocity.log
+target
+build
+
 
