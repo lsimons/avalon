@@ -15,6 +15,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.ArrayList;
 
 /**
  * A Xinfo Factory
@@ -24,6 +25,7 @@ public class XinfoFactory
 {
     private JavaClass m_javaClass;
     private File m_destDir;
+    private ArrayList m_allClasses;
     private HashMap m_services = new HashMap();
     private HashMap m_dependencies = new HashMap();
     private boolean m_inheritance;
@@ -34,11 +36,13 @@ public class XinfoFactory
      * @param destDir
      * @param javaClass
      */
-    public XinfoFactory( File destDir, JavaClass javaClass, boolean inheritance )
+    public XinfoFactory( File destDir, JavaClass javaClass, ArrayList allClasses,
+                         boolean inheritance )
     {
         m_javaClass = javaClass;
         m_destDir = destDir;
         m_inheritance = inheritance;
+        m_allClasses = allClasses;
     }
 
     /**
@@ -64,7 +68,7 @@ public class XinfoFactory
 
         xinfo.writeEndOfManagementSection();
 
-        processServiceMethod( xinfo );
+        processServiceMethod( xinfo, m_inheritance );
         xinfo.writeFooter();
         xinfo.close();
 
@@ -88,8 +92,7 @@ public class XinfoFactory
                 String serviceName = service.getNamedParameter( "name" );
                 m_services.put( serviceName, service );
             }
-            //javaClass = getParentClass(javaClass);  // Bug in QDox?
-            javaClass = null;
+            javaClass = getParentClass(javaClass);
         }
 
 
@@ -109,20 +112,15 @@ public class XinfoFactory
     private JavaClass getParentClass(JavaClass javaClass)
     {
         String parentClassName = javaClass.getSuperClass().getValue();
-        System.out.println("--> p " + parentClassName);
-        JavaClass[] parentSourceClasses = javaClass.getParentSource().getClasses();
-        javaClass = null;
-        for (int i = 0; i < parentSourceClasses.length; i++)
+        for (int i = 0; i < m_allClasses.size(); i++)
         {
-            JavaClass parentClass = parentSourceClasses[i];
-            System.out.println("--> p2 " + parentClass.getFullyQualifiedName());
-            if (parentClassName.equals(parentClass.getFullyQualifiedName()))
+            JavaClass jClass = (JavaClass) m_allClasses.get(i);
+            if (jClass.getFullyQualifiedName().equals(parentClassName))
             {
-                javaClass = parentClass;
+                return jClass;
             }
-
         }
-        return javaClass;
+        return null;
     }
 
     /**
@@ -144,28 +142,41 @@ public class XinfoFactory
      * @param xinfo The xinfo helper
      * @throws IOException If a problem
      */
-    private void processServiceMethod( XinfoHelper xinfo ) throws IOException
+    private void processServiceMethod( XinfoHelper xinfo, boolean inheritance ) throws IOException
     {
-        JavaMethod[] methods = m_javaClass.getMethods();
-        for( int j = 0; j < methods.length; j++ )
+        JavaClass javaClass = m_javaClass;
+        while (m_javaClass == javaClass || (javaClass != null && inheritance))
         {
-            // dependencies
-
-            JavaMethod method = methods[ j ];
-            if( method.getName().equals( "service" )
-                && method.getReturns().equals( new Type( "void", 0 ) )
-                && method.getParameters().length == 1
-                && method.getParameters()[ 0 ].getType().getValue().equals(
-                    "org.apache.avalon.framework.service.ServiceManager" ) )
+            JavaMethod[] methods = javaClass.getMethods();
+            for( int j = 0; j < methods.length; j++ )
             {
-                DocletTag[] dependencies = method.getTagsByName( "phoenix:dependency" );
-                for( int i = 0; i < dependencies.length; i++ )
+                // dependencies
+
+                JavaMethod method = methods[ j ];
+                if( method.getName().equals( "service" )
+                    && method.getReturns().equals( new Type( "void", 0 ) )
+                    && method.getParameters().length == 1
+                    && method.getParameters()[ 0 ].getType().getValue().equals(
+                        "org.apache.avalon.framework.service.ServiceManager" ) )
                 {
-                    DocletTag dependency = dependencies[ i ];
-                    xinfo.writeDependencyLines( dependency.getNamedParameter( "name" ),
-                            dependency.getNamedParameter( "version" ) );
+                    DocletTag[] dependencies = method.getTagsByName( "phoenix:dependency" );
+                    for( int i = 0; i < dependencies.length; i++ )
+                    {
+                        DocletTag dependency = dependencies[ i ];
+                        m_dependencies.put(dependency.getNamedParameter( "name" ), dependency);
+                    }
                 }
             }
+            javaClass = getParentClass(javaClass);
+        }
+
+        Iterator it = m_dependencies.keySet().iterator();
+        while (it.hasNext())
+        {
+            String dependencyName = (String) it.next();
+            DocletTag dependency = (DocletTag) m_dependencies.get( dependencyName );
+            xinfo.writeDependencyLines( dependencyName,
+                            dependency.getNamedParameter( "version" ) );
         }
     }
 
