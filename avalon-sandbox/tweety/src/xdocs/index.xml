@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+
+<document>
+  <header>
+    <title>Excalibur ??? - Overview</title>
+    <authors>
+      <person name="????" email="???"/>
+    </authors>
+  </header>
+  <body>
+    <s1 title="Introduction">
+      <p>
+        Blah Blah
+      </p>
+    </s1>
+  </body>
+  <footer>
+    <legal>
+      Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
+      $Revision: 1.1 $ $Date: 2002/06/22 15:18:13 $
+    </legal>
+  </footer>
+</document>
