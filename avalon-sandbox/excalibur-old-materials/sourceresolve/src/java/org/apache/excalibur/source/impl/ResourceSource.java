@@ -56,12 +56,14 @@ package org.apache.excalibur.source.impl;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 
 import org.apache.excalibur.source.Source;
 import org.apache.excalibur.source.SourceException;
 import org.apache.excalibur.source.SourceNotFoundException;
+import org.apache.excalibur.source.SourceUtil;
 import org.apache.excalibur.source.SourceValidity;
 import org.apache.excalibur.source.impl.validity.NOPValidity;
 
@@ -70,7 +72,7 @@ import org.apache.excalibur.source.impl.validity.NOPValidity;
  * which gets a resource from the classloader.
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.9 $ $Date: 2003/03/29 18:53:26 $
+ * @version CVS $Revision: 1.10 $ $Date: 2003/04/04 16:36:51 $
  */
 public final class ResourceSource
     extends AbstractSource
@@ -80,10 +82,15 @@ public final class ResourceSource
     private URL m_location;
     private String m_mimeType;
 
-    public ResourceSource( final String systemId )
+    public ResourceSource( final String systemId ) throws MalformedURLException
     {
+        final int pos = SourceUtil.indexOfSchemeColon(systemId);
+        if (pos == -1 || ! systemId.startsWith("://", pos))
+        {
+            throw new MalformedURLException("Invalid format for ResourceSource : " + systemId);
+        }
+        
         setSystemId(systemId);
-        final int pos = systemId.indexOf( "://" );
         m_location = getClassLoader().getResource(systemId.substring( pos + 3 ));
         setScheme(systemId.substring(0, pos));
     }
@@ -141,7 +148,7 @@ public final class ResourceSource
         return NOPValidity.SHARED_INSTANCE;
     }
     
-    private ClassLoader getClassLoader() {
+    protected ClassLoader getClassLoader() {
         ClassLoader loader = Thread.currentThread().getContextClassLoader();
         if( loader == null )
         {

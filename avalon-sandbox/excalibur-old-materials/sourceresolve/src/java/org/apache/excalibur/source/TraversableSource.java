@@ -63,59 +63,49 @@ import java.util.Collection;
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
  * @author <a href="mailto:sylvain@apache.org">Sylvain Wallez</a>
- * @version CVS $Revision: 1.3 $ $Date: 2003/01/29 06:56:01 $
+ * @version CVS $Revision: 1.4 $ $Date: 2003/04/04 16:36:51 $
  */
 public interface TraversableSource extends Source {
 
 	/**
-	 * Does this source point to a directory (i.e. it possibly has children) ?
+	 * Is this source a collection, i.e. it possibly has children ?
+	 * For a filesystem-based implementation, this would typically mean that
+	 * this source represents a directory and not a file.
      * 
-     * @return true if the source is a directory.
+     * @return true if the source exists and is traversable.
 	 */
-	boolean isDirectory();
-    
-	/**
-	 * Get the absolute URIs of the children of this source.
-     * 
-     * @return a possibly-empty collection if this source is a directory,
-     *         <code>null</code> otherwise
-     * @throws SourceException if some problem occurs.
-	 */
-	Collection getChildrenURIs() throws SourceException;
+	boolean isCollection();
     
     /**
-     * Get the children of this source as {@link Source} objects.
+     * Get the children of this source if this source is traversable.
      * <p>
      * <em>Note:</em> only those sources actually fetched from the
      * collection need to be released using the {@link SourceResolver}.
      * 
-     * @return a possibly-empty collection if this source is a directory,
-     *         <code>null</code> otherwise
-     * @throws SourceException if some problem occurs.
+     * @see #isTraversable()
+     * @return a collection of {@link Source}s (actually most probably <code>TraversableSource</code>s).
+     * @throws SourceException this source is not traversable, or if some problem occurs.
      */
-    Collection getChildrenSources() throws SourceException;
+    Collection getChildren() throws SourceException;
     
     /**
-     * Get the children of this source as relative names.
-     * @return a possibly-empty collection if this source is a directory,
-     *         <code>null</code> otherwise
-     * @throws SourceException if some problem occurs.
+     * Get a child of this source, given its name. Note that the returned source
+     * may not actually physically exist, and that this must be checked using
+     * {@link Source#exists()}.
+     * 
+     * @param name the child name.
+     * @return the child source.
+     * @throws SourceException if this source is not traversable or if some other
+     *         error occurs.
      */
-    Collection getChildrenNames() throws SourceException;
+    Source getChild(String name) throws SourceException;
     
     /**
      * Return the name of this source relative to its parent.
-     * @throws SourceException if some problem occurs.
+	 *
+	 * @return the name
      */
-    String getName() throws SourceException;
-    
-    /**
-     * Return the absolute URI of the parent source. 
-     * 
-     * @return the parent URI, or <code>null</code> if this source has no parent.
-     * @throws SourceException if some problem occurs.
-     */
-    String getParentURI() throws SourceException;
+    String getName();
     
     /**
      * Get the parent of this source as a {@link Source} object.
@@ -123,6 +113,5 @@ public interface TraversableSource extends Source {
      * @return the parent source, or <code>null</code> if this source has no parent.
      * @throws SourceException if some problem occurs.
      */
-    Source getParentSource() throws SourceException;
-
+    Source getParent() throws SourceException;
 }

@@ -59,18 +59,18 @@ package org.apache.excalibur.source;
  * ability to create a directory.
  * 
  * @author <a href="mailto:sylvain@apache.org">Sylvain Wallez</a>
- * @version CVS $Revision: 1.1 $ $Date: 2003/01/29 06:56:01 $
+ * @version CVS $Revision: 1.2 $ $Date: 2003/04/04 16:36:51 $
  */
 public interface ModifiableTraversableSource extends ModifiableSource, TraversableSource
 {
     /**
-     * If it doesn't already exist, create the directory corresponding to this source 
+     * If it doesn't already exist, ensure this source is traversable
      * (equivalent to <code>File.mkdirs()</code>)
      * <p>
      * If the source already exists, this method does nothing if it's already
-     * a directory, and fails otherwise.
+     * traversable, and fails otherwise.
      */
-    public void makeDirectory() throws SourceException;
+    public void makeCollection() throws SourceException;
 
 }
 

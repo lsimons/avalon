@@ -1,6 +1,6 @@
 
 
-package org.apache.excalibur.source;
+package org.apache.excalibur.source.test;
 
 import java.io.File;
 
@@ -11,6 +11,7 @@ import org.apache.avalon.framework.logger.ConsoleLogger;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.service.DefaultServiceManager;
 import org.apache.avalon.framework.service.DefaultServiceSelector;
+import org.apache.excalibur.source.SourceFactory;
 import org.apache.excalibur.source.impl.ResourceSourceFactory;
 import org.apache.excalibur.source.impl.SourceResolverImpl;
 
