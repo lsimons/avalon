@@ -68,7 +68,7 @@ import java.util.*;
  * Represents a component, and output the meta information.
  *
  * @author <a href="mailto:dev@avalon.apache.org">The Avalon Team</a>
- * @version CVS $Revision: 1.16 $ $Date: 2003/06/18 13:16:48 $
+ * @version CVS $Revision: 1.17 $ $Date: 2003/07/08 12:29:18 $
  */
 final class Component
 {
@@ -243,13 +243,17 @@ final class Component
             }
         }
 
-        if ( null != avalonLifecycle )
+        if ( null != avalonLifecycle )       // lifecycle specified directly
         {
             lifecycle = stripQuotes( avalonLifecycle.getNamedParameter( ATTR_TYPE ) );
         }
-        else if ( handler != null )
+        else if ( null != fortressHandler )  // handler specified directly
         {
-            handler = ( null == fortressHandler ) ? MetaInfoEntry.PER_THREAD_HANDLER : stripQuotes( fortressHandler.getNamedParameter( ATTR_TYPE ) );
+            handler = stripQuotes( fortressHandler.getNamedParameter( ATTR_TYPE ) );
+        }
+        else // no lifecycle or handler specified, and no inspection match 
+        {
+            handler = MetaInfoEntry.PER_THREAD_HANDLER;
         }
 
         if ( null != lifecycle ) setAttribute( TAG_LIFESTYLE, lifecycle );
