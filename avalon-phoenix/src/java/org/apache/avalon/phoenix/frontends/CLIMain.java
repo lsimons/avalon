@@ -135,6 +135,8 @@ public final class CLIMain
 
     /**
      * Shut the embeddor down.
+     * This method is designed to only be called from within the ShutdownHook.
+     * To shutdown Pheonix, call shutdown() below.
      */
     protected void forceShutdown()
     {
