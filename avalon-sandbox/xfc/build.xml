@@ -205,9 +205,9 @@
 
         <xfc>
             <input module="ecm"
-                  context="build/testclasses/org/apache/excalibur/xfc/test/ecm.roles:ecm.xconf"/>
+                  context="build/testclasses/org/apache/excalibur/xfc/test/ecm.roles:build/testclasses/org/apache/excalibur/xfc/test/ecm.xconf"/>
             <output module="fortress"
-                  context="build/tests/fortress-ant-generated.roles:fortress-generated.xconf"/>
+                  context="build/tests/fortress-ant-generated.roles:build/tests/fortress-ant-generated.xconf"/>
         </xfc>
 
     </target>

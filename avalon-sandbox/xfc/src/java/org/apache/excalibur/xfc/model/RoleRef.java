@@ -61,7 +61,7 @@ import java.util.List;
  * </p>
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: RoleRef.java,v 1.3 2002/10/07 17:13:17 crafterm Exp $
+ * @version CVS $Id: RoleRef.java,v 1.4 2002/10/14 16:17:50 crafterm Exp $
  */
 public final class RoleRef
 {
@@ -88,7 +88,7 @@ public final class RoleRef
      * Creates a new <code>RoleRef</code> instance.
      *
      * @param role role name
-     * @param role shorthand name
+     * @param shorthand shorthand name
      * @param definitions a {@link Definition} array
      */
     public RoleRef( final String role, final String shorthand, final Definition[] definitions )

@@ -57,11 +57,12 @@ import java.util.List;
  * a particular Container configuration.
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: Model.java,v 1.2 2002/10/04 14:36:24 crafterm Exp $
+ * @version CVS $Id: Model.java,v 1.3 2002/10/14 16:17:50 crafterm Exp $
  */
 public final class Model
 {
     private final List m_definitions = new ArrayList();
+    private final List m_instances = new ArrayList();
 
     /**
      * Adds a new {@link RoleRef} object to the system. A
@@ -76,8 +77,20 @@ public final class Model
     }
 
     /**
+     * Adds a new {@link Instance} object to the system. An
+     * {@link Instance} object contains the definition of a
+     * particular instance of a role.
+     *
+     * @param instance an {@link Instance} instance
+     */
+    public void addInstance( final Instance instance )
+    {
+        m_instances.add( instance );
+    }
+
+    /**
      * Obtain all definitions this Model contains, as an
-     * array of RoleRef objects.
+     * array of {@link RoleRef} objects.
      *
      * @return a {@link RoleRef}[] array
      */
@@ -85,6 +98,38 @@ public final class Model
     {
         return (RoleRef[]) m_definitions.toArray(
             new RoleRef[ m_definitions.size() ]
+        );
+    }
+
+    /**
+     * Method to locate a {@link RoleRef} object by shorthand name.
+     *
+     * @param shorthand shorthand name
+     * @return a {@link RoleRef} object or null if none could be found
+     */
+    public RoleRef findByShorthand( final String shorthand )
+    {
+        RoleRef[] refs = getDefinitions();
+
+        for ( int i = 0; i < refs.length; ++i )
+        {
+            if ( refs[i].getShorthand().equals( shorthand ) )
+                return refs[i];
+        }
+
+        return null;
+    }
+
+    /**
+     * Obtain all instances this Model contains, as an
+     * array of {@link Instance} objects.
+     *
+     * @return an @link Instance}[] array
+     */
+    public Instance[] getInstances()
+    {
+        return (Instance[]) m_instances.toArray(
+            new Instance[ m_instances.size() ]
         );
     }
 }

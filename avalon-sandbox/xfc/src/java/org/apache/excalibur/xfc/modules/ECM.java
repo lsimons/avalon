@@ -58,6 +58,7 @@ import org.apache.avalon.framework.configuration.DefaultConfiguration;
 
 import org.apache.excalibur.xfc.model.Model;
 import org.apache.excalibur.xfc.model.Definition;
+import org.apache.excalibur.xfc.model.Instance;
 import org.apache.excalibur.xfc.model.RoleRef;
 
 /**
@@ -80,7 +81,7 @@ import org.apache.excalibur.xfc.model.RoleRef;
  * </p>
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: ECM.java,v 1.7 2002/10/08 15:04:40 crafterm Exp $
+ * @version CVS $Id: ECM.java,v 1.8 2002/10/14 16:17:50 crafterm Exp $
  */
 public class ECM extends AbstractModule
 {
@@ -97,6 +98,8 @@ public class ECM extends AbstractModule
     // ExcaliburComponentSelector name
     private static final String ECS =
         "org.apache.avalon.excalibur.component.ExcaliburComponentSelector";
+
+    private static final String COMPONENT_INSTANCE = "component-instance";
 
     private static Map m_handlers = new HashMap();
 
@@ -129,8 +132,10 @@ public class ECM extends AbstractModule
     {
         validateContext( context );
 
-        Configuration[] roles = getRoles( getRoleFile( context ) );
         Model model = new Model();
+
+        // locate all roles
+        Configuration[] roles = getRoles( getRoleFile( context ) );
 
         if ( getLogger().isDebugEnabled() )
         {
@@ -143,6 +148,22 @@ public class ECM extends AbstractModule
             model.addRoleRef( buildRoleRef( roles[i] ) );
         }
 
+        // locate all component instances
+        Configuration[] instances = getInstanceList( getConfigurationFile( context ) );
+
+        if ( getLogger().isDebugEnabled() )
+        {
+            getLogger().debug(
+                "Identified total of " + instances.length + " component instances"
+            );
+        }
+
+        for ( int i = 0; i < instances.length; ++i )
+        {
+            model.addInstance( buildInstance( instances[i], model ) );
+        }
+
+        // finished
         if ( getLogger().isDebugEnabled() )
         {
             getLogger().debug( "Model built" );
@@ -157,7 +178,7 @@ public class ECM extends AbstractModule
      * @param context a <code>String</code> value
      * @return a <code>File</code> value
      */
-    private File getRoleFile( final String context )
+    protected File getRoleFile( final String context )
     {
         int i = context.indexOf( CONTEXT_SEPARATOR );
         return new File( context.substring( 0, i ) );
@@ -169,7 +190,7 @@ public class ECM extends AbstractModule
      * @param context a <code>String</code> value
      * @return a <code>File</code> value
      */
-    private File getConfigurationFile( final String context )
+    protected File getConfigurationFile( final String context )
     {
         int i = context.indexOf( CONTEXT_SEPARATOR );
         return new File( context.substring( i + 1 ) );
@@ -183,11 +204,26 @@ public class ECM extends AbstractModule
      * @return a <code>Configuration[]</code> value
      * @exception Exception if an error occurs
      */
-    private Configuration[] getRoles( final File input )
+    protected Configuration[] getRoles( final File input )
         throws Exception
     {
         Configuration config = m_builder.buildFromFile( input );
         return config.getChildren( "role" );
+    }
+
+    /**
+     * Helper method for obtaining the instances defined in
+     * a particular input file
+     *
+     * @param input a <code>File</code> value
+     * @return a <code>Configuration[]</code> value
+     * @exception Exception if an error occurs
+     */
+    protected Configuration[] getInstanceList( final File input )
+        throws Exception
+    {
+        Configuration config = m_builder.buildFromFile( input );
+        return config.getChildren();
     }
 
     /**
@@ -403,6 +439,124 @@ public class ECM extends AbstractModule
         return null;
     }
 
+    protected Instance buildInstance( final Configuration i, final Model model )
+        throws Exception
+    {
+        if ( i.getName().equals( COMPONENT ) )
+        {
+            Configuration[] kids = i.getChildren( COMPONENT_INSTANCE );
+
+            if ( kids.length > 0 )
+            {
+                // build non-role component selector
+                return buildNonRoleComponentSelectorInstance( i );
+            }
+
+            // build non-role component
+            return buildNonRoleComponentInstance( i );
+        }
+
+        if ( isComponentSelectorXConf( i.getName(), model ) )
+        {
+            // build multi role based component
+            return buildRoleComponentSelectorInstance( i );
+        }
+
+        // build single role based component
+        return buildRoleComponentInstance( i );
+    }
+
+    private boolean isComponentSelectorXConf(
+        final String shorthand, final Model model
+    )
+        throws Exception
+    {
+        // check if shorthand corresponds to ECM
+        RoleRef ref = model.findByShorthand( shorthand );
+
+        if ( ref != null && ref.getProviders().length > 1 )
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    protected Instance buildNonRoleComponentSelectorInstance(
+        final Configuration i
+    )
+        throws Exception
+    {
+        final Configuration[] kids = i.getChildren( COMPONENT_INSTANCE );
+        final Instance[] subinstances = new Instance[ kids.length ];
+
+        for ( int j = 0; j < kids.length; ++j )
+        {
+            subinstances[j] = buildSubInstance( kids[j] );
+        }
+
+        return new Instance(
+            ECS, i.getAttribute( "role" ), subinstances, SINGLETON
+        );
+    }
+
+    protected Instance buildNonRoleComponentInstance( final Configuration i )
+        throws Exception
+    {
+        return new Instance(
+            i.getChildren(),
+            getOverrideClass( i ),
+            i.getAttribute( "role" ),
+            getHandler( getOverrideClass( i ) )
+        );
+    }
+
+    protected Instance buildRoleComponentInstance( final Configuration i )
+        throws Exception
+    {
+        String cl = getOverrideClass( i );
+
+        return new Instance(
+            i.getName(),
+            i.getChildren(),
+            cl, cl == null ? null : getHandler( cl )
+        );
+    }
+
+    protected Instance buildRoleComponentSelectorInstance( final Configuration i )
+    {
+        // get the subinstances
+        Configuration[] kids = i.getChildren();
+        Instance[] subinstances = new Instance[ kids.length ];
+
+        for ( int j = 0; j < kids.length; ++j )
+        {
+            subinstances[j] =
+                new Instance( kids[j].getName(), kids[j].getChildren(), null, null );
+        }
+
+        // create the root instance
+        return new Instance( i.getName(), subinstances );
+    }
+
+    private Instance buildSubInstance( final Configuration i )
+        throws Exception
+    {
+        String cl = i.getAttribute( "class" );
+
+        return new Instance(
+            i.getAttribute( "name" ),
+            i.getChildren(),
+            cl, cl == null ? null : getHandler( cl )
+        );
+    }
+
+    private String getOverrideClass( final Configuration i )
+    {
+        // return null if optional class attribute not specified
+        return i.getAttribute( "class", null );
+    }
+
     /**
      * Serializes a {@link Model} definition, ECM style, to an
      * output context.
@@ -416,6 +570,7 @@ public class ECM extends AbstractModule
     {
         validateContext( context );
 
+        // create the role file
         RoleRef[] rolerefs = model.getDefinitions();
         DefaultConfiguration roles = new DefaultConfiguration( "role-list", "" );
 
@@ -426,6 +581,18 @@ public class ECM extends AbstractModule
         }
 
         m_serializer.serializeToFile( getRoleFile( context ), roles );
+
+        // create the xconf file
+        Instance[] instances = model.getInstances();
+        DefaultConfiguration xconf = new DefaultConfiguration( "xconf", "" );
+
+        // for each instance object generate an xconf file entry
+        for ( int j = 0; j < instances.length; ++j )
+        {
+            xconf.addChild( buildXConf( instances[j] ) );
+        }
+
+        m_serializer.serializeToFile( getConfigurationFile( context ), xconf );
     }
 
     /**
@@ -505,6 +672,104 @@ public class ECM extends AbstractModule
         return role;
     }
 
+    private Configuration buildXConf( final Instance i )
+        throws Exception
+    {
+        // has shorthand
+        if ( i.getShorthand() != null )
+        {
+            return buildSingleRoleXConf( i );
+        }
+
+        if ( i.getSubInstances() == null )
+        {
+            // has no shorthand, no subinstances
+            return buildNonRoleSingleXConf( i );
+        }
+
+        // has no shorthand, has subinstances
+        return buildNonRoleMultiXConf( i );
+
+        // return buildMultiRoleXConf();
+    }
+
+    private Configuration buildSingleRoleXConf( final Instance i )
+        throws Exception
+    {
+        DefaultConfiguration conf = new DefaultConfiguration( i.getShorthand(), "" );
+
+        if ( i.getConfiguration() != null )
+        {
+            Configuration[] kids = i.getConfiguration();
+
+            for ( int j = 0; j < kids.length; ++j )
+            {
+                conf.addChild( kids[j] );
+            }
+        }
+
+        if ( i.getClassImpl() != null )
+        {
+            conf.setAttribute( "class", i.getClassImpl() );
+        }
+
+        return conf;
+    }
+
+    private Configuration buildNonRoleSingleXConf( final Instance i )
+        throws Exception
+    {
+        DefaultConfiguration conf = new DefaultConfiguration( "component", "" );
+
+        conf.setAttribute( "role", i.getRole() );
+        conf.setAttribute( "class", i.getClassImpl() );
+
+        if ( i.getConfiguration() != null )
+        {
+            Configuration[] kids = i.getConfiguration();
+
+            for ( int j = 0; j < kids.length; ++j )
+            {
+                conf.addChild( kids[j] );
+            }
+        }
+
+        return conf;
+    }
+
+    private Configuration buildNonRoleMultiXConf( final Instance i )
+        throws Exception
+    {
+        DefaultConfiguration conf = new DefaultConfiguration( "component", "" );
+
+        conf.setAttribute( "role", i.getRole() );
+        conf.setAttribute( "class", ECS );
+
+        Instance[] subs = i.getSubInstances();
+
+        for ( int j = 0; j < subs.length; ++j )
+        {
+            DefaultConfiguration child =
+                new DefaultConfiguration( "component-instance", "" );
+            child.setAttribute( "class", subs[j].getClassImpl() );
+            child.setAttribute( "name", subs[j].getShorthand() );
+
+            if ( subs[j].getConfiguration() != null )
+            {
+                Configuration[] kids = subs[j].getConfiguration();
+
+                for ( int k = 0; k < kids.length; ++k )
+                {
+                    child.addChild( kids[k] );
+                }
+            }
+
+            conf.addChild( child );
+        }
+
+        return conf;
+    }
+
     /**
      * Helper method to validate the input & output context's
      * given to this module.
@@ -512,7 +777,7 @@ public class ECM extends AbstractModule
      * @param context a <code>String</code> context value
      * @exception Exception if an error occurs
      */
-    private void validateContext( final String context )
+    protected void validateContext( final String context )
         throws Exception
     {
         if ( context.indexOf( CONTEXT_SEPARATOR ) == -1 )
