@@ -35,8 +35,8 @@ Under Lunix you can do this as follows:
   > # set location of merlin
   > export MERLIN_HOME=/opt/merlin
   > # include it in the path
-  > export PATH=$PATH:MERLIN_HOME
-  > ' > ~/.bash_profile
+  > export PATH=$PATH:$MERLIN_HOME/bin
+  > ' >> ~/.bash_profile
   $ source ~/.bash_profile
 
 Under Windows you can set environment variables by selecting the 
