@@ -90,6 +90,15 @@ public class PreparePlugin extends AbstractPlugin
         copy.execute();
     }
 
+    public void copyFile( File fromFile, File toFile )
+    {
+        Copy copy = (Copy) m_Project.createTask( "copy" );
+        copy.setTofile( toFile );
+        copy.setFile( fromFile );
+        copy.init();
+        copy.execute();
+    }
+    
     private void configureFilterSet( FilterSet fs )
     {
         fs.setBeginToken( "@" );

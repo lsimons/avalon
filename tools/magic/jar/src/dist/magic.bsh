@@ -18,13 +18,15 @@ limitations under the License.
 import java.io.File;
 import java.io.IOException;
 
-import java.util.ArrayList;
-import java.util.Iterator;
+import java.lang.reflect.InvocationTargetException;
 
 import org.apache.avalon.magic.AbstractPlugin;
 import org.apache.avalon.magic.Artifact;
-import org.apache.avalon.magic.Plugin;
+import org.apache.avalon.magic.ArtifactException;
 import org.apache.avalon.magic.PluginContext;
+import org.apache.avalon.magic.Util;
+
+import org.apache.avalon.framework.activity.Initializable;
 
 import org.apache.avalon.framework.service.Serviceable;
 import org.apache.avalon.framework.service.ServiceManager;
@@ -37,13 +39,16 @@ import org.apache.tools.ant.taskdefs.Copy;
 import org.apache.tools.ant.taskdefs.Jar;
 
 public class JarPlugin extends AbstractPlugin
-    implements Serviceable
+    implements Serviceable, Initializable
 {
-    private Object m_JavaPlugin;
-    private Object m_PreparePlugin;
-    private Object m_ArtifactPlugin;
-    private boolean m_Jarred = false;
-        
+    private Object      m_JavaPlugin;
+    private Object      m_PreparePlugin;
+    private Object      m_ArtifactPlugin;
+    private boolean     m_Jarred = false;
+    
+    private Artifact    m_CurrentArtifact;
+    private File        m_JarFile;
+    
     public void service( ServiceManager man )
         throws ServiceException
     {
@@ -52,21 +57,59 @@ public class JarPlugin extends AbstractPlugin
         m_ArtifactPlugin = man.lookup( "artifact" );
     }
     
+    public void initialize()
+        throws IOException, ArtifactException
+    {
+        String projectname = m_Context.getProjectName();
+        ArtifactPlugin ap = (ArtifactPlugin) m_ArtifactPlugin;
+        m_CurrentArtifact = Artifact.resolve( m_Context, projectname );
+    }
+    
     public void jar()
-        throws IOException
+        throws IOException, ArtifactException
     {   
-        if( m_Jarred )
-            return;
-        
-        JavacPlugin java = (JavacPlugin) m_JavaPlugin;
-        java.compile();
-        
-        notifyPreMethod( "jar" );
-        File manifest = prepareManifest();
-        notifyStep( "jar", "manifest-created" );
-        createJar( manifest );    
-        notifyPostMethod( "jar" );
-        m_Jarred = true;
+        try
+        {
+            if( m_Jarred )
+                return;
+
+            JavacPlugin java = (JavacPlugin) m_JavaPlugin;
+            java.compile();
+
+            notifyPreMethod( "jar" );
+            File manifest = prepareManifest();
+            notifyStep( "jar", "manifest-created" );
+            createJar( manifest );
+            notifyPostMethod( "jar" );
+            m_Jarred = true;
+        } catch( Exception e )
+        {
+            e.printStackTrace();
+            throw new ArtifactException( "Unable to JAR.", e );
+        }
+    }
+    
+    public void install()
+        throws IOException, ArtifactException
+    {
+        jar();
+        notifyPreMethod( "install" );
+        ArtifactPlugin artplugin = (ArtifactPlugin) m_ArtifactPlugin;
+        artplugin.install( m_CurrentArtifact, m_JarFile );
+        notifyStep( "install", "plugin-installed" );
+        Util.checksum( m_CurrentArtifact.toLocalFile() );
+        notifyStep( "install", "checksum-created" );
+        notifyPostMethod( "install" );
+    }
+
+    public void upload()
+        throws IOException, ArtifactException
+    {
+        install();
+        notifyPreMethod( "upload" );
+        ArtifactPlugin artplugin = (ArtifactPlugin) m_ArtifactPlugin;
+        artplugin.upload( m_CurrentArtifact );
+        notifyPostMethod( "upload" );
     }
     
     private File prepareManifest()
@@ -97,20 +140,16 @@ public class JarPlugin extends AbstractPlugin
     private void createJar( File manifest )
         throws IOException
     {
-        String projectname = m_Context.getProjectName();
-        ArtifactPlugin ap = (ArtifactPlugin) m_ArtifactPlugin;
-        Artifact thisArtifact = ap.resolve( projectname );
-        
         String dest = m_Context.getProperty( "jar.build.dest.dir" );
         File destDir = new File( dest );
-        File jarFile = new File( dest, thisArtifact.getFilename() );
+        m_JarFile = new File( dest, m_CurrentArtifact.getFilename() );
         destDir.mkdirs();
         
         File fromDir = new File( m_Context.getProperty( "jar.build.src.dir" ) );
 
         Jar jar = (Jar) m_Project.createTask( "jar" );
         /* Set the destination */
-        jar.setDestFile( jarFile );
+        jar.setDestFile( m_JarFile );
         jar.setBasedir( fromDir );
 
         jar.init();
