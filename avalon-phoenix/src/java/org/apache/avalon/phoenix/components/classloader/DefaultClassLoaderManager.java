@@ -48,7 +48,7 @@ public class DefaultClassLoaderManager
      */
     public ClassLoader createClassLoader( final Configuration server,
                                           final File homeDirectory,
-                                          final URL[] classPath )
+                                          final String[] classPath )
         throws Exception
     {
         //Configure policy
