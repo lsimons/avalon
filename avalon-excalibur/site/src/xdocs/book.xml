@@ -12,6 +12,10 @@
 
   <menu label="Sub Projects">
     <menu-item label="AltRMI" href="altrmi/index.html"/>  
+    <menu-item label="Baxter" href="baxter/index.html"/>  
+    <menu-item label="BZip2" href="bzip2/index.html"/>  
+    <menu-item label="CLI" href="cli/index.html"/>  
+    <menu-item label="Collections" href="collections/index.html"/>      
   </menu>
   
   
