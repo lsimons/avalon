@@ -60,11 +60,17 @@ import org.apache.log4j.Level;
  * The default Log4J wrapper class for Logger.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.16 $ $Date: 2003/02/11 15:58:41 $
+ * @version CVS $Revision: 1.17 $ $Date: 2003/05/27 08:02:16 $
  */
 public final class Log4JLogger
     implements Logger
 {
+    /**
+     * Constant for name of class to use when recording caller
+     * of log method.
+     */
+    private static final String FQCN = Log4JLogger.class.getName();
+
     //underlying implementation
     private final org.apache.log4j.Logger m_logger;
 
@@ -85,7 +91,7 @@ public final class Log4JLogger
      */
     public final void debug( final String message )
     {
-        m_logger.debug( message );
+        m_logger.log( FQCN, Level.DEBUG, message, null );
     }
 
     /**
@@ -96,7 +102,7 @@ public final class Log4JLogger
      */
     public final void debug( final String message, final Throwable throwable )
     {
-        m_logger.debug( message, throwable );
+        m_logger.log( FQCN, Level.DEBUG, message, throwable );
     }
 
     /**
@@ -116,7 +122,7 @@ public final class Log4JLogger
      */
     public final void info( final String message )
     {
-        m_logger.info( message );
+        m_logger.log( FQCN, Level.INFO, message, null );
     }
 
     /**
@@ -127,7 +133,7 @@ public final class Log4JLogger
      */
     public final void info( final String message, final Throwable throwable )
     {
-        m_logger.info( message, throwable );
+        m_logger.log( FQCN, Level.INFO, message, throwable );
     }
 
     /**
@@ -147,7 +153,7 @@ public final class Log4JLogger
      */
     public final void warn( final String message )
     {
-        m_logger.warn( message );
+        m_logger.log( FQCN, Level.WARN, message, null );
     }
 
     /**
@@ -158,7 +164,7 @@ public final class Log4JLogger
      */
     public final void warn( final String message, final Throwable throwable )
     {
-        m_logger.warn( message, throwable );
+        m_logger.log( FQCN, Level.WARN, message, throwable );
     }
 
     /**
@@ -178,7 +184,7 @@ public final class Log4JLogger
      */
     public final void error( final String message )
     {
-        m_logger.error( message );
+        m_logger.log( FQCN, Level.ERROR, message, null );
     }
 
     /**
@@ -189,7 +195,7 @@ public final class Log4JLogger
      */
     public final void error( final String message, final Throwable throwable )
     {
-        m_logger.error( message, throwable );
+        m_logger.log( FQCN, Level.ERROR, message, throwable );
     }
 
     /**
@@ -209,7 +215,7 @@ public final class Log4JLogger
      */
     public final void fatalError( final String message )
     {
-        m_logger.fatal( message );
+        m_logger.log( FQCN, Level.FATAL, message, null );
     }
 
     /**
@@ -220,7 +226,7 @@ public final class Log4JLogger
      */
     public final void fatalError( final String message, final Throwable throwable )
     {
-        m_logger.fatal( message, throwable );
+        m_logger.log( FQCN, Level.ERROR, message, throwable );
     }
 
     /**
