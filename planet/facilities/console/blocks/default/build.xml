@@ -49,6 +49,15 @@ type help for more info."/>
     
       <x:component name="select" 
                    class="org.apache.avalon.facilities.console.commands.SelectCmd"/>
+    
+      <x:component name="deploy block" 
+                   class="org.apache.avalon.facilities.console.commands.DeployCmd"/>
+      
+      <x:component name="undeploy block" 
+                   class="org.apache.avalon.facilities.console.commands.UndeployCmd"/>
+    
+      <x:component name="redeploy block" 
+                   class="org.apache.avalon.facilities.console.commands.RedeployCmd"/>
     </x:block>
   </target>
 

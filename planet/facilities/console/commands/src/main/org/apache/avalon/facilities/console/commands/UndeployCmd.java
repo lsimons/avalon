@@ -23,6 +23,7 @@ import org.apache.avalon.composition.model.ComponentModel;
 import org.apache.avalon.composition.model.ContainmentModel;
 import org.apache.avalon.composition.model.DeploymentModel;
 
+import org.apache.avalon.facilities.console.CommandException;
 import org.apache.avalon.facilities.console.CommandInterpreter;
 import org.apache.avalon.facilities.console.Console;
 import org.apache.avalon.facilities.console.ConsoleCommand;
@@ -36,17 +37,14 @@ import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 
 /**
- * @avalon.component name="console-showmodel" lifestyle="singleton"
+ * @avalon.component name="console-decommissionmodel" lifestyle="singleton"
  * @avalon.service type="org.apache.avalon.facilities.console.ConsoleCommand"
  */
-public class ListCmd
+public class UndeployCmd
     implements ConsoleCommand, Serviceable, Contextualizable
 {
-    String LINE = 
-      "\n-----------------------------------------------------------";
-    
     private String m_Name;
-    
+        
     public String getName()
     {
         return m_Name;
@@ -54,7 +52,7 @@ public class ListCmd
     
     public String getDescription()
     {
-        String str = "usage: " + m_Name + " (path)\n\nDisplays the composition model.";
+        String str = "usage: " + m_Name + " (target-path)\n\nDecommissions and unload the container specified by (target-path)";
         return str;
     }
     
@@ -90,26 +88,30 @@ public class ListCmd
     public void execute( CommandInterpreter intp, BufferedReader input, BufferedWriter output, String[] arguments )
         throws Exception
     {
-        output.newLine();
-        ContainmentModel current = intp.getCurrentContainer();
-        String path;
         if( arguments.length == 0 )
-            path = current.getQualifiedName();
-        else
-            path = arguments[0];
-            
-        DeploymentModel model = current.getModel( path );
-        if( model instanceof ContainmentModel )
-        {
-            DeploymentModel[] models = ((ContainmentModel) model).getModels();
-            for( int i=0; i<models.length; i++ )
-            {
-                DeploymentModel m = models[i];
-                output.write( m.toString() );
-                output.newLine();
-            }
-        }
+            throw new CommandException( "target must be specified." );
         
+        String target = arguments[0];
+        ContainmentModel current = intp.getCurrentContainer();
+        ContainmentModel root = (ContainmentModel) current.getModel( "/" );
+        
+        DeploymentModel dm = current.getModel( target );
+        if( dm == null )
+            throw new CommandException( "target not found:" + target );
+            
+        if( dm instanceof ContainmentModel )
+        {
+            ContainmentModel container = (ContainmentModel) dm;
+            String name = container.getName();
+            String path = container.getPath();
+            ContainmentModel parent = (ContainmentModel) root.getModel( path );
+            container.decommission();
+            container.disassemble();
+            parent.removeModel( name );
+            intp.setCurrentContainer( root );
+        }
+        else
+            throw new CommandException( "Can only undeploy a container." );
         output.newLine();
         output.flush();
     }

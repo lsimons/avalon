@@ -15,14 +15,18 @@
  */
 package org.apache.avalon.facilities.console.commands;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+
+import java.net.URL;
 
 import org.apache.avalon.composition.model.ComponentModel;
 import org.apache.avalon.composition.model.ContainmentModel;
 import org.apache.avalon.composition.model.DeploymentModel;
 
+import org.apache.avalon.facilities.console.CommandException;
 import org.apache.avalon.facilities.console.CommandInterpreter;
 import org.apache.avalon.facilities.console.Console;
 import org.apache.avalon.facilities.console.ConsoleCommand;
@@ -36,17 +40,15 @@ import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 
 /**
- * @avalon.component name="console-showmodel" lifestyle="singleton"
+ * @avalon.component name="console-decommissionmodel" lifestyle="singleton"
  * @avalon.service type="org.apache.avalon.facilities.console.ConsoleCommand"
  */
-public class ListCmd
+public class RedeployCmd
     implements ConsoleCommand, Serviceable, Contextualizable
 {
-    String LINE = 
-      "\n-----------------------------------------------------------";
-    
     private String m_Name;
-    
+    private File   m_WorkingDir;
+        
     public String getName()
     {
         return m_Name;
@@ -54,7 +56,7 @@ public class ListCmd
     
     public String getDescription()
     {
-        String str = "usage: " + m_Name + " (path)\n\nDisplays the composition model.";
+        String str = "usage: " + m_Name + " (url) (target-path)\n\nLoads and commissions the block at the URL into the model specified by (target-path)";
         return str;
     }
     
@@ -69,11 +71,14 @@ public class ListCmd
      *
      * @avalon.entry key="urn:avalon:name" 
      *               type="java.lang.String" 
+     * @avalon.entry key="urn:avalon:home" 
+     *               type="java.io.File" 
      */
     public void contextualize( Context ctx ) 
         throws ContextException
     {
         m_Name = (String) ctx.get( "urn:avalon:name" );
+        m_WorkingDir = (File) ctx.get( "urn:avalon:home" );
     }
 
     /**
@@ -90,26 +95,28 @@ public class ListCmd
     public void execute( CommandInterpreter intp, BufferedReader input, BufferedWriter output, String[] arguments )
         throws Exception
     {
-        output.newLine();
-        ContainmentModel current = intp.getCurrentContainer();
-        String path;
         if( arguments.length == 0 )
-            path = current.getQualifiedName();
-        else
-            path = arguments[0];
-            
-        DeploymentModel model = current.getModel( path );
+            throw new CommandException( "block must be specified." );
+        
+        String block = arguments[0];
+        ContainmentModel current = intp.getCurrentContainer();
+        String target = current.getQualifiedName();
+        if( arguments.length > 0 )
+            target = arguments[1];
+        DeploymentModel model = current.getModel( target );
+        if( model == null )
+            throw new CommandException( "target not found:" + target );
+
         if( model instanceof ContainmentModel )
         {
-            DeploymentModel[] models = ((ContainmentModel) model).getModels();
-            for( int i=0; i<models.length; i++ )
-            {
-                DeploymentModel m = models[i];
-                output.write( m.toString() );
-                output.newLine();
-            }
+            URL blockUrl = UrlUtils.resolveURL( m_WorkingDir, block );
+            ContainmentModel container = (ContainmentModel) model;
+            ContainmentModel newContainer = container.addContainmentModel( blockUrl );
+            newContainer.commission();
+            intp.setCurrentContainer( newContainer );
         }
-        
+        else
+            throw new CommandException( "Can only deploy into a container." );
         output.newLine();
         output.flush();
     }

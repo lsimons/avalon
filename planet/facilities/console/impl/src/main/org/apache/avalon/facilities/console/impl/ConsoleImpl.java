@@ -157,8 +157,12 @@ public class ConsoleImpl extends AbstractLogEnabled
         boolean localAllow = params.getParameterAsBoolean( "allow-local", true );
         if( localAllow )
         {
-            InetAddress address = InetAddress.getByName( "127.0.0.1" );
-            m_Allows.add( address );
+            try
+            {
+                InetAddress address = InetAddress.getByName( "127.0.0.1" );
+                m_Allows.add( address );
+            } catch( UnknownHostException e )
+            {} // should not be possible, and if so, never mind.
         }
     }
     
@@ -339,8 +343,11 @@ public class ConsoleImpl extends AbstractLogEnabled
             } catch( DeniedHostException e )
             {
                 getLogger().warn( e.getMessage() );
-                socket.close();
-                
+                try
+                {
+                    socket.close();
+                } catch( IOException ioe )
+                {}
             } catch( Exception e )
             {
                 getLogger().warn( "", e );
