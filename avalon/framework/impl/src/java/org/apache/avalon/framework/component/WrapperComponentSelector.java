@@ -1,7 +1,7 @@
 /* ====================================================================
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2002 The Apache Software Foundation. All rights
+ * Copyright (c) 2002-2003 The Apache Software Foundation. All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -64,7 +64,7 @@ import org.apache.avalon.framework.service.ServiceException;
  * interface to a {@link ServiceSelector} interface.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.6 $ $Date: 2003/02/07 15:12:32 $
+ * @version CVS $Revision: 1.7 $ $Date: 2003/02/10 07:19:15 $
  */
 public class WrapperComponentSelector
     implements ComponentSelector

@@ -1,7 +1,7 @@
 /* ====================================================================
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2002 The Apache Software Foundation. All rights
+ * Copyright (c) 2002-2003 The Apache Software Foundation. All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -68,7 +68,7 @@ import org.apache.avalon.framework.component.ComponentSelector;
  * environments which expect all components to implement Component.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.6 $ $Date: 2003/02/07 15:12:42 $
+ * @version CVS $Revision: 1.7 $ $Date: 2003/02/10 07:19:18 $
  */
 public class WrapperServiceSelector
     implements ServiceSelector
