@@ -111,6 +111,7 @@ public class DefaultThreadPool
         super( name );
         m_pool = new BlockingFixedSizePool( this, capacity, timeout );
         m_context = context;
+        m_pool.initialize();
     }
 
     public void enableLogging( final Logger logger )
@@ -138,6 +139,7 @@ public class DefaultThreadPool
         worker.setDaemon( true );
         worker.enableLogging( m_logger );
         worker.start();
+
         return worker;
     }
 

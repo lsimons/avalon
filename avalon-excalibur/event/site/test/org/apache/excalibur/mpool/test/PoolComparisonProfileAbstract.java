@@ -64,7 +64,7 @@ import org.apache.excalibur.mpool.VariableSizePool;
  * Used as a basis for the PoolComparisonProfile Tests
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version $Id: PoolComparisonProfileAbstract.java,v 1.3 2002/08/13 08:15:21 jefft Exp $
+ * @version $Id: PoolComparisonProfileAbstract.java,v 1.4 2002/08/14 16:59:55 bloritsch Exp $
  */
 public abstract class PoolComparisonProfileAbstract
     extends TestCase
@@ -150,6 +150,7 @@ public abstract class PoolComparisonProfileAbstract
 
         FixedSizePool poolA = new FixedSizePool( factory, max );
         BlockingFixedSizePool poolB = new BlockingFixedSizePool( factory, max, blockTimeout );
+        poolB.initialize();
 
         generalTest( name, poolA, poolB, 100, factory );
     }
@@ -174,6 +175,7 @@ public abstract class PoolComparisonProfileAbstract
 
         FixedSizePool poolA = new FixedSizePool( factory, max );
         BlockingFixedSizePool poolB = new BlockingFixedSizePool( factory, max, blockTimeout );
+        poolB.initialize();
 
         generalTest( name, poolA, poolB, 100, factory );
     }
@@ -198,6 +200,7 @@ public abstract class PoolComparisonProfileAbstract
 
         FixedSizePool poolA = new FixedSizePool( factory, max );
         BlockingFixedSizePool poolB = new BlockingFixedSizePool( factory, max, blockTimeout );
+        poolB.initialize();
 
         generalTest( name, poolA, poolB, 100, factory );
     }
