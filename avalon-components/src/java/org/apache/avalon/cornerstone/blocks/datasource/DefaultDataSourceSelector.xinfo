@@ -10,7 +10,7 @@
   </block>
 
   <services>
-    <service name="org.apache.avalon.cornerstone.services.datasource.DataSourceSelector" version="1.0"/>
+    <service name="org.apache.avalon.cornerstone.services.datasource.DataSourceSelector"/>
   </services>
 
 </blockinfo>

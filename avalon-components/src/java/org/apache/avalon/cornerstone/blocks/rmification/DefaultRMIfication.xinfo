@@ -11,7 +11,7 @@
 
   <!-- services that are offered by this block -->
   <services>
-    <service name="org.apache.avalon.cornerstone.services.rmification.RMIfication" version="1.0" />
+    <service name="org.apache.avalon.cornerstone.services.rmification.RMIfication"/>
   </services>
 
 </blockinfo>

@@ -6,18 +6,19 @@
 
   <!-- section to describe block -->
   <block>
+    <name>connection</name>
     <version>1.0</version>
   </block>
 
   <!-- services that are offered by this block -->
   <services>
-    <service name="org.apache.avalon.cornerstone.services.connection.ConnectionManager" version="1.0" />
+    <service name="org.apache.avalon.cornerstone.services.connection.ConnectionManager"/>
   </services>
 
   <!-- services that are required by this block -->
   <dependencies>
     <dependency>
-      <service name="org.apache.avalon.cornerstone.services.threads.ThreadManager" version="1.0"/>
+      <service name="org.apache.avalon.cornerstone.services.threads.ThreadManager"/>
     </dependency>
  </dependencies>
 
