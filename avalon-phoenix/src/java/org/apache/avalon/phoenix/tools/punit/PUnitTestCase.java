@@ -93,10 +93,8 @@ public abstract class PUnitTestCase extends TestCase
     protected final void startup() throws LifecycleException
     {
 
-        System.out.println("--> a? ");
         for( int i = 0; i < m_blocks.size(); i++ )
         {
-            System.out.println("--> a " + i);
             final PUnitBlock block = (PUnitBlock) m_blocks.get( i );
             m_lifecycleHelper.startup( block.getBlockName(),
                                        block.getBlock(),
