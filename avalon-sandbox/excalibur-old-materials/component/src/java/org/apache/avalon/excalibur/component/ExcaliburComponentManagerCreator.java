@@ -58,7 +58,7 @@ import org.apache.log.Priority;
  *  getter methods.  getComponentManager() for example.
  *
  * @author <a href="mailto:leif@apache.org">Leif Mortenson</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/08/18 01:59:12 $
+ * @version CVS $Revision: 1.3 $ $Date: 2002/08/20 10:33:13 $
  * @since 4.1
  */
 public class ExcaliburComponentManagerCreator
@@ -200,10 +200,19 @@ public class ExcaliburComponentManagerCreator
         //  Unfortunately, there is not a very good place to make this settable.
         m_primordialLogger = new ConsoleLogger( ConsoleLogger.LEVEL_INFO );
         
-        initializeLoggerManager( loggerManagerConfig );
-        initializeRoleManager( roleManagerConfig );
-        initializeInstrumentManager( instrumentManagerConfig );
-        initializeComponentManager( componentManagerConfig );
+        try
+        {
+            initializeLoggerManager( loggerManagerConfig );
+            initializeRoleManager( roleManagerConfig );
+            initializeInstrumentManager( instrumentManagerConfig );
+            initializeComponentManager( componentManagerConfig );
+        }
+        catch ( Exception e )
+        {
+            // Clean up after the managers which were set up.
+            dispose();
+            throw e;
+        }
     }
     
     /**
@@ -289,10 +298,25 @@ public class ExcaliburComponentManagerCreator
         // Clean up all of the objects that we created in the propper order.
         try
         {
-            ContainerUtil.shutdown( m_componentManager );
-            ContainerUtil.shutdown( m_instrumentManager );
-            ContainerUtil.shutdown( m_roleManager );
-            ContainerUtil.shutdown( m_loggerManager );
+            if ( m_componentManager != null )
+            {
+                ContainerUtil.shutdown( m_componentManager );
+            }
+            
+            if ( m_instrumentManager != null )
+            {
+                ContainerUtil.shutdown( m_instrumentManager );
+            }
+            
+            if ( m_roleManager != null )
+            {
+                ContainerUtil.shutdown( m_roleManager );
+            }
+            
+            if ( m_loggerManager != null )
+            {
+                ContainerUtil.shutdown( m_loggerManager );
+            }
         }
         catch ( Exception e )
         {
