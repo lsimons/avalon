@@ -59,8 +59,7 @@ package org.apache.avalon.framework.service;
  * supplied policy.  The contract is that all the {@link Object}s implement the
  * same role.
  *
- * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
+ * @author <a href="mailto:avalon-dev@jakarta.apache.org">Avalon Development Team</a>
  * @version 1.0
  * @see org.apache.avalon.framework.service.Serviceable
  * @see org.apache.avalon.framework.service.ServiceSelector

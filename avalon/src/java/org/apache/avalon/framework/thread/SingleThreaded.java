@@ -58,7 +58,7 @@ package org.apache.avalon.framework.thread;
  * A interface to mark a component as SingleThreaded.
  * This interface is incompatible with ThreadSafe.
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @author <a href="mailto:avalon-dev@jakarta.apache.org">Avalon Development Team</a>
  */
 public interface SingleThreaded
 {

@@ -58,12 +58,8 @@ package org.apache.avalon.framework.configuration;
  * This is an abstract <code>Configuration</code> implementation that deals
  * with methods that can be abstracted away from underlying implementations.
  *
- * @author <a href="mailto:fede@apache.org">Federico Barbieri</a>
- * @author <a href="mailto:stefano@apache.org">Stefano Mazzocchi</a>
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @author <a href="mailto:fumagalli@exoffice.com">Pierpaolo Fumagalli</a>
- * @author <a href="mailto:leo.sutic@inspireinfrastructure.com">Leo Sutic</a>
- * @version CVS $Revision: 1.22 $ $Date: 2002/11/13 01:07:11 $
+ * @author <a href="mailto:avalon-dev@jakarta.apache.org">Avalon Development Team</a>
+ * @version CVS $Revision: 1.23 $ $Date: 2002/11/23 08:58:58 $
  */
 public abstract class AbstractConfiguration
     implements Configuration

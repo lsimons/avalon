@@ -63,9 +63,7 @@ import java.util.Map;
  * and extension so you can generate a tree of <code>ServiceManager</code> each defining
  * Object scope.
  *
- * @author <a href="mailto:fede@apache.org">Federico Barbieri</a>
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
+ * @author <a href="mailto:avalon-dev@jakarta.apache.org">Avalon Development Team</a>
  * @version 1.0
  */
 public class DefaultServiceManager

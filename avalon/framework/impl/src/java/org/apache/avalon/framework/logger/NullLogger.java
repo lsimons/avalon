@@ -59,7 +59,7 @@ package org.apache.avalon.framework.logger;
  * to provide a logger to a utility class, but do not want any output from it.
  * It also helps when you have a utility that does not have a logger to supply.
  *
- * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
+ * @author <a href="mailto:avalon-dev@jakarta.apache.org">Avalon Development Team</a>
  * @version 1.0
  */
 public final class NullLogger implements Logger

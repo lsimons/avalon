@@ -105,9 +105,7 @@ import java.util.Map;
  * </p>
  *
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @author <a href="mailto:jefft@apache.org">Jeff Turner</a>
- * @author <a href="mailto:leo.sutic@insprieinfrastructure.com">Leo Sutic</a>
+ * @author <a href="mailto:avalon-dev@jakarta.apache.org">Avalon Development Team</a>
  * @version 1.0
  */
 public abstract class Enum

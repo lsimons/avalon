@@ -77,8 +77,7 @@ import java.util.logging.Level;
  *   details, there is no equivalent to the "error" log level.
  * </p>
  *
- * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @author <a href="mailto:avalon-dev@jakarta.apache.org">Avalon Development Team</a>
  */
 public final class Jdk14Logger
     implements Logger
