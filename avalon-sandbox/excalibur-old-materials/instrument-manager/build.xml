@@ -54,6 +54,11 @@
     <!-- Compiles the source code -->
     <target name="compile" depends="dependencies" description="Compiles the source code">
 
+        <available classname="org.apache.excalibur.altrmi.server.ServerException"
+            property="altrmi.present">
+            <classpath refid="project.class.path"/>
+        </available>
+
         <mkdir dir="${build.classes}"/>
 
         <!-- Compile all classes excluding the tests. -->
@@ -63,8 +68,9 @@
             optimize="${build.optimize}"
             deprecation="${build.deprecation}"
             target="1.2">
-            <classpath refid="project.class.path" />
-            <include name="**/*.java"/>
+              <classpath refid="project.class.path" />            
+              <include name="**/*.java" />
+              <exclude name="org/apache/excalibur/instrument/manager/altrmi/**" unless="altrmi.present" />            
         </javac>
 
         <!-- copy resources to same location as .class files -->
