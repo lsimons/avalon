@@ -39,7 +39,7 @@ public abstract class AbstractQueue implements Queue
      */
     public boolean isFull()
     {
-        return maxSize() - size() > 0;
+        return (maxSize() < 0) ? false : maxSize() - size() <= 0;
     }
 
     /**
