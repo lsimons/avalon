@@ -23,8 +23,18 @@ Servlet implementation that initializes an embedded Merlin Kernel.
   <dependencies>
 
     <dependency>
-      <id>avalon-framework</id>
-      <version>4.1.4</version>
+      <groupId>avalon-framework</groupId>
+      <artifactId>avalon-framework-api</artifactId>
+      <version>4.1.5-dev</version>
+      <properties>
+        <war.bundle.jar>true</war.bundle.jar>
+      </properties>
+    </dependency>
+
+    <dependency>
+      <groupId>avalon-framework</groupId>
+      <artifactId>avalon-framework-impl</artifactId>
+      <version>4.1.5-dev</version>
       <properties>
         <war.bundle.jar>true</war.bundle.jar>
       </properties>
@@ -48,8 +58,6 @@ Servlet implementation that initializes an embedded Merlin Kernel.
       <version>2.2.1</version>
       <url>http://xml.apache.org/xerces2-j/</url>
     </dependency>
-
-    <!-- unit test -->
 
     <dependency>
       <id>logkit</id>
