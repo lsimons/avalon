@@ -484,13 +484,19 @@ Legal:
         </copy>
 
         <copy todir="${bin.dist.apps}">
-            <fileset dir="${lib.dir}/deploy/apps"/>
+            <fileset dir="${lib.dir}/deploy/apps">
+                <include name="*.sar"/>
+            </fileset>
         </copy>
         <copy todir="${bin.dist.ext}">
-            <fileset dir="${lib.dir}/deploy/ext"/>
+            <fileset dir="${lib.dir}/deploy/ext">
+                <include name="*.jar"/>
+            </fileset>
         </copy>
         <copy todir="${bin.dist.lib}">
-            <fileset dir="${lib.dir}/deploy/lib"/>
+            <fileset dir="${lib.dir}/deploy/lib">
+                <include name="*.jar"/>
+            </fileset>
         </copy>
 
         <delete dir="${target.mx}"/>
