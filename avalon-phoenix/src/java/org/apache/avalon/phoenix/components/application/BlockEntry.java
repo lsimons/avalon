@@ -52,8 +52,10 @@ class BlockEntry
         if( null != object && ! getMetaData().isDisableProxy() )
         {
             final BlockInfo blockInfo = getMetaData().getBlockInfo();
-            final Class[] interfaces = getServiceClasses( object, blockInfo.getServices() );
-            m_invocationHandler = new BlockInvocationHandler( object, interfaces );
+            final ClassLoader classLoader = object.getClass().getClassLoader();
+            final Class[] interfaces = getServiceClasses( classLoader, blockInfo.getServices() );
+            m_invocationHandler = new BlockInvocationHandler( classLoader, interfaces );
+            m_invocationHandler.setObject( object );
         }
         m_object = object;
     }
@@ -87,10 +89,10 @@ class BlockEntry
         m_object = null;
     }
 
-    private Class[] getServiceClasses( final Object block, final ServiceDescriptor[] services )
+    private Class[] getServiceClasses( final ClassLoader classLoader, 
+                                       final ServiceDescriptor[] services )
     {
         final Class[] classes = new Class[ services.length + 1 ];
-        final ClassLoader classLoader = block.getClass().getClassLoader();
 
         for( int i = 0; i < services.length; i++ )
         {
