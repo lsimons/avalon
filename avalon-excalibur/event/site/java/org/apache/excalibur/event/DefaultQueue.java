@@ -67,20 +67,23 @@ public final class DefaultQueue extends AbstractQueue
         try
         {
             m_mutex.acquire();
-
-            if ( maxSize() > 0 && elements.length + m_reserve + size() > maxSize() )
+            try
             {
-                throw new SinkFullException("Not enough room to enqueue these elements.");
-            }
 
-            enqueue = new DefaultPreparedEnqueue( this, elements );
+                if ( maxSize() > 0 && elements.length + m_reserve + size() > maxSize() )
+                {
+                    throw new SinkFullException("Not enough room to enqueue these elements.");
+                }
+
+                enqueue = new DefaultPreparedEnqueue( this, elements );
+            }
+            finally
+            {
+                m_mutex.release();
+            }
         }
         catch ( InterruptedException ie )
         {
-        }
-        finally
-        {
-            m_mutex.release();
         }
 
         return enqueue;
@@ -93,21 +96,24 @@ public final class DefaultQueue extends AbstractQueue
         try
         {
             m_mutex.acquire();
-
-            if (  maxSize() > 0 && 1 + m_reserve + size() > maxSize() )
+            try
             {
-                return false;
-            }
 
-            m_elements.add( element );
-            success = true;
+                if (  maxSize() > 0 && 1 + m_reserve + size() > maxSize() )
+                {
+                    return false;
+                }
+
+                m_elements.add( element );
+                success = true;
+            }
+            finally
+            {
+                m_mutex.release();
+            }
         }
         catch ( InterruptedException ie )
         {
-        }
-        finally
-        {
-            m_mutex.release();
         }
 
         return success;
@@ -121,22 +127,25 @@ public final class DefaultQueue extends AbstractQueue
         try
         {
             m_mutex.acquire();
-            if (  maxSize() > 0 && elements.length + m_reserve + size() > maxSize() )
+            try
             {
-                throw new SinkFullException("Not enough room to enqueue these elements.");
-            }
+                if (  maxSize() > 0 && elements.length + m_reserve + size() > maxSize() )
+                {
+                    throw new SinkFullException("Not enough room to enqueue these elements.");
+                }
 
-            for ( int i = 0; i < len; i++ )
+                for ( int i = 0; i < len; i++ )
+                {
+                    m_elements.add( elements[i] );
+                }
+            }
+            finally
             {
-                m_elements.add( elements[i] );
+                m_mutex.release();
             }
         }
         catch ( InterruptedException ie )
         {
-        }
-        finally
-        {
-            m_mutex.release();
         }
     }
 
@@ -146,19 +155,22 @@ public final class DefaultQueue extends AbstractQueue
         try
         {
             m_mutex.acquire();
-            if (  maxSize() > 0 && 1 + m_reserve + size() > maxSize() )
+            try
             {
-                throw new SinkFullException("Not enough room to enqueue these elements.");
-            }
+                if (  maxSize() > 0 && 1 + m_reserve + size() > maxSize() )
+                {
+                    throw new SinkFullException("Not enough room to enqueue these elements.");
+                }
 
-            m_elements.add( element );
+                m_elements.add( element );
+            }
+            finally
+            {
+                m_mutex.release();
+            }
         }
         catch ( InterruptedException ie )
         {
-        }
-        finally
-        {
-            m_mutex.release();
         }
     }
 
@@ -175,26 +187,30 @@ public final class DefaultQueue extends AbstractQueue
 
         try
         {
-            m_mutex.attempt( m_timeout );
-
-            if ( size() < numElements )
+            if (m_mutex.attempt( m_timeout )) 
             {
-                arraySize = size();
-            }
+                try
+                {
+                    if ( size() < numElements )
+                    {
+                        arraySize = size();
+                    }
 
-            elements = new QueueElement[ arraySize ];
+                    elements = new QueueElement[ arraySize ];
 
-            for ( int i = 0; i < arraySize; i++ )
-            {
-                elements[i] = (QueueElement) m_elements.remove();
+                    for ( int i = 0; i < arraySize; i++ )
+                    {
+                        elements[i] = (QueueElement) m_elements.remove();
+                    }
+                }
+                finally
+                {
+                    m_mutex.release();
+                }
             }
         }
         catch ( InterruptedException ie )
         {
-        }
-        finally
-        {
-            m_mutex.release();
         }
 
         return elements;
@@ -206,21 +222,25 @@ public final class DefaultQueue extends AbstractQueue
 
         try
         {
-            m_mutex.attempt( m_timeout );
-
-            elements = new QueueElement[ size() ];
-
-            for ( int i = 0; i < elements.length; i++ )
+            if (m_mutex.attempt( m_timeout )) 
             {
-                elements[i] = (QueueElement) m_elements.remove();
+                try
+                {
+                    elements = new QueueElement[ size() ];
+
+                    for ( int i = 0; i < elements.length; i++ )
+                    {
+                        elements[i] = (QueueElement) m_elements.remove();
+                    }
+                }
+                finally
+                {
+                    m_mutex.release();
+                }
             }
         }
         catch ( InterruptedException ie )
         {
-        }
-        finally
-        {
-            m_mutex.release();
         }
 
         return elements;
@@ -232,19 +252,23 @@ public final class DefaultQueue extends AbstractQueue
 
         try
         {
-            m_mutex.attempt( m_timeout );
-
-            if ( size() > 0 )
+            if (m_mutex.attempt( m_timeout )) 
             {
-                element = (QueueElement) m_elements.remove();
+                try
+                {
+                    if ( size() > 0 )
+                    {
+                        element = (QueueElement) m_elements.remove();
+                    }
+                }
+                finally
+                {
+                    m_mutex.release();
+                }
             }
         }
         catch ( InterruptedException ie )
         {
-        }
-        finally
-        {
-            m_mutex.release();
         }
 
         return element;
