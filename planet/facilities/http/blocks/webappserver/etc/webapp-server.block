@@ -21,6 +21,7 @@
       <artifact>jar:tomcat/jasper-runtime#5.0.25</artifact>
       <artifact>jar:tomcat/jasper-compiler#5.0.25</artifact>
       <artifact>jar:tomcat/jsp-api#5.0.18</artifact>
+      <artifact>jar:log4j/log4j#1.2.8</artifact>
     </classpath>
   </classloader>
 

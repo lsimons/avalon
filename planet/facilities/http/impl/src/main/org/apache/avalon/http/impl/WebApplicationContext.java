@@ -93,8 +93,9 @@ public class WebApplicationContext
         tmpDir.mkdirs();
         setTempDirectory( tmpDir );
     
+        setClassLoaderJava2Compliant( true );
         ClassLoader cl = (ClassLoader) ctx.get( "urn:avalon:classloader" );
-        setClassLoader( cl );
+        setParentClassLoader( cl );
     }
     
     /**
@@ -146,8 +147,11 @@ public class WebApplicationContext
     public void configure( org.apache.avalon.framework.configuration.Configuration conf )
         throws ConfigurationException
     {
-        setIgnoreWebJetty( true );
-        setExtractWAR( false );
+        boolean ignore = conf.getChild( "ignore-jetty-web" ).getValueAsBoolean( false );
+        setIgnoreWebJetty( ignore );
+        
+        boolean extract = conf.getChild( "extract-war" ).getValueAsBoolean( false );
+        setExtractWAR( extract );
         
         String displayName = conf.getChild( "display-name" ).getValue( null );
         if( displayName != null )
