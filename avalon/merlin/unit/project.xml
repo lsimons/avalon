@@ -1,17 +1,20 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE project [
+  <!ENTITY % index SYSTEM "file:index.ent"> %index;
+]>
 
 <project>
 
   <extend>${basedir}/../../project.xml</extend>
 
-  <groupId>merlin</groupId>
-  <id>merlin-unit</id>
+  <groupId>&merlin-id;</groupId>
+  <id>&merlin-unit-id;</id>
+  <currentVersion>&merlin-unit-version;</currentVersion>
+
   <name>Merlin Unit Test</name>
-
   <package>org.apache.avalon.merlin</package>
-
-  <inceptionYear>2002</inceptionYear>
   <shortDescription>Merlin Unit Test</shortDescription>
+  <inceptionYear>2002</inceptionYear>
   
   <dependencies>
     <dependency>

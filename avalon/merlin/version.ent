@@ -22,8 +22,8 @@
 <!ENTITY merlin-cli-version "3.3.0">
 <!ENTITY merlin-plugin-id "merlin-plugin">
 <!ENTITY merlin-plugin-version "3.3.0">
-<!ENTITY merlin-plugin-id "merlin-servlet">
-<!ENTITY merlin-plugin-version "3.3.0">
+<!ENTITY merlin-servlet-id "merlin-servlet">
+<!ENTITY merlin-servlet-version "3.3.0">
 <!ENTITY merlin-unit-id "merlin-unit">
 <!ENTITY merlin-unit-version "3.3.0">
 
