@@ -15,10 +15,7 @@
         <pathelement location="${build.classes}"/>
         <pathelement location="${avalon-framework.jar}"/>
         <pathelement location="${checkstyle.jar}"/>
-        <!-- Unit testing deps -->
-        <pathelement location="${junit.jar}"/>
     </path>
-    <property name="cp" refid="project.class.path"/>
 
     <path id="tools.class.path">
         <pathelement location="${junit.jar}"/>
@@ -26,6 +23,13 @@
         <fileset dir="${tools.dir}/lib"/>
         <fileset dir="${tools.dir}/ext"/>
     </path>
+
+    <path id="test.class.path">
+        <pathelement location="${build.testclasses}"/>
+        <pathelement location="${junit.jar}"/>
+        <path refid="project.class.path"/>
+    </path>
+    <property name="cp" refid="test.class.path"/>
 
     <target name="main" depends="jar" description="Build the project"/>
     <target name="rebuild" depends="clean,main" description="Rebuild the project"/>
@@ -70,21 +74,27 @@
 
     <!-- Compiles the unit test source code -->
     <target name="compile-test" depends="compile, dependencies-test" description="Compiles the source code">
+        <mkdir dir="${build.testsrc}"/>
 
-        <mkdir dir="${build.classes}"/>
+        <!-- Copy over all of the tests applying test filters -->
+        <copy todir="${build.testsrc}">
+            <fileset dir="${test.dir}"/>
+        </copy>
 
-        <!-- Compile all classes including the tests. -->
-        <javac srcdir="${test.dir}"
-            destdir="${build.classes}"
+        <mkdir dir="${build.testclasses}"/>
+
+        <!-- Compile all test classes. -->
+        <javac srcdir="${build.testsrc}"
+            destdir="${build.testclasses}"
             debug="${build.debug}"
             optimize="${build.optimize}"
             deprecation="${build.deprecation}"
             target="1.2">
-            <classpath refid="project.class.path" />
+            <classpath refid="test.class.path" />
             <include name="**/*.java"/>
         </javac>
 
-        <copy todir="${build.classes}">
+        <copy todir="${build.testclasses}">
             <fileset dir="${test.dir}">
                 <exclude name="**/*.java"/>
                 <exclude name="**/package.html"/>
@@ -154,13 +164,13 @@
             haltonfailure="${junit.failonerror}"
             printsummary="yes"
             dir="${build.tests}">
-            <classpath refid="project.class.path"/>
+            <classpath refid="test.class.path"/>
 
             <formatter type="xml"/>    <!-- xml reports for junitreport -->
-            <formatter type="plain"/>  <!-- text reports for humans     -->
+            <formatter type="plain" usefile="false"/>  <!-- text reports for humans     -->
 
             <batchtest todir="${build.tests}">
-                <fileset dir="${build.classes}">
+                <fileset dir="${build.testclasses}">
                     <include name="**/test/*TestCase.class"/>
                     <exclude name="**/Abstract*"/>
                 </fileset>
