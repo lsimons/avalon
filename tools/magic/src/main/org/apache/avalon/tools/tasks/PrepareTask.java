@@ -143,14 +143,16 @@ public class PrepareTask extends SystemTask
     private String getSrcMain()
     {
         final String path = getProject().getProperty( Context.SRC_MAIN_KEY );
-        if( null != path ) return path;
+        if( null != path ) 
+            return path;
         return Context.SRC_MAIN;
     }
 
     private String getSrcConfig()
     {
         final String path = getProject().getProperty( Context.SRC_CONFIG_KEY );
-        if( null != path ) return path;
+        if( null != path ) 
+            return path;
         return Context.SRC_CONFIG;
     }
 
@@ -165,10 +167,14 @@ public class PrepareTask extends SystemTask
        final File projectSrc, final File targetMain, final String source, 
        final String path )
     {
-        if( null == projectSrc ) throw new NullPointerException( "projectSrc" );
-        if( null == targetMain ) throw new NullPointerException( "targetMain" );
-        if( null == source ) throw new NullPointerException( "source" );
-        if( null == path ) throw new NullPointerException( "path" );
+        if( null == projectSrc ) 
+            throw new NullPointerException( "projectSrc" );
+        if( null == targetMain ) 
+            throw new NullPointerException( "targetMain" );
+        if( null == source ) 
+            throw new NullPointerException( "source" );
+        if( null == path ) 
+            throw new NullPointerException( "path" );
 
         final File src = new File( projectSrc, source );
         if( src.exists() )

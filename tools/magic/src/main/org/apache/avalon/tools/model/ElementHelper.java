@@ -192,12 +192,18 @@ public class ElementHelper
     */
     public static String getValue( final Element node )
     {
-        if( null == node ) return null;
+        if( null == node ) 
+            return null;
+        String value;
         if( node.getChildNodes().getLength() > 0 )
         {
-            return node.getFirstChild().getNodeValue();
+            value = node.getFirstChild().getNodeValue();
         }
-        return node.getNodeValue(); 
+        else
+        {
+            value = node.getNodeValue(); 
+        }
+        return normalize( value );
     }
 
    /**
@@ -220,10 +226,12 @@ public class ElementHelper
     */
     public static String getAttribute( final Element node, final String key, final String def )
     {
-        if( null == node ) return def;
+        if( null == node ) 
+            return def;
         final String value = node.getAttribute( key );
-        if( null == value ) return def;
-        return value;
+        if( null == value ) 
+            return def;
+        return normalize( value );
     }
 
    /**
@@ -246,14 +254,36 @@ public class ElementHelper
     */
     public static boolean getBooleanAttribute( final Element node, final String key, final boolean def )
     {
-        if( null == node ) return def;
-        final String value = node.getAttribute( key );
-        if( null == value ) return def;
-        if( value.equals( "" ) ) return def;
-        if( value.equals( "true" ) ) return true;
-        if( value.equals( "false" ) ) return false;
+        if( null == node ) 
+            return def;
+        String value = node.getAttribute( key );
+        value = normalize( value );
+        
+        if( null == value ) 
+            return def;
+        if( value.equals( "" ) ) 
+            return def;
+        if( value.equals( "true" ) ) 
+            return true;
+        if( value.equals( "false" ) ) 
+            return false;
         final String error = 
           "Boolean argument [" + value + "] not recognized.";
         throw new BuildException( error );
+    }
+    
+    static String normalize( String value )
+    {
+        return normalize( value, System.getProperties() );
+    }
+    
+    static String normalize( String value, Properties props )
+    {
+        if( value.indexOf( '$' ) < 0 )
+            return value;
+        int pos = value.indexOf( "$" );
+        if( pos < 0 )
+            return value;
+        return value;
     }
 }
