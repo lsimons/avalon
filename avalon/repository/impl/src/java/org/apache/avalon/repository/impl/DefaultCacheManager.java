@@ -82,7 +82,7 @@ import org.apache.avalon.repository.util.RepositoryUtils;
  * an underlying file system.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2003/12/04 19:34:31 $
+ * @version $Revision: 1.2 $ $Date: 2003/12/07 03:15:16 $
  */
 public class DefaultCacheManager implements CacheManager
 {
@@ -95,6 +95,11 @@ public class DefaultCacheManager implements CacheManager
     */
     private final File m_base;
     
+   /**
+    * The default hosts.
+    */
+    private final String[] m_hosts;
+    
     //------------------------------------------------------------------
     // constructor 
     //------------------------------------------------------------------
@@ -104,13 +109,15 @@ public class DefaultCacheManager implements CacheManager
     *
     * @param base the base directory for the repository cache
     * @param context the proxy context
+    * @param hosts the default hosts
     */
-    public DefaultCacheManager( File base, ProxyContext context )
+    public DefaultCacheManager( File base, ProxyContext context, String[] hosts )
     {
         if( null == base ) 
          throw new NullPointerException( "base" );
 
         m_base = base;
+        m_hosts = hosts;
 
         if( context != null )
         {
@@ -136,6 +143,25 @@ public class DefaultCacheManager implements CacheManager
     public File getCacheDirectory()
     {
         return m_base;
+    }
+
+    /**
+     * Return the default hosts.
+     * 
+     * @return the host names
+     */
+    public String[] getDefaultHosts()
+    {
+        return m_hosts;
+    }
+
+   /**
+    * Creation of a new repository handler using teh default hosts.
+    * @return the repository
+    */
+    public Repository createRepository()
+    {
+        return createRepository( m_hosts );
     }
 
    /**

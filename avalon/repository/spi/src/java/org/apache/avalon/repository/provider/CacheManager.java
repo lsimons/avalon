@@ -61,7 +61,7 @@ import org.apache.avalon.repository.RepositoryException;
  * for repository creation.
  *
  * @author <a href="mailto:mcconnell@osm.net">Stephen McConnell</a>
- * @version $Revision: 1.1 $ $Date: 2003/12/04 19:34:56 $
+ * @version $Revision: 1.2 $ $Date: 2003/12/07 03:15:16 $
  */
 public interface CacheManager
 {        
@@ -81,10 +81,15 @@ public interface CacheManager
         throws RepositoryException ;
 
    /**
+    * Creation of a new repository handler using the default hosts.
+    * @return the repository
+    */
+    Repository createRepository();
+
+   /**
     * Creation of a new repository handler.
     * @param hosts the set of hosts to assign to the repository
     * @return the repository
-    * @exception RepositoryException if an error occurs suring repository establishment
     */
     Repository createRepository( String[] hosts );
 

@@ -83,17 +83,10 @@ import org.apache.avalon.repository.util.RepositoryUtils;
  * an underlying file system.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2003/12/06 23:51:08 $
+ * @version $Revision: 1.3 $ $Date: 2003/12/07 03:15:16 $
  */
 public class DefaultRepository implements Repository
 {
-    //------------------------------------------------------------------
-    // static 
-    //------------------------------------------------------------------
-
-    private static final String[] DEFAULT_HOSTS = 
-      new String[]{ "http://dpml.net", "http://ibiblio.org/maven" };
-
     //------------------------------------------------------------------
     // immutable state 
     //------------------------------------------------------------------
@@ -113,19 +106,6 @@ public class DefaultRepository implements Repository
     //------------------------------------------------------------------
     // constructor 
     //------------------------------------------------------------------
-
-   /**
-    * Creation of a new instance of the default repository using the 
-    * default hosts.
-    *
-    * @param cache the cache manager assigned to the repository
-    * @exception NullPointerException if the cache or hosts argument
-    * is null
-    */
-    public DefaultRepository( CacheManager cache )
-    {
-        this( cache, DEFAULT_HOSTS );
-    }
 
    /**
     * Creation of a new instance of the default repository.

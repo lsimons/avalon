@@ -71,7 +71,7 @@ import org.apache.avalon.util.exception.ExceptionHelper;
  * 
  * @author <a href="mailto:aok123@bellsouth.net">Alex Karasulu</a>
  * @author $Author: mcconnell $
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class DefaultInitialContextTest extends TestCase
 {
@@ -116,7 +116,10 @@ public class DefaultInitialContextTest extends TestCase
         Factory factory = context.getInitialFactory();
         assertNotNull( factory );
 
-        Repository repository = (Repository ) factory.create() ;
+        CacheManager manager = (CacheManager) factory.create() ;
+        assertNotNull( manager ) ;
+   
+        Repository repository = manager.createRepository() ;
         assertNotNull( repository ) ;
         
         Artifact artifact = Artifact.createArtifact( 

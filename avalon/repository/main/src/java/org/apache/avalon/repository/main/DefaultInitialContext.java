@@ -98,33 +98,41 @@ import org.apache.avalon.util.exception.ExceptionHelper;
  * 
  * @author <a href="mailto:aok123@bellsouth.net">Alex Karasulu</a>
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public class DefaultInitialContext extends AbstractBuilder implements InitialContext
 {
     //------------------------------------------------------------------
+    // public static 
+    //------------------------------------------------------------------
+
+   /**
+    * The name of the properties file to be searched for confiuration
+    * properties.  Seaches will be conducted on the current directory and 
+    * the user's home directory.
+    */
+    public static final String AVALON = "avalon.properties";
+
+    //------------------------------------------------------------------
     // static 
     //------------------------------------------------------------------
 
-    public static final String STANDARD_GROUP = 
-        "avalon-repository";
-
-    public static final String STANDARD_NAME = 
-        "avalon-repository-main";
-
-    private static final String AVALON = "avalon.properties";
+    private static final String AVALON_IMPLEMENTATION = 
+       "avalon.implementation";
 
     private static final File USER_HOME = 
       new File( System.getProperty( "user.home" ) );
 
-    private static final File USER_DIR = getBaseDirectory();
+    private static final File USER_DIR = 
+      getBaseDirectory();
 
-    public static final String CACHE_KEY = "avalon.repository.cache.dir";
-
-    public static final String HOSTS_KEY = "avalon.repository.hosts";
+    private static final String[] DEFAULT_INITIAL_HOSTS = 
+      new String[]{
+        "http://dpml.net/", 
+        "http://ibiblio.org/maven" };
 
     //------------------------------------------------------------------
-    // state 
+    // immutable state 
     //------------------------------------------------------------------
         
    /** 
@@ -154,9 +162,20 @@ public class DefaultInitialContext extends AbstractBuilder implements InitialCon
     public DefaultInitialContext( ) 
         throws RepositoryException
     {
-         this( null );
+         this( (File) null );
     }
 
+    /**
+     * Creates an initial repository context.
+     * 
+     * @param cache the cache directory
+     * @throws RepositoryException if an error occurs during establishment
+     */
+    public DefaultInitialContext( File cache ) 
+        throws RepositoryException
+    {
+         this( cache, null );
+    }
 
     /**
      * Creates an initial repository context.
@@ -201,18 +220,6 @@ public class DefaultInitialContext extends AbstractBuilder implements InitialCon
         
         m_cache = setupCache( cache, avalonHome, avalonWork );
         m_hosts = setupHosts( hosts, avalonHome, avalonWork );
-
-        if( true )
-        {
-            System.out.println( "Initial-Cache: " + m_cache );
-            StringBuffer buffer = new StringBuffer( "Initial-Hosts: " );
-            for( int i=0; i<m_hosts.length; i++ )
-            {
-                if( i>0 ) buffer.append( "," );
-                buffer.append( m_hosts[i] );
-            }
-            System.out.println( buffer.toString() );
-        }
 
         Artifact implementation = 
           setupImplementation( artifact );
@@ -292,19 +299,6 @@ public class DefaultInitialContext extends AbstractBuilder implements InitialCon
         }
     }
 
-    private Attributes loadAttributes( File cache, String[] hosts, Artifact artifact )
-      throws RepositoryException
-    {
-        try
-        {
-             return RepositoryUtils.getAttributes( cache, artifact );
-        }
-        catch( RepositoryException re )
-        {
-             return RepositoryUtils.getAttributes( hosts, artifact );
-        }
-    }
-
     // ------------------------------------------------------------------------
     // InitialContext
     // ------------------------------------------------------------------------
@@ -341,6 +335,19 @@ public class DefaultInitialContext extends AbstractBuilder implements InitialCon
     // implementation
     // ------------------------------------------------------------------------
 
+    private Attributes loadAttributes( File cache, String[] hosts, Artifact artifact )
+      throws RepositoryException
+    {
+        try
+        {
+             return RepositoryUtils.getAttributes( cache, artifact );
+        }
+        catch( RepositoryException re )
+        {
+             return RepositoryUtils.getAttributes( hosts, artifact );
+        }
+    }
+
     private File setupCache( File file, Properties home, Properties work )
     {
         if( null != file ) return file;
@@ -365,8 +372,7 @@ public class DefaultInitialContext extends AbstractBuilder implements InitialCon
     */
     private static Properties createDefaultProperties()
     {
-        final String path = "implementation.properties";
-
+        final String path = AVALON_IMPLEMENTATION;
         try
         {
             Properties properties = new Properties();
@@ -419,7 +425,7 @@ public class DefaultInitialContext extends AbstractBuilder implements InitialCon
         String homeValue = home.getProperty( HOSTS_KEY );
         String workValue = work.getProperty( HOSTS_KEY, homeValue );
         String value = System.getProperty( CACHE_KEY , workValue );
-        if( null == value ) return new String[0];
+        if( null == value ) return DEFAULT_INITIAL_HOSTS;
         return expandHosts( value );
     }
 
