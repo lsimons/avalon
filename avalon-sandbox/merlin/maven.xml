@@ -1,4 +1,4 @@
-<project default="java:jar" xmlns:maven="jelly:maven" xmlns:j="jelly:core" xmlns:util="jelly:util">
+<project default="jar:jar" xmlns:maven="jelly:maven" xmlns:j="jelly:core" xmlns:util="jelly:util">
 
   <property name="merlin.build.inst" value="inst"/>
   <property name="merlin.build.inst.dir" value="${maven.build.dir}/${merlin.build.inst}"/>
