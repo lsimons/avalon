@@ -13,6 +13,7 @@
     <author name="Stephen McConnell" email="mcconnell@osm.net" id="SM"/>
     <author name="Peter Royal" email="proyal@apache.org" id="PR"/>
     <author name="Huw Roberts" email="huw@apache.org" id="HR"/>    
+    <author name="Eung-ju Park" email="colus@apache.org" id="EP"/>    
   </devs>
 <release version="4.0b" date="Unreleased">
     <action dev="PD" type="change">
@@ -21,7 +22,7 @@
         http://jakarta.apache.org/phoenix/*. Old style DTD URIs are
         still supported.
     </action>
-    <action dev="EJ" type="add">
+    <action dev="EP" type="add">
         Added support for Blocks that are not proxied.
     </action>
     <action dev="PR" type="add">
