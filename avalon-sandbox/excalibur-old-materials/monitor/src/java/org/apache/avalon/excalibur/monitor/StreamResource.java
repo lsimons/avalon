@@ -21,16 +21,18 @@ import java.io.Writer;
  * OutputStream has been closed.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version $Id: StreamResource.java,v 1.3 2002/03/16 00:05:41 donaldp Exp $
+ * @version $Id: StreamResource.java,v 1.4 2002/04/21 21:47:49 donaldp Exp $
  */
-public abstract class StreamResource extends Resource
+public abstract class StreamResource 
+    extends Resource
 {
     /**
      * Required constructor.  The <code>String</code> location is transformed by
      * the specific resource monitor.  For instance, a FileResource will be able
      * to convert a string representation of a path to the proper File object.
      */
-    public StreamResource( String location ) throws Exception
+    public StreamResource( final String location ) 
+	throws Exception
     {
         super( location );
     }
@@ -38,22 +40,25 @@ public abstract class StreamResource extends Resource
     /**
      * Get the Resource contents as an InputStream.
      */
-    abstract public InputStream getResourceAsStream() throws IOException;
+    public abstract InputStream getResourceAsStream() 
+	throws IOException;
 
     /**
      * Get the Resource contents as a Reader.
      */
-    abstract public Reader getResourceAsReader() throws IOException;
+    public abstract Reader getResourceAsReader() 
+	throws IOException;
 
     /**
      * Set the Resource contents as an OutputStream.
      */
-    abstract public OutputStream setResourceAsStream() throws IOException;
+    public abstract OutputStream setResourceAsStream() 
+	throws IOException;
 
     /**
      * Set the Resource contents as a Writer.
      */
-    abstract public Writer setResourceAsWriter() throws IOException;
+    public abstract Writer setResourceAsWriter() throws IOException;
 
     /**
      * Automatically handle the streamClosedEvent from the ResourceOutputStream

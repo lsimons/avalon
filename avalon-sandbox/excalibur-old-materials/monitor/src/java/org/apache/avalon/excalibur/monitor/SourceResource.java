@@ -19,27 +19,28 @@ import org.apache.excalibur.source.SourceValidity;
 /**
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version $Id: SourceResource.java,v 1.1 2002/04/19 09:05:37 cziegeler Exp $
+ * @version $Id: SourceResource.java,v 1.2 2002/04/21 21:47:49 donaldp Exp $
  */
-public final class SourceResource extends StreamResource
+public final class SourceResource 
+    extends StreamResource
 {
     /** The wrapped source object */
-    private final Source source;
+    private final Source m_source;
 
     /** The last validity object */
-    private SourceValidity validity;
+    private SourceValidity m_validity;
 
     /**
      * Instantiate the SourceResource
      */
-    public SourceResource( Source source )
+    public SourceResource( final Source source )
         throws Exception
     {
         super( source.getSystemId() );
 
-        this.source = source;
+        m_source = source;
         m_previousModified = System.currentTimeMillis();
-        this.validity = source.getValidity();
+        m_validity = source.getValidity();
     }
 
     /**
@@ -47,20 +48,20 @@ public final class SourceResource extends StreamResource
      */
     public long lastModified()
     {
-        if( this.validity == null )
+        if( m_validity == null )
         {
             return System.currentTimeMillis();
         }
         else
         {
-            SourceValidity newVal = this.source.getValidity();
-            if( newVal != null && this.validity.isValid( newVal ) == true )
+            SourceValidity newVal = m_source.getValidity();
+            if( newVal != null && m_validity.isValid( newVal ) == true )
             {
                 return m_previousModified;
             }
             else
             {
-                this.validity = newVal;
+                m_validity = newVal;
                 return System.currentTimeMillis();
             }
         }
@@ -69,23 +70,26 @@ public final class SourceResource extends StreamResource
     /**
      * Sets the resource value with an OutputStream
      */
-    public InputStream getResourceAsStream() throws IOException
+    public InputStream getResourceAsStream() 
+	throws IOException
     {
-        return this.source.getInputStream();
+        return m_source.getInputStream();
     }
 
     /**
      * Sets the resource value with a Writer
      */
-    public Reader getResourceAsReader() throws IOException
+    public Reader getResourceAsReader()
+	throws IOException
     {
-        return new InputStreamReader( this.getResourceAsStream() );
+        return new InputStreamReader( getResourceAsStream() );
     }
 
     /**
      * Sets the resource value with an OutputStream
      */
-    public OutputStream setResourceAsStream() throws IOException
+    public OutputStream setResourceAsStream() 
+	throws IOException
     {
         throw new IOException( "setResourceAsStream() not supported for URLResource" );
     }
@@ -93,7 +97,8 @@ public final class SourceResource extends StreamResource
     /**
      * Sets the resource value with a Writer
      */
-    public Writer setResourceAsWriter() throws IOException
+    public Writer setResourceAsWriter() 
+	throws IOException
     {
         throw new IOException( "setResourceAsWriter() not supported for URLResource" );
     }

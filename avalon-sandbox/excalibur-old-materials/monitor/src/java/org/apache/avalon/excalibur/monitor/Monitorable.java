@@ -14,7 +14,6 @@ package org.apache.avalon.excalibur.monitor;
  */
 public interface Monitorable
 {
-
     /**
      *  Get the corresponding Resource object for monitoring.
      */
