@@ -9,20 +9,48 @@ package org.apache.log.output.io.rotate;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
- * strategy for naming log files based on appending time suffix
+ * Strategy for naming log files based on appending time suffix.
+ * A file name can be based on simply appending the number of miliseconds
+ * since (not really sure) 1/1/1970.
+ * Other constructors accept a pattern of a <code>SimpleDateFormat</code>
+ * to form the appended string to the base file name as well as a suffix
+ * which should be appended last.
+ *
+ * A <code>new UniqueFileStrategy( new File("foo.", "yyyy-MM-dd", ".log" )</code>
+ * object will return <code>File</code> objects with file names like
+ * <code>foo.2001-12-24.log</code>
  *
  * @author <a href="mailto:bh22351@i-one.at">Bernhard Huber</a>
+ * @author <a href="mailto:giacomo@apache.org">Giacomo Pati</a>
  */
 public class UniqueFileStrategy 
     implements FileStrategy
 {
     private File    m_baseFile;
 
+    private SimpleDateFormat m_formatter;
+
+    private String m_suffix;
+
     public UniqueFileStrategy( final File baseFile )
     {
         m_baseFile = baseFile;
+    }
+
+    public UniqueFileStrategy( final File baseFile, String pattern )
+    {
+        this( baseFile );
+        m_formatter = new SimpleDateFormat( pattern );
+    }
+
+    public UniqueFileStrategy( final File baseFile, String pattern, String suffix )
+    {
+        this( baseFile, pattern );
+        m_suffix = suffix;
     }
 
     /**
@@ -34,7 +62,20 @@ public class UniqueFileStrategy
     {
         final StringBuffer sb = new StringBuffer();
         sb.append( m_baseFile );
-        sb.append( System.currentTimeMillis() );
+        if( m_formatter == null ) 
+        {
+            sb.append( System.currentTimeMillis() );
+        } 
+        else 
+        {
+            final String dateString = m_formatter.format(new Date());
+            sb.append(dateString);
+        } 
+        
+        if( m_suffix != null ) {
+            sb.append( m_suffix );
+        }
+        
         return new File( sb.toString() );
     }
 }
