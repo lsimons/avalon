@@ -29,11 +29,11 @@ Legal:
 
   <property name="name" value="logkit"/>
   <property name="Name" value="LogKit"/>
-  <property name="version" value="1.2"/>
+  <property name="version" value="1.2.1"/>
   <property name="year" value="1999-2003"/>
-  <property name="status" value="final"/>
-  <property name="release" value="3nd"/>
-  <property name="short.version" value="1.2"/>
+  <property name="status" value="beta"/>
+  <property name="release" value="1st"/>
+  <property name="short.version" value="1.2.1"/>
   <property name="compress.jars" value="true"/>
 
   <!--
