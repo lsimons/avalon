@@ -14,6 +14,7 @@ import org.apache.avalon.framework.component.ComponentManager;
 import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.phoenix.interfaces.Application;
 import org.apache.avalon.phoenix.interfaces.ClassLoaderManager;
+import org.apache.avalon.phoenix.interfaces.PackageRepository;
 
 /**
  * Embeddor to host only a single application.
@@ -44,6 +45,8 @@ public class SingleAppEmbeddor
         final String PREFIX = "org.apache.avalon.phoenix.components.";
         defaults.setParameter( ClassLoaderManager.ROLE,
                                PREFIX + "classloader.ContextClassLoaderManager" );
+        defaults.setParameter( PackageRepository.ROLE,
+                               PREFIX + "extensions.NoopPackageRepository" );
         return defaults;
     }
 
