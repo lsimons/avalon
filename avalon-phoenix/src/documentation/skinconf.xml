@@ -82,11 +82,13 @@ jefft@apache.org
   page footer -->
   <credits>
     <credit>
-      <name>Built with Cocoon</name>
-      <url>http://xml.apache.org/cocoon/</url>
-      <image>skin/images/built-with-cocoon.gif</image>
+      <name>Built with Apache Forrest</name>
+      <url>http://xml.apache.org/forrest/</url>
+      <image>images/built-with-forrest-button.png</image>
       <width>88</width>
       <height>31</height>
     </credit>
+    <!-- A credit with @role='pdf' will have its name and url displayed in the
+    PDF page's footer. -->
   </credits>
 </skinconfig>
