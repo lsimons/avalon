@@ -549,6 +549,31 @@
             to="avalon-dev@jakarta.apache.org"/>
     </project>
 
+    <project name="excalibur-store">
+        <package>org.apache.excalibur.source</package>
+
+        <ant basedir="store">
+            <depend property="junit.jar" project="junit"/>
+            <depend property="checkstyle.jar" project="checkstyle"/>
+            <depend property="avalon-framework.jar" project="jakarta-avalon" runtime="true"/>
+            <property name="version" value="@@DATE@@"/>
+            <property name="junit.failonerror" value="true"/>
+            <property name="do.checkstyle" value="true"/>
+            <property name="skip.dependencies" value="true"/>
+        </ant>
+
+        <depend project="jakarta-ant"/>
+        <depend project="xml-xerces"/>
+        <depend project="xml-xalan2"/>
+        <work nested="store/build/classes"/>
+
+        <home nested="store"/>
+        <jar name="build/lib/excalibur-store-@@DATE@@.jar"/>
+
+        <nag from="Peter Donald &lt;peter@apache.org&gt;"
+            to="avalon-dev@jakarta.apache.org"/>
+    </project>
+
     <project name="excalibur-tar">
         <package>org.apache.excalibur.tar</package>
 
