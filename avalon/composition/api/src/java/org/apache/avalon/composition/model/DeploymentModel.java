@@ -62,7 +62,7 @@ import org.apache.avalon.framework.logger.Logger;
  * Model desribing a deployment scenario.
  *
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.9 $ $Date: 2004/01/15 12:23:04 $
+ * @version $Revision: 1.10 $ $Date: 2004/01/19 21:45:36 $
  */
 public interface DeploymentModel
 {
@@ -178,11 +178,13 @@ public interface DeploymentModel
     DeploymentModel[] getProviders();
 
    /** 
-    * Returns the maximum allowable time for deployment.
+    * Return the default deployment timeout value declared in the 
+    * kernel configuration.  The implementation looks for a value
+    * assigned under the property key "urn:composition:deployment.timeout"
+    * and defaults to 1000 msec if undefined.
     *
-    * @return the maximum time expressed in millisecond of how 
-    * long a deployment may take.
-    **/
+    * @return the default deployment timeout value
+    */
    long getDeploymentTimeout();
 
 }

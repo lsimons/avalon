@@ -124,7 +124,7 @@ import org.apache.avalon.util.exception.ExceptionHelper;
  * as a part of a containment deployment model.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.20 $ $Date: 2004/01/16 16:39:02 $
+ * @version $Revision: 1.21 $ $Date: 2004/01/19 21:46:10 $
  */
 public class DefaultContainmentModel extends DefaultDeploymentModel 
   implements ContainmentModel
@@ -252,6 +252,25 @@ public class DefaultContainmentModel extends DefaultDeploymentModel
         return m_context.getClassLoaderModel();
     }
 
+   /**
+    * Returns true if Secure Execution mode has been enabled in the kernel.
+    * 
+    * Secure Execution mode enables the deployer to restrict the exection
+    * environment, and this flag allows for developers to quickly switch
+    * between the secure and non-secure execution modes.
+    * 
+    * @return true if Secure Execution mode has been enabled in the kernel.
+    **/ 
+    public boolean isSecureExecutionEnabled()
+    {
+        SystemContext sc = m_context.getSystemContext();
+        Parameters params = sc.getSystemParameters();
+        return params.getParameterAsBoolean( 
+          SECURE_EXECUTION_KEY, 
+          false 
+        );
+    }
+   
    /** 
     * Returns the maximum allowable time for deployment.
     *
@@ -261,16 +280,6 @@ public class DefaultContainmentModel extends DefaultDeploymentModel
     public long getDeploymentTimeout()
     {
         return 0;
-        //long n = super.getDeploymentTimeout();
-        //if( isAssembled() )
-        //{
-        //    DeploymentModel[] startup = getStartupGraph();
-        //    for( int i=0; i<startup.length; i++ )
-        //   {
-        //        n = ( n + startup[i].getDeploymentTimeout() );
-        //    }
-        //}
-        //return n;
     }
 
    /**
