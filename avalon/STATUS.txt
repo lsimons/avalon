@@ -1,5 +1,5 @@
 APACHE AVALON PROJECT STATUS:                          -*-indented-text-*-
-Last modified at [$Date: 2002/12/02 11:37:46 $]
+Last modified at [$Date: 2002/12/02 13:04:13 $]
 
    
 Release:
@@ -14,13 +14,6 @@ Resolved Issues:
       all non-released code. It has its own site to make less confusion
       with released products.
       
-    o Existing committers can start new projects without a
-      detour to the Incubator by using the avalon-sandbox, and
-      must meet the (TBD) goals of Apache Avalon.
-      These new components must be approved by the PMC before 
-      being accepted in the endorsed repositories, and must meet the 
-      (TBD) goals of Apache Avalon.
-
 
 Pending issues:
     o Coming up with a set of bylaws for the project
@@ -39,6 +32,14 @@ Pending issues:
       -0: leosimons 
       -1: hammant, leif, donaldp
 
+    o Existing committers can start new projects without a
+      detour to the Incubator by using the avalon-sandbox, and
+      must meet the (TBD) goals of Apache Avalon.
+      These new components must be approved by the PMC before 
+      being accepted in the endorsed repositories, and must meet the 
+      (TBD) goals of Apache Avalon.
+      +1: nicolaken
+      
     o Voting will follow the "standard Apache voting guidelines"
 
       [ be nice to refer to an Incubator doc here ]
@@ -128,14 +129,14 @@ PMC Members, pending Board approval:
 
 Active Committers:
 
-      nicolaken
+      bloritsch,colus,cziegeler,hammant,jefft,leif,leosimons,leosutic,
+      mirceatoma,mcconnell,nicolaken,proyal,vinayc
       
 
 Inactive Committers (three months without commits):      
 
-      donaldp,charlesb,hammant,bloritsch,ramc,leosimons,neeme,jefft,giacomo,colus,
-      rana_b,mirceatoma,cziegeler,froehlich,lmccay,leif,mcconnell,leosutic,jrudd,
-      morpheus,crafterm,vinayc,proyal,huw,ymikulski,mschier,stefano
+      charlesb,ramc,neeme,giacomo,rana_b,froehlich,lmccay,jrudd,morpheus,
+      crafterm,huw,ymikulski,mschier,stefano
       
       
 Emeritus Committers (six months without commits):            
