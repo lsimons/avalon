@@ -142,7 +142,7 @@ public class DefaultDeployer
             }
 
             final Configuration config = getConfigurationFor( installation.getConfig() );
-            final Configuration server = getConfigurationFor( installation.getServer() );
+            final Configuration server = getConfigurationFor( installation.getEnvironment() );
             final Configuration assembly = getConfigurationFor( installation.getAssembly() );
 
             final File directory = installation.getDirectory();

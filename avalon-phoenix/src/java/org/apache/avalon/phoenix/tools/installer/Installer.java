@@ -56,10 +56,12 @@ public class Installer
     private static final String    ASSEMBLY_XML = "SAR-INF/assembly.xml";
     private static final String    CONFIG_XML   = "SAR-INF/config.xml";
     private static final String    SERVER_XML   = "SAR-INF/server.xml";
+    private static final String    ENV_XML      = "SAR-INF/environment.xml";
 
     //The names on the native filesystem
     private static final String    FS_CONFIG_XML   = "SAR-INF" + File.separator + "config.xml";
     private static final String    FS_SERVER_XML   = "SAR-INF" + File.separator + "server.xml";
+    private static final String    FS_ENV_XML      = "SAR-INF" + File.separator + "environment.xml";
 
     /**
      * Uninstall the Sar designated installation.
@@ -286,6 +288,7 @@ public class Installer
             //as a special case atm.
             if( name.startsWith( SAR_INF ) && 
                 !name.equals( SERVER_XML ) && 
+                !name.equals( ENV_XML ) && 
                 !name.equals( CONFIG_XML ) )
             {
                 expand = false;
@@ -331,16 +334,28 @@ public class Installer
             }
         }
 
+        //Retrieve name of environment file
+        //need to check existence to support backwards compatability
+        File envFile = new File( directory, FS_ENV_XML );
+        if( !envFile.exists() )
+        {
+            final String message = REZ.getString( "deprecated-environment-xml", url );
+            System.err.println( message );
+            getLogger().warn( message );
+            envFile = new File( directory, FS_SERVER_XML );
+        }
+
         //Prepare and create Installation
         final String[] classPath = (String[])jars.toArray( new String[ 0 ] );
 
         final String assembly = "jar:" + getURLAsString( file ) + "!/" + ASSEMBLY_XML;
         final String config = getURLAsString( new File( directory, FS_CONFIG_XML ) );
-        final String server = getURLAsString( new File( directory, FS_SERVER_XML ) );
+        final String environment = getURLAsString( envFile );
         final FileDigest[] fileDigests = (FileDigest[])digests.toArray( new FileDigest[0] );
         final long timestamp = System.currentTimeMillis();
 
-        return new Installation( file, directory, config, assembly, server, classPath, fileDigests, timestamp );
+        return new Installation( file, directory, config, assembly, environment, 
+                                 classPath, fileDigests, timestamp );
     }
 
     /**

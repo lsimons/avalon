@@ -40,7 +40,7 @@ public class PersistentDeploymentRecorder extends AbstractLogEnabled implements 
     private final static String DIRECTORY   = "directory";
     private final static String CONFIG      = "config";
     private final static String ASSEMBLY    = "assembly";
-    private final static String SERVER      = "server";
+    private final static String ENVIRONMENT = "environment";
     private final static String CLASSPATH   = "classpath";
     private final static String PATH        = "path";
     private final static String URL         = "url";
@@ -72,7 +72,7 @@ public class PersistentDeploymentRecorder extends AbstractLogEnabled implements 
             configuration.setAttribute( DIRECTORY, installation.getDirectory().getCanonicalPath() );
             configuration.setAttribute( CONFIG, installation.getConfig() );
             configuration.setAttribute( ASSEMBLY, installation.getAssembly() );
-            configuration.setAttribute( SERVER, installation.getServer() );
+            configuration.setAttribute( ENVIRONMENT, installation.getEnvironment() );
             configuration.setAttribute( TIMESTAMP, Long.toString( installation.getTimestamp() ) );
             
             final DefaultConfiguration classpath = new DefaultConfiguration( CLASSPATH, null );
@@ -130,7 +130,7 @@ public class PersistentDeploymentRecorder extends AbstractLogEnabled implements 
             final File directory = new File( configuration.getAttribute( DIRECTORY ) );
             final String config = configuration.getAttribute( CONFIG );
             final String assembly = configuration.getAttribute( ASSEMBLY );
-            final String server = configuration.getAttribute( SERVER );
+            final String environment = configuration.getAttribute( ENVIRONMENT );
             final long timestamp = configuration.getAttributeAsLong( TIMESTAMP );
 
             final Configuration[] paths = configuration.getChild( CLASSPATH, true).getChildren( PATH );
@@ -153,7 +153,8 @@ public class PersistentDeploymentRecorder extends AbstractLogEnabled implements 
                 REZ.getString( "recorder.notice.rebuild.successful", name, file );
             getLogger().debug( message );
             
-            return new Installation( source, directory, config, assembly, server, classPath, fileDigests, timestamp );
+            return new Installation( source, directory, config, assembly, environment, 
+                                     classPath, fileDigests, timestamp );
         }
         catch ( Exception e )
         {
