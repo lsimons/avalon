@@ -8,7 +8,6 @@
 package org.apache.avalon.phoenix.components.kernel;
 
 import java.io.File;
-import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.phoenix.interfaces.Application;
 import org.apache.avalon.phoenix.metadata.SarMetaData;
