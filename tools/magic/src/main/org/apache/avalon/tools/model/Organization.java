@@ -19,7 +19,7 @@ package org.apache.avalon.tools.model;
 
 
 /**
- * Organization descriptor.
+ * Organization descriptor (not used at this time).
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
