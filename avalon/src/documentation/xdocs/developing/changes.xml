@@ -6,6 +6,15 @@
 <revhistory>
   <revision revisionflag="changed">
     <revnumber>1.1</revnumber>
+    <date>20 Jul 2001</date>
+    <authorinitials>BL</authorinitials>
+    <revremark>
+      Updated sample configuration file to reflect the new
+      "driver" configuration element.
+    </revremark>
+  </revision>
+  <revision revisionflag="changed">
+    <revnumber>1.1</revnumber>
     <date>18 Jul 2001</date>
     <authorinitials>BL</authorinitials>
     <revremark>
