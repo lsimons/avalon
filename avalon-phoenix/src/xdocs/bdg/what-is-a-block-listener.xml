@@ -56,12 +56,12 @@
     </section>
      <section name="Guide Contents">
        <ol>
-        <li><a href="guide-block-developers-what-is-a-block.html">What is a block?</a></li>
+        <li><a href="what-is-a-block.html">What is a block?</a></li>
         <li>What is a block listener?</li>
-        <li><a href="guide-block-developers-what-is-an-application-listener.html">What is an application listener?</a></li>
-        <li><a href="guide-block-developers-creating-a-block.html">How do I create a block?</a></li>
-        <li><a href="guide-block-developers-making-phoenix-compatible-comps.html">How do I make my components phoenix-compatible?</a></li>
-        <li><a href="reference-blockinfo-specification.html">BlockInfo specification</a></li>
+        <li><a href="what-is-an-application-listener.html">What is an application listener?</a></li>
+        <li><a href="creating-a-block.html">How do I create a block?</a></li>
+        <li><a href="making-phoenix-compatible-comps.html">How do I make my components phoenix-compatible?</a></li>
+        <li><a href="blockinfo-specification.html">BlockInfo specification</a></li>
        </ol>
       </section>
 </body>

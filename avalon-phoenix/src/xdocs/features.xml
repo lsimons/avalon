@@ -1,14 +1,9 @@
 <?xml version="1.0"?>
-
 <document>
-
  <header>
   <title>Features</title>
-
-    <author name="Leo Simons" email="leosimons@apache.org"/>
-
+  <author name="Leo Simons" email="leosimons@apache.org"/>
  </header>
-
 <body>
 
 <section name="Introduction">

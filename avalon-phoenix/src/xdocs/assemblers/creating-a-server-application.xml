@@ -33,7 +33,7 @@
       <p>
         Configuration data for blocks is stored in the config.xml file.
         For more detail on the format of config.xml see the
-        <a href="reference-config-xml-specification.html">specification</a>.
+        <a href="config-xml-specification.html">specification</a>.
       </p>
     </section>
     <section name="Write the assembly.xml file">
@@ -44,7 +44,7 @@
         satisfied and this can be done via the 'provide' sub-elements. The
         provide element maps block instances from the Server Application namespace
         to the Block role namespace specified in BlockInfo files. For more detail
-        on the format of assembly.xml see the <a href="reference-assembly-xml-specification.html">
+        on the format of assembly.xml see the <a href="assembly-xml-specification.html">
         specification</a>.
       </p>
     </section>
@@ -53,7 +53,7 @@
         The next stage is to write the environment.xml file. The environment.xml is used to
         configure the code-based security policy, log management and thread pooling.
         For more detail on the format of environment.xml see the
-        <a href="reference-environment-xml-specification.html">specification</a>.
+        <a href="environment-xml-specification.html">specification</a>.
       </p>
     </section>
     <section name="Create the sar file">
@@ -68,11 +68,11 @@
     </section>
      <section name="Guide Contents">
        <ol>
-        <li><a href="guide-assemblers-what-is-a-server-application.html">What is a Server Application?</a></li>
+        <li><a href="what-is-a-server-application.html">What is a Server Application?</a></li>
         <li>How do I create a Server Application?</li>
-        <li><a href="reference-config-xml-specification.html">config.xml specification</a></li>
-        <li><a href="reference-assembly-xml-specification.html">assembly.xml specification</a></li>
-        <li><a href="reference-environment-xml-specification.html">environment.xml specification</a></li>
+        <li><a href="config-xml-specification.html">config.xml specification</a></li>
+        <li><a href="assembly-xml-specification.html">assembly.xml specification</a></li>
+        <li><a href="environment-xml-specification.html">environment.xml specification</a></li>
        </ol>
       </section>
   </body>

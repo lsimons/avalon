@@ -52,8 +52,8 @@
             <li><a href="guide-roles.html">Development roles</a></li>
             <li><a href="guide-administrators.html">Administrator Guide</a></li>
             <li><a href="guide-deployers.html">Application Deployer Guide</a></li>
-            <li><a href="guide-assembler.html">Server Application Assembler Guide</a></li>
-            <li><a href="guide-block-developers.html">Block Developer Guide</a></li>
+            <li><a href="assemblers/index.html">Server Application Assembler Guide</a></li>
+            <li><a href="bdg/index.html">Block Developer Guide</a></li>
             <li><a href="guide-example-configuration.html">Example Configuration.</a></li>
           </ol>
         </subsection>

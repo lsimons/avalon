@@ -1,34 +1,31 @@
 <?xml version="1.0"?>
 
 <document>
-  <header>
-    <title>Guide - for Administrators</title>
-
-      <author name="Berin Loritsch" email="bloritsch@apache.org"/>
-
-  </header>
-  <body>
-    <section name="Introduction">
-      <p>
-        Avalon is a Server Framework that provides or will provide for
-        central administration, server pooling, and quicker time to market.
-        The framework defines a standard method of piecing together server
-        components and creating a server.
-      </p>
-      <subsection name="Target Audience">
-        <p>
-          This documentation will describe the care and feeding of the Avalon
-          Phoenix kernel from the point of view of the administrator.
-        </p>
-      </subsection>
-      <subsection name="Guide non-existent, but features are there">
-	<p>
-          We currently have no info on this whatsoever. However, this doesn't
-	  mean that Phoenix is not easy to administrate - the contrary is true,
-	  since our tight integration with JMX exposes the entire kernel at
-	  runtime.
-        </p>
-      </subsection>
-    </section>
-  </body>
+    <header>
+        <title>Guide - for Administrators</title>
+        <author name="Berin Loritsch" email="bloritsch@apache.org"/>
+    </header>
+    <body>
+        <section name="Introduction">
+            <p>
+              Avalon is a Server Framework that provides or will provide for
+              central administration, server pooling, and quicker time to market.
+              The framework defines a standard method of piecing together server
+              components and creating a server.
+            </p>
+            <subsection name="Target Audience">
+                <p>
+                  This documentation will describe the care and feeding of the Avalon
+                  Phoenix kernel from the point of view of the administrator.
+                </p>
+            </subsection>
+            <subsection name="Guide non-existent, but features are there">
+                <p>We currently have no info on this whatsoever. However, this doesn't
+               mean that Phoenix is not easy to administrate - the contrary is true,
+               since our tight integration with JMX exposes the entire kernel at
+               runtime.
+                    </p>
+            </subsection>
+        </section>
+    </body>
 </document>
