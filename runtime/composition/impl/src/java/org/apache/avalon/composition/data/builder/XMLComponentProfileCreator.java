@@ -270,7 +270,45 @@ public class XMLComponentProfileCreator extends XMLProfileCreator
         for( int i = 0; i < configs.length; i++ )
         {
             Configuration conf = configs[ i ];
-            final String key = conf.getAttribute( "key" );
+            EntryDirective entry = getEntry( conf );
+            list.add( entry );
+        }
+        return (EntryDirective[])list.toArray( new EntryDirective[ 0 ] );
+    }
+
+    /**
+     * Utility method to create a single entry directive.
+     *
+     * @param config the entry directive configuration
+     * @return the entry directive
+     * @throws ConfigurationException if an error occurs
+     */
+    protected EntryDirective getEntry( Configuration conf )
+        throws ConfigurationException
+    {
+        final String key = conf.getAttribute( "key" );
+        final String classname = conf.getAttribute( "class", "java.lang.String" );
+        if( ( null != classname ) || ( null != conf.getValue( null ) ) )
+        {
+            String value = conf.getValue( null );
+            if( null != value )
+            {
+                return new ConstructorDirective( 
+                  key, classname, value );
+            } 
+            else
+            {
+                Configuration[] configs = conf.getChildren( "param" );
+                Parameter[] params = getParameters( configs );
+                return new ConstructorDirective( key, classname, params );
+            }
+        }
+        else
+        {
+            //
+            // its using the legacy constructor and import approach
+            //
+
             final Configuration[] children = conf.getChildren();
             if( children.length != 1 )
             {
@@ -284,26 +322,22 @@ public class XMLComponentProfileCreator extends XMLProfileCreator
             if( name.equals( "import" ) )
             {
                 final String importKey = child.getAttribute( "key" );
-                list.add( new ImportDirective( key, importKey ) );
+                return new ImportDirective( key, importKey );
             }
             else if( name.equals( "constructor" ) )
             {
-                final String classname = 
+                final String classname2 = 
                   child.getAttribute( "class", "java.lang.String" );
                 Configuration[] paramsConf = child.getChildren( "param" );
                 if( paramsConf.length > 0 )
                 {
                     Parameter[] params = getParameters( paramsConf );
-                    ConstructorDirective constructor = 
-                      new ConstructorDirective( key, classname, params );
-                    list.add( constructor );
+                    return new ConstructorDirective( key, classname2, params );
                 }
                 else
                 {
-                    ConstructorDirective constructor = 
-                      new ConstructorDirective( 
-                        key, classname, (String) child.getValue( null ) );
-                    list.add( constructor );
+                    return new ConstructorDirective( 
+                      key, classname2, (String) child.getValue( null ) );
                 }
             }
             else
@@ -313,8 +347,8 @@ public class XMLComponentProfileCreator extends XMLProfileCreator
                 throw new ConfigurationException( error );
             }
         }
-        return (EntryDirective[])list.toArray( new EntryDirective[ 0 ] );
     }
+
 
     /**
      * Utility method to create a set of parameter directive.
