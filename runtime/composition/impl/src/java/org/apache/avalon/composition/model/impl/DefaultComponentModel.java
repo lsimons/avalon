@@ -579,10 +579,10 @@ public class DefaultComponentModel extends DefaultDeploymentModel
         {
             Properties props = Parameters.toProperties( m_parameters );
             Properties suppliment = Parameters.toProperties( parameters );
-            Enumeration enum = suppliment.propertyNames();
-            while( enum.hasMoreElements() )
+            Enumeration list = suppliment.propertyNames();
+            while( list.hasMoreElements() )
             {
-                String name = (String) enum.nextElement();
+                String name = (String) list.nextElement();
                 String value = suppliment.getProperty( name );
                 if( value == null )
                 {
