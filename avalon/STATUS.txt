@@ -1,0 +1,168 @@
+APACHE AVALON PROJECT STATUS:                          -*-indented-text-*-
+Last modified at [$Date: 2002/12/03 08:21:16 $]
+
+   
+Release:
+    none ATM; still defining new container plan and how to best keep
+    development of current code go ahead without impacting negatively on
+    the new work.
+
+
+Resolved Issues:
+
+    o There is an Avalon repository called avalon-sandbox to contain 
+      all non-released code. It has its own site to make less confusion
+      with released products.
+      
+    o Use a unified avalon-dev mailing list (and avalon-user remains separate) 
+      +1: nicolaken, neeme, leosutic, mcconnell, bloritsch, stefano, giacomo
+      +0: crafterm, cziegeler
+      -0: leosimons 
+      -1: hammant, leif
+      
+Pending issues:
+    o Coming up with a set of bylaws for the project
+
+    o Define the terms for serving as a Chair
+    
+    o Definition of a new contract for the Context interface, which
+      is the pivot issue of our component protability.
+
+    o Switch to a avalon.apache.org website and @avalon.apache.org
+      mailing lists.
+      
+    o Existing committers can start new projects without a
+      detour to the Incubator by using the avalon-sandbox, and
+      must meet the (TBD) goals of Apache Avalon.
+      These new components must be approved by the PMC before 
+      being accepted in the endorsed repositories, and must meet the 
+      (TBD) goals of Apache Avalon.
+      +1: nicolaken
+      
+    o Voting will follow the "standard Apache voting guidelines"
+
+      [ be nice to refer to an Incubator doc here ]
+      
+    o All code donations [to the ASF, destined for Apache Avalon]
+      arrive via the Incubator, unless the Incubator states they can
+      be placed directly into Avalon.      
+      
+Project Mission:
+
+What is the project's mission?  Our statement of goals/mission/vision
+should arise from the answers to the following and other questions:
+       
+      - Should we have a minimum set of requirements before components
+        are released?
+        +0: nicolaken
+
+      - If yes to above then which things should be part of minimum
+        requirements?
+
+        documentation: require basic overview and user docs
+        +0: nicolaken
+
+        uptodate website: require website be updated to latest release
+                          but may still host previous release docs.
+        +0: nicolaken
+
+        unit tests: (okay so this will never get consensus but ...)
+        +0: nicolaken
+
+        versioning standard: derived from
+            http://apr.apache.org/versioning.html
+            http://jakarta.apache.org/commons/versioning.html
+        +0: nicolaken
+
+        release process: derived from
+          http://jakarta.apache.org/commons/releases.html
+          http://jakarta.apache.org/turbine/maven/development/release-process.html
+          http://cvs.apache.org/viewcvs.cgi/jakarta-ant/ReleaseInstructions?rev=1.9.2.1&content-type=text/vnd.viewcvs-markup
+        +0 nicolaken
+
+        deprecation process: (java specific?)
+          http://jakarta.apache.org/turbine/maven/development/deprecation.html
+        +0: nicolaken
+
+        CVS/Subversion branching:
+          http://jakarta.apache.org/turbine/maven/development/branches.html
+        +0: nicolaken
+
+
+Assets:
+  
+    Mailing lists:      avalon-user@jakarta.apache.org
+                        avalon-dev@jakarta.apache.org
+                        avalon-cvs@jakarta.apache.org
+                        avalon-phoenix-dev@jakarta.apache.org
+                        avalon-apps-dev@jakarta.apache.org 
+  
+    Web site:           http://jakarta.apache.org/avalon/
+    
+    Repositories:       jakarta-avalon             (framework)
+                        jakarta-avalon-testlet     (deprecated testlet)
+                        jakarta-avalon-logkit      (logkit)
+                        jakarta-avalon-phoenix     (phoenix)
+                        jakarta-avalon-cornerstone (components)
+                        jakarta-avalon-apps        (sample phoenix applications)
+                        jakarta-avalon-excalibur   (everything else)
+                        avalon-sandbox             (sandbox)
+                        jakarta-avalon-site        (the web site)
+
+
+PMC Members:
+
+    (To be put here from the ratified resolution)
+
+    Note: Nicola Ken Barozzi is the Chair
+
+
+PMC Members, pending Board approval:
+
+    none yet
+
+    [ this may become obsolete; the Board is discussing a way for the
+      Chair to directly alter the PMC membership; until then, however,
+      we need PMC members ratified by the board, and this tracks them ]
+
+
+Active Committers:
+
+      bloritsch,colus,cziegeler,hammant,jefft,leif,leosimons,leosutic,
+      mirceatoma,mcconnell,nicolaken,proyal,vinayc
+      
+
+Inactive Committers (three months without commits):      
+
+      charlesb,ramc,neeme,giacomo,rana_b,froehlich,lmccay,jrudd,morpheus,
+      crafterm,huw,ymikulski,mschier,stefano
+      
+      
+Emeritus Committers (six months without commits):            
+
+      jon,fede
+      
+      
+Invited Committers:
+
+    none yet
+
+
+Current mission/charter as approved by the board:
+
+    (To be put here from the ratified resolution)
+
+
+The complete text of the resolution that was passed is:
+
+    (To be put here from the ratified resolution)
+
+
+#
+# Local Variables:
+# mode: indented-text
+# tab-width: 4
+# indent-tabs-mode: nil
+# tab-stop-list: (4 6 8 12 16 20 24 28 32 36 40 44 48 52 56 60 64 68 72 76 80)
+# End:
+#
