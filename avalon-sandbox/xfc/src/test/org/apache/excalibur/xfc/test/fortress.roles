@@ -1,8 +1,34 @@
 <role-list>
 
-  <role name="org.apache.excalibur.fortress.examples.components.Translator">
-    <component shorthand="translator"
-               class="org.apache.excalibur.fortress.examples.components.TranslatorImpl"
+  <!-- single component definitions -->
+  <role name="org.apache.avalon.excalibur.xml.Parser">
+    <component shorthand="xml-parser"
+               class="org.apache.avalon.excalibur.xml.JaxpParser"
+               handler="org.apache.excalibur.fortress.handler.PoolableComponentHandler"/>
+  </role>
+
+  <role name="org.apache.avalon.excalibur.xml.xslt.XSLTProcessor">
+    <component shorthand="xslt-processor"
+               class="org.apache.avalon.excalibur.xml.xslt.XSLTProcessorImpl"
+               handler="org.apache.excalibur.fortress.handler.FactoryComponentHandler"/>
+  </role>
+
+  <role name="org.apache.avalon.excalibur.xml.xpath.XPathProcessor">
+    <component shorthand="xpath-processor"
+               class="org.apache.avalon.excalibur.xml.xpath.XPathProcessorImpl"
+               handler="org.apache.excalibur.fortress.handler.ThreadSafeComponentHandler"/>
+  </role>
+
+  <!-- component selector definition -->
+  <role name="org.apache.avalon.excalibur.datasource.DataSourceComponentSelector">
+	<component shorthand="jdbc"
+               class="org.apache.avalon.excalibur.datasource.ResourceLimitingJdbcDataSource"
+               handler="org.apache.excalibur.fortress.handler.ThreadSafeComponentHandler"/>
+    <component shorthand="j2ee"
+               class="org.apache.avalon.excalibur.datasource.J2eeDataSource"
+               handler="org.apache.excalibur.fortress.handler.ThreadSafeComponentHandler"/>
+    <component shorthand="informix"
+               class="org.apache.avalon.excalibur.datasource.InformixDataSource"
                handler="org.apache.excalibur.fortress.handler.ThreadSafeComponentHandler"/>
   </role>
 
