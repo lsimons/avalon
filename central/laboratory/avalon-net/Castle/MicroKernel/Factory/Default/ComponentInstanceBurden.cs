@@ -1,4 +1,4 @@
-// Copyright 2004 The Apache Software Foundation
+ // Copyright 2004 The Apache Software Foundation
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -18,51 +18,48 @@ namespace Apache.Avalon.Castle.MicroKernel.Factory.Default
 	using System.Collections;
 
 	/// <summary>
-	/// ComponentInstanceBurden is responsible for keep tracking 
+	/// ComponentInstanceBurden is responsible for keep track 
 	/// of dependencies assembled by the container - not by 
-	/// the component code - and release it correctly on disposal
+	/// the component code - and release them on owner disposal
 	/// </summary>
 	public class ComponentInstanceBurden
 	{
-		private ArrayList m_list = new ArrayList();
+		private IList m_list = new ArrayList();
 
 		public ComponentInstanceBurden()
 		{
 		}
 
-		public void AddBurden( Object instance, IHandler handler )
+		public void AddBurden(Object instance, IHandler handler)
 		{
-			m_list.Add( new BurdenData( instance, handler ) );
+			m_list.Add(new BurdenData(instance, handler));
 		}
 
 		public bool HasBurden
 		{
-			get
-			{
-				return m_list.Count != 0;
-			}
+			get { return m_list.Count != 0; }
 		}
 
 		public void ReleaseBurden()
 		{
-			foreach( BurdenData data in m_list )
+			foreach(BurdenData data in m_list)
 			{
-				data.Handler.Release( data.Instance );
+				data.Handler.Release(data.Instance);
 			}
 
 			m_list.Clear();
 		}
 	}
 
-	class BurdenData 
+	internal class BurdenData
 	{
 		private object m_instance;
 		private IHandler m_handler;
 
-		public BurdenData( object instance, IHandler handler )
+		public BurdenData(object instance, IHandler handler)
 		{
-			AssertUtil.ArgumentNotNull( instance, "instance" );
-			AssertUtil.ArgumentNotNull( handler, "handler" );
+			AssertUtil.ArgumentNotNull(instance, "instance");
+			AssertUtil.ArgumentNotNull(handler, "handler");
 
 			m_instance = instance;
 			m_handler = handler;
@@ -70,18 +67,12 @@ namespace Apache.Avalon.Castle.MicroKernel.Factory.Default
 
 		public object Instance
 		{
-			get
-			{
-				return m_instance;
-			}
+			get { return m_instance; }
 		}
 
 		public IHandler Handler
 		{
-			get
-			{
-				return m_handler;
-			}
+			get { return m_handler; }
 		}
 	}
 }

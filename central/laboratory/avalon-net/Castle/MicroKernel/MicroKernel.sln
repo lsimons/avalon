@@ -7,6 +7,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Apache.Avalon.Castle.MicroK
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Apache.Avalon.Castle.Windsor", "..\Windsor\Windsor\Apache.Avalon.Castle.Windsor.csproj", "{E60B95FF-FDB6-4DE2-844D-1C0D5695FF09}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Apache.Avalon.Castle.Windsor.Test", "..\Windsor\WindsorTest\Apache.Avalon.Castle.Windsor.Test.csproj", "{D39DB46B-C162-41DD-861E-17675BC60461}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfiguration) = preSolution
 		Debug = Debug
@@ -21,6 +29,14 @@ Global
 		{50442F0D-987F-4A8D-B38C-DFA855B9249E}.Debug.Build.0 = Debug|.NET
 		{50442F0D-987F-4A8D-B38C-DFA855B9249E}.Release.ActiveCfg = Release|.NET
 		{50442F0D-987F-4A8D-B38C-DFA855B9249E}.Release.Build.0 = Release|.NET
+		{E60B95FF-FDB6-4DE2-844D-1C0D5695FF09}.Debug.ActiveCfg = Debug|.NET
+		{E60B95FF-FDB6-4DE2-844D-1C0D5695FF09}.Debug.Build.0 = Debug|.NET
+		{E60B95FF-FDB6-4DE2-844D-1C0D5695FF09}.Release.ActiveCfg = Release|.NET
+		{E60B95FF-FDB6-4DE2-844D-1C0D5695FF09}.Release.Build.0 = Release|.NET
+		{D39DB46B-C162-41DD-861E-17675BC60461}.Debug.ActiveCfg = Debug|.NET
+		{D39DB46B-C162-41DD-861E-17675BC60461}.Debug.Build.0 = Debug|.NET
+		{D39DB46B-C162-41DD-861E-17675BC60461}.Release.ActiveCfg = Release|.NET
+		{D39DB46B-C162-41DD-861E-17675BC60461}.Release.Build.0 = Release|.NET
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 	EndGlobalSection

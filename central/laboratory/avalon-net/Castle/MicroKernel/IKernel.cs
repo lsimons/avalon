@@ -52,8 +52,18 @@ namespace Apache.Avalon.Castle.MicroKernel
 		/// </summary>
 		IHandler this[String key] { get; }
 
+		/// <summary>
+		/// Adds a <see cref="IKernelFacility"/> implementation to 
+		/// the kernel.
+		/// </summary>
+		/// <param name="key">Facility id</param>
+		/// <param name="kernelFacility">Facility instance</param>
         void AddFacility( String key, IKernelFacility kernelFacility );
 
+		/// <summary>
+		/// Removes a <see cref="IKernelFacility"/> from the kernel.
+		/// </summary>
+		/// <param name="key">Facility id</param>
         void RemoveFacility( String key );
 
         /// <summary>

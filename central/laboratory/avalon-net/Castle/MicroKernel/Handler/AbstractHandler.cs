@@ -47,7 +47,6 @@ namespace Apache.Avalon.Castle.MicroKernel.Handler
         public AbstractHandler(IComponentModel model)
         {
             AssertUtil.ArgumentNotNull(model, "model");
-
             m_componentModel = model;
         }
 

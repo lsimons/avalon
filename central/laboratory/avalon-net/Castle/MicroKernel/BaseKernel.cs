@@ -51,7 +51,7 @@ namespace Apache.Avalon.Castle.MicroKernel
 			m_key2Handler = new Hashtable(CaseInsensitiveHashCodeProvider.Default, CaseInsensitiveComparer.Default);
 			m_subsystems = new Hashtable();
 			m_facilities = new Hashtable();
-			HandlerFactory = new SimpleHandlerFactory();
+			HandlerFactory = new BaseHandlerFactory();
 			ModelBuilder = new DefaultComponentModelBuilder(this);
 			LifestyleManagerFactory = new SimpleLifestyleManagerFactory();
 
@@ -126,10 +126,11 @@ namespace Apache.Avalon.Castle.MicroKernel
 		}
 
 		/// <summary>
-		/// 
+		/// Adds a <see cref="IKernelFacility"/> implementation to 
+		/// the kernel.
 		/// </summary>
-		/// <param name="key"></param>
-		/// <param name="facility"></param>
+		/// <param name="key">Facility id</param>
+		/// <param name="facility">Facility instance</param>
 		public virtual void AddFacility(String key, IKernelFacility facility)
 		{
 			AssertUtil.ArgumentNotNull(key, "key");
@@ -141,9 +142,9 @@ namespace Apache.Avalon.Castle.MicroKernel
 		}
 
 		/// <summary>
-		/// 
+		/// Removes a <see cref="IKernelFacility"/> from the kernel.
 		/// </summary>
-		/// <param name="key"></param>
+		/// <param name="key">Facility id</param>
 		public virtual void RemoveFacility(String key)
 		{
 			AssertUtil.ArgumentNotNull(key, "key");
@@ -165,7 +166,7 @@ namespace Apache.Avalon.Castle.MicroKernel
 
 		public IHandler GetHandler(String key, object criteria)
 		{
-			// TODO: IHandler GetHandler( String key, object criteria )
+			// TODO: Delegates invocation to LookupSubsystem
 			return null;
 		}
 
