@@ -1,8 +1,8 @@
 
-Build the antlib using the following command:
+Build and install the antlib using the following command:
 
   $ cd avalon/tools/project
-  $ ant install
+  $ ant
 
 Test the antlib using the following command:
 

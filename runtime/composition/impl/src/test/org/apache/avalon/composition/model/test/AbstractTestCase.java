@@ -61,14 +61,28 @@ public abstract class AbstractTestCase extends TestCase
 
     private static Logger LOGGER = new ConsoleLogger( PRIORITY );
 
-    public static final File BASEDIR = 
-      new File( System.getProperty( "basedir" ) );
+    public static final File BASEDIR = getWorkDir();
 
     public static final File SYS_CONF = 
-      new File( BASEDIR, "target/test-classes/conf/system/kernel.xml" );
+      new File( BASEDIR, "system/kernel.xml" );
 
     private static final XMLSecurityProfileBuilder SECURITY_BUILDER = 
       new XMLSecurityProfileBuilder();
+
+    private static File getWorkDir()
+    {
+        String path = System.getProperty( "project.dir" );
+        if( null != path )
+        {
+            return new File( path );
+        }
+        else
+        {
+            path = System.getProperty( "basedir" );
+            File root = new File( path );
+            return new File( root, "target/test-classes" );
+        }
+    }
 
     //-------------------------------------------------------
     // state
@@ -82,7 +96,7 @@ public abstract class AbstractTestCase extends TestCase
 
    /**
     * Setup the system context and create m_model using a path
-    * relative to the ${basedir}/target-classes/conf directory.
+    * relative to the ${basedir}/conf directory.
     */
     public ContainmentModel setUp( String path ) throws Exception
     {
@@ -97,9 +111,8 @@ public abstract class AbstractTestCase extends TestCase
         // system repository
         //
 
-        File test = new File( getTargetDir(), "test-classes" );
         Configuration sysConfig = config.getChild( "system" );
-        InitialContext context = setUpInitialContext( test, sysConfig );
+        InitialContext context = setUpInitialContext( BASEDIR, sysConfig );
 
         //
         // create a system context factory and start profiling the 
@@ -114,7 +127,7 @@ public abstract class AbstractTestCase extends TestCase
         //
 
         String logConfigPath = config.getChild( "logging" ).getAttribute( "path" );
-        File file = new File( test, logConfigPath );
+        File file = new File( BASEDIR, logConfigPath );
         URL url = file.toURL();
         LoggingManager logging = 
           DefaultSystemContextFactory.createLoggingManager( 
@@ -137,7 +150,7 @@ public abstract class AbstractTestCase extends TestCase
         //
 
         Repository repository = 
-          createTestRepository( context, new File( test, "repository" ) );
+          createTestRepository( context, new File( BASEDIR, "repository" ) );
         factory.setRepository( repository );
 
         //
@@ -152,8 +165,7 @@ public abstract class AbstractTestCase extends TestCase
         // create a containment model using the supplied path
         //
 
-        File confDir = new File( test, "conf" );
-        File source = new File( confDir, path );
+        File source = new File( BASEDIR, path );
 
         return modelFactory.createRootContainmentModel( source.toURL() );
     }
@@ -174,7 +186,7 @@ public abstract class AbstractTestCase extends TestCase
     {
         InitialContextFactory initial = 
           new DefaultInitialContextFactory( "test", base );
-        initial.setCacheDirectory( getMavenRepositoryDirectory() );
+        initial.setCacheDirectory( getCacheDirectory() );
         registerSystemArtifacts( initial, config );
         return initial.createInitialContext();
     }
@@ -197,10 +209,16 @@ public abstract class AbstractTestCase extends TestCase
         {
             Configuration child = children[i];
             String spec = child.getAttribute( "spec" );
-            Artifact artifact = Artifact.createArtifact( "artifact:" + spec );
+            Artifact artifact = Artifact.createArtifact( getURI( spec ) );
             artifacts[i] = artifact;
         }
         return artifacts;
+    }
+
+    private static String getURI( String spec )
+    {
+        if( spec.startsWith( "artifact:" ) ) return spec;
+        return "artifact:" + spec;
     }
 
     public void printModel( String lead, DeploymentModel model )
@@ -285,6 +303,19 @@ public abstract class AbstractTestCase extends TestCase
         }
     }
 
+    private File getCacheDirectory()
+    {
+        String cache = System.getProperty( "project.repository.cache.path" );
+        if( null != cache )
+        {
+            return new File( cache );
+        }
+        else
+        {
+            return getMavenRepositoryDirectory();
+        }
+    }
+
     private static File getMavenRepositoryDirectory()
     {
         return new File( getMavenHomeDirectory(), "repository" );
@@ -333,10 +364,5 @@ public abstract class AbstractTestCase extends TestCase
     protected File getBaseDir()
     {
         return BASEDIR;
-    }
-
-    protected File getTargetDir()
-    {
-        return new File( getBaseDir(), "target" );
     }
 }

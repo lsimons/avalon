@@ -38,8 +38,23 @@ public class DefaultsBuilderTestCase extends TestCase
 
     protected void setUp() throws Exception
     {
-        File base = new File( System.getProperty( "basedir" ) );
+        File base = getWorkDir();
         m_builder = new DefaultsBuilder( KEY, base );
+    }
+
+    private File getWorkDir()
+    {
+        String path = System.getProperty( "project.dir" );
+        if( null != path )
+        {
+            return new File( path );
+        }
+        else
+        {
+            path = System.getProperty( "basedir" );
+            File root = new File( path );
+            return new File( root, "target/test-classes" );
+        }
     }
 
     public void testHomeDirectory() throws Exception
@@ -64,7 +79,7 @@ public class DefaultsBuilderTestCase extends TestCase
 
     public void testConsolidatedProperties() throws Exception
     {
-        File base = new File( System.getProperty( "basedir" ) );
+        File base = getWorkDir();
         File props = new File( base, "test.keys" );
         Properties properties = DefaultsBuilder.getProperties( props );
         String[] keys = (String[]) properties.keySet().toArray( new String[0] );

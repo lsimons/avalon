@@ -27,8 +27,7 @@ import org.apache.avalon.framework.configuration.Configuration;
 
 import org.apache.avalon.util.i18n.ResourceManager;
 import org.apache.avalon.util.i18n.Resources;
-
-import org.apache.excalibur.configuration.ConfigurationUtil;
+import org.apache.avalon.util.configuration.ConfigurationUtil;
 
 /**
  *

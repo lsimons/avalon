@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<project name="avalon-composition-impl" default="dist" basedir="." 
+    xmlns:x="antlib:org.apache.avalon.tools">
+
+  <property file="build.properties"/>
+  <import file="${project.home}/build/standard.xml"/>
+
+  <target name="init" depends="standard.init">
+    <x:filter key="avalon-logging-logkit-impl" feature="uri" 
+       token="AVALON-LOGGING-LOGKIT-SPEC"/>
+    <x:filter key="avalon-framework-impl" feature="version" 
+       token="FRAMEWORK_IMPL_VERSION"/>
+  </target>
+
+</project>

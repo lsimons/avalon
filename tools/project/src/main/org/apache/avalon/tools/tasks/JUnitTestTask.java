@@ -72,6 +72,7 @@ public class JUnitTestTask extends SystemTask
     public static final boolean HALT_ON_FAILURE_VALUE = true;
 
     public static final String CACHE_PATH_KEY = "project.repository.cache.path";
+    public static final String WORK_DIR_KEY = "project.dir";
 
     private static final String ERROR_KEY = "project.test.error";
     private static final String FAILURE_KEY = "project.test.failure";
@@ -272,15 +273,29 @@ public class JUnitTestTask extends SystemTask
         xmlFormatter.setType( xml );
         junit.addFormatter( xmlFormatter );
 
+        Environment.Variable work = new Environment.Variable();
+        work.setKey( WORK_DIR_KEY );
+        work.setValue( base.toString() );
+        junit.addSysproperty( work );
+
         Environment.Variable basedir = new Environment.Variable();
         basedir.setKey( "basedir" );
-        basedir.setValue( base.toString() );
+        basedir.setValue( project.getBaseDir().toString() );
         junit.addSysproperty( basedir );
 
         Environment.Variable cache = new Environment.Variable();
         cache.setKey( CACHE_PATH_KEY );
         cache.setValue( getCachePath() );
         junit.addSysproperty( cache );
+
+        File policy = new File( base, "security.policy" );
+        if( policy.exists() )
+        {
+            Environment.Variable security = new Environment.Variable();
+            security.setKey( "java.security.policy" );
+            security.setValue( policy.toString() );
+            junit.addSysproperty( security );
+        }
 
         junit.setErrorProperty( ERROR_KEY );
         junit.setFailureProperty( FAILURE_KEY );

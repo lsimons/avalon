@@ -43,8 +43,22 @@ public class DefaultInitialContextTest extends TestCase
 {
     private static final String KEY = "test";
 
-    private static final File BASEDIR = 
-      new File( System.getProperty( "basedir" ) );
+    private static final File BASEDIR = getWorkDir();
+
+    private static File getWorkDir()
+    {
+        String path = System.getProperty( "project.dir" );
+        if( null != path )
+        {
+            return new File( path );
+        }
+        else
+        {
+            path = System.getProperty( "basedir" );
+            File root = new File( path );
+            return new File( root, "target/test-classes" );
+        }
+    }
 
     /**
      * Constructor for DefaultInitialContextTest.

@@ -85,7 +85,7 @@ import org.apache.avalon.util.i18n.Resources;
  *      classloader models</li>
  * </ul>
  * <p>
- * Class dependecies include the Excalibur i18n, the assembly 
+ * Class dependecies include the util i18n, the assembly 
  * repository package, the avalon framework and meta packages,
  * and the extensions package.
  * </p>

@@ -48,7 +48,7 @@ public class PrepareTask extends ContextualTask
     private static final String ETC_FILTERED_INCLUDES_KEY = 
       "project.prepare.etc.filtered.includes";
     private static final String ETC_FILTERED_INCLUDES_VALUE = 
-      "**/*.*";
+      "**/*.java,**/*.x*,**/*.properties";
 
     public void init() throws BuildException 
     {
@@ -86,7 +86,7 @@ public class PrepareTask extends ContextualTask
             File buildEtcDir = new File( build, "etc" );
             String filters = project.getProperty( ETC_FILTERED_INCLUDES_KEY );
             copy( etc, buildEtcDir, true, filters, "" );
-            copy( etc, buildEtcDir, false, "**/*.*", filters );
+            copy( etc, buildEtcDir, false, "**/*", filters );
         }
     }
 

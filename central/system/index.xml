@@ -236,6 +236,19 @@
       </dependencies>
     </project>
 
+    <project basedir="../../runtime/util/lifecycle">
+      <info>
+        <group>avalon/util</group>
+        <name>avalon-util-lifecycle</name>
+        <version>1.1.1</version>
+      </info>
+      <dependencies>
+        <projects>
+          <projectref key="avalon-framework-api"/>
+        </projects>
+      </dependencies>
+    </project>
+
     <!--
     Avalon Meta.
     -->
@@ -548,6 +561,58 @@
           <projectref key="avalon-repository-main"/>
           <projectref key="avalon-logging-impl"/>
           <projectref key="avalon-framework-impl"/>
+        </projects>
+      </dependencies>
+    </project>
+
+    <!--
+    Avalon Composition.
+    -->
+
+    <project basedir="../../runtime/composition/api">
+      <info>
+        <group>avalon/composition</group>
+        <name>avalon-composition-api</name>
+        <version>2.0.0</version>
+      </info>
+      <dependencies>
+        <projects>
+          <projectref key="avalon-util-extension-api"/>
+          <projectref key="avalon-repository-api"/>
+          <projectref key="avalon-logging-spi"/>
+          <projectref key="avalon-meta-api"/>
+        </projects>
+      </dependencies>
+    </project>
+
+    <project basedir="../../runtime/composition/spi">
+      <info>
+        <group>avalon/composition</group>
+        <name>avalon-composition-spi</name>
+        <version>2.0.0</version>
+      </info>
+      <dependencies>
+        <projects>
+          <projectref key="avalon-composition-api"/>
+        </projects>
+      </dependencies>
+    </project>
+
+    <project basedir="../../runtime/composition/impl">
+      <info>
+        <group>avalon/composition</group>
+        <name>avalon-composition-impl</name>
+        <version>2.0.1-dev</version>
+      </info>
+      <dependencies>
+        <projects>
+          <projectref key="avalon-composition-spi"/>
+          <projectref key="avalon-repository-main"/>
+          <projectref key="avalon-meta-impl"/>
+          <projectref key="avalon-util-configuration"/>
+          <projectref key="avalon-util-extension-impl"/>
+          <projectref key="avalon-util-lifecycle"/>
+          <projectref key="avalon-logging-impl" build="false" test="true"/>
         </projects>
       </dependencies>
     </project>

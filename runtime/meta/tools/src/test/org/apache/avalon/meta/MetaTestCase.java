@@ -95,8 +95,7 @@ public class MetaTestCase extends TestCase
     */
     public void buildMeta() throws Exception
     {
-        String base = System.getProperty( "basedir" );
-        File basedir = new File( base );
+        File basedir = getWorkDir();
         m_qdox.addSourceTree( basedir );
         JavaSource[] sources = m_qdox.getSources();
         for( int i=0; i<sources.length; i++ )
@@ -147,6 +146,21 @@ public class MetaTestCase extends TestCase
                     }
                 }
             }
+        }
+    }
+
+    private File getWorkDir()
+    {
+        String path = System.getProperty( "project.dir" );
+        if( null != path )
+        {
+            return new File( path );
+        }
+        else
+        {
+            path = System.getProperty( "basedir" );
+            File root = new File( path );
+            return new File( root, "target/test-classes" );
         }
     }
 

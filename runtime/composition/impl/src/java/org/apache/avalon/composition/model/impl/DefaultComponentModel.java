@@ -57,7 +57,8 @@ import org.apache.avalon.meta.info.Type;
 import org.apache.avalon.util.i18n.ResourceManager;
 import org.apache.avalon.util.i18n.Resources;
 
-import org.apache.excalibur.configuration.CascadingConfiguration;
+import org.apache.avalon.util.configuration.ConfigurationUtil;
+import org.apache.avalon.util.configuration.CascadingConfiguration;
 
 /**
  * Deployment model defintion.

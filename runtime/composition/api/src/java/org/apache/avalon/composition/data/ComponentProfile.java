@@ -47,7 +47,7 @@ import org.apache.avalon.logging.data.CategoriesDirective;
  may be serviced by components declared in parent container.
  --&gt;</i></font>
 
-&lt;component name="<font color="darkred">complex</font>" class="<font color="darkred">org.apache.excalibur.playground.ComplexComponent</font>" activation="<font color="darkred">startup</font>"&gt;
+&lt;component name="<font color="darkred">complex</font>" class="<font color="darkred">org.apache.avalon.playground.ComplexComponent</font>" activation="<font color="darkred">startup</font>"&gt;
 
   <font color="gray"><i>&lt;!--
   Priority and target assignments for component specific logging categrories.
