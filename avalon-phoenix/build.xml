@@ -17,7 +17,7 @@ Legal:
 ==============================================================================
 -->
 
-<project default="main" basedir=".">
+<project name="Avalon Phoenix" default="main" basedir=".">
 
   <!--
     Give user a chance to override without editing this file

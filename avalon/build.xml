@@ -19,7 +19,7 @@ Legal:
 ==============================================================================
 -->
 
-<project default="main" basedir=".">
+<project name="Avalon Framework" default="main" basedir=".">
 
   <!--
     Give user a chance to override without editing this file
@@ -428,7 +428,7 @@ Legal:
     <copy todir="${build.xdocs}" overwrite="true" filtering="on">
       <fileset dir="${xdocs.dir}"/>
     </copy>
-        
+
     <style style="${announce2txt}" in="${build.xdocs}/framework/announcement.xml"
            out="Announcement.txt"/>
     <style style="${announce2header}" in="${build.xdocs}/framework/announcement.xml"
@@ -597,7 +597,7 @@ Legal:
     <delete dir="${src.dist.dir}"/>
 
   </target>
-  
+
   <target name="sitebook2docbook" description="goes through all the xdocs and transforms them to docbook">
     <style style="${document2docbook}"
            basedir="${context.dir}/xdocs"

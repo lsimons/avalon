@@ -14,7 +14,7 @@ Legal:
 ==============================================================================
 -->
 
-<project default="main" basedir=".">
+<project name="Avalon Logkit" default="main" basedir=".">
 
   <!--
     Give user a chance to override without editing this file
@@ -140,35 +140,35 @@ Legal:
   <target name="setup-properties" >
 
   </target>
-  
+
   <target name="import-servlet-jar" description="Imports the servlet API if required">
- 
+
     <mkdir dir="tmp-imports"/>
-  
+
     <property name="jar-version" value="3.2.3"/>
-    
-    <get src="http://jakarta.apache.org/builds/jakarta-tomcat/release/v${jar-version}/bin/jakarta-servletapi-${jar-version}.zip" 
-        dest="tmp-imports/jakarta-servletapi-${jar-version}.zip" 
+
+    <get src="http://jakarta.apache.org/builds/jakarta-tomcat/release/v${jar-version}/bin/jakarta-servletapi-${jar-version}.zip"
+        dest="tmp-imports/jakarta-servletapi-${jar-version}.zip"
         verbose="true"
         usetimestamp="true"/>
 
     <unzip src="tmp-imports/jakarta-servletapi-${jar-version}.zip" dest="tmp-imports" />
 
     <copy file="tmp-imports/jakarta-servletapi-${jar-version}/lib/servlet.jar" todir="${lib.dir}"/>
-    
+
     <delete dir="tmp-imports" />
 
-  </target>    
-  
+  </target>
+
   <target name="import-framework-jar" if="avalon-framework-jar.relatively-present" depends="optional-tests" description="Imports the Avalon Framework jar if required">
 
     <copy file="../jakarta-avalon/dist/avalon-framework-4.0.jar" todir="${lib.dir}"/>
-    
+
   </target>
-  
-  
+
+
   <target name="optional-tests" description="Tests for classes missing to the environment">
-  
+
     <available property="servlet.present"
                classname="javax.servlet.ServletContext"
                classpathref="project.class.path" />
@@ -178,19 +178,19 @@ Legal:
 
     <available property="avalon-framework.present"
                classname="org.apache.avalon.framework.CascadingThrowable"
-               classpathref="project.class.path" />               
-               
+               classpathref="project.class.path" />
+
     <available property="javax.sql.present"
                classname="javax.sql.DataSource"
                classpathref="project.class.path" />
 
     <available property="javax.jms.present"
                classname="javax.jms.TopicConnection"
-               classpathref="project.class.path" />  
-  
+               classpathref="project.class.path" />
+
   </target>
-  
-  <target name="op-warning" description="General waring target (used by other targets)">              
+
+  <target name="op-warning" description="General waring target (used by other targets)">
     <echo>**********************************************</echo>
     <echo>*</echo>
     <echo>*  Classes needed for output via ${thing} are not </echo>
@@ -198,56 +198,56 @@ Legal:
     <echo>*</echo>
     <echo>*  Recovery:</echo>
     <echo>*  ${recovery}</echo>
-    <echo>*</echo>    
+    <echo>*</echo>
     <echo>***********************************************</echo>
     <echo/>
   </target>
-  
-  <target name="servlet-warn" unless="servlet.present" 
+
+  <target name="servlet-warn" unless="servlet.present"
       description="Outputs a warning if javax.servlet.* classes are missing during compilation">
     <antcall target="op-warning">
       <param name="thing" value="Servlet"/>
-      <param name="recovery" 
+      <param name="recovery"
         value="Run the build target import-servlet-jar and it will download the servlet api jar - you should be online for that."/>
     </antcall>
-  </target>    
-  
-  <target name="jms-warn" unless="javax.jms.present" 
+  </target>
+
+  <target name="jms-warn" unless="javax.jms.present"
       description="Outputs a warning if javax.jms.* classes are missing during compilation">
     <antcall target="op-warning">
       <param name="thing" value="JMS"/>
-      <param name="recovery" 
+      <param name="recovery"
         value="Get jms.jar from inside jms-1_0_2b.zip from http://java.sun.com/products/jms/docs.html and place it in the lib dir"/>
     </antcall>
-  </target>  
-  
-  <target name="sql-warn" unless="javax.sql.present" 
+  </target>
+
+  <target name="sql-warn" unless="javax.sql.present"
       description="Outputs a warning if javax.sql.* classes are missing during compilation">
     <antcall target="op-warning">
       <param name="thing" value="SQL databases"/>
-      <param name="recovery" 
-        value="Get jdbc2_0-stdext.jar (listed as 'JDBC 2.0 Optional Package Binary') from http://java.sun.com/products/jdbc/download.html and place it in the lib dir"/>      
+      <param name="recovery"
+        value="Get jdbc2_0-stdext.jar (listed as 'JDBC 2.0 Optional Package Binary') from http://java.sun.com/products/jdbc/download.html and place it in the lib dir"/>
     </antcall>
-  </target>  
-  
-  <target name="framework-warn" unless="avalon-framework.present" 
+  </target>
+
+  <target name="framework-warn" unless="avalon-framework.present"
       description="If Avalon's Framework jar is missing, a warning will be output">
     <echo>**********************************************</echo>
     <echo>*</echo>
-    <echo>*  Optional classes from Avalon's framework subproject</echo> 
+    <echo>*  Optional classes from Avalon's framework subproject</echo>
     <echo>*  are missing.  Logkit should build without them.</echo>
     <echo>*</echo>
-    <echo>*  Run the build target import-framework-jar and it will</echo> 
+    <echo>*  Run the build target import-framework-jar and it will</echo>
     <echo>*  get the framework jar from a relative directory if there.</echo>
-    <echo>*</echo>        
+    <echo>*</echo>
     <echo>***********************************************</echo>
     <echo/>
-  </target>  
-  
-  <target name="optional-warnings" depends="jms-warn,framework-warn,sql-warn,servlet-warn" 
+  </target>
+
+  <target name="optional-warnings" depends="jms-warn,framework-warn,sql-warn,servlet-warn"
       description="Outputs warnings if some jars are missing from the environment">
-  </target>  
-  
+  </target>
+
   <!-- Prepares the build directory -->
   <target name="compile" depends="optional-tests, optional-warnings">
     <mkdir dir="${build.dir}"/>
@@ -424,7 +424,7 @@ Legal:
 
   <!-- Prepares the documentation directory -->
   <target name="docs" depends="javadocs,all">
- 
+
     <mkdir dir="${build.context}"/>
     <mkdir dir="${build.xdocs}"/>
     <mkdir dir="${build.docs}"/>
@@ -662,7 +662,7 @@ Legal:
     </copy>
 
     <style style="${announce2txt}" in="${build.xdocs}/announcement.xml" out="Announcement.txt"/>
-    <style style="${announce2header}" in="${build.xdocs}/announcement.xml" 
+    <style style="${announce2header}" in="${build.xdocs}/announcement.xml"
            out="${dist.base}/HEADER.html"/>
     <style style="${announce2readme}" in="${build.xdocs}/announcement.xml"
            out="${dist.base}/README.html"/>
