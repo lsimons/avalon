@@ -50,10 +50,11 @@
 package org.apache.avalon.fortress.impl.factory;
 
 import org.apache.bcel.Constants;
-import org.apache.bcel.Repository;
 import org.apache.bcel.classfile.JavaClass;
 import org.apache.bcel.classfile.Method;
 import org.apache.bcel.generic.ClassGen;
+import org.apache.bcel.util.ClassLoaderRepository;
+import org.apache.bcel.util.Repository;
 
 /**
  * Create the BCELWrapper for the component
@@ -65,6 +66,12 @@ import org.apache.bcel.generic.ClassGen;
 final class BCELWrapperGenerator
 
 {
+    /**
+     * The BCEL util.Repository instance to use when loading JavaClass instances.
+     * Default is to use util.ClassLoaderRepository with thread context classloader.
+     */
+    private Repository m_repository = null;
+
     /**
      * The suffix to be appended to the name of the wrapped class when creating
      * the name of the wrapper class.
@@ -208,8 +215,11 @@ final class BCELWrapperGenerator
     public BCELWrapperGenerator()
     {
         m_codeGenerator = new BCELCodeGenerator();
+        ClassLoader contextClassLoader = 
+                Thread.currentThread().getContextClassLoader();
+        m_repository = new ClassLoaderRepository( contextClassLoader );
         m_bcelClassLoader =
-            new BCELClassLoader( Thread.currentThread().getContextClassLoader() );
+            new BCELClassLoader( contextClassLoader );
     }
 
     /**
@@ -277,7 +287,15 @@ final class BCELWrapperGenerator
      */
     private JavaClass lookupClass( final Class clazz ) throws Exception
     {
-        return Repository.lookupClass( clazz.getName() );
+        String className = clazz.getName();
+        try
+        {
+            JavaClass jClazz = m_repository.findClass( className );
+            if ( jClazz == null )
+	        return m_repository.loadClass( className );
+            else
+	        return jClazz;
+        } catch ( ClassNotFoundException e ) { return null; }
     }
 
     /**
