@@ -236,7 +236,7 @@ public class DefaultConfiguration
     }
 
     /**
-     * Return an <code>Iterator</code> of <code>Configuration<code>
+     * Return an array of <code>Configuration</code>
      * elements containing all node children.
      *
      * @return The child nodes with name
@@ -312,10 +312,10 @@ public class DefaultConfiguration
     }
 
     /**
-     * Return an <code>Enumeration</code> of <code>Configuration</code> objects
+     * Return an array of <code>Configuration</code> objects
      * children of this associated with the given name.
      * <br>
-     * The returned <code>Enumeration</code> may be empty.
+     * The returned array may be empty but is never <code>null</code>.
      *
      * @param name The name of the required children <code>Configuration</code>.
      * @return a <code>Configuration[]</code> value
