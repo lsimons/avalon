@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 
-<project default="docs" basedir=".">
+<project name="Excalibur Site" default="docs" basedir=".">
 
   <!--
     Give user a chance to override without editing this file
