@@ -23,6 +23,7 @@ import org.apache.avalon.phoenix.components.application.DefaultServerApplication
 import org.apache.avalon.phoenix.components.configuration.ConfigurationRepository;
 import org.apache.avalon.phoenix.components.kapi.SarEntry;
 import org.apache.avalon.phoenix.components.manager.SystemManager;
+import org.apache.avalon.phoenix.metadata.SarMetaData;
 
 /**
  * The ServerKernel is the core of the Phoenix system.
@@ -87,6 +88,7 @@ public class DefaultKernel
     {
         final Application application = (Application)entry.getInstance();
         final SarEntry saEntry = (SarEntry)entry;
+        final SarMetaData metaData = saEntry.getMetaData();
 
         setupLogger( application, name );
         try
@@ -95,7 +97,7 @@ public class DefaultKernel
             {
                 final DefaultContext context = new DefaultContext();
                 context.put( "app.name", name );
-                context.put( "app.home", saEntry.getMetaData().getHomeDirectory() );
+                context.put( "app.home", metaData.getHomeDirectory() );
                 context.put( "app.class.path", saEntry.getClassPath() );
                 context.makeReadOnly();
                 ((Contextualizable)application).contextualize( context );
@@ -110,8 +112,8 @@ public class DefaultKernel
                 ((Composable)application).compose( componentManager );
             }
 
-            application.addBlocks( saEntry.getMetaData().getBlocks() );
-            application.addBlockListeners( saEntry.getMetaData().getListeners() );
+            application.addBlocks( metaData.getBlocks() );
+            application.addBlockListeners( metaData.getListeners() );
 
             if( application instanceof Configurable )
             {
