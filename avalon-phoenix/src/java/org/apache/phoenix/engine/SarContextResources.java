@@ -14,6 +14,7 @@ package org.apache.phoenix.engine;
  */
 public interface SarContextResources 
 {
+    String    APP_ARCHIVE       = "app.archive";
     String    APP_NAME          = "app.name";
     String    APP_HOME_DIR      = "app.home";
 }
