@@ -1,3 +1,7 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE project [
+  <!ENTITY % index SYSTEM "file:index.ent"> %index;
+]>
 <project default="avalon:install" xmlns:maven="jelly:maven" xmlns:j="jelly:core" xmlns:util="jelly:util" xmlns:ant="jelly:ant">
 
   <!--
@@ -17,8 +21,9 @@
   <ant:property name="avalon.util.plugin.version" value="1.0-SNAPSHOT"/>
   <ant:property name="meta.plugin.version" value="1.4-SNAPSHOT"/>
   <ant:property name="repository.cli.version" value="2.0-SNAPSHOT"/>
-  <ant:property name="merlin.cli.version" value="${pom.currentVersion}"/>
-  <ant:property name="merlin.plugin.version" value="${pom.currentVersion}"/>
+
+  <ant:property name="merlin.cli.version" value="&merlin-cli-version;"/>
+  <ant:property name="merlin.plugin.version" value="&merlin-plugin-version;"/>
 
   <!--
   ==============================================================================
@@ -48,7 +53,7 @@
   <ant:property name="maven.jar.manifest.extensions.add" value="false"/>
   <ant:property name="maven.checkstyle.format" value="avalon"/>
   <ant:property name="pom.organization.identifier" value="ASF"/>
-  <ant:property name="pom.specificationVersion" value="3.0"/>
+  <ant:property name="pom.specificationVersion" value="&merlin-api-version;"/>
   <ant:property name="maven.license.licenseFile" value="${basedir}/LICENSE.txt"/>
   <maven:snapshot project="${pom}"/>
 
@@ -90,7 +95,6 @@
   <goal name="avalon:build-main" description="Build Merlin.">
     <maven:reactor basedir="${basedir}"
       includes="extension/**/project.xml,composition/**/project.xml,activation/**/project.xml,kernel/api/project.xml,kernel/impl/project.xml"
-      excludes="facilities/*/project.xml"
       banner="Installing:"
       goals="jar:install"
       ignoreFailures="false" 
@@ -215,59 +219,6 @@
        toDir="${maven.build.dir}/merlin/plugins"/>
     <ant:copy file="${maven.plugin.dir}/${avalon.plugin.jar}" 
        toDir="${maven.build.dir}/merlin/plugins"/>
-  </goal>
-
-  <goal name="avalon:facilities" description="Build Facilities.">
-    <maven:reactor basedir="${basedir}"
-      includes="facilities/**/project.xml"
-      excludes="facilities/*/project.xml"
-      banner="Installing:"
-      goals=""
-      ignoreFailures="false" 
-      postProcessing="true" />
-
-    <j:forEach var="child" items="${reactorProjects}">
-      <j:set var="dir" 
-          value="${maven.build.dir}/merlin/system"/>
-      <j:set var="path" 
-          value="${dir}/${child.groupId}/jars/${child.artifactId}-${child.currentVersion}.jar"/>
-      <ant:copy todir="${dir}/${child.groupId}/jars" 
-             preserveLastModified="true">
-        <ant:fileset dir="${child.file.parentFile}/target">
-          <ant:include 
-              name="${child.artifactId}-${child.currentVersion}.jar"/>
-          <ant:include 
-              name="${child.artifactId}-${child.currentVersion}.jar.meta"/>
-        </ant:fileset>
-      </ant:copy>
-      <checksum file="${path}"/>
-      <j:if test="${maven_gpg_exe != null}">
-        <ant:exec executable="${maven_gpg_exe}">
-          <ant:arg value="-a"/>
-          <ant:arg value="--yes"/>
-          <ant:arg value="-b"/>
-          <ant:arg value="${path}"/>
-        </ant:exec>
-      </j:if>
-      <ant:copy todir="${maven.build.dir}/merlin/system/${child.groupId}/${child.type}s" 
-           preserveLastModified="true">
-        <ant:fileset dir="${child.file.parentFile}/target">
-          <ant:include 
-            name="${child.artifactId}-${child.currentVersion}.${child.type}"/>
-          <ant:include 
-            name="${child.artifactId}-${child.currentVersion}.${child.type}.meta"/>
-        </ant:fileset>
-      </ant:copy>
-      <j:set var="deps" value="${child.dependencies}"/>
-      <j:forEach var="dep" items="${deps}">
-        <ant:copy todir="${maven.build.dir}/merlin/system"
-            preserveLastModified="true">
-          <ant:fileset dir="${maven.repo.local}">
-            <ant:include name="${dep.getArtifactDirectory()}/${dep.getType()}s/${dep.getArtifact()}"/>
-          </ant:fileset>
-        </ant:copy>
-      </j:forEach>
-    </j:forEach>
   </goal>
 
   <goal name="avalon:build-externals" description="Build Externals.">
@@ -527,7 +478,7 @@
 
     <maven:reactor basedir="${basedir}"
       includes="activation/**/project.xml,composition/**/project.xml,kernel/**/project.xml"
-      excludes="**/target/**,facilities/**/project.xml,**/test/project.xml"
+      excludes="**/target/**,**/test/project.xml"
       banner="Site Prep:"
       ignoreFailures="false"
       postProcessing="true" />
@@ -566,12 +517,6 @@
         <j:forEach var="packageGroup" items="${pom.packageGroups}">
           <group title="${packageGroup.title}" packages="${packageGroup.packages}"/>
         </j:forEach>
-
-        <!--
-        <classpath>
-          <path refid="maven.dependency.classpath"/>
-	  </classpath>
-        -->
 
 	  <link href="${sun.j2se.link}" />
 	  <link href="${avalon.framework.link}" />
