@@ -301,7 +301,7 @@
 
     <!-- Prepares the documentation directory -->
     <target name="docs"> <!-- depends="javadocs" description="Generates the Docs" -->
-      <ant antfile="${basedir}/../cocoonbuild.xml"/>
+      <ant antfile="${basedir}/../forrestbuild.xml"/>
     </target>
     
     <target name="site" depends="docs" description=" Places Docs ready for hosting on website">  

@@ -11,13 +11,13 @@
         </authors>
     </header>
     <body>
-        <s1 title="Introduction">
+        <section><title>Introduction</title>
             <p>
             This project contains utilities for managing components.  
             In particular, the ExcaliburComponentManager.
             </p>
-        </s1>
-        <s1 title="Automated Component Management">
+        </section>
+        <section><title>Automated Component Management</title>
           <p>
             The <code>org.apache.avalon.excalibur.component</code> package
     	    in Excalibur will allow you to manage components specified in
@@ -32,12 +32,12 @@
     	    ContextClassLoader--unless you pass a different one in the
     	    constructor.
           </p>
-        </s1>        
+        </section>        
     </body>
     <footer>
         <legal>
           Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-          $Revision: 1.5 $ $Date: 2002/08/07 05:45:03 $
+          $Revision: 1.6 $ $Date: 2003/02/20 14:11:02 $
         </legal>
     </footer>
 </document>
