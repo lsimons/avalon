@@ -17,14 +17,16 @@ limitations under the License.
 -->
 <project>
 
-  <extend>${basedir}/../project-common.xml</extend>
+  <extend>${basedir}/../../buildsystem/project-common.xml</extend>
 
+  <groupId>excalibur-pool</groupId>
   <id>excalibur-pool-api</id>
   <name>Excalibur Pool API</name>
   <package>org.apache.avalon.excalibur.pool</package>
   <inceptionYear>2001</inceptionYear>
-  <shortDescription>Excalibur Pool API</shortDescription>
-  
+  <shortDescription>Excalibur Pool API</shortDescription
+  <currentVersion>2.0</currentVersion>
+
   <dependencies>
     <dependency>
       <groupId>avalon-framework</groupId>
