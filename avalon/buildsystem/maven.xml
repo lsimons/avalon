@@ -530,11 +530,12 @@ target
 <tabs software="${component.name}"
         title="${component.name}">
 
-<tab label="Avalon Home" href="http://avalon.apache.org/"/>
-<tab label="Framework" href="http://avalon.apache.org/framework/"/>
-<tab label="Components" href="http://avalon.apache.org/components/"/>
-<tab label="Phoenix" href="http://avalon.apache.org/phoenix/"/>
-<tab label="SECA" href="http://avalon.apache.org/seca/"/>
+    <tab label="Home" href="http://avalon.apache.org/"/>
+    <tab label="Framework" href="http://avalon.apache.org/framework/"/>
+    <tab label="Components" href="http://avalon.apache.org/components/"/>
+    <tab label="Containers" href="http://avalon.apache.org/containers/"/>
+    <tab label="Apps" href="http://avalon.apache.org/apps/"/>
+    <tab label="Sandbox" href="http://avalon.apache.org/sandbox/"/>
 
 </tabs>
         </j:whitespace>
