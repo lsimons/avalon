@@ -1,5 +1,15 @@
 <?xml version="1.0"?>
 
+<!--
+
+ The excalibur site right now is built using a variety of tools, including our own
+ custom cocoon installed by Nicola and good ol' anakia. One thing that's pretty annoying
+ about this setup is that it generates lots of images/ and skin/ directories all containing
+ the same file. I've fixed this by hand by replacing the relative paths with absolute
+ paths, and by removing all images/ and skin/ directories manually. As such, these documents
+ are usuable on avalon.apache.org only, and not for local browsing.
+
+-->
 <project name="Excalibur Site" default="docs" basedir=".">
 
   <!--
@@ -115,39 +125,49 @@
   </target>
   
   <target name="site" depends="docs" description="Places Docs ready for hosting on website">    
-    <ant antfile="build.xml" dir="..\altrmi" target="site" inheritAll="false"/>
-    <!-- no site target <ant antfile="build.xml" dir="..\assembly" target="site" inheritAll="false"/> -->
-    <ant antfile="build.xml" dir="..\baxter" target="site" inheritAll="false"/>
-    <ant antfile="build.xml" dir="..\bzip2" target="site" inheritAll="false"/>
-    <ant antfile="build.xml" dir="..\cache" target="site" inheritAll="false"/>
-    <ant antfile="build.xml" dir="..\cli" target="site" inheritAll="false"/>
-    <ant antfile="build.xml" dir="..\collections" target="site" inheritAll="false"/>
-    <ant antfile="build.xml" dir="..\concurrent" target="site" inheritAll="false"/>
-    <ant antfile="build.xml" dir="..\configuration" target="site" inheritAll="false"/>
-    <ant antfile="build.xml" dir="..\containerkit" target="site" inheritAll="false"/>
-    <ant antfile="build.xml" dir="..\converter" target="site" inheritAll="false"/>
-    <ant antfile="build.xml" dir="..\event" target="site" inheritAll="false"/>
-    <ant antfile="build.xml" dir="..\extension" target="site" inheritAll="false"/>
-    <ant antfile="build.xml" dir="..\i18n" target="site" inheritAll="false"/>
-    <ant antfile="build.xml" dir="..\instrument" target="site" inheritAll="false"/>
-    <ant antfile="build.xml" dir="..\io" target="site" inheritAll="false"/>
-    <ant antfile="build.xml" dir="..\jprocess" target="site" inheritAll="false"/>
-    <ant antfile="build.xml" dir="..\logger" target="site" inheritAll="false"/>
-    <ant antfile="build.xml" dir="..\monitor" target="site" inheritAll="false"/>
-    <ant antfile="build.xml" dir="..\naming" target="site" inheritAll="false"/>
-    <ant antfile="build.xml" dir="..\pool" target="site" inheritAll="false"/>
-    <ant antfile="build.xml" dir="..\sourceresolve" target="site" inheritAll="false"/>
-    <ant antfile="build.xml" dir="..\store" target="site" inheritAll="false"/>
-    <ant antfile="build.xml" dir="..\tar" target="site" inheritAll="false"/>
-    <ant antfile="build.xml" dir="..\testcase" target="site" inheritAll="false"/>
-    <ant antfile="build.xml" dir="..\thread" target="site" inheritAll="false"/>
-    <ant antfile="build.xml" dir="..\threadcontext" target="site" inheritAll="false"/>
-    <ant antfile="build.xml" dir="..\tweety" target="site" inheritAll="false"/>
-    <ant antfile="build.xml" dir="..\util" target="site" inheritAll="false"/>
-    <ant antfile="build.xml" dir="..\xmlbundle" target="site" inheritAll="false"/>
-    <ant antfile="build.xml" dir="..\xmlutil" target="site" inheritAll="false"/>
-    <ant antfile="build.xml" dir="..\zip" target="site" inheritAll="false"/>
-    <ant antfile="build.xml" dir="..\fortress" target="site" inheritAll="false"/>
+<!-- generated the list below using
+
+find .. -maxdepth 1 -mindepth 1 -type d \
+        ! -name CVS ! -name site ! -name csframework
+        ! -name lib ! -name tools ! -name template-product \
+        -exec echo \<ant dir=\"\{\}\" target=\"site\" inheritAll=\"false\"/\> \;
+
+-->
+<ant dir="../altrmi" target="site" inheritAll="false"/>
+<ant dir="../baxter" target="site" inheritAll="false"/>
+<ant dir="../cache" target="site" inheritAll="false"/>
+<ant dir="../cli" target="site" inheritAll="false"/>
+<ant dir="../collections" target="site" inheritAll="false"/>
+<ant dir="../component" target="site" inheritAll="false"/>
+<ant dir="../concurrent" target="site" inheritAll="false"/>
+<ant dir="../configuration" target="site" inheritAll="false"/>
+<ant dir="../container" target="site" inheritAll="false"/>
+<ant dir="../converter" target="site" inheritAll="false"/>
+<ant dir="../datasource" target="site" inheritAll="false"/>
+<ant dir="../event" target="site" inheritAll="false"/>
+<ant dir="../extension" target="site" inheritAll="false"/>
+<ant dir="../fortress" target="site" inheritAll="false"/>
+<ant dir="../i18n" target="site" inheritAll="false"/>
+<ant dir="../instrument" target="site" inheritAll="false"/>
+<ant dir="../instrument-client" target="site" inheritAll="false"/>
+<ant dir="../instrument-manager" target="site" inheritAll="false"/>
+<ant dir="../io" target="site" inheritAll="false"/>
+<ant dir="../jprocess" target="site" inheritAll="false"/>
+<ant dir="../loader" target="site" inheritAll="false"/>
+<ant dir="../logger" target="site" inheritAll="false"/>
+<ant dir="../meta" target="site" inheritAll="false"/>
+<ant dir="../monitor" target="site" inheritAll="false"/>
+<ant dir="../naming" target="site" inheritAll="false"/>
+<ant dir="../policy" target="site" inheritAll="false"/>
+<ant dir="../pool" target="site" inheritAll="false"/>
+<ant dir="../sourceresolve" target="site" inheritAll="false"/>
+<ant dir="../store" target="site" inheritAll="false"/>
+<ant dir="../testcase" target="site" inheritAll="false"/>
+<ant dir="../thread" target="site" inheritAll="false"/>
+<ant dir="../threadcontext" target="site" inheritAll="false"/>
+<ant dir="../util" target="site" inheritAll="false"/>
+<ant dir="../xfc" target="site" inheritAll="false"/>
+<ant dir="../xmlutil" target="site" inheritAll="false"/>
   </target>
   
   <target name="site2" depends="docs" description="Places Docs ready for hosting on website">    
