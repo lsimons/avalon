@@ -47,27 +47,22 @@
  Apache Software Foundation, please see <http://www.apache.org/>.
 
 */
-package org.apache.avalon.fortress.impl.handler;
+package org.apache.avalon.fortress.impl.factory;
 
-import org.apache.excalibur.instrument.Instrument;
-import org.apache.excalibur.instrument.Instrumentable;
 import org.apache.excalibur.mpool.ObjectFactory;
+import org.apache.avalon.framework.component.Component;
+
+import java.lang.reflect.Proxy;
 
 /**
  * An ObjectFactory that delegates to another ObjectFactory
  * and proxies results of that factory.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.8 $ $Date: 2003/04/18 20:02:29 $
+ * @version $Revision: 1.1 $ $Date: 2003/04/22 16:11:23 $
  */
-public final class ProxyObjectFactory
-    implements ObjectFactory, Instrumentable
+public final class ProxyObjectFactory extends AbstractObjectFactory
 {
-    /**
-     * The underlying object factory that this factory proxies.
-     */
-    private final ObjectFactory m_objectFactory;
-
     /**
      * Create factory that delegates to specified factory.
      *
@@ -76,12 +71,7 @@ public final class ProxyObjectFactory
      */
     public ProxyObjectFactory( final ObjectFactory objectFactory ) throws NullPointerException
     {
-        if ( null == objectFactory )
-        {
-            throw new NullPointerException( "objectFactory" );
-        }
-
-        m_objectFactory = objectFactory;
+        super(objectFactory);
     }
 
     /**
@@ -93,18 +83,8 @@ public final class ProxyObjectFactory
     public Object newInstance()
         throws Exception
     {
-        final Object object = m_objectFactory.newInstance();
-        return ProxyHelper.createProxy( object );
-    }
-
-    /**
-     * Return the class created by factory.
-     *
-     * @return the class created by factory.
-     */
-    public Class getCreatedClass()
-    {
-        return m_objectFactory.getCreatedClass();
+        final Object object = m_delegateFactory.newInstance();
+        return createProxy( object );
     }
 
     /**
@@ -117,57 +97,49 @@ public final class ProxyObjectFactory
     public void dispose( final Object object )
         throws Exception
     {
-        final Object target = ProxyHelper.getObject( object );
-        m_objectFactory.dispose( target );
+        final Object target = getObject( object );
+        m_delegateFactory.dispose( target );
     }
 
-    /* (non-Javadoc)
-     * @see org.apache.excalibur.instrument.Instrumentable#setInstrumentableName(java.lang.String)
+    /**
+     * Get the Component wrapped in the proxy.
+     *
+     * @param service the service object to proxy
      */
-    public void setInstrumentableName( final String name )
+    public static Component createProxy( final Object service )
     {
-        if ( m_objectFactory instanceof Instrumentable )
-        {
-            ( (Instrumentable) m_objectFactory ).setInstrumentableName( name );
-        }
+        final Class clazz = service.getClass();
+        final Class[] workInterfaces = guessWorkInterfaces( clazz );
+
+        return (Component) Proxy.newProxyInstance( clazz.getClassLoader(),
+            workInterfaces,
+            new PassThroughInvocationHandler( service ) );
     }
 
-    /* (non-Javadoc)
-     * @see org.apache.excalibur.instrument.Instrumentable#getInstrumentableName()
+    /**
+     * Get the target object from specified proxy.
+     *
+     * @param proxy the proxy object
+     * @return the target object
+     * @throws NullPointerException if unable to aquire target object,
+     *                   or specified object is not a proxy
      */
-    public String getInstrumentableName()
+    public static Object getObject( final Object proxy )
+
     {
-        if ( m_objectFactory instanceof Instrumentable )
+        if ( null == proxy )
         {
-            return ( (Instrumentable) m_objectFactory ).getInstrumentableName();
+            throw new NullPointerException( "proxy" );
         }
 
-        return "";
-    }
-
-    /* (non-Javadoc)
-     * @see org.apache.excalibur.instrument.Instrumentable#getInstruments()
-     */
-    public Instrument[] getInstruments()
-    {
-        if ( m_objectFactory instanceof Instrumentable )
+        if ( !Proxy.isProxyClass( proxy.getClass() ) )
         {
-            return ( (Instrumentable) m_objectFactory ).getInstruments();
+            final String message = "object is not a proxy";
+            throw new IllegalArgumentException( message );
         }
 
-        return new Instrument[]{};
-    }
-
-    /* (non-Javadoc)
-     * @see org.apache.excalibur.instrument.Instrumentable#getChildInstrumentables()
-     */
-    public Instrumentable[] getChildInstrumentables()
-    {
-        if ( m_objectFactory instanceof Instrumentable )
-        {
-            return ( (Instrumentable) m_objectFactory ).getChildInstrumentables();
-        }
-
-        return new Instrumentable[]{};
+        final PassThroughInvocationHandler handler =
+            (PassThroughInvocationHandler) Proxy.getInvocationHandler( proxy );
+        return handler.getObject();
     }
 }

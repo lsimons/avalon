@@ -67,7 +67,7 @@ import org.apache.excalibur.mpool.ObjectFactory;
  * and destroyed correctly.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.13 $ $Date: 2003/04/18 20:02:29 $
+ * @version CVS $Revision: 1.14 $ $Date: 2003/04/22 16:11:23 $
  * @since 4.0
  */
 public abstract class AbstractComponentHandler
@@ -191,11 +191,11 @@ public abstract class AbstractComponentHandler
     /**
      * Initialize the ComponentHandler.
      * Subclasses should overide this to do their own initialization.
+     *
+     * @throws Exception if there is a problem
      */
-    protected void doPrepare()
-        throws Exception
-    {
-    }
+    protected void doPrepare() throws Exception
+    {}
 
     /**
      * Get a reference of the desired Component
