@@ -360,7 +360,6 @@ public class DefaultPolicy
 
             if( !certificateSet.contains( certificate ) )
             {
-                if( DEBUG ) getLogger().debug( "Certificate " + certificate );
                 certificateSet.add( certificate );
             }
         }
