@@ -59,7 +59,7 @@ import org.apache.excalibur.store.Store;
  *
  * @author <a href="mailto:ovidiu@cup.hp.com">Ovidiu Predescu</a>
  * @author <a href="mailto:proyal@apache.org">Peter Royal</a>
- * @version CVS $Id: XSLTProcessorImpl.java,v 1.5 2002/05/02 11:12:55 cziegeler Exp $
+ * @version CVS $Id: XSLTProcessorImpl.java,v 1.6 2002/05/06 09:03:10 cziegeler Exp $
  * @version 1.0
  * @since   July 11, 2001
  */
@@ -435,7 +435,7 @@ public class XSLTProcessorImpl
             Object[] templateAndValidity = new Object[2];
             templateAndValidity[0] = templates;
             templateAndValidity[1] = validity;
-            store.hold(id, templateAndValidity);
+            store.store(id, templateAndValidity);
         }
     }
 
