@@ -10,7 +10,7 @@
 # It is overridden by ../ant.properties and ~/build.properties
 # It overrides all default.properties files and ~/.ant.properties
 #
-# $Id: ant.properties.sample,v 1.9 2002/09/06 06:36:40 hammant Exp $
+# $Id: ant.properties.sample,v 1.10 2003/02/08 14:40:39 hammant Exp $
 # -----------------------------------------------------------------------------
 
 # ----- Compile Control Flags -----
@@ -26,7 +26,7 @@ base.path=${basedir}/../..
 #                REQUIRED LIBRARIES
 # --------------------------------------------------
 # ----- Avalon Framework, version 4.1 or later -----
-avalon-framework.home=${basedir}/../../jakarta-avalon
+avalon-framework.home=${basedir}/../../avalon
 avalon-framework.lib=${avalon-framework.home}/build/lib
 avalon-framework.jar=${avalon-framework.lib}/avalon-framework.jar
 

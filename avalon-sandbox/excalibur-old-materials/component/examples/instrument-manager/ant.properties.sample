@@ -9,7 +9,7 @@
 # The ant.properties values in this directory apply only to this component, and
 # override the defaults in ../ant.properties.
 #
-# $Id: ant.properties.sample,v 1.4 2002/09/06 06:36:40 hammant Exp $
+# $Id: ant.properties.sample,v 1.5 2003/02/08 14:40:39 hammant Exp $
 # -----------------------------------------------------------------------------
 
 # --------------------------------------------------
@@ -30,23 +30,23 @@ base.path=/opt
 # --------------------------------------------------
 
 # ----- Xerces -----
-xerces.home=../../../../jakarta-avalon/tools/lib/
+xerces.home=../../../../avalon/tools/lib/
 xerces.jar=${xerces.home}/xerces-2.0.1.jar
 
 # ----- XML-APIs -----
-xml-apis.home=../../../../jakarta-avalon/tools/lib/
+xml-apis.home=../../../../avalon/tools/lib/
 xml-apis.jar=${xml-apis.home}/xml-apis.jar
 
 # ----- Xalan -----
-xalan.home=../../../../jakarta-avalon/tools/lib/
+xalan.home=../../../../avalon/tools/lib/
 xalan.jar=${xalan.home}/xalan-2.3.1.jar
 
 # ----- Logkit -----
-logkit.home=../../../../jakarta-avalon-logkit/build/lib
+logkit.home=../../../../avalon-logkit/build/lib
 logkit.jar=${logkit.home}/logkit.jar
 
 # ----- Avalon Framework -----
-avalon-framework.home=../../../../jakarta-avalon/build/lib
+avalon-framework.home=../../../../avalon/build/lib
 avalon-framework.jar=${avalon-framework.home}/avalon-framework.jar
 
 # ----- Excalibur Concurrent -----
