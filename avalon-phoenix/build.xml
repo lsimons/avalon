@@ -92,7 +92,7 @@ Legal:
     <fileset dir="${lib.dir}">
       <include name="*.jar" />
       <exclude name="avalon-*"/>
-      <exclude name="logkit.jar"/>
+      <exclude name="logkit*.jar"/>
     </fileset>
     <pathelement path="${build.classes}" />
   </path>
@@ -414,8 +414,14 @@ Legal:
     <copy file="${scratchpad.jar}" todir="${dist.lib}"/>
     <copy file="${xerces.jar}" tofile="${dist.lib}/xerces.jar"/>
     <copy file="${xalan.jar}" tofile="${dist.lib}/xalan.jar"/>
-    <copy file="${lib.dir}/jmxtools.jar" todir="${dist.lib}"/>
-    <copy file="${lib.dir}/jmxri.jar" todir="${dist.lib}"/>
+
+    <copy todir="${dist.lib}">
+      <fileset dir="${lib.dir}">
+        <include name="*.jar" />
+        <exclude name="avalon-*"/>
+        <exclude name="logkit*.jar"/>
+      </fileset>
+    </copy>
 
     <copy file="${script.dir}/run.bat" todir="${dist.bin}"/>
     <copy file="${script.dir}/run.sh" todir="${dist.bin}"/>
