@@ -7,8 +7,8 @@
   # the implementation artifact classpath, factory, etc.            #
   ###################################################################
   -->
-
   <postGoal name="java:compile">
+  <!--
     <ant:echo file="${maven.build.dir}/classes/merlin.implementation">
 #===================================================================#
 # Default merlin implementation artifact identifier.                #
@@ -24,7 +24,7 @@ avalon.artifact.version = ${merlin.implementation.version}
 # EOF
 #
 </ant:echo>
-
+  -->
     <ant:copy file="${maven.repo.local}/${pom.groupId}/properties/merlin.properties" 
        toDir="${maven.build.dir}/classes" verbose="yes"/>
 
