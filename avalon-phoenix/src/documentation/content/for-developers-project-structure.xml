@@ -44,7 +44,7 @@ org.apache.avalon.phoenix
       </section>
       <section><title>CVS Directory structure</title>
 <source>
-jakarta-avalon-phoenix
+avalon-phoenix
 |
 |- lib : for third party libraries
 |
