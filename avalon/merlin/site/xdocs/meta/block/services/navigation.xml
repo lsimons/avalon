@@ -68,7 +68,7 @@
       <item name="Merlin System" href="/merlin/index.html"/>
       <item name="Meta Model" href="/meta/index.html">
         <item name="kernel.xml" href="/meta/kernel/index.html"/>
-        <item name="blocks.xml" href="/meta/block/index.html">
+        <item name="block.xml" href="/meta/block/index.html">
           <item name="services" href="/meta/block/services/index.html">
             <item name="services" href="/meta/block/services/service.html"/>
           </item>
