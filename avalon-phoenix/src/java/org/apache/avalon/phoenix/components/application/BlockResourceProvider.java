@@ -39,7 +39,7 @@ import java.lang.reflect.Array;
  * Block or Listener.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.7 $ $Date: 2002/10/01 07:04:05 $
+ * @version $Revision: 1.8 $ $Date: 2002/10/01 07:29:27 $
  */
 class BlockResourceProvider
     extends AbstractLogEnabled
@@ -229,7 +229,7 @@ class BlockResourceProvider
                     sets.put( key, smap );
                 }
 
-                map.put( role.getAlias(), dependency );
+                smap.put( role.getAlias(), dependency );
             }
             else
             {
