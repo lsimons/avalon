@@ -27,7 +27,7 @@ import java.util.Map;
  * @version $Id$
  */
 public class DefaultContext
-    implements Context
+    implements Context, Serializable
 {
     private static final class Hidden implements Serializable
     {
@@ -202,5 +202,57 @@ public class DefaultContext
                 "Context is read only and can not be modified";
             throw new IllegalStateException( message );
         }
+    }
+    
+    /** Check for equality between two DefaultContext objects.
+     *
+     * <p>Equality is said to be true if, and only if, the following
+     * criteria are met;<p>
+     * <ul>
+     *   <li>They are both of the same class.</li>
+     *   <li>They both have the same parent.</li>
+     *   <li>The content of the context map are identical, i.e HashMap.equals()</li>
+     *   <li>The have the same readOnly state.</li>
+     * </ul>
+     *
+     * @since 4.5
+     */
+    public boolean equals( Object o )
+    {
+        if( this == o )
+            return true;
+            
+        if( ! (o.getClass().equals( getClass() ) ) )
+            return false;
+            
+        DefaultContext other = (DefaultContext) o ;
+
+        if( ! m_contextData.equals( other.m_contextData ) )
+            return false;
+            
+        if( m_parent == null )
+        {
+            if( other.m_parent != null )
+                return false;
+        }   
+        else
+        {
+            if( ! m_parent.equals( other.m_parent ) )
+                return false;
+        }
+            
+        return m_readOnly == other.m_readOnly;
+    }
+    
+    
+    public int hashCode()
+    {
+        int hash = m_contextData.hashCode();
+        if( m_parent != null )
+            hash ^= m_parent.hashCode();
+        else
+            hash >>>= 3;
+        hash >>>= m_readOnly ? 7 : 13 ;
+        return hash;
     }
 }

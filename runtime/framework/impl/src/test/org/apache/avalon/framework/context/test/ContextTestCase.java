@@ -182,4 +182,63 @@ public class ContextTestCase
             // Supposed to be thrown.
         }
     }
+    
+    public void testEquals()
+        throws Exception
+    {
+        // Different set of parents.
+        DefaultContext p1 = new DefaultContext();
+        p1.put( "test", "CoolTest" );
+        DefaultContext p2 = new DefaultContext();
+        p2.put( "test", "Cool Test" );
+        
+        DefaultContext c1 = new DefaultContext( p1 );
+        DefaultContext c2 = new DefaultContext( p1 );
+        DefaultContext c3 = new DefaultContext( p1 );
+        DefaultContext c4 = new DefaultContext( p1 );
+        DefaultContext c5 = new DefaultContext( p2 );
+        
+        c1.put( "test", "Cool Test" );
+        c2.put( "test", "Cool Test" );
+        c3.put( "test", "Cool Test" );
+        c3.put( "test2", "Cool Test" );
+        c4.put( "test", "Cool Test" );
+        c4.makeReadOnly();
+        c5.put( "test", "Cool Test" );
+        
+        assertEquals( "Identical", c1, c2 );
+        assertTrue( "ContextData", ! c1.equals( c3 ) );
+        assertTrue( "ReadOnly", ! c1.equals( c4 ) );
+        assertTrue( "Parent", ! c1.equals( c5 ) );
+        
+    }
+
+    public void testHashcode()
+        throws Exception
+    {
+        // Different set of parents.
+        DefaultContext p1 = new DefaultContext();
+        p1.put( "test", "CoolTest" );
+        DefaultContext p2 = new DefaultContext();
+        p2.put( "test", "Cool Test" );
+        
+        DefaultContext c1 = new DefaultContext( p1 );
+        DefaultContext c2 = new DefaultContext( p1 );
+        DefaultContext c3 = new DefaultContext( p1 );
+        DefaultContext c4 = new DefaultContext( p1 );
+        DefaultContext c5 = new DefaultContext( p2 );
+        
+        c1.put( "test", "Cool Test" );
+        c2.put( "test", "Cool Test" );
+        c3.put( "test", "Cool Test" );
+        c3.put( "test2", "Cool Test" );
+        c4.put( "test", "Cool Test" );
+        c4.makeReadOnly();
+        c5.put( "test", "Cool Test" );
+        
+        assertEquals( "Identical", c1.hashCode(), c2.hashCode() );
+        assertTrue( "ContextData", c1.hashCode() != c3.hashCode() );
+        assertTrue( "ReadOnly", c1.hashCode() != c4.hashCode() );
+        assertTrue( "Parent", c1.hashCode() != c5.hashCode() );
+    }
 }
