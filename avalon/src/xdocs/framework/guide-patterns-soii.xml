@@ -159,10 +159,4 @@ public class RemoteHelloWorld implements HelloWorld {
       </s2>
     </s1>
   </body>
-  <footer>
-    <legal>
-      Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.2 $ $Date: 2002/08/05 13:23:59 $
-    </legal>
-  </footer>
 </document>

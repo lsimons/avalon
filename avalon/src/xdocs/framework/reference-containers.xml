@@ -116,10 +116,4 @@
       </s2>
      </s1>
   </body>
-  <footer>
-    <legal>
-      Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.2 $ $Date: 2002/07/14 13:42:14 $
-    </legal>
-  </footer>
 </document>

@@ -114,10 +114,4 @@ class MyComponent
       </link>.</p>
       </s1>
   </body>
-  <footer>
-    <legal>
-      Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.2 $ $Date: 2002/10/27 12:53:27 $
-    </legal>
-  </footer>
 </document>

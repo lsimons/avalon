@@ -7,7 +7,7 @@
     <title>History</title>
     <subtitle>Proposal</subtitle>
     <authors>
-      <person id="SM" name="Stefano Mazzocchi" email="stefano@apache.org"/>
+      <person name="Stefano Mazzocchi" email="stefano@apache.org"/>
     </authors>
     <notice>
       This documentation is provided for historical purposes to document the
@@ -139,10 +139,4 @@
       </ol>
     </s1>
   </body>
-  <footer>
-    <legal>
-      Copyright (c) 1997-2001 The Jakarta Apache Project All rights reserved.
-      $Revision: 1.4 $ $Date: 2002/01/31 15:43:53 $
-    </legal>
-  </footer>
 </document>

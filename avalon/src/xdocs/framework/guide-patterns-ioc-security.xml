@@ -187,10 +187,4 @@
       </p>
     </s1>
   </body>
-  <footer>
-    <legal>
-      Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.1 $ $Date: 2002/05/03 10:19:53 $
-    </legal>
-  </footer>
 </document>

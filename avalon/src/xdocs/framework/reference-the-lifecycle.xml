@@ -182,58 +182,6 @@
           <li>reparameterize()</li>
         </ul>
       </s2>
-<!--
-      <s2 title="The Command Pattern">
-        <p>
-          The most advanced, most complicated and most flexible option is to use
-          the Command pattern by having your component implement the Commandable
-          interface. This is experimental; you'll find the Commandable and its
-          related classes in the excalibur package.
-        </p>
-        <p>
-          It is recommended that if your component implements Commandable, it should
-          not implement Executable or Interruptable. When you do choose to combine the
-          two, the order in which the different steps must happen is very specific:
-          <code>
-// inside container...<br />
-// ...<br />
-myComponent.initialize();<br />
-myComponent.start();<br />
-Iterator commands = myComponent.getCommands();<br />
-runAll(commands);<br />
-myComponent.suspend();<br />
-myComponent.resume();<br />
-myComponent.suspend();<br />
-myComponent.resume();<br />
-myComponent.stop();<br />
-myComponent.dispose();<br />
-// ...<br />
-// on shutdown...<br />
-stopAll(commands);<br />
-commands = null;<br />
-myComponent = null;<br />
-System.gc(); // finalize() is called on myComponent, which allows it to perform some<br />
-             // final operation on its Commands.<br />
-          </code>
-        </p>
-        <p>
-          The advantage of using Commands is that you can have multiple processes running
-          outside your component that can manipulate it. These will run until completion
-          even if you component has already been disposed of.
-        </p>
-        <p>
-          You should note that the Command interface we use extends Runnable, which means
-          Commands can be (and usually are) run() using standard pooling utilities for
-          threads.
-        </p>
-      </s2>
--->
     </s1>
   </body>
-  <footer>
-    <legal>
-      Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.4 $ $Date: 2002/09/07 08:49:26 $
-    </legal>
-  </footer>
 </document>
