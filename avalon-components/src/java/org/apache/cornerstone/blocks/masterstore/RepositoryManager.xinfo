@@ -3,16 +3,15 @@
 <blockinfo>
 
   <meta>
-
     <contributors>
       <author name="Federico Barbier" email="fede@apache.org"/>
     </contributors>
-
   </meta>
 
   <!-- services that are offered by this block -->
   <services>
     <service name="org.apache.cornerstone.services.Store" version="1.0" />
+    <service name="org.apache.cornerstone.services.store.Store" version="1.0" />
   </services>
 
 </blockinfo>

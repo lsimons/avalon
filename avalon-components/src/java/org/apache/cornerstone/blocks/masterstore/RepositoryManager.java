@@ -25,7 +25,8 @@ import org.apache.avalon.Context;
 import org.apache.avalon.Contextualizable;
 import org.apache.avalon.Initializable;
 import org.apache.phoenix.Block;
-import org.apache.cornerstone.services.Store;
+import org.apache.cornerstone.services.store.Store;
+import org.apache.cornerstone.services.store.Repository;
 
 /**
  *
@@ -33,7 +34,8 @@ import org.apache.cornerstone.services.Store;
  */
 public class RepositoryManager 
     extends AbstractLoggable 
-    implements Block, Store, Contextualizable, Composer, Configurable
+    implements Block, Store, Contextualizable, Composer, Configurable,
+    org.apache.cornerstone.services.Store
 {
     private static final String   REPOSITORY_NAME  = "Repository";
     private static long           id               = 0;
@@ -134,7 +136,7 @@ public class RepositoryManager
         {
             final String type = repConf.getAttribute( "type" );
             final String repID = destination + type;
-            Store.Repository reply = (Store.Repository)m_repositories.get( repID );
+            Repository reply = (Repository)m_repositories.get( repID );
             final String model = (String)repConf.getAttribute( "model" );
 
             if( null != reply ) 
@@ -160,7 +162,7 @@ public class RepositoryManager
 
                 try 
                 {
-                    reply = (Store.Repository)Class.forName( repClass ).newInstance();
+                    reply = (Repository)Class.forName( repClass ).newInstance();
                     setupLogger( reply, "repository" );
                     
                     if( reply instanceof Contextualizable )

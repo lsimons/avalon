@@ -30,6 +30,7 @@ import org.apache.avalon.Initializable;
 import org.apache.phoenix.Block;
 import org.apache.phoenix.BlockContext;
 import org.apache.cornerstone.services.Store;
+import org.apache.cornerstone.services.store.Repository;
 import org.apache.avalon.util.io.ExtensionFileFilter;
 
 /**
@@ -40,7 +41,7 @@ import org.apache.avalon.util.io.ExtensionFileFilter;
  */
 public abstract class AbstractFileRepository 
     extends AbstractLoggable  
-    implements Block, Store.Repository, Contextualizable, Composer, Configurable, Initializable
+    implements Block, Repository, Contextualizable, Composer, Configurable, Initializable
 {
     protected static final boolean      DEBUG          = false;
 
@@ -130,7 +131,7 @@ public abstract class AbstractFileRepository
         return (AbstractFileRepository)getClass().newInstance();
     }
 
-    public Store.Repository getChildRepository( final String childName )
+    public Repository getChildRepository( final String childName )
     {
         AbstractFileRepository child = null; 
         
