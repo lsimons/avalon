@@ -18,10 +18,8 @@ import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.component.ComponentException;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.logger.AbstractLoggable;
+import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.logger.LogEnabled;
-import org.apache.avalon.framework.logger.LogKitLogger;
-import org.apache.avalon.framework.logger.Loggable;
 
 /**
  * The Default implementation for DataSourceSelector.
@@ -49,7 +47,7 @@ import org.apache.avalon.framework.logger.Loggable;
  * @author <a href="mailto:colus@apache.org">Eung-ju Park</a>
  */
 public class DefaultDataSourceSelector
-    extends AbstractLoggable
+    extends AbstractLogEnabled
     implements DataSourceSelector, Configurable, Initializable, Disposable
 {
     private Configuration m_configuration;
@@ -101,11 +99,7 @@ public class DefaultDataSourceSelector
 
             if( component instanceof LogEnabled )
             {
-                ( (LogEnabled)component ).enableLogging( new LogKitLogger( getLogger().getChildLogger( name ) ) );
-            }
-            else if( component instanceof Loggable )
-            {
-                ( (Loggable)component ).setLogger( getLogger().getChildLogger( name ) );
+                setupLogger( component, name );
             }
             component.configure( dataSourceConf );
             m_dataSources.put( name, component );
