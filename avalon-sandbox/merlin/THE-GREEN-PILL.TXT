@@ -1,0 +1,18 @@
+#
+# if you want to run this version of Merlin then all you need to do is
+# define an evironment variable to point to your Merlin installation root
+# directory, put the following command into a bat of script or whateve in 
+# your path, then go for it.
+# 
+# 
+# The -Djava.ext.dirs argument is important because it tels the JCM where 
+# to find the bootstrap classes.  The rest just starts up a kernel that loads 
+# an evalon-meta/assembly deployment engine and logs some stuff in the 
+# process - interesting but not terribly valuable at the moment.
+#
+
+java -Djava.ext.dirs=%MERLIN_HOME%\common;%MERLIN_HOME%\lib -jar %MERLIN_HOME%\build\lib\avalon-merlin-2.0.jar %1
+
+#
+# Cheers, Steve.
+#
