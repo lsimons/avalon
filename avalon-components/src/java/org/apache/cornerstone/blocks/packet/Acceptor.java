@@ -67,24 +67,26 @@ class Acceptor
     public void run()
     {
         m_thread = Thread.currentThread();
-        DatagramPacket packet = null;
-        
-        try
-        {
-            final int size = m_datagramSocket.getReceiveBufferSize();
-            final byte[] buffer = new byte[ size ];
-            packet = new DatagramPacket( buffer, size );
-        }
-        catch( final IOException ioe )
-        {
-            getLogger().error( "Failed to get receive buffer size for datagram socket", 
-                               ioe );
-        }
 
         while( !Thread.interrupted() )
         {
             try
             {
+                //TODO: packets hould really be pooled...
+                DatagramPacket packet = null;
+                
+                try
+                {
+                    final int size = m_datagramSocket.getReceiveBufferSize();
+                    final byte[] buffer = new byte[ size ];
+                    packet = new DatagramPacket( buffer, size );
+                }
+                catch( final IOException ioe )
+                {
+                    getLogger().error( "Failed to get receive buffer size for datagram socket", 
+                                       ioe );
+                }
+
                 m_datagramSocket.receive( packet );
                 final PacketHandler handler = m_handlerFactory.createPacketHandler();
                 final PacketHandlerRunner runner = 
@@ -145,7 +147,6 @@ class PacketHandlerRunner
                 getLogger().debug( "Starting connection on " + m_packet );
             }
 
-            setupLogger( m_handler );
             m_handler.handlePacket( m_packet ); 
 
             if( getLogger().isDebugEnabled() )
