@@ -59,12 +59,13 @@ import java.io.File;
 /**
  * Strategy that checks condition under which file rotation is needed.
  *
+ * @author <a href="mailto:leo.sutic@inspireinfrastructure.com">Leo Sutic</a>
  * @author <a href="mailto:bh22351@i-one.at">Bernhard Huber</a>
  */
 public interface RotateStrategy
 {
     /**
-     * reset cumulative rotation history data.
+     * Reset cumulative rotation history data.
      * Called after rotation.
      */
     void reset();
@@ -72,7 +73,8 @@ public interface RotateStrategy
     /**
      * Check if a log rotation is neccessary at this time.
      *
-     * @param data the serialized version of last message written to the log system
+     * @param data the serialized version of the message about to be written 
+     *             to the log system
      * @param file the File that we are writing to
      * @return boolean return true if log rotation is neccessary, else false
      */
