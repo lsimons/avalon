@@ -159,6 +159,8 @@
         <ant dir="testcase" target="jar"/>
         <ant dir="util" target="jar"/>
         <ant dir="instrument" target="jar"/>
+        <ant dir="instrument-manager" target="jar"/>
+        <ant dir="instrument-client" target="jar"/>
         <jlink compress="false" outfile="avalon-excalibur-tmp.jar">
             <mergefiles>
                 <fileset dir=".">
@@ -176,6 +178,8 @@
                     <include name="testcase/build/lib/*.jar"/>
                     <include name="util/build/lib/*.jar"/>
                     <include name="instrument/build/lib/*.jar"/>
+                    <include name="instrument-manager/build/lib/*.jar"/>
+                    <include name="instrument-client/build/lib/*.jar"/>
                     <include name="sourceresolve/build/lib/*.jar"/>
                     <include name="xmlbundle/build/lib/*.jar"/>
                     <include name="monitor/build/lib/*.jar"/>
