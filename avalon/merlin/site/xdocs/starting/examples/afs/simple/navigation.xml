@@ -53,13 +53,13 @@
 
  <body>
 
-     <links>
-       <item name="Home" href="http://avalon.apache.org/"/>
-       <item name="Framework" href="http://avalon.apache.org/framework/"/>
-       <item name="Components" href="http://avalon.apache.org/components"/>
-       <item name="Containers" href="http://avalon.apache.org/containers/"/>
-       <item name="Sandbox" href="http://avalon.apache.org/sandbox/"/>
-     </links>
+    <links>
+      <item name="Apache" href="http://apache.org/"/>
+      <item name="Avalon" href="http://avalon.apache.org/"/>
+      <item name="Framework" href="http://avalon.apache.org/product/framework/"/>
+      <item name="Containers" href="http://avalon.apache.org/product/containers/"/>
+      <item name="Components" href="http://avalon.apache.org/product/components/"/>
+    </links>
 
     <menu name="About Merlin">
       <item name="Overview" href="/about/index.html"/>
@@ -67,18 +67,6 @@
         <item name="Installation" href="/starting/installation.html"/>
         <item name="Using Merlin" href="/starting/tutorial/index.html"/>
         <item name="Advanced Features" href="/starting/advanced/index.html"/>
-        <!--
-        <item name="Examples" href="/starting/examples/index.html">
-          <item name="Apache Financial Services" href="/starting/examples/afs/index.html">
-            <item name="Simple Bank" href="/starting/examples/afs/simple/index.html">
-              <item name="Build" href="/starting/examples/afs/simple/build.html"/>
-              <item name="Interfaces" href="/starting/examples/afs/simple/interfaces.html"/>
-              <item name="Implementation" href="/starting/examples/afs/simple/implementation.html"/>
-              <item name="Servlet" href="/starting/examples/afs/simple/servlet.html"/>
-            </item>
-          </item>
-        </item>
-        -->
       </item>
       <item name="Merlin System" href="/merlin/index.html"/>
       <item name="Meta Model" href="/meta/index.html"/>
