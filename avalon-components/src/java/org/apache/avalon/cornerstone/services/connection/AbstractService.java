@@ -12,6 +12,7 @@ import java.net.ServerSocket;
 import java.io.IOException;
 import org.apache.avalon.cornerstone.services.sockets.ServerSocketFactory;
 import org.apache.avalon.cornerstone.services.sockets.SocketManager;
+import org.apache.avalon.cornerstone.services.threads.ThreadManager;
 import org.apache.avalon.excalibur.thread.ThreadPool;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Initializable;
@@ -40,6 +41,7 @@ public abstract class AbstractService
     protected ConnectionManager m_connectionManager;
     protected SocketManager m_socketManager;
     protected ConnectionHandlerFactory m_factory;
+    protected ThreadManager m_threadManager;
     protected ThreadPool m_threadPool;
     protected String m_serverSocketType;
     protected int m_port;
@@ -69,14 +71,6 @@ public abstract class AbstractService
     public void contextualize( final Context context )
         throws ContextException
     {
-        final String name = getThreadPoolName();
-
-        if( null != name )
-        {
-            final BlockContext blockContext = (BlockContext)context;
-            m_threadPool = blockContext.getThreadPool( name );
-        }
-
         if( m_factory instanceof Contextualizable )
         {
             ( (Contextualizable)m_factory ).contextualize( context );
@@ -88,6 +82,12 @@ public abstract class AbstractService
     {
         m_connectionManager = (ConnectionManager)componentManager.lookup( ConnectionManager.ROLE );
         m_socketManager = (SocketManager)componentManager.lookup( SocketManager.ROLE );
+        if ( null != getThreadPoolName() )
+        {
+            m_threadManager =
+                (ThreadManager)componentManager.lookup( ThreadManager.ROLE );
+            m_threadPool = m_threadManager.getThreadPool( getThreadPoolName() );
+        }
 
         if( m_factory instanceof Composable )
         {
