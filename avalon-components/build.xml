@@ -100,8 +100,6 @@
          inheritall="false"/>  
     <ant antfile="build.xml" dir="apps/httpproxy" target="main"
          inheritall="false"/>  
-    <ant antfile="build.xml" dir="apps/jesktop" target="main"
-         inheritall="false"/>  
     <ant antfile="build.xml" dir="apps/overlord" target="main"
          inheritall="false"/>  
     <ant antfile="build.xml" dir="apps/simpleserver" target="main"
@@ -499,8 +497,6 @@
          inheritall="false"/>
     <ant antfile="build.xml" dir="apps/httpproxy" target="dist"
          inheritall="false"/>
-    <ant antfile="build.xml" dir="apps/jesktop" target="check"
-         inheritall="false"/>
     <ant antfile="build.xml" dir="apps/overlord" target="dist"
          inheritall="false"/>
     <ant antfile="build.xml" dir="apps/simpleserver" target="dist"
@@ -564,8 +560,6 @@
          inheritall="false"/>
     <ant antfile="build.xml" dir="apps/httpproxy" target="clean"
          inheritall="false"/>
-    <ant antfile="build.xml" dir="apps/jesktop" target="clean"
-         inheritall="false"/>
     <ant antfile="build.xml" dir="apps/overlord" target="clean"
          inheritall="false"/>
     <ant antfile="build.xml" dir="apps/simpleserver" target="clean"
@@ -591,8 +585,6 @@
          inheritall="false"/>
     <ant antfile="build.xml" dir="apps/httpproxy" target="distclean"
          inheritall="false"/>
-    <ant antfile="build.xml" dir="apps/jesktop" target="distclean"
-         inheritall="false"/>
     <ant antfile="build.xml" dir="apps/overlord" target="distclean"
          inheritall="false"/>
     <ant antfile="build.xml" dir="apps/simpleserver" target="distclean"
@@ -608,9 +600,6 @@
   </target>  
   <target name="demo" depends="compile" description="Delegates to build.xml in apps/demo'">
     <ant antfile="build.xml" dir="apps/demo" target="${apps-target}" inheritall="false"/>
-  </target>
-  <target name="jesktop" depends="compile" description="Delegates to build.xml in apps/jesktop">
-    <ant antfile="build.xml" dir="apps/jesktop" target="${apps-target}" inheritall="false"/>
   </target>
   <target name="ftpserver" depends="compile" description="Delegates to build.xml in apps/ftpserver">
     <ant antfile="build.xml" dir="apps/ftpserver" target="${apps-target}" inheritall="false"/>
