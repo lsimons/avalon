@@ -4,7 +4,7 @@
                          "./dtd/docbookx.dtd">
 
 <chapter xmlns:xi="http://www.w3.org/2001/XInclude"
-         xml:base="context://xdocs/developing/">
+         xml:base="context://content/xdocs/developing/">
   <chapterinfo>
     <authorgroup>
       <xi:xinclude href="../authors/bloritsch.xml"/>

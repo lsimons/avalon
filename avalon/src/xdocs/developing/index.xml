@@ -4,7 +4,7 @@
                          "./dtd/docbookx.dtd">
 
 <book xmlns:xi="http://www.w3.org/2001/XInclude"
-      xml:base="context://xdocs/developing">
+         xml:base="context://content/xdocs/developing/">
   <title>Developing With Apache Avalon</title>
   <subtitle>Apache Avalon Project</subtitle>
   <bookinfo>

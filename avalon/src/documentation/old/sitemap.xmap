@@ -1,0 +1,141 @@
+<?xml version="1.0"?>
+
+<map:sitemap xmlns:map="http://apache.org/cocoon/sitemap/1.0">
+
+<!-- =========================== Components ================================ -->
+
+ <map:components>
+
+  <map:generators default="file">
+   <map:generator  name="file"        src="org.apache.cocoon.generation.FileGenerator" label="content"/>
+  </map:generators>
+
+  <map:transformers default="xslt">
+   <map:transformer     name="xslt"      src="org.apache.cocoon.transformation.TraxTransformer">
+    <use-request-parameters>false</use-request-parameters>
+    <use-browser-capabilities-db>false</use-browser-capabilities-db>
+   </map:transformer>
+   <map:transformer     name="xinclude"  src="org.apache.cocoon.transformation.XIncludeTransformer"/>
+  </map:transformers>
+
+  <map:readers default="resource">
+   <map:reader name="resource"       src="org.apache.cocoon.reading.ResourceReader"/>
+  </map:readers>
+
+  <map:serializers default="html">
+   <map:serializer name="html"   mime-type="text/html"        src="org.apache.cocoon.serialization.HTMLSerializer">
+     <encoding>iso8859-1</encoding>
+   </map:serializer>
+   <map:serializer name="xml"    mime-type="text/xml"         src="org.apache.cocoon.serialization.XMLSerializer"/>
+   <map:serializer name="links"                               src="org.apache.cocoon.serialization.LinkSerializer"/>
+   <map:serializer name="fo2pdf" mime-type="application/pdf"  src="org.apache.cocoon.serialization.FOPSerializer"/>
+  </map:serializers>
+
+  <map:matchers default="wildcard">
+   <map:matcher name="wildcard" src="org.apache.cocoon.matching.WildcardURIMatcher"/>
+  </map:matchers>
+ </map:components>
+
+<!-- =========================== Views =================================== -->
+
+ <map:views>
+  <map:view name="content" from-label="content">
+   <map:serialize type="xml"/>
+  </map:view>
+
+  <map:view name="links" from-position="last">
+   <map:transform src="stylesheets/filterlinks.xsl"/>
+   <map:serialize type="links"/>
+  </map:view>
+
+ </map:views>
+
+<!-- =========================== Pipelines ================================= -->
+
+ <map:pipelines>
+  <map:pipeline>
+   <map:match pattern="">
+    <map:redirect-to uri="index.html"/>
+   </map:match>
+
+   <map:match pattern="**book.xml">
+     <map:generate src="xdocs/{1}book.xml"/>
+     <map:transform src="stylesheets/book2menu.xsl"/>
+     <map:serialize type="xml"/>
+   </map:match>
+
+   <map:match pattern="body-**.xml">
+     <map:generate src="xdocs/{1}.xml"/>
+     <map:transform src="stylesheets/document2docbook.xsl"/>
+     <map:transform src="stylesheets/docbook2body.xsl"/>
+     <map:serialize type="xml"/>
+   </map:match>
+
+   <map:match pattern="*.html">
+    <map:aggregate element="site">
+     <map:part src="cocoon:/book.xml"/>
+     <map:part src="cocoon:/body-{1}.xml"/>
+    </map:aggregate>
+    <map:transform src="stylesheets/site2xhtml.xsl"/>
+    <map:serialize/>
+   </map:match>
+
+   <map:match pattern="**developing-with-avalon.pdf">
+     <map:generate src="xdocs/developing/index.xml"/>
+     <map:transform type="xinclude"/>
+     <map:transform src="stylesheets/docbook2fo.xsl"/>
+     <map:serialize type="fo2pdf"/>
+   </map:match>
+
+   <map:match pattern="**diagrams/*.html">
+     <map:read src="diagrams/{2}.html" mime-type="text/html"/>
+   </map:match>
+
+   <map:match pattern="api/**.html">
+     <!-- dummy: can't "ignore" certain uris -->
+     <map:read src="xdocs/index.xml" mime-type="text/xml"/>
+   </map:match>
+
+   <map:match pattern="developing/*.html">
+    <map:aggregate element="site">
+     <map:part src="cocoon:/developing/book.xml"/>
+     <map:part src="cocoon:/body-developing/{1}.xml"/>
+    </map:aggregate>
+    <map:transform src="stylesheets/site2xhtml.xsl"/>
+    <map:serialize/>
+   </map:match>
+
+   <map:match pattern="**/*.html">
+    <map:aggregate element="site">
+     <map:part src="cocoon:/{1}/book.xml"/>
+     <map:part src="cocoon:/body-{1}/{2}.xml"/>
+    </map:aggregate>
+    <map:transform src="stylesheets/site2xhtml.xsl"/>
+    <map:serialize/>
+   </map:match>
+
+   <!-- ================  Static  =========================== -->
+
+   <map:match pattern="**images/*.png">
+    <map:read src="resources/images/{2}.png" mime-type="image/png"/>
+   </map:match>
+
+   <map:match pattern="**images/*.jpg">
+    <map:read src="resources/images/{2}.jpg" mime-type="image/jpeg"/>
+   </map:match>
+
+   <map:match pattern="**images/*.gif">
+    <map:read src="resources/images/{2}.gif" mime-type="image/gif"/>
+   </map:match>
+
+   <map:handle-errors>
+    <map:transform src="stylesheets/system/error2html.xsl"/>
+    <map:serialize status-code="500"/>
+   </map:handle-errors>
+
+  </map:pipeline>
+ </map:pipelines>
+
+</map:sitemap>
+
+<!-- end of file -->

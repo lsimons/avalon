@@ -15,7 +15,7 @@
 
 <s1 title="Phoenix Applications">
   <p>There are a number of applications that are designed to run in the Phoenix
-  kernel. A list of these can be found <link href="apps/appselsewhere.html">here</link>.</p>
+  kernel. A list of these can be found <link href="http://jakarta.apache.org/avalon/apps/appselsewhere.html">here</link>.</p>
 </s1>
 
 <s1 title="Avalon Applications">
@@ -28,7 +28,7 @@
   
   <s2 title="Applications Sub-Project">
     <p>There are a number of applications currently in work in the 
-    <link href="apps/appsincvs.html">Applications</link> sub-project, including
+    <link href="http://jakarta.apache.org/avalon/apps/appsincvs.html">Applications</link> sub-project, including
     a RDBMS, FTP server, and XML command server, among others.</p>
   </s2>
 </s1>

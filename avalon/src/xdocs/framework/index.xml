@@ -67,7 +67,7 @@
         <p>
            Besides the
            <link href="@AVALON_BASE@/api/index.html">Javadocs</link>, we have
-           <link href="diagrams/index.html">Class diagrams</link> and the
+           <link href="diagrams/">Class diagrams</link> and the
            <link href="reference-the-lifecycle">The Lifecycle specification</link>.
         </p>
       </s1>
@@ -75,7 +75,7 @@
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.10 $ $Date: 2002/05/03 10:19:53 $
+      $Revision: 1.11 $ $Date: 2002/05/30 16:28:17 $
     </legal>
   </footer>
 </document>

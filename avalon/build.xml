@@ -12,6 +12,7 @@ Authors:
  Federico Barbieri <scoobie@apache.org>
  Berin Loritsch <bloritsch@apache.org>
  Peter Donald <peter@apache.org>
+ Nicola Ken Barozzi <nicolaken@apache.org>
 
 Legal:
   Copyright (c) 1999-2002 The Apache Software Foundation. All Rights Reserved.
@@ -53,7 +54,7 @@ Legal:
     <property name="build.testdocs" value="${build.docs}/test"/>
     <property name="build.reports" value="${build.dir}/reports"/>
     <property name="build.context" value="${build.dir}/documentation"/>
-    <property name="build.xdocs" value="${build.context}/xdocs"/>
+    <property name="build.xdocs" value="${build.context}/content/xdocs"/>
 
     <!-- Set the properties for source directories -->
     <property name="src.dir" value="src"/>
@@ -75,9 +76,9 @@ Legal:
 
     <property name="tools.jar" value="${java.home}/../lib/tools.jar"/>
 
-    <property name="logkit.jar" value="${tools.dir}/ext/logkit.jar"/>
-    <property name="xerces.jar" value="${tools.dir}/lib/xerces-1.4.4.jar"/>
-    <property name="xalan.jar" value="${tools.dir}/lib/xalan-2.2.0-D13.jar"/>
+    <property name="logkit.jar" value="${tools.dir}/ext/logkit-1.0.1.jar"/>
+    <property name="xerces.jar" value="${tools.dir}/lib/xerces-2.0.1.jar"/>
+    <property name="xalan.jar" value="${tools.dir}/lib/xalan-2.3.1.jar"/>
     <property name="bsf.jar" value="${tools.dir}/lib/bsf.jar"/>
     <property name="junit.jar" value="${tools.dir}/lib/junit-3.7.jar"/>
 
@@ -325,11 +326,28 @@ Legal:
 
     <target name="html-docs" depends="prepare" description="generates the xdocs-based documentation">
 
+    <property name="use.skin"              value="avalon-site"/>
+
+    <!-- Skin filters -->
+    <filter token="skin"              value="${use.skin}"/>
+    <filter token="link1"             value="apache"/>
+    <filter token="link1.href"        value="http://www.apache.org"/>
+    <filter token="link2"             value="jakarta"/>
+    <filter token="link2.href"        value="http://jakarta.apache.org"/>
+    <filter token="link3"             value="avalon"/>
+    <filter token="link3.href"        value="http://jakarta.apache.org/avalon/"/>
+    <filter token="group-logo.src"    value="images/jakarta-logo.gif"/>
+    <filter token="group-logo.href"   value="http://jakarta.apache.org/"/>
+    <filter token="project-logo.src"  value="images/header.gif"/>                    
+    <filter token="project-logo.href" value="http://jakarta.apache.org/avalon/"/>                    
+    <filter token="year" value="2002"/>  
+    <filter token="vendor" value="Apache Software Foundation"/>  
+    
         <mkdir dir="${build.context}"/>
         <mkdir dir="${build.docs}"/>
         <mkdir dir="${build.xdocs}"/>
         <mkdir dir="${build.dir}/work"/>
-
+        
         <!-- Base pointers for non-xdocs documentation. Override these in .ant.properties to link to local docs -->
         <property name="avalon.base" value="http://jakarta.apache.org/avalon"/>
         <property name="framework.base" value="http://jakarta.apache.org/avalon/framework"/>
@@ -357,6 +375,7 @@ Legal:
                 <exclude name="**/*.png"/>
             </fileset>
         </copy>
+
         <copy todir="${build.context}" filtering="off">
             <fileset dir="${context.dir}">
                 <include name="**/*.gif"/>
@@ -367,13 +386,16 @@ Legal:
         <copy todir="${build.xdocs}" filtering="on" overwrite="true">
             <fileset dir="${xdocs.dir}"/>
         </copy>
-
-        <java classname="org.apache.cocoon.Main" fork="true" maxmemory="128m">
+        
+        <echo message="-------------------------------------------------------------"/>
+        <echo message="  Building docs, please stand by ..."/>
+        
+        <java classname="org.apache.cocoon.Main" fork="true" maxmemory="128m" failonerror="true">
             <arg value="-c${build.context}/"/>
             <arg value="-d${build.docs}"/>
             <arg value="-w${build.dir}/work"/>
             <arg value="-l${build.dir}/work/cocoon.log"/>
-            <arg value="-uINFO"/>
+            <arg value="-uWARN"/>
             <arg value="index.html"/>
             <classpath>
                 <path refid="tools.class.path"/>
@@ -381,6 +403,10 @@ Legal:
             </classpath>
         </java>
 
+
+       <echo message="  ...docs generated succesfully in ./build/docs dir."/>
+       <echo message="-------------------------------------------------------------"/>
+    
         <mkdir dir="${build.docs}/framework/diagrams"/>
         <copy todir="${build.docs}/framework/diagrams" filtering="off">
             <fileset dir="${context.dir}/diagrams"/>
