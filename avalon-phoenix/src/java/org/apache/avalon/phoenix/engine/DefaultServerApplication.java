@@ -34,9 +34,7 @@ import org.apache.avalon.phoenix.engine.blocks.BlockEntry;
 import org.apache.avalon.phoenix.engine.blocks.BlockVisitor;
 import org.apache.avalon.phoenix.engine.blocks.RoleEntry;
 import org.apache.avalon.phoenix.engine.facilities.ApplicationFrame;
-import org.apache.avalon.phoenix.engine.facilities.ApplicationManager;
 import org.apache.avalon.phoenix.engine.facilities.ConfigurationRepository;
-import org.apache.avalon.phoenix.engine.facilities.application.DefaultApplicationManager;
 import org.apache.avalon.phoenix.engine.facilities.configuration.DefaultConfigurationRepository;
 import org.apache.avalon.phoenix.engine.facilities.frame.DefaultApplicationFrame;
 import org.apache.avalon.phoenix.engine.phases.ShutdownPhase;
@@ -78,7 +76,6 @@ public final class DefaultServerApplication
 
     //these are the facilities (internal components) of ServerApplication
     private ApplicationFrame         m_frame;
-    private ApplicationManager       m_manager;
     private ConfigurationRepository  m_repository;
 
     public void contextualize( final Context context )
@@ -250,7 +247,6 @@ public final class DefaultServerApplication
         throws Exception
     {
         m_frame = new DefaultApplicationFrame();
-        m_manager = new DefaultApplicationManager();
     }
 
     /**
@@ -262,7 +258,6 @@ public final class DefaultServerApplication
         throws Exception
     {
         setupComponent( m_frame, "<core>.frame", m_configuration );
-        setupComponent( m_manager, "<core>.manager", null );
         setupComponent( m_dag, "<core>.dag", null );
     }
 
@@ -357,7 +352,6 @@ public final class DefaultServerApplication
         final DefaultComponentManager componentManager = new DefaultComponentManager();
         componentManager.put( SystemManager.ROLE, m_systemManager );
         componentManager.put( ApplicationFrame.ROLE, m_frame );
-        componentManager.put( ApplicationManager.ROLE, m_manager );
         componentManager.put( ConfigurationRepository.ROLE, m_repository );
         componentManager.put( Container.ROLE, this );
         return componentManager;
