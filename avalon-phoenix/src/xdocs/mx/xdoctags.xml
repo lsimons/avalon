@@ -13,10 +13,10 @@
       </p>
       <ul>
         <li>
-          its a lot faster than writing MXINFO files by hand
+          it's a lot faster than writing MXINFO files by hand
         </li>
         <li>
-          its harder to make mistakes, since much of the data required for the mxinfo file is
+          it's harder to make mistakes, since much of the data required for the mxinfo file is
           parsed out of the source code
         </li>
         <li>
@@ -129,7 +129,7 @@
           <tr>
             <td>Purpose</td>
             <td>
-              Marks the method as elible to be a management operation.  
+              Marks the method as eligible to be a management operation.  
             </td>
           </tr>
           <tr>
@@ -264,7 +264,7 @@
     <section name="Build Instructions">
       <p>
         To have mxinfo files generated as part as your ant build
-        script, include a task like that this:
+        script, include a task like this:
       </p>
       <source>
 <![CDATA[                

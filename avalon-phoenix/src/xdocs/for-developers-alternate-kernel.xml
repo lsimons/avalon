@@ -8,16 +8,16 @@
   <body>
     <section name="Introduction">
        <p>
-          Phoenix can launch with alternate kernels.  Apart from the default 
+          Phoenix can launch with alternate Kernels.  Apart from the default 
           kernel which is suitable for deploying in live scenarios, we 
           supply a kernel which loads beanshell during startup.
        </p>
     </section>
-    <section name="Beanshell enabled kernel">
+    <section name="Beanshell enabled Kernel">
       <p>
         This allows pretty much any anything to be done to applications 
         and blocks once started.  As such it is not suitable for live 
-        deployment as it could be considered a bit of a hackers tool.
+        deployment as it could be considered a bit of a hacker's tool.
       </p>
       <p>
         The supplied commands are getblock, prtapps, prtblocks, resumeapp, 
@@ -26,15 +26,15 @@
         interacting with the block's methods from its service.
       </p>
       <p>
-        To create a beanshell capable kernel, place the bsh-1.2b6.jar from
+        To create a Beanshell capable kernel, place the bsh-1.2b6.jar from
         <a href="http://www.beanshell.org/download.html">here</a> in the 
-        lib directory of phoenix before building it.  You will need to edit the 
+        lib directory of Phoenix before building it.  You will need to edit the 
         'beanshell.jars' and 'kernel.impl.class' parts of the ant.properties file.
         You may also want to add your own convenience bsh scripts to the 
         src/bsh/ directory.
       </p>            
     </section>
-    <section name="Beanshell enabled, remotely accessible kernel">
+    <section name="Beanshell enabled, remotely accessible Kernel">
       <p>
         This is to-do.
       </p>      

@@ -36,7 +36,7 @@
 
 <p>
     To generate a full set of detailed API documentation for Avalon, go to the base
-    directory of source distribution and run the appropriate build script for your
+    directory of the source distribution and run the appropriate build script for your
     platform with the parameter 'javadocs'.
 
     <source><![CDATA[
@@ -48,11 +48,11 @@
 </p>
 
 </section>
-<section name="Run the HelloWorld example">
+<section name="Run the HelloWorld Example">
 
 <p>
     After you have successfully built Phoenix, you can verify that it
-    has compiled correctly by running the HelloWorld demo Service Application.
+    has compiled correctly by running the HelloWorld Demo Service Application.
 </p>
 <p>
     Firstly you will need to get the demo-helloword.sar file and drop it into
@@ -61,7 +61,7 @@
     http://cvs.apache.org/viewcvs/avalon-apps/demo/</a>.
 </p>
 <p>
-    Then fire up phoenix with the following command:
+    Then fire up Phoenix with the following command:
 
     <source><![CDATA[
 
@@ -72,8 +72,8 @@
 
 <p>
     Next, fire up your favorite webbrowser and point it to http://localhost:8999/,
-    where localhost is the network name of your machine ("localhost") should
-    work on all windows platforms.<br />
+    where localhost is the network name of your machine "localhost" should
+    work on all Windows platforms.<br />
     If all goes well, you will see something like the following:
 
     <source><![CDATA[
@@ -101,11 +101,11 @@
 <p>
     This self contained kit could be considered a starter project for someone wanting to make a
     Phoenix compatible application.  The idea is that you start with this skeleton including
-    Ant build script and then add in more and more as your se code to copy from elsewhere.
+    an Ant build script and then add in more and more as your code, copying from elsewhere.
 </p>
 <p>
-    This  also demonstrates that it is possible to make a server application that is dual mode.
-    Dual mode to us is the ability for the server application to run inside Phoenix and to
+    This also demonstrates that it is possible to make a server application that is dual mode.
+    Dual mode to us is the ability for the server application to run inside Phoenix and 
     stand-alone from the command line.  It is a little bit of a sleight of hand as the codebase
     would be zipped into two forms - the sar file for phoenix and a jar file for standalone.
 </p>
@@ -120,7 +120,7 @@
       <li>phoenix-demo-server.sar - the server app in standalone form</li>
     </ol>
 
-    The Server app in standalone mode after being tested with the client app(see below):
+    The Server app in standalone mode after being tested with the client app (see below):
 
     <source><![CDATA[
 java -jar phoenix-demo-server.jar
@@ -149,7 +149,7 @@ java -jar phoenix-demo-client.jar localhost 7654 Hello!!!!!
 </p>
 <p>
     Note - because of the need to make this dual mode, the PDK does not use Cornerstone
-    components.  We normally recommend that people should reuse components from cornerstone as
+    components.  We normally recommend that people should reuse components from Cornerstone as
     the potential for sharing will be much higher.
 </p>
 </section>
