@@ -2,9 +2,7 @@
 <document>
   <properties>
     <title>Overview</title>
-      <author email="bloritsch@apache.org">Berin Loritsch</author>
-      <author email="peter at apache.org">Peter Donald</author>
-      <author email="Paul_Hammant@yahoo.com">Paul Hammant</author>
+      <author email="avalon-phoenix-dev@jakarta.apache.org">Phoenix Documentation Team</author>
   </properties>
   <body>
     <section name="Introduction">
@@ -52,7 +50,7 @@
             <li><a href="guide-roles.html">Development roles</a></li>
             <li><a href="guide-administrators.html">Administrator Guide</a></li>
             <li><a href="guide-deployers.html">Application Deployer Guide</a></li>
-            <li><a href="guide-management.html">JMX Management Guide</a></li>
+            <li><a href="mx/index.html">JMX Management Guide</a></li>
             <li><a href="assemblers/index.html">Server Application Assembler Guide</a></li>
             <li><a href="bdg/index.html">Block Developer Guide</a></li>
             <li><a href="guide-example-configuration.html">Example Configuration.</a></li>
