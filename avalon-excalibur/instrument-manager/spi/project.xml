@@ -20,7 +20,7 @@
   <extend>${basedir}/../../buildsystem/project-common.xml</extend>
 
   <name>Excalibur Instrument Manager SPI</name>
-  <id>excalibur-instrument-manager-spi</id>
+  <id>excalibur-instrument-spi</id>
   <groupId>excalibur-instrument</groupId>
   <currentVersion>1.2</currentVersion>
   <inceptionYear>1997</inceptionYear>
