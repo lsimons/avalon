@@ -14,7 +14,7 @@ import java.sql.SQLException;
  * in the ClassLoader.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.1 $ $Date: 2001/11/02 18:57:11 $
+ * @version CVS $Revision: 1.2 $ $Date: 2001/11/19 12:08:47 $
  * @since 4.1
  */
 public class NoValidConnectionException extends SQLException {

@@ -22,7 +22,7 @@ import java.util.Date;
  *
  * Reworked to mirror behaviour of StringManager from Tomcat (format() to getString()).
  *
- * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 public class Resources
 {
