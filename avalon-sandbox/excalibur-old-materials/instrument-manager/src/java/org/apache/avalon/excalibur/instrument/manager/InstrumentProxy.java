@@ -38,7 +38,7 @@ import org.apache.avalon.framework.logger.Logger;
  *  It is resolved when the Instrumentable actually registers the Instrument.
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.4 $ $Date: 2002/04/03 13:18:29 $
+ * @version CVS $Revision: 1.5 $ $Date: 2002/04/22 09:52:34 $
  * @since 4.1
  */
 public class InstrumentProxy
@@ -166,6 +166,94 @@ public class InstrumentProxy
     }
     
     /*---------------------------------------------------------------
+     * InstrumentProxy Methods
+     *-------------------------------------------------------------*/
+    /**
+     * Used by classes being profiles so that they can avoid unnecessary
+     *  code when the data from a Instrument is not being used.
+     *
+     * @returns True if listeners are registered with the Instrument.
+     */
+    public boolean isActive() {
+        return m_listeners != null;
+    }
+    
+    /**
+     * Increments the Instrument by a specified count.  This method should be
+     *  optimized to be extremely light weight when there are no registered
+     *  CounterInstrumentListeners.
+     *
+     * @param count A positive integer to increment the counter by.
+     */
+    public void increment( int count )
+    {
+        if ( m_type != InstrumentManagerClient.INSTRUMENT_TYPE_COUNTER )
+        {
+            // Type is not correct.
+            throw new IllegalStateException(
+                "The proxy is not configured to handle CounterInstruments." );
+        }
+        
+        // Check the count
+        if ( count <= 0 ) {
+            throw new IllegalArgumentException( "Count must be a positive value." );
+        }
+        
+        // Get a local reference to the listeners, so that synchronization can be avoided.
+        InstrumentListener[] listeners = m_listeners;
+        if ( listeners != null )
+        {
+            if ( m_valueLogger.isDebugEnabled() )
+            {
+                m_valueLogger.debug( "increment() called for Instrument, " + m_name );
+            }
+            
+            long time = System.currentTimeMillis();
+            for ( int i = 0; i < listeners.length; i++ )
+            {
+                CounterInstrumentListener listener =
+                    (CounterInstrumentListener)listeners[i];
+                listener.increment( getName(), count, time );
+            }
+        }
+    }
+    
+    /**
+     * Sets the current value of the Instrument.  This method is optimized
+     *  to be extremely light weight when there are no registered
+     *  ValueInstrumentListeners.
+     *
+     * @param value The new value for the Instrument.
+     */
+    public void setValue( int value )
+    {
+        if ( m_type != InstrumentManagerClient.INSTRUMENT_TYPE_VALUE )
+        {
+            // Type is not correct.
+            throw new IllegalStateException(
+                "The proxy is not configured to handle ValueInstruments." );
+        }
+        
+        // Get a local reference to the listeners, so that synchronization can be avoided.
+        InstrumentListener[] listeners = m_listeners;
+        if ( listeners != null )
+        {
+            if ( m_valueLogger.isDebugEnabled() )
+            {
+                m_valueLogger.debug( "setValue( " + value + " ) called for Instrument, " + m_name );
+            }
+            
+            long time = System.currentTimeMillis();
+            for ( int i = 0; i < listeners.length; i++ )
+            {
+                ValueInstrumentListener listener =
+                    (ValueInstrumentListener)listeners[i];
+                listener.setValue( getName(), value, time );
+            }
+        }
+    }
+    
+    /*---------------------------------------------------------------
      * Methods
      *-------------------------------------------------------------*/
     /**
@@ -260,16 +348,6 @@ public class InstrumentProxy
     }
     
     /**
-     * Used by classes being profiles so that they can avoid unnecessary
-     *  code when the data from a Instrument is not being used.
-     *
-     * @returns True if listeners are registered with the Instrument.
-     */
-    public boolean isActive() {
-        return m_listeners != null;
-    }
-    
-    /**
      * Adds a CounterInstrumentListener to the list of listeners which will
      *  receive updates of the value of the Instrument.
      *
@@ -323,38 +401,6 @@ public class InstrumentProxy
         }
         
         removeInstrumentListener( listener );
-    }
-    
-    /*
-     * Increments the Instrument.  This method is optimized to be extremely
-     *  light weight when there are no registered CounterInstrumentListeners.
-     */
-    public void increment()
-    {
-        if ( m_type != InstrumentManagerClient.INSTRUMENT_TYPE_COUNTER )
-        {
-            // Type is not correct.
-            throw new IllegalStateException(
-                "The proxy is not configured to handle CounterInstruments." );
-        }
-        
-        // Get a local reference to the listeners, so that synchronization can be avoided.
-        InstrumentListener[] listeners = m_listeners;
-        if ( listeners != null )
-        {
-            if ( m_valueLogger.isDebugEnabled() )
-            {
-                m_valueLogger.debug( "increment() called for Instrument, " + m_name );
-            }
-            
-            long time = System.currentTimeMillis();
-            for ( int i = 0; i < listeners.length; i++ )
-            {
-                CounterInstrumentListener listener =
-                    (CounterInstrumentListener)listeners[i];
-                listener.increment( getName(), time );
-            }
-        }
     }
     
     /**
@@ -411,41 +457,6 @@ public class InstrumentProxy
         }
         
         removeInstrumentListener( listener );
-    }
-    
-    /**
-     * Sets the current value of the Instrument.  This method is optimized
-     *  to be extremely light weight when there are no registered
-     *  ValueInstrumentListeners.
-     *
-     * @param value The new value for the Instrument.
-     */
-    public void setValue( int value )
-    {
-        if ( m_type != InstrumentManagerClient.INSTRUMENT_TYPE_VALUE )
-        {
-            // Type is not correct.
-            throw new IllegalStateException(
-                "The proxy is not configured to handle ValueInstruments." );
-        }
-        
-        // Get a local reference to the listeners, so that synchronization can be avoided.
-        InstrumentListener[] listeners = m_listeners;
-        if ( listeners != null )
-        {
-            if ( m_valueLogger.isDebugEnabled() )
-            {
-                m_valueLogger.debug( "setValue( " + value + " ) called for Instrument, " + m_name );
-            }
-            
-            long time = System.currentTimeMillis();
-            for ( int i = 0; i < listeners.length; i++ )
-            {
-                ValueInstrumentListener listener =
-                    (ValueInstrumentListener)listeners[i];
-                listener.setValue( getName(), value, time );
-            }
-        }
     }
     
     /**

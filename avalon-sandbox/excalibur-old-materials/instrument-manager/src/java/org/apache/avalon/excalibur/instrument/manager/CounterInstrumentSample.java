@@ -18,7 +18,7 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
  *  called during the sample period.
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.3 $ $Date: 2002/04/03 13:18:29 $
+ * @version CVS $Revision: 1.4 $ $Date: 2002/04/22 09:52:34 $
  * @since 4.1
  */
 class CounterInstrumentSample
@@ -123,12 +123,13 @@ class CounterInstrumentSample
      * Called by a CounterInstrument whenever its value is incremented.
      *
      * @param instrumentName The name of Instrument which was incremented.
+     * @param count A positive integer to increment the counter by.
      * @param time The time that the Instrument was incremented.
      */
-    public void increment( String instrumentName, long time )
+    public void increment( String instrumentName, int count, long time )
     {
-        //System.out.println("CounterInstrumentSample.increment(" + instrumentName + ", " + time + ") : " + getName() );
-        increment( time );
+        //System.out.println("CounterInstrumentSample.increment(" + instrumentName + ", " + count + ", " + time + ") : " + getName() );
+        increment( count, time );
     }
     
     /*---------------------------------------------------------------
@@ -138,8 +139,9 @@ class CounterInstrumentSample
      * Increments the count.
      *
      * @param time Time that the count is incremented.
+     * @param count A positive integer to increment the counter by.
      */
-    private void increment( long time )
+    private void increment( int count, long time )
     {
         int sampleValue;
         long sampleTime;
@@ -148,7 +150,7 @@ class CounterInstrumentSample
         {
             update( time );
             
-            m_count++;
+            m_count += count;
             
             sampleValue = m_count;
             sampleTime = m_time;
