@@ -26,9 +26,7 @@
       <item href="thread-howto.html" name="Use Thread Pools"/>
 -->
       <item href="util-howto.html" name="Use System Util"/>
-<!--
       <item href="cpuparser-howto.html" name="Extend System Util"/>
--->
     </menu>
   </body>
 </project>
