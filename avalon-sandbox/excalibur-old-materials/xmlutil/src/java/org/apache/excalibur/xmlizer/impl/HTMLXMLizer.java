@@ -35,7 +35,7 @@ import org.xml.sax.SAXException;
  * This class uses jtidy.
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/07/07 05:24:13 $
+ * @version CVS $Revision: 1.3 $ $Date: 2002/07/07 05:25:18 $
  */
 public class HTMLXMLizer
     extends AbstractLogEnabled
@@ -49,7 +49,7 @@ public class HTMLXMLizer
 
     static
     {
-        Properties format = new Properties();
+        format = new Properties();
         format.put( OutputKeys.METHOD, "xml" );
         format.put( OutputKeys.OMIT_XML_DECLARATION, "no" );
         format.put( OutputKeys.INDENT, "yes" );
