@@ -72,13 +72,13 @@ import org.apache.avalon.framework.thread.ThreadSafe;
  *   &lt;/pasive-monitor&gt;
  * </pre>
  *
- * @avalon.component
- * @avalon.service type=org.apache.avalon.excalibur.monitor.Monitor
+ * @avalon.component name="passive-monitor" lifestyle="singleton"
+ * @avalon.service type="org.apache.avalon.excalibur.monitor.Monitor" version="1.0"
  * @x-avalon.info name=passive-monitor
  * @x-avalon.lifestyle type=singleton
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version $Id: PassiveMonitor.java,v 1.16 2003/05/23 17:41:04 bloritsch Exp $
+ * @version $Id: PassiveMonitor.java,v 1.17 2003/09/24 05:39:40 mcconnell Exp $
  */
 public class PassiveMonitor
     extends org.apache.avalon.excalibur.monitor.impl.PassiveMonitor

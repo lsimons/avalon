@@ -74,13 +74,13 @@ import org.apache.avalon.framework.thread.ThreadSafe;
  *   &lt;/active-monitor&gt;
  * </pre>
  *
- * @avalon.component
- * @avalon.service type=org.apache.avalon.excalibur.monitor.Monitor
+ * @avalon.component name="active-monitor" lifestyle="singleton"
+ * @avalon.service type="org.apache.avalon.excalibur.monitor.Monitor" version="1.0"
  * @x-avalon.info name=active-monitor
  * @x-avalon.lifestyle type=singleton
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version $Id: ActiveMonitor.java,v 1.20 2003/05/23 17:41:04 bloritsch Exp $
+ * @version $Id: ActiveMonitor.java,v 1.21 2003/09/24 05:39:39 mcconnell Exp $
  */
 public class ActiveMonitor
     extends org.apache.avalon.excalibur.monitor.impl.ActiveMonitor
