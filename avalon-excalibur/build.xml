@@ -1,0 +1,626 @@
+<?xml version="1.0"?>
+
+<!--
+==============================================================================
+
+ Avalon/Excalibur build file
+
+Authors:
+ Federico Barbieri <scoobie@apache.org>
+ Berin Loritsch <bloritsch@apache.org>
+ Peter Donald <donaldp@apache.org>
+
+Legal:
+  Copyright (c) 1999-2000 The Apache Software Foundation. All Rights Reserved.
+
+==============================================================================
+-->
+
+<project default="main" basedir=".">
+
+  <!--
+    Give user a chance to override without editing this file
+    (and without typing -D each time he compiles it)
+  -->
+  <property file=".ant.properties"/>
+  <property file="${user.home}/.ant.properties"/>
+
+  <property name="name" value="excalibur"/>
+  <property name="Name" value="Excalibur"/>
+  <property name="version" value="4.0-dev"/>
+  <property name="release" value="3rd"/>
+  <property name="short.version" value="4.0"/>
+  <property name="year" value="1999-2001"/>
+
+  <property name="excalibur.name" value="avalon-${name}"/>
+  <property name="testlets.name" value="avalon-${name}-test"/>
+  <property name="scratchpad.name" value="avalon-scratchpad"/>
+
+  <!--
+    these are here only for those who use jikes compiler. For other
+    developers this part makes no difference.
+  -->
+  <property name="build.compiler.emacs" value="on"/>
+  <property name="build.compiler.warnings" value="true"/>
+  <property name="build.compiler.pedantic" value="true"/>
+  <property name="build.compiler.depend" value="true"/>
+  <property name="build.compiler.fulldepend" value="true"/>
+
+  <property name="debug" value="on"/>
+  <property name="optimize" value="off"/>
+  <property name="deprecation" value="off"/>
+
+  <!--
+       ===================================================================
+       Set the properties for intermediate directory
+       ===================================================================
+  -->
+  <property name="build.dir" value="build"/>
+  <property name="build.lib" value="${build.dir}/lib"/>
+  <property name="build.src" value="${build.dir}/src"/>
+  <property name="build.classes" value="${build.dir}/classes"/>
+  <property name="build.scratchpad" value="${build.dir}/scratchpad"/>
+  <property name="build.javadocs" value="${build.dir}/javadocs"/>
+  <property name="build.docs" value="${build.dir}/docs"/>
+  <property name="build.xdocs" value="${build.dir}/xdocs"/>
+
+  <!--
+       ===================================================================
+       Set the properties for source directories
+       ===================================================================
+  -->
+  <property name="src.dir" value="src"/>
+  <property name="java.dir" value="${src.dir}/java"/>
+  <property name="test.dir" value="${src.dir}/test"/>
+  <property name="scratchpad.dir" value="${src.dir}/scratchpad"/>
+  <property name="lib.dir" value="lib"/>
+  <property name="tools.dir" value="../jakarta-avalon/tools"/>
+  <property name="docs.dir" value="docs"/>
+  <property name="www.dir" value="www"/>
+  <property name="javadocs.dir" value="${docs.dir}/api"/>
+  <property name="skins.dir" value="${src.dir}/skins"/>
+  <property name="avalon.skin" value="${skins.dir}/avalon/"/>
+  <property name="xdocs.dir" value="${src.dir}/xdocs"/>
+  <property name="stylesheets.dir" value="${skins.dir}"/>
+
+  <property name="dist.name" value="${Name}-${version}"/>
+  <property name="dist.base" value="distributions"/>
+
+  <property name="framework.jar" value="${lib.dir}/avalon-framework.jar"/>
+  <property name="logkit.jar" value="${lib.dir}/logkit.jar"/>
+  <property name="xerces.jar" value="${tools.dir}/lib/xerces.jar"/>
+  <property name="xalan.jar" value="${tools.dir}/lib/xalan-2.1.0.jar"/>
+  <property name="bsf.jar" value="${tools.dir}/lib/bsf.jar"/>
+  <property name="testlet.jar" value="${tools.dir}/lib/testlet.jar"/>
+
+  <property name="build.announce" value="${build.dir}/Announcement.xml"/>
+  <property name="announce2txt" value="${src.dir}/skins/announcement2txt.xsl"/>
+  <property name="announce2site" value="${src.dir}/skins/announcement2site.xsl"/>
+
+  <path id="project.class.path">
+    <pathelement location="${framework.jar}"/>
+    <pathelement location="${logkit.jar}"/>
+    <pathelement location="${xalan.jar}"/>
+    <pathelement location="${bsf.jar}"/>
+    <pathelement location="${xerces.jar}"/>
+    <pathelement location="${testlet.jar}"/>
+    <pathelement path="${java.class.path}" />
+    <fileset dir="${lib.dir}">
+      <include name="*.jar" />
+      <exclude name="logkit.jar"/>
+      <exclude name="xerces.jar"/>
+      <exclude name="avalon-framework.jar"/>
+    </fileset>
+    <pathelement path="${build.classes}" />
+  </path>
+
+  <path id="tools.class.path">
+    <pathelement location="${xerces.jar}"/>
+    <pathelement location="${testlet.jar}"/>
+    <fileset dir="${tools.dir}/lib">
+      <include name="*.jar" />
+      <exclude name="testlet.jar"/>
+    </fileset>
+  </path>
+
+  <path id="test.class.path">
+    <path refid="tools.class.path"/>
+    <path refid="project.class.path"/>
+  </path>
+
+  <!-- Main target -->
+  <target name="main" depends="jar" />
+
+  <!-- Help on usage -->
+  <target name="usage">
+    <echo message=""/>
+    <echo message="${Name} Build file"/>
+    <echo message="-------------------------------------------------------------"/>
+    <echo message=""/>
+    <echo message=" available targets are:"/>
+    <echo message=""/>
+    <echo message="   jar          -> generates the ${Name} jar files"/>
+    <echo message="   test         -> perform unit tests"/>
+    <echo message="   compile      -> compiles the source code"/>
+    <echo message="   javadocs     -> generates the API documentation"/>
+    <echo message="   docs         -> generates the ${Name} Documentation"/>
+    <echo message="   main         -> generates the ${Name} distribution without the javadocs (default)"/>
+    <echo message="   dist         -> generates the ${Name} distribution"/>
+    <echo message="   clean        -> cleans up the created directories"/>
+    <echo message="   real-clean   -> cleans up all genereated files and directories"/>
+    <echo message="   proposal     -> generates the ${Name} proposal distribution without the javadocs"/>
+    <echo message=""/>
+    <echo message="-------------------------------------------------------------"/>
+    <echo message=""/>
+  </target>
+
+  <target name="help" depends="usage"/>
+
+  <!-- Set up dist properties -->
+  <target name="setup-properties" >
+
+    <property name="dist.dir" value="dist"/>
+    <property name="dist.bin" value="${dist.dir}/bin"/>
+    <property name="dist.apps" value="${dist.dir}/apps"/>
+    <property name="dist.lib" value="${dist.dir}/lib"/>
+    <property name="dist.docs" value="${dist.dir}/docs"/>
+    <property name="dist.javadocs" value="${dist.dir}/docs/api"/>
+
+    <property name="src.dist.dir" value="dist-src"/>
+    <property name="src.dist.src" value="${src.dist.dir}/src"/>
+    <property name="src.dist.docs" value="${src.dist.dir}/docs"/>
+    <property name="src.dist.javadocs" value="${src.dist.dir}/docs/api"/>
+    <property name="src.dist.lib" value="${src.dist.dir}/lib"/>
+    <property name="src.dist.tools" value="${src.dist.dir}/tools"/>
+  </target>
+
+  <!-- Checks the environment for existing resources -->
+  <target name="check-environment">
+    <available property="jndi.present" classname="javax.naming.Context">
+      <classpath refid="project.class.path"/>
+    </available>
+    <available property="datasource.present" classname="javax.sql.DataSource">
+      <classpath refid="project.class.path"/>
+    </available>
+    <available property="jdbc3.present" classname="java.sql.Savepoint">
+      <classpath refid="project.class.path"/>
+    </available>
+  </target>
+
+  <target name="check-datasource" depends="check-environment" if="datasource.present">
+    <property name="j2ee.present" value="true"/>
+  </target>
+
+  <target name="jdbc2" unless="jdbc3.present">
+    <copy file="${java.dir}/org/apache/avalon/excalibur/datasource/Jdbc2Connection.java"
+          tofile="${build.src}/org/apache/avalon/excalibur/datasource/JdbcConnection.java"/>
+  </target>
+
+  <target name="jdbc3" if="jdbc3.present">
+    <copy file="${java.dir}/org/apache/avalon/excalibur/datasource/Jdbc3Connection.java"
+          tofile="${build.src}/org/apache/avalon/excalibur/datasource/JdbcConnection.java" />
+  </target>
+
+  <!-- Prepares the build directory -->
+  <target name="prepare" depends="check-datasource,setup-properties,jdbc2,jdbc3">
+    <tstamp/>
+    <mkdir dir="${build.dir}"/>
+  </target>
+
+  <!-- Compiles the source code -->
+  <target name="compile" depends="prepare">
+
+    <mkdir dir="${build.classes}"/>
+    <mkdir dir="${build.scratchpad}"/>
+
+<!--
+    <depend closure="yes"
+            cache="${dep}"
+            srcdir="${java.dir}"
+            destdir="${build.classes}" />
+-->
+
+    <javac srcdir="${java.dir}"
+           destdir="${build.classes}"
+           debug="${debug}"
+           optimize="${optimize}"
+           deprecation="${deprecation}">
+      <classpath refid="project.class.path" />
+      <src path="${test.dir}"/>
+      <src path="${build.src}"/>
+      <exclude name="org/apache/avalon/excalibur/datasource/J2eeDataSource.java"
+               unless="j2ee.present"/>
+      <exclude name="org/apache/avalon/excalibur/datasource/Jdbc2Connection.java"/>
+      <exclude name="org/apache/avalon/excalibur/datasource/Jdbc3Connection.java"/>
+    </javac>
+
+    <javac srcdir="${scratchpad.dir}"
+           destdir="${build.scratchpad}"
+           debug="${debug}"
+           optimize="${optimize}"
+           deprecation="${deprecation}">
+      <classpath refid="project.class.path" />
+    </javac>
+
+  </target>
+
+  <target name="test" depends="compile" > 
+    <echo message="Performing Unit Tests" />
+    <test showSuccess="true" showBanner="false" showTrace="true" forceShowTrace="true" > 
+       <classpath refid="test.class.path" />
+       <testlet>org.apache.avalon.excalibur.cli.test.ClutilTestlet</testlet>
+       <testlet>org.apache.avalon.excalibur.collections.test.BinaryHeapTestlet</testlet>
+       <!-- <testlet>org.apache.avalon.excalibur.datasource.test.DataSourceTestlet</testlet> -->
+       <testlet>org.apache.avalon.excalibur.io.test.FileUtilTestlet</testlet>
+       <testlet>org.apache.avalon.excalibur.io.test.IOUtilTestlet</testlet>
+       <testlet>org.apache.avalon.excalibur.property.test.PropertyUtilTestlet</testlet>
+    </test>
+  </target>
+
+  <!-- Creates the clutil.jar file -->
+  <target name="compile-clutil" depends="prepare">
+
+    <mkdir dir="${build.classes}"/>
+
+    <javac srcdir="${java.dir}"
+           destdir="${build.classes}"
+           debug="${debug}"
+           optimize="${optimize}"
+           deprecation="${deprecation}">
+      <include name="org/apache/avalon/excalibur/cli/*" />
+    </javac>
+  </target>
+
+  <target name="jar-clutil" depends="compile-clutil">
+    <mkdir dir="${build.lib}"/>
+    <jar jarfile="${build.lib}/clutil.jar" basedir="${build.classes}">
+      <include name="org/apache/avalon/excalibur/cli/*" />
+      <exclude name="org/apache/avalon/excalibur/cli/test/*" />
+    </jar>
+  </target>
+
+  <!-- Creates the exceptionutil.jar file -->
+  <target name="compile-exceptionutil" depends="prepare">
+
+    <mkdir dir="${build.classes}"/>
+
+    <javac srcdir="${java.dir}"
+           destdir="${build.classes}"
+           debug="${debug}"
+           optimize="${optimize}"
+           deprecation="${deprecation}">
+      <include name="org/apache/avalon/framework/ExceptionUtil.java" />
+      <include name="org/apache/avalon/framework/Cascading*" />
+    </javac>
+  </target>
+
+  <!-- Prepares the documentation directory -->
+  <target name="xdocs">
+
+    <mkdir dir="${build.xdocs}"/>
+    <mkdir dir="${build.docs}"/>
+
+    <!-- Base pointers for non-xdocs documentation. Override these in .ant.properties to link to local docs -->
+    <property name="avalon.base" value="http://jakarta.apache.org/avalon"/>
+    <property name="framework.base" value="http://jakarta.apache.org/avalon/framework"/>
+    <property name="phoenix.base" value="http://jakarta.apache.org/avalon/phoenix"/>
+    <property name="cornerstone.base" value="http://jakarta.apache.org/avalon/cornerstone"/>
+    <property name="logkit.base" value="http://jakarta.apache.org/avalon/logkit"/>
+    <property name="testlet.base" value="http://jakarta.apache.org/avalon/testlet"/>
+
+    <filter token="year" value="${year}"/>
+    <filter token="AVALON_BASE" value="${avalon.base}"/>
+    <filter token="FRAMEWORK_BASE" value="${framework.base}"/>
+    <filter token="PHOENIX_BASE" value="${phoenix.base}"/>
+    <filter token="CORNERSTONE_BASE" value="${cornerstone.base}"/>
+    <filter token="LOGKIT_BASE" value="${logkit.base}"/>
+    <filter token="TESTLET_BASE" value="${testlet.base}"/>
+
+    <copy todir="${build.xdocs}" filtering="on">
+      <fileset dir="${xdocs.dir}">
+        <exclude name="**/images/**"/>
+      </fileset>
+    </copy>
+
+    <copy todir="${build.docs}" filtering="off">
+      <fileset dir="${xdocs.dir}">
+        <include name="**/images/**"/>
+      </fileset>
+    </copy>
+
+    <taskdef name="stylebook" classname="org.apache.tools.ant.taskdefs.optional.StyleBook">
+      <classpath refid="tools.class.path"/>
+    </taskdef>
+
+    <stylebook targetdirectory="${build.docs}"
+               book="${build.xdocs}/book.xml"
+               skindirectory="${avalon.skin}">
+      <classpath refid="tools.class.path" />
+    </stylebook>
+
+  </target>
+
+  <!-- Create the API documentation -->
+  <target name="javadocs">
+
+    <delete dir="${build.javadocs}"/>
+    <mkdir dir="${build.javadocs}"/>
+
+    <!-- Ugly hack work around to remove duplicates 
+    of JdbcConnection so javadoc won't be confused -->
+    <mkdir dir="${build.src}"/>
+    <copy todir="${build.src}">
+      <fileset dir="${java.dir}">
+        <exclude name="org/apache/avalon/excalibur/datasource/Jdbc3Connection.java"/>
+        <exclude name="org/apache/avalon/excalibur/datasource/Jdbc2Connection.java"/>
+      </fileset>
+    </copy>    
+
+    <javadoc packagenames="org.apache.*"
+             sourcepath="${build.src}"
+             destdir="${build.javadocs}">
+      <classpath refid="project.class.path" />
+      <doclet name="com.sun.tools.doclets.standard.Standard">
+       <param name="-author"/>
+       <param name="-version"/>
+       <param name="-use"/>
+       <param name="-doctitle" value="${Name}"/>
+       <param name="-windowtitle" value="${Name} API"/>
+       <param name="-bottom"
+              value="&quot;Copyright &#169; 2001 Apache Jakarta Project. All Rights Reserved.&quot;"/>
+      </doclet>
+    </javadoc>
+
+    <delete dir="${build.src}"/>
+
+  </target>
+
+  <!-- Create the Local site documentation -->
+  <target name="local-xdocs" depends="xdocs">
+
+    <delete>
+      <fileset dir="${docs.dir}">
+        <exclude name="api/**"/>
+      </fileset>
+    </delete>
+    <mkdir dir="${docs.dir}"/>
+
+    <copy todir="${docs.dir}">
+      <fileset dir="${build.docs}" />
+    </copy>
+
+  </target>
+
+  <!-- Create the Local API documentation -->
+  <target name="local-javadocs" depends="javadocs">
+
+    <delete dir="${javadocs.dir}"/>
+    <mkdir dir="${javadocs.dir}"/>
+
+    <copy todir="${javadocs.dir}">
+      <fileset dir="${build.javadocs}" />
+    </copy>
+
+  </target>
+
+  <target name="local-docs" depends="local-javadocs,local-xdocs"/>
+
+  <!-- Update the www directory -->
+  <target name="site-docs" depends="local-docs">
+
+    <!-- delete all old documents but keep CVS directories -->
+    <!-- note that by doing an include the defaultexcludes (CVS dirs) will be kept -->
+    <delete>
+      <fileset dir="${www.dir}">
+        <include name="**"/>
+      </fileset>
+    </delete>
+
+    <mkdir dir="${www.dir}"/>
+    <copy todir="${www.dir}">
+      <fileset dir="${docs.dir}" />
+    </copy>
+
+  </target>
+
+  <!-- Create the announcements -->
+  <target name="announcement" depends="setup-properties">
+
+    <filter token="name" value="${Name}"/>
+    <filter token="version" value="${version}"/>
+    <filter token="year" value="${year}"/>
+    <filter token="release" value="${release}"/>
+    <filter token="short-version" value="${short.version}"/>
+
+    <copy file="announcement.xml" tofile="${build.announce}" filtering="yes"/>
+
+    <style basedir="${build.dir}" destdir="./" style="${announce2txt}"
+           includes="Announcement.xml" extension=".txt"/>
+
+  </target>
+
+  <!-- Creates all the .jar files -->
+  <target name="jar" depends="compile">
+
+    <mkdir dir="${build.lib}"/>
+
+    <jar jarfile="${build.lib}/avalon-${name}.jar" basedir="${build.classes}">
+      <include name="org/apache/avalon/excalibur/**"/>
+      <exclude name="**/test/*"/>
+    </jar>
+
+    <jar jarfile="${build.lib}/${testlets.name}.jar" basedir="${build.classes}">
+      <include name="**/test/*"/>
+    </jar>
+
+    <jar jarfile="${build.lib}/${scratchpad.name}.jar" basedir="${build.scratchpad}"/>
+
+  </target>
+
+  <target name="install" depends="jar,install-check-cjan">
+
+    <mkdir dir="${cjan.lib}" />
+    <copy file="${build.lib}/avalon-${name}.jar" todir="${cjan.lib}"/>
+    <copy file="${build.lib}/${scratchpad.name}.jar" todir="${cjan.lib}"/>
+    <copy file="${build.lib}/${testlets.name}.jar" todir="${cjan.lib}"/>
+
+  </target>
+
+  <target name="install-check-cjan" unless="cjan.lib">
+    <fail message="cjan.lib not specified." />
+  </target>
+
+  <!-- Create the distribution -->
+  <target name="dist" depends="jar,javadocs,xdocs">
+
+    <mkdir dir="${dist.dir}"/>
+    <copy file="${build.lib}/avalon-${name}.jar" tofile="${dist.dir}/avalon-${name}-${version}.jar"/>
+    <copy file="${build.lib}/${testlets.name}.jar" tofile="${dist.dir}/${testlets.name}-${version}.jar"/>
+    <copy file="${build.lib}/${scratchpad.name}.jar" tofile="${dist.dir}/${scratchpad.name}-${version}.jar"/>
+
+    <mkdir dir="${dist.docs}"/>
+    <mkdir dir="${dist.javadocs}"/>
+
+    <copy todir="${dist.docs}">
+      <fileset dir="${build.docs}"/>
+    </copy>
+
+    <copy todir="${dist.javadocs}">
+      <fileset dir="${build.javadocs}"/>
+    </copy>
+
+    <copy todir="${dist.dir}">
+      <fileset dir=".">
+        <include name="README"/>
+      </fileset>
+    </copy>
+
+    <chmod dir="${dist.dir}" perm="go-rwx" />
+
+  </target>
+
+  <!-- Create the source distribution -->
+  <target name="src-dist" depends="xdocs,setup-properties">
+
+    <mkdir dir="${src.dist.dir}" />
+
+    <copy todir="${src.dist.tools}">
+      <fileset dir="${tools.dir}"/>
+    </copy>
+
+    <copy todir="${src.dist.lib}">
+      <fileset dir="${lib.dir}">
+        <include name="bytecode.jar" />
+<!--
+        <include name="xerces.jar" />
+        <include name="logkit.jar" />
+-->
+      </fileset>
+    </copy>
+
+    <copy file="${logkit.jar}" todir="${src.dist.lib}"/>
+    <copy file="${xerces.jar}" todir="${src.dist.lib}"/>
+    <copy file="${framework.jar}" todir="${src.dist.lib}"/>
+
+    <copy todir="${src.dist.src}">
+      <fileset dir="${src.dir}"/>
+    </copy>
+
+    <copy todir="${src.dist.docs}">
+      <fileset dir="${build.docs}"/>
+    </copy>
+
+    <copy todir="${src.dist.javadocs}">
+      <fileset dir="${build.javadocs}"/>
+    </copy>
+
+    <copy todir="${src.dist.dir}">
+      <fileset dir=".">
+        <include name="README"/>
+        <include name="LICENSE"/>
+        <include name="build.bat"/>
+        <include name="build.sh"/>
+        <include name="build.xml"/>
+      </fileset>
+    </copy>
+
+    <fixcrlf srcdir="${src.dist.dir}" includes="build.sh" cr="remove"/>
+    <fixcrlf srcdir="${src.dist.dir}" includes="build.bat" cr="add"/>
+    <chmod perm="+x">
+      <fileset dir="${src.dist.dir}">
+        <include name="build.sh" />
+      </fileset>
+    </chmod>
+
+    <fixcrlf srcdir="${src.dist.src}/java" includes="**/*.java" cr="remove"/>
+
+    <chmod dir="${src.dist.dir}" perm="go-rwx" />
+
+  </target>
+
+  <!-- Completely build all dists -->
+  <target name="distributions">
+    <mkdir dir="${dist.base}"/>
+
+    <antcall target="dist">
+      <param name="dist.dir" value="${dist.name}" />
+    </antcall>
+
+    <zip zipfile="${dist.base}/${dist.name}-bin.zip"
+         basedir="${dist.name}/.."
+         includes="${dist.name}/**"/>
+
+    <tar longfile="gnu" tarfile="${dist.base}/${dist.name}-bin.tar">
+      <tarfileset dir="${dist.name}/.." username="avalon" group="avalon">
+        <include name="${dist.name}/**"/>
+      </tarfileset>
+    </tar>
+
+    <gzip zipfile="${dist.base}/${dist.name}-bin.tar.gz"
+          src="${dist.base}/${dist.name}-bin.tar"/>
+
+    <delete file="${dist.base}/${dist.name}-bin.tar"/>
+    <delete dir="${dist.name}" />
+
+    <antcall target="src-dist">
+      <param name="src.dist.dir" value="${dist.name}" />
+    </antcall>
+
+    <zip zipfile="${dist.base}/${dist.name}-src.zip"
+         basedir="${dist.name}/.."
+         includes="${dist.name}/**"/>
+
+    <tar longfile="gnu" tarfile="${dist.base}/${dist.name}-src.tar" >
+      <tarfileset dir="${dist.name}/.." mode="755" username="avalon" group="avalon">
+        <include name="${dist.name}/build.sh"/>
+      </tarfileset>
+      <tarfileset dir="${dist.name}/.." username="avalon" group="avalon">
+        <include name="${dist.name}/**"/>
+        <exclude name="${dist.name}/build.sh"/>
+      </tarfileset>
+    </tar>
+
+    <gzip zipfile="${dist.base}/${dist.name}-src.tar.gz"
+          src="${dist.base}/${dist.name}-src.tar"/>
+
+    <delete file="${dist.base}/${dist.name}-src.tar"/>
+    <delete dir="${dist.name}" />
+
+  </target>
+
+  <!-- Cleans up build and distribution directories -->
+  <target name="clean" depends="setup-properties">
+    <delete dir="${build.dir}" />
+    <delete dir="${dist.dir}" />
+    <delete>
+      <fileset dir="." includes="**/*~" defaultexcludes="no"/>
+    </delete>
+  </target>
+
+  <!-- Cleans absolutely everything up -->
+  <target name="real-clean" depends="clean">
+    <delete dir="${docs.dir}" />
+    <delete dir="${dist.base}" />
+  </target>
+
+</project>
