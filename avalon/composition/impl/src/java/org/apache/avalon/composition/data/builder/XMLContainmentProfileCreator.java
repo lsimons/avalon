@@ -60,6 +60,26 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
+import org.apache.avalon.composition.data.BlockCompositionDirective;
+import org.apache.avalon.composition.data.BlockIncludeDirective;
+import org.apache.avalon.composition.data.ClassLoaderDirective;
+import org.apache.avalon.composition.data.CategoriesDirective;
+import org.apache.avalon.composition.data.ClasspathDirective;
+import org.apache.avalon.composition.data.ContainmentProfile;
+import org.apache.avalon.composition.data.DeploymentProfile;
+import org.apache.avalon.composition.data.FilesetDirective;
+import org.apache.avalon.composition.data.IncludeDirective;
+import org.apache.avalon.composition.data.LibraryDirective;
+import org.apache.avalon.composition.data.Mode;
+import org.apache.avalon.composition.data.MetaDataException;
+import org.apache.avalon.composition.data.MetaDataRuntimeException;
+import org.apache.avalon.composition.data.NamedDeploymentProfile;
+import org.apache.avalon.composition.data.Profile;
+import org.apache.avalon.composition.data.RepositoryDirective;
+import org.apache.avalon.composition.data.ResourceDirective;
+import org.apache.avalon.composition.data.ServiceDirective;
+import org.apache.avalon.composition.data.Targets;
+import org.apache.avalon.composition.data.TargetDirective;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
@@ -67,25 +87,6 @@ import org.apache.avalon.framework.context.DefaultContext;
 import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.meta.info.DependencyDescriptor;
 import org.apache.avalon.meta.info.ServiceDescriptor;
-import org.apache.avalon.composition.data.BlockCompositionDirective;
-import org.apache.avalon.composition.data.BlockIncludeDirective;
-import org.apache.avalon.composition.data.CategoriesDirective;
-import org.apache.avalon.composition.data.ContainmentProfile;
-import org.apache.avalon.composition.data.DeploymentProfile;
-import org.apache.avalon.composition.data.FilesetDirective;
-import org.apache.avalon.composition.data.LibraryDirective;
-import org.apache.avalon.composition.data.ClasspathDirective;
-import org.apache.avalon.composition.data.IncludeDirective;
-import org.apache.avalon.composition.data.ClassLoaderDirective;
-import org.apache.avalon.composition.data.RepositoryDirective;
-import org.apache.avalon.composition.data.ResourceDirective;
-import org.apache.avalon.composition.data.Mode;
-import org.apache.avalon.composition.data.Profile;
-import org.apache.avalon.composition.data.ServiceDirective;
-import org.apache.avalon.composition.data.MetaDataException;
-import org.apache.avalon.composition.data.MetaDataRuntimeException;
-import org.apache.avalon.composition.data.Targets;
-import org.apache.avalon.composition.data.TargetDirective;
 import org.apache.avalon.meta.info.builder.XMLTypeCreator;
 import org.apache.excalibur.configuration.ConfigurationUtil;
 
@@ -94,7 +95,7 @@ import org.apache.excalibur.configuration.ConfigurationUtil;
  * from a Configuration object.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2003/09/24 09:31:37 $
+ * @version $Revision: 1.2 $ $Date: 2003/10/04 11:53:04 $
  */
 public class XMLContainmentProfileCreator extends XMLProfileCreator
 {
@@ -398,9 +399,15 @@ public class XMLContainmentProfileCreator extends XMLProfileCreator
                 }
                 else if( child.getName().equals( "component" ) )
                 {
-                    DeploymentProfile profile = 
-                      DEPLOYMENT_CREATOR.createDeploymentProfile( child );
-                    list.add( profile );
+                    if( child.getAttribute( "profile", null ) != null )
+                    {
+                        list.add( createNamedDeploymentProfile( child ) );
+                    }
+                    else
+                    {                    
+                        list.add( 
+                          DEPLOYMENT_CREATOR.createDeploymentProfile( child ) );
+                    }
                 }
                 else if( child.getName().equals( "include" ) )
                 {
@@ -409,6 +416,21 @@ public class XMLContainmentProfileCreator extends XMLProfileCreator
             }
         }
         return (Profile[]) list.toArray( new Profile[0] );
+    }
+
+   /**
+    * Create a profile using a packaged deployment profile.
+    * @param config the component configuration
+    * @return the named profile
+    */
+    private NamedDeploymentProfile createNamedDeploymentProfile( Configuration config )
+      throws Exception
+    {
+         final String name = config.getAttribute( "name" );
+         final String classname = config.getAttribute( "class" );
+         final String key = config.getAttribute( "profile" );
+         final boolean activation = getActivationPolicy( config ); 
+         return new NamedDeploymentProfile( name, classname, key, activation );
     }
 
    /**

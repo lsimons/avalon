@@ -67,6 +67,7 @@ import org.apache.avalon.composition.data.BlockIncludeDirective;
 import org.apache.avalon.composition.data.CategoriesDirective;
 import org.apache.avalon.composition.data.ContainmentProfile;
 import org.apache.avalon.composition.data.DeploymentProfile;
+import org.apache.avalon.composition.data.NamedDeploymentProfile;
 import org.apache.avalon.composition.data.Profile;
 import org.apache.avalon.composition.data.ResourceDirective;
 import org.apache.avalon.composition.data.ServiceDirective;
@@ -105,7 +106,7 @@ import org.apache.excalibur.configuration.ConfigurationUtil;
  * as a part of a containment deployment model.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2003/09/24 09:31:59 $
+ * @version $Revision: 1.2 $ $Date: 2003/10/04 11:53:04 $
  */
 public class DefaultContainmentModel extends DefaultModel 
   implements ContainmentModel
@@ -286,6 +287,18 @@ public class DefaultContainmentModel extends DefaultModel
         else if( profile instanceof DeploymentProfile ) 
         {
             DeploymentProfile deployment = (DeploymentProfile) profile;
+            model = createDeploymentModel( deployment );
+        }
+        else if( profile instanceof NamedDeploymentProfile ) 
+        {
+            NamedDeploymentProfile holder = (NamedDeploymentProfile) profile;
+            final String classname = holder.getClassname();
+            final String key = holder.getKey();
+            TypeRepository repository = 
+              m_context.getClassLoaderModel().getTypeRepository();
+            Type type = repository.getType( classname );
+            DeploymentProfile template = repository.getProfile( type, key );
+            DeploymentProfile deployment = new DeploymentProfile( profile.getName(), template );
             model = createDeploymentModel( deployment );
         }
         else if( profile instanceof BlockIncludeDirective ) 
@@ -578,7 +591,7 @@ public class DefaultContainmentModel extends DefaultModel
 
    /**
     * Create a containment model that is derived from an external 
-    * source profile defintion.
+    * source containment profile defintion.
     *
     * @param directive the block include directive
     * @return the containment model established by the include

@@ -73,7 +73,7 @@ import org.xml.sax.InputSource;
  * objects from a configuration object.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2003/09/24 09:31:25 $
+ * @version $Revision: 1.2 $ $Date: 2003/10/04 11:53:04 $
  */
 public final class ContainmentProfileBuilder implements ContainmentProfileCreator
 {
@@ -87,7 +87,6 @@ public final class ContainmentProfileBuilder implements ContainmentProfileCreato
     private final SerializedContainmentProfileCreator m_serial =
       new SerializedContainmentProfileCreator();
 
-
     /**
      * Create a {@link ContainmentProfile} from a stream.
      *
@@ -95,7 +94,7 @@ public final class ContainmentProfileBuilder implements ContainmentProfileCreato
      * @return the containment profile
      * @exception Exception if a error occurs during profile creation
      */
-     public ContainmentProfile createContainmentProfile( InputStream inputStream )
+    public ContainmentProfile createContainmentProfile( InputStream inputStream )
         throws Exception
     {
         // we backup the inputstream content in a bytearray
@@ -106,6 +105,7 @@ public final class ContainmentProfileBuilder implements ContainmentProfileCreato
             baos.write( buffer, 0, read );
             read = inputStream.read( buffer );
         }
+
         inputStream = new ByteArrayInputStream( baos.toByteArray() );
         
         try
@@ -146,14 +146,14 @@ public final class ContainmentProfileBuilder implements ContainmentProfileCreato
 
     /**
      * Build ContainmentProfile from an XML descriptor.
-     *
+     * @param stream the input stream
      * @throws Exception if an error occurs
      */
-    private ContainmentProfile buildFromXMLDescriptor( InputStream inputStream )
+    private ContainmentProfile buildFromXMLDescriptor( InputStream stream )
         throws Exception
     {
-        final InputSource inputSource = new InputSource( inputStream );
-        Configuration config = ConfigurationBuilder.build( inputSource );
+        final InputSource source = new InputSource( stream );
+        Configuration config = ConfigurationBuilder.build( source );
         return m_xml.createContainmentProfile( config );
     }
 
