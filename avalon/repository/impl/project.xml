@@ -5,7 +5,7 @@
 
 <project>
 
-  <extend>${basedir}/../project.xml</extend>
+  <extend>${basedir}/../../project-common.xml</extend>
 
   <groupId>&avalon-repository-id;</groupId>
   <id>&avalon-repository-impl-id;</id>
@@ -60,6 +60,13 @@
       <version>&avalon-util-i18n-version;</version>
     </dependency>
 
+    <!-- Building Dependencies -->
+    <dependency>
+      <groupId>&avalon-util-id;</groupId>
+      <artifactId>&avalon-util-plugin-id;</artifactId>
+      <version>&avalon-util-plugin-version;</version>
+      <type>plugin</type>
+    </dependency>
   </dependencies>
 
 </project>

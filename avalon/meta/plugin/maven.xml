@@ -1,5 +1,9 @@
 <project default="plugin:install" xmlns:ant="jelly:ant">
 
+  <postGoal name="plugin:install" >
+    <attainGoal name="plugin:deploy" />
+  </postGoal>
+  
   <preGoal name="jar:jar">
     <attainGoal name="avalon:generate"/>
   </preGoal>

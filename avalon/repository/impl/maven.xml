@@ -3,8 +3,4 @@
   <ant:property name="criteriaClass"
     value="org/apache/avalon/repository/impl/DefaultRepositoryCriteria"/>
 
-  <postGoal name="test:test">
-    <attainGoal name="artifact:install"/>
-  </postGoal>
-
 </project>

@@ -5,7 +5,7 @@
 
 <project>
 
-  <extend>${basedir}/../project.xml</extend>
+  <extend>${basedir}/../../project-common.xml</extend>
 
   <groupId>&avalon-meta-id;</groupId>
   <id>&avalon-meta-tools-id;</id>
@@ -20,14 +20,6 @@
 Component meta info and meta data tools.
   </description>
   
-  <developers>
-    <developer>
-      <name>Stephen McConnell</name>
-      <id>mcconnell</id>
-      <email>mcconnell@apache.org</email>
-    </developer>
-  </developers>
-
   <dependencies>
 
     <dependency>
@@ -72,8 +64,15 @@ Component meta info and meta data tools.
       <version>1.3</version>
     </dependency>
 
+    <!-- Building Dependencies -->
+    <dependency>
+      <groupId>&avalon-util-id;</groupId>
+      <artifactId>&avalon-util-plugin-id;</artifactId>
+      <version>&avalon-util-plugin-version;</version>
+      <type>plugin</type>
+    </dependency>
+    
     <!-- pre JDK 1.4 dependencies -->
-
     <dependency>
       <id>xml-apis</id>
       <version>2.0.2</version>

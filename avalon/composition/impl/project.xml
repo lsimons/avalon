@@ -5,7 +5,7 @@
  
 <project>
 
-  <extend>${basedir}/../../project.xml</extend>
+  <extend>${basedir}/../../project-common.xml</extend>
 
   <groupId>&avalon-composition-id;</groupId>
   <id>&avalon-composition-impl-id;</id>
@@ -65,6 +65,17 @@
       <artifactId>&avalon-util-env-id;</artifactId>
       <version>&avalon-util-env-version;</version>
     </dependency>
+    <dependency>
+      <groupId>&avalon-util-id;</groupId>
+      <artifactId>&avalon-util-defaults-id;</artifactId>
+      <version>&avalon-util-defaults-version;</version>
+    </dependency>
+    <dependency>
+      <groupId>&avalon-util-id;</groupId>
+      <artifactId>&avalon-util-plugin-id;</artifactId>
+      <version>&avalon-util-plugin-version;</version>
+      <type>plugin</type>
+    </dependency>
 
     <dependency>
       <groupId>&avalon-meta-id;</groupId>
@@ -81,6 +92,12 @@
       <artifactId>&avalon-meta-impl-id;</artifactId>
       <version>&avalon-meta-impl-version;</version>
     </dependency>
+    <dependency>
+      <groupId>&avalon-meta-id;</groupId>
+      <artifactId>&avalon-meta-plugin-id;</artifactId>
+      <version>&avalon-meta-plugin-version;</version>
+      <type>plugin</type>
+    </dependency>
 
     <!-- avalon dependecies -->
 
@@ -90,6 +107,24 @@
       <version>&avalon-repository-main-version;</version>
     </dependency>
 
+    <dependency>
+      <groupId>&avalon-repository-id;</groupId>
+      <artifactId>&avalon-repository-api-id;</artifactId>
+      <version>&avalon-repository-api-version;</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>&avalon-repository-id;</groupId>
+      <artifactId>&avalon-repository-spi-id;</artifactId>
+      <version>&avalon-repository-spi-version;</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>&avalon-repository-id;</groupId>
+      <artifactId>&avalon-repository-impl-id;</artifactId>
+      <version>&avalon-repository-impl-version;</version>
+    </dependency>
+    
     <dependency>
       <groupId>&avalon-logging-id;</groupId>
       <artifactId>&avalon-logging-api-id;</artifactId>

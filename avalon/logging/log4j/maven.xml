@@ -1,7 +1,1 @@
-<project default="jar:install" xmlns:maven="jelly:maven" xmlns:j="jelly:core" xmlns:util="jelly:util" xmlns:ant="jelly:ant">
-
-  <postGoal name="java:prepare-filesystem">
-    <attainGoal name="artifact:install"/>
-  </postGoal>
-
-</project>
+<project default="jar:install" />

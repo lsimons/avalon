@@ -23,6 +23,9 @@ limitations under the License.
 <!ENTITY avalon-logging-impl-id "avalon-logging-impl">
 <!ENTITY avalon-logging-impl-version "1.0.dev-0">
 
+<!ENTITY avalon-logging-site-id "avalon-logging-site">
+<!ENTITY avalon-logging-site-version "1.0.dev-0">
+
 <!ENTITY avalon-logging-spi-id "avalon-logging-spi">
 <!ENTITY avalon-logging-spi-version "1.0.dev-0">
 
@@ -50,4 +53,5 @@ limitations under the License.
 <!ENTITY avalon-logging-logkit-artifact "artifact:&avalon-logging-logkit-artifact-spec;">
 <!ENTITY avalon-logging-logkit-datagram-artifact-spec "&avalon-logging-id;/&avalon-logging-logkit-datagram-id;#&avalon-logging-logkit-datagram-version;">
 <!ENTITY avalon-logging-logkit-syslog-artifact-spec "&avalon-logging-id;/&avalon-logging-logkit-syslog-id;#&avalon-logging-logkit-syslog-version;">
+<!ENTITY avalon-logging-logkit-socket-artifact-spec "&avalon-logging-id;/&avalon-logging-logkit-socket-id;#&avalon-logging-logkit-socket-version;">
 

@@ -5,7 +5,7 @@
 
 <project>
 
-  <extend>${basedir}/../project.xml</extend>
+  <extend>${basedir}/../../project-common.xml</extend>
 
   <groupId>&avalon-meta-id;</groupId>
   <id>&avalon-meta-api-id;</id>
@@ -55,6 +55,13 @@ Component meta model classes used by the assembly package.  The meta model inclu
       <version>2.4.0</version>
     </dependency>
 
+    <!-- Building Dependencies -->
+    <dependency>
+      <groupId>&avalon-util-id;</groupId>
+      <artifactId>&avalon-util-plugin-id;</artifactId>
+      <version>&avalon-util-plugin-version;</version>
+      <type>plugin</type>
+    </dependency>
   </dependencies>
   
 </project>

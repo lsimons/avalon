@@ -5,7 +5,7 @@
 
 <project>
 
-  <extend>${basedir}/../../project.xml</extend>
+  <extend>${basedir}/../../project-common.xml</extend>
 
   <groupId>&avalon-composition-id;</groupId>
   <id>&avalon-composition-api-id;</id>
@@ -57,6 +57,14 @@ An API supporting component composition.
       <version>&avalon-meta-api-version;</version>
     </dependency>
 
+    <!-- Building Dependencies -->
+    <dependency>
+      <groupId>&avalon-util-id;</groupId>
+      <artifactId>&avalon-util-plugin-id;</artifactId>
+      <version>&avalon-util-plugin-version;</version>
+      <type>plugin</type>
+    </dependency>
+    
     <!-- testcase dependencies -->
 
     <dependency>

@@ -5,7 +5,7 @@
 
 <project>
 
-  <extend>${basedir}/../../project.xml</extend>
+  <extend>${basedir}/../../../project-common.xml</extend>
 
   <groupId>&avalon-util-id;</groupId>
   <id>&avalon-util-extension-impl-id;</id>
@@ -25,6 +25,14 @@ An API supporting the management of jar file extension loading.
       <groupId>&avalon-util-id;</groupId>
       <artifactId>&avalon-util-extension-api-id;</artifactId>
       <version>&avalon-util-extension-api-version;</version>
+    </dependency>
+    
+    <!-- Building Dependencies -->
+    <dependency>
+      <groupId>&avalon-util-id;</groupId>
+      <artifactId>&avalon-util-plugin-id;</artifactId>
+      <version>&avalon-util-plugin-version;</version>
+      <type>plugin</type>
     </dependency>
   </dependencies>
 

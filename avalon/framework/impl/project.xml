@@ -4,7 +4,7 @@
 
 <project>
 
-  <extend>${basedir}/../project.xml</extend>
+  <extend>${basedir}/../../project-common.xml</extend>
 
   <groupId>&avalon-framework-id;</groupId>
   <id>&avalon-framework-impl-id;</id>
@@ -57,11 +57,6 @@
   </dependencies>
 
   <build>
-
-    <nagEmailAddress>dev@avalon.apache.org</nagEmailAddress>
-    <sourceDirectory>src/java</sourceDirectory>
-    <unitTestSourceDirectory>src/test</unitTestSourceDirectory>
-
     <sourceModifications>
       <sourceModification>
         <className>java.util.logging.Logger</className>
@@ -71,26 +66,6 @@
       </sourceModification>
     </sourceModifications>
 
-    <!-- Unit test classes -->
-
-    <unitTest>
-      <includes>
-        <include>**/*TestCase.*</include>
-      </includes>
-      <excludes>
-        <exclude>**/DefaultNSConfigurationBuilderTestCase.java</exclude>
-      </excludes> 
-      <resources> 
-        <resource>
-          <directory>src/test</directory> 
-          <includes> 
-            <include>**/*.properties</include> 
-            <include>**/*.xml</include> 
-          </includes>
-        </resource>
-      </resources>
-    </unitTest>
-
     <sourceModifications>
       <sourceModification>
         <className>java.util.logging.Logger</className>
@@ -99,7 +74,6 @@
         </excludes>
       </sourceModification>
     </sourceModifications>
-
   </build>
 
 </project>

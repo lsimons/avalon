@@ -5,7 +5,7 @@
 
 <project>
 
-  <extend>${basedir}/../project.xml</extend>
+  <extend>${basedir}/../../project-common.xml</extend>
 
   <groupId>&avalon-framework-id;</groupId>
   <id>&avalon-framework-api-id;</id>
@@ -21,9 +21,4 @@
       <version>1.2</version>
     </dependency>
   </dependencies>
-
-  <build>
-    <sourceDirectory>src/java</sourceDirectory>
-  </build>
-
 </project>
