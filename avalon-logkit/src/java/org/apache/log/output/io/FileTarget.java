@@ -76,7 +76,7 @@ public class FileTarget
      * This method will attempt to create directories below file and
      * append to it if specified.
      */
-    public void openFile()
+    protected void openFile()
         throws IOException
     {
         if( isOpen() ) close();
