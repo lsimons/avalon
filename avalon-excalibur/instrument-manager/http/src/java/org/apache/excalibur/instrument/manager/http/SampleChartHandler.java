@@ -73,7 +73,7 @@ import org.apache.excalibur.instrument.manager.interfaces.NoSuchInstrumentSample
 /**
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.3 $ $Date: 2004/01/30 06:39:35 $
+ * @version CVS $Revision: 1.4 $ $Date: 2004/02/18 16:45:05 $
  * @since 4.1
  */
 public class SampleChartHandler
@@ -218,8 +218,11 @@ public class SampleChartHandler
         {
             g = bi.createGraphics();
         }
-        catch ( NoClassDefFoundError e )
+        catch ( Throwable t )
         {
+            // Linux throws NoClassDefFoundError.
+            // Solaris throws InternalError
+            
             // On Headless UNIX machines this error will be thrown when attempting to
             //  create an graphic.  The AWT libraries require a native library that
             //  only exists on UNIX system which have X-Windows installed.  This is
