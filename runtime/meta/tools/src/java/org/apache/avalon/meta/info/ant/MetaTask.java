@@ -337,7 +337,7 @@ public class MetaTask
                 }
 
                 types++;
-
+ 
                 //
                 // it is a type implementation so we can fo ahead and build a
                 // a type descriptor
