@@ -23,6 +23,7 @@
         <depend project="excalibur-component" runtime="true"/>
         <depend project="excalibur-collections" runtime="true"/>
         <depend project="excalibur-event" runtime="true"/>
+        <depend project="excalibur-logger" runtime="true"/>
         <depend project="excalibur-instrument" runtime="true"/>
         <depend project="xml-xalan2"/>
         <depend project="jdom"/>
@@ -413,7 +414,7 @@
         <nag from="Peter Donald &lt;peter@apache.org&gt;"
             to="avalon-dev@jakarta.apache.org"/>
     </project>
-
+<!--
     <project name="excalibur-collections">
         <package>org.apache.avalon.excalibur.collections</package>
 
@@ -437,7 +438,7 @@
         <nag from="Peter Donald &lt;peter@apache.org&gt;"
             to="avalon-dev@jakarta.apache.org"/>
     </project>
-
+-->
     <project name="excalibur-concurrent">
         <package>org.apache.avalon.excalibur.concurrent</package>
 
