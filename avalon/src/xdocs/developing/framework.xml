@@ -1,0 +1,349 @@
+<?xml version="1.0" standalone="no"?>
+
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.1//EN"
+                         "http://www.oasis-open.org/docbook/xml/4.0/docbookx.dtd">
+
+<chapter>
+  <title>Framework and Foundations</title>
+  <subtitle>
+    We will describe Avalon's contracts and interfaces so we have a foundation
+    to actually build our Components.
+  </subtitle>
+  <para>
+    Avalon Framework is the central piece to the entire Avalon project.  If you
+    understand the contracts and constructs defined in the framework, you can
+    understand anything that uses it.  Remember the principles and patterns we
+    have already discussed so far.  In this section, we will expound on how the
+    Role concept works practically, the lifecycle of Components, and how the
+    interfaces work.
+  </para>
+  <section>
+    <title>Defining the Component's Role</title>
+    <para>
+      In Avalon, all Components have a role.  The reason is that you retrieve
+      your Components by role.  At this stage, the only concern area we are
+      using is the signature of the role.  If you recall in the second section,
+      we defined a Component as "the combination of a work interface and the
+      implementation of the interface".  That work interface is your role.
+    </para>
+    <section>
+      <title>Creating the Role's Interface</title>
+      <para>
+        Below you will find the example interface, followed by some best
+	practices along with their reasoning.
+      </para>
+      <programlisting>
+<![CDATA[
+package org.apache.bizserver.docs;
+
+public interface DocumentRepository {
+    String ROLE = "org.apache.bizserver.docs.DocumentRepository";
+
+    Document getDocument(Principal requestor, int refId);
+}
+]]>
+      </programlisting>
+      <section>
+        <title>Best Practices</title>
+	<itemizedlist>
+	  <listitem>
+	    <para>
+	      Only specify the methods you need.  The client should have no
+	      knowledge of implementation details, and too many alternative
+	      methods only introduce unneeded complexity.  In other words pick
+	      an approach and stick with it.
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para>
+	      Don't extend any other interface.  If you think that you should
+	      extend another interface, it should be another role's work
+	      interface.
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para>
+	      Don't extend interfaces that impact implementation&mdash;you are
+	      mixing concerns and this will only lead to debugging and
+	      implementation problems later.
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para>
+	      Include a String called "ROLE" that has the role's official name.
+	      That name is the same as the fully qualified name for the work
+	      interface.  This helps later on when we need to get an instance
+	      of the Component later.
+	    </para>
+	  </listitem>
+	</itemizedlist>
+      </section>
+      <section>
+        <title>Choosing the Role's Name</title>
+	<para>
+	  In Avalon, every Role has a name. It is how you get references to
+	  other Components in the system.  The Avalon team has outlined some
+	  idioms to follow for the naming of your role.
+	</para>
+	<section>
+	  <title>Naming Idioms</title>
+	  <itemizedlist>
+	    <listitem>
+	      <para>
+	        The fully qualified name of the work interface is usually the
+		role name.  The exceptions are listed after this general rule.
+		Using this example, our theoretical Component's name would be
+		"org.apache.bizserver.docs.DocumentRepository".  This is the
+		name that would be included in your interface's "ROLE"
+		attribute.
+	      </para>
+	    </listitem>
+	    <listitem>
+	      <para>
+	        If we obtain the reference to this Component through a
+		Component Selector, we usually take the role name derived from
+		the first rule and append the word "Selector" to the end.  The
+		result of this naming rule would be
+		"org.apache.bizserver.docs.DocumentRepositorySelector".  You
+		can use the shorthand
+		<parameter>DocumentRepository.ROLE + "Selector"</parameter>.
+	      </para>
+	    </listitem>
+	    <listitem>
+	      <para>
+	        If we have multiple Components that implement the same work
+		interface, but are used for different purposes, we have
+		separate roles.  A Role is the Component's purpose in the
+		system.  Each role name will start with the original role
+		name, but the purpose name of the role will be appended
+		with a "/<parameter>${purpose}</parameter>".  By example
+		we could have the following purposes for our
+		DocumentRepository: PurchaseOrder and Bill.  Our two roles
+		would be expressed as
+		<parameter>DocumentRepository.ROLE + "/PurchaseOrder"</parameter>
+		and <parameter>DocuementRepository.ROLE + "/Bill"</parameter>,
+		respectively.
+	      </para>
+	    </listitem>
+	  </itemizedlist>
+	</section>
+      </section>
+    </section>
+  </section>
+  <section>
+    <title>Overview of Framework Interfaces</title>
+    <para>
+      The entire Avalon Framework can be divided into seven main categories (as
+      is the API): Activity, Component, Configuration, Context, Logger,
+      Parameters, Thread, and Miscellany.  Each of those categories (except
+      Miscellany) represents a unique concern area.  It is common for a
+      Component to implement several interfaces to identify all the concern
+      areas that the Component is worried about.  This will allow the
+      Component's container to manage each Component in a consistent manner.
+    </para>
+    <section>
+      <title>Lifecycle for Avalon Interfaces</title>
+      <para>
+        When a framework implements several interfaces to separate the concerns
+	of the Component, there is potential for confusion over the order of
+	method calls.  Avalon Framework realizes this, and so we developed the
+	contract for lifecycle ordering of events.  If your Component does not
+	implement the associated Interface, then simply skip to the next event
+	that will be called.  Because there is a correct way to create and
+	prepare Components, you can set up your Components as you receive
+	events.
+      </para>
+      <para>
+        The Lifecycle of a Component is split into three phases:
+	Initialization, Active Service, and Destruction.  Because these phases
+	are sequential, we will discuss the events in order.  In addition, the
+	act of Construction and Finalization is implicit due to the Java
+	language, so they will be skipped.  The steps will list the method
+	name, and the required interface.  Within each phase, there will be a
+	number of stages identified by method names.  Those stages are executed
+	if your Component extends the associated interface specified in
+	parenthesis.
+      </para>
+      <section>
+        <title>Initialization</title>
+	<para>
+	  This list of stages occurs in this specific order, and occurs only
+	  once during the life of the Component.
+	</para>
+	<orderedlist>
+	  <listitem>
+	    <para>
+	      <function>setLogger</function>
+	      [<classname>Loggable</classname>]
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para>
+	      <function>contextualize</function>
+	      [<classname>Contextualizable</classname>]
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para>
+	      <function>compose</function>
+	      [<classname>Composable</classname>]
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para>
+	      <function>configure</function>
+	      [<classname>Configurable</classname>]
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para>
+	      <function>parameterize</function>
+	      [<classname>Parameterizable</classname>]
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para>
+	      <function>initialize</function>
+	      [<classname>Initializable</classname>]
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para>
+	      <function>start</function>
+	      [<classname>Startable</classname>]
+	    </para>
+	  </listitem>
+	</orderedlist>
+      </section>
+      <section>
+        <title>Active Service</title>
+	<para>
+	  This list of stages occurs in this specific order, but may occur
+	  multiple times during the life of the Component.  Please note that
+	  should you choose to not implement the Suspendable interface, it is
+	  up to your Component to ensure proper functionality while executing
+	  any of the Re* stages.
+	</para>
+	<orderedlist>
+	  <listitem>
+	    <para>
+	      <function>suspend</function>
+	      [<classname>Suspendable</classname>]
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para>
+	      <function>suspend</function>
+	      [<classname>Suspendable</classname>]
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para>
+	      <function>recontextualize</function>
+	      [<classname>Recontextualizable</classname>]
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para>
+	      <function>recompose</function>
+	      [<classname>Recomposable</classname>]
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para>
+	      <function>reconfigure</function>
+	      [<classname>Reconfigurable</classname>]
+	    </para>
+	  </listitem>
+	</orderedlist>
+      </section>
+      <section>
+        <title>Destruction</title>
+	<para>
+	  This list of stages occurs in the order specified, and occurs only
+	  once during the life of the Component.
+	</para>
+	<orderedlist>
+	  <listitem>
+	    <para>
+	      <function>stop</function>
+	      [<classname>Startable</classname>]
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para>
+	      <function>dispose</function>
+	      [<classname>Disposable</classname>]
+	    </para>
+	  </listitem>
+	</orderedlist>
+      </section>
+    </section>
+    <section>
+      <title>Avalon Framework Contracts</title>
+      <para>
+        In this section, we will cover all the sections alphabetically with
+	the exception of the most important concern area: Component.
+      </para>
+      <note>
+        <title>A Word About Containers</title>
+	<para>
+	  When I use the word "container" or "contains" when describing
+	  Components, I have a very specific meaning.  I am referring to child
+	  Components that the parent Component has instantiated and controls.
+	  I am not referring to Components obtained through a ComponentManager
+	  or ComponentSelector.  Furthermore, some Avalon stages received by a
+	  container must be propagated to all of its children implementing the
+	  appropriate interface.  The specific interfaces in question are
+	  Initializable, Startable, Suspendable, and Disposable.  The reasoning
+	  for this contract is that these particular interfaces have specific
+	  execution contracts.
+	</para>
+      </note>
+      <section>
+        <title>Component</title>
+	<para>
+	  This is the core of Avalon Framework.  Any interface defined in this
+	  concern area will throw ComponentException.
+	</para>
+	<section>
+	  <title>Component</title>
+	  <para>
+	    Every Avalon Component <emphasis>must</emphasis> implement the
+	    Component interface.  The Component Manager and Component Selector
+	    only handle Components.  There are no methods associated with this
+	    interface.  It is only used as a marker interface.
+	  </para>
+	  <para>
+            Any Component must use default no parameter constructors.  All
+	    configurations are done with the
+	    <classname>Configurable</classname> or
+	    <classname>Parameterizable</classname> interfaces.
+	  </para>
+	</section>
+	<section>
+	  <title>Composable</title>
+	  <para>
+	    A Component that uses other Components needs to implement this
+	    interface.  The interface has only one method
+	    <function>compose</function> with a
+	    <classname>ComponentManager</classname> passed in as the only
+	    parameter.
+	  </para>
+	  <para>
+            The contract surrounding this interface is that the
+	    <function>compose</function> is called once and only once during
+	    the lifetime of this Component.
+	  </para>
+	  <para>
+            This interface along with any other interface that has methods
+	    specified uses the Inversion of Control pattern.  It is called by
+	    the Component's container, and only the Components that this
+	    Component needs should be present in the
+	    <classname>ComponentManager</classname>.
+	  </para>
+	</section>
+      </section>
+    </section>
+  </section>
+</chapter>
