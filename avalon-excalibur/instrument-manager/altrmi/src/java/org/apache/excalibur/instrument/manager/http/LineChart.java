@@ -68,7 +68,7 @@ import javax.swing.JComponent;
  * Draws a nice pretty chart given a set of data.
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.1 $ $Date: 2003/11/09 16:36:33 $
+ * @version CVS $Revision: 1.2 $ $Date: 2004/01/30 06:39:35 $
  * @since 4.1
  */
 public class LineChart
@@ -139,15 +139,15 @@ public class LineChart
      * @param sampleInterval The number of milliseconds represented by each data sample.
      * @param format Format of the text which is displayed along the x (time) axis of
      *  the chart.  The text will display the time of the line chart at a particular
-     *  interval.  The text should take the format "{0}/{1} {2}:{3}:{4}.{5}" where {0} is
-     *  replaced by the month, {1} by the day, {2} by the hour, {3} by the minute, {4}
-     *  by the second, and {5} by the hundereths of a second.
+     *  interval.  The text should take the format "{0}/{1}/{2} {3}:{4}:{5}.{6}" where
+     *  {0} is replaced by the year, {1} by the month, {2} by the day, {3} by the hour,
+     *  {4} by the minute, {5} by the second, and {6} by the hundereths of a second.
      * @param detailFormat Format of the text which is displayed over the component as
      *  the user moves the mouse over the line chart.  The text will display the exact
      *  value of the line chart at a particular point.  The text should take the format
-     *  "{0}/{1} {2}:{3}:{4}.{5}" where {0} is replaced by the month, {1} by the day,
-     *  {2} by the hour, {3} by the minute, {4} by the second, and {5} by the hundereths
-     *  of a second.
+     *  "{0}/{1}/{2} {3}:{4}:{5}.{6}" where {0} is replaced by the year, {1} by the
+     *  month, {2} by the day, {3} by the hour, {4} by the minute, {5} by the second,
+     *  and {6} by the hundereths of a second.
      * @param averageWindow Number of data points to do a moving average over when the
      *  mouse is pressed on the component.
      */
@@ -245,8 +245,12 @@ public class LineChart
         calendar.setTime( dTime );
 
         int v;
-        String month, day, hour, minute, second, hundreths;
+        String year, month, day, hour, minute, second, hundreths;
 
+        // Substitute the year
+        v = calendar.get( Calendar.YEAR );
+        year = Integer.toString( v );
+        
         // Substitute the month
         v = calendar.get( Calendar.MONTH ) - Calendar.JANUARY + 1;
         if( v < 10 )
@@ -317,12 +321,12 @@ public class LineChart
         if( detailed )
         {
             format = MessageFormat.format( m_dFormat,
-                new Object[]{month, day, hour, minute, second, hundreths} );
+                new Object[]{year, month, day, hour, minute, second, hundreths} );
         }
         else
         {
             format = MessageFormat.format( m_format,
-                new Object[]{month, day, hour, minute, second, hundreths} );
+                new Object[]{year, month, day, hour, minute, second, hundreths} );
         }
         return format;
     }
