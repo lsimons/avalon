@@ -24,7 +24,7 @@ import org.xml.sax.SAXException;
  * the transformation to the registered on.
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/07/07 06:04:00 $
+ * @version CVS $Revision: 1.3 $ $Date: 2002/07/07 06:15:20 $
  */
 public class XMLizerImpl
     extends DefaultComponentSelector
@@ -50,12 +50,12 @@ public class XMLizerImpl
      * {@link org.apache.avalon.excalibur.xml.XMLConsumer} that accepts such
      * events or directly implements the LexicalHandler interface!
      * @param stream    the data
-     * @param mimeType  the mime-type for the data
+     * @param specifiedMimeType  the mime-type for the data
      * @param systemID  the URI defining the data (this is optional and can be null)
      * @throws ComponentException if no suitable converter is found
      */
     public void toSAX( final InputStream stream,
-                       final String mimeType,
+                       final String specifiedMimeType,
                        final String systemID,
                        final ContentHandler handler )
         throws SAXException, IOException, ComponentException
@@ -72,6 +72,7 @@ public class XMLizerImpl
             throw new ComponentException( message );
         }
 
+        String mimeType = specifiedMimeType;
         if( null == mimeType )
         {
             if( getLogger().isDebugEnabled() )
