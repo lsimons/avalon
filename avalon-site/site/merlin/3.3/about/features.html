@@ -310,7 +310,7 @@
       <small>
       	
       	
-      		<a href="../meta/index.html">Meta Model</a>
+      		<a href="../extensions/index.html">Extensions</a>
       	
       </small>
 	  
@@ -328,23 +328,6 @@
       	
       	
       		<a href="../tools/index.html">Tools</a>
-      	
-      </small>
-	  
-        
-      
-    </div>
-  
-    
-    
-    
-    
-
-    <div>
-      <small>
-      	
-      	
-      		<a href="../extensions/index.html">Extensions</a>
       	
       </small>
 	  
@@ -537,10 +520,18 @@
 					
                     
                     
+                      
+                      
+                    
+                      
+                      
+                    
                     
                     
                     
                   </div>
+                  
+                    
                   
                   
                 </div>
@@ -578,7 +569,27 @@
       
     <p>
       
-Merlin provides support for the packaging and deployment of composite components with a structure called a Block.  A block represents the association of resources to a containment hierarchy within which components are managed.  In addition, a block enables the separation of a component assembly as implementation from the subset of services published by the block.
+Merlin provides support for the packaging and deployment of composite components with a structure called a Block.  A block represents the association of resources to a containment hierarchy within which components are managed.  In addition, a block enables the separation of a component assembly (the composite implementation) from the set of services published by the block.
+        
+    </p>
+   
+    </div>
+  
+    <div class="h4">
+      
+      
+        <h4>
+          <a name="Cascading Containers">Cascading Containers</a>
+        </h4>
+      
+      
+    <p>
+      
+The Merlin system provides support for 
+    <strong>
+      cascading containers
+    </strong>
+   . This model enables component assemblers to (among other things) associate jar files under a protected scope where each container is associated with its own classloader.
         
     </p>
    
@@ -594,7 +605,24 @@ Merlin provides support for the packaging and deployment of composite components
       
     <p>
       
-Underlying the Merlin system is a assembly engine that provides support for the deployment of components.  The assembly engine takes care of dependency resolution, component instantiation, lifecycle processing, and component decommissioning.
+Merlin will handle resolution of service dependencies for components by looking for explicitly declared components commencing within the local container, and working progressively up the container hierarchy.  If 
+no explicit solutions are resolved, Merlin will attempt to build a packaged or implicit solution based on component types declared in the classloader hierachy.  
+        
+    </p>
+   
+    </div>
+  
+    <div class="h4">
+      
+      
+        <h4>
+          <a name="Deployment Engine">Deployment Engine</a>
+        </h4>
+      
+      
+    <p>
+      
+Underlying the Merlin system is a runtime deployment engine that provides support for the orderly establishment of simple and composite components.  The deployment engine takes care of component instantiation, lifecycle processing, and component decommissioning.
         
     </p>
    
@@ -610,7 +638,7 @@ Underlying the Merlin system is a assembly engine that provides support for the 
       
     <p>
       
-Merlin provides support for different component instantiation policies.  These policies are referred to as lifestyles. Examples of supported lifestyle include 'singleton', 'per-thread', 'pooled' and 'transient'.
+Merlin provides support for different component instantiation policies.  These policies are referred to as lifestyles. Examples of lifestyle include 'singleton', 'per-thread', 'pooled' and 'transient'.
         
     </p>
    
@@ -626,7 +654,7 @@ Merlin provides support for different component instantiation policies.  These p
       
     <p>
       
-Following instantiation, a component is processed through a lifecycle.  Lifecycle processing involves the execution of a series of stages such associating a logging channel, applying a configuration or component parameters, setting the runtime context, supplying dependent services, initialization, startup, shutdown and disposal.  Within the Merlin system, lifecycle stages can be extended or modified through association of other components that provide lifecycle support.  Merlin distinguishes these services as deployment dependencies as distinct from classic runtime dependencies.
+Merlin provides support for constructor based injection of lifecycle artifacts, or optional phased delivery under which a component is processed through a series of lifecycle stages.  Lifecycle processing involves the execution of a series of stages such as associating a logging channel, applying a configuration or component parameters, setting the runtime context, supplying dependent services, initialization, startup, shutdown and disposal.  Within the Merlin system, lifecycle stages can be extended or modified through association of other components that provide lifecycle support.  Merlin distinguishes these services as deployment dependencies as distinct from classic runtime dependencies.
         
     </p>
    

@@ -262,7 +262,7 @@
       <small>
       	
       	
-      		<a href="../../../meta/index.html">Meta Model</a>
+      		<a href="../../../extensions/index.html">Extensions</a>
       	
       </small>
 	  
@@ -280,23 +280,6 @@
       	
       	
       		<a href="../../../tools/index.html">Tools</a>
-      	
-      </small>
-	  
-        
-      
-    </div>
-  
-    
-    
-    
-    
-
-    <div>
-      <small>
-      	
-      	
-      		<a href="../../../extensions/index.html">Extensions</a>
       	
       </small>
 	  
@@ -519,6 +502,23 @@
       <small>
       	
       	
+      		<a href="../../../reference/containment/index.html">Container Specification</a>
+      	
+      </small>
+	  
+        
+      
+    </div>
+  
+    
+    
+    
+    
+
+    <div>
+      <small>
+      	
+      	
       		<a href="../../../reference/deployment/index.html">Deployment Specification</a>
       	
       </small>
@@ -693,10 +693,18 @@
 					
                     
                     
+                      
+                      
+                    
+                      
+                      
+                    
                     
                     
                     
                   </div>
+                  
+                    
                   
                   
                 </div>
@@ -735,7 +743,7 @@
     <p>
       
 A component may be supplied with a context object either by constructor or through an implementation of the 
-    <a href="">Contextualizable</a>
+    <a href="http://avalon.apache.org/framework/api/org/apache/avalon/framework/context/Contextualizable.html">Contextualizable</a>
    lifecycle artifact delivery interface.  A context object is typically used to provide standard environment information to a component.  It may also be used a mechanisms to deliver domain specific resources to a component.
         
     </p>
@@ -936,23 +944,63 @@ Both standard and custom context entry dependencies may be declared using the
       
       
     <p>
-      IN PREP
+      
+        While the context interface provides the mechanisms to 
+        access any object type via key, it is sometimes convenient to 
+        declare a domain specific interface and custom context 
+        implementation.  This enables client code to take advantage
+        of convenience accessors, resulting in code that is not 
+        cluttered with casting and context entry key references.
+        
     </p>
    
+    <p>
+      
+        The dependency of a component on a custom context type is 
+        declared using the 
+        
+    <a href="http://avalon.apache.org/meta/tools/tags/context.html">
+        @avalon.context</a>
+   tag type attribute.
+        
+    </p>
+   
+    <div id="source">
+      <pre>
+   /**
+    * Creation of a new DefaultWidget instance using a 
+    * custom object that is castable to a domain specific
+    * interface.
+    *
+    * @avalon.context type="net.dpml.WidgetContext" 
+    * @avalon.entry key="urn:avalon:home" type="java.io.File"
+    */
+    public DefaultWidget( WidgetContext context )
+      throws ContextException
+    {
+        File common = context.getCommonDirectory();
+        m_common = common;
+    }
+</pre>
     </div>
   
-    <div class="h4">
-      
-      
-        <h4>
-          <a name="Custom Delivery Strategies">Custom Delivery Strategies</a>
-        </h4>
-      
-      
     <p>
-      IN PREP
+      
+        In the above example the WidgetContext interfact is unknown
+        to the container - as such an explicit deployment directives is 
+        required to declare a the context implementation class to be used
+        by the container during context argument establishment.               
+        
     </p>
    
+    <div id="source">
+      <pre>
+   &lt;component name="widget" class="net.dpml.DefaultWidget"&gt;
+     &lt;context class="net.dpml.DefaultWidgetContext"/&gt;
+   &lt;/component&gt;
+</pre>
+    </div>
+  
     </div>
   
     </div>

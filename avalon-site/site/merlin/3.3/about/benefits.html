@@ -310,7 +310,7 @@
       <small>
       	
       	
-      		<a href="../meta/index.html">Meta Model</a>
+      		<a href="../extensions/index.html">Extensions</a>
       	
       </small>
 	  
@@ -328,23 +328,6 @@
       	
       	
       		<a href="../tools/index.html">Tools</a>
-      	
-      </small>
-	  
-        
-      
-    </div>
-  
-    
-    
-    
-    
-
-    <div>
-      <small>
-      	
-      	
-      		<a href="../extensions/index.html">Extensions</a>
       	
       </small>
 	  
@@ -537,10 +520,18 @@
 					
                     
                     
+                      
+                      
+                    
+                      
+                      
+                    
                     
                     
                     
                   </div>
+                  
+                    
                   
                   
                 </div>
@@ -621,35 +612,23 @@ The solution to the above is a framework that automates the process of component
     </p>
    
     <p>
-      Consider the following code fragment:
+      Consider the following code fragment in which we create a service description, locate component model that provides the service, commission the model and resolve the service instance.
     </p>
    
     <div id="source">
       <pre>
+  ReferenceDescriptor reference = 
+    new ReferenceDescriptor( Widget.class.getName() );
+  ComponentModel model = (ComponentModel) m_model.getModel( reference );
+  model.commission();
 
-   // add an implementation component to the engine
-
-   engine.register( "org.apache.avalon.playground.BasicComponent" );
-
-   // get an appliance handling the versioned service we want
-
-   Appliance appliance = m_engine.resolve( 
-     new DependencyDescriptor( 
-       "demo", 
-       "org.apache.avalon.playground.BasicService", 
-       Version.getVersion( "1.1" ) ) 
-   );
-
-   // get the fully prepared component
-
-   Object object = appliance.access( dependency );
-
+  Widget widget = (Widget) model.resolve();
 </pre>
     </div>
   
     <p>
       
-The above code demonstrates the elimination of knowledge about the component deployment strategy.  All aspect concerning the component logging, configuration, parameterization, contexulization, dependency composition, initialization, startup, shutdown, and disposal are managed by the engine.
+The above code demonstrates the elimination of knowledge about the component deployment strategy.  All aspect concerning the component logging, configuration, parameterization, contexulization, dependency composition, initialization, startup, shutdown, and disposal are managed by the container.
 
     </p>
    
