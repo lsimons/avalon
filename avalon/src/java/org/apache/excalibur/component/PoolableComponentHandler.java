@@ -7,28 +7,27 @@
  */
 package org.apache.excalibur.component;
 
+import org.apache.excalibur.pool.Poolable;
 import org.apache.avalon.Disposable;
-import org.apache.avalon.Initializable;
-import org.apache.avalon.Stoppable;
 import org.apache.avalon.component.Component;
 import org.apache.avalon.component.ComponentManager;
 import org.apache.avalon.configuration.Configuration;
 import org.apache.avalon.context.Context;
-import org.apache.avalon.logger.AbstractLoggable;
 import org.apache.log.Logger;
 
 /**
- * The DefaultComponentHandler to make sure components are initialized
+ * The PoolableComponentHandler to make sure components are initialized
  * and destroyed correctly.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.2 $ $Date: 2001/04/20 20:48:34 $
+ * @version CVS $Revision: 1.1 $ $Date: 2001/04/20 20:48:34 $
  */
-class DefaultComponentHandler
-    extends ComponentHandler
-{
+public class PoolableComponentHandler extends ComponentHandler {
     /** The instance of the ComponentFactory that creates and disposes of the Component */
     private final DefaultComponentFactory    m_factory;
+
+    /** The pool of components for <code>Poolable</code> Components */
+    private final DefaultComponentPool       m_pool;
 
     /** State management boolean stating whether the Handler is initialized or not */
     private boolean                    m_initialized   = false;
@@ -41,14 +40,16 @@ class DefaultComponentHandler
      * whether a Component is ThreadSafe, Poolable, or SingleThreaded.
      * It falls back to SingleThreaded if not specified.
      */
-    protected DefaultComponentHandler( final Class componentClass,
-                             final Configuration config,
-                             final ComponentManager manager,
-                             final Context context,
-                             final RoleManager roles )
+    protected PoolableComponentHandler( final Class componentClass,
+                              final Configuration config,
+                              final ComponentManager manager,
+                              final Context context,
+                              final RoleManager roles )
         throws Exception
     {
         m_factory = new DefaultComponentFactory( componentClass, config, manager, context, roles );
+
+        m_pool = new DefaultComponentPool( m_factory );
     }
 
     /**
@@ -57,6 +58,7 @@ class DefaultComponentHandler
     public void setLogger( final Logger logger )
     {
         m_factory.setLogger( logger );
+        m_pool.setLogger( logger );
 
         super.setLogger( logger );
     }
@@ -68,7 +70,17 @@ class DefaultComponentHandler
     {
         if( m_initialized ) return;
 
+        try
+        {
+            m_pool.init();
+        }
+        catch( Exception e )
+        {
+            getLogger().error( "Cannot use component: " + m_factory.getCreatedClass().getName(), e );
+        }
+
         getLogger().debug("ComponentHandler initialized for: " + this.m_factory.getCreatedClass().getName());
+
         m_initialized = true;
     }
 
@@ -88,7 +100,7 @@ class DefaultComponentHandler
             throw new IllegalStateException( "You cannot get a component from a disposed holder" );
         }
 
-        return (Component)m_factory.newInstance();
+        return (Component)m_pool.get();
     }
 
     /**
@@ -106,15 +118,7 @@ class DefaultComponentHandler
             throw new IllegalStateException( "You cannot put a component in a disposed holder" );
         }
 
-        try
-        {
-            m_factory.decommission( component );
-        }
-        catch( final Exception e )
-        {
-            getLogger().warn( "Error decommissioning component: " +
-                              m_factory.getCreatedClass().getName(), e);
-        }
+        m_pool.put( (Poolable)component );
     }
 
     /**
@@ -126,7 +130,10 @@ class DefaultComponentHandler
 
         try
         {
-            // do nothing here
+            if( m_pool instanceof Disposable )
+            {
+                ((Disposable)m_pool).dispose();
+            }
 
             if( m_factory instanceof Disposable )
             {

@@ -33,7 +33,7 @@ import org.apache.avalon.thread.ThreadSafe;
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:paul@luminas.co.uk">Paul Russell</a>
- * @version CVS $Revision: 1.1 $ $Date: 2001/04/18 13:16:36 $
+ * @version CVS $Revision: 1.2 $ $Date: 2001/04/20 20:48:34 $
  */
 public class DefaultComponentSelector
     extends AbstractLoggable
@@ -121,10 +121,15 @@ public class DefaultComponentSelector
         while( keys.hasNext() )
         {
             Object key = keys.next();
-            DefaultComponentHandler handler =
-                (DefaultComponentHandler)m_componentHandlers.get( key );
+            ComponentHandler handler =
+                (ComponentHandler)m_componentHandlers.get( key );
 
-            handler.dispose();
+            try {
+                handler.dispose();
+            } catch (Exception e) {
+                getLogger().debug("Caught an exception disposing of component handler.", e);
+            }
+
             keyList.add( key );
         }
 
@@ -159,7 +164,7 @@ public class DefaultComponentSelector
             throw new ComponentException( message );
         }
 
-        DefaultComponentHandler handler = (DefaultComponentHandler)m_componentHandlers.get( hint );
+        ComponentHandler handler = (ComponentHandler)m_componentHandlers.get( hint );
 
         // Retrieve the instance of the requested component
         if( null == handler )
@@ -259,12 +264,16 @@ public class DefaultComponentSelector
     {
         if( null == component ) return;
 
-        final DefaultComponentHandler handler =
-            (DefaultComponentHandler)m_componentMapping.get( component );
+        final ComponentHandler handler =
+            (ComponentHandler)m_componentMapping.get( component );
 
         if( null == handler ) return;
 
-        handler.put( component );
+        try {
+            handler.put( component );
+        } catch (Exception e) {
+            getLogger().debug("Error trying to release component", e);
+        }
 
         m_componentMapping.remove( component );
     }
@@ -281,12 +290,12 @@ public class DefaultComponentSelector
     {
         try
         {
-            final DefaultComponentHandler handler =
-                new DefaultComponentHandler( component,
-                                             configuration,
-                                             m_componentManager,
-                                             m_context,
-                                             m_roles );
+            final ComponentHandler handler =
+                ComponentHandler.getComponentHandler( component,
+                                                      configuration,
+                                                      m_componentManager,
+                                                      m_context,
+                                                      m_roles );
 
             handler.setLogger( getLogger() );
             handler.init();
@@ -310,8 +319,8 @@ public class DefaultComponentSelector
     {
         try
         {
-            final DefaultComponentHandler handler =
-                new DefaultComponentHandler( (Component)instance );
+            final ComponentHandler handler =
+                ComponentHandler.getComponentHandler( (Component)instance );
             handler.setLogger( getLogger() );
             handler.init();
             m_componentHandlers.put( hint, handler );
