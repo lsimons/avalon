@@ -284,7 +284,8 @@ public class DefaultDeployer
             setupConfiguration( metaData, config.getChildren() );
 
             final Configuration logs = environment.getChild( "logs" );
-            final Hierarchy hierarchy = m_logManager.createHierarchy( metaData, logs );
+            final Hierarchy hierarchy =
+                m_logManager.createHierarchy( metaData, logs, classLoader );
 
             //Finally add application to kernel
             m_kernel.addApplication( metaData, classLoader, hierarchy, environment );
