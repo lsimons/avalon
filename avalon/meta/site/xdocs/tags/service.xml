@@ -74,7 +74,7 @@ public class DefaultVault implements Vault, KeystoreHandler
   <footer>
     <legal>
       Copyright (c) @year@ The Avalon Apache Project All rights reserved.
-      $Revision: 1.1 $ $Date: 2003/09/24 08:16:04 $
+      $Revision: 1.1 $ $Date: 2004/04/14 11:47:33 $
     </legal>
   </footer>
 

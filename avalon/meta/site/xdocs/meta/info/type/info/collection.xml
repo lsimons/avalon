@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@apache.org">Stephen McConnell</author>
+    <title>Collection Descriptors</title>
+  </properties>
+
+  <body>
+
+    <section name="Collection Descriptor">
+
+      <subsection name="Description">
+        <p>
+        Declaration of a garbage collection policy default override.  If 
+        the value is "weak" the component will be decommissioned automatically
+        if all references to the component have been released.  If the value
+        "soft" the component will be decommissioned in the event of 
+        memory contention. If the value is "hard" the component will be 
+        maintained for the life of its container.  If undefined, the default
+        collection policy is "hard".
+        </p>
+      </subsection>
+
+      <subsection name="Example XML">
+<source><![CDATA[
+<collection>soft</collection>
+]]></source>
+      </subsection>
+    </section>
+  </body>
+
+  <footer>
+    <legal>
+      Copyright (c) @year@ The Avalon Apache Project All rights reserved.
+      $Revision: 1.1 $ $Date: 2004/04/14 11:47:32 $
+    </legal>
+  </footer>
+
+</document>
+
+

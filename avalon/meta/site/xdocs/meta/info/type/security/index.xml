@@ -9,6 +9,16 @@
 
   <body>
     <section name="Security">
+
+      <subsection name="Description">
+<p>
+Declaration of a set of security aspects.  This information may be used by a 
+container to determine if the deployment of a component type is allowed within
+an existing security context.
+</p>
+      </subsection>
+
+
       <subsection name="Nested Elements">
         <table>
           <tr><th>Element</th><th>Occurance</th><th>Description</th></tr>
@@ -19,14 +29,6 @@
             </td>
           </tr>
         </table>
-      </subsection>
-
-      <subsection name="Description">
-<p>
-Declaration of a set of security aspects.  This information may be used by a 
-container to determine if the deployment of a component type is allowed within
-an existing security context.
-</p>
       </subsection>
 
       <subsection name="Example XML">
@@ -50,7 +52,7 @@ an existing security context.
   <footer>
     <legal>
       Copyright (c) @year@ The Avvalon Apache Project. All rights reserved.
-      $Revision: 1.1 $ $Date: 2004/02/25 13:19:57 $
+      $Revision: 1.2 $ $Date: 2004/04/14 11:47:32 $
     </legal>
   </footer>
 

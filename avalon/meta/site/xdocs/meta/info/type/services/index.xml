@@ -11,9 +11,18 @@
 
     <section name="Service Descriptor">
 
+      <subsection name="Description">
 <p>
-Declaration of the set of services published by this component type.
+    Declaration of the set of services that this component is capable 
+    of supplying.  Each service declarared under the services element
+    may be referenced by other component types as service dependecies
+    or lifecycle stage depedencies.  A container is responsible for 
+    the assembly of component types based on the connection of 
+    supply components to consumer components via a common service 
+    description. 
 </p>
+      </subsection>
+
       <subsection name="Nested Elements">
         <table>
           <tr><th>Element</th><th>Occurance</th><th>Description</th></tr>
@@ -26,17 +35,6 @@ Declaration of the set of services published by this component type.
         </table>
       </subsection>
 
-      <subsection name="Description">
-<p>
-    Declaration of the set of services that this component is capable 
-    of supplying.  Each service declarared under the services element
-    may be referenced by other component types as service dependecies
-    or lifecycle stage depedencies.  A container is responsible for 
-    the assembly of component types based on the connection of 
-    supply components to consumer components via a common service 
-    description. 
-</p>
-      </subsection>
 
       <subsection name="Example XML">
 
@@ -74,7 +72,7 @@ Declaration of the set of services published by this component type.
   <footer>
     <legal>
       Copyright (c) @year@ The Avalon Apache Project. All rights reserved.
-      $Revision: 1.1 $ $Date: 2003/09/24 08:16:00 $
+      $Revision: 1.2 $ $Date: 2004/04/14 11:47:32 $
     </legal>
   </footer>
 

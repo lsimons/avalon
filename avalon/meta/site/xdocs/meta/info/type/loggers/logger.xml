@@ -10,6 +10,12 @@
 
     <section name="Logging Descriptor">
 
+      <subsection name="Description">
+<p>
+The org.apache.avalon.meta.info.LoggerDescriptor class describes the a logging channel that the component requires.
+</p>
+      </subsection>
+
       <subsection name="Attributes">
         <table>
           <tr><th>Attribute</th><th>Required</th><th>Description</th></tr>
@@ -34,12 +40,6 @@
         </table>
       </subsection>
 
-      <subsection name="Description">
-<p>
-The org.apache.avalon.meta.info.LoggerDescriptor class describes the a logging channel that the component requires.
-</p>
-      </subsection>
-
       <subsection name="Example XML">
 <source><![CDATA[
 <logger name="store"/>
@@ -57,7 +57,7 @@ The org.apache.avalon.meta.info.LoggerDescriptor class describes the a logging c
   <footer>
     <legal>
       Copyright (c) @year@ The Avalon Apache Project All rights reserved.
-      $Revision: 1.1 $ $Date: 2003/09/24 08:15:59 $
+      $Revision: 1.2 $ $Date: 2004/04/14 11:47:32 $
     </legal>
   </footer>
 

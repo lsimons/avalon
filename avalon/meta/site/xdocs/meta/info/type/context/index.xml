@@ -11,6 +11,12 @@
 
     <section name="Context Descriptor">
 
+      <subsection name="Description">
+<p>
+The org.apache.avalon.meta.info.ContextDescriptor class describes the set of context entries that a component may be depedent on.  Context entries declare a context key and the classname of the value that the component expects to receive.  A compliant container will ensure that a context object supplied to a component under the Contextualize phase can access required context entries with assurance that the value will be supplied under the correct key as as an instance of the required type.  The supply of optional context entries is a container concern with the single exception that a container must ensure that the an optional entry corresponds to the type requested by the component context entry.
+</p>
+      </subsection>
+
       <subsection name="Attributes">
         <table>
           <tr><th>Attribute</th><th>Required</th><th>Description</th></tr>
@@ -41,12 +47,6 @@
             </td>
           </tr>
         </table>
-      </subsection>
-
-      <subsection name="Description">
-<p>
-The org.apache.avalon.meta.info.ContextDescriptor class describes the set of context entries that a component may be depedent on.  Context entries declare a context key and the classname of the value that the component expects to receive.  A compliant container will ensure that a context object supplied to a component under the Contextualize phase can access required context entries with assurance that the value will be supplied under the correct key as as an instance of the required type.  The supply of optional context entries is a container concern with the single exception that a container must ensure that the an optional entry corresponds to the type requested by the component context entry.
-</p>
       </subsection>
 
       <subsection name="Example XML">
@@ -87,7 +87,7 @@ The org.apache.avalon.meta.info.ContextDescriptor class describes the set of con
   <footer>
     <legal>
       Copyright (c) @year@ The Avalon Apache Project All rights reserved.
-      $Revision: 1.2 $ $Date: 2003/10/30 00:44:51 $
+      $Revision: 1.3 $ $Date: 2004/04/14 11:47:32 $
     </legal>
   </footer>
 

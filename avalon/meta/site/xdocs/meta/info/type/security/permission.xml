@@ -10,6 +10,13 @@
   <body>
     <section name="Permission Descriptor">
 
+      <subsection name="Description">
+<p>
+The org.apache.avalon.meta.info.PermissionDescriptor class declares a permission
+required by the component type.
+</p>
+      </subsection>
+
       <subsection name="Attributes">
         <table>
           <tr><th>Attribute</th><th>Required</th><th>Description</th></tr>
@@ -40,12 +47,6 @@
         </table>
       </subsection>
 
-      <subsection name="Description">
-<p>
-The org.apache.avalon.meta.info.PermissionDescriptor class declares a permission
-required by the component type.
-</p>
-      </subsection>
 
       <subsection name="Example XML">
 
@@ -66,7 +67,7 @@ required by the component type.
   <footer>
     <legal>
       Copyright (c) @year@ The Avalon Apache Project All rights reserved.
-      $Revision: 1.1 $ $Date: 2004/02/25 13:19:57 $
+      $Revision: 1.2 $ $Date: 2004/04/14 11:47:32 $
     </legal>
   </footer>
 
