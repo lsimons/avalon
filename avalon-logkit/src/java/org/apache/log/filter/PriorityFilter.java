@@ -18,8 +18,14 @@ import org.apache.log.Priority;
 public class PriorityFilter
     extends AbstractFilterTarget
 {
+    ///Priority to filter against
     private Priority    m_priority;
 
+    /**
+     * Constructor that sets the priority that is filtered against.
+     *
+     * @param priority the Priority
+     */
     public PriorityFilter( final Priority priority )
     {
         m_priority = priority;
