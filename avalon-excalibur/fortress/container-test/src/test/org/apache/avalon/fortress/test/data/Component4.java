@@ -18,11 +18,20 @@
 package org.apache.avalon.fortress.test.data;
 
 /**
+ * @avalon.component
+ *
+ * @avalon.service type=Role4
+ * @x-avalon.lifestyle type=transient
+ * @x-avalon.info name=component4
+ *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.11 $ $Date: 2004/02/28 15:16:26 $
+ * @version $Revision: 1.1 $ $Date: 2004/03/29 17:04:15 $
  */
-public interface Role2
-    extends org.apache.avalon.fortress.test.data.BaseRole
+public class Component4
+    implements Role4
 {
-    String ROLE = Role2.class.getName();
+    public long getID()
+    {
+        return hashCode();
+    }
 }

@@ -24,7 +24,7 @@ import org.apache.avalon.fortress.RoleManager;
 /**
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.6 $ $Date: 2004/02/28 15:16:26 $
+ * @version $Revision: 1.1 $ $Date: 2004/03/29 17:04:15 $
  */
 public class AbstractRoleManagerTestCase extends TestCase
 {

@@ -19,10 +19,10 @@ package org.apache.avalon.fortress.test.data;
 
 /**
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.12 $ $Date: 2004/02/28 15:16:26 $
+ * @version $Revision: 1.1 $ $Date: 2004/03/29 17:04:15 $
  */
-public interface Role3
+public interface Role4
     extends org.apache.avalon.fortress.test.data.BaseRole
 {
-    String ROLE = Role3.class.getName();
+    String ROLE = Role4.class.getName();
 }

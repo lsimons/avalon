@@ -39,7 +39,7 @@ import org.apache.avalon.framework.service.Serviceable;
  * Based on Avalon version from Sandbox.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.4 $ $Date: 2004/02/28 15:16:27 $
+ * @version CVS $Revision: 1.1 $ $Date: 2004/03/29 17:04:15 $
  */
 public final class ComponentStateValidator
 {
