@@ -8,13 +8,12 @@
  */
 package phoenixdemo.api;
 
-
-
 /**
  * Interface PDKDemoServer
  *
- *
  * @author Paul Hammant <a href="mailto:Paul_Hammant@yahoo.com">Paul_Hammant@yahoo.com</a>
- * @version * $Revision: 1.1 $
+ * @version * $Revision: 1.2 $
  */
-public interface PDKDemoServer {}
+public interface PDKDemoServer
+{
+}
