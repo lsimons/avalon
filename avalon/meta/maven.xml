@@ -4,9 +4,7 @@
 
   <ant:property name="maven.ui.banner.background" value="#fff"/>
   <ant:property name="maven.ui.banner.foreground" value="#000"/>
-  <ant:property name="maven.xdoc.jsl" value="file:/${basedir}/../site/etc/site.jsl"/>
-  <ant:property name="maven.license.licenseFile" value="${basedir}/../LICENSE.txt"/>
-  <ant:property name="maven.javadoc.stylesheet" value="${basedir}/../site/etc/stylesheet.css"/>
+  <ant:property name="maven.docs.src" value="${basedir}/site/xdocs"/>
   <ant:property name="sun.j2se.link" value="http://java.sun.com/j2se/1.4/docs/api/"/>
   <ant:property name="framework.api.link" value="http://avalon.apache.org/framework/api/"/>
   <ant:property name="maven.javadoc.links" value="${sun.j2se.link},${framework.api.link}"/>
@@ -51,7 +49,7 @@ The complete set of target include:
     <maven:reactor
       basedir="${basedir}"
       includes="*/project.xml"
-      excludes="site/project.xml,plugin/project.xml"
+      excludes="plugin/project.xml"
       goals="jar:install"
       banner="Building:"
       ignoreFailures="false"/>
@@ -76,7 +74,7 @@ The complete set of target include:
     <maven:reactor
       basedir="${basedir}"
       includes="*/project.xml"
-      excludes="site/project.xml,plugin/project.xml"
+      excludes="plugin/project.xml"
       goals="jar:install-snapshot"
       banner="Building snapshot:"
       ignoreFailures="false"/>
@@ -103,10 +101,39 @@ The complete set of target include:
     <ant:mkdir dir="${maven.build.dir}"/>
     <maven:reactor
       basedir="${basedir}"
-      includes="site/project.xml"
-      goals="site"
+      includes="platform.xml"
+      goals="license,xjavadoc,site"
       banner="Building site:"
       ignoreFailures="false"/>
+  </goal>
+
+  <goal name="xjavadoc">
+    <mkdir dir="${basedir}/target/docs/api" />
+    <property name="copyright"
+      value="Copyright &amp;copy; ${year} ${pom.organization.name}. All Rights Reserved." />
+    <property name="title" value="${pom.name} ${pom.currentVersion} API"/>
+    <javadoc destdir="${basedir}/target/docs/api" 
+	doctitle="&lt;h1&gt;Avalon Meta&lt;/h1&gt;" 
+      noindex="false" author="true" use="true"
+	windowtitle="${title}" 
+      bottom="${copyright}"
+      additionalparam="-breakiterator -J-Xmx128m "
+      packagenames="*,org.*">
+        <j:forEach var="packageGroup" items="${pom.packageGroups}">
+      	  <group title="${packageGroup.title}" packages="${packageGroup.packages}"/>
+        </j:forEach>
+        <sourcepath path="${basedir}/api/src/java"/>
+        <sourcepath path="${basedir}/spi/src/java"/>
+        <sourcepath path="${basedir}/impl/src/java"/>
+        <sourcepath path="${basedir}/tools/src/java"/>
+        <classpath>
+          <path refid="maven.dependency.classpath"/>
+	  </classpath>
+	  <link href="${sun.j2se.link}" />
+	  <link href="${avalon.framework.link}" />
+	  <link href="${ant.link}" />
+	  <link href="${qdox.link}" />
+    </javadoc>
   </goal>
 
   <goal
@@ -135,8 +162,6 @@ The complete set of target include:
         <ant:include name="${pom.artifactId}-impl-${pom.currentVersion}.jar"/>
         <ant:include name="${pom.artifactId}-tools-${pom.currentVersion}.jar"/>
         <ant:include name="${pom.artifactId}-plugin-${meta.plugin.version}.jar"/>
-      </ant:fileset>
-      <ant:fileset dir="${basedir}/site/target">
         <ant:include name="docs/**"/>
       </ant:fileset>
     </ant:copy>
