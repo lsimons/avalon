@@ -228,14 +228,6 @@
             <report format="frames" todir="${build.reports}/junit"/>
         </junitreport>
 
-        <!-- Clean up the xml reports used by the junitreport task -->
-        <!--
-        <delete>
-            <fileset dir="${build.tests}" includes="TEST-*.xml"/>
-            <fileset dir="${build.tests}" includes="TESTS-*.xml"/>
-        </delete>
-        -->
-
     </target>
 
     <target name="checkstyle" if="do.checkstyle" description="Checkstyle">
@@ -305,9 +297,10 @@
 
         <zip zipfile="${dist.base}/${dist.name}.zip" compress="true">
             <zipfileset dir="${dist.dir}" prefix="${dist.name}"/>
+            <zipfileset dir="${docs.dir}" prefix="${dist.name}/docs"/>
         </zip>
        
-	<checksum file="${dist.base}/${dist.name}.zip"/>
+	    <checksum file="${dist.base}/${dist.name}.zip" fileext=".md5"/>
     </target>
 
     <!-- Creates a mini jar-only distribution -->
