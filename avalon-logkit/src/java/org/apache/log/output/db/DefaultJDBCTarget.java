@@ -66,6 +66,7 @@ import org.apache.log.LogEvent;
 /**
  * The basic DB target for configurable output formats.
  *
+ * @author <a href="mailto:avalon-dev@jakarta.apache.org">Avalon Development Team</a>
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 public class DefaultJDBCTarget
@@ -225,11 +226,14 @@ public class DefaultJDBCTarget
      * @param statement the prepard statement
      * @param index the index
      * @param event the log event
+     * @exception SQLException if an SQL related error occurs
+     * @exception IllegalStateException if the supplied index is out of bounds
      */
     protected void specifyColumn( final PreparedStatement statement,
                                   final int index,
                                   final LogEvent event )
-        throws SQLException
+        throws SQLException, 
+          IllegalStateException
     {
         final ColumnInfo info = m_columns[ index ];
 
@@ -294,7 +298,10 @@ public class DefaultJDBCTarget
 
     private String getStackTrace( final Throwable throwable )
     {
-        if( null == throwable ) return "";
+        if( null == throwable ) 
+        {
+            return "";
+        }
         final StringWriter sw = new StringWriter();
         throwable.printStackTrace( new java.io.PrintWriter( sw ) );
         return sw.toString();
