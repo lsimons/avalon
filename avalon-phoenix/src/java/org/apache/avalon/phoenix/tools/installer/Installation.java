@@ -19,6 +19,9 @@ import java.io.File;
  */
 public final class Installation
 {
+    ///The source of installation (usually a directory in .sar format or a .sar file)
+    private File     m_source;
+
     ///Directory in which application is installed
     private File     m_directory;
 
@@ -37,28 +40,32 @@ public final class Installation
     ///Info for expanded files
     private FileDigest[] m_fileDigests;
 
-    public Installation( final File directory,
-                         final String config,
-                         final String assembly,
-                         final String server,
-                         final String[] classPath )
-    {
-        m_directory = directory;
-        m_config = config;
-        m_assembly = assembly;
-        m_server = server;
-        m_classPath = classPath;
-    }
-
-    public Installation( final File directory,
+    public Installation( final File source,
+                         final File directory,
                          final String config,
                          final String assembly,
                          final String server,
                          final String[] classPath,
                          final FileDigest[] fileDigests )
     {
-        this( directory, config, assembly, server, classPath );
+        m_source = source;
+        m_directory = directory;
+        m_config = config;
+        m_assembly = assembly;
+        m_server = server;
+        m_classPath = classPath;
         m_fileDigests = fileDigests;
+    }
+
+    /**
+     * Get the source of application. (Usually a
+     * directory in .sar format or a .sar)
+     *
+     * @return the source of application
+     */
+    public File getSource()
+    {
+        return m_source;
     }
 
     /**
