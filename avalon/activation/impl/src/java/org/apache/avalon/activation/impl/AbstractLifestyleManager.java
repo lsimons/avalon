@@ -45,7 +45,7 @@ import org.apache.avalon.util.i18n.Resources;
  * Abstract implentation class for a lifestyle handler.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.5 $ $Date: 2004/03/08 11:28:35 $
+ * @version $Revision: 1.6 $ $Date: 2004/03/11 18:13:14 $
  */
 public abstract class AbstractLifestyleManager implements LifestyleManager
 {
@@ -234,7 +234,7 @@ public abstract class AbstractLifestyleManager implements LifestyleManager
                 Accessor handler = (Accessor) provider.resolve();
                 try
                 {
-                    Context context = m_model.getContextModel().getContext();
+                    Context context = (Context) m_model.getContextModel().getContext();
                     if( flag )
                     {
                         if( getLogger().isDebugEnabled() )

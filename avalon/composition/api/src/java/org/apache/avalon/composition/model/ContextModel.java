@@ -24,7 +24,7 @@ import org.apache.avalon.framework.context.Context;
  * a fully qualifed context can be established.</p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.5 $ $Date: 2004/02/22 17:28:29 $
+ * @version $Revision: 1.6 $ $Date: 2004/03/11 18:13:15 $
  */
 public interface ContextModel extends Dependent
 {
@@ -34,6 +34,12 @@ public interface ContextModel extends Dependent
     public static final String DEFAULT_STRATEGY_CLASSNAME = 
       "org.apache.avalon.framework.context.Contextualizable";
 
+   /**
+    * Return the class that the context is castable to.
+    * 
+    * @return the base context casting class
+    */
+    Class getCastingClass();
 
    /**
     * Return the class representing the contextualization 
@@ -48,7 +54,7 @@ public interface ContextModel extends Dependent
     * 
     * @return the context object
     */
-    Context getContext();
+    Object getContext();
 
    /**
     * Return the set of entry models associated with this context model.

@@ -49,7 +49,7 @@ import org.apache.avalon.util.i18n.Resources;
  * a fully qualifed context can be established.</p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.13 $ $Date: 2004/03/08 11:28:36 $
+ * @version $Revision: 1.14 $ $Date: 2004/03/11 18:13:15 $
  */
 public class DefaultContextModel extends DefaultDependent implements ContextModel
 {
@@ -89,7 +89,9 @@ public class DefaultContextModel extends DefaultDependent implements ContextMode
 
     private final Map m_map = new Hashtable();
 
-    private final Context m_componentContext;
+    private final Object m_componentContext;
+
+    private final Class m_castingClass;
 
     //==============================================================
     // constructor
@@ -130,6 +132,8 @@ public class DefaultContextModel extends DefaultDependent implements ContextMode
 
         ClassLoader classLoader = context.getClassLoader();
         m_strategy = loadStrategyClass( descriptor, classLoader );
+        Class impl = loadContextClass( directive, classLoader );
+        m_castingClass = getContextCastingClass( descriptor, classLoader, impl );
 
         //
         // get the set of context entries declared by the component type
@@ -217,7 +221,8 @@ public class DefaultContextModel extends DefaultDependent implements ContextMode
         }
 
         m_componentContext = 
-          createComponentContext( classLoader, descriptor, directive, m_map );
+          createComponentContext( 
+            classLoader, impl, descriptor, directive, m_map );
     }
 
     
@@ -281,11 +286,21 @@ public class DefaultContextModel extends DefaultDependent implements ContextMode
     }
 
    /**
+    * Return the class that the context is castable to.
+    * 
+    * @return the base context casting class
+    */
+    public Class getCastingClass()
+    {
+        return m_castingClass ;
+    }
+
+   /**
     * Return the context object established for the component.
     * 
     * @return the context object
     */
-    public Context getContext()
+    public Object getContext()
     {
         return m_componentContext;
     }
@@ -306,6 +321,7 @@ public class DefaultContextModel extends DefaultDependent implements ContextMode
     {
         final String strategy = m_descriptor.getAttribute( 
           ContextDescriptor.STRATEGY_KEY, null );
+
         if( strategy != null )
         {
             try
@@ -375,14 +391,13 @@ public class DefaultContextModel extends DefaultDependent implements ContextMode
     * @exception ModelException if an error occurs while attempting to 
     *   construct the context instance
     */
-    private Context createComponentContext( 
+    private Object createComponentContext( 
       ClassLoader classloader, 
+      Class clazz,
       ContextDescriptor descriptor, 
       ContextDirective directive, Map map )
       throws ModelException
     {
-        Class clazz = loadContextClass( directive, classloader );
-        validateCastingConstraint( descriptor, classloader, clazz );
         Context base = new DefaultContext( map );
 
         if( clazz.equals( DefaultContext.class ) ) return base; 
@@ -397,7 +412,7 @@ public class DefaultContextModel extends DefaultDependent implements ContextMode
         {
             Constructor constructor = clazz.getConstructor(
                 new Class[]{ Context.class } );
-            return (Context) constructor.newInstance( new Object[]{ base } );
+            return constructor.newInstance( new Object[]{ base } );
         }
         catch( NoSuchMethodException e )
         {
@@ -449,6 +464,7 @@ public class DefaultContextModel extends DefaultDependent implements ContextMode
         }
     }
 
+
    /**
     * Validate that the context implememtation class implements
     * any casting constraint declared or implied by the context 
@@ -459,7 +475,7 @@ public class DefaultContextModel extends DefaultDependent implements ContextMode
     * @param clazz the context implementation class
     * @exception if a validation failure occurs
     */
-    private void validateCastingConstraint( 
+    private Class getContextCastingClass( 
       ContextDescriptor descriptor, ClassLoader classLoader, Class clazz )
       throws ModelException
     {
@@ -510,5 +526,7 @@ public class DefaultContextModel extends DefaultDependent implements ContextMode
               + ".";
             throw new ModelException( error );
         }
+
+        return castingClass;
     }
 }
