@@ -76,23 +76,23 @@ import org.apache.avalon.merlin.env.EnvAccessException ;
  * 
  * @author <a href="mailto:aok123@bellsouth.net">Alex Karasulu</a>
  * @author $Author: mcconnell $
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class KernelDefaults
 {
     private static final String [] s_keys =
     {
-        "merlin.kernel.isserver",
-        "merlin.kernel.isinfo",
-        "merlin.kernel.isdebug",
-        "merlin.kernel.remoterepo",
-        "merlin.kernel.userrepo",
-        "merlin.kernel.systemrepo",
-        "merlin.kernel.homepath",
-        "merlin.kernel.configurl",
-        "merlin.kernel.kernelurl",
+        "merlin.policy.server",
+        "merlin.policy.info",
+        "merlin.policy.debug",
+        "merlin.repository.remote.urls",
+        "merlin.repository.user.path",
+        "merlin.repository.system.path",
+        "merlin.work.path",
+        "merlin.config.url",
+        "merlin.kernel.url",
         "java.io.tmpdir",
-        "merlin.kernel.librarypath"
+        "merlin.library.path"
     } ;
     
     
@@ -142,9 +142,11 @@ public class KernelDefaults
      */
     private static void loadDefaults()
     {
-        /*
-         * Stage I - load the default properties bundled with this jar  
-         */
+        //
+        // Stage I - load the default properties bundled with this
+        // jar under the resource name MERLIN_FILE_BASE.  This set the 
+        // primative defaults.
+        //
         
         InputStream l_in = 
             KernelDefaults.class.getResourceAsStream( MERLIN_FILE_BASE ) ;
@@ -158,13 +160,27 @@ public class KernelDefaults
             e.printStackTrace( System.err ) ;
         }
         
-        /*
-         * Stage II - get some properties from the shell environment 
-         */
+        //
+        // Stage II - get some properties from the environment.
+        //
+
         File l_merlinHome = null ;
         try 
         {
-            l_merlinHome = new File( Env.getVariable( "MERLIN_HOME" ) ) ;
+            final String merlinHomeEnv = Env.getVariable( "MERLIN_HOME" );
+            if( merlinHomeEnv != null )
+            {
+                l_merlinHome = new File( merlinHomeEnv ) ;
+            }
+            else
+            {
+                final String userHome = System.getProperty( "user.home" );
+                if( userHome != null )
+                {
+                    File userDir = new File( userHome );
+                    l_merlinHome = new File( userDir, ".merlin" ) ;
+                }
+            }
         }
         catch( EnvAccessException e )
         {
@@ -180,6 +196,11 @@ public class KernelDefaults
                     l_sysRepo.getAbsolutePath() ) ;
             }
             
+            //
+            // TODO need to provide support for an env supplied 
+            // user repository override value
+            //
+
             File l_userRepo = new File( l_merlinHome, "repository" ) ;
             if ( l_userRepo.exists() )
             {
@@ -188,10 +209,11 @@ public class KernelDefaults
             }
         }
         
-        /*
-         * Stage III - check for overriding values of .merlin.properties within
-         * the user's home directory.
-         */
+        //
+        // Stage III - check for overriding values of .merlin.properties within
+        // the user's home directory.
+        //
+
         String l_userHome = System.getProperty( "user.home" ) ;
         File l_userProps = new File( l_userHome, "." + MERLIN_FILE_BASE ) ;
         if ( l_userProps.exists() )
@@ -206,9 +228,10 @@ public class KernelDefaults
             }
         }
         
-        /*
-         * Stage IV - Check for overriding values within the System properties
-         */
+        //
+        // Stage IV - Check for overriding values within the System properties.
+        //
+
         for( int ii = 0; ii < s_keys.length; ii++ )
         {
             /*
@@ -223,7 +246,10 @@ public class KernelDefaults
             }
         }
 
-        // Now we overlay all the targets properties defined
+        //
+        // Now we overlay all the block properties defined
+        //
+
         Enumeration l_list = System.getProperties().keys() ;
         while ( l_list.hasMoreElements() )
         {
@@ -298,7 +324,6 @@ public class KernelDefaults
             }
         }
         return ( String [] ) l_urlArray.toArray( new String [0] ) ;
-
     }
 
     

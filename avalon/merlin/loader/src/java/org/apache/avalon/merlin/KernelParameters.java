@@ -54,17 +54,9 @@ package org.apache.avalon.merlin;
  * This class represents an exhaustive set of kernel parameters in their most 
  * rudimentary/common representation.  
  * 
- * Note I avoided the use of Files or URLs purposely so any value can be 
- * specified and interpreted in any fashion.  I left this as general and 
- * flexible as possible.
- * 
- * These methods have been gathered from other methods an members witnessed on 
- * the CLIKernelLoader, KernelContext[Default], and KernelBean classes/
- * interfaces.
- *  
  * @author <a href="mailto:aok123@bellsouth.net">Alex Karasulu</a>
  * @author $Author: mcconnell $
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public interface KernelParameters
 {
@@ -92,7 +84,7 @@ public interface KernelParameters
     boolean isInfoEnabled() ;
     
     /**
-     * Urls of a set of potentially remote repository used to pull 
+     * Urls of a set of potentially remote repositories used to pull 
      * depenendencies into the other repositories on artifact misses.
      * 
      * @return urls to the remote repositories from where we download resources
