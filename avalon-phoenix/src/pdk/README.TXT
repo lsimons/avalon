@@ -15,7 +15,7 @@ archives in build/lib :
   
     The server that can run standalone.  It is an executable jar.
    
-  phoenix-demo.bar
+  phoenix-demo.jar
   
     The server contained withing a Pheonix compatable block. This would be useful if 
     you intended to include this component as part of a multi server solution.
