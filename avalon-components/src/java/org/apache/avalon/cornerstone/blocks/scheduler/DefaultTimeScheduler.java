@@ -80,9 +80,17 @@ public class DefaultTimeScheduler
         m_entries.put( name, entry );
         rescheduleEntry( entry, false );
 
-        if( entry == m_priorityQueue.peek() )
+        try
         {
-            synchronized( m_monitor ) { m_monitor.notify(); }
+            if( entry == m_priorityQueue.peek() )
+            {
+                synchronized( m_monitor ) { m_monitor.notify(); }
+            }
+        }
+        catch( final NoSuchElementException nse )
+        {
+            getLogger().warn( "Unexpected exception when peek() on priority queue for " + 
+                              entry.getName(), nse );
         }
     }
 
