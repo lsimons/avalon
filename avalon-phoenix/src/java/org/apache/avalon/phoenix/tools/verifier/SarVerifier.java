@@ -57,7 +57,7 @@ import org.apache.avalon.phoenix.metainfo.ServiceDescriptor;
  * </ul>
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.16 $ $Date: 2002/05/20 11:35:55 $
+ * @version $Revision: 1.17 $ $Date: 2002/05/20 11:39:02 $
  */
 public class SarVerifier
     extends AbstractLogEnabled
@@ -351,6 +351,7 @@ public class SarVerifier
     private void verifyBlockType( final BlockMetaData block, final ClassLoader classLoader )
         throws VerifyException
     {
+        final String name = block.getName();
         Class clazz = null;
         try
         {
@@ -359,29 +360,25 @@ public class SarVerifier
         catch( final Exception e )
         {
             final String message = REZ.getString( "bad-block-class",
-                                                  block.getName(),
+                                                  name,
                                                   block.getClassname(),
                                                   e.getMessage() );
             throw new VerifyException( message );
         }
 
         final Class[] interfaces =
-            getServiceClasses( block.getName(),
+            getServiceClasses( name,
                                block.getBlockInfo().getServices(),
                                classLoader );
 
-        ///TODO: Remove next lines
-        final Verifier verifier = new Verifier();
-        setupLogger( verifier );
-        verifier.
-            verifyComponent( block.getName(), clazz, interfaces );
+        verifyAvalonComponent( name, clazz, interfaces );
 
         for( int i = 0; i < interfaces.length; i++ )
         {
             if( !interfaces[ i ].isAssignableFrom( clazz ) )
             {
                 final String message = REZ.getString( "block-noimpl-service",
-                                                      block.getName(),
+                                                      name,
                                                       block.getClassname(),
                                                       interfaces[ i ].getName() );
                 throw new VerifyException( message );
@@ -392,12 +389,37 @@ public class SarVerifier
         {
             final String message =
                 REZ.getString( "verifier.implements-block.error",
-                               block.getName(),
+                               name,
                                block.getClassname() );
             getLogger().error( message );
             System.err.println( message );
         }
 
+    }
+
+    /**
+     * Verify specified object satisifies the rules of being abn AValon component.
+     *
+     * @param name the components name
+     * @param clazz the implementation class
+     * @param interfaces the service classes
+     */
+    private void verifyAvalonComponent( final String name, Class clazz, final Class[] interfaces )
+    {
+        try
+        {
+            final Verifier verifier = new Verifier();
+            setupLogger( verifier );
+            verifier.
+                verifyComponent( name, clazz, interfaces );
+        }
+        catch( VerifyException ve )
+        {
+            //ignore as the above will print out
+            //error. However the verifier is too
+            //strict and we need to be more lax for backwards
+            //compatability
+        }
     }
 
     /**
