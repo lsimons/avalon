@@ -30,7 +30,8 @@ import org.apache.tools.ant.taskdefs.Mkdir;
 import org.apache.tools.ant.taskdefs.Checksum;
 import org.apache.tools.ant.taskdefs.Manifest;
 import org.apache.tools.ant.taskdefs.ManifestException;
-import org.apache.tools.ant.taskdefs.Execute;
+import org.apache.tools.ant.taskdefs.ExecTask;
+import org.apache.tools.ant.types.Commandline;
 import org.apache.tools.ant.types.FileSet;
 import org.apache.tools.ant.types.Path;
 
@@ -56,11 +57,10 @@ public class AbstractDeliverableTask extends SystemTask
         log( "Creating md5 checksum" );
 
         File md5 = new File( file.toString() + "." + MD5_EXT );
-
-        Delete delete = (Delete) getProject().createTask( "delete" );
-        delete.setFile( md5 );
-        delete.init();
-        delete.execute();
+        if( md5.exists() )
+        {
+            md5.delete();
+        }
 
         Checksum checksum = (Checksum) getProject().createTask( "checksum" );
         checksum.setFile( file );
@@ -71,6 +71,8 @@ public class AbstractDeliverableTask extends SystemTask
 
     public void asc( File file ) throws IOException
     {
+
+        String path = Project.translatePath( file.toString() );
         File asc = new File( file.toString() + "." + ASC_EXT );
         if( asc.exists() )
         {
@@ -81,11 +83,20 @@ public class AbstractDeliverableTask extends SystemTask
         if(( null != gpg ) && !"".equals( gpg ) )
         {
             log( "Creating asc signature using '" + gpg + "']" );
-            Execute execute = new Execute();
-            execute.setCommandline( 
-              new String[]{ gpg, "-a", "-b", file.toString() } );
-            execute.setWorkingDirectory( getProject().getBaseDir() );
-            execute.setSpawn( true );
+            ExecTask execute = (ExecTask) getProject().createTask( "exec" );
+
+            execute.setExecutable( gpg );
+
+            execute.createArg().setValue( "-a" );
+            execute.createArg().setValue( "-b" );
+            execute.createArg().setValue( "-o" );
+            execute.createArg().setValue( path + "." + ASC_EXT );
+            execute.createArg().setValue( path );
+
+            execute.setDir( getProject().getBaseDir() );
+            execute.setSpawn( false );
+            execute.setAppend( false );
+            execute.setTimeout( new Integer( 1000 ) );
             execute.execute();
         }
     }
