@@ -506,14 +506,6 @@ avalon-repository plugin.  A convinience goal is provided:
   $ cd /avalon-sandbox/repository
   $ maven avalon:setup
 
-The test suite in the repo package assumes that the sandbox/kernel
-suboroject has been build and installed.  To do this you need to 
-do the following:
-
-  $ cd ../kernel/impl
-  $ maven jar:install
-  $ cd ../../repository
-
 The following goal builds the repository project:
 
   $ maven avalon:build
