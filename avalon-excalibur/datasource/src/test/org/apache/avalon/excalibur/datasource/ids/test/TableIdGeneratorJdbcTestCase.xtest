@@ -36,6 +36,11 @@
         </targets>
         
         <categories>
+            <category name="" log-level="DEBUG">
+                <log-target id-ref="console"/>
+                <log-target id-ref="file"/>
+            </category>
+            
             <category name="jdbc" log-level="INFO">
                 <log-target id-ref="console"/>
                 <log-target id-ref="file"/>
