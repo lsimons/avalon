@@ -67,7 +67,7 @@ import java.io.InputStreamReader ;
  * <a href="http://www.tolstoy.com/samizdat/sysprops.html">here</a>.
  * @author <a href="mailto:aok123@bellsouth.net">Alex Karasulu</a>
  * @author $Author: mcconnell $
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class Env
 {
@@ -135,41 +135,40 @@ public class Env
         throws EnvAccessException
     {
         File l_etcpasswd = new File( "/etc/passwd" ) ;
-    
-        if ( l_etcpasswd.exists() && l_etcpasswd.canRead() )
+    	  if ( l_etcpasswd.exists() && l_etcpasswd.canRead() )
         {
             String l_username = System.getProperty( "user.name" ) ;
             BufferedReader l_in = null ;
     
-            try 
-            {
-                String l_entry = null ;
-                l_in = new BufferedReader( new FileReader( l_etcpasswd ) ) ;
+    	      try 
+    	      {
+        		String l_entry = null ;
+        		l_in = new BufferedReader( new FileReader( l_etcpasswd ) ) ;
         
-                while( null != ( l_entry = l_in.readLine() ) )
-                {
-                    // Skip entries other than the one for this username
-                    if ( ! l_entry.startsWith( l_username ) ) 
-                    {
-                        continue ;
-                    }
+        		while( null != ( l_entry = l_in.readLine() ) )
+        		{
+        		    // Skip entries other than the one for this username
+        		    if ( ! l_entry.startsWith( l_username ) ) 
+        		    {
+        		        continue ;
+        		    }
         
-                    // Get the shell part of the passwd entry
-                    int l_index = l_entry.lastIndexOf( ':' ) ;
-                    if ( l_index == -1 )
-                    {
-                        throw new EnvAccessException( a_varName,
-                            "/etc/passwd contains malformed user entry for " 
-                            + l_username ) ;
-                    }
+        		    // Get the shell part of the passwd entry
+        		    int l_index = l_entry.lastIndexOf( ':' ) ;
+        		    if ( l_index == -1 )
+        		    {
+            			throw new EnvAccessException( a_varName,
+            			    "/etc/passwd contains malformed user entry for " 
+            			    + l_username ) ;
+        		    }
         
-                    return l_entry.substring( l_index + 1 ) ;
-                }
-            } 
-            catch ( IOException e )
-            {
-                throw new EnvAccessException( a_varName, e ) ;
-            }
+        		    return l_entry.substring( l_index + 1 ) ;
+        		}
+    	      } 
+    	      catch ( IOException e )
+    	      {
+    	          throw new EnvAccessException( a_varName, e ) ;
+    	      }
     
             throw new EnvAccessException( a_varName, "User " + l_username 
                     + " does not seem to exist in /etc/passwd" ) ;
@@ -180,8 +179,10 @@ public class Env
     }
 
     /**
-     * Gets a UNIX shell environment parameter by forking a call to echo. This
-     * should work on all UNIX shells like sh, ksh, csh, zsh and bash.
+     * Gets a UNIX shell environment parameter by forking the user's default 
+     * shell based on /etc/passwd and running echo on the environment variable
+     * within the shell.  This should work on all UNIX shells like sh, ksh, csh,
+     * zsh and bash accross all the supported platforms.
      * 
      * @param a_name the name of the variable accessed
      * @return the value of the variable 
@@ -248,6 +249,7 @@ public class Env
             }
         }
         
+        // Check that we exited normally before returning an invalid output
         if ( 0 == l_proc.exitValue() )
         {
             // Handle situations where the env property does not exist.

@@ -7,7 +7,7 @@ import junit.framework.TestCase ;
  * 
  * @author <a href="mailto:aok123@bellsouth.net">Alex Karasulu</a>
  * @author $Author: mcconnell $
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class EnvTest extends TestCase
 {
@@ -54,6 +54,7 @@ public class EnvTest extends TestCase
         EnvAccessException l_error = null ;
         try 
         {
+            // All shells and their echo's will freak out when they see this
             Env.getVariable( "--*&^%^%$" ) ;
         }
         catch( EnvAccessException e )
