@@ -12,8 +12,10 @@ import java.io.File;
 /**
  * Management interface to ExtensionManager.
  *
+ * @phoenix:mx-topic name="ExtensionManager"
+ *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.5 $ $Date: 2002/08/06 11:57:41 $
+ * @version $Revision: 1.6 $ $Date: 2002/08/07 02:57:15 $
  */
 public interface ExtensionManagerMBean
 {
@@ -25,6 +27,8 @@ public interface ExtensionManagerMBean
      * in which the ExtensionManager will look
      * for Extensions.
      *
+     * @phoenix:mx-attribute
+     *
      * @return the list of paths to search in
      */
     File[] getPaths();
@@ -34,6 +38,7 @@ public interface ExtensionManagerMBean
      * to discover new Extensions that have been added
      * or remove old Extensions that have been removed.
      *
+     * @phoenix:mx-operation
      */
     void rescanPath();
 

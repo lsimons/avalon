@@ -13,6 +13,8 @@ import java.net.URL;
  * MBean Interface for the Deployer to use the deploy
  * feature in the HmtlAdaptor
  *
+ * @phoenix:mx-topic name="Deployer"
+ *
  * @author <a href="mailto:bauer@denic.de">Joerg Bauer</a>
  * @see Deployer
  */
@@ -22,6 +24,8 @@ public interface DeployerMBean
 
     /**
      * Deploy an installation.
+
+     * @phoenix:mx-operation
      *
      * @param name the name of deployment
      * @param sarURL the installation to deploy
@@ -45,7 +49,9 @@ public interface DeployerMBean
         throws DeploymentException;
 
     /**
-     * undeploy a resource from a location.
+     * Undeploy a resource from a location.
+     *
+     * @phoenix:mx-operation
      *
      * @param name the name of deployment
      * @throws DeploymentException if an error occurs
