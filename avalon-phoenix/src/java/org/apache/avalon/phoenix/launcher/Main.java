@@ -74,6 +74,9 @@ public final class Main
             final URL archive = mainJar.toURL();
             final URLClassLoader classLoader = new URLClassLoader( new URL[]{archive} );
 
+            data.put( "common.classloader", ClassLoader.getSystemClassLoader() );
+            data.put( "container.classloader", classLoader );
+
             //Setup context classloader
             Thread.currentThread().setContextClassLoader( classLoader );
 
