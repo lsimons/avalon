@@ -17,20 +17,28 @@ import java.net.URL;
  */
 public class SarMetaData
 {
+    private String                  m_name;
     private File                    m_homeDirectory;
     private URL[]                   m_classPath;
     private BlockMetaData[]         m_blocks;
     private BlockListenerMetaData[] m_listeners;
 
-    public SarMetaData( final File homeDirectory,
+    public SarMetaData( final String name,
+                        final File homeDirectory,
                         final URL[] classPath,
                         final BlockMetaData[] blocks,
                         final BlockListenerMetaData[] listeners )
     {
+        m_name = name;
         m_homeDirectory = homeDirectory;
         m_classPath = classPath;
         m_blocks = blocks;
         m_listeners = listeners;
+    }
+
+    public String getName()
+    {
+        return m_name;
     }
 
     public File getHomeDirectory()
