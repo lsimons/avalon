@@ -22,7 +22,7 @@ import java.util.Set;
  * last modified property will be enough.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version $Id: Resource.java,v 1.12 2002/09/08 00:07:32 donaldp Exp $
+ * @version $Id: Resource.java,v 1.13 2002/09/08 00:25:12 donaldp Exp $
  */
 public abstract class Resource
     implements Modifiable
@@ -77,6 +77,16 @@ public abstract class Resource
      */
     public void testModifiedAfter( final long time )
     {
+        if( getPreviousModified() > time )
+        {
+            //The next line should be uncommented for complete
+            //backward compatability. Unfortunately it does not
+            //make sense to add it or else you could get multiple
+            //notifications about a change.
+            //fireAndSetModifiedTime( lastModified );
+            return;
+        }
+
         final long lastModified = lastModified();
         if( lastModified > getPreviousModified() || lastModified > time )
         {
@@ -103,7 +113,7 @@ public abstract class Resource
     }
 
     /**
-     * This is the prefered method of registering a <code>PropertyChangeListender</code>.
+     * This is the prefered method of registering a {@link PropertyChangeListener}.
      * It automatically registers the listener for the last modified event.
      */
     public final void addPropertyChangeListener( final PropertyChangeListener listener )
@@ -124,7 +134,7 @@ public abstract class Resource
     }
 
     /**
-     * This is the prefered method of unregistering a <code>PropertyChangeListender</code>.
+     * This is the prefered method of unregistering a {@link PropertyChangeListener}.
      * It automatically registers the listener for the last modified event.
      */
     public final void removePropertyChangeListener( final PropertyChangeListener listener )
