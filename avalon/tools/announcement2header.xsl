@@ -40,11 +40,12 @@
     </div>
   </xsl:template>
 
-  <xsl:template match="link">
-    <xsl:value-of select="."/>
-    <xsl:text> (</xsl:text>
-    <xsl:value-of select="@href"/>
-    <xsl:text>)</xsl:text>
+  <xsl:template match="para">
+    <p><xsl:apply-templates/></p>
+  </xsl:template>
+
+  <xsl:template match="ulink">
+    <a href="{@uri}"><xsl:value-of select="."/></a>
   </xsl:template>
 
   <xsl:template match="release">
