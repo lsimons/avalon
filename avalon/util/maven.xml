@@ -124,7 +124,6 @@
     </j:choose>
   </goal>
 
-
   <goal
     name="xdist:build-bin" 
     prereqs="xdist:build-setup,xdist:prepare-bin-filesystem"

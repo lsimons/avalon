@@ -18,15 +18,16 @@
 package org.apache.avalon.util.criteria;
 
 import java.lang.reflect.Constructor;
+import java.io.Serializable;
 
 /**
  * A parameter is an immutable class that contains a description 
  * of an allowable parameter within a crieria instance.
  * 
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
-public class Parameter
+public class Parameter implements Serializable
 {
     //--------------------------------------------------------------
     // static
