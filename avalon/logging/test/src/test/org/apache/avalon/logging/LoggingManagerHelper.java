@@ -39,7 +39,7 @@ import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
  * 
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public class LoggingManagerHelper
 {
@@ -71,7 +71,7 @@ public class LoggingManagerHelper
         File basedir = getBaseDir();
         File target = new File( basedir, "target" );
 
-        File conf = new File( basedir, "conf" );
+        File conf = new File( target, "test-classes" );
         File file = new File( conf, filename );
 
         criteria.put( "avalon.logging.configuration", file );

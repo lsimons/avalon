@@ -66,6 +66,10 @@
         value="&avalon-logging-logkit-artifact-spec;"/>
     <ant:filter token="AVALON-LOGGING-LOG4J-SPEC" 
         value="&avalon-logging-log4j-artifact-spec;"/>
+    <ant:filter token="AVALON-LOGGING-LOGKIT-DATAGRAM-SPEC" 
+        value="&avalon-logging-logkit-datagram-artifact-spec;"/>
+    <ant:filter token="AVALON-LOGGING-LOGKIT-SYSLOG-SPEC" 
+        value="&avalon-logging-logkit-syslog-artifact-spec;"/>
   </preGoal>
 
   <goal name="avalon:build" description="Build the Logging system.">

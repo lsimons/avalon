@@ -142,7 +142,7 @@ limitations under the License.
           <filtering>true</filtering>
           <directory>${basedir}/conf</directory>
           <includes>
-            <include>system.xml</include>
+            <include>**/*.xml</include>
           </includes>
         </resource>
       </resources>
