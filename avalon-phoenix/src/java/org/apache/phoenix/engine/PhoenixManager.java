@@ -7,18 +7,21 @@
  */
 package org.apache.phoenix.engine;
 
-import org.apache.avalon.atlantis.ManagerException;
+import java.rmi.Remote;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+import java.rmi.server.RemoteObject;
+import java.rmi.server.UnicastRemoteObject;
+import javax.management.DynamicMBean;
+import javax.management.MBeanServer;
+import javax.management.ObjectName;
 import org.apache.avalon.atlantis.AbstractSystemManager;
+import org.apache.avalon.atlantis.ManagerException;
 import org.apache.avalon.parameters.ParameterException;
 import org.apache.avalon.parameters.Parameterizable;
 import org.apache.avalon.parameters.Parameters;
 import org.apache.jmx.adaptor.RMIAdaptorImpl;
-import java.rmi.server.RemoteObject;
-import java.rmi.server.UnicastRemoteObject;
-import java.rmi.registry.Registry;
-import java.rmi.Remote;
-import java.rmi.registry.LocateRegistry;
-import javax.management.MBeanServer;
+import org.apache.jmx.introspector.DynamicMBeanFactory;
 
 /**
  * This component is responsible for managing phoenix instance.
@@ -59,12 +62,14 @@ public class PhoenixManager
     {
         final int port = m_parameters.getParameterAsInteger( "manager-registry-port", 1111 );
         m_name = m_parameters.getParameter( "manager-name", "Phoenix.JMXAdaptor" );
-        
+
         m_rmiRegistry = LocateRegistry.createRegistry( port );
-        
+
+        //This next line is soooooo insecure - should use some form
+        //of secure exporting mechanism
         final Remote exported = UnicastRemoteObject.exportObject( m_rmiAdaptor );
         final Remote stub = RemoteObject.toStub( exported );
-        
+
         //TODO: should this do a lookup and refuse to lauch if existing server registered???
         m_rmiRegistry.bind( m_name, stub );
     }
@@ -88,22 +93,34 @@ public class PhoenixManager
 
 
     /**
-     * Export the object to the particular management medium using 
+     * Export the object to the particular management medium using
      * the supplied object and interfaces.
      * This needs to be implemented by subclasses.
      *
      * @param name the name of object
      * @param object the object
      * @param interfaces the interfaces
-     * @return the exported object 
+     * @return the exported object
      * @exception ManagerException if an error occurs
      */
-    protected Object export( final String name, 
-                             final Object object, 
+    protected Object export( final String name,
+                             final Object object,
                              final Class[] interfaces )
         throws ManagerException
     {
-        return null;
+        try
+        {
+            //TODO: actually take some heed of interfaces parameter
+            final DynamicMBean mBean = DynamicMBeanFactory.create( object );
+            m_mBeanServer.registerMBean( mBean, new ObjectName( name ) );
+            return mBean;
+        }
+        catch( final Exception e )
+        {
+            final String message = "Unable to export " + name + " as mBean";
+            getLogger().error( message, e );
+            throw new ManagerException( message, e );
+        }
     }
 
     /**
@@ -113,10 +130,20 @@ public class PhoenixManager
      * @param exportedObject the object return by export
      * @exception ManagerException if an error occurs
      */
-    protected void unexport( final String name, 
+    protected void unexport( final String name,
                              final Object exportedObject )
         throws ManagerException
     {
+        try
+        {
+            m_mBeanServer.unregisterMBean( new ObjectName( name ) );
+        }
+        catch( final Exception e )
+        {
+            final String message = "Unable to unexport " + name + " as mBean";
+            getLogger().error( message, e );
+            throw new ManagerException( message, e );
+        }
     }
 
     /**
@@ -128,18 +155,20 @@ public class PhoenixManager
     protected void verifyInterface( final Class clazz )
         throws ManagerException
     {
-        //check it extends all right things and that it has all the right return types etc
+        //TODO: check it extends all right things and that it
+        //has all the right return types etc. Blocks must have
+        //interfaces extending Service (or Manageable)
     }
 
     /**
      * Creates a new Manager. The mBeanServer it uses is determined from
      * the Parameters's manager-mBeanServer-class variable.
      */
-    private MBeanServer createMBeanServer() 
+    private MBeanServer createMBeanServer()
         throws Exception
     {
-        final String className = 
-            m_parameters.getParameter( "manager-mBeanServer-class", 
+        final String className =
+            m_parameters.getParameter( "manager-mBeanServer-class",
                                        "org.apache.jmx.MBeanServerImpl" );
 
         try
