@@ -72,7 +72,7 @@ import org.apache.excalibur.source.impl.FileSource;
  * Test case for FileSource.
  * 
  * @author <a href="mailto:sylvain@apache.org">Sylvain Wallez</a>
- * @version $Id: FileSourceTestCase.java,v 1.1 2003/04/04 16:36:52 sylvain Exp $
+ * @version $Id: FileSourceTestCase.java,v 1.2 2003/04/06 11:44:05 sylvain Exp $
  */
 public class FileSourceTestCase extends TestCase
 {
@@ -242,8 +242,15 @@ public class FileSourceTestCase extends TestCase
         SourceValidity validity = child.getValidity();
         assertEquals("Validity is not valid", 1, validity.isValid());
 
-		// Wait a bit, otherwise the update speed is faster than the clock resolution
-        Thread.sleep(100L);
+        // Wait a bit, otherwise the update speed is faster than the clock resolution.
+        // In real situations, this shouldn't be a problem, since it is very
+        // unlikely for a file to be modified twice and validity checked in such a
+        // small delay 
+		long time = System.currentTimeMillis();
+		do
+		{
+            Thread.sleep(100L);
+		} while (System.currentTimeMillis() <= time);
         
         // Now change its content
         PrintWriter pw = new PrintWriter(child.getOutputStream());
