@@ -102,7 +102,16 @@ public class DefaultDeployer
             
             for ( int i = 0; i < blocks.length; i++ )
             {                
-                m_repository.removeConfiguration( name, blocks[i] );
+                try 
+                {
+                    m_repository.removeConfiguration( name, blocks[i] );
+                }
+                catch ( Exception e )
+                {
+                    final String message =
+                        REZ.getString( "deploy.notice.configuration.remove", blocks[i], name );
+                    getLogger().warn( message );
+                }
             }
             
             final Installation installation = (Installation)m_installations.get( name );
