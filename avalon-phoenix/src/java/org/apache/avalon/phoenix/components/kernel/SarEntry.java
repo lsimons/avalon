@@ -11,6 +11,7 @@ import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.phoenix.interfaces.Application;
 import org.apache.avalon.phoenix.metadata.SarMetaData;
+import java.io.File;
 
 /**
  * This is the structure describing each server application before it is loaded.
@@ -20,24 +21,46 @@ import org.apache.avalon.phoenix.metadata.SarMetaData;
 final class SarEntry
 {
     private SarMetaData m_metaData;
-
     private Configuration m_configuration;
-
     private ClassLoader m_classLoader;
-
     private Application m_application;
-
     private Logger m_logger;
+    private File m_workDirectory;
+
 
     protected SarEntry( final SarMetaData metaData,
+                        final File workDirectory,
                         final ClassLoader classLoader,
                         final Logger logger,
                         final Configuration configuration )
     {
+        if( null == metaData )
+        {
+            throw new NullPointerException( "metaData" );
+        }
+        if( null == classLoader )
+        {
+            throw new NullPointerException( "classLoader" );
+        }
+        if( null == logger )
+        {
+            throw new NullPointerException( "logger" );
+        }
+        if( null == workDirectory )
+        {
+            throw new NullPointerException( "workDirectory" );
+        }
+
         m_metaData = metaData;
         m_classLoader = classLoader;
         m_logger = logger;
         m_configuration = configuration;
+        m_workDirectory = workDirectory;
+    }
+
+    public File getWorkDirectory()
+    {
+        return m_workDirectory;
     }
 
     public Application getApplication()

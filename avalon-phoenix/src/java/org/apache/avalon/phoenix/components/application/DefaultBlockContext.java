@@ -8,6 +8,7 @@
 package org.apache.avalon.phoenix.components.application;
 
 import java.io.File;
+import java.io.InputStream;
 import org.apache.avalon.framework.context.ContextException;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.phoenix.BlockContext;
@@ -77,6 +78,11 @@ final class DefaultBlockContext
     public void requestShutdown()
     {
         m_applicationContext.requestShutdown();
+    }
+
+    public InputStream getResourceAsStream( final String name )
+    {
+        return m_applicationContext.getResourceAsStream( name );
     }
 
     /**

@@ -10,6 +10,7 @@ package org.apache.avalon.phoenix.interfaces;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.phoenix.metadata.SarMetaData;
+import java.io.File;
 
 /**
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
@@ -22,6 +23,7 @@ public interface Kernel
      * Adds an application to the container
      */
     void addApplication( SarMetaData metaData,
+                         File workDirectory,
                          ClassLoader classLoader,
                          Logger hierarchy,
                          Configuration server )

@@ -8,6 +8,7 @@
 package org.apache.avalon.phoenix;
 
 import java.io.File;
+import java.io.InputStream;
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.logger.Logger;
 
@@ -49,6 +50,18 @@ public interface BlockContext
      * be honored).
      */
     void requestShutdown();
+
+    /**
+     * Retrieve a resource from the SAR file. The specified
+     * name is relative the root of the archive. So you could
+     * use it to retrieve a html page from within sar by loading
+     * the resource named "data/main.html" or similar.
+     * Names may be prefixed with '/' character.
+     *
+     * @param name the name of resource
+     * @return the InputStream for resource or null if no such resource
+     */
+    InputStream getResourceAsStream( String name );
 
     /**
      * Retrieve logger coresponding to named category.
@@ -99,14 +112,6 @@ public interface BlockContext
      * getProxy( Object other )
      */
     //Object getProxy( Object other, Class[] interfaces );
-
-    /**
-     * Retrieve a resource from the SAR file. The specified
-     * name is relative the root of the archive. So you could
-     * use it to retrieve a html page from within sar by loading
-     * the resource named "data/main.html" or similar.
-     */
-    //InputStream getResourceAsStream( String name );
 
     /**
      * This method gives you access to a named ClassLoader. The ClassLoaders

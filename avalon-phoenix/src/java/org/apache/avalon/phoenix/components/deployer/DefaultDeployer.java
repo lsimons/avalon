@@ -337,7 +337,11 @@ public class DefaultDeployer
                 m_logManager.createHierarchy( metaData, logs, classLoader );
 
             //Finally add application to kernel
-            m_kernel.addApplication( metaData, classLoader, logger, environment );
+            m_kernel.addApplication( metaData,
+                                     installation.getWorkDirectory(),
+                                     classLoader,
+                                     logger,
+                                     environment );
 
             m_installations.put( metaData.getName(), installation );
 

@@ -7,6 +7,10 @@
  */
 package org.apache.avalon.phoenix.components.kernel;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.io.FileNotFoundException;
 import java.util.HashMap;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
@@ -18,6 +22,7 @@ import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
+import org.apache.avalon.phoenix.components.util.ResourceUtil;
 import org.apache.avalon.phoenix.interfaces.ApplicationContext;
 import org.apache.avalon.phoenix.interfaces.ConfigurationRepository;
 import org.apache.avalon.phoenix.interfaces.ConfigurationValidator;
@@ -63,6 +68,7 @@ class DefaultApplicationContext
     private SystemManager m_blockManager;
 
     private final SarMetaData m_metaData;
+    private final File m_workDirectory;
 
     /**
      * The kernel associate with context
@@ -70,12 +76,31 @@ class DefaultApplicationContext
     private Kernel m_kernel;
 
     protected DefaultApplicationContext( final SarMetaData metaData,
+                                         final File workDirectory,
                                          final ClassLoader classLoader,
                                          final Logger hierarchy )
     {
+        if( null == metaData )
+        {
+            throw new NullPointerException( "metaData" );
+        }
+        if( null == classLoader )
+        {
+            throw new NullPointerException( "classLoader" );
+        }
+        if( null == hierarchy )
+        {
+            throw new NullPointerException( "hierarchy" );
+        }
+        if( null == workDirectory )
+        {
+            throw new NullPointerException( "workDirectory" );
+        }
+
         m_metaData = metaData;
         m_classLoader = classLoader;
         m_hierarchy = hierarchy;
+        m_workDirectory = workDirectory;
 
         final DefaultThreadContextPolicy policy = new DefaultThreadContextPolicy();
         final HashMap map = new HashMap( 1 );
@@ -99,6 +124,30 @@ class DefaultApplicationContext
         throws Exception
     {
         m_blockManager = getManagementContext();
+    }
+
+    public InputStream getResourceAsStream( final String name )
+    {
+        final File file =
+            ResourceUtil.getFileForResource( name,
+                                             m_metaData.getHomeDirectory(),
+                                             m_workDirectory );
+        if( !file.exists() )
+        {
+            return null;
+        }
+        else
+        {
+            try
+            {
+                return new FileInputStream( file );
+            }
+            catch( FileNotFoundException e )
+            {
+                //Should never happen
+                return null;
+            }
+        }
     }
 
     public SarMetaData getMetaData()

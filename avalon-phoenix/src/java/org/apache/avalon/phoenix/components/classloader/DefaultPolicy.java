@@ -28,6 +28,7 @@ import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.context.DefaultContext;
+import org.apache.avalon.phoenix.components.util.ResourceUtil;
 
 /**
  * Policy that extracts information from policy files.
@@ -40,14 +41,6 @@ class DefaultPolicy
 {
     private static final Resources REZ =
         ResourceManager.getPackageResources( DefaultPolicy.class );
-
-    private static final String SAR_PROTOCOL = "sar:";
-
-    private static final String SAR_INF = SAR_PROTOCOL + "SAR-INF/";
-
-    private static final String CLASSES = SAR_INF + "classes";
-
-    private static final String LIB = SAR_INF + "lib";
 
     private final File m_baseDirectory;
 
@@ -188,7 +181,9 @@ class DefaultPolicy
         if( null != codeBase )
         {
             codeBase = expand( codeBase );
-            codeBase = expandSarURL( codeBase );
+            codeBase = ResourceUtil.expandSarURL( codeBase,
+                                                  m_baseDirectory,
+                                                  m_workDirectory );
         }
 
         final Certificate[] signers = getSigners( signedBy, keyStoreName, keyStores );
@@ -241,48 +236,6 @@ class DefaultPolicy
         final Permission permission = createPermission( type, target, actions, signers );
 
         permissions.add( permission );
-    }
-
-    /**
-     * Expand any URLs with sar: protocol so that
-     * they accurately match the actual location
-     *
-     * @param codeBase the input url
-     * @return the result url, modified to file url if it
-     *         is protocol "sar:"
-     * @throws ConfigurationException if invalidly specified URL
-     */
-    private String expandSarURL( final String codeBase )
-        throws ConfigurationException
-    {
-        if( codeBase.startsWith( SAR_PROTOCOL ) )
-        {
-            final String filename =
-                codeBase.substring( 4 ).replace( '/', File.separatorChar );
-            File baseDir = null;
-            if( codeBase.startsWith( CLASSES )
-                || codeBase.startsWith( LIB ) )
-            {
-                baseDir = m_workDirectory;
-            }
-            else
-            {
-                baseDir = m_baseDirectory;
-            }
-            final File file = new File( baseDir, filename );
-            try
-            {
-                return file.toURL().toString();
-            }
-            catch( MalformedURLException e )
-            {
-                throw new ConfigurationException( e.getMessage(), e );
-            }
-        }
-        else
-        {
-            return codeBase;
-        }
     }
 
     private String expand( final String value )
