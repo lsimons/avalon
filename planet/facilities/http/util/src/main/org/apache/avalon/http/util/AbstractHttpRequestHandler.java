@@ -35,14 +35,14 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.Cookie;
 
-import org.apache.avalon.http.Handler;
-import org.apache.avalon.http.HandlerException;
+import org.apache.avalon.http.HttpRequestHandler;
+import org.apache.avalon.http.HttpRequestHandlerException;
 
 /**
  *
  * Provides an abstract class to be subclassed to create
  * an HTTP handlers suitable for a Web site. A subclass of
- * <code>HttpHandler</code> must override at least 
+ * <code>AbstractHttpRequestHandler</code> must override at least 
  * one method, usually one of these:
  *
  * <ul>
@@ -65,8 +65,8 @@ import org.apache.avalon.http.HandlerException;
  * @version        $Revision: 1.1 $
  *
  */
-public abstract class HttpHandler 
-    implements Handler, java.io.Serializable
+public abstract class AbstractHttpRequestHandler 
+    implements HttpRequestHandler, java.io.Serializable
 {
     private static final String METHOD_DELETE = "DELETE";
     private static final String METHOD_HEAD = "HEAD";
@@ -88,7 +88,7 @@ public abstract class HttpHandler
      * Does nothing, because this is an abstract class.
      * 
      */
-    public HttpHandler() { }
+    public AbstractHttpRequestHandler() { }
     
     /**
      * Called by the server (via the <code>service</code> method) to
@@ -155,7 +155,7 @@ public abstract class HttpHandler
      *
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-        throws HandlerException, IOException
+        throws HttpRequestHandlerException, IOException
     {
         String protocol = request.getProtocol();
         String msg = lStrings.getString("http.method_get_not_supported");
@@ -223,12 +223,12 @@ public abstract class HttpHandler
      * @param response the response object that the component
      *   uses to return the headers to the clien
      * @exception IOException if an input or output error occurs
-     * @exception HandlerException if the request for the HEAD
+     * @exception HttpRequestHandlerException if the request for the HEAD
      *   could not be handled
      */
 
     protected void doHead(HttpServletRequest request, HttpServletResponse response )
-        throws HandlerException, IOException
+        throws HttpRequestHandlerException, IOException
     {
         NoBodyResponse resp = new NoBodyResponse(response);
         doGet(request, resp);
@@ -283,13 +283,13 @@ public abstract class HttpHandler
      * @exception IOException if an input or output error is 
      *   detected when the component handles
      *   the request
-     * @exception HandlerException if the request for the POST
+     * @exception HttpRequestHandlerException if the request for the POST
      *   could not be handled
      * @see javax.servlet.ServletOutputStream
      * @see javax.servlet.ServletResponse#setContentType
      */
     protected void doPost( HttpServletRequest request, HttpServletResponse response )
-        throws HandlerException, IOException
+        throws HttpRequestHandlerException, IOException
     {
         String protocol = request.getProtocol();
         String msg = lStrings.getString("http.method_post_not_supported");
@@ -343,13 +343,13 @@ public abstract class HttpHandler
      *                                while the component is handling the
      *                                PUT request
      *
-     * @exception HandlerException        if the request for the PUT
+     * @exception HttpRequestHandlerException        if the request for the PUT
      *                                        cannot be handled
      *
      */
   
     protected void doPut(HttpServletRequest request, HttpServletResponse response)
-        throws HandlerException, IOException
+        throws HttpRequestHandlerException, IOException
     {
         String protocol = request.getProtocol();
         String msg = lStrings.getString("http.method_put_not_supported");
@@ -394,13 +394,13 @@ public abstract class HttpHandler
      *                                while the component is handling the
      *                                DELETE request
      *
-     * @exception HandlerException        if the request for the
+     * @exception HttpRequestHandlerException        if the request for the
      *                                        DELETE cannot be handled
      *
      */
     protected void doDelete(HttpServletRequest request,
                             HttpServletResponse response)
-        throws HandlerException, IOException
+        throws HttpRequestHandlerException, IOException
     {
         String protocol = request.getProtocol();
         String msg = lStrings.getString("http.method_delete_not_supported");
@@ -465,12 +465,12 @@ public abstract class HttpHandler
      *                                while the component is handling the
      *                                OPTIONS request
      *
-     * @exception HandlerException        if the request for the
+     * @exception HttpRequestHandlerException        if the request for the
      *                                        OPTIONS cannot be handled
      *
      */
     protected void doOptions(HttpServletRequest request, HttpServletResponse response)
-        throws HandlerException, IOException
+        throws HttpRequestHandlerException, IOException
     {
         Method[] methods = getAllDeclaredMethods(this.getClass());
         
@@ -542,11 +542,11 @@ public abstract class HttpHandler
      * @exception IOException        if an input or output error occurs
      *                                while the component is handling the
      *                                TRACE request
-     * @exception HandlerException        if the request for the
+     * @exception HttpRequestHandlerException        if the request for the
      *                                        TRACE cannot be handled
      */
     protected void doTrace(HttpServletRequest request, HttpServletResponse response) 
-        throws HandlerException, IOException
+        throws HttpRequestHandlerException, IOException
     {
         
         int responseLength;
@@ -592,12 +592,12 @@ public abstract class HttpHandler
      * @exception IOException        if an input or output error occurs
      *                                while the component is handling the
      *                                TRACE request
-     * @exception HandlerException        if the request for the
+     * @exception HttpRequestHandlerException        if the request for the
      *                                        TRACE cannot be handled
      * @see                                 javax.servlet.Servlet#service
      */
     protected void service(HttpServletRequest request, HttpServletResponse response)
-        throws HandlerException, IOException
+        throws HttpRequestHandlerException, IOException
     {
         String method = request.getMethod();
 
@@ -690,7 +690,7 @@ public abstract class HttpHandler
      *                                while the component is handling the
      *                                TRACE request
      *
-     * @exception HandlerException        if the request for the
+     * @exception HttpRequestHandlerException        if the request for the
      *                                        TRACE cannot be handled
      *
      * 
@@ -698,7 +698,7 @@ public abstract class HttpHandler
      *
      */
     public void service(ServletRequest request, ServletResponse response )
-        throws HandlerException, IOException
+        throws HttpRequestHandlerException, IOException
     {
         HttpServletRequest httpRequest;
         HttpServletResponse httpResponse;
@@ -710,7 +710,7 @@ public abstract class HttpHandler
         }
         catch (ClassCastException e) 
         {
-            throw new HandlerException("non-HTTP request or response");
+            throw new HttpRequestHandlerException("non-HTTP request or response");
         }
         service( httpRequest, httpResponse );
     }

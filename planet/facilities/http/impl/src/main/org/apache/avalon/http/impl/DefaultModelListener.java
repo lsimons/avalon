@@ -33,7 +33,7 @@ import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.activity.Initializable;
 
 import org.apache.avalon.http.HttpService;
-import org.apache.avalon.http.Handler;
+import org.apache.avalon.http.HttpRequestHandler;
 
 
 /**
@@ -148,14 +148,14 @@ public class DefaultModelListener extends AbstractLogEnabled
         {
             ComponentModel component = (ComponentModel) model;
             Class clazz = component.getDeploymentClass();
-            if( Handler.class.isAssignableFrom( clazz ) )
+            if( HttpRequestHandler.class.isAssignableFrom( clazz ) )
             {
                 if( flag )
                 {
                     if( getLogger().isInfoEnabled() )
                     {
                         getLogger().info( 
-                          "component: " + component + " is a Handler" );
+                          "component: " + component + " is a HttpRequestHandler" );
                     }
                     m_server.register( component );
                 }

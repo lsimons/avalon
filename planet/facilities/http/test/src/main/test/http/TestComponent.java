@@ -35,8 +35,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.avalon.http.HandlerException;
-import org.apache.avalon.http.util.HttpHandler;
+import org.apache.avalon.http.HttpRequestHandlerException;
+import org.apache.avalon.http.util.AbstractHttpRequestHandler;
 
 /**
  * HTTP Handler component that receives and processes http service 
@@ -46,7 +46,7 @@ import org.apache.avalon.http.util.HttpHandler;
  * @avalon.service type="org.apache.avalon.http.Handler"
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
-public class TestComponent extends HttpHandler 
+public class TestComponent extends AbstractHttpRequestHandler 
     implements LogEnabled, Serviceable, Configurable
 {
     //----------------------------------------------------------
@@ -113,7 +113,7 @@ public class TestComponent extends HttpHandler
      */
     public void doGet(HttpServletRequest request,
                       HttpServletResponse response)
-      throws IOException, HandlerException {
+      throws IOException, HttpRequestHandlerException {
 
         int count = m_counter.increment();
         
