@@ -50,12 +50,12 @@
 package org.apache.excalibur.event;
 
 /**
- * A Source implements the side of an event queue where QueueElements are
+ * A Source implements the side of an event queue where queue elements are
  * dequeued operations only.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  */
-public interface Message extends QueueElement
+public interface Message
 {
     /**
      * Get the attachment associated with this Message.  If there is no

@@ -60,10 +60,10 @@ public interface EventHandler
     /**
      * Handle one event at a time.
      */
-    void handleEvent( QueueElement element );
+    void handleEvent( Object element );
 
     /**
      * Handle a whole array of events at a time.
      */
-    void handleEvents( QueueElement[] elements );
+    void handleEvents( Object[] elements );
 }

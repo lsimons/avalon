@@ -50,11 +50,11 @@
 package org.apache.excalibur.event;
 
 /**
- * A Signal is a specific type of QueueElement that denotes a Control code for
+ * A Signal is a specific type of queue element that denotes a Control code for
  * the Queue system.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  */
-public interface Signal extends QueueElement
+public interface Signal
 {
 }

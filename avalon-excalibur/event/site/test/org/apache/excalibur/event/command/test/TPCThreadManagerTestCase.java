@@ -56,7 +56,6 @@ import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.excalibur.event.DefaultQueue;
 import org.apache.excalibur.event.EventHandler;
 import org.apache.excalibur.event.Queue;
-import org.apache.excalibur.event.QueueElement;
 import org.apache.excalibur.event.Sink;
 import org.apache.excalibur.event.SinkException;
 import org.apache.excalibur.event.Source;
@@ -151,7 +150,7 @@ public class TPCThreadManagerTestCase extends TestCase
             m_errorOut = errorOut;
             // even though TPCThreadManager currently calls event handlers
             // when there is nothing to do, that may change
-            m_queue.enqueue( new QueueElement()
+            m_queue.enqueue( new Object()
             {
             } );
         }
@@ -171,12 +170,12 @@ public class TPCThreadManagerTestCase extends TestCase
             return m_queue;
         }
 
-        public void handleEvent( QueueElement element )
+        public void handleEvent( Object element )
         {
-            handleEvents( new QueueElement[]{element} );
+            handleEvents( new Object[]{element} );
         }
 
-        public void handleEvents( QueueElement[] elements )
+        public void handleEvents( Object[] elements )
         {
             // records the fact that the handler was called
             m_result.append( 'a' );
@@ -185,7 +184,7 @@ public class TPCThreadManagerTestCase extends TestCase
                 // sleeps to occupy the thread and let thread manager try to reschedule
                 Thread.sleep( SCHEDULING_TIMEOUT );
                 // enqueues another element to be called again
-                m_queue.enqueue( new QueueElement()
+                m_queue.enqueue( new Object()
                 {
                 } );
             }

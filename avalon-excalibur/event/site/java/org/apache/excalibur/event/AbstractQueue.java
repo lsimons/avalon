@@ -58,7 +58,7 @@ package org.apache.excalibur.event;
 public abstract class AbstractQueue implements Queue
 {
     // this object is immutable, so it can be safely shared
-    protected final static QueueElement[] EMPTY_ARRAY = new QueueElement[ 0 ];
+    protected final static Object[] EMPTY_ARRAY = new Object[ 0 ];
     protected long m_timeout = 0;
 
     /**

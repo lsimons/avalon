@@ -73,18 +73,18 @@ public interface Source
      * nothing left on the queue or in case of a timeout while
      * attempting to obtain the mutex
      *
-     * @return the next <code>QueueElement</code> on the queue
+     * @return the next queue element on the queue
      */
-    QueueElement dequeue();
+    Object dequeue();
 
     /**
      * Dequeues all available elements. Returns a zero-sized array in
      * case of a timeout while attempting to obtain the mutex or if
      * there is nothing left on the queue.
      *
-     * @return all pending <code>QueueElement</code>s on the queue
+     * @return all pending queue elements on the queue
      */
-    QueueElement[] dequeueAll();
+    Object[] dequeueAll();
 
     /**
      * Dequeues at most <code>num</code> available elements. Returns a
@@ -94,7 +94,7 @@ public interface Source
      * @return At most <code>num</code> <code>QueueElement</code>s from the
      *         queue
      */
-    QueueElement[] dequeue( int num );
+    Object[] dequeue( int num );
 
     /**
      * Returns the number of elements waiting in this queue.

@@ -60,7 +60,6 @@ import org.apache.avalon.excalibur.concurrent.Mutex;
 import org.apache.excalibur.event.DefaultQueue;
 import org.apache.excalibur.event.EventHandler;
 import org.apache.excalibur.event.Queue;
-import org.apache.excalibur.event.QueueElement;
 import org.apache.excalibur.event.Signal;
 import org.apache.excalibur.event.Source;
 
@@ -193,7 +192,7 @@ public class CommandManager implements EventPipeline
             m_signalHandlers = signalHandlers;
         }
 
-        public final void handleEvents( QueueElement[] elements )
+        public final void handleEvents( Object[] elements )
         {
             for( int i = 0; i < elements.length; i++ )
             {
@@ -234,7 +233,7 @@ public class CommandManager implements EventPipeline
             }
         }
 
-        public final void handleEvent( QueueElement element )
+        public final void handleEvent( Object element )
         {
             if( !( element instanceof Signal ) )
             {

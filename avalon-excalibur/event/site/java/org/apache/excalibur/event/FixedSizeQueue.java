@@ -61,7 +61,7 @@ import org.apache.avalon.excalibur.concurrent.Mutex;
 public final class FixedSizeQueue
     extends AbstractQueue
 {
-    private final QueueElement[] m_elements;
+    private final Object[] m_elements;
     private final Mutex m_mutex;
     private int m_start = 0;
     private int m_end = 0;
@@ -76,7 +76,7 @@ public final class FixedSizeQueue
         if ( size < 1 )
             throw new IllegalArgumentException("Cannot specify an unbounded Queue");
 
-        m_elements = new QueueElement[ size + 1 ];
+        m_elements = new Object[ size + 1 ];
         m_mutex = new Mutex();
     }
 
@@ -101,7 +101,7 @@ public final class FixedSizeQueue
         return m_elements.length;
     }
 
-    public PreparedEnqueue prepareEnqueue( final QueueElement[] elements )
+    public PreparedEnqueue prepareEnqueue( final Object[] elements )
         throws SinkException
     {
         PreparedEnqueue enqueue = null;
@@ -130,7 +130,7 @@ public final class FixedSizeQueue
         return enqueue;
     }
 
-    public boolean tryEnqueue( final QueueElement element )
+    public boolean tryEnqueue( final Object element )
     {
         boolean success = false;
 
@@ -159,7 +159,7 @@ public final class FixedSizeQueue
         return success;
     }
 
-    public void enqueue( final QueueElement[] elements )
+    public void enqueue( final Object[] elements )
         throws SinkException
     {
         final int len = elements.length;
@@ -189,7 +189,7 @@ public final class FixedSizeQueue
         }
     }
 
-    public void enqueue( final QueueElement element )
+    public void enqueue( final Object element )
         throws SinkException
     {
         try
@@ -214,9 +214,9 @@ public final class FixedSizeQueue
         }
     }
 
-    public QueueElement[] dequeue( final int numElements )
+    public Object[] dequeue( final int numElements )
     {
-        QueueElement[] elements = EMPTY_ARRAY;
+        Object[] elements = EMPTY_ARRAY;
 
         try
         {
@@ -240,7 +240,7 @@ public final class FixedSizeQueue
         return elements;
     }
 
-    private final void addElement( QueueElement element )
+    private final void addElement( Object element )
     {
         m_elements[ m_end ] = element;
 
@@ -251,9 +251,9 @@ public final class FixedSizeQueue
         }
     }
 
-    private final QueueElement removeElement()
+    private final Object removeElement()
     {
-        QueueElement element = m_elements[ m_start ];
+        Object element = m_elements[ m_start ];
 
         if( null != element )
         {
@@ -271,7 +271,7 @@ public final class FixedSizeQueue
 
     /**
      * Removes exactly <code>count</code> elements from the underlying
-     * element store and returns them as an array of QueueElements.
+     * element store and returns them as an array of Objects.
      * The caller is responsible for synchronizing access to the
      * element store and passing the correct value for
      * <code>count</code>.
@@ -282,9 +282,9 @@ public final class FixedSizeQueue
      * @param count number of elements to return
      * @return requested number of elements
      */
-    private final QueueElement[] retrieveElements( int count )
+    private final Object[] retrieveElements( int count )
     {
-        QueueElement[] elements = new QueueElement[ count ];
+        Object[] elements = new Object[ count ];
 
         for( int i = 0; i < count; i++ )
         {
@@ -294,9 +294,9 @@ public final class FixedSizeQueue
         return elements;
     }
 
-    public QueueElement[] dequeueAll()
+    public Object[] dequeueAll()
     {
-        QueueElement[] elements = EMPTY_ARRAY;
+        Object[] elements = EMPTY_ARRAY;
 
         try
         {
@@ -319,9 +319,9 @@ public final class FixedSizeQueue
         return elements;
     }
 
-    public QueueElement dequeue()
+    public Object dequeue()
     {
-        QueueElement element = null;
+        Object element = null;
 
         try
         {
@@ -350,9 +350,9 @@ public final class FixedSizeQueue
     private static final class FixedSizePreparedEnqueue implements PreparedEnqueue
     {
         private final FixedSizeQueue m_parent;
-        private QueueElement[] m_elements;
+        private Object[] m_elements;
 
-        private FixedSizePreparedEnqueue( FixedSizeQueue parent, QueueElement[] elements )
+        private FixedSizePreparedEnqueue( FixedSizeQueue parent, Object[] elements )
         {
             m_parent = parent;
             m_elements = elements;
