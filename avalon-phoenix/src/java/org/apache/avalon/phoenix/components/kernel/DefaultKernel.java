@@ -98,7 +98,7 @@ public class DefaultKernel
                 final DefaultContext context = new DefaultContext();
                 context.put( "app.name", name );
                 context.put( "app.home", saEntry.getMetaData().getHomeDirectory() );
-                context.put( "app.class.path", saEntry.getMetaData().getClassPath() );
+                context.put( "app.class.path", saEntry.getClassPath() );
                 context.makeReadOnly();
                 ((Contextualizable)application).contextualize( context );
             }
