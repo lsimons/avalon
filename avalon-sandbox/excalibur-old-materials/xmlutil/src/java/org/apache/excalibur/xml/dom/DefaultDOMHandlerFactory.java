@@ -22,24 +22,15 @@ import org.w3c.dom.Document;
 
 /**
  * @author <a href="mailto:mirceatoma@apache.org">Mircea Toma</a>
- * @version CVS $Revision: 1.3 $ $Date: 2002/08/16 10:42:12 $
+ * @version CVS $Revision: 1.4 $ $Date: 2002/09/03 20:29:53 $
  */
 public class DefaultDOMHandlerFactory
     extends AbstractLogEnabled
-    implements DOMHandlerFactory, Configurable, Initializable, Component, ThreadSafe
+    implements DOMHandlerFactory, Initializable, Component, ThreadSafe
 {
     private final SAXTransformerFactory m_transformerFactory = (SAXTransformerFactory)SAXTransformerFactory.newInstance();
     private final DocumentBuilderFactory m_documentBuilderFactory = DocumentBuilderFactory.newInstance();
     private DocumentBuilder m_documentBuilder;
-    private boolean m_ignoreWhitespaces;
-    private boolean m_ignoreComments;
-
-    public void configure( final Configuration configuration )
-        throws ConfigurationException
-    {
-        m_ignoreWhitespaces = configuration.getChild( "ignore-whitespaces" ).getValueAsBoolean( false );
-        m_ignoreComments = configuration.getChild( "ignore-comments" ).getValueAsBoolean( false );
-    }
 
     public void initialize() throws Exception
     {
@@ -49,8 +40,11 @@ public class DefaultDOMHandlerFactory
     public DOMHandler createDOMHandler() throws Exception
     {
         final Document document = m_documentBuilder.newDocument();
-        final TransformerHandler transformerHandler = m_transformerFactory.newTransformerHandler();
-
-        return new DefaultDOMHandler( transformerHandler, document, m_ignoreComments, m_ignoreWhitespaces );
+        return createDOMHandler(document);
     }
+    
+    public DOMHandler createDOMHandler(Document document) throws Exception {
+        final TransformerHandler transformerHandler = m_transformerFactory.newTransformerHandler();
+        return new DefaultDOMHandler( transformerHandler, document );
+    }    
 }
