@@ -459,7 +459,7 @@ Legal:
     <!-- Get the jars from the configkit project. -->
     <target name="get-configkit" description="Get the Spice ConfigKit distribution from SourceForge.">
         <mkdir dir="${repo.dir}/spice-configkit"/>
-        <get src="http://osdn.dl.sourceforge.net/sourceforge/spice/configkit-1.1.tar.gz"
+        <get src="http://osdn.dl.sourceforge.net/sourceforge/spice/spice-configkit-1.1.tar.gz"
             dest="${repo.dir}/spice-configkit/spice-configkit.tar.gz"
             verbose="true"
             usetimestamp="true"/>
