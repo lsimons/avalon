@@ -121,6 +121,11 @@
         <ant dir="io" target="${subproject-target}"/>
     </target>
 
+    <!-- Monitor -->
+    <target name="prj-monitor" depends="prj-logger, prj-sourceresolve">
+        <ant dir="monitor" target="${subproject-target}"/>
+    </target>
+
     <!-- JProcess -->
     <target name="prj-jprocess" depends="prj-io, prj-threadcontext">
         <ant dir="jprocess" target="${subproject-target}"/>
