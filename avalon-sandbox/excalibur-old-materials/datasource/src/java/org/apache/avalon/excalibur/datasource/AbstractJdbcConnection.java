@@ -76,7 +76,7 @@ import org.apache.avalon.framework.logger.Logger;
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:proyal@apache.org">Peter Royal</a>
- * @version CVS $Revision: 1.30 $ $Date: 2003/07/18 02:39:06 $
+ * @version CVS $Revision: 1.31 $ $Date: 2003/07/21 15:54:47 $
  * @since 4.1
  */
 public class AbstractJdbcConnection
@@ -323,9 +323,9 @@ public class AbstractJdbcConnection
         }
         catch( final SQLException se )
         {
-            if( getLogger().isWarnEnabled() )
+            if( getLogger().isDebugEnabled() )
             {
-                getLogger().warn( "Could not close connection", se );
+                getLogger().debug( "Could not close connection", se );
             }
         }
     }
