@@ -212,8 +212,11 @@
     </ant:echo>
     <ant:copy todir="${maven.dist.bin.assembly.dir}">
       <ant:fileset dir=".">
+        <ant:include name="README.txt"/>
+      </ant:fileset>
+      <ant:fileset dir="${avalon.buildsystem}/site">
         <ant:include name="LICENSE*"/>
-        <ant:include name="README*"/>
+        <ant:include name="NOTICE*"/>
       </ant:fileset>
     </ant:copy>
 
@@ -240,7 +243,13 @@
 
     <ant:copy todir="${maven.dist.src.assembly.dir}">
       <ant:fileset dir=".">
+        <ant:include name="README.txt"/>
+      </ant:fileset>
+      <ant:fileset dir="${avalon.buildsystem}/site">
         <ant:include name="LICENSE*"/>
+        <ant:include name="NOTICE*"/>
+      </ant:fileset>
+      <ant:fileset dir=".">
         <ant:include name="project.properties"/>
         <ant:include name="maven.xml"/>
         <ant:include name="project.xml"/>
