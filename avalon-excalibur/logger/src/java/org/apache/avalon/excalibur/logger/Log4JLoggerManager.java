@@ -54,8 +54,8 @@ import java.util.Map;
 import org.apache.avalon.framework.logger.Log4JLogger;
 import org.apache.avalon.framework.logger.LogEnabled;
 import org.apache.avalon.framework.logger.Logger;
-import org.apache.log4j.Category;
-import org.apache.log4j.Hierarchy;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.spi.LoggerRepository;
 
 /**
  * Log4JLoggerManager implementation.  This is the interface used to get instances of
@@ -63,7 +63,7 @@ import org.apache.log4j.Hierarchy;
  * leaves that as an excercise for Log4J's construction.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.6 $ $Date: 2002/10/06 11:22:18 $
+ * @version CVS $Revision: 1.7 $ $Date: 2002/10/14 12:48:19 $
  * @since 4.1
  */
 public class Log4JLoggerManager
@@ -76,7 +76,7 @@ public class Log4JLoggerManager
     private String m_prefix;
 
     /** The hierarchy private to Log4JManager */
-    private Hierarchy m_hierarchy;
+    private LoggerRepository m_hierarchy;
 
     /** The default logger used for this system */
     private final Logger m_defaultLogger;
@@ -89,13 +89,13 @@ public class Log4JLoggerManager
      */
     public Log4JLoggerManager()
     {
-        this( Category.getDefaultHierarchy() );
+        this( LogManager.getLoggerRepository() );
     }
 
     /**
      * Creates a new <code>DefaultLog4JManager</code> with an existing <code>Hierarchy</code>.
      */
-    public Log4JLoggerManager( final Hierarchy hierarchy )
+    public Log4JLoggerManager( final LoggerRepository hierarchy )
     {
         this( null, hierarchy );
     }
@@ -106,24 +106,26 @@ public class Log4JLoggerManager
      */
     public Log4JLoggerManager( final String prefix )
     {
-        this( prefix, Category.getDefaultHierarchy() );
+        this( prefix, LogManager.getLoggerRepository() );
     }
 
     /**
      * Creates a new <code>DefaultLog4JManager</code> with an existing <code>Hierarchy</code> using
      * specified logger name as root logger.
      */
-    public Log4JLoggerManager( final String prefix, final Hierarchy hierarchy )
+    public Log4JLoggerManager( final String prefix,
+                               final LoggerRepository hierarchy )
     {
         this( prefix, hierarchy,
-              new Log4JLogger( hierarchy.getInstance( "" ) ) );
+              new Log4JLogger( hierarchy.getLogger( "" ) ) );
     }
 
     /**
      * Creates a new <code>DefaultLog4JManager</code> with an existing <code>Hierarchy</code> using
      * specified logger name as root logger.
      */
-    public Log4JLoggerManager( final String prefix, final Hierarchy hierarchy,
+    public Log4JLoggerManager( final String prefix,
+                               final LoggerRepository hierarchy,
                                final Logger defaultLogger )
     {
         this( prefix, hierarchy, defaultLogger, defaultLogger );
@@ -133,8 +135,10 @@ public class Log4JLoggerManager
      * Creates a new <code>DefaultLog4JManager</code> with an existing <code>Hierarchy</code> using
      * specified logger name as root logger.
      */
-    public Log4JLoggerManager( final String prefix, final Hierarchy hierarchy,
-                               final Logger defaultLogger, final Logger logger )
+    public Log4JLoggerManager( final String prefix,
+                               final LoggerRepository hierarchy,
+                               final Logger defaultLogger,
+                               final Logger logger )
     {
         m_prefix = prefix;
         m_hierarchy = hierarchy;
@@ -180,7 +184,7 @@ public class Log4JLoggerManager
                             + " not defined in configuration. New Logger created and returned" );
         }
 
-        logger = new Log4JLogger( m_hierarchy.getInstance( categoryName ) );
+        logger = new Log4JLogger( m_hierarchy.getLogger( categoryName ) );
         m_loggers.put( categoryName, logger );
         return logger;
     }
