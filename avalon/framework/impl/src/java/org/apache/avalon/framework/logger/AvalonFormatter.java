@@ -7,7 +7,6 @@
  */
 package org.apache.avalon.framework.logger;
 
-import java.util.Date;
 import org.apache.avalon.framework.ExceptionUtil;
 import org.apache.log.format.PatternFormatter;
 
@@ -22,7 +21,7 @@ public class AvalonFormatter
     extends PatternFormatter
 {
     /**
-     * The constant defining the default stack depth when 
+     * The constant defining the default stack depth when
      * none other is specified.
      */
     public static final int DEFAULT_STACK_DEPTH = 8;
