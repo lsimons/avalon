@@ -21,22 +21,22 @@
     <dependency>
       <groupId>avalon-meta</groupId>
       <artifactId>avalon-meta-api</artifactId>
-      <version>1.2</version>
+      <version>1.2-dev</version>
     </dependency>
     <dependency>
       <groupId>avalon-meta</groupId>
       <artifactId>avalon-meta-spi</artifactId>
-      <version>1.2</version>
+      <version>1.2-dev</version>
     </dependency>
     <dependency>
       <groupId>avalon-meta</groupId>
       <artifactId>avalon-meta-impl</artifactId>
-      <version>1.2</version>
+      <version>1.2-dev</version>
     </dependency>
     <dependency>
       <groupId>avalon-meta</groupId>
       <artifactId>avalon-meta-tools</artifactId>
-      <version>1.2</version>
+      <version>1.2-dev</version>
     </dependency>
     <dependency>
       <id>excalibur-i18n</id>

@@ -72,7 +72,7 @@ import org.apache.avalon.framework.Version;
  * name of container.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2003/10/17 02:03:06 $
+ * @version $Revision: 1.3 $ $Date: 2003/10/17 04:22:01 $
  */
 public final class InfoDescriptor extends Descriptor
 {
@@ -89,6 +89,8 @@ public final class InfoDescriptor extends Descriptor
     public static final String POOLED = "pooled";
 
     public static final String LIBERAL = "liberal";
+
+    public static final String DEMOCRAT = "democrat";
 
     public static final String CONSERVATIVE = "conservative";
 
@@ -137,13 +139,17 @@ public final class InfoDescriptor extends Descriptor
     private final boolean m_terminal;
 
     /**
-     * The component garbage collection policy. If the collection policy is LIBERAL
-     * then true otherwise the collection policy is CONSERVATIVE.  A liberal componet
-     * shall be decommissioned when a garbage collector has resolved that there are no 
-     * outstanding references to the component. A conservative componet will not be 
-     * decommissioned so long as it containing context exists (i.e. jvm or thread).
+     * The component garbage collection policy. The value returned is either 
+     * LIBERAL, DEMOCAT or CONSERVATIVE.  A component implmenting a LIBERAL policy 
+     * will be decommissioned if now references exist.  A component declaring a 
+     * DEMOCRAT policy will exist without reference so long as memory contention
+     * does not occur.  A component implementing CONSERVATIVE policies will be 
+     * maintained irrespective of usage and memory constraints so long as its 
+     * scope exists (the jvm for a "singleton" and Thread for "thread" lifestyles).  
+     * The default policy is DEMOCRAT for singleton and per thread componet. 
+     * Transient and poooled components default to LIBERAL.
      */
-    private final boolean m_liberal;
+    private final String m_collection;
 
     //-------------------------------------------------------------------
     // constructor
@@ -233,22 +239,26 @@ public final class InfoDescriptor extends Descriptor
             final String policy = getLifestyle();
             if( policy.equals( TRANSIENT ) || policy.equals( POOLED ))
             {
-                m_liberal = true;
+                m_collection = LIBERAL;
             }
             else
             {
-                m_liberal = false;
+                m_collection = DEMOCRAT;
             }
         }
         else
         {
             if( collection.equalsIgnoreCase( CONSERVATIVE ) )
             {
-                m_liberal = false;
+                m_collection = CONSERVATIVE;
+            }
+            else if( collection.equalsIgnoreCase( DEMOCRAT ) )
+            {
+                m_collection = DEMOCRAT;
             }
             else if( collection.equalsIgnoreCase( LIBERAL ) )
             {
-                m_liberal = true;
+                m_collection = LIBERAL;
             }
             else
             {
@@ -370,35 +380,37 @@ public final class InfoDescriptor extends Descriptor
      */
     public String getCollectionPolicy()
     {
-        if( m_liberal )
-        {
-            return LIBERAL;
-        }
-        else
-        {
-            return CONSERVATIVE;
-        }
+        return m_collection;
     }
 
+   /**
+    * Test is the component type implements a liberal collection policy.
+    *
+    * @return the policy
+    */
+    public boolean isLiberal()
+    {
+        return m_collection.equals( LIBERAL );
+    }
 
     /**
-     * Return the component termination policy.
+     * Test is the component type implements a democrat collection policy.
      *
      * @return the policy
      */
-    public boolean isLiberal()
+    public boolean isDemocrat()
     {
-        return m_liberal;
+        return m_collection.equals( DEMOCRAT );
     }
 
     /**
-     * Return the component termination policy.
+     * Test is the component type implements a coservative collection policy.
      *
      * @return the policy
      */
     public boolean isConservative()
     {
-        return !m_liberal;
+        return m_collection.equals( CONSERVATIVE );
     }
 
     /**
@@ -462,9 +474,9 @@ public final class InfoDescriptor extends Descriptor
         {
             InfoDescriptor info = (InfoDescriptor)other;
             isEqual = isEqual && m_classname.equals( info.m_classname );
+            isEqual = isEqual && m_collection.equals( info.m_collection );
             isEqual = isEqual && m_name.equals( info.m_name );
             isEqual = isEqual && m_lifestyle.equals( info.m_lifestyle );
-            isEqual = isEqual && m_liberal == info.m_liberal;
             isEqual = isEqual && m_terminal == info.m_terminal;
 
             if ( null == m_version )
@@ -492,7 +504,9 @@ public final class InfoDescriptor extends Descriptor
         hash ^= m_classname.hashCode();
         hash >>>= 7;
 
-        hash >>>= ( m_liberal ) ? 1 : 3;
+        hash ^= m_collection.hashCode();
+        hash >>>= 7;
+
         hash >>>= ( m_terminal ) ? 1 : 3;
 
         if ( null != m_name )
