@@ -9,7 +9,7 @@
 # The property values in ant.properties are overridden by
 # ${user.home}/.ant.properties and ../ant.properties
 #
-# $Id: ant.properties.sample,v 1.2.2.1 2002/04/01 08:57:04 jefft Exp $
+# $Id: ant.properties.sample,v 1.2.2.2 2002/04/04 14:14:19 jefft Exp $
 # -----------------------------------------------------------------------------
 
 # --------------------------------------------------
@@ -38,11 +38,11 @@ excalibur-instrument-manager.home=../instrument-manager/build/lib
 excalibur-instrument-manager-interfaces.jar=${excalibur-instrument-manager.home}/excalibur-instrument-manager-interfaces-0.1.jar
 
 # ----- Altrmi -----
-commons-altrmi.home=../../jakarta-commons-sandbox/altrmi/dist
-commons-altrmi-client-impl.jar=${commons-altrmi.home}/commons-altrmi-client-impl.jar
-commons-altrmi-client-interfaces.jar=${commons-altrmi.home}/commons-altrmi-client-interfaces.jar
-commons-altrmi-common.jar=${commons-altrmi.home}/commons-altrmi-common.jar
-commons-altrmi-generator.jar=${commons-altrmi.home}/commons-altrmi-generator.jar
+excalibur-altrmi.home=../../jakarta-commons-sandbox/altrmi/dist
+excalibur-altrmi-client-impl.jar=${excalibur-altrmi.home}/excalibur-altrmi-client-impl.jar
+excalibur-altrmi-client-interfaces.jar=${excalibur-altrmi.home}/excalibur-altrmi-client-interfaces.jar
+excalibur-altrmi-common.jar=${excalibur-altrmi.home}/excalibur-altrmi-common.jar
+excalibur-altrmi-generator.jar=${excalibur-altrmi.home}/excalibur-altrmi-generator.jar
 
 # ----- JUnit Unit Test Suite, version 3.7 or later -----
 junit.home=${base.path}/junit3.7
