@@ -26,17 +26,17 @@ public abstract class AbstractLogEnabledInstrumentable
     implements Instrumentable
 {
     /** Name of the instrumentable. */
-    private String m_instrumentableName; 
-    
+    private String m_instrumentableName;
+
     /** Stores the instruments during initialization. */
     private ArrayList m_instrumentList;
-    
+
     /** Stores the child instrumentables during initialization. */
     private ArrayList m_childList;
-    
+
     /** Flag which is to used to keep track of when the Instrumentable has been registered. */
     private boolean m_registered;
-    
+
     /*---------------------------------------------------------------
      * Constructors
      *-------------------------------------------------------------*/
@@ -49,7 +49,7 @@ public abstract class AbstractLogEnabledInstrumentable
         m_instrumentList = new ArrayList();
         m_childList = new ArrayList();
     }
-    
+
     /*---------------------------------------------------------------
      * Methods
      *-------------------------------------------------------------*/
@@ -62,14 +62,14 @@ public abstract class AbstractLogEnabledInstrumentable
      */
     protected void addInstrument( Instrument instrument )
     {
-        if ( m_registered )
+        if( m_registered )
         {
             throw new IllegalStateException( "Instruments can not be added after the " +
-                "Instrumentable is registered with the InstrumentManager." );
+                                             "Instrumentable is registered with the InstrumentManager." );
         }
         m_instrumentList.add( instrument );
     }
-    
+
     /**
      * Adds a child Instrumentable to the list of child Instrumentables
      *  published by the component.  This method may not be called after the
@@ -82,14 +82,14 @@ public abstract class AbstractLogEnabledInstrumentable
      */
     protected void addChildInstrumentable( Instrumentable child )
     {
-        if ( m_registered )
+        if( m_registered )
         {
             throw new IllegalStateException( "Child Instrumentables can not be added after the " +
-                "Instrumentable is registered with the InstrumentManager." );
+                                             "Instrumentable is registered with the InstrumentManager." );
         }
         m_childList.add( child );
     }
-    
+
     /*---------------------------------------------------------------
      * Instrumentable Methods
      *-------------------------------------------------------------*/
@@ -98,7 +98,7 @@ public abstract class AbstractLogEnabledInstrumentable
      *
      * @return The name used to identify a Instrumentable.
      */
-    public final String getInstrumentableName() 
+    public final String getInstrumentableName()
     {
         return m_instrumentableName;
     }
@@ -116,11 +116,11 @@ public abstract class AbstractLogEnabledInstrumentable
      *
      * @param name The name used to identify a Instrumentable.
      */
-    public final void setInstrumentableName(String name) 
+    public final void setInstrumentableName( String name )
     {
         m_instrumentableName = name;
     }
-    
+
     /**
      * Any Object which implements Instrumentable can also make use of other
      *  Instrumentable child objects.  This method is used to tell the
@@ -130,10 +130,10 @@ public abstract class AbstractLogEnabledInstrumentable
      *         return null.  If there are no child Instrumentables, then
      *         EMPTY_INSTRUMENTABLE_ARRAY can be returned.
      */
-    public final Instrumentable[] getChildInstrumentables() 
+    public final Instrumentable[] getChildInstrumentables()
     {
         m_registered = true;
-        if ( m_childList.size() == 0 )
+        if( m_childList.size() == 0 )
         {
             return Instrumentable.EMPTY_INSTRUMENTABLE_ARRAY;
         }
@@ -144,7 +144,7 @@ public abstract class AbstractLogEnabledInstrumentable
             return children;
         }
     }
-    
+
     /**
      * Obtain a reference to all the Instruments that the Instrumentable object
      *  wishes to expose.  All sampling is done directly through the
@@ -156,10 +156,10 @@ public abstract class AbstractLogEnabledInstrumentable
      *         the case though unless there are child Instrumentables with
      *         Instruments.
      */
-    public final Instrument[] getInstruments() 
+    public final Instrument[] getInstruments()
     {
         m_registered = true;
-        if ( m_instrumentList.size() == 0 )
+        if( m_instrumentList.size() == 0 )
         {
             return Instrumentable.EMPTY_INSTRUMENT_ARRAY;
         }

@@ -9,12 +9,10 @@ package org.apache.avalon.excalibur.pool;
 
 import java.util.Iterator;
 import java.util.LinkedList;
-
 import org.apache.avalon.excalibur.instrument.CounterInstrument;
 import org.apache.avalon.excalibur.instrument.Instrument;
 import org.apache.avalon.excalibur.instrument.Instrumentable;
 import org.apache.avalon.excalibur.instrument.ValueInstrument;
-    
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.logger.LogEnabled;
@@ -32,7 +30,7 @@ import org.apache.avalon.framework.thread.ThreadSafe;
  *  trimmed.  See the {@link #trim()} method for details of how trimming works.
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/04/10 05:34:20 $
+ * @version CVS $Revision: 1.3 $ $Date: 2002/05/13 12:28:36 $
  * @since 4.1
  */
 public class ResourceLimitingPool
@@ -47,7 +45,7 @@ public class ResourceLimitingPool
     public static final String INSTRUMENT_BLOCKS_NAME = "blocks";
     public static final String INSTRUMENT_CREATES_NAME = "creates";
     public static final String INSTRUMENT_DECOMMISSIONS_NAME = "decommissions";
-    
+
     /*---------------------------------------------------------------
      * Protected Fields
      *-------------------------------------------------------------*/
@@ -128,28 +126,28 @@ public class ResourceLimitingPool
 
     /** Instrumentable Name assigned to this Instrumentable */
     private String m_instrumentableName = DEFAULT_INSTRUMENTABLE_NAME;
-    
+
     /** Instrument used to profile the size of the pool. */
     private ValueInstrument m_sizeInstrument;
-    
+
     /** Instrument used to profile the number of available poolables. */
     private ValueInstrument m_readySizeInstrument;
-    
+
     /** Instrument used to profile the number of gets. */
     private CounterInstrument m_getsInstrument;
-    
+
     /** Instrument used to profile the number of puts. */
     private CounterInstrument m_putsInstrument;
-    
+
     /** Instrument used to profile the number of blocks. */
     private CounterInstrument m_blocksInstrument;
-    
+
     /** Instrument used to profile the number of created poolables. */
     private CounterInstrument m_createsInstrument;
-    
+
     /** Instrument used to profile the number of decommissioned poolables. */
     private CounterInstrument m_decommissionsInstrument;
-    
+
     /*---------------------------------------------------------------
      * Constructors
      *-------------------------------------------------------------*/
@@ -189,7 +187,7 @@ public class ResourceLimitingPool
         {
             m_oldReady = new LinkedList();
         }
-        
+
         // Initialize the Instrumentable elements.
         m_sizeInstrument = new ValueInstrument( INSTRUMENT_SIZE_NAME );
         m_readySizeInstrument = new ValueInstrument( INSTRUMENT_READY_SIZE_NAME );
@@ -261,7 +259,7 @@ public class ResourceLimitingPool
 
                         // Notify the InstrumentManager
                         m_blocksInstrument.increment();
-                        
+
                         if( m_blockTimeout > 0 )
                         {
                             // Wait for a limited amount of time for a poolable is made
@@ -373,14 +371,14 @@ public class ResourceLimitingPool
         {
             getLogger().debug( "Got a " + poolable.getClass().getName() + " from the pool." );
         }
-        
+
         // Notify the InstrumentManager
         m_getsInstrument.increment();
-        if ( m_readySizeInstrument.isActive() )
+        if( m_readySizeInstrument.isActive() )
         {
             m_readySizeInstrument.setValue( getReadySize() );
         }
-            
+
         return poolable;
     }
 
@@ -443,10 +441,10 @@ public class ResourceLimitingPool
                 permanentlyRemovePoolable( poolable );
             }
         }
-        
+
         // Notify the InstrumentManager
         m_putsInstrument.increment();
-        if ( m_readySizeInstrument.isActive() )
+        if( m_readySizeInstrument.isActive() )
         {
             m_readySizeInstrument.setValue( getReadySize() );
         }
@@ -500,13 +498,13 @@ public class ResourceLimitingPool
                 getLogger().debug( "There were " + m_size
                                    + " outstanding objects when the pool was disposed." );
             }
-            
+
             // Notify the InstrumentManager
-            if ( m_sizeInstrument.isActive() )
+            if( m_sizeInstrument.isActive() )
             {
                 m_sizeInstrument.setValue( getSize() );
             }
-            if ( m_readySizeInstrument.isActive() )
+            if( m_readySizeInstrument.isActive() )
             {
                 m_readySizeInstrument.setValue( getReadySize() );
             }
@@ -629,14 +627,14 @@ public class ResourceLimitingPool
     protected Poolable newPoolable() throws Exception
     {
         Object obj = m_factory.newInstance();
-        
+
         // Notify the InstrumentManager
         m_createsInstrument.increment();
-        if ( m_sizeInstrument.isActive() )
+        if( m_sizeInstrument.isActive() )
         {
             m_sizeInstrument.setValue( getSize() );
         }
-        
+
         return (Poolable)obj;
     }
 
@@ -654,10 +652,10 @@ public class ResourceLimitingPool
         try
         {
             m_factory.decommission( poolable );
-            
+
             // Notify the InstrumentManager
             m_decommissionsInstrument.increment();
-            if ( m_sizeInstrument.isActive() )
+            if( m_sizeInstrument.isActive() )
             {
                 m_sizeInstrument.setValue( getSize() );
             }

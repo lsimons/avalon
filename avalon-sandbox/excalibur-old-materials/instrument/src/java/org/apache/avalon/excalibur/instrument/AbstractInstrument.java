@@ -12,7 +12,7 @@ package org.apache.avalon.excalibur.instrument;
  *  the Instruement interface.
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.3 $ $Date: 2002/04/03 13:48:49 $
+ * @version CVS $Revision: 1.4 $ $Date: 2002/05/13 12:28:35 $
  * @since 4.1
  */
 public abstract class AbstractInstrument
@@ -20,10 +20,10 @@ public abstract class AbstractInstrument
 {
     /** The name of the Instrument. */
     private String m_name;
-    
+
     /** Proxy object used to communicate with the InstrumentManager. */
     private InstrumentProxy m_proxy;
-    
+
     /*---------------------------------------------------------------
      * Constructors
      *-------------------------------------------------------------*/
@@ -37,7 +37,7 @@ public abstract class AbstractInstrument
     {
         m_name = name;
     }
-    
+
     /*---------------------------------------------------------------
      * Instrument Methods
      *-------------------------------------------------------------*/
@@ -53,7 +53,7 @@ public abstract class AbstractInstrument
     {
         return m_name;
     }
-    
+
     /*---------------------------------------------------------------
      * Methods
      *-------------------------------------------------------------*/
@@ -70,14 +70,14 @@ public abstract class AbstractInstrument
      */
     public void setInstrumentProxy( InstrumentProxy proxy )
     {
-        if ( m_proxy != null )
+        if( m_proxy != null )
         {
             throw new IllegalStateException(
                 "Once an InstrumentProxy has been set, it can not be changed." );
         }
         m_proxy = proxy;
     }
-    
+
     /**
      * Used by classes being profiled so that they can avoid unnecessary
      *  code when the data from an Instrument is not being used.
@@ -88,7 +88,7 @@ public abstract class AbstractInstrument
     {
         return ( m_proxy != null ) && ( m_proxy.isActive() );
     }
-    
+
     /**
      * Returns the InstrumentProxy object assigned to the instrument by the
      *  InstrumentManager.
