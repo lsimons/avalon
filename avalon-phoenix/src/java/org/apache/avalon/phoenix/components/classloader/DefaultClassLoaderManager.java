@@ -64,7 +64,6 @@ public class DefaultClassLoaderManager
 
         //TODO: Load Extensions from Package Repository as required
 
-
         //TODO: Determine parentClassLoader in a safer fashion
         final ClassLoader parentClassLoader = Thread.currentThread().getContextClassLoader();
 
@@ -75,11 +74,15 @@ public class DefaultClassLoaderManager
         {
             final JarFile archive = new JarFile( source, true, JarFile.OPEN_READ );
             factory = new SarURLStreamHandlerFactory( archive );
+            URL.setURLStreamHandlerFactory( factory );
         }
 
         final URL[] urls = createURLs( classPath, factory );
 
-        return new PolicyClassLoader( urls, parentClassLoader, factory, policy );
+        final PolicyClassLoader classLoader = 
+            new PolicyClassLoader( urls, parentClassLoader, factory, policy );
+        setupLogger( classLoader, "classloader" );
+        return classLoader;
     }
 
     /**
@@ -146,17 +149,12 @@ public class DefaultClassLoaderManager
 
         final String scheme = urlString.substring( 0, index );
 
-        URL url = null;
+        URLStreamHandler handler = null;
         if( null != factory )
         {
-            final URLStreamHandler handler = factory.createURLStreamHandler( scheme );
-            url = new URL( null, urlString, handler );
+            handler = factory.createURLStreamHandler( scheme );
         }
-        else
-        {
-            url = new URL( urlString );
-        }            
 
-        return url;
+        return new URL( null, urlString, handler );
     }
 }
