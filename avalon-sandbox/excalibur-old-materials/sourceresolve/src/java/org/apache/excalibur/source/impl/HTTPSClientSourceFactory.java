@@ -61,7 +61,6 @@ import org.apache.avalon.framework.parameters.ParameterException;
 import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.commons.httpclient.protocol.Protocol;
 import org.apache.commons.httpclient.protocol.SecureProtocolSocketFactory;
-import org.apache.excalibur.source.SourceFactory;
 
 /**
  * {@link HTTPSClientSource} Factory class.
@@ -72,7 +71,7 @@ import org.apache.excalibur.source.SourceFactory;
  * @x-avalon.lifestyle type=singleton
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: HTTPSClientSourceFactory.java,v 1.1 2003/07/09 09:51:29 crafterm Exp $
+ * @version CVS $Id: HTTPSClientSourceFactory.java,v 1.2 2003/07/14 12:41:37 cziegeler Exp $
  */
 public class HTTPSClientSourceFactory extends HTTPClientSourceFactory
 {

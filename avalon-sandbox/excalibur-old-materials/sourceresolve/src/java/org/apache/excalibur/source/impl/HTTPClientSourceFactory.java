@@ -56,15 +56,14 @@ package org.apache.excalibur.source.impl;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.Map;
 
 import org.apache.avalon.framework.container.ContainerUtil;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
-import org.apache.avalon.framework.thread.ThreadSafe;
 import org.apache.avalon.framework.parameters.ParameterException;
 import org.apache.avalon.framework.parameters.Parameterizable;
 import org.apache.avalon.framework.parameters.Parameters;
+import org.apache.avalon.framework.thread.ThreadSafe;
 import org.apache.excalibur.source.Source;
 import org.apache.excalibur.source.SourceException;
 import org.apache.excalibur.source.SourceFactory;
@@ -78,7 +77,7 @@ import org.apache.excalibur.source.SourceFactory;
  * @x-avalon.lifestyle type=singleton
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: HTTPClientSourceFactory.java,v 1.4 2003/07/09 09:51:29 crafterm Exp $
+ * @version CVS $Id: HTTPClientSourceFactory.java,v 1.5 2003/07/14 12:41:37 cziegeler Exp $
  */
 public class HTTPClientSourceFactory extends AbstractLogEnabled
     implements SourceFactory, Parameterizable, ThreadSafe

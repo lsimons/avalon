@@ -54,11 +54,11 @@
  */
 package org.apache.excalibur.source.impl;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Collections;
 import java.util.Date;
@@ -72,24 +72,16 @@ import org.apache.avalon.framework.parameters.ParameterException;
 import org.apache.avalon.framework.parameters.Parameterizable;
 import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.commons.httpclient.Header;
-import org.apache.commons.httpclient.HostConfiguration;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpMethod;
 import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.NameValuePair;
-import org.apache.commons.httpclient.URIException;
 import org.apache.commons.httpclient.methods.DeleteMethod;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.HeadMethod;
-import org.apache.commons.httpclient.methods.PutMethod;
 import org.apache.commons.httpclient.methods.PostMethod;
-import org.apache.excalibur.source.ModifiableSource;
-import org.apache.excalibur.source.SourceException;
-import org.apache.excalibur.source.SourceNotFoundException;
-import org.apache.excalibur.source.SourceParameters;
-import org.apache.excalibur.source.SourceResolver;
-import org.apache.excalibur.source.SourceUtil;
-import org.apache.excalibur.source.SourceValidity;
+import org.apache.commons.httpclient.methods.PutMethod;
+import org.apache.excalibur.source.*;
 import org.apache.excalibur.source.impl.validity.TimeStampValidity;
 
 /**
@@ -98,7 +90,7 @@ import org.apache.excalibur.source.impl.validity.TimeStampValidity;
  * project.
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: HTTPClientSource.java,v 1.5 2003/07/04 14:13:54 crafterm Exp $
+ * @version CVS $Id: HTTPClientSource.java,v 1.6 2003/07/14 12:41:37 cziegeler Exp $
  */
 public class HTTPClientSource extends AbstractLogEnabled 
     implements ModifiableSource, Initializable, Parameterizable
