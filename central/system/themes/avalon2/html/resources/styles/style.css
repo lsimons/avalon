@@ -48,7 +48,6 @@ table.logobar
 .project
 {
     display: block;
-    font-size: 10pt;
     color: white;
     padding-left: 10px;
 }
@@ -57,7 +56,8 @@ table.logobar
 {
     display: block;
     color: white;
-    font-size: 18pt; color: #FFFFFF; 
+    font-size: 150%; 
+    color: #FFFFFF; 
     padding-left: 3px; 
     padding-right: 3px; 
     padding-top: 2px; 
@@ -75,7 +75,7 @@ table.logobar
     border-bottom: 1px solid #003399;
     display: block;
     height: 2em;
-    font-size: 8pt;
+    font-size: 75%;
     vertical-align: middle;
 }
 
@@ -83,7 +83,7 @@ table.logobar
 {
     float:left;
     margin-left: 1em;
-    font-size: 8pt;
+    font-size: 75%;
     padding-top: 4px;
     padding-bottom: 4px;
     padding-left: 6px;
@@ -94,7 +94,7 @@ table.logobar
 {
     float:left;
     margin-left: 1em;
-    font-size: 8pt;
+    font-size: 75%;
     padding-top: 4px;
     padding-bottom: 4px;
     padding-left: 6px;
@@ -105,7 +105,7 @@ table.logobar
 {
     float: right;
     margin-right: 1em;
-    font-size: 8pt;
+    font-size: 75%;
     padding-top: 4px;
     padding-bottom: 4px;
     padding-left: 6px;
@@ -116,7 +116,7 @@ table.logobar
 {
     float: right;
     margin-right: 1em;
-    font-size: 8pt;
+    font-size: 75%;
     padding-top: 4px;
     padding-bottom: 4px;
     padding-left: 6px;
@@ -130,7 +130,7 @@ table.logobar
     width: 150px;
     background-color: #F8F8F8;
     color: black;
-    font-size: 8pt;
+    font-size: 75%;
     padding-top: 3px;
     padding-bottom: 3px;
 }
@@ -177,7 +177,6 @@ div.no-border
 {
     background-color: white;
     color: black;
-    font-size: 10pt;
     margin-right: 160px;
     min-height: 400px;
 }
@@ -192,7 +191,7 @@ div.no-border
 .section-header
 {
     display: block;
-    font-size: 18pt; 
+    font-size: 150%; 
     text-align:left; 
     border-bottom:solid 1px #333333; 
     margin-left: -1em;
@@ -211,7 +210,7 @@ div.no-border
 
 .subsection-header
 {
-    font-size: 14pt;
+    font-size: 120%;
 }
 
 .footer
@@ -224,7 +223,7 @@ div.no-border
     margin-right: 160px;
     margin-left: 2em;
     padding-top: 2px;
-    font-size: 8pt;
+    font-size: 75%;
     font-family: Verdana, Tahoma, Helvetica, Sans-Serif;
     font-style: italic;
 }
