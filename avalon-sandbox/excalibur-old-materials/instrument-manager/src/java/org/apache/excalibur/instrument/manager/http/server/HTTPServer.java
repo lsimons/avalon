@@ -73,7 +73,7 @@ import org.apache.excalibur.instrument.CounterInstrument;
 /**
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.1 $ $Date: 2003/09/08 09:00:46 $
+ * @version CVS $Revision: 1.2 $ $Date: 2003/09/10 12:51:43 $
  * @since 4.1
  */
 public class HTTPServer
@@ -125,7 +125,8 @@ public class HTTPServer
         try
         {
             // As long as we have valid requests, keep the connection open.
-            while ( handleRequest( socket.getInputStream(), socket.getOutputStream() ) )
+            while ( handleRequest( socket.getInputStream(), socket.getOutputStream() )
+                && !isStopping() )
             {
             }
         }
@@ -338,6 +339,11 @@ public class HTTPServer
                             // Do not close the output stream as it may be reused.
                             
                             return true;
+                        }
+                        else
+                        {
+                            // Break out of the for loop.
+                            break;
                         }
                     }
                 }
