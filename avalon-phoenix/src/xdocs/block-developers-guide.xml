@@ -42,6 +42,7 @@
      <s1 title="Sections">
        <ol>
         <li><link href="what-is-a-block.html">What is a block?</link></li>
+        <li><link href="what-is-a-block-listener.html">What is a block listener?</link></li>
         <li><link href="creating-a-block.html">How do I create a block?</link></li>
         <li><link href="blockinfo-specification.html">BlockInfo specification</link></li>
        </ol>
@@ -50,7 +51,7 @@
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.1 $ $Date: 2001/03/01 13:44:44 $
+      $Revision: 1.2 $ $Date: 2001/11/12 06:45:39 $
     </legal>
   </footer>
 </document>
