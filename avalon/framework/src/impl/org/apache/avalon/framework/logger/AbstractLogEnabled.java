@@ -12,18 +12,18 @@ package org.apache.avalon.framework.logger;
  *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
-public abstract class AbstractLoggable
-    implements Loggable
+public abstract class AbstractLogEnabled
+    implements LogEnabled
 {
     ///Base Logger instance
-    private org.apache.log.Logger    m_logger;
+    private Logger    m_logger;
 
     /**
      * Set the components logger.
      *
      * @param logger the logger
      */
-    public void setLogger( final org.apache.log.Logger logger )
+    public void enableLogging( final Logger logger )
     {
         m_logger = logger;
     }
@@ -39,7 +39,7 @@ public abstract class AbstractLoggable
      *
      * @return the Logger
      */
-    protected final org.apache.log.Logger getLogger()
+    protected final Logger getLogger()
     {
         return m_logger;
     }
@@ -63,7 +63,7 @@ public abstract class AbstractLoggable
      */
     protected void setupLogger( final Object component, final String subCategory )
     {
-        org.apache.log.Logger logger = m_logger;
+        Logger logger = m_logger;
 
         if( null != subCategory )
         {
@@ -79,11 +79,11 @@ public abstract class AbstractLoggable
      * @param component the component to pass logger object to
      * @param logger the Logger
      */
-    protected void setupLogger( final Object component, final org.apache.log.Logger logger )
+    protected void setupLogger( final Object component, final Logger logger )
     {
-        if( component instanceof Loggable )
+        if( component instanceof LogEnabled )
         {
-            ((Loggable)component).setLogger( logger );
+            ((LogEnabled)component).enableLogging( logger );
         }
     }
 }

@@ -16,24 +16,16 @@ public abstract class AbstractLoggable
     implements Loggable
 {
     ///Base Logger instance
-    private Logger    m_logger;
+    private org.apache.log.Logger    m_logger;
 
     /**
      * Set the components logger.
      *
      * @param logger the logger
      */
-    public void setLogger( final Logger logger )
-    {
-        m_logger = logger;
-    }
-
-    /**
-     * Set the component's logger.
-     */
     public void setLogger( final org.apache.log.Logger logger )
     {
-        setLogger( new LogKitLogger(logger) );
+        m_logger = logger;
     }
 
     /**
@@ -47,7 +39,7 @@ public abstract class AbstractLoggable
      *
      * @return the Logger
      */
-    protected final Logger getLogger()
+    protected final org.apache.log.Logger getLogger()
     {
         return m_logger;
     }
@@ -71,7 +63,7 @@ public abstract class AbstractLoggable
      */
     protected void setupLogger( final Object component, final String subCategory )
     {
-        Logger logger = m_logger;
+        org.apache.log.Logger logger = m_logger;
 
         if( null != subCategory )
         {
@@ -87,7 +79,7 @@ public abstract class AbstractLoggable
      * @param component the component to pass logger object to
      * @param logger the Logger
      */
-    protected void setupLogger( final Object component, final Logger logger )
+    protected void setupLogger( final Object component, final org.apache.log.Logger logger )
     {
         if( component instanceof Loggable )
         {
