@@ -115,6 +115,7 @@ Legal:
   <path id="tools.class.path">
     <pathelement location="${xerces.jar}"/>
     <pathelement location="${testlet.jar}"/>
+    <pathelement location="${java.home}/../lib/tools.jar"/>
     <fileset dir="${tools.dir}/lib">
       <include name="*.jar" />
       <exclude name="testlet.jar"/>
@@ -442,6 +443,7 @@ Legal:
 
   </target>
 
+
   <!-- Prepares the documentation directory -->
   <target name="xdocs" depends="jar">
 
@@ -469,20 +471,16 @@ Legal:
     <copy todir="${build.context}" filtering="on">
       <fileset dir="${context.dir}">
         <exclude name="resources/**"/>
-	<exclude name="xdocs/**"/>
+	<exclude name="xdocs"/>
       </fileset>
     </copy>
 
-    <copy todir="${build.xdocs}" filtering="on">
-      <fileset dir="${xdocs.dir}">
-        <exclude name="**/images/**"/>
-      </fileset>
+    <copy todir="${build.context}/xdocs/excalibur" filtering="on">
+      <fileset dir="${xdocs.dir}"/>
     </copy>
 
-    <copy todir="${build.docs}" filtering="off">
-      <fileset dir="${context.dir}/resources">
-        <include name="**/images/**"/>
-      </fileset>
+    <copy todir="${build.context}/resources" filtering="off">
+      <fileset dir="${context.dir}/resources"/>
       <fileset dir="${xdocs.dir}">
         <include name="**/images/**"/>
       </fileset>
@@ -494,13 +492,12 @@ Legal:
       <arg value="-w${build.dir}/work"/>
       <arg value="-l${build.dir}/work/cocoon.log"/>
       <arg value="-uINFO"/>
-      <arg line="excalibur/index.html excalibur/changes.html excalibur/cli.html excalibur/collections.html excalibur/component.html excalibur/concurrent.html excalibur/datasource.html excalibur/io.html excalibur/pool.html excalibur/property.html excalibur/i18n.html excalibur/pipeline.html excalibur/proxy.html excalibur/thread.html"/>
+      <arg value="-f${xdocs.dir}/excalibur.uris"/>
       <classpath>
-        <path refid="test.class.path"/>
+        <path refid="tools.class.path"/>
 	<fileset dir="${build.lib}"/>
       </classpath>
     </java>
-
   </target>
 
   <!-- Create the source distribution -->
@@ -568,6 +565,8 @@ Legal:
   <!-- Completely build all dists -->
   <target name="distributions">
     <mkdir dir="${dist.base}"/>
+
+    <copy file="${build.lib}/avalon-excalibur.jar" tofile="${tools.dir}/lib/avalon-excalibur.jar"/>
 
     <antcall target="dist">
       <param name="dist.dir" value="${dist.name}" />
