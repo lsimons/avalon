@@ -41,6 +41,13 @@ namespace Apache.Avalon.Castle.MicroKernel
 		void AddAspect( AspectPointCutFlags flags, IAspect aspect );
 
 		/// <summary>
+		/// Adds a subsystem.
+		/// </summary>
+		/// <param name="key">Name of this subsystem</param>
+		/// <param name="system">Subsystem implementation</param>
+		void AddSubsystem( String key, IKernelSubsystem system );
+
+		/// <summary>
 		/// IComponentModel instance builder.
 		/// </summary>
 		IComponentModelBuilder ModelBuilder
@@ -107,5 +114,12 @@ namespace Apache.Avalon.Castle.MicroKernel
 		/// <param name="service">The service interface</param>
 		/// <returns>IHandler implementation</returns>
 		IHandler GetHandlerForService( Type service );
+
+		/// <summary>
+		/// Returns a registered subsystem;
+		/// </summary>
+		/// <param name="key">Key used when registered subsystem</param>
+		/// <returns>Subsystem implementation</returns>
+		IKernelSubsystem GetSubsystem( String key );
 	}
 }

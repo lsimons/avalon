@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Apache.Avalon.Castle.MicroKernel.Context
+namespace Apache.Avalon.Castle.MicroKernel.Subsystems.Context
 {
 	using System;
 
@@ -21,8 +21,8 @@ namespace Apache.Avalon.Castle.MicroKernel.Context
 	/// <summary>
 	/// Summary description for IContextManager.
 	/// </summary>
-	public interface IContextManager
+	public interface IContextManager : IKernelSubsystem
 	{
-		IContext CreateContext();
+		IContext CreateContext(AvalonContextAttribute contextAtt, AvalonEntryAttribute[] entries);
 	}
 }

@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Apache.Avalon.Castle.MicroKernel.Configuration.Default
+namespace Apache.Avalon.Castle.MicroKernel.Subsystems.Configuration.Default
 {
 	using System;
 	using System.Configuration;

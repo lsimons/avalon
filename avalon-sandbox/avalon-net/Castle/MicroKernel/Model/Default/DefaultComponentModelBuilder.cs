@@ -20,6 +20,10 @@ namespace Apache.Avalon.Castle.MicroKernel.Model.Default
 
 	using Apache.Avalon.Framework;
 
+	using Apache.Avalon.Castle.MicroKernel.Subsystems.Configuration;
+	using Apache.Avalon.Castle.MicroKernel.Subsystems.Logger;
+	using Apache.Avalon.Castle.MicroKernel.Subsystems.Context;
+
 	/// <summary>
 	/// Summary description for DefaultComponentModelBuilder.
 	/// </summary>
@@ -49,20 +53,55 @@ namespace Apache.Avalon.Castle.MicroKernel.Model.Default
 			IConstructionModel constructionModel = 
 				new DefaultConstructionModel( implementation, data.Constructor, data.PropertiesInfo );
 
-			DefaultComponentModel model = new DefaultComponentModel( 
-				data.Name,
-				service, 
-				data.SupportedLifestyle, 
-				new ConsoleLogger( service.Name, LoggerLevel.Debug ), 
-				new DefaultConfiguration(), 
-				new DefaultContext(), 
-				data.DependencyModel, 
-				constructionModel );
+			ILogger logger = CreateLogger( data );
+			IContext context = CreateContext();
+			IConfiguration config = CreateConfiguration( data );
 
-			return model;
+			return new DefaultComponentModel( 
+				data.Name, service, data.SupportedLifestyle, 
+				logger, config, new DefaultContext(), 
+				data.DependencyModel, constructionModel );
 		}
 
 		#endregion
+
+		protected virtual ILogger CreateLogger( ComponentData data )
+		{
+			ILoggerManager loggerManager = (ILoggerManager) 
+				m_kernel.GetSubsystem( KernelConstants.LOGGER );
+
+			if(loggerManager != null)
+			{
+				return loggerManager.CreateLogger( 
+					data.Name, data.Implementation.Name, data.AvalonLogger );
+			}
+			else
+			{
+				return new ConsoleLogger( data.Name, LoggerLevel.Info );
+			}
+		}
+
+		protected virtual IConfiguration CreateConfiguration( ComponentData data )
+		{
+			IConfigurationManager configManager = (IConfigurationManager) 
+				m_kernel.GetSubsystem( KernelConstants.CONFIGURATION );
+
+			if( configManager != null )
+			{
+				return configManager.GetConfiguration( data.Name );
+			}
+			else
+			{
+				return new DefaultConfiguration();
+			}
+		}
+
+		protected virtual IContext CreateContext()
+		{
+			// IContext context = 
+			// 	m_kernel.ContextManager.CreateContext( data.AvalonContext, data.ContextEntries );
+			return new DefaultContext();
+		}
 
 		protected void InspectAvalonAttributes( ComponentData componentData )
 		{

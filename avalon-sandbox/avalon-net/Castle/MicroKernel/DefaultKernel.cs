@@ -18,8 +18,9 @@ namespace Apache.Avalon.Castle.MicroKernel
 
 	using Apache.Avalon.Castle.MicroKernel.Concerns;
 	using Apache.Avalon.Castle.MicroKernel.Model;
-	using Apache.Avalon.Castle.MicroKernel.Configuration;
-	using Apache.Avalon.Castle.MicroKernel.Logger;
+	using Apache.Avalon.Castle.MicroKernel.Subsystems.Configuration.Default;
+	using Apache.Avalon.Castle.MicroKernel.Subsystems.Logger.Default;
+	using Apache.Avalon.Castle.MicroKernel.Subsystems.Context.Default;
 
 	/// <summary>
 	/// Specialization of BaseKernel to adhere to Avalon 
@@ -29,10 +30,6 @@ namespace Apache.Avalon.Castle.MicroKernel
 	{
 		protected ConcernManager m_concerns = new ConcernManager();
 
-		protected IConfigurationManager m_configManager;
-
-		protected ILoggerManager m_loggerManager;
-
 		/// <summary>
 		/// 
 		/// </summary>
@@ -40,6 +37,10 @@ namespace Apache.Avalon.Castle.MicroKernel
 		{
 			m_handlerFactory = new Handler.Default.DefaultHandlerFactory();
 			m_lifestyleManagerFactory = new Lifestyle.Default.SimpleLifestyleManagerFactory();
+
+			AddSubsystem( KernelConstants.CONFIGURATION, new DefaultConfigurationManager() );
+			AddSubsystem( KernelConstants.LOGGER, new LoggerManager() );
+			// AddSubsystem( KernelConstants.CONTEXT, new ContextManager() );
 		}
 
 		#region AvalonKernel Members
@@ -53,38 +54,6 @@ namespace Apache.Avalon.Castle.MicroKernel
 			get
 			{
 				return m_concerns;
-			}
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		public IConfigurationManager ConfigurationManager
-		{
-			get
-			{
-				return m_configManager;
-			}
-			set
-			{
-				AssertUtil.ArgumentNotNull( value, "value" );
-				m_configManager = value;
-			}
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		public ILoggerManager LoggerManager
-		{
-			get
-			{
-				return m_loggerManager;
-			}
-			set
-			{
-				AssertUtil.ArgumentNotNull( value, "value" );
-				m_loggerManager = value;
 			}
 		}
 

@@ -12,26 +12,49 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Apache.Avalon.Castle.MicroKernel.Logger.Default
+namespace Apache.Avalon.Castle.MicroKernel.Subsystems.Logger.Default
 {
 	using System;
+	using System.Configuration;
 
 	using Apache.Avalon.Framework;
 
 	/// <summary>
-	/// Summary description for LoggerManager.
+	/// This is a very simplistic implementation of ILoggerManager
+	/// that creates loggers based on a root ILogger implementation.
+	/// To choose a implementation for ILogger it reads from the
+	/// configuration of the current AppDomain 
 	/// </summary>
-	public class LoggerManager : ILoggerManager
+	public class LoggerManager : AbstractSubsystem, ILoggerManager
 	{
+		private LoggerConfiguration m_configuration;
+
 		public LoggerManager()
 		{
+			m_configuration = (LoggerConfiguration)
+				ConfigurationSettings.GetConfig( AvalonLoggerSectionHandler.Section );
 		}
 
 		#region ILoggerManager Members
 
 		public ILogger CreateLogger(String loggerName, String implementationName, AvalonLoggerAttribute loggerAtt)
 		{
-			return null;
+			String name = null;
+
+			if (loggerAtt != null)
+			{
+				name = loggerAtt.Name;
+			}
+			if (name == null || name.Length == 0)
+			{
+				name = loggerName;
+			}
+			if (name == null || name.Length == 0)
+			{
+				name = implementationName;
+			}
+
+			return m_configuration.RootLogger.CreateChildLogger( name );
 		}
 
 		#endregion

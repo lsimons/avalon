@@ -22,8 +22,8 @@ namespace Apache.Avalon.Castle.MicroKernel.Test
 	using Apache.Avalon.Castle.MicroKernel;
 	using Apache.Avalon.Castle.MicroKernel.Model;
 	using Apache.Avalon.Castle.MicroKernel.Model.Default;
-	using Apache.Avalon.Castle.MicroKernel.Configuration;
-	using Apache.Avalon.Castle.MicroKernel.Configuration.Default;
+	using Apache.Avalon.Castle.MicroKernel.Subsystems.Configuration;
+	using Apache.Avalon.Castle.MicroKernel.Subsystems.Configuration.Default;
 	using Apache.Avalon.Castle.MicroKernel.Test.Components;
 
 	/// <summary>

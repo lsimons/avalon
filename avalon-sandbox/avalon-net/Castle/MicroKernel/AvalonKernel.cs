@@ -18,8 +18,6 @@ namespace Apache.Avalon.Castle.MicroKernel
 
 	using Apache.Avalon.Castle.MicroKernel.Concerns;
 	using Apache.Avalon.Castle.MicroKernel.Model;
-	using Apache.Avalon.Castle.MicroKernel.Configuration;
-	using Apache.Avalon.Castle.MicroKernel.Logger;
 
 	/// <summary>
 	/// Specialization of Kernel to support 
@@ -33,24 +31,6 @@ namespace Apache.Avalon.Castle.MicroKernel
 		ConcernManager Concerns
 		{
 			get;
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		IConfigurationManager ConfigurationManager
-		{
-			get;
-			set;
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		ILoggerManager LoggerManager
-		{
-			get;
-			set;
 		}
 	}
 }

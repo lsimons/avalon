@@ -12,21 +12,21 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Apache.Avalon.Castle.MicroKernel.Configuration.Default
+namespace Apache.Avalon.Castle.MicroKernel.Subsystems.Configuration.Default
 {
 	using System;
 	using System.Configuration;
 
 	using Apache.Avalon.Framework;
 	using Apache.Avalon.Castle.MicroKernel.Model;
-	using Apache.Avalon.Castle.MicroKernel.Configuration;
+	using Apache.Avalon.Castle.MicroKernel.Subsystems;
 
 	/// <summary>
 	/// The default implementation of IConfigurationManager uses the 
 	/// .config associated with the AppDomain to extract the components
 	/// configurations
 	/// </summary>
-	public class DefaultConfigurationManager : IConfigurationManager
+	public class DefaultConfigurationManager : AbstractSubsystem, IConfigurationManager
 	{
 		protected ContainerConfiguration m_config;
 

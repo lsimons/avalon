@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Apache.Avalon.Castle.MicroKernel.Configuration
+namespace Apache.Avalon.Castle.MicroKernel.Subsystems.Configuration
 {
 	using System;
 
@@ -22,7 +22,7 @@ namespace Apache.Avalon.Castle.MicroKernel.Configuration
 	/// <summary>
 	/// Summary description for IConfigurationManager.
 	/// </summary>
-	public interface IConfigurationManager
+	public interface IConfigurationManager : IKernelSubsystem
 	{
 		/// <summary>
 		/// Implementation should return a configuration for 

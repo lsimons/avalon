@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Apache.Avalon.Castle.MicroKernel.Logger
+namespace Apache.Avalon.Castle.MicroKernel.Subsystems.Logger
 {
 	using System;
 
@@ -22,7 +22,7 @@ namespace Apache.Avalon.Castle.MicroKernel.Logger
 	/// <summary>
 	/// Summary description for ILoggerManager.
 	/// </summary>
-	public interface ILoggerManager
+	public interface ILoggerManager : IKernelSubsystem
 	{
 		ILogger CreateLogger( String loggerName, String implementationName, AvalonLoggerAttribute loggerAtt );
 	}
