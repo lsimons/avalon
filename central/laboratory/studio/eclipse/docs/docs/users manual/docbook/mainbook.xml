@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.2//EN"
+"http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd" [
+<!ENTITY __installation__dyn4x9po SYSTEM "getting started/installation.xml">
+<!ENTITY __createblock__dyn496aq SYSTEM "getting started/create block.xml">
+]>
+<book>
+  <title pagenum="">Users Manual</title>
+
+  <chapter>
+    <title>Getting Started</title>
+
+    &__installation__dyn4x9po;
+
+    &__createblock__dyn496aq;
+  </chapter>
+
+  <chapter>
+    <title>Concepts</title>
+
+    <para></para>
+  </chapter>
+</book>
