@@ -129,13 +129,13 @@ public class DefaultEmbeddor
             createComponents();
 
             // setup core handler components
-            setupComponent( m_logManager );
-            setupComponent( m_classLoaderManager );
-            setupComponent( m_repository );
-            setupComponent( m_deployer );
-            setupComponent( m_recorder );
-            setupComponent( m_systemManager );
-            setupComponent( m_kernel );
+            setupComponent( m_logManager, "logs" );
+            setupComponent( m_classLoaderManager, "classes" );
+            setupComponent( m_repository, "config" );
+            setupComponent( m_deployer, "deployer" );
+            setupComponent( m_recorder, "recorder" );
+            setupComponent( m_systemManager, "manager" );
+            setupComponent( m_kernel, "kernel" );
         }
         catch( final Exception e )
         {
@@ -357,10 +357,10 @@ public class DefaultEmbeddor
      * @param component the component
      * @exception Exception if an error occurs
      */
-    private void setupComponent( final Component component )
+    private void setupComponent( final Component component, final String loggerName )
         throws Exception
     {
-        setupLogger( component );
+        setupLogger( component, loggerName );
 
         if( component instanceof Composable )
         {
