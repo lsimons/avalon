@@ -44,6 +44,9 @@ import org.apache.avalon.tools.project.Policy;
  */
 public class JavadocTask extends SystemTask
 {
+    private static final Link J2SE = 
+      new Link( "http://java.sun.com/j2se/1.4/docs/api/" );
+
     private static class Link
     {
         final String m_href;
@@ -104,8 +107,7 @@ public class JavadocTask extends SystemTask
         Definition def = getReferenceDefinition();
         File root = getJavadocRootDirectory( def );
         Path classpath = def.getPath( getProject(), Policy.RUNTIME );
-        Link j2se = new Link( "http://java.sun.com/j2se/1.4/docs/api/" );
-        Link[] links = new Link[]{ j2se };
+        Link[] links = new Link[]{ J2SE };
 
         File api = new File( root, "api" );
         File spi = new File( root, "spi" );
@@ -186,6 +188,10 @@ public class JavadocTask extends SystemTask
             if( local.exists() )
             {
                 source.createPathElement().setLocation( local );
+                DirSet packages = new DirSet();
+                packages.setDir( local );
+                packages.setIncludes( "**/**" );
+                javadoc.addPackageset( packages );
             }
         }
 
