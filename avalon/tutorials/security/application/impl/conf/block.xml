@@ -17,11 +17,11 @@
      <include name="publisher" id="merlin-tutorial:publisher-impl" version="1.0"/>
 
      <component name="spain" 
-        class="tutorial.application.Application">
+        class="tutorial.application.Application" activation="startup">
      </component>
      
      <component name="france" 
-        class="tutorial.application.Application">
+        class="tutorial.application.Application" activation="startup">
      </component>
 
 </container>
