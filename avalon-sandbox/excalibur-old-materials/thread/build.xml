@@ -33,7 +33,6 @@
     <path id="test.class.path">
         <pathelement location="${build.testclasses}"/>
         <pathelement location="${junit.jar}"/>
-        <pathelement location="${excalibur-collections.jar}"/>
         <pathelement location="${excalibur-testcase.jar}"/>
         <pathelement location="lib/junitperf.jar"/>
         <path refid="project.class.path"/>
@@ -57,7 +56,6 @@
         <!-- Need the jar to prevent recursive deps. -->
 
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkJUnit"/>
-        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkCollections"/>
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkTestcase"/>
     </target>
 
