@@ -114,7 +114,7 @@ import org.apache.avalon.util.exception.ExceptionHelper;
  * as a part of a containment deployment model.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.13.2.2 $ $Date: 2004/01/03 16:01:32 $
+ * @version $Revision: 1.13.2.3 $ $Date: 2004/01/03 16:12:19 $
  */
 public class DefaultContainmentModel extends DefaultModel 
   implements ContainmentModel
@@ -341,7 +341,27 @@ public class DefaultContainmentModel extends DefaultModel
              throw new IllegalStateException( error );
         }
 
-        return new Model[0];
+        ArrayList list = new ArrayList();
+        Model[] models = m_context.getModelRepository().getModels();
+        for( int i=0; i<models.length; i++ )
+        {
+            Model model = models[i];
+            if( model instanceof Composite )
+            {
+                Model[] providers = ((Composite)model).getProviders();
+                for( int j=0; j<providers.length; j++ )
+                {
+                    Model provider = providers[j];
+                    final String path = provider.getPath();
+                    final String root = getPartition();
+                    if( !path.startsWith( root ) )
+                    {
+                        list.add( providers[j] );
+                    }
+                }
+            }
+        }
+        return (Model[]) list.toArray( new Model[0] );
     }
 
     //--------------------------------------------------------------
