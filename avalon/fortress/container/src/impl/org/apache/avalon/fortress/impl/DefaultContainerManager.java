@@ -73,7 +73,7 @@ import org.apache.avalon.framework.excalibur.logger.LoggerManager;
  * See that interface for a description.
  *
  * @author <a href="mailto:dev@avalon.apache.org">The Avalon Team</a>
- * @version CVS $Revision: 1.24 $ $Date: 2003/06/04 13:15:12 $
+ * @version CVS $Revision: 1.25 $ $Date: 2003/06/04 13:19:39 $
  */
 public class DefaultContainerManager
     implements Initializable, Disposable, ContainerManager, ContainerManagerConstants

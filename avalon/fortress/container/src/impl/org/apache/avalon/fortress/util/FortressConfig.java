@@ -65,7 +65,7 @@ import java.net.URL;
 
 /**
  * Helper class to create a m_context for the ContextManager.
- * @version CVS $Revision: 1.17 $ $Date: 2003/06/04 13:15:14 $
+ * @version CVS $Revision: 1.18 $ $Date: 2003/06/04 13:19:41 $
  */
 public final class FortressConfig
 {
