@@ -50,7 +50,7 @@ import org.apache.avalon.framework.logger.Logger;
  * Implementation of the default Merlin Kernel.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.7 $ $Date: 2004/02/06 15:27:15 $
+ * @version $Revision: 1.8 $ $Date: 2004/02/07 20:23:32 $
  */
 public class DefaultKernel implements Kernel, Disposable
 {
@@ -64,8 +64,6 @@ public class DefaultKernel implements Kernel, Disposable
     private final KernelContext m_context;
 
     private final Block m_application;
-
-    private final Block m_system;
 
     private final State m_state;
 
@@ -87,23 +85,6 @@ public class DefaultKernel implements Kernel, Disposable
         m_state = new State( this );
 
         setState( INITIALIZING );
-
-        try
-        {
-            ContainmentModel facilities = 
-              context.getFacilitiesModel();
-            facilities.assemble();
-            DefaultBlock system = 
-              new DefaultBlock( facilities );
-            system.commission();
-            m_system = system;
-        }
-        catch( Throwable e )
-        {
-            final String error = 
-              "Cannot create system facilities.";
-            throw new KernelError( error, e );
-        }
 
         try
         {
@@ -493,21 +474,6 @@ public class DefaultKernel implements Kernel, Disposable
         }
 
         shutdown();
-
-        try
-        {
-            setState( DECOMMISSIONING );
-            m_system.decommission();
-        }
-        catch( Throwable e )
-        {
-            if( getLogger().isWarnEnabled() )
-            {
-                final String error =
-                  "Ignoring block decommissioning error.";
-                getLogger().warn( error, e );
-            }
-        }
 
         m_state.dispose();
     }

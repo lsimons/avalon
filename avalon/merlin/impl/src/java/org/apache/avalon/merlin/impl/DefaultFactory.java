@@ -258,21 +258,21 @@ public class DefaultFactory implements Factory
         // changes.
         // 
 
-        getLogger().info( "facilities deployment" );
-        Configuration facilitiesConfig = 
-          config.getChild( "facilities" );
-        Logger facilitiesLogger = getLogger();
+        //getLogger().info( "facilities deployment" );
+        //Configuration facilitiesConfig = 
+        //  config.getChild( "facilities" );
+        //Logger facilitiesLogger = getLogger();
 
-        DelegatingSystemContext system = 
-          new DelegatingSystemContext( systemContext );
-        system.put( "urn:composition:dir", criteria.getWorkingDirectory() );
-        system.put( "urn:composition:anchor", criteria.getAnchorDirectory() );
-        system.put( "urn:composition:application", application );
-        system.makeReadOnly();
+        //DelegatingSystemContext system = 
+        //  new DelegatingSystemContext( systemContext );
+        //system.put( "urn:composition:dir", criteria.getWorkingDirectory() );
+        //system.put( "urn:composition:anchor", criteria.getAnchorDirectory() );
+        //system.put( "urn:composition:application", application );
+        //system.makeReadOnly();
 
-        ContainmentModel facilities = 
-          createFacilitiesModel( 
-            system, facilitiesLogger, facilitiesConfig );
+        //ContainmentModel facilities = 
+        //  createFacilitiesModel( 
+        //    system, facilitiesLogger, facilitiesConfig );
 
         //
         // Assembly of the system containment model. Note .. its not sure
@@ -285,7 +285,7 @@ public class DefaultFactory implements Factory
         //
 
         KernelContext kernelContext = 
-          new DefaultKernelContext( getLogger(), facilities, application );
+          new DefaultKernelContext( getLogger(), application );
         Kernel kernel = new DefaultKernel( kernelContext );
         setShutdownHook( getLogger(), kernel );
 
@@ -309,7 +309,7 @@ public class DefaultFactory implements Factory
 
             try
             {
-                application.addModel( url );
+                application.addContainmentModel( url );
             }
             catch( Throwable e )
             {
@@ -472,16 +472,16 @@ public class DefaultFactory implements Factory
         return new DefaultContainmentModel( context );
     }
 
-    private ContainmentModel createFacilitiesModel(
-      SystemContext system, Logger logger, Configuration config )
-      throws Exception
-    {   
-        ClassLoader spi = Block.class.getClassLoader();
-        ContainmentProfile profile = getContainmentProfile( config );
-        return new DefaultContainmentModel(
-            createContainmentContext( 
-              system, logger, spi, profile ) );
-    }
+    //private ContainmentModel createFacilitiesModel(
+    //  SystemContext system, Logger logger, Configuration config )
+    //  throws Exception
+    //{   
+    //    ClassLoader spi = Block.class.getClassLoader();
+    //    ContainmentProfile profile = getContainmentProfile( config );
+    //    return new DefaultContainmentModel(
+    //        createContainmentContext( 
+    //          system, logger, spi, profile ) );
+    //}
 
    /**
     * Creation of a new root containment context.
@@ -700,7 +700,8 @@ public class DefaultFactory implements Factory
         }
     }
 
-    private Configuration getLoggingConfiguration( KernelCriteria criteria, Configuration config )
+    private Configuration getLoggingConfiguration( 
+      KernelCriteria criteria, Configuration config )
       throws Exception
     {
         if( null != config.getChild( "logging", false ) )
@@ -837,7 +838,8 @@ public class DefaultFactory implements Factory
     }
 
     private void createInfoListing( 
-      StringBuffer buffer, String[] hosts, InitialContext context, KernelCriteria criteria )
+      StringBuffer buffer, String[] hosts, InitialContext context, 
+      KernelCriteria criteria )
     {
         buffer.append( "\n" );
         buffer.append( 
@@ -1019,7 +1021,8 @@ public class DefaultFactory implements Factory
         }
     }
 
-    public void printContainmentModel( StringBuffer buffer, String lead, ContainmentModel model )
+    public void printContainmentModel( 
+      StringBuffer buffer, String lead, ContainmentModel model )
     {
         buffer.append( 
           "\n" + lead 
@@ -1059,7 +1062,8 @@ public class DefaultFactory implements Factory
         }
     }
 
-    public void printComponentModel( StringBuffer buffer, String lead, ComponentModel model )
+    public void printComponentModel( 
+      StringBuffer buffer, String lead, ComponentModel model )
     {
         buffer.append( 
           "\n" + lead 
@@ -1070,7 +1074,8 @@ public class DefaultFactory implements Factory
         printDeploymentModel( buffer, lead, model );
     }
 
-    public void printDeploymentModel( StringBuffer buffer, String lead, DeploymentModel model )
+    public void printDeploymentModel( 
+      StringBuffer buffer, String lead, DeploymentModel model )
     {
         DeploymentModel[] providers = model.getProviderGraph();
         DeploymentModel[] consumers = model.getConsumerGraph();

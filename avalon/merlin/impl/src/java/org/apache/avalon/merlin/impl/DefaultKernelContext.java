@@ -29,26 +29,22 @@ import org.apache.avalon.merlin.KernelContext;
 /**
  * The context argument supplied to a new kernel instance.
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.3 $ $Date: 2004/01/24 23:25:31 $
+ * @version $Revision: 1.4 $ $Date: 2004/02/07 20:23:32 $
  */
 public class DefaultKernelContext implements KernelContext
 {
     private final Logger m_logger;
-    private final ContainmentModel m_facilities;
     private final ContainmentModel m_application;
 
    /**
     * Creation of a new default kernel context.
     * @param logger the logging channel to be assigned to the kernel
-    * @param facilities the internal facilities model
     * @param application the application model
     */
     public DefaultKernelContext( 
-      final Logger logger, final ContainmentModel facilities, 
-      final ContainmentModel application )
+      final Logger logger, final ContainmentModel application )
     {
         m_logger = logger;
-        m_facilities = facilities;
         m_application = application;
     }
     
@@ -59,15 +55,6 @@ public class DefaultKernelContext implements KernelContext
     public Logger getLogger()
     {
         return m_logger;
-    }
-
-   /**
-    * Return the facilities model.
-    * @return the internal container facilities
-    */
-    public ContainmentModel getFacilitiesModel()
-    {
-        return m_facilities;
     }
 
    /**
