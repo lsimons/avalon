@@ -54,7 +54,7 @@ import org.apache.avalon.excalibur.i18n.Resources;
  * Implementation of a system context that exposes a system wide set of parameters.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.17 $ $Date: 2004/02/10 16:31:16 $
+ * @version $Revision: 1.18 $ $Date: 2004/02/14 21:33:56 $
  */
 public class DefaultSystemContext extends DefaultContext 
   implements SystemContext
@@ -141,8 +141,7 @@ public class DefaultSystemContext extends DefaultContext
    /**
     * Creation of a new system context.
     *
-    * @param context a repository initial context
-    * @param artifact an artifact identifying the default runtime
+    * @param clazz the runtime class
     * @param logging the logging manager
     * @param base the base directory from which relative references 
     *   within a classpath or library directive shall be resolved
@@ -175,6 +174,7 @@ public class DefaultSystemContext extends DefaultContext
     * Creation of a new system context.
     *
     * @param context the repository intial context
+    * @param artifact the runtime artifact
     * @param runtime the runtime class
     * @param logging the logging manager
     * @param base the base directory from which relative references 
@@ -231,7 +231,7 @@ public class DefaultSystemContext extends DefaultContext
 
         m_logger = m_logging.getLoggerForCategory( category );
         m_system = SystemContext.class.getClassLoader();
-        m_common = Logger.class.getClassLoader();
+        m_common = DeploymentModel.class.getClassLoader();
         m_factory = new StandardModelFactory( this );
 
         //
@@ -318,23 +318,21 @@ public class DefaultSystemContext extends DefaultContext
     }
 
    /**
-    * Return the system classloader. This classloader is equivalent to the
-    * API classloader.
+    * Return the API classloader.
     *
     * @return the system classloader
     */
-    public ClassLoader getCommonClassLoader()
+    public ClassLoader getAPIClassLoader()
     {
         return m_common;
     }
 
    /**
-    * Return the system classloader.  This classloader is equivalent to the
-    * SPI privileged classloader.
+    * Return the SPI classloader. 
     *
     * @return the system classloader
     */
-    public ClassLoader getSystemClassLoader()
+    public ClassLoader getSPIClassLoader()
     {
         return m_system;
     }

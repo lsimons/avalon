@@ -22,22 +22,40 @@ import java.lang.ref.SoftReference;
 import java.lang.ref.WeakReference;
 import java.lang.ref.ReferenceQueue;
 
+import org.apache.avalon.activation.LifecycleException;
 import org.apache.avalon.activation.LifestyleManager;
 import org.apache.avalon.activation.ComponentFactory;
 
 import org.apache.avalon.composition.model.ComponentModel;
+import org.apache.avalon.composition.model.DeploymentModel;
+import org.apache.avalon.composition.model.StageModel;
+
+import org.apache.avalon.excalibur.i18n.ResourceManager;
+import org.apache.avalon.excalibur.i18n.Resources;
+
+import org.apache.avalon.lifecycle.Accessor;
 
 import org.apache.avalon.meta.info.InfoDescriptor;
+import org.apache.avalon.meta.info.StageDescriptor;
+
 import org.apache.avalon.framework.logger.Logger;
+import org.apache.avalon.framework.context.Context;
 
 /**
  * Abstract implentation class for a lifestyle handler.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2004/02/10 16:14:10 $
+ * @version $Revision: 1.2 $ $Date: 2004/02/14 21:33:55 $
  */
 public abstract class AbstractLifestyleManager implements LifestyleManager
 {
+    //-------------------------------------------------------------------
+    // static
+    //-------------------------------------------------------------------
+
+    private static final Resources REZ =
+      ResourceManager.getPackageResources( AbstractLifestyleManager.class );
+
     //-------------------------------------------------------------------
     // immutable state
     //-------------------------------------------------------------------
@@ -56,13 +74,13 @@ public abstract class AbstractLifestyleManager implements LifestyleManager
 
    /**
     * Creation of a new instance.
-    * @param logger the logging channel
+    * @param model the component model
+    * @param factory the component factory
     */
     public AbstractLifestyleManager( ComponentModel model, ComponentFactory factory  )
     {
         m_factory = factory;
         m_model = model;
-
         m_logger = model.getLogger();
     }
 
@@ -93,14 +111,31 @@ public abstract class AbstractLifestyleManager implements LifestyleManager
      * @return the resolved object
      * @throws Exception if an error occurs
      */
-    public abstract Object resolve() throws Exception;
+    public Object resolve() throws Exception
+    {
+        Object instance = handleResolve();
+        return applyExtensionStages( instance, true );
+    }
 
     /**
      * Release an object
      *
      * @param instance the object to be released
      */
-    public abstract void release( Object instance );
+    public void release( Object instance )
+    {
+        try
+        {
+            applyExtensionStages( instance, false );
+        }
+        catch( Throwable e )
+        {
+            final String error = 
+              "Ignoring error returned from release extension.";
+            getLogger().error( error, e );
+        }
+        handleRelease( instance );
+    }
 
     //-------------------------------------------------------------------
     // LifecycleManager
@@ -120,6 +155,11 @@ public abstract class AbstractLifestyleManager implements LifestyleManager
     //-------------------------------------------------------------------
     // implementation
     //-------------------------------------------------------------------
+
+    protected abstract Object handleResolve() throws Exception;
+
+    protected abstract void handleRelease( Object instance );
+
 
     protected Logger getLogger()
     {
@@ -177,8 +217,83 @@ public abstract class AbstractLifestyleManager implements LifestyleManager
         }
     }
 
+    private Object applyExtensionStages( Object instance, boolean flag ) 
+      throws Exception
+    {
+        StageDescriptor[] stages = m_model.getType().getStages();
+        for( int i=0; i<stages.length; i++ )
+        {
+            StageDescriptor descriptor = stages[i];
+            StageModel stage = m_model.getStageModel( descriptor );
+
+            ComponentModel provider = getStageProvider( stage );
+            Class c = provider.getDeploymentClass();
+
+            if( Accessor.class.isAssignableFrom( c ) )
+            {
+                Accessor handler = (Accessor) provider.resolve();
+                try
+                {
+                    Context context = m_model.getContextModel().getContext();
+                    if( flag )
+                    {
+                        if( getLogger().isDebugEnabled() )
+                        {
+                            int id = System.identityHashCode( instance );
+                            getLogger().debug( "applying access stage to: " + id );
+                        }
+                        handler.access( instance, context );
+                    }
+                    else
+                    {
+                        if( getLogger().isDebugEnabled() )
+                        {
+                            int id = System.identityHashCode( instance );
+                            getLogger().debug( "applying release stage to: " + id );
+                        }
+                        handler.release( instance, context );
+                    }
+                }
+                catch( Throwable e )
+                {
+                    final String error = 
+                      REZ.getString( 
+                        "lifecycle.stage.accessor.error",
+                        stage.getStage().getKey() );
+                    if( flag )
+                    {
+                        throw new LifecycleException( error, e );
+                    }
+                    else
+                    {
+                        getLogger().warn( error, e );
+                    }
+                }
+                finally
+                {
+                    provider.release( handler );
+                }
+            }
+        }
+        return instance;
+    }
+
+    private ComponentModel getStageProvider( StageModel stage ) throws LifecycleException
+    {
+        try
+        {
+            return (ComponentModel) stage.getProvider();
+        }
+        catch( Throwable e )
+        {
+            final String error = 
+              "Unable to resolve access stage provider.";
+            throw new LifecycleException( error, e );
+        }
+    }
+
     //-------------------------------------------------------------------
-    // implementation
+    // Object
     //-------------------------------------------------------------------
 
     public void finalize()

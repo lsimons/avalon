@@ -62,7 +62,7 @@ import org.apache.avalon.repository.Artifact;
  * A factory enabling the establishment of runtime handlers.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2004/02/10 16:14:14 $
+ * @version $Revision: 1.2 $ $Date: 2004/02/14 21:33:55 $
  */
 public class SecureComponentFactory implements ComponentFactory
 {
@@ -129,10 +129,55 @@ public class SecureComponentFactory implements ComponentFactory
     }
 
    /**
+    * Termination of the instance including all end-of-life processing.
+    * @param instance the component instance
+    */
+    public void etherialize( Object instance )
+    {
+        try
+        {
+            applyCreateStage( instance, false );
+        }
+        catch( Throwable e )
+        {
+            // will not happen
+        }
+        finally
+        {
+            try
+            {
+                ContainerUtil.shutdown( instance );
+            }
+            catch( Throwable e )
+            {
+                if( getLogger().isWarnEnabled() )
+                {
+                    final String warning = 
+                      "Ignoring component source shutdown error.";
+                    getLogger().warn( warning, e );
+                }
+            }
+        }
+    }
+
+    //-------------------------------------------------------------------
+    // protected implementation
+    //-------------------------------------------------------------------
+
+    protected Logger getLogger()
+    {
+        return m_logger;
+    }
+
+    //-------------------------------------------------------------------
+    // private implementation
+    //-------------------------------------------------------------------
+
+   /**
     * Creation of a new instance including all deployment stage handling.
     * @return the new instance
     */
-    public Object doIncarnation() throws LifecycleException
+    private Object doIncarnation() throws LifecycleException
     {
         Class clazz = m_model.getDeploymentClass();
         Logger logger = m_model.getLogger();
@@ -181,52 +226,6 @@ public class SecureComponentFactory implements ComponentFactory
              throw new LifecycleException( error, e );
         }
     }
-
-   /**
-    * Termination of the instance including all end-of-life processing.
-    * @param model the component model
-    * @return the new instance
-    */
-    public void etherialize( Object instance )
-    {
-        try
-        {
-            applyCreateStage( instance, false );
-        }
-        catch( Throwable e )
-        {
-            // will not happen
-        }
-        finally
-        {
-            try
-            {
-                ContainerUtil.shutdown( instance );
-            }
-            catch( Throwable e )
-            {
-                if( getLogger().isWarnEnabled() )
-                {
-                    final String warning = 
-                      "Ignoring component source shutdown error.";
-                    getLogger().warn( warning, e );
-                }
-            }
-        }
-    }
-
-    //-------------------------------------------------------------------
-    // protected implementation
-    //-------------------------------------------------------------------
-
-    protected Logger getLogger()
-    {
-        return m_logger;
-    }
-
-    //-------------------------------------------------------------------
-    // private implementation
-    //-------------------------------------------------------------------
 
     private Object instantiate( 
       Class clazz, Logger logger, Configuration config, Parameters params, 

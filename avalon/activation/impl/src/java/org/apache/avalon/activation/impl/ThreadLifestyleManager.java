@@ -24,7 +24,7 @@ import org.apache.avalon.composition.model.ComponentModel;
 
 /**
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2004/02/10 16:19:15 $
+ * @version $Revision: 1.2 $ $Date: 2004/02/14 21:33:55 $
  */
 public class ThreadLifestyleManager extends AbstractLifestyleManager
 {
@@ -123,7 +123,7 @@ public class ThreadLifestyleManager extends AbstractLifestyleManager
      * @return the resolved object
      * @throws Exception if an error occurs
      */
-    public Object resolve() throws Exception
+    protected Object handleResolve() throws Exception
     {
         if( m_local == null )
         {
@@ -138,7 +138,7 @@ public class ThreadLifestyleManager extends AbstractLifestyleManager
      *
      * @param instance the object to be reclaimed
      */
-    public void release( Object instance )
+    protected void handleRelease( Object instance )
     {
         // don't release because this is a shared reference
     }

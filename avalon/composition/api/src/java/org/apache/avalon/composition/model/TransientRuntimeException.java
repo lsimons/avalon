@@ -23,7 +23,7 @@ package org.apache.avalon.composition.model;
  * service availability.  A delay value of 0 indicates an unknown delay.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2004/02/12 06:01:29 $
+ * @version $Revision: 1.2 $ $Date: 2004/02/14 21:33:56 $
  */
 public class TransientRuntimeException
         extends RuntimeException 
@@ -33,7 +33,6 @@ public class TransientRuntimeException
     /**
      * Construct a new <code>TransientRuntimeException</code> instance.
      *
-     * @param key the lookup key
      * @param message The detail message for this exception.
      * @param delay expected service availability delay in milliseconds 
      */

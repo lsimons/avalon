@@ -33,7 +33,7 @@ import org.apache.avalon.framework.logger.Logger;
  * A factory enabling the establishment of runtime handlers.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2004/02/10 16:14:15 $
+ * @version $Revision: 1.2 $ $Date: 2004/02/14 21:33:55 $
  */
 public class SecureLifestyleFactory implements LifestyleFactory
 {
@@ -63,8 +63,7 @@ public class SecureLifestyleFactory implements LifestyleFactory
    /**
     * Create a new lifestyle manager.
     * @param model the component model
-    * @param factory the component factory
-    * @return the runtime appliance
+    * @return the lifestyle manager
     */
     public LifestyleManager createLifestyleManager( ComponentModel model )
     {
@@ -73,6 +72,12 @@ public class SecureLifestyleFactory implements LifestyleFactory
         return createLifestyleManager( model, factory );
     }
 
+   /**
+    * Create a new lifestyle manager.
+    * @param model the component model
+    * @param factory the component factory
+    * @return the lifestyle manager
+    */
     protected LifestyleManager createLifestyleManager( 
       ComponentModel model, ComponentFactory factory )
     {

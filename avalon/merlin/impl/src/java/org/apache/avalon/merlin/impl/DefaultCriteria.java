@@ -55,7 +55,7 @@ import org.apache.avalon.util.criteria.PackedParameter;
  * for application to a factory.
  *
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.20 $
+ * @version $Revision: 1.21 $
  */
 public class DefaultCriteria extends Criteria implements KernelCriteria
 {
@@ -166,6 +166,9 @@ public class DefaultCriteria extends Criteria implements KernelCriteria
               File.class, null ),
             new Parameter( 
               MERLIN_LOGGING_IMPLEMENTATION, 
+              String.class, null ),
+            new Parameter( 
+              MERLIN_RUNTIME, 
               String.class, null ),
             new Parameter( 
               MERLIN_RUNTIME_IMPLEMENTATION, 
@@ -533,6 +536,30 @@ public class DefaultCriteria extends Criteria implements KernelCriteria
     * @return the runtime implementation factory artifact
     */
     public Artifact getRuntimeImplementation()
+    {
+        String value = (String) get( MERLIN_RUNTIME );
+        if( null != value )
+        {
+            return Artifact.createArtifact( value );
+        }
+        else
+        {
+            if( isCodeSecurityEnabled() )
+            {
+                return getSecureRuntimeImplementation();
+            }
+            else
+            {
+                return getStandardRuntimeImplementation();
+            }
+        }
+    }
+
+   /**
+    * Return the artifact reference to the runtime implementation factory .
+    * @return the runtime implementation factory artifact
+    */
+    public Artifact getStandardRuntimeImplementation()
     {
         String value = (String) get( MERLIN_RUNTIME_IMPLEMENTATION );
         return Artifact.createArtifact( value );

@@ -25,7 +25,7 @@ import org.apache.avalon.composition.model.ComponentModel;
 
 /**
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2004/02/10 16:19:15 $
+ * @version $Revision: 1.2 $ $Date: 2004/02/14 21:33:55 $
  */
 public class SingletonLifestyleManager extends AbstractLifestyleManager
 {
@@ -85,7 +85,7 @@ public class SingletonLifestyleManager extends AbstractLifestyleManager
      * @return the resolved object
      * @throws Exception if an error occurs
      */
-    public synchronized Object resolve() throws Exception
+    protected synchronized Object handleResolve() throws Exception
     {
         Object instance = null;
 
@@ -111,9 +111,8 @@ public class SingletonLifestyleManager extends AbstractLifestyleManager
      * Release an object
      *
      * @param instance the object to be released
-     * @param finalized if TRUE the lifestyle handler cannot reuse the instance
      */
-    public synchronized void release( Object instance )
+    protected synchronized void handleRelease( Object instance )
     {
         // continue with the current singleton reference
     }
@@ -126,7 +125,6 @@ public class SingletonLifestyleManager extends AbstractLifestyleManager
      * Release an object
      *
      * @param instance the object to be released
-     * @param finalized if TRUE the lifestyle handler cannot reuse the instance
      */
     public synchronized void finalize( Object instance )
     {

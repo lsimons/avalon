@@ -21,7 +21,7 @@ package org.apache.avalon.activation;
  * Exception to indicate that there was a transient exception.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2004/02/12 00:23:21 $
+ * @version $Revision: 1.2 $ $Date: 2004/02/14 21:33:55 $
  */
 public class TransientApplianceException extends ApplianceException
 {
@@ -40,9 +40,8 @@ public class TransientApplianceException extends ApplianceException
     /**
      * Construct a new <code>TransientApplianceException</code> instance.
      *
-     * @param delay the expected dalay
-     * @param cause the root cause of the exception
      * @param message the exception message
+     * @param delay the expected dalay
      */
     public TransientApplianceException( String message, long delay )
     {
@@ -53,7 +52,7 @@ public class TransientApplianceException extends ApplianceException
      * Construct a new <code>TransientApplianceException</code> instance.
      *
      * @param message the exception message
-     * @param throwable the root cause of the exception
+     * @param cause the root cause of the exception
      * @param delay the projected delay
      */
     public TransientApplianceException( String message, Throwable cause, long delay )
