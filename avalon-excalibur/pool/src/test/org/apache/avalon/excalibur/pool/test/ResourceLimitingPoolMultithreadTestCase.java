@@ -32,7 +32,7 @@ import com.clarkware.junitperf.Timer;
 
 /**
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.5 $ $Date: 2004/02/28 11:47:22 $
+ * @version CVS $Revision: 1.6 $ $Date: 2004/03/16 09:53:39 $
  * @since 4.1
  */
 public final class ResourceLimitingPoolMultithreadTestCase
@@ -62,9 +62,9 @@ public final class ResourceLimitingPoolMultithreadTestCase
     {
         TestSuite suite = new TestSuite();
 
-        Timer timer = new ConstantTimer( 100 );
-        int maxUsers = 10;
-        int iterations = 10;
+        Timer timer = new ConstantTimer( 10 );
+        int maxUsers = 20;
+        int iterations = 50;
         long maxElapsedTime = 20000;
 
         Test testCase = new ResourceLimitingPoolMultithreadTestCase( "testGetPut" );
@@ -99,39 +99,53 @@ public final class ResourceLimitingPoolMultithreadTestCase
 
     public static void oneTimeTearDown() throws Exception
     {
-        // The timing of this test makes it so the pool should grow to 5 elements
-        assertEquals( "1) Pool Ready Size", 5, m_pool.getReadySize() );
-        assertEquals( "1) Pool Size", 5, m_pool.getSize() );
+        // Dump the logger.
+        System.out.println( "Debug output of the logger.  "
+            + "This is useful for debugging problems if the test fails." );
+        System.out.println( m_logger.toString() );
+        System.out.println();
+        
+        // The current pool does not have a maximum pool size set so the size to which it has
+        //  grown will depend greatly on the speed of the machine on which the test is run.
+        // The size is well tested in other tests when the max size is fixed.
+        int size = m_pool.getSize();
+        
+        System.out.println( "Final pool size is: " + size );
+        System.out.println();
+        
+        // The ready size should be equal to the pool size at this point.
+        assertEquals( "1) Pool Ready Size", size, m_pool.getReadySize() );
+        // Any actual pool size is legal
+        
+        // Get all objects from the pool.
+        Poolable[] ps = new Poolable[size];
+        for ( int i = 0; i < ps.length; i++ )
+        {
+            ps[i] = m_pool.get();
+        }
 
-        // Make sure that each of the objects are uniqe by checking them all back out.
-        Poolable p1 = m_pool.get();
-        Poolable p2 = m_pool.get();
-        Poolable p3 = m_pool.get();
-        Poolable p4 = m_pool.get();
-        Poolable p5 = m_pool.get();
-
+        // Make sure that all of the elements were checked out.
         assertEquals( "2) Pool Ready Size", 0, m_pool.getReadySize() );
-        assertEquals( "2) Pool Size", 5, m_pool.getSize() );
+        assertEquals( "2) Pool Size", size, m_pool.getSize() );
+        
+        // Iterate over the elements and make sure that they are all unique.  This
+        //  is to make sure the pool has not been corrupted.
+        for ( int i = 0; i < ps.length; i++ )
+        {
+            for ( int j = i + 1; j < ps.length; j++ )
+            {
+                assertTrue( "ps[" + i + "] != ps[" + j + "]", ps[i] != ps[j] );
+            }
+        }
+        
+        // Put all the elements back into the pool
+        for ( int i = 0; i < ps.length; i++ )
+        {
+            m_pool.put( ps[i] );
+        }
 
-        assertTrue( "p1 != p2", p1 != p2 );
-        assertTrue( "p1 != p3", p1 != p3 );
-        assertTrue( "p1 != p4", p1 != p4 );
-        assertTrue( "p1 != p4", p1 != p5 );
-        assertTrue( "p2 != p3", p2 != p3 );
-        assertTrue( "p2 != p4", p2 != p4 );
-        assertTrue( "p2 != p4", p2 != p5 );
-        assertTrue( "p3 != p4", p3 != p4 );
-        assertTrue( "p3 != p4", p3 != p5 );
-        assertTrue( "p3 != p4", p4 != p5 );
-
-        m_pool.put( p1 );
-        m_pool.put( p2 );
-        m_pool.put( p3 );
-        m_pool.put( p4 );
-        m_pool.put( p5 );
-
-        assertEquals( "3) Pool Ready Size", 5, m_pool.getReadySize() );
-        assertEquals( "3) Pool Size", 5, m_pool.getSize() );
+        assertEquals( "3) Pool Ready Size", size, m_pool.getReadySize() );
+        assertEquals( "3) Pool Size", size, m_pool.getSize() );
 
         m_pool.dispose();
 
