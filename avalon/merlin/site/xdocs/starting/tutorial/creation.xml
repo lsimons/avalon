@@ -40,70 +40,68 @@
       </subsection>
       <subsection name="Creating a component">
         <p>
-           The following code is a minimal component.  It simply log a 
-           message during the initialization stage.  We will progressively 
-           extend this component to do more creative things as we proceed 
-           through this tutorial.
+           The following code is a minimal component.  It simply logs a 
+           message.  We will progressively extend this component to do 
+           more creative things as we proceed through this tutorial.
         </p>
 <source><![CDATA[
 package tutorial;
 
 import org.apache.avalon.framework.logger.Logger;
-import org.apache.avalon.framework.logger.LogEnabled;
 import org.apache.avalon.framework.activity.Disposable;
-import org.apache.avalon.framework.activity.Executable;
-import org.apache.avalon.framework.activity.Initializable;
 
 /**
- * A sample component.  This component implements a number 
- * of lifecycle interface.  Each lifecycle interface is a stage
- * that is processed by a container during the deployment of 
- * the component.  The lifecycle stages demonstrated here include
- * LogEnabled (association of a logging channel), Initializable
- * (initialization of the component), Executable (component
- * execution), and Disposable (componet disposal).  PLease note 
- * that all lifecycle stages are optional.
+ * A sample component.  
  *
- * @avalon.component version="1.0" name="hello"
+ * @avalon.component 
+ *    version="1.0" 
+ *    name="hello" 
+ *    lifestyle="singleton"
+ * @avalon.service type="tutorial.Hello"
  */
 public class HelloComponent 
-  implements LogEnabled, Initializable, Executable, Disposable
+  implements Hello, Disposable
 {
+    //-------------------------------------------------------
+    // immutable state
+    //-------------------------------------------------------
 
    /**
     * Internal reference to the logging channel supplied to us 
     * by the container. 
     */
-    private Logger m_logger;
+    private final Logger m_logger;
+
+    //-------------------------------------------------------
+    // constructor
+    //-------------------------------------------------------
 
    /**
-    * Supply of a logging channel by the container.
+    * Creation of a new hello component instance.
     *
-    * @param logger the logging channel for this component
+    * @param logger the logging channel supplied by the container
     */
-    public void enableLogging( final Logger logger )
+    public HelloComponent( Logger logger )
     {
         m_logger = logger;
-        getLogger().info( "logging stage" );
+        m_logger.info( "instantiated" );
     }
 
-   /**
-    * Initialization of the component by the container.
-    * @exception Exception if an initialization error occurs
-    */
-    public void initialize() throws Exception
-    {
-        getLogger().info( "initialization stage" );
-    }
+    //-------------------------------------------------------
+    // Hello service implementation
+    //-------------------------------------------------------
 
    /**
-    * Component execution trigger by the container following 
-    * completion of the initialization stage.
+    * The hello service implementation.
     */
-    public void execute()
+    public void sayHello()
     {
-        getLogger().info( "execution stage" );
-    } 
+        getLogger().info( "HELLO" );
+    }
+
+    //-------------------------------------------------------
+    // Disposable lifecycle interface
+    //-------------------------------------------------------
 
    /**
     * Component disposal trigger by the container during which
@@ -111,9 +109,12 @@ public class HelloComponent
     */
     public void dispose()
     {
-        getLogger().info( "disposal stage" );
-        m_logger = null;
-    } 
+        getLogger().info( "disposal" );
+    }
+
+    //-------------------------------------------------------
+    // internal utilities
+    //-------------------------------------------------------
 
    /**
     * Return the logging channel assigned to us by the container.
@@ -123,7 +124,6 @@ public class HelloComponent
     {
         return m_logger;
     }
-
 }
 ]]></source>
       </subsection>
@@ -131,7 +131,7 @@ public class HelloComponent
       
         <p>
           In order for Merlin to recognize this class as a component, we need to
-          generate a &lt;classname&gt;.xinfo file. However, this can be done
+          generate a &lt;classname&gt;.xinfo file. This can be done
           automatically by including a pre-goal as shown below into the 
           maven.xml file. 
         </p>
@@ -161,8 +161,12 @@ public class HelloComponent
   <info>
     <name>hello</name>
     <version>1.0.0</version>
-    <lifestyle>transient</lifestyle>
+    <lifestyle>singleton</lifestyle>
+    <collection>hard</collection>
   </info>
+  <services>
+    <service type="tutorial.Hello"/>
+  </services>
 </type>
 ]]></source>
 
@@ -173,18 +177,12 @@ public class HelloComponent
           application made up of a set of components and the supporting 
           resources.  In our example the block will contain the single 
           HelloComponent component.  Based on this information Merlin will 
-          create a container and deploy the hello component on startup.
+          create a container named "tutorial", create a component model 
+          named "hello" and deploy an instance of the component on 
+          startup.
         </p>
 <source><![CDATA[
 <container name="tutorial">
-
-   <classloader>
-     <classpath>
-       <repository>
-         <resource id="avalon-framework:avalon-framework-impl" version="4.1.5"/>
-       </repository>
-     </classpath>
-   </classloader>
 
    <component name="hello" class="tutorial.HelloComponent"/>
 
