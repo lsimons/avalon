@@ -3,7 +3,7 @@
 <!--
 ============================================================
                 Dependency updater
-                   Version $Revision: 1.31 $
+                   Version $Revision: 1.32 $
            Jeff Turner <jefft@apache.org>
 
 This Ant script provides "functions" to check if
@@ -44,7 +44,7 @@ To use it, type 'ant -f depchecker.xml'
             Example 1:
 
             <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
-                <property name="name" value="xalan.jar"/>
+                <property name="proj.jar.name" value="xalan.jar"/>
                 <property name="path" value="${xalan.jar}"/>
             </ant>
 
@@ -54,7 +54,7 @@ To use it, type 'ant -f depchecker.xml'
             Example 2:
 
             <ant antfile="depchecker.xml" target="checkRequiredFile">
-                <property name="name" value="excalibur-concurrent.jar"/>
+                <property name="proj.jar.name" value="excalibur-concurrent.jar"/>
                 <property name="path" value="$${excalibur-concurrent.jar}"/>
                 <property name="proj.home" value="../concurrent"/>
                 <property name="proj.target" value="dist.lite"/>
@@ -67,7 +67,7 @@ To use it, type 'ant -f depchecker.xml'
             Example 3:
 
             <ant antfile="depchecker.xml" target="checkRequiredFile">
-                <property name="name" value="commons-io.jar"/>
+                <property name="proj.jar.name" value="commons-io.jar"/>
                 <property name="path" value="$${lib.repo}/commons-io.jar"/>
                 <property name="url" value="http://jakarta.apache.org/turbine/jars/commons-io.jar"/>
             </ant>
@@ -79,7 +79,7 @@ To use it, type 'ant -f depchecker.xml'
 
             <property name="cp" refid="project.class.path"/>
             <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredClass">
-                <property name="name" value="junit.jar"/>
+                <property name="proj.jar.name" value="junit.jar"/>
                 <property name="class" value="junit.framework.Test"/>
                 <property name="classpath" value="${cp}"/>
             </ant>
@@ -151,7 +151,7 @@ To use it, type 'ant -f depchecker.xml'
             | While processing subproject:                                  |
             |   ${basedir}
             | The following deprecated property was found:                  |
-            |   ${name}
+            |   ${proj.jar.name}
             | Please replace it with:
             |   ${newname}
             |
@@ -167,7 +167,7 @@ To use it, type 'ant -f depchecker.xml'
 
     <target name="checkCommon" description="Checks applying to all components">
         <antcall target="checkDeprecatedProp">
-            <param name="name" value="avalon-logkit.jar"/>
+            <param name="proj.jar.name" value="avalon-logkit.jar"/>
             <param name="path" value="${avalon-logkit.jar}"/>
             <param name="newname" value="logkit.jar"/>
         </antcall>
@@ -175,7 +175,7 @@ To use it, type 'ant -f depchecker.xml'
 
     <target name="checkJUnit">
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredClass">
-            <property name="name" value="junit.jar"/>
+            <property name="proj.jar.name" value="junit.jar"/>
             <property name="class" value="junit.framework.Test"/>
             <property name="classpath" value="${cp}"/>
             <property name="remedy" value="Download JUnit from http://www.junit.org and copy junit.jar ${nl}
@@ -185,7 +185,7 @@ To use it, type 'ant -f depchecker.xml'
     </target>
     <target name="checkJUnitPerf">
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredClass">
-            <property name="name" value="junitperf.jar"/>
+            <property name="proj.jar.name" value="junitperf.jar"/>
             <property name="class" value="com.clarkware.junitperf.Timer"/>
             <property name="classpath" value="${cp}"/>
             <property name="remedy" value="1) Download and unpack JUnitPerf from ${nl}
@@ -199,7 +199,7 @@ To use it, type 'ant -f depchecker.xml'
     </target>
     <target name="checkCheckstyle">
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredClass">
-            <property name="name" value="checkstyle-all-2.1.jar"/>
+            <property name="proj.jar.name" value="checkstyle-all-2.1.jar"/>
             <property name="class" value="com.puppycrawl.tools.checkstyle.CheckStyleTask"/>
 
             <property name="classpath" value="${cp}"/>
@@ -212,7 +212,7 @@ To use it, type 'ant -f depchecker.xml'
 
         </ant>
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredClass">
-            <property name="name" value="checkstyle-all-2.1.jar or jakarta-regexp-1.2.jar"/>
+            <property name="proj.jar.name" value="checkstyle-all-2.1.jar or jakarta-regexp-1.2.jar"/>
             <property name="class" value="org.apache.regexp.RE"/>
 
             <property name="classpath" value="${cp}"/>
@@ -227,7 +227,7 @@ To use it, type 'ant -f depchecker.xml'
     </target>
     <target name="checkFramework">
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
-            <property name="name" value="avalon-framework.jar"/>
+            <property name="proj.jar.name" value="avalon-framework.jar"/>
             <property name="path" value="${avalon-framework.jar}"/>
             <property name="remedy" value="1) Download and unpack Avalon Framework from ${nl}
            | http://jakarta.apache.org/builds/jakarta-avalon/release/framework ${nl}
@@ -240,7 +240,7 @@ To use it, type 'ant -f depchecker.xml'
     </target>
     <target name="checkBSF">
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredClass">
-            <property name="name" value="bsf.jar"/>
+            <property name="proj.jar.name" value="bsf.jar"/>
             <property name="class" value="com.ibm.bsf.util.BSFEngineImpl"/>
             <property name="classpath" value="${cp}"/>
             <property name="remedy" value="Download the BSF from ${nl}
@@ -252,7 +252,7 @@ To use it, type 'ant -f depchecker.xml'
     <!-- All -->
     <target name="checkCore">
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
-            <property name="name" value="excalibur-core.jar"/>
+            <property name="proj.jar.name" value="excalibur-core.jar"/>
             <property name="path" value="${excalibur-core.jar}"/>
             <property name="proj.home" value="${basedir}/../all"/>
             <property name="proj.target" value="all"/>
@@ -260,7 +260,7 @@ To use it, type 'ant -f depchecker.xml'
     </target>
     <target name="checkScratchpad">
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
-            <property name="name" value="excalibur-scratchpad.jar"/>
+            <property name="proj.jar.name" value="excalibur-scratchpad.jar"/>
             <property name="path" value="${excalibur-scratchpad.jar}"/>
         </ant>
     </target>
@@ -268,45 +268,45 @@ To use it, type 'ant -f depchecker.xml'
     <!-- Altrmi -->
     <target name="checkAltrmiCommon">
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
-            <property name="name" value="excalibur-altrmi-common.jar"/>
+            <property name="proj.jar.name" value="excalibur-altrmi-common.jar"/>
             <property name="path" value="${excalibur-altrmi-common.jar}"/>
             <property name="proj.home" value="${basedir}/../altrmi"/>
         </ant>
     </target>
     <target name="checkAltrmiClient" depends="checkAltrmiCommon">
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
-            <property name="name" value="excalibur-altrmi-client-impl.jar"/>
+            <property name="proj.jar.name" value="excalibur-altrmi-client-impl.jar"/>
             <property name="path" value="${excalibur-altrmi-client-impl.jar}"/>
             <property name="proj.home" value="${basedir}/../altrmi"/>
         </ant>
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
-            <property name="name" value="excalibur-altrmi-client-interfaces.jar"/>
+            <property name="proj.jar.name" value="excalibur-altrmi-client-interfaces.jar"/>
             <property name="path" value="${excalibur-altrmi-client-interfaces.jar}"/>
             <property name="proj.home" value="${basedir}/../altrmi"/>
         </ant>
     </target>
     <target name="checkAltrmiServer" depends="checkAltrmiCommon">
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
-            <property name="name" value="excalibur-altrmi-server-impl.jar"/>
+            <property name="proj.jar.name" value="excalibur-altrmi-server-impl.jar"/>
             <property name="path" value="${excalibur-altrmi-server-impl.jar}"/>
             <property name="proj.home" value="${basedir}/../altrmi"/>
         </ant>
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
-            <property name="name" value="excalibur-altrmi-server-interfaces.jar"/>
+            <property name="proj.jar.name" value="excalibur-altrmi-server-interfaces.jar"/>
             <property name="path" value="${excalibur-altrmi-server-interfaces.jar}"/>
             <property name="proj.home" value="${basedir}/../altrmi"/>
         </ant>
     </target>
     <target name="checkAltrmiGenerator" depends="checkAltrmiCommon">
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
-            <property name="name" value="excalibur-altrmi-generator.jar"/>
+            <property name="proj.jar.name" value="excalibur-altrmi-generator.jar"/>
             <property name="path" value="${excalibur-altrmi-generator.jar}"/>
             <property name="proj.home" value="${basedir}/../altrmi"/>
         </ant>
     </target>
     <target name="checkAltrmi" depends="checkAltrmiClient, checkAltrmiServer, checkAltrmiGenerator">
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
-            <property name="name" value="excalibur-altrmi-generator.jar"/>
+            <property name="proj.jar.name" value="excalibur-altrmi-generator.jar"/>
             <property name="path" value="${excalibur-altrmi-generator.jar}"/>
             <property name="proj.home" value="${basedir}/../altrmi"/>
         </ant>
@@ -314,181 +314,181 @@ To use it, type 'ant -f depchecker.xml'
 
     <target name="checkEvent">
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
-            <property name="name" value="excalibur-event.jar"/>
+            <property name="proj.jar.name" value="excalibur-event.jar"/>
             <property name="path" value="${excalibur-event.jar}"/>
             <property name="proj.home" value="${basedir}/../event"/>
         </ant>
     </target>
     <target name="checkThread">
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
-            <property name="name" value="excalibur-thread.jar"/>
+            <property name="proj.jar.name" value="excalibur-thread.jar"/>
             <property name="path" value="${excalibur-thread.jar}"/>
             <property name="proj.home" value="${basedir}/../thread"/>
         </ant>
     </target>
     <target name="checkI18n">
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
-            <property name="name" value="excalibur-i18n.jar"/>
+            <property name="proj.jar.name" value="excalibur-i18n.jar"/>
             <property name="path" value="${excalibur-i18n.jar}"/>
             <property name="proj.home" value="${basedir}/../i18n"/>
         </ant>
     </target>
     <target name="checkInstrument">
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
-            <property name="name" value="excalibur-instrument.jar"/>
+            <property name="proj.jar.name" value="excalibur-instrument.jar"/>
             <property name="path" value="${excalibur-instrument.jar}"/>
             <property name="proj.home" value="${basedir}/../instrument"/>
         </ant>
     </target>
     <target name="checkInstrumentManager">
        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredClass">
-            <property name="name" value="excalibur-instrument-manager-0.1.jar"/>
+            <property name="proj.jar.name" value="excalibur-instrument-manager-0.1.jar"/>
             <property name="class" value="org.apache.avalon.excalibur.instrument.manager.interfaces.InstrumentManagerClient"/>
             <property name="classpath" value="${cp}"/>
         </ant>
     </target>
     <target name="checkCollections">
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
-            <property name="name" value="excalibur-collections.jar"/>
+            <property name="proj.jar.name" value="excalibur-collections.jar"/>
             <property name="path" value="${excalibur-collections.jar}"/>
             <property name="proj.home" value="${basedir}/../collections"/>
         </ant>
     </target>
     <target name="checkUtil">
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
-            <property name="name" value="excalibur-util.jar"/>
+            <property name="proj.jar.name" value="excalibur-util.jar"/>
             <property name="path" value="${excalibur-util.jar}"/>
             <property name="proj.home" value="${basedir}/../util"/>
         </ant>
     </target>
     <target name="checkCache">
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
-            <property name="name" value="excalibur-cache.jar"/>
+            <property name="proj.jar.name" value="excalibur-cache.jar"/>
             <property name="path" value="${excalibur-cache.jar}"/>
             <property name="proj.home" value="${basedir}/../cache"/>
         </ant>
     </target>
     <target name="checkComponent">
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
-            <property name="name" value="excalibur-component.jar"/>
+            <property name="proj.jar.name" value="excalibur-component.jar"/>
             <property name="path" value="${excalibur-component.jar}"/>
             <property name="proj.home" value="${basedir}/../component"/>
         </ant>
     </target>
     <target name="checkConcurrent">
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
-            <property name="name" value="excalibur-concurrent.jar"/>
+            <property name="proj.jar.name" value="excalibur-concurrent.jar"/>
             <property name="path" value="${excalibur-concurrent.jar}"/>
             <property name="proj.home" value="${basedir}/../concurrent"/>
         </ant>
     </target>
     <target name="checkConfiguration">
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
-            <property name="name" value="excalibur-configuration.jar"/>
+            <property name="proj.jar.name" value="excalibur-configuration.jar"/>
             <property name="path" value="${excalibur-configuration.jar}"/>
             <property name="proj.home" value="${basedir}/../configuration"/>
         </ant>
     </target>
     <target name="checkContext">
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
-            <property name="name" value="excalibur-context.jar"/>
+            <property name="proj.jar.name" value="excalibur-context.jar"/>
             <property name="path" value="${excalibur-context.jar}"/>
             <property name="proj.home" value="${basedir}/../context"/>
         </ant>
     </target>
     <target name="checkPool">
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
-            <property name="name" value="excalibur-pool.jar"/>
+            <property name="proj.jar.name" value="excalibur-pool.jar"/>
             <property name="path" value="${excalibur-pool.jar}"/>
             <property name="proj.home" value="${basedir}/../pool"/>
         </ant>
     </target>
     <target name="checkIO">
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
-            <property name="name" value="excalibur-io.jar"/>
+            <property name="proj.jar.name" value="excalibur-io.jar"/>
             <property name="path" value="${excalibur-io.jar}"/>
             <property name="proj.home" value="${basedir}/../io"/>
         </ant>
     </target>
     <target name="checkStore">
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
-            <property name="name" value="excalibur-store.jar"/>
+            <property name="proj.jar.name" value="excalibur-store.jar"/>
             <property name="path" value="${excalibur-store.jar}"/>
             <property name="proj.home" value="${basedir}/../store"/>
         </ant>
     </target>
     <target name="checkLogkit">
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
-            <property name="name" value="logkit.jar"/>
+            <property name="proj.jar.name" value="logkit.jar"/>
             <property name="path" value="${logkit.jar}"/>
         </ant>
     </target>
     <target name="checkLogger">
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
-            <property name="name" value="excalibur-logger.jar"/>
+            <property name="proj.jar.name" value="excalibur-logger.jar"/>
             <property name="path" value="${excalibur-logger.jar}"/>
             <property name="proj.home" value="${basedir}/../logger"/>
         </ant>
     </target>
     <target name="checkDatasource">
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
-            <property name="name" value="excalibur-datasource.jar"/>
+            <property name="proj.jar.name" value="excalibur-datasource.jar"/>
             <property name="path" value="${excalibur-datasource.jar}"/>
             <property name="proj.home" value="${basedir}/../datasource"/>
         </ant>
     </target>
     <target name="checkMicroContainer">
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
-            <property name="name" value="excalibur-microcontainer.jar"/>
+            <property name="proj.jar.name" value="excalibur-microcontainer.jar"/>
             <property name="path" value="${excalibur-microcontainer.jar}"/>
             <property name="proj.home" value="${basedir}/../microcontainer"/>
         </ant>
     </target>
     <target name="checkMonitor">
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
-            <property name="name" value="excalibur-monitor.jar"/>
+            <property name="proj.jar.name" value="excalibur-monitor.jar"/>
             <property name="path" value="${excalibur-monitor.jar}"/>
             <property name="proj.home" value="${basedir}/../monitor"/>
         </ant>
     </target>
     <target name="checkManagerInterfaces">
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
-            <property name="name" value="excalibur-instrument-manager-interfaces.jar"/>
+            <property name="proj.jar.name" value="excalibur-instrument-manager-interfaces.jar"/>
             <property name="path" value="${excalibur-instrument-manager-interfaces.jar}"/>
             <property name="proj.home" value="${basedir}/../instrument-manager"/>
         </ant>
     </target>
     <target name="checkManager">
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
-            <property name="name" value="excalibur-instrument-manager.jar"/>
+            <property name="proj.jar.name" value="excalibur-instrument-manager.jar"/>
             <property name="path" value="${excalibur-instrument-manager.jar}"/>
             <property name="proj.home" value="${basedir}/../instrument-manager"/>
         </ant>
     </target>
     <target name="checkI18N">
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
-            <property name="name" value="excalibur-i18n.jar"/>
+            <property name="proj.jar.name" value="excalibur-i18n.jar"/>
             <property name="path" value="${excalibur-i18n.jar}"/>
             <property name="proj.home" value="${basedir}/../i18n"/>
         </ant>
     </target>
     <target name="checkSourceResolve">
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
-            <property name="name" value="excalibur-sourceresolve.jar"/>
+            <property name="proj.jar.name" value="excalibur-sourceresolve.jar"/>
             <property name="path" value="${excalibur-sourceresolve.jar}"/>
             <property name="proj.home" value="${basedir}/../sourceresolve"/>
         </ant>
     </target>
     <target name="checkTestcase">
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
-            <property name="name" value="excalibur-testcase.jar"/>
+            <property name="proj.jar.name" value="excalibur-testcase.jar"/>
             <property name="path" value="${excalibur-testcase.jar}"/>
             <property name="proj.home" value="${basedir}/../testcase"/>
     </ant>
     </target>
     <target name="checkThreadcontext">
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
-            <property name="name" value="excalibur-threadcontext.jar"/>
+            <property name="proj.jar.name" value="excalibur-threadcontext.jar"/>
             <property name="path" value="${excalibur-threadcontext.jar}"/>
             <property name="proj.home" value="${basedir}/../threadcontext"/>
         </ant>
@@ -496,7 +496,7 @@ To use it, type 'ant -f depchecker.xml'
 
     <target name="checkXMLBundle">
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
-            <property name="name" value="excalibur-xmlbundle.jar"/>
+            <property name="proj.jar.name" value="excalibur-xmlbundle.jar"/>
             <property name="path" value="${excalibur-xmlbundle.jar}"/>
             <property name="proj.home" value="${basedir}/../xmlbundle"/>
         </ant>
@@ -504,7 +504,7 @@ To use it, type 'ant -f depchecker.xml'
 
     <target name="checkXMLUtil">
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
-            <property name="name" value="excalibur-xmlutil.jar"/>
+            <property name="proj.jar.name" value="excalibur-xmlutil.jar"/>
             <property name="path" value="${excalibur-xmlutil.jar}"/>
             <property name="proj.home" value="${basedir}/../xmlutil"/>
         </ant>
@@ -602,7 +602,7 @@ To use it, type 'ant -f depchecker.xml'
             | You must define the following property in order                |
             | to build:                                                      |
             |                                                                |
-            | ${name} (currently "${path}")
+            | ${proj.jar.name} (currently "${path}")
             |                                                                |
             | Usually this is done by copying ant.properties.sample to       |
             | ant.properties and defining the property there. This may also  |
@@ -629,7 +629,7 @@ To use it, type 'ant -f depchecker.xml'
             | must be in your classpath or Ant lib directory                 |
             |                                                                |
             | Typically it is in a jar called:                               |
-            |   ${name}
+            |   ${proj.jar.name}
             | Suggested Remedy:                                              |
             |   ${remedy}
             '----------------------------------------------------------------'
@@ -649,7 +649,7 @@ To use it, type 'ant -f depchecker.xml'
             | The dependency-checking system tried to build the project:      |
             |   ${proj.home}
             | which should have provided the property:                        |
-            |   ${name} = ${path}
+            |   ${proj.jar.name} = ${path}
             | However, after the build, no such file exists.                  |
             |                                                                 |
             | Typically this is because the required project changed the name |
