@@ -34,10 +34,13 @@ Issues:
 
 * Should we update to use Velocity rather than Stylebook
 
+  - Considering the recent move to Cocoon/DocBook, I would
+    be -1 on Velocity.  Although, Cocoon can use velocity.
+
 * Should we wait for commons to build component directory 
   or do it ourselves?
 
-* Should we create a new CVS for excalibur?
+  - Excalibur is our "component directory"
 
 * should we write our own doclet to better integrate documentation
   of distributed src files.
@@ -48,11 +51,23 @@ Issues:
   logkit/avalon-*/phoenix-* in CVS or should we suck them between projects
   automagically).
 
+  - This makes it tough to focus on one project at a time.
+  - If we have JNLP/CJAN/JJAN repository, that can handle this
+    requirement.
+
 * Should we have a CVS check that reformats code on insert into repository.
 
 * Should we move to docbook DTD
+
+  - I am +1.  The docbook documentation build process is done, and we have
+    an easy migration path.  DocBook affords a better semantic view of the
+    documentation plus more tools to create alternate formats.
 
 * Should we move stylebook sheets into jakarta-site CVS
 
 * Enhance Parameters so that it can be built from writer/inputstream in such a
   way that it reads in velocity/turbine style parameters
+
+  - Perhaps we should have a group of Parameter Builder objects so that the
+    original form (XML, Configurations, Velocity paramters) can be separated
+    from the actual Parameters object (SoC).
