@@ -14,11 +14,11 @@
       <property name="checkstyle.failOnError" value="true"/>
       <property name="jakarta-site.dir" project="jakarta-site2"
                 reference="home" />
-      <depend property="xerces.jar" project="xml-xerces" id="parser"/>
-      <depend property="logkit.jar" project="jakarta-avalon-logkit"/>
-      <depend property="framework.jar" project="jakarta-avalon"/>
     </ant>
 
+    <depend property="xerces.jar" project="xml-xerces" id="parser"/>
+    <depend property="logkit.jar" project="jakarta-avalon-logkit"/>
+    <depend property="framework.jar" project="jakarta-avalon"/>
     <depend project="bsf"/>
     <depend project="excalibur-configuration" runtime="true"/>
     <depend project="excalibur-containerkit" runtime="true"/>
@@ -43,6 +43,8 @@
     <depend project="jarv" runtime="true"/>
     <depend project="jakarta-site2" inherit="all" />
     <option project="jakarta-servletapi-4"/>
+
+    <work nested="build/classes"/>
 
     <home nested="build/lib"/>
     <jar name="phoenix-client.jar"/>
