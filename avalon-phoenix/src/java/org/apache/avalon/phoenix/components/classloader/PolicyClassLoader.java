@@ -11,12 +11,9 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.net.URLStreamHandler;
-import java.net.URLStreamHandlerFactory;
 import java.security.CodeSource;
 import java.security.PermissionCollection;
 import java.security.Policy;
-import java.util.ArrayList;
 import java.util.Enumeration;
 import org.apache.avalon.framework.logger.LogEnabled;
 import org.apache.avalon.framework.logger.Logger;
@@ -36,9 +33,6 @@ class PolicyClassLoader
     ///Policy to use to define permissions for classes loaded in classloader
     private final Policy m_policy;
 
-    ///Factory that used to create URLStreamHandlers
-    private final URLStreamHandlerFactory m_factory;
-
     ///Logger to use when reporting information
     private Logger m_logger;
 
@@ -47,27 +41,25 @@ class PolicyClassLoader
      * ClassLoader and Policy object.
      *
      * @param urls the URLs to load resources from
-     * @param classLoader the parent ClassLoader
+     * @param parent the parent ClassLoader
      * @param policy the Policy object
      */
     PolicyClassLoader( final String[] urls,
                        final ClassLoader parent,
-                       final URLStreamHandlerFactory factory,
                        final Policy policy )
         throws MalformedURLException
     {
-        super( new URL[ 0 ], parent, factory );
+        super( new URL[ 0 ], parent );
 
         if( null == policy )
         {
             throw new NullPointerException( "policy" );
         }
         m_policy = policy;
-        m_factory = factory;
 
         for( int i = 0; i < urls.length; i++ )
         {
-            final URL url = createURL( urls[ i ] );
+            final URL url = new URL( urls[ i ] );
             addURL( url );
         }
     }
@@ -85,6 +77,25 @@ class PolicyClassLoader
     protected final Logger getLogger()
     {
         return m_logger;
+    }
+
+    /**
+     * Overide findClass to log debugging information
+     * indicating that a class is being loaded from application
+     * ClassLoader.
+     *
+     * @param name the name of class ot load
+     * @return the Class loaded
+     * @throws ClassNotFoundException if can not find class
+     */
+    protected Class findClass( final String name )
+        throws ClassNotFoundException
+    {
+        if( getLogger().isDebugEnabled() )
+        {
+            getLogger().debug( "findClass(" + name + ")" );
+        }
+        return super.findClass( name );
     }
 
     /**
@@ -159,87 +170,5 @@ class PolicyClassLoader
         }
 
         return url;
-    }
-
-    /**
-     * Create an array of URL objects from strings, using specified URLHandlerFactory.
-     *
-     * @param classPath the string representation of urls
-     * @return the URL array
-     * @throws MalformedURLException if an error occurs
-     */
-    private URL[] createURLs( final String[] classPath )
-        throws MalformedURLException
-    {
-        final ArrayList urls = new ArrayList();
-
-        for( int i = 0; i < classPath.length; i++ )
-        {
-            final URL url = createURL( classPath[ i ] );
-            urls.add( url );
-        }
-
-        return (URL[])urls.toArray( new URL[ 0 ] );
-    }
-
-    /**
-     * Utility method to create a URL from string representation
-     * using our <code>URLStreamHandlerFactory</code> object.
-     *
-     * @param url the string representation of URL
-     * @throws MalformedURLException if URL is badly formed or
-     *            protocol can not be found
-     */
-    private URL createURL( final String url )
-        throws MalformedURLException
-    {
-        if( null == url )
-        {
-            throw new NullPointerException( "url" );
-        }
-
-        final String scheme = parseScheme( url );
-        final URLStreamHandler handler = createHandler( scheme );
-
-        return new URL( null, url, handler );
-    }
-
-    /**
-     * Create a URLStreamHandler for protocol if it needs one.
-     *
-     * @param scheme the scheme/protocol to create handler for
-     * @return the created URLStreamHandler or null
-     * @throws MalformedURLException if an error occurs
-     */
-    private URLStreamHandler createHandler( final String scheme )
-        throws MalformedURLException
-    {
-        if( null != m_factory )
-        {
-            return m_factory.createURLStreamHandler( scheme );
-        }
-        else
-        {
-            return null;
-        }
-    }
-
-    /**
-     * Utility method to parse out the scheme of a URL.
-     *
-     * @param url the full string representation of url
-     * @return the scheme part of URL
-     * @throws MalformedURLException if an error occurs
-     */
-    private String parseScheme( final String url )
-        throws MalformedURLException
-    {
-        final int index = url.indexOf( ':' );
-        if( -1 == index )
-        {
-            throw new MalformedURLException( "No scheme specified for url " + url );
-        }
-
-        return url.substring( 0, index );
     }
 }
