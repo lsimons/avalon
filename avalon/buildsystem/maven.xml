@@ -460,7 +460,7 @@ project.properties to the correct location.
 
     <!-- defers to common buildfile -->
     <target name="delegate">
-        <ant:available file="$${avalon.buildsystem}/maven-common-gump-build.xml"
+        <available file="$${avalon.buildsystem}/maven-common-gump-build.xml"
                 property="avalon.buildsystem.available"/>
         <antcall target="need-for-common-build"/>
 
