@@ -20,8 +20,9 @@ import org.apache.avalon.excalibur.pool.DefaultPoolController;
 /**
  * The Default implementation for DataSources in Avalon.  This uses the
  * normal <code>java.sql.Connection</code> object and
- * <code>java.sql.DriverManager</code>.  The Configuration is like this:
- *
+ * <code>java.sql.DriverManager</code>.
+ * <p>
+ * Configuration Example:
  * <pre>
  *   &lt;jdbc&gt;
  *     &lt;pool-controller min="<i>5</i>" max="<i>10</i>" connection-class="<i>my.overrided.ConnectionClass</i>"&gt;
@@ -33,9 +34,40 @@ import org.apache.avalon.excalibur.pool.DefaultPoolController;
  *     &lt;password&gt;<i>password</i>&lt;/password&gt;
  *   &lt;/jdbc&gt;
  * </pre>
+ * <p>
+ * Configuration Attributes:
+ * <ul>
+ * <li>The <code>min</code> attribute is used to set the minimum size of the DataSource pool.
+ *  When the Data Source is first initialized, the DataSource will automatically create
+ *  this number of connections so they will be ready for use. (Defaults to "1")</li>
+ *
+ * <li>The <code>max</code> attribute is used to set the maximum number of connections which
+ *  will be opened.  If more concurrent connections are requested, a
+ *  NoAvailableConnectionException will be thrown.  (Defaults to "3")</li
+ *
+ * <li>The <code>connection-class</code> attribute is used to override the Connection class returned
+ *  by the DataSource from calls to getConnection().  Set this to 
+ *  "org.apache.avalon.excalibur.datasource.Jdbc3Connection" to gain access to JDBC3 features.
+ *  (Defaults to "org.apache.avalon.excalibur.datasource.JdbcConnection")</li>
+ *
+ * <li>The <code>keep-alive</code> element is used to override the query used to monitor the health
+ *  of connections.  If a connection has not been used for 5 seconds then before returning the
+ *  connection from a call to getConnection(), the connection is first used to ping the database
+ *  to make sure that it is still alive.  Setting the <code>disable</code> attribute to true will
+ *  disable this feature.  (Defaults to a query of "SELECT 1" and being enabled)</li>
+ *
+ * <li>The <code>driver</code> element is used to specify the driver to use when connecting to the
+ *  database.  The specified class must be in the classpath.  (Required)</li>
+ *
+ * <li>The <code>dburl</code> element is the JDBC connection string which will be used to connect to
+ *  the database.  (Required)</li>
+ *
+ * <li>The <code>user</code> and <code>password</code> attributes are used to specify the user and
+ *  password for connections to the database. (Required)</li>
+ * </ul>
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.14 $ $Date: 2002/01/26 16:58:06 $
+ * @version CVS $Revision: 1.15 $ $Date: 2002/02/07 07:51:07 $
  * @since 4.0
  */
 public class JdbcDataSource
