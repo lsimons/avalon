@@ -138,7 +138,7 @@ public final class DefaultApplication
      * @param name the name of phase (for logging purposes)
      * @exception Exception if an error occurs
      */
-    protected final void runPhase( final String name )
+    private final void runPhase( final String name )
         throws Exception
     {
         final BlockMetaData[] blocks = m_context.getMetaData().getBlocks();
@@ -173,10 +173,8 @@ public final class DefaultApplication
             try
             {
                 final BlockEntry entry = (BlockEntry)m_entrys.get( block );
-                if( PHASE_STARTUP == name )
-                    m_lifecycle.startup( entry );
-                else
-                    m_lifecycle.shutdown( entry );
+                if( PHASE_STARTUP == name ) m_lifecycle.startup( entry );
+                else m_lifecycle.shutdown( entry );
             }
             catch( final Exception e )
             {
