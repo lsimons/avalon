@@ -10,13 +10,10 @@ package org.apache.avalon.excalibur.component.example_im;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;
-
-//import org.apache.avalon.excalibur.component.DefaultRoleManager;
 import org.apache.avalon.excalibur.component.ExcaliburComponentManagerCreator;
-//import org.apache.avalon.excalibur.logger.LogKitLoggerManager;
 import org.apache.avalon.excalibur.concurrent.ThreadBarrier;
-
 import org.apache.avalon.framework.component.ComponentManager;
+
 //import org.apache.avalon.framework.configuration.Configuration;
 //import org.apache.avalon.framework.configuration.ConfigurationException;
 //import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
@@ -38,17 +35,19 @@ import org.apache.avalon.framework.component.ComponentManager;
  * Note, this code ignores exceptions to keep the code simple.
  *
  * @author <a href="mailto:leif@apache.org">Leif Mortenson</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/08/16 03:44:14 $
+ * @version CVS $Revision: 1.3 $ $Date: 2002/11/07 05:11:51 $
  * @since 4.1
  */
 public class Main
 {
-    private static ExcaliburComponentManagerCreator     m_componentManagerCreator;
+    private static ExcaliburComponentManagerCreator m_componentManagerCreator;
 
     /*---------------------------------------------------------------
      * Constructors
      *-------------------------------------------------------------*/
-    private Main() {}
+    private Main()
+    {
+    }
 
     /*---------------------------------------------------------------
      * Main method
@@ -65,9 +64,9 @@ public class Main
         //  utility class.  See the contents of that class if you wish to do the
         //  initialization yourself.
         m_componentManagerCreator = new ExcaliburComponentManagerCreator( null,
-            new File( "../conf/logkit.xml" ), new File( "../conf/roles.xml" ),
-            new File( "../conf/components.xml"), new File( "../conf/instrument.xml" ) );
-        
+                                                                          new File( "../conf/logkit.xml" ), new File( "../conf/roles.xml" ),
+                                                                          new File( "../conf/components.xml" ), new File( "../conf/instrument.xml" ) );
+
         // Get a reference to the component manager
         ComponentManager componentManager = m_componentManagerCreator.getComponentManager();
 
@@ -77,20 +76,20 @@ public class Main
         try
         {
             boolean quit = false;
-            while ( !quit )
+            while( !quit )
             {
                 System.out.println( "Enter the number of times that exampleAction should be "
-                    + "called, or 'q' to quit." );
+                                    + "called, or 'q' to quit." );
                 BufferedReader in = new BufferedReader( new InputStreamReader( System.in ) );
                 System.out.print( " : " );
                 String cntStr = in.readLine();
 
                 // Can get a null if CTRL-C is hit.
-                if ( ( cntStr == null ) || ( cntStr.equalsIgnoreCase( "q" ) ) )
+                if( ( cntStr == null ) || ( cntStr.equalsIgnoreCase( "q" ) ) )
                 {
                     quit = true;
                 }
-                else if ( ( cntStr.equalsIgnoreCase( "gc" ) ) )
+                else if( ( cntStr.equalsIgnoreCase( "gc" ) ) )
                 {
                     System.gc();
                 }
@@ -101,27 +100,29 @@ public class Main
                         int concurrent = 100;
                         ThreadBarrier barrier = new ThreadBarrier( concurrent );
                         int cnt = Integer.parseInt( cntStr );
-                        int average = Math.max(cnt / concurrent, 1);
+                        int average = Math.max( cnt / concurrent, 1 );
 
-                        while (cnt > 0)
+                        while( cnt > 0 )
                         {
                             Thread t = new Thread( new ActionRunner( instrumentable,
-                                                          Math.min(average, cnt),
-                                                          barrier) );
+                                                                     Math.min( average, cnt ),
+                                                                     barrier ) );
                             t.start();
 
-                            if (cnt > 0)
+                            if( cnt > 0 )
                             {
                                 cnt -= average;
                             }
 
-                            if (cnt < 0)
+                            if( cnt < 0 )
                             {
                                 cnt = 0;
                             }
                         }
                     }
-                    catch ( NumberFormatException e ) {}
+                    catch( NumberFormatException e )
+                    {
+                    }
                 }
             }
         }
@@ -130,7 +131,7 @@ public class Main
             // Release the component
             componentManager.release( instrumentable );
             instrumentable = null;
-            
+
             // Dispose of the ComponentManagerCreator.  It will dispose all
             //  of its own components, including the ComponentManager
             m_componentManagerCreator.dispose();
@@ -138,7 +139,7 @@ public class Main
 
         System.out.println();
         System.out.println( "Exiting..." );
-        System.exit(0);
+        System.exit( 0 );
     }
 
     private static final class ActionRunner implements Runnable
@@ -156,7 +157,7 @@ public class Main
 
         public void run()
         {
-            for ( int i = 0; i < m_numIterations; i++ )
+            for( int i = 0; i < m_numIterations; i++ )
             {
                 m_instrumentable.doAction();
             }
@@ -165,8 +166,14 @@ public class Main
             {
                 m_barrier.barrierSynchronize();
             }
-            catch (Exception e) {}
+            catch( Exception e )
+            {
+            }
         }
+    }
+}
+
+     }
     }
 }
 

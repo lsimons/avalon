@@ -9,11 +9,9 @@ package org.apache.avalon.excalibur.component;
 
 import java.util.ArrayList;
 import java.util.Collection;
-
 import org.apache.avalon.excalibur.collections.BucketMap;
 import org.apache.avalon.excalibur.logger.LogKitManageable;
 import org.apache.avalon.excalibur.pool.ObjectFactory;
-
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.activity.Startable;
@@ -29,15 +27,14 @@ import org.apache.avalon.framework.logger.LogEnabled;
 import org.apache.avalon.framework.logger.Loggable;
 import org.apache.avalon.framework.parameters.Parameterizable;
 import org.apache.avalon.framework.parameters.Parameters;
-import org.apache.avalon.framework.thread.ThreadSafe;
-import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.ServiceException;
+import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
-
-import org.apache.excalibur.instrument.Instrumentable;
+import org.apache.avalon.framework.thread.ThreadSafe;
+import org.apache.excalibur.container.legacy.ComponentProxyGenerator;
 import org.apache.excalibur.instrument.InstrumentManageable;
 import org.apache.excalibur.instrument.InstrumentManager;
-import org.apache.excalibur.container.legacy.ComponentProxyGenerator;
+import org.apache.excalibur.instrument.Instrumentable;
 
 /**
  * Factory for Avalon components.
@@ -46,7 +43,7 @@ import org.apache.excalibur.container.legacy.ComponentProxyGenerator;
  * @author <a href="mailto:paul@luminas.co.uk">Paul Russell</a>
  * @author <a href="mailto:ryan@silveregg.co.jp">Ryan Shaw</a>
  * @author <a href="mailto:leif@apache.org">Leif Mortenson</a>
- * @version CVS $Revision: 1.9 $ $Date: 2002/09/24 20:39:53 $
+ * @version CVS $Revision: 1.10 $ $Date: 2002/11/07 05:11:34 $
  * @since 4.0
  */
 public class DefaultComponentFactory
@@ -219,8 +216,7 @@ public class DefaultComponentFactory
                     ( (Loggable)component ).setLogger( m_loggerManager.getLogKitLoggerForCategory( logger ) );
                 }
             }
-        }
-        
+  
         // Set the name of the instrumentable before initialization.
         if( component instanceof Instrumentable )
         {
@@ -288,7 +284,7 @@ public class DefaultComponentFactory
         if( component instanceof Instrumentable )
         {
             // Instrumentable Name is set above.
-            if ( m_instrumentManager != null )
+            if( m_instrumentManager != null )
             {
                 m_instrumentManager.registerInstrumentable(
                     (Instrumentable)component, m_instrumentableName );
@@ -304,14 +300,14 @@ public class DefaultComponentFactory
 
         Component returnableComponent;
 
-        if ( ! ( component instanceof Component ) )
+        if( !( component instanceof Component ) )
         {
-           returnableComponent = m_proxyGenerator.getProxy( m_role , component );
-           m_components.put( returnableComponent, component );
+            returnableComponent = m_proxyGenerator.getProxy( m_role, component );
+            m_components.put( returnableComponent, component );
         }
         else
         {
-           returnableComponent = (Component) component;
+            returnableComponent = (Component)component;
         }
 
         return returnableComponent;
@@ -327,7 +323,7 @@ public class DefaultComponentFactory
     {
         Object check = m_components.get( component );
         Object decommission;
-        if ( check instanceof ServiceManager || check instanceof ComponentManager || null == check )
+        if( check instanceof ServiceManager || check instanceof ComponentManager || null == check )
         {
             decommission = component;
         }
@@ -393,11 +389,12 @@ public class DefaultComponentFactory
             }
         }
     }
-    
+
     /*---------------------------------------------------------------
      * ThreadSafe Methods
      *-------------------------------------------------------------*/
     // No methods
+ethods
     
     /*---------------------------------------------------------------
      * Methods

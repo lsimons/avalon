@@ -7,13 +7,12 @@
  */
 package org.apache.avalon.excalibur.component.example_im;
 
-import org.apache.excalibur.instrument.CounterInstrument;
-import org.apache.excalibur.instrument.Instrumentable;
-import org.apache.excalibur.instrument.Instrument;
-import org.apache.excalibur.instrument.ValueInstrument;
-
 import org.apache.avalon.framework.activity.Startable;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
+import org.apache.excalibur.instrument.CounterInstrument;
+import org.apache.excalibur.instrument.Instrument;
+import org.apache.excalibur.instrument.Instrumentable;
+import org.apache.excalibur.instrument.ValueInstrument;
 
 /**
  * This example application creates a component which registers several
@@ -22,20 +21,20 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
  * Note, this code ignores exceptions to keep the code simple.
  *
  * @author <a href="mailto:leif@apache.org">Leif Mortenson</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/08/16 03:44:14 $
+ * @version CVS $Revision: 1.3 $ $Date: 2002/11/07 05:11:51 $
  * @since 4.1
  */
 public class DefaultExampleInstrumentable
     extends AbstractLogEnabled
     implements ExampleInstrumentable, Startable, Runnable, Instrumentable
 {
-    public static final String INSTRUMENT_RANDOM_QUICK_NAME   = "random-quick";
-    public static final String INSTRUMENT_RANDOM_SLOW_NAME    = "random-slow";
-    public static final String INSTRUMENT_RANDOM_RANDOM_NAME  = "random-random";
-    public static final String INSTRUMENT_COUNTER_QUICK_NAME  = "counter-quick";
-    public static final String INSTRUMENT_COUNTER_SLOW_NAME   = "counter-slow";
+    public static final String INSTRUMENT_RANDOM_QUICK_NAME = "random-quick";
+    public static final String INSTRUMENT_RANDOM_SLOW_NAME = "random-slow";
+    public static final String INSTRUMENT_RANDOM_RANDOM_NAME = "random-random";
+    public static final String INSTRUMENT_COUNTER_QUICK_NAME = "counter-quick";
+    public static final String INSTRUMENT_COUNTER_SLOW_NAME = "counter-slow";
     public static final String INSTRUMENT_COUNTER_RANDOM_NAME = "counter-random";
-    public static final String INSTRUMENT_DOACTION_NAME       = "doaction-counter";
+    public static final String INSTRUMENT_DOACTION_NAME = "doaction-counter";
 
     /** Instrumentable Name assigned to this Instrumentable */
     private String m_instrumentableName;
@@ -70,13 +69,13 @@ public class DefaultExampleInstrumentable
     public DefaultExampleInstrumentable()
     {
         // Initialize the Instrumentable elements.
-        m_randomQuickInstrument   = new ValueInstrument( INSTRUMENT_RANDOM_QUICK_NAME );
-        m_randomSlowInstrument    = new ValueInstrument( INSTRUMENT_RANDOM_SLOW_NAME );
-        m_randomRandomInstrument  = new ValueInstrument( INSTRUMENT_RANDOM_RANDOM_NAME );
-        m_counterQuickInstrument  = new CounterInstrument( INSTRUMENT_COUNTER_QUICK_NAME );
-        m_counterSlowInstrument   = new CounterInstrument( INSTRUMENT_COUNTER_SLOW_NAME );
+        m_randomQuickInstrument = new ValueInstrument( INSTRUMENT_RANDOM_QUICK_NAME );
+        m_randomSlowInstrument = new ValueInstrument( INSTRUMENT_RANDOM_SLOW_NAME );
+        m_randomRandomInstrument = new ValueInstrument( INSTRUMENT_RANDOM_RANDOM_NAME );
+        m_counterQuickInstrument = new CounterInstrument( INSTRUMENT_COUNTER_QUICK_NAME );
+        m_counterSlowInstrument = new CounterInstrument( INSTRUMENT_COUNTER_SLOW_NAME );
         m_counterRandomInstrument = new CounterInstrument( INSTRUMENT_COUNTER_RANDOM_NAME );
-        m_doActionInstrument      = new CounterInstrument( INSTRUMENT_DOACTION_NAME );
+        m_doActionInstrument = new CounterInstrument( INSTRUMENT_DOACTION_NAME );
     }
 
     /*---------------------------------------------------------------
@@ -101,7 +100,7 @@ public class DefaultExampleInstrumentable
      */
     public void start()
     {
-        if ( m_runner == null )
+        if( m_runner == null )
         {
             m_runner = new Thread( this, "ExampleInstrumentableRunner" );
             m_runner.start();
@@ -113,7 +112,7 @@ public class DefaultExampleInstrumentable
      */
     public void stop()
     {
-        if ( m_runner != null )
+        if( m_runner != null )
         {
             m_runner.interrupt();
             m_runner = null;
@@ -130,38 +129,38 @@ public class DefaultExampleInstrumentable
     public void run()
     {
         int counter = 0;
-        while ( m_runner != null )
+        while( m_runner != null )
         {
             // Add some delay to the loop.
             try
             {
                 Thread.sleep( 100 );
             }
-            catch ( InterruptedException e )
+            catch( InterruptedException e )
             {
-                if ( m_runner == null )
+                if( m_runner == null )
                 {
                     return;
                 }
             }
 
             // Handle the quick Profile Points
-            m_randomQuickInstrument.setValue( (int)(Math.random() * 100) );
+            m_randomQuickInstrument.setValue( (int)( Math.random() * 100 ) );
             m_counterQuickInstrument.increment();
 
             // Handle the slow Profile Points
             counter++;
-            if ( counter >= 20 )
+            if( counter >= 20 )
             {
-                m_randomSlowInstrument.setValue( (int)(Math.random() * 100) );
+                m_randomSlowInstrument.setValue( (int)( Math.random() * 100 ) );
                 m_counterSlowInstrument.increment();
                 counter = 0;
             }
 
             // Handle the random Profile Points.  Fire 10% of the time.
-            if ( 100 * Math.random() < 10 )
+            if( 100 * Math.random() < 10 )
             {
-                m_randomRandomInstrument.setValue( (int)(Math.random() * 100) );
+                m_randomRandomInstrument.setValue( (int)( Math.random() * 100 ) );
                 m_counterRandomInstrument.increment();
             }
         }

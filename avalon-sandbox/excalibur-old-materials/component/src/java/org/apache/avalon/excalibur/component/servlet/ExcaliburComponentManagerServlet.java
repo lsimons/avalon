@@ -7,9 +7,8 @@
  */
 package org.apache.avalon.excalibur.component.servlet;
 
-import java.io.InputStream;
 import java.io.IOException;
-
+import java.io.InputStream;
 import javax.servlet.GenericServlet;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
@@ -17,13 +16,10 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.UnavailableException;
-
 import org.apache.avalon.excalibur.component.ExcaliburComponentManagerCreator;
 import org.apache.avalon.excalibur.logger.LoggerManager;
-
 import org.apache.avalon.framework.component.ComponentManager;
 import org.apache.avalon.framework.container.ContainerUtil;
-
 import org.apache.excalibur.instrument.InstrumentManager;
 
 /**
@@ -126,7 +122,7 @@ import org.apache.excalibur.instrument.InstrumentManager;
  * Note that servlets which extend the AbstractComponentManagerServlet will behave correctly.
  *
  * @author <a href="mailto:leif@apache.org">Leif Mortenson</a>
- * @version CVS $Revision: 1.3 $ $Date: 2002/09/19 05:41:10 $
+ * @version CVS $Revision: 1.4 $ $Date: 2002/11/07 05:11:35 $
  * @since 4.2
  */
 public class ExcaliburComponentManagerServlet
@@ -135,12 +131,11 @@ public class ExcaliburComponentManagerServlet
     private ExcaliburComponentManagerCreator m_componentManagerCreator;
     
     /** Latch used to shutdown the ExcaliburComponentManagerCreator cleanly. */
-    private Latch m_latch;
-    
+    private Latch m_lat
     /*---------------------------------------------------------------
      * Constructors
      *-------------------------------------------------------------*/
-    
+
     /*---------------------------------------------------------------
      * GenericServlet Methods
      *-------------------------------------------------------------*/
@@ -157,10 +152,10 @@ public class ExcaliburComponentManagerServlet
     public void init( ServletConfig servletConfig ) throws ServletException
     {
         super.init( servletConfig );
-        
+
         //System.out.println( "ExcaliburComponentManagerServlet.init() BEGIN" );
         ServletContext servletContext = getServletContext();
-        
+
         InputStream loggerManagerConfigStream = null;
         InputStream roleManagerConfigStream = null;
         InputStream componentManagerConfigStream = null;
@@ -175,7 +170,7 @@ public class ExcaliburComponentManagerServlet
                 getStreamFromParameter( servletConfig, "components", true );
             instrumentManagerConfigStream =
                 getStreamFromParameter( servletConfig, "instrument", false );
-            
+
             // Create the ComponentManagerCreator
             try
             {
@@ -186,7 +181,7 @@ public class ExcaliburComponentManagerServlet
                     componentManagerConfigStream,
                     instrumentManagerConfigStream );
             }
-            catch ( Exception e )
+            catch( Exception e )
             {
                 String msg = "Unable to create the ComponentManagerCreator.  "
                     + "Most likely a comfiguration problem.";
@@ -198,41 +193,41 @@ public class ExcaliburComponentManagerServlet
             // Close the resource streams
             try
             {
-                if ( loggerManagerConfigStream != null )
+                if( loggerManagerConfigStream != null )
                 {
                     loggerManagerConfigStream.close();
                 }
-                if ( roleManagerConfigStream != null )
+                if( roleManagerConfigStream != null )
                 {
                     roleManagerConfigStream.close();
                 }
-                if ( componentManagerConfigStream != null )
+                if( componentManagerConfigStream != null )
                 {
                     componentManagerConfigStream.close();
                 }
-                if ( instrumentManagerConfigStream != null )
+                if( instrumentManagerConfigStream != null )
                 {
                     instrumentManagerConfigStream.close();
                 }
             }
-            catch ( IOException e )
+            catch( IOException e )
             {
                 throw new ServletException( "Encountered an error closing resource streams.", e );
             }
         }
-        
+
         LoggerManager loggerManager = m_componentManagerCreator.getLoggerManager();
-        
+
         // A series of ReferenceProxies which will be used to access the ComponentManager
         //  and other managers created by the ComponentManagerCreator must be created.
         //  This is necessary because the order in which servlets are shut down by a
         //  ServletContainer can not be controlled.  If a manager is disposed before all
         //  servlets have released their references to it, then errors can result.
-        
+
         // Create the latch which will manager the ReferenceProxies.
         m_latch = new Latch( m_componentManagerCreator );
         m_latch.enableLogging( loggerManager.getLoggerForCategory( "system.ecmservlet" ) );
-        
+
         // Create the actual ReferenceProxies.
         ReferenceProxy loggerManagerProxy = m_latch.createProxy(
             loggerManager, "LoggerManager" );
@@ -240,13 +235,13 @@ public class ExcaliburComponentManagerServlet
             m_componentManagerCreator.getComponentManager(), "ComponentManager" );
         ReferenceProxy instrumentManagerProxy = m_latch.createProxy(
             m_componentManagerCreator.getInstrumentManager(), "InstrumentManager" );
-        
+
         // Store references to the proxies in the ServletContext so that other servlets can gain
         //  access to them
-        servletContext.setAttribute( LoggerManager.class.getName(),     loggerManagerProxy );
-        servletContext.setAttribute( ComponentManager.class.getName(),  componentManagerProxy );
+        servletContext.setAttribute( LoggerManager.class.getName(), loggerManagerProxy );
+        servletContext.setAttribute( ComponentManager.class.getName(), componentManagerProxy );
         servletContext.setAttribute( InstrumentManager.class.getName(), instrumentManagerProxy );
-        
+
         //System.out.println( "ExcaliburComponentManagerServlet.init() END" );
     }
 
@@ -256,20 +251,20 @@ public class ExcaliburComponentManagerServlet
     public void destroy()
     {
         //System.out.println( "ExcaliburComponentManagerServlet.destroy() BEGIN" );
-        
+
         ServletContext servletContext = getServletContext();
-        
+
         // Remove the references to the managers from the servlet context.
         servletContext.removeAttribute( LoggerManager.class.getName() );
         servletContext.removeAttribute( ComponentManager.class.getName() );
         servletContext.removeAttribute( InstrumentManager.class.getName() );
-        
+
         // Tell the latch that we are ready for it do dispose of the ECMC
         m_latch.requestTrigger();
-        
+
         //System.out.println( "ExcaliburComponentManagerServlet.destroy() END" );
     }
-    
+
     /**
      * This servlet does not accept requests.  It will complain if called.
      *
@@ -283,7 +278,7 @@ public class ExcaliburComponentManagerServlet
     {
         throw new UnavailableException( getClass().getName() + " does not except service requests." );
     }
-    
+
     /*---------------------------------------------------------------
      * Methods
      *-------------------------------------------------------------*/
@@ -303,15 +298,17 @@ public class ExcaliburComponentManagerServlet
     private InputStream getStreamFromParameter( ServletConfig servletConfig,
                                                 String resourceName,
                                                 boolean required )
-            throws ServletException {
+        throws ServletException
+    {
 
         String configFileName = servletConfig.getInitParameter( resourceName );
 
-        if ( configFileName == null ) {
-            if ( required )
+        if( configFileName == null )
+        {
+            if( required )
             {
                 throw new ServletException( resourceName
-                    + " parameter must be provided in servlet configuration." );
+                                            + " parameter must be provided in servlet configuration." );
             }
             else
             {
@@ -325,13 +322,14 @@ public class ExcaliburComponentManagerServlet
 
         InputStream is = servletContext.getResourceAsStream( configFileName );
 
-        if ( is == null ) {
+        if( is == null )
+        {
             throw new ServletException( "Resource '" + configFileName + "' is not available." );
         }
 
         return is;
     }
-    
+
     /*---------------------------------------------------------------
      * Private Classes
      *-------------------------------------------------------------*/
@@ -339,7 +337,7 @@ public class ExcaliburComponentManagerServlet
         extends AbstractReferenceProxyLatch
     {
         ExcaliburComponentManagerCreator m_componentManagerCreator;
-        
+
         /*---------------------------------------------------------------
          * Constructors
          *-------------------------------------------------------------*/
@@ -353,7 +351,7 @@ public class ExcaliburComponentManagerServlet
         {
             m_componentManagerCreator = componentManagerCreator;
         }
-        
+  
         /*---------------------------------------------------------------
          * AbstractReferenceProxyLatch Methods
          *-------------------------------------------------------------*/

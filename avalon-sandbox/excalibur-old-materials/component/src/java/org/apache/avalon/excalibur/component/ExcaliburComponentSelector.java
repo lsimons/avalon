@@ -8,15 +8,12 @@
 package org.apache.avalon.excalibur.component;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
-
 import org.apache.avalon.excalibur.collections.BucketMap;
 import org.apache.avalon.excalibur.logger.LogKitManageable;
 import org.apache.avalon.excalibur.logger.LogKitManager;
 import org.apache.avalon.excalibur.logger.LoggerManager;
-
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.component.Component;
@@ -30,11 +27,10 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.thread.ThreadSafe;
-
 import org.apache.excalibur.instrument.Instrument;
-import org.apache.excalibur.instrument.Instrumentable;
 import org.apache.excalibur.instrument.InstrumentManageable;
 import org.apache.excalibur.instrument.InstrumentManager;
+import org.apache.excalibur.instrument.Instrumentable;
 
 /**
  * Default component selector for Avalon's components.
@@ -42,7 +38,7 @@ import org.apache.excalibur.instrument.InstrumentManager;
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:paul@luminas.co.uk">Paul Russell</a>
  * @author <a href="mailto:leif@apache.org">Leif Mortenson</a>
- * @version CVS $Revision: 1.15 $ $Date: 2002/09/24 20:39:53 $
+ * @version CVS $Revision: 1.16 $ $Date: 2002/11/07 05:11:34 $
  * @since 4.0
  */
 public class ExcaliburComponentSelector
@@ -426,7 +422,7 @@ public class ExcaliburComponentSelector
                 {
                     handler.initialize();
                     
-                    // Manually register the handler so that it will be located under the
+         ly register the handler so that it will be located under the
                     //  instrument manager, seperate from the actual instrumentable data of the
                     //  components
                     if ( ( m_instrumentManager != null ) &&

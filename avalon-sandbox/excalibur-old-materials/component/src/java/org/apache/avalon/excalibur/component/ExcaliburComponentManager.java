@@ -8,15 +8,12 @@
 package org.apache.avalon.excalibur.component;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
-
 import org.apache.avalon.excalibur.collections.BucketMap;
 import org.apache.avalon.excalibur.logger.LogKitManageable;
 import org.apache.avalon.excalibur.logger.LogKitManager;
 import org.apache.avalon.excalibur.logger.LoggerManager;
-
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.component.Component;
@@ -28,11 +25,10 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.configuration.DefaultConfiguration;
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.Contextualizable;
-
 import org.apache.excalibur.instrument.Instrument;
-import org.apache.excalibur.instrument.Instrumentable;
 import org.apache.excalibur.instrument.InstrumentManageable;
 import org.apache.excalibur.instrument.InstrumentManager;
+import org.apache.excalibur.instrument.Instrumentable;
 
 /**
  * Default component manager for Avalon's components.
@@ -41,7 +37,7 @@ import org.apache.excalibur.instrument.InstrumentManager;
  * @author <a href="mailto:paul@luminas.co.uk">Paul Russell</a>
  * @author <a href="mailto:ryan@silveregg.co.jp">Ryan Shaw</a>
  * @author <a href="mailto:leif@apache.org">Leif Mortenson</a>
- * @version CVS $Revision: 1.17 $ $Date: 2002/09/24 20:39:53 $
+ * @version CVS $Revision: 1.18 $ $Date: 2002/11/07 05:11:34 $
  * @since 4.0
  */
 public class ExcaliburComponentManager
@@ -476,6 +472,8 @@ public class ExcaliburComponentManager
     }
     
     /*---------------------------------------------------------------
+     * Contextual
+    /*---------------------------------------------------------------
      * Contextualizable Methods
      *-------------------------------------------------------------*/
     /** Set up the Component's Context.
@@ -496,30 +494,30 @@ public class ExcaliburComponentManager
     public void initialize()
         throws Exception
     {
-        if ( m_instrumentManager != null )
+        if( m_instrumentManager != null )
         {
             m_instrumentManager.registerInstrumentable( this, m_instrumentableName );
         }
-        
+
         synchronized( this )
         {
             m_initialized = true;
 
-            for (int i = 0; i < m_newComponentHandlers.size(); i++ )
+            for( int i = 0; i < m_newComponentHandlers.size(); i++ )
             {
                 final ComponentHandler handler =
                     (ComponentHandler)m_newComponentHandlers.get( i );
                 try
                 {
                     handler.initialize();
-                    
+
                     // Manually register the handler so that it will be located under the
                     //  instrument manager, seperate from the actual instrumentable data of the
                     //  components
-                    if ( ( m_instrumentManager != null ) &&
+                    if( ( m_instrumentManager != null ) &&
                         ( handler instanceof Instrumentable ) )
                     {
-                        String handleInstName = ((Instrumentable)handler).getInstrumentableName();
+                        String handleInstName = ( (Instrumentable)handler ).getInstrumentableName();
                         m_instrumentManager.registerInstrumentable( handler, handleInstName );
                     }
                 }
@@ -528,7 +526,7 @@ public class ExcaliburComponentManager
                     if( getLogger().isErrorEnabled() )
                     {
                         getLogger().error( "Caught an exception trying to initialize "
-                            + "the component handler.", e );
+                                           + "the component handler.", e );
                     }
                 }
             }
@@ -541,20 +539,20 @@ public class ExcaliburComponentManager
                 final ComponentHandler handler =
                     (ComponentHandler)m_componentHandlers.get( key );
 
-                if ( !m_newComponentHandlers.contains( handler ) )
+                if( !m_newComponentHandlers.contains( handler ) )
                 {
                     try
                     {
                         handler.initialize();
-                        
+
                         // Manually register the handler so that it will be located under the
                         //  instrument manager, seperate from the actual instrumentable data of the
                         //  components
-                        if ( ( m_instrumentManager != null ) &&
+                        if( ( m_instrumentManager != null ) &&
                             ( handler instanceof Instrumentable ) )
                         {
-                            String handleInstName = 
-                                ((Instrumentable)handler).getInstrumentableName();
+                            String handleInstName =
+                                ( (Instrumentable)handler ).getInstrumentableName();
                             m_instrumentManager.registerInstrumentable( handler, handleInstName );
                         }
                     }
@@ -563,7 +561,7 @@ public class ExcaliburComponentManager
                         if( getLogger().isErrorEnabled() )
                         {
                             getLogger().error( "Caught an exception trying to initialize "
-                                + "the component handler.", e );
+                                               + "the component handler.", e );
                         }
                     }
                 }
@@ -650,10 +648,7 @@ public class ExcaliburComponentManager
             m_logkit = new LogkitLoggerManager( null, logkit );
         }
     }
-    
-    /*---------------------------------------------------------------
-     * InstrumentManageable Methods
-     *-------------------------------------------------------------*/
+-------------------------------------------------------------*/
     /**
      * Sets the InstrumentManager for child components.  Can be for special
      * purpose components, however it is used mostly internally.
