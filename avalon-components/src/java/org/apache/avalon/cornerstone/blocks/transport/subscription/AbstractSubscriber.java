@@ -30,11 +30,10 @@ import org.apache.commons.altrmi.common.AltrmiAuthentication;
  *
  *
  * @author Paul Hammant <a href="mailto:Paul_Hammant@yahoo.com">Paul_Hammant@yahoo.com</a>
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  */
 public abstract class AbstractSubscriber extends AbstractLogEnabled
-        implements AltrmiInterfaceLookup, Configurable, Initializable, Block
-{
+        implements AltrmiInterfaceLookup, Configurable, Initializable, Block {
 
     protected AltrmiFactory mAltrmiFactory;
     protected AltrmiHostContext mHostContext;
@@ -46,21 +45,15 @@ public abstract class AbstractSubscriber extends AbstractLogEnabled
      *
      * @param configuration the class configurations.
      */
-    public void configure(Configuration configuration) throws ConfigurationException
-    {
+    public void configure(Configuration configuration) throws ConfigurationException {
 
         String proxyClassLocation = configuration.getChild("proxyClassLocation").getValue();
 
-        if (proxyClassLocation.equals("client"))
-        {
+        if (proxyClassLocation.equals("client")) {
             mAltrmiFactory = new ClientClassAltrmiFactory(false);
-        }
-        else if (proxyClassLocation.equals("server"))
-        {
+        } else if (proxyClassLocation.equals("server")) {
             mAltrmiFactory = new ServerClassAltrmiFactory(false);
-        }
-        else
-        {
+        } else {
             throw new ConfigurationException("proxyClassLocation must be 'client' or 'server'");
         }
     }
@@ -76,8 +69,7 @@ public abstract class AbstractSubscriber extends AbstractLogEnabled
      * @throws AltrmiConnectionException
      *
      */
-    public Object lookup(String publishedName) throws AltrmiConnectionException
-    {
+    public Object lookup(String publishedName) throws AltrmiConnectionException {
         return mAltrmiFactory.lookup(publishedName);
     }
 
@@ -94,8 +86,7 @@ public abstract class AbstractSubscriber extends AbstractLogEnabled
      *
      */
     public Object lookup(String publishedName, AltrmiAuthentication authentication)
-            throws AltrmiConnectionException
-    {
+            throws AltrmiConnectionException {
         return mAltrmiFactory.lookup(publishedName, authentication);
     }
 
@@ -106,8 +97,7 @@ public abstract class AbstractSubscriber extends AbstractLogEnabled
      * @return
      *
      */
-    public String getTextToSignForAuthentication()
-    {
+    public String getTextToSignForAuthentication() {
         return mAltrmiFactory.getTextToSignForAuthentication();
     }
 
@@ -118,8 +108,16 @@ public abstract class AbstractSubscriber extends AbstractLogEnabled
     *
     * @exception Exception if an error occurs
     */
-    public void initialize() throws Exception
-    {
+    public void initialize() throws Exception {
         mAltrmiFactory.setHostContext(mHostContext);
+    }
+
+    /**
+     * Method close
+     *
+     *
+     */
+    public void close() {
+        mAltrmiFactory.close();
     }
 }
