@@ -7,6 +7,7 @@
  */
 package org.apache.avalon.phoenix.components.kernel;
 
+import org.apache.avalon.excalibur.container.AbstractContainer;
 import org.apache.avalon.excalibur.container.ContainerException;
 import org.apache.avalon.excalibur.container.Entry;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
@@ -41,8 +42,8 @@ import org.apache.avalon.phoenix.metadata.SarMetaData;
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
 public class DefaultKernel
-    extends AbstractKernel
-    implements Composable
+    extends AbstractContainer
+    implements Kernel, Composable
 {
     private static final Resources REZ =
         ResourceManager.getPackageResources( DefaultKernel.class );
@@ -58,6 +59,139 @@ public class DefaultKernel
     {
         m_systemManager = (SystemManager)componentManager.lookup( SystemManager.ROLE );
         m_repository = (ConfigurationRepository)componentManager.lookup( ConfigurationRepository.ROLE );
+    }
+
+
+    public void initialize()
+        throws Exception
+    {
+    }
+
+    public void start()
+        throws Exception
+    {
+    }
+
+    public void stop()
+        throws Exception
+    {
+    }
+
+    public void dispose()
+    {
+        final String[] names = list();
+        for( int i = 0; i < names.length; i++ )
+        {
+            try
+            {
+                final SarEntry entry = (SarEntry)getEntry( names[ i ] );
+                stopEntry( entry );
+                disposeEntry( entry );
+            }
+            catch( final Exception e )
+            {
+                final String message = REZ.getString( "kernel.error.entry.dispose", names[ i ] );
+                getLogger().warn( message, e );
+            }
+        }
+    }
+
+
+    /**
+     * After being added to container, start the entry if kernel is started.
+     *
+     * @param name the name of entry
+     * @param entry the entry
+     */
+    protected void postAdd( final String name, final Entry entry )
+    {
+        try { startEntry( (SarEntry)entry ); }
+        catch( final Exception e )
+        {
+            final String message = REZ.getString( "kernel.error.entry.start", name );
+            getLogger().warn( message, e );
+        }
+    }
+
+    /**
+     * Create and initialize the application instance if it is not already initialized.
+     *
+     * @param name the name of application
+     * @param entry the entry for application
+     * @exception ContainerException if an error occurs
+     */
+    private void initializeEntry( final SarEntry entry )
+        throws ContainerException
+    {
+        Application application = entry.getApplication();
+
+        if( null == application )
+        {
+            application = new DefaultServerApplication();
+
+            try
+            {
+                entry.setApplication( application );
+
+                //Give sub-class chance to prepare entry
+                //This performs process required before the application
+                //is ready to be initialized
+                prepareApplication( entry );
+
+                application.initialize();
+            }
+            catch( final Throwable t )
+            {
+                //Initialization failed so clean entry
+                //so invalid instance is not used
+                entry.setApplication( null );
+
+                final String message = 
+                    REZ.getString( "kernel.error.entry.initialize", entry.getMetaData().getName() );
+                throw new ContainerException( message, t );
+            }
+        }
+    }
+
+    private void startEntry( final SarEntry entry )
+        throws Exception
+    {
+        Application application = entry.getApplication();
+        if( null == application )
+        {
+            initializeEntry( entry );
+            application = entry.getApplication();
+        }
+
+        application.start();
+    }
+
+    private void stopEntry( final SarEntry entry )
+        throws Exception
+    {
+        final Application application = entry.getApplication();
+        if( null != application )
+        {
+            application.stop();
+        }
+        else
+        {
+            final String message = 
+                REZ.getString( "kernel.error.entry.nostop", entry.getMetaData().getName() );
+            getLogger().warn( message );
+        }
+    }
+
+    private void disposeEntry( final SarEntry entry )
+        throws ContainerException
+    {
+        final Application application = entry.getApplication();
+
+        if( null != application )
+        {
+            entry.setApplication( null );
+            application.dispose();
+        }
     }
 
     public void addApplication( final SarMetaData metaData,
@@ -116,7 +250,18 @@ public class DefaultKernel
     {
         final DefaultApplicationFrame frame = 
             new DefaultApplicationFrame( entry.getClassLoader(), entry.getMetaData() );
+
         setupLogger( entry.getApplication(), entry.getMetaData().getName() + ".frame" );
+
+        if( frame instanceof Composable )
+        {
+            final DefaultComponentManager componentManager = new DefaultComponentManager();
+            //componentManager.put( SystemManager.ROLE, m_systemManager );
+            componentManager.put( ConfigurationRepository.ROLE, m_repository );
+            componentManager.makeReadOnly();
+            ((Composable)frame).compose( componentManager );
+        }
+
         frame.configure( entry.getConfiguration() );
         frame.initialize();
         return frame;
