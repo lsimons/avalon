@@ -88,11 +88,6 @@
                 export statements that isolate a block implementation from the services 
                 it provides.</td>
           </tr>
-          <tr>
-            <td><a href="containers.html">Custom Containers</a></td>
-            <td>Example of the creation of a custom container including dynamic component 
-                management.</td>
-          </tr>
         </table>
     </section>
   </body>
