@@ -63,4 +63,12 @@ public interface EmbeddorMBean
      * Request the Embeddor shutsdown.
      */
     void shutdown();
+
+    /**
+     * Request the embeddor to restart.
+     * 
+     * @exception UnsupportedOperationException if restart not a supported operation
+     */
+    void restart()
+        throws UnsupportedOperationException;
 }
