@@ -113,7 +113,6 @@
     <info>
       <group>avalon/http</group>
       <name>avalon-http-demo</name>
-      <type>block</type>
       <version>1.0.0</version>
       <status>SNAPSHOT</status> 
     </info>
@@ -121,6 +120,9 @@
       <include key="avalon-http-impl" />
       <include key="servletapi" />
     </dependencies>
+    <plugins>
+      <include key="avalon-meta-tools"/>
+    </plugins>
   </project>
 
   <project basedir="static">
