@@ -149,13 +149,13 @@
 
     <target name="test-reports" depends="test" description="Generate Reports for the unit tests">
 
-        <mkdir dir="${build.reports}"/>
+        <mkdir dir="${build.reports}/junit"/>
 
         <junitreport todir="${build.tests}">
             <fileset dir="${build.tests}">
                 <include name="TEST-*.xml"/>
             </fileset>
-            <report format="frames" todir="${build.reports}"/>
+            <report format="frames" todir="${build.reports}/junit"/>
         </junitreport>
 
         <!-- Clean up the xml reports used by the junitreport task -->
@@ -168,8 +168,26 @@
 
     </target>
 
+    <target name="jdepend" if="do.jdepend" description="Generate Dependency Analysis Report">
+
+        <!-- this invocation of jdepend requires the CVS version of ant for the xml format -->
+        <!-- thats why you are required to define do.jdepend property to generate the report -->
+        <jdepend outputfile="${build.dir}/jdepend-results.xml" format="xml" fork="yes">
+            <classpath refid="project.class.path"/>
+            <sourcespath>
+                <pathelement location="src/java" />
+            </sourcespath>
+        </jdepend>
+
+        <mkdir dir="${build.reports}/jdepend"/>
+        <style in="${build.dir}/jdepend-results.xml" 
+               processor="trax" 
+               out="${build.reports}/jdepend/delete-me.txt" 
+               style="${ant.home}/etc/jdepend-frames.xsl"/>
+    </target>
+
     <!-- Creates the distribution -->
-    <target name="dist" depends="jar, test-reports, javadocs" description="Generates the jar files">
+    <target name="dist" depends="jar, test-reports, jdepend, javadocs" description="Generates the jar files">
 
         <mkdir dir="${dist.dir}"/>
         <copy file="${build.lib}/${dist.name}.jar" todir="${dist.dir}"/>
