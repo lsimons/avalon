@@ -76,7 +76,7 @@ public class DefaultComponentModel extends DefaultDeploymentModel
     private static final Resources REZ =
       ResourceManager.getPackageResources( DefaultComponentModel.class );
 
-   private static final String CONTEXTUALIZABLE = 
+    private static final String CONTEXTUALIZABLE = 
      "org.apache.avalon.framework.context.Contextualizable";
 
     private static final Configuration EMPTY_CONFIGURATION =
@@ -479,6 +479,33 @@ public class DefaultComponentModel extends DefaultDeploymentModel
         return m_context.getType().getInfo().getCollectionPolicy();
     }
     
+   /**
+    * Return the proxy enabled policy for the model. If the system wide
+    * proxy enabled is disabled the operation will return false otherwise the 
+    * value returned is true unless overriden by the "urn:composition:proxy"
+    * attribute.
+    *
+    * @return the proxy policy
+    */
+    public boolean getProxyPolicy()
+    {
+        if( m_context.getSystemContext().isProxyEnabled() )
+        {
+            if( getType().getInfo().getAttribute( PROXY_KEY, "true" ).equals( "false" ) )
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+        else
+        {
+            return false;
+        }        
+    }
+
    /**
     * Return the activation policy for the model. 
     * @return the activaltion policy
