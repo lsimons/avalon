@@ -260,15 +260,15 @@ Legal:
       <classpath refid="project.class.path" />
     </javac>
 
-    <rmic base="${build.cadastre}" 
-          classname="org.apache.avalon.cadastre.rmi.server.RMINamingProviderImpl" 
+    <rmic base="${build.cadastre}"
+          classname="org.apache.avalon.cadastre.rmi.server.RMINamingProviderImpl"
           stubVersion="1.2">
       <classpath refid="project.class.path" />
     </rmic>
 
   </target>
 
-  <target name="test" depends="compile" > 
+  <target name="test" depends="compile" >
     <mkdir dir="${build.testdocs}"/>
     <mkdir dir="${build.reports}"/>
 
@@ -278,13 +278,10 @@ Legal:
       <classpath refid="test.class.path"/>
       <batchtest todir="${build.reports}">
         <fileset dir="${build.classes}">
-          <exclude name="org/apache/avalon/excalibur/test/*"/>
-          <exclude name="**$*"/>
-          <include name="**/test/*"/>
+          <include name="**/test/*Profile.class"/>
+          <include name="**/test/*TestCase.class"/>
         </fileset>
       </batchtest>
-<!--      <test name="org.apache.avalon.excalibur.test.ExcaliburTestSuite"
-            todir="${build.reports}"/> -->
     </junit>
 
     <junitreport todir="${build.reports}">
@@ -323,7 +320,7 @@ Legal:
     <delete dir="${build.javadocs}"/>
     <mkdir dir="${build.javadocs}"/>
 
-    <!-- Ugly hack work around to remove duplicates 
+    <!-- Ugly hack work around to remove duplicates
     of JdbcConnection so javadoc won't be confused -->
     <mkdir dir="${build.src}"/>
     <copy todir="${build.src}">
@@ -331,7 +328,7 @@ Legal:
         <exclude name="org/apache/avalon/excalibur/datasource/Jdbc3Connection.java"/>
         <exclude name="org/apache/avalon/excalibur/datasource/Jdbc2Connection.java"/>
       </fileset>
-    </copy>    
+    </copy>
 
     <javadoc packagenames="org.apache.*"
              sourcepath="${build.src}"
@@ -417,9 +414,9 @@ Legal:
       </fileset>
     </copy>
 
-    <style style="${announce2txt}" in="${build.context}/xdocs/announcement.xml" 
+    <style style="${announce2txt}" in="${build.context}/xdocs/announcement.xml"
            out="Announcement.txt"/>
-    <style style="${announce2header}" in="${build.context}/xdocs/announcement.xml" 
+    <style style="${announce2header}" in="${build.context}/xdocs/announcement.xml"
            out="${dist.base}/HEADER.html"/>
 
   </target>
