@@ -23,7 +23,7 @@ public abstract class AbstractOutputTarget
     protected Formatter                   m_formatter;
 
     /**
-     * Accessor for proeprty 'formatter'.
+     * Retrieve the associated formatter.
      *
      * @return the formatter
      */
