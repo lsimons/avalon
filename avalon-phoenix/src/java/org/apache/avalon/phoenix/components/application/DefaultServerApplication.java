@@ -40,12 +40,12 @@ import org.apache.avalon.phoenix.components.phases.ShutdownPhase;
 import org.apache.avalon.phoenix.components.phases.StartupPhase;
 import org.apache.avalon.phoenix.components.kapi.BlockEntry;
 import org.apache.avalon.phoenix.metadata.RoleMetaData;
+import org.apache.avalon.phoenix.metadata.BlockListenerMetaData;
 import org.apache.avalon.phoenix.metainfo.BlockInfo;
 import org.apache.avalon.phoenix.metainfo.BlockInfoBuilder;
 import org.apache.avalon.phoenix.metainfo.DependencyDescriptor;
 import org.apache.avalon.phoenix.components.listeners.BlockListenerSupport;
 import org.apache.avalon.phoenix.components.listeners.BlockListenerManager;
-import org.apache.avalon.phoenix.components.kapi.BlockListenerEntry;
 import org.apache.avalon.phoenix.BlockListener;
 import org.apache.avalon.phoenix.components.configuration.ConfigurationRepository;
 
@@ -83,7 +83,7 @@ public final class DefaultServerApplication
     //these are the facilities (internal components) of ServerApplication
     private ApplicationFrame         m_frame;
     private BlockListenerManager     m_listenerManager;
-    private BlockListenerEntry[]     m_listenerEntrys;
+    private BlockListenerMetaData[]     m_listenerEntrys;
 
     //Repository of configuration data to access
     private ConfigurationRepository m_repository;
@@ -124,7 +124,7 @@ public final class DefaultServerApplication
         m_repository = (ConfigurationRepository)componentManager.lookup( ConfigurationRepository.ROLE );
     }
 
-    public void addBlockListenerEntrys( final BlockListenerEntry[] listeners )
+    public void addBlockListeners( final BlockListenerMetaData[] listeners )
     {
         m_listenerEntrys = listeners;
     }
@@ -260,7 +260,7 @@ public final class DefaultServerApplication
     {
         for( int i = 0; i < m_listenerEntrys.length; i++ )
         {
-            final BlockListenerEntry entry = m_listenerEntrys[ i ];
+            final BlockListenerMetaData entry = m_listenerEntrys[ i ];
             
             try
             {
@@ -275,7 +275,7 @@ public final class DefaultServerApplication
         }
     }
 
-    private void loadBlockListener( final BlockListenerEntry entry )
+    private void loadBlockListener( final BlockListenerMetaData entry )
         throws Exception
     {
         final ClassLoader classLoader = m_frame.getClassLoader();

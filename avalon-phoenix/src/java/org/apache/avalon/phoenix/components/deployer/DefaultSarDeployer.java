@@ -10,12 +10,12 @@ package org.apache.avalon.phoenix.components.deployer;
 import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
-import org.apache.avalon.excalibur.i18n.ResourceManager;
-import org.apache.avalon.excalibur.i18n.Resources;
-import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.excalibur.container.Container;
 import org.apache.avalon.excalibur.container.ContainerException;
 import org.apache.avalon.excalibur.container.Locator;
+import org.apache.avalon.excalibur.i18n.ResourceManager;
+import org.apache.avalon.excalibur.i18n.Resources;
+import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.component.ComponentException;
 import org.apache.avalon.framework.component.ComponentManager;
 import org.apache.avalon.framework.component.Composable;
@@ -25,12 +25,11 @@ import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
 import org.apache.avalon.framework.logger.AbstractLoggable;
 import org.apache.avalon.phoenix.components.application.Application;
 import org.apache.avalon.phoenix.components.configuration.ConfigurationRepository;
-import org.apache.avalon.phoenix.components.kapi.BlockEntry;
-import org.apache.avalon.phoenix.components.kapi.BlockListenerEntry;
-import org.apache.avalon.phoenix.components.kapi.ServerApplicationEntry;
 import org.apache.avalon.phoenix.components.installer.Installation;
-import org.apache.avalon.phoenix.metadata.BlockMetaData;
+import org.apache.avalon.phoenix.components.kapi.BlockEntry;
+import org.apache.avalon.phoenix.components.kapi.ServerApplicationEntry;
 import org.apache.avalon.phoenix.metadata.BlockListenerMetaData;
+import org.apache.avalon.phoenix.metadata.BlockMetaData;
 import org.apache.avalon.phoenix.metadata.RoleMetaData;
 import org.apache.avalon.phoenix.metadata.SarMetaData;
 
@@ -109,12 +108,11 @@ public class DefaultSarDeployer
         final BlockEntry[] blockEntrys = assembleBlocks( entry, blocks );
         entry.setBlockEntrys( blockEntrys );
 
-        final Configuration[] blockListeners = configuration.getChildren( "block-listener" );
-        final BlockListenerEntry[] blockListenerEntrys = 
-            assembleBlockListeners( entry, blockListeners );
-        entry.setListenerEntrys( blockListenerEntrys );
+        final Configuration[] listeners = configuration.getChildren( "block-listener" );
+        final BlockListenerMetaData[] blockListeners = assembleBlockListeners( entry, listeners );
+        entry.setListeners( blockListeners );
 
-        checkNamesUnique( blockEntrys, blockListenerEntrys );
+        checkNamesUnique( blockEntrys, blockListeners );
 
         //Setup configuration for all the applications blocks
         configuration = getConfigurationFor( installation.getConfig() );
@@ -125,7 +123,7 @@ public class DefaultSarDeployer
     }
 
     private void checkNamesUnique( final BlockEntry[] blocks, 
-                                   final BlockListenerEntry[] listeners )
+                                   final BlockListenerMetaData[] listeners )
         throws DeploymentException
     {
         for( int i = 0; i < blocks.length; i++ )
@@ -143,7 +141,7 @@ public class DefaultSarDeployer
 
     private void checkNameUnique( final String name, 
                                   final BlockEntry[] blocks, 
-                                  final BlockListenerEntry[] listeners,
+                                  final BlockListenerMetaData[] listeners,
                                   final int blockIndex,
                                   final int listenerIndex )
         throws DeploymentException
@@ -261,15 +259,15 @@ public class DefaultSarDeployer
 
 
     /**
-     * Process assembly.xml and create a list of BlockListenerEntrys.
+     * Process assembly.xml and create a list of BlockListenerMetaDatas.
      *
      * @param saEntry the ServerApplication Entry
      * @param blockListeners the assembly data for blockListeners
-     * @return the  created BlockListenerEntrys
+     * @return the  created BlockListenerMetaDatas
      * @exception DeploymentException if an error occurs
      */
-    private BlockListenerEntry[] assembleBlockListeners( final ServerApplicationEntry saEntry,
-                                                         final Configuration[] listeners )
+    private BlockListenerMetaData[] assembleBlockListeners( final ServerApplicationEntry saEntry,
+                                                            final Configuration[] listeners )
         throws DeploymentException
     {
         final ArrayList listenerEntrys = new ArrayList();
@@ -282,7 +280,7 @@ public class DefaultSarDeployer
                 final String name = listener.getAttribute( "name" );
                 final String className = listener.getAttribute( "class" );
 
-                final BlockListenerEntry entry = new BlockListenerEntry( name, className );
+                final BlockListenerMetaData entry = new BlockListenerMetaData( name, className );
                 listenerEntrys.add( entry );
 
                 final String message = REZ.getString( "deploy.notice.listener.add", name );
@@ -295,7 +293,7 @@ public class DefaultSarDeployer
             }
         }
 
-        return (BlockListenerEntry[])listenerEntrys.toArray( new BlockListenerEntry[ 0 ] );
+        return (BlockListenerMetaData[])listenerEntrys.toArray( new BlockListenerMetaData[ 0 ] );
     }
 
     /**
@@ -342,7 +340,7 @@ public class DefaultSarDeployer
             try { getBlockEntry( name, saEntry.getBlockEntrys() ); }
             catch( final Exception e )
             {
-                try { getBlockListenerEntry( name, saEntry.getListenerEntrys() ); }
+                try { getBlockListener( name, saEntry.getListeners() ); }
                 catch( final Exception e2 )
                 {
                     final String message = REZ.getString( "deploy.error.extra.config", name );
@@ -393,15 +391,15 @@ public class DefaultSarDeployer
      * @return the BlockListenerEntry
      * @exception DeploymentException if BlockListenerEntry not found
      */
-    private BlockListenerEntry getBlockListenerEntry( final String name,
-                                                      final BlockListenerEntry[] listenerEntrys )
+    private BlockListenerMetaData getBlockListener( final String name,
+                                                    final BlockListenerMetaData[] listeners )
         throws DeploymentException
     {
-        for( int i = 0; i < listenerEntrys.length; i++ )
+        for( int i = 0; i < listeners.length; i++ )
         {
-            if( listenerEntrys[ i ].getName().equals( name ) )
+            if( listeners[ i ].getName().equals( name ) )
             {
-                return listenerEntrys[ i ];
+                return listeners[ i ];
             }
         }
 

@@ -11,7 +11,7 @@ import org.apache.avalon.excalibur.container.Container;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.activity.Startable;
-import org.apache.avalon.phoenix.components.kapi.BlockListenerEntry;
+import org.apache.avalon.phoenix.metadata.BlockListenerMetaData;
 
 /**
  * The Application is a self-contained component that performs a specific
@@ -26,5 +26,5 @@ import org.apache.avalon.phoenix.components.kapi.BlockListenerEntry;
 public interface Application
     extends Container, Initializable, Startable, Disposable
 {
-    void addBlockListenerEntrys( BlockListenerEntry[] listeners );
+    void addBlockListeners( BlockListenerMetaData[] listeners );
 }
