@@ -23,6 +23,9 @@
 
  <body>
     <menu>
+      <item name="Lifecycle" href="lifecycle.html"/>
+      <item name="Remoting" href="remoting.html"/>
+      <item name="Invokers" href="invokers.html"/>
     </menu>
   </body>
 
