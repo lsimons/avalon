@@ -49,6 +49,9 @@ public class AttributeCompiler extends XJavadocTask {
             XTag tag = (XTag) iter.next ();
             
             String expression = tag.getName () + " " + tag.getValue ();
+            if (!expression.endsWith (")")) {
+                expression = expression + "()";
+            }
             
             if (Character.isUpperCase (expression.charAt (0))) {
                 pw.println ("        " + collectionName + ".add (\n" +
@@ -90,7 +93,7 @@ public class AttributeCompiler extends XJavadocTask {
         
         String name = xClass.getQualifiedName ();
         File sourceFile = getSourceFile (name);
-        File destFile = new File (destDir, name.replace ('.', '/') + "$Attributes.java");
+        File destFile = new File (destDir, name.replace ('.', '/') + "$__org_apache_avalon_Attributes.java");
         
         if (destFile.exists () && destFile.lastModified () >= sourceFile.lastModified ()) {
             return;
@@ -108,7 +111,7 @@ public class AttributeCompiler extends XJavadocTask {
         
         copyImports (sourceFile, pw);
         
-        pw.println ("public class " + className + "$Attributes implements org.apache.avalon.attributes.AttributeRepositoryClass {");
+        pw.println ("public class " + className + "$__org_apache_avalon_Attributes implements org.apache.avalon.attributes.AttributeRepositoryClass {");
         {
             pw.println ("    private static final java.util.Set classAttributes = new java.util.HashSet ();");
             pw.println ("    private static final java.util.Map fieldAttributes = new java.util.HashMap ();");
@@ -141,13 +144,15 @@ public class AttributeCompiler extends XJavadocTask {
             pw.println ("        java.util.Set attrs = null;");
             for (Iterator iter = xClass.getFields ().iterator (); iter.hasNext ();) {
                 XField member = (XField) iter.next ();
-                String key = member.getName ();
-                
-                pw.println ("        attrs = new java.util.HashSet ();");
-                addExpressions (member.getDoc ().getTags (), pw, "attrs", sourceFile.getPath ());
-                pw.println ("        fieldAttributes.put (\"" + key + "\", attrs);");
-                pw.println ("        attrs = null;");
-                pw.println ();
+                if (member.getDoc ().getTags ().size () > 0) {
+                    String key = member.getName ();
+                    
+                    pw.println ("        attrs = new java.util.HashSet ();");
+                    addExpressions (member.getDoc ().getTags (), pw, "attrs", sourceFile.getPath ());
+                    pw.println ("        fieldAttributes.put (\"" + key + "\", attrs);");
+                    pw.println ("        attrs = null;");
+                    pw.println ();
+                }
             }
             pw.println ("    }");
             
@@ -157,17 +162,19 @@ public class AttributeCompiler extends XJavadocTask {
             pw.println ("        java.util.Set attrs = null;");
             for (Iterator iter = xClass.getMethods ().iterator (); iter.hasNext ();) {
                 XMethod member = (XMethod) iter.next ();
-                StringBuffer sb = new StringBuffer ();
-                sb.append (member.getName ()).append ("(");
-                sb.append (getParameterTypes (member.getParameters ()));
-                sb.append (")");
-                String key = sb.toString ();
-                
-                pw.println ("        attrs = new java.util.HashSet ();");
-                addExpressions (member.getDoc ().getTags (), pw, "attrs", sourceFile.getPath ());
-                pw.println ("        methodAttributes.put (\"" + key + "\", attrs);");
-                pw.println ("        attrs = null;");
-                pw.println ();
+                if (member.getDoc ().getTags ().size () > 0) {
+                    StringBuffer sb = new StringBuffer ();
+                    sb.append (member.getName ()).append ("(");
+                    sb.append (getParameterTypes (member.getParameters ()));
+                    sb.append (")");
+                    String key = sb.toString ();
+                    
+                    pw.println ("        attrs = new java.util.HashSet ();");
+                    addExpressions (member.getDoc ().getTags (), pw, "attrs", sourceFile.getPath ());
+                    pw.println ("        methodAttributes.put (\"" + key + "\", attrs);");
+                    pw.println ("        attrs = null;");
+                    pw.println ();
+                }                
             }
             pw.println ("    }");
             
@@ -178,17 +185,19 @@ public class AttributeCompiler extends XJavadocTask {
             pw.println ("        java.util.Set attrs = null;");
             for (Iterator iter = xClass.getConstructors ().iterator (); iter.hasNext ();) {
                 XConstructor member = (XConstructor) iter.next ();
-                StringBuffer sb = new StringBuffer ();
-                sb.append ("(");
-                sb.append (getParameterTypes (member.getParameters ()));
-                sb.append (")");
-                String key = sb.toString ();
-                
-                pw.println ("        attrs = new java.util.HashSet ();");
-                addExpressions (member.getDoc ().getTags (), pw, "attrs", sourceFile.getPath ());
-                pw.println ("        constructorAttributes.put (\"" + key + "\", attrs);");
-                pw.println ("        attrs = null;");
-                pw.println ();
+                if (member.getDoc ().getTags ().size () > 0) {
+                    StringBuffer sb = new StringBuffer ();
+                    sb.append ("(");
+                    sb.append (getParameterTypes (member.getParameters ()));
+                    sb.append (")");
+                    String key = sb.toString ();
+                    
+                    pw.println ("        attrs = new java.util.HashSet ();");
+                    addExpressions (member.getDoc ().getTags (), pw, "attrs", sourceFile.getPath ());
+                    pw.println ("        constructorAttributes.put (\"" + key + "\", attrs);");
+                    pw.println ("        attrs = null;");
+                    pw.println ();
+                }
             }
             pw.println ("    }");            
         }

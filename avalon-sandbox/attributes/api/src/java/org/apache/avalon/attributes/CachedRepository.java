@@ -3,7 +3,7 @@ package org.apache.avalon.attributes;
 import java.lang.reflect.Field;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
-import java.util.*;
+import java.util.Collection;
 
 interface CachedRepository {
     

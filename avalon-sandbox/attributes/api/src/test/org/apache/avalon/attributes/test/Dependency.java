@@ -5,7 +5,7 @@ import org.apache.avalon.attributes.Inheritable;
 /**
  * Declares a dependency.
  * 
- * @Inheritable ()
+ * @Inheritable
  */
 public class Dependency {
     
@@ -23,6 +23,16 @@ public class Dependency {
     
     public String getDependencyName () {
         return name;
+    }
+    
+    public boolean equals (Object o) {
+        return o instanceof Dependency &&
+            ((Dependency) o).clazz == clazz &&
+            ((Dependency) o).name.equals (name);
+    }
+    
+    public int hashCode () {
+        return clazz.hashCode () ^ name.hashCode ();
     }
     
     public String toString () {
