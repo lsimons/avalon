@@ -67,7 +67,10 @@ namespace Apache.Avalon.Castle.MicroKernel.Handler
 			{
 				object instance = m_lifestyleManager.Resolve();
 
-				RegisterInstance( ref instance );
+                // TODO: Proxy
+                // instance = RaiseInterceptorEvent( instance );
+
+                RegisterInstance( instance );
 
 				return instance;
 			}
@@ -104,9 +107,9 @@ namespace Apache.Avalon.Castle.MicroKernel.Handler
 
 		#endregion
 
-		protected virtual void RegisterInstance( ref object instance )
+		protected virtual void RegisterInstance( object instance )
 		{
-			// RaiseComponentCreatedEvent( ref instance );
+			RaiseComponentCreatedEvent( instance );
 
 			if (!HasInstance( instance, false ))
 			{
@@ -118,9 +121,9 @@ namespace Apache.Avalon.Castle.MicroKernel.Handler
 
 		protected virtual void UnregisterInstance( object instance )
 		{
-			// RaiseComponentCreatedEvent( instance );
+            RaiseComponentDestroyedEvent( instance );
 
-			if (m_instances.Count == 0)
+            if (m_instances.Count == 0)
 			{
 				return;
 			}
@@ -152,34 +155,28 @@ namespace Apache.Avalon.Castle.MicroKernel.Handler
 			return false;
 		}
 
-        /*
-		protected virtual void RaiseComponentCreatedEvent( ref object instance )
-		{
-			IEventManager eventManager = (IEventManager) m_kernel.GetSubsystem( KernelConstants.EVENTS );
-			
-			if (eventManager != null)
-			{
-				// We're passing the instance and allowing the listeners to
-				// replace/wrap the instance as they wish.
-				EventManagerData data = new EventManagerData( m_componentModel, instance );
-				
-				eventManager.OnComponentCreated( data );
-
-				/// 90% of cases we're setting the same instance back
-				instance = data.Instance;
-			}
-		}
-
 		protected virtual void RaiseComponentCreatedEvent( object instance )
 		{
-			IEventManager eventManager = (IEventManager) m_kernel.GetSubsystem( KernelConstants.EVENTS );
-			
-			if (eventManager != null)
-			{
-				EventManagerData data = new EventManagerData( m_componentModel, instance );
-				eventManager.OnComponentDestroyed( data );
-			}
-		}
-        */
-	}
+            ComponentInstanceDelegate createdEvent = m_kernel.ComponentCreated;
+            
+            if (createdEvent == null)
+            {
+                return;
+            }
+
+            createdEvent( m_componentModel, this, instance );
+        }
+
+        protected virtual void RaiseComponentDestroyedEvent(object instance)
+        {
+            ComponentInstanceDelegate destroyedEvent = m_kernel.ComponentDestroyed;
+
+            if (destroyedEvent == null)
+            {
+                return;
+            }
+
+            destroyedEvent(m_componentModel, this, instance);
+        }
+    }
 }
