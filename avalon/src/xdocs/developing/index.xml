@@ -97,6 +97,7 @@
 	Sun Microsystems.
       </para>
     </legalnotice>
+    <xinclude:include href="changes.xml"/>
   </bookinfo>
   <dedication>
     <para>
