@@ -2,7 +2,8 @@
 #
 
 
-export MERLIN_VERSION="@MERLIN_CLI_VERSION@"
+MERLIN_VERSION="3.3.0"
+export MERLIN_VERSION 
 
 # Checking for JAVA_HOME is required on *nix due
 # to some distributions stupidly including kaffe in /usr/bin
@@ -14,7 +15,8 @@ if [ "$JAVA_HOME" = "" ] ; then
   exit 1
 fi
 
-export PLATFORM=`uname`
+PLATFORM=`uname`
+export PLATFORM
 
 #
 # Compute the MERLIN_HOME if not already set.
@@ -27,7 +29,9 @@ if [ -z "$MERLIN_HOME" ] ; then
     cd "$CWD"
     export MERLIN_HOME="`dirname "$ABSOLUTE_PATH"`"
 fi
-export MERLIN_BOOTSTRAP_JAR="$MERLIN_HOME/system/merlin/jars/merlin-cli-$MERLIN_VERSION.jar"
+
+MERLIN_BOOTSTRAP_JAR="$MERLIN_HOME/system/merlin/jars/merlin-cli-$MERLIN_VERSION.jar"
+export MERLIN_BOOTSTRAP_JAR
 
 if [ `echo $PLATFORM | grep "CYGWIN"` ] ; then
     exec "$MERLIN_HOME/bin/internal-cygwin.sh" "$@"
