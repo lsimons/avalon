@@ -505,12 +505,12 @@ Legal:
 
     <mkdir dir="${build.lib}"/>
 
-    <jar file="${build.lib}/avalon-${name}.jar" basedir="${build.classes}">
+    <jar jarfile="${build.lib}/avalon-${name}.jar" basedir="${build.classes}">
       <include name="org/apache/avalon/excalibur/**"/>
       <exclude name="**/test/*"/>
     </jar>
 
-    <jar file="${build.lib}/${scratchpad.name}.jar" basedir="${build.scratchpad}">
+    <jar jarfile="${build.lib}/${scratchpad.name}.jar" basedir="${build.scratchpad}">
       <include name="org/apache/avalon/excalibur/**"/>
       <exclude name="**/test/*"/>
     </jar>
