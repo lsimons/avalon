@@ -57,6 +57,7 @@ package org.apache.avalon.fortress.tools;
 import com.thoughtworks.qdox.model.*;
 import org.apache.avalon.fortress.MetaInfoEntry;
 import org.apache.avalon.fortress.util.dag.Vertex;
+import org.apache.avalon.fortress.util.Service;
 import org.apache.tools.ant.BuildException;
 
 import java.io.File;
@@ -68,7 +69,7 @@ import java.util.*;
  * Represents a component, and output the meta information.
  *
  * @author <a href="mailto:dev@avalon.apache.org">The Avalon Team</a>
- * @version CVS $Revision: 1.13 $ $Date: 2003/05/31 06:52:49 $
+ * @version CVS $Revision: 1.14 $ $Date: 2003/06/17 20:50:26 $
  */
 final class Component
 {
@@ -127,7 +128,7 @@ final class Component
                     + "\"@" + TAG_SERVICE + "\" meta tag in "
                     + javaClass.getName() );
             }
-            
+
             final String serviceName = resolveClassName( m_javaClass.getParentSource(),
                     tags[t].getNamedParameter( Component.ATTR_TYPE ) );
             m_serviceNames.add( serviceName );
@@ -179,7 +180,7 @@ final class Component
                                 + "\"@" + TAG_DEPENDENCY + "\" meta tag of the " + METH_SERVICE
                                 + " method in " + fromClass.getName() );
                         }
-                        
+
                         String type = resolveClassName( fromClass.getParentSource(),
                                 dependencies[d].getNamedParameter( ATTR_TYPE ) );
                         //String optional = dependencies[d].getNamedParameter("optional");
@@ -205,7 +206,7 @@ final class Component
         DocletTag avalonConfigName = m_javaClass.getTagByName( TAG_INFO );
         if ( null == avalonConfigName ) avalonConfigName = m_javaClass.getTagByName( TAG_NAME );
 
-        setAttribute( META_NAME, ( avalonConfigName == null ) ? MetaInfoEntry.createShortName( m_javaClass.getName() ) : avalonConfigName.getNamedParameter( ATTR_NAME ) );
+        setAttribute( META_NAME, ( avalonConfigName == null ) ? Service.createShortName( m_javaClass.getName() ) : avalonConfigName.getNamedParameter( ATTR_NAME ) );
     }
 
     private void discoverLifecycleType()

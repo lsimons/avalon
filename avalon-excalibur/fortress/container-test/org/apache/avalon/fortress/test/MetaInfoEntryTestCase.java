@@ -52,6 +52,7 @@ package org.apache.avalon.fortress.test;
 import junit.framework.TestCase;
 import org.apache.avalon.fortress.MetaInfoEntry;
 import org.apache.avalon.fortress.RoleEntry;
+import org.apache.avalon.fortress.util.Service;
 import org.apache.avalon.fortress.impl.handler.FactoryComponentHandler;
 import org.apache.avalon.fortress.impl.handler.PerThreadComponentHandler;
 import org.apache.avalon.fortress.impl.handler.PoolableComponentHandler;
@@ -236,22 +237,22 @@ public class MetaInfoEntryTestCase extends TestCase
         String start = "Regular";
         String end   = "regular";
 
-        assertEquals( end, MetaInfoEntry.createShortName(start));
+        assertEquals( end, Service.createShortName(start));
 
         start = "TwoWords";
         end = "two-words";
 
-        assertEquals( end, MetaInfoEntry.createShortName(start));
+        assertEquals( end, Service.createShortName(start));
 
         start = "MANYcaps";
         end = "manycaps";
 
-        assertEquals( end, MetaInfoEntry.createShortName( start ) );
+        assertEquals( end, Service.createShortName( start ) );
 
         start = "MANYcapsAndWords";
         end = "manycaps-and-words";
 
-        assertEquals( end, MetaInfoEntry.createShortName( start ) );
+        assertEquals( end, Service.createShortName( start ) );
     }
 
     private void checkMetaInfoEntry( MetaInfoEntry entry, Class handler, String name, boolean oneRole )
