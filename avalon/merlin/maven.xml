@@ -1,8 +1,8 @@
 <project default="merlin:build" xmlns:maven="jelly:maven" xmlns:j="jelly:core" xmlns:util="jelly:util" xmlns:ant="jelly:ant">
 
   <ant:property name="merlin.bootstrap.jar" value="merlin-bootstrap-1.0.jar"/>
-  <ant:property name="merlin.plugin.jar" value="merlin-plugin-1.0.jar"/>
-  <ant:property name="meta.plugin.jar" value="avalon-meta-plugin-1.1.jar"/>
+  <ant:property name="merlin.plugin.jar" value="merlin-plugin-1.1-SNAPSHOT.jar"/>
+  <ant:property name="meta.plugin.jar" value="avalon-meta-plugin-1.2-SNAPSHOT.jar"/>
 
   <ant:property file="project.properties"/>
   <ant:property name="maven.docs.src" value="${basedir}/platform/xdocs"/>
@@ -249,16 +249,19 @@
   -->
   <goal name="ximport">
     <j:forEach var="dep" items="${pom.dependencies}">
-      <mkdir dir="${maven.build.dir}/${merlin.build.inst}/system/${dep.artifactDirectory}/jars"/>
+      <mkdir dir="${maven.build.dir}/${merlin.build.inst}/system/${dep.artifactDirectory}/${dep.type}s"/>
       <copy 
-        todir="${maven.build.dir}/${merlin.build.inst}/system/${dep.artifactDirectory}/jars/"
-        file="${maven.repo.local}/${dep.artifactDirectory}/jars/${dep.artifact}"/>
+        todir="${maven.build.dir}/${merlin.build.inst}/system/${dep.artifactDirectory}/${dep.type}s/"
+        file="${maven.repo.local}/${dep.artifactDirectory}/${dep.type}s/${dep.artifact}"/>
     </j:forEach>
   </goal>
 
   <!--
   Generation of the documentation for the entire Merlin project including the 
   related subprojects.
+  NOTE: merlin site generation is broken due a bug in Maven RC1
+  Workaround is to download docs from 
+  http://www.apache.org/dist/avalon/merlin/binaries/
   -->
   <goal name="merlin:site"
       description="Build the Merlin site" prereqs="license">
@@ -268,7 +271,6 @@
       banner="Building site:"
       ignoreFailures="false"/>
   </goal>
-
 
   <!--
   Build the tuturials distribution.
