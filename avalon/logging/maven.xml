@@ -132,7 +132,17 @@
   ==============================================================================
   -->
 
-  <goal name="avalon:site" prereqs="xjavadoc,site"/>
+  <goal name="avalon:site" prereqs="xavalon:css-copy,xjavadoc,site"/>
+
+  <goal name="xavalon:css-copy">
+    <ant:mkdir dir="${maven.build.dir}/docs/style"/>
+    <ant:copy toDir="${maven.build.dir}/docs/style">
+      <fileset dir="${basedir}/site/etc">
+        <include name="maven.css"/>
+        <include name="tigris.css"/>
+      </fileset>
+    </ant:copy>
+  </goal>
 
   <!--
   ==============================================================================

@@ -10,8 +10,8 @@
       <item name="Apache" href="http://apache.org/"/>
       <item name="Avalon" href="/index.html"/>
       <item name="Framework" href="/product/framework/index.html"/>
-      <item name="Containment" href="/product/containers/index.html"/>
-      <item name="Components" href="/product/components/index.html"/>
+      <item name="Merlin" href="/product/containers/index.html"/>
+      <item name="Planet" href="/product/components/index.html"/>
     </links>
 
     <menu name="About Avalon">
@@ -38,15 +38,16 @@
       <item name="Sandbox" href="/sandbox/index.html"/>
       <item name="Mailing Lists" href="/mailing-lists.html"/>
       <item name="Issue Tracking"  href="/issues.html"/>
-      <item name="Related Projects" href="/related/index.html"/>
+      <item name="External Projects" href="/related/index.html"/>
     </menu>
 
     <menu name="Related">
-      <item name="Framework" href="http://avalon.apache.org/framework"/>
-      <item name="Meta" href="http://avalon.apache.org/meta"/>
-      <item name="Utilities" href="http://avalon.apache.org/util"/>
-      <item name="Repository" href="http://avalon.apache.org/repository"/>
-      <item name="Merlin" href="http://avalon.apache.org/merlin"/>
+      <item name="Avalon Framework" href="http://avalon.apache.org/framework"/>
+      <item name="Avalon Meta" href="http://avalon.apache.org/meta"/>
+      <item name="Avalon Utilities" href="http://avalon.apache.org/util"/>
+      <item name="Avalon Repository" href="http://avalon.apache.org/repository"/>
+      <item name="Avalon Merlin" href="http://avalon.apache.org/merlin"/>
+      <item name="Avalon Planet" href="http://avalon.apache.org/components"/>
     </menu>
 
  </body>

@@ -3,3 +3,4 @@ target
 .project
 *.log
 build.properties
+build.xml

@@ -26,21 +26,21 @@
             </td>
         </tr>
         <tr>
-          <td><a href="product/containers/index.html">Containment</a></td>
+          <td><a href="product/containers/index.html">Merlin</a></td>
           <td>
               <p>
                 A container is a platform supporting the management of 
-                components. This page provides links to Avalon's reference
-                implementation, general containment theory, and references
-                to legacy products.
+                components. This page provides links to Merlin - Avalon's reference
+                implementation, general containment theory and background.
               </p>
             </td>
         </tr>
         <tr>
-          <td><a href="product/components/index.html">Components</a></td>
+          <td><a href="product/components/index.html">Planet</a></td>
           <td>
-              <p>The components page provides a summary of the two main
-              component groups in Avalon.</p>
+              <p>The components page provides a summary of the main
+              component groups in Avalon and overall component repository
+              management strategies.</p>
             </td>
         </tr>
       </table>
