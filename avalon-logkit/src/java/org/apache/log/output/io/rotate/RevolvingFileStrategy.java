@@ -23,7 +23,7 @@ public class RevolvingFileStrategy
     implements FileStrategy
 {
     ///revolving suffix formatting pattern. ie. "'.'000000"
-    private final static String PATTERN = "'.'000000";
+    private static final String PATTERN = "'.'000000";
 
     ///a revolving suffix formatter
     private DecimalFormat m_decimalFormat;

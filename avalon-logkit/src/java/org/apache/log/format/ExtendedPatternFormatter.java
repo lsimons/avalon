@@ -24,16 +24,16 @@ import org.apache.log.util.StackIntrospector;
  * information dynamically.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version CVS $Revision: 1.4 $ $Date: 2002/03/27 22:07:56 $
+ * @version CVS $Revision: 1.5 $ $Date: 2002/05/20 10:12:50 $
  */
 public class ExtendedPatternFormatter
     extends PatternFormatter
 {
-    private final static int TYPE_METHOD = MAX_TYPE + 1;
-    private final static int TYPE_THREAD = MAX_TYPE + 2;
+    private static final int TYPE_METHOD = MAX_TYPE + 1;
+    private static final int TYPE_THREAD = MAX_TYPE + 2;
 
-    private final static String TYPE_METHOD_STR = "method";
-    private final static String TYPE_THREAD_STR = "thread";
+    private static final String TYPE_METHOD_STR = "method";
+    private static final String TYPE_THREAD_STR = "thread";
 
     public ExtendedPatternFormatter( final String format )
     {

@@ -37,7 +37,7 @@ public class ContextStack
      *
      * @return the current ContextStack
      */
-    public final static ContextStack getCurrentContext()
+    public static final ContextStack getCurrentContext()
     {
         return getCurrentContext( true );
     }
@@ -52,7 +52,7 @@ public class ContextStack
      * @param autocreate true if a ContextStack is to be created if it doesn't exist
      * @return the current ContextStack
      */
-    final static ContextStack getCurrentContext( final boolean autocreate )
+    static final ContextStack getCurrentContext( final boolean autocreate )
     {
         ContextStack context = (ContextStack)c_context.get();
 

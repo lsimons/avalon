@@ -100,43 +100,43 @@ import org.apache.log.Priority;
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  * @author <a href="mailto:sylvain@apache.org">Sylvain Wallez</a>
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.28 $ $Date: 2002/04/07 05:09:45 $
+ * @version CVS $Revision: 1.29 $ $Date: 2002/05/20 10:12:50 $
  */
 public class PatternFormatter
     implements Formatter, org.apache.log.Formatter
 {
-    private final static int TYPE_TEXT = 1;
-    private final static int TYPE_CATEGORY = 2;
-    private final static int TYPE_CONTEXT = 3;
-    private final static int TYPE_MESSAGE = 4;
-    private final static int TYPE_TIME = 5;
-    private final static int TYPE_RELATIVE_TIME = 6;
-    private final static int TYPE_THROWABLE = 7;
-    private final static int TYPE_PRIORITY = 8;
-    private final static int TYPE_THREAD = 9;
+    private static final int TYPE_TEXT = 1;
+    private static final int TYPE_CATEGORY = 2;
+    private static final int TYPE_CONTEXT = 3;
+    private static final int TYPE_MESSAGE = 4;
+    private static final int TYPE_TIME = 5;
+    private static final int TYPE_RELATIVE_TIME = 6;
+    private static final int TYPE_THROWABLE = 7;
+    private static final int TYPE_PRIORITY = 8;
+    private static final int TYPE_THREAD = 9;
 
     /**
      * The maximum value used for TYPEs. Subclasses can define their own TYPEs
      * starting at <code>MAX_TYPE + 1</code>.
      */
-    protected final static int MAX_TYPE = TYPE_PRIORITY;
+    protected static final int MAX_TYPE = TYPE_PRIORITY;
 
-    private final static String TYPE_CATEGORY_STR = "category";
-    private final static String TYPE_CONTEXT_STR = "context";
-    private final static String TYPE_MESSAGE_STR = "message";
-    private final static String TYPE_TIME_STR = "time";
-    private final static String TYPE_RELATIVE_TIME_STR = "rtime";
-    private final static String TYPE_THROWABLE_STR = "throwable";
-    private final static String TYPE_PRIORITY_STR = "priority";
-    private final static String TYPE_THREAD_STR = "thread";
+    private static final String TYPE_CATEGORY_STR = "category";
+    private static final String TYPE_CONTEXT_STR = "context";
+    private static final String TYPE_MESSAGE_STR = "message";
+    private static final String TYPE_TIME_STR = "time";
+    private static final String TYPE_RELATIVE_TIME_STR = "rtime";
+    private static final String TYPE_THROWABLE_STR = "throwable";
+    private static final String TYPE_PRIORITY_STR = "priority";
+    private static final String TYPE_THREAD_STR = "thread";
 
-    private final static String SPACE_16 = "                ";
-    private final static String SPACE_8 = "        ";
-    private final static String SPACE_4 = "    ";
-    private final static String SPACE_2 = "  ";
-    private final static String SPACE_1 = " ";
+    private static final String SPACE_16 = "                ";
+    private static final String SPACE_8 = "        ";
+    private static final String SPACE_4 = "    ";
+    private static final String SPACE_2 = "  ";
+    private static final String SPACE_1 = " ";
 
-    private final static String EOL = System.getProperty( "line.separator", "\n" );
+    private static final String EOL = System.getProperty( "line.separator", "\n" );
 
     protected static class PatternRun
     {
@@ -471,7 +471,7 @@ public class PatternFormatter
                 {
                     return getContextMap( event.getContextMap(), run.m_format );
                 }
-                
+
             case TYPE_THREAD:
                 return getThread( run.m_format );
 

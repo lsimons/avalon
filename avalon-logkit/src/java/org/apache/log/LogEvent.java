@@ -21,7 +21,7 @@ public final class LogEvent
     implements Serializable
 {
     //A Constant used when retrieving time relative to start of applicaiton start
-    private final static long START_TIME = System.currentTimeMillis();
+    private static final long START_TIME = System.currentTimeMillis();
 
     ///The category that this LogEvent concerns. (Must not be null)
     private String m_category;

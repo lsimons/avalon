@@ -21,29 +21,29 @@ public final class Priority
     /**
      * Developer orientated messages, usually used during development of product.
      */
-    public final static Priority DEBUG = new Priority( "DEBUG", 5 );
+    public static final Priority DEBUG = new Priority( "DEBUG", 5 );
 
     /**
      * Useful information messages such as state changes, client connection, user login etc.
      */
-    public final static Priority INFO = new Priority( "INFO", 10 );
+    public static final Priority INFO = new Priority( "INFO", 10 );
 
     /**
      * A problem or conflict has occurred but it may be recoverable, then
      * again it could be the start of the system failing.
      */
-    public final static Priority WARN = new Priority( "WARN", 15 );
+    public static final Priority WARN = new Priority( "WARN", 15 );
 
     /**
      * A problem has occurred but it is not fatal. The system will still function.
      */
-    public final static Priority ERROR = new Priority( "ERROR", 20 );
+    public static final Priority ERROR = new Priority( "ERROR", 20 );
 
     /**
      * Something caused whole system to fail. This indicates that an administrator
      * should restart the system and try to fix the problem that caused the failure.
      */
-    public final static Priority FATAL_ERROR = new Priority( "FATAL_ERROR", 25 );
+    public static final Priority FATAL_ERROR = new Priority( "FATAL_ERROR", 25 );
 
     private final String m_name;
     private final int m_priority;
