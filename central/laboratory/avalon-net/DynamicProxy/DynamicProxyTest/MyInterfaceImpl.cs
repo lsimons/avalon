@@ -12,24 +12,58 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Apache.Avalon.DynamicProxy
+namespace Apache.Avalon.DynamicProxy.Test
 {
 	using System;
-	using System.Reflection;
 
 	/// <summary>
-	/// Defines the handler that will receive all methods 
-	/// invoked on the proxy object.
+	/// Summary description for MyInterfaceImpl.
 	/// </summary>
-	public interface IInvocationHandler
+	public class MyInterfaceImpl : IMyInterface
 	{
-		/// <summary>
-		/// Implementation should invoke the method on the real object.
-		/// </summary>
-		/// <param name="proxy">proxy instance</param>
-		/// <param name="method"><see cref="System.Reflection.MethodInfo"/> being invoked.</param>
-		/// <param name="arguments">Arguments of method - if any</param>
-		/// <returns>Should return the result of method invocation</returns>
-		object Invoke(object proxy, MethodInfo method, params object[] arguments);
+		private String m_name;
+		private bool m_started;
+
+		public MyInterfaceImpl()
+		{
+		}
+
+		#region IMyInterface Members
+
+		public String Name
+		{
+			get
+			{
+				return m_name;
+			}
+			set
+			{
+				m_name = value;
+			}
+		}
+
+		public bool Started
+		{
+			get
+			{
+				return m_started;
+			}
+			set
+			{
+				m_started = value;
+			}
+		}
+
+		public int Calc(int x, int y)
+		{
+			return x + y;
+		}
+
+		public int Calc(int x, int y, int z, Single k)
+		{
+			return x + y + z + (int)k;
+		}
+
+		#endregion
 	}
 }

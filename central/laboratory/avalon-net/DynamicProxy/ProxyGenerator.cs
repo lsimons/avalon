@@ -28,6 +28,10 @@ namespace Apache.Avalon.DynamicProxy
 	/// implementing the specified interfaces. The class implementation will 
 	/// only call the internal <see cref="IInvocationHandler"/> instance.
 	/// </remarks>
+	/// <remarks>
+	/// This proxy implementation currently doesn't not supports ref and out arguments 
+	/// in methods.
+	/// </remarks>
 	/// <example>
 	/// <code>
 	/// MyInvocationHandler handler = ...
@@ -42,6 +46,18 @@ namespace Apache.Avalon.DynamicProxy
 		/// </summary>
 		private ProxyGenerator()
 		{
+		}
+
+		/// <summary>
+		/// Generates a proxy implementing all the specified interfaces and
+		/// redirecting method invocations to the specifed handler.
+		/// </summary>
+		/// <param name="theInterface">Interface to be implemented</param>
+		/// <param name="handler">instance of <see cref="IInvocationHandler"/></param>
+		/// <returns>Proxy instance</returns>
+		public static object CreateProxy(Type theInterface, IInvocationHandler handler)
+		{
+			return CreateProxy(new Type[] { theInterface }, handler );
 		}
 
 		/// <summary>
@@ -246,7 +262,7 @@ namespace Apache.Avalon.DynamicProxy
 				}
 			}
 
-			WriteILForMethod( methodBuilder, parameters, handlerField );
+			WriteILForMethod( method, methodBuilder, parameters, handlerField );
 		}
 
 		/// <summary>
@@ -267,7 +283,7 @@ namespace Apache.Avalon.DynamicProxy
 		/// <param name="typeBuilder"><see cref="TypeBuilder"/> being constructed.</param>
 		/// <param name="parameters"></param>
 		/// <param name="handlerField"></param>
-		private static void WriteILForMethod( MethodBuilder builder, 
+		private static void WriteILForMethod( MethodInfo method, MethodBuilder builder, 
 			System.Type[] parameters, FieldBuilder handlerField )
 		{
 			int arrayPositionInStack = 1;
@@ -284,11 +300,12 @@ namespace Apache.Avalon.DynamicProxy
 
 			ilGenerator.DeclareLocal( typeof(object[]) );
 
-			ilGenerator.Emit(OpCodes.Call, typeof(MethodBase).GetMethod("GetCurrentMethod") );
+			ilGenerator.Emit(OpCodes.Ldtoken, method);
+			ilGenerator.Emit(OpCodes.Call, typeof(MethodBase).GetMethod("GetMethodFromHandle"));
 
 			ilGenerator.Emit(OpCodes.Stloc_0);
 			ilGenerator.Emit(OpCodes.Ldarg_0);
-			ilGenerator.Emit(OpCodes.Ldfld, handlerField );
+			ilGenerator.Emit(OpCodes.Ldfld, handlerField);
 			ilGenerator.Emit(OpCodes.Ldarg_0);
 			ilGenerator.Emit(OpCodes.Ldloc_0);
 			ilGenerator.Emit(OpCodes.Ldc_I4, parameters.Length);
@@ -339,7 +356,6 @@ namespace Apache.Avalon.DynamicProxy
 			{
 				ilGenerator.Emit(OpCodes.Pop);
 			}
-
 
 			ilGenerator.Emit(OpCodes.Ret);
 		}

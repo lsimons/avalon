@@ -12,24 +12,34 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Apache.Avalon.DynamicProxy
+namespace Apache.Avalon.DynamicProxy.Test
 {
 	using System;
-	using System.Reflection;
 
 	/// <summary>
-	/// Defines the handler that will receive all methods 
-	/// invoked on the proxy object.
+	/// Simple enum declaration
 	/// </summary>
-	public interface IInvocationHandler
+	public enum State
 	{
-		/// <summary>
-		/// Implementation should invoke the method on the real object.
-		/// </summary>
-		/// <param name="proxy">proxy instance</param>
-		/// <param name="method"><see cref="System.Reflection.MethodInfo"/> being invoked.</param>
-		/// <param name="arguments">Arguments of method - if any</param>
-		/// <returns>Should return the result of method invocation</returns>
-		object Invoke(object proxy, MethodInfo method, params object[] arguments);
+		Valid, 
+		Invalid
+	}
+
+	/// <summary>
+	/// Summary description for IServiceStatus.
+	/// </summary>
+	public interface IServiceStatus
+	{
+		int Requests
+		{
+			get;
+		}
+
+		State ActualState
+		{
+			get;
+		}
+
+		void ChangeState(State state);
 	}
 }

@@ -25,263 +25,79 @@ namespace Apache.Avalon.DynamicProxy.Test
 	/// Summary description for ProxyGeneratorTestCase.
 	/// </summary>
 	[TestFixture]
-	public class ProxyGeneratorTestCase : Assertion, IInvocationHandler, IMyInterface, IMySecondInterface, IServiceStatus
+	public class ProxyGeneratorTestCase : Assertion
 	{
-		protected String m_nameProperty;
-		protected String m_addressProperty;
-		protected State m_state = State.Invalid;
-		protected bool m_started;
-
 		[Test]
-		public void TestSimpleCase()
+		public void TestGenerationSimpleInterface()
 		{
-			object proxy = ProxyGenerator.CreateProxy( new Type[] { typeof(IMyInterface) }, this );
+			object proxy = ProxyGenerator.CreateProxy( 
+				typeof(IMyInterface), new StandardInvocationHandler( new MyInterfaceImpl() ) );
+			
 			AssertNotNull( proxy );
 			Assert( typeof(IMyInterface).IsAssignableFrom( proxy.GetType() ) );
 
 			IMyInterface inter = (IMyInterface) proxy;
-			inter.Calc(1, "ola");
+
+			AssertEquals( 45, inter.Calc( 20, 25 ) );
+
 			inter.Name = "opa";
 			AssertEquals( "opa", inter.Name );
+
 			inter.Started = true;
 			AssertEquals( true, inter.Started );
-			AssertEquals( 45, inter.Calc( 20, 25 ) );
 		}
 
 		[Test]
-		public void TestMoreComplexCase()
+		public void TestGenerationWithInterfaceHeritage()
 		{
-			object proxy = ProxyGenerator.CreateProxy( new Type[] { typeof(IMySecondInterface) }, this );
+			object proxy = ProxyGenerator.CreateProxy( 
+				typeof(IMySecondInterface), new StandardInvocationHandler( new MySecondInterfaceImpl() ) );
+
 			AssertNotNull( proxy );
 			Assert( typeof(IMyInterface).IsAssignableFrom( proxy.GetType() ) );
 			Assert( typeof(IMySecondInterface).IsAssignableFrom( proxy.GetType() ) );
 
 			IMySecondInterface inter = (IMySecondInterface) proxy;
-			inter.Calc(1, "ola");
-			inter.Name = "opa";
-			AssertEquals( "opa", inter.Name );
+			inter.Calc(1, 1);
+
+			inter.Name = "hammett";
+			AssertEquals( "hammett", inter.Name );
+
 			inter.Address = "pereira leite, 44";
 			AssertEquals( "pereira leite, 44", inter.Address );
+			
 			AssertEquals( 45, inter.Calc( 20, 25 ) );
 		}
 
 		[Test]
-		public void TestEnumCase()
+		public void TestEnumProperties()
 		{
-			m_state = State.Invalid;
+			ServiceStatusImpl service = new ServiceStatusImpl();
 
-			object proxy = ProxyGenerator.CreateProxy( new Type[] { typeof(IServiceStatus) }, this );
+			object proxy = ProxyGenerator.CreateProxy( 
+				typeof(IServiceStatus), new StandardInvocationHandler( service ) );
+			
 			AssertNotNull( proxy );
 			Assert( typeof(IServiceStatus).IsAssignableFrom( proxy.GetType() ) );
 
 			IServiceStatus inter = (IServiceStatus) proxy;
 			AssertEquals( State.Invalid, inter.ActualState );
+			
 			inter.ChangeState( State.Valid );
 			AssertEquals( State.Valid, inter.ActualState );
 		}
 
-		#region IInvocationHandler Members
-
-		public object Invoke(object obj, MethodBase method, params object[] arguments)
+		public class MyInterfaceProxy : IInvocationHandler
 		{
-			Type[] parameters = new Type[arguments.Length];
-			
-			for(int i=0; i < arguments.Length; i++ )
+			#region IInvocationHandler Members
+
+			public object Invoke(object proxy, MethodInfo method, params object[] arguments)
 			{
-				parameters[i] = arguments[i].GetType();
+				return null;
 			}
 
-			MethodInfo ourMethod = this.GetType().GetMethod( method.Name, parameters );
-
-			AssertNotNull( ourMethod );
-			
-			return ourMethod.Invoke( this, arguments );
+			#endregion
 		}
-
-		#endregion
-
-		#region IMyInterface Members
-
-		public String Name
-		{
-			get
-			{
-				return m_nameProperty;
-			}
-			set
-			{
-				m_nameProperty = value;
-			}
-		}
-
-		public bool Started
-		{
-			get
-			{
-				return m_started;
-			}
-			set
-			{
-				m_started = value;
-			}
-		}
-
-		public void Calc(int x, String y)
-		{
-		}
-
-		public void Calc(int x, String y, Single ip)
-		{
-		}
-
-		public int Calc(int x, int y)
-		{
-			return x + y;
-		}
-
-		public int Calc(int x, int y, int z, Single h)
-		{
-			return x + y + z + (int)h;
-		}
-
-		#endregion
-
-		#region IMySecondInterface Members
-
-		public String Address
-		{
-			get
-			{
-				return m_addressProperty;
-			}
-			set
-			{
-				m_addressProperty = value;
-			}
-		}
-
-		#endregion
-
-		#region IServiceStatus Members
-
-		public int Requests
-		{
-			get
-			{
-				return 32;
-			}
-		}
-
-		public Apache.Avalon.DynamicProxy.Test.State ActualState
-		{
-			get
-			{
-				return m_state ;
-			}
-		}
-
-		public void ChangeState(Apache.Avalon.DynamicProxy.Test.State state)
-		{
-			m_state = state;
-		}
-
-		#endregion
-	}
-	
-	/// <summary>
-	/// 
-	/// </summary>
-	public enum State
-	{
-		Valid, 
-		Invalid
-	}
-
-	/// <summary>
-	/// 
-	/// </summary>
-	public interface IMyInterface
-	{
-		String Name
-		{
-			get;
-			set;
-		}
-
-		bool Started
-		{
-			get;
-			set;
-		}
-
-		void Calc(int x, String y);
-
-		void Calc(int x, String y, Single ip);
-
-		int Calc(int x, int y);
-
-		int Calc(int x, int y, int z, Single h);
-	}
-
-	/// <summary>
-	/// 
-	/// </summary>
-	public interface IMySecondInterface : IMyInterface
-	{
-		String Address
-		{
-			get;
-			set;
-		}
-	}
-
-	public interface IServiceStatus
-	{
-		int Requests
-		{
-			get;
-		}
-
-		State ActualState
-		{
-			get;
-		}
-
-		void ChangeState(State state);
-	}
-
-	public class MyTest : IServiceStatus
-	{
-		IInvocationHandler handler = null;
-
-		#region IServiceStatus Members
-
-		public int Requests
-		{
-			get
-			{
-				MethodBase method = MethodBase.GetCurrentMethod();
-				return (int) handler.Invoke( this, method );
-			}
-		}
-
-		public Apache.Avalon.DynamicProxy.Test.State ActualState
-		{
-			get
-			{
-				MethodBase method = MethodBase.GetCurrentMethod();
-				return (State) handler.Invoke( this, method );
-			}
-		}
-
-		public void ChangeState(Apache.Avalon.DynamicProxy.Test.State state)
-		{
-			MethodBase method = MethodBase.GetCurrentMethod();
-			handler.Invoke( this, method, state );
-		}
-
-		#endregion
-
 	}
 }
 
