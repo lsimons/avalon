@@ -28,7 +28,34 @@
 
     <section name="Avalon Logging Subsystem">
 
-      <subsection name="Introduction">
+      <p>
+      The <a href="http://avalon.apache.org/loggging">logging platform</a> 
+      provides support for a pluggable logging system implementation. 
+      </p>
+
+      <subsection name="Supported Systems">
+
+      <table>
+        <tr>
+          <th>Logging System</th><th>Description</th>
+        </tr>
+        <tr>
+          <td>LogKit</td>
+          <td>
+          The default logging implementation is based on the Avalon LogKit
+          package.  The implementation introduces a plug-in target framework
+          that allows the association of custom logging targets under 
+          dedicated classsloaders.
+          </td>
+        </tr>
+        <tr>
+          <td>Log4J</td>
+          <td>
+          Classic Log4J logging subsystem.
+          </td>
+        </tr>
+      </table>
+
       </subsection>
 
     </section>
