@@ -9,7 +9,7 @@ package org.apache.avalon.atlantis;
 
 import org.apache.avalon.Disposable;
 import org.apache.avalon.Initializable;
-import org.apache.avalon.parameters.Parametizable;
+import org.apache.avalon.parameters.Parameterizable;
 
 /**
  * This is the object that is interacted with to create, manage and
@@ -19,7 +19,7 @@ import org.apache.avalon.parameters.Parametizable;
  * @author <a href="donaldp@apache.org">Peter Donald</a>
  */
 public interface Embeddor
-    extends Parametizable, Initializable, Disposable
+    extends Parameterizable, Initializable, Disposable
 {
     /**
      * After the Embeddor is initialized, this method is called to actually

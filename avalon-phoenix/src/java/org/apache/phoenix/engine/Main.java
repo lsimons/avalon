@@ -195,7 +195,7 @@ public class Main
         parameters.setParameter( "applications-directory", m_appsPath );
 
         final PhoenixEmbeddor embeddor = new PhoenixEmbeddor();
-        embeddor.parametize( parameters );
+        embeddor.parameterize( parameters );
         embeddor.init();
 
         try
