@@ -40,8 +40,11 @@ import org.apache.avalon.tools.project.Definition;
  */
 public class HomeTask extends ContextualTask
 {
-    private String m_id;
+    private static final String CACHE_DIR_KEY = "project.home.cache.dir";
+
     private static Home HOME;
+
+    private String m_id;
 
    /**
     * Set the home ref id to the system home.  If not supplied the 
@@ -64,6 +67,9 @@ public class HomeTask extends ContextualTask
                 HOME = new Home( getProject(), Home.KEY );
             }
             getProject().addReference( Home.KEY, HOME );
+            getProject().setNewProperty( 
+              CACHE_DIR_KEY, 
+              HOME.getRepository().getCacheDirectory().toString() );
         }
     }
 
