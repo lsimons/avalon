@@ -339,7 +339,7 @@ Legal:
 
     <mkdir dir="${build.lib}"/>
 
-    <jar file="${build.lib}/${name}.jar" basedir="${build.classes}">
+    <jar jarfile="${build.lib}/${name}.jar" basedir="${build.classes}">
       <include name="org/apache/log/**" />
       <exclude name="**/test/*" />
     </jar>
