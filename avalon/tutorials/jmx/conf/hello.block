@@ -16,10 +16,10 @@
     </classpath>
   </classloader>
 
-  <include name="ComponentRegistrationManager" id="avalon-merlin-jmx:merlin-jmx-management-handler" version="1.0"/>
+  <include name="ComponentRegistrationManager" id="avalon-merlin-jmx:merlin-jmx-management-mx4j" version="1.0"/>
 
   <component name="JmxManagementHandler" class="org.apache.avalon.merlin.jmx.handler.JmxManagementHandler"/>
-
+  
   <component name="hello" class="tutorial.HelloComponent">
     <configuration>
       <hello>Hello, Apache!</hello>
