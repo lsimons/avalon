@@ -6,7 +6,16 @@
   <devs>
     <person name="Leo Simons" email="mail@leosimons.com" id="LS"/>
   </devs>
-
+<release version="4.0b2" date="unreleased">
+  <action dev="BL" type="fix">
+    Made connections expire after 15 uses.  This avoids problems with
+    buggy client code or buggy drivers from causing serious issues
+    in the long run.
+  </action>
+  <action dev="BL" type="fix">
+    Made Component Manager fixes to use the Thread's context classloader.
+  </action>
+</release>
 <release version="4.0b1" date="May 11, 2001">
   <action dev="LS" type="add">
   </action>
