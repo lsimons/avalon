@@ -52,7 +52,6 @@ package org.apache.avalon.merlin.unit;
 import java.net.URL;
 
 import org.apache.avalon.merlin.unit.AbstractMerlinTestCase;
-import org.apache.avalon.framework.logger.Logger;
 
 /**
  * Abstract Merlin Test Case.
@@ -87,6 +86,7 @@ public class StandardTestCase extends AbstractMerlinTestCase
     public void testServiceResolution() throws Exception
     {
         Hello hello = (Hello) resolve( "hello" );
+        assertTrue( hello != null );
         getLogger().info( "Message from hello service: " + hello.getMessage() );
     }
 }

@@ -92,7 +92,7 @@ public class AbstractMerlinTestCase extends TestCase
     // state
     //-------------------------------------------------------------------
 
-    private final DefaultRunnableKernel m_kernel;
+    private final DefaultEmbeddedKernel m_kernel;
 
     private final ContainmentModel m_test;
 
