@@ -61,6 +61,7 @@ import javax.servlet.ServletContext;
  * Adapted from ConsoleLogger.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version CVS $Revision: 1.2 $ $Date: 2003/06/09 06:29:37 $
  */
 
 public class ServletLogger implements Logger
