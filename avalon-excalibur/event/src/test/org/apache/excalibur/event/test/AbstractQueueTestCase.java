@@ -42,13 +42,33 @@ public abstract class AbstractQueueTestCase extends TestCase
     {
         assertEquals( 0, queue.size() );
 
-        for ( int j = 0; j < 1000000; j++ )
+        if (queue.maxSize() > 0)
         {
-            queue.enqueue( element );
-            assertEquals( 1, queue.size() );
+            for ( int j = 0; j < 1000000; j++ )
+            {
+                queue.enqueue( element );
+                assertEquals( 1, queue.size() );
 
-            assertNotNull( queue.dequeue() );
-            assertEquals( 0, queue.size() );
+                assertNotNull( queue.dequeue() );
+                assertEquals( 0, queue.size() );
+            }
+        }
+        else
+        {
+            for ( int i = 0; i < 1000; i++ )
+            {
+                for ( int j = 0; j < 1000; j++ )
+                {
+                    queue.enqueue( element );
+                    assertEquals( "Queue Size: " + queue.size(), j + 1, queue.size() );
+                }
+
+                for ( int j = 0; j < 1000; j++ )
+                {
+                    assertNotNull( "Queue Size: " + queue.size(), queue.dequeue() );
+                    assertEquals( "Queue Size: " + queue.size(), 999 - j, queue.size() );
+                }
+            }
         }
     }
 
@@ -57,14 +77,32 @@ public abstract class AbstractQueueTestCase extends TestCase
     {
         assertEquals( 0, queue.size() );
 
-        for ( int j = 0; j < 1000000; j++ )
+        if (queue.maxSize() > 0)
         {
-            queue.enqueue( elements );
-            assertEquals( 10, queue.size() );
+            for ( int j = 0; j < 1000000; j++ )
+            {
+                queue.enqueue( elements );
+                assertEquals( 10, queue.size() );
 
-            QueueElement[] results = queue.dequeueAll();
-            assertEquals( 10, results.length );
-            assertEquals( 0, queue.size() );
+                QueueElement[] results = queue.dequeueAll();
+                assertEquals( 10, results.length );
+                assertEquals( 0, queue.size() );
+            }
+        }
+        else
+        {
+            for ( int i = 0; i < 1000; i++ )
+            {
+                for ( int j = 0; j < 1000; j++ )
+                {
+                    queue.enqueue( elements );
+                    assertEquals( "Queue Size: " + queue.size(), 10 * ( j + 1 ), queue.size() );
+                }
+
+                QueueElement[] results = queue.dequeueAll();
+                assertEquals( "Queue Size: " + queue.size(), 10 * 1000, results.length );
+                assertEquals( "Queue Size: " + queue.size(), 0, queue.size() );
+            }
         }
     }
 

@@ -29,7 +29,7 @@ import org.apache.avalon.framework.logger.Logger;
  * total number of Connection objects that are created.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.3 $ $Date: 2001/12/11 09:53:28 $
+ * @version CVS $Revision: 1.4 $ $Date: 2002/01/08 18:06:07 $
  * @since 4.1
  */
 public abstract class AbstractJdbcConnection
@@ -106,6 +106,14 @@ public abstract class AbstractJdbcConnection
     public void recycle() {
         this.m_num_uses--;
         this.m_test_exception = null;
+        try
+        {
+            m_connection.clearWarnings();
+        }
+        catch ( SQLException se )
+        {
+            // ignore
+        }
     }
 
     public boolean isClosed()
