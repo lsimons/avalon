@@ -1,5 +1,4 @@
 org.apache.log
-org.apache.log.filter
 org.apache.log.format
 org.apache.log.output
 org.apache.log.output.db

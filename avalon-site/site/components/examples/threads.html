@@ -388,6 +388,15 @@
                       
                       
                     
+                      
+                      
+                    
+                      
+                      
+                    
+                      
+                      
+                    
                     
                     
                     
@@ -528,40 +537,24 @@
       <pre>
 &lt;container name="thread-tutorial"&gt;
 
-     &lt;categories&gt;
-       &lt;category name="classloader/scanner" priority="ERROR"/&gt;
-     &lt;/categories&gt;
+   &lt;classloader&gt;
+     &lt;classpath&gt;
+       &lt;repository&gt;
+         &lt;resource id="avalon-framework:avalon-framework-api" version="4.2.0"/&gt;
+         &lt;resource id="excalibur-pool:excalibur-pool-api" version="2.0.0"/&gt;
+         &lt;resource id="excalibur-thread:excalibur-thread-api" version="2.0.0"/&gt;
+         &lt;resource id="cornerstone-threads:cornerstone-threads-api" version="2.0.0"/&gt;
+         &lt;resource id="cornerstone-threads:cornerstone-threads-tutorial" version="2.0.0"/&gt;
+       &lt;/repository&gt;
+     &lt;/classpath&gt;
+   &lt;/classloader&gt;
 
-     &lt;classloader&gt;
-       &lt;classpath&gt;
-         &lt;repository&gt;
-           &lt;resource id="avalon-framework:avalon-framework-impl" version="4.1.5"/&gt;
-           &lt;resource id="commons-collections:commons-collections" version="2.1"/&gt;
-           &lt;resource id="excalibur-pool:excalibur-pool" version="1.2"/&gt;
-           &lt;resource id="excalibur-thread:excalibur-thread" version="1.1.1"/&gt;
-           &lt;resource id="excalibur-event:excalibur-event" version="1.0.3"/&gt;
-           &lt;resource id="cornerstone-threads:cornerstone-threads-api" version="1.0"/&gt;
-           &lt;resource id="cornerstone-threads:cornerstone-threads-impl" version="1.0"/&gt;
-         &lt;/repository&gt;
-       &lt;/classpath&gt;
-     &lt;/classloader&gt;
+   &lt;include name="threads" 
+       id="cornerstone-threads:cornerstone-threads-impl" 
+       version="2.0.0"/&gt;
 
-     &lt;component name="threads" 
-        class="org.apache.avalon.cornerstone.blocks.threads.DefaultThreadManager"&gt;
-       &lt;configuration&gt;
-         &lt;thread-group&gt;
-           &lt;name&gt;default&lt;/name&gt;
-           &lt;priority&gt;5&lt;/priority&gt; 
-           &lt;is-daemon&gt;false&lt;/is-daemon&gt;
-           &lt;max-threads&gt;100&lt;/max-threads&gt;
-           &lt;min-threads&gt;20&lt;/min-threads&gt;
-           &lt;min-spare-threads&gt;20&lt;/min-spare-threads&gt;
-         &lt;/thread-group&gt;
-       &lt;/configuration&gt;
-     &lt;/component&gt;
-
-     &lt;component name="test" 
-        class="org.apache.avalon.cornerstone.threads.tutorial.ThreadConsumer" /&gt;
+   &lt;component name="test" 
+      class="org.apache.avalon.cornerstone.threads.tutorial.ThreadConsumer" /&gt;
 
 &lt;/container&gt;
 </pre>
