@@ -24,7 +24,7 @@ import org.apache.log.util.StackIntrospector;
  * information dynamically.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version CVS $Revision: 1.5 $ $Date: 2002/05/20 10:12:50 $
+ * @version CVS $Revision: 1.6 $ $Date: 2002/10/01 00:00:35 $
  */
 public class ExtendedPatternFormatter
     extends PatternFormatter
@@ -49,9 +49,13 @@ public class ExtendedPatternFormatter
     protected int getTypeIdFor( final String type )
     {
         if( type.equalsIgnoreCase( TYPE_METHOD_STR ) )
+        {
             return TYPE_METHOD;
+        }
         else if( type.equalsIgnoreCase( TYPE_THREAD_STR ) )
+        {
             return TYPE_THREAD;
+        }
         else
         {
             return super.getTypeIdFor( type );
