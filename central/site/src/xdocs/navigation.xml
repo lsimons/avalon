@@ -13,11 +13,7 @@
     </links>
 
     <menu>
-      <item name="Central" href="central/index.html" />
-      <item name="Products" href="products/index.html" />
-      <item name="Planet" href="planet/index.html"/>
     </menu>
-
  </body>
 
 </project>
