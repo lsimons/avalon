@@ -167,10 +167,19 @@
     </info>
   </resource>
 
-  <project basedir="event">
+  <project basedir="event/api">
     <info>
-      <group>metro/studio/eclipse</group>
-      <name>metro-studio-eclipse-event</name>
+      <group>metro/studio/event</group>
+      <name>metro-studio-event-api</name>
+      <version>1.0.0</version>
+      <status>SNAPSHOT</status> 
+    </info>
+  </project>
+
+  <project basedir="event/impl">
+    <info>
+      <group>metro/studio/event</group>
+      <name>metro-studio-event-impl</name>
       <version>1.0.0</version>
       <status>SNAPSHOT</status> 
     </info>
@@ -178,13 +187,13 @@
 
   <project basedir="core">
     <info>
-      <group>metro/studio/eclipse</group>
-      <name>metro-studio-eclipse-core</name>
+      <group>metro/studio/core</group>
+      <name>metro-studio-core</name>
       <version>1.0.0</version>
       <status>SNAPSHOT</status> 
     </info>
     <dependencies>
-      <include key="metro-studio-eclipse-event"/>
+      <include key="metro-studio-event-api"/>
       <include key="avalon-repository-main"/>
       <include key="eclipse-core-resources"/>
       <include key="eclipse-core-runtime"/>
@@ -199,8 +208,8 @@
 
   <project basedir="launch">
     <info>
-      <group>metro/studio/eclipse</group>
-      <name>metro-studio-eclipse-launch</name>
+      <group>metro/studio/core</group>
+      <name>metro-studio-core-launch</name>
       <version>1.0.0</version>
       <status>SNAPSHOT</status> 
     </info>
@@ -208,20 +217,20 @@
       <include key="eclipse-debug-dtcore"/>
       <include key="eclipse-debug-dtui"/>
       <include key="eclipse-jface-jface"/>
-      <include key="metro-studio-eclipse-core"/>
+      <include key="metro-studio-core"/>
       <include key="avalon-meta-tools"/>
     </dependencies>
   </project>
 
   <project basedir="ui">
     <info>
-      <group>metro/studio/eclipse</group>
-      <name>metro-studio-eclipse-ui</name>
+      <group>metro/studio/core</group>
+      <name>metro-studio-core-ui</name>
       <version>1.0.0</version>
       <status>SNAPSHOT</status> 
     </info>
     <dependencies>
-      <include key="metro-studio-eclipse-launch"/>
+      <include key="metro-studio-core-launch"/>
       <include key="eclipse-swt"/>
       <include key="eclipse-jdt-ui"/>
       <include key="eclipse-jdt-debug-jdiui"/>
