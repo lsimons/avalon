@@ -19,16 +19,15 @@ package tutorial;
 
 import java.net.ServerSocket;
 
-import org.apache.avalon.cornerstone.services.connection.
-    ConnectionHandlerFactory;
+import org.apache.avalon.cornerstone.services.connection.ConnectionHandlerFactory;
 import org.apache.avalon.cornerstone.services.connection.ConnectionManager;
 import org.apache.avalon.cornerstone.services.sockets.ServerSocketFactory;
 import org.apache.avalon.cornerstone.services.sockets.SocketManager;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Executable;
-import org.apache.avalon.framework.configuration.Configurable;
-import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.configuration.ConfigurationException;
+import org.apache.avalon.framework.parameters.Parameterizable;
+import org.apache.avalon.framework.parameters.Parameters;
+import org.apache.avalon.framework.parameters.ParameterException;
 import org.apache.avalon.framework.logger.LogEnabled;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.service.ServiceException;
@@ -42,10 +41,10 @@ import org.apache.avalon.framework.service.Serviceable;
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  *
- * @avalon.component version="1.0" name="simple-web-server"
+ * @avalon.component version="1.0" name="simple-web-server" lifestyle="singleton"
  */
 public class SimpleWebServerComponent
-    implements LogEnabled, Serviceable, Configurable, Executable, Disposable {
+    implements LogEnabled, Serviceable, Parameterizable, Executable, Disposable {
   /**
    * Internal reference to the logging channel supplied by the container.
    */
@@ -76,8 +75,6 @@ public class SimpleWebServerComponent
    * Supply of a logging channel by the container.
    *
    * @param logger the logging channel for this component
-   *
-   * @see org.apache.avalon.framework.logger.LogEnabled#enableLogging(org.apache.avalon.framework.logger.Logger)
    */
   public void enableLogging(Logger logger) {
     m_logger = logger;
@@ -106,26 +103,14 @@ public class SimpleWebServerComponent
   }
 
   /**
-   * Configuration of the component by the container.
-   *
-   * TODO: Describe the configuration of the component.
-   *
-   * @param config the component configuration
+   * Parameterization of the component by the container.
+   * @param parameters the component parameters
    * @throws ConfigurationException if a configuration error occurs
-   *
-   * @see org.apache.avalon.framework.configuration.Configurable#configure(org.apache.avalon.framework.configuration.Configuration)
    */
-  public void configure(Configuration config) throws ConfigurationException {
-    getLogger().info("Configuring...");
-
-    // Add an HTTP socket listener?
-    Configuration httpConfig = config.getChild("http-listener", true);
-    if (httpConfig == null) {
-      throw new ConfigurationException("port attribute not found!");
-    }
-    else {
-      m_port = httpConfig.getAttributeAsInteger("port", 80);
-    }
+  public void parameterize( Parameters params ) throws ParameterException 
+  {
+      getLogger().info("Parameterizing...");
+      m_port = params.getParameterAsInteger( "port", 80 );
   }
 
   /**

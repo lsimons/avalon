@@ -172,6 +172,7 @@
     </info>
     <dependencies>
       <include key="cornerstone-connection-api"/>
+      <include key="cornerstone-threads-impl"/>
       <include key="avalon-framework-impl"/>
     </dependencies>
     <plugins>
@@ -227,7 +228,7 @@
     </info>
     <dependencies>
       <include key="cornerstone-scheduler-api"/>
-      <include key="cornerstone-threads-api"/>
+      <include key="cornerstone-threads-impl"/>
       <include key="avalon-framework-impl"/>
     </dependencies>
     <plugins>
