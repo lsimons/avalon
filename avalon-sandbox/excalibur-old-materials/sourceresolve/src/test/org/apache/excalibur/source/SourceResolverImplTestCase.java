@@ -38,7 +38,7 @@ public class SourceResolverImplTestCase extends TestCase
         resolver.enableLogging( logger );
 
         //
-        // create the context argument and set the root directory and 
+        // create the context argument and set the root directory and
         // contextualize the resolver
         //
         // NOTE: javadoc needed on contextualize method
@@ -49,7 +49,7 @@ public class SourceResolverImplTestCase extends TestCase
         resolver.contextualize( context );
 
         //
-        // create a service selector to be included in a service manager 
+        // create a service selector to be included in a service manager
         // to be supplied to the resolver
         //
 
@@ -71,12 +71,6 @@ public class SourceResolverImplTestCase extends TestCase
 
         resolver.service( manager );
 
-        //
-        // parameterize the resolver - Why?
-        // NOTE: Missing javadoc
-        //
-
-        resolver.parameterize( new Parameters() );
 
         logger.debug( "resolver created - but is this correct ?" );
 

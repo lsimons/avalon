@@ -77,8 +77,8 @@ import org.apache.excalibur.source.SourceFactory;
 import org.apache.excalibur.source.SourceResolver;
 
 /**
- * This is the default implemenation of a {@link SourceResolver}. 
- * 
+ * This is the default implemenation of a {@link SourceResolver}.
+ *
  * The source resolving is done relative to a base directory/URI (if
  * the given location is relative). This implementation looks for the
  * base URI in the {@link Context} object of the "container" for the
@@ -86,12 +86,12 @@ import org.apache.excalibur.source.SourceResolver;
  * {@link File} object or a {@link URL} object.
  * If the entry does not exist, the system property "user.dir" is used
  * as the base URI instead.
- * 
+ *
  * @see org.apache.excalibur.source.SourceResolver
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version $Id: SourceResolverImpl.java,v 1.27 2003/01/30 07:57:10 cziegeler Exp $
+ * @version $Id: SourceResolverImpl.java,v 1.28 2003/01/30 18:11:53 bloritsch Exp $
  */
 public class SourceResolverImpl
     extends AbstractLogEnabled
@@ -112,9 +112,6 @@ public class SourceResolverImpl
      */
     protected URL m_baseURL;
 
-    /** The default factory (if it is thread safe) */
-    protected SourceFactory m_defaultFactory;
-    
     /**
      * Get the context
      */
@@ -166,12 +163,32 @@ public class SourceResolverImpl
         throws ServiceException
     {
         m_manager = manager;
-        m_factorySelector = (ServiceSelector)m_manager.lookup( SourceFactory.ROLE + "Selector" );
-        m_defaultFactory = (SourceFactory) m_factorySelector.select( "*" );
-        if ( !(m_defaultFactory instanceof ThreadSafe) ) 
+
+        // Best solution, part of Fortress and above
+        if ( m_manager.hasService( SourceFactory.ROLE ) )
         {
-            m_factorySelector.release(m_defaultFactory);
-            m_defaultFactory = null;
+            Object test = m_manager.lookup( SourceFactory.ROLE );
+            if ( test instanceof ServiceSelector )
+            {
+                m_factorySelector = (ServiceSelector) test;
+            }
+            else
+            {
+                m_manager.release( test );
+            }
+        }
+        // back compatibility hack for ECM
+        else if ( m_manager.hasService( SourceFactory.ROLE + "Selector" ) )
+        {
+            Object test = m_manager.lookup( SourceFactory.ROLE + "Selector" );
+            if ( test instanceof ServiceSelector )
+            {
+                m_factorySelector = (ServiceSelector) test;
+            }
+            else
+            {
+                m_manager.release( test );
+            }
         }
     }
 
@@ -179,11 +196,6 @@ public class SourceResolverImpl
     {
         if( null != m_manager )
         {
-            if ( null != m_defaultFactory )
-            {
-                m_factorySelector.release( m_defaultFactory );
-                m_defaultFactory = null;
-            }
             m_manager.release( m_factorySelector );
             m_factorySelector = null;
         }
@@ -281,7 +293,7 @@ public class SourceResolverImpl
         Source source = null;
         // search for a SourceFactory implementing the protocol
         final int protocolPos = systemID.indexOf( ':' );
-        if( protocolPos != -1 )
+        if( protocolPos != -1 && m_factorySelector != null)
         {
             final String protocol = systemID.substring( 0, protocolPos );
             SourceFactory factory = null;
@@ -292,7 +304,7 @@ public class SourceResolverImpl
             }
             catch( final ServiceException ce )
             {
-            	// no selector available, use fallback
+                // no selector available, use fallback
             }
             finally
             {
@@ -302,27 +314,40 @@ public class SourceResolverImpl
 
         if( null == source )
         {
-            // no factory found, so use default factory
-            if ( null != m_defaultFactory) 
+            if ( null == m_factorySelector )
             {
-                // thread safe default factory
-                source = m_defaultFactory.getSource( systemID, parameters );
-            } 
-            else 
-            {
-                try 
+                SourceFactory factory = null;
+
+                try
                 {
-                    m_defaultFactory = (SourceFactory) m_factorySelector.select("*");
-                    source = m_defaultFactory.getSource( systemID, parameters );
-                } 
-                catch (ServiceException se ) 
+                    factory = (SourceFactory) m_manager.lookup(SourceFactory.ROLE);
+                    source = factory.getSource( systemID, parameters );
+                }
+                catch (ServiceException se )
                 {
                     throw new SourceException( "Unable to select source factory for " + systemID, se );
-                } 
-                finally 
+                }
+                finally
                 {
-                    m_factorySelector.release( m_defaultFactory );
-                    m_defaultFactory = null;
+                    m_manager.release(factory);
+                }
+            }
+            else
+            {
+                SourceFactory factory = null;
+
+                try
+                {
+                    factory = (SourceFactory) m_factorySelector.select("*");
+                    source = factory.getSource( systemID, parameters );
+                }
+                catch (ServiceException se )
+                {
+                    throw new SourceException( "Unable to select source factory for " + systemID, se );
+                }
+                finally
+                {
+                    m_factorySelector.release(factory);
                 }
             }
         }
@@ -341,40 +366,46 @@ public class SourceResolverImpl
         // search for a SourceFactory implementing the protocol
         final String scheme = source.getScheme();
         SourceFactory factory = null;
-        try
+
+        if ( null == m_factorySelector )
         {
-            factory = (SourceFactory)m_factorySelector.select( scheme );
-            factory.release( source );
-        }
-        catch( ServiceException ce )
-        {
-            // no factory found, so use default factory
-            if ( null != m_defaultFactory) 
+            try
             {
-                // thread safe default factory
-                m_defaultFactory.release( source );
-            } 
-            else 
+                factory = (SourceFactory) m_manager.lookup(SourceFactory.ROLE);
+                factory.release(source);
+            }
+            catch (ServiceException se )
             {
-                try 
-                {
-                    m_defaultFactory = (SourceFactory) m_factorySelector.select("*");
-                    m_defaultFactory.release( source );
-                } 
-                catch (ServiceException se ) 
-                {
-                    throw new CascadingRuntimeException( "Unable to select source factory for " + source.getURI(), se );
-                } 
-                finally 
-                {
-                    m_factorySelector.release( m_defaultFactory );
-                    m_defaultFactory = null;
-                }
+                throw new CascadingRuntimeException( "Unable to select source factory for " + source.getURI(), se );
+            }
+            finally
+            {
+                m_manager.release( factory );
             }
         }
-        finally
+        else
         {
-            m_factorySelector.release( factory );
+            try
+            {
+                factory = (SourceFactory) m_factorySelector.select(scheme);
+                factory.release(source);
+            }
+            catch (ServiceException se )
+            {
+                try
+                {
+                    factory = (SourceFactory) m_factorySelector.select("*");
+                    factory.release(source);
+                }
+                catch (ServiceException sse )
+                {
+                    throw new CascadingRuntimeException( "Unable to select source factory for " + source.getURI(), se );
+                }
+            }
+            finally
+            {
+                m_factorySelector.release( factory );
+            }
         }
     }
 }
