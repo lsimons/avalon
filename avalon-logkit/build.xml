@@ -1,0 +1,170 @@
+<?xml version="1.0"?>
+
+<!--
+==============================================================================
+
+ LogKit build file
+
+Authors:
+ Peter Donald <donaldp@apache.org>
+
+Legal:
+  Copyright (c) 2001 The Apache Software Foundation. All Rights Reserved.
+
+==============================================================================
+-->
+
+<project default="main" basedir=".">
+
+  <!--
+    Give user a chance to override without editing this file
+    (and without typing -D each time he compiles it)
+  -->
+  <property file=".ant.properties"/>
+  <property file="${user.home}/.ant.properties"/>
+
+  <property name="name" value="logkit"/>
+  <property name="Name" value="LogKit"/>
+  <property name="version" value="0.7"/>
+
+  <!--
+    these are here only for those who use jikes compiler. For other
+    developers this part makes no difference.
+  -->
+  <property name="build.compiler.emacs" value="on"/>
+  <property name="build.compiler.warnings" value="true"/>
+  <property name="build.compiler.pedantic" value="true"/>
+  <property name="build.compiler.depend" value="true"/>
+  <property name="build.compiler.fulldepend" value="true"/>
+
+  <property name="debug" value="off"/>
+  <property name="optimize" value="off"/>
+  <property name="deprecation" value="off"/>
+
+  <!--
+       ===================================================================
+       Set the properties for intermediate directory
+       ===================================================================
+  -->
+  <property name="build.dir" value="build"/>
+  <property name="build.lib" value="${build.dir}/lib"/>
+  <property name="build.src" value="${build.dir}/src"/>
+  <property name="build.classes" value="${build.dir}/classes"/>
+  <property name="build.javadocs" value="${build.dir}/javadocs"/>
+  <property name="build.docs" value="${build.dir}/docs"/>
+
+  <!--
+       ===================================================================
+       Set the properties for source directories
+       ===================================================================
+  -->
+  <property name="src.dir" value="src"/>
+  <property name="lib.dir" value="lib"/>
+  <property name="java.dir" value="${src.dir}/java"/>
+  <property name="tools.dir" value="tools"/>
+  <property name="docs.dir" value="docs"/>
+  <property name="javadocs.dir" value="${build.docs}/api"/>
+
+  <property name="dist.name" value="${Name}-${version}"/>
+
+  <!--
+       ===================================================================
+                                  Main target
+       ===================================================================
+  -->
+  <target name="main" depends="jar" />
+
+  <!--
+       ===================================================================
+                                  Help on usage
+       ===================================================================
+  -->
+  <target name="usage">
+    <echo message=""/>
+    <echo message="${Name} Build file"/>
+    <echo message="-------------------------------------------------------------"/>
+    <echo message=""/>
+    <echo message=" available targets are:"/>
+    <echo message=""/>
+    <echo message="   jar        -> generates the ${Name} jar file"/>
+    <echo message="   javadocs   -> generates the API documentation (java 1.2+ only)"/>
+<!--    
+    <echo message="   docs       -> generates the ${Name} Documentation"/>
+    <echo message="   dist-lite  -> generates the ${Name} distribution without the javadocs (default)"/>
+    <echo message="   dist       -> generates the ${Name} distribution"/>
+ -->
+    <echo message="   clean      -> cleans up the created directories"/>
+    <echo message="   real-clean -> cleans up all genereated files and directories"/>
+    <echo message=""/>
+    <echo message="-------------------------------------------------------------"/>
+    <echo message=""/>
+  </target>
+
+  <target name="help" depends="usage"/>
+
+  <!--
+       ===================================================================
+                         Prepares the build directory
+       ===================================================================
+  -->
+  <target name="compile">
+    <mkdir dir="${build.dir}"/>
+    <mkdir dir="${build.classes}"/>
+
+    <javac srcdir="${java.dir}"
+           destdir="${build.classes}"
+           debug="${debug}"
+           optimize="${optimize}"
+           deprecation="${deprecation}">
+      <classpath>
+        <fileset dir="${lib.dir}">
+          <include name="*.jar" />
+        </fileset>
+      </classpath>
+    </javac>
+
+    <copy todir="${build.classes}">
+      <fileset dir="${java.dir}">
+        <include name="**/*.properties"/>
+      </fileset>
+    </copy>
+
+  </target>
+
+  <!--
+       ===================================================================
+                           Creates all the .jar file
+       ===================================================================
+  -->
+  <target name="jar" depends="compile">
+
+    <mkdir dir="${build.lib}"/>
+
+    <jar jarfile="${build.lib}/log.jar" basedir="${build.classes}">
+      <include name="org/apache/log/**" />
+    </jar>
+
+  </target>
+
+  <!--
+       ===================================================================
+                 Cleans up build and distribution directories
+       ===================================================================
+  -->
+  <target name="clean">
+    <delete dir="${build.dir}" />
+    <delete>
+      <fileset dir="." includes="**/*~" defaultexcludes="no"/>
+    </delete>
+  </target>
+
+  <!--
+       ===================================================================
+                      Cleans absolutely everything up
+       ===================================================================
+  -->
+  <target name="real-clean" depends="clean">
+    <delete dir="${docs.dir}" />
+  </target>
+
+</project>
