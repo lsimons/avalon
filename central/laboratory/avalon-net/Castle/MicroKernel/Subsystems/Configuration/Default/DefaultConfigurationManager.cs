@@ -26,7 +26,7 @@ namespace Apache.Avalon.Castle.MicroKernel.Subsystems.Configuration.Default
 	/// </summary>
 	public class DefaultConfigurationManager : AbstractSubsystem, IConfigurationManager
 	{
-		public Hashtable m_name2Config;
+		private Hashtable m_name2Config;
 
 		public DefaultConfigurationManager()
 		{
@@ -36,6 +36,11 @@ namespace Apache.Avalon.Castle.MicroKernel.Subsystems.Configuration.Default
 					CaseInsensitiveComparer.Default) );
 		}
 	
+		protected virtual IDictionary ConfigurationDictionary
+		{
+			get { return m_name2Config; }
+		}
+
 		#region IConfigurationManager Members
 
 		/// <summary>
@@ -44,7 +49,7 @@ namespace Apache.Avalon.Castle.MicroKernel.Subsystems.Configuration.Default
 		/// </summary>
 		/// <param name="componentName"></param>
 		/// <returns></returns>
-		public IConfiguration GetConfiguration(String componentName)
+		public virtual IConfiguration GetConfiguration(String componentName)
 		{
 			AssertUtil.ArgumentNotNull( componentName, "componentName" );
 
@@ -64,7 +69,7 @@ namespace Apache.Avalon.Castle.MicroKernel.Subsystems.Configuration.Default
 		/// </summary>
 		/// <param name="componentName"></param>
 		/// <param name="configuration"></param>
-		public void Add(String componentName, IConfiguration configuration)
+		public virtual void Add(String componentName, IConfiguration configuration)
 		{
 			AssertUtil.ArgumentNotNull( componentName, "componentName" );
 			AssertUtil.ArgumentNotNull( configuration, "configuration" );
@@ -75,7 +80,7 @@ namespace Apache.Avalon.Castle.MicroKernel.Subsystems.Configuration.Default
 		/// <summary>
 		/// Returns configurations available.
 		/// </summary>
-		public IConfiguration[] Configurations
+		public virtual IConfiguration[] Configurations
 		{
 			get
 			{

@@ -59,7 +59,7 @@ namespace Apache.Avalon.Castle.MicroKernel.Test.Model
 
 			AssertEquals( 0, model.Properties.Count );
 			AssertEquals( 0, model.Dependencies.Length );
-			AssertEquals( "SimpleMailService", model.Name );
+			AssertEquals( "a", model.Name );
 			AssertEquals( Avalon.Framework.Lifestyle.Transient, model.SupportedLifestyle );
 			AssertEquals( Avalon.Framework.Activation.Undefined, model.ActivationPolicy );
 		}
