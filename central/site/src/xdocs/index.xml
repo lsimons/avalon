@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
 <document>
   <properties>
     <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
@@ -7,13 +8,13 @@
 
   <body>
     <section name="Welcome to Apache Avalon">
-      <p>&#160;</p>
+      <br/>
       <p class="caption">
         <em><strong>"any sufficiently advanced technology is 
         indistinguishable from magic"</strong></em><br/>
         Sir Arthur C Clarke
       </p>
-      <p>&#160;</p>
+      <br/>
     </section>
   </body>
 </document>
