@@ -51,7 +51,6 @@ package org.apache.avalon.cornerstone.blocks.event;
 
 import java.util.Enumeration;
 import java.util.Hashtable;
-
 import org.apache.avalon.cornerstone.services.event.Event;
 import org.apache.avalon.cornerstone.services.event.EventManager;
 import org.apache.avalon.cornerstone.services.event.Publisher;
