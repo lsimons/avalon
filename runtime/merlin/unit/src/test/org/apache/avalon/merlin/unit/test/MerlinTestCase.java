@@ -26,17 +26,17 @@ import org.apache.avalon.merlin.unit.AbstractMerlinTestCase;
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @version $Revision: 1.5 $
  */
-public class MerlinTestCaseTest extends AbstractMerlinTestCase
+public class MerlinTestCase extends AbstractMerlinTestCase
 {
     //----------------------------------------------------------
     // constructor
     //----------------------------------------------------------
 
     /**
-     * Constructor for MerlinEmbeddedTest.
+     * Constructor for MerlinTestCase.
      * @param name the name of the testcase
      */
-    public MerlinTestCaseTest( String name )
+    public MerlinTestCase( String name )
     {
         super( name );
     }
