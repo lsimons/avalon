@@ -10,3 +10,4 @@ velocity.log*
 *.el
 .classpath
 .project
+maven.log
