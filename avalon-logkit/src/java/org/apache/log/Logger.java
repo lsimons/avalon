@@ -42,6 +42,12 @@ public class Logger
     private boolean             m_priorityForceSet;
 
     /**
+     * True means LogEvents will be sent to parents LogTargets
+     * aswell as the ones set for this Logger.
+     */
+    private boolean             m_additivity;
+
+    /**
      * Protected constructor for use inside the logging toolkit.
      * You should not be using this constructor directly.
      *
@@ -250,6 +256,20 @@ public class Logger
         {
             output( Priority.FATAL_ERROR, message, null );
         }
+    }
+
+    /**
+     * Make this logger additive. ie Send all log events to parent
+     * loggers LogTargets regardless of whether or not the
+     * LogTargets have been overidden.
+     *
+     * This is derived from Log4js notion of Additivity.
+     *
+     * @param additivity true to make logger additive, false otherwise
+     */
+    public final void setAdditivity( final boolean additivity )
+    {
+        m_additivity = additivity;
     }
 
     /**
@@ -538,6 +558,13 @@ public class Logger
                 //No need to clone array as addition of a log-target 
                 //will result in changin whole array                
                 targets[ i ].processEvent( event );
+            }
+
+            //If log targets were not inherited, additivity is true
+            //and we have a parent Logger then send log event to parent
+            if( m_logTargetsForceSet && m_additivity && null != m_parent )
+            {
+                m_parent.output( event );
             }
         }
     }

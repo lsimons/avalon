@@ -216,4 +216,76 @@ public final class InheritanceTestlet
         bcd.debug( MSG );
         assertEquality( "LogTarget inherit debug output", RMSG, getResult( output1 ) );
     }
+
+    public void testAdditivity()
+        throws Exception
+    {
+        final Hierarchy hierarchy = new Hierarchy();
+        final ByteArrayOutputStream output = new ByteArrayOutputStream();
+        final StreamTarget target = new StreamTarget( output, FORMATTER );
+        final LogTarget[] targets = new LogTarget[] { target };
+
+        final Logger b = hierarchy.getLoggerFor( "b" );
+        final Logger bc = hierarchy.getLoggerFor( "b.c" );
+        final Logger bcd = hierarchy.getLoggerFor( "b.c.d" );
+        
+        b.setLogTargets( targets );
+        bc.setLogTargets( targets );
+        bcd.setLogTargets( targets );
+
+        b.debug( MSG );
+        assertEquality( "Additivity debug output", RMSG, getResult( output ) );
+        bc.debug( MSG );
+        assertEquality( "Additivity debug output", RMSG, getResult( output ) );
+        bcd.debug( MSG );
+        assertEquality( "Additivity debug output", RMSG, getResult( output ) );
+
+        b.setAdditivity( true );
+        b.debug( MSG );
+        assertEquality( "Additivity debug output", RMSG, getResult( output ) );
+        bc.debug( MSG );
+        assertEquality( "Additivity debug output", RMSG, getResult( output ) );
+        bcd.debug( MSG );
+        assertEquality( "Additivity debug output", RMSG, getResult( output ) );
+
+        bc.setAdditivity( true );
+        b.debug( MSG );
+        assertEquality( "Additivity debug output", RMSG, getResult( output ) );
+        bc.debug( MSG );
+        assertEquality( "Additivity debug output", RMSG + RMSG, getResult( output ) );
+        bcd.debug( MSG );
+        assertEquality( "Additivity debug output", RMSG, getResult( output ) );
+
+        bcd.setAdditivity( true );
+        b.debug( MSG );
+        assertEquality( "Additivity debug output", RMSG, getResult( output ) );
+        bc.debug( MSG );
+        assertEquality( "Additivity debug output", RMSG + RMSG, getResult( output ) );
+        bcd.debug( MSG );
+        assertEquality( "Additivity debug output", RMSG + RMSG + RMSG, getResult( output ) );
+
+        bcd.setAdditivity( false );
+        b.debug( MSG );
+        assertEquality( "Additivity debug output", RMSG, getResult( output ) );
+        bc.debug( MSG );
+        assertEquality( "Additivity debug output", RMSG + RMSG, getResult( output ) );
+        bcd.debug( MSG );
+        assertEquality( "Additivity debug output", RMSG, getResult( output ) );
+
+        bc.setAdditivity( false );
+        b.debug( MSG );
+        assertEquality( "Additivity debug output", RMSG, getResult( output ) );
+        bc.debug( MSG );
+        assertEquality( "Additivity debug output", RMSG, getResult( output ) );
+        bcd.debug( MSG );
+        assertEquality( "Additivity debug output", RMSG, getResult( output ) );
+
+        b.setAdditivity( false );
+        b.debug( MSG );
+        assertEquality( "Additivity debug output", RMSG, getResult( output ) );
+        bc.debug( MSG );
+        assertEquality( "Additivity debug output", RMSG, getResult( output ) );
+        bcd.debug( MSG );
+        assertEquality( "Additivity debug output", RMSG, getResult( output ) );
+    }
 }
