@@ -18,8 +18,12 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
  */
 public class NoopConfigurationValidator implements ConfigurationValidator
 {
-    public void storeSchema( String application, String block, Configuration schema )
+    public void addSchema( String application, String block, String schemaType, String url )
       throws ConfigurationException
+    {
+    }
+
+    public void removeSchema( String application, String block )
     {
     }
 
