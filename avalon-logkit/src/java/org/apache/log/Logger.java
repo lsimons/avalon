@@ -424,7 +424,9 @@ public class Logger
         String remainder = null;
 
         if( -1 == end )
+        {
             nextCategory = subCategory;
+        }
         else
         {
             if( end == 0 )
