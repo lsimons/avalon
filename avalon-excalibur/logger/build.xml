@@ -163,7 +163,7 @@
       <antcall target="op-warning">
           <param name="thing" value="SMTP"/>
           <param name="recovery"
-              value="Get mail.jar from inside javamail-1_2.zip from http://java.sun.com/products/javamail/ and place it in ${lib.repo} (if defined), or set the $${sql.jar} property in ant.properties"/>
+              value="Get mail.jar from inside javamail-1_2.zip from http://java.sun.com/products/javamail/ and place it in ${lib.repo} (if defined), or set the $${mail.jar} property in ant.properties"/>
       </antcall>
   </target>
 
@@ -172,7 +172,7 @@
       <antcall target="op-warning">
           <param name="thing" value="Log4j"/>
           <param name="recovery"
-              value="Get log4j.jar from http://jakarta.apache.org/log4j/docs/download.html and place it in ${lib.repo} (if defined), or set the $${sql.jar} property in ant.properties"/>
+              value="Get log4j.jar from http://jakarta.apache.org/log4j/docs/download.html and place it in ${lib.repo} (if defined), or set the $${log4j.jar} property in ant.properties"/>
       </antcall>
   </target>
 
@@ -486,7 +486,7 @@
 
     <!-- Prepares the documentation directory -->
     <target name="docs" depends="setup-filters" description="Generates the Docs">
-	<ant antfile="${basedir}/../cocoonbuild.xml"/>
+    <ant antfile="${basedir}/../cocoonbuild.xml"/>
 
       <copy todir="${docs.dir}">
         <fileset dir="${build.docs}">
