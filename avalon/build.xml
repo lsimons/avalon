@@ -14,7 +14,7 @@ Authors:
  Peter Donald <peter@apache.org>
 
 Legal:
-  Copyright (c) 1999-2000 The Apache Software Foundation. All Rights Reserved.
+  Copyright (c) 1999-2002 The Apache Software Foundation. All Rights Reserved.
 
 ==============================================================================
 -->
@@ -31,10 +31,10 @@ Legal:
   <property name="name" value="avalon"/>
   <property name="Name" value="Avalon"/>
   <property name="framework.name" value="avalon-framework"/>
-  <property name="version" value="4.1.1"/>
-  <property name="year" value="1999-2001"/>
+  <property name="version" value="4.1.2"/>
+  <property name="year" value="1999-2002"/>
   <property name="status" value="final"/>
-  <property name="release" value="2nd"/>
+  <property name="release" value="3rd"/>
   <property name="short.version" value="4.1"/>
 
   <property name="debug" value="on"/>
@@ -52,6 +52,7 @@ Legal:
   <property name="build.testdocs" value="${build.docs}/test"/>
   <property name="build.reports" value="${build.dir}/reports"/>
   <property name="build.context" value="${build.dir}/documentation"/>
+  <property name="build.xdocs" value="${build.context}/xdocs"/>
 
   <!-- Set the properties for source directories -->
   <property name="src.dir" value="src"/>
@@ -62,6 +63,7 @@ Legal:
   <property name="docs.dir" value="docs"/>
   <property name="www.dir" value="../jakarta-avalon-site/docs"/>
   <property name="javadocs.dir" value="${docs.dir}/api"/>
+  <property name="xdocs.dir" value="${src.dir}/xdocs"/>
   <property name="skins.dir" value="${src.dir}/skins"/>
   <property name="context.dir" value="${src.dir}/documentation"/>
   <property name="stylesheets.dir" value="${skins.dir}"/>
@@ -260,6 +262,7 @@ Legal:
 
     <mkdir dir="${build.context}"/>
     <mkdir dir="${build.docs}"/>
+    <mkdir dir="${build.xdocs}"/>
     <mkdir dir="${build.dir}/work"/>
 
     <!-- Base pointers for non-xdocs documentation. Override these in .ant.properties to link to local docs -->
@@ -293,6 +296,9 @@ Legal:
         <include name="**/*.jpg"/>
         <include name="**/*.png"/>
       </fileset>
+    </copy>
+    <copy todir="${build.xdocs}" filtering="on" overwrite="true">
+      <fileset dir="${xdocs.dir}"/>
     </copy>
 
     <java classname="org.apache.cocoon.Main" fork="true" maxmemory="128m">
@@ -419,14 +425,17 @@ Legal:
         <include name="**/*.png"/>
       </fileset>
     </copy>
+    <copy todir="${build.xdocs}" overwrite="true" filtering="on">
+      <fileset dir="${xdocs.dir}"/>
+    </copy>
         
-    <style style="${announce2txt}" in="${build.context}/xdocs/framework/announcement.xml"
+    <style style="${announce2txt}" in="${build.xdocs}/framework/announcement.xml"
            out="Announcement.txt"/>
-    <style style="${announce2header}" in="${build.context}/xdocs/framework/announcement.xml"
+    <style style="${announce2header}" in="${build.xdocs}/framework/announcement.xml"
            out="${dist.base}/HEADER.html"/>
-    <style style="${announce2readme}" in="${build.context}/xdocs/framework/announcement.xml"
+    <style style="${announce2readme}" in="${build.xdocs}/framework/announcement.xml"
            out="${dist.base}/README.html"/>
-    <style style="${announce2site}" in="${build.context}/xdocs/framework/announcement.xml"
+    <style style="${announce2site}" in="${build.xdocs}/framework/announcement.xml"
            out="jakarta-news.xml"/>
 
   </target>
