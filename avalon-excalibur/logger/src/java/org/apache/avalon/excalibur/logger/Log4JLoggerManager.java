@@ -17,7 +17,6 @@
 package org.apache.avalon.excalibur.logger;
 
 import org.apache.avalon.framework.logger.Log4JLogger;
-import org.apache.avalon.framework.logger.LogEnabled;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.spi.LoggerRepository;
@@ -28,11 +27,11 @@ import org.apache.log4j.spi.LoggerRepository;
  * leaves that as an excercise for Log4J's construction.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.20 $ $Date: 2004/05/04 11:14:28 $
+ * @version CVS $Revision: 1.21 $ $Date: 2004/05/04 13:08:00 $
  * @since 4.1
  */
 public class Log4JLoggerManager extends AbstractLoggerManager
-    implements LoggerManager, LogEnabled
+    implements LoggerManager
 {
     /** The hierarchy private to Log4JManager */
     private final LoggerRepository m_hierarchy;
