@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 
-<project name="Excalibur Cache" default="main" basedir=".">
+<project name="AvalonDataSource" default="main" basedir=".">
 
     <property file="${user.home}/build.properties"/>
     <property file="${basedir}/../ant.properties"/>
@@ -13,15 +13,16 @@
     <path id="project.class.path">
         <pathelement location="${build.classes}"/>
         <pathelement location="${avalon-framework.jar}"/>
+        <pathelement location="${excalibur-i18n.jar}"/>
         <pathelement location="${checkstyle.jar}"/>
+        <pathelement location="${xml-apis.jar}"/>
         <pathelement path="${java.class.path}"/>
+        <fileset dir="lib" includes="**/*.jar"/>
     </path>
 
     <path id="tools.class.path">
         <pathelement location="${junit.jar}"/>
-        <pathelement location="${tools.jar}"/>
-        <fileset dir="${tools.dir}/lib"/>
-        <fileset dir="${tools.dir}/ext"/>
+        <fileset dir="${jakarta-site.dir}/lib"/>
     </path>
 
     <path id="test.class.path">
@@ -34,20 +35,9 @@
     <target name="main" depends="jar" description="Build the project"/>
     <target name="rebuild" depends="clean,main" description="Rebuild the project"/>
 
-    <target name="dependencies" description="Check dependencies" unless="skip.dependencies">
-        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkCommon"/>
-    </target>
-
-    <target name="dependencies-test" depends="dist-jar, dependencies"
-        description="Check unit test dependencies" unless="skip.dependencies">
-        <!-- Need the jar to prevent recursive deps. -->
-
-        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkJUnit"/>
-    </target>
-
 
     <!-- Compiles the source code -->
-    <target name="compile" depends="dependencies" description="Compiles the source code">
+    <target name="compile" description="Compiles the source code">
 
         <mkdir dir="${build.classes}"/>
 
@@ -73,7 +63,7 @@
     </target>
 
     <!-- Compiles the unit test source code -->
-    <target name="compile-test" depends="compile, dependencies-test" description="Compiles the source code">
+    <target name="compile-test" depends="compile" description="Compiles the source code">
         <mkdir dir="${build.testsrc}"/>
 
         <!-- Copy over all of the tests applying test filters -->
@@ -93,6 +83,13 @@
             <classpath refid="test.class.path" />
             <include name="**/*.java"/>
         </javac>
+
+        <!-- copy the java source files across so we can read them in for tests -->
+        <copy todir="${build.testclasses}">
+            <fileset dir="${test.dir}">
+                <include name="**/data/**/*.java"/>
+            </fileset>
+        </copy>
 
         <copy todir="${build.testclasses}">
             <fileset dir="${test.dir}">
@@ -123,11 +120,11 @@
             basedir="${build.classes}"
             compress="${build.compress}">
             <manifest>
-              <attribute name="Extension-Name" value="${name}"/>
-              <attribute name="Specification-Vendor" value="Apache Software Foundation"/>
-              <attribute name="Specification-Version" value="1.0"/>
-              <attribute name="Implementation-Vendor" value="Apache Software Foundation"/>
-              <attribute name="Implementation-Version" value="${package-version}"/>
+                <attribute name="Extension-Name" value="${name}"/>
+                <attribute name="Specification-Vendor" value="Apache Software Foundation"/>
+                <attribute name="Specification-Version" value="1.0"/>
+                <attribute name="Implementation-Vendor" value="Apache Software Foundation"/>
+                <attribute name="Implementation-Version" value="${package-version}"/>
             </manifest>
             <exclude name="**/test/**"/>
             <zipfileset dir="${build.conf}" prefix="META-INF/">
@@ -144,6 +141,14 @@
             sourcepath="${java.dir}"
             destdir="${dist.javadocs}">
             <classpath refid="project.class.path" />
+            <group title="Info API" packages="org.apache.avalon.framework.info.*" />
+            <group title="Info Tools API" packages="org.apache.avalon.framework.tools.*" />
+            <tag name="todo" description="To do:" scope="all" />
+            <tag name="avalon.component" enabled="false" description="Component:" scope="types" />
+            <tag name="avalon.service" enabled="false" description="Service:" scope="types" />
+            <tag name="avalon.context" enabled="false" description="Context:" scope="methods" />
+            <tag name="avalon.entry" enabled="false" description="Context:" scope="methods" />
+            <tag name="avalon.dependency" enabled="false" description="Context:" scope="methods" />
             <doclet name="com.sun.tools.doclets.standard.Standard">
                 <param name="-author"/>
                 <param name="-version"/>
@@ -155,6 +160,7 @@
                 <param name="-bottom"
                     value="&quot;Copyright &#169; ${year} Apache Jakarta Project. All Rights Reserved.&quot;"/>
             </doclet>
+
         </javadoc>
     </target>
 
@@ -255,7 +261,24 @@
             <param name="pathhack" expression="${checkstyle.pathhack}"/>
         </style>
 
-  </target>
+    </target>
+
+    <target name="xdoclet" depends="main" description="Generates the XML descriptors">
+        <taskdef name="avalon-info"
+            classname="org.apache.avalon.framework.tools.ant.MetaGenerateTask">
+            <classpath>
+                <path refid="project.class.path"/>
+                <pathelement location="${build.classes}"/>
+            </classpath>
+        </taskdef>
+
+        <mkdir dir="gen"/>
+        <avalon-info force="true" destdir="gen" >
+            <fileset dir="${test.dir}">
+                <include name="**/data/*.java" />
+            </fileset>
+        </avalon-info>
+    </target>
 
     <!-- Creates the distribution -->
     <target name="dist"
@@ -285,8 +308,8 @@
             <fileset dir="${build.lib}">
                 <include name="*.jar"/>
             </fileset>
-        </copy> 
-    </target>   
+        </copy>
+    </target>
 
     <!-- Creates a minimal distribution -->
     <target name="dist.lite"
@@ -299,20 +322,64 @@
 
     </target>
 
-    <!-- Prepares the documentation directory -->
-    <target name="docs"> <!-- depends="javadocs" description="Generates the Docs" -->
-      <ant antfile="${basedir}/../forrestbuild.xml"/>
+
+    <target name="anakia-avail">
+        <available classname="org.apache.velocity.anakia.AnakiaTask"
+            property="AnakiaTask.present">
+            <classpath refid="tools.class.path"/>
+        </available>
     </target>
-    
-    <target name="site" depends="docs" description=" Places Docs ready for hosting on website">  
-  
-      <mkdir dir="../site/dist/docs/${dir-name}"/>     
-      <copy todir="../site/dist/docs/${dir-name}">
-        <fileset dir="${docs.dir}">
-          <include name="**"/>
-        </fileset>
-      </copy>        
-  
+
+    <target name="anakia-check" depends="anakia-avail" unless="AnakiaTask.present">
+        <echo>
+            AnakiaTask is not present! Please check to make sure that
+            velocity.jar is in your classpath. The easiest way to build
+            the documentation is to checkout jakarta-site CVS and specify
+            jakarta-site.dir property.
+        </echo>
+    </target>
+
+    <target name="docs" depends="anakia-check" description="Generate documentation and website">
+        <taskdef name="anakia"
+            classname="org.apache.velocity.anakia.AnakiaTask">
+            <classpath refid="tools.class.path"/>
+        </taskdef>
+
+        <anakia basedir="${xdocs.dir}"
+            destdir="${docs.dir}"
+            style="docs.vsl"
+            projectfile="menu.xml"
+            includes="**/*.xml"
+            excludes="menu.xml"
+            velocitypropertiesfile="../site/src/stylesheets/velocity.properties"
+            />
+
+     <copy
+         file="src/java/org/apache/avalon/framework/tools/infobuilder/componentinfo.dtd"
+         tofile="${docs.dir}/componentinfo.dtd.txt"/>
+     <copy todir="${docs.dir}" filtering="off">
+      <fileset dir="../site/src" includes="css/*.css" />
+      <fileset dir="${xdocs.dir}">
+        <include name="**/images/**"/>
+        <include name="**/*.gif"/>
+        <include name="**/*.txt"/>
+        <include name="**/*.jpg"/>
+        <include name="**/*.png"/>
+        <include name="**/*.css"/>
+        <include name="**/*.js"/>
+      </fileset>
+    </copy>
+    </target>
+
+    <target name="site" depends="javadocs, docs" description=" Places Docs ready for hosting on website">
+
+        <mkdir dir="../site/dist/docs/${dir-name}"/>
+        <copy todir="../site/dist/docs/${dir-name}">
+            <fileset dir="${docs.dir}">
+                <include name="**"/>
+            </fileset>
+        </copy>
+
     </target>
 
     <!-- Cleans up build and distribution directories -->
@@ -323,6 +390,7 @@
         <delete dir="${docs.dir}" />
         <delete dir="test" /> <!-- unit testing output directory -->
         <delete>
+            <fileset dir="." includes="velocity.*"/>
             <fileset dir="." includes="**/*~" defaultexcludes="no"/>
         </delete>
     </target>
