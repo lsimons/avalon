@@ -64,7 +64,7 @@ import org.apache.avalon.framework.service.ServiceSelector;
  * interface to a {@link ComponentManager} interface.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.11 $ $Date: 2003/02/10 07:19:15 $
+ * @version $Revision: 1.12 $ $Date: 2003/02/11 07:11:52 $
  */
 public class WrapperComponentManager
     implements ComponentManager
@@ -74,6 +74,11 @@ public class WrapperComponentManager
      */
     private final ServiceManager m_manager;
 
+   /**
+    * Creation of a new wrapper component amanger using a supplied
+    * service manager as a source backing the wrapped.
+    * @param manager the service manager backing the wrapper.
+    */
     public WrapperComponentManager( final ServiceManager manager )
     {
         if( null == manager )
@@ -111,8 +116,8 @@ public class WrapperComponentManager
             throw new ComponentException( se.getKey(), se.getMessage(), se.getCause() );
         }
 
-        final String message = "Role does not implement the Component " +
-            "interface and thus can not be accessed via ComponentManager";
+        final String message = "Role does not implement the Component "
+            + "interface and thus can not be accessed via ComponentManager";
         throw new ComponentException( key, message );
     }
 
