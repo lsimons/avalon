@@ -47,8 +47,6 @@ public final class BlockInfoBuilder
     private static DependencyDescriptor[] buildDependencies( final Configuration configuration )
         throws ConfigurationException
     {
-        if( null == configuration ) return new DependencyDescriptor[0];
-
         final Configuration[] elements = configuration.getChildren( "dependency" );
         final ArrayList descriptors = new ArrayList();
 
@@ -64,8 +62,8 @@ public final class BlockInfoBuilder
     private static DependencyDescriptor buildDependency( final Configuration dependency )
         throws ConfigurationException
     {
-        final String role = dependency.getChild( "role" ).getValue();
         final ServiceDescriptor serviceDescriptor = buildService( dependency.getChild( "service" ) );
+        final String role = dependency.getChild( "role" ).getValue( serviceDescriptor.getName() );
 
         return new DependencyDescriptor( role, serviceDescriptor );
     }
@@ -73,8 +71,6 @@ public final class BlockInfoBuilder
     private static ServiceDescriptor[] buildServices( final Configuration servicesSet )
         throws ConfigurationException
     {
-        if( null == servicesSet ) return new ServiceDescriptor[0];
-
         final Configuration[] elements = servicesSet.getChildren( "service" );
         final ArrayList descriptors = new ArrayList();
 
