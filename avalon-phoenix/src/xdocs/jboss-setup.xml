@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<document>
+  <properties>
+      <author email="sshort@postx.com">Steve Short</author>
+  </properties>
+  <body>
+    <section name="Introduction">
+      <p>
+        This document describes the process for launching Phoenix in the
+        JBoss application server.
+      </p>
+    </section>
+    <section name="Procedure">
+      <p>
+        Setup instructions (Windows based, but *nix equivalent is obvious):
+      </p>
+        <p>Copy phoenix distribution to Jboss directory:</p>
+        <source>copy %PHOENIX_HOME%\* %JBOSS_HOME%\phoenix</source>
+        <p>Copy phoenix loader to Jboss deployment dir (using Jboss
+        'default' server as example):</p>
+        <source>copy %PHOENIX_HOME%\bin\phoenix-loader.jar %JBOSS_HOME%\server\defaultdeploy</source>
+        <p>Copy phoenix loader config file to Jboss deployment dir
+        (using Jboss 'default' server as example):</p>
+        <source>copy %PHOENIX_HOME%\conf\phoenix-service.xml %JBOSS_HOME%\server\defaultdeploy</source>
+        <p>And don't forget to copy your app to the apps directory.
+        I think that's everything - if I've forgotten anything just holler.</p>
+    </section>
+  </body>
+</document>
