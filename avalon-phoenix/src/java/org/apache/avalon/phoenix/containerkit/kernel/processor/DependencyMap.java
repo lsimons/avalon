@@ -22,7 +22,7 @@ import org.apache.avalon.phoenix.containerkit.profile.ComponentProfile;
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.3 $ $Date: 2003/03/01 08:39:15 $
+ * @version $Revision: 1.4 $ $Date: 2003/03/18 12:42:34 $
  */
 public class DependencyMap
 {
@@ -182,18 +182,22 @@ public class DependencyMap
 
         for( int i = 0; i < descriptors.length; i++ )
         {
-            final DependencyMetaData dependency =
-                metaData.getDependency( descriptors[ i ].getKey() );
+            final DependencyMetaData[] dependencySet =
+                metaData.getDependencies( descriptors[ i ].getKey() );
 
             // added != null clause to catch cases where an optional
             // dependency exists and the dependecy has not been bound
             // to a provider
 
-            if( dependency != null )
+            for( int j = 0; j < dependencySet.length; j++ )
             {
-                final ComponentProfile other =
-                    getComponent( dependency.getProviderName(), store );
-                visitcomponent( other, true, done, order, store );
+                final DependencyMetaData dependency = dependencySet[ j ];
+                if( dependency != null )
+                {
+                    final ComponentProfile other =
+                        getComponent( dependency.getProviderName(), store );
+                    visitcomponent( other, true, done, order, store );
+                }
             }
         }
     }
