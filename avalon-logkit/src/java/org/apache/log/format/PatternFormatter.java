@@ -8,6 +8,8 @@
 package org.apache.log.format;
 
 import java.io.StringWriter;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Stack;
 import org.apache.log.ContextMap;
 import org.apache.log.ContextStack;
@@ -71,7 +73,7 @@ import org.apache.log.Priority;
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  * @author <a href="mailto:sylvain@apache.org">Sylvain Wallez</a>
- * @version CVS $Revision: 1.21 $ $Date: 2001/11/19 12:18:33 $
+ * @version CVS $Revision: 1.22 $ $Date: 2001/12/12 11:39:25 $
  */
 public class PatternFormatter
     implements Formatter, org.apache.log.Formatter
@@ -526,7 +528,15 @@ public class PatternFormatter
      */
     protected String getTime( final long time, final String format )
     {
-        return Long.toString( time );
+        if ( null == format )
+        {
+            return Long.toString( time );
+        }
+        else
+        {
+            final SimpleDateFormat simpleDateFormat = new SimpleDateFormat( format );
+            return simpleDateFormat.format( new Date( time ) );
+        }
     }
 
     /**
