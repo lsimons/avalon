@@ -33,22 +33,19 @@
       <context-path>/niclas/testing</context-path>
     </configuration>
   </component>
-  
+<!--  
   <component name="security-handler" class="org.apache.avalon.http.impl.SecurityHandler" >
     <parameters>
-      <parameter name="handler-index" value="1" />
     </parameters>
   </component>
   
   <component name="model-handler"    class="org.apache.avalon.http.impl.ModelHandler" >
     <parameters>
-      <parameter name="handler-index" value="2" />
     </parameters>
   </component>
-  
+-->  
   <component name="resource-handler" class="org.apache.avalon.http.impl.ResourceHandler" >
     <parameters>
-      <parameter name="handler-index" value="3" />
       <parameter name="allow-directory" value="true" />
       <parameter name="allow-methods" value="GET" />
     </parameters>
@@ -56,16 +53,14 @@
 <!--  
   <component name="notfound-handler" class="org.apache.avalon.http.impl.NotFoundHandler" >
     <parameters>
-      <parameter name="handler-index" value="4" />
     </parameters>
   </component>
--->  
+
   <component name="errorpage-handler" class="org.apache.avalon.http.impl.ErrorPageHandler" >
     <parameters>
-      <parameter name="handler-index" value="4" />
     </parameters>
   </component>
-  
+-->    
   <component name="request-log" class="org.apache.avalon.http.impl.NcsaRequestLog" >
     <parameters>
       <parameter name="filename" value="request.log" />

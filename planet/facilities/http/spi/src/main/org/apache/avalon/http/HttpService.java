@@ -36,6 +36,8 @@ public interface HttpService
     
     boolean removeContext( HttpContext context );
     
+    HttpContext getContext( String virtualhost, String contextPath );
+    
     HttpListener addListener( HttpListener listener );
     
     void removeListener( HttpListener listener );
