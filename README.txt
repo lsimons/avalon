@@ -1,3 +1,8 @@
+This is a git archive of the Apache Avalon project source code. Find
+out more about Apache Avalon from the Apache Attic:
+
+  https://attic.apache.org/projects/avalon.html
+
 =======================================================================
             __
            /  \    Apache
