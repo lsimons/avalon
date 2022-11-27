@@ -5,7 +5,6 @@ out more about Apache Avalon from the Apache Attic:
 
 The following branch points may be of interest:
 
- * historical/before-big-reorg
  * historical/avalon-framework-4.0
  * historical/avalon-phoenix-4.0.4
  * historical/avalon-framework-4.1.3
